@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Project SYSTEM "Project-5.1.dtd">
+<!-- eric project file for project Pyslvs -->
+<!-- Saved: 2016-09-09, 13:25:36 -->
+<!-- Copyright (C) 2016 Tiberium,  -->
+<Project version="5.1">
+  <Language>en_US</Language>
+  <Hash>57ea502ed418aed2ac7a75c05602e758e13f6462</Hash>
+  <ProgLanguage mixed="0">Python3</ProgLanguage>
+  <ProjectType>PyQt5</ProjectType>
+  <Description></Description>
+  <Version>0.1</Version>
+  <Author>Tiberium</Author>
+  <Email></Email>
+  <Eol index="-1"/>
+  <Sources>
+    <Source>core/Ui_main.py</Source>
+    <Source>core/__init__.py</Source>
+    <Source>core/calculation.py</Source>
+    <Source>core/canvas.py</Source>
+    <Source>core/draw/Ui_draw_delete_chain.py</Source>
+    <Source>core/draw/Ui_draw_delete_linkage.py</Source>
+    <Source>core/draw/Ui_draw_delete_point.py</Source>
+    <Source>core/draw/Ui_draw_edit_link.py</Source>
+    <Source>core/draw/Ui_draw_edit_point.py</Source>
+    <Source>core/draw/Ui_draw_edit_stay_chain.py</Source>
+    <Source>core/draw/Ui_draw_link.py</Source>
+    <Source>core/draw/Ui_draw_point.py</Source>
+    <Source>core/draw/Ui_draw_stay_chain.py</Source>
+    <Source>core/draw/__init__.py</Source>
+    <Source>core/draw/draw_delete_chain.py</Source>
+    <Source>core/draw/draw_delete_linkage.py</Source>
+    <Source>core/draw/draw_delete_point.py</Source>
+    <Source>core/draw/draw_edit_link.py</Source>
+    <Source>core/draw/draw_edit_point.py</Source>
+    <Source>core/draw/draw_edit_stay_chain.py</Source>
+    <Source>core/draw/draw_link.py</Source>
+    <Source>core/draw/draw_point.py</Source>
+    <Source>core/draw/draw_stay_chain.py</Source>
+    <Source>core/info/Ui_color.py</Source>
+    <Source>core/info/Ui_help.py</Source>
+    <Source>core/info/Ui_info.py</Source>
+    <Source>core/info/Ui_path_point_data.py</Source>
+    <Source>core/info/Ui_script.py</Source>
+    <Source>core/info/Ui_version.py</Source>
+    <Source>core/info/__init__.py</Source>
+    <Source>core/info/color.py</Source>
+    <Source>core/info/help.py</Source>
+    <Source>core/info/info.py</Source>
+    <Source>core/info/path_point_data.py</Source>
+    <Source>core/info/script.py</Source>
+    <Source>core/info/version.py</Source>
+    <Source>core/list_process.py</Source>
+    <Source>core/main.py</Source>
+    <Source>core/simulate/Ui_delete_drive_shaft.py</Source>
+    <Source>core/simulate/Ui_delete_rod.py</Source>
+    <Source>core/simulate/Ui_delete_slider.py</Source>
+    <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
+    <Source>core/simulate/Ui_edit_rod.py</Source>
+    <Source>core/simulate/Ui_edit_slider.py</Source>
+    <Source>core/simulate/Ui_run_Drive.py</Source>
+    <Source>core/simulate/Ui_run_Measurement.py</Source>
+    <Source>core/simulate/Ui_run_Path_Track.py</Source>
+    <Source>core/simulate/Ui_set_drive_shaft.py</Source>
+    <Source>core/simulate/Ui_set_rod.py</Source>
+    <Source>core/simulate/Ui_set_slider.py</Source>
+    <Source>core/simulate/delete_rod.py</Source>
+    <Source>core/simulate/delete_slider.py</Source>
+    <Source>core/simulate/edit_drive_shaft.py</Source>
+    <Source>core/simulate/edit_rod.py</Source>
+    <Source>core/simulate/edit_slider.py</Source>
+    <Source>core/simulate/run_Drive.py</Source>
+    <Source>core/simulate/run_Measurement.py</Source>
+    <Source>core/simulate/run_Path_Track.py</Source>
+    <Source>core/simulate/set_drive_shaft.py</Source>
+    <Source>core/simulate/set_slider.py</Source>
+    <Source>core/slvs.py</Source>
+    <Source>core/warning/Ui_contradict_value.py</Source>
+    <Source>core/warning/Ui_kill_origin.py</Source>
+    <Source>core/warning/Ui_repeated_value.py</Source>
+    <Source>core/warning/Ui_reset_workbook.py</Source>
+    <Source>core/warning/Ui_resolution_fail.py</Source>
+    <Source>core/warning/Ui_restriction_conflict.py</Source>
+    <Source>core/warning/Ui_zero_value.py</Source>
+    <Source>core/warning/contradict_value.py</Source>
+    <Source>core/warning/kill_origin.py</Source>
+    <Source>core/warning/repeated_value.py</Source>
+    <Source>core/warning/reset_workbook.py</Source>
+    <Source>core/warning/resolution_fail.py</Source>
+    <Source>core/warning/restriction_conflict.py</Source>
+    <Source>core/warning/zero_value.py</Source>
+    <Source>icons_rc.py</Source>
+    <Source>launch_pyslvs.py</Source>
+  </Sources>
+  <Forms>
+    <Form>core/draw/draw_delete_chain.ui</Form>
+    <Form>core/draw/draw_delete_linkage.ui</Form>
+    <Form>core/draw/draw_delete_point.ui</Form>
+    <Form>core/draw/draw_edit_link.ui</Form>
+    <Form>core/draw/draw_edit_point.ui</Form>
+    <Form>core/draw/draw_edit_stay_chain.ui</Form>
+    <Form>core/draw/draw_link.ui</Form>
+    <Form>core/draw/draw_point.ui</Form>
+    <Form>core/draw/draw_stay_chain.ui</Form>
+    <Form>core/info/color.ui</Form>
+    <Form>core/info/help.ui</Form>
+    <Form>core/info/info.ui</Form>
+    <Form>core/info/path_point_data.ui</Form>
+    <Form>core/info/script.ui</Form>
+    <Form>core/info/version.ui</Form>
+    <Form>core/main.ui</Form>
+    <Form>core/simulate/delete_drive_shaft.ui</Form>
+    <Form>core/simulate/delete_rod.ui</Form>
+    <Form>core/simulate/delete_slider.ui</Form>
+    <Form>core/simulate/edit_drive_shaft.ui</Form>
+    <Form>core/simulate/edit_rod.ui</Form>
+    <Form>core/simulate/edit_slider.ui</Form>
+    <Form>core/simulate/run_Drive.ui</Form>
+    <Form>core/simulate/run_Measurement.ui</Form>
+    <Form>core/simulate/run_Path_Track.ui</Form>
+    <Form>core/simulate/set_drive_shaft.ui</Form>
+    <Form>core/simulate/set_rod.ui</Form>
+    <Form>core/simulate/set_slider.ui</Form>
+    <Form>core/warning/contradict_value.ui</Form>
+    <Form>core/warning/kill_origin.ui</Form>
+    <Form>core/warning/repeated_value.ui</Form>
+    <Form>core/warning/reset_workbook.ui</Form>
+    <Form>core/warning/resolution_fail.ui</Form>
+    <Form>core/warning/restriction_conflict.ui</Form>
+    <Form>core/warning/zero_value.ui</Form>
+  </Forms>
+  <Translations/>
+  <Resources>
+    <Resource>icons.qrc</Resource>
+  </Resources>
+  <Interfaces/>
+  <Others/>
+  <MainScript>launch_pyslvs.py</MainScript>
+  <Vcs>
+    <VcsType>None</VcsType>
+  </Vcs>
+  <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.idl" type="INTERFACES"/>
+    <FiletypeAssociation pattern="*.py" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.py3" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.pyw" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.pyw3" type="SOURCES"/>
+    <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS"/>
+    <FiletypeAssociation pattern="*.qrc" type="RESOURCES"/>
+    <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS"/>
+    <FiletypeAssociation pattern="*.ui" type="FORMS"/>
+  </FiletypeAssociations>
+</Project>

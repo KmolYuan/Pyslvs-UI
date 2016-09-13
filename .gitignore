@@ -1,0 +1,7 @@
+*.pyc
+*.o*
+*.def
+*.dll
+*.a
+
+*__pycache__*

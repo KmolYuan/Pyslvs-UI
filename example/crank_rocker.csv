@@ -1,0 +1,19 @@
+Point0	,0.00	,0.00	,Fixed
+Point1	,90.0	,0.0	,Fixed
+Point2	,-4.854151919989913	,48.2696278209685	,noFixed
+Point3	,-30.343730469246083	,17.44299347043812	,noFixed
+Point4	,34.80397700350892	,43.05112130213136	,noFixed
+Next_table	
+Point0	,R	,10	,R
+Point1	,G	,5	,G
+Point2	,G	,5	,G
+Point3	,G	,5	,G
+Point4	,G	,5	,G
+Next_table	
+Line0	,Point0	,Point3	,35.00
+Line1	,Point1	,Point4	,70.00
+Next_table	
+Chain0	,Point2	,Point3	,Point4	,40.00	,70.00	,40.00
+Next_table	
+Next_table	
+Next_table	
