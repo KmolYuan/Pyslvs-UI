@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs/core/main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -175,11 +175,13 @@ class Ui_MainWindow(object):
         item.setFlags(QtCore.Qt.ItemIsEnabled)
         self.Entiteis_Point_Style.setItem(0, 0, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setFlags(QtCore.Qt.ItemIsEnabled)
         self.Entiteis_Point_Style.setItem(0, 1, item)
         item = QtWidgets.QTableWidgetItem()
         item.setFlags(QtCore.Qt.ItemIsEnabled)
         self.Entiteis_Point_Style.setItem(0, 2, item)
         item = QtWidgets.QTableWidgetItem()
+        item.setFlags(QtCore.Qt.ItemIsEnabled)
         self.Entiteis_Point_Style.setItem(0, 3, item)
         self.Entiteis_Point_Style.horizontalHeader().setDefaultSectionSize(70)
         self.Entiteis_Point_Style.horizontalHeader().setMinimumSectionSize(70)
@@ -1036,11 +1038,11 @@ class Ui_MainWindow(object):
         item = self.Entiteis_Point_Style.item(0, 0)
         item.setText(_translate("MainWindow", "Point0"))
         item = self.Entiteis_Point_Style.item(0, 1)
-        item.setText(_translate("MainWindow", "R"))
+        item.setText(_translate("MainWindow", "Red"))
         item = self.Entiteis_Point_Style.item(0, 2)
         item.setText(_translate("MainWindow", "10"))
         item = self.Entiteis_Point_Style.item(0, 3)
-        item.setText(_translate("MainWindow", "R"))
+        item.setText(_translate("MainWindow", "Red"))
         self.Entiteis_Point_Style.setSortingEnabled(__sortingEnabled)
         self.label_4.setText(_translate("MainWindow", "Line Width"))
         self.label_7.setText(_translate("MainWindow", "Font size"))

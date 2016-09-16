@@ -81,6 +81,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter = QMenu(self)
         self.action_painter_right_click_menu_add = QAction("Add a Point", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
+        self.action_painter_right_click_menu_fix_add = QAction("Add a Fixed Point", self)
+        self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
         self.mouse_pos_x = 0.0
         self.mouse_pos_y = 0.0
         self.qpainterWindow.mouse_track.connect(self.context_menu_mouse_pos)
@@ -180,13 +182,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Right-click menu event
     def on_painter_context_menu(self, point):
         action = self.popMenu_painter.exec_(self.qpainterWindow.mapToGlobal(point))
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        x = str(self.mouse_pos_x)
+        y = str(self.mouse_pos_y)
         if action == self.action_painter_right_click_menu_add:
-            table1 = self.Entiteis_Point
-            table2 = self.Entiteis_Point_Style
-            x = str(self.mouse_pos_x)
-            y = str(self.mouse_pos_y)
             Points_list(table1, "Point"+str(table1.rowCount()), x, y, False, False)
-            Points_style_add(table2, "Point"+str(table2.rowCount()), "G", "5", "G")
+            Points_style_add(table2, "Point"+str(table2.rowCount()), 2, "5", 2)
+        elif action == self.action_painter_right_click_menu_fix_add:
+            Points_list(table1, "Point"+str(table1.rowCount()), x, y, True, False)
+            Points_style_add(table2, "Point"+str(table2.rowCount()), 2, "10", 2)
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x
@@ -198,7 +203,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
         if action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
-        elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered()
+        elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
         self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>=1)
         self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>=1)
@@ -207,9 +212,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
-        elif action == self.action_link_right_click_menu_move_up: self.move_up(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
-        elif action == self.action_link_right_click_menu_move_down: self.move_down(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
-        elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered()
+        elif action == self.action_link_right_click_menu_move_up:
+            self.move_up(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
+            for i in range(self.Slider.rowCount()):
+                if int(self.Slider.item(i, 2).text().replace("Line", ""))==self.Entiteis_Link.currentRow(): self.Slider.setItem(i, 2, "Line"+str(self.Entiteis_Link.currentRow()))
+        elif action == self.action_link_right_click_menu_move_down:
+            self.move_down(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
+            for i in range(self.Slider.rowCount()):
+                if int(self.Slider.item(i, 2).text().replace("Line", ""))==self.Entiteis_Link.currentRow(): self.Slider.setItem(i, 2, "Line"+str(self.Entiteis_Link.currentRow()))
+        elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
     def on_chain_context_menu(self, point):
         self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>=1)
         self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>=1)
@@ -220,28 +231,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action == self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
         elif action == self.action_chain_right_click_menu_move_up: self.move_up(self.Entiteis_Stay_Chain, self.Entiteis_Stay_Chain.currentRow(), "Chain")
         elif action == self.action_chain_right_click_menu_move_down: self.move_down(self.Entiteis_Stay_Chain, self.Entiteis_Stay_Chain.currentRow(), "Chain")
-        elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered()
+        elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
     def on_shaft_context_menu(self, point):
         self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>=1)
         self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>=1)
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
-        elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered()
+        elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
         self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>=1)
         self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>=1)
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
         if action == self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
-        elif action == self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered()
-        elif action == self.action_slider_right_click_menu_delete: self.on_actionDelete_Slider_triggered()
+        elif action == self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(self.Slider.currentRow())
+        elif action == self.action_slider_right_click_menu_delete: self.on_actionDelete_Slider_triggered(self.Slider.currentRow())
     def on_rod_context_menu(self, point):
         self.action_rod_right_click_menu_edit.setEnabled(self.Rod.rowCount()>=1)
         self.action_rod_right_click_menu_delete.setEnabled(self.Rod.rowCount()>=1)
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
         if action == self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
-        elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Piston_Spring_triggered()
-        elif action == self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered()
+        elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Piston_Spring_triggered(self.Rod.currentRow())
+        elif action == self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(self.Rod.currentRow())
     def on_parameter_context_menu(self, point):
         self.action_parameter_right_click_menu_move_up.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(self.Parameter_list.currentRow()>=1))
         self.action_parameter_right_click_menu_move_down.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(self.Parameter_list.currentRow()<=self.Parameter_list.rowCount()-2))
@@ -646,7 +657,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Points_list(table1, dlg.Point_num.toPlainText(),
                 x, y, dlg.Fix_Point.checkState(), False)
             fix = "10" if dlg.Fix_Point.checkState() else "5"
-            Points_style_add(table2, dlg.Point_num.toPlainText(), "G", fix, "G")
+            Points_style_add(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
             self.Resolve()
             self.Workbook_noSave()
     
@@ -657,7 +668,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in["", "n", "-"] else self.Y_coordinate.placeholderText()
         Points_list(table1, "Point"+str(table1.rowCount()), x, y, False, False)
-        Points_style_add(table2, "Point"+str(table2.rowCount()), "G", "5", "G")
+        Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
         self.Resolve()
         self.Workbook_noSave()
     
@@ -1109,7 +1120,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg = delete_point_show()
             for i in range(1, table.rowCount()):
                 dlg.Entity.insertItem(i, icon, table.item(i, 0).text())
-            dlg.Entity.setCurrentIndex(pos)
+            dlg.Entity.setCurrentIndex(pos-1)
             dlg.show()
             if dlg.exec_():
                 Point_list_delete(table,
@@ -1327,6 +1338,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Parameter_update_clicked(self):
         try: self.Parameter_list.setItem(self.Parameter_list.currentRow(), 1, QTableWidgetItem(self.Parameter_digital.text() if self.Parameter_digital.text() else Parameter_digital.placeholderText()))
         except: pass
+    
+    @pyqtSlot(int, int, int, int)
+    def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
+        self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
+        self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["Next_table\t"])

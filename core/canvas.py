@@ -24,9 +24,9 @@ class DynamicCanvas(QWidget):
         self.pen_width = 2
         self.path_width = 1
         self.re_Color = [
-            'R', 'G', 'B', 'C', 'M', 'Y', 'Gy', 'Og', 'Pk',
-            'Bk', 'W',
-            'DR', 'DG', 'DB', 'DC', 'DM', 'DY', 'DGy', 'DOg', 'DPk']
+            'Red', 'Green', 'Blue', 'Cyan', 'Magenta', 'Yellow', 'Gray', 'Orange', 'Pink',
+            'Black', 'White',
+            'Dark Red', 'Dark Green', 'Dark Blue', 'Dark Cyan', 'Dark Magenta', 'Dark Yellow', 'Dark Gray', 'Dark Orange', 'Dark Pink']
         val_Color = [
             Qt.red, Qt.green, Qt.blue, Qt.cyan, Qt.magenta, Qt.yellow, Qt.gray, QColor(225, 165, 0), QColor(225, 192, 230),
             Qt.black, Qt.white,
@@ -120,11 +120,15 @@ class DynamicCanvas(QWidget):
             pen.setWidth(2)
             point_center = QPointF(int(self.Xval[i]), int(self.Yval[i]))
             text_center = QPointF(int(self.Xval[i]+6), int(self.Yval[i]-6))
-            try: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
+            try:
+                try: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
+                except: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
             except KeyError: pen.setColor(Qt.green)
             painter.setPen(pen)
             painter.drawPoint(point_center)
-            try: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
+            try:
+                try: pen.setColor(self.Color[self.table_style.cellWidget(i, 3).currentText()])
+                except: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
             except KeyError: pen.setColor(Qt.green)
             painter.setPen(pen)
             r = float(self.table_style.item(i, 2).text())

@@ -2,6 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from .warning.contradict_value import contradict_show
+from .canvas import DynamicCanvas
 
 def Points_list(table, name, x, y, fixed, edit):
     rowPosition = int(name.replace("Point", ""))
@@ -18,6 +19,26 @@ def Points_list(table, name, x, y, fixed, edit):
     table.setItem(rowPosition, 3, checkbox)
     if not edit: print("Add Point"+str(rowPosition)+".")
     else: print("Edit Point"+str(rowPosition)+".")
+
+def Points_style_add(table, name, color, ringsize, ringcolor):
+    rowPosition = table.rowCount()
+    table.insertRow(rowPosition)
+    name_set = QTableWidgetItem(name)
+    name_set.setFlags(Qt.ItemIsEnabled)
+    table.setItem(rowPosition, 0, name_set)
+    color_combobox = QComboBox(table)
+    DC = DynamicCanvas()
+    for i in range(len(DC.re_Color)): color_combobox.insertItem(i, DC.re_Color[i])
+    color_combobox.setCurrentIndex(color_combobox.findText(color))
+    box = [color_combobox]
+    table.setCellWidget(rowPosition, 1, box[0])
+    ring_size = QTableWidgetItem(ringsize)
+    ring_size.setFlags(Qt.ItemIsEnabled)
+    table.setItem(rowPosition, 2, ring_size)
+    color_combobox.setCurrentIndex(color_combobox.findText(ringcolor))
+    box += [color_combobox]
+    table.setCellWidget(rowPosition, 3, box[1])
+    print("Add Point Style for Point"+str(rowPosition)+".")
 
 def Points_style_fix(table, name, fix):
     rowPosition = int(name.replace("Point", ""))
@@ -90,19 +111,6 @@ def Rod_list(table, name, start, end, min, max, edit):
     table.setItem(rowPosition, 4, QTableWidgetItem(max))
     if not edit: print("Set the Point to new Rod.")
     else: print("Set the Point to selected Rod.")
-
-def Points_style_add(table, name, color, ringsize, ringcolor):
-    rowPosition = table.rowCount()
-    table.insertRow(rowPosition)
-    name_set = QTableWidgetItem(name)
-    name_set.setFlags(Qt.ItemIsEnabled)
-    table.setItem(rowPosition, 0, name_set)
-    table.setItem(rowPosition, 1, QTableWidgetItem(color))
-    ring_size = QTableWidgetItem(ringsize)
-    ring_size.setFlags(Qt.ItemIsEnabled)
-    table.setItem(rowPosition, 2, ring_size)
-    table.setItem(rowPosition, 3, QTableWidgetItem(ringcolor))
-    print("Add Point Style for Point"+str(rowPosition)+".")
 
 def Point_list_delete(table1, table2, table3, table4, table5, table6, table7, dlg):
     for i in range(table3.rowCount()):

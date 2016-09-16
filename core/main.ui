@@ -386,7 +386,10 @@
                   </item>
                   <item row="0" column="1">
                    <property name="text">
-                    <string>R</string>
+                    <string>Red</string>
+                   </property>
+                   <property name="flags">
+                    <set>ItemIsEnabled</set>
                    </property>
                   </item>
                   <item row="0" column="2">
@@ -399,7 +402,10 @@
                   </item>
                   <item row="0" column="3">
                    <property name="text">
-                    <string>R</string>
+                    <string>Red</string>
+                   </property>
+                   <property name="flags">
+                    <set>ItemIsEnabled</set>
                    </property>
                   </item>
                  </widget>
