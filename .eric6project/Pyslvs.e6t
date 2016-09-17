@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-09-16, 12:42:48 -->
+<!-- Saved: 2016-09-17, 16:57:32 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{b4374f7d-f74c-4746-8a2b-51f026aa65f2}">
-    <Summary>TODO: to be continue...</Summary>
-    <Description></Description>
-    <Created>2016-09-12, 21:40:07</Created>
-    <Resource>
-      <Filename>core/calculation.py</Filename>
-      <Linenumber>326</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{54a2be9e-3e7d-450e-9cfe-c3460809293c}">
+  <Task priority="1" completed="False" type="1" uid="{0b0eb137-eb70-4c35-b65f-1dc522abb86e}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-09-16, 12:17:43</Created>
+    <Created>2016-09-17, 13:16:01</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>623</Linenumber>
+      <Linenumber>625</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{f98e7794-f283-416f-b3d2-677f0ddd1f8a}">
+    <Summary>TODO: to be continue...</Summary>
+    <Description></Description>
+    <Created>2016-09-17, 13:19:07</Created>
+    <Resource>
+      <Filename>core/calculation.py</Filename>
+      <Linenumber>440</Linenumber>
     </Resource>
   </Task>
 </Tasks>

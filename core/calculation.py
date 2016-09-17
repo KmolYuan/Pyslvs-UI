@@ -6,7 +6,131 @@ from PyQt5.QtGui import *
 
 class Solvespace():
     def __init__(self):
-        self.Script = ""
+        self.Script = """# -*- coding: utf-8 -*-
+'''This Code is Generate by Pyslvs.'''
+
+from slvs import *
+import matplotlib.pyplot as plt
+
+#Please Choose Point number.
+Point_num = 2
+wx = Point_num*2+5
+wy = Point_num*2+6
+"""
+        self.Slvs_Script = """±²³SolveSpaceREVa
+
+
+Group.h.v=00000001
+Group.type=5000
+Group.name=#references
+Group.color=ff000000
+Group.skipFirst=0
+Group.predef.swapUV=0
+Group.predef.negateU=0
+Group.predef.negateV=0
+Group.visible=1
+Group.suppress=0
+Group.relaxConstraints=0
+Group.allowRedundant=0
+Group.allDimsReference=0
+Group.remap={
+}
+AddGroup
+
+Group.h.v=00000002
+Group.type=5001
+Group.order=1
+Group.name=sketch-in-plane
+Group.activeWorkplane.v=80020000
+Group.color=ff000000
+Group.subtype=6000
+Group.skipFirst=0
+Group.predef.q.w=1.00000000000000000000
+Group.predef.origin.v=00010001
+Group.predef.swapUV=0
+Group.predef.negateU=0
+Group.predef.negateV=0
+Group.visible=1
+Group.suppress=0
+Group.relaxConstraints=0
+Group.allowRedundant=0
+Group.allDimsReference=0
+Group.remap={
+}
+AddGroup
+
+Param.h.v.=00010010
+AddParam
+
+Param.h.v.=00010011
+AddParam
+
+Param.h.v.=00010012
+AddParam
+
+Param.h.v.=00010020
+Param.val=1.00000000000000000000
+AddParam
+
+Param.h.v.=00010021
+AddParam
+
+Param.h.v.=00010022
+AddParam
+
+Param.h.v.=00010023
+AddParam
+
+Param.h.v.=00020010
+AddParam
+
+Param.h.v.=00020011
+AddParam
+
+Param.h.v.=00020012
+AddParam
+
+Param.h.v.=00020020
+Param.val=0.50000000000000000000
+AddParam
+
+Param.h.v.=00020021
+Param.val=0.50000000000000000000
+AddParam
+
+Param.h.v.=00020022
+Param.val=0.50000000000000000000
+AddParam
+
+Param.h.v.=00020023
+Param.val=0.50000000000000000000
+AddParam
+
+Param.h.v.=00030010
+AddParam
+
+Param.h.v.=00030011
+AddParam
+
+Param.h.v.=00030012
+AddParam
+
+Param.h.v.=00030020
+Param.val=0.50000000000000000000
+AddParam
+
+Param.h.v.=00030021
+Param.val=-0.50000000000000000000
+AddParam
+
+Param.h.v.=00030022
+Param.val=-0.50000000000000000000
+AddParam
+
+Param.h.v.=00030023
+Param.val=-0.50000000000000000000
+AddParam
+"""
     
     def table_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
         table_point_l = []
@@ -110,17 +234,7 @@ class Solvespace():
         p8 = sys.add_param(0.0)
         Point1 = Point2d(Workplane1, p7, p8)
         Constraint.dragged(Workplane1, Point1)
-        self.Script += """# -*- coding: utf-8 -*-
-'''This Code is Generate by Pyslvs.'''
-
-from slvs import *
-import matplotlib.pyplot as plt
-
-#Please Choose Point number.
-Point_num = 2
-wx = Point_num*2+5
-wy = Point_num*2+6
-
+        self.Script += """
 def """+filename.replace(" ", "_")+"""(degree):
     sys = System(1000)
     p0 = sys.add_param(0.0)

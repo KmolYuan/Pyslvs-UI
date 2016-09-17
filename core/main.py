@@ -70,6 +70,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.show()
         #Script & Path
         self.Script = ""
+        self.Slvs_Script = ""
         self.Path_data = []
         self.Path_Run_list = []
         #Mask
@@ -404,6 +405,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result = solvespace.static_process(table_point, table_line, table_chain,
             table_shaft, table_slider, table_rod, fileName, self.Parameter_list)
         self.Script = solvespace.Script
+        self.Slvs_Script = solvespace.Slvs_Script
         if result==[]:
             print("Rebuild the cavanc falled.")
             dlg = resolution_fail_show()
@@ -1343,6 +1345,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
         self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
+    
+    @pyqtSlot()
+    def on_action_Output_to_Solvespace_triggered(self):
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Solvespace models(*.slvs)')
+        if fileName:
+            fileName = fileName.replace(".slvs", "")+".slvs"
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
+                f.write(self.Slvs_Script)
+            print("Successful Save: "+fileName)
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["Next_table\t"])

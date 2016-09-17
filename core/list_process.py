@@ -30,14 +30,12 @@ def Points_style_add(table, name, color, ringsize, ringcolor):
     DC = DynamicCanvas()
     for i in range(len(DC.re_Color)): color_combobox.insertItem(i, DC.re_Color[i])
     color_combobox.setCurrentIndex(color_combobox.findText(color))
-    box = [color_combobox]
-    table.setCellWidget(rowPosition, 1, box[0])
+    table.setCellWidget(rowPosition, 1, color_combobox)
     ring_size = QTableWidgetItem(ringsize)
     ring_size.setFlags(Qt.ItemIsEnabled)
     table.setItem(rowPosition, 2, ring_size)
     color_combobox.setCurrentIndex(color_combobox.findText(ringcolor))
-    box += [color_combobox]
-    table.setCellWidget(rowPosition, 3, box[1])
+    table.setCellWidget(rowPosition, 3, color_combobox)
     print("Add Point Style for Point"+str(rowPosition)+".")
 
 def Points_style_fix(table, name, fix):
