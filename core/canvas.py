@@ -121,20 +121,22 @@ class DynamicCanvas(QWidget):
             point_center = QPointF(int(self.Xval[i]), int(self.Yval[i]))
             text_center = QPointF(int(self.Xval[i]+6), int(self.Yval[i]-6))
             try:
-                try: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
-                except: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
-            except: pen.setColor(Qt.green)
-            painter.setPen(pen)
-            painter.drawPoint(point_center)
-            try:
                 try: pen.setColor(self.Color[self.table_style.cellWidget(i, 3).currentText()])
                 except: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
             except: pen.setColor(Qt.green)
             painter.setPen(pen)
             r = float(self.table_style.item(i, 2).text())
             painter.drawEllipse(point_center, r, r)
+            try:
+                try: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
+                except: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
+            except: pen.setColor(Qt.green)
+            pen.setWidth(5)
+            painter.setPen(pen)
+            painter.drawPoint(point_center)
             if self.Point_mark:
                 pen.setColor(Qt.darkGray)
+                pen.setWidth(2)
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(text_center, "[Point"+str(i)+"]")

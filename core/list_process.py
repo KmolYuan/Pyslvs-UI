@@ -30,6 +30,7 @@ def Points_style_add(table, name, color, ringsize, ringcolor):
     color_combobox = QComboBox(table)
     DC = DynamicCanvas()
     for i in range(len(DC.re_Color)): color_combobox.insertItem(i, DC.re_Color[i])
+    #color_combobox.currentIndexChanged.connect()
     color_combobox.setCurrentIndex(color_combobox.findText(color))
     table.setCellWidget(rowPosition, 1, color_combobox)
     table.setItem(rowPosition, 1, QTableWidgetItem("Green"))
