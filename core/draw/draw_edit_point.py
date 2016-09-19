@@ -9,6 +9,7 @@ class edit_point_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(edit_point_show, self).__init__(parent)
         self.setupUi(self)
+        self.setAttribute(Qt.WA_DeleteOnClose)
     
     @pyqtSlot(int)
     def on_Point_currentIndexChanged(self, index): self.Another_point.emit(index+1)

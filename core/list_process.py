@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -31,6 +32,7 @@ def Points_style_add(table, name, color, ringsize, ringcolor):
     for i in range(len(DC.re_Color)): color_combobox.insertItem(i, DC.re_Color[i])
     color_combobox.setCurrentIndex(color_combobox.findText(color))
     table.setCellWidget(rowPosition, 1, color_combobox)
+    table.setItem(rowPosition, 1, QTableWidgetItem("Green"))
     ring_size = QTableWidgetItem(ringsize)
     ring_size.setFlags(Qt.ItemIsEnabled)
     table.setItem(rowPosition, 2, ring_size)
@@ -212,4 +214,4 @@ def Parameter_management(table, name, val, commit):
     table.insertRow(rowPosition)
     table.setItem(rowPosition, 0, name_set)
     table.setItem(rowPosition, 1, QTableWidgetItem(val))
-    table.setItem(rowPosition, 2, QTableWidgetItem(commit))
+    table.setItem(rowPosition, 2, QTableWidgetItem(commit.replace(",")))

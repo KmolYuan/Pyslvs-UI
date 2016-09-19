@@ -8,3 +8,4 @@ class New_point(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(New_point, self).__init__(parent)
         self.setupUi(self)
+        self.setAttribute(Qt.WA_DeleteOnClose)

@@ -270,7 +270,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             name_set.setFlags(Qt.ItemIsEnabled)
             digit_set = QTableWidgetItem("0.0")
             digit_set.setFlags(Qt.ItemIsEnabled)
-            commit_set = QTableWidgetItem("No commit yet.")
+            commit_set = QTableWidgetItem("Not committed yet.")
             commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
             self.Parameter_list.setItem(rowPosition, 0, name_set)
             self.Parameter_list.setItem(rowPosition, 1, digit_set)
@@ -573,7 +573,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(bookmark+1, len(data), 3):
                 bookmark = i
                 if data[i] == 'Next_table\t': break
-                Parameter_management(self.Parameter_list, data[i], data[i+1], data[i+2], False)
+                Parameter_management(self.Parameter_list, data[i], data[i+1], data[i+2])
             self.Workbook_Change = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
             self.Resolve()
@@ -1360,8 +1360,10 @@ def CSV_notebook(writer, table, k):
     for row in range(table.rowCount()):
         rowdata = []
         for column in range(table.columnCount()):
-            item = table.item(row, column)
-            if item is not None:
-                if column==k-1: rowdata += [item.text()]
-                else: rowdata += [item.text()+'\t']
+            if table.item(row, column) is not None:
+                if column==k-1: rowdata += [table.item(row, column).text()]
+                else: rowdata += [table.item(row, column).text()+'\t']
+            elif table.cellWidget(row, column):
+                if column==k-1: rowdata += [table.cellWidget(row, column).currentText()]
+                else: rowdata += [table.cellWidget(row, column).currentText()+'\t']
         writer.writerow(rowdata)

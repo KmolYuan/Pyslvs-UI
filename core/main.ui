@@ -1465,7 +1465,7 @@ p, li { white-space: pre-wrap; }
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
-                   <layout class="QVBoxLayout" name="Entiteis_Point_Layout_2">
+                   <layout class="QVBoxLayout" name="verticalLayout_28">
                     <property name="leftMargin">
                      <number>6</number>
                     </property>
@@ -1639,6 +1639,24 @@ p, li { white-space: pre-wrap; }
                         </item>
                         <item>
                          <widget class="QLineEdit" name="Y_coordinate_3d">
+                          <property name="placeholderText">
+                           <string>0.0</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_27">
+                        <item>
+                         <widget class="QLabel" name="label_15">
+                          <property name="text">
+                           <string>z coordinate</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLineEdit" name="Z_coordinate_3d">
                           <property name="placeholderText">
                            <string>0.0</string>
                           </property>

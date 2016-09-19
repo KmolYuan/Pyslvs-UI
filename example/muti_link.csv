@@ -7,14 +7,14 @@ Point5	,-57.75719471806708	,-48.79035033383228	,noFixed
 Point6	,-6.737084852656755	,-90.1840502085893	,noFixed
 Point7	,-21.448607086721726	,-43.44465447483369	,noFixed
 Next_table	
-Point0	,R	,10	,R
-Point1	,G	,5	,G
-Point2	,G	,10	,B
-Point3	,G	,5	,G
-Point4	,G	,5	,G
-Point5	,G	,5	,G
-Point6	,G	,5	,G
-Point7	,G	,5	,G
+Point0	,Red	,10	,Red
+Point1	,Green	,5	,Green
+Point2	,Green	,10	,Blue
+Point3	,Green	,5	,Green
+Point4	,Green	,5	,Green
+Point5	,Green	,5	,Green
+Point6	,Green	,5	,Green
+Point7	,Green	,5	,Green
 Next_table	
 Line0	,Point4	,Point5	,39.40
 Line1	,Point2	,Point7	,39.30

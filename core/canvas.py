@@ -123,13 +123,13 @@ class DynamicCanvas(QWidget):
             try:
                 try: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
                 except: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
-            except KeyError: pen.setColor(Qt.green)
+            except: pen.setColor(Qt.green)
             painter.setPen(pen)
             painter.drawPoint(point_center)
             try:
                 try: pen.setColor(self.Color[self.table_style.cellWidget(i, 3).currentText()])
                 except: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
-            except KeyError: pen.setColor(Qt.green)
+            except: pen.setColor(Qt.green)
             painter.setPen(pen)
             r = float(self.table_style.item(i, 2).text())
             painter.drawEllipse(point_center, r, r)
