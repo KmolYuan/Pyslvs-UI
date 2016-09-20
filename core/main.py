@@ -68,11 +68,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
-        #Script & Path
+        #Script & Path & DOF
         self.Script = ""
         self.Slvs_Script = ""
         self.Path_data = []
         self.Path_Run_list = []
+        self.DOF = 0
         #Mask
         self.Mask = None
         self.Mask_Change()
@@ -402,7 +403,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result = []
         solvespace = Solvespace()
         fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "").split("/")[-1].split(".")[0]
-        result = solvespace.static_process(table_point, table_line, table_chain,
+        result, DOF = solvespace.static_process(table_point, table_line, table_chain,
             table_shaft, table_slider, table_rod, fileName, self.Parameter_list)
         self.Script = solvespace.Script
         self.Slvs_Script = solvespace.Slvs_Script
@@ -414,6 +415,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             for i in range(table_point.rowCount()):
                 Point_setup(table_point, i, result[i*2], result[i*2+1])
+            self.DOF = DOF
+            self.DOF_view.setPlainText(str(self.DOF-3))
             self.Reload_Canvas()
     
     #Reload Canvas

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-09-19, 16:45:33 -->
+<!-- Saved: 2016-09-20, 13:04:50 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{9de79c37-19f5-45b4-9802-9487e4ed571f}">
+  <Task priority="1" completed="False" type="1" uid="{7c4c4c98-ece4-4901-b081-4b389e2b43c5}">
     <Summary>TODO: to be continue...</Summary>
     <Description></Description>
-    <Created>2016-09-19, 15:42:49</Created>
+    <Created>2016-09-20, 12:54:55</Created>
     <Resource>
       <Filename>core/calculation.py</Filename>
       <Linenumber>440</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{a2152661-d6ef-435e-82d4-f47d5440f504}">
+  <Task priority="1" completed="False" type="1" uid="{d7abd16e-4547-463a-9c7e-15437361a04a}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-09-19, 16:45:30</Created>
+    <Created>2016-09-20, 13:04:47</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>625</Linenumber>
+      <Linenumber>628</Linenumber>
     </Resource>
   </Task>
 </Tasks>
