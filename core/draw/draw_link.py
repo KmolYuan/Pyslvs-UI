@@ -8,4 +8,3 @@ class New_link(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(New_link, self).__init__(parent)
         self.setupUi(self)
-        self.setAttribute(Qt.WA_DeleteOnClose)

@@ -8,4 +8,3 @@ class chain_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(chain_show, self).__init__(parent)
         self.setupUi(self)
-        self.setAttribute(Qt.WA_DeleteOnClose)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs/core/simulate/delete_rod.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/simulate/delete_rod.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #

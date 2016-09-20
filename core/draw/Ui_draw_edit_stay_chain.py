@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs/core/draw/draw_edit_stay_chain.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/draw/draw_edit_stay_chain.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #

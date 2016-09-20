@@ -190,10 +190,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         y = str(self.mouse_pos_y)
         if action == self.action_painter_right_click_menu_add:
             Points_list(table1, "Point"+str(table1.rowCount()), x, y, False, False)
-            Points_style_add(table2, "Point"+str(table2.rowCount()), 2, "5", 2)
+            Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
+            self.Resolve()
         elif action == self.action_painter_right_click_menu_fix_add:
             Points_list(table1, "Point"+str(table1.rowCount()), x, y, True, False)
-            Points_style_add(table2, "Point"+str(table2.rowCount()), 2, "10", 2)
+            Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
+            self.Resolve()
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x

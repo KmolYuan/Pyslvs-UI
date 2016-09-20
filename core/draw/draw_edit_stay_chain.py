@@ -9,7 +9,6 @@ class edit_stay_chain_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(edit_stay_chain_show, self).__init__(parent)
         self.setupUi(self)
-        self.setAttribute(Qt.WA_DeleteOnClose)
     
     @pyqtSlot(int)
     def on_Chain_currentIndexChanged(self, index): self.Another_chain.emit(index)

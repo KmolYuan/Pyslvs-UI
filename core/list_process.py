@@ -140,7 +140,7 @@ def Point_list_delete(table1, table2, table3, table4, table5, table6, table7, dl
             for j in range(i, table7.rowCount()): table7.setItem(j, 0, QTableWidgetItem("Rod"+str(j)))
             break
     for i in range(1, table1.rowCount()):
-        if (dlg.Point.currentText() == table1.item(i, 0).text()):
+        if (dlg.Entity.currentText() == table1.item(i, 0).text()):
             table1.removeRow(i)
             table2.removeRow(i)
             for j in range(i, table1.rowCount()): table1.setItem(j, 0, QTableWidgetItem("Point"+str(j)))

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs/core/simulate/run_Path_Track.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/simulate/run_Path_Track.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -100,7 +100,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Path Track"))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose these points to execution path simulation.</span></p></body></html>"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose these points to execution path simulation.</span></p><p><span style=\" font-size:12pt;\">Active element will be operational in order.</span></p></body></html>"))
         self.label_4.setText(_translate("Dialog", "Resolution:"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Points:</span></p></body></html>"))
         self.add_button.setText(_translate("Dialog", ">"))
