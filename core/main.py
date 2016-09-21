@@ -1359,6 +1359,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(self.Slvs_Script)
             print("Successful Save: "+fileName)
+            self.Workbook_Change = False
+            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["Next_table\t"])

@@ -17,6 +17,9 @@ Point_num = 2
 wx = Point_num*2+5
 wy = Point_num*2+6
 """
+        self.Entity_num = 3
+        self.Constraint_num = 1
+        self.Request_num = 4
         self.Slvs_Script = """±²³SolveSpaceREVa
 
 
@@ -40,7 +43,7 @@ AddGroup
 Group.h.v=00000002
 Group.type=5001
 Group.order=1
-Group.name=sketch-in-plane
+Group.name=Pyslvs-2D
 Group.activeWorkplane.v=80020000
 Group.color=ff000000
 Group.subtype=6000
@@ -130,6 +133,118 @@ AddParam
 Param.h.v.=00030023
 Param.val=-0.50000000000000000000
 AddParam
+
+Request.h.v=00000001
+Request.type=100
+Request.group.v=00000001
+Request.construction=0
+AddRequest
+
+Request.h.v=00000002
+Request.type=100
+Request.group.v=00000001
+Request.construction=0
+AddRequest
+
+Request.h.v=00000003
+Request.type=100
+Request.group.v=00000001
+Request.construction=0
+AddRequest
+
+Entity.h.v=00010000
+Entity.type=10000
+Entity.construction=0
+Entity.point[0].v=00010001
+Entity.normal.v=00010020
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00010001
+Entity.type=2000
+Entity.construction=0
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00010020
+Entity.type=3000
+Entity.construction=0
+Entity.point[0].v=00010001
+Entity.actNormal.w=1.00000000000000000000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00020000
+Entity.type=10000
+Entity.construction=0
+Entity.point[0].v=00020001
+Entity.normal.v=00020020
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00020001
+Entity.type=2000
+Entity.construction=0
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00020020
+Entity.type=3000
+Entity.construction=0
+Entity.point[0].v=00020001
+Entity.actNormal.w=0.50000000000000000000
+Entity.actNormal.vx=0.50000000000000000000
+Entity.actNormal.vy=0.50000000000000000000
+Entity.actNormal.vz=0.50000000000000000000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00030000
+Entity.type=10000
+Entity.construction=0
+Entity.point[0].v=00030001
+Entity.normal.v=00030020
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00030001
+Entity.type=2000
+Entity.construction=0
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=00030020
+Entity.type=3000
+Entity.construction=0
+Entity.point[0].v=00030001
+Entity.actNormal.w=0.50000000000000000000
+Entity.actNormal.vx=-0.50000000000000000000
+Entity.actNormal.vy=-0.50000000000000000000
+Entity.actNormal.vz=-0.50000000000000000000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=80020000
+Entity.type=10000
+Entity.construction=0
+Entity.point[0].v=80020002
+Entity.normal.v=80020001
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=80020001
+Entity.type=3010
+Entity.construction=0
+Entity.point[0].v=80020002
+Entity.actNormal.w=1.00000000000000000000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=80020002
+Entity.type=2012
+Entity.construction=0
+Entity.actVisible=1
+AddEntity
 """
     
     def table_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
@@ -258,6 +373,7 @@ def """+filename.replace(" ", "_")+"""(degree):
         Point = [Point1]
         #Load tables to constraint
         for i in range(1, len(table_point) if len(table_point)>=1 else 1):
+            x_val = 0
             if not(len(table_shaft)>=1):
                 x = sys.add_param(table_point[i][0])
                 y = sys.add_param(table_point[i][1])
@@ -269,25 +385,62 @@ def """+filename.replace(" ", "_")+"""(degree):
                         other = -1 if angle >= 180 else 1
                         a = table_shaft[j][0]
                         x = sys.add_param(table_point[a][0])
+                        x_val = table_point[a][0]
                         y = sys.add_param(table_point[i][1]*other)
                     else:
+                        x_val = table_point[i][0]
                         x = sys.add_param(table_point[i][0])
                         y = sys.add_param(table_point[i][1])
             p = Point2d(Workplane1, x, y)
             Point += [p]
-            for j in range(len(table_shaft)):
-                if table_shaft[j][1]==i: self.Script += """    p"""+str(i*2+7)+""" = sys.add_param("""+str(table_point[i][0])+""")
-    p"""+str(i*2+8)+""" = sys.add_param("""+str(table_point[i][1])+"""*other)
-"""
-                else: self.Script += """    p"""+str(i*2+7)+""" = sys.add_param("""+str(table_point[i][0])+""")
+            self.Script += """
+    p"""+str(i*2+7)+""" = sys.add_param("""+str(x_val)+""")
     p"""+str(i*2+8)+""" = sys.add_param("""+str(table_point[i][1])+""")
+    Point"""+str(i+1)+""" = Point2d(Workplane1, p"""+str(i*2+7)+""", p"""+str(i*2+8)+""")
 """
-            self.Script += """    Point"""+str(i+1)+""" = Point2d(Workplane1, p"""+str(i*2+7)+""", p"""+str(i*2+8)+""")
+            self.Slvs_Script += """
+Param.h.v.=%04x"""%(i+3)+"""0010
+Param.val=%.020f"""%table_point[i][0]+"""
+AddParam
+
+Param.h.v.=%04x"""%(i+3)+"""0011
+Param.val=%.020f"""%table_point[i][1]+"""
+AddParam
+
+Entity.h.v=%04x"""%(i+3)+"""0000
+Entity.type=2001
+Entity.construction=0
+Entity.workplane.v=80020000
+Entity.actPoint.x=%.020f"""%x_val+"""
+Entity.actPoint.y=%.020f"""%table_point[i][0]+"""
+Entity.actVisible=1
+AddEntity
+
+Request.h.v=%08x"""%self.Request_num+"""
+Request.type=101
+Request.workplane.v=80020000
+Request.group.v=00000002
+Request.construction=0
+AddRequest
 """
             if table_point[i][2]:
                 Constraint.dragged(Workplane1, p)
                 self.Script += """    Constraint.dragged(Workplane1, Point"""+str(i+1)+""")
 """
+                self.Slvs_Script += """
+Constraint.h.v=%08x"""%self.Constraint_num+"""
+Constraint.type=200
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.ptA.v=%04x"""%(i+3)+"""0000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+AddConstraint
+"""
+            self.Constraint_num += 1
+            self.Request_num += 1
+            self.Entity_num += 1
         for i in range(len(table_chain)):
             pa = table_chain[i][0]
             pb = table_chain[i][1]
@@ -302,7 +455,131 @@ def """+filename.replace(" ", "_")+"""(degree):
     Constraint.distance("""+str(lengbc)+""", Workplane1, Point"""+str(pb+1)+""", Point"""+str(pc+1)+""")
     Constraint.distance("""+str(lengac)+""", Workplane1, Point"""+str(pa+1)+""", Point"""+str(pc+1)+""")
 """
-        
+            pa_script = """
+Entity.type=2001
+Entity.construction=0
+Entity.workplane.v=80020000
+Entity.actPoint.x=%.020f"""%table_point[pa][0]+"""
+Entity.actPoint.y=%.020f"""%table_point[pa][1]+"""
+Entity.actVisible=1
+AddEntity
+"""
+            pb_script = """
+Entity.type=2001
+Entity.construction=0
+Entity.workplane.v=80020000
+Entity.actPoint.x=%.020f"""%table_point[pb][0]+"""
+Entity.actPoint.y=%.020f"""%table_point[pb][1]+"""
+Entity.actVisible=1
+AddEntity
+"""
+            pc_script = """
+Entity.type=2001
+Entity.construction=0
+Entity.workplane.v=80020000
+Entity.actPoint.x=%.020f"""%table_point[pc][0]+"""
+Entity.actPoint.y=%.020f"""%table_point[pc][1]+"""
+Entity.actVisible=1
+AddEntity
+"""
+            self.Slvs_Script += """
+Entity.h.v=%04x"""%(self.Entity_num)+"""0000
+Entity.type=11000
+Entity.construction=0
+Entity.point[0].v=%04x"""%(self.Entity_num)+"""0001
+Entity.point[1].v=%04x"""%(self.Entity_num)+"""0002
+Entity.workplane.v=80020000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=%04x"""%(self.Entity_num)+"""0001
+"""+pa_script+"""
+Entity.h.v=%04x"""%(self.Entity_num)+"""0002
+"""+pb_script+"""
+Entity.h.v=%04x"""%(self.Entity_num)+"""0000
+Entity.type=11000
+Entity.construction=0
+Entity.point[0].v=%04x"""%(self.Entity_num+1)+"""0001
+Entity.point[1].v=%04x"""%(self.Entity_num+1)+"""0002
+Entity.workplane.v=80020000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=%04x"""%(self.Entity_num+1)+"""0001
+"""+pb_script+"""
+Entity.h.v=%04x"""%(self.Entity_num+1)+"""0002
+"""+pc_script+"""
+Entity.h.v=%04x"""%(self.Entity_num+2)+"""0000
+Entity.type=11000
+Entity.construction=0
+Entity.point[0].v=%04x"""%(self.Entity_num+2)+"""0001
+Entity.point[1].v=%04x"""%(self.Entity_num+2)+"""0002
+Entity.workplane.v=80020000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=%04x"""%(self.Entity_num+2)+"""0001
+"""+pb_script+"""
+Entity.h.v=%04x"""%(self.Entity_num+2)+"""0002
+"""+pc_script
+            for j in range(3):
+                self.Slvs_Script += """
+Request.h.v=%08x"""%(self.Request_num)+"""
+Request.type=200
+Request.workplane.v=80020000
+Request.group.v=00000002
+Request.construction=0
+AddRequest
+"""
+                self.Request_num += 1
+            self.Slvs_Script += """
+Constraint.h.v=%08x"""%self.Constraint_num+"""
+Constraint.type=30
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.valA=%.020f"""%lengab+"""
+Constraint.ptA.v=%04x"""%(pa+3)+"""0000
+Constraint.ptB.v=%04x"""%(pb+3)+"""0000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+Constraint.disp.offset.x=10.00000000000000000000
+Constraint.disp.offset.y=10.00000000000000000000
+Constraint.disp.offset.z=10.00000000000000000000
+AddConstraint
+
+Constraint.h.v=%08x"""%(self.Constraint_num+1)+"""
+Constraint.type=30
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.valA=%.020f"""%lengbc+"""
+Constraint.ptA.v=%04x"""%(pb+3)+"""0000
+Constraint.ptB.v=%04x"""%(pc+3)+"""0000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+Constraint.disp.offset.x=10.00000000000000000000
+Constraint.disp.offset.y=10.00000000000000000000
+Constraint.disp.offset.z=10.00000000000000000000
+AddConstraint
+
+Constraint.h.v=%08x"""%(self.Constraint_num+2)+"""
+Constraint.type=30
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.valA=%.020f"""%lengac+"""
+Constraint.ptA.v=%04x"""%(pa+3)+"""0000
+Constraint.ptB.v=%04x"""%(pc+3)+"""0000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+Constraint.disp.offset.x=10.00000000000000000000
+Constraint.disp.offset.y=10.00000000000000000000
+Constraint.disp.offset.z=10.00000000000000000000
+AddConstraint
+"""
+            self.Constraint_num += 3
+            self.Entity_num += 3
         for i in range(len(table_line)):
             start = table_line[i][0]
             end = table_line[i][1]
@@ -310,6 +587,59 @@ def """+filename.replace(" ", "_")+"""(degree):
             Constraint.distance(leng, Workplane1, Point[start], Point[end])
             self.Script += """    Constraint.distance("""+str(leng)+""", Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
 """
+            self.Slvs_Script += """
+Entity.h.v=%04x"""%(self.Entity_num)+"""0000
+Entity.type=11000
+Entity.construction=0
+Entity.point[0].v=%04x"""%(self.Entity_num)+"""0001
+Entity.point[1].v=%04x"""%(self.Entity_num)+"""0002
+Entity.workplane.v=80020000
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=%04x"""%(self.Entity_num)+"""0001
+Entity.type=2001
+Entity.construction=0
+Entity.workplane.v=80020000
+Entity.actPoint.x=%.020f"""%table_point[start][0]+"""
+Entity.actPoint.y=%.020f"""%table_point[start][1]+"""
+Entity.actVisible=1
+AddEntity
+
+Entity.h.v=%04x"""%(self.Entity_num)+"""0002
+Entity.type=2001
+Entity.construction=0
+Entity.workplane.v=80020000
+Entity.actPoint.x=%.020f"""%table_point[end][0]+"""
+Entity.actPoint.y=%.020f"""%table_point[end][1]+"""
+Entity.actVisible=1
+AddEntity
+
+Request.h.v=%08x"""%(self.Request_num)+"""
+Request.type=200
+Request.workplane.v=80020000
+Request.group.v=00000002
+Request.construction=0
+AddRequest
+
+Constraint.h.v=%08x"""%self.Constraint_num+"""
+Constraint.type=30
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.valA=%.020f"""%leng+"""
+Constraint.ptA.v=%04x"""%(start+1)+"""0000
+Constraint.ptB.v=%04x"""%(end+1)+"""0000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+Constraint.disp.offset.x=10.00000000000000000000
+Constraint.disp.offset.y=10.00000000000000000000
+Constraint.disp.offset.z=10.00000000000000000000
+AddConstraint
+"""
+            self.Entity_num += 1
+            self.Request_num += 1
+            self.Constraint_num += 1
         for i in range(len(table_slider)):
             pt = table_slider[i][0]
             start = table_line[table_slider[i][1]][0]
@@ -318,6 +648,19 @@ def """+filename.replace(" ", "_")+"""(degree):
             Constraint.on(Workplane1, Point[pt], line)
             self.Script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
 """
+            self.Slvs_Script += """
+Constraint.h.v=%08x"""%self.Constraint_num+"""
+Constraint.type=42
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.ptA.v=%04x"""%(pt+3)+"""0000
+Constraint.entityA.v=00040000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+AddConstraint
+"""
+            self.Constraint_num += 1
         if len(table_shaft) >= 1:
             pN = sys.add_param(10)
             pNN = sys.add_param(0.0)

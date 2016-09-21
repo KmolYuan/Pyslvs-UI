@@ -1,6 +1,7 @@
 <RCC>
   <qresource>
     <file>icons/main.png</file>
+    <file>icons/Solvespace.ico</file>
 
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>

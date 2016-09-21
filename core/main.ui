@@ -2716,6 +2716,23 @@ p, li { white-space: pre-wrap; }
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QLabel" name="label_17">
+              <property name="text">
+               <string>DOF:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTextBrowser" name="DOF_view_3d">
+              <property name="maximumSize">
+               <size>
+                <width>30</width>
+                <height>30</height>
+               </size>
+              </property>
+             </widget>
+            </item>
            </layout>
           </item>
          </layout>
@@ -3465,6 +3482,10 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Output_to_Solvespace">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
+   </property>
    <property name="text">
     <string>Output to Solvespace</string>
    </property>
