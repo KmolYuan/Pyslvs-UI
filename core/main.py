@@ -408,7 +408,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result, DOF = solvespace.static_process(table_point, table_line, table_chain,
             table_shaft, table_slider, table_rod, fileName, self.Parameter_list)
         self.Script = solvespace.Script
-        self.Slvs_Script = solvespace.Slvs_Script
         if result==[]:
             print("Rebuild the cavanc falled.")
             dlg = resolution_fail_show()
@@ -418,7 +417,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(table_point.rowCount()):
                 Point_setup(table_point, i, result[i*2], result[i*2+1])
             self.DOF = DOF
-            self.DOF_view.setPlainText(str(self.DOF-3))
+            self.DOF_view.setPlainText(str(self.DOF))
             self.Reload_Canvas()
     
     #Reload Canvas
@@ -1355,6 +1354,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Output_to_Solvespace_triggered(self):
         fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Solvespace models(*.slvs)')
         if fileName:
+            solvespace = Solvespace()
+            solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+            self.Slvs_Script = solvespace.Slvs_Script
             fileName = fileName.replace(".slvs", "")+".slvs"
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(self.Slvs_Script)
