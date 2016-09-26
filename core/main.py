@@ -417,7 +417,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(table_point.rowCount()):
                 Point_setup(table_point, i, result[i*2], result[i*2+1])
             self.DOF = DOF
-            self.DOF_view.setPlainText(str(self.DOF))
+            self.DOF_view.setPlainText(str(self.DOF-6))
             self.Reload_Canvas()
     
     #Reload Canvas
@@ -620,13 +620,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
-    def on_action_Output_to_S_QLite_Data_Base_triggered(self):
-        print("Saving to Data Base...")
-        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Data Base(*.db)')
+    def on_action_Output_to_Solvespace_triggered(self):
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Solvespace models(*.slvs)')
         if fileName:
-            fileName = fileName.replace(".db", "")
-            fileName += ".db"
-            #TODO: SQLite
+            solvespace = Solvespace()
+            solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+            self.Slvs_Script = solvespace.Slvs_Script
+            fileName = fileName.replace(".slvs", "")+".slvs"
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
+                f.write(self.Slvs_Script)
+            print("Successful Save: "+fileName)
+            self.Workbook_Change = False
+            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
@@ -649,6 +655,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pixmap = self.qpainterWindow.grab()
             pixmap.save(fileName)
             print("Saved to:"+str(fileName))
+    
+    @pyqtSlot()
+    def on_action_Output_to_S_QLite_Data_Base_triggered(self):
+        print("Saving to Data Base...")
+        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Data Base(*.db)')
+        if fileName:
+            fileName = fileName.replace(".db", "")
+            fileName += ".db"
+            #TODO: SQLite
     
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
@@ -1349,21 +1364,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
         self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
-    
-    @pyqtSlot()
-    def on_action_Output_to_Solvespace_triggered(self):
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Solvespace models(*.slvs)')
-        if fileName:
-            solvespace = Solvespace()
-            solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
-            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
-            self.Slvs_Script = solvespace.Slvs_Script
-            fileName = fileName.replace(".slvs", "")+".slvs"
-            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
-                f.write(self.Slvs_Script)
-            print("Successful Save: "+fileName)
-            self.Workbook_Change = False
-            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["Next_table\t"])

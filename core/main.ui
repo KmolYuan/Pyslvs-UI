@@ -1428,7 +1428,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>920</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1446,10 +1446,11 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
-    <addaction name="action_Output_to_Picture"/>
-    <addaction name="action_Output_to_Script"/>
     <addaction name="action_Output_Coordinate_to_Text_File"/>
     <addaction name="action_Output_to_Solvespace"/>
+    <addaction name="separator"/>
+    <addaction name="action_Output_to_Picture"/>
+    <addaction name="action_Output_to_Script"/>
     <addaction name="action_Output_to_S_QLite_Data_Base"/>
     <addaction name="separator"/>
     <addaction name="actionMi_nimized"/>
@@ -1594,7 +1595,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
    </property>
    <property name="text">
-    <string>Output to &amp;Script</string>
+    <string>Output to &amp;Script Formate</string>
    </property>
    <property name="statusTip">
     <string>Output to a Python 3 slvs module script.</string>
@@ -1768,6 +1769,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Output to &amp;Picture</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
   </action>
   <action name="action_Output_Coordinate_to_Text_File">
    <property name="icon">
@@ -1775,7 +1779,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
-    <string>Output Workbook to &amp;CSV File</string>
+    <string>Save to &amp;CSV Data Sheet</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -2167,6 +2171,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Output to Solvespace</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
    </property>
   </action>
  </widget>

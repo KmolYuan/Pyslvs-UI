@@ -99,7 +99,7 @@ class WorkerThread(QThread):
                 Yval = []
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
-                    x, y = solvespace.Solve(n, angle, self.Entiteis_Point, self.Entiteis_Link,
+                    x, y = solvespace.path_track_process(n, angle, self.Entiteis_Point, self.Entiteis_Link,
                         self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
                     Xval += [x]
                     Yval += [y]

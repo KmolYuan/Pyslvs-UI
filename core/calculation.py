@@ -6,6 +6,10 @@ from PyQt5.QtGui import *
 
 class Solvespace():
     def __init__(self):
+        self.Entity_num = 4
+        self.Constraint_num = 1
+        self.Param_num = 4
+        self.Request_num = 4
         self.Script = """# -*- coding: utf-8 -*-
 '''This Code is Generate by Pyslvs.'''
 
@@ -17,10 +21,6 @@ Point_num = 2
 wx = Point_num*2+5
 wy = Point_num*2+6
 """
-        self.Entity_num = 4
-        self.Constraint_num = 1
-        self.Param_num = 262160
-        self.Request_num = 4
         self.Slvs_Script = """±²³SolveSpaceREVa
 
 
@@ -351,7 +351,7 @@ AddEntity
         Point1 = Point2d(Workplane1, p7, p8)
         Constraint.dragged(Workplane1, Point1)
         self.Script += """
-def """+filename.replace(" ", "_")+"""(degree):
+def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
     sys = System(1000)
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)
@@ -380,8 +380,8 @@ def """+filename.replace(" ", "_")+"""(degree):
                 y = sys.add_param(table_point[i][1])
             else:
                 for j in range(len(table_shaft)):
-                    case = table_shaft[j][1]==i
-                    if case and table_shaft[j][4]:
+                    case = table_shaft[j][1]==i and table_shaft[j][4]
+                    if case:
                         angle = table_shaft[j][4]
                         other = -1 if angle >= 180 else 1
                         a = table_shaft[j][0]
@@ -432,7 +432,6 @@ def """+filename.replace(" ", "_")+"""(degree):
             Constraint.on(Workplane1, Point[pt], line)
             self.Script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
 """
-            self.Constraint_num += 1
         if len(table_shaft) >= 1:
             pN = sys.add_param(10)
             pNN = sys.add_param(0.0)
@@ -484,7 +483,7 @@ if __name__=="__main__":
         elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS): print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
         return result, sys.dof
 
-    def Solve(self, point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
+    def path_track_process(self, point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
         sys = System(1000)
         #Pre-oder
@@ -552,7 +551,6 @@ if __name__=="__main__":
             reference = table_shaft[i][1]
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
             Constraint.angle(Workplane1, angle, line, Line0, False)
-        #TODO: to be continue...
         sys.solve()
         x = 0
         y = 0
@@ -566,43 +564,27 @@ if __name__=="__main__":
     
     def slvs_formate(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
-        print(table_line)
+        point_numberlist = [[None] for i in range(len(table_point))]
         #point
         for i in range(1, len(table_point) if len(table_point)>=1 else 1):
-            self.Slvs_Script += """
-Param.h.v.=%08x"""%self.Param_num+"""
+            case1 = False
+            case2 = False
+            for k in table_line:
+                case1 = i in k
+                if i in k: break
+            for k in table_chain:
+                case2 = i in k
+                if i in k: break
+            if  not(case1 or case2):
+                self.Slvs_Script += """
+Param.h.v.=%04x"""%self.Param_num+"""0010
 Param.val=%.020f"""%table_point[i][0]+"""
 AddParam
 
-Param.h.v.=%08x"""%(self.Param_num+1)+"""
+Param.h.v.=%04x"""%(self.Param_num+1)+"""0011
 Param.val=%.020f"""%table_point[i][1]+"""
 AddParam
-"""
-            if table_line or table_chain:
-                for j in [table_line, table_chain]:
-                    for k in j:
-                        if not(i in k):
-                            self.Slvs_Script += """
-Request.h.v=%08x"""%self.Request_num+"""
-Request.type=101
-Request.workplane.v=80020000
-Request.group.v=00000002
-Request.construction=0
-AddRequest
 
-Entity.h.v=%04x"""%self.Entity_num+"""0000
-Entity.type=2001
-Entity.construction=0
-Entity.workplane.v=80020000
-Entity.actPoint.x=%.020f"""%table_point[i][0]+"""
-Entity.actPoint.y=%.020f"""%table_point[i][1]+"""
-Entity.actVisible=1
-AddEntity
-"""
-                            self.Entity_num += 1
-                            self.Request_num += 1
-            else:
-                self.Slvs_Script += """
 Request.h.v=%08x"""%self.Request_num+"""
 Request.type=101
 Request.workplane.v=80020000
@@ -620,22 +602,26 @@ Entity.actVisible=1
 AddEntity
 """
                 self.Entity_num += 1
+                self.Param_num += 1
                 self.Request_num += 1
-            if table_point[i][2]:
-                self.Slvs_Script += """
+                if table_point[i][2]:
+                    self.Slvs_Script += """
 Constraint.h.v=%08x"""%self.Constraint_num+"""
 Constraint.type=200
 Constraint.group.v=00000002
 Constraint.workplane.v=80020000
-Constraint.ptA.v=%04x"""%(i+3)+"""0000
+Constraint.ptA.v=%04x"""%self.Entity_num+"""0000
 Constraint.other=0
 Constraint.other2=0
 Constraint.reference=0
 AddConstraint
 """
-                self.Constraint_num += 1
-            self.Param_num += 3
+                    self.Constraint_num += 1
         for i in range(len(table_line)):
+            if None in point_numberlist[table_line[i][0]]: point_numberlist[table_line[i][0]] = []
+            if None in point_numberlist[table_line[i][1]]: point_numberlist[table_line[i][1]] = []
+            point_numberlist[table_line[i][0]] += ["%04x"%self.Entity_num+"0001"]
+            point_numberlist[table_line[i][1]] += ["%04x"%self.Entity_num+"0002"]
             self.Slvs_Script += """
 Request.h.v=%08x"""%self.Request_num+"""
 Request.type=200
@@ -643,6 +629,22 @@ Request.workplane.v=80020000
 Request.group.v=00000002
 Request.construction=0
 AddRequest
+
+Param.h.v.=%04x"""%self.Param_num+"""0010
+Param.val=%.020f"""%table_point[table_line[i][0]][0]+"""
+AddParam
+
+Param.h.v.=%04x"""%self.Param_num+"""0011
+Param.val=%.020f"""%table_point[table_line[i][0]][1]+"""
+AddParam
+
+Param.h.v.=%04x"""%self.Param_num+"""0013
+Param.val=%.020f"""%table_point[table_line[i][1]][0]+"""
+AddParam
+
+Param.h.v.=%04x"""%self.Param_num+"""0014
+Param.val=%.020f"""%table_point[table_line[i][1]][1]+"""
+AddParam
 
 Entity.h.v=%04x"""%self.Entity_num+"""0000
 Entity.type=11000
@@ -688,9 +690,15 @@ AddConstraint
             self.Entity_num += 1
             self.Request_num += 1
             self.Constraint_num += 1
+        #chain
         for i in range(len(table_chain)):
-            pa = """
-Entity.type=2001
+            if None in point_numberlist[table_chain[i][0]]: point_numberlist[table_chain[i][0]] = []
+            if None in point_numberlist[table_chain[i][1]]: point_numberlist[table_chain[i][1]] = []
+            if None in point_numberlist[table_chain[i][2]]: point_numberlist[table_chain[i][2]] = []
+            point_numberlist[table_chain[i][0]] += ["%04x"%self.Entity_num+"0001"]
+            point_numberlist[table_chain[i][1]] += ["%04x"%self.Entity_num+"0002"]
+            point_numberlist[table_chain[i][2]] += ["%04x"%(self.Entity_num+1)+"0002"]
+            pa = """Entity.type=2001
 Entity.construction=0
 Entity.workplane.v=80020000
 Entity.actPoint.x=%.020f"""%table_point[table_chain[i][0]][0]+"""
@@ -698,8 +706,7 @@ Entity.actPoint.y=%.020f"""%table_point[table_chain[i][0]][1]+"""
 Entity.actVisible=1
 AddEntity
 """
-            pb = """
-Entity.type=2001
+            pb = """Entity.type=2001
 Entity.construction=0
 Entity.workplane.v=80020000
 Entity.actPoint.x=%.020f"""%table_point[table_chain[i][1]][0]+"""
@@ -707,8 +714,7 @@ Entity.actPoint.y=%.020f"""%table_point[table_chain[i][1]][1]+"""
 Entity.actVisible=1
 AddEntity
 """
-            pc = """
-Entity.type=2001
+            pc = """Entity.type=2001
 Entity.construction=0
 Entity.workplane.v=80020000
 Entity.actPoint.x=%.020f"""%table_point[table_chain[i][2]][0]+"""
@@ -855,7 +861,24 @@ AddConstraint
             self.Entity_num += 3
             self.Request_num += 3
             self.Constraint_num += 6
-        #TODO:
+        #coincident
+        for k in point_numberlist:
+            for i in range(len(k)-1):
+                try:
+                    self.Slvs_Script += """
+Constraint.h.v=%08x"""%self.Constraint_num+"""
+Constraint.type=20
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.ptA.v="""+k[i]+"""
+Constraint.ptB.v="""+k[i+1]+"""
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+AddConstraint
+"""
+                    self.Constraint_num += 1
+                except: pass
         #AddParam
         #AddRequest
         #AddEntity
