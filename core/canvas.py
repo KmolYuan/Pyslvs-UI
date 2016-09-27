@@ -23,12 +23,15 @@ class DynamicCanvas(QWidget):
         self.Path = []
         self.pen_width = 2
         self.path_width = 1
-        self.re_Color = [
-            'Red', 'Green', 'Blue', 'Cyan', 'Magenta', 'Yellow', 'Gray', 'Orange', 'Pink',
+        self.AuxLine_show = False
+        self.AuxLine_pt = 0
+        self.AuxLine_color = 6
+        self.AuxLine_H = True
+        self.AuxLine_V = True
+        self.re_Color = ['Red', 'Green', 'Blue', 'Cyan', 'Magenta', 'Yellow', 'Gray', 'Orange', 'Pink',
             'Black', 'White',
             'Dark Red', 'Dark Green', 'Dark Blue', 'Dark Cyan', 'Dark Magenta', 'Dark Yellow', 'Dark Gray', 'Dark Orange', 'Dark Pink']
-        val_Color = [
-            Qt.red, Qt.green, Qt.blue, Qt.cyan, Qt.magenta, Qt.yellow, Qt.gray, QColor(225, 165, 0), QColor(225, 192, 230),
+        val_Color = [Qt.red, Qt.green, Qt.blue, Qt.cyan, Qt.magenta, Qt.yellow, Qt.gray, QColor(225, 165, 0), QColor(225, 192, 230),
             Qt.black, Qt.white,
             Qt.darkRed, Qt.darkGreen, Qt.darkBlue, Qt.darkMagenta, Qt.darkCyan, Qt.darkYellow, Qt.darkGray, QColor(225, 140, 0), QColor(225, 20, 147)]
         self.Color = dict(zip(self.re_Color, val_Color))
@@ -115,6 +118,25 @@ class DynamicCanvas(QWidget):
                 mp = QPointF((self.Xval[start]+self.Xval[end])/2, (self.Yval[start]+self.Yval[end])/2)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, str(self.table_line[i][2]))
+        for i in range(len(self.table_shaft)):
+            start = self.table_shaft[i][0]
+            end = self.table_shaft[i][1]
+            pen = QPen(Qt.DotLine)
+            pen.setWidth(self.pen_width+2)
+            pen.setColor(QColor(225, 140, 0))
+            painter.setPen(pen)
+            painter.drawLine(QPointF(int(self.Xval[start]), int(self.Yval[start])), QPointF(int(self.Xval[end]), int(self.Yval[end])))
+        if self.AuxLine_show:
+            L_point = QPointF(self.width()*4, self.Yval[self.AuxLine_pt])
+            R_point = QPointF(self.width()*(-4), self.Yval[self.AuxLine_pt])
+            U_point = QPointF(self.Xval[self.AuxLine_pt], self.height()*4)
+            D_point = QPointF(self.Xval[self.AuxLine_pt], self.height()*(-4))
+            pen = QPen(Qt.DashDotLine)
+            pen.setWidth(self.path_width)
+            pen.setColor(self.Color[self.re_Color[self.AuxLine_color]])
+            painter.setPen(pen)
+            if self.AuxLine_H: painter.drawLine(L_point, R_point)
+            if self.AuxLine_V: painter.drawLine(U_point, D_point)
         for i in range(len(self.table_point)):
             pen = QPen()
             pen.setWidth(2)

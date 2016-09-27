@@ -60,13 +60,11 @@ class WorkerThread(QThread):
             self.stoped = False
         for i in range(360):
             if self.stoped: return
-            else: self.progress_going()
+            else:
+                time.sleep(0.05)
+                self.progress = self.progress+100
+                self.progress_Signal.emit(self.progress)
         self.done.emit()
-    
-    def progress_going(self):
-        time.sleep(0.05)
-        self.progress = self.progress+100
-        self.progress_Signal.emit(self.progress)
     
     def continue_progress(self):
         with QMutexLocker(self.mutex): self.stoped = False

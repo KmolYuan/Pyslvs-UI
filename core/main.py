@@ -48,6 +48,7 @@ from .simulate.edit_rod import edit_rod_show
 from .simulate.run_Path_Track import Path_Track_show
 from .simulate.run_Drive import Drive_show
 from .simulate.run_Measurement import Measurement_show
+from .simulate.run_AuxLine import AuxLine_show
 #DynamicCanvas
 from .canvas import DynamicCanvas
 #Solve
@@ -417,7 +418,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(table_point.rowCount()):
                 Point_setup(table_point, i, result[i*2], result[i*2+1])
             self.DOF = DOF
-            self.DOF_view.setPlainText(str(self.DOF-6))
+            self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
             self.Reload_Canvas()
     
     #Reload Canvas
@@ -501,6 +502,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             del self.DriveWidget
             self.Drive.setChecked(False)
         except: pass
+        try:
+            self.qpainterWindow.AuxLine_show = False
+            self.AuxLineWidget.deleteLater()
+            del self.AuxLineWidget
+            self.AuxLine.setChecked(False)
+        except: pass
         Reset_notebook(self.Entiteis_Point, 1)
         Reset_notebook(self.Entiteis_Link, 0)
         Reset_notebook(self.Entiteis_Stay_Chain, 0)
@@ -524,6 +531,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DriveWidget.deleteLater()
             del self.DriveWidget
             self.Drive.setChecked(False)
+        except: pass
+        try:
+            self.qpainterWindow.AuxLine_show = False
+            self.AuxLineWidget.deleteLater()
+            del self.AuxLineWidget
+            self.AuxLine.setChecked(False)
         except: pass
         Reset_notebook(self.Entiteis_Point, 1)
         Reset_notebook(self.Entiteis_Link, 0)
@@ -1276,7 +1289,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_Drive_clicked(self):
-        if self.mplLayout.count()<=3 and not hasattr(self, 'DriveWidget'):
+        if not hasattr(self, 'DriveWidget'):
             icon = QIcon()
             icon.addPixmap(QPixmap(":/icons/circle.png"), QIcon.Normal, QIcon.Off)
             self.DriveWidget = Drive_show()
@@ -1305,7 +1318,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_Measurement_clicked(self):
-        if self.mplLayout.count()<=3 and not hasattr(self, 'MeasurementWidget'):
+        if not hasattr(self, 'MeasurementWidget'):
             table = self.Entiteis_Point
             icon = QIcon()
             icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
@@ -1334,6 +1347,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = float(start.split(", ")[0])-float(end.split(", ")[0])
         y = float(start.split(", ")[1])-float(end.split(", ")[1])
         self.distance_changed.emit(round(math.sqrt(x**2+y**2), 9))
+    
+    @pyqtSlot()
+    def on_AuxLine_clicked(self):
+        if not hasattr(self, 'AuxLineWidget'):
+            self.qpainterWindow.AuxLine_show = True
+            self.qpainterWindow.AuxLine_H = True
+            self.qpainterWindow.AuxLine_V = True
+            self.qpainterWindow.AuxLine_color = 6
+            table = self.Entiteis_Point
+            icon = QIcon()
+            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+            self.AuxLineWidget = AuxLine_show()
+            for i in range(table.rowCount()): self.AuxLineWidget.Point.insertItem(i, icon, table.item(i, 0).text())
+            for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color.insertItem(i, self.qpainterWindow.re_Color[i])
+            self.AuxLineWidget.Color.setCurrentIndex(6)
+            self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
+            self.mplLayout.insertWidget(1, self.AuxLineWidget)
+        else:
+            self.qpainterWindow.AuxLine_show = False
+            try:
+                self.AuxLineWidget.deleteLater()
+                del self.AuxLineWidget
+            except: pass
+        self.Reload_Canvas()
+    @pyqtSlot(int, int, bool, bool)
+    def draw_Auxline(self, pt, color, axe_H, axe_V):
+        self.qpainterWindow.AuxLine_pt = pt
+        self.qpainterWindow.AuxLine_color = color
+        self.qpainterWindow.AuxLine_H = axe_H
+        self.qpainterWindow.AuxLine_V = axe_V
+        self.Reload_Canvas()
     
     def Mask_Change(self):
         param_10 = '[1-'+str(int(self.Parameter_list.rowCount()/10))+']?' if self.Parameter_list.rowCount()>=10 else ''
