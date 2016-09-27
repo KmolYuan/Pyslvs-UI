@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-09-26, 17:59:58 -->
+<!-- Saved: 2016-09-27, 07:52:48 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
   <Task priority="1" completed="False" type="1" uid="{36ad7fbe-70c4-40e1-9626-4e3076963998}">
@@ -11,6 +11,15 @@
     <Resource>
       <Filename>core/main.py</Filename>
       <Linenumber>666</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{ff6d339b-7bfa-415f-a20d-213196a862fc}">
+    <Summary>TODO:</Summary>
+    <Description></Description>
+    <Created>2016-09-26, 18:17:06</Created>
+    <Resource>
+      <Filename>core/calculation.py</Filename>
+      <Linenumber>555</Linenumber>
     </Resource>
   </Task>
 </Tasks>

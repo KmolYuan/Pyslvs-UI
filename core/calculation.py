@@ -551,6 +551,9 @@ if __name__=="__main__":
             reference = table_shaft[i][1]
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
             Constraint.angle(Workplane1, angle, line, Line0, False)
+        for i in range(len(table_rod)):
+            #TODO:
+            """"""
         sys.solve()
         x = 0
         y = 0

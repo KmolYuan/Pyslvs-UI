@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>920</width>
+    <width>1019</width>
     <height>628</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>920</width>
+    <width>1019</width>
     <height>628</height>
    </size>
   </property>
@@ -981,23 +981,6 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item row="2" column="2">
-                         <widget class="QPushButton" name="Speed_measurement_button">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <property name="statusTip">
-                           <string>Set behave of shaft or silder in simulation.</string>
-                          </property>
-                          <property name="text">
-                           <string>Speed measurement</string>
-                          </property>
-                          <property name="icon">
-                           <iconset resource="../icons.qrc">
-                            <normaloff>:/icons/other-supp.png</normaloff>:/icons/other-supp.png</iconset>
-                          </property>
-                         </widget>
-                        </item>
                        </layout>
                       </item>
                       <item>
@@ -1427,7 +1410,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>920</width>
+     <width>1019</width>
      <height>22</height>
     </rect>
    </property>
@@ -1519,8 +1502,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionDelete_Drive_Shaft"/>
     <addaction name="actionDelete_Slider"/>
     <addaction name="actionDelete_Piston_Spring"/>
-    <addaction name="separator"/>
-    <addaction name="actionSpeed_measurement"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Draw"/>
@@ -1629,6 +1610,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Prefenece">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/shaded.png</normaloff>:/icons/shaded.png</iconset>
@@ -2058,6 +2042,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Output_to_S_QLite_Data_Base">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/SQL_icon.png</normaloff>:/icons/SQL_icon.png</iconset>
@@ -2170,7 +2157,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Output to Solvespace</string>
+    <string>Output to Solvespace (Alpha)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>

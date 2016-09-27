@@ -99,7 +99,7 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addWidget(self.Demo_angle_enable)
         self.Demo_angle = QtWidgets.QDoubleSpinBox(Dialog)
         self.Demo_angle.setMaximum(360.0)
-        self.Demo_angle.setProperty("value", 180.0)
+        self.Demo_angle.setProperty("value", 0.0)
         self.Demo_angle.setObjectName("Demo_angle")
         self.verticalLayout_2.addWidget(self.Demo_angle)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
