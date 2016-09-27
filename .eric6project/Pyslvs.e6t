@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-09-27, 07:52:48 -->
+<!-- Saved: 2016-09-27, 08:10:47 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
   <Task priority="1" completed="False" type="1" uid="{36ad7fbe-70c4-40e1-9626-4e3076963998}">
