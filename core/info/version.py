@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QDialog
 from .Ui_version import Ui_About_Dialog
 from sys import version_info
 
-version_number = "1.0.0"
+version_number = "0.2.0"
 
 class version_show(QDialog, Ui_About_Dialog):
     """
