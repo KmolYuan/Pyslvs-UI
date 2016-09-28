@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1019</width>
-    <height>628</height>
+    <width>1050</width>
+    <height>671</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1019</width>
-    <height>628</height>
+    <width>1050</width>
+    <height>671</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -981,6 +981,19 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
+                        <item row="2" column="2">
+                         <widget class="QCheckBox" name="Path_data_show">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <property name="text">
+                           <string>Show Path Data</string>
+                          </property>
+                          <property name="checked">
+                           <bool>true</bool>
+                          </property>
+                         </widget>
+                        </item>
                        </layout>
                       </item>
                       <item>
@@ -1015,7 +1028,7 @@ p, li { white-space: pre-wrap; }
                            <string>Drive the selected drive shaft.</string>
                           </property>
                           <property name="text">
-                           <string>Drive</string>
+                           <string>Drive Shaft</string>
                           </property>
                           <property name="icon">
                            <iconset resource="../icons.qrc">
@@ -1026,7 +1039,7 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item row="1" column="1">
+                        <item row="1" column="0">
                          <widget class="QPushButton" name="AuxLine">
                           <property name="text">
                            <string>Auxiliary Line</string>
@@ -1037,6 +1050,17 @@ p, li { white-space: pre-wrap; }
                           </property>
                           <property name="checkable">
                            <bool>true</bool>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="1" column="1">
+                         <widget class="QPushButton" name="Drive_slider">
+                          <property name="text">
+                           <string>Drive Piston</string>
+                          </property>
+                          <property name="icon">
+                           <iconset resource="../icons.qrc">
+                            <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
                           </property>
                          </widget>
                         </item>
@@ -1440,7 +1464,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1019</width>
+     <width>1050</width>
      <height>22</height>
     </rect>
    </property>

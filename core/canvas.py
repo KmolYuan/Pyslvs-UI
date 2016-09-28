@@ -21,6 +21,7 @@ class DynamicCanvas(QWidget):
         self.drag = False
         self.Dimension = False
         self.Path = []
+        self.Path_show = True
         self.run_list = []
         self.pen_width = 2
         self.path_width = 1
@@ -141,23 +142,35 @@ class DynamicCanvas(QWidget):
             pen.setWidth(self.pen_width)
             painter.setPen(pen)
             if self.AuxLine_Max:
-                if self.AuxLine_Max_x > self.Xval[self.AuxLine_pt]: self.AuxLine_Max_x = self.Xval[self.AuxLine_pt]
-                if self.AuxLine_Max_y > self.Yval[self.AuxLine_pt]: self.AuxLine_Max_y = self.Yval[self.AuxLine_pt]
-                L_point = QPointF(self.width()*4, self.AuxLine_Max_y)
-                R_point = QPointF(self.width()*(-4), self.AuxLine_Max_y)
-                U_point = QPointF(self.AuxLine_Max_x, self.height()*4)
-                D_point = QPointF(self.AuxLine_Max_x, self.height()*(-4))
+                if self.AuxLine_Max_x < self.table_point[self.AuxLine_pt][3]: self.AuxLine_Max_x = self.table_point[self.AuxLine_pt][3]
+                if self.AuxLine_Max_y < self.table_point[self.AuxLine_pt][4]: self.AuxLine_Max_y = self.table_point[self.AuxLine_pt][4]
+                L_point = QPointF(self.width()*4, self.AuxLine_Max_y*self.zoom*self.rate_all*(-1))
+                R_point = QPointF(self.width()*(-4), self.AuxLine_Max_y*self.zoom*self.rate_all*(-1))
+                U_point = QPointF(self.AuxLine_Max_x*self.zoom*self.rate_all, self.height()*4)
+                D_point = QPointF(self.AuxLine_Max_x*self.zoom*self.rate_all, self.height()*(-4))
                 painter.drawLine(L_point, R_point)
                 painter.drawLine(U_point, D_point)
+                if self.Dimension:
+                    text_center_x = QPointF(self.AuxLine_Max_x*self.zoom*self.rate_all+self.pen_width, self.origin_y*(-1)+self.Font_size)
+                    text_center_y = QPointF(self.origin_x*(-1), self.AuxLine_Max_y*self.zoom*self.rate_all*(-1)-self.pen_width)
+                    painter.setFont(QFont("Arial", self.Font_size))
+                    painter.drawText(text_center_x, "%.6f"%self.AuxLine_Max_x)
+                    painter.drawText(text_center_y, "%.6f"%self.AuxLine_Max_y)
             if self.AuxLine_Min:
-                if self.AuxLine_Min_x < self.Xval[self.AuxLine_pt]: self.AuxLine_Min_x = self.Xval[self.AuxLine_pt]
-                if self.AuxLine_Min_y < self.Yval[self.AuxLine_pt]: self.AuxLine_Min_y = self.Yval[self.AuxLine_pt]
-                L_point = QPointF(self.width()*4, self.AuxLine_Min_y)
-                R_point = QPointF(self.width()*(-4), self.AuxLine_Min_y)
-                U_point = QPointF(self.AuxLine_Min_x, self.height()*4)
-                D_point = QPointF(self.AuxLine_Min_x, self.height()*(-4))
+                if self.AuxLine_Min_x > self.table_point[self.AuxLine_pt][3]: self.AuxLine_Min_x = self.table_point[self.AuxLine_pt][3]
+                if self.AuxLine_Min_y > self.table_point[self.AuxLine_pt][4]: self.AuxLine_Min_y = self.table_point[self.AuxLine_pt][4]
+                L_point = QPointF(self.width()*4, self.AuxLine_Min_y*self.zoom*self.rate_all*(-1))
+                R_point = QPointF(self.width()*(-4), self.AuxLine_Min_y*self.zoom*self.rate_all*(-1))
+                U_point = QPointF(self.AuxLine_Min_x*self.zoom*self.rate_all, self.height()*4)
+                D_point = QPointF(self.AuxLine_Min_x*self.zoom*self.rate_all, self.height()*(-4))
                 painter.drawLine(L_point, R_point)
                 painter.drawLine(U_point, D_point)
+                if self.Dimension:
+                    text_center_x = QPointF(self.AuxLine_Min_x*self.zoom*self.rate_all+self.pen_width, self.origin_y*(-1)+self.Font_size)
+                    text_center_y = QPointF(self.origin_x*(-1), self.AuxLine_Min_y*self.zoom*self.rate_all*(-1)-self.pen_width)
+                    painter.setFont(QFont("Arial", self.Font_size))
+                    painter.drawText(text_center_x, "%.6f"%self.AuxLine_Min_x)
+                    painter.drawText(text_center_y, "%.6f"%self.AuxLine_Min_y)
             pen.setColor(self.Color[self.re_Color[self.AuxLine_color]])
             L_point = QPointF(self.width()*4, self.Yval[self.AuxLine_pt])
             R_point = QPointF(self.width()*(-4), self.Yval[self.AuxLine_pt])
@@ -191,7 +204,7 @@ class DynamicCanvas(QWidget):
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(text_center, "[Point"+str(i)+"]")
-        if self.Path:
+        if self.Path and self.Path_show:
             pen = QPen()
             pen.setWidth(self.path_width)
             for i in range(len(self.Path)):
@@ -209,10 +222,10 @@ class DynamicCanvas(QWidget):
         self.change_event.emit()
     
     def Reset_Aux_limit(self):
-        self.AuxLine_Max_x = self.Xval[self.AuxLine_pt]
-        self.AuxLine_Max_y = self.Yval[self.AuxLine_pt]
-        self.AuxLine_Min_x = self.Xval[self.AuxLine_pt]
-        self.AuxLine_Min_y = self.Yval[self.AuxLine_pt]
+        self.AuxLine_Max_x = self.table_point[self.AuxLine_pt][3]
+        self.AuxLine_Max_y = self.table_point[self.AuxLine_pt][4]
+        self.AuxLine_Min_x = self.table_point[self.AuxLine_pt][3]
+        self.AuxLine_Min_y = self.table_point[self.AuxLine_pt][4]
     
     def removePath(self): self.Path = []
     

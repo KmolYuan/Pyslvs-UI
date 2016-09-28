@@ -71,7 +71,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.groupBox.setTitle(_translate("Form", "Drive"))
+        self.groupBox.setTitle(_translate("Form", "Drive Shaft"))
         self.label_2.setText(_translate("Form", "in Angle:"))
         self.playButton.setText(_translate("Form", "Play"))
 

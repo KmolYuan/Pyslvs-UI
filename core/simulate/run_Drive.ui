@@ -47,7 +47,7 @@
       </size>
      </property>
      <property name="title">
-      <string>Drive</string>
+      <string>Drive Shaft</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
       <item>

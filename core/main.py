@@ -519,6 +519,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.removePath()
         self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
         self.Resolve()
+        self.Path_Clear.setEnabled(False)
+        self.Path_coordinate.setEnabled(False)
+        self.Path_data_show.setEnabled(False)
         print("Reset the workbook.")
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - New Workbook"))
     def load_Workbook(self):
@@ -567,6 +570,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 bookmark = i
                 if data[i] == 'Next_table\t': break
                 Points_style_add(self.Entiteis_Point_Style, data[i], data[i+1], data[i+2], data[i+3])
+                #TODO:
                 self.Entiteis_Point_Style.cellWidget(int(data[i].replace("Point", "")), 3).currentIndexChanged.connect(self.Point_Style_set)
             for i in range(bookmark+1, len(data), 4):
                 bookmark = i
@@ -598,6 +602,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
             self.Path_Clear.setEnabled(False)
             self.Path_coordinate.setEnabled(False)
+            self.Path_data_show.setEnabled(False)
             print("Successful Load the workbook...")
     
     @pyqtSlot()
@@ -1230,7 +1235,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionReload_Drawing_triggered(self): self.Resolve()
-    
     @pyqtSlot(QTableWidgetItem)
     def on_Entiteis_Point_Style_itemChanged(self, item):
         self.Reload_Canvas()
@@ -1247,6 +1251,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot(int)
     def Point_Style_set(self, index): self.Reload_Canvas()
+    @pyqtSlot()
+    def on_Path_data_show_clicked(self):
+        self.qpainterWindow.Path_show = self.Path_data_show.checkState()
+        self.Reload_Canvas()
     
     @pyqtSlot()
     def on_PathTrack_clicked(self):
@@ -1275,6 +1283,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 self.Path_Clear.setEnabled(True)
                 self.Path_coordinate.setEnabled(True)
+                self.Path_data_show.setEnabled(True)
                 self.qpainterWindow.path_track(dlg.Path_data, self.Path_Run_list)
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
@@ -1283,6 +1292,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
         self.Path_Clear.setEnabled(False)
         self.Path_coordinate.setEnabled(False)
+        self.Path_data_show.setEnabled(False)
     @pyqtSlot()
     def on_Path_coordinate_clicked(self):
         dlg = path_point_data_show()
@@ -1366,6 +1376,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(table.rowCount()): self.AuxLineWidget.Point.insertItem(i, icon, table.item(i, 0).text())
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color.insertItem(i, self.qpainterWindow.re_Color[i])
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color_l.insertItem(i, self.qpainterWindow.re_Color[i])
+            self.AuxLineWidget.Point.setCurrentIndex(self.qpainterWindow.AuxLine_pt)
             self.AuxLineWidget.Color.setCurrentIndex(6)
             self.AuxLineWidget.Color_l.setCurrentIndex(8)
             self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
