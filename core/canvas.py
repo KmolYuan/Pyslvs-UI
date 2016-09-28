@@ -21,13 +21,21 @@ class DynamicCanvas(QWidget):
         self.drag = False
         self.Dimension = False
         self.Path = []
+        self.run_list = []
         self.pen_width = 2
         self.path_width = 1
         self.AuxLine_show = False
         self.AuxLine_pt = 0
         self.AuxLine_color = 6
+        self.AuxLine_limit_color = 8
         self.AuxLine_H = True
         self.AuxLine_V = True
+        self.AuxLine_Max = True
+        self.AuxLine_Max_x = 0
+        self.AuxLine_Max_y = 0
+        self.AuxLine_Min = True
+        self.AuxLine_Min_x = 0
+        self.AuxLine_Min_y = 0
         self.re_Color = ['Red', 'Green', 'Blue', 'Cyan', 'Magenta', 'Yellow', 'Gray', 'Orange', 'Pink',
             'Black', 'White',
             'Dark Red', 'Dark Green', 'Dark Blue', 'Dark Cyan', 'Dark Magenta', 'Dark Yellow', 'Dark Gray', 'Dark Orange', 'Dark Pink']
@@ -71,8 +79,9 @@ class DynamicCanvas(QWidget):
         self.table_style = table_style
         self.update()
     
-    def path_track(self, path):
+    def path_track(self, path, run_list):
         self.Path = path
+        self.run_list = run_list
         self.update()
     
     def paintEvent(self, event):
@@ -127,13 +136,33 @@ class DynamicCanvas(QWidget):
             painter.setPen(pen)
             painter.drawLine(QPointF(int(self.Xval[start]), int(self.Yval[start])), QPointF(int(self.Xval[end]), int(self.Yval[end])))
         if self.AuxLine_show:
+            pen = QPen(Qt.DashDotLine)
+            pen.setColor(self.Color[self.re_Color[self.AuxLine_limit_color]])
+            pen.setWidth(self.pen_width)
+            painter.setPen(pen)
+            if self.AuxLine_Max:
+                if self.AuxLine_Max_x > self.Xval[self.AuxLine_pt]: self.AuxLine_Max_x = self.Xval[self.AuxLine_pt]
+                if self.AuxLine_Max_y > self.Yval[self.AuxLine_pt]: self.AuxLine_Max_y = self.Yval[self.AuxLine_pt]
+                L_point = QPointF(self.width()*4, self.AuxLine_Max_y)
+                R_point = QPointF(self.width()*(-4), self.AuxLine_Max_y)
+                U_point = QPointF(self.AuxLine_Max_x, self.height()*4)
+                D_point = QPointF(self.AuxLine_Max_x, self.height()*(-4))
+                painter.drawLine(L_point, R_point)
+                painter.drawLine(U_point, D_point)
+            if self.AuxLine_Min:
+                if self.AuxLine_Min_x < self.Xval[self.AuxLine_pt]: self.AuxLine_Min_x = self.Xval[self.AuxLine_pt]
+                if self.AuxLine_Min_y < self.Yval[self.AuxLine_pt]: self.AuxLine_Min_y = self.Yval[self.AuxLine_pt]
+                L_point = QPointF(self.width()*4, self.AuxLine_Min_y)
+                R_point = QPointF(self.width()*(-4), self.AuxLine_Min_y)
+                U_point = QPointF(self.AuxLine_Min_x, self.height()*4)
+                D_point = QPointF(self.AuxLine_Min_x, self.height()*(-4))
+                painter.drawLine(L_point, R_point)
+                painter.drawLine(U_point, D_point)
+            pen.setColor(self.Color[self.re_Color[self.AuxLine_color]])
             L_point = QPointF(self.width()*4, self.Yval[self.AuxLine_pt])
             R_point = QPointF(self.width()*(-4), self.Yval[self.AuxLine_pt])
             U_point = QPointF(self.Xval[self.AuxLine_pt], self.height()*4)
             D_point = QPointF(self.Xval[self.AuxLine_pt], self.height()*(-4))
-            pen = QPen(Qt.DashDotLine)
-            pen.setWidth(self.path_width)
-            pen.setColor(self.Color[self.re_Color[self.AuxLine_color]])
             painter.setPen(pen)
             if self.AuxLine_H: painter.drawLine(L_point, R_point)
             if self.AuxLine_V: painter.drawLine(U_point, D_point)
@@ -170,13 +199,20 @@ class DynamicCanvas(QWidget):
                 for j in range(0, len(nPath), 2):
                     X_path = nPath[j]
                     Y_path = nPath[j+1]
-                    pen.setColor(self.Color[self.re_Color[int((j/2)%9+11)]])
+                    point_color = self.table_style.cellWidget(int(self.run_list[int(j/2)].replace("Point", "")), 3).currentText()
+                    pen.setColor(self.Color[point_color])
                     painter.setPen(pen)
                     for k in range(len(X_path)-1):
                         point_center = QPointF(X_path[k]*self.zoom*self.rate_all, Y_path[k]*self.zoom*self.rate_all*(-1))
                         painter.drawPoint(point_center)
         painter.end()
         self.change_event.emit()
+    
+    def Reset_Aux_limit(self):
+        self.AuxLine_Max_x = self.Xval[self.AuxLine_pt]
+        self.AuxLine_Max_y = self.Yval[self.AuxLine_pt]
+        self.AuxLine_Min_x = self.Xval[self.AuxLine_pt]
+        self.AuxLine_Min_y = self.Yval[self.AuxLine_pt]
     
     def removePath(self): self.Path = []
     

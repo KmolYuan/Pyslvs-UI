@@ -746,8 +746,8 @@ class Ui_MainWindow(object):
         self.action_Highlight_Drive_Shaft_Point.setCheckable(True)
         self.action_Highlight_Drive_Shaft_Point.setChecked(True)
         icon23 = QtGui.QIcon()
-        icon23.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon23.addPixmap(QtGui.QPixmap(":/icons/char-1-check-true.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon23.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Highlight_Drive_Shaft_Point.setIcon(icon23)
         self.action_Highlight_Drive_Shaft_Point.setObjectName("action_Highlight_Drive_Shaft_Point")
         self.actionMi_nimized = QtWidgets.QAction(MainWindow)
@@ -1174,6 +1174,7 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">200%</p></body></html>"))
         self.label_16.setText(_translate("MainWindow", "DOF:"))
+        self.DOF_view.setStatusTip(_translate("MainWindow", "Degree of Freedom. The brackets including drive shaft."))
         self.menuFile.setTitle(_translate("MainWindow", "&File"))
         self.menu_Draw.setTitle(_translate("MainWindow", "&Draw"))
         self.menu_Options.setTitle(_translate("MainWindow", "&Options"))

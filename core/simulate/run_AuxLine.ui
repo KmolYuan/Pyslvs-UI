@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>545</width>
+    <width>684</width>
     <height>75</height>
    </rect>
   </property>
@@ -59,7 +59,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Horizontal line</string>
+         <string>Horizontal</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -75,7 +75,27 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Vertical line</string>
+         <string>Vertical</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="Max_Limit">
+        <property name="text">
+         <string>Max Limit</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="Min_Limit">
+        <property name="text">
+         <string>Min Limit</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -117,6 +137,9 @@
       </item>
       <item>
        <widget class="QComboBox" name="Color"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="Color_l"/>
       </item>
      </layout>
     </widget>

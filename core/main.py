@@ -567,6 +567,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 bookmark = i
                 if data[i] == 'Next_table\t': break
                 Points_style_add(self.Entiteis_Point_Style, data[i], data[i+1], data[i+2], data[i+3])
+                self.Entiteis_Point_Style.cellWidget(int(data[i].replace("Point", "")), 3).currentIndexChanged.connect(self.Point_Style_set)
             for i in range(bookmark+1, len(data), 4):
                 bookmark = i
                 if data[i] == 'Next_table\t': break
@@ -1244,6 +1245,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionDisplay_Point_Mark_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
+    @pyqtSlot(int)
+    def Point_Style_set(self, index): self.Reload_Canvas()
     
     @pyqtSlot()
     def on_PathTrack_clicked(self):
@@ -1272,7 +1275,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 self.Path_Clear.setEnabled(True)
                 self.Path_coordinate.setEnabled(True)
-                self.qpainterWindow.path_track(dlg.Path_data)
+                self.qpainterWindow.path_track(dlg.Path_data, self.Path_Run_list)
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
         self.qpainterWindow.removePath()
@@ -1355,13 +1358,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.qpainterWindow.AuxLine_H = True
             self.qpainterWindow.AuxLine_V = True
             self.qpainterWindow.AuxLine_color = 6
+            self.qpainterWindow.AuxLine_limit_color = 8
             table = self.Entiteis_Point
             icon = QIcon()
             icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
             self.AuxLineWidget = AuxLine_show()
             for i in range(table.rowCount()): self.AuxLineWidget.Point.insertItem(i, icon, table.item(i, 0).text())
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color.insertItem(i, self.qpainterWindow.re_Color[i])
+            for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color_l.insertItem(i, self.qpainterWindow.re_Color[i])
             self.AuxLineWidget.Color.setCurrentIndex(6)
+            self.AuxLineWidget.Color_l.setCurrentIndex(8)
             self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
             self.mplLayout.insertWidget(1, self.AuxLineWidget)
         else:
@@ -1371,12 +1377,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 del self.AuxLineWidget
             except: pass
         self.Reload_Canvas()
-    @pyqtSlot(int, int, bool, bool)
-    def draw_Auxline(self, pt, color, axe_H, axe_V):
+    @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
+    def draw_Auxline(self, pt, color, color_l, axe_H, axe_V, max_l, min_l, pt_change):
         self.qpainterWindow.AuxLine_pt = pt
         self.qpainterWindow.AuxLine_color = color
+        self.qpainterWindow.AuxLine_limit_color = color_l
+        if pt_change:
+            self.qpainterWindow.Reset_Aux_limit()
+            self.Reload_Canvas()
         self.qpainterWindow.AuxLine_H = axe_H
         self.qpainterWindow.AuxLine_V = axe_V
+        self.qpainterWindow.AuxLine_Max = max_l
+        self.qpainterWindow.AuxLine_Min = min_l
         self.Reload_Canvas()
     
     def Mask_Change(self):
