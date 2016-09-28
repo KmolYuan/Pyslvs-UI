@@ -3,6 +3,8 @@ Pyslvs
 
 A GUI-based tool use Ubuntu version to solve 2D and 3D linkage subject.
 
+![](https://raw.githubusercontent.com/coursemdetw/project_site_files/gh-pages/files/2016spring/g2/Python_solvespace/0928_02.jpg)
+
 Input formate
 ---
 
