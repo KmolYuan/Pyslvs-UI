@@ -1,4 +1,4 @@
-Pyslvs
+Pyslvs(PySolveSpace)
 ===
 
 A GUI-based tool use Ubuntu version to solve 2D and 3D linkage subject.
