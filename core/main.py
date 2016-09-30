@@ -288,7 +288,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table = self.Parameter_list
             row = self.Parameter_list.currentRow()
             try:
-                print(row)
                 table.insertRow(row-1)
                 for i in range(2):
                     name_set = QTableWidgetItem(table.item(row+1, i).text())
@@ -565,47 +564,62 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             bookmark = 0
             for i in range(4, len(data), 4):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 fixed = data[i+3]=="Fixed"
                 Points_list(self.Entiteis_Point, data[i], data[i+1], data[i+2], fixed, False)
             self.Entiteis_Point_Style.removeRow(0)
             for i in range(bookmark+1, len(data), 4):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Points_style_add(self.Entiteis_Point_Style, data[i], data[i+1], data[i+2], data[i+3])
                 #TODO:
                 self.Entiteis_Point_Style.cellWidget(int(data[i].replace("Point", "")), 3).currentIndexChanged.connect(self.Point_Style_set)
             for i in range(bookmark+1, len(data), 4):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Links_list(self.Entiteis_Link, data[i], data[i+1], data[i+2], data[i+3], False)
             for i in range(bookmark+1, len(data), 7):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Chain_list(self.Entiteis_Stay_Chain, data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], data[i+6], False)
             for i in range(bookmark+1, len(data), 6):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Shaft_list(self.Drive_Shaft, data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], False)
             for i in range(bookmark+1, len(data), 3):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Slider_list(self.Slider, data[i], data[i+1], data[i+2], False)
             for i in range(bookmark+1, len(data), 5):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Rod_list(self.Parameter_list, data[i], data[i+1], data[i+2], data[i+3], data[i+4], False)
             for i in range(bookmark+1, len(data), 3):
                 bookmark = i
-                if data[i] == 'Next_table\t': break
+                if '_' in data[i]: break
                 Parameter_management(self.Parameter_list, data[i], data[i+1], data[i+2])
+            for i in range(bookmark+1, len(data)):
+                bookmark = i
+                if '_' in data[i]: break
+                self.Path_Run_list += [data[i]]
+            path = []
+            path_e = []
+            for i in range(bookmark+1, len(data)):
+                bookmark = i
+                if '_' in data[i]: break
+                if '+' in data[i]:
+                    path += [path_e]
+                    path_e = []
+                else: path_e += [float(data[i])]
+            self.Path_data = [path]
             self.Workbook_Change = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
             self.Resolve()
             self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
-            self.Path_Clear.setEnabled(False)
-            self.Path_coordinate.setEnabled(False)
-            self.Path_data_show.setEnabled(False)
+            self.Path_Clear.setEnabled(bool(self.Path_data) and bool(self.Path_Run_list))
+            self.Path_coordinate.setEnabled(bool(self.Path_data) and bool(self.Path_Run_list))
+            self.Path_data_show.setEnabled(bool(self.Path_data) and bool(self.Path_Run_list))
+            self.qpainterWindow.path_track(self.Path_data, self.Path_Run_list)
             print("Successful Load the workbook...")
     
     @pyqtSlot()
@@ -637,6 +651,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 CSV_notebook(writer, self.Slider, 3)
                 CSV_notebook(writer, self.Rod, 5)
                 CSV_notebook(writer, self.Parameter_list, 3)
+                writer.writerow(["_path_\t"])
+                if self.Path_Run_list:
+                    rowdata = []
+                    for i in range(len(self.Path_Run_list)):
+                        if i == len(self.Path_Run_list)-1: rowdata += [str(self.Path_Run_list[i])]
+                        else: rowdata += [str(self.Path_Run_list[i])+'\t']
+                    writer.writerow(rowdata)
+                writer.writerow(["_path_\t"])
+                if self.Path_data:
+                    for i in range(len(self.Path_data[0])):
+                        rowdata = []
+                        for j in range(len(self.Path_data[0][i])): rowdata += [str(self.Path_data[0][i][j])+'\t']
+                        rowdata += ["+="]
+                        writer.writerow(rowdata)
             print("Successful Save: "+fileName)
             self.Workbook_Change = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
@@ -1292,7 +1320,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_Clear.setEnabled(True)
                 self.Path_coordinate.setEnabled(True)
                 self.Path_data_show.setEnabled(True)
-                self.qpainterWindow.path_track(dlg.Path_data, self.Path_Run_list)
+                self.qpainterWindow.path_track(self.Path_data, self.Path_Run_list)
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
         self.qpainterWindow.removePath()
@@ -1447,7 +1475,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
 
 def CSV_notebook(writer, table, k):
-    writer.writerow(["Next_table\t"])
+    writer.writerow(["_table_\t"])
     for row in range(table.rowCount()):
         rowdata = []
         for column in range(table.columnCount()):
