@@ -23,7 +23,6 @@ from .warning.zero_value import zero_show
 from .warning.repeated_value import same_show
 from .warning.restriction_conflict import restriction_conflict_show
 from .warning.kill_origin import kill_origin_show
-from .warning.resolution_fail import resolution_fail_show
 #Drawing Dialog Ports
 from .draw.draw_point import New_point
 from .draw.draw_link import New_link
@@ -69,7 +68,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
-        #Script & Path & DOF
+        #Solve & Script & Path & DOF
+        self.Solvefail = False
         self.Script = ""
         self.Slvs_Script = ""
         self.Path_data = []
@@ -78,6 +78,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Mask
         self.Mask = None
         self.Mask_Change()
+        #Default
+        self.Default_canvas_view = 200
         #qpainterWindow Right-click menu
         self.qpainterWindow.setContextMenuPolicy(Qt.CustomContextMenu)
         self.qpainterWindow.customContextMenuRequested.connect(self.on_painter_context_menu)
@@ -357,7 +359,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     event.accept()
                 else: event.ignore()
             else: event.ignore()
-        else: event.accept()
+        else:
+            print("Exit.")
+            event.accept()
     
     #Scripts
     @pyqtSlot()
@@ -410,13 +414,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table_shaft, table_slider, table_rod, fileName, self.Parameter_list)
         self.Script = solvespace.Script
         if result==[]:
+            self.Solvefail = True
             print("Rebuild the cavanc falled.")
-            dlg = resolution_fail_show()
-            dlg.show()
-            dlg.exec()
         else:
-            for i in range(table_point.rowCount()):
-                Point_setup(table_point, i, result[i*2], result[i*2+1])
+            self.Solvefail = False
+            for i in range(table_point.rowCount()): Point_setup(table_point, i, result[i*2], result[i*2+1])
             self.DOF = DOF
             self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
             self.Reload_Canvas()
@@ -482,7 +484,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.show()
             if dlg.exec_(): self.new_Workbook()
         else: self.new_Workbook()
-    
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
         if self.Workbook_Change:
@@ -508,6 +509,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             del self.AuxLineWidget
             self.AuxLine.setChecked(False)
         except: pass
+        self.reset_Auxline()
         Reset_notebook(self.Entiteis_Point, 1)
         Reset_notebook(self.Entiteis_Link, 0)
         Reset_notebook(self.Entiteis_Stay_Chain, 0)
@@ -541,6 +543,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             del self.AuxLineWidget
             self.AuxLine.setChecked(False)
         except: pass
+        self.reset_Auxline()
         Reset_notebook(self.Entiteis_Point, 1)
         Reset_notebook(self.Entiteis_Link, 0)
         Reset_notebook(self.Entiteis_Stay_Chain, 0)
@@ -1223,11 +1226,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         self.Workbook_noSave()
     
+    @pyqtSlot()
+    def on_ResetCanvas_clicked(self):
+        self.ZoomBar.setValue(self.Default_canvas_view)
+        self.qpainterWindow.origin_x = self.qpainterWindow.width()/2
+        self.qpainterWindow.origin_y = self.qpainterWindow.height()/2
+        self.Reload_Canvas()
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setPlainText(str(value)+"%")
         self.Reload_Canvas()
-    
     def wheelEvent(self, event):
         if QApplication.keyboardModifiers()==Qt.ControlModifier:
             if event.angleDelta().y()>0: self.ZoomBar.setValue(self.ZoomBar.value()+10)
@@ -1323,7 +1331,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DriveWidget.Degree.setMaximum(int(float(self.Drive_Shaft.item(pos, 4).text().replace("°", "")))*100)
             self.DriveWidget.Degree.setValue(int(float(self.Drive_Shaft.item(pos, 5).text().replace("°", "")))*100)
         except: self.DriveWidget.Degree.setValue(int((self.DriveWidget.Degree.maximum()+self.DriveWidget.Degree.minimum())/2))
-        self.DriveWidget.Degree_text.setPlainText(str(float(self.DriveWidget.Degree.value()/100))+"°")
+        self.DriveWidget.Degree_text.setValue(float(self.DriveWidget.Degree.value()/100))
     @pyqtSlot(int, float)
     def Change_demo_angle(self, shaft_int, angle):
         self.Drive_Shaft.setItem(shaft_int, 5, QTableWidgetItem(str(angle)+"°"))
@@ -1367,8 +1375,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.qpainterWindow.AuxLine_show = True
             self.qpainterWindow.AuxLine_H = True
             self.qpainterWindow.AuxLine_V = True
-            self.qpainterWindow.AuxLine_color = 6
-            self.qpainterWindow.AuxLine_limit_color = 8
             table = self.Entiteis_Point
             icon = QIcon()
             icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
@@ -1377,8 +1383,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color.insertItem(i, self.qpainterWindow.re_Color[i])
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color_l.insertItem(i, self.qpainterWindow.re_Color[i])
             self.AuxLineWidget.Point.setCurrentIndex(self.qpainterWindow.AuxLine_pt)
-            self.AuxLineWidget.Color.setCurrentIndex(6)
-            self.AuxLineWidget.Color_l.setCurrentIndex(8)
+            self.AuxLineWidget.Color.setCurrentIndex(self.qpainterWindow.AuxLine_color)
+            self.AuxLineWidget.Color_l.setCurrentIndex(self.qpainterWindow.AuxLine_limit_color)
             self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
             self.mplLayout.insertWidget(1, self.AuxLineWidget)
         else:
@@ -1401,6 +1407,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.AuxLine_Max = max_l
         self.qpainterWindow.AuxLine_Min = min_l
         self.Reload_Canvas()
+    def reset_Auxline(self):
+        self.qpainterWindow.AuxLine_Max_x = 0
+        self.qpainterWindow.AuxLine_Max_y = 0
+        self.qpainterWindow.AuxLine_Min_x = 0
+        self.qpainterWindow.AuxLine_Min_y = 0
+        self.qpainterWindow.AuxLine_pt = 0
+        self.qpainterWindow.AuxLine_color = 6
+        self.qpainterWindow.AuxLine_limit_color = 8
     
     def Mask_Change(self):
         param_10 = '[1-'+str(int(self.Parameter_list.rowCount()/10))+']?' if self.Parameter_list.rowCount()>=10 else ''

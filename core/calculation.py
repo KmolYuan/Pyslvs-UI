@@ -432,6 +432,17 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             Constraint.on(Workplane1, Point[pt], line)
             self.Script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
 """
+        for i in range(len(table_rod)):
+            pt = table_rod[i][0]
+            start = table_rod[i][1]
+            end = table_rod[i][2]
+            leng = table_rod[i][3]
+            line = LineSegment2d(Workplane1, Point[start], Point[end])
+            Constraint.on(Workplane1, Point[pt], line)
+            Constraint.distance(leng, Workplane1, Point[start], Point[pt])
+            self.Script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
+    Constraint.distance("""+str(leng)+""", Workplane1, Point"""+str(start+1)+""", Point"""+str(pt+1)+""")
+"""
         if len(table_shaft) >= 1:
             pN = sys.add_param(10)
             pNN = sys.add_param(0.0)
@@ -455,7 +466,8 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
                 except: pass
                 self.Script += """    Line1 = LineSegment2d(Workplane1, Point"""+str(center+1)+""", Point"""+str(reference+1)+""")
     Constraint.angle(Workplane1, degree, Line1, Line0, False)
-    
+"""
+        self.Script += """
     sys.solve()
     if (sys.result == SLVS_RESULT_OKAY):
         x = sys.get_param(wx).val
@@ -546,14 +558,20 @@ if __name__=="__main__":
             end = table_line[table_slider[i][1]][1]
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
+        #TODO:
         for i in range(len(table_shaft)):
             center = table_shaft[i][0]
             reference = table_shaft[i][1]
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
             Constraint.angle(Workplane1, angle, line, Line0, False)
         for i in range(len(table_rod)):
-            #TODO:
-            """"""
+            pt = table_rod[i][0]
+            start = table_rod[i][1]
+            end = table_rod[i][2]
+            leng = table_rod[i][3]
+            line = LineSegment2d(Workplane1, Point[start], Point[end])
+            Constraint.on(Workplane1, Point[pt], line)
+            Constraint.distance(leng, Workplane1, Point[start], Point[pt])
         sys.solve()
         x = 0
         y = 0

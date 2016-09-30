@@ -13,11 +13,12 @@ class DynamicCanvas(QWidget):
         self.setParent(parent)
         self.setMouseTracking(True)
         self.Reset_Origin = False
+        self.Solve_error = False
         self.Xval = []
         self.Yval = []
         self.Blackground = Qt.white
-        self.origin_x = 200
-        self.origin_y = 250
+        self.origin_x = self.width()/2
+        self.origin_y = self.height()/2
         self.drag = False
         self.Dimension = False
         self.Path = []
@@ -53,8 +54,10 @@ class DynamicCanvas(QWidget):
             Font_size, Dimension, Point_mark, Blackground):
         slvs = Solvespace()
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = slvs.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
-        if Blackground: self.Blackground = Qt.black
-        else: self.Blackground = Qt.white
+        if not(self.Solve_error):
+            if Blackground: self.Blackground = Qt.black
+            else: self.Blackground = Qt.white
+        else: self.Blackground = QColor(102, 0, 0)
         self.Font_size = Font_size
         self.Dimension = Dimension
         self.Point_mark = Point_mark

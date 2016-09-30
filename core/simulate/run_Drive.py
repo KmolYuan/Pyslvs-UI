@@ -20,13 +20,14 @@ class Drive_show(QWidget, Ui_Form):
     @pyqtSlot(int)
     def on_Degree_valueChanged(self, value):
         self.Degree_change.emit(self.Shaft.currentIndex(), float(value/100))
-        self.Degree_text.setPlainText(str(float(value/100))+"°")
+        self.Degree_text.setValue(float(value/100))
     
     def start(self):
         self.work.start()
+        self.Shaft.setEnabled(False)
         self.playButton.setEnabled(False)
         self.Degree.setEnabled(False)
-        self.Shaft.setEnabled(False)
+        self.Degree_text.setEnabled(False)
     
     @pyqtSlot(int)
     def progressbar_change(self, val): self.Degree.setValue(val)
@@ -39,12 +40,17 @@ class Drive_show(QWidget, Ui_Form):
         self.work.progress_Signal.connect(self.progressbar_change)
         self.work.done.connect(self.finish)
         self.playButton.setText(_translate("Info_Dialog", "Start"))
-        self.Degree.setEnabled(True)
         self.Shaft.setEnabled(True)
         self.playButton.setEnabled(True)
+        self.Degree.setEnabled(True)
+        self.Degree_text.setEnabled(True)
     
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index): self.Shaft_change.emit(index)
+    
+    @pyqtSlot(float)
+    def on_Degree_text_valueChanged(self, val):
+        self.Degree.setValue(int(val*100))
 
 class WorkerThread(QThread):
     done = pyqtSignal()
