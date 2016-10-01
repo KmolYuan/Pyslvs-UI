@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-09-30, 22:39:39 -->
+<!-- Saved: 2016-10-01, 12:25:29 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{87871461-0ff3-4978-b5c8-240f1c869a0a}">
+  <Task priority="1" completed="False" type="1" uid="{0076e5f0-02f2-4d06-af66-3af43e4bf78f}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-09-30, 15:18:14</Created>
+    <Created>2016-10-01, 10:51:15</Created>
     <Resource>
       <Filename>core/calculation.py</Filename>
       <Linenumber>561</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{584ee62e-cb41-4996-80c6-888f835901d6}">
+  <Task priority="1" completed="False" type="1" uid="{b0cc856d-fb15-46e3-a149-e1d6eb36a23c}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-09-30, 22:39:36</Created>
+    <Created>2016-10-01, 12:25:25</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>575</Linenumber>
+      <Linenumber>567</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{1b9ebc7e-73fc-4cb5-bcef-1a12103197f0}">
+  <Task priority="1" completed="False" type="1" uid="{586a3e0c-95ea-4d5c-86d1-892385cfe7f3}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-09-30, 22:39:36</Created>
+    <Created>2016-10-01, 12:25:25</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>716</Linenumber>
+      <Linenumber>713</Linenumber>
     </Resource>
   </Task>
 </Tasks>

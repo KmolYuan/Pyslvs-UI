@@ -12,7 +12,6 @@ from .Ui_main import Ui_MainWindow
 import webbrowser
 #Dialog Ports
 from .info.version import version_show
-from .info.color import color_show
 from .info.info import Info_show
 from .info.help import Help_info_show
 from .info.script import Script_Dialog
@@ -54,20 +53,18 @@ from .canvas import DynamicCanvas
 from .calculation import Solvespace
 from .list_process import *
 
-Environment_variables = "../"
-
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         #No Save
         self.Workbook_Change = False
-        #mpl Window
+        #QPainter Window
         self.qpainterWindow = DynamicCanvas()
-        self.qpainterWindow.setStatusTip(_translate("MainWindow",
-            "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
+        self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
+        self.Resolve()
         #Solve & Script & Path & DOF
         self.Solvefail = False
         self.Script = ""
@@ -80,6 +77,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Mask_Change()
         #Default
         self.Default_canvas_view = 200
+        self.Default_Environment_variables = "../"
+        self.init_Right_click_menu()
+    
+    def init_Right_click_menu(self):
         #qpainterWindow Right-click menu
         self.qpainterWindow.setContextMenuPolicy(Qt.CustomContextMenu)
         self.qpainterWindow.customContextMenuRequested.connect(self.on_painter_context_menu)
@@ -181,8 +182,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_parameter.addSeparator()
         self.action_parameter_right_click_menu_delete = QAction("Delete a Parameter", self)
         self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_delete)
-        #Resolve
-        self.Resolve()
     
     #Right-click menu event
     def on_painter_context_menu(self, point):
@@ -268,11 +267,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if action == self.action_parameter_right_click_menu_add:
             rowPosition = self.Parameter_list.rowCount()
             self.Parameter_list.insertRow(rowPosition)
-            name_set = QTableWidgetItem("n0")
-            for i in range(rowPosition-1):
-                if not 'n'+str(i) == self.Parameter_list.item(i, 0).text():
-                    name_set = QTableWidgetItem("n"+str(i))
-                    break
+            name_set = 0
+            for i in range(rowPosition):
+                if 'n'+str(name_set) == self.Parameter_list.item(i, 0).text(): name_set += 1
+            name_set = QTableWidgetItem('n'+str(name_set))
             name_set.setFlags(Qt.ItemIsEnabled)
             digit_set = QTableWidgetItem("0.0")
             digit_set.setFlags(Qt.ItemIsEnabled)
@@ -345,8 +343,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Close Event
     def closeEvent(self, event):
         if self.Workbook_Change:
-            reply = QMessageBox.question(self, 'Saving Message',
-                "Are you sure to quit?\nAny Changes won't be saved.",
+            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply == QMessageBox.Discard or reply == QMessageBox.Ok:
                 print("Exit.")
@@ -446,11 +443,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionHow_to_use_triggered(self):
         dlg = Help_info_show()
-        dlg.show()
-        dlg.exec()
-    @pyqtSlot()
-    def on_actionColor_Settings_triggered(self):
-        dlg = color_show()
         dlg.show()
         dlg.exec()
     @pyqtSlot()
@@ -554,7 +546,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.removePath()
         self.Resolve()
         print("Reset workbook.")
-        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
+        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
         if fileName:
             print("Get:"+fileName)
             data = []
@@ -626,7 +618,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Output_Coordinate_to_Text_File_triggered(self):
         print("Saving to CSV or text File...")
         if self.windowTitle()=="Pyslvs - New Workbook" or self.windowTitle()=="Pyslvs - New Workbook*":
-            fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Spreadsheet(*.csv)')
+            fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
         else:
             fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "")
         if fileName:
@@ -671,7 +663,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Solvespace models(*.slvs)')
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Solvespace models(*.slvs)')
         if fileName:
             solvespace = Solvespace()
             solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
@@ -687,7 +679,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
         print("Saving to script...")
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Python Script(*.py)')
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Python Script(*.py)')
         if fileName:
             fileName = fileName.replace(".py", "")
             if sub == "Python Script(*.py)": fileName += ".py"
@@ -698,18 +690,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         print("Saving to picture...")
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'PNG file(*.png)')
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables,
+            "Portable Network Graphics (*.png);;Joint Photographic Experts Group (*.jpg);;Joint Photographic Experts Group (*.jpeg);;Bitmap Image file (*.bmp);;\
+            Business Process Model (*.bpm);;Tagged Image File Format (*.tiff);;Tagged Image File Format (*.tif);;Windows Icon (*.ico);;Wireless Application Protocol Bitmap (*.wbmp);;\
+            X BitMap (*.xbm);;X Pixmap (*.xpm)")
         if fileName:
-            fileName = fileName.replace(".png", "")
-            fileName += ".png"
+            print("Formate: "+sub)
+            sub = sub[sub.find('.')+1:sub.find(')')]
+            fileName = fileName.replace('.'+sub, "")
+            fileName += '.'+sub
             pixmap = self.qpainterWindow.grab()
-            pixmap.save(fileName)
+            pixmap.save(fileName, format = sub)
             print("Saved to:"+str(fileName))
     
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):
         print("Saving to Data Base...")
-        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Data Base(*.db)')
+        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Data Base(*.db)')
         if fileName:
             fileName = fileName.replace(".db", "")
             fileName += ".db"
@@ -721,6 +718,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         dlg  = New_point()
         dlg.Point_num.insertPlainText("Point"+str(table1.rowCount()))
+        dlg.X_coordinate.setValidator(self.Mask)
+        dlg.Y_coordinate.setValidator(self.Mask)
         dlg.show()
         if dlg.exec_():
             x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
@@ -759,6 +758,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.point_feedback.connect(dlg.change_feedback)
             dlg.Point.setCurrentIndex(pos-1)
             self.Change_Edit_Point(pos)
+            dlg.X_coordinate.setValidator(self.Mask)
+            dlg.Y_coordinate.setValidator(self.Mask)
             dlg.show()
             if dlg.exec_():
                 table2 = self.Entiteis_Point_Style
@@ -794,6 +795,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.End_Point.insertItem(i, icon, table1.item(i, 0).text())
             table2 = self.Entiteis_Link
             dlg.Link_num.insertPlainText("Line"+str(table2.rowCount()))
+            dlg.Length.setValidator(self.Mask)
             dlg.show()
             if dlg.exec_():
                 a = dlg.Start_Point.currentText()
@@ -833,6 +835,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.link_feedback.connect(dlg.change_feedback)
             dlg.Link.setCurrentIndex(pos)
             self.Change_Edit_Line(pos)
+            dlg.Length.setValidator(self.Mask)
             dlg.show()
             if dlg.exec_():
                 a = dlg.Start_Point.currentText()
@@ -873,6 +876,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.Point2.insertItem(i, icon, table1.item(i, 0).text())
                 dlg.Point3.insertItem(i, icon, table1.item(i, 0).text())
             dlg.Chain_num.insertPlainText("Chain"+str(table2.rowCount()))
+            dlg.p1_p2.setValidator(self.Mask)
+            dlg.p2_p3.setValidator(self.Mask)
+            dlg.p1_p3.setValidator(self.Mask)
             dlg.show()
             if dlg.exec_():
                 p1 = dlg.Point1.currentText()
@@ -915,6 +921,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.chain_feedback.connect(dlg.change_feedback)
             dlg.Chain.setCurrentIndex(pos)
             self.Change_Edit_Chain(pos)
+            dlg.p1_p2.setValidator(self.Mask)
+            dlg.p2_p3.setValidator(self.Mask)
+            dlg.p1_p3.setValidator(self.Mask)
             dlg.show()
             if dlg.exec_():
                 p1 = dlg.Point1.currentText()

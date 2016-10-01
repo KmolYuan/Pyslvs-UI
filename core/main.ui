@@ -1558,7 +1558,6 @@ p, li { white-space: pre-wrap; }
      <string>&amp;Help</string>
     </property>
     <addaction name="actionHow_to_use"/>
-    <addaction name="actionColor_Settings"/>
     <addaction name="separator"/>
     <addaction name="action_Get_Help"/>
     <addaction name="actionGit_hub_Site"/>

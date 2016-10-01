@@ -33,11 +33,8 @@ class DynamicCanvas(QWidget):
         self.AuxLine_H = True
         self.AuxLine_V = True
         self.AuxLine_Max = True
-        self.AuxLine_Max_x = 0
-        self.AuxLine_Max_y = 0
         self.AuxLine_Min = True
-        self.AuxLine_Min_x = 0
-        self.AuxLine_Min_y = 0
+        self.Reset_Aux_limit()
         self.re_Color = ['Red', 'Green', 'Blue', 'Cyan', 'Magenta', 'Yellow', 'Gray', 'Orange', 'Pink',
             'Black', 'White',
             'Dark Red', 'Dark Green', 'Dark Blue', 'Dark Cyan', 'Dark Magenta', 'Dark Yellow', 'Dark Gray', 'Dark Orange', 'Dark Pink']
@@ -225,10 +222,16 @@ class DynamicCanvas(QWidget):
         self.change_event.emit()
     
     def Reset_Aux_limit(self):
-        self.AuxLine_Max_x = self.table_point[self.AuxLine_pt][3]
-        self.AuxLine_Max_y = self.table_point[self.AuxLine_pt][4]
-        self.AuxLine_Min_x = self.table_point[self.AuxLine_pt][3]
-        self.AuxLine_Min_y = self.table_point[self.AuxLine_pt][4]
+        try:
+            self.AuxLine_Max_x = self.table_point[self.AuxLine_pt][3]
+            self.AuxLine_Max_y = self.table_point[self.AuxLine_pt][4]
+            self.AuxLine_Min_x = self.table_point[self.AuxLine_pt][3]
+            self.AuxLine_Min_y = self.table_point[self.AuxLine_pt][4]
+        except:
+            self.AuxLine_Max_x = 0
+            self.AuxLine_Max_y = 0
+            self.AuxLine_Min_x = 0
+            self.AuxLine_Min_y = 0
     
     def removePath(self): self.Path = []
     

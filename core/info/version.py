@@ -11,16 +11,7 @@ from sys import version_info
 version_number = "0.2.0"
 
 class version_show(QDialog, Ui_About_Dialog):
-    """
-    Class documentation goes here.
-    """
     def __init__(self, parent=None):
-        """
-        Constructor
-        
-        @param parent reference to the parent widget
-        @type QWidget
-        """
         super(version_show, self).__init__(parent)
         self.setupUi(self)
 
