@@ -96,6 +96,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Entiteis_Point_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
         self.popMenu_point = QMenu(self)
+        self.action_point_right_click_menu_copy = QAction("Copy Coordinate", self)
+        self.popMenu_point.addAction(self.action_point_right_click_menu_copy)
         self.action_point_right_click_menu_add = QAction("Add a Point", self)
         self.popMenu_point.addAction(self.action_point_right_click_menu_add)
         self.action_point_right_click_menu_edit = QAction("Edit a Point", self)
@@ -203,11 +205,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     def on_point_context_menu(self, point):
+        self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
         self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>=2)
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>=2)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
-        if action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
+        if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy()
+        elif action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
         elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
@@ -316,7 +320,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Workbook_noSave()
             self.Mask_Change()
     
-    #Table move up & down
+    #Table move up & down & copy
     def move_up(self, table, row, name):
         try:
             table.insertRow(row-1)
@@ -339,6 +343,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 table.setItem(j, 0, QTableWidgetItem(name+str(j)))
             self.Workbook_noSave()
         except: pass
+    def Coordinate_Copy(self):
+        clipboard = QClipboard()
+        clipboard.setText(self.Entiteis_Point.currentItem().text())
     
     #Close Event
     def closeEvent(self, event):
@@ -1269,6 +1276,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.origin_x = self.qpainterWindow.width()/2
         self.qpainterWindow.origin_y = self.qpainterWindow.height()/2
         self.Reload_Canvas()
+    @pyqtSlot()
+    def on_FitW_clicked(self):
+        self.Fit2H()
+        self.Fit2W()
+    def Fit2W(self):
+        for i in range(10):
+            max_pt = max(self.qpainterWindow.Xval)
+            min_pt = min(self.qpainterWindow.Xval)
+            self.qpainterWindow.origin_x = (self.qpainterWindow.width()-(max_pt+min_pt))/2
+            self.ZoomBar.setValue(self.ZoomBar.value()*self.qpainterWindow.width()/(max_pt+min_pt+100))
+            self.Reload_Canvas()
+    @pyqtSlot()
+    def on_FitH_clicked(self):
+        self.Fit2W()
+        self.Fit2H()
+    def Fit2H(self):
+        for i in range(10):
+            max_pt = max(self.qpainterWindow.Yval)
+            min_pt = min(self.qpainterWindow.Yval)
+            self.qpainterWindow.origin_y = (self.qpainterWindow.height()-(max_pt+min_pt))/2
+            self.ZoomBar.setValue(self.ZoomBar.value()*self.qpainterWindow.height()/(max_pt-min_pt+100))
+            self.Reload_Canvas()
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setPlainText(str(value)+"%")
@@ -1482,6 +1511,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
         self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
+    
+    @pyqtSlot(int, int)
+    def on_Parameter_list_cellChanged(self, row, column):
+        if column in [1, 2]: self.Parameter_list.item(row, column).setToolTip(self.Parameter_list.item(row, column).text())
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["_table_\t"])

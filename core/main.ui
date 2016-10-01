@@ -1422,6 +1422,13 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="ResetCanvas">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1431,17 +1438,52 @@ p, li { white-space: pre-wrap; }
           </property>
           <property name="maximumSize">
            <size>
-            <width>100</width>
+            <width>50</width>
             <height>16777215</height>
            </size>
           </property>
+          <property name="statusTip">
+           <string>Focus to Origin.</string>
+          </property>
           <property name="text">
-           <string>Home View</string>
+           <string>Origin</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="Line" name="line_2">
+         <widget class="QPushButton" name="FitW">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="statusTip">
+           <string>Fit by width.</string>
+          </property>
+          <property name="text">
+           <string>Width</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="FitH">
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="statusTip">
+           <string>Fit by height.</string>
+          </property>
+          <property name="text">
+           <string>Height</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>

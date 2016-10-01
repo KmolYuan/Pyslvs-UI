@@ -193,7 +193,9 @@ def Reset_notebook(table, k):
     for i in reversed(range(k, table.rowCount())): table.removeRow(i)
 
 def Point_setup(table, num, x, y):
-    table.setItem(num, 4, QTableWidgetItem("("+str(x)+", "+str(y)+")"))
+    digit = QTableWidgetItem("("+str(x)+", "+str(y)+")")
+    digit.setToolTip("("+str(x)+", "+str(y)+")")
+    table.setItem(num, 4, digit)
 
 def Path_point_setup(table, data, Run_list):
     for i in range(len(data)):
