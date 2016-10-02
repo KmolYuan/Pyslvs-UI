@@ -723,8 +723,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Parameter_list.setItem(rowPosition, 2, commit_set)
         self.Workbook_noSave()
         self.Mask_Change()
-        self.Resolve()
-    
     @pyqtSlot()
     def on_Parameter_add_clicked(self): self.on_parameter_add()
     
@@ -746,7 +744,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Points_style_add(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
             self.Resolve()
             self.Workbook_noSave()
-    
     @pyqtSlot()
     def on_Point_add_button_clicked(self):
         table1 = self.Entiteis_Point
@@ -1494,16 +1491,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)
         param = '(('
-        for i in range(len(row_Count)):
-            param += '[1-'+row_Count[i]+']' if i==0 and not len(row_Count)<=1 else '[0-'+row_Count[i]+']'
+        for i in range(len(row_Count)): param += '[1-'+row_Count[i]+']' if i==0 and not len(row_Count)<=1 else '[0-'+row_Count[i]+']'
         param += ')|'
-        param_100 = '[0-9]{1,'+str(len(row_Count)-2)+'}' if len(row_Count)>2 else ''
+        param_100 = '[0-9]{0,'+str(len(row_Count)-2)+'}' if len(row_Count)>2 else ''
         param_20 = '([1-'+str(int(row_Count[0])-1)+']'+param_100+')?' if self.Parameter_list.rowCount()>19 else ''
         if len(row_Count)>1: param += param_20+'[0-9]'
         param += ')'
         param_use = '^[n]'+param+'$|' if self.Parameter_list.rowCount()>=1 else ''
-        mask = '('+param_use+'^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$)'
-        print(param_use)
+        mask = '('+param_use+'^[-]?([1-9][0-9]{0,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$)'
         self.Mask = QRegExpValidator(QRegExp(mask))
         self.X_coordinate.setValidator(self.Mask)
         self.Y_coordinate.setValidator(self.Mask)
