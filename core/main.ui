@@ -571,6 +571,9 @@
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>
                    <widget class="QTextBrowser" name="Parameter_num">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
                     <property name="maximumSize">
                      <size>
                       <width>50</width>
@@ -598,7 +601,10 @@ p, li { white-space: pre-wrap; }
                   <item>
                    <layout class="QVBoxLayout" name="point_x_layout_2">
                     <item>
-                     <widget class="QLabel" name="label_6">
+                     <widget class="QLabel" name="Parameter_lable">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
                       <property name="text">
                        <string>Parameter</string>
                       </property>
@@ -612,6 +618,9 @@ p, li { white-space: pre-wrap; }
                     </item>
                     <item>
                      <widget class="QLineEdit" name="Parameter_digital">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
                       <property name="statusTip">
                        <string>Enter your parameter.</string>
                       </property>
@@ -624,11 +633,31 @@ p, li { white-space: pre-wrap; }
                   </item>
                   <item>
                    <widget class="QPushButton" name="Parameter_update">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
                     <property name="statusTip">
                      <string>Update the data to Parameter List.</string>
                     </property>
                     <property name="text">
                      <string>Update</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="Line" name="Parameter_line">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="Parameter_add">
+                    <property name="text">
+                     <string>Add a Parameter</string>
                     </property>
                    </widget>
                   </item>

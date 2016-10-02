@@ -59,26 +59,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         #No Save
         self.Workbook_Change = False
+        #Default Setting
+        self.Default_canvas_view = 200
+        self.Default_Environment_variables = "../"
+        self.Default_Bits = 8
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
         self.Resolve()
-        #Solve & Script & Path & DOF
+        #Solve & Script & Path & DOF & Mask & Parameter
         self.Solvefail = False
         self.Script = ""
         self.Slvs_Script = ""
         self.Path_data = []
         self.Path_Run_list = []
         self.DOF = 0
-        #Mask
-        self.Mask = None
         self.Mask_Change()
-        #Default
-        self.Default_canvas_view = 200
-        self.Default_Environment_variables = "../"
         self.init_Right_click_menu()
+        self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$')))
     
     def init_Right_click_menu(self):
         #qpainterWindow Right-click menu
@@ -174,6 +174,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Parameter_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
         self.Parameter_Widget.customContextMenuRequested.connect(self.on_parameter_context_menu)
         self.popMenu_parameter = QMenu(self)
+        self.action_parameter_right_click_menu_copy = QAction("Copy Parameter", self)
+        self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_copy)
         self.action_parameter_right_click_menu_add = QAction("Add a Parameter", self)
         self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_add)
         self.popMenu_parameter.addSeparator()
@@ -210,7 +212,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>=2)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
-        if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy()
+        if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
         elif action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
         elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
@@ -264,28 +266,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Piston_Spring_triggered(self.Rod.currentRow())
         elif action == self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(self.Rod.currentRow())
     def on_parameter_context_menu(self, point):
+        self.action_parameter_right_click_menu_copy.setVisible(self.Parameter_list.currentColumn()==1)
         self.action_parameter_right_click_menu_move_up.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(self.Parameter_list.currentRow()>=1))
         self.action_parameter_right_click_menu_move_down.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(self.Parameter_list.currentRow()<=self.Parameter_list.rowCount()-2))
         self.action_parameter_right_click_menu_delete.setEnabled(self.Parameter_list.rowCount()>=1)
         action = self.popMenu_parameter.exec_(self.Parameter_Widget.mapToGlobal(point))
-        if action == self.action_parameter_right_click_menu_add:
-            rowPosition = self.Parameter_list.rowCount()
-            self.Parameter_list.insertRow(rowPosition)
-            name_set = 0
-            for i in range(rowPosition):
-                if 'n'+str(name_set) == self.Parameter_list.item(i, 0).text(): name_set += 1
-            name_set = QTableWidgetItem('n'+str(name_set))
-            name_set.setFlags(Qt.ItemIsEnabled)
-            digit_set = QTableWidgetItem("0.0")
-            digit_set.setFlags(Qt.ItemIsEnabled)
-            commit_set = QTableWidgetItem("Not committed yet.")
-            commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
-            self.Parameter_list.setItem(rowPosition, 0, name_set)
-            self.Parameter_list.setItem(rowPosition, 1, digit_set)
-            self.Parameter_list.setItem(rowPosition, 2, commit_set)
-            self.Workbook_noSave()
-            self.Mask_Change()
-            self.Resolve()
+        if action == self.action_parameter_right_click_menu_copy: self.Coordinate_Copy(self.Parameter_list)
+        elif action == self.action_parameter_right_click_menu_add: self.on_parameter_add()
         elif action == self.action_parameter_right_click_menu_move_up:
             table = self.Parameter_list
             row = self.Parameter_list.currentRow()
@@ -343,9 +330,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 table.setItem(j, 0, QTableWidgetItem(name+str(j)))
             self.Workbook_noSave()
         except: pass
-    def Coordinate_Copy(self):
-        clipboard = QClipboard()
-        clipboard.setText(self.Entiteis_Point.currentItem().text())
+    def Coordinate_Copy(self, table):
+        clipboard = QApplication.clipboard()
+        clipboard.setText(table.currentItem().text())
     
     #Close Event
     def closeEvent(self, event):
@@ -718,6 +705,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName = fileName.replace(".db", "")
             fileName += ".db"
             #TODO: SQLite
+    
+    def on_parameter_add(self):
+        rowPosition = self.Parameter_list.rowCount()
+        self.Parameter_list.insertRow(rowPosition)
+        name_set = 0
+        for i in range(rowPosition):
+            if 'n'+str(name_set) == self.Parameter_list.item(i, 0).text(): name_set += 1
+        name_set = QTableWidgetItem('n'+str(name_set))
+        name_set.setFlags(Qt.ItemIsEnabled)
+        digit_set = QTableWidgetItem("0.0")
+        digit_set.setFlags(Qt.ItemIsEnabled)
+        commit_set = QTableWidgetItem("Not committed yet.")
+        commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
+        self.Parameter_list.setItem(rowPosition, 0, name_set)
+        self.Parameter_list.setItem(rowPosition, 1, digit_set)
+        self.Parameter_list.setItem(rowPosition, 2, commit_set)
+        self.Workbook_noSave()
+        self.Mask_Change()
+        self.Resolve()
+    
+    @pyqtSlot()
+    def on_Parameter_add_clicked(self): self.on_parameter_add()
     
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
@@ -1483,10 +1492,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.AuxLine_limit_color = 8
     
     def Mask_Change(self):
-        param_10 = '[1-'+str(int(self.Parameter_list.rowCount()/10))+']?' if self.Parameter_list.rowCount()>=10 else ''
-        param_use = '(^[n]'+param_10+'[0-'+str(int(self.Parameter_list.rowCount())-1)+']$|' if self.Parameter_list.rowCount()>=1 else ''
-        mask = param_use+'^[-]?([1-9][0-9]{1,2})?[0-9][.][0-9]{1,4}$'
-        if param_use: mask += ')'
+        row_Count = str(self.Parameter_list.rowCount()-1)
+        param = '(('
+        for i in range(len(row_Count)):
+            param += '[1-'+row_Count[i]+']' if i==0 and not len(row_Count)<=1 else '[0-'+row_Count[i]+']'
+        param += ')|'
+        param_100 = '[0-9]{1,'+str(len(row_Count)-2)+'}' if len(row_Count)>2 else ''
+        param_20 = '([1-'+str(int(row_Count[0])-1)+']'+param_100+')?' if self.Parameter_list.rowCount()>19 else ''
+        if len(row_Count)>1: param += param_20+'[0-9]'
+        param += ')'
+        param_use = '^[n]'+param+'$|' if self.Parameter_list.rowCount()>=1 else ''
+        mask = '('+param_use+'^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$)'
+        print(param_use)
         self.Mask = QRegExpValidator(QRegExp(mask))
         self.X_coordinate.setValidator(self.Mask)
         self.Y_coordinate.setValidator(self.Mask)
@@ -1501,6 +1518,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Parameter_num.setPlainText("N/A")
             self.Parameter_digital.setPlaceholderText("0.0")
             self.Parameter_digital.clear()
+        self.Parameter_num.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
+        self.Parameter_digital.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
+        self.Parameter_lable.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
+        self.Parameter_update.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
     
     @pyqtSlot()
     def on_Parameter_update_clicked(self):
