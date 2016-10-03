@@ -16,6 +16,7 @@ from .info.info import Info_show
 from .info.help import Help_info_show
 from .info.script import Script_Dialog
 from .info.path_point_data import path_point_data_show
+from .info.options import options_show
 #Warning Dialog Ports
 from .warning.reset_workbook import reset_show
 from .warning.zero_value import zero_show
@@ -1531,6 +1532,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int)
     def on_Parameter_list_cellChanged(self, row, column):
         if column in [1, 2]: self.Parameter_list.item(row, column).setToolTip(self.Parameter_list.item(row, column).text())
+    
+    @pyqtSlot()
+    def on_action_Prefenece_triggered(self):
+        dlg = options_show()
+        dlg.show()
+        if dlg.exec_():
+            pass
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["_table_\t"])

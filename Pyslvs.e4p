@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-10-01, 11:31:13 -->
+<!-- Saved: 2016-10-03, 18:26:54 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -39,12 +39,14 @@
     <Source>core/draw/draw_stay_chain.py</Source>
     <Source>core/info/Ui_help.py</Source>
     <Source>core/info/Ui_info.py</Source>
+    <Source>core/info/Ui_options.py</Source>
     <Source>core/info/Ui_path_point_data.py</Source>
     <Source>core/info/Ui_script.py</Source>
     <Source>core/info/Ui_version.py</Source>
     <Source>core/info/__init__.py</Source>
     <Source>core/info/help.py</Source>
     <Source>core/info/info.py</Source>
+    <Source>core/info/options.py</Source>
     <Source>core/info/path_point_data.py</Source>
     <Source>core/info/script.py</Source>
     <Source>core/info/version.py</Source>
@@ -102,6 +104,7 @@
     <Form>core/draw/draw_stay_chain.ui</Form>
     <Form>core/info/help.ui</Form>
     <Form>core/info/info.ui</Form>
+    <Form>core/info/options.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
     <Form>core/info/script.ui</Form>
     <Form>core/info/version.ui</Form>

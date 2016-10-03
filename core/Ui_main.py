@@ -774,7 +774,7 @@ class Ui_MainWindow(object):
         self.action_Get_Help.setIcon(icon21)
         self.action_Get_Help.setObjectName("action_Get_Help")
         self.action_Prefenece = QtWidgets.QAction(MainWindow)
-        self.action_Prefenece.setEnabled(False)
+        self.action_Prefenece.setEnabled(True)
         icon22 = QtGui.QIcon()
         icon22.addPixmap(QtGui.QPixmap(":/icons/shaded.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Prefenece.setIcon(icon22)

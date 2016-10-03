@@ -1761,7 +1761,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Prefenece">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
