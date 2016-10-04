@@ -661,9 +661,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Solvespace models(*.slvs)')
         if fileName:
             solvespace = Solvespace()
-            solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
-            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
-            self.Slvs_Script = solvespace.Slvs_Script
+            self.Slvs_Script = solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
             fileName = fileName.replace(".slvs", "")+".slvs"
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(self.Slvs_Script)
@@ -697,6 +696,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pixmap = self.qpainterWindow.grab()
             pixmap.save(fileName, format = sub)
             print("Saved to:"+str(fileName))
+    
+    @pyqtSlot()
+    def on_actionOutput_to_DXF_triggered(self):
+        print("Saving to DXF...")
+        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'AutoCAD DXF (*.dxf)')
+        if fileName:
+            fileName = fileName.replace(".dxf", "")
+            fileName += ".dxf"
+            solvespace = Solvespace()
+            solvespace.dxf_process(fileName, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
     
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):

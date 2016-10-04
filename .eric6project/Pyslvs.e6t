@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-10-03, 18:26:54 -->
+<!-- Saved: 2016-10-04, 21:13:29 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{68115379-6a79-455e-9196-42a2f610029f}">
+  <Task priority="1" completed="False" type="1" uid="{ef9a8764-7f6f-49d0-960c-3fd6cb6751d2}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-10-02, 14:02:49</Created>
+    <Created>2016-10-04, 20:29:00</Created>
     <Resource>
       <Filename>core/calculation.py</Filename>
-      <Linenumber>561</Linenumber>
+      <Linenumber>335</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{d5da2257-5b0f-4702-b2d7-b1f4efed0e8b}">
+  <Task priority="1" completed="False" type="1" uid="{4951df70-1a85-4848-8703-c508687f8afd}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-10-03, 18:22:15</Created>
+    <Created>2016-10-04, 20:46:03</Created>
     <Resource>
       <Filename>core/main.py</Filename>
       <Linenumber>562</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{240e750e-d2e8-47e4-adc3-7011a3a2fe8f}">
+  <Task priority="1" completed="False" type="1" uid="{aebe0967-f43e-4184-9f20-01042e4a3187}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-10-03, 18:22:15</Created>
+    <Created>2016-10-04, 20:46:03</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>708</Linenumber>
+      <Linenumber>718</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{e6ac1476-d6f3-4189-b223-cb7441d8316f}">
+    <Summary>TODO:</Summary>
+    <Description></Description>
+    <Created>2016-10-04, 20:55:16</Created>
+    <Resource>
+      <Filename>core/io/slvs_type.py</Filename>
+      <Linenumber>237</Linenumber>
     </Resource>
   </Task>
 </Tasks>

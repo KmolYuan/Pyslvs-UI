@@ -1585,6 +1585,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="action_Output_to_Picture"/>
     <addaction name="action_Output_to_Script"/>
+    <addaction name="actionOutput_to_DXF"/>
     <addaction name="action_Output_to_S_QLite_Data_Base"/>
     <addaction name="separator"/>
     <addaction name="actionMi_nimized"/>
@@ -2311,6 +2312,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionOutput_to_DXF">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
+   </property>
+   <property name="text">
+    <string>Output to &amp;DXF</string>
    </property>
   </action>
  </widget>

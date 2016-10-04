@@ -992,6 +992,11 @@ class Ui_MainWindow(object):
         icon52.addPixmap(QtGui.QPixmap(":/icons/Solvespace.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Output_to_Solvespace.setIcon(icon52)
         self.action_Output_to_Solvespace.setObjectName("action_Output_to_Solvespace")
+        self.actionOutput_to_DXF = QtWidgets.QAction(MainWindow)
+        icon53 = QtGui.QIcon()
+        icon53.addPixmap(QtGui.QPixmap(":/icons/dxf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionOutput_to_DXF.setIcon(icon53)
+        self.actionOutput_to_DXF.setObjectName("actionOutput_to_DXF")
         self.menuFile.addAction(self.action_New_Workbook)
         self.menuFile.addAction(self.action_Load_Workbook)
         self.menuFile.addAction(self.action_Output_Coordinate_to_Text_File)
@@ -999,6 +1004,7 @@ class Ui_MainWindow(object):
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.action_Output_to_Picture)
         self.menuFile.addAction(self.action_Output_to_Script)
+        self.menuFile.addAction(self.actionOutput_to_DXF)
         self.menuFile.addAction(self.action_Output_to_S_QLite_Data_Base)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionMi_nimized)
@@ -1338,6 +1344,7 @@ class Ui_MainWindow(object):
         self.actionDisplay_Point_Mark.setText(_translate("MainWindow", "Display Point &Mark"))
         self.action_Output_to_Solvespace.setText(_translate("MainWindow", "Output to Solvespace (Alpha)"))
         self.action_Output_to_Solvespace.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
+        self.actionOutput_to_DXF.setText(_translate("MainWindow", "Output to &DXF"))
 
 import icons_rc
 
