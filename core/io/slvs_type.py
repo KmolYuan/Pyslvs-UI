@@ -236,14 +236,16 @@ AddEntity
 """
     #TODO:
     def output(self):
+        
         return self.Slvs_Script
     
-    def point(self, num, x, y):
+    def point(self, x, y):
         self.AddParam += [[x, y]]
-        self.AddRequest += [num]
+        self.AddRequest += ["Point"]
     
     def line(self, x1, y1, x2, y2):
-        """"""
+        self.AddParam += [[x1, y1], [x2, y2]]
+        self.AddRequest += ["Line"]
     
     def slider(self, pt, line):
         """"""

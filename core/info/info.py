@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-
-"""
-Module implementing Info_Dialog.
-"""
 from PyQt5.QtWidgets import QDialog
 from .Ui_info import Ui_Info_Dialog
 

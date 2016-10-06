@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-
-"""
-Module implementing version_show.
-"""
-
+from sys import version_info
+import csv
 from PyQt5.QtWidgets import QDialog
 from .Ui_version import Ui_About_Dialog
-from sys import version_info
 
 version_number = "0.2.0"
 
@@ -16,8 +12,9 @@ class version_show(QDialog, Ui_About_Dialog):
         self.setupUi(self)
 
 def show_version():
-    print("[Pyslvs "+version_number+"]",
-        "Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
+    commit = show_commit()
+    print("[Pyslvs "+version_number+"]\nLast Commit: "+commit)
+    print("Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
     try:
         try: from PyQt5.QtCore import qVersion
         except: from PyQt4.QtCore import qVersion
@@ -38,3 +35,11 @@ def show_version():
         print("QScintilla Version:", qsciVersion.strip())
     except: print("No QScintilla.")
     print("-------")
+
+def show_commit():
+    data = []
+    with open('./.git/logs/refs/heads/master', newline="") as stream:
+        reader = csv.reader(stream, delimiter='\n', quotechar='|')
+        for row in reader: data += ', '.join(row).split(', ')
+    n = data[-1][41:81]
+    return n
