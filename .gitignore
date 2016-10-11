@@ -1,3 +1,7 @@
+./core/_slvs.so
+./core/_slvs.pyd
+./core/libslvs.so
+./core/slvs.py
 *.pyc
 *.o*
 *.def
