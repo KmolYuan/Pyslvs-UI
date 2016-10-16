@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-10-04, 19:01:14 -->
+<!-- Saved: 2016-10-16, 19:29:13 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -51,6 +51,7 @@
     <Source>core/info/script.py</Source>
     <Source>core/info/version.py</Source>
     <Source>core/io/dxf_type.py</Source>
+    <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
     <Source>core/list_process.py</Source>
     <Source>core/main.py</Source>
@@ -78,7 +79,6 @@
     <Source>core/simulate/run_Path_Track.py</Source>
     <Source>core/simulate/set_drive_shaft.py</Source>
     <Source>core/simulate/set_slider.py</Source>
-    <Source>core/slvs.py</Source>
     <Source>core/warning/Ui_contradict_value.py</Source>
     <Source>core/warning/Ui_kill_origin.py</Source>
     <Source>core/warning/Ui_repeated_value.py</Source>

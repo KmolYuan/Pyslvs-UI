@@ -13,8 +13,8 @@ from PyQt5.QtGui import *
 if platform.system().lower()=="windows":
     if py_nm=="3.5": from .kernel.py35w.slvs import *
 elif platform.system().lower()=="linux":
-    if py_nm=="3.5": from .kernel.py35.slvs import *
-    elif py_nm=="3.4": from .kernel.py34.slvs import *
+    if py_nm=="3.4": from .kernel.py34.slvs import *
+    elif py_nm=="3.5": from .kernel.py35.slvs import *
 else: print("Python Version Not Support.")
 
 class Solvespace():
