@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-10-16, 23:08:59 -->
+<!-- Saved: 2016-10-17, 00:03:02 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
   <Task priority="1" completed="False" type="1" uid="{7b0b79a2-d42c-4c4d-afb3-061200227dd6}">
@@ -13,24 +13,6 @@
       <Linenumber>237</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{67e31acb-2dce-4820-9950-894d42440b89}">
-    <Summary>TODO:</Summary>
-    <Description></Description>
-    <Created>2016-10-16, 18:59:53</Created>
-    <Resource>
-      <Filename>core/main.py</Filename>
-      <Linenumber>562</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{091ee490-2f10-4889-adbe-4699771b0928}">
-    <Summary>TODO: SQLite</Summary>
-    <Description></Description>
-    <Created>2016-10-16, 18:59:53</Created>
-    <Resource>
-      <Filename>core/main.py</Filename>
-      <Linenumber>718</Linenumber>
-    </Resource>
-  </Task>
   <Task priority="1" completed="False" type="1" uid="{d4f031d9-e514-41ad-99c1-5a53fcbee6e0}">
     <Summary>TODO:</Summary>
     <Description></Description>
@@ -38,6 +20,24 @@
     <Resource>
       <Filename>core/calculation.py</Filename>
       <Linenumber>344</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{f2528021-c35e-45e0-9247-35f9a35e1d22}">
+    <Summary>TODO:</Summary>
+    <Description></Description>
+    <Created>2016-10-17, 00:02:59</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>583</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{e2dd0376-87cb-4dc4-a813-62b4cb3ae389}">
+    <Summary>TODO: SQLite</Summary>
+    <Description></Description>
+    <Created>2016-10-17, 00:02:59</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>739</Linenumber>
     </Resource>
   </Task>
 </Tasks>
