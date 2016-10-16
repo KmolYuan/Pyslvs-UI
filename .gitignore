@@ -7,5 +7,6 @@ core/slvs.py
 *.def
 *.dll
 *.a
+*.ini
 
 *__pycache__*
