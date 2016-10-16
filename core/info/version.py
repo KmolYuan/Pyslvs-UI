@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from sys import version_info
-import csv
+import csv, platform
 from PyQt5.QtWidgets import QDialog
 from .Ui_version import Ui_About_Dialog
 
@@ -14,6 +14,7 @@ class version_show(QDialog, Ui_About_Dialog):
 def show_version():
     commit = show_commit()
     print("[Pyslvs "+version_number+"]\nLast Commit: "+commit)
+    print("OS Type: "+platform.system())
     print("Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
     try:
         try: from PyQt5.QtCore import qVersion
