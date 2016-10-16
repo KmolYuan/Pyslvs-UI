@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-10-06, 10:54:50 -->
+<!-- Saved: 2016-10-12, 12:07:20 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
   <Task priority="1" completed="False" type="1" uid="{ef9a8764-7f6f-49d0-960c-3fd6cb6751d2}">
@@ -13,31 +13,31 @@
       <Linenumber>335</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{55b15b63-fa37-4c74-bd57-c803f1b0ef7c}">
+  <Task priority="1" completed="False" type="1" uid="{8c9571f1-b776-42ac-a25b-22477a38c3a3}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-10-06, 10:26:28</Created>
+    <Created>2016-10-06, 11:06:28</Created>
+    <Resource>
+      <Filename>core/io/slvs_type.py</Filename>
+      <Linenumber>237</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{ddc59ae3-311a-4585-9ca5-58d873f73ba2}">
+    <Summary>TODO:</Summary>
+    <Description></Description>
+    <Created>2016-10-10, 14:29:50</Created>
     <Resource>
       <Filename>core/main.py</Filename>
       <Linenumber>562</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{58048401-22f1-473b-a27e-9385d66835ae}">
+  <Task priority="1" completed="False" type="1" uid="{7e019113-a4e6-4478-8db0-7f78639a6aaf}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-10-06, 10:26:28</Created>
+    <Created>2016-10-10, 14:29:50</Created>
     <Resource>
       <Filename>core/main.py</Filename>
       <Linenumber>718</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{df5ecd8a-7c97-4e2d-af82-33bc870fc719}">
-    <Summary>TODO:</Summary>
-    <Description></Description>
-    <Created>2016-10-06, 10:54:47</Created>
-    <Resource>
-      <Filename>core/io/slvs_type.py</Filename>
-      <Linenumber>237</Linenumber>
     </Resource>
   </Task>
 </Tasks>

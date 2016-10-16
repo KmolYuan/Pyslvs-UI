@@ -244,7 +244,7 @@ AddEntity
         self.AddRequest += ["Point"]
     
     def line(self, x1, y1, x2, y2):
-        self.AddParam += [[x1, y1], [x2, y2]]
+        self.AddParam += [[[x1, y1], [x2, y2]]]
         self.AddRequest += ["Line"]
     
     def slider(self, pt, line):
