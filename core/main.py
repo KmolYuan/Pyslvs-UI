@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
 
 #CSV & SQLite
-import csv, math
+import sys, csv, math
 from peewee import *
 #PyQt5
 from PyQt5.QtCore import *
@@ -101,6 +101,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Mask_Change()
         self.init_Right_click_menu()
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$')))
+        self.init_open_file()
+    
+    def init_open_file(self):
+        for i in sys.argv:
+            if "-o" in i:
+                fileName = sys.argv[sys.argv.index(i)][2::]
+                self.load_Workbook(fileName)
+                break
     
     def init_Right_click_menu(self):
         #qpainterWindow Right-click menu
@@ -533,7 +541,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_data_show.setEnabled(False)
         print("Reset the workbook.")
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - New Workbook"))
-    def load_Workbook(self):
+    def load_Workbook(self, fileName=False):
         try:
             self.MeasurementWidget.deleteLater()
             del self.MeasurementWidget
@@ -562,8 +570,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.removePath()
         self.Resolve()
         print("Reset workbook.")
-        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
-        if fileName:
+        if fileName==False: fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
+        if fileName[-4::]=='.csv':
             print("Get:"+fileName)
             data = []
             with open(fileName, newline="") as stream:

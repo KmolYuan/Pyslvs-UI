@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from sys import version_info
+from sys import version_info, argv
 import csv, platform
 from PyQt5.QtWidgets import QDialog
 from .Ui_version import Ui_About_Dialog
@@ -11,9 +11,11 @@ class version_show(QDialog, Ui_About_Dialog):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
 
-def show_version():
+def show_info():
     commit = show_commit()
-    print("[Pyslvs "+version_number+"]\nLast Commit: "+commit)
+    print("[Pyslvs "+version_number+"]")
+    if "-g" in argv or "--git" in argv:
+        print("Last Commit: "+commit)
     print("OS Type: "+platform.system())
     print("Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
     try:
@@ -36,6 +38,20 @@ def show_version():
         print("QScintilla Version:", qsciVersion.strip())
     except: print("No QScintilla.")
     print("-------")
+
+def show_help():
+    show_info()
+    print("""==Help message==
+Arguments:
+-t\t--test\t\tTest Python Solvespace library.
+-g\t--git\t\tShow git infomations in the initialization.
+-o\t\t\tOpen csv file with Pyslvs.
+-v\t--version\tOnly show version infomations and exit.
+-h\t--help\t\tShow this help message and not to start main progream.
+================""")
+
+def show_version():
+    print("[Pyslvs "+version_number+"]\nPython Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
 
 def show_commit():
     data = []

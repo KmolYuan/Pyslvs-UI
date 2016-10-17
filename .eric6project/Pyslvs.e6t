@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-10-17, 00:23:04 -->
+<!-- Saved: 2016-10-17, 20:41:49 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{e10bd134-3fcb-4c19-8bdf-43e0c1b5830c}">
+  <Task priority="1" completed="False" type="1" uid="{91c728cd-3e14-4f35-b403-53209191a982}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-10-17, 00:18:21</Created>
-    <Resource>
-      <Filename>core/main.py</Filename>
-      <Linenumber>583</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{3711be9e-829f-49dd-b56b-70e75efe0ea9}">
-    <Summary>TODO: SQLite</Summary>
-    <Description></Description>
-    <Created>2016-10-17, 00:18:21</Created>
-    <Resource>
-      <Filename>core/main.py</Filename>
-      <Linenumber>739</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{f26a424b-22e8-4557-a38c-9802ff5d81c5}">
-    <Summary>TODO:</Summary>
-    <Description></Description>
-    <Created>2016-10-17, 00:19:47</Created>
+    <Created>2016-10-17, 10:18:49</Created>
     <Resource>
       <Filename>core/calculation.py</Filename>
       <Linenumber>344</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{aaa45857-3e9d-407c-bb77-9e22162d62ec}">
+    <Summary>TODO:</Summary>
+    <Description></Description>
+    <Created>2016-10-17, 20:41:46</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>591</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{d91d9f51-f5c6-4f28-9204-bad97ee75b99}">
+    <Summary>TODO: SQLite</Summary>
+    <Description></Description>
+    <Created>2016-10-17, 20:41:46</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>747</Linenumber>
     </Resource>
   </Task>
 </Tasks>
