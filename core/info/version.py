@@ -43,11 +43,21 @@ def show_help():
     show_info()
     print("""==Help message==
 Arguments:
+
+* python3 launch_pyslvs.py [FileName] [arg1] [arg2] ...
+
+Transfer from CSV data sheet(And not to start main program):
+
+--check\tCheck the csv file meets constraint, and save.
+--dxf\tTransfer to DXF image.
+--slvs\tTransfer to Solvespace file.
+
+Information and Debug Function:
+
 -t\t--test\t\tTest Python Solvespace library.
 -g\t--git\t\tShow git infomations in the initialization.
--o\t\t\tOpen csv file with Pyslvs.
--v\t--version\tOnly show version infomations and exit.
--h\t--help\t\tShow this help message and not to start main progream.
+-v\t--version\tOnly show version infomations and not to start main program.
+-h\t--help\t\tShow this help message and not to start main program.
 ================""")
 
 def show_version():

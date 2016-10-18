@@ -105,7 +105,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def init_open_file(self):
         for i in sys.argv:
-            if "-o" in i:
+            if ".csv" in i:
                 fileName = sys.argv[sys.argv.index(i)][2::]
                 self.load_Workbook(fileName)
                 break
@@ -609,7 +609,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(bookmark+1, len(data), 5):
                 bookmark = i
                 if '_' in data[i]: break
-                Rod_list(self.Parameter_list, data[i], data[i+1], data[i+2], data[i+3], data[i+4], False)
+                Rod_list(self.Rod, data[i], data[i+1], data[i+2], data[i+3], data[i+4], False)
             for i in range(bookmark+1, len(data), 3):
                 bookmark = i
                 if '_' in data[i]: break
