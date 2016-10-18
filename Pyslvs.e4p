@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
+<<<<<<< HEAD
 <!-- Saved: 2016-10-17, 00:04:23 -->
+=======
+<!-- Saved: 2016-10-17, 00:23:04 -->
+>>>>>>> 9220cc60634f2f88381e085b4be8599e28e5978a
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -50,6 +54,7 @@
     <Source>core/info/path_point_data.py</Source>
     <Source>core/info/script.py</Source>
     <Source>core/info/version.py</Source>
+    <Source>core/io/__init__.py</Source>
     <Source>core/io/dxf_type.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
@@ -68,6 +73,8 @@
     <Source>core/simulate/Ui_set_drive_shaft.py</Source>
     <Source>core/simulate/Ui_set_rod.py</Source>
     <Source>core/simulate/Ui_set_slider.py</Source>
+    <Source>core/simulate/__init__.py</Source>
+    <Source>core/simulate/delete_drive_shaft.py</Source>
     <Source>core/simulate/delete_rod.py</Source>
     <Source>core/simulate/delete_slider.py</Source>
     <Source>core/simulate/edit_drive_shaft.py</Source>
@@ -78,6 +85,7 @@
     <Source>core/simulate/run_Measurement.py</Source>
     <Source>core/simulate/run_Path_Track.py</Source>
     <Source>core/simulate/set_drive_shaft.py</Source>
+    <Source>core/simulate/set_rod.py</Source>
     <Source>core/simulate/set_slider.py</Source>
     <Source>core/warning/Ui_contradict_value.py</Source>
     <Source>core/warning/Ui_kill_origin.py</Source>

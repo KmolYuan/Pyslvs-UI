@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE UserProject SYSTEM "UserProject-4.0.dtd">
 <!-- eric6 user project file for project Pyslvs -->
+<<<<<<< HEAD
 <!-- Saved: 2016-10-17, 21:46:39 -->
+=======
+<!-- Saved: 2016-10-17, 10:05:53 -->
+>>>>>>> 9220cc60634f2f88381e085b4be8599e28e5978a
 <!-- Copyright (C) 2016 Tiberium,  -->
 <UserProject version="4.0"/>

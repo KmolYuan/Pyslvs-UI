@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
+<<<<<<< HEAD
 <!-- Saved: 2016-10-17, 21:46:39 -->
+=======
+<!-- Saved: 2016-10-17, 20:41:49 -->
+>>>>>>> 9220cc60634f2f88381e085b4be8599e28e5978a
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{7b0b79a2-d42c-4c4d-afb3-061200227dd6}">
+  <Task priority="1" completed="False" type="1" uid="{91c728cd-3e14-4f35-b403-53209191a982}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-10-16, 18:32:08</Created>
-    <Resource>
-      <Filename>core/io/slvs_type.py</Filename>
-      <Linenumber>237</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{d4f031d9-e514-41ad-99c1-5a53fcbee6e0}">
-    <Summary>TODO:</Summary>
-    <Description></Description>
-    <Created>2016-10-16, 23:08:56</Created>
+    <Created>2016-10-17, 10:18:49</Created>
     <Resource>
       <Filename>core/calculation.py</Filename>
       <Linenumber>344</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{f2528021-c35e-45e0-9247-35f9a35e1d22}">
+  <Task priority="1" completed="False" type="1" uid="{aaa45857-3e9d-407c-bb77-9e22162d62ec}">
     <Summary>TODO:</Summary>
     <Description></Description>
-    <Created>2016-10-17, 00:02:59</Created>
+    <Created>2016-10-17, 20:41:46</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>583</Linenumber>
+      <Linenumber>591</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{e2dd0376-87cb-4dc4-a813-62b4cb3ae389}">
+  <Task priority="1" completed="False" type="1" uid="{d91d9f51-f5c6-4f28-9204-bad97ee75b99}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-10-17, 00:02:59</Created>
+    <Created>2016-10-17, 20:41:46</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>739</Linenumber>
+      <Linenumber>747</Linenumber>
     </Resource>
   </Task>
 </Tasks>

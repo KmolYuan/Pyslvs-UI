@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#SLVS Version
+#System infomation
 import sys, platform
 py_nm = sys.version[0:sys.version.find(" ")][0:3]
 #IO
