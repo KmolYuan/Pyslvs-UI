@@ -46,11 +46,7 @@ Arguments:
 
 * python3 launch_pyslvs.py [FileName] [arg1] [arg2] ...
 
-Transfer from CSV data sheet(And not to start main program):
-
---check\tCheck the csv file meets constraint, and save.
---dxf\tTransfer to DXF image.
---slvs\tTransfer to Solvespace file.
+Open a file directly by put file name behind the launch command.
 
 Information and Debug Function:
 
