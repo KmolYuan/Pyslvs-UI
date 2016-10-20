@@ -5,6 +5,21 @@ A GUI-based tool use Ubuntu version to solve 2D linkage subject.
 
 ![](https://raw.githubusercontent.com/coursemdetw/project_site_files/gh-pages/files/2016spring/g2/Python_solvespace/0928_02.jpg)
 
+How to use
+---
+
+Open GUI by Python:
+
+<pre>
+$python3 launch_pyslvs.py
+</pre>
+
+Or see help:
+
+<pre>
+$python3 launch_pyslvs.py --help
+</pre>
+
 Input formate
 ---
 
