@@ -53,7 +53,17 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QSpinBox" name="spinBox"/>
+          <widget class="QSpinBox" name="ZoomFactor">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>10</number>
+           </property>
+           <property name="value">
+            <number>2</number>
+           </property>
+          </widget>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label">
@@ -66,7 +76,7 @@
           <widget class="QLineEdit" name="EnvVariable"/>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="TableToolLocation">
            <item>
             <property name="text">
              <string>Left</string>
@@ -80,7 +90,7 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QComboBox" name="comboBox_2">
+          <widget class="QComboBox" name="ViewBarLocation">
            <item>
             <property name="text">
              <string>Buttom</string>
@@ -115,7 +125,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QComboBox" name="comboBox_3">
+          <widget class="QComboBox" name="ToolPanelLocation">
            <item>
             <property name="text">
              <string>Buttom</string>
@@ -255,9 +265,25 @@
  <connections>
   <connection>
    <sender>Exit_button</sender>
-   <signal>clicked(QAbstractButton*)</signal>
+   <signal>accepted()</signal>
    <receiver>Dialog</receiver>
    <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>336</x>
+     <y>462</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>261</x>
+     <y>242</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Exit_button</sender>
+   <signal>rejected()</signal>
+   <receiver>Dialog</receiver>
+   <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>336</x>

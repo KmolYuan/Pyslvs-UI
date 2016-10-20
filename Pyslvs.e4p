@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-10-18, 21:24:06 -->
+<!-- Saved: 2016-10-20, 12:01:03 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -54,7 +54,6 @@
     <Source>core/io/dxf_type.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
-    <Source>core/io/transfer.py</Source>
     <Source>core/list_process.py</Source>
     <Source>core/main.py</Source>
     <Source>core/simulate/Ui_delete_drive_shaft.py</Source>
