@@ -74,6 +74,8 @@ from .canvas import DynamicCanvas
 #Solve
 from .calculation import Solvespace
 from .list_process import *
+#Option
+from .io.settings import Pyslvs_Settings_ini
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -82,9 +84,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #No Save
         self.Workbook_Change = False
         #Default Setting
-        self.Default_canvas_view = 200
-        self.Default_Environment_variables = "../"
-        self.Default_Bits = 8
+        self.load_settings()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
@@ -102,6 +102,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.init_Right_click_menu()
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$')))
         self.init_open_file()
+    
+    def load_settings(self):
+        option_info = Pyslvs_Settings_ini()
+        self.Default_Environment_variables = option_info.Environment_variables
+        self.Default_canvas_view = option_info.Zoom_factor
+        self.Default_Bits = 8
     
     def init_open_file(self):
         for i in sys.argv:
@@ -1575,6 +1581,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Prefenece_triggered(self):
         dlg = options_show()
+        color_list = self.qpainterWindow.re_Color
+        for i in range(len(color_list)): dlg.LinkingLinesColor.insertItem(i, color_list[i])
+        for i in range(len(color_list)): dlg.StayChainColor.insertItem(i, color_list[i])
+        for i in range(len(color_list)): dlg.AuxiliaryLineColor.insertItem(i, color_list[i])
+        for i in range(len(color_list)): dlg.AuxiliaryLimitLineColor.insertItem(i, color_list[i])
+        for i in range(len(color_list)): dlg.TextColor.insertItem(i, color_list[i])
         dlg.show()
         if dlg.exec_():
             pass

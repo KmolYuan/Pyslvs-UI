@@ -17,6 +17,9 @@ class DynamicCanvas(QWidget):
         self.Xval = []
         self.Yval = []
         self.Blackground = Qt.white
+        self.color_link = Qt.darkGray
+        self.color_text = Qt.darkGray
+        self.color_chain = Qt.cyan
         self.origin_x = self.width()/2
         self.origin_y = self.height()/2
         self.drag = False
@@ -96,14 +99,14 @@ class DynamicCanvas(QWidget):
             pc = self.table_chain[i][2]
             pen = QPen()
             pen.setWidth(self.pen_width)
-            painter.setBrush(Qt.cyan)
+            painter.setBrush(self.color_chain)
             painter.drawPolygon(
                 QPointF(self.Xval[pa], self.Yval[pa]),
                 QPointF(self.Xval[pb], self.Yval[pb]),
                 QPointF(self.Xval[pc], self.Yval[pc]), fillRule=Qt.OddEvenFill)
             painter.setBrush(Qt.NoBrush)
             if self.Dimension:
-                pen.setColor(Qt.darkGray)
+                pen.setColor(self.color_text)
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
                 mp = QPointF((self.Xval[pa]+self.Xval[pb])/2, (self.Yval[pa]+self.Yval[pb])/2)
@@ -119,11 +122,11 @@ class DynamicCanvas(QWidget):
             point_end = QPointF(self.Xval[end], self.Yval[end])
             pen = QPen()
             pen.setWidth(self.pen_width)
-            pen.setColor(Qt.darkGray)
+            pen.setColor(self.color_link)
             painter.setPen(pen)
             painter.drawLine(point_start, point_end)
             if self.Dimension:
-                pen.setColor(Qt.darkGray)
+                pen.setColor(self.color_text)
                 painter.setPen(pen)
                 mp = QPointF((self.Xval[start]+self.Xval[end])/2, (self.Yval[start]+self.Yval[end])/2)
                 painter.setFont(QFont("Arial", self.Font_size))
@@ -199,7 +202,7 @@ class DynamicCanvas(QWidget):
             painter.setPen(pen)
             painter.drawPoint(point_center)
             if self.Point_mark:
-                pen.setColor(Qt.darkGray)
+                pen.setColor(self.color_text)
                 pen.setWidth(2)
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
