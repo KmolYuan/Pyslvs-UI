@@ -108,6 +108,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Default_Environment_variables = option_info.Environment_variables
         self.Default_canvas_view = option_info.Zoom_factor
         self.Default_Bits = 8
+        self.sym_part = False
     
     def init_open_file(self):
         for i in sys.argv:
@@ -449,7 +450,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         solvespace = Solvespace()
         fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "").split("/")[-1].split(".")[0]
         result, DOF = solvespace.static_process(table_point, table_line, table_chain,
-            table_shaft, table_slider, table_rod, fileName, self.Parameter_list)
+            table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.sym_part)
         self.Script = solvespace.Script
         if result==[]:
             self.Solvefail = True
@@ -1602,6 +1603,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             pass
+    
+    @pyqtSlot()
+    def on_symmetrical_part_clicked(self):
+        self.sym_part = self.symmetrical_part.isChecked()
+        print(self.sym_part)
+        self.Resolve()
 
 def CSV_notebook(writer, table, k):
     writer.writerow(["_table_\t"])

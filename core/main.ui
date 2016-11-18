@@ -1192,6 +1192,16 @@ p, li { white-space: pre-wrap; }
                         </column>
                        </widget>
                       </item>
+                      <item>
+                       <widget class="QCheckBox" name="symmetrical_part">
+                        <property name="text">
+                         <string>Symmetrical parts</string>
+                        </property>
+                        <property name="checked">
+                         <bool>false</bool>
+                        </property>
+                       </widget>
+                      </item>
                      </layout>
                     </widget>
                    </item>

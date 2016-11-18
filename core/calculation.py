@@ -114,7 +114,7 @@ wy = Point_num*2+6
             table_slider_l += [k]
         return table_point_l, table_line_l, table_chain_l, table_shaft_l, table_slider_l, table_rod_l
     
-    def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter):
+    def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, sym_part):
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
         sys = System(1000)
         #Pre-oder
@@ -163,7 +163,7 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
                 y = sys.add_param(table_point[i][1])
             else:
                 for j in range(len(table_shaft)):
-                    case = table_shaft[j][1]==i and table_shaft[j][4]
+                    case = table_shaft[j][1]==i and table_shaft[j][4] and not(sym_part)
                     if case:
                         angle = table_shaft[j][4]
                         other = -1 if angle >= 180 else 1
