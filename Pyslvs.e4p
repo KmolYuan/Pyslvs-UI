@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-10-20, 12:01:03 -->
+<!-- Saved: 2016-10-22, 12:03:14 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -51,6 +51,7 @@
     <Source>core/info/script.py</Source>
     <Source>core/info/version.py</Source>
     <Source>core/io/__init__.py</Source>
+    <Source>core/io/csv_check.py</Source>
     <Source>core/io/dxf_type.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>

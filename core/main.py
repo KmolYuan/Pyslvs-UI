@@ -125,6 +125,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
         self.action_painter_right_click_menu_fix_add = QAction("Add a Fixed Point", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
+        self.popMenu_painter.addSeparator()
+        self.action_painter_right_click_menu_dimension_add = QAction("Show Dimension", self)
+        self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_add)
         self.mouse_pos_x = 0.0
         self.mouse_pos_y = 0.0
         self.qpainterWindow.mouse_track.connect(self.context_menu_mouse_pos)
@@ -238,6 +241,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Points_list(table1, "Point"+str(table1.rowCount()), x, y, True, False)
             Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
             self.Resolve()
+        elif action == self.action_painter_right_click_menu_dimension_add:
+            if self.actionDisplay_Dimensions.isChecked()==False:
+                self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
+                self.action_painter_right_click_menu_dimension_add.setChecked(True)
+                self.actionDisplay_Dimensions.setChecked(True)
+            elif self.actionDisplay_Dimensions.isChecked()==True:
+                self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
+                self.action_painter_right_click_menu_dimension_add.setChecked(False)
+                self.actionDisplay_Dimensions.setChecked(False)
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x
