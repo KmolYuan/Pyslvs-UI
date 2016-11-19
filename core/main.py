@@ -70,7 +70,7 @@ from .simulate.run_Drive import Drive_show
 from .simulate.run_Measurement import Measurement_show
 from .simulate.run_AuxLine import AuxLine_show
 #DynamicCanvas
-from .canvas import DynamicCanvas
+from .canvas.canvas import DynamicCanvas
 #Solve
 from .calculation import Solvespace
 from .list_process import *
@@ -538,7 +538,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Drive.setChecked(False)
         except: pass
         try:
-            self.qpainterWindow.AuxLine_show = False
+            self.qpainterWindow.AuxLine['show'] = False
             self.AuxLineWidget.deleteLater()
             del self.AuxLineWidget
             self.AuxLine.setChecked(False)
@@ -572,7 +572,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Drive.setChecked(False)
         except: pass
         try:
-            self.qpainterWindow.AuxLine_show = False
+            self.qpainterWindow.AuxLine['show'] = False
             self.AuxLineWidget.deleteLater()
             del self.AuxLineWidget
             self.AuxLine.setChecked(False)
@@ -1392,7 +1392,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Point_Style_set(self, index): self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
-        self.qpainterWindow.Path_show = self.Path_data_show.checkState()
+        self.qpainterWindow.Path['show'] = self.Path_data_show.checkState()
         self.Reload_Canvas()
     
     @pyqtSlot()
@@ -1503,7 +1503,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_AuxLine_clicked(self):
         if not hasattr(self, 'AuxLineWidget'):
-            self.qpainterWindow.AuxLine_show = True
+            self.qpainterWindow.AuxLine['show'] = True
             self.qpainterWindow.AuxLine_H = True
             self.qpainterWindow.AuxLine_V = True
             table = self.Entiteis_Point
@@ -1513,13 +1513,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i in range(table.rowCount()): self.AuxLineWidget.Point.insertItem(i, icon, table.item(i, 0).text())
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color.insertItem(i, self.qpainterWindow.re_Color[i])
             for i in range(len(self.qpainterWindow.re_Color)): self.AuxLineWidget.Color_l.insertItem(i, self.qpainterWindow.re_Color[i])
-            self.AuxLineWidget.Point.setCurrentIndex(self.qpainterWindow.AuxLine_pt)
-            self.AuxLineWidget.Color.setCurrentIndex(self.qpainterWindow.AuxLine_color)
-            self.AuxLineWidget.Color_l.setCurrentIndex(self.qpainterWindow.AuxLine_limit_color)
+            self.AuxLineWidget.Point.setCurrentIndex(self.qpainterWindow.AuxLine['pt'])
+            self.AuxLineWidget.Color.setCurrentIndex(self.qpainterWindow.AuxLine['color'])
+            self.AuxLineWidget.Color_l.setCurrentIndex(self.qpainterWindow.AuxLine['limit_color'])
             self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
             self.mplLayout.insertWidget(1, self.AuxLineWidget)
         else:
-            self.qpainterWindow.AuxLine_show = False
+            self.qpainterWindow.AuxLine['show'] = False
             try:
                 self.AuxLineWidget.deleteLater()
                 del self.AuxLineWidget
@@ -1527,25 +1527,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Reload_Canvas()
     @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
     def draw_Auxline(self, pt, color, color_l, axe_H, axe_V, max_l, min_l, pt_change):
-        self.qpainterWindow.AuxLine_pt = pt
-        self.qpainterWindow.AuxLine_color = color
-        self.qpainterWindow.AuxLine_limit_color = color_l
+        self.qpainterWindow.AuxLine['pt'] = pt
+        self.qpainterWindow.AuxLine['color'] = color
+        self.qpainterWindow.AuxLine['limit_color'] = color_l
         if pt_change:
             self.qpainterWindow.Reset_Aux_limit()
             self.Reload_Canvas()
-        self.qpainterWindow.AuxLine_H = axe_H
-        self.qpainterWindow.AuxLine_V = axe_V
-        self.qpainterWindow.AuxLine_Max = max_l
-        self.qpainterWindow.AuxLine_Min = min_l
+        self.qpainterWindow.AuxLine['horizontal'] = axe_H
+        self.qpainterWindow.AuxLine['vertical'] = axe_V
+        self.qpainterWindow.AuxLine['Max'] = max_l
+        self.qpainterWindow.AuxLine['Min'] = min_l
         self.Reload_Canvas()
     def reset_Auxline(self):
-        self.qpainterWindow.AuxLine_Max_x = 0
-        self.qpainterWindow.AuxLine_Max_y = 0
-        self.qpainterWindow.AuxLine_Min_x = 0
-        self.qpainterWindow.AuxLine_Min_y = 0
-        self.qpainterWindow.AuxLine_pt = 0
-        self.qpainterWindow.AuxLine_color = 6
-        self.qpainterWindow.AuxLine_limit_color = 8
+        self.qpainterWindow.AuxLine['Max']['x'] = 0
+        self.qpainterWindow.AuxLine['Max']['y'] = 0
+        self.qpainterWindow.AuxLine['Min']['x'] = 0
+        self.qpainterWindow.AuxLine['Min']['y'] = 0
+        self.qpainterWindow.AuxLine['pt'] = 0
+        self.qpainterWindow.AuxLine['color'] = 6
+        self.qpainterWindow.AuxLine['limit_color'] = 8
     
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)

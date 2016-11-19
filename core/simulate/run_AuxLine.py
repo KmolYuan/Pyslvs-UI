@@ -25,4 +25,13 @@ class AuxLine_show(QWidget, Ui_Form):
     @pyqtSlot(int)
     def on_Color_l_currentIndexChanged(self, index): self.Change_set()
     
-    def Change_set(self, pt = False): self.Point_change.emit(self.Point.currentIndex(), self.Color.currentIndex(), self.Color_l.currentIndex(), self.H_line.checkState(), self.V_line.checkState(), self.Max_Limit.checkState(), self.Min_Limit.checkState(), pt)
+    def Change_set(self, pt = False):
+        self.Point_change.emit(
+            self.Point.currentIndex(),
+            self.Color.currentIndex(),
+            self.Color_l.currentIndex(),
+            self.H_line.checkState(),
+            self.V_line.checkState(),
+            self.Max_Limit.checkState(),
+            self.Min_Limit.checkState(),
+            pt)
