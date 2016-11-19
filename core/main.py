@@ -1338,8 +1338,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):
         self.ZoomBar.setValue(self.Default_canvas_view)
-        self.qpainterWindow.origin_x = self.qpainterWindow.width()/2
-        self.qpainterWindow.origin_y = self.qpainterWindow.height()/2
+        self.qpainterWindow.points['origin']['x'] = self.qpainterWindow.width()/2
+        self.qpainterWindow.points['origin']['y'] = self.qpainterWindow.height()/2
         self.Reload_Canvas()
     @pyqtSlot()
     def on_FitW_clicked(self):
@@ -1347,9 +1347,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Fit2W()
     def Fit2W(self):
         for i in range(10):
-            max_pt = max(self.qpainterWindow.Xval)
-            min_pt = min(self.qpainterWindow.Xval)
-            self.qpainterWindow.origin_x = (self.qpainterWindow.width()-(max_pt+min_pt))/2
+            max_pt = max(self.qpainterWindow.points['x'])
+            min_pt = min(self.qpainterWindow.points['x'])
+            self.qpainterWindow.points['origin']['x'] = (self.qpainterWindow.width()-(max_pt+min_pt))/2
             self.ZoomBar.setValue(self.ZoomBar.value()*self.qpainterWindow.width()/(max_pt+min_pt+100))
             self.Reload_Canvas()
     @pyqtSlot()
@@ -1358,9 +1358,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Fit2H()
     def Fit2H(self):
         for i in range(10):
-            max_pt = max(self.qpainterWindow.Yval)
-            min_pt = min(self.qpainterWindow.Yval)
-            self.qpainterWindow.origin_y = (self.qpainterWindow.height()-(max_pt+min_pt))/2
+            max_pt = max(self.qpainterWindow.points['y'])
+            min_pt = min(self.qpainterWindow.points['y'])
+            self.qpainterWindow.points['origin']['y'] = (self.qpainterWindow.height()-(max_pt+min_pt))/2
             self.ZoomBar.setValue(self.ZoomBar.value()*self.qpainterWindow.height()/(max_pt-min_pt+100))
             self.Reload_Canvas()
     @pyqtSlot(int)
@@ -1504,8 +1504,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_AuxLine_clicked(self):
         if not hasattr(self, 'AuxLineWidget'):
             self.qpainterWindow.AuxLine['show'] = True
-            self.qpainterWindow.AuxLine_H = True
-            self.qpainterWindow.AuxLine_V = True
+            self.qpainterWindow.AuxLine['horizontal'] = True
+            self.qpainterWindow.AuxLine['vertical'] = True
             table = self.Entiteis_Point
             icon = QIcon()
             icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
@@ -1535,8 +1535,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Reload_Canvas()
         self.qpainterWindow.AuxLine['horizontal'] = axe_H
         self.qpainterWindow.AuxLine['vertical'] = axe_V
-        self.qpainterWindow.AuxLine['Max'] = max_l
-        self.qpainterWindow.AuxLine['Min'] = min_l
+        self.qpainterWindow.AuxLine['isMax'] = max_l
+        self.qpainterWindow.AuxLine['isMin'] = min_l
         self.Reload_Canvas()
     def reset_Auxline(self):
         self.qpainterWindow.AuxLine['Max']['x'] = 0
@@ -1601,8 +1601,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(len(color_list)): dlg.AuxiliaryLimitLineColor.insertItem(i, color_list[i])
         for i in range(len(color_list)): dlg.TextColor.insertItem(i, color_list[i])
         dlg.show()
-        if dlg.exec_():
-            pass
+        if dlg.exec_(): pass
     
     @pyqtSlot()
     def on_symmetrical_part_clicked(self):
