@@ -5,7 +5,6 @@ Developer Manual 開發者手册
 
 以下是 Pyslvs 的檔案結構：
 
-```
 Pyslvs-PyQt5/
 >core/
 >>canvas/
@@ -17,7 +16,6 @@ Pyslvs-PyQt5/
 >>warning/
 >icons
 >example
-```
 
 launch_pyslvs.py
 ---
