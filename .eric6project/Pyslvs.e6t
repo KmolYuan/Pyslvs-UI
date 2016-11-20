@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-11-20, 14:11:00 -->
+<!-- Saved: 2016-11-20, 15:51:14 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
   <Task priority="1" completed="False" type="1" uid="{69e89577-4088-4f19-a407-16e9336b52c4}">
@@ -22,24 +22,6 @@
       <Linenumber>344</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{d7c182f1-8bb1-4976-a2b7-e8f6d6327208}">
-    <Summary>TODO:</Summary>
-    <Description></Description>
-    <Created>2016-11-20, 14:10:25</Created>
-    <Resource>
-      <Filename>core/main.py</Filename>
-      <Linenumber>609</Linenumber>
-    </Resource>
-  </Task>
-  <Task priority="1" completed="False" type="1" uid="{97544443-b751-417d-ab87-8c1fe82804ac}">
-    <Summary>TODO: SQLite</Summary>
-    <Description></Description>
-    <Created>2016-11-20, 14:10:25</Created>
-    <Resource>
-      <Filename>core/main.py</Filename>
-      <Linenumber>765</Linenumber>
-    </Resource>
-  </Task>
   <Task priority="1" completed="False" type="1" uid="{8ca6449a-9da5-4f9c-9fac-087c5e0ac7b3}">
     <Summary>TODO:</Summary>
     <Description></Description>
@@ -47,6 +29,24 @@
     <Resource>
       <Filename>core/calculation/calculation.py</Filename>
       <Linenumber>344</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{9d36bb5f-dca1-45a8-a864-d869457c2e67}">
+    <Summary>TODO:</Summary>
+    <Description></Description>
+    <Created>2016-11-20, 15:51:11</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>620</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{a9c8a852-48af-414d-947e-a618d65d10aa}">
+    <Summary>TODO: SQLite</Summary>
+    <Description></Description>
+    <Created>2016-11-20, 15:51:11</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>776</Linenumber>
     </Resource>
   </Task>
 </Tasks>

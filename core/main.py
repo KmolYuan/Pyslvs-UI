@@ -72,7 +72,10 @@ from .simulate.run_AuxLine import AuxLine_show
 #Solve
 from .calculation.calculation import Solvespace
 from .calculation.canvas import DynamicCanvas
-from .calculation.list_process import *
+from .calculation.list_process import(
+    Reset_notebook, Delete_dlg_set,
+    Points, Lines, Chains, Shafts, Sliders, Rods,
+    Parameters, Path)
 #Option
 from .io.settings import Pyslvs_Settings_ini
 
@@ -80,10 +83,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        #No Save
-        self.Workbook_Change = False
         #Default Setting
+        self.Workbook_Change = False
         self.load_settings()
+        #List
+        self.Points = Points()
+        self.Lines = Lines()
+        self.Chains = Chains()
+        self.Shafts = Shafts()
+        self.Sliders = Sliders()
+        self.Rods = Rods()
+        self.Parameters = Parameters()
+        self.Path = Path()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
@@ -234,12 +245,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = str(self.mouse_pos_x)
         y = str(self.mouse_pos_y)
         if action == self.action_painter_right_click_menu_add:
-            Points_list(table1, "Point"+str(table1.rowCount()), x, y, False, False)
-            Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
+            self.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, False, False)
+            self.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
             self.Resolve()
         elif action == self.action_painter_right_click_menu_fix_add:
-            Points_list(table1, "Point"+str(table1.rowCount()), x, y, True, False)
-            Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
+            self.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, True, False)
+            self.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
             self.Resolve()
         elif action == self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False:
@@ -456,7 +467,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Rebuild the cavanc falled.")
         else:
             self.Solvefail = False
-            for i in range(table_point.rowCount()): Point_setup(table_point, i, result[i*2], result[i*2+1])
+            for i in range(table_point.rowCount()): self.Points.currentPos(table_point, i, result[i*2], result[i*2+1])
             self.DOF = DOF
             self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
             self.Reload_Canvas()
@@ -600,38 +611,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 bookmark = i
                 if '_' in data[i]: break
                 fixed = data[i+3]=="Fixed"
-                Points_list(self.Entiteis_Point, data[i], data[i+1], data[i+2], fixed, False)
+                self.Points.editTable(self.Entiteis_Point, data[i], data[i+1], data[i+2], fixed, False)
             self.Entiteis_Point_Style.removeRow(0)
             for i in range(bookmark+1, len(data), 4):
                 bookmark = i
                 if '_' in data[i]: break
-                Points_style_add(self.Entiteis_Point_Style, data[i], data[i+1], data[i+2], data[i+3])
+                self.Points.styleAdd(self.Entiteis_Point_Style, data[i], data[i+1], data[i+2], data[i+3])
                 #TODO:
                 self.Entiteis_Point_Style.cellWidget(int(data[i].replace("Point", "")), 3).currentIndexChanged.connect(self.Point_Style_set)
             for i in range(bookmark+1, len(data), 4):
                 bookmark = i
                 if '_' in data[i]: break
-                Links_list(self.Entiteis_Link, data[i], data[i+1], data[i+2], data[i+3], False)
+                self.Lines.editTable(self.Entiteis_Link, data[i], data[i+1], data[i+2], data[i+3], False)
             for i in range(bookmark+1, len(data), 7):
                 bookmark = i
                 if '_' in data[i]: break
-                Chain_list(self.Entiteis_Stay_Chain, data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], data[i+6], False)
+                self.Chains.editTable(self.Entiteis_Stay_Chain, data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], data[i+6], False)
             for i in range(bookmark+1, len(data), 6):
                 bookmark = i
                 if '_' in data[i]: break
-                Shaft_list(self.Drive_Shaft, data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], False)
+                self.Shafts.editTable(self.Drive_Shaft, data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], False)
             for i in range(bookmark+1, len(data), 3):
                 bookmark = i
                 if '_' in data[i]: break
-                Slider_list(self.Slider, data[i], data[i+1], data[i+2], False)
+                self.Sliders.editTable(self.Slider, data[i], data[i+1], data[i+2], False)
             for i in range(bookmark+1, len(data), 5):
                 bookmark = i
                 if '_' in data[i]: break
-                Rod_list(self.Rod, data[i], data[i+1], data[i+2], data[i+3], data[i+4], False)
+                self.Rods.editTable(self.Rod, data[i], data[i+1], data[i+2], data[i+3], data[i+4], False)
             for i in range(bookmark+1, len(data), 3):
                 bookmark = i
                 if '_' in data[i]: break
-                Parameter_management(self.Parameter_list, data[i], data[i+1], data[i+2])
+                self.Parameters.editTable(self.Parameter_list, data[i], data[i+1], data[i+2])
             for i in range(bookmark+1, len(data)):
                 bookmark = i
                 if '_' in data[i]: break
@@ -796,10 +807,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
             y = self.Y_coordinate.text() if not self.Y_coordinate.text()in["", "n", "-"] else self.Y_coordinate.placeholderText()
-            Points_list(table1, dlg.Point_num.toPlainText(),
+            self.Points.editTable(table1, dlg.Point_num.toPlainText(),
                 x, y, dlg.Fix_Point.checkState(), False)
             fix = "10" if dlg.Fix_Point.checkState() else "5"
-            Points_style_add(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
+            self.Points.styleAdd(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
             self.Resolve()
             self.Workbook_noSave()
     @pyqtSlot()
@@ -808,8 +819,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in["", "n", "-"] else self.Y_coordinate.placeholderText()
-        Points_list(table1, "Point"+str(table1.rowCount()), x, y, False, False)
-        Points_style_add(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
+        self.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, False, False)
+        self.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
         self.Resolve()
         self.Workbook_noSave()
     
@@ -834,11 +845,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.show()
             if dlg.exec_():
                 table2 = self.Entiteis_Point_Style
-                Points_list(table1, dlg.Point.currentText(),
+                self.Points.editTable(table1, dlg.Point.currentText(),
                     dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
                     dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
                     dlg.Fix_Point.checkState(), True)
-                Points_style_fix(table2, dlg.Point.currentText(), dlg.Fix_Point.checkState())
+                self.Points.styleFix(table2, dlg.Point.currentText(), dlg.Fix_Point.checkState())
                 self.Resolve()
                 self.Workbook_noSave()
     point_feedback = pyqtSignal(float, float, bool)
@@ -871,13 +882,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if dlg.exec_():
                 a = dlg.Start_Point.currentText()
                 b = dlg.End_Point.currentText()
-                if Repeated_check_line(table2, a, b): self.on_action_New_Line_triggered()
+                if self.Lines.repeatedCheck(table2, a, b): self.on_action_New_Line_triggered()
                 elif a == b:
                     dlg = same_show()
                     dlg.show()
                     if dlg.exec_(): self.on_action_New_Line_triggered()
                 else:
-                    Links_list(table2, dlg.Link_num.toPlainText(),
+                    self.Lines.editTable(table2, dlg.Link_num.toPlainText(),
                         dlg.Start_Point.currentText(), dlg.End_Point.currentText(),
                         dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), False)
                     self.Resolve()
@@ -916,7 +927,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_actionEdit_Linkage_triggered()
                 else:
-                    Links_list(table2, dlg.Link.currentText(),
+                    self.Lines.editTable(table2, dlg.Link.currentText(),
                         dlg.Start_Point.currentText(),  dlg.End_Point.currentText(),
                         dlg.Length.text() if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), True)
                     self.Resolve()
@@ -960,7 +971,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_New_Stay_Chain_triggered()
                 else:
-                    Chain_list(table2, dlg.Chain_num.toPlainText(),
+                    self.Chains.editTable(table2, dlg.Chain_num.toPlainText(),
                         p1, p2, p3,
                         dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
                         dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
@@ -1005,7 +1016,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_actionEdit_Stay_Chain_triggered()
                 else:
-                    Chain_list(table2, dlg.Chain.currentText(), p1, p2, p3,
+                    self.Chains.editTable(table2, dlg.Chain.currentText(), p1, p2, p3,
                         dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
                         dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
                         dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), True)
@@ -1052,7 +1063,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
                 else:
-                    Shaft_list(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e, False)
+                    self.Shafts.editTable(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e, False)
                     self.Resolve()
                     self.Workbook_noSave()
     
@@ -1090,7 +1101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
                 else:
-                    Shaft_list(table2, dlg.Shaft.currentText(), a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), True)
+                    self.Shafts.editTable(table2, dlg.Shaft.currentText(), a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), True)
                     self.Resolve()
                     self.Workbook_noSave()
     shaft_feedback = pyqtSignal(int, int, float, float)
@@ -1133,7 +1144,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_Set_Slider_triggered()
                 else:
-                    Slider_list(table3, dlg.Slider_num.toPlainText(), a, b, False)
+                    self.Sliders.editTable(table3, dlg.Slider_num.toPlainText(), a, b, False)
                     self.Resolve()
                     self.Workbook_noSave()
     
@@ -1171,7 +1182,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_Edit_Slider_triggered()
                 else:
-                    Slider_list(table3, dlg.Slider.currentText(), a, b, True)
+                    self.Sliders.editTable(table3, dlg.Slider.currentText(), a, b, True)
                     self.Resolve()
                     self.Workbook_noSave()
     slider_feedback = pyqtSignal(int, int)
@@ -1209,7 +1220,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
                 else:
-                    Rod_list(table2, dlg.Rod_num.toPlainText(), a, b, c, d, False)
+                    self.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, d, False)
                     self.Resolve()
                     self.Workbook_noSave()
     
@@ -1245,7 +1256,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
                 else:
-                    Rod_list(table2, dlg.Rod.currentText(), a, b, c, d, True)
+                    self.Rods.editTable(table2, dlg.Rod.currentText(), a, b, c, d, True)
                     self.Resolve()
                     self.Workbook_noSave()
     rod_feedback = pyqtSignal(int, int, int, float)
@@ -1274,7 +1285,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.Entity.setCurrentIndex(pos-1)
             dlg.show()
             if dlg.exec_():
-                Point_list_delete(table,
+                self.Points.deleteTable(table,
                     self.Entiteis_Point_Style, self.Entiteis_Link,
                     self.Entiteis_Stay_Chain, self.Drive_Shaft,
                     self.Slider, self.Rod, dlg)
@@ -1298,7 +1309,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.Entity.setCurrentIndex(pos)
             dlg.show()
             if dlg.exec_():
-                Link_list_delete(table1, table2, dlg)
+                self.Lines.deleteTable(table1, table2, dlg)
                 self.Resolve()
                 self.Workbook_noSave()
     
@@ -1434,7 +1445,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_Path_coordinate_clicked(self):
         dlg = path_point_data_show()
-        Path_point_setup(dlg.path_data, self.Path_data, self.Path_Run_list)
+        Path_self.Points.currentPos(dlg.path_data, self.Path_data, self.Path_Run_list)
         dlg.show()
         dlg.exec()
     
