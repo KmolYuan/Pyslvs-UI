@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
 
 #CSV & SQLite
-import sys, csv, math
+import sys, csv, math, webbrowser
 from peewee import *
 #PyQt5
 from PyQt5.QtCore import *
@@ -30,7 +30,6 @@ from PyQt5.QtGui import *
 _translate = QCoreApplication.translate
 #UI Ports
 from .Ui_main import Ui_MainWindow
-import webbrowser
 #Dialog Ports
 from .info.version import version_show
 from .info.info import Info_show
