@@ -2,9 +2,9 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from .Ui_draw_delete_chain import Ui_Dialog
+from .Ui_stay_chain import Ui_Dialog
 
-class delete_chain_show(QDialog, Ui_Dialog):
+class chain_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
-        super(delete_chain_show, self).__init__(parent)
+        super(chain_show, self).__init__(parent)
         self.setupUi(self)

@@ -2,7 +2,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from .Ui_draw_edit_link import Ui_Dialog
+from .Ui_edit_link import Ui_Dialog
 
 class edit_link_show(QDialog, Ui_Dialog):
     Another_line = pyqtSignal(int)

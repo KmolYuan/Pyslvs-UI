@@ -2,9 +2,9 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from .Ui_draw_stay_chain import Ui_Dialog
+from .Ui_point import Ui_Dialog
 
-class chain_show(QDialog, Ui_Dialog):
+class New_point(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
-        super(chain_show, self).__init__(parent)
+        super(New_point, self).__init__(parent)
         self.setupUi(self)

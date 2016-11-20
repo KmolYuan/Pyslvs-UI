@@ -2,7 +2,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from .Ui_draw_edit_point import Ui_Dialog
+from .Ui_edit_point import Ui_Dialog
 
 class edit_point_show(QDialog, Ui_Dialog):
     Another_point = pyqtSignal(int)

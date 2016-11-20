@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-11-20, 17:53:00 -->
+<!-- Saved: 2016-11-20, 21:41:25 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -20,25 +20,25 @@
     <Source>core/calculation/calculation.py</Source>
     <Source>core/calculation/canvas.py</Source>
     <Source>core/calculation/list_process.py</Source>
-    <Source>core/draw/Ui_draw_delete_chain.py</Source>
-    <Source>core/draw/Ui_draw_delete_linkage.py</Source>
-    <Source>core/draw/Ui_draw_delete_point.py</Source>
-    <Source>core/draw/Ui_draw_edit_link.py</Source>
-    <Source>core/draw/Ui_draw_edit_point.py</Source>
-    <Source>core/draw/Ui_draw_edit_stay_chain.py</Source>
-    <Source>core/draw/Ui_draw_link.py</Source>
-    <Source>core/draw/Ui_draw_point.py</Source>
-    <Source>core/draw/Ui_draw_stay_chain.py</Source>
+    <Source>core/draw/Ui_delete_chain.py</Source>
+    <Source>core/draw/Ui_delete_linkage.py</Source>
+    <Source>core/draw/Ui_delete_point.py</Source>
+    <Source>core/draw/Ui_edit_link.py</Source>
+    <Source>core/draw/Ui_edit_point.py</Source>
+    <Source>core/draw/Ui_edit_stay_chain.py</Source>
+    <Source>core/draw/Ui_link.py</Source>
+    <Source>core/draw/Ui_point.py</Source>
+    <Source>core/draw/Ui_stay_chain.py</Source>
     <Source>core/draw/__init__.py</Source>
-    <Source>core/draw/draw_delete_chain.py</Source>
-    <Source>core/draw/draw_delete_linkage.py</Source>
-    <Source>core/draw/draw_delete_point.py</Source>
-    <Source>core/draw/draw_edit_link.py</Source>
-    <Source>core/draw/draw_edit_point.py</Source>
-    <Source>core/draw/draw_edit_stay_chain.py</Source>
-    <Source>core/draw/draw_link.py</Source>
-    <Source>core/draw/draw_point.py</Source>
-    <Source>core/draw/draw_stay_chain.py</Source>
+    <Source>core/draw/delete_chain.py</Source>
+    <Source>core/draw/delete_linkage.py</Source>
+    <Source>core/draw/delete_point.py</Source>
+    <Source>core/draw/edit_link.py</Source>
+    <Source>core/draw/edit_point.py</Source>
+    <Source>core/draw/edit_stay_chain.py</Source>
+    <Source>core/draw/link.py</Source>
+    <Source>core/draw/point.py</Source>
+    <Source>core/draw/stay_chain.py</Source>
     <Source>core/info/Ui_help.py</Source>
     <Source>core/info/Ui_info.py</Source>
     <Source>core/info/Ui_options.py</Source>
@@ -105,15 +105,15 @@
     <Source>launch_test.py</Source>
   </Sources>
   <Forms>
-    <Form>core/draw/draw_delete_chain.ui</Form>
-    <Form>core/draw/draw_delete_linkage.ui</Form>
-    <Form>core/draw/draw_delete_point.ui</Form>
-    <Form>core/draw/draw_edit_link.ui</Form>
-    <Form>core/draw/draw_edit_point.ui</Form>
-    <Form>core/draw/draw_edit_stay_chain.ui</Form>
-    <Form>core/draw/draw_link.ui</Form>
-    <Form>core/draw/draw_point.ui</Form>
-    <Form>core/draw/draw_stay_chain.ui</Form>
+    <Form>core/draw/delete_chain.ui</Form>
+    <Form>core/draw/delete_linkage.ui</Form>
+    <Form>core/draw/delete_point.ui</Form>
+    <Form>core/draw/edit_link.ui</Form>
+    <Form>core/draw/edit_point.ui</Form>
+    <Form>core/draw/edit_stay_chain.ui</Form>
+    <Form>core/draw/link.ui</Form>
+    <Form>core/draw/point.ui</Form>
+    <Form>core/draw/stay_chain.ui</Form>
     <Form>core/info/help.ui</Form>
     <Form>core/info/info.ui</Form>
     <Form>core/info/options.ui</Form>

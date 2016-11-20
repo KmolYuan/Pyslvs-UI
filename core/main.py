@@ -44,16 +44,16 @@ from .warning.repeated_value import same_show
 from .warning.restriction_conflict import restriction_conflict_show
 from .warning.kill_origin import kill_origin_show
 #Drawing Dialog Ports
-from .draw.draw_point import New_point
-from .draw.draw_link import New_link
-from .draw.draw_stay_chain import chain_show
-from .draw.draw_edit_point import edit_point_show
-from .draw.draw_edit_link import edit_link_show
-from .draw.draw_edit_stay_chain import edit_stay_chain_show
+from .draw.point import New_point
+from .draw.link import New_link
+from .draw.stay_chain import chain_show
+from .draw.edit_point import edit_point_show
+from .draw.edit_link import edit_link_show
+from .draw.edit_stay_chain import edit_stay_chain_show
 #Delete Dialog Ports
-from .draw.draw_delete_point import delete_point_show
-from .draw.draw_delete_linkage import delete_linkage_show
-from .draw.draw_delete_chain import delete_chain_show
+from .draw.delete_point import delete_point_show
+from .draw.delete_linkage import delete_linkage_show
+from .draw.delete_chain import delete_chain_show
 from .simulate.delete_drive_shaft import delete_shaft_show
 from .simulate.delete_slider import delete_slider_show
 from .simulate.delete_rod import delete_rod_show
