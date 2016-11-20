@@ -9,14 +9,16 @@ E-mail: daan0014119@gmail.com
 
 import unittest
 from core.test.testKernel import slvsKernel
+from core.test.testQt import mainProject
 
 def testChoose():
     print("Test Start")
     print("------")
     #Test python solvespace kernel
-    suite = unittest.TestSuite()
-    suite.addTest(slvsKernel('test_mutiLink'))
+    unittest.TestLoader().loadTestsFromTestCase(slvsKernel)
     #Test Qt
+    unittest.TestLoader().loadTestsFromTestCase(mainProject)
+    #Start
     unittest.main()
     print("------")
     print("Done.")

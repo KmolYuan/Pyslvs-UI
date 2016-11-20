@@ -50,10 +50,11 @@ Open a file directly by put file name behind the launch command.
 
 Information and Debug Function:
 
--t\t--test\t\tTest Python Solvespace library.
 -g\t--git\t\tShow git infomations in the initialization.
 -v\t--version\tOnly show version infomations and not to start main program.
 -h\t--help\t\tShow this help message and not to start main program.
+
+Run launch_test.py can start unit test.
 ================""")
 
 def show_version():

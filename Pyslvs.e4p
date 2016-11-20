@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-11-20, 17:43:35 -->
+<!-- Saved: 2016-11-20, 17:53:00 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -87,6 +87,7 @@
     <Source>core/simulate/set_slider.py</Source>
     <Source>core/test/__init__.py</Source>
     <Source>core/test/testKernel.py</Source>
+    <Source>core/test/testQt.py</Source>
     <Source>core/warning/Ui_contradict_value.py</Source>
     <Source>core/warning/Ui_kill_origin.py</Source>
     <Source>core/warning/Ui_repeated_value.py</Source>
