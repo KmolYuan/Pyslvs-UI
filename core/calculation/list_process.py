@@ -2,8 +2,8 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from .warning.contradict_value import contradict_show
-from .canvas.canvas import DynamicCanvas
+from ..warning.contradict_value import contradict_show
+from .canvas import DynamicCanvas
 
 def Points_list(table, name, x, y, fixed, edit):
     rowPosition = int(name.replace("Point", ""))

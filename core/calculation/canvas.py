@@ -3,7 +3,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from ..calculation import Solvespace
+from .calculation import Solvespace
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)

@@ -69,11 +69,10 @@ from .simulate.run_Path_Track import Path_Track_show
 from .simulate.run_Drive import Drive_show
 from .simulate.run_Measurement import Measurement_show
 from .simulate.run_AuxLine import AuxLine_show
-#DynamicCanvas
-from .canvas.canvas import DynamicCanvas
 #Solve
-from .calculation import Solvespace
-from .list_process import *
+from .calculation.calculation import Solvespace
+from .calculation.canvas import DynamicCanvas
+from .calculation.list_process import *
 #Option
 from .io.settings import Pyslvs_Settings_ini
 
