@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-11-20, 21:41:25 -->
+<!-- Saved: 2016-11-22, 22:29:15 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -39,6 +39,7 @@
     <Source>core/draw/link.py</Source>
     <Source>core/draw/point.py</Source>
     <Source>core/draw/stay_chain.py</Source>
+    <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>
     <Source>core/info/Ui_info.py</Source>
     <Source>core/info/Ui_options.py</Source>
@@ -46,6 +47,7 @@
     <Source>core/info/Ui_script.py</Source>
     <Source>core/info/Ui_version.py</Source>
     <Source>core/info/__init__.py</Source>
+    <Source>core/info/fileInfo.py</Source>
     <Source>core/info/help.py</Source>
     <Source>core/info/info.py</Source>
     <Source>core/info/options.py</Source>
@@ -53,8 +55,8 @@
     <Source>core/info/script.py</Source>
     <Source>core/info/version.py</Source>
     <Source>core/io/__init__.py</Source>
-    <Source>core/io/csv_check.py</Source>
     <Source>core/io/dxf_type.py</Source>
+    <Source>core/io/fileForm.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
     <Source>core/main.py</Source>
@@ -114,6 +116,7 @@
     <Form>core/draw/link.ui</Form>
     <Form>core/draw/point.ui</Form>
     <Form>core/draw/stay_chain.ui</Form>
+    <Form>core/info/fileInfo.ui</Form>
     <Form>core/info/help.ui</Form>
     <Form>core/info/info.ui</Form>
     <Form>core/info/options.ui</Form>
