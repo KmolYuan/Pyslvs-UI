@@ -1598,6 +1598,8 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionOutput_to_DXF"/>
     <addaction name="action_Output_to_S_QLite_Data_Base"/>
     <addaction name="separator"/>
+    <addaction name="action_Property"/>
+    <addaction name="separator"/>
     <addaction name="actionMi_nimized"/>
     <addaction name="actionM_axmized"/>
     <addaction name="actionNormalmized"/>
@@ -1912,7 +1914,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/faces.png</normaloff>:/icons/faces.png</iconset>
    </property>
    <property name="text">
-    <string>Output to &amp;Picture</string>
+    <string>Output to Picture</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -1924,7 +1926,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
-    <string>Save to &amp;CSV Data Sheet</string>
+    <string>Save to &amp;Data Sheet (*.csv)</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -2330,7 +2332,12 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>Output to &amp;DXF</string>
+    <string>Output to DXF</string>
+   </property>
+  </action>
+  <action name="action_Property">
+   <property name="text">
+    <string>&amp;Property</string>
    </property>
   </action>
  </widget>

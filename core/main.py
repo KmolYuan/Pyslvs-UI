@@ -80,23 +80,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        #Default Setting
-        self.Workbook_Change = False
-        self.load_settings()
         #File
         self.File = File()
+        #Default Setting
+        self.load_settings()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
         self.Resolve()
-        #Solve & Script & Path & DOF & Mask & Parameter
+        #Solve & Script & DOF & Mask & Parameter
         self.Solvefail = False
         self.Script = ""
         self.Slvs_Script = ""
-        self.File.Path.data = []
-        self.File.Path.runList = []
         self.DOF = 0
         self.Mask_Change()
         self.init_Right_click_menu()
@@ -385,7 +382,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Close Event
     def closeEvent(self, event):
-        if self.Workbook_Change:
+        if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply == QMessageBox.Discard or reply == QMessageBox.Ok:
@@ -393,7 +390,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 event.accept()
             elif reply == QMessageBox.Save:
                 self.on_action_Output_Coordinate_to_Text_File_triggered()
-                if not self.Workbook_Change:
+                if not self.File.form['changed']:
                     print("Exit.")
                     event.accept()
                 else: event.ignore()
@@ -475,7 +472,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Workbook Change
     def Workbook_noSave(self):
-        self.Workbook_Change = True
+        self.File.form['changed'] = True
         self.setWindowTitle(_translate("MainWindow", self.windowTitle().replace("*", "")+"*"))
     
     @pyqtSlot()
@@ -513,14 +510,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self):
-        if self.Workbook_Change:
+        if self.File.form['changed']:
             dlg  = reset_show()
             dlg.show()
             if dlg.exec_(): self.new_Workbook()
         else: self.new_Workbook()
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
-        if self.Workbook_Change:
+        if self.File.form['changed']:
             warning_reset  = reset_show()
             warning_reset.show()
             if warning_reset.exec_(): self.load_Workbook()
@@ -598,7 +595,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Rod, self.Parameter_list)
             for i in range(1, self.Entiteis_Point_Style.rowCount()):
                 self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
-            self.Workbook_Change = False
+            self.File.form['changed'] = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
             self.Resolve()
             self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
@@ -620,13 +617,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(fileName, 'w', newline="") as stream:
                 writer = csv.writer(stream)
                 self.File.writeTable(
-                    writer,
+                    fileName, writer,
                     self.Entiteis_Point, self.Entiteis_Point_Style,
                     self.Entiteis_Link, self.Entiteis_Stay_Chain,
                     self.Drive_Shaft, self.Slider,
                     self.Rod, self.Parameter_list)
             print("Successful Save: "+fileName)
-            self.Workbook_Change = False
+            self.File.form['changed'] = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
@@ -640,7 +637,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(self.Slvs_Script)
             print("Successful Save: "+fileName)
-            self.Workbook_Change = False
+            self.File.form['changed'] = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
@@ -1533,3 +1530,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.sym_part = self.symmetrical_part.isChecked()
         print(self.sym_part)
         self.Resolve()
+    
+    @pyqtSlot()
+    def on_action_Property_triggered(self): self.File.setProperty()

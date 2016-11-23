@@ -2,7 +2,9 @@
 from ..calculation.list_process import(
     Reset_notebook, Parameters, Path,
     Points, Lines, Chains, Shafts, Sliders, Rods)
+#File Info
 from ..info.fileInfo import fileInfo_show
+from ..info.editFileInfo import editFileInfo_show
 #Date
 import datetime
 now = datetime.datetime.now()
@@ -10,9 +12,11 @@ now = datetime.datetime.now()
 class File():
     def __init__(self):
         self.form = {
+            'fileName':'',
             'description':'',
             'author':'',
             'lastTime':'',
+            'changed':False,
             }
         self.Points = Points()
         self.Lines = Lines()
@@ -22,6 +26,16 @@ class File():
         self.Rods = Rods()
         self.Parameters = Parameters()
         self.Path = Path()
+    
+    def setProperty(self):
+        dlg = editFileInfo_show()
+        self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
+        dlg.rename(self.form['fileName'], self.form['author'], self.form['description'], self.form['lastTime'])
+        dlg.show()
+        if dlg.exec_():
+            self.form['author'] = dlg.authorName_input.text()
+            self.form['description'] = dlg.descriptionText.toPlainText()
+            print(self.form)
     
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         #info
@@ -89,6 +103,7 @@ class File():
                 path_e = []
             else: path_e += [float(li[i])]
         self.Path.data = [path]
+        self.form['fileName'] = fileName.split('/')[-1]
         self.form['author'] = author
         self.form['description'] = description
         self.form['lastTime'] = lastTime
@@ -107,7 +122,8 @@ class File():
         Reset_notebook(Rod, 0)
         Reset_notebook(Parameter, 0)
     
-    def writeTable(self, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+    def writeTable(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        self.form['fileName'] = fileName.split('/')[-1]
         writer.writerow(["_info_"])
         writer.writerow([self.form['author']])
         writer.writerow(["_info_"])
