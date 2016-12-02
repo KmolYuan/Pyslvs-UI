@@ -10,3 +10,5 @@ core/slvs.py
 *.ini
 
 *__pycache__*
+
+.eric6project*
