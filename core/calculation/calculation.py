@@ -88,10 +88,10 @@ wy = Point_num*2+6
                 k += [int(table_item)]
             for j in range(3, 5):
                 #float angle
-                table_item = table_shaft.item(i, j).text().replace("°", "")
+                table_item = table_shaft.item(i, j).text()
                 table_val = table_item if not 'n' in table_item else table_parameter_l[int(table_item.replace("n", ""))]
                 k += [float(table_val)]
-            table_item = table_shaft.item(i, 5).text().replace("°", "")
+            table_item = table_shaft.item(i, 5).text()
             k += [float(table_item if table_shaft.item(i, 5) else False)]
             table_shaft_l += [k]
         for i in range(table_slider.rowCount()):

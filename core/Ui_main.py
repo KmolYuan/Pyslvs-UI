@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file '/home/kmol/桌面/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -725,7 +725,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 23))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -801,8 +801,8 @@ class Ui_MainWindow(object):
         self.action_Highlight_Drive_Shaft_Point.setCheckable(True)
         self.action_Highlight_Drive_Shaft_Point.setChecked(True)
         icon24 = QtGui.QIcon()
-        icon24.addPixmap(QtGui.QPixmap(":/icons/char-1-check-true.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         icon24.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon24.addPixmap(QtGui.QPixmap(":/icons/char-1-check-true.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
         self.action_Highlight_Drive_Shaft_Point.setIcon(icon24)
         self.action_Highlight_Drive_Shaft_Point.setObjectName("action_Highlight_Drive_Shaft_Point")
         self.actionMi_nimized = QtWidgets.QAction(MainWindow)
@@ -1205,11 +1205,11 @@ class Ui_MainWindow(object):
         item = self.Drive_Shaft.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "References"))
         item = self.Drive_Shaft.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "Start Angle"))
+        item.setText(_translate("MainWindow", "Start Angle(°)"))
         item = self.Drive_Shaft.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "End Angle"))
+        item.setText(_translate("MainWindow", "End Angle(°)"))
         item = self.Drive_Shaft.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "Demo Angle"))
+        item.setText(_translate("MainWindow", "Demo Angle(°)"))
         self.symmetrical_part.setText(_translate("MainWindow", "Symmetrical parts"))
         self.Simulate_tab.setTabText(self.Simulate_tab.indexOf(self.Shaft_tab), _translate("MainWindow", "Shaft"))
         self.Slider_Widget.setStatusTip(_translate("MainWindow", "All slider will show here. Needs a point and a link."))

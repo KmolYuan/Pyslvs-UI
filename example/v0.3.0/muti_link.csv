@@ -31,7 +31,7 @@ _table_
 Chain0	,Point2	,Point3	,Point4	,41.50	,55.80	,40.10
 Chain1	,Point5	,Point6	,Point7	,65.70	,49.00	,36.70
 _table_
-Shaft0	,Point0	,Point1	,0.00°	,360.00°	,45.00°
+Shaft0	,Point0	,Point1	,0.00	,360.00	,45.00
 _table_
 _table_
 _table_

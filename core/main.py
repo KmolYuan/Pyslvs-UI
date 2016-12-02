@@ -1022,8 +1022,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table = self.Drive_Shaft
         center = int(table.item(pos, 1).text().replace("Point", ""))
         references = int(table.item(pos, 2).text().replace("Point", ""))
-        start = float(table.item(pos, 3).text().replace("°", ""))
-        end = float(table.item(pos, 4).text().replace("°", ""))
+        start = float(table.item(pos, 3).text())
+        end = float(table.item(pos, 4).text())
         self.shaft_feedback.emit(center, references, start, end)
     
     @pyqtSlot()
@@ -1380,14 +1380,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Shaft_limit(self, pos):
         try:
-            self.DriveWidget.Degree.setMinimum(int(float(self.Drive_Shaft.item(pos, 3).text().replace("°", "")))*100)
-            self.DriveWidget.Degree.setMaximum(int(float(self.Drive_Shaft.item(pos, 4).text().replace("°", "")))*100)
-            self.DriveWidget.Degree.setValue(int(float(self.Drive_Shaft.item(pos, 5).text().replace("°", "")))*100)
+            self.DriveWidget.Degree.setMinimum(int(float(self.Drive_Shaft.item(pos, 3).text()))*100)
+            self.DriveWidget.Degree.setMaximum(int(float(self.Drive_Shaft.item(pos, 4).text()))*100)
+            self.DriveWidget.Degree.setValue(int(float(self.Drive_Shaft.item(pos, 5).text()))*100)
         except: self.DriveWidget.Degree.setValue(int((self.DriveWidget.Degree.maximum()+self.DriveWidget.Degree.minimum())/2))
         self.DriveWidget.Degree_text.setValue(float(self.DriveWidget.Degree.value()/100))
     @pyqtSlot(int, float)
     def Change_demo_angle(self, shaft_int, angle):
-        self.Drive_Shaft.setItem(shaft_int, 5, QTableWidgetItem(str(angle)+"°"))
+        self.Drive_Shaft.setItem(shaft_int, 5, QTableWidgetItem(str(angle)))
         self.Resolve()
     
     @pyqtSlot()

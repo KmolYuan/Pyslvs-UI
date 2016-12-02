@@ -47,8 +47,8 @@ class Path_Track_show(QDialog, Ui_Dialog):
             self.work.Resolution = self.Resolution
             q = 0
             for i in range(self.Drive_Shaft.rowCount()):
-                start_angle = float(self.Drive_Shaft.item(i, 3).text().replace("°", ""))*100
-                end_angle = float(self.Drive_Shaft.item(i, 4).text().replace("°", ""))*100
+                start_angle = float(self.Drive_Shaft.item(i, 3).text())*100
+                end_angle = float(self.Drive_Shaft.item(i, 4).text())*100
                 Resolution = float(self.Resolution.text())*100
                 angle_set = int((end_angle+1-start_angle)/Resolution)
                 q = q+angle_set
@@ -90,8 +90,8 @@ class WorkerThread(QThread):
         solvespace = calculation.Solvespace()
         nPath = []
         for i in range(table2.rowCount()):
-            start_angle = float(table2.item(i, 3).text().replace("°", ""))*100
-            end_angle = float(table2.item(i, 4).text().replace("°", ""))*100
+            start_angle = float(table2.item(i, 3).text())*100
+            end_angle = float(table2.item(i, 4).text())*100
             Resolution = float(self.Resolution.text())*100
             Path = []
             for n in point_list:
