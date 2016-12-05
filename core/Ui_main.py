@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/kmol/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -13,6 +13,7 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1050, 671)
         MainWindow.setMinimumSize(QtCore.QSize(1050, 671))
+        MainWindow.setMouseTracking(True)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -725,13 +726,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
         self.menuFile.setObjectName("menuFile")
+        self.menuExample = QtWidgets.QMenu(self.menuFile)
+        self.menuExample.setObjectName("menuExample")
         self.menu_Draw = QtWidgets.QMenu(self.menuBar)
         self.menu_Draw.setObjectName("menu_Draw")
         self.menu_Options = QtWidgets.QMenu(self.menuBar)
@@ -801,8 +804,8 @@ class Ui_MainWindow(object):
         self.action_Highlight_Drive_Shaft_Point.setCheckable(True)
         self.action_Highlight_Drive_Shaft_Point.setChecked(True)
         icon24 = QtGui.QIcon()
-        icon24.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon24.addPixmap(QtGui.QPixmap(":/icons/char-1-check-true.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon24.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Highlight_Drive_Shaft_Point.setIcon(icon24)
         self.action_Highlight_Drive_Shaft_Point.setObjectName("action_Highlight_Drive_Shaft_Point")
         self.actionMi_nimized = QtWidgets.QAction(MainWindow)
@@ -1003,8 +1006,16 @@ class Ui_MainWindow(object):
         self.actionOutput_to_DXF.setObjectName("actionOutput_to_DXF")
         self.action_Property = QtWidgets.QAction(MainWindow)
         self.action_Property.setObjectName("action_Property")
+        self.actionCrank_rocker = QtWidgets.QAction(MainWindow)
+        self.actionCrank_rocker.setObjectName("actionCrank_rocker")
+        self.actionMutiple_Link = QtWidgets.QAction(MainWindow)
+        self.actionMutiple_Link.setObjectName("actionMutiple_Link")
+        self.menuExample.addAction(self.actionCrank_rocker)
+        self.menuExample.addAction(self.actionMutiple_Link)
         self.menuFile.addAction(self.action_New_Workbook)
         self.menuFile.addAction(self.action_Load_Workbook)
+        self.menuFile.addAction(self.menuExample.menuAction())
+        self.menuFile.addSeparator()
         self.menuFile.addAction(self.action_Output_Coordinate_to_Text_File)
         self.menuFile.addAction(self.action_Output_to_Solvespace)
         self.menuFile.addSeparator()
@@ -1148,8 +1159,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
         self.Parameter_digital.setStatusTip(_translate("MainWindow", "Enter your parameter."))
         self.Parameter_digital.setPlaceholderText(_translate("MainWindow", "0.0"))
@@ -1239,8 +1250,8 @@ class Ui_MainWindow(object):
         self.ZoomText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">200%</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">200%</span></p></body></html>"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Focus to Origin."))
         self.ResetCanvas.setText(_translate("MainWindow", "Origin"))
         self.FitW.setStatusTip(_translate("MainWindow", "Fit by width."))
@@ -1250,6 +1261,7 @@ class Ui_MainWindow(object):
         self.label_16.setText(_translate("MainWindow", "DOF:"))
         self.DOF_view.setStatusTip(_translate("MainWindow", "Degree of Freedom. The brackets including drive shaft."))
         self.menuFile.setTitle(_translate("MainWindow", "&File"))
+        self.menuExample.setTitle(_translate("MainWindow", "Example"))
         self.menu_Draw.setTitle(_translate("MainWindow", "&Draw"))
         self.menu_Options.setTitle(_translate("MainWindow", "&Options"))
         self.menu_Help.setTitle(_translate("MainWindow", "&Help"))
@@ -1355,6 +1367,8 @@ class Ui_MainWindow(object):
         self.action_Output_to_Solvespace.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
         self.actionOutput_to_DXF.setText(_translate("MainWindow", "Output to DXF"))
         self.action_Property.setText(_translate("MainWindow", "&Property"))
+        self.actionCrank_rocker.setText(_translate("MainWindow", "Crank rocker"))
+        self.actionMutiple_Link.setText(_translate("MainWindow", "Mutiple Link"))
 
 import icons_rc
 

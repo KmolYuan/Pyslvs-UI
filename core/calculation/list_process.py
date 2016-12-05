@@ -78,6 +78,13 @@ class Points():
                 for j in range(i, table1.rowCount()): table1.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
                 for j in range(i, table1.rowCount()): table2.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
                 break
+    
+    def coverageCoordinate(self, table, row):
+        coordinate = table.item(4, row).text()[1:-1].split(', ')
+        x = QTableWidgetItem(coordinate[0])
+        y = QTableWidgetItem(coordinate[1])
+        table.setItem(rowPosition, 1, x)
+        table.setItem(rowPosition, 2, y)
 
     def styleFix(self, table, name, fix):
         rowPosition = int(name.replace("Point", ""))

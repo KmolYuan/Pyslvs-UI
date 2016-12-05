@@ -12,7 +12,7 @@ now = datetime.datetime.now()
 class File():
     def __init__(self):
         self.form = {
-            'fileName':'',
+            'fileName':"New Workbook",
             'description':'',
             'author':'',
             'lastTime':'',
@@ -38,7 +38,6 @@ class File():
             print(self.form)
     
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        print(data)
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
         try: author = data[infoIndex[0]:infoIndex[1]+1][1]
@@ -113,7 +112,7 @@ class File():
         dlg.show()
         if dlg.exec_(): pass
     
-    def writeTable(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+    def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
         writer.writerow(["_info_"])
         writer.writerow([self.form['author']])

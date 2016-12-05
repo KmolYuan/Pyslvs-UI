@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from .Ui_run_Path_Track import Ui_Dialog
 
-from .. import calculation
+from ..calculation.calculation import Solvespace
 
 class Path_Track_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
@@ -87,7 +87,7 @@ class WorkerThread(QThread):
         for i in range(self.Run_list.count()):
             point_list += [int(self.Run_list.item(i).text().replace("Point", ""))]
         table2 = self.Drive_Shaft
-        solvespace = calculation.Solvespace()
+        solvespace = Solvespace()
         nPath = []
         for i in range(table2.rowCount()):
             start_angle = float(table2.item(i, 3).text())*100
