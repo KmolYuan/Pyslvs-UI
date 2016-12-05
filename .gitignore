@@ -12,3 +12,4 @@ core/slvs.py
 *__pycache__*
 
 .eric6project*
+_eric6project*

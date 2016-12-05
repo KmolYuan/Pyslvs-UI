@@ -12,7 +12,7 @@ now = datetime.datetime.now()
 class File():
     def __init__(self):
         self.form = {
-            'fileName':"New Workbook",
+            'fileName':"[New Workbook]",
             'description':'',
             'author':'',
             'lastTime':'',

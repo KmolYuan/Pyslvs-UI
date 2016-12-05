@@ -393,7 +393,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Exit.")
                 event.accept()
             elif reply == QMessageBox.Save:
-                self.on_action_Output_Coordinate_to_Text_File_triggered()
+                self.on_actionSave_triggered()
                 if not self.File.form['changed']:
                     print("Exit.")
                     event.accept()
@@ -557,7 +557,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_coordinate.setEnabled(False)
         self.Path_data_show.setEnabled(False)
         print("Reset the workbook.")
-        self.setWindowTitle(_translate("MainWindow", "Pyslvs - New Workbook"))
+        self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
     def load_Workbook(self, fileName=False, data=[]):
         try:
             self.MeasurementWidget.deleteLater()
@@ -610,25 +610,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Successful Load the workbook...")
     
     @pyqtSlot()
-    def on_action_Output_Coordinate_to_Text_File_triggered(self):
-        print("Saving to CSV or text File...")
-        if "New Workbook" in self.File.form['fileName'] or "[Example]" in self.File.form['fileName']:
+    def on_actionSave_triggered(self):
+        print("Saving this Workbook...")
+        if "[New Workbook]" in self.File.form['fileName'] or "[Example]" in self.File.form['fileName']:
             fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
         else:
             fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "")
         if fileName:
-            fileName = fileName.replace(".csv", "")+".csv"
-            with open(fileName, 'w', newline="") as stream:
-                writer = csv.writer(stream)
-                self.File.write(
-                    fileName, writer,
-                    self.Entiteis_Point, self.Entiteis_Point_Style,
-                    self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                    self.Drive_Shaft, self.Slider,
-                    self.Rod, self.Parameter_list)
-            print("Successful Save: "+fileName)
-            self.File.form['changed'] = False
-            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
+            self.save(fileName)
+    @pyqtSlot()
+    def on_actionSave_as_triggered(self):
+        print("Saving to another Workbook...")
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
+        if fileName:
+            self.save(fileName)
+    def save(self, fileName):
+        fileName = fileName.replace(".csv", "")+".csv"
+        with open(fileName, 'w', newline="") as stream:
+            writer = csv.writer(stream)
+            self.File.write(
+                fileName, writer,
+                self.Entiteis_Point, self.Entiteis_Point_Style,
+                self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                self.Drive_Shaft, self.Slider,
+                self.Rod, self.Parameter_list)
+        print("Successful Save: "+fileName)
+        self.File.form['changed'] = False
+        self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
