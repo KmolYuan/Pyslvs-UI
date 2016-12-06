@@ -262,7 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
         if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
-        elif action == self.action_point_right_click_menu_coverage: self.File.Point.coverageCoordinate()
+        elif action == self.action_point_right_click_menu_coverage: self.File.Points.coverageCoordinate(self.Entiteis_Point, self.Entiteis_Point.currentRow())
         elif action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
         elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
