@@ -256,7 +256,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.actionDisplay_Dimensions.setChecked(False)
     def on_point_context_menu(self, point):
         self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
-        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4)
+        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>=2)
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>=2)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
