@@ -23,6 +23,7 @@ class Points():
         if fixed: checkbox.setCheckState(Qt.Checked)
         else: checkbox.setCheckState(Qt.Unchecked)
         table.setItem(rowPosition, 3, checkbox)
+        #self.list[rowPosition] = {'x':float(x), 'y':float(y), 'fix':fixed}
         if not edit: print("Add Point"+str(rowPosition)+".")
         else: print("Edit Point"+str(rowPosition)+".")
 
@@ -78,6 +79,13 @@ class Points():
                 for j in range(i, table1.rowCount()): table1.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
                 for j in range(i, table1.rowCount()): table2.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
                 break
+    
+    def coverageCoordinate(self, table, row):
+        coordinate = table.item(row, 4).text()[1:-1].split(', ')
+        x = QTableWidgetItem(coordinate[0])
+        y = QTableWidgetItem(coordinate[1])
+        table.setItem(row, 1, x)
+        table.setItem(row, 2, y)
 
     def styleFix(self, table, name, fix):
         rowPosition = int(name.replace("Point", ""))
@@ -104,9 +112,10 @@ class Lines():
         table.setItem(rowPosition, 1, QTableWidgetItem(start))
         table.setItem(rowPosition, 2, QTableWidgetItem(end))
         table.setItem(rowPosition, 3, QTableWidgetItem(l))
+        #self.list[rowPosition] = {'start':int(start), 'end':int(end), 'length':float(l)}
         if not edit: print("Add a link, Line "+str(rowPosition)+".")
         else: print("Edit a link, Line "+str(rowPosition)+".")
-
+    
     def deleteTable(self, table1, table2, dlg):
         for i in range(table2.rowCount()):
             if (dlg.Entity.currentText() == table2.item(i, 2).text()):

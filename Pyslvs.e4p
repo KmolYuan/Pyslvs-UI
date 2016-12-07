@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-11-23, 16:26:28 -->
+<!-- Saved: 2016-12-05, 17:47:13 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
   <Hash>57ea502ed418aed2ac7a75c05602e758e13f6462</Hash>
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
-  <Description></Description>
   <Version>0.1</Version>
   <Author>Tiberium</Author>
   <Email></Email>
-  <Eol index="-1"/>
   <Sources>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
@@ -58,6 +56,7 @@
     <Source>core/info/version.py</Source>
     <Source>core/io/__init__.py</Source>
     <Source>core/io/dxf_type.py</Source>
+    <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>

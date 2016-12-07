@@ -12,7 +12,7 @@ now = datetime.datetime.now()
 class File():
     def __init__(self):
         self.form = {
-            'fileName':'',
+            'fileName':"[New Workbook]",
             'description':'',
             'author':'',
             'lastTime':'',
@@ -112,17 +112,7 @@ class File():
         dlg.show()
         if dlg.exec_(): pass
     
-    def reset(self, Point, Link, Chain, Point_Style, Shaft, Slider, Rod, Parameter):
-        Reset_notebook(Point, 1)
-        Reset_notebook(Link, 0)
-        Reset_notebook(Chain, 0)
-        Reset_notebook(Point_Style, 1)
-        Reset_notebook(Shaft, 0)
-        Reset_notebook(Slider, 0)
-        Reset_notebook(Rod, 0)
-        Reset_notebook(Parameter, 0)
-    
-    def writeTable(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+    def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
         writer.writerow(["_info_"])
         writer.writerow([self.form['author']])
@@ -164,6 +154,16 @@ class File():
                 for j in range(len(self.Path.data[0][i])): rowdata += [str(self.Path.data[0][i][j])+'\t']
                 rowdata += ["+="]
                 writer.writerow(rowdata)
+    
+    def reset(self, Point, Link, Chain, Point_Style, Shaft, Slider, Rod, Parameter):
+        Reset_notebook(Point, 1)
+        Reset_notebook(Link, 0)
+        Reset_notebook(Chain, 0)
+        Reset_notebook(Point_Style, 1)
+        Reset_notebook(Shaft, 0)
+        Reset_notebook(Slider, 0)
+        Reset_notebook(Rod, 0)
+        Reset_notebook(Parameter, 0)
     
     def CSV_notebook(self, writer, table, k, init=0):
         writer.writerow(["_table_"])

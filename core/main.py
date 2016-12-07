@@ -19,14 +19,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
 
-#CSV & SQLite
-import sys, csv, math, webbrowser
-from peewee import *
 #PyQt5
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 _translate = QCoreApplication.translate
+#CSV & SQLite
+import sys, csv, math, webbrowser
+from peewee import *
 #UI Ports
 from .Ui_main import Ui_MainWindow
 #Dialog Ports
@@ -71,8 +71,9 @@ from .simulate.run_AuxLine import AuxLine_show
 from .calculation.calculation import Solvespace
 from .calculation.canvas import DynamicCanvas
 from .calculation.list_process import Delete_dlg_set
-#File
+#File & Example
 from .io.fileForm import File
+from .io.example import example_crankRocker, example_mutipleLink
 #Option
 from .io.settings import Pyslvs_Settings_ini
 
@@ -80,9 +81,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        #File
+        #File & Default Setting
         self.File = File()
-        #Default Setting
         self.load_settings()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
@@ -135,6 +135,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_point = QMenu(self)
         self.action_point_right_click_menu_copy = QAction("Copy Coordinate", self)
         self.popMenu_point.addAction(self.action_point_right_click_menu_copy)
+        self.action_point_right_click_menu_coverage = QAction("Coverage Coordinate", self)
+        self.popMenu_point.addAction(self.action_point_right_click_menu_coverage)
         self.action_point_right_click_menu_add = QAction("Add a Point", self)
         self.popMenu_point.addAction(self.action_point_right_click_menu_add)
         self.action_point_right_click_menu_edit = QAction("Edit a Point", self)
@@ -225,6 +227,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_delete)
     
     #Right-click menu event
+    @pyqtSlot(float, float)
+    def context_menu_mouse_pos(self, x, y):
+        self.mouse_pos_x = x
+        self.mouse_pos_y = y
     def on_painter_context_menu(self, point):
         action = self.popMenu_painter.exec_(self.qpainterWindow.mapToGlobal(point))
         table1 = self.Entiteis_Point
@@ -248,17 +254,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
                 self.action_painter_right_click_menu_dimension_add.setChecked(False)
                 self.actionDisplay_Dimensions.setChecked(False)
-    @pyqtSlot(float, float)
-    def context_menu_mouse_pos(self, x, y):
-        self.mouse_pos_x = x
-        self.mouse_pos_y = y
     def on_point_context_menu(self, point):
         self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
+        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>=2)
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>=2)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
         if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
+        elif action == self.action_point_right_click_menu_coverage: self.File.Points.coverageCoordinate(self.Entiteis_Point, self.Entiteis_Point.currentRow())
         elif action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
         elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
@@ -389,7 +393,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Exit.")
                 event.accept()
             elif reply == QMessageBox.Save:
-                self.on_action_Output_Coordinate_to_Text_File_triggered()
+                self.on_actionSave_triggered()
                 if not self.File.form['changed']:
                     print("Exit.")
                     event.accept()
@@ -553,8 +557,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_coordinate.setEnabled(False)
         self.Path_data_show.setEnabled(False)
         print("Reset the workbook.")
-        self.setWindowTitle(_translate("MainWindow", "Pyslvs - New Workbook"))
-    def load_Workbook(self, fileName=False):
+        self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
+    def load_Workbook(self, fileName=False, data=[]):
         try:
             self.MeasurementWidget.deleteLater()
             del self.MeasurementWidget
@@ -581,12 +585,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         print("Reset workbook.")
         if fileName==False: fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
-        if fileName[-4::]=='.csv':
-            print("Get:"+fileName)
-            data = []
-            with open(fileName, newline="") as stream:
-                reader = csv.reader(stream, delimiter=' ', quotechar='|')
-                for row in reader: data += ', '.join(row).split('\t,')
+        if fileName[-4::]=='.csv' or "[Example]" in fileName:
+            if data==[]:
+                print("Get:"+fileName)
+                with open(fileName, newline="") as stream:
+                    reader = csv.reader(stream, delimiter=' ', quotechar='|')
+                    for row in reader: data += ', '.join(row).split('\t,')
             self.File.read(
                 fileName, data,
                 self.Entiteis_Point, self.Entiteis_Point_Style,
@@ -606,25 +610,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Successful Load the workbook...")
     
     @pyqtSlot()
-    def on_action_Output_Coordinate_to_Text_File_triggered(self):
-        print("Saving to CSV or text File...")
-        if self.windowTitle()=="Pyslvs - New Workbook" or self.windowTitle()=="Pyslvs - New Workbook*":
+    def on_actionSave_triggered(self):
+        print("Saving this Workbook...")
+        if "[New Workbook]" in self.File.form['fileName'] or "[Example]" in self.File.form['fileName']:
             fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
         else:
             fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "")
         if fileName:
-            fileName = fileName.replace(".csv", "")+".csv"
-            with open(fileName, 'w', newline="") as stream:
-                writer = csv.writer(stream)
-                self.File.writeTable(
-                    fileName, writer,
-                    self.Entiteis_Point, self.Entiteis_Point_Style,
-                    self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                    self.Drive_Shaft, self.Slider,
-                    self.Rod, self.Parameter_list)
-            print("Successful Save: "+fileName)
-            self.File.form['changed'] = False
-            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
+            self.save(fileName)
+    @pyqtSlot()
+    def on_actionSave_as_triggered(self):
+        print("Saving to another Workbook...")
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
+        if fileName:
+            self.save(fileName)
+    def save(self, fileName):
+        fileName = fileName.replace(".csv", "")+".csv"
+        with open(fileName, 'w', newline="") as stream:
+            writer = csv.writer(stream)
+            self.File.write(
+                fileName, writer,
+                self.Entiteis_Point, self.Entiteis_Point_Style,
+                self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                self.Drive_Shaft, self.Slider,
+                self.Rod, self.Parameter_list)
+        print("Successful Save: "+fileName)
+        self.File.form['changed'] = False
+        self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
@@ -1022,8 +1034,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table = self.Drive_Shaft
         center = int(table.item(pos, 1).text().replace("Point", ""))
         references = int(table.item(pos, 2).text().replace("Point", ""))
-        start = float(table.item(pos, 3).text().replace("°", ""))
-        end = float(table.item(pos, 4).text().replace("°", ""))
+        start = float(table.item(pos, 3).text())
+        end = float(table.item(pos, 4).text())
         self.shaft_feedback.emit(center, references, start, end)
     
     @pyqtSlot()
@@ -1289,8 +1301,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setPlainText(str(value)+"%")
         self.Reload_Canvas()
+    #Wheel Event
     def wheelEvent(self, event):
-        if QApplication.keyboardModifiers()==Qt.ControlModifier:
+        if self.mapFromGlobal(QCursor.pos()).x()>=470:
             if event.angleDelta().y()>0: self.ZoomBar.setValue(self.ZoomBar.value()+10)
             if event.angleDelta().y()<0: self.ZoomBar.setValue(self.ZoomBar.value()-10)
     
@@ -1380,14 +1393,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Shaft_limit(self, pos):
         try:
-            self.DriveWidget.Degree.setMinimum(int(float(self.Drive_Shaft.item(pos, 3).text().replace("°", "")))*100)
-            self.DriveWidget.Degree.setMaximum(int(float(self.Drive_Shaft.item(pos, 4).text().replace("°", "")))*100)
-            self.DriveWidget.Degree.setValue(int(float(self.Drive_Shaft.item(pos, 5).text().replace("°", "")))*100)
+            self.DriveWidget.Degree.setMinimum(int(float(self.Drive_Shaft.item(pos, 3).text()))*100)
+            self.DriveWidget.Degree.setMaximum(int(float(self.Drive_Shaft.item(pos, 4).text()))*100)
+            self.DriveWidget.Degree.setValue(int(float(self.Drive_Shaft.item(pos, 5).text()))*100)
         except: self.DriveWidget.Degree.setValue(int((self.DriveWidget.Degree.maximum()+self.DriveWidget.Degree.minimum())/2))
         self.DriveWidget.Degree_text.setValue(float(self.DriveWidget.Degree.value()/100))
     @pyqtSlot(int, float)
     def Change_demo_angle(self, shaft_int, angle):
-        self.Drive_Shaft.setItem(shaft_int, 5, QTableWidgetItem(str(angle)+"°"))
+        self.Drive_Shaft.setItem(shaft_int, 5, QTableWidgetItem(str(angle)))
         self.Resolve()
     
     @pyqtSlot()
@@ -1533,3 +1546,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Property_triggered(self): self.File.setProperty()
+    
+    @pyqtSlot()
+    def on_actionCrank_rocker_triggered(self):
+        print('Loading Example...')
+        self.load_Workbook("[Example] Crank Rocker", example_crankRocker())
+    @pyqtSlot()
+    def on_actionMutiple_Link_triggered(self):
+        print('Loading Example...')
+        self.load_Workbook("[Example] Mutiple Link", example_mutipleLink())
