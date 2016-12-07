@@ -19,22 +19,19 @@ def show_info():
     print("OS Type: "+platform.system())
     print("Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
     try:
-        try: from PyQt5.QtCore import qVersion
-        except: from PyQt4.QtCore import qVersion
+        from PyQt5.QtCore import qVersion
         print("Qt Version: {0}".format(qVersion().strip()))
-    except: print("No Qt.")
+    except: print("No Qt5.")
     try:
-        try: from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
-        except: from PyQt4.QtCore import PYQT_VERSION_STR as pyqtVersion
+        from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
         print("PyQt Version:", pyqtVersion.strip())
-    except: print("No PyQt.")
+    except: print("No PyQt5.")
     try:
         from sip import SIP_VERSION_STR as sipVersion
         print("Sip Version:", sipVersion.strip())
     except: print("No Sip.")
     try:
-        try: from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
-        except: from PyQt4.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
+        from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
         print("QScintilla Version:", qsciVersion.strip())
     except: print("No QScintilla.")
     print("-------")
