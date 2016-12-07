@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -726,7 +726,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 22))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -1007,6 +1007,7 @@ class Ui_MainWindow(object):
         self.actionOutput_to_DXF.setIcon(icon53)
         self.actionOutput_to_DXF.setObjectName("actionOutput_to_DXF")
         self.action_Property = QtWidgets.QAction(MainWindow)
+        self.action_Property.setIcon(icon30)
         self.action_Property.setObjectName("action_Property")
         self.actionCrank_rocker = QtWidgets.QAction(MainWindow)
         self.actionCrank_rocker.setObjectName("actionCrank_rocker")
@@ -1015,6 +1016,7 @@ class Ui_MainWindow(object):
         self.actionA = QtWidgets.QAction(MainWindow)
         self.actionA.setObjectName("actionA")
         self.actionSave_as = QtWidgets.QAction(MainWindow)
+        self.actionSave_as.setIcon(icon30)
         self.actionSave_as.setObjectName("actionSave_as")
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionMutiple_Link)
@@ -1030,7 +1032,6 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addAction(self.actionSave_as)
         self.menuFile.addAction(self.menuExport.menuAction())
-        self.menuFile.addAction(self.action_Property)
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionMi_nimized)
         self.menuFile.addAction(self.actionM_axmized)
@@ -1056,6 +1057,7 @@ class Ui_MainWindow(object):
         self.menu_Options.addAction(self.action_Black_Blackground)
         self.menu_Options.addSeparator()
         self.menu_Options.addAction(self.action_See_Python_Scripts)
+        self.menu_Options.addAction(self.action_Property)
         self.menu_Options.addSeparator()
         self.menu_Options.addAction(self.action_Prefenece)
         self.menu_Help.addAction(self.actionHow_to_use)
@@ -1165,8 +1167,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
         self.Parameter_digital.setStatusTip(_translate("MainWindow", "Enter your parameter."))
         self.Parameter_digital.setPlaceholderText(_translate("MainWindow", "0.0"))
@@ -1256,8 +1258,8 @@ class Ui_MainWindow(object):
         self.ZoomText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">200%</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">200%</p></body></html>"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Focus to Origin."))
         self.ResetCanvas.setText(_translate("MainWindow", "Origin"))
         self.FitW.setStatusTip(_translate("MainWindow", "Fit by width."))

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project Pyslvs -->
-<!-- Saved: 2016-12-07, 10:36:30 -->
+<!-- Saved: 2016-12-07, 11:06:27 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
   <Task priority="1" completed="False" type="1" uid="{69e89577-4088-4f19-a407-16e9336b52c4}">
@@ -31,13 +31,13 @@
       <Linenumber>344</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{97bee399-5617-439b-8083-05b1595c1cea}">
+  <Task priority="1" completed="False" type="1" uid="{f5bf925c-24c1-4716-a9d0-e5dd2fd1be18}">
     <Summary>TODO: SQLite</Summary>
     <Description></Description>
-    <Created>2016-11-23, 16:31:06</Created>
+    <Created>2016-12-07, 10:46:53</Created>
     <Resource>
       <Filename>core/main.py</Filename>
-      <Linenumber>688</Linenumber>
+      <Linenumber>700</Linenumber>
     </Resource>
   </Task>
 </Tasks>

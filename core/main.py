@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
-
 #PyQt5
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -86,6 +85,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.load_settings()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
+        self.qpainterWindow.setCursor(Qt.CrossCursor)
         self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
@@ -1541,7 +1541,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_symmetrical_part_clicked(self):
         self.sym_part = self.symmetrical_part.isChecked()
-        print(self.sym_part)
         self.Resolve()
     
     @pyqtSlot()

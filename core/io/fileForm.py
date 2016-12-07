@@ -157,9 +157,9 @@ class File():
     
     def reset(self, Point, Link, Chain, Point_Style, Shaft, Slider, Rod, Parameter):
         Reset_notebook(Point, 1)
+        Reset_notebook(Point_Style, 1)
         Reset_notebook(Link, 0)
         Reset_notebook(Chain, 0)
-        Reset_notebook(Point_Style, 1)
         Reset_notebook(Shaft, 0)
         Reset_notebook(Slider, 0)
         Reset_notebook(Rod, 0)

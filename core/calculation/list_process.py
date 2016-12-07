@@ -46,38 +46,38 @@ class Points():
         table.setCellWidget(rowPosition, 3, color_combobox)
         print("Add Point Style for Point"+str(rowPosition)+".")
 
-    def deleteTable(self, table1, table2, table3, table4, table5, table6, table7, dlg):
-        for i in range(table3.rowCount()):
-            if (dlg.Point.currentText() == table3.item(i, 1).text()) or (dlg.Point.currentText() == table3.item(i, 2).text()):
-                table3.removeRow(i)
-                for j in range(i, table3.rowCount()): table3.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
+    def deleteTable(self, tablePoint, tableStyle, tableLine, tableChain, tableShaft, tableSlider, tableRod, dlg):
+        for i in range(tableLine.rowCount()):
+            if (dlg.Point.currentText() == tableLine.item(i, 1).text()) or (dlg.Point.currentText() == tableLine.item(i, 2).text()):
+                tableLine.removeRow(i)
+                for j in range(i, tableLine.rowCount()): tableLine.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
                 break
-        for i in range(table4.rowCount()):
-            if (dlg.Point.currentText() == table4.item(i, 1).text()) or (dlg.Point.currentText() == table4.item(i, 2).text()):
-                table4.removeRow(i)
-                for j in range(i, table4.rowCount): table4.setItem(j, 0, QTableWidgetItem("Chain"+str(j)))
+        for i in range(tableChain.rowCount()):
+            if (dlg.Point.currentText() == tableChain.item(i, 1).text()) or (dlg.Point.currentText() == tableChain.item(i, 2).text()):
+                tableChain.removeRow(i)
+                for j in range(i, tableChain.rowCount): tableChain.setItem(j, 0, QTableWidgetItem("Chain"+str(j)))
                 break
-        for i in range(table5.rowCount()):
-            if (dlg.Point.currentText() == table5.item(i, 1).text()) or (dlg.Point.currentText() == table5.item(i, 2).text()):
-                table5.removeRow(i)
-                for j in range(i, table5.rowCount()): table5.setItem(j, 0, QTableWidgetItem("Shaft"+str(j)))
+        for i in range(tableShaft.rowCount()):
+            if (dlg.Point.currentText() == tableShaft.item(i, 1).text()) or (dlg.Point.currentText() == tableShaft.item(i, 2).text()):
+                tableShaft.removeRow(i)
+                for j in range(i, tableShaft.rowCount()): tableShaft.setItem(j, 0, QTableWidgetItem("Shaft"+str(j)))
                 break
-        for i in range(table6.rowCount()):
-            if (dlg.Point.currentText() == table6.item(i, 1).text()):
-                table6.removeRow(i)
-                for j in range(i, table6.rowCount()): table6.setItem(j, 0, QTableWidgetItem("Slider"+str(j)))
+        for i in range(tableSlider.rowCount()):
+            if (dlg.Point.currentText() == tableSlider.item(i, 1).text()):
+                tableSlider.removeRow(i)
+                for j in range(i, tableSlider.rowCount()): tableSlider.setItem(j, 0, QTableWidgetItem("Slider"+str(j)))
                 break
-        for i in range(table7.rowCount()):
-            if (dlg.Point.currentText() == table7.item(i, 1).text()) or (dlg.Point.currentText() == table7.item(i, 2).text()):
-                table7.removeRow(i)
-                for j in range(i, table7.rowCount()): table7.setItem(j, 0, QTableWidgetItem("Rod"+str(j)))
+        for i in range(tableRod.rowCount()):
+            if (dlg.Point.currentText() == tableRod.item(i, 1).text()) or (dlg.Point.currentText() == tableRod.item(i, 2).text()):
+                tableRod.removeRow(i)
+                for j in range(i, tableRod.rowCount()): tableRod.setItem(j, 0, QTableWidgetItem("Rod"+str(j)))
                 break
-        for i in range(1, table1.rowCount()):
-            if (dlg.Entity.currentText() == table1.item(i, 0).text()):
-                table1.removeRow(i)
-                table2.removeRow(i)
-                for j in range(i, table1.rowCount()): table1.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
-                for j in range(i, table1.rowCount()): table2.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
+        for i in range(1, tablePoint.rowCount()):
+            if (dlg.Entity.currentText() == tablePoint.item(i, 0).text()):
+                tablePoint.removeRow(i)
+                tableStyle.removeRow(i)
+                for j in range(i, tablePoint.rowCount()): tablePoint.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
+                for j in range(i, tablePoint.rowCount()): tableStyle.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
                 break
     
     def coverageCoordinate(self, table, row):
