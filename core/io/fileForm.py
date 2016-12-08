@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-from .list_process import(Parameters, Path,
-    Points, Lines, Chains, Shafts, Sliders, Rods)
-#File Info
-from ..info.fileInfo import fileInfo_show
-from ..info.editFileInfo import editFileInfo_show
-#Date
-import datetime
+from .__init__ import *
 now = datetime.datetime.now()
 
 class File():
@@ -36,7 +30,7 @@ class File():
             self.form['description'] = dlg.descriptionText.toPlainText()
             print(self.form)
     
-    #Check, Read, Wirte, Reset
+    #Check, Read, Write, Reset
     def check(self, data):
         n1 = len([e for e, x in enumerate(data) if x=='_info_'])==4
         n2 = len([e for e, x in enumerate(data) if x=='_table_'])==9
@@ -178,3 +172,20 @@ class File():
                     else: rowdata += [table.item(row, column).text()+'\t']
                 elif table.cellWidget(row, column): rowdata += [table.cellWidget(row, column).currentText()]
             writer.writerow(rowdata)
+    
+    def delTable(self, table, icon, dlg, name, pos):
+        if table.rowCount() <= 0:
+            dlg = zero_show()
+            dlg.show()
+            if dlg.exec_(): pass
+        else:
+            for i in range(table.rowCount()):
+                dlg.Entity.insertItem(i, icon, table.item(i, 0).text())
+            dlg.Entity.setCurrentIndex(pos)
+            dlg.show()
+            if dlg.exec_():
+                for i in range(table.rowCount()):
+                    if (dlg.Entity.currentText() == table.item(i, 0).text()):
+                        table.removeRow(i)
+                        for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
+                        break

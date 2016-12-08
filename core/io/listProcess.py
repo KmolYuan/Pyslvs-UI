@@ -202,20 +202,15 @@ class Path():
     def __init__(self):
         self.data = []
         self.runList = []
-
-def Delete_dlg_set(table, icon, dlg, name, pos):
-    if table.rowCount() <= 0:
-        dlg = zero_show()
-        dlg.show()
-        if dlg.exec_(): pass
-    else:
-        for i in range(table.rowCount()):
-            dlg.Entity.insertItem(i, icon, table.item(i, 0).text())
-        dlg.Entity.setCurrentIndex(pos)
-        dlg.show()
-        if dlg.exec_():
-            for i in range(table.rowCount()):
-                if (dlg.Entity.currentText() == table.item(i, 0).text()):
-                    table.removeRow(i)
-                    for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
-                    break
+    
+    def setup(self, table, data, Run_list):
+        for i in range(len(data)):
+            nPath = data[i]
+            for j in range(0, len(nPath), 2):
+                X_path = nPath[j]
+                Y_path = nPath[j+1]
+                for k in range(len(X_path)-1):
+                    table.insertRow(table.rowCount())
+                    table.setItem(table.rowCount()-1, 0, QTableWidgetItem(Run_list[int(j/2)]))
+                    table.setItem(table.rowCount()-1, 1, QTableWidgetItem(str(X_path[k])))
+                    table.setItem(table.rowCount()-1, 2, QTableWidgetItem(str(Y_path[k])))
