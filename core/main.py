@@ -69,9 +69,9 @@ from .simulate.run_AuxLine import AuxLine_show
 #Solve
 from .calculation.calculation import Solvespace
 from .calculation.canvas import DynamicCanvas
-from .calculation.list_process import Delete_dlg_set
 #File & Example
 from .io.fileForm import File
+from .io.list_process import Delete_dlg_set
 from .io.example import example_crankRocker, example_mutipleLink
 #Option
 from .io.settings import Pyslvs_Settings_ini
@@ -139,10 +139,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_point.addAction(self.action_point_right_click_menu_coverage)
         self.action_point_right_click_menu_add = QAction("Add a Point", self)
         self.popMenu_point.addAction(self.action_point_right_click_menu_add)
-        self.action_point_right_click_menu_edit = QAction("Edit a Point", self)
+        self.action_point_right_click_menu_edit = QAction("Edit this Point", self)
         self.popMenu_point.addAction(self.action_point_right_click_menu_edit)
         self.popMenu_point.addSeparator()
-        self.action_point_right_click_menu_delete = QAction("Delete a Point", self)
+        self.action_point_right_click_menu_delete = QAction("Delete this Point", self)
         self.popMenu_point.addAction(self.action_point_right_click_menu_delete) 
         #Entiteis_Link Right-click menu
         self.Entiteis_Link_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -150,7 +150,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_link = QMenu(self)
         self.action_link_right_click_menu_add = QAction("Add a Link", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_add)
-        self.action_link_right_click_menu_edit = QAction("Edit a Link", self)
+        self.action_link_right_click_menu_edit = QAction("Edit this Link", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
         self.popMenu_link.addSeparator()
         self.action_link_right_click_menu_move_up = QAction("Move up", self)
@@ -158,7 +158,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_link_right_click_menu_move_down = QAction("Move down", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_move_down)
         self.popMenu_link.addSeparator()
-        self.action_link_right_click_menu_delete = QAction("Delete a Link", self)
+        self.action_link_right_click_menu_delete = QAction("Delete this Link", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_delete) 
         #Entiteis_Chain Right-click menu
         self.Entiteis_Stay_Chain_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -166,7 +166,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_chain = QMenu(self)
         self.action_chain_right_click_menu_add = QAction("Add a Chain", self)
         self.popMenu_chain.addAction(self.action_chain_right_click_menu_add)
-        self.action_chain_right_click_menu_edit = QAction("Edit a Chain", self)
+        self.action_chain_right_click_menu_edit = QAction("Edit this Chain", self)
         self.popMenu_chain.addAction(self.action_chain_right_click_menu_edit)
         self.popMenu_chain.addSeparator()
         self.action_chain_right_click_menu_move_up = QAction("Move up", self)
@@ -174,7 +174,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_chain_right_click_menu_move_down = QAction("Move down", self)
         self.popMenu_chain.addAction(self.action_chain_right_click_menu_move_down)
         self.popMenu_chain.addSeparator()
-        self.action_chain_right_click_menu_delete = QAction("Delete a Chain", self)
+        self.action_chain_right_click_menu_delete = QAction("Delete this Chain", self)
         self.popMenu_chain.addAction(self.action_chain_right_click_menu_delete) 
         #Drive_Shaft Right-click menu
         self.Drive_Shaft_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -182,10 +182,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_shaft = QMenu(self)
         self.action_shaft_right_click_menu_add = QAction("Add a Drive Shaft", self)
         self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_add)
-        self.action_shaft_right_click_menu_edit = QAction("Edit a Drive Shaft", self)
+        self.action_shaft_right_click_menu_edit = QAction("Edit this Drive Shaft", self)
         self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_edit)
         self.popMenu_shaft.addSeparator()
-        self.action_shaft_right_click_menu_delete = QAction("Delete a Drive Shaft", self)
+        self.action_shaft_right_click_menu_delete = QAction("Delete this Drive Shaft", self)
         self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_delete) 
         #Slider Right-click menu
         self.Slider_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -193,10 +193,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_slider = QMenu(self)
         self.action_slider_right_click_menu_add = QAction("Add a Slider", self)
         self.popMenu_slider.addAction(self.action_slider_right_click_menu_add)
-        self.action_slider_right_click_menu_edit = QAction("Edit a Slider", self)
+        self.action_slider_right_click_menu_edit = QAction("Edit this Slider", self)
         self.popMenu_slider.addAction(self.action_slider_right_click_menu_edit)
         self.popMenu_slider.addSeparator()
-        self.action_slider_right_click_menu_delete = QAction("Delete a Slider", self)
+        self.action_slider_right_click_menu_delete = QAction("Delete this Slider", self)
         self.popMenu_slider.addAction(self.action_slider_right_click_menu_delete) 
         #Rod Right-click menu
         self.Rod_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -204,10 +204,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_rod = QMenu(self)
         self.action_rod_right_click_menu_add = QAction("Add a Rod", self)
         self.popMenu_rod.addAction(self.action_rod_right_click_menu_add)
-        self.action_rod_right_click_menu_edit = QAction("Edit a Rod", self)
+        self.action_rod_right_click_menu_edit = QAction("Edit this Rod", self)
         self.popMenu_rod.addAction(self.action_rod_right_click_menu_edit)
         self.popMenu_rod.addSeparator()
-        self.action_rod_right_click_menu_delete = QAction("Delete a Rod", self)
+        self.action_rod_right_click_menu_delete = QAction("Delete this Rod", self)
         self.popMenu_rod.addAction(self.action_rod_right_click_menu_delete)
         #Parameter Right-click menu
         self.Parameter_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -223,7 +223,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_parameter_right_click_menu_move_down = QAction("Move down", self)
         self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_move_down)
         self.popMenu_parameter.addSeparator()
-        self.action_parameter_right_click_menu_delete = QAction("Delete a Parameter", self)
+        self.action_parameter_right_click_menu_delete = QAction("Delete this Parameter", self)
         self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_delete)
     
     #Right-click menu event
@@ -413,6 +413,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Resolve
     def Resolve(self):
+        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.Obstacles_Exclusion()
+        #Solve
+        result = []
+        solvespace = Solvespace()
+        fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "").split("/")[-1].split(".")[0]
+        result, DOF = solvespace.static_process(table_point, table_line, table_chain,
+            table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.sym_part)
+        self.Script = solvespace.Script
+        if result==[]:
+            self.Solvefail = True
+            print("Rebuild the cavanc falled.")
+        else:
+            self.Solvefail = False
+            for i in range(table_point.rowCount()): self.File.Points.currentPos(table_point, i, result[i*2], result[i*2+1])
+            self.DOF = DOF
+            self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
+            self.Reload_Canvas()
+    
+    #Reload Canvas
+    def Reload_Canvas(self):
+        self.qpainterWindow.update_figure(
+        float(self.LineWidth.text()), float(self.PathWidth.text()),
+            self.Entiteis_Point, self.Entiteis_Link,
+            self.Entiteis_Stay_Chain, self.Drive_Shaft,
+            self.Slider, self.Rod, self.Parameter_list,
+            self.Entiteis_Point_Style, self.ZoomText.toPlainText(),
+            self.Font_size.value(),
+            self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
+            self.action_Black_Blackground.isChecked())
+    
+    #Obstacles Exclusion
+    def Obstacles_Exclusion(self):
         table_point = self.Entiteis_Point
         table_line = self.Entiteis_Link
         table_chain = self.Entiteis_Stay_Chain
@@ -446,33 +478,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if case5 and case6:
                 if c==0: table_point.setItem(a, 2, QTableWidgetItem(str(float(table_point.item(a, 2).text())+0.01)))
                 else: table_point.setItem(c, 2, QTableWidgetItem(str(float(table_point.item(c, 2).text())+0.01)))
-        #Solve
-        result = []
-        solvespace = Solvespace()
-        fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "").split("/")[-1].split(".")[0]
-        result, DOF = solvespace.static_process(table_point, table_line, table_chain,
-            table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.sym_part)
-        self.Script = solvespace.Script
-        if result==[]:
-            self.Solvefail = True
-            print("Rebuild the cavanc falled.")
-        else:
-            self.Solvefail = False
-            for i in range(table_point.rowCount()): self.File.Points.currentPos(table_point, i, result[i*2], result[i*2+1])
-            self.DOF = DOF
-            self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
-            self.Reload_Canvas()
-    
-    #Reload Canvas
-    def Reload_Canvas(self):
-        self.qpainterWindow.update_figure(float(self.LineWidth.text()), float(self.PathWidth.text()),
-            self.Entiteis_Point, self.Entiteis_Link,
-            self.Entiteis_Stay_Chain, self.Drive_Shaft,
-            self.Slider, self.Rod, self.Parameter_list,
-            self.Entiteis_Point_Style, self.ZoomText.toPlainText(),
-            self.Font_size.value(),
-            self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
-            self.action_Black_Blackground.isChecked())
+        return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
     
     #Workbook Change
     def Workbook_noSave(self):
@@ -526,25 +532,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             warning_reset.show()
             if warning_reset.exec_(): self.load_Workbook()
         else: self.load_Workbook()
-    
+    @pyqtSlot()
+    def on_actionCrank_rocker_triggered(self):
+        print('Loading Example...')
+        self.load_Workbook("[Example] Crank Rocker", example_crankRocker())
+    @pyqtSlot()
+    def on_actionMutiple_Link_triggered(self):
+        print('Loading Example...')
+        self.load_Workbook("[Example] Mutiple Link", example_mutipleLink())
+    #Workbook Functions
     def new_Workbook(self):
-        try:
-            self.MeasurementWidget.deleteLater()
-            del self.MeasurementWidget
-            self.Measurement.setChecked(False)
-        except: pass
-        try:
-            self.DriveWidget.deleteLater()
-            del self.DriveWidget
-            self.Drive.setChecked(False)
-        except: pass
-        try:
-            self.qpainterWindow.AuxLine['show'] = False
-            self.AuxLineWidget.deleteLater()
-            del self.AuxLineWidget
-            self.AuxLine.setChecked(False)
-        except: pass
-        self.reset_Auxline()
+        self.closePanel()
         self.File.reset(
             self.Entiteis_Point, self.Entiteis_Point_Style,
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
@@ -559,23 +557,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Reset the workbook.")
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
     def load_Workbook(self, fileName=False, data=[]):
-        try:
-            self.MeasurementWidget.deleteLater()
-            del self.MeasurementWidget
-            self.Measurement.setChecked(False)
-        except: pass
-        try:
-            self.DriveWidget.deleteLater()
-            del self.DriveWidget
-            self.Drive.setChecked(False)
-        except: pass
-        try:
-            self.qpainterWindow.AuxLine['show'] = False
-            self.AuxLineWidget.deleteLater()
-            del self.AuxLineWidget
-            self.AuxLine.setChecked(False)
-        except: pass
-        self.reset_Auxline()
+        self.closePanel()
         self.File.reset(
             self.Entiteis_Point, self.Entiteis_Point_Style,
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
@@ -591,32 +573,46 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 with open(fileName, newline="") as stream:
                     reader = csv.reader(stream, delimiter=' ', quotechar='|')
                     for row in reader: data += ', '.join(row).split('\t,')
-            self.File.read(
-                fileName, data,
-                self.Entiteis_Point, self.Entiteis_Point_Style,
-                self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                self.Drive_Shaft, self.Slider,
-                self.Rod, self.Parameter_list)
-            for i in range(1, self.Entiteis_Point_Style.rowCount()):
-                self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
-            self.File.form['changed'] = False
-            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
-            self.Resolve()
-            self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
-            self.Path_Clear.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-            self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-            self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
-            print("Successful Load the workbook...")
+            if self.File.check(data):
+                self.File.read(
+                    fileName, data,
+                    self.Entiteis_Point, self.Entiteis_Point_Style,
+                    self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                    self.Drive_Shaft, self.Slider,
+                    self.Rod, self.Parameter_list)
+                for i in range(1, self.Entiteis_Point_Style.rowCount()): self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
+                self.File.form['changed'] = False
+                self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
+                self.Resolve()
+                self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
+                self.Path_Clear.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
+                self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
+                self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
+                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
+                print("Successful Load the workbook...")
+            else:
+                print("Failed to load!")
+    def closePanel(self):
+        try:
+            self.MeasurementWidget.deleteLater()
+            del self.MeasurementWidget
+            self.Measurement.setChecked(False)
+        except: pass
+        try:
+            self.DriveWidget.deleteLater()
+            del self.DriveWidget
+            self.Drive.setChecked(False)
+        except: pass
+        try:
+            self.qpainterWindow.AuxLine['show'] = False
+            self.AuxLineWidget.deleteLater()
+            del self.AuxLineWidget
+            self.AuxLine.setChecked(False)
+        except: pass
+        self.reset_Auxline()
     
     @pyqtSlot()
-    def on_actionCrank_rocker_triggered(self):
-        print('Loading Example...')
-        self.load_Workbook("[Example] Crank Rocker", example_crankRocker())
-    @pyqtSlot()
-    def on_actionMutiple_Link_triggered(self):
-        print('Loading Example...')
-        self.load_Workbook("[Example] Mutiple Link", example_mutipleLink())
+    def on_action_Property_triggered(self): self.File.setProperty()
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -1551,6 +1547,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_symmetrical_part_clicked(self):
         self.sym_part = self.symmetrical_part.isChecked()
         self.Resolve()
-    
-    @pyqtSlot()
-    def on_action_Property_triggered(self): self.File.setProperty()

@@ -3,13 +3,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from ..warning.contradict_value import contradict_show
-from .canvas import DynamicCanvas
+from ..calculation.canvas import DynamicCanvas
 
 class Points():
-    def __init__(self):
-        self.list = {0:{'x':0.0, 'y':0.0, 'fix':True, 'Cx':0.0, 'Cy':0.0}}
-        self.style = {0:{'color':'Red', 'ring':10, 'ringColor':'Red'}}
-    
     def editTable(self, table, name, x, y, fixed, edit):
         rowPosition = int(name.replace("Point", ""))
         if not edit: table.insertRow(rowPosition)
@@ -23,7 +19,6 @@ class Points():
         if fixed: checkbox.setCheckState(Qt.Checked)
         else: checkbox.setCheckState(Qt.Unchecked)
         table.setItem(rowPosition, 3, checkbox)
-        #self.list[rowPosition] = {'x':float(x), 'y':float(y), 'fix':fixed}
         if not edit: print("Add Point"+str(rowPosition)+".")
         else: print("Edit Point"+str(rowPosition)+".")
 
@@ -100,9 +95,6 @@ class Points():
         table.setItem(num, 4, digit)
 
 class Lines():
-    def __init__(self):
-        self.list = {}
-    
     def editTable(self, table, name, start, end, l, edit):
         rowPosition = int(name.replace("Line", ""))
         if not edit: table.insertRow(rowPosition)
@@ -112,7 +104,6 @@ class Lines():
         table.setItem(rowPosition, 1, QTableWidgetItem(start))
         table.setItem(rowPosition, 2, QTableWidgetItem(end))
         table.setItem(rowPosition, 3, QTableWidgetItem(l))
-        #self.list[rowPosition] = {'start':int(start), 'end':int(end), 'length':float(l)}
         if not edit: print("Add a link, Line "+str(rowPosition)+".")
         else: print("Edit a link, Line "+str(rowPosition)+".")
     
@@ -141,9 +132,6 @@ class Lines():
         return n
 
 class Chains():
-    def __init__(self):
-        self.list = {}
-    
     def editTable(self, table, name, p1, p2, p3, a, b, c, edit):
         rowPosition = int(name.replace("Chain", ""))
         if not edit: table.insertRow(rowPosition)
@@ -160,9 +148,6 @@ class Chains():
         else: print("Edit a Triangle Chain, Line "+str(rowPosition)+".")
 
 class Shafts():
-    def __init__(self):
-        self.list = {}
-    
     def editTable(self, table, name, center, references, start, end, demo_angle, edit):
         rowPosition = int(name.replace("Shaft", ""))
         name_set = QTableWidgetItem(name)
@@ -178,9 +163,6 @@ class Shafts():
         else: print("Set the Point to selected Shaft.")
 
 class Sliders():
-    def __init__(self):
-        self.list = {}
-    
     def editTable(self, table, name, center, references, edit):
         rowPosition = int(name.replace("Slider", ""))
         name_set = QTableWidgetItem(name)
@@ -193,9 +175,6 @@ class Sliders():
         else: print("Set the Point to selected Slider.")
 
 class Rods():
-    def __init__(self):
-        self.list = {}
-    
     def editTable(self, table, name, start, end, min, max, edit):
         rowPosition = int(name.replace("Rod", ""))
         name_set = QTableWidgetItem(name)
@@ -210,9 +189,6 @@ class Rods():
         else: print("Set the Point to selected Rod.")
 
 class Parameters():
-    def __init__(self):
-        self.list = {}
-    
     def editTable(self, table, name, val, commit):
         rowPosition = int(name.replace("n", ""))
         name_set = QTableWidgetItem(name)

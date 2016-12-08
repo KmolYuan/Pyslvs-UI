@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..calculation.list_process import(Parameters, Path,
+from .list_process import(Parameters, Path,
     Points, Lines, Chains, Shafts, Sliders, Rods)
 #File Info
 from ..info.fileInfo import fileInfo_show
@@ -36,6 +36,12 @@ class File():
             self.form['description'] = dlg.descriptionText.toPlainText()
             print(self.form)
     
+    #Check, Read, Wirte, Reset
+    def check(self, data):
+        n1 = len([e for e, x in enumerate(data) if x=='_info_'])==4
+        n2 = len([e for e, x in enumerate(data) if x=='_table_'])==9
+        n3 = len([e for e, x in enumerate(data) if x=='_path_'])==2
+        return n1 and n2 and n3
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
@@ -110,7 +116,6 @@ class File():
         dlg.rename(fileName, author, description, lastTime)
         dlg.show()
         if dlg.exec_(): pass
-    
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
         writer.writerow(["_info_"])
@@ -153,16 +158,15 @@ class File():
                 for j in range(len(self.Path.data[0][i])): rowdata += [str(self.Path.data[0][i][j])+'\t']
                 rowdata += ["+="]
                 writer.writerow(rowdata)
-    
-    def reset(self, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        Reset_notebook(Point, 1)
-        Reset_notebook(Point_Style, 1)
-        Reset_notebook(Link, 0)
-        Reset_notebook(Chain, 0)
-        Reset_notebook(Shaft, 0)
-        Reset_notebook(Slider, 0)
-        Reset_notebook(Rod, 0)
-        Reset_notebook(Parameter, 0)
+    def reset(self, Point, Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        for i in reversed(range(1, Point.rowCount())): Point.removeRow(i)
+        for i in reversed(range(1, Style.rowCount())): Style.removeRow(i)
+        for i in reversed(range(0, Link.rowCount())): Link.removeRow(i)
+        for i in reversed(range(0, Chain.rowCount())): Chain.removeRow(i)
+        for i in reversed(range(0, Shaft.rowCount())): Shaft.removeRow(i)
+        for i in reversed(range(0, Slider.rowCount())): Slider.removeRow(i)
+        for i in reversed(range(0, Rod.rowCount())): Rod.removeRow(i)
+        for i in reversed(range(0, Parameter.rowCount())): Parameter.removeRow(i)
     
     def CSV_notebook(self, writer, table, k, init=0):
         writer.writerow(["_table_"])
@@ -174,6 +178,3 @@ class File():
                     else: rowdata += [table.item(row, column).text()+'\t']
                 elif table.cellWidget(row, column): rowdata += [table.cellWidget(row, column).currentText()]
             writer.writerow(rowdata)
-
-def Reset_notebook(table, k):
-    for i in reversed(range(k, table.rowCount())): table.removeRow(i)
