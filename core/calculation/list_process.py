@@ -243,6 +243,3 @@ def Delete_dlg_set(table, icon, dlg, name, pos):
                     table.removeRow(i)
                     for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
                     break
-
-def Reset_notebook(table, k):
-    for i in reversed(range(k, table.rowCount())): table.removeRow(i)

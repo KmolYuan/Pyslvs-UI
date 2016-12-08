@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..calculation.list_process import(
-    Reset_notebook, Parameters, Path,
+from ..calculation.list_process import(Parameters, Path,
     Points, Lines, Chains, Shafts, Sliders, Rods)
 #File Info
 from ..info.fileInfo import fileInfo_show
@@ -155,7 +154,7 @@ class File():
                 rowdata += ["+="]
                 writer.writerow(rowdata)
     
-    def reset(self, Point, Link, Chain, Point_Style, Shaft, Slider, Rod, Parameter):
+    def reset(self, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         Reset_notebook(Point, 1)
         Reset_notebook(Point_Style, 1)
         Reset_notebook(Link, 0)
@@ -175,3 +174,6 @@ class File():
                     else: rowdata += [table.item(row, column).text()+'\t']
                 elif table.cellWidget(row, column): rowdata += [table.cellWidget(row, column).currentText()]
             writer.writerow(rowdata)
+
+def Reset_notebook(table, k):
+    for i in reversed(range(k, table.rowCount())): table.removeRow(i)

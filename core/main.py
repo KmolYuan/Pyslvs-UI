@@ -577,8 +577,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except: pass
         self.reset_Auxline()
         self.File.reset(
-            self.Entiteis_Point, self.Entiteis_Link,
-            self.Entiteis_Stay_Chain, self.Entiteis_Point_Style,
+            self.Entiteis_Point, self.Entiteis_Point_Style,
+            self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Drive_Shaft, self.Slider,
             self.Rod, self.Parameter_list)
         self.qpainterWindow.removePath()
@@ -608,6 +608,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
             self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
             print("Successful Load the workbook...")
+    
+    @pyqtSlot()
+    def on_actionCrank_rocker_triggered(self):
+        print('Loading Example...')
+        self.load_Workbook("[Example] Crank Rocker", example_crankRocker())
+    @pyqtSlot()
+    def on_actionMutiple_Link_triggered(self):
+        print('Loading Example...')
+        self.load_Workbook("[Example] Mutiple Link", example_mutipleLink())
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -1545,12 +1554,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Property_triggered(self): self.File.setProperty()
-    
-    @pyqtSlot()
-    def on_actionCrank_rocker_triggered(self):
-        print('Loading Example...')
-        self.load_Workbook("[Example] Crank Rocker", example_crankRocker())
-    @pyqtSlot()
-    def on_actionMutiple_Link_triggered(self):
-        print('Loading Example...')
-        self.load_Workbook("[Example] Mutiple Link", example_mutipleLink())
