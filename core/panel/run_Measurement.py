@@ -20,15 +20,12 @@ class Measurement_show(QWidget, Ui_Form):
     def on_Start_currentIndexChanged(self, index):
         self.First_Detection = True
         self.point_change.emit(self.Start.currentIndex(), self.End.currentIndex())
-    
     @pyqtSlot(int)
     def on_End_currentIndexChanged(self, index):
         self.First_Detection = True
         self.point_change.emit(self.Start.currentIndex(), self.End.currentIndex())
-    
     @pyqtSlot(float)
     def change_distance(self, val): self.Distance.setPlainText(str(val))
-    
     @pyqtSlot(bool)
     def on_Keep_Detection_toggled(self, checked): self.Detection = checked
     

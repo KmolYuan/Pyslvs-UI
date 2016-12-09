@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-08, 23:07:58 -->
+<!-- Saved: 2016-12-09, 17:10:12 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -61,16 +61,21 @@
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
     <Source>core/main.py</Source>
+    <Source>core/panel/Ui_run_AuxLine.py</Source>
+    <Source>core/panel/Ui_run_Drive.py</Source>
+    <Source>core/panel/Ui_run_Measurement.py</Source>
+    <Source>core/panel/Ui_run_Path_Track.py</Source>
+    <Source>core/panel/__init__.py</Source>
+    <Source>core/panel/run_AuxLine.py</Source>
+    <Source>core/panel/run_Drive.py</Source>
+    <Source>core/panel/run_Measurement.py</Source>
+    <Source>core/panel/run_Path_Track.py</Source>
     <Source>core/simulate/Ui_delete_drive_shaft.py</Source>
     <Source>core/simulate/Ui_delete_rod.py</Source>
     <Source>core/simulate/Ui_delete_slider.py</Source>
     <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
-    <Source>core/simulate/Ui_run_AuxLine.py</Source>
-    <Source>core/simulate/Ui_run_Drive.py</Source>
-    <Source>core/simulate/Ui_run_Measurement.py</Source>
-    <Source>core/simulate/Ui_run_Path_Track.py</Source>
     <Source>core/simulate/Ui_set_drive_shaft.py</Source>
     <Source>core/simulate/Ui_set_rod.py</Source>
     <Source>core/simulate/Ui_set_slider.py</Source>
@@ -81,10 +86,6 @@
     <Source>core/simulate/edit_drive_shaft.py</Source>
     <Source>core/simulate/edit_rod.py</Source>
     <Source>core/simulate/edit_slider.py</Source>
-    <Source>core/simulate/run_AuxLine.py</Source>
-    <Source>core/simulate/run_Drive.py</Source>
-    <Source>core/simulate/run_Measurement.py</Source>
-    <Source>core/simulate/run_Path_Track.py</Source>
     <Source>core/simulate/set_drive_shaft.py</Source>
     <Source>core/simulate/set_rod.py</Source>
     <Source>core/simulate/set_slider.py</Source>
@@ -127,19 +128,6 @@
     <Form>core/info/script.ui</Form>
     <Form>core/info/version.ui</Form>
     <Form>core/main.ui</Form>
-    <Form>core/simulate/delete_drive_shaft.ui</Form>
-    <Form>core/simulate/delete_rod.ui</Form>
-    <Form>core/simulate/delete_slider.ui</Form>
-    <Form>core/simulate/edit_drive_shaft.ui</Form>
-    <Form>core/simulate/edit_rod.ui</Form>
-    <Form>core/simulate/edit_slider.ui</Form>
-    <Form>core/simulate/run_AuxLine.ui</Form>
-    <Form>core/simulate/run_Drive.ui</Form>
-    <Form>core/simulate/run_Measurement.ui</Form>
-    <Form>core/simulate/run_Path_Track.ui</Form>
-    <Form>core/simulate/set_drive_shaft.ui</Form>
-    <Form>core/simulate/set_rod.ui</Form>
-    <Form>core/simulate/set_slider.ui</Form>
     <Form>core/warning/contradict_value.ui</Form>
     <Form>core/warning/kill_origin.ui</Form>
     <Form>core/warning/repeated_value.ui</Form>

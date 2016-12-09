@@ -566,6 +566,9 @@
                  </property>
                  <item>
                   <widget class="QTableWidget" name="Parameter_list">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                      <horstretch>0</horstretch>
@@ -687,6 +690,9 @@ p, li { white-space: pre-wrap; }
                    </item>
                    <item>
                     <widget class="QPushButton" name="Parameter_add">
+                     <property name="enabled">
+                      <bool>false</bool>
+                     </property>
                      <property name="text">
                       <string>Add a Parameter</string>
                      </property>
@@ -1237,6 +1243,21 @@ p, li { white-space: pre-wrap; }
                  </sizepolicy>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <property name="spacing">
+                  <number>5</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>5</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>5</number>
+                 </property>
                  <item>
                   <layout class="QGridLayout" name="Path_Track_Functions">
                    <item row="0" column="1">

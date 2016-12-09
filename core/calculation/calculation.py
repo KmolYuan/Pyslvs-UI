@@ -27,74 +27,50 @@ wy = Point_num*2+6
             try: table_parameter_l += [float(table_parameter.item(i, 1).text())]
             except: pass
         for i in range(table_point.rowCount()):
-            k = []
-            for j in range(1, 3):
-                #float
-                table_item = table_point.item(i, j).text()
-                table_val = table_item if not 'n' in table_item else table_parameter_l[int(table_item.replace("n", ""))]
-                k += [float(table_val)]
-            #bool
-            k += [bool(table_point.item(i, 3).checkState())]
-            #XY
+            k = {'x':0, 'y':0, 'fix':False, 'cx':0, 'cy':0}
+            k['x'] = float(table_point.item(i, 1).text())
+            k['y'] = float(table_point.item(i, 2).text())
+            k['fix'] = bool(table_point.item(i, 3).checkState())
             try:
-                k += [float(table_point.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[0])]
-                k += [float(table_point.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[1])]
+                k['cx'] = float(table_point.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[0])
+                k['cy'] = float(table_point.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[1])
             except: pass
             table_point_l += [k]
         for i in range(table_line.rowCount()):
-            k = []
-            for j in range(1, 3):
-                #int Point
-                table_item = table_line.item(i, j).text().replace("Point", "")
-                k += [int(table_item)]
-            #float
-            table_item = table_line.item(i, 3).text()
-            table_val = table_item if not 'n' in table_item else table_parameter_l[int(table_item.replace("n", ""))]
-            k += [float(table_val)]
+            k = {'start':0, 'end':0, 'len':0}
+            k['start'] = int(table_line.item(i, 1).text().replace("Point", ""))
+            k['end'] = int(table_line.item(i, 2).text().replace("Point", ""))
+            k['len'] = float(table_line.item(i, 3).text())
             table_line_l += [k]
         for i in range(table_chain.rowCount()):
-            k = []
-            for j in range(1, 4):
-                #int Point
-                table_item = table_chain.item(i, j).text().replace("Point", "")
-                k += [int(table_item)]
-            for j in range(4, 7):
-                #float
-                table_item = table_chain.item(i, j).text()
-                table_val = table_item if not 'n' in table_item else table_parameter_l[int(table_item.replace("n", ""))]
-                k += [float(table_val)]
+            k = {'p1':0, 'p2':0, 'p3':0, 'p1p2':0, 'p2p3':0, 'p1p3':0}
+            k['p1'] = int(table_chain.item(i, 1).text().replace("Point", ""))
+            k['p2'] = int(table_chain.item(i, 2).text().replace("Point", ""))
+            k['p3'] = int(table_chain.item(i, 3).text().replace("Point", ""))
+            k['p1p2'] = float(table_chain.item(i, 4).text())
+            k['p2p3'] = float(table_chain.item(i, 5).text())
+            k['p1p3'] = float(table_chain.item(i, 6).text())
             table_chain_l += [k]
         for i in range(table_shaft.rowCount()):
-            k = []
-            for j in range(1, 3):
-                #int Point
-                table_item = table_shaft.item(i, j).text().replace("Point", "")
-                k += [int(table_item)]
-            for j in range(3, 5):
-                #float angle
-                table_item = table_shaft.item(i, j).text()
-                table_val = table_item if not 'n' in table_item else table_parameter_l[int(table_item.replace("n", ""))]
-                k += [float(table_val)]
-            table_item = table_shaft.item(i, 5).text()
-            k += [float(table_item if table_shaft.item(i, 5) else False)]
+            k = {'cen':0, 'ref':0, 'start':0, 'end':0, 'demo':0}
+            k['cen'] = int(table_shaft.item(i, 1).text().replace("Point", ""))
+            k['ref'] = int(table_shaft.item(i, 2).text().replace("Point", ""))
+            k['start'] = float(table_shaft.item(i, 3).text())
+            k['end'] = float(table_shaft.item(i, 4).text())
+            try: k['demo'] = float(table_shaft.item(i, 5).text())
+            except: pass
             table_shaft_l += [k]
         for i in range(table_slider.rowCount()):
-            k = []
-            #int Point
-            k += [int(table_slider.item(i, 1).text().replace("Point", ""))]
-            #int Line
-            k += [int(table_slider.item(i, 2).text().replace("Line", ""))]
+            k = {'cen':0, 'ref':0}
+            k['cen'] = int(table_slider.item(i, 1).text().replace("Point", ""))
+            k['ref'] = int(table_slider.item(i, 2).text().replace("Line", ""))
             table_slider_l += [k]
         for i in range(table_rod.rowCount()):
-            k = []
-            for j in range(1, 4):
-                #int Point
-                table_item = table_rod.item(i, j).text().replace("Point", "")
-                k += [int(table_item)]
-            #float
-            table_item = table_rod.item(i, 4).text()
-            table_val = table_item if not 'n' in table_item else table_parameter_l[int(table_item.replace("n", ""))]
-            k += [float(table_val)]
+            k = {'cen':0, 'start':0, 'end':0, 'pos':0}
+            k['cen'] = int(table_rod.item(i, 1).text().replace("Point", ""))
+            k['start'] = int(table_rod.item(i, 2).text().replace("Line", ""))
+            k['end'] = int(table_rod.item(i, 3).text().replace("Line", ""))
+            k['pos'] = float(table_rod.item(i, 4).text())
             table_slider_l += [k]
         return table_point_l, table_line_l, table_chain_l, table_shaft_l, table_slider_l, table_rod_l
     
@@ -143,40 +119,40 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         for i in range(1, len(table_point) if len(table_point)>=1 else 1):
             x_val = 0
             if not(len(table_shaft)>=1):
-                x = sys.add_param(table_point[i][0])
-                y = sys.add_param(table_point[i][1])
+                x = sys.add_param(table_point[i]['x'])
+                y = sys.add_param(table_point[i]['y'])
             else:
                 for j in range(len(table_shaft)):
-                    case = table_shaft[j][1]==i and table_shaft[j][4] and not(sym_part)
+                    case = table_shaft[j]['ref']==i and table_shaft[j]['demo'] and not(sym_part)
                     if case:
-                        angle = table_shaft[j][4]
+                        angle = table_shaft[j]['demo']
                         other = -1 if angle >= 180 else 1
-                        a = table_shaft[j][0]
-                        x = sys.add_param(table_point[a][0])
-                        x_val = table_point[a][0]
-                        y = sys.add_param(table_point[i][1]*other)
+                        a = table_shaft[j]['cen']
+                        x = sys.add_param(table_point[a]['x'])
+                        x_val = table_point[a]['x']
+                        y = sys.add_param(table_point[i]['y']*other)
                     else:
-                        x_val = table_point[i][0]
-                        x = sys.add_param(table_point[i][0])
-                        y = sys.add_param(table_point[i][1])
+                        x_val = table_point[i]['x']
+                        x = sys.add_param(table_point[i]['x'])
+                        y = sys.add_param(table_point[i]['y'])
             p = Point2d(Workplane1, x, y)
             Point += [p]
             self.Script += """
     p"""+str(i*2+7)+""" = sys.add_param("""+str(x_val)+""")
-    p"""+str(i*2+8)+""" = sys.add_param("""+str(table_point[i][1])+""")
+    p"""+str(i*2+8)+""" = sys.add_param("""+str(table_point[i]['y'])+""")
     Point"""+str(i+1)+""" = Point2d(Workplane1, p"""+str(i*2+7)+""", p"""+str(i*2+8)+""")
 """
-            if table_point[i][2]:
+            if table_point[i]['fix']:
                 Constraint.dragged(Workplane1, p)
                 self.Script += """    Constraint.dragged(Workplane1, Point"""+str(i+1)+""")
 """
         for i in range(len(table_chain)):
-            pa = table_chain[i][0]
-            pb = table_chain[i][1]
-            pc = table_chain[i][2]
-            lengab = table_chain[i][3]
-            lengbc = table_chain[i][4]
-            lengac = table_chain[i][5]
+            pa = table_chain[i]['p1']
+            pb = table_chain[i]['p2']
+            pc = table_chain[i]['p3']
+            lengab = table_chain[i]['p1p2']
+            lengbc = table_chain[i]['p2p3']
+            lengac = table_chain[i]['p1p3']
             Constraint.distance(lengab, Workplane1, Point[pa], Point[pb])
             Constraint.distance(lengbc, Workplane1, Point[pb], Point[pc])
             Constraint.distance(lengac, Workplane1, Point[pa], Point[pc])
@@ -185,25 +161,25 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
     Constraint.distance("""+str(lengac)+""", Workplane1, Point"""+str(pa+1)+""", Point"""+str(pc+1)+""")
 """
         for i in range(len(table_line)):
-            start = table_line[i][0]
-            end = table_line[i][1]
-            leng = table_line[i][2]
+            start = table_line[i]['start']
+            end = table_line[i]['end']
+            leng = table_line[i]['len']
             Constraint.distance(leng, Workplane1, Point[start], Point[end])
             self.Script += """    Constraint.distance("""+str(leng)+""", Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
 """
         for i in range(len(table_slider)):
-            pt = table_slider[i][0]
-            start = table_line[table_slider[i][1]][0]
-            end = table_line[table_slider[i][1]][1]
+            pt = table_slider[i]['cen']
+            start = table_line[table_slider[i]['ref']]['start']
+            end = table_line[table_slider[i]['ref']]['end']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
             self.Script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
 """
         for i in range(len(table_rod)):
-            pt = table_rod[i][0]
-            start = table_rod[i][1]
-            end = table_rod[i][2]
-            leng = table_rod[i][3]
+            pt = table_rod[i]['cen']
+            start = table_rod[i]['start']
+            end = table_rod[i]['end']
+            leng = table_rod[i]['pos']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
             Constraint.distance(leng, Workplane1, Point[start], Point[pt])
@@ -224,11 +200,11 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
     Line0 = LineSegment2d(Workplane1, Point1, PointN)
 """
             for i in range(len(table_shaft)):
-                center = table_shaft[i][0]
-                reference = table_shaft[i][1]
+                center = table_shaft[i]['cen']
+                reference = table_shaft[i]['ref']
                 line = LineSegment2d(Workplane1, Point[center], Point[reference])
                 try:
-                    angle = table_shaft[i][4]
+                    angle = table_shaft[i]['demo']
                     Constraint.angle(Workplane1, angle, line, Line0, False)
                 except: pass
                 self.Script += """    Line1 = LineSegment2d(Workplane1, Point"""+str(center+1)+""", Point"""+str(reference+1)+""")
@@ -294,48 +270,48 @@ if __name__=="__main__":
                 if case:
                     if angle >= 180: other = -1
                     else: other = 1
-                    a = table_shaft[j][0]
-                    x = sys.add_param(table_point[a][0])
-                    y = sys.add_param(table_point[i][1]*other)
+                    a = table_shaft[j]['cen']
+                    x = sys.add_param(table_point[a]['x'])
+                    y = sys.add_param(table_point[i]['y']*other)
                 else:
-                    x = sys.add_param(table_point[i][0])
-                    y = sys.add_param(table_point[i][1])
+                    x = sys.add_param(table_point[i]['x'])
+                    y = sys.add_param(table_point[i]['y'])
             p = Point2d(Workplane1, x, y)
             Point += [p]
-            if table_point[i][2]:
+            if table_point[i]['fix']:
                 Constraint.dragged(Workplane1, p)
         for i in range(len(table_chain)):
-            pa = table_chain[i][0]
-            pb = table_chain[i][1]
-            pc = table_chain[i][2]
-            lengab = table_chain[i][3]
-            lengbc = table_chain[i][4]
-            lengac = table_chain[i][5]
+            pa = table_chain[i]['p1']
+            pb = table_chain[i]['p2']
+            pc = table_chain[i]['p3']
+            lengab = table_chain[i]['p1p2']
+            lengbc = table_chain[i]['p2p3']
+            lengac = table_chain[i]['p1p3']
             Constraint.distance(lengab, Workplane1, Point[pa], Point[pb])
             Constraint.distance(lengbc, Workplane1, Point[pb], Point[pc])
             Constraint.distance(lengac, Workplane1, Point[pa], Point[pc])
         for i in range(len(table_line)):
-            start = table_line[i][0]
-            end = table_line[i][1]
-            leng = table_line[i][2]
+            start = table_line[i]['start']
+            end = table_line[i]['end']
+            leng = table_line[i]['len']
             Constraint.distance(leng, Workplane1, Point[start], Point[end])
         for i in range(len(table_slider)):
-            pt = table_slider[i][0]
-            start = table_line[table_slider[i][1]][1]
-            end = table_line[table_slider[i][1]][1]
+            pt = table_slider[i]['cen']
+            start = table_line[table_slider[i]['ref']]['start']
+            end = table_line[table_slider[i]['ref']]['end']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
         #TODO:
         for i in range(len(table_shaft)):
-            center = table_shaft[i][0]
-            reference = table_shaft[i][1]
+            center = table_shaft[i]['cen']
+            reference = table_shaft[i]['ref']
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
             Constraint.angle(Workplane1, angle, line, Line0, False)
         for i in range(len(table_rod)):
-            pt = table_rod[i][0]
-            start = table_rod[i][1]
-            end = table_rod[i][2]
-            leng = table_rod[i][3]
+            pt = table_rod[i]['cen']
+            start = table_rod[i]['start']
+            end = table_rod[i]['end']
+            leng = table_rod[i]['pos']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
             Constraint.distance(leng, Workplane1, Point[start], Point[pt])
