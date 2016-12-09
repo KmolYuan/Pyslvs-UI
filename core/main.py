@@ -466,43 +466,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.exec()
     
     @pyqtSlot()
-    def on_action_New_Workbook_triggered(self):
-        if self.File.form['changed']:
-            dlg  = reset_show()
-            dlg.show()
-            if dlg.exec_(): self.new_Workbook()
-        else: self.new_Workbook()
+    def on_action_New_Workbook_triggered(self): self.checkChange("[New Workbook]", new_workbook(), 'Generating New Workbook...')
     @pyqtSlot()
-    def on_action_Load_Workbook_triggered(self):
+    def on_action_Load_Workbook_triggered(self): self.checkChange()
+    @pyqtSlot()
+    def on_actionCrank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker(), 'Loading Example...')
+    @pyqtSlot()
+    def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink(), 'Loading Example...')
+    #Workbook Functions
+    def checkChange(self, name=False, data=[], say=''):
         if self.File.form['changed']:
             warning_reset  = reset_show()
             warning_reset.show()
-            if warning_reset.exec_(): self.load_Workbook()
-        else: self.load_Workbook()
-    @pyqtSlot()
-    def on_actionCrank_rocker_triggered(self):
-        print('Loading Example...')
-        self.load_Workbook("[Example] Crank Rocker", example_crankRocker())
-    @pyqtSlot()
-    def on_actionMutiple_Link_triggered(self):
-        print('Loading Example...')
-        self.load_Workbook("[Example] Mutiple Link", example_mutipleLink())
-    #Workbook Functions
-    def new_Workbook(self):
-        self.closePanel()
-        self.File.reset(
-            self.Entiteis_Point, self.Entiteis_Point_Style,
-            self.Entiteis_Link, self.Entiteis_Stay_Chain,
-            self.Drive_Shaft, self.Slider,
-            self.Rod, self.Parameter_list)
-        self.qpainterWindow.removePath()
-        self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
-        self.Resolve()
-        self.Path_Clear.setEnabled(False)
-        self.Path_coordinate.setEnabled(False)
-        self.Path_data_show.setEnabled(False)
-        print("Reset the workbook.")
-        self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
+            if warning_reset.exec_():
+                print(say)
+                self.load_Workbook(name, data)
+        else:
+            print(say)
+            self.load_Workbook(name, data)
     def load_Workbook(self, fileName=False, data=[]):
         self.closePanel()
         self.File.reset(

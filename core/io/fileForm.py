@@ -8,7 +8,7 @@ class File():
             'fileName':"[New Workbook]",
             'description':'',
             'author':'',
-            'lastTime':'',
+            'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
             'changed':False,
             }
         self.Points = Points()
@@ -37,6 +37,7 @@ class File():
         n3 = len([e for e, x in enumerate(data) if x=='_path_'])==2
         return n1 and n2 and n3
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        print(data)
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
         try: author = data[infoIndex[0]:infoIndex[1]+1][1]

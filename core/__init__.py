@@ -49,6 +49,6 @@ from .calculation.calculation import Solvespace
 from .calculation.canvas import DynamicCanvas
 #File & Example
 from .io.fileForm import File
-from .io.example import example_crankRocker, example_mutipleLink
+from .io.example import *
 #Option
 from .io.settings import Pyslvs_Settings_ini

@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+import datetime
+now = datetime.datetime.now()
+
+def new_workbook():
+    return ['_info_', '', '_info_', '', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_table_',
+        '_path_',
+        '_path_',
+        ]
+
 def example_crankRocker():
     return [
         '_info_', 'Yuang', '_info_', 'Example', '_info_', '2016/11/22, 22:26', '_info_',
