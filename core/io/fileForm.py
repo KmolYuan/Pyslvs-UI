@@ -111,14 +111,11 @@ class File():
         if dlg.exec_(): pass
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
-        writer.writerow(["_info_"])
-        writer.writerow([self.form['author']])
-        writer.writerow(["_info_"])
-        writer.writerow([self.form['description']])
-        writer.writerow(["_info_"])
-        writer.writerow(["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)])
-        writer.writerow(["_info_"])
-        writer.writerow(["_table_"])
+        writer.writerows([
+            ["_info_"], [self.form['author']],
+            ["_info_"], [self.form['description']],
+            ["_info_"], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)],
+            ["_info_"], ["_table_"]])
         for row in range(1, Point.rowCount()):
             rowdata = []
             for column in range(Point.columnCount()-1):

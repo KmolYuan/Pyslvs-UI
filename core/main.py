@@ -1403,3 +1403,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_symmetrical_part_clicked(self):
         self.sym_part = self.symmetrical_part.isChecked()
         self.Resolve()
+    
+    @pyqtSlot()
+    def on_actionUndo_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        raise NotImplementedError
+    
+    @pyqtSlot()
+    def on_actionRedo_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        raise NotImplementedError

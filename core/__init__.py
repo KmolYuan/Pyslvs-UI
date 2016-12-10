@@ -58,3 +58,5 @@ from .io.example import *
 from .io.dxf_type import dxf_code
 #Option
 from .io.settings import Pyslvs_Settings_ini
+#Undo & Redo
+from .calculation.undoRedo import FileCommand

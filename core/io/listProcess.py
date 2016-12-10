@@ -8,6 +8,7 @@ from ..calculation.canvasView import DynamicCanvas
 class Points():
     def __init__(self):
         self.list = [{'x':0, 'y':0, 'fix':True, 'cx':0, 'cy':0}]
+        self.style = [{'cen':'Red', 'ring':10, 'color':'Red'}]
     
     def editTable(self, table, name, x, y, fixed, edit):
         rowPosition = int(name.replace("Point", ""))
@@ -115,6 +116,16 @@ class Points():
             except: pass
             list += [k]
         self.list = list
+    
+    def updateStyle(self, table):
+        list = []
+        for i in range(table.rowCount()):
+            k = {'cen':'Green', 'ring':5, 'color':'Green'}
+            k['cen'] = table.item(i, 1).text()
+            k['ring'] = int(table.item(i, 2).text())
+            k['color'] = table.cellWidget(i, 3).currentText()
+            list += [k]
+        self.style = list
 
 class Lines():
     def __init__(self):

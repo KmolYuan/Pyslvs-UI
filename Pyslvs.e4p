@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-10, 17:46:50 -->
+<!-- Saved: 2016-12-10, 22:36:04 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -21,6 +21,7 @@
     <Source>core/calculation/canvasView.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
+    <Source>core/calculation/undoRedo.py</Source>
     <Source>core/draw/Ui_delete_chain.py</Source>
     <Source>core/draw/Ui_delete_linkage.py</Source>
     <Source>core/draw/Ui_delete_point.py</Source>
