@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-10, 12:27:51 -->
+<!-- Saved: 2016-12-10, 17:46:50 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -20,6 +20,7 @@
     <Source>core/calculation/canvasScene.py</Source>
     <Source>core/calculation/canvasView.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
+    <Source>core/calculation/pathTrack.py</Source>
     <Source>core/draw/Ui_delete_chain.py</Source>
     <Source>core/draw/Ui_delete_linkage.py</Source>
     <Source>core/draw/Ui_delete_point.py</Source>
@@ -131,6 +132,10 @@
     <Form>core/info/script.ui</Form>
     <Form>core/info/version.ui</Form>
     <Form>core/main.ui</Form>
+    <Form>core/panel/run_AuxLine.ui</Form>
+    <Form>core/panel/run_Drive.ui</Form>
+    <Form>core/panel/run_Measurement.ui</Form>
+    <Form>core/panel/run_Path_Track.ui</Form>
     <Form>core/warning/contradict_value.ui</Form>
     <Form>core/warning/kill_origin.ui</Form>
     <Form>core/warning/repeated_value.ui</Form>

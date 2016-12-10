@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\simulate\run_Path_Track.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Track.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -43,7 +43,7 @@ class Ui_Dialog(object):
         self.Resolution = QtWidgets.QDoubleSpinBox(Dialog)
         self.Resolution.setMinimum(0.5)
         self.Resolution.setMaximum(45.0)
-        self.Resolution.setSingleStep(5.0)
+        self.Resolution.setSingleStep(0.5)
         self.Resolution.setProperty("value", 5.0)
         self.Resolution.setObjectName("Resolution")
         self.horizontalLayout_3.addWidget(self.Resolution)

@@ -15,62 +15,6 @@ wx = Point_num*2+5
 wy = Point_num*2+6
 """
     
-    def table_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
-        table_point_l = []
-        table_line_l = []
-        table_chain_l = []
-        table_shaft_l = []
-        table_slider_l = []
-        table_rod_l = []
-        table_parameter_l = []
-        for i in range(table_point.rowCount()):
-            k = {'x':0, 'y':0, 'fix':False, 'cx':0, 'cy':0}
-            k['x'] = float(table_point.item(i, 1).text())
-            k['y'] = float(table_point.item(i, 2).text())
-            k['fix'] = bool(table_point.item(i, 3).checkState())
-            try:
-                k['cx'] = float(table_point.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[0])
-                k['cy'] = float(table_point.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[1])
-            except: pass
-            table_point_l += [k]
-        for i in range(table_line.rowCount()):
-            k = {'start':0, 'end':0, 'len':0}
-            k['start'] = int(table_line.item(i, 1).text().replace("Point", ""))
-            k['end'] = int(table_line.item(i, 2).text().replace("Point", ""))
-            k['len'] = float(table_line.item(i, 3).text())
-            table_line_l += [k]
-        for i in range(table_chain.rowCount()):
-            k = {'p1':0, 'p2':0, 'p3':0, 'p1p2':0, 'p2p3':0, 'p1p3':0}
-            k['p1'] = int(table_chain.item(i, 1).text().replace("Point", ""))
-            k['p2'] = int(table_chain.item(i, 2).text().replace("Point", ""))
-            k['p3'] = int(table_chain.item(i, 3).text().replace("Point", ""))
-            k['p1p2'] = float(table_chain.item(i, 4).text())
-            k['p2p3'] = float(table_chain.item(i, 5).text())
-            k['p1p3'] = float(table_chain.item(i, 6).text())
-            table_chain_l += [k]
-        for i in range(table_shaft.rowCount()):
-            k = {'cen':0, 'ref':0, 'start':0, 'end':0, 'demo':0}
-            k['cen'] = int(table_shaft.item(i, 1).text().replace("Point", ""))
-            k['ref'] = int(table_shaft.item(i, 2).text().replace("Point", ""))
-            k['start'] = float(table_shaft.item(i, 3).text())
-            k['end'] = float(table_shaft.item(i, 4).text())
-            try: k['demo'] = float(table_shaft.item(i, 5).text())
-            except: pass
-            table_shaft_l += [k]
-        for i in range(table_slider.rowCount()):
-            k = {'cen':0, 'ref':0}
-            k['cen'] = int(table_slider.item(i, 1).text().replace("Point", ""))
-            k['ref'] = int(table_slider.item(i, 2).text().replace("Line", ""))
-            table_slider_l += [k]
-        for i in range(table_rod.rowCount()):
-            k = {'cen':0, 'start':0, 'end':0, 'pos':0}
-            k['cen'] = int(table_rod.item(i, 1).text().replace("Point", ""))
-            k['start'] = int(table_rod.item(i, 2).text().replace("Line", ""))
-            k['end'] = int(table_rod.item(i, 3).text().replace("Line", ""))
-            k['pos'] = float(table_rod.item(i, 4).text())
-            table_slider_l += [k]
-        return table_point_l, table_line_l, table_chain_l, table_shaft_l, table_slider_l, table_rod_l
-    
     def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, sym_part):
         sys = System(500)
         #Pre-oder

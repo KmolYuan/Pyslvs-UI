@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_run_AuxLine import Ui_Form
+from .__init__ import *
 
-class AuxLine_show(QWidget, Ui_Form):
+class AuxLine_show(QWidget, AuxLine_Form):
     Point_change = pyqtSignal(int, int, int, bool, bool, bool, bool, bool)
     def __init__(self, parent=None):
         super(AuxLine_show, self).__init__(parent)

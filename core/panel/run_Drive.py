@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
-import time
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from .__init__ import *
 _translate = QCoreApplication.translate
-from .Ui_run_Drive import Ui_Form
 
-class Drive_show(QWidget, Ui_Form):
+class Drive_show(QWidget, Drive_Form):
     Degree_change = pyqtSignal(int, float)
     Shaft_change = pyqtSignal(int)
     def __init__(self, parent=None):

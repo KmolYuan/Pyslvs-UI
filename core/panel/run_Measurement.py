@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_run_Measurement import Ui_Form
+from .__init__ import *
 
-class Measurement_show(QWidget, Ui_Form):
+class Measurement_show(QWidget, Measurement_Form):
     point_change = pyqtSignal(int, int)
     def __init__(self, parent=None):
         super(Measurement_show, self).__init__(parent)
