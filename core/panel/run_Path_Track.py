@@ -34,21 +34,23 @@ class Path_Track_show(QDialog, Ui_Dialog):
         except: pass
         self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(self.Run_list.count()>=1)
     
+    def loadData(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter):
+        self.work.Point = Point
+        self.work.Link = Link
+        self.work.Chain = Chain
+        self.work.Shaft = Shaft
+        self.work.Slider = Slider
+        self.work.Rod = Rod
+        self.work.Parameter = Parameter
+    
     def start(self):
+        self.work.Run_list = self.Run_list
+        self.work.Resolution = float(self.Resolution.text())
         if not self.Run_list.count()==0:
-            self.work.Run_list = self.Run_list
-            self.work.Entiteis_Point = self.Entiteis_Point
-            self.work.Entiteis_Link = self.Entiteis_Link
-            self.work.Entiteis_Stay_Chain = self.Entiteis_Stay_Chain
-            self.work.Drive_Shaft = self.Drive_Shaft
-            self.work.Slider = self.Slider
-            self.work.Rod = self.Rod
-            self.work.Parameter_list = self.Parameter_list
-            self.work.Resolution = self.Resolution
             q = 0
-            for i in range(self.Drive_Shaft.rowCount()):
-                start_angle = float(self.Drive_Shaft.item(i, 3).text())*100
-                end_angle = float(self.Drive_Shaft.item(i, 4).text())*100
+            for i in range(len(self.work.Shaft)):
+                start_angle = self.work.Shaft[i]['start']*100
+                end_angle = self.work.Shaft[i]['end']*100
                 Resolution = float(self.Resolution.text())*100
                 angle_set = int((end_angle+1-start_angle)/Resolution)
                 q = q+angle_set
@@ -86,21 +88,20 @@ class WorkerThread(QThread):
         point_list = []
         for i in range(self.Run_list.count()):
             point_list += [int(self.Run_list.item(i).text().replace("Point", ""))]
-        table2 = self.Drive_Shaft
         solvespace = Solvespace()
         nPath = []
-        for i in range(table2.rowCount()):
-            start_angle = float(table2.item(i, 3).text())*100
-            end_angle = float(table2.item(i, 4).text())*100
-            Resolution = float(self.Resolution.text())*100
+        for i in range(len(self.Shaft)):
+            start_angle = self.Shaft[i]['start']*100
+            end_angle = self.Shaft[i]['end']*100
+            Resolution = self.Resolution*100
             Path = []
             for n in point_list:
                 Xval = []
                 Yval = []
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
-                    x, y = solvespace.path_track_process(n, angle, self.Entiteis_Point, self.Entiteis_Link,
-                        self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+                    x, y = solvespace.path_track_process(n, angle, self.Point, self.Link,
+                        self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter)
                     Xval += [x]
                     Yval += [y]
                     self.progress_going()

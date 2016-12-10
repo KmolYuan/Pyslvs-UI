@@ -47,9 +47,14 @@ from .panel.run_Measurement import Measurement_show
 from .panel.run_AuxLine import AuxLine_show
 #Solve
 from .calculation.calculation import Solvespace
-from .calculation.canvas import DynamicCanvas
+#Canvas
+if '--view' in sys.argv:
+    from .calculation.canvasView import DynamicCanvas
+else:
+    from .calculation.canvas_0 import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io.example import *
+from .io.dxf_type import dxf_code
 #Option
 from .io.settings import Pyslvs_Settings_ini

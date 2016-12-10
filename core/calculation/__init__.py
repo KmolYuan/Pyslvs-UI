@@ -4,7 +4,6 @@ import sys, platform
 py_nm = sys.version[0:sys.version.find(" ")][0:3]
 #IO
 from ..io.slvs_type import *
-from ..io.dxf_type import dxf_code
 #Qt5
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *

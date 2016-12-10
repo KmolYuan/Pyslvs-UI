@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_delete_chain import Ui_Dialog
+from .__init__ import *
 
 class delete_chain_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):

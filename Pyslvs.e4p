@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-09, 17:10:12 -->
+<!-- Saved: 2016-12-10, 12:27:51 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -16,7 +16,10 @@
     <Source>core/__init__.py</Source>
     <Source>core/calculation/__init__.py</Source>
     <Source>core/calculation/calculation.py</Source>
-    <Source>core/calculation/canvas.py</Source>
+    <Source>core/calculation/canvasItem.py</Source>
+    <Source>core/calculation/canvasScene.py</Source>
+    <Source>core/calculation/canvasView.py</Source>
+    <Source>core/calculation/canvas_0.py</Source>
     <Source>core/draw/Ui_delete_chain.py</Source>
     <Source>core/draw/Ui_delete_linkage.py</Source>
     <Source>core/draw/Ui_delete_point.py</Source>

@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_edit_point import Ui_Dialog
+from .__init__ import *
 
 class edit_point_show(QDialog, Ui_Dialog):
     Another_point = pyqtSignal(int)

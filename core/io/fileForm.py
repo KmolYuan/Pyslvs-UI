@@ -28,7 +28,6 @@ class File():
         if dlg.exec_():
             self.form['author'] = dlg.authorName_input.text()
             self.form['description'] = dlg.descriptionText.toPlainText()
-            print(self.form)
     
     #Check, Read, Write, Reset
     def check(self, data):
@@ -37,7 +36,6 @@ class File():
         n3 = len([e for e, x in enumerate(data) if x=='_path_'])==2
         return n1 and n2 and n3
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        print(data)
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
         try: author = data[infoIndex[0]:infoIndex[1]+1][1]
@@ -45,7 +43,7 @@ class File():
         try: description = data[infoIndex[1]:infoIndex[2]+1][1]
         except: description = ''
         try: lastTime = data[infoIndex[2]:infoIndex[3]+1][1]
-        except: lastTime = ''
+        except: lastTime = '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute)
         #table
         tableIndex = [e for e, x in enumerate(data) if '_table_' in x]
         try:
@@ -190,3 +188,34 @@ class File():
                         table.removeRow(i)
                         for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
                         break
+    
+    def Obstacles_Exclusion(self):
+        table_point = self.Points.list
+        table_line = self.Lines.list
+        table_chain = self.Chains.list
+        table_shaft = self.Shafts.list
+        table_slider = self.Sliders.list
+        table_rod = self.Rods.list
+        for i in range(len(table_line)):
+            a = table_line[i]['start']
+            b = table_line[i]['end']
+            case1 = table_point[a]['x']==table_point[b]['x']
+            case2 = table_point[a]['y']==table_point[b]['y']
+            if case1 and case2:
+                if b == 0: table_point.setItem(a, 1, QTableWidgetItem(str(float(table_point.item(a, 1).text())+0.01)))
+                else: table_point.setItem(b, 1, QTableWidgetItem(str(float(table_point.item(b, 1).text())+0.01)))
+        for i in range(len(table_chain)):
+            a = table_chain[i]['p1']
+            b = table_chain[i]['p2']
+            c = table_chain[i]['p3']
+            if table_point[a]['x']==table_point[b]['x'] and table_point[a]['y']==table_point[b]['y']:
+                if b==0: table_point[a]['x'] += 0.01
+                else: table_point[b]['x'] += 0.01
+            if table_point[b]['x']==table_point[c]['x'] and table_point[b]['y']==table_point[c]['y']:
+                if c==0: table_point[b]['y'] += 0.01
+                else: table_point[c]['y'] += 0.01
+            if table_point[a]['x']==table_point[c]['x'] and table_point[a]['y']==table_point[c]['y']:
+                if c==0: table_point[a]['y'] += 0.01
+                else: table_point[c]['y'] += 0.01
+        return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
+

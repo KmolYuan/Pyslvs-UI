@@ -270,23 +270,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action = self.popMenu_parameter.exec_(self.Parameter_Widget.mapToGlobal(point))
         if action == self.action_parameter_right_click_menu_copy: self.Coordinate_Copy(self.Parameter_list)
         elif action == self.action_parameter_right_click_menu_add: self.on_parameter_add()
-        elif action == self.action_parameter_right_click_menu_move_up:
-            table = self.Parameter_list
-            row = self.Parameter_list.currentRow()
-            try:
-                table.insertRow(row-1)
-                for i in range(2):
-                    name_set = QTableWidgetItem(table.item(row+1, i).text())
-                    name_set.setFlags(Qt.ItemIsEnabled)
-                    table.setItem(row-1, i, name_set)
-                commit_set = QTableWidgetItem(table.item(row+1, 2).text())
-                commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
-                table.setItem(row-1, 2, commit_set)
-                table.removeRow(row+1)
-                self.Workbook_noSave()
-                self.Mask_Change()
-                self.Resolve()
-            except: pass
+        elif action == self.action_parameter_right_click_menu_move_up: self.on_parameter_del()
         elif action == self.action_parameter_right_click_menu_move_down:
             try:
                 table.insertRow(row+2)
@@ -360,72 +344,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Resolve
     def Resolve(self):
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.Obstacles_Exclusion()
+        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.File.Obstacles_Exclusion()
         #Solve
-        result = []
-        solvespace = Solvespace()
-        fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "").split("/")[-1].split(".")[0]
-        result, DOF = solvespace.static_process(table_point, table_line, table_chain,
+        result = False
+        slvs = Solvespace()
+        fileName = self.windowTitle().split("/")[-1].split(".")[0]
+        result, DOF = slvs.static_process(table_point, table_line, table_chain,
             table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.sym_part)
-        self.Script = solvespace.Script
-        if result==[]:
-            self.Solvefail = True
-            print("Rebuild the cavanc falled.")
-        else:
+        self.Script = slvs.Script
+        if result:
             self.Solvefail = False
-            for i in range(table_point.rowCount()): self.File.Points.currentPos(table_point, i, result[i*2], result[i*2+1])
+            self.File.Points.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
             self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
             self.Reload_Canvas()
+        else:
+            self.Solvefail = True
+            print("Rebuild the cavanc falled.")
     
     #Reload Canvas
     def Reload_Canvas(self):
         self.qpainterWindow.update_figure(
-        float(self.LineWidth.text()), float(self.PathWidth.text()),
-            self.Entiteis_Point, self.Entiteis_Link,
-            self.Entiteis_Stay_Chain, self.Drive_Shaft,
-            self.Slider, self.Rod, self.Parameter_list,
-            self.Entiteis_Point_Style, self.ZoomText.toPlainText(),
-            self.Font_size.value(),
+            float(self.LineWidth.text()), float(self.PathWidth.text()),
+            self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list,
+            self.Parameter_list, self.Entiteis_Point_Style, self.ZoomText.toPlainText(), self.Font_size.value(),
             self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
             self.action_Black_Blackground.isChecked())
-    
-    #Obstacles Exclusion
-    def Obstacles_Exclusion(self):
-        table_point = self.Entiteis_Point
-        table_line = self.Entiteis_Link
-        table_chain = self.Entiteis_Stay_Chain
-        table_shaft = self.Drive_Shaft
-        table_slider = self.Slider
-        table_rod = self.Rod
-        for i in range(table_line.rowCount()):
-            a = int(table_line.item(i, 1).text().replace("Point", ""))
-            b = int(table_line.item(i, 2).text().replace("Point", ""))
-            case1 = float(table_point.item(a, 1).text())==float(table_point.item(b, 1).text())
-            case2 = float(table_point.item(a, 2).text())==float(table_point.item(b, 2).text())
-            if case1 and case2:
-                if b == 0: table_point.setItem(a, 1, QTableWidgetItem(str(float(table_point.item(a, 1).text())+0.01)))
-                else: table_point.setItem(b, 1, QTableWidgetItem(str(float(table_point.item(b, 1).text())+0.01)))
-        for i in range(table_chain.rowCount()):
-            a = int(table_chain.item(i, 1).text().replace("Point", ""))
-            b = int(table_chain.item(i, 2).text().replace("Point", ""))
-            c = int(table_chain.item(i, 3).text().replace("Point", ""))
-            case1 = float(table_point.item(a, 1).text())==float(table_point.item(b, 1).text())
-            case2 = float(table_point.item(a, 2).text())==float(table_point.item(b, 2).text())
-            case3 = float(table_point.item(b, 1).text())==float(table_point.item(c, 1).text())
-            case4 = float(table_point.item(b, 2).text())==float(table_point.item(c, 2).text())
-            case5 = float(table_point.item(a, 1).text())==float(table_point.item(c, 1).text())
-            case6 = float(table_point.item(a, 2).text())==float(table_point.item(c, 2).text())
-            if case1 and case2:
-                if b==0: table_point.setItem(a, 1, QTableWidgetItem(str(float(table_point.item(a, 1).text())+0.01)))
-                else: table_point.setItem(b, 1, QTableWidgetItem(str(float(table_point.item(b, 1).text())+0.01)))
-            if case3 and case4:
-                if c==0: table_point.setItem(b, 2, QTableWidgetItem(str(float(table_point.item(b, 2).text())+0.01)))
-                else: table_point.setItem(c, 2, QTableWidgetItem(str(float(table_point.item(c, 2).text())+0.01)))
-            if case5 and case6:
-                if c==0: table_point.setItem(a, 2, QTableWidgetItem(str(float(table_point.item(a, 2).text())+0.01)))
-                else: table_point.setItem(c, 2, QTableWidgetItem(str(float(table_point.item(c, 2).text())+0.01)))
-        return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
     
     #Workbook Change
     def Workbook_noSave(self):
@@ -619,9 +563,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             fileName = fileName.replace(".dxf", "")
             fileName += ".dxf"
-            solvespace = Solvespace()
-            solvespace.dxf_process(fileName, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+            dxf_code(fileName, self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
     
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):
@@ -633,20 +575,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #TODO: SQLite
     
     def on_parameter_add(self):
-        rowPosition = self.Parameter_list.rowCount()
-        self.Parameter_list.insertRow(rowPosition)
-        name_set = 0
-        for i in range(rowPosition):
-            if 'n'+str(name_set) == self.Parameter_list.item(i, 0).text(): name_set += 1
-        name_set = QTableWidgetItem('n'+str(name_set))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        digit_set = QTableWidgetItem("0.0")
-        digit_set.setFlags(Qt.ItemIsEnabled)
-        commit_set = QTableWidgetItem("Not committed yet.")
-        commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
-        self.Parameter_list.setItem(rowPosition, 0, name_set)
-        self.Parameter_list.setItem(rowPosition, 1, digit_set)
-        self.Parameter_list.setItem(rowPosition, 2, commit_set)
+        self.File.Parameters.editTable(self.Parameter_list)
+        self.Workbook_noSave()
+        self.Mask_Change()
+    def on_parameter_del(self):
+        self.File.Parameters.deleteTable(self.Parameter_list)
+        self.Resolve()
         self.Workbook_noSave()
         self.Mask_Change()
     @pyqtSlot()
@@ -1275,13 +1209,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.show()
             dlg.exec()
         else:
-            dlg.Entiteis_Point = self.Entiteis_Point
-            dlg.Entiteis_Link = self.Entiteis_Link
-            dlg.Entiteis_Stay_Chain = self.Entiteis_Stay_Chain
-            dlg.Drive_Shaft = self.Drive_Shaft
-            dlg.Slider = self.Slider
-            dlg.Rod = self.Rod
-            dlg.Parameter_list = self.Parameter_list
+            dlg.loadData(self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
             dlg.show()
             if dlg.exec_():
                 self.File.Path.runList = []
@@ -1332,8 +1260,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except: self.DriveWidget.Degree.setValue(int((self.DriveWidget.Degree.maximum()+self.DriveWidget.Degree.minimum())/2))
         self.DriveWidget.Degree_text.setValue(float(self.DriveWidget.Degree.value()/100))
     @pyqtSlot(int, float)
-    def Change_demo_angle(self, shaft_int, angle):
-        self.Drive_Shaft.setItem(shaft_int, 5, QTableWidgetItem(str(angle)))
+    def Change_demo_angle(self, index, angle):
+        self.File.Shafts.setDemo(self.Drive_Shaft, index, angle)
         self.Resolve()
     
     @pyqtSlot()

@@ -3,14 +3,12 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from .calculation import Solvespace
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
     change_event = pyqtSignal()
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
-        self.setParent(parent)
         self.setMouseTracking(True)
         self.Solve_error = False
         self.points = {
@@ -57,14 +55,13 @@ class DynamicCanvas(QWidget):
             }
         self.re_Color = [e for e in self.Color]
     
-    def update_figure(self, width, pathwidth,
+    def update_figure(self,
+            width, pathwidth,
             table_point, table_line,
             table_chain, table_shaft,
             table_slider, table_rod, table_parameter,
             table_style, zoom_rate,
             Font_size, showDimension, Point_mark, Blackground):
-        slvs = Solvespace()
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = slvs.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
         if not(self.Solve_error):
             if Blackground: self.points['style']['Background'] = Qt.black
             else: self.points['style']['Background'] = Qt.white
@@ -74,9 +71,9 @@ class DynamicCanvas(QWidget):
         self.Point_mark = Point_mark
         self.points['style']['penWidth']['pen'] = width
         self.points['style']['penWidth']['path'] = pathwidth
+        self.zoom = float(zoom_rate.replace("%", ""))/100
         self.points['x'] = []
         self.points['y'] = []
-        self.zoom = float(zoom_rate.replace("%", ""))/100
         for i in range(len(table_point)):
             try:
                 self.points['x'] += [table_point[i]['cx']*self.zoom*self.points['rate']]

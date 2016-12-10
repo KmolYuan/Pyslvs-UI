@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_edit_link import Ui_Dialog
+from .__init__ import *
 
 class edit_link_show(QDialog, Ui_Dialog):
     Another_line = pyqtSignal(int)

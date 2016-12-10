@@ -23,9 +23,6 @@ wy = Point_num*2+6
         table_slider_l = []
         table_rod_l = []
         table_parameter_l = []
-        for i in range(table_parameter.rowCount()):
-            try: table_parameter_l += [float(table_parameter.item(i, 1).text())]
-            except: pass
         for i in range(table_point.rowCount()):
             k = {'x':0, 'y':0, 'fix':False, 'cx':0, 'cy':0}
             k['x'] = float(table_point.item(i, 1).text())
@@ -75,8 +72,7 @@ wy = Point_num*2+6
         return table_point_l, table_line_l, table_chain_l, table_shaft_l, table_slider_l, table_rod_l
     
     def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, sym_part):
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
-        sys = System(1000)
+        sys = System(500)
         #Pre-oder
         p0 = sys.add_param(0.0)
         p1 = sys.add_param(0.0)
@@ -231,15 +227,14 @@ if __name__=="__main__":
         sys.solve()
         result = []
         if (sys.result == SLVS_RESULT_OKAY):
-            for i in range(len(table_point)*2):
-                result += [sys.get_param(i+7).val]
+            for i in range(0, len(table_point)*2, 2):
+                result += [{'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val}]
         elif (sys.result == SLVS_RESULT_INCONSISTENT): print ("SLVS_RESULT_INCONSISTENT")
         elif (sys.result == SLVS_RESULT_DIDNT_CONVERGE): print ("SLVS_RESULT_DIDNT_CONVERGE")
         elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS): print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
         return result, sys.dof
 
     def path_track_process(self, point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
         sys = System(1000)
         #Pre-oder
         p0 = sys.add_param(0.0)
@@ -266,7 +261,7 @@ if __name__=="__main__":
         #Load tables to constraint
         for i in range(1, len(table_point)):
             for j in range(len(table_shaft)):
-                case = table_shaft[j][1]==i
+                case = table_shaft[j]['ref']==i
                 if case:
                     if angle >= 180: other = -1
                     else: other = 1
@@ -327,11 +322,6 @@ if __name__=="__main__":
         return x, y
     
     def slvs_formate(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
         code = SLVS_Code()
         
         return code.output()
-    
-    def dxf_process(self, filename, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.table_process(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter)
-        dxf_code(filename, table_point, table_line, table_chain, table_shaft, table_slider, table_rod)
