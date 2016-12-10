@@ -1,7 +1,3 @@
-core/_slvs.so
-core/_slvs.pyd
-core/libslvs.so
-core/slvs.py
 *.pyc
 *.o*
 *.def
@@ -13,3 +9,7 @@ core/slvs.py
 
 .eric6project*
 _eric6project*
+
+dist*
+build*
+*.spec

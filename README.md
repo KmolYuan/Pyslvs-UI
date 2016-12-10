@@ -3,7 +3,7 @@ Pyslvs(PySolveSpace)
 
 A GUI-based tool use Ubuntu version to solve 2D linkage subject.
 
-![](https://raw.githubusercontent.com/coursemdetw/project_site_files/gh-pages/files/2016spring/g2/Python_solvespace/0928_02.jpg)
+![](icons/cover.png)
 
 How to use
 ---
@@ -38,6 +38,8 @@ Including Path coordinate and file info.
 
 1. PNG Image
 
+1. DXF formate
+
 1. SLT formate
 
 1. Python 3 script
@@ -47,4 +49,4 @@ Power By
 
 Made by PyQt 5.6 and Eric 6.18.
 
-This tool is not complete.
+Including Python module: PyQt5, peewee, dxfwrite
