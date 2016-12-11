@@ -11,6 +11,9 @@ class File():
             'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
             'changed':False,
             }
+        self.resetAllList()
+    
+    def resetAllList(self):
         self.Points = Points()
         self.Lines = Lines()
         self.Chains = Chains()
@@ -38,6 +41,7 @@ class File():
         n3 = len([e for e, x in enumerate(data) if x=='_path_'])==2
         return n1 and n2 and n3
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        print(data)
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
         try: author = data[infoIndex[0]:infoIndex[1]+1][1]
@@ -58,7 +62,7 @@ class File():
         try:
             li = data[tableIndex[1]:tableIndex[2]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Points.styleAdd(Point_Style, li[i], li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 4): self.Points.styleAdd(Point_Style, li[i], li[i+1], li[i+2], li[i+3].replace(",", ""))
         except: pass
         try:
             li = data[tableIndex[2]:tableIndex[3]]
@@ -151,14 +155,15 @@ class File():
                 rowdata += ["+="]
                 writer.writerow(rowdata)
     def reset(self, Point, Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        for i in reversed(range(0, Rod.rowCount())): Rod.removeRow(i)
+        for i in reversed(range(0, Slider.rowCount())): Slider.removeRow(i)
+        for i in reversed(range(0, Shaft.rowCount())): Shaft.removeRow(i)
+        for i in reversed(range(0, Chain.rowCount())): Chain.removeRow(i)
+        for i in reversed(range(0, Link.rowCount())): Link.removeRow(i)
         for i in reversed(range(1, Point.rowCount())): Point.removeRow(i)
         for i in reversed(range(1, Style.rowCount())): Style.removeRow(i)
-        for i in reversed(range(0, Link.rowCount())): Link.removeRow(i)
-        for i in reversed(range(0, Chain.rowCount())): Chain.removeRow(i)
-        for i in reversed(range(0, Shaft.rowCount())): Shaft.removeRow(i)
-        for i in reversed(range(0, Slider.rowCount())): Slider.removeRow(i)
-        for i in reversed(range(0, Rod.rowCount())): Rod.removeRow(i)
         for i in reversed(range(0, Parameter.rowCount())): Parameter.removeRow(i)
+        self.resetAllList()
     
     def CSV_notebook(self, writer, table, k, init=0):
         writer.writerow(["_table_"])

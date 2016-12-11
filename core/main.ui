@@ -1675,6 +1675,7 @@ p, li { white-space: pre-wrap; }
      </property>
      <addaction name="actionCrank_rocker"/>
      <addaction name="actionMutiple_Link"/>
+     <addaction name="actionTwo_Mutiple_Link"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="title">
@@ -2504,6 +2505,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionTwo_Mutiple_Link">
+   <property name="text">
+    <string>Two Pairs Mutiple Link</string>
    </property>
   </action>
  </widget>

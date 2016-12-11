@@ -1062,8 +1062,11 @@ class Ui_MainWindow(object):
         self.actionSearch_Points = QtWidgets.QAction(MainWindow)
         self.actionSearch_Points.setEnabled(False)
         self.actionSearch_Points.setObjectName("actionSearch_Points")
+        self.actionTwo_Mutiple_Link = QtWidgets.QAction(MainWindow)
+        self.actionTwo_Mutiple_Link.setObjectName("actionTwo_Mutiple_Link")
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionMutiple_Link)
+        self.menuExample.addAction(self.actionTwo_Mutiple_Link)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
@@ -1437,6 +1440,7 @@ class Ui_MainWindow(object):
         self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Y"))
         self.actionSearch_Points.setText(_translate("MainWindow", "Search Points"))
         self.actionSearch_Points.setShortcut(_translate("MainWindow", "Ctrl+F"))
+        self.actionTwo_Mutiple_Link.setText(_translate("MainWindow", "Two Pairs Mutiple Link"))
 
 import icons_rc
 
