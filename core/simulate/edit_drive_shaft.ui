@@ -88,14 +88,14 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;End Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;End Angle(deg)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QDoubleSpinBox" name="Start_Angle">
          <property name="suffix">
-          <string>°</string>
+          <string/>
          </property>
          <property name="minimum">
           <double>0.000000000000000</double>
@@ -111,14 +111,14 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start Angle(deg)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item row="3" column="0">
         <widget class="QDoubleSpinBox" name="End_Angle">
          <property name="suffix">
-          <string>°</string>
+          <string/>
          </property>
          <property name="minimum">
           <double>0.000000000000000</double>

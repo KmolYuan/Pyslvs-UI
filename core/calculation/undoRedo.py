@@ -30,13 +30,5 @@ class FileState():
         self.maxDel()
 
 class FileCommand():
-    def record(self, File, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+    def record(self, File):
         self.File = File
-        self.Point = Point
-        self.Point_Style = Point_Style
-        self.Link = Link
-        self.Chain = Chain
-        self.Shaft = Shaft
-        self.Slider = Slider
-        self.Rod = Rod
-        self.Parameter = Parameter

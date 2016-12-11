@@ -114,14 +114,14 @@
        <item row="0" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Start Angle(deg)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item row="1" column="0">
         <widget class="QDoubleSpinBox" name="Start_Angle">
          <property name="suffix">
-          <string>°</string>
+          <string/>
          </property>
          <property name="minimum">
           <double>0.000000000000000</double>
@@ -144,7 +144,7 @@
        <item row="3" column="0">
         <widget class="QDoubleSpinBox" name="End_Angle">
          <property name="suffix">
-          <string>°</string>
+          <string/>
          </property>
          <property name="minimum">
           <double>0.000000000000000</double>
@@ -160,7 +160,7 @@
        <item row="2" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;End Angle&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;End Angle(deg)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -186,6 +186,12 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -210,7 +216,7 @@
      <item>
       <widget class="QCheckBox" name="Demo_angle_enable">
        <property name="text">
-        <string>Demo Angle</string>
+        <string>Demo Angle(deg)</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -220,7 +226,7 @@
      <item>
       <widget class="QDoubleSpinBox" name="Demo_angle">
        <property name="suffix">
-        <string>°</string>
+        <string/>
        </property>
        <property name="maximum">
         <double>360.000000000000000</double>

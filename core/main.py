@@ -99,6 +99,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_link.addAction(self.action_link_right_click_menu_add)
         self.action_link_right_click_menu_edit = QAction("Edit this Link", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
+        self.action_link_right_click_menu_shaft = QAction("Turn this Link to Shaft", self)
+        self.popMenu_link.addAction(self.action_link_right_click_menu_shaft)
         self.popMenu_link.addSeparator()
         self.action_link_right_click_menu_move_up = QAction("Move up", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_move_up)
@@ -221,6 +223,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
+        elif action == self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_move_up:
             self.move_up(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
             for i in range(self.Slider.rowCount()):
@@ -314,6 +317,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Coordinate_Copy(self, table):
         clipboard = QApplication.clipboard()
         clipboard.setText(table.currentItem().text())
+    def link2Shaft(self, row):
+        cen = self.File.Lines.list[row]['start']
+        ref = self.File.Lines.list[row]['end']
+        self.on_action_Set_Drive_Shaft_triggered(cen, ref)
     
     #Close Event
     def closeEvent(self, event):
@@ -828,7 +835,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.chain_feedback.emit(Point1, Point2, Point3, p1_p2, p2_p3, p1_p3)
     
     @pyqtSlot()
-    def on_action_Set_Drive_Shaft_triggered(self):
+    def on_action_Set_Drive_Shaft_triggered(self, cen=0, ref=0):
         table1 = self.Entiteis_Point
         table2 = self.Drive_Shaft
         if (table1.rowCount() <= 1):
@@ -843,6 +850,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
                 dlg.References.insertItem(i, icon, table1.item(i, 0).text())
             dlg.Shaft_num.insertPlainText("Shaft"+str(table2.rowCount()))
+            dlg.Shaft_Center.setCurrentIndex(cen)
+            dlg.References.setCurrentIndex(ref)
             dlg.show()
             if dlg.exec_():
                 a = dlg.Shaft_Center.currentText()
@@ -1373,17 +1382,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Parameter_digital.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
         self.Parameter_lable.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
         self.Parameter_update.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-    
     @pyqtSlot()
     def on_Parameter_update_clicked(self):
         try: self.Parameter_list.setItem(self.Parameter_list.currentRow(), 1, QTableWidgetItem(self.Parameter_digital.text() if self.Parameter_digital.text() else Parameter_digital.placeholderText()))
         except: pass
-    
     @pyqtSlot(int, int, int, int)
     def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
         self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
-    
     @pyqtSlot(int, int)
     def on_Parameter_list_cellChanged(self, row, column):
         if column in [1, 2]: self.Parameter_list.item(row, column).setToolTip(self.Parameter_list.item(row, column).text())

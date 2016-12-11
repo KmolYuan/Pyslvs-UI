@@ -222,3 +222,14 @@ class File():
                 if c==0: table_point[a]['y'] += 0.01
                 else: table_point[c]['y'] += 0.01
         return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
+    
+    def recordStep(self):
+        nowStep = FileCommand()
+        nowStep.record(self)
+        self.FileState.newStep(nowStep)
+    
+    def undoStep(self):
+        ''''''
+    
+    def redoStep(self):
+        ''''''

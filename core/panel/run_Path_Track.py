@@ -38,6 +38,10 @@ class Path_Track_show(QDialog, Ui_Dialog):
         self.work.Slider = Slider
         self.work.Rod = Rod
         self.work.Parameter = Parameter
+        for i in range(len(Shaft)):
+            shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
+            shaftCheckBox.setText("Shaft"+str(i))
+            self.verticalLayout_6.insertWidget(0, shaftCheckBox)
     
     def start(self):
         self.work.Run_list = self.Run_list
@@ -68,3 +72,7 @@ class Path_Track_show(QDialog, Ui_Dialog):
     def finish(self, Path):
         self.Path_data = Path
         self.accept()
+    
+    @pyqtSlot(bool)
+    def on_chooseShafts_toggled(self, checked):
+        self.shaftsScrollArea.setEnabled(checked)
