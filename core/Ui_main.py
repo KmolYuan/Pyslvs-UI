@@ -1054,9 +1054,14 @@ class Ui_MainWindow(object):
         self.actionSave_as.setIcon(icon30)
         self.actionSave_as.setObjectName("actionSave_as")
         self.actionUndo = QtWidgets.QAction(MainWindow)
+        self.actionUndo.setEnabled(False)
         self.actionUndo.setObjectName("actionUndo")
         self.actionRedo = QtWidgets.QAction(MainWindow)
+        self.actionRedo.setEnabled(False)
         self.actionRedo.setObjectName("actionRedo")
+        self.actionSearch_Points = QtWidgets.QAction(MainWindow)
+        self.actionSearch_Points.setEnabled(False)
+        self.actionSearch_Points.setObjectName("actionSearch_Points")
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionMutiple_Link)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
@@ -1120,6 +1125,8 @@ class Ui_MainWindow(object):
         self.menu_Simulation.addAction(self.actionDelete_Piston_Spring)
         self.menu_Edit.addAction(self.actionUndo)
         self.menu_Edit.addAction(self.actionRedo)
+        self.menu_Edit.addSeparator()
+        self.menu_Edit.addAction(self.actionSearch_Points)
         self.menuBar.addAction(self.menuFile.menuAction())
         self.menuBar.addAction(self.menu_Edit.menuAction())
         self.menuBar.addAction(self.menu_Draw.menuAction())
@@ -1428,6 +1435,8 @@ class Ui_MainWindow(object):
         self.actionUndo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
         self.actionRedo.setText(_translate("MainWindow", "Redo"))
         self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Y"))
+        self.actionSearch_Points.setText(_translate("MainWindow", "Search Points"))
+        self.actionSearch_Points.setShortcut(_translate("MainWindow", "Ctrl+F"))
 
 import icons_rc
 

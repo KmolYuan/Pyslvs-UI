@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .__init__ import *
 
-class edit_point_show(QDialog, Ui_Dialog):
+class edit_point_show(QDialog, edit_point_Dialog):
     Another_point = pyqtSignal(int)
     def __init__(self, parent=None):
         super(edit_point_show, self).__init__(parent)

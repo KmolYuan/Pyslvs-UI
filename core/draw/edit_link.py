@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .__init__ import *
 
-class edit_link_show(QDialog, Ui_Dialog):
+class edit_link_show(QDialog, edit_link_Dialog):
     Another_line = pyqtSignal(int)
     def __init__(self, parent=None):
         super(edit_link_show, self).__init__(parent)

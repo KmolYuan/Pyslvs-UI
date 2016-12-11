@@ -19,6 +19,8 @@ class File():
         self.Rods = Rods()
         self.Parameters = Parameters()
         self.Path = Path()
+        #Undo & Redo
+        self.FileState = FileState()
     
     def setProperty(self):
         dlg = editFileInfo_show()

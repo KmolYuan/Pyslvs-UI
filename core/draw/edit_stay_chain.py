@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .__init__ import *
 
-class edit_stay_chain_show(QDialog, Ui_Dialog):
+class edit_stay_chain_show(QDialog, edit_chain_Dialog):
     Another_chain = pyqtSignal(int)
     def __init__(self, parent=None):
         super(edit_stay_chain_show, self).__init__(parent)

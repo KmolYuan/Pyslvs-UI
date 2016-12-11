@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-10, 22:36:04 -->
+<!-- Saved: 2016-12-11, 00:48:28 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -12,6 +12,7 @@
   <Author>Tiberium</Author>
   <Email></Email>
   <Sources>
+    <Source>README.md</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
     <Source>core/calculation/__init__.py</Source>

@@ -1,40 +1,42 @@
 # -*- coding: utf-8 -*-
 from .__init__ import *
 
-class FileCommand(QUndoCommand):
-    def __init__(self, File):
-        QUndoCommand.__init__(self)
-        #Record File
-        self.File = File
-        #Recorded list
-        self.Point = File.Points.list
-        self.Lines = File.Lines.list
-        self.Chains = File.Chains.list
-        self.Shafts = File.Shafts.list
-        self.Sliders = File.Sliders.list
-        self.Rods = File.Rods.list
-        self.Parameters = File.Parameters.list
-        self.Path = File.Path.data
-        self.runList = File.Path.runList
+class FileState():
+    def __init__(self):
+        self.list = []
+        self.index = 0
+        self.maxRecord = 15
+    
+    def newStep(self, cmd):
+        self.list = self.list[0:]
+        self.list.append(cmd)
+        self.index += 1
+        self.maxDel()
     
     def undo(self):
-        self.File.Points.list = self.Point
-        self.File.Lines.list = self.Lines
-        self.File.Chains.list = self.Chains
-        self.File.Shafts.list = self.Shafts
-        self.File.Sliders.list = self.Sliders
-        self.File.Rods.list = self.Rods
-        self.File.Parameters.list = self.Parameters
-        self.File.Path.data = self.Path
-        self.File.Path.runList = self.runList
+        self.index -= 1
+        return self.list[self.index]
     
     def redo(self):
-        self.File.Points.list = self.Point
-        self.File.Lines.list = self.Lines
-        self.File.Chains.list = self.Chains
-        self.File.Shafts.list = self.Shafts
-        self.File.Sliders.list = self.Sliders
-        self.File.Rods.list = self.Rods
-        self.File.Parameters.list = self.Parameters
-        self.File.Path.data = self.Path
-        self.File.Path.runList = self.runList
+        self.index += 1
+        return self.list[self.index]
+    
+    def maxDel(self):
+        if len(self.list)>self.maxRecord:
+            self.list.pop(0)
+    
+    def setMax(self, val):
+        self.maxRecord = val
+        self.maxDel()
+
+class FileCommand():
+    def record(self, File, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        self.File = File
+        self.Point = Point
+        self.Point_Style = Point_Style
+        self.Link = Link
+        self.Chain = Chain
+        self.Shaft = Shaft
+        self.Slider = Slider
+        self.Rod = Rod
+        self.Parameter = Parameter
