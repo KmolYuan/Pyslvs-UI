@@ -2421,12 +2421,15 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Output_to_Solvespace">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Output to Solvespace (Alpha)</string>
+    <string>Output to Solvespace</string>
    </property>
   </action>
   <action name="actionOutput_to_DXF">

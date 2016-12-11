@@ -39,12 +39,15 @@ Arguments:
 
 * python3 launch_pyslvs.py [FileName] [arg1] [arg2] ...
 
+* launch_pyslvs [FileName] [arg1] [arg2] ...
+
 Open a file directly by put file name behind the launch command.
 
 Information and Debug Function:
 
--v\t--version\tOnly show version infomations and not to start main program.
--h\t--help\t\tShow this help message and not to start main program.
+-v\t--version\tOnly show version infomations and Exit.
+-h\t--help\t\tShow this help message and Exit.
+--fusion\t\tRun Pyslvs in Fusion style.
 
 Run launch_test.py can start unit test.
 ================""")

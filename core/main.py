@@ -1006,14 +1006,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if dlg.exec_():
                 a = dlg.Start.currentText()
                 b = dlg.End.currentText()
-                c = str(min(float(dlg.len1.text()), float(dlg.len2.text())))
-                d = str(max(float(dlg.len1.text()), float(dlg.len2.text())))
+                c = str(float(dlg.Position.text()))
                 if a == b:
                     dlg = same_show()
                     dlg.show()
                     if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
                 else:
-                    self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, d, False)
+                    self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, False)
                     self.Resolve()
                     self.Workbook_noSave()
     

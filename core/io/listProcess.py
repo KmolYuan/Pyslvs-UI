@@ -126,6 +126,10 @@ class Points():
             k['color'] = table.cellWidget(i, 3).currentText()
             list += [k]
         self.style = list
+    
+    def updateTable(self, table):
+        for n in range(len(self.list)):
+            self.editTable(table, str(n)+"Point", str(self.list[n]['x']), str(self.list[n]['y']), self.list[n]['fix'], False)
 
 class Lines():
     def __init__(self):
@@ -178,6 +182,12 @@ class Lines():
             k['len'] = float(table.item(i, 3).text())
             list += [k]
         self.list = list
+    
+    def updateTable(self, table):
+        for n in range(len(self.list)):
+            self.editTable(table,
+                str(n)+"Line", str(self.list[n]['start'])+"Point", str(self.list[n]['end'])+"Point",
+                str(self.list[n]['len']), False)
 
 class Chains():
     def __init__(self):
@@ -211,6 +221,12 @@ class Chains():
             k['p1p3'] = float(table.item(i, 6).text())
             list += [k]
         self.list = list
+    
+    def updateTable(self, table):
+        for n in range(len(self.list)):
+            self.editTable(table,
+                str(n)+"Chain", str(self.list[n]['p1'])+"Point", str(self.list[n]['p2'])+"Point", str(self.list[n]['p3'])+"Point",
+                str(self.list[n]['p1p2']),  str(self.list[n]['p2p3']),  str(self.list[n]['p1p3']), False)
 
 class Shafts():
     def __init__(self):
@@ -247,6 +263,10 @@ class Shafts():
             except: pass
             list += [k]
         self.list = list
+    
+    def updateTable(self, table):
+        for n in range(len(self.list)):
+            self.editTable(table, str(n)+"Shaft", str(self.list[n]['cen'])+"Point", str(self.list[n]['ref'])+"Point", str(self.list[n]['start']), str(self.list[n]['end']), str(self.list[n]['demo']), False)
 
 class Sliders():
     def __init__(self):
@@ -272,12 +292,16 @@ class Sliders():
             k['ref'] = int(table.item(i, 2).text().replace("Line", ""))
             list += [k]
         self.list = list
+    
+    def updateTable(self, table):
+        for n in range(len(self.list)):
+            self.editTable(table, str(n)+"Slider", str(self.list[n]['cen'])+"Point", str(self.list[n]['ref'])+"Line", False)
 
 class Rods():
     def __init__(self):
         self.list = []
     
-    def editTable(self, table, name, start, end, min, max, edit):
+    def editTable(self, table, name, start, end, pos, edit):
         rowPosition = int(name.replace("Rod", ""))
         name_set = QTableWidgetItem(name)
         name_set.setFlags(Qt.ItemIsEnabled)
@@ -285,8 +309,7 @@ class Rods():
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(start))
         table.setItem(rowPosition, 2, QTableWidgetItem(end))
-        table.setItem(rowPosition, 3, QTableWidgetItem(min))
-        table.setItem(rowPosition, 4, QTableWidgetItem(max))
+        table.setItem(rowPosition, 3, QTableWidgetItem(pos))
         if not edit: print("Set the Point to new Rod.")
         else: print("Set the Point to selected Rod.")
     
@@ -295,11 +318,15 @@ class Rods():
         for i in range(table_rod.rowCount()):
             k = {'cen':0, 'start':0, 'end':0, 'pos':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
-            k['start'] = int(table.item(i, 2).text().replace("Line", ""))
-            k['end'] = int(table.item(i, 3).text().replace("Line", ""))
+            k['start'] = int(table.item(i, 2).text().replace("Point", ""))
+            k['end'] = int(table.item(i, 3).text().replace("Point", ""))
             k['pos'] = float(table.item(i, 4).text())
             list += [k]
         self.list = list
+    
+    def updateTable(self, table):
+        for n in range(len(self.list)):
+            self.editTable(table, str(n)+"Rod", str(self.list[n]['cen'])+"Point", str(self.list[n]['start'])+"Point", str(self.list[n]['end'])+"Point", str(self.list[n]['pos']), False)
 
 class Path():
     def __init__(self):

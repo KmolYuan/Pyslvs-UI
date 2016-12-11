@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-11, 00:48:28 -->
+<!-- Saved: 2016-12-11, 13:40:51 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -138,6 +138,15 @@
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>
     <Form>core/panel/run_Path_Track.ui</Form>
+    <Form>core/simulate/delete_drive_shaft.ui</Form>
+    <Form>core/simulate/delete_rod.ui</Form>
+    <Form>core/simulate/delete_slider.ui</Form>
+    <Form>core/simulate/edit_drive_shaft.ui</Form>
+    <Form>core/simulate/edit_rod.ui</Form>
+    <Form>core/simulate/edit_slider.ui</Form>
+    <Form>core/simulate/set_drive_shaft.ui</Form>
+    <Form>core/simulate/set_rod.ui</Form>
+    <Form>core/simulate/set_slider.ui</Form>
     <Form>core/warning/contradict_value.ui</Form>
     <Form>core/warning/kill_origin.ui</Form>
     <Form>core/warning/repeated_value.ui</Form>
