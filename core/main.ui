@@ -20,7 +20,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>Pyslvs - New Workbook</string>
+   <string>Pyslvs - [New Workbook]</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
@@ -1015,7 +1015,7 @@ p, li { white-space: pre-wrap; }
                           <set>QAbstractItemView::NoEditTriggers</set>
                          </property>
                          <attribute name="horizontalHeaderDefaultSectionSize">
-                          <number>90</number>
+                          <number>120</number>
                          </attribute>
                          <attribute name="horizontalHeaderMinimumSectionSize">
                           <number>90</number>
@@ -1041,17 +1041,17 @@ p, li { white-space: pre-wrap; }
                          </column>
                          <column>
                           <property name="text">
-                           <string>Start Angle(°)</string>
+                           <string>Start Angle(deg)</string>
                           </property>
                          </column>
                          <column>
                           <property name="text">
-                           <string>End Angle(°)</string>
+                           <string>End Angle(deg)</string>
                           </property>
                          </column>
                          <column>
                           <property name="text">
-                           <string>Demo Angle(°)</string>
+                           <string>Demo Angle(deg)</string>
                           </property>
                          </column>
                         </widget>
@@ -1610,7 +1610,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_16">
+         <widget class="QLabel" name="DOFLable">
           <property name="text">
            <string>DOF:</string>
           </property>
@@ -1673,7 +1673,16 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>Example</string>
      </property>
-     <addaction name="actionCrank_rocker"/>
+     <widget class="QMenu" name="menuGrashof_chain">
+      <property name="title">
+       <string>Grashof chain</string>
+      </property>
+      <addaction name="actionCrank_rocker"/>
+      <addaction name="actionDrag_link"/>
+      <addaction name="actionDouble_rocker"/>
+      <addaction name="actionParallelogram_linkage"/>
+     </widget>
+     <addaction name="menuGrashof_chain"/>
      <addaction name="actionMutiple_Link"/>
      <addaction name="actionTwo_Mutiple_Link"/>
     </widget>
@@ -1938,7 +1947,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/github-24.png</normaloff>:/icons/github-24.png</iconset>
    </property>
    <property name="text">
-    <string>Github &amp;Wiki</string>
+    <string>Github &amp;Manual</string>
    </property>
    <property name="statusTip">
     <string>See our Wiki on Github.</string>
@@ -2513,6 +2522,21 @@ p, li { white-space: pre-wrap; }
   <action name="actionTwo_Mutiple_Link">
    <property name="text">
     <string>Two Pairs Mutiple Link</string>
+   </property>
+  </action>
+  <action name="actionDrag_link">
+   <property name="text">
+    <string>Drag-link</string>
+   </property>
+  </action>
+  <action name="actionDouble_rocker">
+   <property name="text">
+    <string>Double rocker</string>
+   </property>
+  </action>
+  <action name="actionParallelogram_linkage">
+   <property name="text">
+    <string>Parallelogram linkage</string>
    </property>
   </action>
  </widget>

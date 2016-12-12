@@ -25,14 +25,8 @@ class File():
         #Undo & Redo
         self.FileState = FileState()
     
-    def setProperty(self):
-        dlg = editFileInfo_show()
-        self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
-        dlg.rename(self.form['fileName'], self.form['author'], self.form['description'], self.form['lastTime'])
-        dlg.show()
-        if dlg.exec_():
-            self.form['author'] = dlg.authorName_input.text()
-            self.form['description'] = dlg.descriptionText.toPlainText()
+    def updateTime(self):
+        self.File.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
     
     #Check, Read, Write, Reset
     def check(self, data):
@@ -111,10 +105,6 @@ class File():
         self.form['author'] = author
         self.form['description'] = description
         self.form['lastTime'] = lastTime
-        dlg = fileInfo_show()
-        dlg.rename(fileName, author, description, lastTime)
-        dlg.show()
-        if dlg.exec_(): pass
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
         writer.writerows([

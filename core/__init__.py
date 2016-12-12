@@ -56,5 +56,7 @@ else:
 from .io.fileForm import File
 from .io.example import *
 from .io.dxf_type import dxf_code
+from .info.editFileInfo import editFileInfo_show
+from .info.fileInfo import fileInfo_show
 #Option
 from .io.settings import Pyslvs_Settings_ini

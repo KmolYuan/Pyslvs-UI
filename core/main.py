@@ -58,7 +58,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in sys.argv:
             if ".csv" in i:
                 fileName = sys.argv[sys.argv.index(i)][2::]
-                self.load_Workbook(fileName)
+                self.loadWorkbook(fileName)
                 break
     
     def init_Right_click_menu(self):
@@ -369,7 +369,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOF_view.setPlainText("Falled.")
             self.Solvefail = True
             print("Rebuild the cavanc falled.")
-    
     #Reload Canvas
     def Reload_Canvas(self):
         self.qpainterWindow.update_figure(
@@ -382,18 +381,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook Change
     def Workbook_noSave(self):
         self.File.form['changed'] = True
-        self.setWindowTitle(_translate("MainWindow", self.windowTitle().replace("*", "")+"*"))
+        self.setWindowTitle(self.windowTitle().replace("*", "")+"*")
     
     @pyqtSlot()
     def on_action_Full_Screen_triggered(self): print("Full Screen.")
     @pyqtSlot()
     def on_actionNormalmized_triggered(self): print("Normal Screen.")
-    
-    @pyqtSlot()
-    def on_actionHow_to_use_triggered(self):
-        dlg = Help_info_show()
-        dlg.show()
-        dlg.exec()
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
         print("Open http://project.mde.tw/blog/slvs-library-functions.html")
@@ -404,8 +397,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         webbrowser.open("https://github.com/40323230/python-solvespace")
     @pyqtSlot()
     def on_actionGithub_Wiki_triggered(self):
-        print("Open https://github.com/40323230/python-solvespace/wiki")
-        webbrowser.open("https://github.com/40323230/python-solvespace/wiki")
+        print("Open https://github.com/40323230/Pyslvs-manual/tree/master")
+        webbrowser.open("https://github.com/40323230/Pyslvs-manual/tree/master")
+    @pyqtSlot()
+    def on_actionHow_to_use_triggered(self):
+        dlg = Help_info_show()
+        dlg.show()
+        dlg.exec()
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
         dlg = version_show()
@@ -424,6 +422,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionCrank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker(), 'Loading Example...')
     @pyqtSlot()
+    def on_actionDrag_link_triggered(self): self.checkChange("[Example] Drag-link", example_DragLink(), 'Loading Example...')
+    @pyqtSlot()
     def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink(), 'Loading Example...')
     @pyqtSlot()
     def on_actionTwo_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink(), 'Loading Example...')
@@ -434,11 +434,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             warning_reset.show()
             if warning_reset.exec_():
                 print(say)
-                self.load_Workbook(name, data)
+                self.loadWorkbook(name, data)
         else:
             print(say)
-            self.load_Workbook(name, data)
-    def load_Workbook(self, fileName=False, data=[]):
+            self.loadWorkbook(name, data)
+    def loadWorkbook(self, fileName=False, data=[]):
         self.closePanel()
         self.File.reset(
             self.Entiteis_Point, self.Entiteis_Point_Style,
@@ -449,7 +449,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         print("Reset workbook.")
         if fileName==False: fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
-        if fileName[-4::]=='.csv' or "[Example]" in fileName:
+        if (fileName[-4::]=='.csv') or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==[]:
                 print("Get:"+fileName)
                 with open(fileName, newline="") as stream:
@@ -472,6 +472,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
                 print("Successful Load the workbook...")
+                if not("[New Workbook]" in fileName):
+                    dlg = fileInfo_show()
+                    dlg.rename(self.File.form['fileName'], self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+                    dlg.show()
+                    if dlg.exec_(): pass
             else:
                 print("Failed to load!")
     def closePanel(self):
@@ -494,7 +499,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.reset_Auxline()
     
     @pyqtSlot()
-    def on_action_Property_triggered(self): self.File.setProperty()
+    def on_action_Property_triggered(self):
+        dlg = editFileInfo_show()
+        self.File.updateTime()
+        dlg.rename(self.File.form['fileName'], self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+        dlg.show()
+        if dlg.exec_():
+            self.File.form['author'] = dlg.authorName_input.text()
+            self.File.form['description'] = dlg.descriptionText.toPlainText()
+            self.Workbook_noSave()
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -606,10 +619,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.Y_coordinate.setValidator(self.Mask)
         dlg.show()
         if dlg.exec_():
-            x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
-            y = self.Y_coordinate.text() if not self.Y_coordinate.text()in["", "n", "-"] else self.Y_coordinate.placeholderText()
-            self.File.Points.editTable(table1, dlg.Point_num.toPlainText(),
-                x, y, dlg.Fix_Point.checkState(), False)
+            x = dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText()
+            y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText()
+            self.File.Points.editTable(table1, dlg.Point_num.toPlainText(), x, y, dlg.Fix_Point.checkState(), False)
             fix = "10" if dlg.Fix_Point.checkState() else "5"
             self.File.Points.styleAdd(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
             self.Resolve()
