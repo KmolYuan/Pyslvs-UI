@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .__init__ import *
+argv = sys.argv
 
 class Solvespace():
     def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, sym_part):
@@ -142,9 +143,9 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         if (sys.result == SLVS_RESULT_OKAY):
             for i in range(0, len(table_point)*2, 2):
                 result += [{'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val}]
-        elif (sys.result == SLVS_RESULT_INCONSISTENT): print ("SLVS_RESULT_INCONSISTENT")
-        elif (sys.result == SLVS_RESULT_DIDNT_CONVERGE): print ("SLVS_RESULT_DIDNT_CONVERGE")
-        elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS): print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
+        elif (sys.result == SLVS_RESULT_INCONSISTENT) and "-w" in argv: print ("SLVS_RESULT_INCONSISTENT")
+        elif (sys.result == SLVS_RESULT_DIDNT_CONVERGE) and "-w" in argv: print ("SLVS_RESULT_DIDNT_CONVERGE")
+        elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS) and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
         return result, sys.dof
 
     def path_track_process(self, point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
