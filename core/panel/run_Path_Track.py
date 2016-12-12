@@ -63,6 +63,9 @@ class Path_Track_show(QDialog, Ui_Dialog):
             self.Resolution.setEnabled(False)
             self.add_button.setEnabled(False)
             self.remove_botton.setEnabled(False)
+            self.allShafts.setEnabled(False)
+            self.chooseShafts.setEnabled(False)
+            self.shaftsScrollArea.setEnabled(False)
     def stop(self): self.work.stop()
     
     @pyqtSlot(int)

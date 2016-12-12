@@ -456,7 +456,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Get:"+fileName)
                 with open(fileName, newline="") as stream:
                     reader = csv.reader(stream, delimiter=' ', quotechar='|')
-                    for row in reader: data += ', '.join(row).split('\t,')
+                    for row in reader: data += ' '.join(row).split('\t,')
             if self.File.check(data):
                 self.File.read(
                     fileName, data,
@@ -1246,6 +1246,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_coordinate.setEnabled(True)
                 self.Path_data_show.setEnabled(True)
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
+                self.Workbook_noSave()
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
         self.qpainterWindow.removePath()

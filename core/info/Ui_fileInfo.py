@@ -12,9 +12,9 @@ class Ui_Info_Dialog(object):
     def setupUi(self, Info_Dialog):
         Info_Dialog.setObjectName("Info_Dialog")
         Info_Dialog.setEnabled(True)
-        Info_Dialog.resize(400, 300)
-        Info_Dialog.setMinimumSize(QtCore.QSize(400, 300))
-        Info_Dialog.setMaximumSize(QtCore.QSize(400, 300))
+        Info_Dialog.resize(492, 363)
+        Info_Dialog.setMinimumSize(QtCore.QSize(492, 363))
+        Info_Dialog.setMaximumSize(QtCore.QSize(492, 363))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Info_Dialog.setWindowIcon(icon)

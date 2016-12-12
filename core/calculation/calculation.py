@@ -61,9 +61,9 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
                 #Quadrant Fix
                 for j in range(len(table_shaft)):
                     #shaft ref
+                    angle = table_shaft[j]['demo']
                     case1 = table_shaft[j]['ref']==i and table_shaft[j]['demo'] and not(sym_part)
                     if case1:
-                        angle = table_shaft[j]['demo']
                         other = -1 if angle >= 180 else 1
                         a = table_shaft[j]['cen']
                         x = sys.add_param(table_point[a]['x'])
@@ -131,6 +131,7 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             Point += [PointN]
             Constraint.dragged(Workplane1, Point[-1])
             Line0 = LineSegment2d(Workplane1, Point[0], Point[-1])
+            #shaft demo switch
             center = table_shaft[0]['cen']
             reference = table_shaft[0]['ref']
             line = LineSegment2d(Workplane1, Point[center], Point[reference])

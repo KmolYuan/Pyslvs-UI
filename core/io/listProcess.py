@@ -48,27 +48,27 @@ class Points():
 
     def deleteTable(self, tablePoint, tableStyle, tableLine, tableChain, tableShaft, tableSlider, tableRod, dlg):
         for i in range(tableLine.rowCount()):
-            if (dlg.Point.currentText() == tableLine.item(i, 1).text()) or (dlg.Point.currentText() == tableLine.item(i, 2).text()):
+            if (dlg.Entity.currentText() == tableLine.item(i, 1).text()) or (dlg.Entity.currentText() == tableLine.item(i, 2).text()):
                 tableLine.removeRow(i)
                 for j in range(i, tableLine.rowCount()): tableLine.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
                 break
         for i in range(tableChain.rowCount()):
-            if (dlg.Point.currentText() == tableChain.item(i, 1).text()) or (dlg.Point.currentText() == tableChain.item(i, 2).text()):
+            if (dlg.Entity.currentText() == tableChain.item(i, 1).text()) or (dlg.Entity.currentText() == tableChain.item(i, 2).text()):
                 tableChain.removeRow(i)
                 for j in range(i, tableChain.rowCount): tableChain.setItem(j, 0, QTableWidgetItem("Chain"+str(j)))
                 break
         for i in range(tableShaft.rowCount()):
-            if (dlg.Point.currentText() == tableShaft.item(i, 1).text()) or (dlg.Point.currentText() == tableShaft.item(i, 2).text()):
+            if (dlg.Entity.currentText() == tableShaft.item(i, 1).text()) or (dlg.Entity.currentText() == tableShaft.item(i, 2).text()):
                 tableShaft.removeRow(i)
                 for j in range(i, tableShaft.rowCount()): tableShaft.setItem(j, 0, QTableWidgetItem("Shaft"+str(j)))
                 break
         for i in range(tableSlider.rowCount()):
-            if (dlg.Point.currentText() == tableSlider.item(i, 1).text()):
+            if (dlg.Entity.currentText() == tableSlider.item(i, 1).text()):
                 tableSlider.removeRow(i)
                 for j in range(i, tableSlider.rowCount()): tableSlider.setItem(j, 0, QTableWidgetItem("Slider"+str(j)))
                 break
         for i in range(tableRod.rowCount()):
-            if (dlg.Point.currentText() == tableRod.item(i, 1).text()) or (dlg.Point.currentText() == tableRod.item(i, 2).text()):
+            if (dlg.Entity.currentText() == tableRod.item(i, 1).text()) or (dlg.Entity.currentText() == tableRod.item(i, 2).text()):
                 tableRod.removeRow(i)
                 for j in range(i, tableRod.rowCount()): tableRod.setItem(j, 0, QTableWidgetItem("Rod"+str(j)))
                 break
