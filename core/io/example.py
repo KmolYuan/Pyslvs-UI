@@ -35,7 +35,7 @@ def example_crankRocker():
         '_table_', 'Point1', 'Green', '10', 'Blue', 'Point2', 'Green', '5', 'Magenta', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point3', '35.00', 'Line1', 'Point1', 'Point4', '70.00',
         '_table_', 'Chain0', 'Point2', 'Point3', 'Point4', '40.00', '70.00', '40.00',
-        '_table_', 'Shaft0', 'Point0', 'Point3', '0.00', '360.00\t', '70.07',
+        '_table_', 'Shaft0', 'Point0', 'Point3', '0.00', '360.00', '70.07',
         '_table_',
         '_table_',
         '_table_',

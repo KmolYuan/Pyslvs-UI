@@ -8,7 +8,6 @@ class DynamicCanvas(QWidget):
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setMouseTracking(True)
-        self.Solve_error = False
         self.points = {
             'x':[], 'y':[], 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
@@ -60,10 +59,8 @@ class DynamicCanvas(QWidget):
             table_slider, table_rod, table_parameter,
             table_style, zoom_rate,
             Font_size, showDimension, Point_mark, Blackground):
-        if not(self.Solve_error):
-            if Blackground: self.points['style']['Background'] = Qt.black
-            else: self.points['style']['Background'] = Qt.white
-        else: self.points['style']['Background'] = QColor(102, 0, 0)
+        if Blackground: self.points['style']['Background'] = Qt.black
+        else: self.points['style']['Background'] = Qt.white
         self.Font_size = Font_size
         self.points['style']['dimension'] = showDimension
         self.Point_mark = Point_mark

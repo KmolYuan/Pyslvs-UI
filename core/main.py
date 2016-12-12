@@ -366,6 +366,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
             self.Reload_Canvas()
         else:
+            self.DOF_view.setPlainText("Falled.")
             self.Solvefail = True
             print("Rebuild the cavanc falled.")
     
@@ -1413,16 +1414,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionUndo_triggered(self):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
-    
+        self.File.undoStep()
+        print("Undo.")
     @pyqtSlot()
     def on_actionRedo_triggered(self):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+        self.File.redoStep()
+        print("Redo.")

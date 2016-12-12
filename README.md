@@ -1,7 +1,9 @@
 Pyslvs(PySolveSpace)
 ===
 
-A GUI-based tool use Ubuntu version to solve 2D linkage subject.
+A GUI-based tool solving 2D linkage subject.
+
+Compatible with Python 3.4 and above.
 
 ![](icons/cover.png)
 
@@ -50,3 +52,7 @@ Power By
 Made by PyQt 5.6 and Eric 6.18.
 
 Including Python module: PyQt5, peewee, dxfwrite
+
+Here is Origin Kernel repository:
+
+[https://github.com/40323230/python-solvespace](https://github.com/40323230/python-solvespace)

@@ -25,6 +25,7 @@ from PyQt5.QtGui import *
 from .listProcess import(Parameters, Path,
     Points, Lines, Chains, Shafts, Sliders, Rods)
 #File Info
+from sys import argv #See argv
 from ..info.fileInfo import fileInfo_show
 from ..info.editFileInfo import editFileInfo_show
 #Date

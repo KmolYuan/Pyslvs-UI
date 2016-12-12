@@ -2,19 +2,6 @@
 from .__init__ import *
 
 class Solvespace():
-    def __init__(self):
-        self.Script = """# -*- coding: utf-8 -*-
-'''This Code is Generate by Pyslvs.'''
-
-from slvs import *
-import matplotlib.pyplot as plt
-
-#Please Choose Point number.
-Point_num = 2
-wx = Point_num*2+5
-wy = Point_num*2+6
-"""
-    
     def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, sym_part):
         sys = System(500)
         #Pre-oder
@@ -33,7 +20,15 @@ wy = Point_num*2+6
         p8 = sys.add_param(0.0)
         Point1 = Point2d(Workplane1, p7, p8)
         Constraint.dragged(Workplane1, Point1)
-        self.Script += """
+        self.Script = """# -*- coding: utf-8 -*-
+'''This Code is Generate by Pyslvs.'''
+from slvs import *
+
+#Please Choose Point number.
+Point_num = 2
+wx = Point_num*2+5
+wy = Point_num*2+6
+
 def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
     sys = System(1000)
     p0 = sys.add_param(0.0)
@@ -133,41 +128,13 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             Point += [PointN]
             Constraint.dragged(Workplane1, Point[-1])
             Line0 = LineSegment2d(Workplane1, Point[0], Point[-1])
-            self.Script += """    px = sys.add_param(10)
-    py = sys.add_param(0.0)
-    PointN = Point2d(Workplane1, px, py)
-    Constraint.dragged(Workplane1, PointN)
-    Line0 = LineSegment2d(Workplane1, Point1, PointN)
-"""
-            for i in range(len(table_shaft)):
-                center = table_shaft[i]['cen']
-                reference = table_shaft[i]['ref']
-                line = LineSegment2d(Workplane1, Point[center], Point[reference])
-                try:
-                    angle = table_shaft[i]['demo']
-                    Constraint.angle(Workplane1, angle, line, Line0, False)
-                except: pass
-                self.Script += """    Line1 = LineSegment2d(Workplane1, Point"""+str(center+1)+""", Point"""+str(reference+1)+""")
-    Constraint.angle(Workplane1, degree, Line1, Line0, False)
-"""
-        self.Script += """
-    sys.solve()
-    if (sys.result == SLVS_RESULT_OKAY):
-        x = sys.get_param(wx).val
-        y = sys.get_param(wy).val
-        return x, y
-
-if __name__=="__main__":
-    Xval  = []
-    Yval  = []
-    for i in range(0, 361, 1):
-        x, y = """+filename.replace(" ", "_")+"""(i)
-        Xval += [x]
-        Yval += [y]
-    print("Solve Completed")
-    plt.plot(Xval, Yval)
-    plt.show()
-"""
+            center = table_shaft[0]['cen']
+            reference = table_shaft[0]['ref']
+            line = LineSegment2d(Workplane1, Point[center], Point[reference])
+            try:
+                angle = table_shaft[0]['demo']
+                Constraint.angle(Workplane1, angle, line, Line0, False)
+            except: pass
         sys.solve()
         result = []
         if (sys.result == SLVS_RESULT_OKAY):
@@ -267,5 +234,4 @@ if __name__=="__main__":
     
     def slvs_formate(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
         code = SLVS_Code()
-        
         return code.output()
