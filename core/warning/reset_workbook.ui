@@ -62,9 +62,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="OK">
-       <property name="text">
-        <string>OK</string>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
        </property>
       </widget>
      </item>
@@ -77,14 +77,14 @@
  </resources>
  <connections>
   <connection>
-   <sender>OK</sender>
-   <signal>clicked()</signal>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
    <receiver>Warning_reset</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>249</x>
-     <y>122</y>
+     <x>291</x>
+     <y>123</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>

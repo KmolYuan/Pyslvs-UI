@@ -57,9 +57,11 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
                 x = sys.add_param(table_point[i]['x'])
                 y = sys.add_param(table_point[i]['y'])
             else:
+                #Quadrant Fix
                 for j in range(len(table_shaft)):
-                    case = table_shaft[j]['ref']==i and table_shaft[j]['demo'] and not(sym_part)
-                    if case:
+                    #shaft ref
+                    case1 = table_shaft[j]['ref']==i and table_shaft[j]['demo'] and not(sym_part)
+                    if case1:
                         angle = table_shaft[j]['demo']
                         other = -1 if angle >= 180 else 1
                         a = table_shaft[j]['cen']

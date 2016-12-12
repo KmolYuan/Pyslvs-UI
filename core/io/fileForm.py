@@ -26,7 +26,7 @@ class File():
         self.FileState = FileState()
     
     def updateTime(self):
-        self.File.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
+        self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
     
     #Check, Read, Write, Reset
     def check(self, data):

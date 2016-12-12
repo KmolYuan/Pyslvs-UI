@@ -364,9 +364,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Points.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
             self.DOF_view.setPlainText(str(self.DOF-6+self.Drive_Shaft.rowCount())+" ("+str(self.DOF-6)+")")
+            self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
             self.DOF_view.setPlainText("Falled.")
+            self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.Solvefail = True
             print("Rebuild the cavanc falled.")
     #Reload Canvas
@@ -466,7 +468,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.File.form['changed'] = False
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
                 self.Resolve()
-                self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
+                if (bool(self.File.Path.data) and bool(self.File.Path.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
+                else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
                 self.Path_Clear.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
@@ -1247,7 +1250,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Path_Clear_clicked(self):
         self.qpainterWindow.removePath()
         self.Reload_Canvas()
-        self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">No Path Data</span></p></body></html>"))
+        self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
         self.Path_Clear.setEnabled(False)
         self.Path_coordinate.setEnabled(False)
         self.Path_data_show.setEnabled(False)

@@ -34,20 +34,20 @@ class Ui_Warning_reset(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.OK = QtWidgets.QPushButton(Warning_reset)
-        self.OK.setObjectName("OK")
-        self.horizontalLayout.addWidget(self.OK)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Warning_reset)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout.addWidget(self.buttonBox)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Warning_reset)
-        self.OK.clicked.connect(Warning_reset.accept)
+        self.buttonBox.accepted.connect(Warning_reset.accept)
         QtCore.QMetaObject.connectSlotsByName(Warning_reset)
 
     def retranslateUi(self, Warning_reset):
         _translate = QtCore.QCoreApplication.translate
         Warning_reset.setWindowTitle(_translate("Warning_reset", "Warning - Reset"))
         self.label.setText(_translate("Warning_reset", "<html><head/><body><p><span style=\" font-size:14pt;\">Do you want to Clear ALL Drawings? <br/>The changes can\'t be recovery!</span></p></body></html>"))
-        self.OK.setText(_translate("Warning_reset", "OK"))
 
 import icons_rc
 
