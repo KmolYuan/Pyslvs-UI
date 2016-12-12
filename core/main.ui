@@ -1685,6 +1685,8 @@ p, li { white-space: pre-wrap; }
      <addaction name="menuGrashof_chain"/>
      <addaction name="actionMutiple_Link"/>
      <addaction name="actionTwo_Mutiple_Link"/>
+     <addaction name="separator"/>
+     <addaction name="actionReverse_Parsing_Rocker"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="title">
@@ -2540,6 +2542,11 @@ p, li { white-space: pre-wrap; }
   <action name="actionParallelogram_linkage">
    <property name="text">
     <string>Parallelogram linkage</string>
+   </property>
+  </action>
+  <action name="actionReverse_Parsing_Rocker">
+   <property name="text">
+    <string>Reverse Parsing Rocker</string>
    </property>
   </action>
  </widget>

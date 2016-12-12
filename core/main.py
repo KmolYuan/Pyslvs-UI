@@ -102,11 +102,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_link_right_click_menu_shaft = QAction("Turn this Link to Shaft", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_shaft)
         self.popMenu_link.addSeparator()
-        self.action_link_right_click_menu_move_up = QAction("Move up", self)
-        self.popMenu_link.addAction(self.action_link_right_click_menu_move_up)
-        self.action_link_right_click_menu_move_down = QAction("Move down", self)
-        self.popMenu_link.addAction(self.action_link_right_click_menu_move_down)
-        self.popMenu_link.addSeparator()
         self.action_link_right_click_menu_delete = QAction("Delete this Link", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_delete) 
         #Entiteis_Chain Right-click menu
@@ -118,11 +113,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_chain_right_click_menu_edit = QAction("Edit this Chain", self)
         self.popMenu_chain.addAction(self.action_chain_right_click_menu_edit)
         self.popMenu_chain.addSeparator()
-        self.action_chain_right_click_menu_move_up = QAction("Move up", self)
-        self.popMenu_chain.addAction(self.action_chain_right_click_menu_move_up)
-        self.action_chain_right_click_menu_move_down = QAction("Move down", self)
-        self.popMenu_chain.addAction(self.action_chain_right_click_menu_move_down)
-        self.popMenu_chain.addSeparator()
         self.action_chain_right_click_menu_delete = QAction("Delete this Chain", self)
         self.popMenu_chain.addAction(self.action_chain_right_click_menu_delete) 
         #Drive_Shaft Right-click menu
@@ -133,6 +123,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_add)
         self.action_shaft_right_click_menu_edit = QAction("Edit this Drive Shaft", self)
         self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_edit)
+        self.popMenu_shaft.addSeparator()
+        self.action_shaft_right_click_menu_move_up = QAction("Move up", self)
+        self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_move_up)
+        self.action_shaft_right_click_menu_move_down = QAction("Move down", self)
+        self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_move_down)
         self.popMenu_shaft.addSeparator()
         self.action_shaft_right_click_menu_delete = QAction("Delete this Drive Shaft", self)
         self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_delete) 
@@ -218,38 +213,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_link_context_menu(self, point):
         self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>=1)
         self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>=1)
-        self.action_link_right_click_menu_move_up.setEnabled((not bool(self.Entiteis_Link.rowCount()<=1))and(self.Entiteis_Link.currentRow()>=1))
-        self.action_link_right_click_menu_move_down.setEnabled((not bool(self.Entiteis_Link.rowCount()<=1))and(self.Entiteis_Link.currentRow()<=self.Entiteis_Link.rowCount()-2))
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
-        elif action == self.action_link_right_click_menu_move_up:
-            self.move_up(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
-            for i in range(self.Slider.rowCount()):
-                if int(self.Slider.item(i, 2).text().replace("Line", ""))==self.Entiteis_Link.currentRow(): self.Slider.setItem(i, 2, "Line"+str(self.Entiteis_Link.currentRow()))
-        elif action == self.action_link_right_click_menu_move_down:
-            self.move_down(self.Entiteis_Link, self.Entiteis_Link.currentRow(), "Line")
-            for i in range(self.Slider.rowCount()):
-                if int(self.Slider.item(i, 2).text().replace("Line", ""))==self.Entiteis_Link.currentRow(): self.Slider.setItem(i, 2, "Line"+str(self.Entiteis_Link.currentRow()))
         elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
     def on_chain_context_menu(self, point):
         self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>=1)
         self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>=1)
-        self.action_chain_right_click_menu_move_up.setEnabled((not bool(self.Entiteis_Stay_Chain.rowCount()<=1))and(self.Entiteis_Stay_Chain.currentRow()>=1))
-        self.action_chain_right_click_menu_move_down.setEnabled((not bool(self.Entiteis_Stay_Chain.rowCount()<=1))and(self.Entiteis_Stay_Chain.currentRow()<=self.Entiteis_Link.rowCount()-2))
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
         if action == self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
         elif action == self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
-        elif action == self.action_chain_right_click_menu_move_up: self.move_up(self.Entiteis_Stay_Chain, self.Entiteis_Stay_Chain.currentRow(), "Chain")
-        elif action == self.action_chain_right_click_menu_move_down: self.move_down(self.Entiteis_Stay_Chain, self.Entiteis_Stay_Chain.currentRow(), "Chain")
         elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
     def on_shaft_context_menu(self, point):
         self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>=1)
         self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>=1)
+        self.action_shaft_right_click_menu_move_up.setEnabled((not bool(self.Entiteis_Link.rowCount()<=1))and(self.Entiteis_Link.currentRow()>=1))
+        self.action_shaft_right_click_menu_move_down.setEnabled((not bool(self.Entiteis_Link.rowCount()<=1))and(self.Entiteis_Link.currentRow()<=self.Entiteis_Link.rowCount()-2))
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
+        elif action == self.action_shaft_right_click_menu_move_up: self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Line")
+        elif action == self.action_shaft_right_click_menu_move_down: self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Line")
         elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
         self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>=1)
@@ -417,6 +402,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         dlg.exec()
     
+    #TODO: Example
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self): self.checkChange("[New Workbook]", new_workbook(), 'Generating New Workbook...')
     @pyqtSlot()
@@ -429,6 +415,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink(), 'Loading Example...')
     @pyqtSlot()
     def on_actionTwo_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink(), 'Loading Example...')
+    @pyqtSlot()
+    def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker(), 'Loading Example...')
     #Workbook Functions
     def checkChange(self, name=False, data=[], say=''):
         if self.File.form['changed']:
@@ -1217,7 +1205,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(bool)
     def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot(int)
-    def Point_Style_set(self, index): self.Reload_Canvas()
+    def Point_Style_set(self, index):
+        self.Reload_Canvas()
+        self.Workbook_noSave()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
         self.qpainterWindow.Path['show'] = self.Path_data_show.checkState()

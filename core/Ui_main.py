@@ -1073,6 +1073,8 @@ class Ui_MainWindow(object):
         self.actionDouble_rocker.setObjectName("actionDouble_rocker")
         self.actionParallelogram_linkage = QtWidgets.QAction(MainWindow)
         self.actionParallelogram_linkage.setObjectName("actionParallelogram_linkage")
+        self.actionReverse_Parsing_Rocker = QtWidgets.QAction(MainWindow)
+        self.actionReverse_Parsing_Rocker.setObjectName("actionReverse_Parsing_Rocker")
         self.menuGrashof_chain.addAction(self.actionCrank_rocker)
         self.menuGrashof_chain.addAction(self.actionDrag_link)
         self.menuGrashof_chain.addAction(self.actionDouble_rocker)
@@ -1080,6 +1082,8 @@ class Ui_MainWindow(object):
         self.menuExample.addAction(self.menuGrashof_chain.menuAction())
         self.menuExample.addAction(self.actionMutiple_Link)
         self.menuExample.addAction(self.actionTwo_Mutiple_Link)
+        self.menuExample.addSeparator()
+        self.menuExample.addAction(self.actionReverse_Parsing_Rocker)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
@@ -1459,6 +1463,7 @@ class Ui_MainWindow(object):
         self.actionDrag_link.setText(_translate("MainWindow", "Drag-link"))
         self.actionDouble_rocker.setText(_translate("MainWindow", "Double rocker"))
         self.actionParallelogram_linkage.setText(_translate("MainWindow", "Parallelogram linkage"))
+        self.actionReverse_Parsing_Rocker.setText(_translate("MainWindow", "Reverse Parsing Rocker"))
 
 import icons_rc
 

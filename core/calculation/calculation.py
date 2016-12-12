@@ -53,30 +53,28 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         Point = [Point1]
         #Load tables to constraint
         for i in range(1, len(table_point) if len(table_point)>=1 else 1):
-            x_val = 0
-            if not(len(table_shaft)>=1):
-                x = sys.add_param(table_point[i]['x'])
-                y = sys.add_param(table_point[i]['y'])
-            else:
+            x = sys.add_param(table_point[i]['x'])
+            if len(table_shaft)>0:
                 #Quadrant Fix
-                for j in range(len(table_shaft)):
-                    #shaft ref
-                    angle = table_shaft[j]['demo']
-                    case1 = table_shaft[j]['ref']==i and table_shaft[j]['demo'] and not(sym_part)
-                    if case1:
-                        other = -1 if angle >= 180 else 1
-                        a = table_shaft[j]['cen']
-                        x = sys.add_param(table_point[a]['x'])
-                        x_val = table_point[a]['x']
-                        y = sys.add_param(table_point[i]['y']*other)
-                    else:
-                        x_val = table_point[i]['x']
-                        x = sys.add_param(table_point[i]['x'])
-                        y = sys.add_param(table_point[i]['y'])
+                if table_shaft[0]['ref']==i and not(sym_part):
+                    angle = table_shaft[0]['demo']
+                    cen = table_point[table_shaft[0]['cen']]['y']
+                    ref = table_point[i]['y']
+                    diff = ref-cen
+                    case1 = diff>=0
+                    case2 = angle>=180
+                    if case1 and not case2: y = sys.add_param(ref)
+                    elif case1 and case2: y = sys.add_param(cen-diff)
+                    elif not case1 and not case2: y = sys.add_param(cen-diff)
+                    elif not case1 and case2: y = sys.add_param(cen-diff)
+                else:
+                    y = sys.add_param(table_point[i]['y'])
+            else:
+                y = sys.add_param(table_point[i]['y'])
             p = Point2d(Workplane1, x, y)
             Point += [p]
             self.Script += """
-    p"""+str(i*2+7)+""" = sys.add_param("""+str(x_val)+""")
+    p"""+str(i*2+7)+""" = sys.add_param("""+str(table_point[i]['x'])+""")
     p"""+str(i*2+8)+""" = sys.add_param("""+str(table_point[i]['y'])+""")
     Point"""+str(i+1)+""" = Point2d(Workplane1, p"""+str(i*2+7)+""", p"""+str(i*2+8)+""")
 """
@@ -175,17 +173,19 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         Point = [Point1]
         #Load tables to constraint
         for i in range(1, len(table_point)):
-            for j in range(len(table_shaft)):
-                case = table_shaft[j]['ref']==i
-                if case:
-                    if angle >= 180: other = -1
-                    else: other = 1
-                    a = table_shaft[j]['cen']
-                    x = sys.add_param(table_point[a]['x'])
-                    y = sys.add_param(table_point[i]['y']*other)
-                else:
-                    x = sys.add_param(table_point[i]['x'])
-                    y = sys.add_param(table_point[i]['y'])
+            x = sys.add_param(table_point[i]['x'])
+            if table_shaft[0]['ref']==i:
+                cen = table_point[table_shaft[0]['cen']]['y']
+                ref = table_point[i]['y']
+                diff = ref-cen
+                case1 = diff>=0
+                case2 = angle>=180
+                if case1 and case2: y = sys.add_param(cen-diff)
+                elif case1 and not case2: y = sys.add_param(ref)
+                elif not case1 and case2: y = sys.add_param(cen-diff)
+                elif not case1 and not case2: y = sys.add_param(ref)
+            else:
+                y = sys.add_param(table_point[i]['y'])
             p = Point2d(Workplane1, x, y)
             Point += [p]
             if table_point[i]['fix']:
@@ -211,7 +211,6 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             end = table_line[table_slider[i]['ref']]['end']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
-        #TODO:
         for i in range(len(table_shaft)):
             center = table_shaft[i]['cen']
             reference = table_shaft[i]['ref']
