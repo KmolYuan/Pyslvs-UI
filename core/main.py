@@ -307,6 +307,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ref = self.File.Lines.list[row]['end']
         self.on_action_Set_Drive_Shaft_triggered(cen, ref)
     
+    @pyqtSlot(int, int)
+    def on_Entiteis_Point_cellDoubleClicked(self, row, column):
+        if row>0: self.on_actionEdit_Point_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Entiteis_Link_cellDoubleClicked(self, row, column): self.on_actionEdit_Linkage_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Entiteis_Stay_Chain_cellDoubleClicked(self, row, column): self.on_actionEdit_Stay_Chain_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Drive_Shaft_cellDoubleClicked(self, row, column): self.on_action_Edit_Drive_Shaft_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Slider_cellDoubleClicked(self, row, column): self.on_action_Edit_Slider_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Piston_Spring_triggered(row)
+    
     #Close Event
     def closeEvent(self, event):
         if self.File.form['changed']:

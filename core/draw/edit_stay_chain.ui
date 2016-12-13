@@ -40,7 +40,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_5">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -51,6 +51,9 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -71,11 +74,66 @@
       <widget class="QComboBox" name="Chain"/>
      </item>
      <item>
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLineEdit" name="p1_p3">
-         <property name="placeholderText">
-          <string>0.0</string>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>[1]-[3]</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="p1_p3">
+           <property name="placeholderText">
+            <string>0.0</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Point[3]</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="Point3"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
@@ -92,33 +150,16 @@
           <widget class="QComboBox" name="Point1"/>
          </item>
          <item>
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Point[2]</string>
+          <widget class="Line" name="line_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="Point2"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="label_7">
            <property name="text">
-            <string>Point[3]</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="Point3"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="QLineEdit" name="p1_p2">
-           <property name="placeholderText">
-            <string>0.0</string>
+            <string>[2]-[3]</string>
            </property>
           </widget>
          </item>
@@ -128,6 +169,48 @@
             <string>0.0</string>
            </property>
           </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="Line" name="line_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>[1]-[2]</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="p1_p2">
+           <property name="placeholderText">
+            <string>0.0</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="Line" name="line_6">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Point[2]</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="Point2"/>
          </item>
         </layout>
        </item>
