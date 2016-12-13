@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from dxfwrite import DXFEngine as dxf
 
-def dxf_code(file_name, table_point, table_line, table_chain, table_shaft, table_slider, table_rod):
+def dxfCode(file_name, table_point, table_line, table_chain, table_shaft, table_slider, table_rod):
     mechanism = dxf.drawing(file_name)
     for i in range(len(table_point)):
         pt = dxf.point((table_point[i]['cx'], table_point[i]['cy']))

@@ -55,7 +55,7 @@ else:
 #File & Example
 from .io.fileForm import File
 from .io.example import *
-from .io.dxf_type import dxf_code
+from .io.dxfType import dxfCode
 from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
 #Option

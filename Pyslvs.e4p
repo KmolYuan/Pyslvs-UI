@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-11, 13:40:51 -->
+<!-- Saved: 2016-12-13, 20:22:02 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -60,7 +60,7 @@
     <Source>core/info/script.py</Source>
     <Source>core/info/version.py</Source>
     <Source>core/io/__init__.py</Source>
-    <Source>core/io/dxf_type.py</Source>
+    <Source>core/io/dxfType.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
     <Source>core/io/listProcess.py</Source>

@@ -9,20 +9,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>492</width>
-    <height>363</height>
+    <width>500</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>492</width>
-    <height>363</height>
+    <width>351</width>
+    <height>265</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>492</width>
-    <height>363</height>
+    <width>500</width>
+    <height>400</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
    <bool>true</bool>
   </property>
   <property name="sizeGripEnabled">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>

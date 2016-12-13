@@ -3,7 +3,7 @@ from .__init__ import *
 argv = sys.argv
 
 class Solvespace():
-    def static_process(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, sym_part):
+    def staticProcess(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, isKernelAmendment, currentShaft):
         sys = System(500)
         #Pre-oder
         p0 = sys.add_param(0.0)
@@ -56,9 +56,9 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             x = sys.add_param(table_point[i]['x'])
             if len(table_shaft)>0:
                 #Quadrant Fix
-                if table_shaft[0]['ref']==i and not(sym_part):
-                    angle = table_shaft[0]['demo']
-                    cen = table_point[table_shaft[0]['cen']]['y']
+                if table_shaft[currentShaft]['ref']==i and isKernelAmendment:
+                    angle = table_shaft[currentShaft]['demo']
+                    cen = table_point[table_shaft[currentShaft]['cen']]['y']
                     ref = table_point[i]['y']
                     diff = ref-cen
                     case1 = diff>=0
@@ -128,13 +128,13 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             PointN = Point2d(Workplane1, pN, pNN)
             Point += [PointN]
             Constraint.dragged(Workplane1, Point[-1])
-            Line0 = LineSegment2d(Workplane1, Point[0], Point[-1])
+            Line0 = LineSegment2d(Workplane1, Point[currentShaft], Point[-1])
             #shaft demo switch
-            center = table_shaft[0]['cen']
-            reference = table_shaft[0]['ref']
+            center = table_shaft[currentShaft]['cen']
+            reference = table_shaft[currentShaft]['ref']
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
             try:
-                angle = table_shaft[0]['demo']
+                angle = table_shaft[currentShaft]['demo']
                 Constraint.angle(Workplane1, angle, line, Line0, False)
             except: pass
         sys.solve()
@@ -147,7 +147,7 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS) and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
         return result, sys.dof
 
-    def path_track_process(self, point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
+    def path_track_process(self, point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft):
         sys = System(1000)
         #Pre-oder
         p0 = sys.add_param(0.0)
@@ -174,8 +174,8 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         #Load tables to constraint
         for i in range(1, len(table_point)):
             x = sys.add_param(table_point[i]['x'])
-            if table_shaft[0]['ref']==i:
-                cen = table_point[table_shaft[0]['cen']]['y']
+            if table_shaft[currentShaft]['ref']==i:
+                cen = table_point[table_shaft[currentShaft]['cen']]['y']
                 ref = table_point[i]['y']
                 diff = ref-cen
                 case1 = diff>=0
@@ -230,9 +230,9 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         if (sys.result == SLVS_RESULT_OKAY):
             x = sys.get_param((point_int+2)*2+5).val
             y = sys.get_param((point_int+2)*2+6).val
-        elif (sys.result == SLVS_RESULT_INCONSISTENT): print ("SLVS_RESULT_INCONSISTENT")
-        elif (sys.result == SLVS_RESULT_DIDNT_CONVERGE): print ("SLVS_RESULT_DIDNT_CONVERGE")
-        elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS): print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
+        elif (sys.result == SLVS_RESULT_INCONSISTENT) and "-w" in argv: print ("SLVS_RESULT_INCONSISTENT")
+        elif (sys.result == SLVS_RESULT_DIDNT_CONVERGE) and "-w" in argv: print ("SLVS_RESULT_DIDNT_CONVERGE")
+        elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS) and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
         return x, y
     
     def slvs_formate(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):

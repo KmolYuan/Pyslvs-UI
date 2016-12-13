@@ -97,7 +97,7 @@
           <string>All</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -106,12 +106,15 @@
          <property name="text">
           <string>Let me Choose:</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QScrollArea" name="shaftsScrollArea">
          <property name="enabled">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -138,13 +141,6 @@
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <widget class="QCheckBox" name="checkBox">
-             <property name="text">
-              <string>A</string>
-             </property>
-            </widget>
-           </item>
            <item>
             <spacer name="verticalSpacer_2">
              <property name="orientation">

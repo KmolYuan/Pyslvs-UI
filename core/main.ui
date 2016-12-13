@@ -1056,16 +1056,6 @@ p, li { white-space: pre-wrap; }
                          </column>
                         </widget>
                        </item>
-                       <item>
-                        <widget class="QCheckBox" name="symmetrical_part">
-                         <property name="text">
-                          <string>Symmetrical parts</string>
-                         </property>
-                         <property name="checked">
-                          <bool>false</bool>
-                         </property>
-                        </widget>
-                       </item>
                       </layout>
                      </widget>
                     </item>
@@ -1422,6 +1412,23 @@ p, li { white-space: pre-wrap; }
                     </widget>
                    </item>
                   </layout>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_5">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="kernelAmendment">
+                   <property name="text">
+                    <string>Kernel Amendment</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
                  </item>
                  <item>
                   <spacer name="verticalSpacer">

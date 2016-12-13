@@ -29,7 +29,7 @@ class WorkerThread(QThread):
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
                     x, y = solvespace.path_track_process(n, angle, self.Point, self.Link,
-                        self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter)
+                        self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter, i)
                     Xval += [x]
                     Yval += [y]
                     self.progress_going()

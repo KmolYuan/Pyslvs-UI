@@ -41,6 +41,7 @@ class Path_Track_show(QDialog, Ui_Dialog):
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
             shaftCheckBox.setText("Shaft"+str(i))
+            if i==0: shaftCheckBox.setChecked(True)
             self.verticalLayout_6.insertWidget(0, shaftCheckBox)
     
     def start(self):

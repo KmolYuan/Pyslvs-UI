@@ -231,6 +231,7 @@ class Chains():
 class Shafts():
     def __init__(self):
         self.list = []
+        self.current = 0
     
     def editTable(self, table, name, center, references, start, end, demo_angle, edit):
         rowPosition = int(name.replace("Shaft", ""))

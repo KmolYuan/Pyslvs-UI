@@ -52,7 +52,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Default_Environment_variables = option_info.Environment_variables
         self.Default_canvas_view = option_info.Zoom_factor
         self.Default_Bits = 8
-        self.sym_part = False
+        self.isKernelAmendment = True
     
     def init_open_file(self):
         for i in sys.argv:
@@ -233,8 +233,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
-        elif action == self.action_shaft_right_click_menu_move_up: self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Line")
-        elif action == self.action_shaft_right_click_menu_move_down: self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Line")
+        elif action == self.action_shaft_right_click_menu_move_up: self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
+        elif action == self.action_shaft_right_click_menu_move_down: self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
         elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
         self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>=1)
@@ -269,11 +269,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 commit_set = QTableWidgetItem(table.item(row+2, 2).text())
                 commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
                 table.removeRow(row)
-                self.Workbook_noSave()
+                self.workbookNoSave()
             except: pass
         elif action == self.action_parameter_right_click_menu_delete:
             self.Parameter_list.removeRow(self.Parameter_list.currentRow())
-            self.Workbook_noSave()
+            self.workbookNoSave()
             self.Mask_Change()
     
     #Table move up & down & copy
@@ -286,7 +286,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 name_set = QTableWidgetItem(name+str(j))
                 name_set.setFlags(Qt.ItemIsEnabled)
                 table.setItem(j, 0, name_set)
-            self.Workbook_noSave()
+            self.workbookNoSave()
         except: pass
     def move_down(self, table, row, name):
         try:
@@ -297,7 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 name_set = QTableWidgetItem(name+str(j))
                 name_set.setFlags(Qt.ItemIsEnabled)
                 table.setItem(j, 0, QTableWidgetItem(name+str(j)))
-            self.Workbook_noSave()
+            self.workbookNoSave()
         except: pass
     def Coordinate_Copy(self, table):
         clipboard = QApplication.clipboard()
@@ -355,8 +355,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result = False
         slvs = Solvespace()
         fileName = self.windowTitle().split("/")[-1].split(".")[0]
-        result, DOF = slvs.static_process(table_point, table_line, table_chain,
-            table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.sym_part)
+        result, DOF = slvs.staticProcess(table_point, table_line, table_chain,
+            table_shaft, table_slider, table_rod, fileName, self.Parameter_list,
+            self.isKernelAmendment, self.File.Shafts.current)
         self.Script = slvs.Script
         if result:
             self.Solvefail = False
@@ -380,7 +381,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.action_Black_Blackground.isChecked())
     
     #Workbook Change
-    def Workbook_noSave(self):
+    def workbookNoSave(self):
         self.File.form['changed'] = True
         self.setWindowTitle(self.windowTitle().replace("*", "")+"*")
     
@@ -425,6 +426,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionCrank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker(), 'Loading Example...')
     @pyqtSlot()
     def on_actionDrag_link_triggered(self): self.checkChange("[Example] Drag-link", example_DragLink(), 'Loading Example...')
+    @pyqtSlot()
+    def on_actionDouble_rocker_triggered(self): self.checkChange("[Example] Double Rocker", example_doubleRocker(), 'Loading Example...')
+    @pyqtSlot()
+    def on_actionParallelogram_linkage_triggered(self): self.checkChange("[Example] Parallelogram Linkage", example_parallelogramLinkage(), 'Loading Example...')
     @pyqtSlot()
     def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink(), 'Loading Example...')
     @pyqtSlot()
@@ -512,7 +517,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             self.File.form['author'] = dlg.authorName_input.text()
             self.File.form['description'] = dlg.descriptionText.toPlainText()
-            self.Workbook_noSave()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -591,7 +596,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             fileName = fileName.replace(".dxf", "")
             fileName += ".dxf"
-            dxf_code(fileName, self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
+            dxfCode(fileName, self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
     
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):
@@ -604,12 +609,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def on_parameter_add(self):
         self.File.Parameters.editTable(self.Parameter_list)
-        self.Workbook_noSave()
+        self.workbookNoSave()
         self.Mask_Change()
     def on_parameter_del(self):
         self.File.Parameters.deleteTable(self.Parameter_list)
         self.Resolve()
-        self.Workbook_noSave()
+        self.workbookNoSave()
         self.Mask_Change()
     @pyqtSlot()
     def on_Parameter_add_clicked(self): self.on_parameter_add()
@@ -630,7 +635,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fix = "10" if dlg.Fix_Point.checkState() else "5"
             self.File.Points.styleAdd(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
             self.Resolve()
-            self.Workbook_noSave()
+            self.workbookNoSave()
     @pyqtSlot()
     def on_Point_add_button_clicked(self):
         table1 = self.Entiteis_Point
@@ -640,7 +645,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, False, False)
         self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
         self.Resolve()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos = 1):
@@ -669,7 +674,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.Fix_Point.checkState(), True)
                 self.File.Points.styleFix(table2, dlg.Point.currentText(), dlg.Fix_Point.checkState())
                 self.Resolve()
-                self.Workbook_noSave()
+                self.workbookNoSave()
     point_feedback = pyqtSignal(float, float, bool)
     @pyqtSlot(int)
     def Change_Edit_Point(self, pos):
@@ -710,7 +715,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         dlg.Start_Point.currentText(), dlg.End_Point.currentText(),
                         dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), False)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos = 0):
@@ -749,7 +754,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         dlg.Start_Point.currentText(),  dlg.End_Point.currentText(),
                         dlg.Length.text() if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), True)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     link_feedback = pyqtSignal(int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Line(self, pos):
@@ -795,7 +800,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
                         dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), False)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Stay_Chain_triggered(self, pos = 0):
@@ -839,7 +844,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
                         dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), True)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     chain_feedback = pyqtSignal(int, int, int, float, float, float)
     @pyqtSlot(int)
     def Change_Edit_Chain(self, pos):
@@ -885,7 +890,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     self.File.Shafts.editTable(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e, False)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Drive_Shaft_triggered(self, pos = 0):
@@ -923,7 +928,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     self.File.Shafts.editTable(table2, dlg.Shaft.currentText(), a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), True)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     shaft_feedback = pyqtSignal(int, int, float, float)
     @pyqtSlot(int)
     def Change_Edit_Shaft(self, pos):
@@ -966,7 +971,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     self.File.Sliders.editTable(table3, dlg.Slider_num.toPlainText(), a, b, False)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos):
@@ -1004,7 +1009,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     self.File.Sliders.editTable(table3, dlg.Slider.currentText(), a, b, True)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     slider_feedback = pyqtSignal(int, int)
     @pyqtSlot(int)
     def Change_Edit_Slider(self, pos):
@@ -1041,7 +1046,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, False)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Piston_Spring_triggered(self, pos = 0):
@@ -1077,7 +1082,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else:
                     self.File.Rods.editTable(table2, dlg.Rod.currentText(), a, b, c, d, True)
                     self.Resolve()
-                    self.Workbook_noSave()
+                    self.workbookNoSave()
     rod_feedback = pyqtSignal(int, int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Rod(self, pos):
@@ -1109,7 +1114,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.Entiteis_Stay_Chain, self.Drive_Shaft,
                     self.Slider, self.Rod, dlg)
                 self.Resolve()
-                self.Workbook_noSave()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Linkage_triggered(self, pos = 0):
@@ -1130,7 +1135,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if dlg.exec_():
                 self.File.Lines.deleteTable(table1, table2, dlg)
                 self.Resolve()
-                self.Workbook_noSave()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Stay_Chain_triggered(self, pos = 0):
@@ -1138,7 +1143,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icon.addPixmap(QPixmap(":/icons/equal.png"), QIcon.Normal, QIcon.Off)
         self.File.delTable(self.Entiteis_Stay_Chain, icon, delete_chain_show(), "Chain", pos)
         self.Resolve()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Drive_Shaft_triggered(self, pos = 0):
@@ -1146,7 +1151,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icon.addPixmap(QPixmap(":/icons/circle.png"), QIcon.Normal, QIcon.Off)
         self.File.delTable(self.Drive_Shaft, icon, delete_shaft_show(), "Shaft", pos)
         self.Resolve()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Slider_triggered(self, pos = 0):
@@ -1154,7 +1159,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icon.addPixmap(QPixmap(":/icons/pointonx.png"), QIcon.Normal, QIcon.Off)
         self.File.delTable(self.Slider, icon, delete_slider_show(), "Slider", pos)
         self.Resolve()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Piston_Spring_triggered(self, pos = 0):
@@ -1162,7 +1167,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icon.addPixmap(QPixmap(":/icons/spring.png"), QIcon.Normal, QIcon.Off)
         self.File.delTable(self.Rod, icon, delete_rod_show(), "Rod", pos)
         self.Resolve()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):
@@ -1207,7 +1212,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(QTableWidgetItem)
     def on_Entiteis_Point_Style_itemChanged(self, item):
         self.Reload_Canvas()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     @pyqtSlot(int)
     def on_LineWidth_valueChanged(self, p0): self.Reload_Canvas()
     @pyqtSlot(int)
@@ -1221,7 +1226,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Point_Style_set(self, index):
         self.Reload_Canvas()
-        self.Workbook_noSave()
+        self.workbookNoSave()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
         self.qpainterWindow.Path['show'] = self.Path_data_show.checkState()
@@ -1250,7 +1255,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_coordinate.setEnabled(True)
                 self.Path_data_show.setEnabled(True)
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
-                self.Workbook_noSave()
+                self.workbookNoSave()
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
         self.qpainterWindow.removePath()
@@ -1279,21 +1284,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Shaft_limit(0)
         else:
             try:
+                self.File.Shafts.current = 0
                 self.DriveWidget.deleteLater()
                 del self.DriveWidget
             except: pass
     @pyqtSlot(int)
     def Shaft_limit(self, pos):
-        try:
-            self.DriveWidget.Degree.setMinimum(int(float(self.Drive_Shaft.item(pos, 3).text()))*100)
-            self.DriveWidget.Degree.setMaximum(int(float(self.Drive_Shaft.item(pos, 4).text()))*100)
-            self.DriveWidget.Degree.setValue(int(float(self.Drive_Shaft.item(pos, 5).text()))*100)
+        self.DriveWidget.Degree.setMinimum(int(self.File.Shafts.list[self.File.Shafts.current]['start'])*100)
+        self.DriveWidget.Degree.setMaximum(int(self.File.Shafts.list[self.File.Shafts.current]['end'])*100)
+        try: self.DriveWidget.Degree.setValue(int(self.File.Shafts.list[self.File.Shafts.current]['demo'])*100)
         except: self.DriveWidget.Degree.setValue(int((self.DriveWidget.Degree.maximum()+self.DriveWidget.Degree.minimum())/2))
         self.DriveWidget.Degree_text.setValue(float(self.DriveWidget.Degree.value()/100))
     @pyqtSlot(int, float)
     def Change_demo_angle(self, index, angle):
         self.File.Shafts.setDemo(self.Drive_Shaft, index, angle)
+        self.File.Shafts.current = index
         self.Resolve()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_Measurement_clicked(self):
@@ -1428,8 +1435,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_(): pass
     
     @pyqtSlot()
-    def on_symmetrical_part_clicked(self):
-        self.sym_part = self.symmetrical_part.isChecked()
+    def on_kernelAmendment_clicked(self):
+        self.isKernelAmendment = self.symmetrical_part.isChecked()
         self.Resolve()
     
     @pyqtSlot()
