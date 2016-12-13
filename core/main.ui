@@ -2387,6 +2387,9 @@ p, li { white-space: pre-wrap; }
    <property name="statusTip">
     <string>Display dimensions in the canvas.</string>
    </property>
+   <property name="shortcut">
+    <string>F11</string>
+   </property>
   </action>
   <action name="action_Black_Blackground">
    <property name="checkable">

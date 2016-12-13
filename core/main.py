@@ -367,10 +367,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
-            self.DOF_view.setPlainText("Falled.")
+            self.DOF_view.setPlainText("Failed.")
             self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.Solvefail = True
-            if "-w" in sys.argv: print("Rebuild the cavanc falled.")
+            if "-w" in sys.argv: print("Rebuild the cavanc failed.")
     #Reload Canvas
     def Reload_Canvas(self):
         self.qpainterWindow.update_figure(
