@@ -18,7 +18,7 @@ class WorkerThread(QThread):
             point_list += [int(self.Run_list.item(i).text().replace("Point", ""))]
         solvespace = Solvespace()
         nPath = []
-        for i in range(len(self.Shaft)):
+        for i in self.ShaftList:
             start_angle = self.Shaft[i]['start']*100
             end_angle = self.Shaft[i]['end']*100
             Resolution = self.Resolution*100

@@ -211,11 +211,6 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             end = table_line[table_slider[i]['ref']]['end']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
-        for i in range(len(table_shaft)):
-            center = table_shaft[i]['cen']
-            reference = table_shaft[i]['ref']
-            line = LineSegment2d(Workplane1, Point[center], Point[reference])
-            Constraint.angle(Workplane1, angle, line, Line0, False)
         for i in range(len(table_rod)):
             pt = table_rod[i]['cen']
             start = table_rod[i]['start']
@@ -224,6 +219,11 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
             Constraint.distance(leng, Workplane1, Point[start], Point[pt])
+        #table_shaft
+        center = table_shaft[currentShaft]['cen']
+        reference = table_shaft[currentShaft]['ref']
+        line = LineSegment2d(Workplane1, Point[center], Point[reference])
+        Constraint.angle(Workplane1, angle, line, Line0, False)
         sys.solve()
         x = 0
         y = 0

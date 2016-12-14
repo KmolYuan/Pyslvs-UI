@@ -12,23 +12,10 @@ class Path_Track_show(QDialog, Ui_Dialog):
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
         self.work.progress_Signal.connect(self.progressbar_change)
+        self.allShafts.clicked.connect(self.isReady)
+        self.chooseShafts.clicked.connect(self.isReady)
         self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
-    
-    @pyqtSlot()
-    def on_add_button_clicked(self):
-        try:
-            self.Run_list.addItem(self.Point_list.currentItem().text())
-            self.Point_list.takeItem(self.Point_list.currentRow())
-        except: pass
-        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(self.Run_list.count()>=1)
-    
-    @pyqtSlot()
-    def on_remove_botton_clicked(self):
-        try:
-            self.Point_list.addItem(self.Run_list.currentItem().text())
-            self.Run_list.takeItem(self.Run_list.currentRow())
-        except: pass
-        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(self.Run_list.count()>=1)
+        self.shaftList = []
     
     def loadData(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.work.Point = Point
@@ -42,9 +29,38 @@ class Path_Track_show(QDialog, Ui_Dialog):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
             shaftCheckBox.setText("Shaft"+str(i))
             if i==0: shaftCheckBox.setChecked(True)
-            self.verticalLayout_6.insertWidget(0, shaftCheckBox)
+            shaftCheckBox.clicked.connect(self.isReady)
+            self.shaftList += [shaftCheckBox]
+        for checkBox in self.shaftList: self.verticalLayout_6.insertWidget(0, checkBox)
+    
+    @pyqtSlot()
+    def on_add_button_clicked(self):
+        try:
+            self.Run_list.addItem(self.Point_list.currentItem().text())
+            self.Point_list.takeItem(self.Point_list.currentRow())
+        except: pass
+        self.isReady()
+    @pyqtSlot()
+    def on_remove_botton_clicked(self):
+        try:
+            self.Point_list.addItem(self.Run_list.currentItem().text())
+            self.Run_list.takeItem(self.Run_list.currentRow())
+        except: pass
+        self.isReady()
+    @pyqtSlot()
+    def isReady(self):
+        self.shaftReadyList = [e.isChecked() for e in self.shaftList]
+        n = False
+        for e in self.shaftReadyList: n |= e
+        n |= self.allShafts.isChecked()
+        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(n and self.Run_list.count()>=1)
+    
+    @pyqtSlot(bool)
+    def on_chooseShafts_toggled(self, checked): self.shaftsScrollArea.setEnabled(checked)
     
     def start(self):
+        if self.allShafts.isChecked(): self.work.ShaftList = [e for e in range(len(self.shaftReadyList))]
+        else: self.work.ShaftList = [e for e in range(len(self.shaftReadyList)) if self.shaftReadyList[e]==True]
         self.work.Run_list = self.Run_list
         self.work.Resolution = float(self.Resolution.text())
         if not self.Run_list.count()==0:
@@ -76,7 +92,3 @@ class Path_Track_show(QDialog, Ui_Dialog):
     def finish(self, Path):
         self.Path_data = Path
         self.accept()
-    
-    @pyqtSlot(bool)
-    def on_chooseShafts_toggled(self, checked):
-        self.shaftsScrollArea.setEnabled(checked)

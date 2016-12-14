@@ -480,7 +480,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_Clear.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
+                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
                 print("Successful Load the workbook...")
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
@@ -1229,7 +1229,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.workbookNoSave()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
-        self.qpainterWindow.Path['show'] = self.Path_data_show.checkState()
+        self.qpainterWindow.points['Path']['show'] = self.Path_data_show.checkState()
         self.Reload_Canvas()
     
     @pyqtSlot()
@@ -1249,12 +1249,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if dlg.exec_():
                 self.File.Path.runList = []
                 for i in range(dlg.Run_list.count()): self.File.Path.runList += [dlg.Run_list.item(i).text()]
+                self.File.Path.shaftList = dlg.work.ShaftList
                 self.File.Path.data = dlg.Path_data
                 self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 self.Path_Clear.setEnabled(True)
                 self.Path_coordinate.setEnabled(True)
                 self.Path_data_show.setEnabled(True)
-                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList)
+                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
                 self.workbookNoSave()
     @pyqtSlot()
     def on_Path_Clear_clicked(self):

@@ -15,7 +15,7 @@ class DynamicCanvas(QWidget):
                 'pt':Qt.green, 'link':Qt.darkGray, 'chain':Qt.cyan, 'text':Qt.darkGray,
                 'dimension':False,
                 },
-            'Path':{'path':[], 'run_list':[], 'show':True},
+            'Path':{'path':[], 'run_list':[], 'shaft_list':[], 'show':True},
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
@@ -85,9 +85,10 @@ class DynamicCanvas(QWidget):
         self.table_style = table_style
         self.update()
     
-    def path_track(self, path, run_list):
+    def path_track(self, path, run_list, shaft_list):
         self.points['Path']['path'] = path
         self.points['Path']['run_list'] = run_list
+        self.points['Path']['shaft_list'] = shaft_list
         self.update()
     
     def paintEvent(self, event):
@@ -212,8 +213,7 @@ class DynamicCanvas(QWidget):
         if self.points['Path']['path'] and self.points['Path']['show']:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['path'])
-            for i in range(len(self.points['Path']['path'])):
-                nPath = self.points['Path']['path'][i]
+            for nPath in self.points['Path']['path']:
                 for j in range(0, len(nPath), 2):
                     X_path = nPath[j]
                     Y_path = nPath[j+1]

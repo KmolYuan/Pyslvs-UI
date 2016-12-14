@@ -333,6 +333,7 @@ class Path():
     def __init__(self):
         self.data = []
         self.runList = []
+        self.shaftList = []
     
     def setup(self, table, data, Run_list):
         for i in range(len(data)):

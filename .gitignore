@@ -4,6 +4,7 @@
 *.dll
 *.a
 *.ini
+a.py
 
 *__pycache__*
 
