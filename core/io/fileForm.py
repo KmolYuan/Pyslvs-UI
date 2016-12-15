@@ -32,7 +32,7 @@ class File():
     def check(self, data):
         n1 = len([e for e, x in enumerate(data) if x=='_info_'])==4
         n2 = len([e for e, x in enumerate(data) if x=='_table_'])==9
-        n3 = len([e for e, x in enumerate(data) if x=='_path_'])==2
+        n3 = len([e for e, x in enumerate(data) if x=='_path_'])==3
         return n1 and n2 and n3
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         if '--file-data' in argv: print(data)
@@ -92,7 +92,9 @@ class File():
         pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
         li = data[pathIndex[0]+1:pathIndex[1]]
         self.Path.runList = li
-        li = data[pathIndex[1]+1::]
+        li = data[pathIndex[1]+1:pathIndex[2]]
+        self.Path.shaftList = [int(e) for e in li]
+        li = data[pathIndex[2]+1::]
         path = []
         path_e = []
         for i in range(0, len(li)):
@@ -137,6 +139,9 @@ class File():
                 if i == len(self.Path.runList)-1: rowdata += [str(self.Path.runList[i])]
                 else: rowdata += [str(self.Path.runList[i])+'\t']
             writer.writerow(rowdata)
+        writer.writerow(["_path_"])
+        if self.Path.shaftList:
+            writer.writerow(self.Path.shaftList)
         writer.writerow(["_path_"])
         if self.Path.data:
             for i in range(len(self.Path.data[0])):

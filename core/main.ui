@@ -1007,6 +1007,13 @@ p, li { white-space: pre-wrap; }
                         <number>6</number>
                        </property>
                        <item>
+                        <widget class="QLabel" name="label_6">
+                         <property name="text">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Only Shaft0 is active.&lt;/span&gt;&lt;br/&gt;Using right click menu to change the priority.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
                         <widget class="QTableWidget" name="Drive_Shaft">
                          <property name="statusTip">
                           <string/>
@@ -2179,72 +2186,90 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionDelete_Point">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
    </property>
    <property name="text">
-    <string>Delet Point</string>
+    <string>Delet a Point</string>
    </property>
    <property name="statusTip">
     <string>Delete an Existing point.</string>
    </property>
   </action>
   <action name="actionDelete_Linkage">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/deleteline.png</normaloff>:/icons/deleteline.png</iconset>
    </property>
    <property name="text">
-    <string>Delet Linkage</string>
+    <string>Delet a Linkage</string>
    </property>
    <property name="statusTip">
     <string>Delete an Existing linkage.</string>
    </property>
   </action>
   <action name="actionDelete_Stay_Chain">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/deletechain.png</normaloff>:/icons/deletechain.png</iconset>
    </property>
    <property name="text">
-    <string>Delete Stay Chain</string>
+    <string>Delete a Stay Chain</string>
    </property>
    <property name="statusTip">
     <string>Delete an Existing stay chain.</string>
    </property>
   </action>
   <action name="actionEdit_Point">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/editpoint.png</normaloff>:/icons/editpoint.png</iconset>
    </property>
    <property name="text">
-    <string>Edit Point</string>
+    <string>Edit a Point</string>
    </property>
    <property name="statusTip">
     <string>Edit an Existing point.</string>
    </property>
   </action>
   <action name="actionEdit_Linkage">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/length.png</normaloff>:/icons/length.png</iconset>
    </property>
    <property name="text">
-    <string>Edit Linkage</string>
+    <string>Edit a Linkage</string>
    </property>
    <property name="statusTip">
     <string>Edit an Existing linkage.</string>
    </property>
   </action>
   <action name="actionEdit_Stay_Chain">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/editchain.png</normaloff>:/icons/editchain.png</iconset>
    </property>
    <property name="text">
-    <string>Edit Stay Chain</string>
+    <string>Edit a Stay Chain</string>
    </property>
    <property name="statusTip">
     <string>Edit an Existing stay chain.</string>
@@ -2287,6 +2312,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Drive_Shaft">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/editshaft.png</normaloff>:/icons/editshaft.png</iconset>
@@ -2296,6 +2324,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Slider">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/editslider.png</normaloff>:/icons/editslider.png</iconset>
@@ -2305,6 +2336,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionDelete_Drive_Shaft">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/deleteshaft.png</normaloff>:/icons/deleteshaft.png</iconset>
@@ -2314,6 +2348,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionDelete_Slider">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/deleteslider.png</normaloff>:/icons/deleteslider.png</iconset>
@@ -2323,10 +2360,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionReload_Drawing">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/sketch-in-plane.png</normaloff>:/icons/sketch-in-plane.png</iconset>
-   </property>
    <property name="text">
     <string>Reload Drawing</string>
    </property>
@@ -2356,6 +2389,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Piston_Spring">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/editrod.png</normaloff>:/icons/editrod.png</iconset>
@@ -2365,6 +2401,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="actionDelete_Piston_Spring">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/deleterod.png</normaloff>:/icons/deleterod.png</iconset>

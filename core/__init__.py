@@ -18,7 +18,6 @@ from .warning.reset_workbook import reset_show
 from .warning.zero_value import zero_show
 from .warning.repeated_value import same_show
 from .warning.restriction_conflict import restriction_conflict_show
-from .warning.kill_origin import kill_origin_show
 #Drawing Dialog Ports
 from .draw.point import New_point
 from .draw.link import New_link

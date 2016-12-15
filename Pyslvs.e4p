@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-15, 11:54:39 -->
+<!-- Saved: 2016-12-15, 16:47:25 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -89,14 +89,12 @@
     <Source>core/test/testKernel.py</Source>
     <Source>core/test/testQt.py</Source>
     <Source>core/warning/Ui_contradict_value.py</Source>
-    <Source>core/warning/Ui_kill_origin.py</Source>
     <Source>core/warning/Ui_repeated_value.py</Source>
     <Source>core/warning/Ui_reset_workbook.py</Source>
     <Source>core/warning/Ui_restriction_conflict.py</Source>
     <Source>core/warning/Ui_zero_value.py</Source>
     <Source>core/warning/__init__.py</Source>
     <Source>core/warning/contradict_value.py</Source>
-    <Source>core/warning/kill_origin.py</Source>
     <Source>core/warning/repeated_value.py</Source>
     <Source>core/warning/reset_workbook.py</Source>
     <Source>core/warning/restriction_conflict.py</Source>
@@ -133,7 +131,6 @@
     <Form>core/simulate/set_rod.ui</Form>
     <Form>core/simulate/set_slider.ui</Form>
     <Form>core/warning/contradict_value.ui</Form>
-    <Form>core/warning/kill_origin.ui</Form>
     <Form>core/warning/repeated_value.ui</Form>
     <Form>core/warning/reset_workbook.ui</Form>
     <Form>core/warning/restriction_conflict.ui</Form>

@@ -201,8 +201,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_point_context_menu(self, point):
         self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
         self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
-        self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>=2)
-        self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>=2)
+        self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
+        self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
         if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
@@ -211,25 +211,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
         elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
-        self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>=1)
-        self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>=1)
+        self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
     def on_chain_context_menu(self, point):
-        self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>=1)
-        self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>=1)
+        self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+        self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
         if action == self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
         elif action == self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
         elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
     def on_shaft_context_menu(self, point):
-        self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>=1)
-        self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>=1)
-        self.action_shaft_right_click_menu_move_up.setEnabled((not bool(self.Entiteis_Link.rowCount()<=1))and(self.Entiteis_Link.currentRow()>=1))
-        self.action_shaft_right_click_menu_move_down.setEnabled((not bool(self.Entiteis_Link.rowCount()<=1))and(self.Entiteis_Link.currentRow()<=self.Entiteis_Link.rowCount()-2))
+        self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.action_shaft_right_click_menu_move_up.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()>0)
+        self.action_shaft_right_click_menu_move_down.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()<self.Drive_Shaft.rowCount()-1)
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
@@ -237,8 +237,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action == self.action_shaft_right_click_menu_move_down: self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
         elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
-        self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>=1)
-        self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>=1)
+        self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>0)
+        self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>0)
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
         if action == self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
         elif action == self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(self.Slider.currentRow())
@@ -384,6 +384,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def workbookNoSave(self):
         self.File.form['changed'] = True
         self.setWindowTitle(self.windowTitle().replace("*", "")+"*")
+        self.actionEnabled()
+    
+    #Action Enabled
+    def actionEnabled(self):
+        self.actionEdit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.actionEdit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.actionEdit_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+        self.action_Edit_Drive_Shaft.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.action_Edit_Slider.setEnabled(self.Slider.rowCount()>0)
+        self.action_Edit_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+        self.actionDelete_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.actionDelete_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.actionDelete_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+        self.actionDelete_Drive_Shaft.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.actionDelete_Slider.setEnabled(self.Slider.rowCount()>0)
+        self.actionDelete_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
     
     @pyqtSlot()
     def on_action_Full_Screen_triggered(self): print("Full Screen.")
@@ -482,6 +498,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
                 print("Successful Load the workbook...")
+                self.actionEnabled()
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
                     dlg.rename(self.File.form['fileName'], self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
