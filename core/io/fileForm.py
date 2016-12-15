@@ -166,23 +166,6 @@ class File():
                 elif table.cellWidget(row, column): rowdata += [table.cellWidget(row, column).currentText()]
             writer.writerow(rowdata)
     
-    def delTable(self, table, icon, dlg, name, pos):
-        if table.rowCount() <= 0:
-            dlg = zero_show()
-            dlg.show()
-            if dlg.exec_(): pass
-        else:
-            for i in range(table.rowCount()):
-                dlg.Entity.insertItem(i, icon, table.item(i, 0).text())
-            dlg.Entity.setCurrentIndex(pos)
-            dlg.show()
-            if dlg.exec_():
-                for i in range(table.rowCount()):
-                    if (dlg.Entity.currentText() == table.item(i, 0).text()):
-                        table.removeRow(i)
-                        for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
-                        break
-    
     def Obstacles_Exclusion(self):
         table_point = self.Points.list
         table_line = self.Lines.list

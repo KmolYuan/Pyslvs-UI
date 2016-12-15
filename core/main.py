@@ -1095,79 +1095,86 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionDelete_Point_triggered(self, pos = 1):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        table = self.Entiteis_Point
-        if table.rowCount() <= 1:
-            dlg = kill_origin_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = delete_point_show()
-            for i in range(1, table.rowCount()):
-                dlg.Entity.insertItem(i, icon, table.item(i, 0).text())
-            dlg.Entity.setCurrentIndex(pos-1)
-            dlg.show()
-            if dlg.exec_():
-                self.File.Points.deleteTable(table,
-                    self.Entiteis_Point_Style, self.Entiteis_Link,
-                    self.Entiteis_Stay_Chain, self.Drive_Shaft,
-                    self.Slider, self.Rod, dlg)
-                self.Resolve()
-                self.workbookNoSave()
+        dlg = deleteDlg()
+        dlg.setUI(QIcon(QPixmap(":/icons/delete.png")), QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos)
+        dlg.show()
+        if dlg.exec_():
+            self.File.Points.deleteTable(self.Entiteis_Point,
+                self.Entiteis_Point_Style, self.Entiteis_Link,
+                self.Entiteis_Stay_Chain, self.Drive_Shaft,
+                self.Slider, self.Rod, dlg)
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Linkage_triggered(self, pos = 0):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
-        table1 = self.Entiteis_Link
-        table2 = self.Slider
-        if table1.rowCount() <= 0:
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = delete_linkage_show()
-            for i in range(table1.rowCount()):
-                dlg.Entity.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Entity.setCurrentIndex(pos)
-            dlg.show()
-            if dlg.exec_():
-                self.File.Lines.deleteTable(table1, table2, dlg)
-                self.Resolve()
-                self.workbookNoSave()
+        dlg = deleteDlg()
+        dlg.setUI(QIcon(QPixmap(":/icons/deleteline.png")), QIcon(QPixmap(":/icons/line.png")), self.Entiteis_Link, pos)
+        dlg.show()
+        if dlg.exec_():
+            self.File.Lines.deleteTable(self.Entiteis_Link, self.Slider, dlg)
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Stay_Chain_triggered(self, pos = 0):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/equal.png"), QIcon.Normal, QIcon.Off)
-        self.File.delTable(self.Entiteis_Stay_Chain, icon, delete_chain_show(), "Chain", pos)
-        self.Resolve()
-        self.workbookNoSave()
+        table = self.Entiteis_Stay_Chain
+        dlg = deleteDlg()
+        dlg.setUI(QIcon(QPixmap(":/icons/deletechain.png")), QIcon(QPixmap(":/icons/equal.png")), table, pos)
+        dlg.show()
+        if dlg.exec_():
+            for i in range(table.rowCount()):
+                if (dlg.Entity.currentText() == table.item(i, 0).text()):
+                    table.removeRow(i)
+                    for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
+                    break
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Drive_Shaft_triggered(self, pos = 0):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/circle.png"), QIcon.Normal, QIcon.Off)
-        self.File.delTable(self.Drive_Shaft, icon, delete_shaft_show(), "Shaft", pos)
-        self.Resolve()
-        self.workbookNoSave()
+        table = self.Drive_Shaft
+        dlg = deleteDlg()
+        dlg.setUI(QIcon(QPixmap(":/icons/deleteshaft.png")), QIcon(QPixmap(":/icons/circle.png")), table, pos)
+        dlg.show()
+        if dlg.exec_():
+            for i in range(table.rowCount()):
+                if (dlg.Entity.currentText() == table.item(i, 0).text()):
+                    table.removeRow(i)
+                    for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
+                    break
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Slider_triggered(self, pos = 0):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/pointonx.png"), QIcon.Normal, QIcon.Off)
-        self.File.delTable(self.Slider, icon, delete_slider_show(), "Slider", pos)
-        self.Resolve()
-        self.workbookNoSave()
+        table = self.Slider
+        dlg = deleteDlg()
+        dlg.setUI(QIcon(QPixmap(":/icons/deleteslider.png")), QIcon(QPixmap(":/icons/pointonx.png")), table, pos)
+        dlg.show()
+        if dlg.exec_():
+            for i in range(table.rowCount()):
+                if (dlg.Entity.currentText() == table.item(i, 0).text()):
+                    table.removeRow(i)
+                    for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
+                    break
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionDelete_Piston_Spring_triggered(self, pos = 0):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/spring.png"), QIcon.Normal, QIcon.Off)
-        self.File.delTable(self.Rod, icon, delete_rod_show(), "Rod", pos)
-        self.Resolve()
-        self.workbookNoSave()
+        table = self.Rod
+        dlg = deleteDlg()
+        dlg.setUI(QIcon(QPixmap(":/icons/deleterod.png")), QIcon(QPixmap(":/icons/spring.png")), table, pos)
+        dlg.show()
+        if dlg.exec_():
+            for i in range(table.rowCount()):
+                if (dlg.Entity.currentText() == table.item(i, 0).text()):
+                    table.removeRow(i)
+                    for j in range(i, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
+                    break
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):

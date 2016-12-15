@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-13, 20:22:02 -->
+<!-- Saved: 2016-12-15, 11:54:39 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -23,9 +23,7 @@
     <Source>core/calculation/canvas_0.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
     <Source>core/calculation/undoRedo.py</Source>
-    <Source>core/draw/Ui_delete_chain.py</Source>
-    <Source>core/draw/Ui_delete_linkage.py</Source>
-    <Source>core/draw/Ui_delete_point.py</Source>
+    <Source>core/draw/Ui_delete.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
     <Source>core/draw/Ui_edit_stay_chain.py</Source>
@@ -33,9 +31,7 @@
     <Source>core/draw/Ui_point.py</Source>
     <Source>core/draw/Ui_stay_chain.py</Source>
     <Source>core/draw/__init__.py</Source>
-    <Source>core/draw/delete_chain.py</Source>
-    <Source>core/draw/delete_linkage.py</Source>
-    <Source>core/draw/delete_point.py</Source>
+    <Source>core/draw/delete.py</Source>
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
     <Source>core/draw/edit_stay_chain.py</Source>
@@ -76,9 +72,6 @@
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
     <Source>core/panel/run_Path_Track.py</Source>
-    <Source>core/simulate/Ui_delete_drive_shaft.py</Source>
-    <Source>core/simulate/Ui_delete_rod.py</Source>
-    <Source>core/simulate/Ui_delete_slider.py</Source>
     <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
@@ -86,9 +79,6 @@
     <Source>core/simulate/Ui_set_rod.py</Source>
     <Source>core/simulate/Ui_set_slider.py</Source>
     <Source>core/simulate/__init__.py</Source>
-    <Source>core/simulate/delete_drive_shaft.py</Source>
-    <Source>core/simulate/delete_rod.py</Source>
-    <Source>core/simulate/delete_slider.py</Source>
     <Source>core/simulate/edit_drive_shaft.py</Source>
     <Source>core/simulate/edit_rod.py</Source>
     <Source>core/simulate/edit_slider.py</Source>
@@ -116,9 +106,7 @@
     <Source>launch_test.py</Source>
   </Sources>
   <Forms>
-    <Form>core/draw/delete_chain.ui</Form>
-    <Form>core/draw/delete_linkage.ui</Form>
-    <Form>core/draw/delete_point.ui</Form>
+    <Form>core/draw/delete.ui</Form>
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
     <Form>core/draw/edit_stay_chain.ui</Form>
@@ -138,9 +126,6 @@
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>
     <Form>core/panel/run_Path_Track.ui</Form>
-    <Form>core/simulate/delete_drive_shaft.ui</Form>
-    <Form>core/simulate/delete_rod.ui</Form>
-    <Form>core/simulate/delete_slider.ui</Form>
     <Form>core/simulate/edit_drive_shaft.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>

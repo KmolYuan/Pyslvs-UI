@@ -27,12 +27,7 @@ from .draw.edit_point import edit_point_show
 from .draw.edit_link import edit_link_show
 from .draw.edit_stay_chain import edit_stay_chain_show
 #Delete Dialog Ports
-from .draw.delete_point import delete_point_show
-from .draw.delete_linkage import delete_linkage_show
-from .draw.delete_chain import delete_chain_show
-from .simulate.delete_drive_shaft import delete_shaft_show
-from .simulate.delete_slider import delete_slider_show
-from .simulate.delete_rod import delete_rod_show
+from .draw.delete import deleteDlg
 #Simulate Dialog Ports
 from .simulate.set_drive_shaft import shaft_show
 from .simulate.set_slider import slider_show
