@@ -30,6 +30,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #File & Default Setting
         self.File = File()
         self.load_settings()
+        self.FileState = FileState()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.qpainterWindow.setCursor(Qt.CrossCursor)
@@ -233,8 +234,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
-        elif action == self.action_shaft_right_click_menu_move_up: self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
-        elif action == self.action_shaft_right_click_menu_move_down: self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
+        elif action == self.action_shaft_right_click_menu_move_up:
+            self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
+            self.File.Shafts.update(self.Drive_Shaft)
+            self.File.Path.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()-1)
+            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+            self.Reload_Canvas()
+        elif action == self.action_shaft_right_click_menu_move_down:
+            self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
+            self.File.Shafts.update(self.Drive_Shaft)
+            self.File.Path.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()+1)
+            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+            self.Reload_Canvas()
         elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
         self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>0)
@@ -497,6 +508,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+                self.FileState = FileState()
                 print("Successful Load the workbook...")
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
@@ -1464,11 +1476,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.isKernelAmendment = self.symmetrical_part.isChecked()
         self.Resolve()
     
+    def recordFile(self):
+        nowStep = FileCommand()
+        nowStep.record(self.File, self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+        self.FileState.newStep(nowStep)
     @pyqtSlot()
     def on_actionUndo_triggered(self):
-        self.File.undoStep()
+        n = self.FileState.undo()
+        self.recoverFile(n)
         print("Undo.")
     @pyqtSlot()
     def on_actionRedo_triggered(self):
-        self.File.redoStep()
+        File = self.File.FileState.redo()
+        self.recoverFile(n)
         print("Redo.")
+    def recoverFile(self, n):
+        self.File = n.File
+        self.Entiteis_Point = n.Point
+        self.Entiteis_Point_Style = n.Style
+        self.Entiteis_Link = n.Line
+        self.Entiteis_Stay_Chain = n.Chain
+        self.Drive_Shaft = n.Shaft
+        self.Slider = n.Slider
+        self.Rod = n.Rod
+        self.Parameter_list = n.Parameter
+        self.Resolve()

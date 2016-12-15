@@ -22,8 +22,6 @@ class File():
         self.Rods = Rods()
         self.Parameters = Parameters()
         self.Path = Path()
-        #Undo & Redo
-        self.FileState = FileState()
     
     def updateTime(self):
         self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
@@ -200,14 +198,3 @@ class File():
                 if c==0: table_point[a]['y'] += 0.01
                 else: table_point[c]['y'] += 0.01
         return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
-    
-    def recordStep(self):
-        nowStep = FileCommand()
-        nowStep.record(self)
-        self.FileState.newStep(nowStep)
-    
-    def undoStep(self):
-        ''''''
-    
-    def redoStep(self):
-        ''''''

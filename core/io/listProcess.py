@@ -346,6 +346,15 @@ class Path():
                     table.setItem(table.rowCount()-1, 0, QTableWidgetItem(Run_list[int(j/2)]))
                     table.setItem(table.rowCount()-1, 1, QTableWidgetItem(str(X_path[k])))
                     table.setItem(table.rowCount()-1, 2, QTableWidgetItem(str(Y_path[k])))
+    
+    def shaftChange(self, prv, next):
+        try: self.shaftList[self.shaftList.index(prv)] = 'next'
+        except: pass
+        try: self.shaftList[self.shaftList.index(next)] = 'prv'
+        except: pass
+        for i in range(len(self.shaftList)):
+            if self.shaftList[i]=='next': self.shaftList[i] = next
+            if self.shaftList[i]=='prv': self.shaftList[i] = prv
 
 class Parameters():
     def __init__(self):
