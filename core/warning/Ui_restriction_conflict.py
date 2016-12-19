@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\warning\restriction_conflict.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/warning/restriction_conflict.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -17,19 +17,21 @@ class Ui_Restriction_Conflict(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Restriction_Conflict.setWindowIcon(icon)
-        Restriction_Conflict.setSizeGripEnabled(True)
+        Restriction_Conflict.setSizeGripEnabled(False)
         Restriction_Conflict.setModal(True)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Restriction_Conflict)
-        self.buttonBox.setGeometry(QtCore.QRect(320, 130, 81, 71))
-        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Restriction_Conflict)
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(Restriction_Conflict)
-        self.label.setGeometry(QtCore.QRect(20, 20, 291, 171))
         self.label.setTextFormat(QtCore.Qt.RichText)
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label.setWordWrap(True)
         self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Restriction_Conflict)
+        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Restriction_Conflict)
         self.buttonBox.accepted.connect(Restriction_Conflict.accept)

@@ -25,8 +25,6 @@ from .draw.stay_chain import chain_show
 from .draw.edit_point import edit_point_show
 from .draw.edit_link import edit_link_show
 from .draw.edit_stay_chain import edit_stay_chain_show
-#Delete Dialog Ports
-from .draw.delete import deleteDlg
 #Simulate Dialog Ports
 from .simulate.set_drive_shaft import shaft_show
 from .simulate.set_slider import slider_show
@@ -39,6 +37,7 @@ from .panel.run_Path_Track import Path_Track_show
 from .panel.run_Drive import Drive_show
 from .panel.run_Measurement import Measurement_show
 from .panel.run_AuxLine import AuxLine_show
+from .panel.delete import deleteDlg
 #Solve
 from .calculation.calculation import Solvespace
 #Canvas
@@ -54,5 +53,3 @@ from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
 #Option
 from .io.settings import Pyslvs_Settings_ini
-#Undo & Redo
-from .calculation.undoRedo import FileCommand, FileState

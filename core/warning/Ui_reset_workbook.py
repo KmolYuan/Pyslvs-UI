@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\warning\reset_workbook.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/warning/reset_workbook.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -42,6 +42,7 @@ class Ui_Warning_reset(object):
 
         self.retranslateUi(Warning_reset)
         self.buttonBox.accepted.connect(Warning_reset.accept)
+        self.buttonBox.rejected.connect(Warning_reset.reject)
         QtCore.QMetaObject.connectSlotsByName(Warning_reset)
 
     def retranslateUi(self, Warning_reset):

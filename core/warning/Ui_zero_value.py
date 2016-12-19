@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\warning\zero_value.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/warning/zero_value.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -17,19 +17,21 @@ class Ui_Warning_no_value(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Warning_no_value.setWindowIcon(icon)
-        Warning_no_value.setSizeGripEnabled(True)
+        Warning_no_value.setSizeGripEnabled(False)
         Warning_no_value.setModal(True)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Warning_no_value)
-        self.buttonBox.setGeometry(QtCore.QRect(320, 90, 81, 61))
-        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout = QtWidgets.QHBoxLayout(Warning_no_value)
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.label = QtWidgets.QLabel(Warning_no_value)
-        self.label.setGeometry(QtCore.QRect(20, 20, 291, 131))
         self.label.setTextFormat(QtCore.Qt.RichText)
         self.label.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label.setWordWrap(True)
         self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Warning_no_value)
+        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi(Warning_no_value)
         self.buttonBox.accepted.connect(Warning_no_value.accept)

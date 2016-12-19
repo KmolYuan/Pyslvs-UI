@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-15, 16:47:25 -->
+<!-- Saved: 2016-12-19, 21:21:17 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -11,6 +11,7 @@
   <Version>0.1</Version>
   <Author>Tiberium</Author>
   <Email></Email>
+  <Eol index="-1"/>
   <Sources>
     <Source>README.md</Source>
     <Source>core/Ui_main.py</Source>
@@ -31,7 +32,6 @@
     <Source>core/draw/Ui_point.py</Source>
     <Source>core/draw/Ui_stay_chain.py</Source>
     <Source>core/draw/__init__.py</Source>
-    <Source>core/draw/delete.py</Source>
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
     <Source>core/draw/edit_stay_chain.py</Source>
@@ -63,11 +63,13 @@
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
     <Source>core/main.py</Source>
+    <Source>core/panel/Ui_delete.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
     <Source>core/panel/Ui_run_Drive.py</Source>
     <Source>core/panel/Ui_run_Measurement.py</Source>
     <Source>core/panel/Ui_run_Path_Track.py</Source>
     <Source>core/panel/__init__.py</Source>
+    <Source>core/panel/delete.py</Source>
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
