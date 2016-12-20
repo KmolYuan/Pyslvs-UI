@@ -4,12 +4,13 @@ import csv, platform
 from PyQt5.QtWidgets import QDialog
 from .Ui_version import Ui_About_Dialog
 
-version_number = "0.3.0"
+version_number = "0.4.0(dev)"
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
+        self.versionLabel.setText("Pyslvs version "+version_number)
 
 def show_info():
     print("OS Type: "+platform.system())
