@@ -508,6 +508,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+                self.FileState = QUndoStack()
                 print("Successful Load the workbook...")
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
