@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 _translate = QCoreApplication.translate
 
 class Drive_show(QWidget, Drive_Form):

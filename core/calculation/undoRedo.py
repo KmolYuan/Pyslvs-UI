@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class addTableUndo(QUndoCommand):
     def __init__(self, table, contentTable, list, contentList):

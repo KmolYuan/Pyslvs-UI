@@ -1,4 +1,4 @@
-from .__init__ import *
+from .modules import *
 from .calculation import Solvespace
 
 class WorkerThread(QThread):

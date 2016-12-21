@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #PyQt5
-from .__init__ import *
+from .modules import *
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs -->
-<!-- Saved: 2016-12-19, 21:21:17 -->
+<!-- Saved: 2016-12-21, 23:30:12 -->
 <!-- Copyright (C) 2016 Tiberium,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -11,7 +11,6 @@
   <Version>0.1</Version>
   <Author>Tiberium</Author>
   <Email></Email>
-  <Eol index="-1"/>
   <Sources>
     <Source>README.md</Source>
     <Source>core/Ui_main.py</Source>
@@ -22,6 +21,7 @@
     <Source>core/calculation/canvasScene.py</Source>
     <Source>core/calculation/canvasView.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
+    <Source>core/calculation/modules.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
     <Source>core/calculation/undoRedo.py</Source>
     <Source>core/draw/Ui_delete.py</Source>
@@ -36,6 +36,7 @@
     <Source>core/draw/edit_point.py</Source>
     <Source>core/draw/edit_stay_chain.py</Source>
     <Source>core/draw/link.py</Source>
+    <Source>core/draw/modules.py</Source>
     <Source>core/draw/point.py</Source>
     <Source>core/draw/stay_chain.py</Source>
     <Source>core/info/Ui_editFileInfo.py</Source>
@@ -60,9 +61,11 @@
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
     <Source>core/io/listProcess.py</Source>
+    <Source>core/io/modules.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
     <Source>core/main.py</Source>
+    <Source>core/modules.py</Source>
     <Source>core/panel/Ui_delete.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
     <Source>core/panel/Ui_run_Drive.py</Source>
@@ -70,6 +73,7 @@
     <Source>core/panel/Ui_run_Path_Track.py</Source>
     <Source>core/panel/__init__.py</Source>
     <Source>core/panel/delete.py</Source>
+    <Source>core/panel/modules.py</Source>
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>

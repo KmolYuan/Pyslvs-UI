@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 from .canvasItem import canvasPoint, canvasLine, canvasChain
 
 class DynamicScene(QGraphicsScene):

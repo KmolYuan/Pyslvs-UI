@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class edit_link_show(QDialog, edit_link_Dialog):
     Another_line = pyqtSignal(int)

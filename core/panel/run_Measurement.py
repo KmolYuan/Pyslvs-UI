@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class Measurement_show(QWidget, Measurement_Form):
     point_change = pyqtSignal(int, int)

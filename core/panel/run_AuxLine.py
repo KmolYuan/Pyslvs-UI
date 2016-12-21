@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class AuxLine_show(QWidget, AuxLine_Form):
     Point_change = pyqtSignal(int, int, int, bool, bool, bool, bool, bool)

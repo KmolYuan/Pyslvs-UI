@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class edit_stay_chain_show(QDialog, edit_chain_Dialog):
     Another_chain = pyqtSignal(int)

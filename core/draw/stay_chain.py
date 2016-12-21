@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class chain_show(QDialog, chain_Dialog):
     def __init__(self, parent=None):

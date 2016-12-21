@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 from ..calculation.pathTrack import WorkerThread
 
 class Path_Track_show(QDialog, Ui_Dialog):

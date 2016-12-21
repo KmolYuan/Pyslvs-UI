@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class New_link(QDialog, link_Dialog):
     def __init__(self, parent=None):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class edit_point_show(QDialog, edit_point_Dialog):
     Another_point = pyqtSignal(int)
