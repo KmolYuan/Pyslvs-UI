@@ -4,11 +4,7 @@ import csv, platform
 from PyQt5.QtWidgets import QDialog
 from .Ui_version import Ui_About_Dialog
 
-<<<<<<< HEAD
 version_number = "0.4.0(dev)"
-=======
-version_number = "0.3.1"
->>>>>>> master
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
