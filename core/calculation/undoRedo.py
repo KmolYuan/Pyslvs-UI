@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+<<<<<<< HEAD
 from .__init__ import *
 from copy import copy
+=======
+from .modules import *
+>>>>>>> master
 
 class addTableUndo(QUndoCommand):
     def __init__(self, table, contentTable, list, contentList, row):

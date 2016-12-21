@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .__init__ import *
+from .modules import *
 
 class canvasPoint(QGraphicsItem):
     def __init__(self, parent=None):

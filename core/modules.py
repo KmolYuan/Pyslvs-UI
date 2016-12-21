@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 #PyQt5
 from PyQt5.QtCore import *
@@ -11,9 +10,9 @@ from peewee import *
 from .info.version import version_show
 from .info.info import Info_show
 from .info.help import Help_info_show
+from .info.script import Script_Dialog
 from .info.path_point_data import path_point_data_show
 from .info.options import options_show
-from .io.script import Script_Dialog
 #Warning Dialog Ports
 from .warning.reset_workbook import reset_show
 from .warning.zero_value import zero_show
@@ -54,6 +53,3 @@ from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
 #Option
 from .io.settings import Pyslvs_Settings_ini
-=======
-
->>>>>>> master

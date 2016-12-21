@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # -*- coding: utf-8 -*-
 #System infomation
 import sys, platform
@@ -16,6 +15,5 @@ elif platform.system().lower()=="linux":
     if py_nm=="3.4": from ..kernel.py34.slvs import *
     elif py_nm=="3.5": from ..kernel.py35.slvs import *
 else: print("Python Version Not Support.")
-=======
 
->>>>>>> master
+from copy import copy
