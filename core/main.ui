@@ -768,7 +768,7 @@ p, li { white-space: pre-wrap; }
                 <property name="statusTip">
                  <string>All Links in this workbook. Needs two point.</string>
                 </property>
-                <layout class="QHBoxLayout" name="Entiteis_Link_Layout">
+                <layout class="QVBoxLayout" name="verticalLayout_12">
                  <property name="leftMargin">
                   <number>6</number>
                  </property>
@@ -781,6 +781,13 @@ p, li { white-space: pre-wrap; }
                  <property name="bottomMargin">
                   <number>3</number>
                  </property>
+                 <item>
+                  <widget class="QLabel" name="reqLine">
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 2 Points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QTableWidget" name="Entiteis_Link">
                    <property name="sizePolicy">
@@ -859,7 +866,7 @@ p, li { white-space: pre-wrap; }
                 <property name="statusTip">
                  <string>All Stay Chains in this workbook. Needs three point.</string>
                 </property>
-                <layout class="QHBoxLayout" name="Entiteis_Stay_Chain_Layout">
+                <layout class="QVBoxLayout" name="verticalLayout_15">
                  <property name="leftMargin">
                   <number>6</number>
                  </property>
@@ -872,6 +879,13 @@ p, li { white-space: pre-wrap; }
                  <property name="bottomMargin">
                   <number>6</number>
                  </property>
+                 <item>
+                  <widget class="QLabel" name="reqChain">
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 3 Points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item>
                   <widget class="QTableWidget" name="Entiteis_Stay_Chain">
                    <property name="sizePolicy">
@@ -1014,6 +1028,13 @@ p, li { white-space: pre-wrap; }
                         </widget>
                        </item>
                        <item>
+                        <widget class="QLabel" name="reqShaft">
+                         <property name="text">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 2 Points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
                         <widget class="QTableWidget" name="Drive_Shaft">
                          <property name="statusTip">
                           <string/>
@@ -1098,6 +1119,13 @@ p, li { white-space: pre-wrap; }
                         <number>6</number>
                        </property>
                        <item>
+                        <widget class="QLabel" name="reqSlider">
+                         <property name="text">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 1 Point (not origin), 1 Line.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
                         <widget class="QTableWidget" name="Slider">
                          <property name="statusTip">
                           <string/>
@@ -1166,6 +1194,13 @@ p, li { white-space: pre-wrap; }
                        <property name="bottomMargin">
                         <number>6</number>
                        </property>
+                       <item>
+                        <widget class="QLabel" name="reqRod">
+                         <property name="text">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 3 Points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                        </widget>
+                       </item>
                        <item>
                         <widget class="QTableWidget" name="Rod">
                          <property name="statusTip">
@@ -1256,22 +1291,28 @@ p, li { white-space: pre-wrap; }
                   <number>5</number>
                  </property>
                  <item>
+                  <widget class="QLabel" name="reqPath">
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 1 Shaft.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <layout class="QGridLayout" name="Path_Track_Functions">
-                   <item row="0" column="1">
-                    <widget class="QPushButton" name="PathTrack">
-                     <property name="statusTip">
-                      <string>Route calculation from the specified point.</string>
+                   <item row="3" column="2">
+                    <widget class="QCheckBox" name="Path_data_show">
+                     <property name="enabled">
+                      <bool>false</bool>
                      </property>
                      <property name="text">
-                      <string>Path Track</string>
+                      <string>Show Path Data</string>
                      </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                     <property name="checked">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="2">
+                   <item row="1" column="2">
                     <widget class="QPushButton" name="Path_Clear">
                      <property name="enabled">
                       <bool>false</bool>
@@ -1284,7 +1325,7 @@ p, li { white-space: pre-wrap; }
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="2">
+                   <item row="2" column="2">
                     <widget class="QPushButton" name="Path_coordinate">
                      <property name="enabled">
                       <bool>false</bool>
@@ -1297,7 +1338,7 @@ p, li { white-space: pre-wrap; }
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="1">
+                   <item row="2" column="1">
                     <widget class="QLabel" name="Path_data_exist">
                      <property name="text">
                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;No Path Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1310,16 +1351,17 @@ p, li { white-space: pre-wrap; }
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="2">
-                    <widget class="QCheckBox" name="Path_data_show">
-                     <property name="enabled">
-                      <bool>false</bool>
+                   <item row="1" column="1">
+                    <widget class="QPushButton" name="PathTrack">
+                     <property name="statusTip">
+                      <string>Route calculation from the specified point.</string>
                      </property>
                      <property name="text">
-                      <string>Show Path Data</string>
+                      <string>Path Track</string>
                      </property>
-                     <property name="checked">
-                      <bool>true</bool>
+                     <property name="icon">
+                      <iconset resource="../icons.qrc">
+                       <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
                      </property>
                     </widget>
                    </item>
@@ -1408,7 +1450,7 @@ p, li { white-space: pre-wrap; }
                     </widget>
                    </item>
                    <item row="1" column="1">
-                    <widget class="QPushButton" name="Drive_slider">
+                    <widget class="QPushButton" name="Drive_rod">
                      <property name="text">
                       <string>Drive Piston</string>
                      </property>
@@ -1419,23 +1461,6 @@ p, li { white-space: pre-wrap; }
                     </widget>
                    </item>
                   </layout>
-                 </item>
-                 <item>
-                  <widget class="Line" name="line_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="kernelAmendment">
-                   <property name="text">
-                    <string>Kernel Amendment</string>
-                   </property>
-                   <property name="checked">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
                  </item>
                  <item>
                   <spacer name="verticalSpacer">
@@ -1853,6 +1878,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_New_Line">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/line.png</normaloff>:/icons/line.png</iconset>
@@ -1946,6 +1974,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Set_Drive_Shaft">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/circle.png</normaloff>:/icons/circle.png</iconset>
@@ -2141,6 +2172,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_New_Stay_Chain">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/equal.png</normaloff>:/icons/equal.png</iconset>
@@ -2187,7 +2221,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDelete_Point">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2202,7 +2236,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDelete_Linkage">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2217,7 +2251,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDelete_Stay_Chain">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2232,7 +2266,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionEdit_Point">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2247,7 +2281,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionEdit_Linkage">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2262,7 +2296,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionEdit_Stay_Chain">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2288,6 +2322,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Set_Slider">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/pointonx.png</normaloff>:/icons/pointonx.png</iconset>
@@ -2313,7 +2350,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Edit_Drive_Shaft">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2325,7 +2362,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Edit_Slider">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2337,7 +2374,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDelete_Drive_Shaft">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2349,7 +2386,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDelete_Slider">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2377,6 +2414,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Set_Rod">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/spring.png</normaloff>:/icons/spring.png</iconset>
@@ -2390,7 +2430,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Edit_Piston_Spring">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2402,7 +2442,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionDelete_Piston_Spring">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="icon">
     <iconset resource="../icons.qrc">

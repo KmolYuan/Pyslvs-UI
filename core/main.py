@@ -53,7 +53,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Default_Environment_variables = option_info.Environment_variables
         self.Default_canvas_view = option_info.Zoom_factor
         self.Default_Bits = 8
-        self.isKernelAmendment = True
     
     def init_open_file(self):
         for i in sys.argv:
@@ -170,8 +169,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_parameter.addSeparator()
         self.action_parameter_right_click_menu_delete = QAction("Delete this Parameter", self)
         self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_delete)
+        #Action Enabled
+        self.actionEnabled()
     
-    #Right-click menu event
+    #TODO: Right-click menu event
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x
@@ -200,9 +201,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.action_painter_right_click_menu_dimension_add.setChecked(False)
                 self.actionDisplay_Dimensions.setChecked(False)
     def on_point_context_menu(self, point):
-        self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
-        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
-        self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
@@ -212,25 +210,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
         elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
-        self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
-        self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
     def on_chain_context_menu(self, point):
-        self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
-        self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
         if action == self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
         elif action == self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
         elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
     def on_shaft_context_menu(self, point):
-        self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>0)
-        self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>0)
-        self.action_shaft_right_click_menu_move_up.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()>0)
-        self.action_shaft_right_click_menu_move_down.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()<self.Drive_Shaft.rowCount()-1)
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
@@ -248,15 +238,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Reload_Canvas()
         elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
-        self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>0)
-        self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>0)
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
         if action == self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
         elif action == self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(self.Slider.currentRow())
         elif action == self.action_slider_right_click_menu_delete: self.on_actionDelete_Slider_triggered(self.Slider.currentRow())
     def on_rod_context_menu(self, point):
-        self.action_rod_right_click_menu_edit.setEnabled(self.Rod.rowCount()>=1)
-        self.action_rod_right_click_menu_delete.setEnabled(self.Rod.rowCount()>=1)
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
         if action == self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
         elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Piston_Spring_triggered(self.Rod.currentRow())
@@ -367,8 +353,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         slvs = Solvespace()
         fileName = self.windowTitle().split("/")[-1].split(".")[0]
         result, DOF = slvs.staticProcess(table_point, table_line, table_chain,
-            table_shaft, table_slider, table_rod, fileName, self.Parameter_list,
-            self.isKernelAmendment, self.File.Shafts.current)
+            table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.File.Shafts.current)
         self.Script = slvs.Script
         if result:
             self.Solvefail = False
@@ -397,20 +382,64 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle(self.windowTitle().replace("*", "")+"*")
         self.actionEnabled()
     
-    #Action Enabled
+    #TODO: Action Enabled
     def actionEnabled(self):
+        #Warning
+        self.reqLine.setVisible(not self.Entiteis_Point.rowCount()>1)
+        self.reqChain.setVisible(not self.Entiteis_Point.rowCount()>2)
+        self.reqShaft.setVisible(not self.Entiteis_Point.rowCount()>1)
+        self.reqSlider.setVisible(not (self.Entiteis_Point.rowCount()>1 and self.Entiteis_Link.rowCount()>0))
+        self.reqRod.setVisible(not self.Entiteis_Point.rowCount()>2)
+        self.reqPath.setVisible(not self.Drive_Shaft.rowCount()>0)
+        #Add
+        self.action_New_Line.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.action_New_Stay_Chain.setEnabled(self.Entiteis_Point.rowCount()>2)
+        self.action_Set_Drive_Shaft.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.action_Set_Slider.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Link.rowCount()>0)
+        self.action_Set_Rod.setEnabled(self.Entiteis_Point.rowCount()>2)
+        self.action_link_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.action_chain_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>2)
+        self.action_shaft_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.action_slider_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Link.rowCount()>0)
+        self.action_rod_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>2)
+        #Edit
         self.actionEdit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
         self.actionEdit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.actionEdit_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         self.action_Edit_Drive_Shaft.setEnabled(self.Drive_Shaft.rowCount()>0)
         self.action_Edit_Slider.setEnabled(self.Slider.rowCount()>0)
         self.action_Edit_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+        self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
+        self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+        self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>0)
+        self.action_rod_right_click_menu_edit.setEnabled(self.Rod.rowCount()>=1)
+        #Delete
         self.actionDelete_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
         self.actionDelete_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.actionDelete_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         self.actionDelete_Drive_Shaft.setEnabled(self.Drive_Shaft.rowCount()>0)
         self.actionDelete_Slider.setEnabled(self.Slider.rowCount()>0)
         self.actionDelete_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+        self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+        self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>0)
+        self.action_rod_right_click_menu_delete.setEnabled(self.Rod.rowCount()>=1)
+        #Move
+        self.action_shaft_right_click_menu_move_up.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()>0)
+        self.action_shaft_right_click_menu_move_down.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()<self.Drive_Shaft.rowCount()-1)
+        #Panel
+        self.PathTrack.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.Measurement.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.AuxLine.setEnabled(self.Entiteis_Point.rowCount()>1)
+        self.Drive.setEnabled(self.Drive_Shaft.rowCount()>0)
+        self.Drive_rod.setEnabled(self.Rod.rowCount()>0)
+        #Others
+        self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
+        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
+        self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
     
     @pyqtSlot()
     def on_action_Full_Screen_triggered(self): print("Full Screen.")
@@ -636,6 +665,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName += ".db"
             #TODO: SQLite
     
+    #TODO: Table actions
     def on_parameter_add(self):
         self.File.Parameters.editTable(self.Parameter_list)
         self.workbookNoSave()
@@ -679,31 +709,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos = 1):
         table1 = self.Entiteis_Point
-        if (table1.rowCount() <= 1):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg  = edit_point_show()
-            icon = QIcon()
-            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            for i in range(1, table1.rowCount()): dlg.Point.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Another_point.connect(self.Change_Edit_Point)
-            self.point_feedback.connect(dlg.change_feedback)
-            dlg.Point.setCurrentIndex(pos-1)
-            self.Change_Edit_Point(pos)
-            dlg.X_coordinate.setValidator(self.Mask)
-            dlg.Y_coordinate.setValidator(self.Mask)
-            dlg.show()
-            if dlg.exec_():
-                table2 = self.Entiteis_Point_Style
-                self.File.Points.editTable(table1, dlg.Point.currentText(),
-                    dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
-                    dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                    dlg.Fix_Point.checkState(), True)
-                self.File.Points.styleFix(table2, dlg.Point.currentText(), dlg.Fix_Point.checkState())
-                self.Resolve()
-                self.workbookNoSave()
+        dlg  = edit_point_show()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        for i in range(1, table1.rowCount()): dlg.Point.insertItem(i, icon, table1.item(i, 0).text())
+        dlg.Another_point.connect(self.Change_Edit_Point)
+        self.point_feedback.connect(dlg.change_feedback)
+        dlg.Point.setCurrentIndex(pos-1)
+        self.Change_Edit_Point(pos)
+        dlg.X_coordinate.setValidator(self.Mask)
+        dlg.Y_coordinate.setValidator(self.Mask)
+        dlg.show()
+        if dlg.exec_():
+            table2 = self.Entiteis_Point_Style
+            self.File.Points.editTable(table1, dlg.Point.currentText(),
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
+                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
+                dlg.Fix_Point.checkState(), True)
+            self.File.Points.styleFix(table2, dlg.Point.currentText(), dlg.Fix_Point.checkState())
+            self.Resolve()
+            self.workbookNoSave()
     point_feedback = pyqtSignal(float, float, bool)
     @pyqtSlot(int)
     def Change_Edit_Point(self, pos):
@@ -716,74 +741,64 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Line_triggered(self):
         table1 = self.Entiteis_Point
-        if (table1.rowCount() <= 1):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            icon = QIcon()
-            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            dlg  = New_link()
-            for i in range(table1.rowCount()):
-                dlg.Start_Point.insertItem(i, icon, table1.item(i, 0).text())
-                dlg.End_Point.insertItem(i, icon, table1.item(i, 0).text())
-            table2 = self.Entiteis_Link
-            dlg.Link_num.insertPlainText("Line"+str(table2.rowCount()))
-            dlg.Length.setValidator(self.Mask)
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Start_Point.currentText()
-                b = dlg.End_Point.currentText()
-                if self.File.Lines.repeatedCheck(table2, a, b): self.on_action_New_Line_triggered()
-                elif a == b:
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_New_Line_triggered()
-                else:
-                    self.File.Lines.editTable(table2, dlg.Link_num.toPlainText(),
-                        dlg.Start_Point.currentText(), dlg.End_Point.currentText(),
-                        dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), False)
-                    self.Resolve()
-                    self.workbookNoSave()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        dlg  = New_link()
+        for i in range(table1.rowCount()):
+            dlg.Start_Point.insertItem(i, icon, table1.item(i, 0).text())
+            dlg.End_Point.insertItem(i, icon, table1.item(i, 0).text())
+        table2 = self.Entiteis_Link
+        dlg.Link_num.insertPlainText("Line"+str(table2.rowCount()))
+        dlg.Length.setValidator(self.Mask)
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Start_Point.currentText()
+            b = dlg.End_Point.currentText()
+            if self.File.Lines.repeatedCheck(table2, a, b): self.on_action_New_Line_triggered()
+            elif a == b:
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_New_Line_triggered()
+            else:
+                self.File.Lines.editTable(table2, dlg.Link_num.toPlainText(),
+                    dlg.Start_Point.currentText(), dlg.End_Point.currentText(),
+                    dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), False)
+                self.Resolve()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos = 0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        if (table2.rowCount() <= 0):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            icon1 = QIcon()
-            icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            icon2 = QIcon()
-            icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
-            dlg  = edit_link_show()
-            for i in range(table1.rowCount()):
-                dlg.Start_Point.insertItem(i, icon1, table1.item(i, 0).text())
-                dlg.End_Point.insertItem(i, icon1, table1.item(i, 0).text())
-            for i in range(table2.rowCount()):
-                dlg.Link.insertItem(i, icon2, table2.item(i, 0).text())
-            dlg.Another_line.connect(self.Change_Edit_Line)
-            self.link_feedback.connect(dlg.change_feedback)
-            dlg.Link.setCurrentIndex(pos)
-            self.Change_Edit_Line(pos)
-            dlg.Length.setValidator(self.Mask)
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Start_Point.currentText()
-                b = dlg.End_Point.currentText()
-                if a == b:
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_actionEdit_Linkage_triggered()
-                else:
-                    self.File.Lines.editTable(table2, dlg.Link.currentText(),
-                        dlg.Start_Point.currentText(),  dlg.End_Point.currentText(),
-                        dlg.Length.text() if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), True)
-                    self.Resolve()
-                    self.workbookNoSave()
+        icon1 = QIcon()
+        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        icon2 = QIcon()
+        icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
+        dlg  = edit_link_show()
+        for i in range(table1.rowCount()):
+            dlg.Start_Point.insertItem(i, icon1, table1.item(i, 0).text())
+            dlg.End_Point.insertItem(i, icon1, table1.item(i, 0).text())
+        for i in range(table2.rowCount()):
+            dlg.Link.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.Another_line.connect(self.Change_Edit_Line)
+        self.link_feedback.connect(dlg.change_feedback)
+        dlg.Link.setCurrentIndex(pos)
+        self.Change_Edit_Line(pos)
+        dlg.Length.setValidator(self.Mask)
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Start_Point.currentText()
+            b = dlg.End_Point.currentText()
+            if a == b:
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_actionEdit_Linkage_triggered()
+            else:
+                self.File.Lines.editTable(table2, dlg.Link.currentText(),
+                    dlg.Start_Point.currentText(),  dlg.End_Point.currentText(),
+                    dlg.Length.text() if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), True)
+                self.Resolve()
+                self.workbookNoSave()
     link_feedback = pyqtSignal(int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Line(self, pos):
@@ -798,38 +813,33 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icon = QIcon()
         icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
         table1 = self.Entiteis_Point
-        if (table1.rowCount() <= 2):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = chain_show()
-            table2 = self.Entiteis_Stay_Chain
-            for i in range(table1.rowCount()):
-                dlg.Point1.insertItem(i, icon, table1.item(i, 0).text())
-                dlg.Point2.insertItem(i, icon, table1.item(i, 0).text())
-                dlg.Point3.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Chain_num.insertPlainText("Chain"+str(table2.rowCount()))
-            dlg.p1_p2.setValidator(self.Mask)
-            dlg.p2_p3.setValidator(self.Mask)
-            dlg.p1_p3.setValidator(self.Mask)
-            dlg.show()
-            if dlg.exec_():
-                p1 = dlg.Point1.currentText()
-                p2 = dlg.Point2.currentText()
-                p3 = dlg.Point3.currentText()
-                if (p1 == p2) | (p2 == p3) | (p1 == p3):
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_New_Stay_Chain_triggered()
-                else:
-                    self.File.Chains.editTable(table2, dlg.Chain_num.toPlainText(),
-                        p1, p2, p3,
-                        dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
-                        dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
-                        dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), False)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = chain_show()
+        table2 = self.Entiteis_Stay_Chain
+        for i in range(table1.rowCount()):
+            dlg.Point1.insertItem(i, icon, table1.item(i, 0).text())
+            dlg.Point2.insertItem(i, icon, table1.item(i, 0).text())
+            dlg.Point3.insertItem(i, icon, table1.item(i, 0).text())
+        dlg.Chain_num.insertPlainText("Chain"+str(table2.rowCount()))
+        dlg.p1_p2.setValidator(self.Mask)
+        dlg.p2_p3.setValidator(self.Mask)
+        dlg.p1_p3.setValidator(self.Mask)
+        dlg.show()
+        if dlg.exec_():
+            p1 = dlg.Point1.currentText()
+            p2 = dlg.Point2.currentText()
+            p3 = dlg.Point3.currentText()
+            if (p1 == p2) | (p2 == p3) | (p1 == p3):
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_New_Stay_Chain_triggered()
+            else:
+                self.File.Chains.editTable(table2, dlg.Chain_num.toPlainText(),
+                    p1, p2, p3,
+                    dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
+                    dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
+                    dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), False)
+                self.Resolve()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Stay_Chain_triggered(self, pos = 0):
@@ -839,41 +849,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         icon2.addPixmap(QPixmap(":/icons/equal.png"), QIcon.Normal, QIcon.Off)
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        if (table2.rowCount() <= 0):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = edit_stay_chain_show()
-            for i in range(table1.rowCount()):
-                dlg.Point1.insertItem(i, icon1, table1.item(i, 0).text())
-                dlg.Point2.insertItem(i, icon1, table1.item(i, 0).text())
-                dlg.Point3.insertItem(i, icon1, table1.item(i, 0).text())
-            for i in range(table2.rowCount()):
-                dlg.Chain.insertItem(i, icon2, table2.item(i, 0).text())
-            dlg.Another_chain.connect(self.Change_Edit_Chain)
-            self.chain_feedback.connect(dlg.change_feedback)
-            dlg.Chain.setCurrentIndex(pos)
-            self.Change_Edit_Chain(pos)
-            dlg.p1_p2.setValidator(self.Mask)
-            dlg.p2_p3.setValidator(self.Mask)
-            dlg.p1_p3.setValidator(self.Mask)
-            dlg.show()
-            if dlg.exec_():
-                p1 = dlg.Point1.currentText()
-                p2 = dlg.Point2.currentText()
-                p3 = dlg.Point3.currentText()
-                if (p1 == p2) | (p2 == p3) | (p1 == p3):
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_actionEdit_Stay_Chain_triggered()
-                else:
-                    self.File.Chains.editTable(table2, dlg.Chain.currentText(), p1, p2, p3,
-                        dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
-                        dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
-                        dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), True)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = edit_stay_chain_show()
+        for i in range(table1.rowCount()):
+            dlg.Point1.insertItem(i, icon1, table1.item(i, 0).text())
+            dlg.Point2.insertItem(i, icon1, table1.item(i, 0).text())
+            dlg.Point3.insertItem(i, icon1, table1.item(i, 0).text())
+        for i in range(table2.rowCount()):
+            dlg.Chain.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.Another_chain.connect(self.Change_Edit_Chain)
+        self.chain_feedback.connect(dlg.change_feedback)
+        dlg.Chain.setCurrentIndex(pos)
+        self.Change_Edit_Chain(pos)
+        dlg.p1_p2.setValidator(self.Mask)
+        dlg.p2_p3.setValidator(self.Mask)
+        dlg.p1_p3.setValidator(self.Mask)
+        dlg.show()
+        if dlg.exec_():
+            p1 = dlg.Point1.currentText()
+            p2 = dlg.Point2.currentText()
+            p3 = dlg.Point3.currentText()
+            if (p1 == p2) | (p2 == p3) | (p1 == p3):
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_actionEdit_Stay_Chain_triggered()
+            else:
+                self.File.Chains.editTable(table2, dlg.Chain.currentText(), p1, p2, p3,
+                    dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
+                    dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
+                    dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), True)
+                self.Resolve()
+                self.workbookNoSave()
     chain_feedback = pyqtSignal(int, int, int, float, float, float)
     @pyqtSlot(int)
     def Change_Edit_Chain(self, pos):
@@ -890,74 +895,64 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Set_Drive_Shaft_triggered(self, cen=0, ref=0):
         table1 = self.Entiteis_Point
         table2 = self.Drive_Shaft
-        if (table1.rowCount() <= 1):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = shaft_show()
-            icon = QIcon()
-            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            for i in range(table1.rowCount()):
-                dlg.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
-                dlg.References.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Shaft_num.insertPlainText("Shaft"+str(table2.rowCount()))
-            dlg.Shaft_Center.setCurrentIndex(cen)
-            dlg.References.setCurrentIndex(ref)
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Shaft_Center.currentText()
-                b = dlg.References.currentText()
-                c = dlg.Start_Angle.text()
-                d = dlg.End_Angle.text()
-                if dlg.Demo_angle_enable.checkState(): e = dlg.Demo_angle.text()
-                else: e = None
-                if (a == b) or (c == d):
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-                else:
-                    self.File.Shafts.editTable(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e, False)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = shaft_show()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        for i in range(table1.rowCount()):
+            dlg.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
+            dlg.References.insertItem(i, icon, table1.item(i, 0).text())
+        dlg.Shaft_num.insertPlainText("Shaft"+str(table2.rowCount()))
+        dlg.Shaft_Center.setCurrentIndex(cen)
+        dlg.References.setCurrentIndex(ref)
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Shaft_Center.currentText()
+            b = dlg.References.currentText()
+            c = dlg.Start_Angle.text()
+            d = dlg.End_Angle.text()
+            if dlg.Demo_angle_enable.checkState(): e = dlg.Demo_angle.text()
+            else: e = None
+            if (a == b) or (c == d):
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
+            else:
+                self.File.Shafts.editTable(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e, False)
+                self.Resolve()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Drive_Shaft_triggered(self, pos = 0):
         table1 = self.Entiteis_Point
         table2 = self.Drive_Shaft
-        if (table2.rowCount() <= 0):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = edit_shaft_show()
-            icon1 = QIcon()
-            icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            icon2 = QIcon()
-            icon2.addPixmap(QPixmap(":/icons/circle.png"), QIcon.Normal, QIcon.Off)
-            for i in range(table1.rowCount()):
-                dlg.Shaft_Center.insertItem(i, icon1, table1.item(i, 0).text())
-                dlg.References.insertItem(i, icon1, table1.item(i, 0).text())
-            for i in range(table2.rowCount()):
-                dlg.Shaft.insertItem(i, icon2, table2.item(i, 0).text())
-            dlg.Another_shaft.connect(self.Change_Edit_Shaft)
-            self.shaft_feedback.connect(dlg.change_feedback)
-            dlg.Shaft.setCurrentIndex(pos)
-            self.Change_Edit_Shaft(pos)
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Shaft_Center.currentText()
-                b = dlg.References.currentText()
-                c = dlg.Start_Angle.text()
-                d = dlg.End_Angle.text()
-                if (a == b) or (c == d):
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-                else:
-                    self.File.Shafts.editTable(table2, dlg.Shaft.currentText(), a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), True)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = edit_shaft_show()
+        icon1 = QIcon()
+        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        icon2 = QIcon()
+        icon2.addPixmap(QPixmap(":/icons/circle.png"), QIcon.Normal, QIcon.Off)
+        for i in range(table1.rowCount()):
+            dlg.Shaft_Center.insertItem(i, icon1, table1.item(i, 0).text())
+            dlg.References.insertItem(i, icon1, table1.item(i, 0).text())
+        for i in range(table2.rowCount()):
+            dlg.Shaft.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.Another_shaft.connect(self.Change_Edit_Shaft)
+        self.shaft_feedback.connect(dlg.change_feedback)
+        dlg.Shaft.setCurrentIndex(pos)
+        self.Change_Edit_Shaft(pos)
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Shaft_Center.currentText()
+            b = dlg.References.currentText()
+            c = dlg.Start_Angle.text()
+            d = dlg.End_Angle.text()
+            if (a == b) or (c == d):
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
+            else:
+                self.File.Shafts.editTable(table2, dlg.Shaft.currentText(), a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), True)
+                self.Resolve()
+                self.workbookNoSave()
     shaft_feedback = pyqtSignal(int, int, float, float)
     @pyqtSlot(int)
     def Change_Edit_Shaft(self, pos):
@@ -973,72 +968,62 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
         table3 = self.Slider
-        if (table2.rowCount() <= 0) and (table1.rowCount() <= 2):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = slider_show()
-            icon1 = QIcon()
-            icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            icon2 = QIcon()
-            icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
-            for i in range(table1.rowCount()):
-                dlg.Slider_Center.insertItem(i, icon1, table1.item(i, 0).text())
-            for i in range(table2.rowCount()):
-                dlg.References.insertItem(i, icon2, table2.item(i, 0).text())
-            dlg.Slider_num.insertPlainText("Slider"+str(table3.rowCount()))
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Slider_Center.currentText()
-                b = dlg.References.currentText()
-                c = dlg.References.currentIndex()
-                if (table2.item(c, 1).text()==a) or (table2.item(c, 2).text()==a):
-                    dlg = restriction_conflict_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_Set_Slider_triggered()
-                else:
-                    self.File.Sliders.editTable(table3, dlg.Slider_num.toPlainText(), a, b, False)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = slider_show()
+        icon1 = QIcon()
+        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        icon2 = QIcon()
+        icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
+        for i in range(table1.rowCount()):
+            dlg.Slider_Center.insertItem(i, icon1, table1.item(i, 0).text())
+        for i in range(table2.rowCount()):
+            dlg.References.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.Slider_num.insertPlainText("Slider"+str(table3.rowCount()))
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Slider_Center.currentText()
+            b = dlg.References.currentText()
+            c = dlg.References.currentIndex()
+            if (table2.item(c, 1).text()==a) or (table2.item(c, 2).text()==a):
+                dlg = restriction_conflict_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_Set_Slider_triggered()
+            else:
+                self.File.Sliders.editTable(table3, dlg.Slider_num.toPlainText(), a, b, False)
+                self.Resolve()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
         table3 = self.Slider
-        if (table3.rowCount() <= 0):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = edit_slider_show()
-            icon1 = QIcon()
-            icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            icon2 = QIcon()
-            icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
-            icon3 = QIcon()
-            icon3.addPixmap(QPixmap(":/icons/pointonx.png"), QIcon.Normal, QIcon.Off)
-            for i in range(table1.rowCount()): dlg.Slider_Center.insertItem(i, icon1, table1.item(i, 0).text())
-            for i in range(table2.rowCount()): dlg.References.insertItem(i, icon2, table2.item(i, 0).text())
-            for i in range(table3.rowCount()): dlg.Slider.insertItem(i, icon3, table3.item(i, 0).text())
-            dlg.Another_slider.connect(self.Change_Edit_Slider)
-            self.slider_feedback.connect(dlg.change_feedback)
-            dlg.Slider.setCurrentIndex(pos)
-            self.Change_Edit_Slider(pos)
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Slider_Center.currentText()
-                b = dlg.References.currentText()
-                c = dlg.References.currentIndex()
-                if (table2.item(c, 1).text()==a) or (table2.item(c, 2).text()==a):
-                    dlg = restriction_conflict_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_Edit_Slider_triggered()
-                else:
-                    self.File.Sliders.editTable(table3, dlg.Slider.currentText(), a, b, True)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = edit_slider_show()
+        icon1 = QIcon()
+        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        icon2 = QIcon()
+        icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
+        icon3 = QIcon()
+        icon3.addPixmap(QPixmap(":/icons/pointonx.png"), QIcon.Normal, QIcon.Off)
+        for i in range(table1.rowCount()): dlg.Slider_Center.insertItem(i, icon1, table1.item(i, 0).text())
+        for i in range(table2.rowCount()): dlg.References.insertItem(i, icon2, table2.item(i, 0).text())
+        for i in range(table3.rowCount()): dlg.Slider.insertItem(i, icon3, table3.item(i, 0).text())
+        dlg.Another_slider.connect(self.Change_Edit_Slider)
+        self.slider_feedback.connect(dlg.change_feedback)
+        dlg.Slider.setCurrentIndex(pos)
+        self.Change_Edit_Slider(pos)
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Slider_Center.currentText()
+            b = dlg.References.currentText()
+            c = dlg.References.currentIndex()
+            if (table2.item(c, 1).text()==a) or (table2.item(c, 2).text()==a):
+                dlg = restriction_conflict_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_Edit_Slider_triggered()
+            else:
+                self.File.Sliders.editTable(table3, dlg.Slider.currentText(), a, b, True)
+                self.Resolve()
+                self.workbookNoSave()
     slider_feedback = pyqtSignal(int, int)
     @pyqtSlot(int)
     def Change_Edit_Slider(self, pos):
@@ -1051,67 +1036,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Set_Rod_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        if (table1.rowCount() <= 1):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = rod_show()
-            icon = QIcon()
-            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            for i in range(table1.rowCount()):
-                dlg.Start.insertItem(i, icon, table1.item(i, 0).text())
-                dlg.End.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Rod_num.insertPlainText("Rod"+str(table2.rowCount()))
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Start.currentText()
-                b = dlg.End.currentText()
-                c = str(float(dlg.Position.text()))
-                if a == b:
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-                else:
-                    self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, False)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = rod_show()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        for i in range(table1.rowCount()):
+            dlg.Start.insertItem(i, icon, table1.item(i, 0).text())
+            dlg.End.insertItem(i, icon, table1.item(i, 0).text())
+        dlg.Rod_num.insertPlainText("Rod"+str(table2.rowCount()))
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Start.currentText()
+            b = dlg.End.currentText()
+            c = str(float(dlg.Position.text()))
+            if a == b:
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
+            else:
+                self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, False)
+                self.Resolve()
+                self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Piston_Spring_triggered(self, pos = 0):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        if (table1.rowCount() <= 1):
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg = edit_rod_show()
-            icon = QIcon()
-            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-            for i in range(table1.rowCount()):
-                dlg.Start.insertItem(i, icon, table1.item(i, 0).text())
-                dlg.End.insertItem(i, icon, table1.item(i, 0).text())
-            for i in range(table2.rowCount()):
-                dlg.Rod.insertItem(i, icon, table2.item(i, 0).text())
-            dlg.Another_rod.connect(self.Change_Edit_Rod)
-            self.rod_feedback.connect(dlg.change_feedback)
-            dlg.Rod.setCurrentIndex(pos)
-            self.Change_Edit_Rod(pos)
-            dlg.show()
-            if dlg.exec_():
-                a = dlg.Start.currentText()
-                b = dlg.End.currentText()
-                c = str(min(float(dlg.len1.text()), float(dlg.len2.text())))
-                d = str(max(float(dlg.len1.text()), float(dlg.len2.text())))
-                if a == b:
-                    dlg = same_show()
-                    dlg.show()
-                    if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-                else:
-                    self.File.Rods.editTable(table2, dlg.Rod.currentText(), a, b, c, d, True)
-                    self.Resolve()
-                    self.workbookNoSave()
+        dlg = edit_rod_show()
+        icon = QIcon()
+        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
+        for i in range(table1.rowCount()):
+            dlg.Start.insertItem(i, icon, table1.item(i, 0).text())
+            dlg.End.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(table2.rowCount()):
+            dlg.Rod.insertItem(i, icon, table2.item(i, 0).text())
+        dlg.Another_rod.connect(self.Change_Edit_Rod)
+        self.rod_feedback.connect(dlg.change_feedback)
+        dlg.Rod.setCurrentIndex(pos)
+        self.Change_Edit_Rod(pos)
+        dlg.show()
+        if dlg.exec_():
+            a = dlg.Start.currentText()
+            b = dlg.End.currentText()
+            c = str(min(float(dlg.len1.text()), float(dlg.len2.text())))
+            d = str(max(float(dlg.len1.text()), float(dlg.len2.text())))
+            if a == b:
+                dlg = same_show()
+                dlg.show()
+                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
+            else:
+                self.File.Rods.editTable(table2, dlg.Rod.currentText(), a, b, c, d, True)
+                self.Resolve()
+                self.workbookNoSave()
     rod_feedback = pyqtSignal(int, int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Rod(self, pos):
@@ -1275,24 +1250,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionDisplay_Point_Mark.setChecked(True)
         for i in range(table1.rowCount()):
             if not table1.item(i, 3).checkState(): dlg.Point_list.addItem(table1.item(i, 0).text())
-        if dlg.Point_list.count()==0:
-            dlg = zero_show()
-            dlg.show()
-            dlg.exec()
-        else:
-            dlg.loadData(self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
-            dlg.show()
-            if dlg.exec_():
-                self.File.Path.runList = []
-                for i in range(dlg.Run_list.count()): self.File.Path.runList += [dlg.Run_list.item(i).text()]
-                self.File.Path.shaftList = dlg.work.ShaftList
-                self.File.Path.data = dlg.Path_data
-                self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
-                self.Path_Clear.setEnabled(True)
-                self.Path_coordinate.setEnabled(True)
-                self.Path_data_show.setEnabled(True)
-                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
-                self.workbookNoSave()
+        dlg.loadData(self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
+        dlg.show()
+        if dlg.exec_():
+            self.File.Path.runList = []
+            for i in range(dlg.Run_list.count()): self.File.Path.runList += [dlg.Run_list.item(i).text()]
+            self.File.Path.shaftList = dlg.work.ShaftList
+            self.File.Path.data = dlg.Path_data
+            self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
+            self.Path_Clear.setEnabled(True)
+            self.Path_coordinate.setEnabled(True)
+            self.Path_data_show.setEnabled(True)
+            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+            self.workbookNoSave()
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
         self.qpainterWindow.removePath()
@@ -1470,11 +1440,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(len(color_list)): dlg.TextColor.insertItem(i, color_list[i])
         dlg.show()
         if dlg.exec_(): pass
-    
-    @pyqtSlot()
-    def on_kernelAmendment_clicked(self):
-        self.isKernelAmendment = self.symmetrical_part.isChecked()
-        self.Resolve()
     
     @pyqtSlot()
     def on_actionUndo_triggered(self):

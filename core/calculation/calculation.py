@@ -3,7 +3,7 @@ from .modules import *
 argv = sys.argv
 
 class Solvespace():
-    def staticProcess(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, isKernelAmendment, currentShaft):
+    def staticProcess(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, currentShaft):
         sys = System(500)
         #Pre-oder
         p0 = sys.add_param(0.0)
@@ -56,7 +56,7 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             x = sys.add_param(table_point[i]['x'])
             if len(table_shaft)>0:
                 #Quadrant Fix
-                if table_shaft[currentShaft]['ref']==i and isKernelAmendment:
+                if table_shaft[currentShaft]['ref']==i:
                     angle = table_shaft[currentShaft]['demo']
                     cen = table_point[table_shaft[currentShaft]['cen']]['y']
                     ref = table_point[i]['y']
