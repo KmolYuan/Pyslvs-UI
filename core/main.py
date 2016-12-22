@@ -202,6 +202,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.actionDisplay_Dimensions.setChecked(False)
     def on_point_context_menu(self, point):
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
+        self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
         if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
@@ -388,19 +389,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.reqLine.setVisible(not self.Entiteis_Point.rowCount()>1)
         self.reqChain.setVisible(not self.Entiteis_Point.rowCount()>2)
         self.reqShaft.setVisible(not self.Entiteis_Point.rowCount()>1)
-        self.reqSlider.setVisible(not (self.Entiteis_Point.rowCount()>1 and self.Entiteis_Link.rowCount()>0))
+        self.reqSlider.setVisible(not self.Entiteis_Link.rowCount()>0)
         self.reqRod.setVisible(not self.Entiteis_Point.rowCount()>2)
         self.reqPath.setVisible(not self.Drive_Shaft.rowCount()>0)
         #Add
         self.action_New_Line.setEnabled(self.Entiteis_Point.rowCount()>1)
         self.action_New_Stay_Chain.setEnabled(self.Entiteis_Point.rowCount()>2)
         self.action_Set_Drive_Shaft.setEnabled(self.Entiteis_Point.rowCount()>1)
-        self.action_Set_Slider.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Link.rowCount()>0)
+        self.action_Set_Slider.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_Set_Rod.setEnabled(self.Entiteis_Point.rowCount()>2)
         self.action_link_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1)
         self.action_chain_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>2)
         self.action_shaft_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1)
-        self.action_slider_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Link.rowCount()>0)
+        self.action_slider_right_click_menu_add.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_rod_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>2)
         #Edit
         self.actionEdit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
@@ -409,7 +410,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_Edit_Drive_Shaft.setEnabled(self.Drive_Shaft.rowCount()>0)
         self.action_Edit_Slider.setEnabled(self.Slider.rowCount()>0)
         self.action_Edit_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
-        self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>0)
