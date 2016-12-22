@@ -7,52 +7,68 @@ Compatible with Python 3.4 and above.
 
 ![](icons/cover.png)
 
-How to use
+How to startup
 ---
 
 Open GUI by Python:
 
-<pre>
+```bash
 $python3 launch_pyslvs.py
-</pre>
+```
 
 Or see help:
 
-<pre>
+```bash
 $python3 launch_pyslvs.py --help
-</pre>
+```
 
-Input formate
+Compile
+===
+
+Linux & Mac
 ---
 
-1. CSV table sheet
+Use PyInstaller or cxFreeze as you like.
 
-1. Solvespace formate (`.slvs`)
+First, enter the storage folder.
 
-Output
+```bash
+$sudo pip3 install PyInstaller
+$pyinstaller launch_pyslvs.py
+$./dist/launch_pyslvs/launch_pyslvs
+```
+
+Windows
 ---
 
-Including Path coordinate and file info.
+Use PyInstaller and cxFreeze to build.
 
-1. CSV table sheet
+Recommended installation: [MinGW](https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files) for win64.
 
-1. Solvespace formate (`.slvs`)
+First, enter the storage folder.
 
-1. PNG Image
+```bash
+>pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+>pip install cx_Freeze
+>.\winBuild.bat
+```
 
-1. DXF formate
+And than, the executable folder is located at `\build`, called `\exe.win-amd64-3.5`.
 
-1. SLT formate
+As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
-1. Python 3 script
+Collaboration
+===
+
+The manual is being written, you can see [here](https://github.com/40323230/Pyslvs-manual/).
 
 Power By
 ===
 
-Made by PyQt 5.6 and Eric 6.18.
+Made by PyQt 5.7 and Eric 6.18.
 
 Including Python module: PyQt5, peewee, dxfwrite
 
-Here is Origin Kernel repository:
+Here is **origin kernel** repository:
 
 [https://github.com/40323230/python-solvespace](https://github.com/40323230/python-solvespace)

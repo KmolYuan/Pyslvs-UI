@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2016-12-21, 23:45:29 -->
+<!-- Saved: 2016-12-22, 12:14:53 -->
 <!-- Copyright (C) 2016 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -13,6 +13,7 @@
   <Email></Email>
   <Eol index="0"/>
   <Sources>
+    <Source>README.md</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
     <Source>core/calculation/__init__.py</Source>
@@ -110,6 +111,7 @@
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>launch_test.py</Source>
+    <Source>winBuild.bat</Source>
   </Sources>
   <Forms>
     <Form>core/draw/delete.ui</Form>
