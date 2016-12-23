@@ -22,6 +22,7 @@ class File():
         self.Rods = Rods()
         self.Parameters = Parameters()
         self.Path = Path()
+        self.PathSolvingReqs = PathSolvingReqs()
     
     def updateTime(self):
         self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)

@@ -70,6 +70,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
         self.action_painter_right_click_menu_fix_add = QAction("Add a Fixed Point", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
+        self.action_painter_right_click_menu_path_add = QAction("Add a Path Point", self)
+        self.popMenu_painter.addAction(self.action_painter_right_click_menu_path_add)
         self.popMenu_painter.addSeparator()
         self.action_painter_right_click_menu_dimension_add = QAction("Show Dimension", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_add)
@@ -178,19 +180,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     def on_painter_context_menu(self, point):
+        self.action_painter_right_click_menu_path_add.setVisible(hasattr(self, 'PathSolvingDlg'))
         action = self.popMenu_painter.exec_(self.qpainterWindow.mapToGlobal(point))
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
-        x = str(self.mouse_pos_x)
-        y = str(self.mouse_pos_y)
+        x = self.mouse_pos_x
+        y = self.mouse_pos_y
         if action == self.action_painter_right_click_menu_add:
-            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, False, False)
+            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), False, False)
             self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
             self.Resolve()
         elif action == self.action_painter_right_click_menu_fix_add:
-            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, True, False)
+            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), True, False)
             self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
             self.Resolve()
+        elif action == self.action_painter_right_click_menu_path_add: self.File.PathSolvingReqs.add(x, y)
         elif action == self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False:
                 self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
@@ -321,6 +325,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Close Event
     def closeEvent(self, event):
+        self.PathSolvingDlg.deleteLater()
+        del self.PathSolvingDlg
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
@@ -1253,7 +1259,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.loadData(self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
         dlg.show()
         if dlg.exec_():
-            self.File.Path.runList = []
+            self.File.Path.runList = list()
             for i in range(dlg.Run_list.count()): self.File.Path.runList += [dlg.Run_list.item(i).text()]
             self.File.Path.shaftList = dlg.work.ShaftList
             self.File.Path.data = dlg.Path_data
@@ -1387,6 +1393,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.AuxLine['pt'] = 0
         self.qpainterWindow.AuxLine['color'] = 6
         self.qpainterWindow.AuxLine['limit_color'] = 8
+    
+    @pyqtSlot(bool)
+    def on_PathSolving_toggled(self, p0):
+        if not hasattr(self, 'PathSolvingDlg'):
+            self.PathSolvingDlg = Path_Solving_show()
+            self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
+            self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
+            self.PathSolvingDlg.readPath(self.File.PathSolvingReqs.list)
+            self.PathSolvingDlg.show()
+            if self.PathSolvingDlg.exec_(): pass
+        else:
+            try:
+                self.PathSolvingDlg.deleteLater()
+                del self.PathSolvingDlg
+            except: pass
+    @pyqtSlot()
+    def PathSolving_return(self): self.PathSolving.setChecked(False)
     
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)

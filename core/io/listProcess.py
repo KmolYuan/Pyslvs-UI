@@ -104,7 +104,7 @@ class Points():
         self.update(table)
     
     def update(self, table):
-        list = []
+        lst = list()
         for i in range(table.rowCount()):
             k = {'x':0, 'y':0, 'fix':False, 'cx':0, 'cy':0}
             k['x'] = float(table.item(i, 1).text())
@@ -114,18 +114,18 @@ class Points():
                 k['cx'] = float(table.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[0])
                 k['cy'] = float(table.item(i, 4).text().replace("(", "").replace(")", "").split(", ")[1])
             except: pass
-            list += [k]
-        self.list = list
+            lst += [k]
+        self.list = lst
     
     def updateStyle(self, table):
-        list = []
+        lst = list()
         for i in range(table.rowCount()):
             k = {'cen':'Green', 'ring':5, 'color':'Green'}
             k['cen'] = table.item(i, 1).text()
             k['ring'] = int(table.item(i, 2).text())
             k['color'] = table.cellWidget(i, 3).currentText()
-            list += [k]
-        self.style = list
+            lst += [k]
+        self.style = l
     
     def updateTable(self, table):
         for n in range(len(self.list)):
@@ -133,7 +133,7 @@ class Points():
 
 class Lines():
     def __init__(self):
-        self.list = []
+        self.list = list()
     
     def editTable(self, table, name, start, end, len, edit):
         rowPosition = int(name.replace("Line", ""))
@@ -174,14 +174,14 @@ class Lines():
         return n
     
     def update(self, table):
-        list = []
+        lst = list()
         for i in range(table.rowCount()):
             k = {'start':0, 'end':0, 'len':0}
             k['start'] = int(table.item(i, 1).text().replace("Point", ""))
             k['end'] = int(table.item(i, 2).text().replace("Point", ""))
             k['len'] = float(table.item(i, 3).text())
-            list += [k]
-        self.list = list
+            lst += [k]
+        self.list = lst
     
     def updateTable(self, table):
         for n in range(len(self.list)):
@@ -191,7 +191,7 @@ class Lines():
 
 class Chains():
     def __init__(self):
-        self.list = []
+        self.list = list()
     
     def editTable(self, table, name, p1, p2, p3, a, b, c, edit):
         rowPosition = int(name.replace("Chain", ""))
@@ -210,7 +210,7 @@ class Chains():
         else: print("Edit a Triangle Chain, Line "+str(rowPosition)+".")
     
     def update(self, table):
-        list = []
+        lst = list()
         for i in range(table.rowCount()):
             k = {'p1':0, 'p2':0, 'p3':0, 'p1p2':0, 'p2p3':0, 'p1p3':0}
             k['p1'] = int(table.item(i, 1).text().replace("Point", ""))
@@ -219,8 +219,8 @@ class Chains():
             k['p1p2'] = float(table.item(i, 4).text())
             k['p2p3'] = float(table.item(i, 5).text())
             k['p1p3'] = float(table.item(i, 6).text())
-            list += [k]
-        self.list = list
+            lst += [k]
+        self.list = lst
     
     def updateTable(self, table):
         for n in range(len(self.list)):
@@ -230,7 +230,7 @@ class Chains():
 
 class Shafts():
     def __init__(self):
-        self.list = []
+        self.list = list()
         self.current = 0
     
     def editTable(self, table, name, center, references, start, end, demo_angle, edit):
@@ -253,7 +253,7 @@ class Shafts():
         self.update(table)
     
     def update(self, table):
-        list = []
+        lst = list()
         for i in range(table.rowCount()):
             k = {'cen':0, 'ref':0, 'start':0, 'end':0, 'demo':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
@@ -262,8 +262,8 @@ class Shafts():
             k['end'] = float(table.item(i, 4).text())
             try: k['demo'] = float(table.item(i, 5).text())
             except: pass
-            list += [k]
-        self.list = list
+            lst += [k]
+        self.list = lst
     
     def updateTable(self, table):
         for n in range(len(self.list)):
@@ -271,7 +271,7 @@ class Shafts():
 
 class Sliders():
     def __init__(self):
-        self.list = []
+        self.list = list()
     
     def editTable(self, table, name, center, references, edit):
         rowPosition = int(name.replace("Slider", ""))
@@ -286,13 +286,13 @@ class Sliders():
         else: print("Set the Point to selected Slider.")
     
     def update(self, table):
-        list = []
+        lst = list()
         for i in range(table.rowCount()):
             k = {'cen':0, 'ref':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
             k['ref'] = int(table.item(i, 2).text().replace("Line", ""))
-            list += [k]
-        self.list = list
+            lst += [k]
+        self.list = lst
     
     def updateTable(self, table):
         for n in range(len(self.list)):
@@ -300,7 +300,7 @@ class Sliders():
 
 class Rods():
     def __init__(self):
-        self.list = []
+        self.list = list()
     
     def editTable(self, table, name, start, end, pos, edit):
         rowPosition = int(name.replace("Rod", ""))
@@ -315,7 +315,7 @@ class Rods():
         else: print("Set the Point to selected Rod.")
     
     def update(self, table):
-        list = []
+        lst = list()
         for i in range(table_rod.rowCount()):
             k = {'cen':0, 'start':0, 'end':0, 'pos':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
@@ -323,7 +323,7 @@ class Rods():
             k['end'] = int(table.item(i, 3).text().replace("Point", ""))
             k['pos'] = float(table.item(i, 4).text())
             list += [k]
-        self.list = list
+        self.list = lst
     
     def updateTable(self, table):
         for n in range(len(self.list)):
@@ -331,9 +331,9 @@ class Rods():
 
 class Path():
     def __init__(self):
-        self.data = []
-        self.runList = []
-        self.shaftList = []
+        self.data = list()
+        self.runList = list()
+        self.shaftList = list()
     
     def setup(self, table, data, Run_list):
         for i in range(len(data)):
@@ -358,13 +358,13 @@ class Path():
 
 class Parameters():
     def __init__(self):
-        self.list = []
+        self.list = list()
     
     def editTable(self, table):
         rowPosition = table.rowCount()
         table.insertRow(rowPosition)
         name_set = 0
-        existNum = []
+        existNum = list()
         for k in range(rowPosition): existNum += [int(table.item(k, 0).text().replace('n', ''))]
         for i in reversed(range(len(existNum)+1)):
             if not i in existNum: name_set = i
@@ -396,9 +396,16 @@ class Parameters():
     
     def update(self, table):
         try:
-            list = []
+            lst = list()
             for i in range(table.rowCount()):
                 k = {int(table.item(i, 0).text().replace('n', '')):float(table.item(i, 1).text())}
-                list += [k]
-            self.list = list
+                lst += [k]
+            self.list = lst
         except: pass
+
+class PathSolvingReqs():
+    def __init__(self):
+        self.list = list()
+    
+    def add(self, x, y): self.list.append({'x':x, 'y':y})
+    def remove(self, pos): del self.list[pos]

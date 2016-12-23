@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2016-12-22, 12:14:53 -->
+<!-- Saved: 2016-12-23, 23:51:16 -->
 <!-- Copyright (C) 2016 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -23,6 +23,7 @@
     <Source>core/calculation/canvasView.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
     <Source>core/calculation/modules.py</Source>
+    <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
     <Source>core/calculation/undoRedo.py</Source>
     <Source>core/draw/Ui_delete.py</Source>
@@ -71,6 +72,7 @@
     <Source>core/panel/Ui_run_AuxLine.py</Source>
     <Source>core/panel/Ui_run_Drive.py</Source>
     <Source>core/panel/Ui_run_Measurement.py</Source>
+    <Source>core/panel/Ui_run_Path_Solving.py</Source>
     <Source>core/panel/Ui_run_Path_Track.py</Source>
     <Source>core/panel/__init__.py</Source>
     <Source>core/panel/delete.py</Source>
@@ -78,6 +80,7 @@
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
+    <Source>core/panel/run_Path_Solving.py</Source>
     <Source>core/panel/run_Path_Track.py</Source>
     <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
@@ -133,6 +136,7 @@
     <Form>core/panel/run_AuxLine.ui</Form>
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>
+    <Form>core/panel/run_Path_Solving.ui</Form>
     <Form>core/panel/run_Path_Track.ui</Form>
     <Form>core/simulate/edit_drive_shaft.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>

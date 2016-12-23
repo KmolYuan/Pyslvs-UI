@@ -1375,11 +1375,18 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
+                  <widget class="QLabel" name="reqPathSolving">
+                   <property name="text">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No specified point.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <layout class="QGridLayout" name="gridLayout_3">
-                   <item row="0" column="0">
+                   <item row="1" column="0">
                     <widget class="QPushButton" name="PathSolving">
                      <property name="enabled">
-                      <bool>false</bool>
+                      <bool>true</bool>
                      </property>
                      <property name="text">
                       <string>Path solving</string>
@@ -1387,6 +1394,9 @@ p, li { white-space: pre-wrap; }
                      <property name="icon">
                       <iconset resource="../icons.qrc">
                        <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>

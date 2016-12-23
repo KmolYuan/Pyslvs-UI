@@ -3,8 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 #List Process
-from .listProcess import(Parameters, Path,
-    Points, Lines, Chains, Shafts, Sliders, Rods)
+from .listProcess import *
 #File Info
 from sys import argv #See argv
 #Date

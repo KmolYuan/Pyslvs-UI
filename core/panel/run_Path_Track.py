@@ -2,7 +2,7 @@
 from .modules import *
 from ..calculation.pathTrack import WorkerThread
 
-class Path_Track_show(QDialog, Ui_Dialog):
+class Path_Track_show(QDialog, PathTrack_Dialog):
     def __init__(self, parent=None):
         super(Path_Track_show, self).__init__(parent)
         self.setupUi(self)

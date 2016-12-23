@@ -138,7 +138,7 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
                 Constraint.angle(Workplane1, angle, line, Line0, False)
             except: pass
         sys.solve()
-        result = []
+        result = list()
         if (sys.result == SLVS_RESULT_OKAY):
             for i in range(0, len(table_point)*2, 2):
                 result += [{'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val}]

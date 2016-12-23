@@ -16,4 +16,4 @@ elif platform.system().lower()=="linux":
     elif py_nm=="3.5": from ..kernel.py35.slvs import *
 else: print("Python Version Not Support.")
 
-from copy import copy
+from copy import copy, deepcopy
