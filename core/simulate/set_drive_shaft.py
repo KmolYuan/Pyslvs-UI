@@ -9,6 +9,15 @@ class shaft_show(QDialog, Ui_Dialog):
         super(shaft_show, self).__init__(parent)
         self.setupUi(self)
     
+    def setUI(self, table, row, cen, ref):
+        icon = QIcon(QPixmap(":/icons/point.png"))
+        for i in range(table1.rowCount()):
+            self.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
+            self.References.insertItem(i, icon, table1.item(i, 0).text())
+        self.Shaft_num.insertPlainText("Shaft"+str(row))
+        self.Shaft_Center.setCurrentIndex(cen)
+        self.References.setCurrentIndex(ref)
+    
     @pyqtSlot(float)
     def on_Start_Angle_valueChanged(self, p0):
         self.Demo_angle.setMinimum(p0)

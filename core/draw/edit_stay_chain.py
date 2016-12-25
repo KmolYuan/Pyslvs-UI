@@ -7,6 +7,18 @@ class edit_stay_chain_show(QDialog, edit_chain_Dialog):
         super(edit_stay_chain_show, self).__init__(parent)
         self.setupUi(self)
     
+    def setUI(self, mask, table, table2, pos):
+        icon = QIcon(QPixmap(":/icons/point.png"))
+        for i in range(table1.rowCount()):
+            self.Point1.insertItem(i, icon, table1.item(i, 0).text())
+            self.Point2.insertItem(i, icon, table1.item(i, 0).text())
+            self.Point3.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(table2.rowCount()): dlg.Chain.insertItem(i, QIcon(QPixmap(":/icons/equal.png")), table2.item(i, 0).text())
+        self.Chain.setCurrentIndex(pos)
+        self.p1_p2.setValidator(mask)
+        self.p2_p3.setValidator(mask)
+        self.p1_p3.setValidator(mask)
+    
     @pyqtSlot(int)
     def on_Chain_currentIndexChanged(self, index): self.Another_chain.emit(index)
     

@@ -10,6 +10,12 @@ class edit_slider_show(QDialog, Ui_Dialog):
         super(edit_slider_show, self).__init__(parent)
         self.setupUi(self)
     
+    def setUI(self, table1, table2, table3, pos):
+        for i in range(table1.rowCount()): self.Slider_Center.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table1.item(i, 0).text())
+        for i in range(table2.rowCount()): self.References.insertItem(i, QIcon(QPixmap(":/icons/line.png")), table2.item(i, 0).text())
+        for i in range(table3.rowCount()): self.Slider.insertItem(i, QIcon(QPixmap(":/icons/pointonx.png")), table3.item(i, 0).text())
+        self.Slider.setCurrentIndex(pos)
+    
     @pyqtSlot(int)
     def on_Slider_currentIndexChanged(self, index): self.Another_slider.emit(index)
     

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2016-12-23, 23:51:16 -->
+<!-- Saved: 2016-12-25, 16:29:37 -->
 <!-- Copyright (C) 2016 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -25,7 +25,6 @@
     <Source>core/calculation/modules.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
-    <Source>core/calculation/undoRedo.py</Source>
     <Source>core/draw/Ui_delete.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
@@ -66,6 +65,7 @@
     <Source>core/io/script.py</Source>
     <Source>core/io/settings.py</Source>
     <Source>core/io/slvs_type.py</Source>
+    <Source>core/io/undoRedo.py</Source>
     <Source>core/main.py</Source>
     <Source>core/modules.py</Source>
     <Source>core/panel/Ui_delete.py</Source>

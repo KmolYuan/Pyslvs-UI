@@ -1816,7 +1816,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="action_Edit_Drive_Shaft"/>
     <addaction name="action_Edit_Slider"/>
-    <addaction name="action_Edit_Piston_Spring"/>
+    <addaction name="action_Edit_Rod"/>
     <addaction name="separator"/>
     <addaction name="actionDelete_Drive_Shaft"/>
     <addaction name="actionDelete_Slider"/>
@@ -2438,7 +2438,7 @@ p, li { white-space: pre-wrap; }
     <string>Add  a extendable rod between two points.</string>
    </property>
   </action>
-  <action name="action_Edit_Piston_Spring">
+  <action name="action_Edit_Rod">
    <property name="enabled">
     <bool>true</bool>
    </property>

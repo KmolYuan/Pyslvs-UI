@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from copy import copy
+from copy import deepcopy
 
 class addTableUndo(QUndoCommand):
     def __init__(self, table, contentTable, list, contentList, row):
         QUndoCommand.__init__(self)
         self.table = table
-        self.contentTable = copy(contentTable) #List
+        self.contentTable = deepcopy(contentTable) #List
         self.list = list
-        self.contentList = copy(contentList) #dict
+        self.contentList = deepcopy(contentList) #dict
         self.row = row
     
     def undo(self):
@@ -26,9 +26,9 @@ class deleteTableUndo(QUndoCommand):
     def __init__(self, table, contentTable, list, contentList, row):
         QUndoCommand.__init__(self)
         self.table = table
-        self.contentTable = copy(contentTable) #List
+        self.contentTable = deepcopy(contentTable) #List
         self.list = list
-        self.contentList = copy(contentList) #dict
+        self.contentList = deepcopy(contentList) #dict
         self.row = row
     
     def undo(self):
@@ -47,8 +47,8 @@ class moveTableUndo(QUndoCommand):
         QUndoCommand.__init__(self, table, list, preRow, nexRow)
         self.table = table
         self.list = list
-        self.preRow = copy(preRow)
-        self.nexRow = copy(nexRow)
+        self.preRow = deepcopy(preRow)
+        self.nexRow = deepcopy(nexRow)
     
     def undo(self):
         ''''''

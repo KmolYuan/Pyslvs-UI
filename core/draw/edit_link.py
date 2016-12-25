@@ -7,6 +7,15 @@ class edit_link_show(QDialog, edit_link_Dialog):
         super(edit_link_show, self).__init__(parent)
         self.setupUi(self)
     
+    def setUI(self, mask, table1, table2, pos):
+        icon = QIcon(QPixmap(":/icons/point.png"))
+        for i in range(table1.rowCount()):
+            self.Start_Point.insertItem(i, icon, table1.item(i, 0).text())
+            self.End_Point.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(table2.rowCount()): self.Link.insertItem(i, QIcon(QPixmap(":/icons/line.png")), table2.item(i, 0).text())
+        self.Link.setCurrentIndex(pos)
+        self.Length.setValidator(mask)
+    
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index): self.Another_line.emit(index)
     

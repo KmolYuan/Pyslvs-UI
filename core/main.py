@@ -194,7 +194,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), True, False)
             self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
             self.Resolve()
-        elif action == self.action_painter_right_click_menu_path_add: self.File.PathSolvingReqs.add(x, y)
+        elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add(x, y)
         elif action == self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False:
                 self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
@@ -250,7 +250,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_rod_context_menu(self, point):
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
         if action == self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
-        elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Piston_Spring_triggered(self.Rod.currentRow())
+        elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(self.Rod.currentRow())
         elif action == self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(self.Rod.currentRow())
     def on_parameter_context_menu(self, point):
         self.action_parameter_right_click_menu_copy.setVisible(self.Parameter_list.currentColumn()==1)
@@ -321,12 +321,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int)
     def on_Slider_cellDoubleClicked(self, row, column): self.on_action_Edit_Slider_triggered(row)
     @pyqtSlot(int, int)
-    def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Piston_Spring_triggered(row)
+    def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Rod_triggered(row)
     
     #Close Event
     def closeEvent(self, event):
-        self.PathSolvingDlg.deleteLater()
-        del self.PathSolvingDlg
+        try:
+            self.PathSolvingDlg.deleteLater()
+            del self.PathSolvingDlg
+        except: pass
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
@@ -398,6 +400,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.reqSlider.setVisible(not self.Entiteis_Link.rowCount()>0)
         self.reqRod.setVisible(not self.Entiteis_Point.rowCount()>2)
         self.reqPath.setVisible(not self.Drive_Shaft.rowCount()>0)
+        self.reqPathSolving.setVisible(not self.File.PathSolvingReqs.list)
         #Add
         self.action_New_Line.setEnabled(self.Entiteis_Point.rowCount()>1)
         self.action_New_Stay_Chain.setEnabled(self.Entiteis_Point.rowCount()>2)
@@ -415,7 +418,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionEdit_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         self.action_Edit_Drive_Shaft.setEnabled(self.Drive_Shaft.rowCount()>0)
         self.action_Edit_Slider.setEnabled(self.Slider.rowCount()>0)
-        self.action_Edit_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+        self.action_Edit_Rod.setEnabled(self.Rod.rowCount()>0)
         self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
         self.action_shaft_right_click_menu_edit.setEnabled(self.Drive_Shaft.rowCount()>0)
@@ -689,9 +692,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
         dlg  = New_point()
-        dlg.Point_num.insertPlainText("Point"+str(table1.rowCount()))
-        dlg.X_coordinate.setValidator(self.Mask)
-        dlg.Y_coordinate.setValidator(self.Mask)
+        dlg.setUI(self.Mask, table1)
         dlg.show()
         if dlg.exec_():
             x = dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText()
@@ -716,15 +717,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionEdit_Point_triggered(self, pos = 1):
         table1 = self.Entiteis_Point
         dlg  = edit_point_show()
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        for i in range(1, table1.rowCount()): dlg.Point.insertItem(i, icon, table1.item(i, 0).text())
+        dlg.setUI(self.Mask, table1, pos)
         dlg.Another_point.connect(self.Change_Edit_Point)
         self.point_feedback.connect(dlg.change_feedback)
-        dlg.Point.setCurrentIndex(pos-1)
         self.Change_Edit_Point(pos)
-        dlg.X_coordinate.setValidator(self.Mask)
-        dlg.Y_coordinate.setValidator(self.Mask)
         dlg.show()
         if dlg.exec_():
             table2 = self.Entiteis_Point_Style
@@ -747,15 +743,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Line_triggered(self):
         table1 = self.Entiteis_Point
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        dlg  = New_link()
-        for i in range(table1.rowCount()):
-            dlg.Start_Point.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.End_Point.insertItem(i, icon, table1.item(i, 0).text())
         table2 = self.Entiteis_Link
-        dlg.Link_num.insertPlainText("Line"+str(table2.rowCount()))
-        dlg.Length.setValidator(self.Mask)
+        dlg  = New_link()
+        dlg.setUI(self.Mask, table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
             a = dlg.Start_Point.currentText()
@@ -776,21 +766,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionEdit_Linkage_triggered(self, pos = 0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        icon2 = QIcon()
-        icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
         dlg  = edit_link_show()
-        for i in range(table1.rowCount()):
-            dlg.Start_Point.insertItem(i, icon1, table1.item(i, 0).text())
-            dlg.End_Point.insertItem(i, icon1, table1.item(i, 0).text())
-        for i in range(table2.rowCount()):
-            dlg.Link.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.setUI(self.Mask, table1, table2, pos)
         dlg.Another_line.connect(self.Change_Edit_Line)
         self.link_feedback.connect(dlg.change_feedback)
-        dlg.Link.setCurrentIndex(pos)
         self.Change_Edit_Line(pos)
-        dlg.Length.setValidator(self.Mask)
         dlg.show()
         if dlg.exec_():
             a = dlg.Start_Point.currentText()
@@ -816,19 +796,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_New_Stay_Chain_triggered(self):
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
         table1 = self.Entiteis_Point
-        dlg = chain_show()
         table2 = self.Entiteis_Stay_Chain
-        for i in range(table1.rowCount()):
-            dlg.Point1.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Point2.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.Point3.insertItem(i, icon, table1.item(i, 0).text())
-        dlg.Chain_num.insertPlainText("Chain"+str(table2.rowCount()))
-        dlg.p1_p2.setValidator(self.Mask)
-        dlg.p2_p3.setValidator(self.Mask)
-        dlg.p1_p3.setValidator(self.Mask)
+        dlg = chain_show()
+        dlg.setUI(self.Mask, table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
             p1 = dlg.Point1.currentText()
@@ -849,26 +820,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionEdit_Stay_Chain_triggered(self, pos = 0):
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        icon2 = QIcon()
-        icon2.addPixmap(QPixmap(":/icons/equal.png"), QIcon.Normal, QIcon.Off)
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
         dlg = edit_stay_chain_show()
-        for i in range(table1.rowCount()):
-            dlg.Point1.insertItem(i, icon1, table1.item(i, 0).text())
-            dlg.Point2.insertItem(i, icon1, table1.item(i, 0).text())
-            dlg.Point3.insertItem(i, icon1, table1.item(i, 0).text())
-        for i in range(table2.rowCount()):
-            dlg.Chain.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.setUI(self.Mask, table1, table2, pos)
         dlg.Another_chain.connect(self.Change_Edit_Chain)
         self.chain_feedback.connect(dlg.change_feedback)
-        dlg.Chain.setCurrentIndex(pos)
         self.Change_Edit_Chain(pos)
-        dlg.p1_p2.setValidator(self.Mask)
-        dlg.p2_p3.setValidator(self.Mask)
-        dlg.p1_p3.setValidator(self.Mask)
         dlg.show()
         if dlg.exec_():
             p1 = dlg.Point1.currentText()
@@ -902,14 +860,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table1 = self.Entiteis_Point
         table2 = self.Drive_Shaft
         dlg = shaft_show()
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        for i in range(table1.rowCount()):
-            dlg.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.References.insertItem(i, icon, table1.item(i, 0).text())
-        dlg.Shaft_num.insertPlainText("Shaft"+str(table2.rowCount()))
-        dlg.Shaft_Center.setCurrentIndex(cen)
-        dlg.References.setCurrentIndex(ref)
+        dlg.setUI(table1, table2.rowCount(), cen, ref)
         dlg.show()
         if dlg.exec_():
             a = dlg.Shaft_Center.currentText()
@@ -932,18 +883,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table1 = self.Entiteis_Point
         table2 = self.Drive_Shaft
         dlg = edit_shaft_show()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        icon2 = QIcon()
-        icon2.addPixmap(QPixmap(":/icons/circle.png"), QIcon.Normal, QIcon.Off)
-        for i in range(table1.rowCount()):
-            dlg.Shaft_Center.insertItem(i, icon1, table1.item(i, 0).text())
-            dlg.References.insertItem(i, icon1, table1.item(i, 0).text())
-        for i in range(table2.rowCount()):
-            dlg.Shaft.insertItem(i, icon2, table2.item(i, 0).text())
+        dlg.setUI(table1, table2, pos)
         dlg.Another_shaft.connect(self.Change_Edit_Shaft)
         self.shaft_feedback.connect(dlg.change_feedback)
-        dlg.Shaft.setCurrentIndex(pos)
         self.Change_Edit_Shaft(pos)
         dlg.show()
         if dlg.exec_():
@@ -975,15 +917,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Link
         table3 = self.Slider
         dlg = slider_show()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        icon2 = QIcon()
-        icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
-        for i in range(table1.rowCount()):
-            dlg.Slider_Center.insertItem(i, icon1, table1.item(i, 0).text())
-        for i in range(table2.rowCount()):
-            dlg.References.insertItem(i, icon2, table2.item(i, 0).text())
-        dlg.Slider_num.insertPlainText("Slider"+str(table3.rowCount()))
+        dlg.setUI(table1, table2, table3.rowCount())
         dlg.show()
         if dlg.exec_():
             a = dlg.Slider_Center.currentText()
@@ -1004,18 +938,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Link
         table3 = self.Slider
         dlg = edit_slider_show()
-        icon1 = QIcon()
-        icon1.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        icon2 = QIcon()
-        icon2.addPixmap(QPixmap(":/icons/line.png"), QIcon.Normal, QIcon.Off)
-        icon3 = QIcon()
-        icon3.addPixmap(QPixmap(":/icons/pointonx.png"), QIcon.Normal, QIcon.Off)
-        for i in range(table1.rowCount()): dlg.Slider_Center.insertItem(i, icon1, table1.item(i, 0).text())
-        for i in range(table2.rowCount()): dlg.References.insertItem(i, icon2, table2.item(i, 0).text())
-        for i in range(table3.rowCount()): dlg.Slider.insertItem(i, icon3, table3.item(i, 0).text())
+        dlg.setUI(table1, table2, table3, pos)
         dlg.Another_slider.connect(self.Change_Edit_Slider)
         self.slider_feedback.connect(dlg.change_feedback)
-        dlg.Slider.setCurrentIndex(pos)
         self.Change_Edit_Slider(pos)
         dlg.show()
         if dlg.exec_():
@@ -1043,12 +968,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table1 = self.Entiteis_Point
         table2 = self.Rod
         dlg = rod_show()
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        for i in range(table1.rowCount()):
-            dlg.Start.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.End.insertItem(i, icon, table1.item(i, 0).text())
-        dlg.Rod_num.insertPlainText("Rod"+str(table2.rowCount()))
+        dlg.setUI(table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
             a = dlg.Start.currentText()
@@ -1064,20 +984,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.workbookNoSave()
     
     @pyqtSlot()
-    def on_action_Edit_Piston_Spring_triggered(self, pos = 0):
+    def on_action_Edit_Rod_triggered(self, pos = 0):
         table1 = self.Entiteis_Point
         table2 = self.Rod
         dlg = edit_rod_show()
-        icon = QIcon()
-        icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
-        for i in range(table1.rowCount()):
-            dlg.Start.insertItem(i, icon, table1.item(i, 0).text())
-            dlg.End.insertItem(i, icon, table1.item(i, 0).text())
-        for i in range(table2.rowCount()):
-            dlg.Rod.insertItem(i, icon, table2.item(i, 0).text())
+        dlg.setUI(table1, table2, pos)
         dlg.Another_rod.connect(self.Change_Edit_Rod)
         self.rod_feedback.connect(dlg.change_feedback)
-        dlg.Rod.setCurrentIndex(pos)
         self.Change_Edit_Rod(pos)
         dlg.show()
         if dlg.exec_():
@@ -1319,12 +1232,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Measurement_clicked(self):
         if not hasattr(self, 'MeasurementWidget'):
             table = self.Entiteis_Point
-            icon = QIcon()
-            icon.addPixmap(QPixmap(":/icons/point.png"), QIcon.Normal, QIcon.Off)
             self.MeasurementWidget = Measurement_show()
-            for i in range(table.rowCount()):
-                self.MeasurementWidget.Start.insertItem(i, icon, table.item(i, 0).text())
-                self.MeasurementWidget.End.insertItem(i, icon, table.item(i, 0).text())
+            self.MeasurementWidget.setUI(table, QIcon(QPixmap(":/icons/point.png")))
             self.mplLayout.insertWidget(1, self.MeasurementWidget)
             self.qpainterWindow.change_event.connect(self.MeasurementWidget.Detection_do)
             self.actionDisplay_Dimensions.setChecked(True)
@@ -1399,8 +1308,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not hasattr(self, 'PathSolvingDlg'):
             self.PathSolvingDlg = Path_Solving_show()
             self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
+            self.PathSolvingDlg.setUI(self.Mask, self.File.PathSolvingReqs.list)
+            self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
+            self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
             self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
-            self.PathSolvingDlg.readPath(self.File.PathSolvingReqs.list)
             self.PathSolvingDlg.show()
             if self.PathSolvingDlg.exec_(): pass
         else:
@@ -1410,6 +1321,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except: pass
     @pyqtSlot()
     def PathSolving_return(self): self.PathSolving.setChecked(False)
+    @pyqtSlot(float, float)
+    def PathSolving_add(self, x=0, y=0):
+        self.File.PathSolvingReqs.add(x, y)
+        self.workbookNoSave()
+        print(self.File.PathSolvingReqs.list)
+    @pyqtSlot(int)
+    def PathSolving_delete(self, row):
+        self.File.PathSolvingReqs.remove(row)
+        self.workbookNoSave()
+        print(self.File.PathSolvingReqs.list)
     
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)
@@ -1466,7 +1387,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionUndo_triggered(self):
+        self.FileState.undo()
         print("Undo.")
     @pyqtSlot()
     def on_actionRedo_triggered(self):
+        self.FileState.redo()
         print("Redo.")

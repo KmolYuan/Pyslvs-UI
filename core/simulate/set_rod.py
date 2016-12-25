@@ -1,25 +1,16 @@
 # -*- coding: utf-8 -*-
-
-"""
-Module implementing rod_show.
-"""
-
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QDialog
-
 from .Ui_set_rod import Ui_Dialog
 
-
 class rod_show(QDialog, Ui_Dialog):
-    """
-    Class documentation goes here.
-    """
     def __init__(self, parent=None):
-        """
-        Constructor
-        
-        @param parent reference to the parent widget
-        @type QWidget
-        """
         super(rod_show, self).__init__(parent)
         self.setupUi(self)
+    
+    def setUI(self, table, row):
+        icon = QIcon(QPixmap(":/icons/point.png"))
+        for i in range(table1.rowCount()):
+            self.Start.insertItem(i, icon, table.item(i, 0).text())
+            self.End.insertItem(i, icon, table.item(i, 0).text())
+        self.Rod_num.insertPlainText("Rod"+str(row))

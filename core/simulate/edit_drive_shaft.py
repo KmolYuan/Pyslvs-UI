@@ -10,6 +10,14 @@ class edit_shaft_show(QDialog, Ui_Dialog):
         super(edit_shaft_show, self).__init__(parent)
         self.setupUi(self)
     
+    def setUI(self, table1, table2, pos):
+        icon = QIcon(QPixmap(":/icons/point.png"))
+        for i in range(table1.rowCount()):
+            self.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
+            self.References.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(table2.rowCount()): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), table2.item(i, 0).text())
+        self.Shaft.setCurrentIndex(pos)
+    
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index): self.Another_shaft.emit(index)
     
