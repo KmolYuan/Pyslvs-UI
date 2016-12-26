@@ -1,6 +1,8 @@
 Pyslvs(PySolveSpace)
 ===
 
+![](icons/title.png)
+
 A GUI-based tool solving 2D linkage subject.
 
 Compatible with Python 3.4 and above.
@@ -65,9 +67,9 @@ The manual is being written, you can see [here](https://github.com/40323230/Pysl
 Power By
 ===
 
-Made by PyQt 5.7 and Eric 6.18.
+Made by PyQt 5.7 and Python editor [Eric 6](http://eric-ide.python-projects.org/).
 
-Including Python module: PyQt5, peewee, dxfwrite
+Including Python module: [PyQt5](http://doc.qt.io/qt-5/index.html), [peewee](http://docs.peewee-orm.com/en/latest/), [dxfwrite](https://pypi.python.org/pypi/dxfwrite/)
 
 Here is **origin kernel** repository:
 
