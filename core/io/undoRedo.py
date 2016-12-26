@@ -3,12 +3,12 @@ from .modules import *
 from copy import deepcopy
 
 class addTableUndo(QUndoCommand):
-    def __init__(self, table, contentTable, list, contentList, row):
+    def __init__(self, table, contentTable, list, contentList, row, edit):
         QUndoCommand.__init__(self)
         self.table = table
         self.contentTable = deepcopy(contentTable) #List
         self.list = list
-        self.contentList = deepcopy(contentList) #dict
+        self.contentList = deepcopy(contentList) #List
         self.row = row
     
     def undo(self):
@@ -28,7 +28,7 @@ class deleteTableUndo(QUndoCommand):
         self.table = table
         self.contentTable = deepcopy(contentTable) #List
         self.list = list
-        self.contentList = deepcopy(contentList) #dict
+        self.contentList = deepcopy(contentList) #List
         self.row = row
     
     def undo(self):

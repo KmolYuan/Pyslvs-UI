@@ -50,7 +50,7 @@ class File():
             if (len(li)-1)%4==0:
                 for i in range(1, len(li), 4):
                     fixed = li[i+3]=='Fixed'
-                    self.Points.editTable(Point, li[i], li[i+1], li[i+2], fixed, False)
+                    self.Points.editTable(Point, li[i], li[i+1], li[i+2], fixed)
         except: pass
         try:
             li = data[tableIndex[1]:tableIndex[2]]
@@ -60,27 +60,27 @@ class File():
         try:
             li = data[tableIndex[2]:tableIndex[3]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lines.editTable(Link, li[i], li[i+1], li[i+2], li[i+3], False)
+                for i in range(1, len(li), 4): self.Lines.editTable(Link, li[i], li[i+1], li[i+2], li[i+3])
         except: pass
         try:
             li = data[tableIndex[3]:tableIndex[4]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Chains.editTable(Chain, li[i], li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6], False)
+                for i in range(1, len(li), 7): self.Chains.editTable(Chain, li[i], li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
         except: pass
         try:
             li = data[tableIndex[4]:tableIndex[5]]
             if (len(li)-1)%6==0:
-                for i in range(1, len(li), 6): self.Shafts.editTable(Shaft, li[i], li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], False)
+                for i in range(1, len(li), 6): self.Shafts.editTable(Shaft, li[i], li[i+1], li[i+2], li[i+3], li[i+4], li[i+5])
         except: pass
         try:
             li = data[tableIndex[5]:tableIndex[6]]
             if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i], li[i+1], li[i+2], False)
+                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i], li[i+1], li[i+2])
         except: pass
         try:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%5==0:
-                for i in range(1, len(li), 5): self.Rods.editTable(Rod, li[i], li[i+1], li[i+2], li[i+3], li[i+4], False)
+                for i in range(1, len(li), 5): self.Rods.editTable(Rod, li[i], li[i+1], li[i+2], li[i+3], li[i+4])
         except: pass
         try:
             li = data[tableIndex[7]:tableIndex[8]]

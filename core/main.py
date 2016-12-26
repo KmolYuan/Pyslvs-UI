@@ -70,7 +70,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
         self.action_painter_right_click_menu_fix_add = QAction("Add a Fixed Point", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
-        self.action_painter_right_click_menu_path_add = QAction("Add a Path Point", self)
+        self.action_painter_right_click_menu_path_add = QAction("[*]Add a Path Point", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_path_add)
         self.popMenu_painter.addSeparator()
         self.action_painter_right_click_menu_dimension_add = QAction("Show Dimension", self)
@@ -187,14 +187,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.mouse_pos_x
         y = self.mouse_pos_y
         if action == self.action_painter_right_click_menu_add:
-            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), False, False)
+            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), False)
             self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
             self.Resolve()
         elif action == self.action_painter_right_click_menu_fix_add:
-            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), True, False)
+            self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), str(x), str(y), True)
             self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "10", "Green")
             self.Resolve()
-        elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add(x, y)
+        elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action == self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False:
                 self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
@@ -697,7 +697,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             x = dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText()
             y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText()
-            self.File.Points.editTable(table1, dlg.Point_num.toPlainText(), x, y, dlg.Fix_Point.checkState(), False)
+            self.File.Points.editTable(table1, dlg.Point_num.toPlainText(), x, y, dlg.Fix_Point.checkState())
             fix = "10" if dlg.Fix_Point.checkState() else "5"
             self.File.Points.styleAdd(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
             self.Resolve()
@@ -708,7 +708,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in["", "n", "-"] else self.Y_coordinate.placeholderText()
-        self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, False, False)
+        self.File.Points.editTable(table1, "Point"+str(table1.rowCount()), x, y, False)
         self.File.Points.styleAdd(table2, "Point"+str(table2.rowCount()), "Green", "5", "Green")
         self.Resolve()
         self.workbookNoSave()
@@ -758,7 +758,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 self.File.Lines.editTable(table2, dlg.Link_num.toPlainText(),
                     dlg.Start_Point.currentText(), dlg.End_Point.currentText(),
-                    dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), False)
+                    dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText())
                 self.Resolve()
                 self.workbookNoSave()
     
@@ -814,7 +814,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     p1, p2, p3,
                     dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
                     dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
-                    dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), False)
+                    dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText())
                 self.Resolve()
                 self.workbookNoSave()
     
@@ -874,7 +874,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.show()
                 if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
             else:
-                self.File.Shafts.editTable(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e, False)
+                self.File.Shafts.editTable(table2, dlg.Shaft_num.toPlainText(), a, b, c, d, e)
                 self.Resolve()
                 self.workbookNoSave()
     
@@ -928,7 +928,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.show()
                 if dlg.exec_(): self.on_action_Set_Slider_triggered()
             else:
-                self.File.Sliders.editTable(table3, dlg.Slider_num.toPlainText(), a, b, False)
+                self.File.Sliders.editTable(table3, dlg.Slider_num.toPlainText(), a, b)
                 self.Resolve()
                 self.workbookNoSave()
     
@@ -979,7 +979,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.show()
                 if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
             else:
-                self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c, False)
+                self.File.Rods.editTable(table2, dlg.Rod_num.toPlainText(), a, b, c)
                 self.Resolve()
                 self.workbookNoSave()
     
@@ -1312,6 +1312,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
             self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
             self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
+            self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
+            self.PathSolvingStart.connect(self.PathSolvingDlg.start)
             self.PathSolvingDlg.show()
             if self.PathSolvingDlg.exec_(): pass
         else:
@@ -1321,16 +1323,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except: pass
     @pyqtSlot()
     def PathSolving_return(self): self.PathSolving.setChecked(False)
+    def PathSolving_add_rightClick(self, x, y):
+        self.PathSolvingDlg.addPath(x, y)
+        self.PathSolving_add(x, y)
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
         self.File.PathSolvingReqs.add(x, y)
         self.workbookNoSave()
+        self.actionEnabled()
         print(self.File.PathSolvingReqs.list)
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
         self.File.PathSolvingReqs.remove(row)
         self.workbookNoSave()
+        self.actionEnabled()
         print(self.File.PathSolvingReqs.list)
+    PathSolvingStart = pyqtSignal()
+    @pyqtSlot()
+    def PathSolving_send(self):
+        self.PathSolvingDlg.work.setPath(self.File.PathSolvingReqs.list)
+        self.PathSolvingStart.emit()
     
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)

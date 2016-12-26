@@ -8,5 +8,3 @@ from .listProcess import *
 from sys import argv #See argv
 #Date
 import datetime
-#Undo & Redo
-from .undoRedo import *
