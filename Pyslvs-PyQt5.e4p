@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2016-12-28, 18:27:31 -->
+<!-- Saved: 2016-12-28, 20:25:27 -->
 <!-- Copyright (C) 2016 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -11,7 +11,6 @@
   <Version>0.4.0</Version>
   <Author></Author>
   <Email></Email>
-  <Eol index="0"/>
   <Sources>
     <Source>README.md</Source>
     <Source>core/Ui_main.py</Source>
@@ -65,7 +64,7 @@
     <Source>core/io/modules.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/settings.py</Source>
-    <Source>core/io/slvs_type.py</Source>
+    <Source>core/io/slvsType.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/main.py</Source>
     <Source>core/modules.py</Source>
@@ -97,11 +96,11 @@
     <Source>core/simulate/set_drive_shaft.py</Source>
     <Source>core/simulate/set_rod.py</Source>
     <Source>core/simulate/set_slider.py</Source>
-    <Source>core/test0.py</Source>
-    <Source>core/testUndo.py</Source>
     <Source>core/test/__init__.py</Source>
     <Source>core/test/testKernel.py</Source>
     <Source>core/test/testQt.py</Source>
+    <Source>core/test0.py</Source>
+    <Source>core/testUndo.py</Source>
     <Source>core/warning/Ui_contradict_value.py</Source>
     <Source>core/warning/Ui_repeated_value.py</Source>
     <Source>core/warning/Ui_reset_workbook.py</Source>

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from .listProcess import *
-from .slvs_type import SLVS_Code
+from .slvsType import SLVS_Code
 now = datetime.datetime.now()
 
 class File():
