@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_set_drive_shaft import Ui_Dialog
+from .modules import *
 
-class shaft_show(QDialog, Ui_Dialog):
+class shaft_show(QDialog, shaft_Dialog):
     def __init__(self, parent=None):
         super(shaft_show, self).__init__(parent)
         self.setupUi(self)

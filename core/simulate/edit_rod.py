@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from .Ui_edit_rod import Ui_Dialog
+from .modules import *
 
-class edit_rod_show(QDialog, Ui_Dialog):
+class edit_rod_show(QDialog, edit_rod_Dialog):
     Another_rod = pyqtSignal(int)
     def __init__(self, parent=None):
         super(edit_rod_show, self).__init__(parent)

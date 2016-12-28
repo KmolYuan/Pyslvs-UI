@@ -41,7 +41,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Solve & Script & DOF & Mask & Parameter
         self.Solvefail = False
         self.Script = ""
-        self.Slvs_Script = ""
         self.DOF = 0
         self.Mask_Change()
         self.init_Right_click_menu()
@@ -70,7 +69,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
         self.action_painter_right_click_menu_fix_add = QAction("Add a Fixed Point", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
-        self.action_painter_right_click_menu_path_add = QAction("[*]Add a Path Point", self)
+        self.action_painter_right_click_menu_path_add = QAction("Add a Path Point [Path Solving]", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_path_add)
         self.popMenu_painter.addSeparator()
         self.action_painter_right_click_menu_dimension_add = QAction("Show Dimension", self)
@@ -226,6 +225,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action == self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
         elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
     def on_shaft_context_menu(self, point):
+        self.action_shaft_right_click_menu_move_up.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()>0)
+        self.action_shaft_right_click_menu_move_down.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()<self.Drive_Shaft.rowCount()-1)
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
         if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
         elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
@@ -436,9 +437,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_shaft_right_click_menu_delete.setEnabled(self.Drive_Shaft.rowCount()>0)
         self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>0)
         self.action_rod_right_click_menu_delete.setEnabled(self.Rod.rowCount()>=1)
-        #Move
-        self.action_shaft_right_click_menu_move_up.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()>0)
-        self.action_shaft_right_click_menu_move_down.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()<self.Drive_Shaft.rowCount()-1)
         #Panel
         self.PathTrack.setEnabled(self.Drive_Shaft.rowCount()>0)
         self.Measurement.setEnabled(self.Entiteis_Point.rowCount()>1)
@@ -619,14 +617,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Output_to_Solvespace_triggered(self):
         fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Solvespace models(*.slvs)')
         if fileName:
-            solvespace = Solvespace()
             self.Slvs_Script = solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
                 self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
             fileName = fileName.replace(".slvs", "")+".slvs"
-            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
-                f.write(self.Slvs_Script)
+            self.File.writeSlvsFile(fileName)
             print("Successful Save: "+fileName)
-            self.File.form['changed'] = False
             self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
     @pyqtSlot()
@@ -636,8 +631,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             fileName = fileName.replace(".py", "")
             if sub == "Python Script(*.py)": fileName += ".py"
-            with open(fileName, 'w', newline="") as f:
-                f.write(self.Script)
+            with open(fileName, 'w', newline="") as f: f.write(self.Script)
             print("Saved to:"+str(fileName))
     
     @pyqtSlot()
@@ -1313,6 +1307,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
             self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
             self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
+            self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
+            self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
             self.PathSolvingStart.connect(self.PathSolvingDlg.start)
             self.PathSolvingDlg.show()
             if self.PathSolvingDlg.exec_(): pass
@@ -1343,6 +1339,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_send(self):
         self.PathSolvingDlg.work.setPath(self.File.PathSolvingReqs.list)
         self.PathSolvingStart.emit()
+    @pyqtSlot(int)
+    def PathSolving_moveup(self, row):
+        self.File.PathSolvingReqs.moveUP(row)
+        print(self.File.PathSolvingReqs.list)
+    @pyqtSlot(int)
+    def PathSolving_movedown(self, row):
+        self.File.PathSolvingReqs.moveDown(row)
+        print(self.File.PathSolvingReqs.list)
     
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)

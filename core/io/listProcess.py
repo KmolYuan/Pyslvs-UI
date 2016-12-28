@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..warning.contradict_value import contradict_show
-from ..calculation.canvasView import DynamicCanvas
-#Undo & Redo
-from .undoRedo import *
+from ..calculation.color import colorlist, colorName
 
 class Points():
     def __init__(self):
@@ -34,8 +32,8 @@ class Points():
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
         color_combobox = QComboBox(table)
-        DC = DynamicCanvas()
-        for i in range(len(DC.re_Color)): color_combobox.insertItem(i, DC.re_Color[i])
+        re_Color = colorName()
+        for i in range(len(re_Color)): color_combobox.insertItem(i, re_Color[i])
         color_combobox.setCurrentIndex(color_combobox.findText(color))
         table.setCellWidget(rowPosition, 1, color_combobox)
         table.setItem(rowPosition, 1, QTableWidgetItem("Green"))
@@ -405,7 +403,18 @@ class Parameters():
 
 class PathSolvingReqs():
     def __init__(self):
-        self.list = list()
+        self.list = [{'x': 0.0, 'y': 0.0}, {'x': 1.0, 'y': 1.0}, {'x': 2.0, 'y': 2.0}, {'x': 3.0, 'y': 3.0}, {'x': 4.0, 'y': 4.0}, {'x': 5.0, 'y': 5.0}]
     
     def add(self, x, y): self.list.append({'x':x, 'y':y})
     def remove(self, pos): del self.list[pos]
+    
+    def moveUP(self, row):
+        print(row)
+        if row>0 and len(self.list)>1:
+            self.list.insert(row-1, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
+            del self.list[row+1]
+    def moveDown(self, row):
+        print(row)
+        if row<len(self.list)-1 and len(self.list)>1:
+            self.list.insert(row+2, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
+            del self.list[row]

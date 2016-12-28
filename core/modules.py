@@ -41,15 +41,15 @@ from .panel.delete import deleteDlg
 #Solve
 from .calculation.calculation import Solvespace
 #Canvas
-if '--view' in sys.argv:
-    from .calculation.canvasView import DynamicCanvas
-else:
-    from .calculation.canvas_0 import DynamicCanvas
+if '--view' in sys.argv: from .calculation.canvasView import DynamicCanvas
+else: from .calculation.canvas_0 import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io.example import *
 from .io.dxfType import dxfCode
 from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
+#Undo & Redo
+from .io.undoRedo import *
 #Option
 from .io.settings import Pyslvs_Settings_ini

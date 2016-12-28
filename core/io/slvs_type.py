@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class SLVS_Code():
     def _init_(self):
         self.Entity_num = 4
@@ -235,9 +236,7 @@ Entity.actVisible=1
 AddEntity
 """
     #TODO:
-    def output(self):
-        
-        return self.Slvs_Script
+    def output(self): return self.Slvs_Script
     
     def point(self, x, y):
         self.AddParam += [[x, y]]

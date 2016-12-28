@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2016-12-25, 16:29:37 -->
+<!-- Saved: 2016-12-28, 18:27:31 -->
 <!-- Copyright (C) 2016 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -22,6 +22,7 @@
     <Source>core/calculation/canvasScene.py</Source>
     <Source>core/calculation/canvasView.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
+    <Source>core/calculation/color.py</Source>
     <Source>core/calculation/modules.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
@@ -92,6 +93,7 @@
     <Source>core/simulate/edit_drive_shaft.py</Source>
     <Source>core/simulate/edit_rod.py</Source>
     <Source>core/simulate/edit_slider.py</Source>
+    <Source>core/simulate/modules.py</Source>
     <Source>core/simulate/set_drive_shaft.py</Source>
     <Source>core/simulate/set_rod.py</Source>
     <Source>core/simulate/set_slider.py</Source>

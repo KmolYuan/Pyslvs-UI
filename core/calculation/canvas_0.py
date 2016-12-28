@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-#PyQt5
 from .modules import *
+from .color import colorlist, colorName
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
@@ -28,29 +28,8 @@ class DynamicCanvas(QWidget):
             'Max':{'x':0, 'y':0}, 'Min':{'x':0, 'y':0},
             }
         self.Reset_Aux_limit()
-        self.Color = {
-            "Red":Qt.red,
-            "Green":Qt.green,
-            "Blue":Qt.blue,
-            "Cyan":Qt.cyan,
-            "Magenta":Qt.magenta,
-            "Yellow":Qt.yellow,
-            "Gray":Qt.gray,
-            "Orange":QColor(225, 165, 0),
-            "Pink":QColor(225, 192, 230),
-            "Black":Qt.black,
-            "White":Qt.white,
-            "Dark Red":Qt.darkRed,
-            "Dark Green":Qt.darkGreen,
-            "Dark Blue":Qt.darkBlue,
-            "Dark Cyan":Qt.darkCyan,
-            "Dark Magenta":Qt.darkMagenta,
-            "Dark Yellow":Qt.darkYellow,
-            "Dark Gray":Qt.darkGray,
-            "Dark Orange":QColor(225, 140, 0),
-            "Dark Pink":QColor(225, 20, 147),
-            }
-        self.re_Color = [e for e in self.Color]
+        self.Color = colorlist()
+        self.re_Color = colorName()
     
     def update_figure(self,
             width, pathwidth,

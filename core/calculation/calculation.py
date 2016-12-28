@@ -234,7 +234,3 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         elif (sys.result == SLVS_RESULT_DIDNT_CONVERGE) and "-w" in argv: print ("SLVS_RESULT_DIDNT_CONVERGE")
         elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS) and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
         return x, y
-    
-    def slvs_formate(self, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter):
-        code = SLVS_Code()
-        return code.output()

@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QDialog
-from .Ui_set_rod import Ui_Dialog
+from .modules import *
 
-class rod_show(QDialog, Ui_Dialog):
+class rod_show(QDialog, rod_Dialog):
     def __init__(self, parent=None):
         super(rod_show, self).__init__(parent)
         self.setupUi(self)

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .listProcess import *
+from .slvs_type import SLVS_Code
 now = datetime.datetime.now()
 
 class File():
@@ -106,6 +108,7 @@ class File():
         self.form['author'] = author
         self.form['description'] = description
         self.form['lastTime'] = lastTime
+    
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
         writer.writerows([
@@ -158,6 +161,12 @@ class File():
         for i in reversed(range(1, Style.rowCount())): Style.removeRow(i)
         for i in reversed(range(0, Parameter.rowCount())): Parameter.removeRow(i)
         self.resetAllList()
+    
+    def writeSlvsFile(self, fileName):
+        code = SLVS_Code()
+        #TODO: SlvsFile
+        with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
+                f.write(code.output())
     
     def CSV_notebook(self, writer, table, k, init=0):
         writer.writerow(["_table_"])

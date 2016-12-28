@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtWidgets import QDialog
-from .Ui_set_slider import Ui_Dialog
+from .modules import *
 
-class slider_show(QDialog, Ui_Dialog):
+class slider_show(QDialog, slider_Dialog):
     def __init__(self, parent=None):
         super(slider_show, self).__init__(parent)
         self.setupUi(self)

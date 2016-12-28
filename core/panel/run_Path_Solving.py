@@ -5,6 +5,8 @@ from ..calculation.pathSolving import WorkerThread
 class Path_Solving_show(QDialog, PathSolving_Dialog):
     addPathPoint = pyqtSignal(float, float)
     deletePathPoint = pyqtSignal(int)
+    moveupPathPoint = pyqtSignal(int)
+    movedownPathPoint = pyqtSignal(int)
     def __init__(self, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
@@ -26,6 +28,26 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         for i in reversed(range(self.Point_list.count()+1)): self.on_remove_clicked()
         self.Point_list_Count()
     
+    @pyqtSlot()
+    def on_moveUp_clicked(self):
+        if self.Point_list.currentRow()>0 and self.Point_list.count()>1:
+            x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
+            y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
+            self.Point_list.insertItem(self.Point_list.currentRow()-1, '('+str(x)+", "+str(y)+')')
+            self.Point_list.takeItem(self.Point_list.currentRow())
+            self.moveupPathPoint.emit(self.Point_list.currentRow())
+            self.Point_list.setCurrentRow(self.Point_list.currentRow()-1)
+    
+    @pyqtSlot()
+    def on_moveDown_clicked(self):
+        if self.Point_list.currentRow()<self.Point_list.count()-1 and self.Point_list.count()>1:
+            x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
+            y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
+            self.Point_list.insertItem(self.Point_list.currentRow()+2, '('+str(x)+", "+str(y)+')')
+            self.Point_list.takeItem(self.Point_list.currentRow())
+            self.movedownPathPoint.emit(self.Point_list.currentRow())
+            self.Point_list.setCurrentRow(self.Point_list.currentRow()+1)
+    
     def addPath(self, x, y):
         self.Point_list.addItem('('+str(x)+", "+str(y)+')')
         self.Point_list_Count()
@@ -46,14 +68,16 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
                 self.Point_list_Count()
         except: pass
     
-    def Point_list_Count(self): self.pointNum.setText(
-        "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
+    def Point_list_Count(self):
+        self.pointNum.setText(
+            "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
+        self.startPanel.setEnabled(self.Point_list.count()>1)
     
     def start(self):
         print('start')
         self.work.start()
         self.mainPanel.setEnabled(False)
-        self.Generate.setEnabled(False)
+        self.startPanel.setEnabled(False)
     
     def stop(self): self.work.stop()
     
