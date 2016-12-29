@@ -1400,6 +1400,16 @@ p, li { white-space: pre-wrap; }
                      </property>
                     </widget>
                    </item>
+                   <item row="1" column="1">
+                    <widget class="QCheckBox" name="Path_points_show">
+                     <property name="text">
+                      <string>Show Path Points</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
                   </layout>
                  </item>
                  <item>

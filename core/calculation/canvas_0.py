@@ -9,13 +9,14 @@ class DynamicCanvas(QWidget):
         QWidget.__init__(self, parent)
         self.setMouseTracking(True)
         self.points = {
-            'x':[], 'y':[], 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
+            'x':list(), 'y':list(), 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
                 'Background':Qt.white, 'penWidth':{'pen':2, 'path':1},
                 'pt':Qt.green, 'link':Qt.darkGray, 'chain':Qt.cyan, 'text':Qt.darkGray,
                 'dimension':False,
                 },
-            'Path':{'path':[], 'run_list':[], 'shaft_list':[], 'show':True},
+            'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
+            'slvsPath':{'path':list(), 'result':list(), 'show':True},
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
@@ -46,8 +47,8 @@ class DynamicCanvas(QWidget):
         self.points['style']['penWidth']['pen'] = width
         self.points['style']['penWidth']['path'] = pathwidth
         self.zoom = float(zoom_rate.replace("%", ""))/100
-        self.points['x'] = []
-        self.points['y'] = []
+        self.points['x'] = list()
+        self.points['y'] = list()
         for i in range(len(table_point)):
             try:
                 self.points['x'] += [table_point[i]['cx']*self.zoom*self.points['rate']]
@@ -70,16 +71,21 @@ class DynamicCanvas(QWidget):
         self.points['Path']['shaft_list'] = shaft_list
         self.update()
     
+    def path_solving(self, path, result):
+        self.points['slvsPath']['path'] = path
+        self.points['slvsPath']['result'] = result
+        self.update()
+    
     def paintEvent(self, event):
         painter = QPainter()
         painter.begin(self)
         painter.fillRect(event.rect(), QBrush(self.points['style']['Background']))
         painter.translate(self.points['origin']['x'], self.points['origin']['y'])
+        pen = QPen()
         for i in range(len(self.table_chain)):
             pa = self.table_chain[i]['p1']
             pb = self.table_chain[i]['p2']
             pc = self.table_chain[i]['p3']
-            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             painter.setBrush(self.points['style']['chain'])
             painter.drawPolygon(
@@ -102,7 +108,6 @@ class DynamicCanvas(QWidget):
             end = self.table_line[i]['end']
             point_start = QPointF(self.points['x'][start], self.points['y'][start])
             point_end = QPointF(self.points['x'][end], self.points['y'][end])
-            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(self.points['style']['link'])
             painter.setPen(pen)
@@ -116,10 +121,10 @@ class DynamicCanvas(QWidget):
         for i in range(len(self.table_shaft)):
             start = self.table_shaft[i]['cen']
             end = self.table_shaft[i]['ref']
-            pen = QPen(Qt.DotLine)
-            pen.setWidth(self.points['style']['penWidth']['pen']+2)
-            pen.setColor(QColor(225, 140, 0))
-            painter.setPen(pen)
+            penShaft = QPen(Qt.DotLine)
+            penShaft.setWidth(self.points['style']['penWidth']['pen']+2)
+            penShaft.setColor(QColor(225, 140, 0))
+            painter.setPen(penShaft)
             painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
@@ -165,7 +170,6 @@ class DynamicCanvas(QWidget):
             if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
             if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
         for i in range(len(self.table_point)):
-            pen = QPen()
             pen.setWidth(2)
             point_center = QPointF(int(self.points['x'][i]), int(self.points['y'][i]))
             text_center = QPointF(int(self.points['x'][i]+6), int(self.points['y'][i]-6))
@@ -190,7 +194,6 @@ class DynamicCanvas(QWidget):
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(text_center, "[Point"+str(i)+"]")
         if self.points['Path']['path'] and self.points['Path']['show']:
-            pen = QPen()
             for i in range(len(self.points['Path']['path'])):
                 nPath = self.points['Path']['path'][i]
                 for j in range(0, len(nPath), 2):
@@ -207,6 +210,11 @@ class DynamicCanvas(QWidget):
                     for k in range(len(X_path)-1):
                         point_center = QPointF(X_path[k]*self.zoom*self.points['rate'], Y_path[k]*self.zoom*self.points['rate']*(-1))
                         painter.drawPoint(point_center)
+        if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
+            pen.setWidth(2)
+            pen.setColor(self.Color['Gray'])
+            painter.setPen(pen)
+            for e in self.points['slvsPath']['path']: painter.drawPoint(QPointF(e['x'], e['y']))
         painter.end()
         self.change_event.emit()
     
@@ -221,7 +229,7 @@ class DynamicCanvas(QWidget):
             self.AuxLine['Max']['y'] = 0
             self.AuxLine['Min']['x'] = 0
             self.AuxLine['Min']['y'] = 0
-    def removePath(self): self.points['Path']['path'] = []
+    def removePath(self): self.points['Path']['path'] = list()
     
     def mousePressEvent(self, event):
         if event.buttons()==Qt.MiddleButton:
@@ -246,16 +254,3 @@ class DynamicCanvas(QWidget):
         self.Selector['Scanner']['x'] = round((event.x()-self.points['origin']['x'])/self.zoom/self.points['rate'], 2)
         self.Selector['Scanner']['y'] = round((event.y()-self.points['origin']['y'])*(-1)/self.zoom/self.points['rate'], 2)
         self.mouse_track.emit(self.Selector['Scanner']['x'], self.Selector['Scanner']['y'])
-    
-    def closePoint(self):
-        deviation = 3
-        '''
-        xVal = [e for e in ]
-        for i in range(self.table_point):
-            x = min(self.table_point[i], key=lambda k:abs(k-self.Selector['Scanner']['x']))
-            y = min(self.table_point[i], key=lambda k:abs(k-self.Selector['Scanner']['y']))
-            x = abs(self.table_point[i][3]-self.Selector['Scanner']['x'])
-            y = abs(self.table_point[i][4]-self.Selector['Scanner']['y'])
-            if x<=deviation and y<=deviation:
-                self.Selector['Scanner']['point'] = i
-        '''

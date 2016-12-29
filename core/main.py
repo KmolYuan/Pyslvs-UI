@@ -1155,6 +1155,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Path_data_show_clicked(self):
         self.qpainterWindow.points['Path']['show'] = self.Path_data_show.checkState()
         self.Reload_Canvas()
+    @pyqtSlot()
+    def on_Path_points_show_clicked(self):
+        self.qpainterWindow.points['slvsPath']['show'] = self.Path_points_show.checkState()
+        self.Reload_Canvas()
     
     @pyqtSlot()
     def on_PathTrack_clicked(self):
@@ -1296,11 +1300,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.AuxLine['pt'] = 0
         self.qpainterWindow.AuxLine['color'] = 6
         self.qpainterWindow.AuxLine['limit_color'] = 8
-    
+    #TODO: Path Solving
     @pyqtSlot(bool)
     def on_PathSolving_toggled(self, p0):
         if not hasattr(self, 'PathSolvingDlg'):
-            self.PathSolvingDlg = Path_Solving_show()
+            self.PathSolvingDlg = Path_Solving_show(bool(self.File.PathSolvingReqs.result))
             self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
             self.PathSolvingDlg.setUI(self.Mask, self.File.PathSolvingReqs.list)
             self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
@@ -1325,28 +1329,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
         self.File.PathSolvingReqs.add(x, y)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
         self.workbookNoSave()
         self.actionEnabled()
         print(self.File.PathSolvingReqs.list)
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
         self.File.PathSolvingReqs.remove(row)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
         self.workbookNoSave()
         self.actionEnabled()
-        print(self.File.PathSolvingReqs.list)
+    @pyqtSlot(int)
+    def PathSolving_moveup(self, row):
+        self.File.PathSolvingReqs.moveUP(row)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+    @pyqtSlot(int)
+    def PathSolving_movedown(self, row):
+        self.File.PathSolvingReqs.moveDown(row)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
     PathSolvingStart = pyqtSignal()
     @pyqtSlot()
     def PathSolving_send(self):
         self.PathSolvingDlg.work.setPath(self.File.PathSolvingReqs.list)
         self.PathSolvingStart.emit()
-    @pyqtSlot(int)
-    def PathSolving_moveup(self, row):
-        self.File.PathSolvingReqs.moveUP(row)
-        print(self.File.PathSolvingReqs.list)
-    @pyqtSlot(int)
-    def PathSolving_movedown(self, row):
-        self.File.PathSolvingReqs.moveDown(row)
-        print(self.File.PathSolvingReqs.list)
     
     def Mask_Change(self):
         row_Count = str(self.Parameter_list.rowCount()-1)

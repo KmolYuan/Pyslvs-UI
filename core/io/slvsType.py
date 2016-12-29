@@ -245,7 +245,7 @@ AddEntity
     def point(self, x, y, fix=False):
         ''''''
     
-    def line(self, point1, point2, len):
+    def line(self, point1, point2, len=False):
         #AddParam
         self.next(self.Param_num)
         self.Param_num += 0x10
@@ -282,7 +282,7 @@ Request.group.v=00000002
 Request.construction=0
 AddRequest
 """
-        #AddEntity
+        #AddEntity & AddConstraint
         self.next(self.Entity_num)
         self.Slvs_code += """
 Entity.h.v=%08x"""%self.Entity_num+"""
@@ -320,6 +320,8 @@ AddEntity
         if point1[2]:
             ''''''
         if point2[2]:
+            ''''''
+        if len:
             ''''''
     
     def chain(self, point1, point2, point3):

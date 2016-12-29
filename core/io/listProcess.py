@@ -403,18 +403,17 @@ class Parameters():
 
 class PathSolvingReqs():
     def __init__(self):
-        self.list = [{'x': 0.0, 'y': 0.0}, {'x': 1.0, 'y': 1.0}, {'x': 2.0, 'y': 2.0}, {'x': 3.0, 'y': 3.0}, {'x': 4.0, 'y': 4.0}, {'x': 5.0, 'y': 5.0}]
+        self.list = [{'x': e, 'y': e} for e in range(5)]
+        self.result = list()
     
     def add(self, x, y): self.list.append({'x':x, 'y':y})
     def remove(self, pos): del self.list[pos]
     
     def moveUP(self, row):
-        print(row)
         if row>0 and len(self.list)>1:
             self.list.insert(row-1, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
             del self.list[row+1]
     def moveDown(self, row):
-        print(row)
         if row<len(self.list)-1 and len(self.list)>1:
             self.list.insert(row+2, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
             del self.list[row]

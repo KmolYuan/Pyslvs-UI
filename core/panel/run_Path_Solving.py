@@ -7,7 +7,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    def __init__(self, parent=None):
+    def __init__(self, isResult=False, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
@@ -15,6 +15,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.work.progress_Signal.connect(self.progressbar_change)
         self.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
+        self.isResult.setVisible(not isResult)
     
     def setUI(self, mask, data):
         self.X_coordinate.setValidator(mask)
@@ -30,23 +31,25 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
-        if self.Point_list.currentRow()>0 and self.Point_list.count()>1:
+        n = self.Point_list.currentRow()
+        if n>0 and self.Point_list.count()>1:
+            self.moveupPathPoint.emit(n)
             x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
             y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
-            self.Point_list.insertItem(self.Point_list.currentRow()-1, '('+str(x)+", "+str(y)+')')
-            self.Point_list.takeItem(self.Point_list.currentRow())
-            self.moveupPathPoint.emit(self.Point_list.currentRow())
-            self.Point_list.setCurrentRow(self.Point_list.currentRow()-1)
+            self.Point_list.insertItem(n-1, '('+str(x)+", "+str(y)+')')
+            self.Point_list.takeItem(n+1)
+            self.Point_list.setCurrentRow(n-1)
     
     @pyqtSlot()
     def on_moveDown_clicked(self):
-        if self.Point_list.currentRow()<self.Point_list.count()-1 and self.Point_list.count()>1:
+        n = self.Point_list.currentRow()
+        if n<self.Point_list.count()-1 and self.Point_list.count()>1:
+            self.movedownPathPoint.emit(n)
             x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
             y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
-            self.Point_list.insertItem(self.Point_list.currentRow()+2, '('+str(x)+", "+str(y)+')')
-            self.Point_list.takeItem(self.Point_list.currentRow())
-            self.movedownPathPoint.emit(self.Point_list.currentRow())
-            self.Point_list.setCurrentRow(self.Point_list.currentRow()+1)
+            self.Point_list.insertItem(n+2, '('+str(x)+", "+str(y)+')')
+            self.Point_list.takeItem(n)
+            self.Point_list.setCurrentRow(n+1)
     
     def addPath(self, x, y):
         self.Point_list.addItem('('+str(x)+", "+str(y)+')')
