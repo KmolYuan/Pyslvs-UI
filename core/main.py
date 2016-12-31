@@ -1332,7 +1332,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
         self.workbookNoSave()
         self.actionEnabled()
-        print(self.File.PathSolvingReqs.list)
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
         self.File.PathSolvingReqs.remove(row)

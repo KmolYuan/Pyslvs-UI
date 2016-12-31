@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-class SLVS_Code():
-    def __init__(self):
-        self.Param_num = 0x30023
-        self.Request_num = 0x3
-        self.Entity_num = 0x30020
-        self.Constraint_num = 0x0
-        self.Slvs_code = """±²³SolveSpaceREVa
+from copy import copy, deepcopy
+
+def SLVS_Code(point, line, chain, slider, rod):
+    Param_num = 0x30023
+    Request_num = 0x3
+    Entity_num = 0x30020
+    Constraint_num = 0x0
+    Slvs_code = """±²³SolveSpaceREVa
 
 
 Group.h.v=00000001
@@ -231,101 +232,134 @@ Entity.construction=0
 Entity.actVisible=1
 AddEntity
 """
-    def next(self, num):
-        num -= num%0x10000
-        num += 0x10000
-    #TODO:
-    #point type:(x, y, fix=False)
-    #line type:(point1, point2, len)
-    #chain type:(point1, point2, point3, len1, len2, len3)
-    def output(self):
-        
-        return self.Slvs_code
+    #TODO: SlvsFile
+    #Find independent Points
+    samePoints = [list() for e in point]
+    independentPoints = list(range(len(point)))
+    for e in line:
+        try:
+            independentPoints.remove(e['start'])
+            independentPoints.remove(e['end'])
+        except ValueError: pass
+    for e in chain:
+        try:
+            independentPoints.remove(e['p1'])
+            independentPoints.remove(e['p2'])
+            independentPoints.remove(e['p3'])
+        except ValueError: pass
+    #Param
+    for e in line:
+        next(Param_num)
+        Param_num+=0x10
+        Param(Slvs_code, Param_num, point[e['start']]['cx'])
+        Param_num+=0x1
+        Param(Slvs_code, Param_num, point[e['start']]['cy'])
+        Param_num+=0x2
+        Param(Slvs_code, Param_num, point[e['end']]['cx'])
+        Param_num+=0x1
+        Param(Slvs_code, Param_num, point[e['end']]['cy'])
+    for e in chain:
+        num = ['p1', 'p2', 'p3']
+        for k in range(len(num)):
+            next(Param_num)
+            Param_num+=0x10
+            Param(Slvs_code, Param_num, point[e[num[k]]]['cx'])
+            Param_num+=0x1
+            Param(Slvs_code, Param_num, point[e[num[k]]]['cy'])
+            Param_num+=0x2
+            Param(Slvs_code, Param_num, point[e[num[k+1 if k<len(num)-1 else 0]]]['cx'])
+            Param_num+=0x1
+            Param(Slvs_code, Param_num, point[e[num[k+1 if k<len(num)-1 else 0]]]['cy'])
+    for e in independentPoints:
+        next(Param_num)
+        Param_num+=0x10
+        Param(Slvs_code, Param_num, point[e]['cx'])
+        Param_num+=0x1
+        Param(Slvs_code, Param_num, point[e]['cy'])
+    #Request
+    for e in line:
+        Request_num+=0x1
+        Request(Slvs_code, Request_num, 200)
+    for e in chain:
+        for k in range(3):
+            Request_num+=0x1
+            Request(Slvs_code, Request_num, 200)
+    for e in independentPoints:
+        Request_num+=0x1
+        Request(Slvs_code, Request_num, 101)
+    #Entity
+    for e in line:
+        next(Entity_num)
+        Entity(Slvs_code, Entity_num, 1100, point[e['start']]['cx'], point[e['start']]['cy'], point[e['end']]['cx'], point[e['end']]['cy'])
+    for e in chain:
+        num = ['p1', 'p2', 'p3']
+        for k in range(len(num)):
+            next(Entity_num)
+            Entity(Slvs_code, Entity_num, 1100, point[e[num[k]]]['cx'], point[e[num[k]]]['cy'], point[e[num[k+1 if k<len(num)-1 else 0]]]['cx'], point[e[num[k+1 if k<len(num)-1 else 0]]]['cy'])
+    for e in independentPoints:
+        next(Entity_num)
+        Entity(Slvs_code, Entity_num, 2001, point[e]['cx'], point[e]['cy'])
+    #Constraint
     
-    def point(self, x, y, fix=False):
-        ''''''
-    
-    def line(self, point1, point2, len=False):
-        #AddParam
-        self.next(self.Param_num)
-        self.Param_num += 0x10
-        self.Slvs_code += """
-Param.h.v.=%08x"""%self.Param_num+"""
-Param.val=%.20f"""%point1[0]+"""
-AddParam
-"""
-        self.Param_num += 0x1
-        self.Slvs_code += """
-Param.h.v.=%08x"""%self.Param_num+"""
-Param.val=%.20f"""%point1[1]+"""
-AddParam
-"""
-        self.Param_num += 0x2
-        self.Slvs_code += """
-Param.h.v.=%08x"""%self.Param_num+"""
-Param.val=%.20f"""%point2[0]+"""
-AddParam
-"""
-        self.Param_num += 0x1
-        self.Slvs_code += """
-Param.h.v.=%08x"""%self.Param_num+"""
-Param.val=%.20f"""%point2[1]+"""
-AddParam
-"""
-        #AddRequest
-        self.Request_num += 0x1
-        self.Slvs_code += """
-Request.h.v=%08x"""%self.Request_num+"""
-Request.type=200
-Request.workplane.v=80020000
-Request.group.v=00000002
-Request.construction=0
-AddRequest
-"""
-        #AddEntity & AddConstraint
-        self.next(self.Entity_num)
-        self.Slvs_code += """
-Entity.h.v=%08x"""%self.Entity_num+"""
-Entity.type=11000
-Entity.construction=0
-Entity.point[0].v=%08x"""%(self.Entity_num+1)+"""
-Entity.point[1].v=%08x"""%(self.Entity_num+2)+"""
-Entity.workplane.v=80020000
-Entity.actVisible=1
-AddEntity
-"""
-        self.Entity_num += 0x1
-        self.Slvs_code += """
-Entity.h.v=%08x"""%self.Entity_num+"""
-Entity.type=2001
-Entity.construction=0
-Entity.workplane.v=80020000
-Entity.actPoint.x=%.20f"""%point1[0]+"""
-Entity.actPoint.y=%.20f"""%point1[1]+"""
-Entity.actVisible=1
-AddEntity
-"""
-        self.Entity_num += 0x1
-        self.Slvs_code += """
-Entity.h.v=%08x"""%self.Entity_num+"""
-Entity.type=2001
-Entity.construction=0
-Entity.workplane.v=80020000
-Entity.actPoint.x=%.20f"""%point2[0]+"""
-Entity.actPoint.y=%.20f"""%point2[1]+"""
-Entity.actVisible=1
-AddEntity
-"""
-        #AddConstraint
-        if point1[2]:
-            ''''''
-        if point2[2]:
-            ''''''
-        if len:
-            ''''''
-    
-    def chain(self, point1, point2, point3):
-        ''''''
-    
-    def slider(self, pt, line):
-        ''''''
+    #Answer
+    Slvs_code+="\n\n"
+    print(Slvs_code)
+    return Slvs_code
+
+def next(num):
+    num -= num%0x10000
+    num += 0x10000
+
+def Param(code, num, val):
+    code+="Param.h.v.=%08x\n"%num
+    if val!=0: code+="Param.val=%.20f\n"%val
+    code+="AddParam\n"
+    code+="\n"
+
+def Request(code, num, type):
+    code+="Request.h.v=%08x\n"%num
+    code+="Request.type=%i\n"%type
+    code+="Request.workplane.v=80020000\n"
+    code+="Request.group.v=00000002\n"
+    code+="Request.construction=0\n"
+    code+="AddRequest\n"
+    code+="\n"
+
+def Entity(code, num, type, val1, val2, val3=0.0, val4=0.0):
+    code+="Entity.h.v=%08x\n"%num
+    code+="Entity.type=%08x\n"%type
+    code+="Entity.construction=0\n"
+    code+="Entity.workplane.v=80020000\n"
+    if type==1100:
+        code+="Entity.point[0].v=%08x\n"%(num+1)
+        code+="Entity.point[1].v=%08x\n"%(num+2)
+        code+="\n"
+        num+=0x1
+        code+="Entity.h.v=%08x\n"%num
+        code+="Entity.type=%08x\n"%2001
+        code+="Entity.construction=0\n"
+        code+="Entity.workplane.v=80020000\n"
+        code+="Entity.actPoint.x=%.20f"%val1
+        code+="Entity.actPoint.y=%.20f"%val2
+        code+="Entity.workplane.v=80020000\n"
+        code+="Entity.actVisible=1\n"
+        code+="AddEntity\n"
+        code+="\n"
+        num+=0x1
+        code+="Entity.h.v=%08x\n"%num
+        code+="Entity.type=%08x\n"%2001
+        code+="Entity.construction=0\n"
+        code+="Entity.workplane.v=80020000\n"
+        code+="Entity.actPoint.x=%.20f"%val3
+        code+="Entity.actPoint.y=%.20f"%val4
+        code+="Entity.workplane.v=80020000\n"
+        code+="Entity.actVisible=1\n"
+        code+="AddEntity\n"
+        code+="\n"
+    elif type==2001:
+        code+="Entity.actPoint.x=%.20f"%val1
+        code+="Entity.actPoint.y=%.20f"%val2
+    else: raise ValueError
+    code+="Entity.actVisible=1\n"
+    code+="AddEntity\n"
+    code+="\n"

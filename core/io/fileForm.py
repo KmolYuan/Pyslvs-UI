@@ -163,10 +163,9 @@ class File():
         self.resetAllList()
     
     def writeSlvsFile(self, fileName):
-        code = SLVS_Code()
-        #TODO: SlvsFile
+        code = SLVS_Code(self.Points.list, self.Lines.list, self.Chains.list, self.Sliders.list, self.Rods.list)
         with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
-                f.write(code.output())
+                f.write(code)
     
     def CSV_notebook(self, writer, table, k, init=0):
         writer.writerow(["_table_"])
