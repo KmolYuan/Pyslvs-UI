@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from .modules import *
+from .calculation import pathSolvingProcess
 
 class WorkerThread(QThread):
     done = pyqtSignal(list)
@@ -9,8 +11,9 @@ class WorkerThread(QThread):
         self.mutex = QMutex()
         self.progress = 0
     
-    def setPath(self, data):
+    def setPath(self, data, type_num):
         self.path = data
+        self.type_num = type_num
     
     def run(self):
         ''''''

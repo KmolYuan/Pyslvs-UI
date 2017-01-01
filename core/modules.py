@@ -4,7 +4,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 #CSV & SQLite
-import sys, csv, math, webbrowser
+import sys, csv, math, webbrowser, platform
 from peewee import *
 #Dialog Ports
 from .info.version import version_show
@@ -39,7 +39,7 @@ from .panel.run_AuxLine import AuxLine_show
 from .panel.run_Path_Solving import Path_Solving_show
 from .panel.delete import deleteDlg
 #Solve
-from .calculation.calculation import Solvespace
+from .calculation.calculation import staticProcess
 #Canvas
 if '--view' in sys.argv: from .calculation.canvasView import DynamicCanvas
 else: from .calculation.canvas_0 import DynamicCanvas

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 from .modules import *
-from .calculation import Solvespace
+from .calculation import pathTrackProcess
 
 class WorkerThread(QThread):
     done = pyqtSignal(list)
@@ -16,7 +17,6 @@ class WorkerThread(QThread):
         point_list = []
         for i in range(self.Run_list.count()):
             point_list += [int(self.Run_list.item(i).text().replace("Point", ""))]
-        solvespace = Solvespace()
         nPath = []
         for i in self.ShaftList:
             start_angle = self.Shaft[i]['start']*100
@@ -28,7 +28,7 @@ class WorkerThread(QThread):
                 Yval = []
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
-                    x, y = solvespace.path_track_process(n, angle, self.Point, self.Link,
+                    x, y = pathTrackProcess(n, angle, self.Point, self.Link,
                         self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter, i)
                     Xval += [x]
                     Yval += [y]
