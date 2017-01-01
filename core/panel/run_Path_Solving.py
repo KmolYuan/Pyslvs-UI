@@ -79,6 +79,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     def start(self):
         print('start')
         self.work.start()
+        self.algorithmPanel.setEnabled(False)
         self.mainPanel.setEnabled(False)
         self.startPanel.setEnabled(False)
     
@@ -90,6 +91,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     @pyqtSlot(list)
     def finish(self, mechanism):
         self.mechanism_data = mechanism
+        self.algorithmPanel.setEnabled(True)
         self.mainPanel.setEnabled(True)
-        self.Generate.setEnabled(True)
+        self.startPanel.setEnabled(True)
         print('finish')

@@ -12,19 +12,21 @@ try:
         if py_nm=="3.5": from ..kernel.py35w.slvs import *
 except ImportError: print("No Python Solvespace kernel available.")
 #pyslvs_generate Version
-try:
-    if platform.system().lower()=="linux":
-        if py_nm=="3.4":
-            from ..kernel.pyslvs_generate.py34.planarlinkage import build_planar
-            from ..kernel.pyslvs_generate.py34.rga import Genetic
-            from ..kernel.pyslvs_generate.py34.firefly import Firefly
-            from ..kernel.pyslvs_generate.py34.de import DiffertialEvolution
-        if py_nm=="3.5":
-            from ..kernel.pyslvs_generate.py35.planarlinkage import build_planar
-            from ..kernel.pyslvs_generate.py35.rga import Genetic
-            from ..kernel.pyslvs_generate.py35.firefly import Firefly
-            from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
-except ImportError: print("No Pyslvs Generate kernel available.")
+#try:
+if platform.system().lower()=="linux":
+    if py_nm=="3.4":
+        from ..kernel.pyslvs_generate.py34 import tinycadlib
+        from ..kernel.pyslvs_generate.py34.planarlinkage import build_planar
+        from ..kernel.pyslvs_generate.py34.rga import Genetic
+        from ..kernel.pyslvs_generate.py34.firefly import Firefly
+        from ..kernel.pyslvs_generate.py34.de import DiffertialEvolution
+    if py_nm=="3.5":
+        from ..kernel.pyslvs_generate.py35 import tinycadlib
+        from ..kernel.pyslvs_generate.py35.planarlinkage import build_planar
+        from ..kernel.pyslvs_generate.py35.rga import Genetic
+        from ..kernel.pyslvs_generate.py35.firefly import Firefly
+        from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
+#except ImportError: print("No Pyslvs Generate kernel available.")
 
 def staticProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, currentShaft):
     sys = System(500)
