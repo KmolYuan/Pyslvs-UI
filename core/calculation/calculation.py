@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 #System infomation
-import sys, platform, timeit
+import sys, platform
 py_nm = sys.version[0:sys.version.find(" ")][0:3]
 argv = sys.argv
 #SLVS Version
-try:
-    if platform.system().lower()=="linux":
-        if py_nm=="3.4": from ..kernel.py34.slvs import *
-        elif py_nm=="3.5": from ..kernel.py35.slvs import *
-    elif platform.system().lower()=="windows":
-        if py_nm=="3.5": from ..kernel.py35w.slvs import *
-except ImportError: print("No Python Solvespace kernel available.")
+if platform.system().lower()=="linux":
+    if py_nm=="3.4": from ..kernel.py34.slvs import *
+    elif py_nm=="3.5": from ..kernel.py35.slvs import *
+elif platform.system().lower()=="windows":
+    if py_nm=="3.5": from ..kernel.py35w.slvs import *
 #pyslvs_generate Version
-#try:
 if platform.system().lower()=="linux":
     if py_nm=="3.4":
         from ..kernel.pyslvs_generate.py34 import tinycadlib
@@ -26,7 +23,6 @@ if platform.system().lower()=="linux":
         from ..kernel.pyslvs_generate.py35.rga import Genetic
         from ..kernel.pyslvs_generate.py35.firefly import Firefly
         from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
-#except ImportError: print("No Pyslvs Generate kernel available.")
 
 def staticProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, currentShaft):
     sys = System(500)
@@ -260,9 +256,10 @@ def pathTrackProcess(point_int, angle, table_point, table_line, table_chain, tab
     elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS) and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
     return x, y
 
-def pathSolvingProcess(path, type=0):
+def pathSolvingProcess(path, Limits, type=0):
     p = 10
-    var = 9
+    upperVal = Limits[0]+[360.0]*p
+    lowerVal = Limits[1]+[0.0]*p
     mechanismParams = {
         'Driving':'A',
         'Follower':'D',
@@ -270,11 +267,12 @@ def pathSolvingProcess(path, type=0):
         'Target':'E',
         'ExpressionName':'PLAP,PLLP,PLLP',
         'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
-        'targetPath':tuple(),
+        'targetPath':path,
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'},],
         'VARS':9,
         'formula':['PLAP','PLLP'],
     }
+    mechanismObj = build_planar(mechanismParams)
     if type==0:
         algorithmPrams = {
             'nParm':19,
@@ -283,19 +281,12 @@ def pathSolvingProcess(path, type=0):
             'pMute':0.05,
             'pWin':0.95,
             'bDelta':5.0,
-            'upper':[50,50,50,50,50,50,50,50,50]+[360.0]*p,
-            'lower':[-50,-50,-50,-50, 5, 5, 5, 5, 5]+[0.0]*p,
+            'upper':upperVal,
+            'lower':lowerVal,
             'maxGen':1500,
             'report':100,
         }
-        t0 = timeit.default_timer()
-        mechanismObj = build_planar(mechanismParams)
-        f = Genetic(mechanismObj, **algorithmPrams)
-        time_and_fitness, fitnessParameter = f.run()
-        t1 = timeit.default_timer()
-        t = t1-t0
-        a = [k for k in map(lambda x: [float(i) for i in x.split(',')[1::]],[e for e in time_and_fitness.split(';')[0:-1]])]
-        b = [float(e) for e in fitnessParameter.split(',')]
+        foo = Genetic(mechanismObj, **algorithmPrams)
     elif type==1:
         algorithmPrams = {
             'D':19,
@@ -304,18 +295,12 @@ def pathSolvingProcess(path, type=0):
             'betaMin':0.2,
             'gamma':1.0,
             'beta0':1.0,
-            'ub':[50,50,50,50,50,50,50,50,50]+[360.0]*p,
-            'lb':[-50,-50,-50,-50, 0, 0, 0, 0, 0]+[0.0]*p,
+            'ub':upperVal,
+            'lb':lowerVal,
             'maxGen':1500,
             'report':100,
         }
-        t0 = timeit.default_timer()
-        f = Firefly(mechanismObj, **algorithmPrams)
-        time_and_fitness, fitnessParameter = f.run()
-        t1 = timeit.default_timer()
-        t = t1-t0
-        a = [k for k in map(lambda x: [float(i) for i in x.split(',')[1::]],[e for e in time_and_fitness.split(';')[0:-1]])]
-        b = [float(e) for e in fitnessParameter.split(',')]
+        foo = Firefly(mechanismObj, **algorithmPrams)
     elif type==2:
         algorithmPrams = {
             'strategy':1,
@@ -323,19 +308,15 @@ def pathSolvingProcess(path, type=0):
             'NP':190,
             'F':0.6,
             'CR':0.9,
-            'upper':[50,50,50,50,50,50,50,50,50]+[360.0]*p,
-            'lower':[-50,-50,-50,-50, 0, 0, 0, 0, 0]+[0.0]*p,
+            'upper':upperVal,
+            'lower':lowerVal,
             'maxGen':1500,
             'report':100,
         }
-        t0 = timeit.default_timer()
-        f = DiffertialEvolution(mechanismObj, **algorithmPrams)
-        time_and_fitness, fitnessParameter = f.run()
-        t1 = timeit.default_timer()
-        t = t1-t0
-        a = [k for k in map(lambda x: [float(i) for i in x.split(',')[1::]],[e for e in time_and_fitness.split(';')[0:-1]])]
-        b = [float(e) for e in fitnessParameter.split(',')]
-    print('total cost time: %d'%t)
-    print('time_and_fitness: {0}'.format(a))
-    print('fitnessParameter: {0}'.format(b))
-    return t, a, b
+        foo = DiffertialEvolution(mechanismObj, **algorithmPrams)
+    time_and_fitness, fitnessParameter = foo.run()
+    time_and_fitness = [float(k[1]) for k in [e.split(',') for e in time_and_fitness.split(';')[0:-1]]]
+    fitnessParameter = [float(e) for e in fitnessParameter.split(',')]
+    print('time_and_fitness: {0}'.format(time_and_fitness))
+    print('fitnessParameter: {0}'.format(fitnessParameter))
+    return time_and_fitness, fitnessParameter

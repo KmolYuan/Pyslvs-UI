@@ -408,6 +408,7 @@ class PathSolvingReqs():
     
     def add(self, x, y): self.list.append({'x':x, 'y':y})
     def remove(self, pos): del self.list[pos]
+    def resultMerge(self, result): self.result += result
     
     def moveUP(self, row):
         if row>0 and len(self.list)>1:

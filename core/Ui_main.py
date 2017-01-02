@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -661,7 +661,7 @@ class Ui_MainWindow(object):
         self.PathSolving.setObjectName("PathSolving")
         self.gridLayout_3.addWidget(self.PathSolving, 1, 0, 1, 1)
         self.Path_points_show = QtWidgets.QCheckBox(self.widget_2)
-        self.Path_points_show.setChecked(True)
+        self.Path_points_show.setChecked(False)
         self.Path_points_show.setObjectName("Path_points_show")
         self.gridLayout_3.addWidget(self.Path_points_show, 1, 1, 1, 1)
         self.verticalLayout_4.addLayout(self.gridLayout_3)
@@ -786,7 +786,7 @@ class Ui_MainWindow(object):
         self.centralLayout.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 22))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -872,8 +872,8 @@ class Ui_MainWindow(object):
         self.action_Highlight_Drive_Shaft_Point.setCheckable(True)
         self.action_Highlight_Drive_Shaft_Point.setChecked(True)
         icon25 = QtGui.QIcon()
-        icon25.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon25.addPixmap(QtGui.QPixmap(":/icons/char-1-check-true.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon25.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Highlight_Drive_Shaft_Point.setIcon(icon25)
         self.action_Highlight_Drive_Shaft_Point.setObjectName("action_Highlight_Drive_Shaft_Point")
         self.actionMi_nimized = QtWidgets.QAction(MainWindow)
@@ -1277,8 +1277,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
         self.Parameter_digital.setStatusTip(_translate("MainWindow", "Enter your parameter."))
         self.Parameter_digital.setPlaceholderText(_translate("MainWindow", "0.0"))
@@ -1362,7 +1362,7 @@ class Ui_MainWindow(object):
         self.PathTrack.setStatusTip(_translate("MainWindow", "Route calculation from the specified point."))
         self.PathTrack.setText(_translate("MainWindow", "Path Track"))
         self.reqPathSolving.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">No specified point.</span></p></body></html>"))
-        self.PathSolving.setText(_translate("MainWindow", "Path solving"))
+        self.PathSolving.setText(_translate("MainWindow", "Path Solving"))
         self.Path_points_show.setText(_translate("MainWindow", "Show Path Points"))
         self.Measurement.setStatusTip(_translate("MainWindow", "Measure the distance between two points."))
         self.Measurement.setText(_translate("MainWindow", "Measurement"))
@@ -1377,8 +1377,8 @@ class Ui_MainWindow(object):
         self.ZoomText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">200%</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">200%</p></body></html>"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Focus to Origin."))
         self.ResetCanvas.setText(_translate("MainWindow", "Origin"))
         self.FitW.setStatusTip(_translate("MainWindow", "Fit by width."))

@@ -556,6 +556,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 print("Failed to load!")
     def closePanel(self):
         try:
+            self.PathSolvingDlg.deleteLater()
+            del self.PathSolvingDlg
+        except: pass
+        try:
             self.MeasurementWidget.deleteLater()
             del self.MeasurementWidget
             self.Measurement.setChecked(False)
@@ -1196,58 +1200,58 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.exec()
     
     #TODO: Path Solving
-    @pyqtSlot(bool)
-    def on_PathSolving_toggled(self, p0):
-        if not hasattr(self, 'PathSolvingDlg'):
-            self.PathSolvingDlg = Path_Solving_show(bool(self.File.PathSolvingReqs.result))
-            self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
-            self.PathSolvingDlg.setUI(self.Mask, self.File.PathSolvingReqs.list)
-            self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
-            self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
-            self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
-            self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
-            self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
-            self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
-            self.PathSolvingStart.connect(self.PathSolvingDlg.start)
-            self.PathSolvingDlg.show()
-            if self.PathSolvingDlg.exec_(): pass
-        else:
-            try:
-                self.PathSolvingDlg.deleteLater()
-                del self.PathSolvingDlg
-            except: pass
-    @pyqtSlot()
-    def PathSolving_return(self): self.PathSolving.setChecked(False)
-    def PathSolving_add_rightClick(self, x, y):
-        self.PathSolvingDlg.addPath(x, y)
-        self.PathSolving_add(x, y)
-    @pyqtSlot(float, float)
-    def PathSolving_add(self, x=0, y=0):
-        self.File.PathSolvingReqs.add(x, y)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
-        self.workbookNoSave()
-        self.actionEnabled()
-    @pyqtSlot(int)
-    def PathSolving_delete(self, row):
-        self.File.PathSolvingReqs.remove(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
-        self.workbookNoSave()
-        self.actionEnabled()
-    @pyqtSlot(int)
-    def PathSolving_moveup(self, row):
-        self.File.PathSolvingReqs.moveUP(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
-    @pyqtSlot(int)
-    def PathSolving_movedown(self, row):
-        self.File.PathSolvingReqs.moveDown(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
-    PathSolvingStart = pyqtSignal()
-    @pyqtSlot()
-    def PathSolving_send(self):
-        type_num = 0 if self.PathSolvingDlg.type0.isChecked() else (1 if self.PathSolvingDlg.type1.isChecked() else 2)
-        print(type_num)
-        self.PathSolvingDlg.work.setPath(self.File.PathSolvingReqs.list, type_num)
-        self.PathSolvingStart.emit()
+    if platform.system().lower()=="linux":
+        @pyqtSlot(bool)
+        def on_PathSolving_toggled(self, p0):
+            if not hasattr(self, 'PathSolvingDlg'):
+                self.PathSolvingDlg = Path_Solving_show()
+                self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
+                self.PathSolvingDlg.setUI(self.Mask, self.File.PathSolvingReqs.list)
+                self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
+                self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
+                self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
+                self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
+                self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
+                self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
+                self.PathSolvingDlg.Merge.clicked.connect(self.PathSolving_merge)
+                self.PathSolvingStart.connect(self.PathSolvingDlg.start)
+                self.PathSolvingDlg.show()
+                if self.PathSolvingDlg.exec_(): pass
+            else:
+                try:
+                    self.PathSolvingDlg.deleteLater()
+                    del self.PathSolvingDlg
+                except: pass
+        @pyqtSlot()
+        def PathSolving_return(self): self.PathSolving.setChecked(False)
+        def PathSolving_add_rightClick(self, x, y):
+            self.PathSolvingDlg.addPath(x, y)
+            self.PathSolving_add(x, y)
+        @pyqtSlot(float, float)
+        def PathSolving_add(self, x=0, y=0):
+            self.File.PathSolvingReqs.add(x, y)
+            self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+            self.workbookNoSave()
+            self.actionEnabled()
+        @pyqtSlot(int)
+        def PathSolving_delete(self, row):
+            self.File.PathSolvingReqs.remove(row)
+            self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+            self.workbookNoSave()
+            self.actionEnabled()
+        @pyqtSlot(int)
+        def PathSolving_moveup(self, row):
+            self.File.PathSolvingReqs.moveUP(row)
+            self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+        @pyqtSlot(int)
+        def PathSolving_movedown(self, row):
+            self.File.PathSolvingReqs.moveDown(row)
+            self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+        PathSolvingStart = pyqtSignal(list)
+        @pyqtSlot()
+        def PathSolving_send(self): self.PathSolvingStart.emit(self.File.PathSolvingReqs.list)
+        @pyqtSlot()
+        def PathSolving_merge(self): self.File.PathSolvingReqs.resultMerge(self.PathSolvingDlg.mechanism_data)
     
     @pyqtSlot()
     def on_Drive_clicked(self):

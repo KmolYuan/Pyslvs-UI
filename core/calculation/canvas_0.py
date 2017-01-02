@@ -16,7 +16,7 @@ class DynamicCanvas(QWidget):
                 'dimension':False,
                 },
             'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
-            'slvsPath':{'path':list(), 'result':list(), 'show':True},
+            'slvsPath':{'path':list(), 'result':list(), 'show':False},
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
@@ -211,10 +211,10 @@ class DynamicCanvas(QWidget):
                         point_center = QPointF(X_path[k]*self.zoom*self.points['rate'], Y_path[k]*self.zoom*self.points['rate']*(-1))
                         painter.drawPoint(point_center)
         if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
-            pen.setWidth(2)
+            pen.setWidth(5)
             pen.setColor(self.Color['Gray'])
             painter.setPen(pen)
-            for e in self.points['slvsPath']['path']: painter.drawPoint(QPointF(e['x'], e['y']))
+            for e in self.points['slvsPath']['path']: painter.drawPoint(QPointF(e['x']*self.zoom*self.points['rate'], e['y']*self.zoom*self.points['rate']*(-1)))
         painter.end()
         self.change_event.emit()
     

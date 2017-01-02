@@ -7,15 +7,14 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    def __init__(self, isResult=False, parent=None):
+    def __init__(self, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.mechanism_data = list()
         self.work = WorkerThread()
-        self.work.progress_Signal.connect(self.progressbar_change)
         self.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
-        self.isResult.setVisible(not isResult)
     
     def setUI(self, mask, data):
         self.X_coordinate.setValidator(mask)
@@ -76,22 +75,42 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
             "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
         self.startPanel.setEnabled(self.Point_list.count()>1)
     
-    def start(self):
-        print('start')
+    @pyqtSlot()
+    def on_Merge_clicked(self): self.Merge.setEnabled(False)
+    
+    @pyqtSlot(list)
+    def start(self, path):
+        type_num = 0 if self.type0.isChecked() else (1 if self.type1.isChecked() else 2)
+        Limit = [
+            [self.AxMax.value(), self.AyMax.value(), self.DxMax.value(), self.DyMax.value(), self.LMax.value()],
+            [self.AxMin.value(), self.AyMin.value(), self.DxMin.value(), self.DyMin.value(), self.LMin.value()]
+        ]
+        Limit[0] += [Limit[0][-1] for i in range(4)]
+        Limit[1] += [Limit[1][-1] for i in range(4)]
+        self.work.setPath(path, Limit, type_num)
+        print('Start Path Solving...')
         self.work.start()
         self.algorithmPanel.setEnabled(False)
         self.mainPanel.setEnabled(False)
         self.startPanel.setEnabled(False)
-    
+        self.timeShow.setText("<html><head/><body><p><span style=\" font-size:12pt; color:#ffff0000\">Calculating...</span></p></body></html>")
+        self.timePanel.setEnabled(False)
+        self.progressBar.setRange(0, 0)
     def stop(self): self.work.stop()
     
-    @pyqtSlot(int)
-    def progressbar_change(self, val): self.progressBar.setValue(val)
-    
-    @pyqtSlot(list)
-    def finish(self, mechanism):
-        self.mechanism_data = mechanism
+    @pyqtSlot(dict, int)
+    def finish(self, mechanism, time_spand):
+        self.mechanism_data = [mechanism]
         self.algorithmPanel.setEnabled(True)
         self.mainPanel.setEnabled(True)
         self.startPanel.setEnabled(True)
-        print('finish')
+        self.Merge.setEnabled(True)
+        self.timePanel.setEnabled(True)
+        self.progressBar.setRange(0, 100)
+        sec = time_spand%60
+        mins = int(time_spand/60)
+        self.timeShow.setText("<html><head/><body><p><span style=\" font-size:12pt\">"+str(mins)+" [min] "+str(sec)+" [s]</span></p></body></html>")
+        print('Finished.')
+    
+    @pyqtSlot()
+    def on_isCustomize_clicked(self): self.limitPanel.setEnabled(self.isCustomize.isChecked())
