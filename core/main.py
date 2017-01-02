@@ -1213,7 +1213,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
                 self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
                 self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
-                self.PathSolvingDlg.Merge.clicked.connect(self.PathSolving_merge)
+                self.PathSolvingDlg.mergeMechanism.connect(self.PathSolving_merge)
                 self.PathSolvingStart.connect(self.PathSolvingDlg.start)
                 self.PathSolvingDlg.show()
                 if self.PathSolvingDlg.exec_(): pass
@@ -1250,8 +1250,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         PathSolvingStart = pyqtSignal(list)
         @pyqtSlot()
         def PathSolving_send(self): self.PathSolvingStart.emit(self.File.PathSolvingReqs.list)
-        @pyqtSlot()
-        def PathSolving_merge(self): self.File.PathSolvingReqs.resultMerge(self.PathSolvingDlg.mechanism_data)
+        @pyqtSlot(list)
+        def PathSolving_merge(self, mechanism_data): self.File.PathSolvingReqs.resultMerge(mechanism_data)
     
     @pyqtSlot()
     def on_Drive_clicked(self):

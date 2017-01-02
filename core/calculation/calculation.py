@@ -257,9 +257,12 @@ def pathTrackProcess(point_int, angle, table_point, table_line, table_chain, tab
     return x, y
 
 def pathSolvingProcess(path, Limits, type=0):
-    p = 10
+    p = len(path)
     upperVal = Limits[0]+[360.0]*p
     lowerVal = Limits[1]+[0.0]*p
+    Parm_num = p+9
+    maxGen = 1500
+    report = 100
     mechanismParams = {
         'Driving':'A',
         'Follower':'D',
@@ -275,7 +278,7 @@ def pathSolvingProcess(path, Limits, type=0):
     mechanismObj = build_planar(mechanismParams)
     if type==0:
         algorithmPrams = {
-            'nParm':19,
+            'nParm':Parm_num,
             'nPop':250,
             'pCross':0.95,
             'pMute':0.05,
@@ -283,13 +286,13 @@ def pathSolvingProcess(path, Limits, type=0):
             'bDelta':5.0,
             'upper':upperVal,
             'lower':lowerVal,
-            'maxGen':1500,
-            'report':100,
+            'maxGen':maxGen,
+            'report':report,
         }
         foo = Genetic(mechanismObj, **algorithmPrams)
     elif type==1:
         algorithmPrams = {
-            'D':19,
+            'D':Parm_num,
             'n':40,
             'alpha':0.01,
             'betaMin':0.2,
@@ -297,21 +300,21 @@ def pathSolvingProcess(path, Limits, type=0):
             'beta0':1.0,
             'ub':upperVal,
             'lb':lowerVal,
-            'maxGen':1500,
-            'report':100,
+            'maxGen':maxGen,
+            'report':report,
         }
         foo = Firefly(mechanismObj, **algorithmPrams)
     elif type==2:
         algorithmPrams = {
             'strategy':1,
-            'D':19,
+            'D':Parm_num,
             'NP':190,
             'F':0.6,
             'CR':0.9,
             'upper':upperVal,
             'lower':lowerVal,
-            'maxGen':1500,
-            'report':100,
+            'maxGen':maxGen,
+            'report':report,
         }
         foo = DiffertialEvolution(mechanismObj, **algorithmPrams)
     time_and_fitness, fitnessParameter = foo.run()

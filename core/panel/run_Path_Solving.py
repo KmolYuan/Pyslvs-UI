@@ -7,6 +7,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
+    mergeMechanism = pyqtSignal(list)
     def __init__(self, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
@@ -15,6 +16,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.work = WorkerThread()
         self.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
+    def __del__(self): self.stop()
     
     def setUI(self, mask, data):
         self.X_coordinate.setValidator(mask)
@@ -75,9 +77,6 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
             "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
         self.startPanel.setEnabled(self.Point_list.count()>1)
     
-    @pyqtSlot()
-    def on_Merge_clicked(self): self.Merge.setEnabled(False)
-    
     @pyqtSlot(list)
     def start(self, path):
         type_num = 0 if self.type0.isChecked() else (1 if self.type1.isChecked() else 2)
@@ -101,10 +100,10 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):
         self.mechanism_data = [mechanism]
+        self.mergeMechanism.emit(self.mechanism_data)
         self.algorithmPanel.setEnabled(True)
         self.mainPanel.setEnabled(True)
         self.startPanel.setEnabled(True)
-        self.Merge.setEnabled(True)
         self.timePanel.setEnabled(True)
         self.progressBar.setRange(0, 100)
         sec = time_spand%60
