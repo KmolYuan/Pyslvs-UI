@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #System infomation
-import sys, platform
+import sys, platform, numpy
 py_nm = sys.version[0:sys.version.find(" ")][0:3]
 argv = sys.argv
 #SLVS Version
