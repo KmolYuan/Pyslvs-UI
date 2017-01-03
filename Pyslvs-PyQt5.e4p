@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-01-01, 13:47:35 -->
+<!-- Saved: 2017-01-03, 19:00:54 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -76,6 +76,7 @@
     <Source>core/panel/Ui_run_Drive.py</Source>
     <Source>core/panel/Ui_run_Measurement.py</Source>
     <Source>core/panel/Ui_run_Path_Solving.py</Source>
+    <Source>core/panel/Ui_run_Path_Solving_listbox.py</Source>
     <Source>core/panel/Ui_run_Path_Track.py</Source>
     <Source>core/panel/__init__.py</Source>
     <Source>core/panel/delete.py</Source>
@@ -84,6 +85,7 @@
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
     <Source>core/panel/run_Path_Solving.py</Source>
+    <Source>core/panel/run_Path_Solving_listbox.py</Source>
     <Source>core/panel/run_Path_Track.py</Source>
     <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
@@ -141,6 +143,7 @@
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>
     <Form>core/panel/run_Path_Solving.ui</Form>
+    <Form>core/panel/run_Path_Solving_listbox.ui</Form>
     <Form>core/panel/run_Path_Track.ui</Form>
     <Form>core/simulate/edit_drive_shaft.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>

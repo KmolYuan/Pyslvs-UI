@@ -37,6 +37,7 @@ from .panel.run_Drive import Drive_show
 from .panel.run_Measurement import Measurement_show
 from .panel.run_AuxLine import AuxLine_show
 from .panel.run_Path_Solving import Path_Solving_show
+from .panel.run_Path_Solving_listbox import Path_Solving_listbox_show
 from .panel.delete import deleteDlg
 #Solve
 from .calculation.calculation import staticProcess

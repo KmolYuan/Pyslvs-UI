@@ -329,7 +329,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         try:
             self.PathSolvingDlg.deleteLater()
+            self.PathSolvingListboxDlg.deleteLater()
             del self.PathSolvingDlg
+            del self.PathSolvingListboxDlg
         except: pass
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
@@ -557,7 +559,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def closePanel(self):
         try:
             self.PathSolvingDlg.deleteLater()
+            self.PathSolvingListboxDlg.deleteLater()
             del self.PathSolvingDlg
+            del self.PathSolvingListboxDlg
         except: pass
         try:
             self.MeasurementWidget.deleteLater()
@@ -1203,8 +1207,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     if platform.system().lower()=="linux":
         @pyqtSlot(bool)
         def on_PathSolving_toggled(self, p0):
-            if not hasattr(self, 'PathSolvingDlg'):
+            if not hasattr(self, 'PathSolvingDlg') and not hasattr(self, 'PathSolvingListboxDlg'):
                 self.PathSolvingDlg = Path_Solving_show()
+                self.PathSolvingListboxDlg = Path_Solving_listbox_show()
+                self.PathSolvingDlg.move(QPoint(0, 45))
+                self.PathSolvingListboxDlg.move(QPoint(self.width()*2, 45))
                 self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
                 self.PathSolvingDlg.setUI(self.Mask, self.File.PathSolvingReqs.list)
                 self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
@@ -1216,11 +1223,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.PathSolvingDlg.mergeMechanism.connect(self.PathSolving_merge)
                 self.PathSolvingStart.connect(self.PathSolvingDlg.start)
                 self.PathSolvingDlg.show()
+                self.PathSolvingListboxDlg.show()
                 if self.PathSolvingDlg.exec_(): pass
             else:
                 try:
                     self.PathSolvingDlg.deleteLater()
+                    self.PathSolvingListboxDlg.deleteLater()
                     del self.PathSolvingDlg
+                    del self.PathSolvingListboxDlg
                 except: pass
         @pyqtSlot()
         def PathSolving_return(self): self.PathSolving.setChecked(False)
