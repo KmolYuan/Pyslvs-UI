@@ -23,6 +23,13 @@ if platform.system().lower()=="linux":
         from ..kernel.pyslvs_generate.py35.rga import Genetic
         from ..kernel.pyslvs_generate.py35.firefly import Firefly
         from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
+elif platform.system().lower()=="windows":
+    if py_nm=="3.5":
+        from ..kernel.pyslvs_generate.py35w import tinycadlib
+        from ..kernel.pyslvs_generate.py35w.planarlinkage import build_planar
+        from ..kernel.pyslvs_generate.py35w.rga import Genetic
+        from ..kernel.pyslvs_generate.py35w.firefly import Firefly
+        from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
 def staticProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, currentShaft):
     sys = System(500)

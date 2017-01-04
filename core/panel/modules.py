@@ -10,4 +10,4 @@ from .Ui_run_Drive import Ui_Form as Drive_Form
 from .Ui_run_AuxLine import Ui_Form as AuxLine_Form
 from .Ui_delete import Ui_Dialog as delete_Dialog
 from .Ui_run_Path_Solving import Ui_Dialog as PathSolving_Dialog
-from .Ui_run_Path_Solving_listbox import Ui_Dialog as PathSolvingListbox_Dialog
+from .Ui_run_Path_Solving_listbox import Ui_Form as PathSolvingListbox_Dialog
