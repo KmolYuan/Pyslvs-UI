@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-01-04, 20:36:52 -->
+<!-- Saved: 2017-01-05, 23:07:48 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -11,7 +11,9 @@
   <Version>0.4.0</Version>
   <Author></Author>
   <Email></Email>
+  <Eol index="-1"/>
   <Sources>
+    <Source>Makefile</Source>
     <Source>README.md</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
@@ -100,11 +102,11 @@
     <Source>core/simulate/set_drive_shaft.py</Source>
     <Source>core/simulate/set_rod.py</Source>
     <Source>core/simulate/set_slider.py</Source>
-    <Source>core/test0.py</Source>
-    <Source>core/testUndo.py</Source>
     <Source>core/test/__init__.py</Source>
     <Source>core/test/testKernel.py</Source>
     <Source>core/test/testQt.py</Source>
+    <Source>core/test0.py</Source>
+    <Source>core/testUndo.py</Source>
     <Source>core/warning/Ui_contradict_value.py</Source>
     <Source>core/warning/Ui_repeated_value.py</Source>
     <Source>core/warning/Ui_reset_workbook.py</Source>
@@ -119,7 +121,6 @@
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>launch_test.py</Source>
-    <Source>winBuild.bat</Source>
   </Sources>
   <Forms>
     <Form>core/draw/delete.ui</Form>
@@ -161,7 +162,9 @@
     <Resource>icons.qrc</Resource>
   </Resources>
   <Interfaces/>
-  <Others/>
+  <Others>
+    <Other>Makefile</Other>
+  </Others>
   <MainScript>launch_pyslvs.py</MainScript>
   <Vcs>
     <VcsType>None</VcsType>
