@@ -2,15 +2,13 @@
 from .modules import *
 
 class shaft_show(QDialog, shaft_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, table, row, cen, ref, parent=None):
         super(shaft_show, self).__init__(parent)
         self.setupUi(self)
-    
-    def setUI(self, table, row, cen, ref):
         icon = QIcon(QPixmap(":/icons/point.png"))
-        for i in range(table1.rowCount()):
-            self.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
-            self.References.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(table.rowCount()):
+            self.Shaft_Center.insertItem(i, icon, table.item(i, 0).text())
+            self.References.insertItem(i, icon, table.item(i, 0).text())
         self.Shaft_num.insertPlainText("Shaft"+str(row))
         self.Shaft_Center.setCurrentIndex(cen)
         self.References.setCurrentIndex(ref)

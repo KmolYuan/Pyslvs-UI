@@ -1,11 +1,19 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from ..calculation.color import colorName
 
 class AuxLine_show(QWidget, AuxLine_Form):
     Point_change = pyqtSignal(int, int, int, bool, bool, bool, bool, bool)
-    def __init__(self, parent=None):
+    def __init__(self, table, pt, color, limit_color, parent=None):
         super(AuxLine_show, self).__init__(parent)
         self.setupUi(self)
+        re_Color = colorName()
+        for i in range(table.rowCount()): self.Point.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
+        for i in range(len(re_Color)): self.Color.insertItem(i, re_Color[i])
+        for i in range(len(re_Color)): self.Color_l.insertItem(i, re_Color[i])
+        self.Point.setCurrentIndex(pt)
+        self.Color.setCurrentIndex(color)
+        self.Color_l.setCurrentIndex(limit_color)
     
     @pyqtSlot(int)
     def on_Point_currentIndexChanged(self, index): self.Change_set(True)
@@ -24,11 +32,6 @@ class AuxLine_show(QWidget, AuxLine_Form):
     
     def Change_set(self, pt = False):
         self.Point_change.emit(
-            self.Point.currentIndex(),
-            self.Color.currentIndex(),
-            self.Color_l.currentIndex(),
-            self.H_line.checkState(),
-            self.V_line.checkState(),
-            self.Max_Limit.checkState(),
-            self.Min_Limit.checkState(),
-            pt)
+            self.Point.currentIndex(), self.Color.currentIndex(), self.Color_l.currentIndex(),
+            self.H_line.checkState(), self.V_line.checkState(),
+            self.Max_Limit.checkState(), self.Min_Limit.checkState(), pt)

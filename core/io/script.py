@@ -9,9 +9,10 @@ from .Ui_script import Ui_Info_Dialog
 Environment_variables = '../'
 
 class Script_Dialog(QDialog, Ui_Info_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, script, parent=None):
         super(Script_Dialog, self).__init__(parent)
         self.setupUi(self)
+        self.script.setPlainText(script)
     
     @pyqtSlot()
     def on_buttonBox_helpRequested(self):

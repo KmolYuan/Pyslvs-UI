@@ -17,6 +17,6 @@ if __name__=="__main__":
         from core.main import MainWindow
         if "--fusion" in argv: QApplication.setStyle("fusion")
         app = QApplication(argv)
-        run  = MainWindow()
+        run = MainWindow()
         run.show()
         exit(app.exec())

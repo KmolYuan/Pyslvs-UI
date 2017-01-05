@@ -3,17 +3,15 @@ from .modules import *
 
 class Measurement_show(QWidget, Measurement_Form):
     point_change = pyqtSignal(int, int)
-    def __init__(self, parent=None):
+    def __init__(self, table, parent=None):
         super(Measurement_show, self).__init__(parent)
         self.setupUi(self)
         self.Distance.setPlainText("0.0")
         self.Detection = True
         self.First_Detection = True
-    
-    def setUI(self, table, icon):
         for i in range(table.rowCount()):
-            self.Start.insertItem(i, icon, table.item(i, 0).text())
-            self.End.insertItem(i, icon, table.item(i, 0).text())
+            self.Start.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
+            self.End.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
     
     @pyqtSlot(float, float)
     def show_mouse_track(self, x, y): self.Mouse.setPlainText("("+str(x)+", "+str(y)+")")

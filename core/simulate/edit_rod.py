@@ -3,11 +3,9 @@ from .modules import *
 
 class edit_rod_show(QDialog, edit_rod_Dialog):
     Another_rod = pyqtSignal(int)
-    def __init__(self, parent=None):
+    def __init__(self, table1, table2, pos, parent=None):
         super(edit_rod_show, self).__init__(parent)
         self.setupUi(self)
-    
-    def setUI(self, table1, table2, pos):
         icon = QIcon(QPixmap(":/icons/point.png"))
         for i in range(table1.rowCount()):
             self.Start.insertItem(i, icon, table1.item(i, 0).text())

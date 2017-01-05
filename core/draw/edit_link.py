@@ -3,11 +3,9 @@ from .modules import *
 
 class edit_link_show(QDialog, edit_link_Dialog):
     Another_line = pyqtSignal(int)
-    def __init__(self, parent=None):
+    def __init__(self, mask, table1, table2, pos, parent=None):
         super(edit_link_show, self).__init__(parent)
         self.setupUi(self)
-    
-    def setUI(self, mask, table1, table2, pos):
         icon = QIcon(QPixmap(":/icons/point.png"))
         for i in range(table1.rowCount()):
             self.Start_Point.insertItem(i, icon, table1.item(i, 0).text())

@@ -3,21 +3,17 @@
 import sys, platform, numpy
 py_nm = sys.version[0:sys.version.find(" ")][0:3]
 argv = sys.argv
-#SLVS Version
-if platform.system().lower()=="linux":
-    if py_nm=="3.4": from ..kernel.py34.slvs import *
-    elif py_nm=="3.5": from ..kernel.py35.slvs import *
-elif platform.system().lower()=="windows":
-    if py_nm=="3.5": from ..kernel.py35w.slvs import *
-#pyslvs_generate Version
+#SLVS Version & pyslvs_generate Version
 if platform.system().lower()=="linux":
     if py_nm=="3.4":
+        from ..kernel.py34.slvs import *
         from ..kernel.pyslvs_generate.py34 import tinycadlib
         from ..kernel.pyslvs_generate.py34.planarlinkage import build_planar
         from ..kernel.pyslvs_generate.py34.rga import Genetic
         from ..kernel.pyslvs_generate.py34.firefly import Firefly
         from ..kernel.pyslvs_generate.py34.de import DiffertialEvolution
-    if py_nm=="3.5":
+    elif py_nm=="3.5":
+        from ..kernel.py35.slvs import *
         from ..kernel.pyslvs_generate.py35 import tinycadlib
         from ..kernel.pyslvs_generate.py35.planarlinkage import build_planar
         from ..kernel.pyslvs_generate.py35.rga import Genetic
@@ -25,6 +21,7 @@ if platform.system().lower()=="linux":
         from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
 elif platform.system().lower()=="windows":
     if py_nm=="3.5":
+        from ..kernel.py35w.slvs import *
         from ..kernel.pyslvs_generate.py35w import tinycadlib
         from ..kernel.pyslvs_generate.py35w.planarlinkage import build_planar
         from ..kernel.pyslvs_generate.py35w.rga import Genetic
@@ -94,7 +91,7 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
                 if case1 and not case2: y = sys.add_param(ref)
                 elif case1 and case2: y = sys.add_param(cen-diff)
                 elif not case1 and not case2: y = sys.add_param(cen-diff)
-                elif not case1 and case2: y = sys.add_param(cen-diff)
+                elif not case1 and case2: y = sys.add_param(ref)
             else:
                 y = sys.add_param(table_point[i]['y'])
         else:
@@ -208,10 +205,10 @@ def pathTrackProcess(point_int, angle, table_point, table_line, table_chain, tab
             diff = ref-cen
             case1 = diff>=0
             case2 = angle>=180
-            if case1 and case2: y = sys.add_param(cen-diff)
-            elif case1 and not case2: y = sys.add_param(ref)
-            elif not case1 and case2: y = sys.add_param(cen-diff)
-            elif not case1 and not case2: y = sys.add_param(ref)
+            if case1 and not case2: y = sys.add_param(ref)
+            elif case1 and case2: y = sys.add_param(cen-diff)
+            elif not case1 and not case2: y = sys.add_param(cen-diff)
+            elif not case1 and case2: y = sys.add_param(ref)
         else:
             y = sys.add_param(table_point[i]['y'])
         p = Point2d(Workplane1, x, y)

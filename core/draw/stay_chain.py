@@ -2,11 +2,9 @@
 from .modules import *
 
 class chain_show(QDialog, chain_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, mask, table, row, parent=None):
         super(chain_show, self).__init__(parent)
         self.setupUi(self)
-    
-    def setUI(self, mask, table, row):
         icon = QIcon(QPixmap(":/icons/point.png"))
         for i in range(table.rowCount()):
             self.Point1.insertItem(i, icon, table.item(i, 0).text())

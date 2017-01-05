@@ -8,21 +8,20 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
     mergeMechanism = pyqtSignal(list)
-    def __init__(self, parent=None):
+    def __init__(self, mask, data, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.move(QPoint(width-self.width(), 0))
         self.mechanism_data = list()
         self.work = WorkerThread()
         self.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
-    def __del__(self): self.stop()
-    
-    def setUI(self, mask, data):
         self.X_coordinate.setValidator(mask)
         self.Y_coordinate.setValidator(mask)
         for e in data: self.Point_list.addItem('('+str(e['x'])+", "+str(e['y'])+')')
         self.Point_list_Count()
+    def __del__(self): self.stop()
     
     @pyqtSlot()
     def on_clearAll_clicked(self):

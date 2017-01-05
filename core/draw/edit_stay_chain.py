@@ -3,11 +3,9 @@ from .modules import *
 
 class edit_stay_chain_show(QDialog, edit_chain_Dialog):
     Another_chain = pyqtSignal(int)
-    def __init__(self, parent=None):
+    def __init__(self, mask, table, table2, pos, parent=None):
         super(edit_stay_chain_show, self).__init__(parent)
         self.setupUi(self)
-    
-    def setUI(self, mask, table, table2, pos):
         icon = QIcon(QPixmap(":/icons/point.png"))
         for i in range(table1.rowCount()):
             self.Point1.insertItem(i, icon, table1.item(i, 0).text())
