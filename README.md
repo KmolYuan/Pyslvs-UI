@@ -36,14 +36,13 @@ First, enter the storage folder.
 
 ```bash
 $sudo pip3 install PyInstaller
-$pyinstaller launch_pyslvs.py
-$./dist/launch_pyslvs/launch_pyslvs
+$make
 ```
 
 Windows
 ---
 
-Use PyInstaller and cxFreeze to build.
+Use both PyInstaller and cxFreeze to build.
 
 Recommended installation: [MinGW](https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files) for win64.
 
@@ -52,7 +51,7 @@ First, enter the storage folder.
 ```bash
 >pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
 >pip install cx_Freeze
->.\winBuild.bat
+>make
 ```
 
 And than, the executable folder is located at `\build`, called `\exe.win-amd64-3.5`.
