@@ -73,4 +73,6 @@ Including Python module: [PyQt5](http://doc.qt.io/qt-5/index.html), [peewee](htt
 
 Here is **origin kernel** repository:
 
-[https://github.com/40323230/python-solvespace](https://github.com/40323230/python-solvespace)
+* [https://github.com/40323230/python-solvespace](https://github.com/40323230/python-solvespace)
+
+* [https://github.com/kmollee/django-project-template](https://github.com/kmollee/django-project-template)
