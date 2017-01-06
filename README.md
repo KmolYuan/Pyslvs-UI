@@ -54,7 +54,7 @@ First, enter the storage folder.
 >make
 ```
 
-And than, the executable folder is located at `\build`, called `\exe.win-amd64-3.5`.
+And than, the executable folder is located at `dist\launch_pyslvs` folder.
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
