@@ -9,7 +9,7 @@ ifeq ($(OS),Windows_NT)
 	@echo ---Copying Folder and Files---
 	xcopy .\build\exe.win-amd64-3.5\core .\dist\launch_pyslvs\core\ /s /y /i
 else
-	pyinstaller launch_pyslvs.py
+	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 endif
 	@echo ---Done---
 
