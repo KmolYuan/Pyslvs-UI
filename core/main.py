@@ -33,8 +33,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState = QUndoStack()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
-        self.qpainterWindow.setCursor(Qt.CrossCursor)
-        self.qpainterWindow.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
         self.Resolve()
@@ -328,9 +326,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def closeEvent(self, event):
         try:
             self.PathSolvingDlg.deleteLater()
-            self.PathSolvingListbox.deleteLater()
             del self.PathSolvingDlg
-            del self.PathSolvingListbox
         except: pass
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
@@ -556,9 +552,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def closePanel(self):
         try:
             self.PathSolvingDlg.deleteLater()
-            self.PathSolvingListbox.deleteLater()
             del self.PathSolvingDlg
-            del self.PathSolvingListbox
         except: pass
         try:
             self.MeasurementWidget.deleteLater()
@@ -1185,9 +1179,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #TODO: Path Solving
     @pyqtSlot(bool)
     def on_PathSolving_toggled(self, p0):
-        if not hasattr(self, 'PathSolvingDlg') and not hasattr(self, 'PathSolvingListbox'):
-            self.PathSolvingDlg = Path_Solving_show(self.Mask, self.File.PathSolvingReqs.list, self.width())
-            self.PathSolvingListbox = Path_Solving_listbox_show()
+        if not hasattr(self, 'PathSolvingDlg'):
+            self.PathSolvingDlg = Path_Solving_show(self.Mask, self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result, self.width())
             self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
             self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
             self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
@@ -1198,16 +1191,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolvingDlg.mergeMechanism.connect(self.PathSolving_merge)
             self.PathSolvingStart.connect(self.PathSolvingDlg.start)
             self.PathSolvingDlg.show()
-            self.PointTab.addTab(self.PathSolvingListbox, QIcon(QPixmap(":/icons/bezier.png")), "Thinking list")
-            self.PathSolvingListbox.show()
+            self.PointTab.addTab(self.PathSolvingDlg.Listbox, QIcon(QPixmap(":/icons/bezier.png")), "Thinking list")
+            self.PathSolvingDlg.Listbox.show()
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
             if self.PathSolvingDlg.exec_(): pass
         else:
             try:
                 self.PathSolvingDlg.deleteLater()
-                self.PathSolvingListbox.deleteLater()
                 del self.PathSolvingDlg
-                del self.PathSolvingListbox
             except: pass
     @pyqtSlot()
     def PathSolving_return(self): self.PathSolving.setChecked(False)

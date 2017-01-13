@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Path_Solving_listbox.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Solving_listbox.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -17,16 +17,16 @@ class Ui_Form(object):
         self.label = QtWidgets.QLabel(Form)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.Point_list = QtWidgets.QListWidget(Form)
+        self.Result_list = QtWidgets.QListWidget(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.Point_list.sizePolicy().hasHeightForWidth())
-        self.Point_list.setSizePolicy(sizePolicy)
-        self.Point_list.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.Point_list.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.Point_list.setObjectName("Point_list")
-        self.verticalLayout.addWidget(self.Point_list)
+        sizePolicy.setHeightForWidth(self.Result_list.sizePolicy().hasHeightForWidth())
+        self.Result_list.setSizePolicy(sizePolicy)
+        self.Result_list.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.Result_list.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.Result_list.setObjectName("Result_list")
+        self.verticalLayout.addWidget(self.Result_list)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)

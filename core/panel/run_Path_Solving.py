@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..calculation.pathSolving import WorkerThread
+from .run_Path_Solving_listbox import Path_Solving_listbox_show
 
 class Path_Solving_show(QDialog, PathSolving_Dialog):
     addPathPoint = pyqtSignal(float, float)
@@ -8,11 +9,12 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
     mergeMechanism = pyqtSignal(list)
-    def __init__(self, mask, data, width, parent=None):
+    def __init__(self, mask, data, resultData, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.move(QPoint(width-self.width(), 0))
+        self.Listbox = Path_Solving_listbox_show(resultData)
         self.mechanism_data = list()
         self.work = WorkerThread()
         self.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.stop)
@@ -21,7 +23,11 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.Y_coordinate.setValidator(mask)
         for e in data: self.Point_list.addItem('('+str(e['x'])+", "+str(e['y'])+')')
         self.Point_list_Count()
-    def __del__(self): self.stop()
+    
+    def __del__(self):
+        self.stop()
+        self.Listbox.deleteLater()
+        del self.Listbox
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
@@ -100,6 +106,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     def finish(self, mechanism, time_spand):
         self.mechanism_data = [mechanism]
         self.mergeMechanism.emit(self.mechanism_data)
+        self.Listbox.addResult(mechanism)
         self.algorithmPanel.setEnabled(True)
         self.mainPanel.setEnabled(True)
         self.startPanel.setEnabled(True)

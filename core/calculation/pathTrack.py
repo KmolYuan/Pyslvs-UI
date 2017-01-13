@@ -38,7 +38,7 @@ class WorkerThread(QThread):
         self.done.emit(nPath)
     
     def progress_going(self):
-        self.progress = self.progress+1
+        self.progress += 1
         self.progress_Signal.emit(self.progress)
     
     def stop(self):
