@@ -167,7 +167,7 @@ def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider,
         except: return 0, 0
     elif staticProcess: return resultList, sys.dof, script
 
-def pathSolvingProcess(path, Limits, type=0):
+def generateProcess(path, Limits, type=0):
     p = len(path)
     upperVal = Limits[0]+[360.0]*p
     lowerVal = Limits[1]+[0.0]*p

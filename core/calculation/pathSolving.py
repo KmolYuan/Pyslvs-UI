@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from .calculation import pathSolvingProcess
+from .calculation import generateProcess
 import timeit
 
 class WorkerThread(QThread):
@@ -23,7 +23,7 @@ class WorkerThread(QThread):
         t0 = timeit.default_timer()
         pathData = tuple((e['x'],e['y']) for e in self.path)
         print("Through: {}".format(pathData))
-        time_and_fitness, fitnessParameter = pathSolvingProcess(pathData, self.Limit, self.type_num)
+        time_and_fitness, fitnessParameter = generateProcess(pathData, self.Limit, self.type_num)
         t1 = timeit.default_timer()
         time_spand = t1-t0
         mechanism = {
@@ -39,7 +39,7 @@ class WorkerThread(QThread):
             'L3':fitnessParameter[7],
             'L4':fitnessParameter[8],
             'time':time_spand}
-        print('total cost time: %.4f [s]'%time_spand)
+        print('total cost time: {:.4f} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     
     def progress_going(self):

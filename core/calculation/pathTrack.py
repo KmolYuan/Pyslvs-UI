@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from .calculation import slvsProcess
+import timeit
 
 class WorkerThread(QThread):
     done = pyqtSignal(list)
@@ -14,6 +15,8 @@ class WorkerThread(QThread):
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
         point_list = [int(self.Run_list.item(e).text().replace("Point", "")) for e in range(self.Run_list.count())]
+        print("Path Tracking...")
+        t0 = timeit.default_timer()
         nPath = []
         for i in self.ShaftList:
             start_angle = self.Shaft[i]['start']*100
@@ -31,6 +34,9 @@ class WorkerThread(QThread):
                     self.progress_going()
                 Path += [Xval, Yval]
             nPath += [Path]
+        t1 = timeit.default_timer()
+        time_spand = t1-t0
+        print('total cost time: {:.4f} [s]'.format(time_spand))
         self.done.emit(nPath)
     
     def progress_going(self):
