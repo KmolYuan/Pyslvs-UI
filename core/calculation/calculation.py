@@ -28,34 +28,7 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.firefly import Firefly
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
-def staticProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, filename, table_parameter, currentShaft):
-    sys = System(500)
-    #Pre-oder
-    p0 = sys.add_param(0.0)
-    p1 = sys.add_param(0.0)
-    p2 = sys.add_param(0.0)
-    Point0 = Point3d(p0, p1, p2)
-    qw, qx, qy, qz = Slvs_MakeQuaternion(1, 0, 0, 0, 1, 0)
-    p3 = sys.add_param(qw)
-    p4 = sys.add_param(qx)
-    p5 = sys.add_param(qy)
-    p6 = sys.add_param(qz)
-    Normal1 = Normal3d(p3, p4, p5, p6)
-    Workplane1 = Workplane(Point0, Normal1)
-    p7 = sys.add_param(0.0)
-    p8 = sys.add_param(0.0)
-    Point1 = Point2d(Workplane1, p7, p8)
-    Constraint.dragged(Workplane1, Point1)
-    script = """# -*- coding: utf-8 -*-
-'''This Code is Generate by Pyslvs.'''
-from slvs import *
-
-#Please Choose Point number.
-Point_num = 2
-wx = Point_num*2+5
-wy = Point_num*2+6
-
-def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
+def staticProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft):
     sys = System(1000)
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)
@@ -68,14 +41,22 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
     p6 = sys.add_param(qz)
     Normal1 = Normal3d(p3, p4, p5, p6)
     Workplane1 = Workplane(Point0, Normal1)
-    other = -1 if degree >= 180 else 1
-
     p7 = sys.add_param(0.0)
     p8 = sys.add_param(0.0)
     Point1 = Point2d(Workplane1, p7, p8)
     Constraint.dragged(Workplane1, Point1)
-"""
     Point = [Point1]
+    script = "'''This code is generate by Pyslvs'''\n"
+    script += "sys = System(1000)\n"
+    script += "p0 = sys.add_param(0.0)\np1 = sys.add_param(0.0)\np2 = sys.add_param(0.0)\n"
+    script += "Point0 = Point3d(p0, p1, p2)\n"
+    script += "qw, qx, qy, qz = Slvs_MakeQuaternion(1, 0, 0, 0, 1, 0)\n"
+    script += "p3 = sys.add_param(qw)\np4 = sys.add_param(qx)\np5 = sys.add_param(qy)\np6 = sys.add_param(qz)\n"
+    script += "Normal1 = Normal3d(p3, p4, p5, p6)\n"
+    script += "Workplane1 = Workplane(Point0, Normal1)\n"
+    script += "p7 = sys.add_param(0.0)\np8 = sys.add_param(0.0)\n"
+    script += "Point1 = Point2d(Workplane1, p7, p8)\n"
+    script += "Constraint.dragged(Workplane1, Point1)\n"
     #Load tables to constraint
     for i in range(1, len(table_point) if len(table_point)>=1 else 1):
         x = sys.add_param(table_point[i]['x'])
@@ -98,15 +79,12 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
             y = sys.add_param(table_point[i]['y'])
         p = Point2d(Workplane1, x, y)
         Point += [p]
-        script += """
-    p"""+str(i*2+7)+""" = sys.add_param("""+str(table_point[i]['x'])+""")
-    p"""+str(i*2+8)+""" = sys.add_param("""+str(table_point[i]['y'])+""")
-    Point"""+str(i+1)+""" = Point2d(Workplane1, p"""+str(i*2+7)+""", p"""+str(i*2+8)+""")
-"""
+        script += "p{} = sys.add_param({})\n".format(i*2+7, table_point[i]['x'])
+        script += "p{} = sys.add_param({})\n".format(i*2+8, table_point[i]['y'])
+        script += "Point{} = Point2d(Workplane1, p{}, p{})\n".format(i+1, i*2+7, i*2+8)
         if table_point[i]['fix']:
             Constraint.dragged(Workplane1, p)
-            script += """    Constraint.dragged(Workplane1, Point"""+str(i+1)+""")
-"""
+            script += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
     for i in range(len(table_chain)):
         pa = table_chain[i]['p1']
         pb = table_chain[i]['p2']
@@ -117,25 +95,22 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         Constraint.distance(lengab, Workplane1, Point[pa], Point[pb])
         Constraint.distance(lengbc, Workplane1, Point[pb], Point[pc])
         Constraint.distance(lengac, Workplane1, Point[pa], Point[pc])
-        script += """    Constraint.distance("""+str(lengab)+""", Workplane1, Point"""+str(pa+1)+""", Point"""+str(pb+1)+""")
-    Constraint.distance("""+str(lengbc)+""", Workplane1, Point"""+str(pb+1)+""", Point"""+str(pc+1)+""")
-    Constraint.distance("""+str(lengac)+""", Workplane1, Point"""+str(pa+1)+""", Point"""+str(pc+1)+""")
-"""
+        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengab, pa+1, pb+1)
+        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengbc, pb+1, pc+1)
+        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengac, pa+1, pc+1)
     for i in range(len(table_line)):
         start = table_line[i]['start']
         end = table_line[i]['end']
         leng = table_line[i]['len']
         Constraint.distance(leng, Workplane1, Point[start], Point[end])
-        script += """    Constraint.distance("""+str(leng)+""", Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
-"""
+        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, end+1)
     for i in range(len(table_slider)):
         pt = table_slider[i]['cen']
         start = table_line[table_slider[i]['ref']]['start']
         end = table_line[table_slider[i]['ref']]['end']
         line = LineSegment2d(Workplane1, Point[start], Point[end])
         Constraint.on(Workplane1, Point[pt], line)
-        script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
-"""
+        script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
     for i in range(len(table_rod)):
         pt = table_rod[i]['cen']
         start = table_rod[i]['start']
@@ -144,9 +119,8 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
         line = LineSegment2d(Workplane1, Point[start], Point[end])
         Constraint.on(Workplane1, Point[pt], line)
         Constraint.distance(leng, Workplane1, Point[start], Point[pt])
-        script += """    Constraint.on(Workplane1, Point"""+str(pt+1)+""", LineSegment2d(Workplane1, Point"""+str(start+1)+""", Point"""+str(end+1)+""")
-    Constraint.distance("""+str(leng)+""", Workplane1, Point"""+str(start+1)+""", Point"""+str(pt+1)+""")
-"""
+        script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
+        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, pt+1)
     if len(table_shaft) >= 1:
         pN = sys.add_param(10)
         pNN = sys.add_param(0.0)
@@ -174,7 +148,6 @@ def """+'_'.join(e for e in filename if e.isalnum())+"""(degree):
 
 def pathTrackProcess(point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft):
     sys = System(1000)
-    #Pre-oder
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)
     p2 = sys.add_param(0.0)
@@ -324,6 +297,6 @@ def pathSolvingProcess(path, Limits, type=0):
     time_and_fitness, fitnessParameter = foo.run()
     time_and_fitness = [float(k[1]) for k in [e.split(',') for e in time_and_fitness.split(';')[0:-1]]]
     fitnessParameter = [float(e) for e in fitnessParameter.split(',')]
-    print('time_and_fitness: {0}'.format(time_and_fitness))
-    print('fitnessParameter: {0}'.format(fitnessParameter))
+    print('time_and_fitness: {}'.format(time_and_fitness))
+    print('fitnessParameter: {}'.format(fitnessParameter))
     return time_and_fitness, fitnessParameter
