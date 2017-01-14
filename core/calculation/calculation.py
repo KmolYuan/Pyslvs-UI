@@ -28,9 +28,12 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.firefly import Firefly
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
-def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft, point_int=None, angle=None):
+def slvsProcess(
+        table_point=None, table_line=None, table_chain=None, table_shaft=None, table_slider=None, table_rod=None, table_parameter=None,
+        currentShaft=None, point_int=None, angle=None, generateResult=None):
     pathTrackProcess = not angle==None
-    staticProcess = angle==None
+    staticProcess = not table_point==None
+    generateConversionProcess = not generateResult==None
     sys = System(1000)
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)
@@ -66,106 +69,132 @@ def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider,
         script += "Point1 = Point2d(Workplane1, p7, p8)\n"
         script += "Constraint.dragged(Workplane1, Point1)\n"
     Point = [Point1]
-    #Load tables to constraint
-    for i in range(1, len(table_point) if len(table_point)>=1 else 1):
-        x = sys.add_param(table_point[i]['x'])
-        if len(table_shaft)>0:
-            #Quadrant Fix
-            if table_shaft[currentShaft]['ref']==i:
-                cen = table_point[table_shaft[currentShaft]['cen']]['y']
-                ref = table_point[i]['y']
-                diff = ref-cen
-                case1 = diff>=0
-                case2 = angle>=180 if pathTrackProcess else table_shaft[currentShaft]['demo']>=180
-                if case1 and not case2: y = sys.add_param(ref)
-                elif case1 and case2: y = sys.add_param(cen-diff)
-                elif not case1 and not case2: y = sys.add_param(cen-diff)
-                elif not case1 and case2: y = sys.add_param(ref)
+    if pathTrackProcess or staticProcess:
+        for i in range(1, len(table_point) if len(table_point)>=1 else 1):
+            x = sys.add_param(table_point[i]['x'])
+            if len(table_shaft)>0:
+                #Quadrant Fix
+                if table_shaft[currentShaft]['ref']==i:
+                    cen = table_point[table_shaft[currentShaft]['cen']]['y']
+                    ref = table_point[i]['y']
+                    diff = ref-cen
+                    case1 = diff>=0
+                    case2 = angle>=180 if pathTrackProcess else table_shaft[currentShaft]['demo']>=180
+                    if case1 and not case2: y = sys.add_param(ref)
+                    elif case1 and case2: y = sys.add_param(cen-diff)
+                    elif not case1 and not case2: y = sys.add_param(cen-diff)
+                    elif not case1 and case2: y = sys.add_param(ref)
+                else: y = sys.add_param(table_point[i]['y'])
             else: y = sys.add_param(table_point[i]['y'])
-        else: y = sys.add_param(table_point[i]['y'])
-        p = Point2d(Workplane1, x, y)
-        Point += [p]
-        if staticProcess:
-            script += "p{} = sys.add_param({})\n".format(i*2+7, table_point[i]['x'])
-            script += "p{} = sys.add_param({})\n".format(i*2+8, table_point[i]['y'])
-            script += "Point{} = Point2d(Workplane1, p{}, p{})\n".format(i+1, i*2+7, i*2+8)
-        if table_point[i]['fix']:
-            Constraint.dragged(Workplane1, p)
-            if staticProcess: script += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
-    for i in range(len(table_chain)):
-        pa = table_chain[i]['p1']
-        pb = table_chain[i]['p2']
-        pc = table_chain[i]['p3']
-        lengab = table_chain[i]['p1p2']
-        lengbc = table_chain[i]['p2p3']
-        lengac = table_chain[i]['p1p3']
-        Constraint.distance(lengab, Workplane1, Point[pa], Point[pb])
-        Constraint.distance(lengbc, Workplane1, Point[pb], Point[pc])
-        Constraint.distance(lengac, Workplane1, Point[pa], Point[pc])
-        if staticProcess:
-            script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengab, pa+1, pb+1)
-            script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengbc, pb+1, pc+1)
-            script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengac, pa+1, pc+1)
-    for i in range(len(table_line)):
-        start = table_line[i]['start']
-        end = table_line[i]['end']
-        leng = table_line[i]['len']
-        Constraint.distance(leng, Workplane1, Point[start], Point[end])
-        if staticProcess: script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, end+1)
-    for i in range(len(table_slider)):
-        pt = table_slider[i]['cen']
-        start = table_line[table_slider[i]['ref']]['start']
-        end = table_line[table_slider[i]['ref']]['end']
-        line = LineSegment2d(Workplane1, Point[start], Point[end])
-        Constraint.on(Workplane1, Point[pt], line)
-        if staticProcess: script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
-    for i in range(len(table_rod)):
-        pt = table_rod[i]['cen']
-        start = table_rod[i]['start']
-        end = table_rod[i]['end']
-        leng = table_rod[i]['pos']
-        line = LineSegment2d(Workplane1, Point[start], Point[end])
-        Constraint.on(Workplane1, Point[pt], line)
-        Constraint.distance(leng, Workplane1, Point[start], Point[pt])
-        if staticProcess:
-            script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
-            script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, pt+1)
-    if pathTrackProcess:
-        center = table_shaft[currentShaft]['cen']
-        reference = table_shaft[currentShaft]['ref']
-        line = LineSegment2d(Workplane1, Point[center], Point[reference])
-        Constraint.angle(Workplane1, angle, line, Line0, False)
-    elif staticProcess:
-        if len(table_shaft) >= 1:
-            pN = sys.add_param(10)
-            pNN = sys.add_param(0.0)
-            PointN = Point2d(Workplane1, pN, pNN)
-            Point += [PointN]
-            Constraint.dragged(Workplane1, Point[-1])
-            Line0 = LineSegment2d(Workplane1, Point[currentShaft], Point[-1])
-            #shaft demo switch
+            p = Point2d(Workplane1, x, y)
+            Point += [p]
+            if staticProcess:
+                script += "p{} = sys.add_param({})\n".format(i*2+7, table_point[i]['x'])
+                script += "p{} = sys.add_param({})\n".format(i*2+8, table_point[i]['y'])
+                script += "Point{} = Point2d(Workplane1, p{}, p{})\n".format(i+1, i*2+7, i*2+8)
+            if table_point[i]['fix']:
+                Constraint.dragged(Workplane1, p)
+                if staticProcess: script += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
+        for i in range(len(table_chain)):
+            pa = table_chain[i]['p1']
+            pb = table_chain[i]['p2']
+            pc = table_chain[i]['p3']
+            lengab = table_chain[i]['p1p2']
+            lengbc = table_chain[i]['p2p3']
+            lengac = table_chain[i]['p1p3']
+            Constraint.distance(lengab, Workplane1, Point[pa], Point[pb])
+            Constraint.distance(lengbc, Workplane1, Point[pb], Point[pc])
+            Constraint.distance(lengac, Workplane1, Point[pa], Point[pc])
+            if staticProcess:
+                script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengab, pa+1, pb+1)
+                script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengbc, pb+1, pc+1)
+                script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(lengac, pa+1, pc+1)
+        for i in range(len(table_line)):
+            start = table_line[i]['start']
+            end = table_line[i]['end']
+            leng = table_line[i]['len']
+            Constraint.distance(leng, Workplane1, Point[start], Point[end])
+            if staticProcess: script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, end+1)
+        for i in range(len(table_slider)):
+            pt = table_slider[i]['cen']
+            start = table_line[table_slider[i]['ref']]['start']
+            end = table_line[table_slider[i]['ref']]['end']
+            line = LineSegment2d(Workplane1, Point[start], Point[end])
+            Constraint.on(Workplane1, Point[pt], line)
+            if staticProcess: script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
+        for i in range(len(table_rod)):
+            pt = table_rod[i]['cen']
+            start = table_rod[i]['start']
+            end = table_rod[i]['end']
+            leng = table_rod[i]['pos']
+            line = LineSegment2d(Workplane1, Point[start], Point[end])
+            Constraint.on(Workplane1, Point[pt], line)
+            Constraint.distance(leng, Workplane1, Point[start], Point[pt])
+            if staticProcess:
+                script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
+                script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, pt+1)
+        if pathTrackProcess:
             center = table_shaft[currentShaft]['cen']
             reference = table_shaft[currentShaft]['ref']
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
-            try:
-                angle0 = table_shaft[currentShaft]['demo']
-                Constraint.angle(Workplane1, angle0, line, Line0, False)
-            except: pass
+            Constraint.angle(Workplane1, angle, line, Line0, False)
+        elif staticProcess:
+            if len(table_shaft) >= 1:
+                pN = sys.add_param(10)
+                pNN = sys.add_param(0.0)
+                PointN = Point2d(Workplane1, pN, pNN)
+                Point += [PointN]
+                Constraint.dragged(Workplane1, Point[-1])
+                Line0 = LineSegment2d(Workplane1, Point[currentShaft], Point[-1])
+                #shaft demo switch
+                center = table_shaft[currentShaft]['cen']
+                reference = table_shaft[currentShaft]['ref']
+                line = LineSegment2d(Workplane1, Point[center], Point[reference])
+                try:
+                    angle0 = table_shaft[currentShaft]['demo']
+                    Constraint.angle(Workplane1, angle0, line, Line0, False)
+                except: pass
+    elif generateConversionProcess:
+        x = sys.add_param(generateResult['Ax'])
+        y = sys.add_param(generateResult['Ay'])
+        Ap = Point2d(Workplane1, x, y) #A-1
+        Constraint.dragged(Workplane1, Ap)
+        x = sys.add_param(generateResult['Dx'])
+        y = sys.add_param(generateResult['Dy'])
+        Dp = Point2d(Workplane1, x, y) #D-2
+        Constraint.dragged(Workplane1, Dp)
+        Point += [Ap, Dp]
+        for e in [[10, 10], [20, 15], [15, 20]]: #B-3 C-4 E-5
+            x = sys.add_param(e[0])
+            y = sys.add_param(e[1])
+            p = Point2d(Workplane1, x, y)
+            Point += [p]
+        for e in [['L1', 3, 4], ['L4', 4, 5], ['L3', 3, 5]]: Constraint.distance(generateResult[e[0]], Workplane1, Point[e[1]], Point[e[2]])
+        Constraint.distance(generateResult['L0'], Workplane1, Point[1], Point[3])
+        Constraint.distance(generateResult['L2'], Workplane1, Point[2], Point[4])
     sys.solve()
-    resultList = list()
     if sys.result==SLVS_RESULT_OKAY:
         if pathTrackProcess:
             x = sys.get_param((point_int+2)*2+5).val
             y = sys.get_param((point_int+2)*2+6).val
         elif staticProcess:
+            resultList = list()
             for i in range(0, len(table_point)*2, 2): resultList += [{'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val}]
+        elif generateConversionProcess:
+            resultList = list()
+            for i in range(0, 12, 2): resultList += [{'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val}]
     elif sys.result==SLVS_RESULT_INCONSISTENT and "-w" in argv: print ("SLVS_RESULT_INCONSISTENT")
     elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and "-w" in argv: print ("SLVS_RESULT_DIDNT_CONVERGE")
     elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
     if pathTrackProcess:
         try: return x, y
         except: return 0, 0
-    elif staticProcess: return resultList, sys.dof, script
+    elif staticProcess:
+        try: return resultList, sys.dof, script
+        except: return list(), -1, str()
+    elif generateConversionProcess:
+        try: return resultList
+        except: return list()
 
 def generateProcess(path, Limits, type=0):
     p = len(path)

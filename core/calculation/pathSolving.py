@@ -11,7 +11,6 @@ class WorkerThread(QThread):
         self.stoped = False
         self.mutex = QMutex()
         self.progress = 0
-    
     def setPath(self, path, Limit, type_num):
         self.path = path
         self.type_num = type_num
@@ -45,6 +44,5 @@ class WorkerThread(QThread):
     def progress_going(self):
         self.progress += 1
         self.progress_Signal.emit(self.progress)
-    
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
