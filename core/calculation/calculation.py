@@ -28,7 +28,7 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.firefly import Firefly
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
-def staticProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft):
+def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft, point_int=False, angle=False):
     sys = System(1000)
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)
@@ -146,7 +146,7 @@ def staticProcess(table_point, table_line, table_chain, table_shaft, table_slide
     elif (sys.result == SLVS_RESULT_TOO_MANY_UNKNOWNS) and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
     return result, sys.dof, script
 
-def pathTrackProcess(point_int, angle, table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft):
+def pathTrackProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, table_parameter, currentShaft, point_int=False, angle=False):
     sys = System(1000)
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)

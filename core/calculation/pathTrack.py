@@ -12,11 +12,8 @@ class WorkerThread(QThread):
         self.progress = 0
     
     def run(self):
-        with QMutexLocker(self.mutex):
-            self.stoped = False
-        point_list = []
-        for i in range(self.Run_list.count()):
-            point_list += [int(self.Run_list.item(i).text().replace("Point", ""))]
+        with QMutexLocker(self.mutex): self.stoped = False
+        point_list = [int(self.Run_list.item(e).text().replace("Point", "")) for e in range(self.Run_list.count())]
         nPath = []
         for i in self.ShaftList:
             start_angle = self.Shaft[i]['start']*100
@@ -28,8 +25,7 @@ class WorkerThread(QThread):
                 Yval = []
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
-                    x, y = pathTrackProcess(n, angle, self.Point, self.Link,
-                        self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter, i)
+                    x, y = pathTrackProcess(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter, i, point_int=n, angle=angle)
                     Xval += [x]
                     Yval += [y]
                     self.progress_going()
@@ -40,6 +36,5 @@ class WorkerThread(QThread):
     def progress_going(self):
         self.progress += 1
         self.progress_Signal.emit(self.progress)
-    
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
