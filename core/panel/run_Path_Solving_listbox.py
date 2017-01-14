@@ -2,23 +2,20 @@
 from .modules import *
 
 class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
+    deleteResult = pyqtSignal(int)
     def __init__(self, resultData, parent=None):
         super(Path_Solving_listbox_show, self).__init__(parent)
         self.setupUi(self)
         for e in resultData: self.addResult(e)
     
     def addResult(self, e):
-        item = QListWidgetItem(e['Algorithm'])
-        item.setToolTip(
-            "["+e['Algorithm']+"]"+
-            "\nAx: %f"%e['Ax']+
-            "\nAy: %f"%e['Ay']+
-            "\nDx: %f"%e['Dx']+
-            "\nDy: %f"%e['Dy']+
-            "\nL0: %f"%e['L0']+
-            "\nL1: %f"%e['L1']+
-            "\nL2: %f"%e['L2']+
-            "\nL3: %f"%e['L3']+
-            "\nL4: %f"%e['L4']+
-            "\nTime spand: %.2f"%e['time']+" s")
+        item = QListWidgetItem(e['Algorithm']+(": {} ... {}".format(e['path'][:3], e['path'][-3:]) if len(e['path'])>6 else ": {}".format(e['path'])))
+        item.setToolTip("[{}]\nAx: {}\nAy: {}\nDx: {}\nDy: {}\nL0: {}\nL1: {}\nL2: {}\nL3: {}\nL4: {}\nTime spand: {:.2f} s".format(
+            e['Algorithm'], e['Ax'], e['Ay'], e['Dx'], e['Dy'], e['L0'], e['L1'], e['L2'], e['L3'], e['L4'], e['time']))
         self.Result_list.addItem(item)
+    
+    @pyqtSlot()
+    def on_deleteButton_clicked(self):
+        if self.Result_list.currentRow()>-1:
+            self.deleteResult.emit(self.Result_list.currentRow())
+            self.Result_list.takeItem(self.Result_list.currentRow())

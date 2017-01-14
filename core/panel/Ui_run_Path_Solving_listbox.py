@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Solving_listbox.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Path_Solving_listbox.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -23,7 +23,7 @@ class Ui_Form(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Result_list.sizePolicy().hasHeightForWidth())
         self.Result_list.setSizePolicy(sizePolicy)
-        self.Result_list.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.Result_list.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
         self.Result_list.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.Result_list.setObjectName("Result_list")
         self.verticalLayout.addWidget(self.Result_list)
@@ -31,9 +31,12 @@ class Ui_Form(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout_2.addWidget(self.pushButton)
+        self.mergeButton = QtWidgets.QPushButton(Form)
+        self.mergeButton.setObjectName("mergeButton")
+        self.horizontalLayout_2.addWidget(self.mergeButton)
+        self.deleteButton = QtWidgets.QPushButton(Form)
+        self.deleteButton.setObjectName("deleteButton")
+        self.horizontalLayout_2.addWidget(self.deleteButton)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -45,7 +48,8 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Thinking list"))
         self.label.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt;\">This is the result from the algorithm.</span></p></body></html>"))
-        self.pushButton.setText(_translate("Form", "Merge"))
+        self.mergeButton.setText(_translate("Form", "Merge"))
+        self.deleteButton.setText(_translate("Form", "Delete"))
 
 
 if __name__ == "__main__":

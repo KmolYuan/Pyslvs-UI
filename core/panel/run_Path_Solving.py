@@ -70,12 +70,10 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.Point_list_Count()
     @pyqtSlot()
     def on_remove_clicked(self):
-        try:
-            if self.Point_list.currentRow()>-1:
-                self.deletePathPoint.emit(self.Point_list.currentRow())
-                self.Point_list.takeItem(self.Point_list.currentRow())
-                self.Point_list_Count()
-        except: pass
+        if self.Point_list.currentRow()>-1:
+            self.deletePathPoint.emit(self.Point_list.currentRow())
+            self.Point_list.takeItem(self.Point_list.currentRow())
+            self.Point_list_Count()
     
     def Point_list_Count(self):
         self.pointNum.setText(

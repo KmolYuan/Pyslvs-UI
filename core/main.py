@@ -1189,6 +1189,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
             self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
             self.PathSolvingDlg.mergeMechanism.connect(self.PathSolving_merge)
+            self.PathSolvingDlg.Listbox.deleteResult.connect(self.PathSolving_deleteResult)
             self.PathSolvingStart.connect(self.PathSolvingDlg.start)
             self.PathSolvingDlg.show()
             self.PointTab.addTab(self.PathSolvingDlg.Listbox, QIcon(QPixmap(":/icons/bezier.png")), "Thinking list")
@@ -1230,6 +1231,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_send(self): self.PathSolvingStart.emit(self.File.PathSolvingReqs.list)
     @pyqtSlot(list)
     def PathSolving_merge(self, mechanism_data): self.File.PathSolvingReqs.resultMerge(mechanism_data)
+    @pyqtSlot(int)
+    def PathSolving_deleteResult(self, row): self.File.PathSolvingReqs.removeResult(row)
     
     @pyqtSlot()
     def on_Drive_clicked(self):

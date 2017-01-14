@@ -21,12 +21,14 @@ class WorkerThread(QThread):
         alg = 'Genetic' if self.type_num==0 else ('Firefly' if self.type_num==1 else 'Differtial Evolution')
         print("Algorithm: "+alg)
         t0 = timeit.default_timer()
-        data = tuple((e['x'],e['y']) for e in self.path)
-        time_and_fitness, fitnessParameter = pathSolvingProcess(data, self.Limit, self.type_num)
+        pathData = tuple((e['x'],e['y']) for e in self.path)
+        print("Through: {}".format(pathData))
+        time_and_fitness, fitnessParameter = pathSolvingProcess(pathData, self.Limit, self.type_num)
         t1 = timeit.default_timer()
         time_spand = t1-t0
         mechanism = {
             'Algorithm':alg,
+            'path':pathData,
             'Ax':fitnessParameter[0],
             'Ay':fitnessParameter[1],
             'Dx':fitnessParameter[2],

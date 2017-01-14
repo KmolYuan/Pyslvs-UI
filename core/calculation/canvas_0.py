@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from .color import colorlist, colorName
+_translate = QCoreApplication.translate
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
