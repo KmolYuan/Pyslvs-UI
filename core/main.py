@@ -357,9 +357,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.File.Obstacles_Exclusion()
         #Solve
         result = False
-        fileName = self.windowTitle().split("/")[-1].split(".")[0]
-        result, DOF, script = staticProcess(table_point, table_line, table_chain,
-            table_shaft, table_slider, table_rod, fileName, self.Parameter_list, self.File.Shafts.current)
+        result, DOF, script = slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, self.Parameter_list, self.File.Shafts.current)
         self.Script = script
         if result:
             self.Solvefail = False
