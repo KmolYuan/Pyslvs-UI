@@ -91,7 +91,7 @@ def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider,
             script += "Point{} = Point2d(Workplane1, p{}, p{})\n".format(i+1, i*2+7, i*2+8)
         if table_point[i]['fix']:
             Constraint.dragged(Workplane1, p)
-            script += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
+            if staticProcess: script += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
     for i in range(len(table_chain)):
         pa = table_chain[i]['p1']
         pb = table_chain[i]['p2']
@@ -111,14 +111,14 @@ def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider,
         end = table_line[i]['end']
         leng = table_line[i]['len']
         Constraint.distance(leng, Workplane1, Point[start], Point[end])
-        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, end+1)
+        if staticProcess: script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, end+1)
     for i in range(len(table_slider)):
         pt = table_slider[i]['cen']
         start = table_line[table_slider[i]['ref']]['start']
         end = table_line[table_slider[i]['ref']]['end']
         line = LineSegment2d(Workplane1, Point[start], Point[end])
         Constraint.on(Workplane1, Point[pt], line)
-        script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
+        if staticProcess: script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
     for i in range(len(table_rod)):
         pt = table_rod[i]['cen']
         start = table_rod[i]['start']
@@ -127,8 +127,9 @@ def slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider,
         line = LineSegment2d(Workplane1, Point[start], Point[end])
         Constraint.on(Workplane1, Point[pt], line)
         Constraint.distance(leng, Workplane1, Point[start], Point[pt])
-        script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
-        script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, pt+1)
+        if staticProcess:
+            script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
+            script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, pt+1)
     if pathTrackProcess:
         center = table_shaft[currentShaft]['cen']
         reference = table_shaft[currentShaft]['ref']
