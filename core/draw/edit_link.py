@@ -21,4 +21,5 @@ class edit_link_show(QDialog, edit_link_Dialog):
     def change_feedback(self, start, end, len):
         self.Start_Point.setCurrentIndex(start)
         self.End_Point.setCurrentIndex(end)
+        self.Length.setText(str(len))
         self.Length.setPlaceholderText(str(len))
