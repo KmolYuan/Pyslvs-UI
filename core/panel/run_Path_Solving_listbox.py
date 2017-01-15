@@ -30,8 +30,10 @@ class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
     @pyqtSlot()
     def on_mergeButton_clicked(self):
         if self.Result_list.currentRow()>-1:
-            reply = QMessageBox.question(self, 'Prompt Message', "Are you sure to merge?\nThe result of the algorithm will be removed at the same time.",
-                (QMessageBox.Apply | QMessageBox.Discard), QMessageBox.Apply)
+            reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?\nDo you want to remove the results at the same time?",
+                (QMessageBox.Apply | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.mergeResult.emit(self.Result_list.currentRow())
-                #self.Result_list.takeItem(self.Result_list.currentRow())
+                self.deleteResult.emit(self.Result_list.currentRow())
+                self.Result_list.takeItem(self.Result_list.currentRow())
+            elif reply==QMessageBox.Discard: self.mergeResult.emit(self.Result_list.currentRow())
