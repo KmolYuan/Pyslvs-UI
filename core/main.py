@@ -43,20 +43,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Mask_Change()
         self.init_Right_click_menu()
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$')))
-        self.init_open_file()
+        self.argvLoadFile()
+    
+    def argvLoadFile(self):
+        if ".csv" in sys.argv[1].lower():
+            try: self.loadWorkbook(sys.argv[1])
+            except: print("Error when loading file.")
+        elif "example" in sys.argv[1].lower():
+            try:
+                ExampleNum = int(sys.argv[1].lower().replace("example", ''))
+                if ExampleNum==0: self.on_actionCrank_rocker_triggered()
+                elif ExampleNum==1: self.on_actionDrag_link_triggered()
+                elif ExampleNum==2: self.on_actionDouble_rocker_triggered()
+                elif ExampleNum==3: self.on_actionParallelogram_linkage_triggered()
+                elif ExampleNum==4: self.on_actionMutiple_Link_triggered()
+                elif ExampleNum==5: self.on_actionTwo_Mutiple_Link_triggered()
+                elif ExampleNum==6: self.on_actionReverse_Parsing_Rocker_triggered()
+            except: print("Error when loading example.")
     
     def load_settings(self):
         option_info = Pyslvs_Settings_ini()
         self.Default_Environment_variables = option_info.Environment_variables
         self.Default_canvas_view = option_info.Zoom_factor
         self.Default_Bits = 8
-    
-    def init_open_file(self):
-        for i in sys.argv:
-            if ".csv" in i:
-                fileName = sys.argv[sys.argv.index(i)][2::]
-                self.loadWorkbook(fileName)
-                break
     
     def init_Right_click_menu(self):
         #qpainterWindow Right-click menu
@@ -516,7 +525,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName==False: fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
         if (fileName[-4::]=='.csv') or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==[]:
-                print("Get:"+fileName)
+                print("Get: "+fileName)
                 with open(fileName, newline="") as stream:
                     reader = csv.reader(stream, delimiter=' ', quotechar='|')
                     for row in reader: data += ' '.join(row).split('\t,')
