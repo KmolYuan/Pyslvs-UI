@@ -43,7 +43,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Mask_Change()
         self.init_Right_click_menu()
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$')))
-        self.argvLoadFile()
+        if len(sys.argv)>2: self.argvLoadFile()
     
     def argvLoadFile(self):
         if ".csv" in sys.argv[1].lower():
