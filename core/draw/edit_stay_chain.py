@@ -3,7 +3,7 @@ from .modules import *
 
 class edit_stay_chain_show(QDialog, edit_chain_Dialog):
     Another_chain = pyqtSignal(int)
-    def __init__(self, mask, table, table2, pos, parent=None):
+    def __init__(self, mask, table1, table2, pos, parent=None):
         super(edit_stay_chain_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
@@ -11,7 +11,7 @@ class edit_stay_chain_show(QDialog, edit_chain_Dialog):
             self.Point1.insertItem(i, icon, table1.item(i, 0).text())
             self.Point2.insertItem(i, icon, table1.item(i, 0).text())
             self.Point3.insertItem(i, icon, table1.item(i, 0).text())
-        for i in range(table2.rowCount()): dlg.Chain.insertItem(i, QIcon(QPixmap(":/icons/equal.png")), table2.item(i, 0).text())
+        for i in range(table2.rowCount()): self.Chain.insertItem(i, QIcon(QPixmap(":/icons/equal.png")), table2.item(i, 0).text())
         self.Chain.setCurrentIndex(pos)
         self.p1_p2.setValidator(mask)
         self.p2_p3.setValidator(mask)

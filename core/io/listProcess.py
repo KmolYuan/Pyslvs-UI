@@ -8,10 +8,10 @@ class Points():
         self.list = [{'x':0, 'y':0, 'fix':True, 'cx':0, 'cy':0}]
         self.style = [{'cen':'Red', 'ring':10, 'color':'Red'}]
     
-    def editTable(self, table, name, x, y, fixed, edit=False):
-        rowPosition = int(name.replace("Point", ""))
-        if not edit: table.insertRow(rowPosition)
-        name_set = QTableWidgetItem(name)
+    def editTable(self, table, x, y, fixed, edit=False):
+        rowPosition = edit if edit else table.rowCount()
+        if edit is False: table.insertRow(rowPosition)
+        name_set = QTableWidgetItem("Point{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(x))
@@ -22,13 +22,13 @@ class Points():
         else: checkbox.setCheckState(Qt.Unchecked)
         table.setItem(rowPosition, 3, checkbox)
         self.update(table)
-        if not edit: print("Add Point"+str(rowPosition)+".")
+        if edit is False: print("Add Point"+str(rowPosition)+".")
         else: print("Edit Point"+str(rowPosition)+".")
     
-    def styleAdd(self, table, name, color, ringsize, ringcolor="Green"):
+    def styleAdd(self, table, color, ringsize, ringcolor="Green"):
         rowPosition = table.rowCount()
         table.insertRow(rowPosition)
-        name_set = QTableWidgetItem(name)
+        name_set = QTableWidgetItem("Point{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
         color_combobox = QComboBox(table)
@@ -87,8 +87,8 @@ class Points():
         table.setItem(row, 2, y)
         self.update(table)
     
-    def styleFix(self, table, name, fix):
-        rowPosition = int(name.replace("Point", ""))
+    def styleFix(self, table, fix, edit):
+        rowPosition = edit
         if fix: fix_set = QTableWidgetItem("10")
         else: fix_set = QTableWidgetItem("5")
         fix_set.setFlags(Qt.ItemIsEnabled)
@@ -133,17 +133,17 @@ class Lines():
     def __init__(self):
         self.list = list()
     
-    def editTable(self, table, name, start, end, len, edit=False):
-        rowPosition = int(name.replace("Line", ""))
-        if not edit: table.insertRow(rowPosition)
-        name_set = QTableWidgetItem(name)
+    def editTable(self, table, start, end, len, edit=False):
+        rowPosition = edit if edit else table.rowCount()
+        if edit is False: table.insertRow(rowPosition)
+        name_set = QTableWidgetItem("Line{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(start))
         table.setItem(rowPosition, 2, QTableWidgetItem(end))
         table.setItem(rowPosition, 3, QTableWidgetItem(len))
         self.update(table)
-        if not edit: print("Add a link, Line "+str(rowPosition)+".")
+        if edit is False: print("Add a link, Line "+str(rowPosition)+".")
         else: print("Edit a link, Line "+str(rowPosition)+".")
     
     def deleteTable(self, tableLine, tableSlider, dlg):
@@ -191,10 +191,10 @@ class Chains():
     def __init__(self):
         self.list = list()
     
-    def editTable(self, table, name, p1, p2, p3, a, b, c, edit=False):
-        rowPosition = int(name.replace("Chain", ""))
-        if not edit: table.insertRow(rowPosition)
-        name_set = QTableWidgetItem(name)
+    def editTable(self, table, p1, p2, p3, a, b, c, edit=False):
+        rowPosition = edit if edit else table.rowCount()
+        if edit is False: table.insertRow(rowPosition)
+        name_set = QTableWidgetItem("Chain{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(p1))
@@ -204,7 +204,7 @@ class Chains():
         table.setItem(rowPosition, 5, QTableWidgetItem(b))
         table.setItem(rowPosition, 6, QTableWidgetItem(c))
         self.update(table)
-        if not edit: print("Add a Triangle Chain, Line "+str(rowPosition)+".")
+        if edit is False: print("Add a Triangle Chain, Line "+str(rowPosition)+".")
         else: print("Edit a Triangle Chain, Line "+str(rowPosition)+".")
     
     def update(self, table):
@@ -231,11 +231,11 @@ class Shafts():
         self.list = list()
         self.current = 0
     
-    def editTable(self, table, name, center, references, start, end, demo_angle, edit=False):
-        rowPosition = int(name.replace("Shaft", ""))
-        name_set = QTableWidgetItem(name)
+    def editTable(self, table, center, references, start, end, demo_angle, edit=False):
+        rowPosition = edit if edit else table.rowCount()
+        if edit is False: table.insertRow(rowPosition)
+        name_set = QTableWidgetItem("Shaft{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
-        if not edit: table.insertRow(rowPosition)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(center))
         table.setItem(rowPosition, 2, QTableWidgetItem(references))
@@ -243,7 +243,7 @@ class Shafts():
         table.setItem(rowPosition, 4, QTableWidgetItem(end))
         if demo_angle: table.setItem(rowPosition, 5, QTableWidgetItem(demo_angle))
         self.update(table)
-        if not edit: print("Set the Point to new Shaft.")
+        if edit is False: print("Set the Point to new Shaft.")
         else: print("Set the Point to selected Shaft.")
     
     def setDemo(self, table, index, angle):
@@ -271,16 +271,16 @@ class Sliders():
     def __init__(self):
         self.list = list()
     
-    def editTable(self, table, name, center, references, edit=False):
-        rowPosition = int(name.replace("Slider", ""))
-        name_set = QTableWidgetItem(name)
+    def editTable(self, table, center, references, edit=False):
+        rowPosition = edit if edit else table.rowCount()
+        if edit is False: table.insertRow(rowPosition)
+        name_set = QTableWidgetItem("Slider{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
-        if not edit: table.insertRow(rowPosition)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(center))
         table.setItem(rowPosition, 2, QTableWidgetItem(references))
         self.update(table)
-        if not edit: print("Set the Point to new Slider.")
+        if edit is False: print("Set the Point to new Slider.")
         else: print("Set the Point to selected Slider.")
     
     def update(self, table):
@@ -300,16 +300,16 @@ class Rods():
     def __init__(self):
         self.list = list()
     
-    def editTable(self, table, name, start, end, pos, edit=False):
-        rowPosition = int(name.replace("Rod", ""))
-        name_set = QTableWidgetItem(name)
+    def editTable(self, table, start, end, pos, edit=False):
+        rowPosition = edit if edit else table.rowCount()
+        if edit is False: table.insertRow(rowPosition)
+        name_set = QTableWidgetItem("Rod{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
-        if not edit: table.insertRow(rowPosition)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(start))
         table.setItem(rowPosition, 2, QTableWidgetItem(end))
         table.setItem(rowPosition, 3, QTableWidgetItem(pos))
-        if not edit: print("Set the Point to new Rod.")
+        if edit is False: print("Set the Point to new Rod.")
         else: print("Set the Point to selected Rod.")
     
     def update(self, table):

@@ -52,42 +52,42 @@ class File():
             if (len(li)-1)%4==0:
                 for i in range(1, len(li), 4):
                     fixed = li[i+3]=='Fixed'
-                    self.Points.editTable(Point, li[i], li[i+1], li[i+2], fixed)
+                    self.Points.editTable(Point, li[i+1], li[i+2], fixed)
         except: pass
         try:
             li = data[tableIndex[1]:tableIndex[2]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Points.styleAdd(Point_Style, li[i], li[i+1], li[i+2], li[i+3].replace(",", ""))
+                for i in range(1, len(li), 4): self.Points.styleAdd(Point_Style, li[i+1], li[i+2], li[i+3].replace(",", ""))
         except: pass
         try:
             li = data[tableIndex[2]:tableIndex[3]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lines.editTable(Link, li[i], li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 4): self.Lines.editTable(Link, li[i+1], li[i+2], li[i+3])
         except: pass
         try:
             li = data[tableIndex[3]:tableIndex[4]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Chains.editTable(Chain, li[i], li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
+                for i in range(1, len(li), 7): self.Chains.editTable(Chain, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
         except: pass
         try:
             li = data[tableIndex[4]:tableIndex[5]]
             if (len(li)-1)%6==0:
-                for i in range(1, len(li), 6): self.Shafts.editTable(Shaft, li[i], li[i+1], li[i+2], li[i+3], li[i+4], li[i+5])
+                for i in range(1, len(li), 6): self.Shafts.editTable(Shaft, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5])
         except: pass
         try:
             li = data[tableIndex[5]:tableIndex[6]]
             if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i], li[i+1], li[i+2])
+                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i+1], li[i+2])
         except: pass
         try:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%5==0:
-                for i in range(1, len(li), 5): self.Rods.editTable(Rod, li[i], li[i+1], li[i+2], li[i+3], li[i+4])
+                for i in range(1, len(li), 5): self.Rods.editTable(Rod, li[i+1], li[i+2], li[i+3], li[i+4])
         except: pass
         try:
             li = data[tableIndex[7]:tableIndex[8]]
             if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Parameters.editTable(Parameter, li[i], li[i+1], li[i+2])
+                for i in range(1, len(li), 3): self.Parameters.editTable(Parameter, li[i+1], li[i+2])
         except: pass
         #path
         pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
@@ -126,13 +126,13 @@ class File():
                         if item.text()=='': rowdata += ["Fixed"]
                         else: rowdata += [item.text()+'\t']
             writer.writerow(rowdata)
-        self.CSV_notebook(writer, Point_Style, 4, 1)
-        self.CSV_notebook(writer, Link, 4)
-        self.CSV_notebook(writer, Chain, 7)
-        self.CSV_notebook(writer, Shaft, 6)
-        self.CSV_notebook(writer, Slider, 3)
-        self.CSV_notebook(writer, Rod, 5)
-        self.CSV_notebook(writer, Parameter, 3)
+        self.CSV_write(writer, Point_Style, 4, 1)
+        self.CSV_write(writer, Link, 4)
+        self.CSV_write(writer, Chain, 7)
+        self.CSV_write(writer, Shaft, 6)
+        self.CSV_write(writer, Slider, 3)
+        self.CSV_write(writer, Rod, 5)
+        self.CSV_write(writer, Parameter, 3)
         writer.writerow(["_table_"])
         writer.writerow(["_path_"])
         if self.Path.runList:
@@ -167,7 +167,7 @@ class File():
         with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(code)
     
-    def CSV_notebook(self, writer, table, k, init=0):
+    def CSV_write(self, writer, table, k, init=0):
         writer.writerow(["_table_"])
         for row in range(init, table.rowCount()):
             rowdata = []
@@ -207,3 +207,9 @@ class File():
                 if c==0: table_point[a]['y'] += 0.01
                 else: table_point[c]['y'] += 0.01
         return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
+    
+    def Generate_Merge(self, row, data, Point, Point_Style, Link, Chain, Shaft):
+        for i in range(len(data)):
+            self.Points.editTable(Point, data[i]['x'], data[i]['y'], i<2)
+            self.Points.styleAdd(Point_Style, 'Green', '10' if i<2 else '5', 'Blue' if i<2 else 'Green')
+        self.Chains.editTable(Chain, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
