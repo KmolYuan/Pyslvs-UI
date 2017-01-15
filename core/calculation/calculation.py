@@ -32,7 +32,7 @@ def slvsProcess(
         table_point=None, table_line=None, table_chain=None, table_shaft=None, table_slider=None, table_rod=None, table_parameter=None,
         currentShaft=None, point_int=None, angle=None, generateResult=None):
     pathTrackProcess = not angle==None
-    staticProcess = not table_point==None
+    staticProcess = not(table_point==None) and angle==None
     generateConversionProcess = not generateResult==None
     sys = System(1000)
     p0 = sys.add_param(0.0)
@@ -166,8 +166,8 @@ def slvsProcess(
         Point += [Ap, Dp]
         Xe = generateResult['path'][0][0]
         Ye = generateResult['path'][0][1]
-        print((Xe, Ye), (Xe-0.25, Ye-0.5), (Xe+0.25, Ye-0.25))
-        for e in [[Xe-0.25, Ye-0.5], [Xe+0.25, Ye-0.25], [Xe, Ye]]: #B-3 C-4 E-5
+        factor = 1 if generateResult['Dx']-generateResult['Ax']>0 else -1
+        for e in [[Xe-(0.25*factor), Ye-(0.5*factor)], [Xe+(0.25*factor), Ye-(0.25*factor)], [Xe, Ye]]: #B-3 C-4 E-5
             x = sys.add_param(e[0])
             y = sys.add_param(e[1])
             p = Point2d(Workplane1, x, y)
