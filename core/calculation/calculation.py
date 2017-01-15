@@ -164,14 +164,17 @@ def slvsProcess(
         Dp = Point2d(Workplane1, x, y) #D-2
         Constraint.dragged(Workplane1, Dp)
         Point += [Ap, Dp]
-        for e in [[10, 10], [20, 15], [15, 20]]: #B-3 C-4 E-5
+        Xe = generateResult['path'][0][0]
+        Ye = generateResult['path'][0][1]
+        print((Xe, Ye), (Xe-0.25, Ye-0.5), (Xe+0.25, Ye-0.25))
+        for e in [[Xe-0.25, Ye-0.5], [Xe+0.25, Ye-0.25], [Xe, Ye]]: #B-3 C-4 E-5
             x = sys.add_param(e[0])
             y = sys.add_param(e[1])
             p = Point2d(Workplane1, x, y)
             Point += [p]
-        for e in [['L1', 3, 4], ['L4', 4, 5], ['L3', 3, 5]]: Constraint.distance(generateResult[e[0]], Workplane1, Point[e[1]], Point[e[2]])
         Constraint.distance(generateResult['L0'], Workplane1, Point[1], Point[3])
         Constraint.distance(generateResult['L2'], Workplane1, Point[2], Point[4])
+        for e in [['L1', 3, 4], ['L4', 4, 5], ['L3', 3, 5]]: Constraint.distance(generateResult[e[0]], Workplane1, Point[e[1]], Point[e[2]])
     sys.solve()
     if sys.result==SLVS_RESULT_OKAY:
         if pathTrackProcess:
@@ -193,7 +196,9 @@ def slvsProcess(
         try: return resultList, sys.dof, script
         except: return list(), -1, str()
     elif generateConversionProcess:
-        try: return resultList
+        try:
+            print(resultList)
+            return resultList
         except: return list()
 
 def generateProcess(path, Limits, type=0):

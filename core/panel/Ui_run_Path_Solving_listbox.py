@@ -33,6 +33,7 @@ class Ui_Form(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.mergeButton = QtWidgets.QPushButton(Form)
+        self.mergeButton.setEnabled(False)
         self.mergeButton.setObjectName("mergeButton")
         self.horizontalLayout_2.addWidget(self.mergeButton)
         self.deleteButton = QtWidgets.QPushButton(Form)

@@ -1242,7 +1242,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_deleteResult(self, row): self.File.PathSolvingReqs.removeResult(row)
     @pyqtSlot(int)
     def PathSolving_mergeResult(self, row):
-        self.File.Generate_Merge(row, slvsProcess(generateResult=self.File.PathSolvingReqs.result[row]))
+        self.File.Generate_Merge(row, slvsProcess(generateResult=self.File.PathSolvingReqs.result[row]),
+            self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Drive_Shaft)
+        self.Resolve()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_Drive_clicked(self):

@@ -14,12 +14,18 @@ class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
         item.setToolTip("[{}]\nAx: {}\nAy: {}\nDx: {}\nDy: {}\nL0: {}\nL1: {}\nL2: {}\nL3: {}\nL4: {}\nTime spand: {:.2f} s".format(
             e['Algorithm'], e['Ax'], e['Ay'], e['Dx'], e['Dy'], e['L0'], e['L1'], e['L2'], e['L3'], e['L4'], e['time']))
         self.Result_list.addItem(item)
+        self.isMerge()
+    
+    def isMerge(self):
+        self.mergeButton.setEnabled(self.Result_list.count()>0)
+        self.deleteButton.setEnabled(self.Result_list.count()>0)
     
     @pyqtSlot()
     def on_deleteButton_clicked(self):
         if self.Result_list.currentRow()>-1:
             self.deleteResult.emit(self.Result_list.currentRow())
             self.Result_list.takeItem(self.Result_list.currentRow())
+        self.isMerge()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
@@ -28,4 +34,4 @@ class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
                 (QMessageBox.Apply | QMessageBox.Discard), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.mergeResult.emit(self.Result_list.currentRow())
-                self.Result_list.takeItem(self.Result_list.currentRow())
+                #self.Result_list.takeItem(self.Result_list.currentRow())

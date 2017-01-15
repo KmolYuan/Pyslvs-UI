@@ -209,7 +209,20 @@ class File():
         return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
     
     def Generate_Merge(self, row, data, Point, Point_Style, Link, Chain, Shaft):
-        for i in range(len(data)):
-            self.Points.editTable(Point, data[i]['x'], data[i]['y'], i<2)
-            self.Points.styleAdd(Point_Style, 'Green', '10' if i<2 else '5', 'Blue' if i<2 else 'Green')
-        self.Chains.editTable(Chain, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
+        Result = self.PathSolvingReqs.result[row]
+        #A-C-B-C-E
+        Anum = Point.rowCount()+0
+        Dnum = Point.rowCount()+1
+        Bnum = Point.rowCount()+2
+        Cnum = Point.rowCount()+3
+        Enum = Point.rowCount()+4
+        for i in range(1, len(data)):
+            self.Points.editTable(Point, str(data[i]['x']), str(data[i]['y']), i<3)
+            self.Points.styleAdd(Point_Style, 'Green', '10' if i<3 else '5', 'Blue' if i<3 else 'Green')
+        self.Chains.editTable(Chain,
+            "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
+            str(Result['L1']), str(Result['L4']), str(Result['L3']))
+        self.Lines.editTable(Link, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
+        self.Lines.editTable(Link, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
+        self.Shafts.editTable(Shaft, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0")
+        print("Generate Result Merged.")
