@@ -67,7 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(mimeData.urls())
             for url in mimeData.urls():
                 FilePath = url.toLocalFile()
-                if not FilePath=='' and QFileInfo(FilePath).suffix()=="csv":
+                if QFileInfo(FilePath).suffix()=="csv":
                     print("Loaded drag-in file:\n", FilePath)
                     self.loadWorkbook(FilePath, [])
     
@@ -119,6 +119,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
         self.action_link_right_click_menu_shaft = QAction("Turn this Link to Shaft", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_shaft)
+        self.action_link_right_click_menu_reversion = QAction("Reverse Node point Y Coordinate", self)
+        self.popMenu_link.addAction(self.action_link_right_click_menu_reversion)
         self.popMenu_link.addSeparator()
         self.action_link_right_click_menu_delete = QAction("Delete this Link", self)
         self.popMenu_link.addAction(self.action_link_right_click_menu_delete) 
@@ -235,6 +237,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
         elif action == self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
+        elif action == self.action_link_right_click_menu_reversion:
+            self.File.lineNodeReversion(self.Entiteis_Point, self.Entiteis_Link.currentRow())
+            self.Resolve()
+            self.workbookNoSave()
         elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
     def on_chain_context_menu(self, point):
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
