@@ -5,7 +5,7 @@ Pyslvs(PySolveSpace)
 
 A GUI-based tool solving 2D linkage subject.
 
-Compatible with Python 3.4 and above.
+Compatible with Python 3.4, PyQt 5.5 and above.
 
 ![](icons/cover.png)
 
@@ -42,9 +42,11 @@ $make
 Windows
 ---
 
+Python 3: [Anaconda](https://www.continuum.io/downloads) for Windows 64 bit.
+
 Use both PyInstaller and cxFreeze to build.
 
-Recommended installation: [MinGW](https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files) for win64.
+Other require installation: [MinGW](https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files) for win64.
 
 First, enter the storage folder.
 
@@ -70,7 +72,7 @@ Made by PyQt 5.7 and Python editor [Eric 6](http://eric-ide.python-projects.org/
 
 Including Python module: [PyQt5](http://doc.qt.io/qt-5/index.html), [peewee](http://docs.peewee-orm.com/en/latest/), [dxfwrite](https://pypi.python.org/pypi/dxfwrite/)
 
-Here is **origin kernel** repository:
+Here is the **origin kernel** repository:
 
 * [https://github.com/40323230/python-solvespace](https://github.com/40323230/python-solvespace)
 
