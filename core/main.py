@@ -92,6 +92,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter.addSeparator()
         self.action_painter_right_click_menu_dimension_add = QAction("Show Dimension", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_add)
+        self.action_painter_right_click_menu_dimension_path_track = QAction("Show Path Track", self)
+        self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_path_track)
         self.mouse_pos_x = 0.0
         self.mouse_pos_y = 0.0
         self.qpainterWindow.mouse_track.connect(self.context_menu_mouse_pos)
@@ -215,14 +217,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Resolve()
         elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action == self.action_painter_right_click_menu_dimension_add:
-            if self.actionDisplay_Dimensions.isChecked()==False:
-                self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
-                self.action_painter_right_click_menu_dimension_add.setChecked(True)
-                self.actionDisplay_Dimensions.setChecked(True)
-            elif self.actionDisplay_Dimensions.isChecked()==True:
-                self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
-                self.action_painter_right_click_menu_dimension_add.setChecked(False)
-                self.actionDisplay_Dimensions.setChecked(False)
+            if self.actionDisplay_Dimensions.isChecked()==False: self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
+            elif self.actionDisplay_Dimensions.isChecked()==True: self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
+            self.action_painter_right_click_menu_dimension_add.setChecked(not self.actionDisplay_Dimensions.isChecked())
+            self.actionDisplay_Dimensions.setChecked(not self.actionDisplay_Dimensions.isChecked())
+        elif action == self.action_painter_right_click_menu_dimension_path_track:
+            if self.Path_data_show.checkState()==True: self.action_painter_right_click_menu_dimension_path_track.setText("Hide Path Track")
+            elif self.Path_data_show.checkState()==False: self.action_painter_right_click_menu_dimension_path_track.setText("Show Path Track")
+            self.Path_data_show.setChecked(not self.Path_data_show.checkState())
+            self.on_Path_data_show_clicked()
     def on_point_context_menu(self, point):
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
@@ -466,6 +469,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
         self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.action_link_right_click_menu_reversion.setEnabled(self.Entiteis_Link.rowCount()>0)
     
     @pyqtSlot()
     def on_action_Full_Screen_triggered(self): print("Full Screen.")
