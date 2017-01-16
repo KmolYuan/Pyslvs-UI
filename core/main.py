@@ -45,6 +45,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,'+str(self.Default_Bits-2)+'})?[0-9][.][0-9]{1,'+str(self.Default_Bits)+'}$')))
         if len(sys.argv)>2: self.argvLoadFile()
     
+    #LoadFile
     def argvLoadFile(self):
         if ".csv" in sys.argv[1].lower():
             try: self.loadWorkbook(sys.argv[1])
@@ -60,6 +61,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 elif ExampleNum==5: self.on_actionTwo_Mutiple_Link_triggered()
                 elif ExampleNum==6: self.on_actionReverse_Parsing_Rocker_triggered()
             except: print("Error when loading example.")
+    def dragEnterEvent(self, event):
+        mimeData = event.mimeData()
+        if mimeData.hasUrls():
+            print(mimeData.urls())
+            for url in mimeData.urls():
+                FilePath = url.toLocalFile()
+                if not FilePath=='' and QFileInfo(FilePath).suffix()=="csv":
+                    print("Loaded drag-in file:\n", FilePath)
+                    self.loadWorkbook(FilePath, [])
     
     def load_settings(self):
         option_info = Pyslvs_Settings_ini()
@@ -486,23 +496,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self): self.checkChange("[New Workbook]", new_workbook(), 'Generating New Workbook...')
     @pyqtSlot()
-    def on_action_Load_Workbook_triggered(self): self.checkChange()
+    def on_action_Load_Workbook_triggered(self): self.checkChange(say='Open file...')
     @pyqtSlot()
-    def on_actionCrank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker(), 'Loading Example...')
+    def on_actionCrank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker())
     @pyqtSlot()
-    def on_actionDrag_link_triggered(self): self.checkChange("[Example] Drag-link", example_DragLink(), 'Loading Example...')
+    def on_actionDrag_link_triggered(self): self.checkChange("[Example] Drag-link", example_DragLink())
     @pyqtSlot()
-    def on_actionDouble_rocker_triggered(self): self.checkChange("[Example] Double Rocker", example_doubleRocker(), 'Loading Example...')
+    def on_actionDouble_rocker_triggered(self): self.checkChange("[Example] Double Rocker", example_doubleRocker())
     @pyqtSlot()
-    def on_actionParallelogram_linkage_triggered(self): self.checkChange("[Example] Parallelogram Linkage", example_parallelogramLinkage(), 'Loading Example...')
+    def on_actionParallelogram_linkage_triggered(self): self.checkChange("[Example] Parallelogram Linkage", example_parallelogramLinkage())
     @pyqtSlot()
-    def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink(), 'Loading Example...')
+    def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink())
     @pyqtSlot()
-    def on_actionTwo_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink(), 'Loading Example...')
+    def on_actionTwo_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink())
     @pyqtSlot()
-    def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker(), 'Loading Example...')
+    def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker())
     #Workbook Functions
-    def checkChange(self, name=False, data=[], say=''):
+    def checkChange(self, name=False, data=[], say='Loading Example...'):
         if self.File.form['changed']:
             warning_reset = reset_show()
             warning_reset.show()
@@ -523,7 +533,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         print("Reset workbook.")
         if fileName==False: fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
-        if (fileName[-4::]=='.csv') or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
+        if QFileInfo(fileName).suffix()=="csv" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==[]:
                 print("Get: "+fileName)
                 with open(fileName, newline="") as stream:

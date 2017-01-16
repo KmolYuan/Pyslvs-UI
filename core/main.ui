@@ -19,6 +19,9 @@
   <property name="mouseTracking">
    <bool>true</bool>
   </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
   <property name="windowTitle">
    <string>Pyslvs - [New Workbook]</string>
   </property>
