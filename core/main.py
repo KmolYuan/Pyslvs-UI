@@ -68,7 +68,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 FilePath = url.toLocalFile()
                 if QFileInfo(FilePath).suffix()=="csv": event.acceptProposedAction()
     def dropEvent(self, event):
-        FilePath = event.mimeData().urls()[0].toLocalFile()
+        FilePath = event.mimeData().urls()[-1].toLocalFile()
         self.checkChange(FilePath, [], "Loaded drag-in file:\n"+FilePath)
         event.acceptProposedAction()
     

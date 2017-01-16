@@ -230,11 +230,11 @@ class File():
     def lineNodeReversion(self, tablePoint, row):
         start = self.Points.list[self.Lines.list[row]['start']]
         end = self.Points.list[self.Lines.list[row]['end']]
-        if start['fix']==False:
-            x = str(start['x'])
-            y = str(start['y']-2*(start['y']-end['y']))
-            self.Points.editTable(tablePoint, x, y, False, self.Lines.list[row]['start'])
         if end['fix']==False:
             x = str(end['x'])
             y = str(end['y']-2*(end['y']-start['y']))
             self.Points.editTable(tablePoint, x, y, False, self.Lines.list[row]['end'])
+        elif start['fix']==False:
+            x = str(start['x'])
+            y = str(start['y']-2*(start['y']-end['y']))
+            self.Points.editTable(tablePoint, x, y, False, self.Lines.list[row]['start'])
