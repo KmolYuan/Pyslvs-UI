@@ -64,12 +64,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasUrls():
-            print(mimeData.urls())
             for url in mimeData.urls():
                 FilePath = url.toLocalFile()
                 if QFileInfo(FilePath).suffix()=="csv":
-                    print("Loaded drag-in file:\n", FilePath)
-                    self.loadWorkbook(FilePath, [])
+                    self.setBackgroundRole(QPalette.Dark)
+                    event.acceptProposedAction()
+    def dropEvent(self, event):
+        FilePath = event.mimeData().urls()[0].toLocalFile()
+        self.checkChange(FilePath, [], "Loaded drag-in file:\n"+FilePath)
+        event.acceptProposedAction()
     
     def load_settings(self):
         option_info = Pyslvs_Settings_ini()
