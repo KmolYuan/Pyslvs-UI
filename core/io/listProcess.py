@@ -403,7 +403,7 @@ class Parameters():
 
 class PathSolvingReqs():
     def __init__(self):
-        self.list = [{'x': float(e), 'y': float(e)} for e in range(10)]
+        self.list = list()
         self.result = list()
     
     def add(self, x, y): self.list.append({'x':x, 'y':y})

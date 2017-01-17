@@ -29,11 +29,11 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
 def slvsProcess(
-        table_point=None, table_line=None, table_chain=None, table_shaft=None, table_slider=None, table_rod=None, table_parameter=None,
-        currentShaft=None, point_int=None, angle=None, generateResult=None):
-    pathTrackProcess = not angle==None
-    staticProcess = not(table_point==None) and angle==None
-    generateConversionProcess = not generateResult==None
+        table_point=False, table_line=False, table_chain=False, table_shaft=False, table_slider=False, table_rod=False, table_parameter=False,
+        currentShaft=False, point_int=False, angle=False, generateResult=False):
+    pathTrackProcess = not angle is False
+    staticProcess = not(table_point is False) and angle is False
+    generateConversionProcess = not generateResult is False
     sys = System(1000)
     p0 = sys.add_param(0.0)
     p1 = sys.add_param(0.0)

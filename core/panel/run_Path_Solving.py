@@ -2,6 +2,7 @@
 from .modules import *
 from ..calculation.pathSolving import WorkerThread
 from .run_Path_Solving_listbox import Path_Solving_listbox_show
+from .run_Path_Solving_series import Path_Solving_series_show
 
 class Path_Solving_show(QDialog, PathSolving_Dialog):
     addPathPoint = pyqtSignal(float, float)
@@ -36,6 +37,16 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.Point_list_Count()
     
     @pyqtSlot()
+    def on_series_clicked(self):
+        dlg = Path_Solving_series_show()
+        dlg.show()
+        if dlg.exec_():
+            start = int(dlg.startNum.value()*10)
+            end = int(dlg.endNum.value()*10)
+            diff = int(dlg.diffNum.value()*10)
+            for e in range(start, end, diff): self.on_add_clicked(e/10, e/10)
+    
+    @pyqtSlot()
     def on_moveUp_clicked(self):
         n = self.Point_list.currentRow()
         if n>0 and self.Point_list.count()>1:
@@ -58,15 +69,16 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
             self.Point_list.setCurrentRow(n+1)
     
     def addPath(self, x, y):
-        self.Point_list.addItem('('+str(x)+", "+str(y)+')')
+        self.Point_list.addItem('({}, {})'.format(x, y))
         self.Point_list_Count()
     
     @pyqtSlot()
-    def on_add_clicked(self):
-        e = (float(self.X_coordinate.text()) if self.X_coordinate.text()!='' else float(self.X_coordinate.placeholderText()),
-            float(self.Y_coordinate.text()) if self.Y_coordinate.text()!='' else float(self.Y_coordinate.placeholderText()))
-        self.addPathPoint.emit(e[0], e[1])
-        self.Point_list.addItem('('+str(e[0])+", "+str(e[1])+')')
+    def on_add_clicked(self, x=False, y=False):
+        if x is False:
+            x=float(self.X_coordinate.text() if self.X_coordinate.text()!='' else self.X_coordinate.placeholderText())
+            y=float(self.Y_coordinate.text() if self.Y_coordinate.text()!='' else self.Y_coordinate.placeholderText())
+        self.addPathPoint.emit(x, y)
+        self.Point_list.addItem("({}, {})".format(x, y))
         self.Point_list_Count()
     @pyqtSlot()
     def on_remove_clicked(self):

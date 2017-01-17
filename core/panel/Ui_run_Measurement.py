@@ -20,6 +20,9 @@ class Ui_Form(object):
         Form.setMouseTracking(False)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.label_7 = QtWidgets.QLabel(Form)
+        self.label_7.setObjectName("label_7")
+        self.verticalLayout.addWidget(self.label_7)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.label_4 = QtWidgets.QLabel(Form)
@@ -152,6 +155,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.label_7.setText(_translate("Form", "<html><head/><body><p>Measure the distance between two points.</p></body></html>"))
         self.label_4.setText(_translate("Form", "Distance:"))
         self.label_5.setText(_translate("Form", "Max:"))
         self.Max_val.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"

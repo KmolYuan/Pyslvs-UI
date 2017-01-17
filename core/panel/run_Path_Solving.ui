@@ -268,6 +268,16 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="series">
+          <property name="text">
+           <string>Series...</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -574,6 +584,9 @@
        <widget class="QPushButton" name="Generate">
         <property name="text">
          <string>Generate</string>
+        </property>
+        <property name="default">
+         <bool>false</bool>
         </property>
        </widget>
       </item>

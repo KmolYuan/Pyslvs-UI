@@ -20,6 +20,9 @@ class Ui_Form(object):
         Form.setMouseTracking(False)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.label_2 = QtWidgets.QLabel(Form)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.Point = QtWidgets.QComboBox(Form)
@@ -87,6 +90,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
+        self.label_2.setText(_translate("Form", "<html><head/><body><p>Follow a point to find the moving boundary.</p></body></html>"))
         self.H_line.setText(_translate("Form", "Horizontal"))
         self.V_line.setText(_translate("Form", "Vertical"))
         self.Max_Limit.setText(_translate("Form", "Max Limit"))
