@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Path_Solving_listbox.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Solving_listbox.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -37,6 +37,7 @@ class Ui_Form(object):
         self.mergeButton.setObjectName("mergeButton")
         self.horizontalLayout_2.addWidget(self.mergeButton)
         self.deleteButton = QtWidgets.QPushButton(Form)
+        self.deleteButton.setEnabled(False)
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout_2.addWidget(self.deleteButton)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
