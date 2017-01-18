@@ -107,7 +107,7 @@
       <item>
        <widget class="QRadioButton" name="type2">
         <property name="text">
-         <string>Differtial Evolution</string>
+         <string>Differential Evolution</string>
         </property>
        </widget>
       </item>

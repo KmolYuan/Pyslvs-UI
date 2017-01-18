@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Path_Solving.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Solving.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -307,7 +307,7 @@ class Ui_Dialog(object):
         self.label_6.setText(_translate("Dialog", "Algorithm: "))
         self.type0.setText(_translate("Dialog", "Genetic"))
         self.type1.setText(_translate("Dialog", "Firefly"))
-        self.type2.setText(_translate("Dialog", "Differtial Evolution"))
+        self.type2.setText(_translate("Dialog", "Differential Evolution"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Point(s):</span></p></body></html>"))
         self.pointNum.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">0</span></p></body></html>"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">Point(s)</span></p></body></html>"))
