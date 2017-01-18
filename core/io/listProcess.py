@@ -155,7 +155,7 @@ class Lines():
         for i in range(tableLine.rowCount()):
             if (dlg.Entity.currentText() == tableLine.item(i, 0).text()):
                 tableLine.removeRow(i)
-                for j in range(i, table1.rowCount()): tableLine.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
+                for j in range(i, tableLine.rowCount()): tableLine.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
                 break
         self.update(tableLine)
     

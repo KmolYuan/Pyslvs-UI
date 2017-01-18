@@ -229,6 +229,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_point_context_menu(self, point):
         self.action_point_right_click_menu_delete.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
         self.action_point_right_click_menu_edit.setEnabled(self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0)
+        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
         if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
@@ -467,7 +468,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Drive_rod.setEnabled(self.Rod.rowCount()>0)
         #Others
         self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
-        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_link_right_click_menu_reversion.setEnabled(self.Entiteis_Link.rowCount()>0)
     
@@ -719,7 +719,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText()
             self.File.Points.editTable(table1, x, y, dlg.Fix_Point.checkState())
             fix = "10" if dlg.Fix_Point.checkState() else "5"
-            self.File.Points.styleAdd(table2, dlg.Point_num.toPlainText(), "Green", fix, "Green")
+            self.File.Points.styleAdd(table2, "Green", fix, "Green")
             self.Resolve()
             self.workbookNoSave()
     @pyqtSlot()
