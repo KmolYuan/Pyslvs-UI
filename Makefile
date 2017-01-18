@@ -2,13 +2,15 @@ all: build run
 
 #Windows: Temporarily display log for debugging.
 build: launch_pyslvs.py
-	@echo ---Pyslvs Windows Build---
+	@echo ---Pyslvs  Build---
 ifeq ($(OS),Windows_NT)
+	@echo ---Windows Version---
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 	python setup.py build
 	@echo ---Copying Folder and Files---
 	xcopy .\build\exe.win-amd64-3.5\core .\dist\launch_pyslvs\core\ /s /y /i
 else
+	@echo ---Linux Version---
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 endif
 	@echo ---Done---
