@@ -84,6 +84,20 @@ def slvsProcess(
                     elif case1 and case2: y = sys.add_param(cen-diff)
                     elif not case1 and not case2: y = sys.add_param(cen-diff)
                     elif not case1 and case2: y = sys.add_param(ref)
+                elif not table_point[i]['fix'] and (angle>=180 or table_shaft[currentShaft]['demo']>=180) and False:
+                    change = False
+                    for e in table_line:
+                        if i in e.values() and not table_shaft[currentShaft]['ref'] in e.values():
+                            cen = table_point[e['start'] if e['end']==i else e['end']]['y']
+                            ref = table_point[i]['y']
+                            diff = ref-cen
+                            for t in [table_line, table_chain]:
+                                for k in t:
+                                    if i in k.values() and table_shaft[currentShaft]['ref'] in k.values():
+                                        change = True
+                                        y = sys.add_param(cen-diff)
+                            break
+                    if change==False: y = sys.add_param(table_point[i]['y'])
                 else: y = sys.add_param(table_point[i]['y'])
             else: y = sys.add_param(table_point[i]['y'])
             p = Point2d(Workplane1, x, y)
