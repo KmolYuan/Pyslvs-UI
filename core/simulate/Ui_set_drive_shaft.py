@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/simulate/set_drive_shaft.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\simulate\set_drive_shaft.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -110,6 +110,9 @@ class Ui_Dialog(object):
         self.Demo_angle.setProperty("value", 0.0)
         self.Demo_angle.setObjectName("Demo_angle")
         self.verticalLayout_2.addWidget(self.Demo_angle)
+        self.isParallelogram = QtWidgets.QCheckBox(Dialog)
+        self.isParallelogram.setObjectName("isParallelogram")
+        self.verticalLayout_2.addWidget(self.isParallelogram)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
         self.retranslateUi(Dialog)
@@ -129,6 +132,7 @@ class Ui_Dialog(object):
         self.References.setWhatsThis(_translate("Dialog", "End point for next link."))
         self.label_2.setText(_translate("Dialog", "References"))
         self.Demo_angle_enable.setText(_translate("Dialog", "Demo Angle(deg)"))
+        self.isParallelogram.setText(_translate("Dialog", "Parallelogram?"))
 
 import icons_rc
 

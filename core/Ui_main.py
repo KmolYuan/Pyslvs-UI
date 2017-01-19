@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -494,7 +494,7 @@ class Ui_MainWindow(object):
         self.Drive_Shaft.setStatusTip("")
         self.Drive_Shaft.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.Drive_Shaft.setObjectName("Drive_Shaft")
-        self.Drive_Shaft.setColumnCount(6)
+        self.Drive_Shaft.setColumnCount(7)
         self.Drive_Shaft.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         icon8 = QtGui.QIcon()
@@ -511,6 +511,8 @@ class Ui_MainWindow(object):
         self.Drive_Shaft.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.Drive_Shaft.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.Drive_Shaft.setHorizontalHeaderItem(6, item)
         self.Drive_Shaft.horizontalHeader().setDefaultSectionSize(120)
         self.Drive_Shaft.horizontalHeader().setMinimumSectionSize(90)
         self.Drive_Shaft_Layout.addWidget(self.Drive_Shaft)
@@ -789,7 +791,7 @@ class Ui_MainWindow(object):
         self.centralLayout.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 22))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -875,8 +877,8 @@ class Ui_MainWindow(object):
         self.action_Highlight_Drive_Shaft_Point.setCheckable(True)
         self.action_Highlight_Drive_Shaft_Point.setChecked(True)
         icon25 = QtGui.QIcon()
-        icon25.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon25.addPixmap(QtGui.QPixmap(":/icons/char-1-check-true.png"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        icon25.addPixmap(QtGui.QPixmap(":/icons/char-0-check-false.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Highlight_Drive_Shaft_Point.setIcon(icon25)
         self.action_Highlight_Drive_Shaft_Point.setObjectName("action_Highlight_Drive_Shaft_Point")
         self.actionMi_nimized = QtWidgets.QAction(MainWindow)
@@ -1280,8 +1282,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
         self.Parameter_digital.setStatusTip(_translate("MainWindow", "Enter your parameter."))
         self.Parameter_digital.setPlaceholderText(_translate("MainWindow", "0.0"))
@@ -1331,6 +1333,8 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End Angle(deg)"))
         item = self.Drive_Shaft.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "Demo Angle(deg)"))
+        item = self.Drive_Shaft.horizontalHeaderItem(6)
+        item.setText(_translate("MainWindow", "Parallelogram?"))
         self.Simulate_tab.setTabText(self.Simulate_tab.indexOf(self.Shaft_tab), _translate("MainWindow", "Shaft"))
         self.Slider_Widget.setStatusTip(_translate("MainWindow", "All slider will show here. Needs a point and a link."))
         self.reqSlider.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 1 Point (not origin), 1 Line.</span></p></body></html>"))
@@ -1380,8 +1384,8 @@ class Ui_MainWindow(object):
         self.ZoomText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">200%</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">200%</span></p></body></html>"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Focus to Origin."))
         self.ResetCanvas.setText(_translate("MainWindow", "Origin"))
         self.FitW.setStatusTip(_translate("MainWindow", "Fit by width."))

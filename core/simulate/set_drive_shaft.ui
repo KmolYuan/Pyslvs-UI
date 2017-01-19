@@ -236,6 +236,13 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QCheckBox" name="isParallelogram">
+       <property name="text">
+        <string>Parallelogram?</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
