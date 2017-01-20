@@ -3,13 +3,13 @@ Yuang
 _info_
 Example: Crank Rocker
 _info_
-2017/1/15 14:24
+2017/1/20 22:0
 _info_
 _table_
-Point1	,90.00	,0.00	,Fixed
-Point2	,20	,20	,noFixedFixed
-Point3	,0	,10	,noFixedFixed
-Point4	,30	,20	,noFixedFixed
+Point1	,90.00	,0.00	,True
+Point2	,20	,20	,False
+Point3	,0	,10	,False
+Point4	,30	,20	,False
 _table_
 Point1	,Green	,10	,Blue
 Point2	,Green	,5	,Magenta
@@ -21,7 +21,7 @@ Line1	,Point1	,Point4	,70.00
 _table_
 Chain0	,Point2	,Point3	,Point4	,40.00	,70.00	,40.00
 _table_
-Shaft0	,Point0	,Point3	,0.00	,360.00	,70.07
+Shaft0	,Point0	,Point3	,0.00	,360.00	,70.07	,False
 _table_
 _table_
 _table_

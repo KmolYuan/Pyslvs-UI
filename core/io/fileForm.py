@@ -50,9 +50,7 @@ class File():
         try:
             li = data[tableIndex[0]:tableIndex[1]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4):
-                    fixed = li[i+3]=='Fixed'
-                    self.Points.editTable(Point, li[i+1], li[i+2], fixed)
+                for i in range(1, len(li), 4): self.Points.editTable(Point, li[i+1], li[i+2], li[i+3]=='True')
         except: pass
         try:
             li = data[tableIndex[1]:tableIndex[2]]
@@ -71,8 +69,8 @@ class File():
         except: pass
         try:
             li = data[tableIndex[4]:tableIndex[5]]
-            if (len(li)-1)%6==0:
-                for i in range(1, len(li), 6): self.Shafts.editTable(Shaft, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5])
+            if (len(li)-1)%7==0:
+                for i in range(1, len(li), 7): self.Shafts.editTable(Shaft, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]=='True')
         except: pass
         try:
             li = data[tableIndex[5]:tableIndex[6]]
@@ -112,24 +110,13 @@ class File():
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form['fileName'] = fileName.split('/')[-1]
         writer.writerows([
-            ["_info_"], [self.form['author']],
-            ["_info_"], [self.form['description']],
-            ["_info_"], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)],
-            ["_info_"], ["_table_"]])
-        for row in range(1, Point.rowCount()):
-            rowdata = []
-            for column in range(Point.columnCount()-1):
-                item = Point.item(row, column)
-                if item is not None:
-                    if (item.checkState()==False) and (item.text()==''): rowdata += ["noFixedFixed"]
-                    else:
-                        if item.text()=='': rowdata += ["Fixed"]
-                        else: rowdata += [item.text()+'\t']
-            writer.writerow(rowdata)
-        self.CSV_write(writer, Point_Style, 4, 1)
+            ["_info_"], [self.form['author']], ["_info_"], [self.form['description']],
+            ["_info_"], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
+        self.CSV_write(writer, Point, 4, init=1)
+        self.CSV_write(writer, Point_Style, 4, init=1)
         self.CSV_write(writer, Link, 4)
         self.CSV_write(writer, Chain, 7)
-        self.CSV_write(writer, Shaft, 6)
+        self.CSV_write(writer, Shaft, 7)
         self.CSV_write(writer, Slider, 3)
         self.CSV_write(writer, Rod, 5)
         self.CSV_write(writer, Parameter, 3)
@@ -171,11 +158,14 @@ class File():
         writer.writerow(["_table_"])
         for row in range(init, table.rowCount()):
             rowdata = []
-            for column in range(table.columnCount()):
-                if table.item(row, column) is not None:
-                    if column==k-1: rowdata += [table.item(row, column).text()]
-                    else: rowdata += [table.item(row, column).text()+'\t']
-                elif table.cellWidget(row, column): rowdata += [table.cellWidget(row, column).currentText()]
+            for column in range(k):
+                item = table.item(row, column)
+                cellWidget = table.cellWidget(row, column)
+                if not item is None:
+                    if item.text()=='': content = "False" if item.checkState()==False else "True"
+                    else: content = item.text()
+                    rowdata += [content+('' if column==k-1 else '\t')]
+                elif cellWidget: rowdata += [cellWidget.currentText()]
             writer.writerow(rowdata)
     
     def Obstacles_Exclusion(self):
@@ -224,7 +214,7 @@ class File():
             str(Result['L1']), str(Result['L4']), str(Result['L3']))
         self.Lines.editTable(Link, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
         self.Lines.editTable(Link, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
-        self.Shafts.editTable(Shaft, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0")
+        self.Shafts.editTable(Shaft, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False)
         print("Generate Result Merged.")
     
     def lineNodeReversion(self, tablePoint, row):

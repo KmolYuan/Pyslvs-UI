@@ -3,22 +3,22 @@ Yuang
 _info_
 Example: Two Pairs Mutiple Link
 _info_
-2017/1/15 14:46
+2017/1/20 22:0
 _info_
 _table_
-Point1	,-0.9673638087211588	,14.96877440746491	,noFixedFixed
-Point2	,-38.0	,-7.8	,Fixed
-Point3	,-47.781645924846174	,32.53075009221798	,noFixedFixed
-Point4	,-77.50272355544476	,-14.695276042487995	,noFixedFixed
-Point5	,-57.75719471806708	,-48.79035033383228	,noFixedFixed
-Point6	,-6.737084852656755	,-90.1840502085893	,noFixedFixed
-Point7	,-21.448607086721726	,-43.44465447483369	,noFixedFixed
-Point8	,40.6	,30.6	,noFixedFixed
-Point9	,86.0	,14.8	,noFixedFixed
-Point10	,38.0	,-7.8	,Fixed
-Point11	,41.2	,-35.8	,noFixedFixed
-Point12	,79.4	,-40.2	,noFixedFixed
-Point13	,44.8	,-88.4	,noFixedFixed
+Point1	,-0.9673638087211588	,14.96877440746491	,False
+Point2	,-38.0	,-7.8	,True
+Point3	,-47.781645924846174	,32.53075009221798	,False
+Point4	,-77.50272355544476	,-14.695276042487995	,False
+Point5	,-57.75719471806708	,-48.79035033383228	,False
+Point6	,-6.737084852656755	,-90.1840502085893	,False
+Point7	,-21.448607086721726	,-43.44465447483369	,False
+Point8	,40.6	,30.6	,False
+Point9	,86.0	,14.8	,False
+Point10	,38.0	,-7.8	,True
+Point11	,41.2	,-35.8	,False
+Point12	,79.4	,-40.2	,False
+Point13	,44.8	,-88.4	,False
 _table_
 Point1	,Green	,5	,Dark Yellow
 Point2	,Green	,10	,Blue
@@ -49,7 +49,7 @@ Chain1	,Point5	,Point6	,Point7	,65.70	,49.00	,36.70
 Chain2	,Point8	,Point9	,Point10	,55.8	,40.1	,41.5
 Chain3	,Point11	,Point12	,Point13	,36.7	,65.7	,49
 _table_
-Shaft0	,Point0	,Point1	,0.00	,360.00	,360.0
+Shaft0	,Point0	,Point1	,0.00	,360.00	,360.0	,False
 _table_
 _table_
 _table_

@@ -231,7 +231,7 @@ class Shafts():
         self.list = list()
         self.current = 0
     
-    def editTable(self, table, center, references, start, end, demo_angle, edit=False):
+    def editTable(self, table, center, references, start, end, demo_angle, isParallelogram, edit=False):
         rowPosition = edit if edit else table.rowCount()
         if edit is False: table.insertRow(rowPosition)
         name_set = QTableWidgetItem("Shaft{}".format(rowPosition))
@@ -242,6 +242,12 @@ class Shafts():
         table.setItem(rowPosition, 3, QTableWidgetItem(start))
         table.setItem(rowPosition, 4, QTableWidgetItem(end))
         if demo_angle: table.setItem(rowPosition, 5, QTableWidgetItem(demo_angle))
+        else: table.setItem(rowPosition, 5, QTableWidgetItem(start))
+        checkbox = QTableWidgetItem("")
+        checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        if isParallelogram: checkbox.setCheckState(Qt.Checked)
+        else: checkbox.setCheckState(Qt.Unchecked)
+        table.setItem(rowPosition, 6, checkbox)
         self.update(table)
         if edit is False: print("Set the Point to new Shaft.")
         else: print("Set the Point to selected Shaft.")
@@ -259,7 +265,8 @@ class Shafts():
             k['start'] = float(table.item(i, 3).text())
             k['end'] = float(table.item(i, 4).text())
             try: k['demo'] = float(table.item(i, 5).text())
-            except: pass
+            except: k['demo'] = float(table.item(i, 3).text())
+            k['isParallelogram'] = bool(table.item(i, 6).checkState())
             lst += [k]
         self.list = lst
     

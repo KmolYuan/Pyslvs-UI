@@ -715,9 +715,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = New_point(self.Mask, table1)
         dlg.show()
         if dlg.exec_():
-            x = dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText()
-            y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText()
-            self.File.Points.editTable(table1, x, y, dlg.Fix_Point.checkState())
+            self.File.Points.editTable(table1,
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
+                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
+                bool(dlg.Fix_Point.checkState()))
             fix = "10" if dlg.Fix_Point.checkState() else "5"
             self.File.Points.styleAdd(table2, "Green", fix, "Green")
             self.Resolve()
@@ -746,8 +747,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Points.editTable(table1,
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                dlg.Fix_Point.checkState(), pos)
-            self.File.Points.styleFix(table2, dlg.Fix_Point.checkState(), pos)
+                bool(dlg.Fix_Point.checkState()), pos)
+            self.File.Points.styleFix(table2, bool(dlg.Fix_Point.checkState()), pos)
             self.Resolve()
             self.workbookNoSave()
     point_feedback = pyqtSignal(float, float, bool)
@@ -880,14 +881,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             b = dlg.References.currentText()
             c = dlg.Start_Angle.text()
             d = dlg.End_Angle.text()
-            if dlg.Demo_angle_enable.checkState(): e = dlg.Demo_angle.text()
-            else: e = None
-            if (a==b)or(c==d):
+            e = dlg.Demo_angle.text() if dlg.Demo_angle_enable.checkState() else dlg.Start_Angle.text()
+            if a==b or c==d:
                 dlg = same_show()
                 dlg.show()
                 if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
             else:
-                self.File.Shafts.editTable(table2, a, b, c, d, e)
+                self.File.Shafts.editTable(table2, a, b, c, d, e, bool(dlg.isParallelogram.checkState()))
                 self.Resolve()
                 self.workbookNoSave()
     
@@ -905,12 +905,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             b = dlg.References.currentText()
             c = dlg.Start_Angle.text()
             d = dlg.End_Angle.text()
-            if (a == b) or (c == d):
+            if a==b or c==d:
                 dlg = same_show()
                 dlg.show()
                 if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
             else:
-                self.File.Shafts.editTable(table2, a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), pos)
+                self.File.Shafts.editTable(table2, a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()), pos)
                 self.Resolve()
                 self.workbookNoSave()
     shaft_feedback = pyqtSignal(int, int, float, float)

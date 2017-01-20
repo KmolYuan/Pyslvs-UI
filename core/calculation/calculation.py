@@ -84,7 +84,7 @@ def slvsProcess(
                     elif case1 and case2: y = sys.add_param(cen-diff)
                     elif not case1 and not case2: y = sys.add_param(cen-diff)
                     elif not case1 and case2: y = sys.add_param(ref)
-                elif not table_point[i]['fix'] and (angle>=180 or table_shaft[currentShaft]['demo']>=180) and False:
+                elif not table_point[i]['fix'] and (angle>=180 or table_shaft[currentShaft]['demo']>=180) and table_shaft[currentShaft]['isParallelogram']:
                     change = False
                     for e in table_line:
                         if i in e.values() and not table_shaft[currentShaft]['ref'] in e.values():

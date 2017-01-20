@@ -32,11 +32,11 @@ def new_workbook():
 def example_crankRocker():
     return [
         '_info_', 'Yuang', '_info_', 'Example: Crank Rocker', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
-        '_table_', 'Point1', '90.00', '0.00', 'Fixed', 'Point2', '20', '20', 'noFixedFixed', 'Point3', '0', '10', 'noFixedFixed', 'Point4', '30', '20', 'noFixedFixed',
+        '_table_', 'Point1', '90.00', '0.00', 'True', 'Point2', '20', '20', 'False', 'Point3', '0', '10', 'False', 'Point4', '30', '20', 'False',
         '_table_', 'Point1', 'Green', '10', 'Blue', 'Point2', 'Green', '5', 'Magenta', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point3', '35.00', 'Line1', 'Point1', 'Point4', '70.00',
         '_table_', 'Chain0', 'Point2', 'Point3', 'Point4', '40.00', '70.00', '40.00',
-        '_table_', 'Shaft0', 'Point0', 'Point3', '0.00', '360.00', '70.07',
+        '_table_', 'Shaft0', 'Point0', 'Point3', '0.00', '360.00', '70.07', 'False',
         '_table_',
         '_table_',
         '_table_',
@@ -49,11 +49,11 @@ def example_crankRocker():
 def example_DragLink():
     return [
         '_info_', 'Yuang', '_info_', 'Example: Drag-link', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
-        '_table_', 'Point1', '50', '0', 'Fixed', 'Point2', '2.75', '46.5', 'noFixedFixed', 'Point3', '56.25', '45.75', 'noFixedFixed',
+        '_table_', 'Point1', '50', '0', 'True', 'Point2', '2.75', '46.5', 'False', 'Point3', '56.25', '45.75', 'False',
         '_table_', 'Point1', 'Green', '10', 'Blue', 'Point2', 'Green', '5', 'Orange', 'Point3', 'Green', '5', 'Magenta',
         '_table_', 'Line0', 'Point0', 'Point2', '70', 'Line1', 'Point2', 'Point3', '70', 'Line2', 'Point1', 'Point3', '70',
         '_table_',
-        '_table_', 'Shaft0', 'Point0', 'Point2', '0.00', '360.00', '36.39',
+        '_table_', 'Shaft0', 'Point0', 'Point2', '0.00', '360.00', '36.39', 'False',
         '_table_',
         '_table_',
         '_table_',
@@ -66,11 +66,11 @@ def example_DragLink():
 def example_doubleRocker():
     return [
         '_info_', 'Yuan', '_info_', 'Example: Parallelogram Linkage', '_info_', '2016/12/13 19:36', '_info_',
-        '_table_', 'Point1', '70', '0', 'Fixed', 'Point2', '10.5', '59.25', 'noFixedFixed', 'Point3', '63.5', '60.75', 'noFixedFixed',
+        '_table_', 'Point1', '70', '0', 'True', 'Point2', '10.5', '59.25', 'False', 'Point3', '63.5', '60.75', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Green', '5', 'Orange', 'Point3', 'Green', '5', 'Magenta',
         '_table_', 'Line0', 'Point0', 'Point2', '70', 'Line1', 'Point1', 'Point3', '70', 'Line2', 'Point2', 'Point3', '40',
         '_table_',
-        '_table_', 'Shaft0', 'Point0', 'Point2', '0.00', '360.00', '81.09',
+        '_table_', 'Shaft0', 'Point0', 'Point2', '0.00', '360.00', '81.09', 'False',
         '_table_',
         '_table_',
         '_table_',
@@ -83,11 +83,11 @@ def example_doubleRocker():
 def example_parallelogramLinkage():
     return [
         '_info_', 'Yuan', '_info_', 'Example: Parallelogram Linkage', '_info_', '2016/12/13 19:23', '_info_',
-        '_table_', 'Point1', '70', '0', 'Fixed', 'Point2', '10.5', '59.25', 'noFixedFixed', 'Point3', '63.5', '60.75', 'noFixedFixed',
+        '_table_', 'Point1', '70', '0', 'True', 'Point2', '10.5', '59.25', 'False', 'Point3', '63.5', '60.75', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Green', '5', 'Green', 'Point3', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point2', '70', 'Line1', 'Point1', 'Point3', '70', 'Line2', 'Point2', 'Point3', '70',
         '_table_',
-        '_table_', 'Shaft0', 'Point0', 'Point2', '0.00', '360.00', '117.05',
+        '_table_', 'Shaft0', 'Point0', 'Point2', '0.00', '360.00', '117.05', 'True',
         '_table_',
         '_table_',
         '_table_',
@@ -100,11 +100,11 @@ def example_parallelogramLinkage():
 def example_mutipleLink():
     return [
         '_info_', 'Yuang', '_info_', 'Example: Mutiple Link', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
-        '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'noFixedFixed', 'Point2', '-38.0', '-7.8', 'Fixed', 'Point3', '-47.781645924846174', '32.53075009221798', 'noFixedFixed', 'Point4', '-77.50272355544476', '-14.695276042487995', 'noFixedFixed', 'Point5', '-57.75719471806708', '-48.79035033383228', 'noFixedFixed', 'Point6', '-6.737084852656755', '-90.1840502085893', 'noFixedFixed', 'Point7', '-21.448607086721726', '-43.44465447483369', 'noFixedFixed',
+        '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'False', 'Point2', '-38.0', '-7.8', 'True', 'Point3', '-47.781645924846174', '32.53075009221798', 'False', 'Point4', '-77.50272355544476', '-14.695276042487995', 'False', 'Point5', '-57.75719471806708', '-48.79035033383228', 'False', 'Point6', '-6.737084852656755', '-90.1840502085893', 'False', 'Point7', '-21.448607086721726', '-43.44465447483369', 'False',
         '_table_', 'Point1', 'Green', '5', 'Green', 'Point2', 'Green', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Green', '5', 'Green', 'Point7', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point4', 'Point5', '39.40', 'Line1', 'Point2', 'Point7', '39.30', 'Line2', 'Point1', 'Point3', '50.00', 'Line3', 'Point1', 'Point7', '61.90', 'Line4', 'Point0', 'Point1', '15.00',
         '_table_', 'Chain0', 'Point2', 'Point3', 'Point4', '41.50', '55.80', '40.10', 'Chain1', 'Point5', 'Point6', 'Point7', '65.70', '49.00', '36.70',
-        '_table_', 'Shaft0', 'Point0', 'Point1', '0.00', '360.00', '45.00',
+        '_table_', 'Shaft0', 'Point0', 'Point1', '0.00', '360.00', '45.00', 'False',
         '_table_',
         '_table_',
         '_table_',
@@ -117,11 +117,11 @@ def example_mutipleLink():
 def example_twoMutipleLink():
     return [
         '_info_', 'Yuang', '_info_', 'Example: Two Pairs Mutiple Link', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
-        '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'noFixedFixed', 'Point2', '-38.0', '-7.8', 'Fixed', 'Point3', '-47.781645924846174', '32.53075009221798', 'noFixedFixed', 'Point4', '-77.50272355544476', '-14.695276042487995', 'noFixedFixed', 'Point5', '-57.75719471806708', '-48.79035033383228', 'noFixedFixed', 'Point6', '-6.737084852656755', '-90.1840502085893', 'noFixedFixed', 'Point7', '-21.448607086721726', '-43.44465447483369', 'noFixedFixed', 'Point8', '40.6', '30.6', 'noFixedFixed', 'Point9', '86.0', '14.8', 'noFixedFixed', 'Point10', '38.0', '-7.8', 'Fixed', 'Point11', '41.2', '-35.8', 'noFixedFixed', 'Point12', '79.4', '-40.2', 'noFixedFixed', 'Point13', '44.8', '-88.4', 'noFixedFixed',
+        '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'False', 'Point2', '-38.0', '-7.8', 'True', 'Point3', '-47.781645924846174', '32.53075009221798', 'False', 'Point4', '-77.50272355544476', '-14.695276042487995', 'False', 'Point5', '-57.75719471806708', '-48.79035033383228', 'False', 'Point6', '-6.737084852656755', '-90.1840502085893', 'False', 'Point7', '-21.448607086721726', '-43.44465447483369', 'False', 'Point8', '40.6', '30.6', 'False', 'Point9', '86.0', '14.8', 'False', 'Point10', '38.0', '-7.8', 'True', 'Point11', '41.2', '-35.8', 'False', 'Point12', '79.4', '-40.2', 'False', 'Point13', '44.8', '-88.4', 'False',
         '_table_', 'Point1', 'Green', '5', 'Dark, Yellow', 'Point2', 'Green', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Green', '5', 'Magenta', 'Point7', 'Green', '5', 'Green', 'Point8', 'Green', '5', 'Green', 'Point9', 'Green', '5', 'Green', 'Point10', 'Green', '10', 'Blue', 'Point11', 'Green', '5', 'Green', 'Point12', 'Green', '5', 'Green', 'Point13', 'Green', '5', 'Magenta',
         '_table_', 'Line0', 'Point4', 'Point5', '39.40', 'Line1', 'Point2', 'Point7', '39.30', 'Line2', 'Point1', 'Point3', '50.00', 'Line3', 'Point1', 'Point7', '61.90', 'Line4', 'Point0', 'Point1', '15.00', 'Line5', 'Point1', 'Point8', '50', 'Line6', 'Point10', 'Point11', '39.3', 'Line7', 'Point9', 'Point12', '39.4', 'Line8', 'Point1', 'Point11', '61.9',
         '_table_', 'Chain0', 'Point2', 'Point3', 'Point4', '41.50', '55.80', '40.10', 'Chain1', 'Point5', 'Point6', 'Point7', '65.70', '49.00', '36.70', 'Chain2', 'Point8', 'Point9', 'Point10', '55.8', '40.1', '41.5', 'Chain3', 'Point11', 'Point12', 'Point13', '36.7', '65.7', '49',
-        '_table_', 'Shaft0', 'Point0', 'Point1', '0.00', '360.00', '360.0',
+        '_table_', 'Shaft0', 'Point0', 'Point1', '0.00', '360.00', '360.0', 'False',
         '_table_',
         '_table_',
         '_table_',
@@ -134,11 +134,11 @@ def example_twoMutipleLink():
 def example_reverseParsingRocker():
     return [
         '_info_', 'Kmol Lee', '_info_', 'Genetic algorithm.', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
-        '_table_', 'Point1', '-1.9', '-17.742', 'Fixed', 'Point2', '45.6743', '-35.318', 'Fixed', 'Point3', '-10.0', '-10', 'noFixedFixed', 'Point4', '40', '30.0', 'noFixedFixed', 'Point5', '-5', '30.0', 'noFixedFixed',
+        '_table_', 'Point1', '-1.9', '-17.742', 'True', 'Point2', '45.6743', '-35.318', 'True', 'Point3', '-10.0', '-10', 'False', 'Point4', '40', '30.0', 'False', 'Point5', '-5', '30.0', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Green', '10', 'Green', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Magenta',
         '_table_', 'Line0', 'Point1', 'Point3', '8.9691', 'Line1', 'Point2', 'Point4', '37.8102',
         '_table_', 'Chain0', 'Point3', 'Point5', 'Point4', '24.323', '19.8767', '26.8577',
-        '_table_', 'Shaft0', 'Point1', 'Point3', '0.00', '360.00', '360.0',
+        '_table_', 'Shaft0', 'Point1', 'Point3', '0.00', '360.00', '360.0', 'False',
         '_table_',
         '_table_',
         '_table_',
