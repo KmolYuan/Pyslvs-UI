@@ -14,7 +14,7 @@
    <string>Preferences</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+   <iconset resource="../../icons.qrc">
     <normaloff>:/icons/shaded.png</normaloff>:/icons/shaded.png</iconset>
   </property>
   <property name="sizeGripEnabled">
@@ -316,7 +316,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../桌面/Pyslvs-PyQt5/icons.qrc"/>
+  <include location="../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

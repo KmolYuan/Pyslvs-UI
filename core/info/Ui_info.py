@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/info/info.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\info\info.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -21,22 +21,42 @@ class Ui_Info_Dialog(object):
         Info_Dialog.setAutoFillBackground(True)
         Info_Dialog.setSizeGripEnabled(False)
         Info_Dialog.setModal(True)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Info_Dialog)
-        self.buttonBox.setGeometry(QtCore.QRect(260, 220, 111, 71))
-        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
-        self.buttonBox.setObjectName("buttonBox")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(Info_Dialog)
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Info_Dialog)
-        self.label.setGeometry(QtCore.QRect(10, 10, 51, 51))
         self.label.setText("")
         self.label.setPixmap(QtGui.QPixmap(":/icons/main.png"))
         self.label.setObjectName("label")
+        self.verticalLayout.addWidget(self.label)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        self.horizontalLayout.addLayout(self.verticalLayout)
         self.label_2 = QtWidgets.QLabel(Info_Dialog)
-        self.label_2.setGeometry(QtCore.QRect(70, 20, 311, 191))
         self.label_2.setTextFormat(QtCore.Qt.RichText)
         self.label_2.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_2.setWordWrap(True)
         self.label_2.setObjectName("label_2")
+        self.horizontalLayout.addWidget(self.label_2)
+        self.verticalLayout_2.addLayout(self.horizontalLayout)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Info_Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
+        self.buttonBox.setSizePolicy(sizePolicy)
+        self.buttonBox.setOrientation(QtCore.Qt.Vertical)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout_2.addWidget(self.buttonBox)
+        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
 
         self.retranslateUi(Info_Dialog)
         self.buttonBox.accepted.connect(Info_Dialog.accept)
@@ -46,10 +66,10 @@ class Ui_Info_Dialog(object):
     def retranslateUi(self, Info_Dialog):
         _translate = QtCore.QCoreApplication.translate
         Info_Dialog.setWindowTitle(_translate("Info_Dialog", "About Python Solvespace"))
-        self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))
         self.label.setWhatsThis(_translate("Info_Dialog", "Pyslvs Icon!"))
         self.label_2.setWhatsThis(_translate("Info_Dialog", "Version Info"))
         self.label_2.setText(_translate("Info_Dialog", "<html><head/><body><p>Python Solvespace</p><p>Library of Solvspace, within a interface of Python.</p><p>So any python script can using it in 2D or 3D computing problem-solving.</p><p>It use like Solvespace, but maybe not so convenience.</p><p>So Pyslvs will make up for shortcomings of Python Solvespace.</p></body></html>"))
+        self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))
 
 import icons_rc
 
