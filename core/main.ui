@@ -497,7 +497,7 @@
                       <number>30</number>
                      </property>
                      <property name="singleStep">
-                      <number>10</number>
+                      <number>5</number>
                      </property>
                      <property name="value">
                       <number>10</number>

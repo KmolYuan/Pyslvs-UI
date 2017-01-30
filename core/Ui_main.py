@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -237,7 +237,7 @@ class Ui_MainWindow(object):
         self.Font_size.setSizePolicy(sizePolicy)
         self.Font_size.setMinimum(1)
         self.Font_size.setMaximum(30)
-        self.Font_size.setSingleStep(10)
+        self.Font_size.setSingleStep(5)
         self.Font_size.setProperty("value", 10)
         self.Font_size.setObjectName("Font_size")
         self.horizontalLayout_3.addWidget(self.Font_size)

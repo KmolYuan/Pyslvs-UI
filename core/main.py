@@ -1148,6 +1148,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_LineWidth_valueChanged(self, p0): self.Reload_Canvas()
     @pyqtSlot(int)
+    def on_Font_size_valueChanged(self, p0): self.Reload_Canvas()
+    @pyqtSlot(int)
     def on_PathWidth_valueChanged(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_actionDisplay_Dimensions_toggled(self, p0): self.Reload_Canvas()

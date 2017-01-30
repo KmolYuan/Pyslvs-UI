@@ -203,18 +203,18 @@ class DynamicCanvas(QWidget):
                     X_path = nPath[j]
                     Y_path = nPath[j+1]
                     if self.points['Path']['shaft_list'][i]==0:
-                        pen.setWidth(3)
+                        pen.setWidth(self.points['style']['penWidth']['path'])
                         point_color = self.table_style.cellWidget(int(self.points['Path']['run_list'][int(j/2)].replace("Point", "")), 3).currentText()
                         pen.setColor(self.Color[point_color])
                     else:
-                        pen.setWidth(1)
+                        pen.setWidth(self.points['style']['penWidth']['path']/2)
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
                     for k in range(len(X_path)-1):
                         point_center = QPointF(X_path[k]*self.zoom*self.points['rate'], Y_path[k]*self.zoom*self.points['rate']*(-1))
                         painter.drawPoint(point_center)
         if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
-            pen.setWidth(5)
+            pen.setWidth(self.points['style']['penWidth']['path'])
             pen.setColor(self.Color['Gray'])
             painter.setPen(pen)
             for e in self.points['slvsPath']['path']: painter.drawPoint(QPointF(e['x']*self.zoom*self.points['rate'], e['y']*self.zoom*self.points['rate']*(-1)))
