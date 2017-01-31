@@ -497,7 +497,7 @@
                       <number>30</number>
                      </property>
                      <property name="singleStep">
-                      <number>10</number>
+                      <number>5</number>
                      </property>
                      <property name="value">
                       <number>10</number>
@@ -753,7 +753,7 @@ p, li { white-space: pre-wrap; }
              <enum>QTabWidget::Rounded</enum>
             </property>
             <property name="currentIndex">
-             <number>0</number>
+             <number>2</number>
             </property>
             <property name="movable">
              <bool>false</bool>
@@ -1325,6 +1325,9 @@ p, li { white-space: pre-wrap; }
                      <property name="enabled">
                       <bool>false</bool>
                      </property>
+                     <property name="statusTip">
+                      <string>Show Path Data.</string>
+                     </property>
                      <property name="text">
                       <string>Show Path Data</string>
                      </property>
@@ -1409,6 +1412,9 @@ p, li { white-space: pre-wrap; }
                      <property name="enabled">
                       <bool>true</bool>
                      </property>
+                     <property name="statusTip">
+                      <string>This generator will design a crank rocker to meet this path requirement.</string>
+                     </property>
                      <property name="text">
                       <string>Path Solving</string>
                      </property>
@@ -1423,6 +1429,12 @@ p, li { white-space: pre-wrap; }
                    </item>
                    <item row="1" column="1">
                     <widget class="QCheckBox" name="Path_points_show">
+                     <property name="toolTip">
+                      <string/>
+                     </property>
+                     <property name="statusTip">
+                      <string>Show design path.</string>
+                     </property>
                      <property name="text">
                       <string>Show Path Points</string>
                      </property>
@@ -1478,6 +1490,9 @@ p, li { white-space: pre-wrap; }
                    </item>
                    <item row="1" column="0">
                     <widget class="QPushButton" name="AuxLine">
+                     <property name="statusTip">
+                      <string>See the limitation of the point.</string>
+                     </property>
                      <property name="text">
                       <string>Auxiliary Line</string>
                      </property>
@@ -1750,6 +1765,9 @@ p, li { white-space: pre-wrap; }
      <string>&amp;File</string>
     </property>
     <widget class="QMenu" name="menuExample">
+     <property name="statusTip">
+      <string>Some example of the Linkage mechanism.</string>
+     </property>
      <property name="title">
       <string>Example</string>
      </property>
@@ -1769,6 +1787,9 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionReverse_Parsing_Rocker"/>
     </widget>
     <widget class="QMenu" name="menuExport">
+     <property name="statusTip">
+      <string>Export to other format.</string>
+     </property>
      <property name="title">
       <string>Export to...</string>
      </property>
@@ -1915,7 +1936,7 @@ p, li { white-space: pre-wrap; }
     <string>Add a new point representative of a node on a machine.</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+I</string>
+    <string>F2</string>
    </property>
   </action>
   <action name="action_New_Line">
@@ -1931,6 +1952,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Add  a link between two points.</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
    </property>
   </action>
   <action name="action_Output_to_Script">
@@ -1954,10 +1978,13 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
-    <string>E&amp;xit</string>
+    <string>Q&amp;uit</string>
    </property>
    <property name="statusTip">
     <string>Exit Pyslvs.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="action_Get_Help">
@@ -2041,25 +2068,6 @@ p, li { white-space: pre-wrap; }
     <string>See our Wiki on Github.</string>
    </property>
   </action>
-  <action name="action_Highlight_Drive_Shaft_Point">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/char-0-check-false.png</normaloff>
-     <normalon>:/icons/char-1-check-true.png</normalon>:/icons/char-0-check-false.png</iconset>
-   </property>
-   <property name="text">
-    <string>High&amp;light Drive Shaft Point</string>
-   </property>
-   <property name="statusTip">
-    <string>Highlight Drive Shaft Point.</string>
-   </property>
-  </action>
   <action name="actionMi_nimized">
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2113,6 +2121,9 @@ p, li { white-space: pre-wrap; }
    <property name="statusTip">
     <string>Let the window back to normal.</string>
    </property>
+   <property name="shortcut">
+    <string>F12</string>
+   </property>
   </action>
   <action name="action_Output_to_Picture">
    <property name="icon">
@@ -2134,82 +2145,14 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="toolTip">
+    <string>Save</string>
+   </property>
+   <property name="statusTip">
+    <string>Save</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="action_Angle_Simulation">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
-   </property>
-   <property name="text">
-    <string>Start Dri&amp;ve</string>
-   </property>
-   <property name="statusTip">
-    <string>Start a simulation by your settings.</string>
-   </property>
-  </action>
-  <action name="actionSimulation_Options">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/other-supp.png</normaloff>:/icons/other-supp.png</iconset>
-   </property>
-   <property name="text">
-    <string>Simulation &amp;Options...</string>
-   </property>
-   <property name="statusTip">
-    <string>Simulation options.</string>
-   </property>
-  </action>
-  <action name="action_See_Error_Logs">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/text.png</normaloff>:/icons/text.png</iconset>
-   </property>
-   <property name="text">
-    <string>See Error &amp;Logs</string>
-   </property>
-   <property name="statusTip">
-    <string>See error logs in dialog box.</string>
-   </property>
-  </action>
-  <action name="action_Triangle">
-   <property name="text">
-    <string>&amp;Triangle (3)</string>
-   </property>
-  </action>
-  <action name="action_Quadrilateral">
-   <property name="text">
-    <string>&amp;Quadrilateral (4)</string>
-   </property>
-  </action>
-  <action name="action_Pentagon">
-   <property name="text">
-    <string>&amp;Pentagon (5)</string>
-   </property>
-  </action>
-  <action name="action_Hexagon">
-   <property name="text">
-    <string>&amp;Hexagon (6)</string>
-   </property>
-  </action>
-  <action name="actionH_eptagon">
-   <property name="text">
-    <string>H&amp;eptagon (7)</string>
-   </property>
-  </action>
-  <action name="action_Octagon">
-   <property name="text">
-    <string>&amp;Octagon (8)</string>
-   </property>
-  </action>
-  <action name="action_Custom">
-   <property name="text">
-    <string>&amp;Custom...</string>
    </property>
   </action>
   <action name="action_New_Stay_Chain">
@@ -2226,17 +2169,8 @@ p, li { white-space: pre-wrap; }
    <property name="statusTip">
     <string>Add a stay chain by existing points.</string>
    </property>
-  </action>
-  <action name="action_Appearance">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/mesh.png</normaloff>:/icons/mesh.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Appearance...</string>
-   </property>
-   <property name="statusTip">
-    <string>Change appearance for all Points.</string>
+   <property name="shortcut">
+    <string>F4</string>
    </property>
   </action>
   <action name="action_See_Python_Scripts">
@@ -2377,18 +2311,6 @@ p, li { white-space: pre-wrap; }
     <string>Set a point as a Slider center.</string>
    </property>
   </action>
-  <action name="actionColor_Settings">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/in3d.png</normaloff>:/icons/in3d.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Color Settings</string>
-   </property>
-   <property name="statusTip">
-    <string>See which color value can use.</string>
-   </property>
-  </action>
   <action name="action_Edit_Drive_Shaft">
    <property name="enabled">
     <bool>true</bool>
@@ -2508,7 +2430,7 @@ p, li { white-space: pre-wrap; }
     <string>Display dimensions in the canvas.</string>
    </property>
    <property name="shortcut">
-    <string>F11</string>
+    <string>F10</string>
    </property>
   </action>
   <action name="action_Black_Blackground">
@@ -2521,32 +2443,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>&amp;Black Background</string>
-   </property>
-  </action>
-  <action name="actionOpen_New_Window">
-   <property name="text">
-    <string>Open New Window</string>
-   </property>
-  </action>
-  <action name="action_Measurement">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
-   </property>
-   <property name="text">
-    <string>Start &amp;Measurement</string>
-   </property>
-  </action>
-  <action name="actionSpeed_measurement">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/other-supp.png</normaloff>:/icons/other-supp.png</iconset>
-   </property>
-   <property name="text">
-    <string>Speed measurement</string>
    </property>
   </action>
   <action name="actionDisplay_Point_Mark">
@@ -2593,6 +2489,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Workbook &amp;Property</string>
    </property>
+   <property name="statusTip">
+    <string>Property of this workbook.</string>
+   </property>
   </action>
   <action name="actionCrank_rocker">
    <property name="text">
@@ -2604,17 +2503,15 @@ p, li { white-space: pre-wrap; }
     <string>Mutiple Link</string>
    </property>
   </action>
-  <action name="actionA">
-   <property name="text">
-    <string>A</string>
-   </property>
-  </action>
   <action name="actionSave_as">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
+    <string>Save as...</string>
+   </property>
+   <property name="statusTip">
     <string>Save as...</string>
    </property>
    <property name="shortcut">
