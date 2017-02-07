@@ -55,5 +55,4 @@ Information and Debug Function:
 Run launch_test.py can start unit test.
 ================""")
 
-def show_version():
-    print("[Pyslvs "+version_number+"]\nPython Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
+def show_version(): print("[Pyslvs "+version_number+"]\nPython Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
