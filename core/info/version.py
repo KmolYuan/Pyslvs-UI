@@ -10,26 +10,26 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.versionLabel.setText("Pyslvs version "+version_number)
+        self.versionLabel.setText("Pyslvs version {}".format(version_number))
 
 def show_info():
-    print("OS Type: "+platform.system())
+    print("OS Type: {}".format(platform.system()))
     print("Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
     try:
         from PyQt5.QtCore import qVersion
-        print("Qt Version: {0}".format(qVersion().strip()))
+        print("Qt Version: {}".format(qVersion().strip()))
     except: print("No Qt5.")
     try:
         from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
-        print("PyQt Version:", pyqtVersion.strip())
+        print("PyQt Version: {}".format(pyqtVersion.strip()))
     except: print("No PyQt5.")
     try:
         from sip import SIP_VERSION_STR as sipVersion
-        print("Sip Version:", sipVersion.strip())
+        print("Sip Version: {}".format(sipVersion.strip()))
     except: print("No Sip.")
     try:
         from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
-        print("QScintilla Version:", qsciVersion.strip())
+        print("QScintilla Version: {}".format(qsciVersion.strip()))
     except: print("No QScintilla.")
     print("-------")
 
