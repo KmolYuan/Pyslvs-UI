@@ -20,7 +20,7 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_setPath_clicked(self):
-        folderName = QFileDialog.getExistingDirectory(self, 'Save to folder...', self.Environment_variables, QFileDialog.ShowDirsOnly)
+        folderName = QFileDialog.getExistingDirectory(self, 'Save to folder...', self.Environment_variables.path(), QFileDialog.ShowDirsOnly)
         if folderName:
             self.Environment_variables = QDir(folderName)
             self.folderPath.setText(folderName)
@@ -34,7 +34,7 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
         elif index==2: name = self.LinkHeader.text()+"0"
         elif index==3: name = self.LinkHeader.text()+"0_75.02"
         elif index==4: name = "0"
-        self.LinkPreview.setText()
+        self.LinkPreview.setText(name)
     @pyqtSlot(int)
     def on_ChainRule_currentIndexChanged(self, index):
         self.ChainHeaderText.setEnabled(index==2 or index==3)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>534</width>
-    <height>619</height>
+    <width>562</width>
+    <height>636</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>475</width>
-    <height>588</height>
+    <width>562</width>
+    <height>636</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>562</width>
+    <height>636</height>
    </size>
   </property>
   <property name="windowTitle">
