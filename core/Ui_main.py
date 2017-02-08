@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.7
 #
@@ -792,7 +792,7 @@ class Ui_MainWindow(object):
         self.centralLayout.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 22))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -1228,8 +1228,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
         self.Parameter_digital.setStatusTip(_translate("MainWindow", "Enter your parameter."))
         self.Parameter_digital.setPlaceholderText(_translate("MainWindow", "0.0"))
@@ -1334,8 +1334,8 @@ class Ui_MainWindow(object):
         self.ZoomText.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">200%</span></p></body></html>"))
+"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">200%</p></body></html>"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Focus to Origin."))
         self.ResetCanvas.setText(_translate("MainWindow", "Origin"))
         self.FitW.setStatusTip(_translate("MainWindow", "Fit by width."))
@@ -1346,10 +1346,10 @@ class Ui_MainWindow(object):
         self.DOF_view.setStatusTip(_translate("MainWindow", "Degree of Freedom. The brackets including drive shaft."))
         self.menuFile.setTitle(_translate("MainWindow", "&File"))
         self.menuExample.setStatusTip(_translate("MainWindow", "Some example of the Linkage mechanism."))
-        self.menuExample.setTitle(_translate("MainWindow", "Example"))
+        self.menuExample.setTitle(_translate("MainWindow", "&Example"))
         self.menuGrashof_chain.setTitle(_translate("MainWindow", "Grashof chain"))
         self.menuExport.setStatusTip(_translate("MainWindow", "Export to other format."))
-        self.menuExport.setTitle(_translate("MainWindow", "Export to..."))
+        self.menuExport.setTitle(_translate("MainWindow", "Ex&port to..."))
         self.menu_Draw.setTitle(_translate("MainWindow", "&Draw"))
         self.menu_Options.setTitle(_translate("MainWindow", "&Options"))
         self.menu_Help.setTitle(_translate("MainWindow", "&Help"))
@@ -1367,9 +1367,9 @@ class Ui_MainWindow(object):
         self.action_New_Line.setText(_translate("MainWindow", "New &Linkage"))
         self.action_New_Line.setStatusTip(_translate("MainWindow", "Add  a link between two points."))
         self.action_New_Line.setShortcut(_translate("MainWindow", "F3"))
-        self.action_Output_to_Script.setText(_translate("MainWindow", "Output to &Script Formate"))
+        self.action_Output_to_Script.setText(_translate("MainWindow", "Output to Python &Script"))
         self.action_Output_to_Script.setStatusTip(_translate("MainWindow", "Output to a Python 3 slvs module script."))
-        self.actionE_xit.setText(_translate("MainWindow", "Q&uit"))
+        self.actionE_xit.setText(_translate("MainWindow", "&Quit"))
         self.actionE_xit.setStatusTip(_translate("MainWindow", "Exit Pyslvs."))
         self.actionE_xit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
         self.action_Get_Help.setText(_translate("MainWindow", "&Get Help on Kmolab"))
@@ -1395,9 +1395,9 @@ class Ui_MainWindow(object):
         self.actionNormalmized.setText(_translate("MainWindow", "Normal"))
         self.actionNormalmized.setStatusTip(_translate("MainWindow", "Let the window back to normal."))
         self.actionNormalmized.setShortcut(_translate("MainWindow", "F12"))
-        self.action_Output_to_Picture.setText(_translate("MainWindow", "Output to Picture"))
+        self.action_Output_to_Picture.setText(_translate("MainWindow", "Output to &Picture"))
         self.action_Output_to_Picture.setShortcut(_translate("MainWindow", "Ctrl+P"))
-        self.actionSave.setText(_translate("MainWindow", "Save"))
+        self.actionSave.setText(_translate("MainWindow", "&Save"))
         self.actionSave.setToolTip(_translate("MainWindow", "Save"))
         self.actionSave.setStatusTip(_translate("MainWindow", "Save"))
         self.actionSave.setShortcut(_translate("MainWindow", "Ctrl+S"))
@@ -1438,18 +1438,20 @@ class Ui_MainWindow(object):
         self.actionDisplay_Dimensions.setShortcut(_translate("MainWindow", "F10"))
         self.action_Black_Blackground.setText(_translate("MainWindow", "&Black Background"))
         self.actionDisplay_Point_Mark.setText(_translate("MainWindow", "Display Point &Mark"))
-        self.action_Output_to_Solvespace.setText(_translate("MainWindow", "Output to Solvespace"))
-        self.actionOutput_to_DXF.setText(_translate("MainWindow", "Output to DXF"))
+        self.action_Output_to_Solvespace.setText(_translate("MainWindow", "Output to Solvespace &3D models"))
+        self.action_Output_to_Solvespace.setShortcut(_translate("MainWindow", "Ctrl+3"))
+        self.actionOutput_to_DXF.setText(_translate("MainWindow", "Output to &DXF"))
+        self.actionOutput_to_DXF.setShortcut(_translate("MainWindow", "Ctrl+D"))
         self.action_Property.setText(_translate("MainWindow", "Workbook &Property"))
         self.action_Property.setStatusTip(_translate("MainWindow", "Property of this workbook."))
         self.actionCrank_rocker.setText(_translate("MainWindow", "Crank rocker"))
         self.actionMutiple_Link.setText(_translate("MainWindow", "Mutiple Link"))
-        self.actionSave_as.setText(_translate("MainWindow", "Save as..."))
+        self.actionSave_as.setText(_translate("MainWindow", "Save &as..."))
         self.actionSave_as.setStatusTip(_translate("MainWindow", "Save as..."))
         self.actionSave_as.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
-        self.actionUndo.setText(_translate("MainWindow", "Undo"))
+        self.actionUndo.setText(_translate("MainWindow", "&Undo"))
         self.actionUndo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
-        self.actionRedo.setText(_translate("MainWindow", "Redo"))
+        self.actionRedo.setText(_translate("MainWindow", "&Redo"))
         self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Y"))
         self.actionSearch_Points.setText(_translate("MainWindow", "Search Points"))
         self.actionSearch_Points.setShortcut(_translate("MainWindow", "Ctrl+F"))

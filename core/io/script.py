@@ -6,12 +6,11 @@ from PyQt5.QtGui import *
 _translate = QCoreApplication.translate
 from .Ui_script import Ui_Info_Dialog
 
-Environment_variables = '../'
-
 class Script_Dialog(QDialog, Ui_Info_Dialog):
-    def __init__(self, script, parent=None):
+    def __init__(self, script, Environment_variables, parent=None):
         super(Script_Dialog, self).__init__(parent)
         self.setupUi(self)
+        self.Environment_variables = Environment_variables
         self.script.setPlainText(script)
     
     @pyqtSlot()
@@ -27,7 +26,7 @@ class Script_Dialog(QDialog, Ui_Info_Dialog):
     
     @pyqtSlot()
     def on_save_clicked(self):
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', Environment_variables, 'Python3 Script(*.py)')
+        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Environment_variables, 'Python3 Script(*.py)')
         if fileName:
             fileName = fileName.replace(".py", "")+".py"
             with open(fileName, 'w', newline="") as f:

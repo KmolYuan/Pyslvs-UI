@@ -13,6 +13,7 @@ from .info.help import Help_info_show
 from .info.path_point_data import path_point_data_show
 from .info.options import options_show
 from .io.script import Script_Dialog
+from .io.slvsType import slvsTypeSettings
 #Warning Dialog Ports
 from .warning.reset_workbook import reset_show
 from .warning.repeated_value import same_show

@@ -74,7 +74,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def load_settings(self):
         option_info = Pyslvs_Settings_ini()
-        self.Default_Environment_variables = option_info.Environment_variables
+        self.Default_Environment_variables = QFileInfo(option_info.Environment_variables).absolutePath()
         self.Default_canvas_view = option_info.Zoom_factor
         self.Default_Bits = 8
     
@@ -378,7 +378,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Scripts
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
-        dlg = Script_Dialog(self.Script)
+        dlg = Script_Dialog(self.Script, self.Default_Environment_variables)
         dlg.show()
         dlg.exec()
     
@@ -470,6 +470,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
         self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_link_right_click_menu_reversion.setEnabled(self.Entiteis_Link.rowCount()>0)
+        self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
     
     @pyqtSlot()
     def on_action_Full_Screen_triggered(self): print("Full Screen.")
@@ -543,8 +544,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.removePath()
         self.Resolve()
         print("Reset workbook.")
-        if fileName==False: fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
-        if QFileInfo(fileName).suffix()=="csv" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
+        if fileName==False:
+            fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
+            if fileName: self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
+        if QFileInfo(fileName).suffix()=="csv" or QFileInfo(fileName).suffix()=="txt" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==[]:
                 print("Get: "+fileName)
                 with open(fileName, newline="") as stream:
@@ -575,8 +578,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.rename(self.File.form['fileName'], self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
                     dlg.show()
                     if dlg.exec_(): pass
-            else:
-                print("Failed to load!")
+            else: print("Failed to load!")
     def closePanel(self):
         try:
             self.PathSolvingDlg.deleteLater()
@@ -613,21 +615,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
-        print("Saving this Workbook...")
-        if "[New Workbook]" in self.File.form['fileName'] or "[Example]" in self.File.form['fileName']:
-            fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
-        else:
-            fileName = self.windowTitle().replace("Pyslvs - ", "").replace("*", "")
-        if fileName:
-            self.save(fileName)
+        if "[New Workbook]" in self.File.form['fileName'] or "[Example]" in self.File.form['fileName']: fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
+        else: fileName = self.File.form['fileName']
+        if fileName: self.save(fileName)
     @pyqtSlot()
     def on_actionSave_as_triggered(self):
-        print("Saving to another Workbook...")
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Spreadsheet(*.csv)')
-        if fileName:
-            self.save(fileName)
+        fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
+        if fileName: self.save(fileName)
     def save(self, fileName):
-        fileName = fileName.replace(".csv", "")+".csv"
         with open(fileName, 'w', newline="") as stream:
             writer = csv.writer(stream)
             self.File.write(
@@ -640,60 +635,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.form['changed'] = False
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
     
+    #TODO: Other format
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Solvespace models(*.slvs)')
-        if fileName:
-            self.Slvs_Script = solvespace.slvs_formate(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
-            fileName = fileName.replace(".slvs", "")+".slvs"
-            self.File.writeSlvsFile(fileName)
-            print("Successful Save: "+fileName)
-            self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
-    
+        dlg = slvsTypeSettings(self.Default_Environment_variables,
+            self.File.Points.list, self.File.Lines.list, self.File.Chains.list)
+        dlg.show()
+        if dlg.exec_(): print("Successful Saved Solvespace model.")
     @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
-        print("Saving to script...")
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Python Script(*.py)')
+        fileName = self.outputTo("Python Script", 'Python Script(*.py)')
         if fileName:
-            fileName = fileName.replace(".py", "")
-            if sub == "Python Script(*.py)": fileName += ".py"
             with open(fileName, 'w', newline="") as f: f.write(self.Script)
-            print("Saved to:"+str(fileName))
-    
+            print("Successful Save: "+fileName)
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
-        print("Saving to picture...")
-        fileName, sub = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables,
-            "Portable Network Graphics (*.png);;Joint Photographic Experts Group (*.jpg);;Joint Photographic Experts Group (*.jpeg);;Bitmap Image file (*.bmp);;\
+        fileName = self.outputTo("picture", "Portable Network Graphics (*.png);;Joint Photographic Experts Group (*.jpg);;Joint Photographic Experts Group (*.jpeg);;Bitmap Image file (*.bmp);;\
             Business Process Model (*.bpm);;Tagged Image File Format (*.tiff);;Tagged Image File Format (*.tif);;Windows Icon (*.ico);;Wireless Application Protocol Bitmap (*.wbmp);;\
             X BitMap (*.xbm);;X Pixmap (*.xpm)")
         if fileName:
-            print("Formate: "+sub)
-            sub = sub[sub.find('.')+1:sub.find(')')]
-            fileName = fileName.replace('.'+sub, "")
-            fileName += '.'+sub
             pixmap = self.qpainterWindow.grab()
-            pixmap.save(fileName, format = sub)
-            print("Saved to:"+str(fileName))
-    
+            pixmap.save(fileName, format = QFileInfo(fileName).suffix())
+            print("Successful Save: "+fileName)
     @pyqtSlot()
     def on_actionOutput_to_DXF_triggered(self):
-        print("Saving to DXF...")
-        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'AutoCAD DXF (*.dxf)')
+        fileName = self.outputTo("DXF", 'AutoCAD DXF (*.dxf)')
         if fileName:
-            fileName = fileName.replace(".dxf", "")
-            fileName += ".dxf"
             dxfCode(fileName, self.File.Points.list, self.File.Lines.list, self.File.Chains.list, self.File.Shafts.list, self.File.Sliders.list, self.File.Rods.list, self.Parameter_list)
-    
+            print("Successful Save: "+fileName)
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):
-        print("Saving to Data Base...")
-        fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, 'Data Base(*.db)')
+        fileName = self.outputTo("Data Base", 'Data Base(*.db)')
         if fileName:
-            fileName = fileName.replace(".db", "")
-            fileName += ".db"
+            print("Successful Save: "+fileName)
             #TODO: SQLite
+    def outputTo(self, formatName, formatChoose):
+        print("Saving to {}...".format(formatName))
+        print(self.Default_Environment_variables)
+        fileName, form = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, formatChoose)
+        if fileName:
+            self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
+            suffix = form.split('*')[-1][:-1]
+            if QFileInfo(fileName).suffix()!=suffix: fileName += suffix
+            print("Formate: {}".format(form))
+        return fileName
     
     #TODO: Table actions
     def on_parameter_add(self):
@@ -1200,7 +1185,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_data_show.setEnabled(False)
     @pyqtSlot()
     def on_Path_coordinate_clicked(self):
-        dlg = path_point_data_show()
+        dlg = path_point_data_show(self.Default_Environment_variables)
         self.File.Path.setup(dlg.path_data, self.File.Path.data, self.File.Path.runList)
         dlg.show()
         dlg.exec()

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from .listProcess import *
-from .slvsType import SLVS_Code
 now = datetime.datetime.now()
 
 class File():
@@ -148,11 +147,6 @@ class File():
         for i in reversed(range(1, Style.rowCount())): Style.removeRow(i)
         for i in reversed(range(0, Parameter.rowCount())): Parameter.removeRow(i)
         self.resetAllList()
-    
-    def writeSlvsFile(self, fileName):
-        code = SLVS_Code(self.Points.list, self.Lines.list, self.Chains.list, self.Sliders.list, self.Rods.list)
-        with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
-                f.write(code)
     
     def CSV_write(self, writer, table, k, init=0):
         writer.writerow(["_table_"])

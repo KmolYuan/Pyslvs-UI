@@ -643,8 +643,8 @@
                       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;N/A&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                     </widget>
                    </item>
@@ -1631,8 +1631,8 @@ p, li { white-space: pre-wrap; }
            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;200%&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;200%&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -1748,7 +1748,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>1050</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -1769,7 +1769,7 @@ p, li { white-space: pre-wrap; }
       <string>Some example of the Linkage mechanism.</string>
      </property>
      <property name="title">
-      <string>Example</string>
+      <string>&amp;Example</string>
      </property>
      <widget class="QMenu" name="menuGrashof_chain">
       <property name="title">
@@ -1791,7 +1791,7 @@ p, li { white-space: pre-wrap; }
       <string>Export to other format.</string>
      </property>
      <property name="title">
-      <string>Export to...</string>
+      <string>Ex&amp;port to...</string>
      </property>
      <addaction name="action_Output_to_Solvespace"/>
      <addaction name="action_Output_to_Picture"/>
@@ -1963,7 +1963,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
    </property>
    <property name="text">
-    <string>Output to &amp;Script Formate</string>
+    <string>Output to Python &amp;Script</string>
    </property>
    <property name="statusTip">
     <string>Output to a Python 3 slvs module script.</string>
@@ -1978,7 +1978,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
    </property>
    <property name="text">
-    <string>Q&amp;uit</string>
+    <string>&amp;Quit</string>
    </property>
    <property name="statusTip">
     <string>Exit Pyslvs.</string>
@@ -2131,7 +2131,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/faces.png</normaloff>:/icons/faces.png</iconset>
    </property>
    <property name="text">
-    <string>Output to Picture</string>
+    <string>Output to &amp;Picture</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -2143,7 +2143,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
-    <string>Save</string>
+    <string>&amp;Save</string>
    </property>
    <property name="toolTip">
     <string>Save</string>
@@ -2469,7 +2469,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Output to Solvespace</string>
+    <string>Output to Solvespace &amp;3D models</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
    </property>
   </action>
   <action name="actionOutput_to_DXF">
@@ -2478,7 +2481,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>Output to DXF</string>
+    <string>Output to &amp;DXF</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="action_Property">
@@ -2509,7 +2515,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
-    <string>Save as...</string>
+    <string>Save &amp;as...</string>
    </property>
    <property name="statusTip">
     <string>Save as...</string>
@@ -2523,7 +2529,7 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Undo</string>
+    <string>&amp;Undo</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
@@ -2534,7 +2540,7 @@ p, li { white-space: pre-wrap; }
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Redo</string>
+    <string>&amp;Redo</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Y</string>
