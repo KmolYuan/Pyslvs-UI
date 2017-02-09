@@ -406,7 +406,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Solvespace"))
+        Dialog.setWindowTitle(_translate("Dialog", "Solvespace models"))
         self.groupBox.setTitle(_translate("Dialog", "Path"))
         self.label.setText(_translate("Dialog", "Folder: "))
         self.folderPath.setText(_translate("Dialog", "path"))

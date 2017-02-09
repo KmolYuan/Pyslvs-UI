@@ -69,17 +69,17 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
             'joint': self.JointVal.value()*scale if self.hasJoint.checkState() else 0,
         }
         for i in range(len(self.Line)):
-            steam = RoundConnectingLink(self.Line[i]['len'], **setting)
             linkFileName = self.LinkPreview.text()[:-1]+str(i)+'.slvs'
             filePath = QFileInfo(self.Environment_variables, linkFileName).absoluteFilePath()
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsLink(self.Line[i]['len'], type=self.LinkType.currentIndex(), **setting))
             print("Saved: {}".format(filePath))
-            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(steam)
         for i in range(len(self.Chain)):
-            if self.ChainType.currentIndex()==0: steam = SheetChain(self.Chain[i]['p1'], self.Chain[i]['p2'], self.Chain[i]['p3'], **setting)
-            if self.ChainType.currentIndex()==1: steam = FramChain(self.Chain[i]['p1'], self.Chain[i]['p2'], self.Chain[i]['p3'], **setting)
             chainFileName = self.ChainPreview.text()[:-1]+str(i)+'.slvs'
             filePath = QFileInfo(self.Environment_variables, linkFileName).absoluteFilePath()
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsChain(self.Chain[i]['p1'], self.Chain[i]['p2'], self.Chain[i]['p3'], type=self.ChainType.currentIndex(), **setting))
             print("Saved: {}".format(filePath))
-            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(steam)
         if self.hasAssembly.checkState():
-            ''''''
+            assemblyFileName = self.AssemblyPreview.text()+'.slvs'
+            filePath = QFileInfo(self.Environment_variables, assemblyFileName).absoluteFilePath()
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsAssembly())
+            print("Saved: {}".format(filePath))

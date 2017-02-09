@@ -641,7 +641,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = slvsTypeSettings(self.Default_Environment_variables,
             self.File.Points.list, self.File.Lines.list, self.File.Chains.list)
         dlg.show()
-        if dlg.exec_(): print("Successful Saved Solvespace model.")
+        if dlg.exec_():
+            reply = QMessageBox.question(self, 'Message', "The conversion was successful.", (QMessageBox.Ok), QMessageBox.Ok)
+            if reply: print("Successful Saved Solvespace model.")
     @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
         fileName = self.outputTo("Python Script", 'Python Script(*.py)')
@@ -954,7 +956,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Change_Edit_Slider(self, pos):
         table = self.Slider
-        point = int(table.item(pos, 1).text().replace("Ponit", ""))
+        point = int(table.item(pos, 1).text().replace("Point", ""))
         line = int(table.item(pos, 2).text().replace("Line", ""))
         self.slider_feedback.emit(point, line)
     
