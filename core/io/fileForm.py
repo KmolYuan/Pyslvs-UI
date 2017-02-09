@@ -6,9 +6,9 @@ now = datetime.datetime.now()
 class File():
     def __init__(self):
         self.form = {
-            'fileName':"[New Workbook]",
+            'fileName':QFileInfo("[New Workbook]"),
             'description':'',
-            'author':'',
+            'author':'anonymous',
             'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
             'changed':False,
             }
@@ -38,9 +38,9 @@ class File():
         if '--file-data' in argv: print(data)
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
-        try: author = data[infoIndex[0]:infoIndex[1]+1][1]
+        try: author = data[infoIndex[0]:infoIndex[1]+1][1].replace('"', '')
         except: author = ''
-        try: description = data[infoIndex[1]:infoIndex[2]+1][1]
+        try: description = data[infoIndex[1]:infoIndex[2]+1][1].replace('"', '')
         except: description = ''
         try: lastTime = data[infoIndex[2]:infoIndex[3]+1][1]
         except: lastTime = '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute)
@@ -73,8 +73,8 @@ class File():
         except: pass
         try:
             li = data[tableIndex[5]:tableIndex[6]]
-            if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i+1], li[i+2])
+            if (len(li)-1)%4==0:
+                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i+1], li[i+2], li[i+3])
         except: pass
         try:
             li = data[tableIndex[6]:tableIndex[7]]
@@ -101,22 +101,23 @@ class File():
                 path_e = []
             else: path_e += [float(li[i])]
         self.Path.data = [path]
-        self.form['fileName'] = fileName.split('/')[-1]
+        self.form['fileName'] = QFileInfo(fileName)
         self.form['author'] = author
         self.form['description'] = description
         self.form['lastTime'] = lastTime
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        self.form['fileName'] = fileName.split('/')[-1]
+        self.form['fileName'] = QFileInfo(fileName)
         writer.writerows([
-            ["_info_"], [self.form['author']], ["_info_"], [self.form['description']],
+            ["_info_"], [self.form['author']] if self.form['author']!='' else ['anonymous'],
+            ["_info_"], [self.form['description']],
             ["_info_"], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
         self.CSV_write(writer, Point, 4, init=1)
         self.CSV_write(writer, Point_Style, 4, init=1)
         self.CSV_write(writer, Link, 4)
         self.CSV_write(writer, Chain, 7)
         self.CSV_write(writer, Shaft, 7)
-        self.CSV_write(writer, Slider, 3)
+        self.CSV_write(writer, Slider, 4)
         self.CSV_write(writer, Rod, 5)
         self.CSV_write(writer, Parameter, 3)
         writer.writerow(["_table_"])

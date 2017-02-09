@@ -1176,7 +1176,12 @@ p, li { white-space: pre-wrap; }
                          </column>
                          <column>
                           <property name="text">
-                           <string>References</string>
+                           <string>Start</string>
+                          </property>
+                         </column>
+                         <column>
+                          <property name="text">
+                           <string>End</string>
                           </property>
                          </column>
                         </widget>

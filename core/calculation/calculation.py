@@ -131,8 +131,8 @@ def slvsProcess(
             if staticProcess: script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, end+1)
         for i in range(len(table_slider)):
             pt = table_slider[i]['cen']
-            start = table_line[table_slider[i]['ref']]['start']
-            end = table_line[table_slider[i]['ref']]['end']
+            start = table_slider[i]['start']
+            end = table_slider[i]['end']
             line = LineSegment2d(Workplane1, Point[start], Point[end])
             Constraint.on(Workplane1, Point[pt], line)
             if staticProcess: script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)

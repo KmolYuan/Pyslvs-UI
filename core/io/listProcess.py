@@ -130,8 +130,7 @@ class Points():
             self.editTable(table, str(n)+"Point", str(self.list[n]['x']), str(self.list[n]['y']), self.list[n]['fix'], False)
 
 class Lines():
-    def __init__(self):
-        self.list = list()
+    def __init__(self): self.list = list()
     
     def editTable(self, table, start, end, len, edit=False):
         rowPosition = edit if edit else table.rowCount()
@@ -188,8 +187,7 @@ class Lines():
                 str(self.list[n]['len']), False)
 
 class Chains():
-    def __init__(self):
-        self.list = list()
+    def __init__(self): self.list = list()
     
     def editTable(self, table, p1, p2, p3, a, b, c, edit=False):
         rowPosition = edit if edit else table.rowCount()
@@ -254,7 +252,7 @@ class Shafts():
     
     def setDemo(self, table, index, angle):
         table.setItem(index, 5, QTableWidgetItem(str(angle)))
-        self.update(table)
+        self.list[index]['demo'] = angle
     
     def update(self, table):
         lst = list()
@@ -275,17 +273,17 @@ class Shafts():
             self.editTable(table, str(n)+"Shaft", str(self.list[n]['cen'])+"Point", str(self.list[n]['ref'])+"Point", str(self.list[n]['start']), str(self.list[n]['end']), str(self.list[n]['demo']), False)
 
 class Sliders():
-    def __init__(self):
-        self.list = list()
+    def __init__(self): self.list = list()
     
-    def editTable(self, table, center, references, edit=False):
+    def editTable(self, table, center, start, end, edit=False):
         rowPosition = edit if edit else table.rowCount()
         if edit is False: table.insertRow(rowPosition)
         name_set = QTableWidgetItem("Slider{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, QTableWidgetItem(center))
-        table.setItem(rowPosition, 2, QTableWidgetItem(references))
+        table.setItem(rowPosition, 2, QTableWidgetItem(start))
+        table.setItem(rowPosition, 3, QTableWidgetItem(end))
         self.update(table)
         if edit is False: print("Set the Point to new Slider.")
         else: print("Set the Point to selected Slider.")
@@ -293,9 +291,10 @@ class Sliders():
     def update(self, table):
         lst = list()
         for i in range(table.rowCount()):
-            k = {'cen':0, 'ref':0}
+            k = {'cen':0, 'start':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
-            k['ref'] = int(table.item(i, 2).text().replace("Line", ""))
+            k['start'] = int(table.item(i, 2).text().replace("Point", ""))
+            k['end'] = int(table.item(i, 3).text().replace("Point", ""))
             lst += [k]
         self.list = lst
     
@@ -362,8 +361,7 @@ class Path():
             if self.shaftList[i]=='prv': self.shaftList[i] = prv
 
 class Parameters():
-    def __init__(self):
-        self.list = list()
+    def __init__(self): self.list = list()
     
     def editTable(self, table):
         rowPosition = table.rowCount()
@@ -417,7 +415,6 @@ class PathSolvingReqs():
     def remove(self, pos): del self.list[pos]
     def resultMerge(self, result): self.result += result
     def removeResult(self, pos): del self.result[pos]
-    
     def moveUP(self, row):
         if row>0 and len(self.list)>1:
             self.list.insert(row-1, {'x':self.list[row]['x'], 'y':self.list[row]['y']})

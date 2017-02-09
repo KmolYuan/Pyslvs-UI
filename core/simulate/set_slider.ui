@@ -133,16 +133,26 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>References</string>
+          <string>Start Point</string>
          </property>
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="References">
+        <widget class="QComboBox" name="Start">
          <property name="whatsThis">
           <string>End point for next link.</string>
          </property>
         </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>End point</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QComboBox" name="End"/>
        </item>
       </layout>
      </item>

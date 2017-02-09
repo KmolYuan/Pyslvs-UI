@@ -562,7 +562,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.Rod, self.Parameter_list)
                 for i in range(1, self.Entiteis_Point_Style.rowCount()): self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
                 self.File.form['changed'] = False
-                self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
+                self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
                 self.Resolve()
                 if (bool(self.File.Path.data) and bool(self.File.Path.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
@@ -575,7 +575,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
-                    dlg.rename(self.File.form['fileName'], self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+                    dlg.rename(self.File.form['fileName'].absoluteFilePath(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
                     dlg.show()
                     if dlg.exec_(): pass
             else: print("Failed to load!")
@@ -606,7 +606,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Property_triggered(self):
         dlg = editFileInfo_show()
         self.File.updateTime()
-        dlg.rename(self.File.form['fileName'], self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+        dlg.rename(self.File.form['fileName'].absoluteFilePath(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
         dlg.show()
         if dlg.exec_():
             self.File.form['author'] = dlg.authorName_input.text()
@@ -615,8 +615,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
-        if "[New Workbook]" in self.File.form['fileName'] or "[Example]" in self.File.form['fileName']: fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
-        else: fileName = self.File.form['fileName']
+        n = self.File.form['fileName'].absoluteFilePath()
+        if "[New Workbook]" in n or "[Example]" in n: fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
+        else: fileName = self.File.form['fileName'].absoluteFilePath()
         if fileName: self.save(fileName)
     @pyqtSlot()
     def on_actionSave_as_triggered(self):
@@ -631,9 +632,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entiteis_Link, self.Entiteis_Stay_Chain,
                 self.Drive_Shaft, self.Slider,
                 self.Rod, self.Parameter_list)
-        print("Successful Save: "+fileName)
+        print("Successful Save: {}".format(fileName))
         self.File.form['changed'] = False
-        self.setWindowTitle(_translate("MainWindow", "Pyslvs - "+fileName))
+        self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
     
     #TODO: Other format
     @pyqtSlot()
@@ -912,44 +913,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self):
-        table1 = self.Entiteis_Point
-        table2 = self.Entiteis_Link
-        table3 = self.Slider
-        dlg = slider_show(table1, table2, table3.rowCount())
+        dlg = slider_show(self.Entiteis_Point, self.Slider.rowCount())
         dlg.show()
         if dlg.exec_():
             a = dlg.Slider_Center.currentText()
-            b = dlg.References.currentText()
-            c = dlg.References.currentIndex()
-            if (table2.item(c, 1).text()==a) or (table2.item(c, 2).text()==a):
+            b = dlg.Start.currentText()
+            c = dlg.End.currentText()
+            if a==b or b==c or a==c:
                 dlg = restriction_conflict_show()
                 dlg.show()
                 if dlg.exec_(): self.on_action_Set_Slider_triggered()
             else:
-                self.File.Sliders.editTable(table3, a, b)
+                self.File.Sliders.editTable(self.Slider, a, b, c)
                 self.Resolve()
                 self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos=0):
-        table1 = self.Entiteis_Point
-        table2 = self.Entiteis_Link
-        table3 = self.Slider
-        dlg = edit_slider_show(table1, table2, table3, pos)
+        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, pos)
         dlg.Another_slider.connect(self.Change_Edit_Slider)
         self.slider_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Slider(pos)
         dlg.show()
         if dlg.exec_():
             a = dlg.Slider_Center.currentText()
-            b = dlg.References.currentText()
-            c = dlg.References.currentIndex()
-            if (table2.item(c, 1).text()==a) or (table2.item(c, 2).text()==a):
+            b = dlg.Start.currentText()
+            c = dlg.End.currentText()
+            if a==b or b==c or a==c:
                 dlg = restriction_conflict_show()
                 dlg.show()
                 if dlg.exec_(): self.on_action_Edit_Slider_triggered()
             else:
-                self.File.Sliders.editTable(table3, a, b, pos)
+                self.File.Sliders.editTable(self.Slider, a, b, c, pos)
                 self.Resolve()
                 self.workbookNoSave()
     slider_feedback = pyqtSignal(int, int)
@@ -1192,7 +1187,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         dlg.exec()
     
-    #TODO: Path Solving
     @pyqtSlot(bool)
     def on_PathSolving_toggled(self, p0):
         if not hasattr(self, 'PathSolvingDlg'):

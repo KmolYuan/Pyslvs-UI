@@ -1,0 +1,29 @@
+_info_
+anonymous
+_info_
+""
+_info_
+2017/2/9 23:9
+_info_
+_table_
+Point1	,70	,0.0	,True
+Point2	,18.75	,33.0	,False
+Point3	,40.0	,13.25	,False
+_table_
+Point1	,Green	,10	,Green
+Point2	,Green	,5	,Green
+Point3	,Green	,5	,Green
+_table_
+Line0	,Point0	,Point2	,30
+Line1	,Point2	,Point3	,30
+_table_
+_table_
+Shaft0	,Point0	,Point2	,0.00	,360.00	,71.19	,False
+_table_
+Slider0	,Point3	,Point0	,Point1
+_table_
+_table_
+_table_
+_path_
+_path_
+_path_
