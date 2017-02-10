@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-10, 10:38:48 -->
+<!-- Saved: 2017-02-10, 18:40:54 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -104,17 +104,6 @@
     <Source>core/test/testQt.py</Source>
     <Source>core/test0.py</Source>
     <Source>core/testUndo.py</Source>
-    <Source>core/warning/Ui_contradict_value.py</Source>
-    <Source>core/warning/Ui_repeated_value.py</Source>
-    <Source>core/warning/Ui_reset_workbook.py</Source>
-    <Source>core/warning/Ui_restriction_conflict.py</Source>
-    <Source>core/warning/Ui_zero_value.py</Source>
-    <Source>core/warning/__init__.py</Source>
-    <Source>core/warning/contradict_value.py</Source>
-    <Source>core/warning/repeated_value.py</Source>
-    <Source>core/warning/reset_workbook.py</Source>
-    <Source>core/warning/restriction_conflict.py</Source>
-    <Source>core/warning/zero_value.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>launch_test.py</Source>
@@ -144,11 +133,6 @@
     <Form>core/simulate/edit_drive_shaft.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>
-    <Form>core/warning/contradict_value.ui</Form>
-    <Form>core/warning/repeated_value.ui</Form>
-    <Form>core/warning/reset_workbook.ui</Form>
-    <Form>core/warning/restriction_conflict.ui</Form>
-    <Form>core/warning/zero_value.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

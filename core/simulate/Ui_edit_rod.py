@@ -109,9 +109,9 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Edit Piston / Spring"))
+        Dialog.setWindowTitle(_translate("Dialog", "Piston / Spring"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting two Points for the New Rod.</span></p></body></html>"))
-        self.label_5.setText(_translate("Dialog", "<html><head/><body><p>New Rod number</p></body></html>"))
+        self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Name</p></body></html>"))
         self.label.setText(_translate("Dialog", "Start point"))
         self.label_4.setText(_translate("Dialog", "Drive Point"))
         self.Start.setWhatsThis(_translate("Dialog", "Start point for next link."))

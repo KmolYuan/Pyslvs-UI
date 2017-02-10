@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from ..warning.contradict_value import contradict_show
 from ..calculation.color import colorlist, colorName
 
 class Points():
@@ -294,15 +293,16 @@ class Rods():
     def __init__(self):
         self.list = list()
     
-    def editTable(self, table, start, end, pos, edit=False):
+    def editTable(self, table, cen, start, end, pos, edit=False):
         rowPosition = edit if edit else table.rowCount()
         if edit is False: table.insertRow(rowPosition)
         name_set = QTableWidgetItem("Rod{}".format(rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 0, name_set)
-        table.setItem(rowPosition, 1, QTableWidgetItem(start))
-        table.setItem(rowPosition, 2, QTableWidgetItem(end))
-        table.setItem(rowPosition, 3, QTableWidgetItem(pos))
+        table.setItem(rowPosition, 1, QTableWidgetItem(cen))
+        table.setItem(rowPosition, 2, QTableWidgetItem(start))
+        table.setItem(rowPosition, 3, QTableWidgetItem(end))
+        table.setItem(rowPosition, 4, QTableWidgetItem(pos))
         if edit is False: print("Set the Point to new Rod.")
         else: print("Set the Point to selected Rod.")
     

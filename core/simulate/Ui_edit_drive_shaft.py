@@ -109,7 +109,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Edit Drive Shaft"))
+        Dialog.setWindowTitle(_translate("Dialog", "Drive Shaft"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting two Points for the Select Drive Shaft.</span></p></body></html>"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Name</p></body></html>"))
         self.label_6.setText(_translate("Dialog", "<html><head/><body><p>End Angle(deg)</p></body></html>"))

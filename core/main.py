@@ -359,9 +359,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             del self.PathSolvingDlg
         except: pass
         if self.File.form['changed']:
-            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
-                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
-            if reply == QMessageBox.Discard or reply == QMessageBox.Ok:
+            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.", (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
+            if reply==QMessageBox.Discard or reply==QMessageBox.Ok:
                 print("Exit.")
                 event.accept()
             elif reply == QMessageBox.Save:
@@ -475,34 +474,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
     
     @pyqtSlot()
-    def on_action_Full_Screen_triggered(self): print("Full Screen.")
+    def on_action_Get_Help_triggered(self): self.OpenURL("http://project.mde.tw/blog/slvs-library-functions.html")
     @pyqtSlot()
-    def on_actionNormalmized_triggered(self): print("Normal Screen.")
+    def on_actionGit_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
     @pyqtSlot()
-    def on_action_Get_Help_triggered(self):
-        print("Open http://project.mde.tw/blog/slvs-library-functions.html")
-        webbrowser.open("http://project.mde.tw/blog/slvs-library-functions.html")
+    def on_actionGithub_Wiki_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-manual/tree/master")
     @pyqtSlot()
-    def on_actionGit_hub_Site_triggered(self):
-        print("Open https://github.com/40323230/python-solvespace")
-        webbrowser.open("https://github.com/40323230/python-solvespace")
+    def on_actionHow_to_use_triggered(self): self.OpenDlg(Help_info_show())
     @pyqtSlot()
-    def on_actionGithub_Wiki_triggered(self):
-        print("Open https://github.com/40323230/Pyslvs-manual/tree/master")
-        webbrowser.open("https://github.com/40323230/Pyslvs-manual/tree/master")
+    def on_action_About_Pyslvs_triggered(self): self.OpenDlg(version_show())
     @pyqtSlot()
-    def on_actionHow_to_use_triggered(self):
-        dlg = Help_info_show()
-        dlg.show()
-        dlg.exec()
-    @pyqtSlot()
-    def on_action_About_Pyslvs_triggered(self):
-        dlg = version_show()
-        dlg.show()
-        dlg.exec()
-    @pyqtSlot()
-    def on_action_About_Python_Solvspace_triggered(self):
-        dlg = Info_show()
+    def on_action_About_Python_Solvspace_triggered(self): self.OpenDlg(Info_show())
+    def OpenURL(self, URL):
+        print("Open: {}".format(URL))
+        webbrowser.open(URL)
+    def OpenDlg(self, dlg):
         dlg.show()
         dlg.exec()
     
@@ -528,9 +514,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook Functions
     def checkChange(self, name=False, data=[], say='Loading Example...'):
         if self.File.form['changed']:
-            warning_reset = reset_show()
-            warning_reset.show()
-            if warning_reset.exec_():
+            reply = QMessageBox.question(self, 'Clear Message', "Do you want to Clear ALL Drawings?\nThe changes can't be recovery!",
+                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if reply==QMessageBox.Apply:
                 print(say)
                 self.loadWorkbook(name, data)
         else:
@@ -790,7 +776,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = chain_show(self.Mask, table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
-            self.File.Chains.editTable(table2, p1, p2, p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+            self.File.Chains.editTable(table2, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
             self.Resolve()
             self.workbookNoSave()
     
@@ -804,17 +790,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Chain(pos)
         dlg.show()
         if dlg.exec_():
-            p1 = dlg.Point1.currentText()
-            p2 = dlg.Point2.currentText()
-            p3 = dlg.Point3.currentText()
-            if (p1 == p2) | (p2 == p3) | (p1 == p3):
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_actionEdit_Stay_Chain_triggered()
-            else:
-                self.File.Chains.editTable(table2, p1, p2, p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val, pos)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Chains.editTable(table2, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val, pos)
+            self.Resolve()
+            self.workbookNoSave()
     chain_feedback = pyqtSignal(int, int, int, float, float, float)
     @pyqtSlot(int)
     def Change_Edit_Chain(self, pos):
@@ -834,19 +812,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = shaft_show(table1, table2.rowCount(), cen, ref)
         dlg.show()
         if dlg.exec_():
-            a = dlg.Shaft_Center.currentText()
-            b = dlg.References.currentText()
-            c = dlg.Start_Angle.text()
-            d = dlg.End_Angle.text()
-            e = dlg.Demo_angle.text() if dlg.Demo_angle_enable.checkState() else dlg.Start_Angle.text()
-            if a==b or c==d:
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-            else:
-                self.File.Shafts.editTable(table2, a, b, c, d, e, bool(dlg.isParallelogram.checkState()))
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Shafts.editTable(table2, dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState()))
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Drive_Shaft_triggered(self, pos=0):
@@ -858,18 +826,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Shaft(pos)
         dlg.show()
         if dlg.exec_():
-            a = dlg.Shaft_Center.currentText()
-            b = dlg.References.currentText()
-            c = dlg.Start_Angle.text()
-            d = dlg.End_Angle.text()
-            if a==b or c==d:
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-            else:
-                self.File.Shafts.editTable(table2, a, b, c, d, table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()), pos)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Shafts.editTable(table2, dlg.center, dlg.ref, dlg.start, dlg.end, table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()), pos)
+            self.Resolve()
+            self.workbookNoSave()
     shaft_feedback = pyqtSignal(int, int, float, float)
     @pyqtSlot(int)
     def Change_Edit_Shaft(self, pos):
@@ -885,17 +844,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = slider_show(self.Entiteis_Point, self.Slider.rowCount())
         dlg.show()
         if dlg.exec_():
-            a = dlg.Slider_Center.currentText()
-            b = dlg.Start.currentText()
-            c = dlg.End.currentText()
-            if a==b or b==c or a==c:
-                dlg = restriction_conflict_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_Set_Slider_triggered()
-            else:
-                self.File.Sliders.editTable(self.Slider, a, b, c)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Sliders.editTable(self.Slider, dlg.slider, dlg.start, dlg.end)
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos=0):
@@ -905,17 +856,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Slider(pos)
         dlg.show()
         if dlg.exec_():
-            a = dlg.Slider_Center.currentText()
-            b = dlg.Start.currentText()
-            c = dlg.End.currentText()
-            if a==b or b==c or a==c:
-                dlg = restriction_conflict_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_Edit_Slider_triggered()
-            else:
-                self.File.Sliders.editTable(self.Slider, a, b, c, pos)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Sliders.editTable(self.Slider, dlg.slider, dlg.start, pos)
+            self.Resolve()
+            self.workbookNoSave()
     slider_feedback = pyqtSignal(int, int)
     @pyqtSlot(int)
     def Change_Edit_Slider(self, pos):
@@ -931,17 +874,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = rod_show(table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
-            a = dlg.Start.currentText()
-            b = dlg.End.currentText()
-            c = str(float(dlg.Position.text()))
-            if a == b:
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-            else:
-                self.File.Rods.editTable(table2, a, b, c)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Rods.editTable(table2, dlg.cen, dlg.start, dlg.end, dlg.pos)
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_Edit_Rod_triggered(self, pos=0):
@@ -953,18 +888,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Rod(pos)
         dlg.show()
         if dlg.exec_():
-            a = dlg.Start.currentText()
-            b = dlg.End.currentText()
-            c = str(min(float(dlg.len1.text()), float(dlg.len2.text())))
-            d = str(max(float(dlg.len1.text()), float(dlg.len2.text())))
-            if a == b:
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_Set_Drive_Shaft_triggered()
-            else:
-                self.File.Rods.editTable(table2, a, b, c, d, pos)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Rods.editTable(table2, dlg.cen, dlg.start, dlg.end, dlg.pos, pos)
+            self.Resolve()
+            self.workbookNoSave()
     rod_feedback = pyqtSignal(int, int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Rod(self, pos):

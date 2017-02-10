@@ -225,10 +225,16 @@
                     <property name="text">
                      <string>0.0</string>
                     </property>
+                    <property name="flags">
+                     <set>ItemIsEnabled</set>
+                    </property>
                    </item>
                    <item row="0" column="2">
                     <property name="text">
                      <string>0.0</string>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsEnabled</set>
                     </property>
                    </item>
                    <item row="0" column="3">
@@ -245,6 +251,9 @@
                    <item row="0" column="4">
                     <property name="text">
                      <string>(0.0, 0.0)</string>
+                    </property>
+                    <property name="flags">
+                     <set>ItemIsEnabled</set>
                     </property>
                    </item>
                   </widget>

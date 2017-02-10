@@ -14,10 +14,6 @@ from .info.path_point_data import path_point_data_show
 from .info.options import options_show
 from .io.script import Script_Dialog
 from .io.slvsType import slvsTypeSettings
-#Warning Dialog Ports
-from .warning.reset_workbook import reset_show
-from .warning.repeated_value import same_show
-from .warning.restriction_conflict import restriction_conflict_show
 #Drawing Dialog Ports
 from .draw.point import New_point
 from .draw.link import New_link

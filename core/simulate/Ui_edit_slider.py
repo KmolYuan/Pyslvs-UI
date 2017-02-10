@@ -92,9 +92,9 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Edit Slider"))
+        Dialog.setWindowTitle(_translate("Dialog", "Slider"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting one Points for the Selected Slider.</span></p><p><span style=\" font-size:12pt;\">And setting another Linkage for it\'s track.</span></p></body></html>"))
-        self.label_5.setText(_translate("Dialog", "<html><head/><body><p>New Silder number</p></body></html>"))
+        self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Name</p></body></html>"))
         self.label.setText(_translate("Dialog", "Slider Center"))
         self.Slider_Center.setWhatsThis(_translate("Dialog", "Start point for next link."))
         self.label_2.setText(_translate("Dialog", "Start Point"))
