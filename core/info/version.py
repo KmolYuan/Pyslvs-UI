@@ -67,9 +67,9 @@ Change canvas appearance.
 </li><li>
 2D Linkages dynamic simulation.
 </li><li>
-- Draw dynamic simulation path at any point in the machinery.
+Draw dynamic simulation path at any point in the machinery.
 </li><li>
-- Output points coordinate to table file format.
+Output points coordinate to table file format.
 </li></ol></p></body></html>""")
 
 class Info_show(QDialog, Ui_About_Dialog):

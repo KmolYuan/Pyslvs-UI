@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/draw/edit_stay_chain.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\draw\edit_stay_chain.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(380, 300)
-        Dialog.setMinimumSize(QtCore.QSize(380, 300))
-        Dialog.setMaximumSize(QtCore.QSize(380, 300))
+        Dialog.resize(410, 325)
+        Dialog.setMinimumSize(QtCore.QSize(410, 325))
+        Dialog.setMaximumSize(QtCore.QSize(410, 325))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/editchain.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/simulate/edit_slider.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\simulate\edit_slider.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,14 +11,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(380, 250)
+        Dialog.resize(406, 271)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        Dialog.setMinimumSize(QtCore.QSize(380, 250))
-        Dialog.setMaximumSize(QtCore.QSize(380, 250))
+        Dialog.setMinimumSize(QtCore.QSize(406, 271))
+        Dialog.setMaximumSize(QtCore.QSize(406, 271))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/editslider.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -45,6 +45,11 @@ class Ui_Dialog(object):
         self.label_5.setObjectName("label_5")
         self.verticalLayout.addWidget(self.label_5)
         self.Slider = QtWidgets.QComboBox(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Slider.sizePolicy().hasHeightForWidth())
+        self.Slider.setSizePolicy(sizePolicy)
         self.Slider.setObjectName("Slider")
         self.verticalLayout.addWidget(self.Slider)
         self.gridLayout = QtWidgets.QGridLayout()
@@ -79,11 +84,21 @@ class Ui_Dialog(object):
         self.gridLayout.addWidget(self.End, 1, 2, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
         self.horizontalLayout.addLayout(self.verticalLayout)
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
+        self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout.addWidget(self.buttonBox)
+        self.verticalLayout_2.addWidget(self.buttonBox)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem1)
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
 
         self.retranslateUi(Dialog)
         self.buttonBox.accepted.connect(Dialog.accept)
@@ -93,7 +108,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Slider"))
-        self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting one Points for the Selected Slider.</span></p><p><span style=\" font-size:12pt;\">And setting another Linkage for it\'s track.</span></p></body></html>"))
+        self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting one Point for this Slider.</span></p><p><span style=\" font-size:12pt;\">And setting another start point and end point for it\'s track.</span></p></body></html>"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Name</p></body></html>"))
         self.label.setText(_translate("Dialog", "Slider Center"))
         self.Slider_Center.setWhatsThis(_translate("Dialog", "Start point for next link."))
