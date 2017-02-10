@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 
-class shaft_show(QDialog, shaft_Dialog):
+class shaft_show(QDialog, edit_shaft_Dialog):
     def __init__(self, table, row, cen, ref, parent=None):
         super(shaft_show, self).__init__(parent)
         self.setupUi(self)
@@ -9,7 +9,8 @@ class shaft_show(QDialog, shaft_Dialog):
         for i in range(table.rowCount()):
             self.Shaft_Center.insertItem(i, icon, table.item(i, 0).text())
             self.References.insertItem(i, icon, table.item(i, 0).text())
-        self.Shaft_num.insertPlainText("Shaft"+str(row))
+        self.Shaft.addItem(QIcon(QPixmap(":/icons/circle.png")), "Shaft"+str(row))
+        self.Shaft.setEnabled(False)
         self.Shaft_Center.setCurrentIndex(cen)
         self.References.setCurrentIndex(ref)
     

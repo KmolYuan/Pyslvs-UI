@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/draw/edit_point.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.7.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -81,8 +81,8 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Edit Point"))
-        self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting new Coordinates for the Selected Point.</span></p></body></html>"))
+        Dialog.setWindowTitle(_translate("Dialog", "Point"))
+        self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting new Coordinates for this Point.</span></p></body></html>"))
         self.label_4.setText(_translate("Dialog", "<html><head/><body><p>Point Number</p></body></html>"))
         self.label.setText(_translate("Dialog", "x coordinate"))
         self.label_2.setText(_translate("Dialog", "y coordinate"))

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/draw/edit_stay_chain.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.7.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -140,8 +140,8 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Edit Stay Chain"))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose points for stay chain.</span></p></body></html>"))
+        Dialog.setWindowTitle(_translate("Dialog", "Stay Chain"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose Points for this Stay chain.</span></p></body></html>"))
         self.label_2.setText(_translate("Dialog", "Name"))
         self.label_8.setText(_translate("Dialog", "[1]-[3]"))
         self.p1_p3.setPlaceholderText(_translate("Dialog", "0.0"))

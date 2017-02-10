@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-08, 16:57:59 -->
+<!-- Saved: 2017-02-10, 10:38:48 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -11,7 +11,6 @@
   <Version>0.4.0</Version>
   <Author></Author>
   <Email></Email>
-  <Eol index="-1"/>
   <Sources>
     <Source>Makefile</Source>
     <Source>README.md</Source>
@@ -31,9 +30,6 @@
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
     <Source>core/draw/Ui_edit_stay_chain.py</Source>
-    <Source>core/draw/Ui_link.py</Source>
-    <Source>core/draw/Ui_point.py</Source>
-    <Source>core/draw/Ui_stay_chain.py</Source>
     <Source>core/draw/__init__.py</Source>
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
@@ -95,9 +91,6 @@
     <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
-    <Source>core/simulate/Ui_set_drive_shaft.py</Source>
-    <Source>core/simulate/Ui_set_rod.py</Source>
-    <Source>core/simulate/Ui_set_slider.py</Source>
     <Source>core/simulate/__init__.py</Source>
     <Source>core/simulate/edit_drive_shaft.py</Source>
     <Source>core/simulate/edit_rod.py</Source>
@@ -131,9 +124,6 @@
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
     <Form>core/draw/edit_stay_chain.ui</Form>
-    <Form>core/draw/link.ui</Form>
-    <Form>core/draw/point.ui</Form>
-    <Form>core/draw/stay_chain.ui</Form>
     <Form>core/info/editFileInfo.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
     <Form>core/info/help.ui</Form>
@@ -154,9 +144,6 @@
     <Form>core/simulate/edit_drive_shaft.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>
-    <Form>core/simulate/set_drive_shaft.ui</Form>
-    <Form>core/simulate/set_rod.ui</Form>
-    <Form>core/simulate/set_slider.ui</Form>
     <Form>core/warning/contradict_value.ui</Form>
     <Form>core/warning/repeated_value.ui</Form>
     <Form>core/warning/reset_workbook.ui</Form>

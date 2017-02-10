@@ -6,9 +6,10 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
     def __init__(self, table, table2, pos, parent=None):
         super(edit_slider_show, self).__init__(parent)
         self.setupUi(self)
-        for i in range(table.rowCount()): self.Slider_Center.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table1.item(i, 0).text())
-        for i in range(table.rowCount()): self.Start.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
-        for i in range(table.rowCount()): self.End.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
+        icon = QIcon(QPixmap(":/icons/point.png"))
+        for i in range(table.rowCount()): self.Slider_Center.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(table.rowCount()): self.Start.insertItem(i, icon, table.item(i, 0).text())
+        for i in range(table.rowCount()): self.End.insertItem(i, icon, table.item(i, 0).text())
         for i in range(table2.rowCount()): self.Slider.insertItem(i, QIcon(QPixmap(":/icons/pointonx.png")), table3.item(i, 0).text())
         self.Slider.setCurrentIndex(pos)
     
