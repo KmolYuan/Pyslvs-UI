@@ -144,13 +144,13 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose Points for this Stay chain.</span></p></body></html>"))
         self.label_2.setText(_translate("Dialog", "Name"))
         self.label_8.setText(_translate("Dialog", "[1]-[3]"))
-        self.p1_p3.setPlaceholderText(_translate("Dialog", "0.0"))
+        self.p1_p3.setPlaceholderText(_translate("Dialog", "30.0"))
         self.label_5.setText(_translate("Dialog", "Point[3]"))
         self.label_3.setText(_translate("Dialog", "Point[1]"))
         self.label_7.setText(_translate("Dialog", "[2]-[3]"))
-        self.p2_p3.setPlaceholderText(_translate("Dialog", "0.0"))
+        self.p2_p3.setPlaceholderText(_translate("Dialog", "30.0"))
         self.label_6.setText(_translate("Dialog", "[1]-[2]"))
-        self.p1_p2.setPlaceholderText(_translate("Dialog", "0.0"))
+        self.p1_p2.setPlaceholderText(_translate("Dialog", "30.0"))
         self.label_4.setText(_translate("Dialog", "Point[2]"))
 
 import icons_rc

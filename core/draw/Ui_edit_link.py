@@ -103,6 +103,7 @@ class Ui_Dialog(object):
         self.Start_Point.setWhatsThis(_translate("Dialog", "Start point for next link."))
         self.label_2.setText(_translate("Dialog", "End Point"))
         self.End_Point.setWhatsThis(_translate("Dialog", "End point for next link."))
+        self.Length.setPlaceholderText(_translate("Dialog", "30.0"))
 
 import icons_rc
 

@@ -126,7 +126,11 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLineEdit" name="Length"/>
+        <widget class="QLineEdit" name="Length">
+         <property name="placeholderText">
+          <string>30.0</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

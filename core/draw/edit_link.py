@@ -13,6 +13,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
         for i in range(table2.rowCount()): self.Link.insertItem(i, QIcon(QPixmap(":/icons/line.png")), table2.item(i, 0).text())
         self.Link.setCurrentIndex(pos)
         self.Length.setValidator(mask)
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index): self.Another_line.emit(index)
@@ -23,3 +24,14 @@ class edit_link_show(QDialog, edit_link_Dialog):
         self.End_Point.setCurrentIndex(end)
         self.Length.setText(str(len))
         self.Length.setPlaceholderText(str(len))
+    
+    @pyqtSlot(int)
+    def on_Start_Point_currentIndexChanged(self, index): self.isOk()
+    @pyqtSlot(int)
+    def on_End_Point_currentIndexChanged(self, index): self.isOk()
+    @pyqtSlot(str)
+    def on_Length_textEdited(self, p0): self.isOk()
+    def isOk(self):
+        self.len = self.Length.text() if not self.Length.text()in['', "n"] else self.Length.placeholderText()
+        n = self.Start_Point.currentIndex()!=self.End_Point.currentIndex() and float(self.len)!=0
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)

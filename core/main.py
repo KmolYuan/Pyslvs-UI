@@ -38,7 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         #Solve & Script & DOF & Mask & Parameter
         self.Solvefail = False
-        self.Script = ""
+        self.Script = ''
         self.DOF = 0
         self.Mask_Change()
         self.init_Right_click_menu()
@@ -413,29 +413,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook Change
     def workbookNoSave(self):
         self.File.form['changed'] = True
-        self.setWindowTitle(self.windowTitle().replace("*", "")+"*")
+        self.setWindowTitle(self.windowTitle().replace("*", '')+"*")
         self.actionEnabled()
     #Action Enabled
     def actionEnabled(self):
+        TWO_POINT = len(self.File.Points.list)>1
+        THREE_POINT = len(self.File.Points.list)>2
         #Warning
-        self.reqLine.setVisible(not self.Entiteis_Point.rowCount()>1)
-        self.reqChain.setVisible(not self.Entiteis_Point.rowCount()>2)
-        self.reqShaft.setVisible(not self.Entiteis_Point.rowCount()>1)
-        self.reqSlider.setVisible(not self.Entiteis_Link.rowCount()>0)
-        self.reqRod.setVisible(not self.Entiteis_Point.rowCount()>2)
+        self.reqLine.setVisible(not TWO_POINT)
+        self.reqChain.setVisible(not THREE_POINT)
+        self.reqShaft.setVisible(not TWO_POINT)
+        self.reqSlider.setVisible(not THREE_POINT)
+        self.reqRod.setVisible(not THREE_POINT)
         self.reqPath.setVisible(not self.Drive_Shaft.rowCount()>0)
         self.reqPathSolving.setVisible(not self.File.PathSolvingReqs.list)
         #Add
-        self.action_New_Line.setEnabled(self.Entiteis_Point.rowCount()>1)
-        self.action_New_Stay_Chain.setEnabled(self.Entiteis_Point.rowCount()>2)
-        self.action_Set_Drive_Shaft.setEnabled(self.Entiteis_Point.rowCount()>1)
-        self.action_Set_Slider.setEnabled(self.Entiteis_Link.rowCount()>0)
-        self.action_Set_Rod.setEnabled(self.Entiteis_Point.rowCount()>2)
-        self.action_link_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1)
-        self.action_chain_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>2)
-        self.action_shaft_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>1)
-        self.action_slider_right_click_menu_add.setEnabled(self.Entiteis_Link.rowCount()>0)
-        self.action_rod_right_click_menu_add.setEnabled(self.Entiteis_Point.rowCount()>2)
+        self.action_New_Line.setEnabled(TWO_POINT)
+        self.action_New_Stay_Chain.setEnabled(THREE_POINT)
+        self.action_Set_Drive_Shaft.setEnabled(TWO_POINT)
+        self.action_Set_Slider.setEnabled(THREE_POINT)
+        self.action_Set_Rod.setEnabled(THREE_POINT)
+        self.action_link_right_click_menu_add.setEnabled(TWO_POINT)
+        self.action_chain_right_click_menu_add.setEnabled(THREE_POINT)
+        self.action_shaft_right_click_menu_add.setEnabled(TWO_POINT)
+        self.action_slider_right_click_menu_add.setEnabled(THREE_POINT)
+        self.action_rod_right_click_menu_add.setEnabled(THREE_POINT)
         #Edit
         self.actionEdit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
         self.actionEdit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
@@ -550,7 +552,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if QFileInfo(fileName).suffix()=="csv" or QFileInfo(fileName).suffix()=="txt" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==[]:
                 print("Get: "+fileName)
-                with open(fileName, newline="") as stream:
+                with open(fileName, newline='') as stream:
                     reader = csv.reader(stream, delimiter=' ', quotechar='|')
                     for row in reader: data += ' '.join(row).split('\t,')
             if self.File.check(data):
@@ -624,7 +626,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
         if fileName: self.save(fileName)
     def save(self, fileName):
-        with open(fileName, 'w', newline="") as stream:
+        with open(fileName, 'w', newline='') as stream:
             writer = csv.writer(stream)
             self.File.write(
                 fileName, writer,
@@ -649,7 +651,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Output_to_Script_triggered(self):
         fileName = self.outputTo("Python Script", 'Python Script(*.py)')
         if fileName:
-            with open(fileName, 'w', newline="") as f: f.write(self.Script)
+            with open(fileName, 'w', newline='') as f: f.write(self.Script)
             print("Successful Save: "+fileName)
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
@@ -704,8 +706,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             self.File.Points.editTable(table1,
-                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
-                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
+                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()))
             fix = "10" if dlg.Fix_Point.checkState() else "5"
             self.File.Points.styleAdd(table2, "Green", fix, "Green")
@@ -715,8 +717,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Point_add_button_clicked(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
-        x = self.X_coordinate.text() if not self.X_coordinate.text()in["", "n", "-"] else self.X_coordinate.placeholderText()
-        y = self.Y_coordinate.text() if not self.Y_coordinate.text()in["", "n", "-"] else self.Y_coordinate.placeholderText()
+        x = self.X_coordinate.text() if not self.X_coordinate.text()in['', "n", "-"] else self.X_coordinate.placeholderText()
+        y = self.Y_coordinate.text() if not self.Y_coordinate.text()in['', "n", "-"] else self.Y_coordinate.placeholderText()
         self.File.Points.editTable(table1, x, y, False)
         self.File.Points.styleAdd(table2, "Green", "5", "Green")
         self.Resolve()
@@ -733,8 +735,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             table2 = self.Entiteis_Point_Style
             self.File.Points.editTable(table1,
-                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in["", "n", "-"] else dlg.X_coordinate.placeholderText(),
-                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in["", "n", "-"] else dlg.Y_coordinate.placeholderText(),
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
+                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()), pos)
             self.File.Points.styleFix(table2, bool(dlg.Fix_Point.checkState()), pos)
             self.Resolve()
@@ -755,19 +757,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = New_link(self.Mask, table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
-            a = dlg.Start_Point.currentText()
-            b = dlg.End_Point.currentText()
-            if self.File.Lines.repeatedCheck(table2, a, b): self.on_action_New_Line_triggered()
-            elif a == b:
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_New_Line_triggered()
-            else:
-                self.File.Lines.editTable(table2,
-                    dlg.Start_Point.currentText(), dlg.End_Point.currentText(),
-                    dlg.Length.text()if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText())
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Lines.editTable(table2, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos=0):
@@ -779,24 +771,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Line(pos)
         dlg.show()
         if dlg.exec_():
-            a = dlg.Start_Point.currentText()
-            b = dlg.End_Point.currentText()
-            if a == b:
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_actionEdit_Linkage_triggered()
-            else:
-                self.File.Lines.editTable(table2,
-                    dlg.Start_Point.currentText(),  dlg.End_Point.currentText(),
-                    dlg.Length.text() if not dlg.Length.text()in["", "n"] else dlg.Length.placeholderText(), pos)
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Lines.editTable(table2, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len, pos)
+            self.Resolve()
+            self.workbookNoSave()
     link_feedback = pyqtSignal(int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Line(self, pos):
         table = self.Entiteis_Link
-        start = int(table.item(pos, 1).text().replace("Point", ""))
-        end = int(table.item(pos, 2).text().replace("Point", ""))
+        start = int(table.item(pos, 1).text().replace("Point", ''))
+        end = int(table.item(pos, 2).text().replace("Point", ''))
         len = float(table.item(pos, 3).text())
         self.link_feedback.emit(start, end, len)
     
@@ -807,20 +790,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = chain_show(self.Mask, table1, table2.rowCount())
         dlg.show()
         if dlg.exec_():
-            p1 = dlg.Point1.currentText()
-            p2 = dlg.Point2.currentText()
-            p3 = dlg.Point3.currentText()
-            if (p1 == p2) | (p2 == p3) | (p1 == p3):
-                dlg = same_show()
-                dlg.show()
-                if dlg.exec_(): self.on_action_New_Stay_Chain_triggered()
-            else:
-                self.File.Chains.editTable(table2, p1, p2, p3,
-                    dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
-                    dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
-                    dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText())
-                self.Resolve()
-                self.workbookNoSave()
+            self.File.Chains.editTable(table2, p1, p2, p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+            self.Resolve()
+            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionEdit_Stay_Chain_triggered(self, pos=0):
@@ -840,23 +812,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.show()
                 if dlg.exec_(): self.on_actionEdit_Stay_Chain_triggered()
             else:
-                self.File.Chains.editTable(table2, p1, p2, p3,
-                    dlg.p1_p2.text() if not dlg.p1_p2.text()in["", "n"] else dlg.p1_p2.placeholderText(),
-                    dlg.p2_p3.text() if not dlg.p2_p3.text()in["", "n"] else dlg.p2_p3.placeholderText(),
-                    dlg.p1_p3.text() if not dlg.p1_p3.text()in["", "n"] else dlg.p1_p3.placeholderText(), pos)
+                self.File.Chains.editTable(table2, p1, p2, p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val, pos)
                 self.Resolve()
                 self.workbookNoSave()
     chain_feedback = pyqtSignal(int, int, int, float, float, float)
     @pyqtSlot(int)
     def Change_Edit_Chain(self, pos):
         table = self.Entiteis_Stay_Chain
-        Point1 = int(table.item(pos, 1).text().replace("Point", ""))
-        Point2 = int(table.item(pos, 2).text().replace("Point", ""))
-        Point3 = int(table.item(pos, 3).text().replace("Point", ""))
-        p1_p2 = float(table.item(pos, 4).text())
-        p2_p3 = float(table.item(pos, 5).text())
-        p1_p3 = float(table.item(pos, 6).text())
-        self.chain_feedback.emit(Point1, Point2, Point3, p1_p2, p2_p3, p1_p3)
+        self.chain_feedback.emit(
+            int(table.item(pos, 1).text().replace("Point", '')),
+            int(table.item(pos, 2).text().replace("Point", '')),
+            int(table.item(pos, 3).text().replace("Point", '')),
+            float(table.item(pos, 4).text()),
+            float(table.item(pos, 5).text()),
+            float(table.item(pos, 6).text()))
     
     @pyqtSlot()
     def on_action_Set_Drive_Shaft_triggered(self, cen=0, ref=0):
@@ -905,8 +874,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Change_Edit_Shaft(self, pos):
         table = self.Drive_Shaft
-        center = int(table.item(pos, 1).text().replace("Point", ""))
-        references = int(table.item(pos, 2).text().replace("Point", ""))
+        center = int(table.item(pos, 1).text().replace("Point", ''))
+        references = int(table.item(pos, 2).text().replace("Point", ''))
         start = float(table.item(pos, 3).text())
         end = float(table.item(pos, 4).text())
         self.shaft_feedback.emit(center, references, start, end)
@@ -951,8 +920,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Change_Edit_Slider(self, pos):
         table = self.Slider
-        point = int(table.item(pos, 1).text().replace("Point", ""))
-        line = int(table.item(pos, 2).text().replace("Line", ""))
+        point = int(table.item(pos, 1).text().replace("Point", ''))
+        line = int(table.item(pos, 2).text().replace("Line", ''))
         self.slider_feedback.emit(point, line)
     
     @pyqtSlot()
@@ -1000,9 +969,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Change_Edit_Rod(self, pos):
         table = self.Rod
-        center = int(table.item(pos, 1).text().replace("Point", ""))
-        start = int(table.item(pos, 2).text().replace("Point", ""))
-        end = int(table.item(pos, 3).text().replace("Point", ""))
+        center = int(table.item(pos, 1).text().replace("Point", ''))
+        start = int(table.item(pos, 2).text().replace("Point", ''))
+        end = int(table.item(pos, 3).text().replace("Point", ''))
         position = float(table.item(pos, 4).text())
         self.rod_feedback.emit(center, start, end, position)
     
@@ -1303,8 +1272,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     distance_changed = pyqtSignal(float)
     @pyqtSlot(int, int)
     def distance_solving(self, start, end):
-        start = self.Entiteis_Point.item(start, 4).text().replace("(", "").replace(")", "")
-        end = self.Entiteis_Point.item(end, 4).text().replace("(", "").replace(")", "")
+        start = self.Entiteis_Point.item(start, 4).text().replace("(", '').replace(")", '')
+        end = self.Entiteis_Point.item(end, 4).text().replace("(", '').replace(")", '')
         x = float(start.split(", ")[0])-float(end.split(", ")[0])
         y = float(start.split(", ")[1])-float(end.split(", ")[1])
         self.distance_changed.emit(round(math.sqrt(x**2+y**2), 9))

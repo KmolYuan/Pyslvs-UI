@@ -223,12 +223,12 @@
                    </item>
                    <item row="0" column="1">
                     <property name="text">
-                     <string>0.00</string>
+                     <string>0.0</string>
                     </property>
                    </item>
                    <item row="0" column="2">
                     <property name="text">
-                     <string>0.00</string>
+                     <string>0.0</string>
                     </property>
                    </item>
                    <item row="0" column="3">
@@ -1142,7 +1142,7 @@ p, li { white-space: pre-wrap; }
                        <item>
                         <widget class="QLabel" name="reqSlider">
                          <property name="text">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 1 Point (not origin), 1 Line.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 3 Point.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                          </property>
                         </widget>
                        </item>
@@ -1176,12 +1176,12 @@ p, li { white-space: pre-wrap; }
                          </column>
                          <column>
                           <property name="text">
-                           <string>Start</string>
+                           <string>Start Side</string>
                           </property>
                          </column>
                          <column>
                           <property name="text">
-                           <string>End</string>
+                           <string>End Side</string>
                           </property>
                          </column>
                         </widget>

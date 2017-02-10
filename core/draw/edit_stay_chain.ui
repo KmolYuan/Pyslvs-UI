@@ -107,7 +107,7 @@
          <item>
           <widget class="QLineEdit" name="p1_p3">
            <property name="placeholderText">
-            <string>0.0</string>
+            <string>30.0</string>
            </property>
           </widget>
          </item>
@@ -166,7 +166,7 @@
          <item>
           <widget class="QLineEdit" name="p2_p3">
            <property name="placeholderText">
-            <string>0.0</string>
+            <string>30.0</string>
            </property>
           </widget>
          </item>
@@ -191,7 +191,7 @@
          <item>
           <widget class="QLineEdit" name="p1_p2">
            <property name="placeholderText">
-            <string>0.0</string>
+            <string>30.0</string>
            </property>
           </widget>
          </item>

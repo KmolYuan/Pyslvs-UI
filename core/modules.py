@@ -42,8 +42,7 @@ from .panel.delete import deleteDlg
 #Solve
 from .calculation.calculation import slvsProcess
 #Canvas
-if '--view' in sys.argv: from .calculation.canvasView import DynamicCanvas
-else: from .calculation.canvas_0 import DynamicCanvas
+from .calculation.canvas_0 import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io.example import *

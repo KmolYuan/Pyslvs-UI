@@ -158,18 +158,6 @@ class Lines():
                 break
         self.update(tableLine)
     
-    def repeatedCheck(self, table, first, second):
-        n = False
-        for i in range(table.rowCount()):
-            case1 = (table.item(i, 1).text()==first)and(table.item(i, 2).text()==second)
-            case2 = (table.item(i, 2).text()==first)and(table.item(i, 1).text()==second)
-            if case1 or case2:
-                n = True
-                dlg = contradict_show()
-                dlg.show()
-                if dlg.exec_(): break
-        return n
-    
     def update(self, table):
         lst = list()
         for i in range(table.rowCount()):
