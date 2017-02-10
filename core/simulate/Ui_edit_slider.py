@@ -11,14 +11,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(406, 271)
+        Dialog.resize(406, 292)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        Dialog.setMinimumSize(QtCore.QSize(406, 271))
-        Dialog.setMaximumSize(QtCore.QSize(406, 271))
+        Dialog.setMinimumSize(QtCore.QSize(406, 292))
+        Dialog.setMaximumSize(QtCore.QSize(406, 292))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/editslider.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -108,7 +108,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Slider"))
-        self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting one Point for this Slider.</span></p><p><span style=\" font-size:12pt;\">And setting another start point and end point for it\'s track.</span></p></body></html>"))
+        self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose one Point for this Slider.</span></p><p><span style=\" font-size:12pt;\">And choose another start point and end point for it\'s track.</span></p></body></html>"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Name</p></body></html>"))
         self.label.setText(_translate("Dialog", "Slider Center"))
         self.Slider_Center.setWhatsThis(_translate("Dialog", "Start point for next link."))
