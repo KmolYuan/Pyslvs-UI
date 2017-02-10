@@ -7,9 +7,7 @@ from PyQt5.QtGui import *
 import sys, csv, math, webbrowser, platform
 from peewee import *
 #Dialog Ports
-from .info.version import version_show
-from .info.info import Info_show
-from .info.help import Help_info_show
+from .info.version import Help_info_show, Info_show, version_show
 from .info.path_point_data import path_point_data_show
 from .info.options import options_show
 from .io.script import Script_Dialog

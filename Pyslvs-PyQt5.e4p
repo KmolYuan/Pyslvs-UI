@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-10, 18:40:54 -->
+<!-- Saved: 2017-02-10, 21:25:43 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -48,8 +48,6 @@
     <Source>core/info/__init__.py</Source>
     <Source>core/info/editFileInfo.py</Source>
     <Source>core/info/fileInfo.py</Source>
-    <Source>core/info/help.py</Source>
-    <Source>core/info/info.py</Source>
     <Source>core/info/options.py</Source>
     <Source>core/info/path_point_data.py</Source>
     <Source>core/info/version.py</Source>
@@ -115,8 +113,6 @@
     <Form>core/draw/edit_stay_chain.ui</Form>
     <Form>core/info/editFileInfo.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
-    <Form>core/info/help.ui</Form>
-    <Form>core/info/info.ui</Form>
     <Form>core/info/options.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
     <Form>core/info/version.ui</Form>

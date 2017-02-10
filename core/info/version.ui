@@ -47,7 +47,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="iconLabel">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -94,12 +94,12 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Pyslvs version</string>
+          <string/>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="Content">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -110,7 +110,7 @@
           <string>Version Info</string>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pyslvs is a Open Source support tools to help user solving 2D linkage problem.&lt;/p&gt;&lt;p&gt;It can use in Mechanical Design and Simulation.&lt;/p&gt;&lt;p&gt;This program using Python 3 with Python Solvespace.&lt;/p&gt;&lt;p&gt;If you want to know about more, you can refer to our website.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="textFormat">
           <enum>Qt::RichText</enum>

@@ -1977,7 +1977,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
    </property>
    <property name="text">
-    <string>Output to Python &amp;Script</string>
+    <string>Python &amp;Script</string>
    </property>
    <property name="statusTip">
     <string>Output to a Python 3 slvs module script.</string>
@@ -2145,7 +2145,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/faces.png</normaloff>:/icons/faces.png</iconset>
    </property>
    <property name="text">
-    <string>Output to &amp;Picture</string>
+    <string>&amp;Picture</string>
+   </property>
+   <property name="statusTip">
+    <string>Output to Image format.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -2193,7 +2196,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
    </property>
    <property name="text">
-    <string>See Python &amp;Scripts</string>
+    <string>Workbook Python &amp;Script</string>
    </property>
    <property name="statusTip">
     <string>See Python scripts in this status.</string>
@@ -2387,7 +2390,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/SQL_icon.png</normaloff>:/icons/SQL_icon.png</iconset>
    </property>
    <property name="text">
-    <string>Output to S&amp;QLite Data Base</string>
+    <string>S&amp;QLite Data Base</string>
+   </property>
+   <property name="statusTip">
+    <string>Output to SQLite Data Base.</string>
    </property>
   </action>
   <action name="action_Set_Rod">
@@ -2456,7 +2462,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/workplane.png</normaloff>:/icons/workplane.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Black Background</string>
+    <string>&amp;Black background</string>
+   </property>
+   <property name="statusTip">
+    <string>Use black background.</string>
    </property>
   </action>
   <action name="actionDisplay_Point_Mark">
@@ -2471,7 +2480,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/char-2-radio-false.png</normaloff>:/icons/char-2-radio-false.png</iconset>
    </property>
    <property name="text">
-    <string>Display Point &amp;Mark</string>
+    <string>Display Point &amp;mark</string>
+   </property>
+   <property name="statusTip">
+    <string>Display point mark in canvas.</string>
    </property>
   </action>
   <action name="action_Output_to_Solvespace">
@@ -2483,7 +2495,13 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Output to Solvespace &amp;3D models</string>
+    <string>Solvespace &amp;3D models</string>
+   </property>
+   <property name="toolTip">
+    <string>Solvespace 3D models</string>
+   </property>
+   <property name="statusTip">
+    <string>Output to Solvespace 3D models</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+3</string>
@@ -2495,7 +2513,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>Output to &amp;DXF</string>
+    <string>&amp;DXF</string>
+   </property>
+   <property name="statusTip">
+    <string>Output to Drawing Exchange format.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
