@@ -8,7 +8,8 @@ ifeq ($(OS),Windows_NT)
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 	python setup.py build
 	@echo ---Copying Folder and Files---
-	xcopy .\build\exe.win-amd64-3.5\core .\dist\launch_pyslvs\core\ /s /y /i
+	xcopy .\build\exe.win-amd64-3.5\core\kernel\py35w .\dist\launch_pyslvs\core\kernel\py35w /s /y /i
+	xcopy .\build\exe.win-amd64-3.5\core\kernel\pyslvs_generate\py35w .\dist\launch_pyslvs\core\kernel\pyslvs_generate\py35w /s /y /i
 else
 	@echo ---Linux Version---
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
