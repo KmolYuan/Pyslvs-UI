@@ -3,15 +3,20 @@ from .modules import *
 
 class edit_link_show(QDialog, edit_link_Dialog):
     Another_line = pyqtSignal(int)
-    def __init__(self, mask, table1, table2, pos, parent=None):
+    def __init__(self, mask, table1, table2, pos=False, parent=None):
         super(edit_link_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
+        iconSelf = QIcon(QPixmap(":/icons/line.png"))
         for i in range(table1.rowCount()):
             self.Start_Point.insertItem(i, icon, table1.item(i, 0).text())
             self.End_Point.insertItem(i, icon, table1.item(i, 0).text())
-        for i in range(table2.rowCount()): self.Link.insertItem(i, QIcon(QPixmap(":/icons/line.png")), table2.item(i, 0).text())
-        self.Link.setCurrentIndex(pos)
+        if pos is False:
+            self.Link.addItem(iconSelf, "Line"+str(table2.rowCount()))
+            self.Link.setEnabled(False)
+        else:
+            for i in range(table2.rowCount()): self.Link.insertItem(i, iconSelf, table2.item(i, 0).text())
+            self.Link.setCurrentIndex(pos)
         self.Length.setValidator(mask)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
     

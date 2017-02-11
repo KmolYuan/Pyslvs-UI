@@ -563,7 +563,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
-                    dlg.rename(self.File.form['fileName'].absoluteFilePath(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+                    dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
                     dlg.show()
                     if dlg.exec_(): pass
             else: print("Failed to load!")
@@ -594,7 +594,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Property_triggered(self):
         dlg = editFileInfo_show()
         self.File.updateTime()
-        dlg.rename(self.File.form['fileName'].absoluteFilePath(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+        dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
         dlg.show()
         if dlg.exec_():
             self.File.form['author'] = dlg.authorName_input.text()
@@ -688,7 +688,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Point_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
-        dlg = New_point(self.Mask, table1)
+        dlg = edit_point_show(self.Mask, table1)
         dlg.show()
         if dlg.exec_():
             self.File.Points.editTable(table1,
@@ -740,7 +740,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Line_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        dlg = New_link(self.Mask, table1, table2.rowCount())
+        dlg = edit_link_show(self.Mask, table1, table2)
         dlg.show()
         if dlg.exec_():
             self.File.Lines.editTable(table2, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
@@ -773,7 +773,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Stay_Chain_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = chain_show(self.Mask, table1, table2.rowCount())
+        dlg = edit_stay_chain_show(self.Mask, table1, table2)
         dlg.show()
         if dlg.exec_():
             self.File.Chains.editTable(table2, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
@@ -809,7 +809,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Set_Drive_Shaft_triggered(self, cen=0, ref=0):
         table1 = self.Entiteis_Point
         table2 = self.Drive_Shaft
-        dlg = shaft_show(table1, table2.rowCount(), cen, ref)
+        dlg = edit_shaft_show(table1, table2, cen=cen, ref=ref)
         dlg.show()
         if dlg.exec_():
             self.File.Shafts.editTable(table2, dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState()))
@@ -841,7 +841,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self):
-        dlg = slider_show(self.Entiteis_Point, self.Slider.rowCount())
+        dlg = edit_slider_show(self.Entiteis_Point, self.Slider)
         dlg.show()
         if dlg.exec_():
             self.File.Sliders.editTable(self.Slider, dlg.slider, dlg.start, dlg.end)
@@ -871,7 +871,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Set_Rod_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        dlg = rod_show(table1, table2.rowCount())
+        dlg = edit_rod_show(table1, table2)
         dlg.show()
         if dlg.exec_():
             self.File.Rods.editTable(table2, dlg.cen, dlg.start, dlg.end, dlg.pos)

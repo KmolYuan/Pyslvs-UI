@@ -3,15 +3,21 @@ from .modules import *
 
 class edit_slider_show(QDialog, edit_slider_Dialog):
     Another_slider = pyqtSignal(int)
-    def __init__(self, table, table2, pos, parent=None):
+    def __init__(self, table1, table2, pos=False, parent=None):
         super(edit_slider_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
-        for i in range(table.rowCount()): self.Slider_Center.insertItem(i, icon, table1.item(i, 0).text())
-        for i in range(table.rowCount()): self.Start.insertItem(i, icon, table.item(i, 0).text())
-        for i in range(table.rowCount()): self.End.insertItem(i, icon, table.item(i, 0).text())
-        for i in range(table2.rowCount()): self.Slider.insertItem(i, QIcon(QPixmap(":/icons/pointonx.png")), table3.item(i, 0).text())
-        self.Slider.setCurrentIndex(pos)
+        iconSelf = QIcon(QPixmap(":/icons/pointonx.png"))
+        for i in range(table1.rowCount()):
+            self.Slider_Center.insertItem(i, icon, table1.item(i, 0).text())
+            self.Start.insertItem(i, icon, table1.item(i, 0).text())
+            self.End.insertItem(i, icon, table1.item(i, 0).text())
+        if pos is False:
+            self.Slider.addItem(iconSelf, "Slider"+str(table2.rowCount()))
+            self.Slider.setEnabled(False)
+        else:
+            for i in range(table2.rowCount()): self.Slider.insertItem(i, iconSelf, table2.item(i, 0).text())
+            self.Slider.setCurrentIndex(pos)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
     
     @pyqtSlot(int)

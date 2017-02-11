@@ -3,16 +3,21 @@ from .modules import *
 
 class edit_rod_show(QDialog, edit_rod_Dialog):
     Another_rod = pyqtSignal(int)
-    def __init__(self, table1, table2, pos, parent=None):
+    def __init__(self, table1, table2, pos=False, parent=None):
         super(edit_rod_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
+        iconSelf = QIcon(QPixmap(":/icons/spring.png"))
         for i in range(table1.rowCount()):
-            self.Center.insertItem(i, icon, table1.item(i, 0).text())
-            self.Start.insertItem(i, icon, table1.item(i, 0).text())
-            self.End.insertItem(i, icon, table1.item(i, 0).text())
-        for i in range(table2.rowCount()): self.Rod.insertItem(i, QIcon(QPixmap(":/icons/spring.png")), table2.item(i, 0).text())
-        self.Rod.setCurrentIndex(pos)
+                self.Center.insertItem(i, icon, table1.item(i, 0).text())
+                self.Start.insertItem(i, icon, table1.item(i, 0).text())
+                self.End.insertItem(i, icon, table1.item(i, 0).text())
+        if pos is False:
+            self.Rod.addItem(iconSelf, "Rod"+str(table2.rowCount()))
+            self.Rod.setEnabled(False)
+        else:
+            for i in range(table2.rowCount()): self.Rod.insertItem(i, iconSelf, table2.item(i, 0).text())
+            self.Rod.setCurrentIndex(pos)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
     
     @pyqtSlot(int)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/info/version.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/info/version.ui'
 #
 # Created by: PyQt5 UI code generator 5.7.1
 #
@@ -12,9 +12,8 @@ class Ui_About_Dialog(object):
     def setupUi(self, About_Dialog):
         About_Dialog.setObjectName("About_Dialog")
         About_Dialog.setEnabled(True)
-        About_Dialog.resize(400, 300)
+        About_Dialog.resize(400, 354)
         About_Dialog.setMinimumSize(QtCore.QSize(400, 300))
-        About_Dialog.setMaximumSize(QtCore.QSize(400, 300))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         About_Dialog.setWindowIcon(icon)
@@ -53,14 +52,16 @@ class Ui_About_Dialog(object):
         self.versionLabel.setObjectName("versionLabel")
         self.verticalLayout.addWidget(self.versionLabel)
         self.Content = QtWidgets.QLabel(About_Dialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Content.sizePolicy().hasHeightForWidth())
         self.Content.setSizePolicy(sizePolicy)
+        self.Content.setText("")
         self.Content.setTextFormat(QtCore.Qt.RichText)
         self.Content.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.Content.setWordWrap(True)
+        self.Content.setOpenExternalLinks(True)
         self.Content.setObjectName("Content")
         self.verticalLayout.addWidget(self.Content)
         self.horizontalLayout.addLayout(self.verticalLayout)
@@ -91,7 +92,6 @@ class Ui_About_Dialog(object):
         About_Dialog.setWindowTitle(_translate("About_Dialog", "About Pyslvs"))
         self.iconLabel.setWhatsThis(_translate("About_Dialog", "Pyslvs Icon!"))
         self.Content.setWhatsThis(_translate("About_Dialog", "Version Info"))
-        self.Content.setText(_translate("About_Dialog", "<html><head/><body><p><br/></p></body></html>"))
         self.buttonBox.setWhatsThis(_translate("About_Dialog", "Click to exit"))
 
 import icons_rc

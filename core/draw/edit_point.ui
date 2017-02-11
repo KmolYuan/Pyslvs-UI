@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>384</width>
-    <height>257</height>
+    <height>226</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>384</width>
-    <height>257</height>
+    <height>226</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>384</width>
-    <height>257</height>
+    <height>226</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -121,6 +121,12 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>

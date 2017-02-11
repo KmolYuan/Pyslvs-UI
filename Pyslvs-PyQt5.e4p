@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-10, 21:25:43 -->
+<!-- Saved: 2017-02-11, 20:42:02 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -34,10 +34,7 @@
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
     <Source>core/draw/edit_stay_chain.py</Source>
-    <Source>core/draw/link.py</Source>
     <Source>core/draw/modules.py</Source>
-    <Source>core/draw/point.py</Source>
-    <Source>core/draw/stay_chain.py</Source>
     <Source>core/info/Ui_editFileInfo.py</Source>
     <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>
@@ -94,9 +91,6 @@
     <Source>core/simulate/edit_rod.py</Source>
     <Source>core/simulate/edit_slider.py</Source>
     <Source>core/simulate/modules.py</Source>
-    <Source>core/simulate/set_drive_shaft.py</Source>
-    <Source>core/simulate/set_rod.py</Source>
-    <Source>core/simulate/set_slider.py</Source>
     <Source>core/test/__init__.py</Source>
     <Source>core/test/testKernel.py</Source>
     <Source>core/test/testQt.py</Source>

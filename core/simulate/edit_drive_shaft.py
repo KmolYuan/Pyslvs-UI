@@ -3,15 +3,23 @@ from .modules import *
 
 class edit_shaft_show(QDialog, edit_shaft_Dialog):
     Another_shaft = pyqtSignal(int)
-    def __init__(self, table1, table2, pos, parent=None):
+    def __init__(self, table1, table2, pos=False, cen=0, ref=0, parent=None):
         super(edit_shaft_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
+        iconSelf = QIcon(QPixmap(":/icons/circle.png"))
         for i in range(table1.rowCount()):
             self.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
             self.References.insertItem(i, icon, table1.item(i, 0).text())
-        for i in range(table2.rowCount()): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), table2.item(i, 0).text())
-        self.Shaft.setCurrentIndex(pos)
+        if pos is False:
+            self.Shaft.addItem(iconSelf, "Shaft"+str(table2.rowCount()))
+            self.Shaft.setEnabled(False)
+            self.Shaft_Center.setCurrentIndex(cen)
+            self.References.setCurrentIndex(ref)
+        else:
+            for i in range(table2.rowCount()): self.Shaft.insertItem(i, iconSelf, table2.item(i, 0).text())
+            self.Shaft.setCurrentIndex(pos)
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(cen!=ref)
     
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index): self.Another_shaft.emit(index)
