@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-11, 20:42:02 -->
+<!-- Saved: 2017-02-11, 21:46:42 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -26,7 +26,6 @@
     <Source>core/calculation/modules.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
-    <Source>core/draw/Ui_delete.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
     <Source>core/draw/Ui_edit_stay_chain.py</Source>
@@ -101,7 +100,6 @@
     <Source>launch_test.py</Source>
   </Sources>
   <Forms>
-    <Form>core/draw/delete.ui</Form>
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
     <Form>core/draw/edit_stay_chain.ui</Form>
@@ -113,6 +111,7 @@
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
+    <Form>core/panel/delete.ui</Form>
     <Form>core/panel/run_AuxLine.ui</Form>
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>

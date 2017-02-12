@@ -278,7 +278,7 @@ class Sliders():
     def update(self, table):
         lst = list()
         for i in range(table.rowCount()):
-            k = {'cen':0, 'start':0}
+            k = {'cen':0, 'start':0, 'end':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
             k['start'] = int(table.item(i, 2).text().replace("Point", ""))
             k['end'] = int(table.item(i, 3).text().replace("Point", ""))
@@ -290,8 +290,7 @@ class Sliders():
             self.editTable(table, str(n)+"Slider", str(self.list[n]['cen'])+"Point", str(self.list[n]['ref'])+"Line", False)
 
 class Rods():
-    def __init__(self):
-        self.list = list()
+    def __init__(self): self.list = list()
     
     def editTable(self, table, cen, start, end, pos, edit=False):
         rowPosition = edit if edit else table.rowCount()
@@ -303,18 +302,19 @@ class Rods():
         table.setItem(rowPosition, 2, QTableWidgetItem(start))
         table.setItem(rowPosition, 3, QTableWidgetItem(end))
         table.setItem(rowPosition, 4, QTableWidgetItem(pos))
+        self.update(table)
         if edit is False: print("Set the Point to new Rod.")
         else: print("Set the Point to selected Rod.")
     
     def update(self, table):
         lst = list()
-        for i in range(table_rod.rowCount()):
+        for i in range(table.rowCount()):
             k = {'cen':0, 'start':0, 'end':0, 'pos':0}
             k['cen'] = int(table.item(i, 1).text().replace("Point", ""))
             k['start'] = int(table.item(i, 2).text().replace("Point", ""))
             k['end'] = int(table.item(i, 3).text().replace("Point", ""))
             k['pos'] = float(table.item(i, 4).text())
-            list += [k]
+            lst += [k]
         self.list = lst
     
     def updateTable(self, table):

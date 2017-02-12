@@ -31,6 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File = File()
         self.load_settings()
         self.FileState = QUndoStack()
+        if '--undo-list' in sys.argv: self.showUndoWindow(self.FileState)
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.mplLayout.insertWidget(0, self.qpainterWindow)
@@ -354,10 +355,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Close Event
     def closeEvent(self, event):
-        try:
-            self.PathSolvingDlg.deleteLater()
-            del self.PathSolvingDlg
-        except: pass
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.", (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Discard or reply==QMessageBox.Ok:
@@ -373,6 +370,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             print("Exit.")
             event.accept()
+    
+    def showUndoWindow(self, stack):
+        undoView = QUndoView(stack)
+        undoView.setAttribute(Qt.WA_QuitOnClose, False)
+        dlg = QDialog(self)
+        dlg.setWindowTitle(_translate("MainWindow-UndoWindow", "Command List"))
+        layout = QVBoxLayout(dlg)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.addWidget(undoView)
+        dlg.move(QPoint(QApplication.desktop().width()-dlg.width(), 60))
+        dlg.show()
     
     #Scripts
     @pyqtSlot()
