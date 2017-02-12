@@ -13,8 +13,8 @@ class addPointUndo(QUndoCommand):
         self.tableContent = table
         self.row = copy(row)
     
-    def undo(self):
+    def redo(self):
         ''''''
     
-    def redo(self):
+    def undo(self):
         ''''''

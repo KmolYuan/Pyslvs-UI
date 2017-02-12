@@ -4,7 +4,7 @@ from .listProcess import *
 now = datetime.datetime.now()
 
 class File():
-    def __init__(self):
+    def __init__(self, FileState):
         self.form = {
             'fileName':QFileInfo("[New Workbook]"),
             'description':'',
@@ -12,18 +12,13 @@ class File():
             'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
             'changed':False,
             }
+        self.FileState = FileState
         self.resetAllList()
     
     def resetAllList(self):
-        self.Points = Points()
-        self.Lines = Lines()
-        self.Chains = Chains()
-        self.Shafts = Shafts()
-        self.Sliders = Sliders()
-        self.Rods = Rods()
-        self.Parameters = Parameters()
-        self.Path = Path()
-        self.PathSolvingReqs = PathSolvingReqs()
+        self.Lists = Lists(self.FileState)
+        self.Path = Path(self.FileState)
+        self.PathSolvingReqs = PathSolvingReqs(self.FileState)
     
     def updateTime(self):
         self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
@@ -49,42 +44,42 @@ class File():
         try:
             li = data[tableIndex[0]:tableIndex[1]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Points.editTable(Point, li[i+1], li[i+2], li[i+3]=='True')
+                for i in range(1, len(li), 4): self.Lists.editTable(Point, 'Point', False, *[li[i+1], li[i+2], li[i+3]=='True'])
         except: pass
         try:
             li = data[tableIndex[1]:tableIndex[2]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Points.styleAdd(Point_Style, li[i+1], li[i+2], li[i+3].replace(",", ""))
+                for i in range(1, len(li), 4): self.Lists.styleAdd(Point_Style, *[li[i+1], li[i+2], li[i+3].replace(",", "")])
         except: pass
         try:
             li = data[tableIndex[2]:tableIndex[3]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lines.editTable(Link, li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, *[li[i+1], li[i+2], li[i+3]])
         except: pass
         try:
             li = data[tableIndex[3]:tableIndex[4]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Chains.editTable(Chain, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
+                for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, *[li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]])
         except: pass
         try:
             li = data[tableIndex[4]:tableIndex[5]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Shafts.editTable(Shaft, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]=='True')
+                for i in range(1, len(li), 7): self.Lists.editTable(Shaft, 'Shaft', False, *[li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]=='True'])
         except: pass
         try:
             li = data[tableIndex[5]:tableIndex[6]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 3): self.Sliders.editTable(Slider, li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 3): self.Lists.editTable(Slider, 'Slider', False, *[li[i+1], li[i+2], li[i+3]])
         except: pass
         try:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%5==0:
-                for i in range(1, len(li), 5): self.Rods.editTable(Rod, li[i+1], li[i+2], li[i+3], li[i+4])
+                for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, *[li[i+1], li[i+2], li[i+3], li[i+4]])
         except: pass
         try:
             li = data[tableIndex[7]:tableIndex[8]]
             if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Parameters.editTable(Parameter, li[i+1], li[i+2])
+                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'Parameter', False, *[li[i+1], li[i+2]])
         except: pass
         #path
         pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
@@ -164,12 +159,12 @@ class File():
             writer.writerow(rowdata)
     
     def Obstacles_Exclusion(self):
-        table_point = self.Points.list
-        table_line = self.Lines.list
-        table_chain = self.Chains.list
-        table_shaft = self.Shafts.list
-        table_slider = self.Sliders.list
-        table_rod = self.Rods.list
+        table_point = self.Lists.PointList
+        table_line = self.Lists.LineList
+        table_chain = self.Lists.ChainList
+        table_shaft = self.Lists.ShaftList
+        table_slider = self.Lists.SliderList
+        table_rod = self.Lists.RodList
         for i in range(len(table_line)):
             a = table_line[i]['start']
             b = table_line[i]['end']
@@ -202,24 +197,24 @@ class File():
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
         for i in range(1, len(data)):
-            self.Points.editTable(Point, str(data[i]['x']), str(data[i]['y']), i<3)
-            self.Points.styleAdd(Point_Style, 'Green', '10' if i<3 else '5', 'Blue' if i<3 else 'Green')
-        self.Chains.editTable(Chain,
-            "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
-            str(Result['L1']), str(Result['L4']), str(Result['L3']))
-        self.Lines.editTable(Link, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
-        self.Lines.editTable(Link, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
-        self.Shafts.editTable(Shaft, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False)
+            self.Lists.editTable(Point, 'Point', *[str(data[i]['x']), str(data[i]['y']), i<3])
+            self.Lists.styleAdd(Point_Style, 'Green', '10' if i<3 else '5', 'Blue' if i<3 else 'Green')
+        self.Lists.editTable(Chain, 'Chain',
+            *["Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
+            str(Result['L1']), str(Result['L4']), str(Result['L3'])])
+        self.Lists.editTable(Link, 'Line', *["Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0'])])
+        self.Lists.editTable(Link, 'Line', *["Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2'])])
+        self.Lists.editTable(Shaft, 'Shaft', *["Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False])
         print("Generate Result Merged.")
     
     def lineNodeReversion(self, tablePoint, row):
-        start = self.Points.list[self.Lines.list[row]['start']]
-        end = self.Points.list[self.Lines.list[row]['end']]
+        start = self.Lists.PointList[self.Lists.LinesList[row]['start']]
+        end = self.Lists.PointList[self.Lists.LinesList[row]['end']]
         if end['fix']==False:
             x = str(end['x'])
             y = str(end['y']-2*(end['y']-start['y']))
-            self.Points.editTable(tablePoint, x, y, False, self.Lines.list[row]['end'])
+            self.Lists.editTable(tablePoint, 'Point', *[x, y, False, self.Lists.LinesList[row]['end']])
         elif start['fix']==False:
             x = str(start['x'])
             y = str(start['y']-2*(start['y']-end['y']))
-            self.Points.editTable(tablePoint, x, y, False, self.Lines.list[row]['start'])
+            self.Lists.editTable(tablePoint, 'Point', *[x, y, False, self.Lists.LinesList[row]['start']])
