@@ -209,12 +209,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.mouse_pos_x
         y = self.mouse_pos_y
         if action == self.action_painter_right_click_menu_add:
-            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), False])
-            self.File.Lists.styleAdd(table2, "Green", "5", "Green")
+            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), False], **{'table':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
             self.Resolve()
         elif action == self.action_painter_right_click_menu_fix_add:
-            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), True])
-            self.File.Lists.styleAdd(table2, "Green", "10", "Green")
+            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), True], **{'table':table2, 'color':'Green', 'ringsize':'10', 'ringcolor':'Green'})
             self.Resolve()
         elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action == self.action_painter_right_click_menu_dimension_add:
@@ -716,9 +714,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.editTable(table1, 'Point', False,
                 *[dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                bool(dlg.Fix_Point.checkState())])
-            fix = "10" if dlg.Fix_Point.checkState() else "5"
-            self.File.Lists.styleAdd(table2, "Green", fix, "Green")
+                bool(dlg.Fix_Point.checkState())],
+                **{'table':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
             self.Resolve()
             self.workbookNoSave()
     @pyqtSlot()
@@ -727,8 +724,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.X_coordinate.text() if not self.X_coordinate.text()in['', "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in['', "n", "-"] else self.Y_coordinate.placeholderText()
-        self.File.Lists.editTable(table1, 'Point', False, *[x, y, False])
-        self.File.Lists.styleAdd(table2, "Green", "5", "Green")
+        self.File.Lists.editTable(table1, 'Point', False, *[x, y, False], **{'table':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
         self.Resolve()
         self.workbookNoSave()
     

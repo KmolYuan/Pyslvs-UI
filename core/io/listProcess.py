@@ -18,7 +18,7 @@ class Lists():
         #FileState
         self.FileState = FileState
     
-    def editTable(self, table, name, edit, *Args):
+    def editTable(self, table, name, edit, *Args, **Style):
         rowPosition = edit if edit else table.rowCount()
         if edit is False: table.insertRow(rowPosition)
         name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
@@ -33,8 +33,8 @@ class Lists():
                 table.setItem(rowPosition, i+1, checkbox)
         self.update(table, name)
         print(("Add" if edit is False else "Edit")+" {}{}.".format(name, rowPosition))
-    
-    def styleAdd(self, table, color, ringsize, ringcolor="Green"):
+        if name=='Point' and edit!=False: self.styleAdd(**Style)
+    def styleAdd(self, table, color, ringsize, ringcolor):
         rowPosition = table.rowCount()
         table.insertRow(rowPosition)
         name_set = QTableWidgetItem("Point{}".format(rowPosition))
