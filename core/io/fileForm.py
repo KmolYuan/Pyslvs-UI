@@ -197,14 +197,14 @@ class File():
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
         for i in range(1, len(data)):
-            self.Lists.editTable(Point, 'Point', *[str(data[i]['x']), str(data[i]['y']), i<3])
+            self.Lists.editTable(Point, 'Point', False, *[str(data[i]['x']), str(data[i]['y']), i<3])
             self.Lists.styleAdd(Point_Style, 'Green', '10' if i<3 else '5', 'Blue' if i<3 else 'Green')
-        self.Lists.editTable(Chain, 'Chain',
+        self.Lists.editTable(Chain, 'Chain', False,
             *["Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3'])])
-        self.Lists.editTable(Link, 'Line', *["Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0'])])
-        self.Lists.editTable(Link, 'Line', *["Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2'])])
-        self.Lists.editTable(Shaft, 'Shaft', *["Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False])
+        self.Lists.editTable(Link, 'Line', False, *["Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0'])])
+        self.Lists.editTable(Link, 'Line', False, *["Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2'])])
+        self.Lists.editTable(Shaft, 'Shaft', False, *["Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False])
         print("Generate Result Merged.")
     
     def lineNodeReversion(self, tablePoint, row):
@@ -213,8 +213,8 @@ class File():
         if end['fix']==False:
             x = str(end['x'])
             y = str(end['y']-2*(end['y']-start['y']))
-            self.Lists.editTable(tablePoint, 'Point', *[x, y, False, self.Lists.LinesList[row]['end']])
+            self.Lists.editTable(tablePoint, 'Point', False, *[x, y, False, self.Lists.LinesList[row]['end']])
         elif start['fix']==False:
             x = str(start['x'])
             y = str(start['y']-2*(start['y']-end['y']))
-            self.Lists.editTable(tablePoint, 'Point', *[x, y, False, self.Lists.LinesList[row]['start']])
+            self.Lists.editTable(tablePoint, 'Point', False, *[x, y, False, self.Lists.LinesList[row]['start']])
