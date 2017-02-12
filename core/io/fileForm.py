@@ -171,8 +171,8 @@ class File():
             case1 = table_point[a]['x']==table_point[b]['x']
             case2 = table_point[a]['y']==table_point[b]['y']
             if case1 and case2:
-                if b == 0: table_point.setItem(a, 1, QTableWidgetItem(str(float(table_point.item(a, 1).text())+0.01)))
-                else: table_point.setItem(b, 1, QTableWidgetItem(str(float(table_point.item(b, 1).text())+0.01)))
+                if b==0: table_point[a]['x'] += 0.01
+                else: table_point[b]['x'] += 0.01
         for i in range(len(table_chain)):
             a = table_chain[i]['p1']
             b = table_chain[i]['p2']

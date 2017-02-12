@@ -57,9 +57,9 @@ class Help_info_show(QDialog, Ui_About_Dialog):
         super(Help_info_show, self).__init__(parent)
         self.setupUi(self)
         self.versionLabel.setVisible(False)
-        self.Content.setText("""<html><head/><body><h1>
+        self.Content.setText("""<html><head/><body><h2>
 Pyslvs
-</h1><p>
+</h2><p>
 Pyslvs just like a ordinary CAD software, but use table format to add and edit, within changing points location, finally give the answer to designer.
 </p><p>
 We have these functions:
@@ -78,9 +78,9 @@ class Info_show(QDialog, Ui_About_Dialog):
         super(Info_show, self).__init__(parent)
         self.setupUi(self)
         self.versionLabel.setVisible(False)
-        self.Content.setText("""<html><head/><body><h1>
+        self.Content.setText("""<html><head/><body><h2>
 Python Solvespace
-</h1><p>
+</h2><p>
 Library of Solvspace, within a interface of Python.
 </p><p>
 So any python script can using it in 2D or 3D computing problem-solving.
@@ -94,7 +94,7 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.versionLabel.setText("<h1>Pyslvs</h1><h3>version {}</h3>".format(version_number))
+        self.versionLabel.setText("<h2>Pyslvs</h2><h3>version {}</h3>".format(version_number))
         self.Content.setText("""<html><head/><body><p>
 Pyslvs is a Open Source support tools to help user solving 2D linkage problem.
 </p><p>
