@@ -379,7 +379,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.Resolve()
         self.workbookNoSave()
-        print("Undo {{{}}}.".format(doText))
+        print("Undo - {}.".format(doText))
     @pyqtSlot()
     def on_actionRedo_triggered(self):
         doText = self.FileState.redoText()

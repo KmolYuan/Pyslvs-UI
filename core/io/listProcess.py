@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..panel.delete import deleteDlg
-from .undoRedo import *
+from .undoRedo import (editTableCommand, styleAddCommand, deleteTableCommand, setPathCommand)
 
 class Lists():
     def __init__(self, FileState):
         #Lists
         self.PointList = [{'x':0, 'y':0, 'fix':True, 'cx':0, 'cy':0}]
-        self.style = [{'cen':'Red', 'ring':10, 'color':'Red'}]
         self.LineList = list()
         self.ChainList = list()
         self.ShaftList = list()
@@ -26,7 +25,7 @@ class Lists():
         if name=='Point' and edit==False:
             rowPosition = Style['styleTable'].rowCount()
             self.FileState.push(styleAddCommand(**Style))
-            print("Add style of {{Point{}}}.".format(rowPosition))
+            print("- Add style of {{Point{}}}.".format(rowPosition))
         self.FileState.endMacro()
         self.update(table, name)
     
@@ -40,7 +39,7 @@ class Lists():
         lst = list()
         for i in range(table.rowCount()):
             if name=='Point':
-                k = {'x':0, 'y':0, 'fix':False, 'cx':0, 'cy':0}
+                k = dict()
                 k['x'] = float(table.item(i, 1).text())
                 k['y'] = float(table.item(i, 2).text())
                 k['fix'] = bool(table.item(i, 3).checkState())
@@ -49,12 +48,12 @@ class Lists():
                     k['cy'] = float(table.item(i, 4).text().replace('(', '').replace(')', '').split(', ')[1])
                 except: pass
             elif name=='Line':
-                k = {'start':0, 'end':0, 'len':0}
+                k = dict()
                 k['start'] = int(table.item(i, 1).text().replace('Point', ''))
                 k['end'] = int(table.item(i, 2).text().replace('Point', ''))
                 k['len'] = float(table.item(i, 3).text())
             elif name=='Chain':
-                k = {'p1':0, 'p2':0, 'p3':0, 'p1p2':0, 'p2p3':0, 'p1p3':0}
+                k = dict()
                 k['p1'] = int(table.item(i, 1).text().replace('Point', ''))
                 k['p2'] = int(table.item(i, 2).text().replace('Point', ''))
                 k['p3'] = int(table.item(i, 3).text().replace('Point', ''))
@@ -62,7 +61,7 @@ class Lists():
                 k['p2p3'] = float(table.item(i, 5).text())
                 k['p1p3'] = float(table.item(i, 6).text())
             elif name=='Shaft':
-                k = {'cen':0, 'ref':0, 'start':0, 'end':0, 'demo':0}
+                k = dict()
                 k['cen'] = int(table.item(i, 1).text().replace('Point', ''))
                 k['ref'] = int(table.item(i, 2).text().replace('Point', ''))
                 k['start'] = float(table.item(i, 3).text())
@@ -70,12 +69,12 @@ class Lists():
                 k['demo'] = float(table.item(i, 5).text())
                 k['isParallelogram'] = bool(table.item(i, 6).checkState())
             elif name=='Slider':
-                k = {'cen':0, 'start':0, 'end':0}
+                k = dict()
                 k['cen'] = int(table.item(i, 1).text().replace('Point', ''))
                 k['start'] = int(table.item(i, 2).text().replace('Point', ''))
                 k['end'] = int(table.item(i, 3).text().replace('Point', ''))
             elif name=='Rod':
-                k = {'cen':0, 'start':0, 'end':0, 'pos':0}
+                k = dict()
                 k['cen'] = int(table.item(i, 1).text().replace('Point', ''))
                 k['start'] = int(table.item(i, 2).text().replace('Point', ''))
                 k['end'] = int(table.item(i, 3).text().replace('Point', ''))
@@ -84,7 +83,7 @@ class Lists():
                 try:
                     k = {int(table.item(i, 0).text().replace('n', '')):float(table.item(i, 1).text())}
                 except: pass
-            lst += [k]
+            lst.append(k)
         if name=='Point': self.PointList = lst
         elif name=='Line': self.LineList = lst
         elif name=='Chain': self.ChainList = lst
@@ -92,16 +91,6 @@ class Lists():
         elif name=='Slider': self.SliderList = lst
         elif name=='Rod': self.RodList = lst
         elif name=='Parameter': self.ParameterList = lst
-    
-    def updateStyle(self, table):
-        lst = list()
-        for i in range(table.rowCount()):
-            k = {'cen':'Green', 'ring':5, 'color':'Green'}
-            k['cen'] = table.item(i, 1).text()
-            k['ring'] = int(table.item(i, 2).text())
-            k['color'] = table.cellWidget(i, 3).currentText()
-            lst += [k]
-        self.style = l
     
     def updateAll(self, Point, Line, Chain, Shaft, Slider, Rod, Parameter):
         self.update(Point, 'Point')
@@ -213,6 +202,12 @@ class Path():
         self.runList = list()
         self.shaftList = list()
         self.FileState = FileState
+    
+    def setPath(self, path):
+        self.FileState.beginMacro("Set {Path}")
+        self.FileState.push(setPathCommand(self.data, path))
+        print("Set {Path}")
+        self.FileState.endMacro()
     
     def setup(self, table, data, Run_list):
         for i in range(len(data)):

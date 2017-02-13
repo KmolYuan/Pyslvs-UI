@@ -30,7 +30,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
             shaftCheckBox.setText("Shaft"+str(i))
             if i==0: shaftCheckBox.setChecked(True)
             shaftCheckBox.clicked.connect(self.isReady)
-            self.shaftList += [shaftCheckBox]
+            self.shaftList.append(shaftCheckBox)
         for checkBox in self.shaftList: self.verticalLayout_6.insertWidget(0, checkBox)
     
     @pyqtSlot()

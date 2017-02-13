@@ -100,8 +100,8 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
             [self.AxMax.value(), self.AyMax.value(), self.DxMax.value(), self.DyMax.value(), self.LMax.value()],
             [self.AxMin.value(), self.AyMin.value(), self.DxMin.value(), self.DyMin.value(), self.LMin.value()]
         ]
-        Limit[0] += [Limit[0][-1] for i in range(4)]
-        Limit[1] += [Limit[1][-1] for i in range(4)]
+        Limit[0].append(Limit[0][-1] for i in range(4))
+        Limit[1].append(Limit[1][-1] for i in range(4))
         self.work.setPath(path, Limit, type_num)
         print('Start Path Solving...')
         self.work.start()

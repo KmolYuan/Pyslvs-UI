@@ -99,10 +99,10 @@ class File():
             path_e = list()
             for i in range(0, len(li)):
                 if '+' in li[i]:
-                    path += [path_e]
+                    path.append(path_e)
                     path_e = list()
-                else: path_e += [float(li[i])]
-            self.Path.data = [path]
+                else: path_e.append(float(li[i]))
+            self.Path.setPath(path)
         except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents.")
@@ -130,8 +130,8 @@ class File():
         if self.Path.runList:
             rowdata = list()
             for i in range(len(self.Path.runList)):
-                if i == len(self.Path.runList)-1: rowdata += [str(self.Path.runList[i])]
-                else: rowdata += [str(self.Path.runList[i])+'\t']
+                if i == len(self.Path.runList)-1: rowdata.append(str(self.Path.runList[i]))
+                else: rowdata.append(str(self.Path.runList[i])+'\t')
             writer.writerow(rowdata)
         writer.writerow(["_path_"])
         if self.Path.shaftList:
@@ -140,8 +140,8 @@ class File():
         if self.Path.data:
             for i in range(len(self.Path.data[0])):
                 rowdata = list()
-                for j in range(len(self.Path.data[0][i])): rowdata += [str(self.Path.data[0][i][j])+'\t']
-                rowdata += ["+="]
+                for j in range(len(self.Path.data[0][i])): rowdata.append(str(self.Path.data[0][i][j])+'\t')
+                rowdata.append("+=")
                 writer.writerow(rowdata)
     def reset(self, Point, Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         for i in reversed(range(0, Rod.rowCount())): Rod.removeRow(i)
@@ -164,7 +164,7 @@ class File():
                 if not item is None:
                     if item.text()=='': content = str(item.checkState()!=Qt.Unchecked)
                     else: content = item.text()
-                    rowdata += [content+('' if column==k-1 else '\t')]
+                    rowdata.append(content+('' if column==k-1 else '\t'))
                 elif cellWidget: rowdata += [cellWidget.currentText()]
             writer.writerow(rowdata)
     

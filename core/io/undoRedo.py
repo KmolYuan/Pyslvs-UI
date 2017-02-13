@@ -1,11 +1,24 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..calculation.color import colorlist, colorName
+from copy import copy
+
+def writeTable(rowPosition, table, name, Args):
+    name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
+    name_set.setFlags(Qt.ItemIsEnabled)
+    table.setItem(rowPosition, 0, name_set)
+    for i in range(len(Args)):
+        if type(Args[i])==str: table.setItem(rowPosition, i+1, QTableWidgetItem(Args[i]))
+        elif type(Args[i])==bool:
+            checkbox = QTableWidgetItem('')
+            checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            checkbox.setCheckState(Qt.Checked if Args[i] else Qt.Unchecked)
+            self.table.setItem(rowPosition, i+1, checkbox)
 
 class editTableCommand(QUndoCommand):
     def __init__(self, table, name, edit, *Args):
         QUndoCommand.__init__(self)
-        self.table = table #pointer - QTable
+        self.table = table
         self.name = name
         self.edit = edit
         self.Args = Args
@@ -33,16 +46,7 @@ class editTableCommand(QUndoCommand):
         if self.edit is False: self.table.removeRow(self.table.rowCount()-1)
         else:
             rowPosition = self.edit if self.edit else self.table.rowCount()
-            name_set = QTableWidgetItem("{}{}".format(self.name, rowPosition))
-            name_set.setFlags(Qt.ItemIsEnabled)
-            self.table.setItem(rowPosition, 0, name_set)
-            for i in range(len(self.oldArgs)):
-                if type(self.oldArgs[i])==str: self.table.setItem(rowPosition, i+1, QTableWidgetItem(self.oldArgs[i]))
-                elif type(self.oldArgs[i])==bool:
-                    checkbox = QTableWidgetItem('')
-                    checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                    checkbox.setCheckState(Qt.Checked if self.oldArgs[i] else Qt.Unchecked)
-                    self.table.setItem(rowPosition, i+1, checkbox)
+            writeTable(rowPosition, self.table, self.name, self.oldArgs)
 
 class styleAddCommand(QUndoCommand):
     def __init__(self, **Style):
@@ -67,8 +71,7 @@ class styleAddCommand(QUndoCommand):
         color_combobox.setCurrentIndex(color_combobox.findText(self.Style['ringcolor']))
         self.Style['styleTable'].setCellWidget(rowPosition, 3, color_combobox)
     
-    def undo(self):
-        self.Style['styleTable'].removeRow(self.Style['styleTable'].rowCount()-1)
+    def undo(self): self.Style['styleTable'].removeRow(self.Style['styleTable'].rowCount()-1)
 
 class deleteTableCommand(QUndoCommand):
     def __init__(self, table, name, index):
@@ -88,13 +91,18 @@ class deleteTableCommand(QUndoCommand):
     def undo(self):
         rowPosition = self.index
         self.table.insertRow(rowPosition)
-        name_set = QTableWidgetItem("{}{}".format(self.name, rowPosition))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        self.table.setItem(rowPosition, 0, name_set)
-        for i in range(len(self.oldArgs)):
-            if type(self.oldArgs[i])==str: self.table.setItem(rowPosition, i+1, QTableWidgetItem(self.oldArgs[i]))
-            elif type(self.oldArgs[i])==bool:
-                checkbox = QTableWidgetItem('')
-                checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                checkbox.setCheckState(Qt.Checked if self.oldArgs[i] else Qt.Unchecked)
-                self.table.setItem(rowPosition, i+1, checkbox)
+        writeTable(rowPosition, self.table, self.name, self.oldArgs)
+
+class setPathCommand(QUndoCommand):
+    def __init__(self, data, path):
+        QUndoCommand.__init__(self)
+        self.data = data
+        self.path = copy(path)
+        self.oldPath = copy(data)
+    
+    def redo(self):
+        self.data.clear()
+        self.data.append(self.path)
+    def undo(self):
+        self.data.clear()
+        self.data.append(self.oldPath)

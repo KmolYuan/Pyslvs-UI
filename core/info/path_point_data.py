@@ -21,8 +21,6 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
                     rowdata = list()
                     for column in range(path_data.columnCount()-1):
                         item = table.item(row, column)
-                        if item is not None:
-                            if column==k-1: rowdata += [item.text()]
-                            else: rowdata += [item.text()+'\t']
+                        if item is not None: rowdata.append(item.text()+('' if column==k-1 else '\t'))
                 writer.writerow(rowdata)
             print("Successful Save Spreadsheet: "+fileName)
