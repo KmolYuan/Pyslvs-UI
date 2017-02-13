@@ -922,7 +922,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.deletePointTable(self.Entiteis_Point,
                 self.Entiteis_Point_Style, self.Entiteis_Link,
                 self.Entiteis_Stay_Chain, self.Drive_Shaft,
-                self.Slider, self.Rod, dlg.Entity.currentIndex())
+                self.Slider, self.Rod, dlg.Entity.currentText())
             self.Resolve()
             self.workbookNoSave()
     

@@ -134,32 +134,32 @@ class Lists():
     
     def deletePointTable(self, tablePoint, tableStyle, tableLine, tableChain, tableShaft, tableSlider, tableRod, pos):
         for i in range(tableLine.rowCount()):
-            if (pos == tableLine.item(i, 1).text()) or (pos == tableLine.item(i, 2).text()):
+            if (pos==tableLine.item(i, 1).text()) or (pos==tableLine.item(i, 2).text()):
                 tableLine.removeRow(i)
                 for j in range(i, tableLine.rowCount()): tableLine.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
                 break
         for i in range(tableChain.rowCount()):
-            if (pos == tableChain.item(i, 1).text()) or (pos == tableChain.item(i, 2).text()):
+            if (pos==tableChain.item(i, 1).text()) or (pos==tableChain.item(i, 2).text()):
                 tableChain.removeRow(i)
                 for j in range(i, tableChain.rowCount): tableChain.setItem(j, 0, QTableWidgetItem("Chain"+str(j)))
                 break
         for i in range(tableShaft.rowCount()):
-            if (pos == tableShaft.item(i, 1).text()) or (pos == tableShaft.item(i, 2).text()):
+            if (pos==tableShaft.item(i, 1).text()) or (pos==tableShaft.item(i, 2).text()):
                 tableShaft.removeRow(i)
                 for j in range(i, tableShaft.rowCount()): tableShaft.setItem(j, 0, QTableWidgetItem("Shaft"+str(j)))
                 break
         for i in range(tableSlider.rowCount()):
-            if (pos == tableSlider.item(i, 1).text()):
+            if (pos==tableSlider.item(i, 1).text()):
                 tableSlider.removeRow(i)
                 for j in range(i, tableSlider.rowCount()): tableSlider.setItem(j, 0, QTableWidgetItem("Slider"+str(j)))
                 break
         for i in range(tableRod.rowCount()):
-            if (pos == tableRod.item(i, 1).text()) or (pos == tableRod.item(i, 2).text()):
+            if (pos==tableRod.item(i, 1).text()) or (pos==tableRod.item(i, 2).text()):
                 tableRod.removeRow(i)
                 for j in range(i, tableRod.rowCount()): tableRod.setItem(j, 0, QTableWidgetItem("Rod"+str(j)))
                 break
         for i in range(1, tablePoint.rowCount()):
-            if (pos == tablePoint.item(i, 0).text()):
+            if (pos==tablePoint.item(i, 0).text()):
                 tablePoint.removeRow(i)
                 tableStyle.removeRow(i)
                 for j in range(i, tablePoint.rowCount()): tablePoint.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
