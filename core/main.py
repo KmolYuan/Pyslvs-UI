@@ -20,7 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
 from .modules import *
 _translate = QCoreApplication.translate
-#Self UI Ports
 from .Ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -70,7 +69,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if QFileInfo(FilePath).suffix()=="csv": event.acceptProposedAction()
     def dropEvent(self, event):
         FilePath = event.mimeData().urls()[-1].toLocalFile()
-        self.checkChange(FilePath, [], "Loaded drag-in file:\n"+FilePath)
+        self.checkChange(FilePath, list(), "Loaded drag-in file:\n"+FilePath)
         event.acceptProposedAction()
     
     def load_settings(self):
@@ -95,8 +94,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_add)
         self.action_painter_right_click_menu_dimension_path_track = QAction("Show Path Track", self)
         self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_path_track)
-        self.mouse_pos_x = 0.0
-        self.mouse_pos_y = 0.0
         self.qpainterWindow.mouse_track.connect(self.context_menu_mouse_pos)
         #Entiteis_Point Right-click menu
         self.Entiteis_Point_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -208,19 +205,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.mouse_pos_x
         y = self.mouse_pos_y
-        if action == self.action_painter_right_click_menu_add:
+        if action==self.action_painter_right_click_menu_add:
             self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), False], **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
             self.Resolve()
-        elif action == self.action_painter_right_click_menu_fix_add:
+        elif action==self.action_painter_right_click_menu_fix_add:
             self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), True], **{'styleTable':table2, 'color':'Green', 'ringsize':'10', 'ringcolor':'Green'})
             self.Resolve()
-        elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
-        elif action == self.action_painter_right_click_menu_dimension_add:
+        elif action==self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
+        elif action==self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False: self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
             elif self.actionDisplay_Dimensions.isChecked()==True: self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
             self.action_painter_right_click_menu_dimension_add.setChecked(not self.actionDisplay_Dimensions.isChecked())
             self.actionDisplay_Dimensions.setChecked(not self.actionDisplay_Dimensions.isChecked())
-        elif action == self.action_painter_right_click_menu_dimension_path_track:
+        elif action==self.action_painter_right_click_menu_dimension_path_track:
             if self.Path_data_show.checkState()==True: self.action_painter_right_click_menu_dimension_path_track.setText("Hide Path Track")
             elif self.Path_data_show.checkState()==False: self.action_painter_right_click_menu_dimension_path_track.setText("Show Path Track")
             self.Path_data_show.setChecked(not self.Path_data_show.checkState())
@@ -231,65 +228,65 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
-        if action == self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
-        elif action == self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, self.Entiteis_Point.currentRow())
-        elif action == self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
-        elif action == self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
-        elif action == self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
+        if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
+        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, self.Entiteis_Point.currentRow())
+        elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
+        elif action==self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
+        elif action==self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
-        if action == self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
-        elif action == self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
-        elif action == self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
-        elif action == self.action_link_right_click_menu_reversion:
+        if action==self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
+        elif action==self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(self.Entiteis_Link.currentRow())
+        elif action==self.action_link_right_click_menu_shaft: self.link2Shaft(self.Entiteis_Link.currentRow())
+        elif action==self.action_link_right_click_menu_reversion:
             self.File.lineNodeReversion(self.Entiteis_Point, self.Entiteis_Link.currentRow())
             self.Resolve()
             self.workbookNoSave()
-        elif action == self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
+        elif action==self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(self.Entiteis_Link.currentRow())
     def on_chain_context_menu(self, point):
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
-        if action == self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
-        elif action == self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
-        elif action == self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
+        if action==self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
+        elif action==self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
+        elif action==self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(self.Entiteis_Stay_Chain.currentRow())
     def on_shaft_context_menu(self, point):
         self.action_shaft_right_click_menu_move_up.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()>0)
         self.action_shaft_right_click_menu_move_down.setEnabled(self.Drive_Shaft.rowCount()>0 and self.Drive_Shaft.currentRow()<self.Drive_Shaft.rowCount()-1)
         action = self.popMenu_shaft.exec_(self.Drive_Shaft_Widget.mapToGlobal(point))
-        if action == self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
-        elif action == self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
-        elif action == self.action_shaft_right_click_menu_move_up:
+        if action==self.action_shaft_right_click_menu_add: self.on_action_Set_Drive_Shaft_triggered()
+        elif action==self.action_shaft_right_click_menu_edit: self.on_action_Edit_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
+        elif action==self.action_shaft_right_click_menu_move_up:
             self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
             self.File.Lists.update(self.Drive_Shaft)
             self.File.Path.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()-1)
             self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
             self.Reload_Canvas()
-        elif action == self.action_shaft_right_click_menu_move_down:
+        elif action==self.action_shaft_right_click_menu_move_down:
             self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
             self.File.Lists.update(self.Drive_Shaft)
             self.File.Path.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()+1)
             self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
             self.Reload_Canvas()
-        elif action == self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
+        elif action==self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
-        if action == self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
-        elif action == self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(self.Slider.currentRow())
-        elif action == self.action_slider_right_click_menu_delete: self.on_actionDelete_Slider_triggered(self.Slider.currentRow())
+        if action==self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
+        elif action==self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(self.Slider.currentRow())
+        elif action==self.action_slider_right_click_menu_delete: self.on_actionDelete_Slider_triggered(self.Slider.currentRow())
     def on_rod_context_menu(self, point):
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
-        if action == self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
-        elif action == self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(self.Rod.currentRow())
-        elif action == self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(self.Rod.currentRow())
+        if action==self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
+        elif action==self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(self.Rod.currentRow())
+        elif action==self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(self.Rod.currentRow())
     def on_parameter_context_menu(self, point):
         self.action_parameter_right_click_menu_copy.setVisible(self.Parameter_list.currentColumn()==1)
         self.action_parameter_right_click_menu_move_up.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(self.Parameter_list.currentRow()>=1))
         self.action_parameter_right_click_menu_move_down.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(self.Parameter_list.currentRow()<=self.Parameter_list.rowCount()-2))
         self.action_parameter_right_click_menu_delete.setEnabled(self.Parameter_list.rowCount()>=1)
         action = self.popMenu_parameter.exec_(self.Parameter_Widget.mapToGlobal(point))
-        if action == self.action_parameter_right_click_menu_copy: self.Coordinate_Copy(self.Parameter_list)
-        elif action == self.action_parameter_right_click_menu_add: self.on_parameter_add()
-        elif action == self.action_parameter_right_click_menu_move_up: self.on_parameter_del()
-        elif action == self.action_parameter_right_click_menu_move_down:
+        if action==self.action_parameter_right_click_menu_copy: self.Coordinate_Copy(self.Parameter_list)
+        elif action==self.action_parameter_right_click_menu_add: self.on_parameter_add()
+        elif action==self.action_parameter_right_click_menu_move_up: self.on_parameter_del()
+        elif action==self.action_parameter_right_click_menu_move_down:
             try:
                 table.insertRow(row+2)
                 for i in range(2):
@@ -301,7 +298,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 table.removeRow(row)
                 self.workbookNoSave()
             except: pass
-        elif action == self.action_parameter_right_click_menu_delete:
+        elif action==self.action_parameter_right_click_menu_delete:
             self.Parameter_list.removeRow(self.Parameter_list.currentRow())
             self.workbookNoSave()
             self.Mask_Change()
@@ -358,7 +355,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if reply==QMessageBox.Discard or reply==QMessageBox.Ok:
                 print("Exit.")
                 event.accept()
-            elif reply == QMessageBox.Save:
+            elif reply==QMessageBox.Save:
                 self.on_actionSave_triggered()
                 if not self.File.form['changed']:
                     print("Exit.")
@@ -371,23 +368,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Undo and Redo
     def showUndoWindow(self, stack):
-        undoView = QUndoView(stack)
-        undoView.setAttribute(Qt.WA_QuitOnClose, False)
-        dlg = QDialog(self)
-        dlg.setWindowTitle(_translate("MainWindow-UndoWindow", "Command List"))
-        dlg.setSizeGripEnabled(False)
-        size = QSize(250, 200)
-        dlg.setMinimumSize(size)
-        dlg.setMaximumSize(size)
-        dlg.move(QPoint(QApplication.desktop().width()-dlg.width(), 60))
-        layout = QVBoxLayout(dlg)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(undoView)
+        dlg = commandWindow(stack, parent=self)
         dlg.show()
     @pyqtSlot()
-    def on_actionUndo_triggered(self): self.File.Lists.undo()
+    def on_actionUndo_triggered(self):
+        doText = self.FileState.undoText()
+        self.FileState.undo()
+        self.File.Lists.updateAll(self.Entiteis_Point,
+            self.Entiteis_Link, self.Entiteis_Stay_Chain,
+            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+        self.Resolve()
+        self.workbookNoSave()
+        print("Undo {{{}}}.".format(doText))
     @pyqtSlot()
-    def on_actionRedo_triggered(self): self.File.Lists.redo()
+    def on_actionRedo_triggered(self):
+        doText = self.FileState.redoText()
+        self.FileState.redo()
+        self.File.Lists.updateAll(self.Entiteis_Point,
+            self.Entiteis_Link, self.Entiteis_Stay_Chain,
+            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
+        self.Resolve()
+        self.workbookNoSave()
+        print("Redo {{{}}}.".format(doText))
     
     #Scripts
     @pyqtSlot()
@@ -487,6 +489,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_link_right_click_menu_reversion.setEnabled(self.Entiteis_Link.rowCount()>0)
         self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
+        self.actionUndo.setEnabled(self.FileState.canUndo())
+        self.actionRedo.setEnabled(self.FileState.canRedo())
     
     @pyqtSlot()
     def on_action_Get_Help_triggered(self): self.OpenURL("http://project.mde.tw/blog/slvs-library-functions.html")
@@ -527,7 +531,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker())
     #Workbook Functions
-    def checkChange(self, name=False, data=[], say='Loading Example...'):
+    def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Clear Message', "Do you want to Clear ALL Drawings?\nThe changes can't be recovery!",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
@@ -537,7 +541,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             print(say)
             self.loadWorkbook(name, data)
-    def loadWorkbook(self, fileName=False, data=[]):
+    def loadWorkbook(self, fileName=False, data=list()):
         self.closePanel()
         self.File.reset(
             self.Entiteis_Point, self.Entiteis_Point_Style,
@@ -546,12 +550,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Rod, self.Parameter_list)
         self.qpainterWindow.removePath()
         self.Resolve()
+        self.FileState.clear()
         print("Reset workbook.")
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
             if fileName: self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
         if QFileInfo(fileName).suffix()=="csv" or QFileInfo(fileName).suffix()=="txt" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
-            if data==[]:
+            if data==list():
                 print("Get: "+fileName)
                 with open(fileName, newline='') as stream:
                     reader = csv.reader(stream, delimiter=' ', quotechar='|')
@@ -573,7 +578,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
-                self.FileState = QUndoStack()
                 print("Loaded the workbook...")
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):

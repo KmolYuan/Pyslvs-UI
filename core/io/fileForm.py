@@ -95,12 +95,12 @@ class File():
             li = data[pathIndex[1]+1:pathIndex[2]]
             self.Path.shaftList = [int(e) for e in li]
             li = data[pathIndex[2]+1::]
-            path = []
-            path_e = []
+            path = list()
+            path_e = list()
             for i in range(0, len(li)):
                 if '+' in li[i]:
                     path += [path_e]
-                    path_e = []
+                    path_e = list()
                 else: path_e += [float(li[i])]
             self.Path.data = [path]
         except: errorInfo.append('Path')
@@ -128,7 +128,7 @@ class File():
         writer.writerow(["_table_"])
         writer.writerow(["_path_"])
         if self.Path.runList:
-            rowdata = []
+            rowdata = list()
             for i in range(len(self.Path.runList)):
                 if i == len(self.Path.runList)-1: rowdata += [str(self.Path.runList[i])]
                 else: rowdata += [str(self.Path.runList[i])+'\t']
@@ -139,7 +139,7 @@ class File():
         writer.writerow(["_path_"])
         if self.Path.data:
             for i in range(len(self.Path.data[0])):
-                rowdata = []
+                rowdata = list()
                 for j in range(len(self.Path.data[0][i])): rowdata += [str(self.Path.data[0][i][j])+'\t']
                 rowdata += ["+="]
                 writer.writerow(rowdata)
@@ -157,12 +157,12 @@ class File():
     def CSV_write(self, writer, table, k, init=0):
         writer.writerow(["_table_"])
         for row in range(init, table.rowCount()):
-            rowdata = []
+            rowdata = list()
             for column in range(k):
                 item = table.item(row, column)
                 cellWidget = table.cellWidget(row, column)
                 if not item is None:
-                    if item.text()=='': content = "False" if item.checkState()==False else "True"
+                    if item.text()=='': content = str(item.checkState()!=Qt.Unchecked)
                     else: content = item.text()
                     rowdata += [content+('' if column==k-1 else '\t')]
                 elif cellWidget: rowdata += [cellWidget.currentText()]

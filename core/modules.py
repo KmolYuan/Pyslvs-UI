@@ -12,6 +12,7 @@ from .info.path_point_data import path_point_data_show
 from .info.options import options_show
 from .io.script import Script_Dialog
 from .io.slvsType import slvsTypeSettings
+from .io.commandWindow import commandWindow
 #Drawing Dialog Ports
 from .draw.edit_point import edit_point_show
 from .draw.edit_link import edit_link_show

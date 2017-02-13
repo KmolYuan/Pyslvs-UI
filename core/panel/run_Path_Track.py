@@ -7,7 +7,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         super(Path_Track_show, self).__init__(parent)
         self.setupUi(self)
         self.work = WorkerThread()
-        self.Path_data = []
+        self.Path_data = list()
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.start)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
@@ -15,7 +15,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.allShafts.clicked.connect(self.isReady)
         self.chooseShafts.clicked.connect(self.isReady)
         self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
-        self.shaftList = []
+        self.shaftList = list()
     
     def loadData(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.work.Point = Point

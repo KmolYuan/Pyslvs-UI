@@ -5,8 +5,6 @@ from PyQt5.QtGui import *
 from .slvsForm import *
 from .Ui_slvsType import Ui_Dialog
 
-#with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(dlg.code)
-
 class slvsTypeSettings(QDialog, Ui_Dialog):
     def __init__(self, Environment_variables, Point, Line, Chain, parent=None):
         super(slvsTypeSettings, self).__init__(parent)

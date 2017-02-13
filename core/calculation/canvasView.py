@@ -13,13 +13,13 @@ class DynamicCanvas(QGraphicsView):
         self.scaleFactor=1
         self.Solve_error = False
         self.points = {
-            'x':[], 'y':[], 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
+            'x':list(), 'y':list(), 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
                 'Background':Qt.white, 'penWidth':{'pen':2, 'path':1},
                 'pt':Qt.green, 'link':Qt.darkGray, 'chain':Qt.cyan, 'text':Qt.darkGray,
                 'dimension':False,
                 },
-            'Path':{'path':[], 'run_list':[], 'show':True},
+            'Path':{'path':list(), 'run_list':list(), 'show':True},
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
@@ -73,8 +73,8 @@ class DynamicCanvas(QGraphicsView):
         self.Point_mark = Point_mark
         self.points['style']['penWidth']['pen'] = width
         self.points['style']['penWidth']['path'] = pathwidth
-        self.points['x'] = []
-        self.points['y'] = []
+        self.points['x'] = list()
+        self.points['y'] = list()
         self.zoom = float(zoom_rate.replace("%", ""))/100
         for i in range(len(table_point)):
             try:
@@ -108,7 +108,7 @@ class DynamicCanvas(QGraphicsView):
             self.AuxLine['Max']['y'] = 0
             self.AuxLine['Min']['x'] = 0
             self.AuxLine['Min']['y'] = 0
-    def removePath(self): self.points['Path']['path'] = []
+    def removePath(self): self.points['Path']['path'] = list()
     
     def wheelEvent(self, event):
         ''''''

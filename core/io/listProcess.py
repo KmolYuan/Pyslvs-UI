@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from ..calculation.color import colorlist, colorName
 from ..panel.delete import deleteDlg
 from .undoRedo import *
 
@@ -19,50 +18,22 @@ class Lists():
         #FileState
         self.FileState = FileState
     
-    def undo(self):
-        self.FileState.undo()
-        print("Undo.")
-    def redo(self):
-        self.FileState.redo()
-        print("Redo.")
-    
     def editTable(self, table, name, edit, *Args, **Style):
         rowPosition = edit if edit else table.rowCount()
-        if edit is False: table.insertRow(rowPosition)
-        name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        table.setItem(rowPosition, 0, name_set)
-        for i in range(len(Args)):
-            if type(Args[i])==str: table.setItem(rowPosition, i+1, QTableWidgetItem(Args[i]))
-            elif type(Args[i])==bool:
-                checkbox = QTableWidgetItem('')
-                checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                checkbox.setCheckState(Qt.Checked if Args[i] else Qt.Unchecked)
-                table.setItem(rowPosition, i+1, checkbox)
-        self.update(table, name)
-        print(("Add" if edit is False else "Edit")+" {}{}.".format(name, rowPosition))
+        self.FileState.beginMacro("{} {{{}{}}}".format('Add' if edit==False else 'Edit', name, rowPosition))
+        self.FileState.push(editTableCommand(table, name, edit, *Args))
+        print("{} {{{}{}}}.".format("Add" if edit is False else "Edit", name, rowPosition))
         if name=='Point' and edit==False:
             rowPosition = Style['styleTable'].rowCount()
-            Style['styleTable'].insertRow(rowPosition)
-            name_set = QTableWidgetItem("Point{}".format(rowPosition))
-            name_set.setFlags(Qt.ItemIsEnabled)
-            Style['styleTable'].setItem(rowPosition, 0, name_set)
-            color_combobox = QComboBox(Style['styleTable'])
-            re_Color = colorName()
-            for i in range(len(re_Color)): color_combobox.insertItem(i, re_Color[i])
-            color_combobox.setCurrentIndex(color_combobox.findText(Style['color']))
-            Style['styleTable'].setCellWidget(rowPosition, 1, color_combobox)
-            Style['styleTable'].setItem(rowPosition, 1, QTableWidgetItem("Green"))
-            ring_size = QTableWidgetItem(Style['ringsize'])
-            ring_size.setFlags(Qt.ItemIsEnabled)
-            Style['styleTable'].setItem(rowPosition, 2, ring_size)
-            color_combobox.setCurrentIndex(color_combobox.findText(Style['ringcolor']))
-            Style['styleTable'].setCellWidget(rowPosition, 3, color_combobox)
-            print("Add Point Style for Point{}.".format(rowPosition))
+            self.FileState.push(styleAddCommand(**Style))
+            print("Add style of {{Point{}}}.".format(rowPosition))
+        self.FileState.endMacro()
+        self.update(table, name)
     
     def deleteTable(self, table, name, index):
-        table.removeRow(index)
-        for j in range(index, table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
+        self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
+        self.FileState.push(deleteTableCommand(table, name, index))
+        self.FileState.endMacro()
         self.update(table, name)
     
     def update(self, table, name):
@@ -131,6 +102,15 @@ class Lists():
             k['color'] = table.cellWidget(i, 3).currentText()
             lst += [k]
         self.style = l
+    
+    def updateAll(self, Point, Line, Chain, Shaft, Slider, Rod, Parameter):
+        self.update(Point, 'Point')
+        self.update(Line, 'Line')
+        self.update(Chain, 'Chain')
+        self.update(Shaft, 'Shaft')
+        self.update(Slider, 'Slider')
+        self.update(Rod, 'Rod')
+        self.update(Parameter, 'Parameter')
     
     def deletePointTable(self, tablePoint, tableStyle, tableLine, tableChain, tableShaft, tableSlider, tableRod, pos):
         for i in range(tableLine.rowCount()):

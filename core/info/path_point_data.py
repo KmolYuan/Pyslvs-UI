@@ -18,7 +18,7 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
             with open(fileName, 'w', newline="") as stream:
                 writer = csv.writer(stream)
                 for row in range(table.rowCount()):
-                    rowdata = []
+                    rowdata = list()
                     for column in range(path_data.columnCount()-1):
                         item = table.item(row, column)
                         if item is not None:

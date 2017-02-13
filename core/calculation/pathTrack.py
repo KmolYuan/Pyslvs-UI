@@ -17,15 +17,15 @@ class WorkerThread(QThread):
         point_list = [int(self.Run_list.item(e).text().replace("Point", "")) for e in range(self.Run_list.count())]
         print("Path Tracking...")
         t0 = timeit.default_timer()
-        nPath = []
+        nPath = list()
         for i in self.ShaftList:
             start_angle = self.Shaft[i]['start']*100
             end_angle = self.Shaft[i]['end']*100
             Resolution = self.Resolution*100
-            Path = []
+            Path = list()
             for n in point_list:
-                Xval = []
-                Yval = []
+                Xval = list()
+                Yval = list()
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
                     x, y = slvsProcess(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter, i, n, angle)
