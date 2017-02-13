@@ -37,7 +37,5 @@ from .io.example import *
 from .io.dxfType import dxfCode
 from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
-#Undo & Redo
-from .io.undoRedo import *
 #Option
 from .io.settings import Pyslvs_Settings_ini

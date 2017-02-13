@@ -209,10 +209,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.mouse_pos_x
         y = self.mouse_pos_y
         if action == self.action_painter_right_click_menu_add:
-            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), False], **{'table':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
+            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), False], **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
             self.Resolve()
         elif action == self.action_painter_right_click_menu_fix_add:
-            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), True], **{'table':table2, 'color':'Green', 'ringsize':'10', 'ringcolor':'Green'})
+            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), True], **{'styleTable':table2, 'color':'Green', 'ringsize':'10', 'ringcolor':'Green'})
             self.Resolve()
         elif action == self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action == self.action_painter_right_click_menu_dimension_add:
@@ -384,15 +384,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(undoView)
         dlg.show()
-    
     @pyqtSlot()
-    def on_actionUndo_triggered(self):
-        self.FileState.undo()
-        print("Undo.")
+    def on_actionUndo_triggered(self): self.File.Lists.undo()
     @pyqtSlot()
-    def on_actionRedo_triggered(self):
-        self.FileState.redo()
-        print("Redo.")
+    def on_actionRedo_triggered(self): self.File.Lists.redo()
     
     #Scripts
     @pyqtSlot()
@@ -579,7 +574,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
                 self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
                 self.FileState = QUndoStack()
-                print("Successful Load the workbook...")
+                print("Loaded the workbook...")
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
@@ -715,7 +710,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 *[dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState())],
-                **{'table':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
+                **{'styleTable':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
             self.Resolve()
             self.workbookNoSave()
     @pyqtSlot()
@@ -724,7 +719,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.X_coordinate.text() if not self.X_coordinate.text()in['', "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in['', "n", "-"] else self.Y_coordinate.placeholderText()
-        self.File.Lists.editTable(table1, 'Point', False, *[x, y, False], **{'table':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
+        self.File.Lists.editTable(table1, 'Point', False, *[x, y, False], **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
         self.Resolve()
         self.workbookNoSave()
     
@@ -950,9 +945,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = deleteDlg(icon1, icon2, table, pos)
         dlg.show()
         if dlg.exec_():
-            table.removeRow(dlg.Entity.currentIndex())
-            for j in range(dlg.Entity.currentIndex(), table.rowCount()): table.setItem(j, 0, QTableWidgetItem(name+str(j)))
-            self.File.Lists.update(table, name)
+            self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
             self.Resolve()
             self.workbookNoSave()
     

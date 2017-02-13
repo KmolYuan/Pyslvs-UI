@@ -52,8 +52,10 @@ class File():
             li = data[tableIndex[0]:tableIndex[1]]
             li2 = data[tableIndex[1]:tableIndex[2]]
             if (len(li)-1)%4==0 and (len(li2)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lists.editTable(Point, 'Point', False, *[li[i+1], li[i+2], li[i+3]=='True'])
-                for i in range(1, len(li2), 4): self.Lists.styleAdd(Point_Style, *[li2[i+1], li2[i+2], li2[i+3].replace(",", "")])
+                for i in range(1, len(li), 4):
+                    self.Lists.editTable(Point, 'Point', False,
+                        *[li[i+1], li[i+2], li[i+3]=='True'],
+                        **{'styleTable':Point_Style, 'color':li2[i+1], 'ringsize':li2[i+2], 'ringcolor':li2[i+3].replace(",", "")})
         except: errorInfo.append('Point')
         try:
             li = data[tableIndex[2]:tableIndex[3]]
@@ -102,7 +104,8 @@ class File():
                 else: path_e += [float(li[i])]
             self.Path.data = [path]
         except: errorInfo.append('Path')
-        if '--file-data' in argv and errorInfo: print("The following content contain errors:\n"+', '.join(errorInfo))
+        if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
+        else: print("Successful loaded contents.")
         self.form['fileName'] = QFileInfo(fileName)
         self.form['author'] = author
         self.form['description'] = description
@@ -206,7 +209,7 @@ class File():
         for i in range(1, len(data)):
             self.Lists.editTable(Point, 'Point', False,
                 *[str(data[i]['x']), str(data[i]['y']), i<3],
-                **{'table':Point_Style, 'color':'Green', 'ringsize':'10' if i<3 else '5', 'ringcolor':'Blue' if i<3 else 'Green'})
+                **{'styleTable':Point_Style, 'color':'Green', 'ringsize':'10' if i<3 else '5', 'ringcolor':'Blue' if i<3 else 'Green'})
         self.Lists.editTable(Chain, 'Chain', False,
             *["Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3'])])
