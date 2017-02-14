@@ -389,6 +389,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.Resolve()
         self.workbookNoSave()
+        self.closePanel()
     
     #Scripts
     @pyqtSlot()
