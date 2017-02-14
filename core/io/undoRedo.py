@@ -94,15 +94,29 @@ class deleteTableCommand(QUndoCommand):
         writeTable(rowPosition, self.table, self.name, self.oldArgs)
 
 class setPathCommand(QUndoCommand):
-    def __init__(self, data, path):
+    def __init__(self, data, runTable, shaftTable, path, runList, shaftList):
         QUndoCommand.__init__(self)
         self.data = data
+        self.runTable = runTable
+        self.shaftTable = shaftTable
         self.path = copy(path)
+        self.runList = copy(runList)
+        self.shaftList = copy(shaftList)
         self.oldPath = copy(data)
+        self.oldRunList = copy(runTable)
+        self.oldShaftList = copy(shaftTable)
     
     def redo(self):
         self.data.clear()
-        self.data.append(self.path)
+        self.runTable.clear()
+        self.shaftTable.clear()
+        self.data += self.path
+        self.runTable += self.runList
+        self.shaftTable += self.shaftList
     def undo(self):
         self.data.clear()
-        self.data.append(self.oldPath)
+        self.runTable.clear()
+        self.shaftTable.clear()
+        self.data += self.oldPath
+        self.runTable += self.oldRunList
+        self.shaftTable += self.oldShaftList

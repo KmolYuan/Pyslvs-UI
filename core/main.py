@@ -1031,10 +1031,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.loadData(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
         dlg.show()
         if dlg.exec_():
-            self.File.Path.runList = list()
-            for i in range(dlg.Run_list.count()): self.File.Path.runList += [dlg.Run_list.item(i).text()]
-            self.File.Path.shaftList = dlg.work.ShaftList
-            self.File.Path.data = dlg.Path_data
+            self.File.Path.setPath(dlg.Path_data, [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)
             self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
             self.Path_Clear.setEnabled(True)
             self.Path_coordinate.setEnabled(True)
@@ -1051,8 +1048,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_data_show.setEnabled(False)
     @pyqtSlot()
     def on_Path_coordinate_clicked(self):
-        dlg = path_point_data_show(self.Default_Environment_variables)
-        self.File.Path.setup(dlg.path_data, self.File.Path.data, self.File.Path.runList)
+        dlg = path_point_data_show(self.Default_Environment_variables, self.File.Path.data, self.File.Path.runList)
         dlg.show()
         dlg.exec()
     

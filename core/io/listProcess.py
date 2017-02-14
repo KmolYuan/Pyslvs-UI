@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..panel.delete import deleteDlg
-from .undoRedo import (editTableCommand, styleAddCommand, deleteTableCommand, setPathCommand)
+from .undoRedo import (
+    editTableCommand, styleAddCommand, deleteTableCommand,
+    setPathCommand)
 
 class Lists():
     def __init__(self, FileState):
@@ -203,23 +205,11 @@ class Path():
         self.shaftList = list()
         self.FileState = FileState
     
-    def setPath(self, path):
+    def setPath(self, path, runList, shaftList):
         self.FileState.beginMacro("Set {Path}")
-        self.FileState.push(setPathCommand(self.data, path))
+        self.FileState.push(setPathCommand(self.data, self.runList, self.shaftList, path, runList, shaftList))
         print("Set {Path}")
         self.FileState.endMacro()
-    
-    def setup(self, table, data, Run_list):
-        for i in range(len(data)):
-            nPath = data[i]
-            for j in range(0, len(nPath), 2):
-                X_path = nPath[j]
-                Y_path = nPath[j+1]
-                for k in range(len(X_path)-1):
-                    table.insertRow(table.rowCount())
-                    table.setItem(table.rowCount()-1, 0, QTableWidgetItem(Run_list[int(j/2)]))
-                    table.setItem(table.rowCount()-1, 1, QTableWidgetItem(str(X_path[k])))
-                    table.setItem(table.rowCount()-1, 2, QTableWidgetItem(str(Y_path[k])))
     
     def shaftChange(self, prv, next):
         try: self.shaftList[self.shaftList.index(prv)] = 'next'
