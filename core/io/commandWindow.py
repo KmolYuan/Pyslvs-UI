@@ -5,12 +5,12 @@ _translate = QCoreApplication.translate
 class commandWindow(QDialog):
     def __init__(self, stack, parent=None):
         super(commandWindow, self).__init__(parent)
-        undoView = QUndoView(stack)
-        undoView.setEmptyLabel("Start Pyslvs")
-        undoView.setAttribute(Qt.WA_QuitOnClose, False)
+        self.undoView = QUndoView(stack)
+        self.undoView.setEmptyLabel("Start Pyslvs")
+        self.undoView.setAttribute(Qt.WA_QuitOnClose, False)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(undoView)
+        layout.addWidget(self.undoView)
         self.setWindowTitle(_translate("MainWindow-UndoWindow", "Command List"))
         self.setSizeGripEnabled(False)
         size = QSize(250, 200)

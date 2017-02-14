@@ -368,28 +368,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Undo and Redo
     def showUndoWindow(self, stack):
+        stack.indexChanged.connect(self.undoReload)
         dlg = commandWindow(stack, parent=self)
         dlg.show()
     @pyqtSlot()
     def on_actionUndo_triggered(self):
         doText = self.FileState.undoText()
         self.FileState.undo()
-        self.File.Lists.updateAll(self.Entiteis_Point,
-            self.Entiteis_Link, self.Entiteis_Stay_Chain,
-            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
-        self.Resolve()
-        self.workbookNoSave()
         print("Undo - {}.".format(doText))
     @pyqtSlot()
     def on_actionRedo_triggered(self):
         doText = self.FileState.redoText()
         self.FileState.redo()
+        print("Redo {{{}}}.".format(doText))
+    @pyqtSlot(int)
+    def undoReload(self, pos=0):
         self.File.Lists.updateAll(self.Entiteis_Point,
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.Resolve()
         self.workbookNoSave()
-        print("Redo {{{}}}.".format(doText))
     
     #Scripts
     @pyqtSlot()
