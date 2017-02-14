@@ -16,10 +16,9 @@ def writeTable(rowPosition, table, name, Args):
             self.table.setItem(rowPosition, i+1, checkbox)
 
 class editTableCommand(QUndoCommand):
-    def __init__(self, table, tableList, name, edit, Args):
+    def __init__(self, table, name, edit, Args):
         QUndoCommand.__init__(self)
         self.table = table #Pointer - QTableWidget
-        self.tableList = tableList #Pointer - list
         self.name = name
         self.edit = edit
         self.Args = Args
@@ -28,7 +27,6 @@ class editTableCommand(QUndoCommand):
             for column in range(1, table.columnCount()):
                 item = self.table.item(self.edit, column)
                 self.oldArgs.append(item.text() if item.text()!='' else item.checkState()!=Qt.Unchecked)
-            self.oldArgTags = copy(self.tableList[self.edit])
     
     def redo(self):
         rowPosition = self.edit if self.edit else self.table.rowCount()
@@ -43,16 +41,12 @@ class editTableCommand(QUndoCommand):
                 checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 checkbox.setCheckState(Qt.Checked if self.Args[i] else Qt.Unchecked)
                 self.table.setItem(rowPosition, i+1, checkbox)
-        #self.tableList.insert(rowPosition, self.ArgTags)
     
     def undo(self):
-        if self.edit is False:
-            self.table.removeRow(self.table.rowCount()-1)
-            #self.tableList.pop()
+        if self.edit is False: self.table.removeRow(self.table.rowCount()-1)
         else:
             rowPosition = self.edit if self.edit else self.table.rowCount()
             writeTable(rowPosition, self.table, self.name, self.oldArgs)
-            #self.tableList[rowPosition] = self.oldArgTags
 
 class styleAddCommand(QUndoCommand):
     def __init__(self, Style):

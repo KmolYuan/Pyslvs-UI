@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-13, 11:00:14 -->
+<!-- Saved: 2017-02-14, 14:51:28 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -50,7 +50,6 @@
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/Ui_slvsType.py</Source>
     <Source>core/io/__init__.py</Source>
-    <Source>core/io/commandWindow.py</Source>
     <Source>core/io/dxfType.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>

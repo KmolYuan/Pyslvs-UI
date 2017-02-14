@@ -45,7 +45,6 @@ Information and Debug Function:
 -w\t\t\tDon't show Rebuild warning.
 --fusion\t\tRun Pyslvs in Fusion style.
 --file-data\t\tWhen open a file, show it's data in command line.
---undo-list\t\tShow undo list.
 
 Run launch_test.py can start unit test.
 ================""")

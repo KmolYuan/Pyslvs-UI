@@ -14,21 +14,13 @@ class Lists():
         self.SliderList = list()
         self.RodList = list()
         self.ParameterList = list()
-        self.nameList = {
-            'Point':self.PointList,
-            'Line':self.LineList,
-            'Chain':self.ChainList,
-            'Shaft':self.ShaftList,
-            'Slider':self.SliderList,
-            'Rod':self.RodList,
-            'Parameter':self.ParameterList}
         #FileState
         self.FileState = FileState
     
     def editTable(self, table, name, edit, *Args, **Style):
         rowPosition = edit if edit else table.rowCount()
         self.FileState.beginMacro("{} {{{}{}}}".format('Add' if edit==False else 'Edit', name, rowPosition))
-        self.FileState.push(editTableCommand(table, self.nameList[name], name, edit, Args))
+        self.FileState.push(editTableCommand(table, name, edit, Args))
         print("{} {{{}{}}}.".format("Add" if edit is False else "Edit", name, rowPosition))
         if name=='Point' and edit==False:
             rowPosition = Style['styleTable'].rowCount()

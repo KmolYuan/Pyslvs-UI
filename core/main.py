@@ -28,7 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         #File & Default Setting
         self.FileState = QUndoStack()
-        if '--undo-list' in sys.argv: self.showUndoWindow(self.FileState)
+        self.showUndoWindow(self.FileState)
         self.File = File(self.FileState)
         self.load_settings()
         #QPainter Window
@@ -369,8 +369,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #TODO: Undo and Redo
     def showUndoWindow(self, stack):
         stack.indexChanged.connect(self.undoReload)
-        dlg = commandWindow(stack, parent=self)
-        dlg.show()
+        undoView = QUndoView(stack)
+        undoView.setEmptyLabel("~ Start Pyslvs")
+        self.HistoryLayout.addWidget(undoView)
     @pyqtSlot()
     def on_actionUndo_triggered(self):
         doText = self.FileState.undoText()
@@ -380,7 +381,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionRedo_triggered(self):
         doText = self.FileState.redoText()
         self.FileState.redo()
-        print("Redo {{{}}}.".format(doText))
+        print("Redo - {}.".format(doText))
     @pyqtSlot(int)
     def undoReload(self, pos=0):
         self.File.Lists.updateAll(self.Entiteis_Point,

@@ -55,18 +55,8 @@ class Ui_Form(object):
         self.Degree_text.setObjectName("Degree_text")
         self.horizontalLayout_3.addWidget(self.Degree_text)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
-        self.playButton = QtWidgets.QPushButton(Form)
-        self.playButton.setObjectName("playButton")
-        self.horizontalLayout.addWidget(self.playButton)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem3)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem1)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -77,7 +67,6 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "<html><head/><body><p>Drive the shaft to the specified angle.</p></body></html>"))
         self.label_2.setText(_translate("Form", "in Angle:"))
         self.Degree_text.setSuffix(_translate("Form", "°"))
-        self.playButton.setText(_translate("Form", "Play"))
 
 
 if __name__ == "__main__":

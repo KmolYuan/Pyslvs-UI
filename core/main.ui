@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1050</width>
-    <height>671</height>
+    <height>697</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1050</width>
-    <height>671</height>
+    <height>697</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -1292,7 +1292,47 @@ p, li { white-space: pre-wrap; }
               </item>
              </layout>
             </widget>
-            <widget class="QWidget" name="tab_2">
+            <widget class="QWidget" name="History">
+             <attribute name="icon">
+              <iconset resource="../icons.qrc">
+               <normaloff>:/icons/step-translate.png</normaloff>:/icons/step-translate.png</iconset>
+             </attribute>
+             <attribute name="title">
+              <string>History</string>
+             </attribute>
+             <layout class="QVBoxLayout" name="verticalLayout_17">
+              <item>
+               <layout class="QVBoxLayout" name="HistoryLayout">
+                <property name="leftMargin">
+                 <number>6</number>
+                </property>
+                <property name="topMargin">
+                 <number>6</number>
+                </property>
+                <property name="rightMargin">
+                 <number>6</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>6</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_8">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in this file will show here.&lt;/p&gt;&lt;p&gt;You can backtracking them by your &lt;span style=&quot; color:#ff0000;&quot;&gt;mouse clicking&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+            <widget class="QWidget" name="Panels">
              <attribute name="icon">
               <iconset resource="../icons.qrc">
                <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
@@ -1871,7 +1911,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_New_Workbook">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/step-rotate.png</normaloff>:/icons/step-rotate.png</iconset>
+     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New Workbook</string>
@@ -1889,7 +1929,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_Load_Workbook">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/step-translate.png</normaloff>:/icons/step-translate.png</iconset>
+     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Load Workbook (*.csv)</string>
@@ -2541,7 +2581,7 @@ p, li { white-space: pre-wrap; }
     <string>&amp;Redo</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Y</string>
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="actionSearch_Points">
