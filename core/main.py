@@ -545,7 +545,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Path_Clear.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 self.Path_coordinate.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
-                print("Loaded the workbook...")
+                print("Loaded the workbook.")
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
@@ -689,6 +689,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.X_coordinate.text() if not self.X_coordinate.text()in['', "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in['', "n", "-"] else self.Y_coordinate.placeholderText()
         self.File.Lists.editTable(table1, 'Point', False, *[x, y, False], **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
+        self.X_coordinate.clear()
+        self.Y_coordinate.clear()
     
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos=1):
