@@ -41,7 +41,8 @@ class DynamicCanvas(QWidget):
             table_chain, table_shaft,
             table_slider, table_rod, table_parameter,
             table_style, zoom_rate,
-            Font_size, showDimension, Point_mark, Blackground):
+            Font_size, showDimension, Point_mark, Blackground,
+            path, run_list, shaft_list):
         if Blackground: self.points['style']['Background'] = Qt.black
         else: self.points['style']['Background'] = Qt.white
         self.Font_size = Font_size
@@ -66,6 +67,9 @@ class DynamicCanvas(QWidget):
         self.table_slider = table_slider
         self.table_rod = table_rod
         self.table_style = table_style
+        self.points['Path']['path'] = path
+        self.points['Path']['run_list'] = run_list
+        self.points['Path']['shaft_list'] = shaft_list
         self.update()
     
     def path_track(self, path, run_list, shaft_list):
@@ -232,7 +236,6 @@ class DynamicCanvas(QWidget):
             self.AuxLine['Max']['y'] = 0
             self.AuxLine['Min']['x'] = 0
             self.AuxLine['Min']['y'] = 0
-    def removePath(self): self.points['Path']['path'] = list()
     
     def mousePressEvent(self, event):
         if event.buttons()==Qt.MiddleButton:

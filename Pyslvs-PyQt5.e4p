@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-14, 14:51:28 -->
+<!-- Saved: 2017-02-15, 11:39:34 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -18,9 +18,6 @@
     <Source>core/__init__.py</Source>
     <Source>core/calculation/__init__.py</Source>
     <Source>core/calculation/calculation.py</Source>
-    <Source>core/calculation/canvasItem.py</Source>
-    <Source>core/calculation/canvasScene.py</Source>
-    <Source>core/calculation/canvasView.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
     <Source>core/calculation/color.py</Source>
     <Source>core/calculation/modules.py</Source>

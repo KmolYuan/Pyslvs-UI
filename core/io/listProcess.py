@@ -2,8 +2,8 @@
 from .modules import *
 from ..panel.delete import deleteDlg
 from .undoRedo import (
-    editTableCommand, styleAddCommand, deleteTableCommand,
-    setPathCommand)
+    editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
+    setPathCommand, clearPathCommand)
 
 class Lists():
     def __init__(self, FileState):
@@ -16,6 +16,9 @@ class Lists():
         self.SliderList = list()
         self.RodList = list()
         self.ParameterList = list()
+        self.data = list()
+        self.runList = list()
+        self.shaftList = list()
         #FileState
         self.FileState = FileState
     
@@ -26,7 +29,7 @@ class Lists():
         print("{} {{{}{}}}.".format("Add" if edit is False else "Edit", name, rowPosition))
         if name=='Point' and edit==False:
             rowPosition = Style['styleTable'].rowCount()
-            self.FileState.push(styleAddCommand(Style))
+            self.FileState.push(addStyleCommand(**Style))
             print("- Add style of {{Point{}}}.".format(rowPosition))
         self.FileState.endMacro()
         self.update(table, name)
@@ -34,8 +37,50 @@ class Lists():
     def deleteTable(self, table, name, index):
         self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
         self.FileState.push(deleteTableCommand(table, name, index))
+        print("Delete {{{}{}}}".format(name, index))
         self.FileState.endMacro()
-        self.update(table, name)
+    
+    def deletePointTable(self, Point, Style, Line, Chain, Shaft, Slider, Rod, Parameter, pos):
+        #Associated items
+        if 'Point{}'.format(pos) in self.runList: self.clearPath()
+        for e in self.LineList:
+            if pos in [e['start'], e['end']]: self.deleteTable(Line, 'Line', self.LineList.index(e))
+        for e in self.ChainList:
+            if pos in [e['p1'], e['p2'], e['p3']]: self.deleteTable(Chain, 'Chain', self.ChainList.index(e))
+        for e in self.ShaftList:
+            if pos in [e['cen'], e['ref']]: self.deleteTable(Shaft, 'Shaft', self.ShaftList.index(e))
+        for e in self.SliderList:
+            if pos in [e['cen'], e['start'], e['end']]: self.deleteTable(Slider, 'Slider', self.SliderList.index(e))
+        for e in self.RodList:
+            if pos in [e['cen'], e['start'], e['end']]: self.deleteTable(Rod, 'Rod', self.RodList.index(e))
+        #Change Number and Delete Point
+        self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
+        for e in self.LineList:
+            row = self.LineList.index(e)
+            if e['start']>pos: self.FileState.push(changePointNumCommand(Line, e['start']-1, row, 1))
+            if e['end']>pos: self.FileState.push(changePointNumCommand(Line, e['end']-1, row, 2))
+        for e in self.ChainList:
+            row = self.ChainList.index(e)
+            if e['p1']>pos: self.FileState.push(changePointNumCommand(Chain, e['p1']-1, row, 1))
+            if e['p2']>pos: self.FileState.push(changePointNumCommand(Chain, e['p2']-1, row, 2))
+            if e['p3']>pos: self.FileState.push(changePointNumCommand(Chain, e['p3']-1, row, 3))
+        for e in self.ShaftList:
+            row = self.ShaftList.index(e)
+            if e['cen']>pos: self.FileState.push(changePointNumCommand(Shaft, e['cen']-1, row, 1))
+            if e['ref']>pos: self.FileState.push(changePointNumCommand(Shaft, e['ref']-1, row, 2))
+        for e in self.SliderList:
+            row = self.SliderList.index(e)
+            if e['cen']>pos: self.FileState.push(changePointNumCommand(Slider, e['cen']-1, row, 1))
+            if e['start']>pos: self.FileState.push(changePointNumCommand(Slider, e['start']-1, row, 2))
+            if e['end']>pos: self.FileState.push(changePointNumCommand(Slider, e['end']-1, row, 3))
+        for e in self.RodList:
+            row = self.RodList.index(e)
+            if e['cen']>pos: self.FileState.push(changePointNumCommand(Rod, e['cen']-1, row, 1))
+            if e['start']>pos: self.FileState.push(changePointNumCommand(Rod, e['start']-1, row, 2))
+            if e['end']>pos: self.FileState.push(changePointNumCommand(Rod, e['end']-1, row, 3))
+        self.FileState.push(deleteStyleCommand(Style, pos))
+        self.FileState.push(deleteTableCommand(Point, 'Point', pos))
+        self.FileState.endMacro()
     
     def update(self, table, name):
         lst = list()
@@ -103,41 +148,6 @@ class Lists():
         self.update(Rod, 'Rod')
         self.update(Parameter, 'Parameter')
     
-    def deletePointTable(self, tablePoint, tableStyle, tableLine, tableChain, tableShaft, tableSlider, tableRod, pos):
-        for i in range(tableLine.rowCount()):
-            if (pos==tableLine.item(i, 1).text()) or (pos==tableLine.item(i, 2).text()):
-                tableLine.removeRow(i)
-                for j in range(i, tableLine.rowCount()): tableLine.setItem(j, 0, QTableWidgetItem("Line"+str(j)))
-                break
-        for i in range(tableChain.rowCount()):
-            if (pos==tableChain.item(i, 1).text()) or (pos==tableChain.item(i, 2).text()):
-                tableChain.removeRow(i)
-                for j in range(i, tableChain.rowCount): tableChain.setItem(j, 0, QTableWidgetItem("Chain"+str(j)))
-                break
-        for i in range(tableShaft.rowCount()):
-            if (pos==tableShaft.item(i, 1).text()) or (pos==tableShaft.item(i, 2).text()):
-                tableShaft.removeRow(i)
-                for j in range(i, tableShaft.rowCount()): tableShaft.setItem(j, 0, QTableWidgetItem("Shaft"+str(j)))
-                break
-        for i in range(tableSlider.rowCount()):
-            if (pos==tableSlider.item(i, 1).text()):
-                tableSlider.removeRow(i)
-                for j in range(i, tableSlider.rowCount()): tableSlider.setItem(j, 0, QTableWidgetItem("Slider"+str(j)))
-                break
-        for i in range(tableRod.rowCount()):
-            if (pos==tableRod.item(i, 1).text()) or (pos==tableRod.item(i, 2).text()):
-                tableRod.removeRow(i)
-                for j in range(i, tableRod.rowCount()): tableRod.setItem(j, 0, QTableWidgetItem("Rod"+str(j)))
-                break
-        for i in range(1, tablePoint.rowCount()):
-            if (pos==tablePoint.item(i, 0).text()):
-                tablePoint.removeRow(i)
-                tableStyle.removeRow(i)
-                for j in range(i, tablePoint.rowCount()): tablePoint.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
-                for j in range(i, tablePoint.rowCount()): tableStyle.setItem(j, 0, QTableWidgetItem("Point"+str(j)))
-                break
-        self.update(tablePoint, "Point")
-    
     def coverageCoordinate(self, table, row):
         coordinate = table.item(row, 4).text()[1:-1].split(', ')
         x = QTableWidgetItem(coordinate[0])
@@ -197,18 +207,17 @@ class Lists():
             table.removeRow(row+1)
             self.update(table, "Parameter")
         except: pass
-
-class Path():
-    def __init__(self, FileState):
-        self.data = list()
-        self.runList = list()
-        self.shaftList = list()
-        self.FileState = FileState
     
     def setPath(self, path, runList, shaftList):
         self.FileState.beginMacro("Set {Path}")
         self.FileState.push(setPathCommand(self.data, self.runList, self.shaftList, path, runList, shaftList))
         print("Set {Path}")
+        self.FileState.endMacro()
+    
+    def clearPath(self):
+        self.FileState.beginMacro("Clear {Path}")
+        self.FileState.push(clearPathCommand(self.data, self.runList, self.shaftList))
+        print("Clear {Path}")
         self.FileState.endMacro()
     
     def shaftChange(self, prv, next):

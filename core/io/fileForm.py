@@ -17,7 +17,6 @@ class File():
     
     def resetAllList(self):
         self.Lists = Lists(self.FileState)
-        self.Path = Path(self.FileState)
         self.PathSolvingReqs = PathSolvingReqs(self.FileState)
     
     def updateTime(self):
@@ -102,7 +101,7 @@ class File():
                     path.append(path_e)
                     path_e = list()
                 else: path_e.append(float(li[i]))
-            self.Path.setPath([path], runList, shaftList)
+            self.Lists.setPath([path], runList, shaftList)
         except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents.")
@@ -127,20 +126,20 @@ class File():
         self.CSV_write(writer, Parameter, 3)
         writer.writerow(["_table_"])
         writer.writerow(["_path_"])
-        if self.Path.runList:
+        if self.Lists.runList:
             rowdata = list()
-            for i in range(len(self.Path.runList)):
-                if i == len(self.Path.runList)-1: rowdata.append(str(self.Path.runList[i]))
-                else: rowdata.append(str(self.Path.runList[i])+'\t')
+            for i in range(len(self.Lists.runList)):
+                if i == len(self.Lists.runList)-1: rowdata.append(str(self.Lists.runList[i]))
+                else: rowdata.append(str(self.Lists.runList[i])+'\t')
             writer.writerow(rowdata)
         writer.writerow(["_path_"])
-        if self.Path.shaftList:
-            writer.writerow(self.Path.shaftList)
+        if self.Lists.shaftList:
+            writer.writerow(self.Lists.shaftList)
         writer.writerow(["_path_"])
-        if self.Path.data:
-            for i in range(len(self.Path.data[0])):
+        if self.Lists.data:
+            for i in range(len(self.Lists.data[0])):
                 rowdata = list()
-                for j in range(len(self.Path.data[0][i])): rowdata.append(str(self.Path.data[0][i][j])+'\t')
+                for j in range(len(self.Lists.data[0][i])): rowdata.append(str(self.Lists.data[0][i][j])+'\t')
                 rowdata.append("+=")
                 writer.writerow(rowdata)
     def reset(self, Point, Style, Link, Chain, Shaft, Slider, Rod, Parameter):

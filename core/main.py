@@ -257,14 +257,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_shaft_right_click_menu_move_up:
             self.move_up(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
             self.File.Lists.update(self.Drive_Shaft)
-            self.File.Path.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()-1)
-            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+            self.File.Lists.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()-1)
             self.Reload_Canvas()
         elif action==self.action_shaft_right_click_menu_move_down:
             self.move_down(self.Drive_Shaft, self.Drive_Shaft.currentRow(), "Shaft")
             self.File.Lists.update(self.Drive_Shaft)
-            self.File.Path.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()+1)
-            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+            self.File.Lists.shaftChange(self.Drive_Shaft.currentRow(), self.Drive_Shaft.currentRow()+1)
             self.Reload_Canvas()
         elif action==self.action_shaft_right_click_menu_delete: self.on_actionDelete_Drive_Shaft_triggered(self.Drive_Shaft.currentRow())
     def on_slider_context_menu(self, point):
@@ -423,8 +421,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             float(self.LineWidth.text()), float(self.PathWidth.text()),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
             self.File.Lists.ParameterList, self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(),
-            self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
-            self.action_Black_Blackground.isChecked())
+            self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(), self.action_Black_Blackground.isChecked(),
+            self.File.Lists.data, self.File.Lists.runList, self.File.Lists.shaftList)
     
     #Workbook Change
     def workbookNoSave(self):
@@ -548,7 +546,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Drive_Shaft, self.Slider,
             self.Rod, self.Parameter_list)
-        self.qpainterWindow.removePath()
+        self.File.Lists.clearPath()
         self.Resolve()
         self.FileState.clear()
         print("Reset workbook.")
@@ -572,12 +570,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.File.form['changed'] = False
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
                 self.Resolve()
-                if (bool(self.File.Path.data) and bool(self.File.Path.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
+                if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
-                self.Path_Clear.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-                self.Path_coordinate.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-                self.Path_data_show.setEnabled(bool(self.File.Path.data) and bool(self.File.Path.runList))
-                self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+                self.Path_Clear.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
+                self.Path_coordinate.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
+                self.Path_data_show.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 print("Loaded the workbook...")
                 self.actionEnabled()
                 if not("[New Workbook]" in fileName):
@@ -926,9 +923,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.deletePointTable(self.Entiteis_Point,
                 self.Entiteis_Point_Style, self.Entiteis_Link,
                 self.Entiteis_Stay_Chain, self.Drive_Shaft,
-                self.Slider, self.Rod, dlg.Entity.currentText())
-            self.Resolve()
-            self.workbookNoSave()
+                self.Slider, self.Rod, self.Parameter_list, dlg.Entity.currentIndex())
     
     @pyqtSlot()
     def on_actionDelete_Linkage_triggered(self, pos = 0):
@@ -950,8 +945,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
-            self.Resolve()
-            self.workbookNoSave()
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):
@@ -1032,16 +1025,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.loadData(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
         dlg.show()
         if dlg.exec_():
-            self.File.Path.setPath(dlg.Path_data, [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)
+            self.File.Lists.setPath(dlg.Path_data, [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)
             self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
             self.Path_Clear.setEnabled(True)
             self.Path_coordinate.setEnabled(True)
             self.Path_data_show.setEnabled(True)
-            self.qpainterWindow.path_track(self.File.Path.data, self.File.Path.runList, self.File.Path.shaftList)
+            self.Reload_Canvas()
             self.workbookNoSave()
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
-        self.qpainterWindow.removePath()
+        self.File.Lists.clearPath()
         self.Reload_Canvas()
         self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
         self.Path_Clear.setEnabled(False)
@@ -1049,7 +1042,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Path_data_show.setEnabled(False)
     @pyqtSlot()
     def on_Path_coordinate_clicked(self):
-        dlg = path_point_data_show(self.Default_Environment_variables, self.File.Path.data, self.File.Path.runList)
+        dlg = path_point_data_show(self.Default_Environment_variables, self.File.Lists.data, self.File.Lists.runList)
         dlg.show()
         dlg.exec()
     
