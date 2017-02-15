@@ -215,10 +215,10 @@ def slvsProcess(
             return resultList
         except: return list()
 
-def generateProcess(path, Limits, type=0):
+def generateProcess(path, upper, lowerVal, type=0):
     p = len(path)
-    upperVal = Limits[0]+[360.0]*p
-    lowerVal = Limits[1]+[0.0]*p
+    upperVal = upper+[360.0]*p
+    lowerVal = lowerVal+[0.0]*p
     Parm_num = p+9
     maxGen = 1500
     report = 100
