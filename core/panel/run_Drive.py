@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 _translate = QCoreApplication.translate
+from .Ui_run_Drive import Ui_Form as Drive_Form
 
 class Drive_show(QWidget, Drive_Form):
     Degree_change = pyqtSignal(int, float)

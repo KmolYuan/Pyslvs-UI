@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .Ui_run_Path_Solving import Ui_Dialog as PathSolving_Dialog
 from ..calculation.pathSolving import WorkerThread
 from .run_Path_Solving_listbox import Path_Solving_listbox_show
 from .run_Path_Solving_series import Path_Solving_series_show
@@ -91,7 +92,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     def Point_list_Count(self):
         self.pointNum.setText(
             "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
-        self.startPanel.setEnabled(self.Point_list.count()>1)
+        self.Generate.setEnabled(self.Point_list.count()>1)
     
     @pyqtSlot(list)
     def start(self, path):
@@ -103,7 +104,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.work.start()
         self.algorithmPanel.setEnabled(False)
         self.mainPanel.setEnabled(False)
-        self.startPanel.setEnabled(False)
+        self.Generate.setEnabled(False)
         self.timeShow.setText("<html><head/><body><p><span style=\" font-size:12pt; color:#ffff0000\">Calculating...</span></p></body></html>")
         self.timePanel.setEnabled(False)
         self.progressBar.setRange(0, 0)
@@ -116,7 +117,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.Listbox.addResult(mechanism)
         self.algorithmPanel.setEnabled(True)
         self.mainPanel.setEnabled(True)
-        self.startPanel.setEnabled(True)
+        self.Generate.setEnabled(True)
         self.timePanel.setEnabled(True)
         self.progressBar.setRange(0, 100)
         sec = time_spand%60

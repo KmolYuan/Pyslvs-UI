@@ -336,7 +336,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Undo and Redo
     def showUndoWindow(self, stack):
-        stack.indexChanged.connect(self.undoReload)
+        stack.indexChanged.connect(self.commandReload)
         undoView = QUndoView(stack)
         undoView.setEmptyLabel("~ Start Pyslvs")
         self.HistoryLayout.addWidget(undoView)
@@ -344,27 +344,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionUndo_triggered(self):
         doText = self.FileState.undoText()
         self.FileState.undo()
+        self.closePanel()
         print("Undo - {}".format(doText))
     @pyqtSlot()
     def on_actionRedo_triggered(self):
         doText = self.FileState.redoText()
         self.FileState.redo()
+        self.closePanel()
         print("Redo - {}".format(doText))
     @pyqtSlot(int)
-    def undoReload(self, pos=0):
+    def commandReload(self, pos=0):
         self.File.Lists.updateAll(self.Entiteis_Point,
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.Resolve()
         self.workbookNoSave()
-        self.closePanel()
-    
-    #Scripts
-    @pyqtSlot()
-    def on_action_See_Python_Scripts_triggered(self):
-        dlg = Script_Dialog(self.Script, self.Default_Environment_variables)
-        dlg.show()
-        dlg.exec()
     
     #Resolve
     def Resolve(self):
@@ -377,11 +371,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
-            self.DOF_view.setText("{} ({})".format(self.DOF-6+self.Drive_Shaft.rowCount(), self.DOF-6))
+            self.DOFview.setText("{} ({})".format(self.DOF-6+self.Drive_Shaft.rowCount(), self.DOF-6))
             self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
-            self.DOF_view.setText("Failed.")
+            self.DOFview.setText("Failed.")
             self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.Solvefail = True
             if "-w" in sys.argv: print("Rebuild the cavanc failed.")
@@ -472,6 +466,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_About_Pyslvs_triggered(self): self.OpenDlg(version_show())
     @pyqtSlot()
     def on_action_About_Python_Solvspace_triggered(self): self.OpenDlg(Info_show())
+    @pyqtSlot()
+    def on_action_See_Python_Scripts_triggered(self): self.OpenDlg(Script_Dialog(self.Script, self.Default_Environment_variables))
     def OpenURL(self, URL):
         print("Open: {}".format(URL))
         webbrowser.open(URL)

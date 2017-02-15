@@ -1324,7 +1324,7 @@ p, li { white-space: pre-wrap; }
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in this file will show here.&lt;/p&gt;&lt;p&gt;You can backtracking them by your &lt;span style=&quot; color:#ff0000;&quot;&gt;mouse clicking&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in this file will show here.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -1741,7 +1741,7 @@ p, li { white-space: pre-wrap; }
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="DOF_view">
+         <widget class="QLabel" name="DOFview">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>

@@ -15,6 +15,21 @@ def writeTable(table, rowPosition, name, Args):
             checkbox.setCheckState(Qt.Checked if Args[i] else Qt.Unchecked)
             table.setItem(rowPosition, i+1, checkbox)
 
+def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox):
+    name_set = QTableWidgetItem('Point{}'.format(rowPosition))
+    name_set.setFlags(Qt.ItemIsEnabled)
+    table.setItem(rowPosition, 0, name_set)
+    re_Color = colorName()
+    for i in range(len(re_Color)): color_combobox.insertItem(i, re_Color[i])
+    color_combobox.setCurrentIndex(color_combobox.findText(color))
+    table.setCellWidget(rowPosition, 1, color_combobox)
+    table.setItem(rowPosition, 1, QTableWidgetItem('Green'))
+    ring_size = QTableWidgetItem(ringsize)
+    ring_size.setFlags(Qt.ItemIsEnabled)
+    table.setItem(rowPosition, 2, ring_size)
+    color_combobox.setCurrentIndex(color_combobox.findText(ringcolor))
+    table.setCellWidget(rowPosition, 3, color_combobox)
+
 class editTableCommand(QUndoCommand):
     def __init__(self, table, name, edit, Args):
         QUndoCommand.__init__(self)
@@ -56,22 +71,10 @@ class addStyleCommand(QUndoCommand):
         self.ringcolor = ringcolor
     
     def redo(self):
+        color_combobox = QComboBox(self.table)
         rowPosition = self.table.rowCount()
         self.table.insertRow(rowPosition)
-        name_set = QTableWidgetItem('Point{}'.format(rowPosition))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        self.table.setItem(rowPosition, 0, name_set)
-        color_combobox = QComboBox(self.table)
-        re_Color = colorName()
-        for i in range(len(re_Color)): color_combobox.insertItem(i, re_Color[i])
-        color_combobox.setCurrentIndex(color_combobox.findText(self.color))
-        self.table.setCellWidget(rowPosition, 1, color_combobox)
-        self.table.setItem(rowPosition, 1, QTableWidgetItem('Green'))
-        ring_size = QTableWidgetItem(self.ringsize)
-        ring_size.setFlags(Qt.ItemIsEnabled)
-        self.table.setItem(rowPosition, 2, ring_size)
-        color_combobox.setCurrentIndex(color_combobox.findText(self.ringcolor))
-        self.table.setCellWidget(rowPosition, 3, color_combobox)
+        writeStyle(self.table, rowPosition, self.color, self.ringsize, self.ringcolor, color_combobox)
     def undo(self): self.table.removeRow(self.table.rowCount()-1)
 
 class deleteTableCommand(QUndoCommand):
@@ -107,22 +110,10 @@ class deleteStyleCommand(QUndoCommand):
         self.table.removeRow(self.row)
         for j in range(self.row, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem('Point'+str(j)))
     def undo(self):
+        color_combobox = QComboBox(self.table)
         rowPosition = self.row
         self.table.insertRow(rowPosition)
-        name_set = QTableWidgetItem('Point{}'.format(rowPosition))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        self.table.setItem(rowPosition, 0, name_set)
-        color_combobox = QComboBox(self.table)
-        re_Color = colorName()
-        for i in range(len(re_Color)): color_combobox.insertItem(i, re_Color[i])
-        color_combobox.setCurrentIndex(color_combobox.findText(self.oldColor))
-        self.table.setCellWidget(rowPosition, 1, color_combobox)
-        self.table.setItem(rowPosition, 1, QTableWidgetItem('Green'))
-        ring_size = QTableWidgetItem(self.oldSize)
-        ring_size.setFlags(Qt.ItemIsEnabled)
-        self.table.setItem(rowPosition, 2, ring_size)
-        color_combobox.setCurrentIndex(color_combobox.findText(self.oldRingColor))
-        self.table.setCellWidget(rowPosition, 3, color_combobox)
+        writeStyle(self.table, rowPosition, self.oldColor, self.oldSize, self.oldRingColor, color_combobox)
         for j in range(self.row, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem('Point'+str(j)))
 
 class changePointNumCommand(QUndoCommand):

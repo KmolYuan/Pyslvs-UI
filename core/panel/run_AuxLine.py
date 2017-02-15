@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..calculation.color import colorName
+from .Ui_run_AuxLine import Ui_Form as AuxLine_Form
 
 class AuxLine_show(QWidget, AuxLine_Form):
     Point_change = pyqtSignal(int, int, int, bool, bool, bool, bool, bool)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .Ui_run_Path_Solving_listbox import Ui_Form as PathSolvingListbox_Dialog
 
 class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
     deleteResult = pyqtSignal(int)

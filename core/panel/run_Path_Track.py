@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .modules import *
 from ..calculation.pathTrack import WorkerThread
+from .Ui_run_Path_Track import Ui_Dialog as PathTrack_Dialog
 
 class Path_Track_show(QDialog, PathTrack_Dialog):
     def __init__(self, parent=None):
