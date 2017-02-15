@@ -1846,8 +1846,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionDelete_Point"/>
     <addaction name="actionDelete_Linkage"/>
     <addaction name="actionDelete_Stay_Chain"/>
-    <addaction name="separator"/>
-    <addaction name="actionReload_Drawing"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
@@ -2377,11 +2375,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Delete Slider</string>
-   </property>
-  </action>
-  <action name="actionReload_Drawing">
-   <property name="text">
-    <string>Reload Drawing</string>
    </property>
   </action>
   <action name="action_Output_to_S_QLite_Data_Base">
