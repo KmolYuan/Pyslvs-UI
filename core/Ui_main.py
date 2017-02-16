@@ -1485,6 +1485,7 @@ class Ui_MainWindow(object):
         self.actionReplace_Point.setText(_translate("MainWindow", "Replace Point"))
         self.actionReplace_Point.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.actionBatch_moving.setText(_translate("MainWindow", "Batch moving"))
+        self.actionBatch_moving.setShortcut(_translate("MainWindow", "Ctrl+B"))
 
 import icons_rc
 

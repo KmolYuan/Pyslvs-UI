@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/panel/replacePoint.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/dialog/delete.ui'
 #
 # Created by: PyQt5 UI code generator 5.7.1
 #
@@ -15,26 +15,15 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(323, 85))
         Dialog.setMaximumSize(QtCore.QSize(323, 85))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/symmetric.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Dialog)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.Prv = QtWidgets.QComboBox(Dialog)
-        self.Prv.setObjectName("Prv")
-        self.horizontalLayout.addWidget(self.Prv)
-        self.label = QtWidgets.QLabel(Dialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
-        self.label.setSizePolicy(sizePolicy)
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
-        self.Next = QtWidgets.QComboBox(Dialog)
-        self.Next.setObjectName("Next")
-        self.horizontalLayout.addWidget(self.Next)
+        self.Entity = QtWidgets.QComboBox(Dialog)
+        self.Entity.setObjectName("Entity")
+        self.horizontalLayout.addWidget(self.Entity)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
@@ -48,8 +37,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Replace..."))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">&gt;&gt;</span></p></body></html>"))
+        Dialog.setWindowTitle(_translate("Dialog", "Delete..."))
 
 import icons_rc
 

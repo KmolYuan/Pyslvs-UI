@@ -4,7 +4,7 @@ from ..calculation.pathTrack import WorkerThread
 from .Ui_run_Path_Track import Ui_Dialog as PathTrack_Dialog
 
 class Path_Track_show(QDialog, PathTrack_Dialog):
-    def __init__(self, parent=None):
+    def __init__(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter, parent=None):
         super(Path_Track_show, self).__init__(parent)
         self.setupUi(self)
         self.work = WorkerThread()
@@ -15,10 +15,6 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.work.progress_Signal.connect(self.progressbar_change)
         self.allShafts.clicked.connect(self.isReady)
         self.chooseShafts.clicked.connect(self.isReady)
-        self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(False)
-        self.shaftList = list()
-    
-    def loadData(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.work.Point = Point
         self.work.Link = Link
         self.work.Chain = Chain
@@ -26,13 +22,17 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.work.Slider = Slider
         self.work.Rod = Rod
         self.work.Parameter = Parameter
+        for i in range(len(Point)):
+            if not Point[i]['fix']: self.Point_list.addItem('Point{}'.format(i))
+        self.shaftList = list()
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
             shaftCheckBox.setText("Shaft"+str(i))
             if i==0: shaftCheckBox.setChecked(True)
             shaftCheckBox.clicked.connect(self.isReady)
             self.shaftList.append(shaftCheckBox)
-        for checkBox in self.shaftList: self.verticalLayout_6.insertWidget(0, checkBox)
+        for checkBox in self.shaftList: self.scrollAreaWidgetLayout.insertWidget(0, checkBox)
+        self.isReady()
     
     @pyqtSlot()
     def on_add_button_clicked(self):
@@ -62,7 +62,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
     def start(self):
         if self.allShafts.isChecked(): self.work.ShaftList = [e for e in range(len(self.shaftReadyList))]
         else: self.work.ShaftList = [e for e in range(len(self.shaftReadyList)) if self.shaftReadyList[e]==True]
-        self.work.Run_list = self.Run_list
+        self.work.Run_list = [int(self.Run_list.item(e).text().replace("Point", "")) for e in range(self.Run_list.count())]
         self.work.Resolution = float(self.Resolution.text())
         if not self.Run_list.count()==0:
             q = 0

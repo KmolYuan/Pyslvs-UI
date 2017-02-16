@@ -108,7 +108,8 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.timeShow.setText("<html><head/><body><p><span style=\" font-size:12pt; color:#ffff0000\">Calculating...</span></p></body></html>")
         self.timePanel.setEnabled(False)
         self.progressBar.setRange(0, 0)
-    def stop(self): self.work.stop()
+    @pyqtSlot(bool)
+    def stop(self, p0): self.work.stop()
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):

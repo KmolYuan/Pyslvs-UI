@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from .Ui_run_Association import Ui_Dialog as Association_Form
+from .Ui_association import Ui_Dialog as association_Form
 
-class Association_show(QDialog, Association_Form):
+class Association_show(QDialog, association_Form):
     def __init__(self, PointList, LineList, ChainList, ShaftList, SliderList, RodList, parent=None):
         super(Association_show, self).__init__(parent)
         self.setupUi(self)

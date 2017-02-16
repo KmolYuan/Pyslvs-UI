@@ -14,7 +14,6 @@ class WorkerThread(QThread):
     
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
-        point_list = [int(self.Run_list.item(e).text().replace("Point", "")) for e in range(self.Run_list.count())]
         print("Path Tracking...")
         t0 = timeit.default_timer()
         nPath = list()
@@ -23,7 +22,7 @@ class WorkerThread(QThread):
             end_angle = self.Shaft[i]['end']*100
             Resolution = self.Resolution*100
             Path = list()
-            for n in point_list:
+            for n in self.Run_list:
                 Xval = list()
                 Yval = list()
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):

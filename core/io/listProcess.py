@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from ..panel.delete import deleteDlg
+from ..dialog.delete import deleteDlg
 from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
     setPathCommand, clearPathCommand, shaftChangeCommand)

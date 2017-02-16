@@ -723,13 +723,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod,
             dlg.Prv.currentIndex(), dlg.Next.currentIndex())
     
+    #TODO: Batch moving
     @pyqtSlot()
     def on_actionBatch_moving_triggered(self):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError
+        dlg = batchMoving_show(self.File.Lists.PointList, self.File.Lists.ParameterList)
+        dlg.show()
+        if dlg.exec_(): ''''''
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):
@@ -797,11 +796,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_PathTrack_clicked(self):
         table1 = self.Entiteis_Point
-        dlg = Path_Track_show()
+        dlg = Path_Track_show(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
+            self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
         self.actionDisplay_Point_Mark.setChecked(True)
-        for i in range(table1.rowCount()):
-            if not table1.item(i, 3).checkState(): dlg.Point_list.addItem(table1.item(i, 0).text())
-        dlg.loadData(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.setPath(dlg.Path_data, [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)

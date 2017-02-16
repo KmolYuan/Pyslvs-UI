@@ -20,15 +20,17 @@ from .draw.edit_stay_chain import edit_stay_chain_show
 from .simulate.edit_drive_shaft import edit_shaft_show
 from .simulate.edit_slider import edit_slider_show
 from .simulate.edit_rod import edit_rod_show
+#Dialog
+from .dialog.delete import deleteDlg
+from .dialog.replacePoint import replacePoint_show
+from .dialog.batchMoving import batchMoving_show
+from .dialog.association import Association_show
 #Panel
-from .panel.delete import deleteDlg
-from .panel.replacePoint import replacePoint_show
 from .panel.run_Path_Track import Path_Track_show
 from .panel.run_Drive import Drive_show
 from .panel.run_Measurement import Measurement_show
 from .panel.run_AuxLine import AuxLine_show
 from .panel.run_Path_Solving import Path_Solving_show
-from .panel.run_Association import Association_show
 #Solve
 from .calculation.calculation import slvsProcess
 #Canvas

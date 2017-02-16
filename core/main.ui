@@ -2637,6 +2637,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Batch moving</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
   </action>
  </widget>
  <tabstops>

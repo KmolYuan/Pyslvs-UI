@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-16, 16:29:14 -->
+<!-- Saved: 2017-02-16, 23:44:04 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -24,6 +24,16 @@
     <Source>core/calculation/modules.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
+    <Source>core/dialog/Ui_association.py</Source>
+    <Source>core/dialog/Ui_batchMoving.py</Source>
+    <Source>core/dialog/Ui_delete.py</Source>
+    <Source>core/dialog/Ui_replacePoint.py</Source>
+    <Source>core/dialog/__init__.py</Source>
+    <Source>core/dialog/association.py</Source>
+    <Source>core/dialog/batchMoving.py</Source>
+    <Source>core/dialog/delete.py</Source>
+    <Source>core/dialog/modules.py</Source>
+    <Source>core/dialog/replacePoint.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
     <Source>core/draw/Ui_edit_stay_chain.py</Source>
@@ -62,9 +72,6 @@
     <Source>core/kernel/pyslvs_generate/__init__.py</Source>
     <Source>core/main.py</Source>
     <Source>core/modules.py</Source>
-    <Source>core/panel/Ui_delete.py</Source>
-    <Source>core/panel/Ui_replacePoint.py</Source>
-    <Source>core/panel/Ui_run_Association.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
     <Source>core/panel/Ui_run_Drive.py</Source>
     <Source>core/panel/Ui_run_Measurement.py</Source>
@@ -73,10 +80,7 @@
     <Source>core/panel/Ui_run_Path_Solving_series.py</Source>
     <Source>core/panel/Ui_run_Path_Track.py</Source>
     <Source>core/panel/__init__.py</Source>
-    <Source>core/panel/delete.py</Source>
     <Source>core/panel/modules.py</Source>
-    <Source>core/panel/replacePoint.py</Source>
-    <Source>core/panel/run_Association.py</Source>
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
@@ -102,6 +106,10 @@
     <Source>launch_test.py</Source>
   </Sources>
   <Forms>
+    <Form>core/dialog/association.ui</Form>
+    <Form>core/dialog/batchMoving.ui</Form>
+    <Form>core/dialog/delete.ui</Form>
+    <Form>core/dialog/replacePoint.ui</Form>
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
     <Form>core/draw/edit_stay_chain.ui</Form>
@@ -113,9 +121,6 @@
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
-    <Form>core/panel/delete.ui</Form>
-    <Form>core/panel/replacePoint.ui</Form>
-    <Form>core/panel/run_Association.ui</Form>
     <Form>core/panel/run_AuxLine.ui</Form>
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>

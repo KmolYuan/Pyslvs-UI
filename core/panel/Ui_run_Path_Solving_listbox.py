@@ -18,7 +18,7 @@ class Ui_Form(object):
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.Result_list = QtWidgets.QListWidget(Form)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Result_list.sizePolicy().hasHeightForWidth())
@@ -50,7 +50,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Thinking list"))
-        self.label.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt;\">This is the result from the algorithm.</span></p></body></html>"))
+        self.label.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:10pt;\">This is the result from the algorithm.</span></p></body></html>"))
         self.mergeButton.setText(_translate("Form", "Merge"))
         self.deleteButton.setText(_translate("Form", "Delete"))
 
