@@ -1064,7 +1064,7 @@ class Ui_MainWindow(object):
         self.actionRedo.setEnabled(False)
         self.actionRedo.setObjectName("actionRedo")
         self.actionSearch_Points = QtWidgets.QAction(MainWindow)
-        self.actionSearch_Points.setEnabled(False)
+        self.actionSearch_Points.setEnabled(True)
         self.actionSearch_Points.setObjectName("actionSearch_Points")
         self.actionTwo_Mutiple_Link = QtWidgets.QAction(MainWindow)
         self.actionTwo_Mutiple_Link.setObjectName("actionTwo_Mutiple_Link")
@@ -1076,6 +1076,9 @@ class Ui_MainWindow(object):
         self.actionParallelogram_linkage.setObjectName("actionParallelogram_linkage")
         self.actionReverse_Parsing_Rocker = QtWidgets.QAction(MainWindow)
         self.actionReverse_Parsing_Rocker.setObjectName("actionReverse_Parsing_Rocker")
+        self.actionClose_all_panels = QtWidgets.QAction(MainWindow)
+        self.actionClose_all_panels.setIcon(icon21)
+        self.actionClose_all_panels.setObjectName("actionClose_all_panels")
         self.menuGrashof_chain.addAction(self.actionCrank_rocker)
         self.menuGrashof_chain.addAction(self.actionDrag_link)
         self.menuGrashof_chain.addAction(self.actionDouble_rocker)
@@ -1118,6 +1121,7 @@ class Ui_MainWindow(object):
         self.menu_Options.addAction(self.actionDisplay_Dimensions)
         self.menu_Options.addAction(self.actionDisplay_Point_Mark)
         self.menu_Options.addAction(self.action_Black_Blackground)
+        self.menu_Options.addAction(self.actionClose_all_panels)
         self.menu_Options.addSeparator()
         self.menu_Options.addAction(self.action_See_Python_Scripts)
         self.menu_Options.addAction(self.action_Property)
@@ -1366,7 +1370,7 @@ class Ui_MainWindow(object):
         self.action_Load_Workbook.setText(_translate("MainWindow", "&Load Workbook (*.csv)"))
         self.action_Load_Workbook.setStatusTip(_translate("MainWindow", "Load workbook by exist file."))
         self.action_Load_Workbook.setShortcut(_translate("MainWindow", "Ctrl+O"))
-        self.action_New_Point.setText(_translate("MainWindow", "New Joint &Point"))
+        self.action_New_Point.setText(_translate("MainWindow", "New &Point"))
         self.action_New_Point.setStatusTip(_translate("MainWindow", "Add a new point representative of a node on a machine."))
         self.action_New_Point.setShortcut(_translate("MainWindow", "F2"))
         self.action_New_Line.setText(_translate("MainWindow", "New &Linkage"))
@@ -1471,6 +1475,7 @@ class Ui_MainWindow(object):
         self.actionDouble_rocker.setText(_translate("MainWindow", "Double rocker"))
         self.actionParallelogram_linkage.setText(_translate("MainWindow", "Parallelogram linkage"))
         self.actionReverse_Parsing_Rocker.setText(_translate("MainWindow", "Reverse Parsing Rocker"))
+        self.actionClose_all_panels.setText(_translate("MainWindow", "&Close all panels"))
 
 import icons_rc
 

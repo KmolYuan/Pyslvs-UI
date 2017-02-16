@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-15, 11:39:34 -->
+<!-- Saved: 2017-02-16, 10:47:27 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -62,6 +62,7 @@
     <Source>core/main.py</Source>
     <Source>core/modules.py</Source>
     <Source>core/panel/Ui_delete.py</Source>
+    <Source>core/panel/Ui_run_Association.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
     <Source>core/panel/Ui_run_Drive.py</Source>
     <Source>core/panel/Ui_run_Measurement.py</Source>
@@ -72,6 +73,7 @@
     <Source>core/panel/__init__.py</Source>
     <Source>core/panel/delete.py</Source>
     <Source>core/panel/modules.py</Source>
+    <Source>core/panel/run_Association.py</Source>
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
@@ -109,6 +111,7 @@
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/panel/delete.ui</Form>
+    <Form>core/panel/run_Association.ui</Form>
     <Form>core/panel/run_AuxLine.ui</Form>
     <Form>core/panel/run_Drive.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>

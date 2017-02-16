@@ -1854,6 +1854,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionDisplay_Dimensions"/>
     <addaction name="actionDisplay_Point_Mark"/>
     <addaction name="action_Black_Blackground"/>
+    <addaction name="actionClose_all_panels"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
     <addaction name="action_Property"/>
@@ -1945,7 +1946,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/point.png</normaloff>:/icons/point.png</iconset>
    </property>
    <property name="text">
-    <string>New Joint &amp;Point</string>
+    <string>New &amp;Point</string>
    </property>
    <property name="statusTip">
     <string>Add a new point representative of a node on a machine.</string>
@@ -2579,7 +2580,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionSearch_Points">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Search Points</string>
@@ -2611,6 +2612,15 @@ p, li { white-space: pre-wrap; }
   <action name="actionReverse_Parsing_Rocker">
    <property name="text">
     <string>Reverse Parsing Rocker</string>
+   </property>
+  </action>
+  <action name="actionClose_all_panels">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Close all panels</string>
    </property>
   </action>
  </widget>

@@ -468,8 +468,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_About_Python_Solvspace_triggered(self): self.OpenDlg(Info_show())
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self): self.OpenDlg(Script_Dialog(self.Script, self.Default_Environment_variables))
+    @pyqtSlot()
+    def on_actionSearch_Points_triggered(self): self.OpenDlg(Association_show(self.File.Lists.PointList, self.File.Lists.LineList,
+        self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList))
     def OpenURL(self, URL):
-        print("Open: {}".format(URL))
+        print("Open - {{{}}}".format(URL))
         webbrowser.open(URL)
     def OpenDlg(self, dlg):
         dlg.show()
@@ -549,6 +552,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): pass
             else: print("Failed to load!")
+    @pyqtSlot()
+    def on_actionClose_all_panels_triggered(self): self.closePanel()
     def closePanel(self):
         try:
             self.PathSolvingDlg.deleteLater()
