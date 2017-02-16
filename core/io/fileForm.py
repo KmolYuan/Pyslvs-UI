@@ -216,15 +216,3 @@ class File():
         self.Lists.editTable(Link, 'Line', False, *["Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2'])])
         self.Lists.editTable(Shaft, 'Shaft', False, *["Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False])
         print("Generate Result Merged.")
-    
-    def lineNodeReversion(self, tablePoint, row):
-        start = self.Lists.PointList[self.Lists.LinesList[row]['start']]
-        end = self.Lists.PointList[self.Lists.LinesList[row]['end']]
-        if end['fix']==False:
-            x = str(end['x'])
-            y = str(end['y']-2*(end['y']-start['y']))
-            self.Lists.editTable(tablePoint, 'Point', False, *[x, y, False, self.Lists.LinesList[row]['end']])
-        elif start['fix']==False:
-            x = str(start['x'])
-            y = str(start['y']-2*(start['y']-end['y']))
-            self.Lists.editTable(tablePoint, 'Point', False, *[x, y, False, self.Lists.LinesList[row]['start']])

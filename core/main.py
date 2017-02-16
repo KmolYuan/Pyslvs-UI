@@ -115,11 +115,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
+        table_pos_0 = self.Entiteis_Point.currentRow()
         if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
-        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, self.Entiteis_Point.currentRow())
+        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(self.Entiteis_Point, 'Point', False,
+            *[self.Entiteis_Point.item(table_pos_0, 1).text(), self.Entiteis_Point.item(table_pos_0, 2).text(), self.Entiteis_Point.item(table_pos_0, 3).checkState()==Qt.Checked],
+            **{'styleTable':self.Entiteis_Point_Style, 'color':'Green', 'ringsize':'5', 'ringcolor':'Orange'})
+        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, table_pos_0)
         elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action==self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
-        elif action==self.action_point_right_click_menu_replace: self.on_actionReplace_Point_triggered(self.Entiteis_Point.currentRow())
+        elif action==self.action_point_right_click_menu_replace: self.on_actionReplace_Point_triggered(table_pos_0)
         elif action==self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
@@ -127,7 +131,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if action==self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action==self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(table_pos)
         elif action==self.action_link_right_click_menu_shaft: self.link2Shaft(table_pos)
-        elif action==self.action_link_right_click_menu_reversion: self.File.lineNodeReversion(self.Entiteis_Point, table_pos)
+        elif action==self.action_link_right_click_menu_reversion: self.File.Lists.lineNodeReversion(self.Entiteis_Point, table_pos)
         elif action==self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(table_pos)
     def on_chain_context_menu(self, point):
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
@@ -718,6 +722,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod,
             dlg.Prv.currentIndex(), dlg.Next.currentIndex())
+    
+    @pyqtSlot()
+    def on_actionBatch_moving_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        raise NotImplementedError
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):

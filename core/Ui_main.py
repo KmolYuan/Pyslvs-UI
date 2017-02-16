@@ -1081,6 +1081,8 @@ class Ui_MainWindow(object):
         self.actionClose_all_panels.setObjectName("actionClose_all_panels")
         self.actionReplace_Point = QtWidgets.QAction(MainWindow)
         self.actionReplace_Point.setObjectName("actionReplace_Point")
+        self.actionBatch_moving = QtWidgets.QAction(MainWindow)
+        self.actionBatch_moving.setObjectName("actionBatch_moving")
         self.menuGrashof_chain.addAction(self.actionCrank_rocker)
         self.menuGrashof_chain.addAction(self.actionDrag_link)
         self.menuGrashof_chain.addAction(self.actionDouble_rocker)
@@ -1153,6 +1155,7 @@ class Ui_MainWindow(object):
         self.menu_Edit.addSeparator()
         self.menu_Edit.addAction(self.actionSearch_Points)
         self.menu_Edit.addAction(self.actionReplace_Point)
+        self.menu_Edit.addAction(self.actionBatch_moving)
         self.menuBar.addAction(self.menuFile.menuAction())
         self.menuBar.addAction(self.menu_Edit.menuAction())
         self.menuBar.addAction(self.menu_Draw.menuAction())
@@ -1481,6 +1484,7 @@ class Ui_MainWindow(object):
         self.actionClose_all_panels.setText(_translate("MainWindow", "&Close all panels"))
         self.actionReplace_Point.setText(_translate("MainWindow", "Replace Point"))
         self.actionReplace_Point.setShortcut(_translate("MainWindow", "Ctrl+R"))
+        self.actionBatch_moving.setText(_translate("MainWindow", "Batch moving"))
 
 import icons_rc
 

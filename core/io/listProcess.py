@@ -94,6 +94,18 @@ class Lists():
             if Judgment(e['start'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['start']), row, 2))
             if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['end']), row, 3))
     
+    def lineNodeReversion(self, tablePoint, row):
+        start = self.PointList[self.LineList[row]['start']]
+        end = self.PointList[self.LineList[row]['end']]
+        if end['fix']==False:
+            x = str(end['x'])
+            y = str(end['y']-2*(end['y']-start['y']))
+            self.editTable(tablePoint, 'Point', self.LineList[row]['end'], *[x, y, False])
+        elif start['fix']==False:
+            x = str(start['x'])
+            y = str(start['y']-2*(start['y']-end['y']))
+            self.editTable(tablePoint, 'Point', self.LineList[row]['start'], *[x, y, False])
+    
     def update(self, table, name):
         lst = list()
         for i in range(table.rowCount()):

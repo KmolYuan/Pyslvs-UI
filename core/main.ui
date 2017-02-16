@@ -1899,6 +1899,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="actionSearch_Points"/>
     <addaction name="actionReplace_Point"/>
+    <addaction name="actionBatch_moving"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -2630,6 +2631,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionBatch_moving">
+   <property name="text">
+    <string>Batch moving</string>
    </property>
   </action>
  </widget>
