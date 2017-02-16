@@ -2073,6 +2073,9 @@ p, li { white-space: pre-wrap; }
    <property name="statusTip">
     <string>Set a point as a Drive Shaft.</string>
    </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
   </action>
   <action name="actionGithub_Wiki">
    <property name="icon">

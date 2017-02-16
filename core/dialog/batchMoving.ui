@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Path Track</string>
+   <string>Batch Moving</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">

@@ -141,7 +141,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Path Track"))
+        Dialog.setWindowTitle(_translate("Dialog", "Batch Moving"))
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Choose these points to move the coordinates.</span></p></body></html>"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Point(s):</span></p></body></html>"))
         self.add_button.setText(_translate("Dialog", ">"))

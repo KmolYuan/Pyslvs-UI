@@ -1398,6 +1398,7 @@ class Ui_MainWindow(object):
         self.action_About_Pyslvs.setShortcut(_translate("MainWindow", "F1"))
         self.action_Set_Drive_Shaft.setText(_translate("MainWindow", "Set &Drive Shaft"))
         self.action_Set_Drive_Shaft.setStatusTip(_translate("MainWindow", "Set a point as a Drive Shaft."))
+        self.action_Set_Drive_Shaft.setShortcut(_translate("MainWindow", "F5"))
         self.actionGithub_Wiki.setText(_translate("MainWindow", "Github &Manual"))
         self.actionGithub_Wiki.setStatusTip(_translate("MainWindow", "See our Wiki on Github."))
         self.actionMi_nimized.setText(_translate("MainWindow", "Minimized"))
