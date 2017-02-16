@@ -42,17 +42,20 @@
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
-   <property name="leftMargin">
+   <property name="spacing">
     <number>6</number>
+   </property>
+   <property name="leftMargin">
+    <number>9</number>
    </property>
    <property name="topMargin">
-    <number>6</number>
+    <number>9</number>
    </property>
    <property name="rightMargin">
-    <number>6</number>
+    <number>9</number>
    </property>
    <property name="bottomMargin">
-    <number>6</number>
+    <number>9</number>
    </property>
    <item>
     <widget class="QLabel" name="label">
@@ -150,7 +153,7 @@
              <x>0</x>
              <y>0</y>
              <width>128</width>
-             <height>130</height>
+             <height>131</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="scrollAreaWidgetLayout">

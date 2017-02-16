@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>323</width>
+    <width>367</width>
     <height>85</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>323</width>
+    <width>367</width>
     <height>85</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>323</width>
+    <width>367</width>
     <height>85</height>
    </size>
   </property>
@@ -57,6 +57,12 @@
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>

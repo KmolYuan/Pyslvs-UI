@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/panel/run_Path_Track.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Track.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -25,7 +25,8 @@ class Ui_Dialog(object):
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout_5.setContentsMargins(6, 6, 6, 6)
+        self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
+        self.verticalLayout_5.setSpacing(6)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setTextFormat(QtCore.Qt.RichText)
@@ -67,7 +68,7 @@ class Ui_Dialog(object):
         self.shaftsScrollArea.setWidgetResizable(True)
         self.shaftsScrollArea.setObjectName("shaftsScrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 128, 130))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 128, 131))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollAreaWidgetLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.scrollAreaWidgetLayout.setContentsMargins(0, 0, 0, 0)

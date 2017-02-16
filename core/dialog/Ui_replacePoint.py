@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/dialog/replacePoint.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\dialog\replacePoint.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(323, 85)
-        Dialog.setMinimumSize(QtCore.QSize(323, 85))
-        Dialog.setMaximumSize(QtCore.QSize(323, 85))
+        Dialog.resize(367, 85)
+        Dialog.setMinimumSize(QtCore.QSize(367, 85))
+        Dialog.setMaximumSize(QtCore.QSize(367, 85))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/symmetric.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -36,6 +36,11 @@ class Ui_Dialog(object):
         self.Next.setObjectName("Next")
         self.horizontalLayout.addWidget(self.Next)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
+        self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setOrientation(QtCore.Qt.Vertical)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
