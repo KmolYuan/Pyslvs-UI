@@ -1079,6 +1079,8 @@ class Ui_MainWindow(object):
         self.actionClose_all_panels = QtWidgets.QAction(MainWindow)
         self.actionClose_all_panels.setIcon(icon21)
         self.actionClose_all_panels.setObjectName("actionClose_all_panels")
+        self.actionReplace_Point = QtWidgets.QAction(MainWindow)
+        self.actionReplace_Point.setObjectName("actionReplace_Point")
         self.menuGrashof_chain.addAction(self.actionCrank_rocker)
         self.menuGrashof_chain.addAction(self.actionDrag_link)
         self.menuGrashof_chain.addAction(self.actionDouble_rocker)
@@ -1150,6 +1152,7 @@ class Ui_MainWindow(object):
         self.menu_Edit.addAction(self.actionRedo)
         self.menu_Edit.addSeparator()
         self.menu_Edit.addAction(self.actionSearch_Points)
+        self.menu_Edit.addAction(self.actionReplace_Point)
         self.menuBar.addAction(self.menuFile.menuAction())
         self.menuBar.addAction(self.menu_Edit.menuAction())
         self.menuBar.addAction(self.menu_Draw.menuAction())
@@ -1476,6 +1479,8 @@ class Ui_MainWindow(object):
         self.actionParallelogram_linkage.setText(_translate("MainWindow", "Parallelogram linkage"))
         self.actionReverse_Parsing_Rocker.setText(_translate("MainWindow", "Reverse Parsing Rocker"))
         self.actionClose_all_panels.setText(_translate("MainWindow", "&Close all panels"))
+        self.actionReplace_Point.setText(_translate("MainWindow", "Replace Point"))
+        self.actionReplace_Point.setShortcut(_translate("MainWindow", "Ctrl+R"))
 
 import icons_rc
 

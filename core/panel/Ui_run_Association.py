@@ -146,7 +146,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Points Association"))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Choose a point to see it\'s association.</span></p></body></html>"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Choose a point to see it\'s association.</span></p><p><span style=\" font-size:10pt;\">Each point will </span><span style=\" font-size:10pt; color:#ff0000;\">Remove</span><span style=\" font-size:10pt;\"> their association when it\'s deleted.</span></p></body></html>"))
         item = self.tableWidget.verticalHeaderItem(0)
         item.setText(_translate("Dialog", "Origin"))
         item = self.tableWidget.horizontalHeaderItem(0)

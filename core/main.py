@@ -684,9 +684,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionDelete_Point_triggered(self, pos = 1):
         dlg = deleteDlg(QIcon(QPixmap(":/icons/delete.png")), QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link,
-                self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list, dlg.Entity.currentIndex())
+        if dlg.exec_(): self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link,
+            self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list, dlg.Entity.currentIndex())
     
     @pyqtSlot()
     def on_actionDelete_Linkage_triggered(self, pos = 0): self.deletePanel(self.Entiteis_Link, 'Line',
@@ -707,6 +706,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = deleteDlg(icon1, icon2, table, pos)
         dlg.show()
         if dlg.exec_(): self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
+    
+    @pyqtSlot()
+    def on_actionReplace_Point_triggered(self, pos=0):
+        dlg = replacePoint_show(QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos)
+        dlg.show()
+        if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod,
+            dlg.Prv.currentIndex(), dlg.Next.currentIndex())
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):

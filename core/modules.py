@@ -22,6 +22,7 @@ from .simulate.edit_slider import edit_slider_show
 from .simulate.edit_rod import edit_rod_show
 #Panel
 from .panel.delete import deleteDlg
+from .panel.replacePoint import replacePoint_show
 from .panel.run_Path_Track import Path_Track_show
 from .panel.run_Drive import Drive_show
 from .panel.run_Measurement import Measurement_show

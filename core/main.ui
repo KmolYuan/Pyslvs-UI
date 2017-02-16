@@ -1898,6 +1898,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionRedo"/>
     <addaction name="separator"/>
     <addaction name="actionSearch_Points"/>
+    <addaction name="actionReplace_Point"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -2621,6 +2622,14 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>&amp;Close all panels</string>
+   </property>
+  </action>
+  <action name="actionReplace_Point">
+   <property name="text">
+    <string>Replace Point</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
  </widget>

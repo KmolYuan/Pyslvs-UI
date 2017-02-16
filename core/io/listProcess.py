@@ -56,33 +56,43 @@ class Lists():
         #Change Number and Delete Point
         call = "Delete {{Point{}}}".format(pos)
         self.FileState.beginMacro(call)
-        for e in self.LineList:
-            row = self.LineList.index(e)
-            if e['start']>pos: self.FileState.push(changePointNumCommand(Line, e['start']-1, row, 1))
-            if e['end']>pos: self.FileState.push(changePointNumCommand(Line, e['end']-1, row, 2))
-        for e in self.ChainList:
-            row = self.ChainList.index(e)
-            if e['p1']>pos: self.FileState.push(changePointNumCommand(Chain, e['p1']-1, row, 1))
-            if e['p2']>pos: self.FileState.push(changePointNumCommand(Chain, e['p2']-1, row, 2))
-            if e['p3']>pos: self.FileState.push(changePointNumCommand(Chain, e['p3']-1, row, 3))
-        for e in self.ShaftList:
-            row = self.ShaftList.index(e)
-            if e['cen']>pos: self.FileState.push(changePointNumCommand(Shaft, e['cen']-1, row, 1))
-            if e['ref']>pos: self.FileState.push(changePointNumCommand(Shaft, e['ref']-1, row, 2))
-        for e in self.SliderList:
-            row = self.SliderList.index(e)
-            if e['cen']>pos: self.FileState.push(changePointNumCommand(Slider, e['cen']-1, row, 1))
-            if e['start']>pos: self.FileState.push(changePointNumCommand(Slider, e['start']-1, row, 2))
-            if e['end']>pos: self.FileState.push(changePointNumCommand(Slider, e['end']-1, row, 3))
-        for e in self.RodList:
-            row = self.RodList.index(e)
-            if e['cen']>pos: self.FileState.push(changePointNumCommand(Rod, e['cen']-1, row, 1))
-            if e['start']>pos: self.FileState.push(changePointNumCommand(Rod, e['start']-1, row, 2))
-            if e['end']>pos: self.FileState.push(changePointNumCommand(Rod, e['end']-1, row, 3))
+        self.replacePoint(Line, Chain, Shaft, Slider, Rod, pos, lambda x, y: x>y, lambda x: x-1)
         self.FileState.push(deleteStyleCommand(Style, pos))
         self.FileState.push(deleteTableCommand(Point, 'Point', pos))
         print(call)
         self.FileState.endMacro()
+    
+    def ChangePoint(self, Line, Chain, Shaft, Slider, Rod, prv, next):
+        call = "Change {{Point{}}} to {{Point{}}}".format(prv, next)
+        self.FileState.beginMacro(call)
+        self.replacePoint(Line, Chain, Shaft, Slider, Rod, prv, lambda x, y: x==y, lambda x: next)
+        print(call)
+        self.FileState.endMacro()
+    
+    def replacePoint(self, Line, Chain, Shaft, Slider, Rod, pos, Judgment, toNew):
+        for e in self.LineList:
+            row = self.LineList.index(e)
+            if Judgment(e['start'], pos): self.FileState.push(changePointNumCommand(Line, toNew(e['start']), row, 1))
+            if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Line, toNew(e['end']), row, 2))
+        for e in self.ChainList:
+            row = self.ChainList.index(e)
+            if Judgment(e['p1'], pos): self.FileState.push(changePointNumCommand(Chain, toNew(e['p1']), row, 1))
+            if Judgment(e['p2'], pos): self.FileState.push(changePointNumCommand(Chain, toNew(e['p2']), row, 2))
+            if Judgment(e['p3'], pos): self.FileState.push(changePointNumCommand(Chain, toNew(e['p3']), row, 3))
+        for e in self.ShaftList:
+            row = self.ShaftList.index(e)
+            if Judgment(e['cen'], pos): self.FileState.push(changePointNumCommand(Shaft, toNew(e['cen']), row, 1))
+            if Judgment(e['ref'], pos): self.FileState.push(changePointNumCommand(Shaft, toNew(e['ref']), row, 2))
+        for e in self.SliderList:
+            row = self.SliderList.index(e)
+            if Judgment(e['cen'], pos): self.FileState.push(changePointNumCommand(Slider, toNew(e['cen']), row, 1))
+            if Judgment(e['start'], pos): self.FileState.push(changePointNumCommand(Slider, toNew(e['start']), row, 2))
+            if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Slider, toNew(e['end']), row, 3))
+        for e in self.RodList:
+            row = self.RodList.index(e)
+            if Judgment(e['cen'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['cen']), row, 1))
+            if Judgment(e['start'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['start']), row, 2))
+            if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['end']), row, 3))
     
     def update(self, table, name):
         lst = list()
