@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\dialog\batchMoving.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/dialog/batchMoving.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.7.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -59,9 +59,25 @@ class Ui_Dialog(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.add_button = QtWidgets.QToolButton(self.mainPanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.add_button.sizePolicy().hasHeightForWidth())
+        self.add_button.setSizePolicy(sizePolicy)
         self.add_button.setObjectName("add_button")
         self.verticalLayout.addWidget(self.add_button)
+        self.addAll_button = QtWidgets.QToolButton(self.mainPanel)
+        self.addAll_button.setObjectName("addAll_button")
+        self.verticalLayout.addWidget(self.addAll_button)
+        self.removeAll_botton = QtWidgets.QToolButton(self.mainPanel)
+        self.removeAll_botton.setObjectName("removeAll_botton")
+        self.verticalLayout.addWidget(self.removeAll_botton)
         self.remove_botton = QtWidgets.QToolButton(self.mainPanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.remove_botton.sizePolicy().hasHeightForWidth())
+        self.remove_botton.setSizePolicy(sizePolicy)
         self.remove_botton.setObjectName("remove_botton")
         self.verticalLayout.addWidget(self.remove_botton)
         self.horizontalLayout_4.addLayout(self.verticalLayout)
@@ -145,6 +161,8 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Choose these points to move the coordinates.</span></p></body></html>"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Point(s):</span></p></body></html>"))
         self.add_button.setText(_translate("Dialog", ">"))
+        self.addAll_button.setText(_translate("Dialog", ">>"))
+        self.removeAll_botton.setText(_translate("Dialog", "<<"))
         self.remove_botton.setText(_translate("Dialog", "<"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">Choose Point(s):</span></p></body></html>"))
         self.label_4.setText(_translate("Dialog", "X Coordinate"))

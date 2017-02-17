@@ -24,6 +24,18 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
             self.Move_list.takeItem(self.Move_list.currentRow())
         except: pass
         self.isReady()
+    @pyqtSlot()
+    def on_addAll_button_clicked(self):
+        for i in range(self.Point_list.count()):
+            self.Move_list.addItem(self.Point_list.item(0).text())
+            self.Point_list.takeItem(0)
+        self.isReady()
+    @pyqtSlot()
+    def on_removeAll_botton_clicked(self):
+        for i in range(self.Move_list.count()):
+            self.Point_list.addItem(self.Move_list.item(0).text())
+            self.Move_list.takeItem(0)
+        self.isReady()
     @pyqtSlot(float)
     def on_XIncrease_valueChanged(self, p0): self.isReady()
     @pyqtSlot(float)

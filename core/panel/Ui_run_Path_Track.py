@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Track.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/panel/run_Path_Track.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.7.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -25,8 +25,6 @@ class Ui_Dialog(object):
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
-        self.verticalLayout_5.setSpacing(6)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setTextFormat(QtCore.Qt.RichText)
@@ -68,7 +66,7 @@ class Ui_Dialog(object):
         self.shaftsScrollArea.setWidgetResizable(True)
         self.shaftsScrollArea.setObjectName("shaftsScrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 128, 131))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 128, 128))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollAreaWidgetLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.scrollAreaWidgetLayout.setContentsMargins(0, 0, 0, 0)
@@ -98,9 +96,25 @@ class Ui_Dialog(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.add_button = QtWidgets.QToolButton(self.mainPanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.add_button.sizePolicy().hasHeightForWidth())
+        self.add_button.setSizePolicy(sizePolicy)
         self.add_button.setObjectName("add_button")
         self.verticalLayout.addWidget(self.add_button)
+        self.addAll_button = QtWidgets.QToolButton(self.mainPanel)
+        self.addAll_button.setObjectName("addAll_button")
+        self.verticalLayout.addWidget(self.addAll_button)
+        self.removeAll_botton = QtWidgets.QToolButton(self.mainPanel)
+        self.removeAll_botton.setObjectName("removeAll_botton")
+        self.verticalLayout.addWidget(self.removeAll_botton)
         self.remove_botton = QtWidgets.QToolButton(self.mainPanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.remove_botton.sizePolicy().hasHeightForWidth())
+        self.remove_botton.setSizePolicy(sizePolicy)
         self.remove_botton.setObjectName("remove_botton")
         self.verticalLayout.addWidget(self.remove_botton)
         self.mainPanelLayout.addLayout(self.verticalLayout)
@@ -174,6 +188,8 @@ class Ui_Dialog(object):
         self.chooseShafts.setText(_translate("Dialog", "Let me Choose:"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Point(s):</span></p></body></html>"))
         self.add_button.setText(_translate("Dialog", ">"))
+        self.addAll_button.setText(_translate("Dialog", ">>"))
+        self.removeAll_botton.setText(_translate("Dialog", "<<"))
         self.remove_botton.setText(_translate("Dialog", "<"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Track Point(s):</span></p></body></html>"))
         self.label_4.setText(_translate("Dialog", "Resolution:"))

@@ -49,6 +49,18 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         except: pass
         self.isReady()
     @pyqtSlot()
+    def on_addAll_button_clicked(self):
+        for i in range(self.Point_list.count()):
+            self.Run_list.addItem(self.Point_list.item(0).text())
+            self.Point_list.takeItem(0)
+        self.isReady()
+    @pyqtSlot()
+    def on_removeAll_botton_clicked(self):
+        for i in range(self.Run_list.count()):
+            self.Point_list.addItem(self.Run_list.item(0).text())
+            self.Run_list.takeItem(0)
+        self.isReady()
+    @pyqtSlot()
     def isReady(self):
         self.shaftReadyList = [e.isChecked() for e in self.shaftList]
         n = False
