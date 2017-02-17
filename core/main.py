@@ -695,7 +695,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_(): self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link,
             self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list, dlg.Entity.currentIndex())
-    
     @pyqtSlot()
     def on_actionDelete_Linkage_triggered(self, pos = 0): self.deletePanel(self.Entiteis_Link, 'Line',
         QIcon(QPixmap(":/icons/deleteline.png")), QIcon(QPixmap(":/icons/line.png")), pos)
@@ -723,12 +722,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Drive_Shaft, self.Slider, self.Rod,
             dlg.Prv.currentIndex(), dlg.Next.currentIndex())
     
-    #TODO: Batch moving
     @pyqtSlot()
     def on_actionBatch_moving_triggered(self):
         dlg = batchMoving_show(self.File.Lists.PointList, self.File.Lists.ParameterList)
         dlg.show()
-        if dlg.exec_(): ''''''
+        if dlg.exec_(): self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
+            [int(dlg.Move_list.item(e).text().replace('Point', "")) for e in range(dlg.Move_list.count())])
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):

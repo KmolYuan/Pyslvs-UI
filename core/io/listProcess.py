@@ -94,17 +94,26 @@ class Lists():
             if Judgment(e['start'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['start']), row, 2))
             if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['end']), row, 3))
     
-    def lineNodeReversion(self, tablePoint, row):
+    def lineNodeReversion(self, table, row):
         start = self.PointList[self.LineList[row]['start']]
         end = self.PointList[self.LineList[row]['end']]
         if end['fix']==False:
             x = str(end['x'])
             y = str(end['y']-2*(end['y']-start['y']))
-            self.editTable(tablePoint, 'Point', self.LineList[row]['end'], *[x, y, False])
+            self.editTable(table, 'Point', self.LineList[row]['end'], *[x, y, False])
         elif start['fix']==False:
             x = str(start['x'])
             y = str(start['y']-2*(start['y']-end['y']))
-            self.editTable(tablePoint, 'Point', self.LineList[row]['start'], *[x, y, False])
+            self.editTable(table, 'Point', self.LineList[row]['start'], *[x, y, False])
+    
+    def batchMove(self, table, x, y, Points):
+        call = "Batch move {{{}}}".format(', '.join(['Point{}'.format(i) for i in Points]))
+        self.FileState.beginMacro(call)
+        for row in Points: self.FileState.push(editTableCommand(table, 'Point', row,
+            [str(self.PointList[row]['x']+x), str(self.PointList[row]['y']+y), self.PointList[row]['fix']]))
+        print(call)
+        print("- Moved ({:+.2f}, {:+.2f})".format(x, y))
+        self.FileState.endMacro()
     
     def update(self, table, name):
         lst = list()

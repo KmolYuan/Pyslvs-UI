@@ -32,7 +32,3 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
     def isReady(self):
         n = self.XIncrease.value()!=0 or self.YIncrease.value()!=0
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n and self.Move_list.count()>=1)
-    
-    @pyqtSlot()
-    def on_buttonBox_accepted(self):
-        moveList = [int(self.Move_list.item(e).text().replace("Point", "")) for e in range(self.Move_list.count())]
