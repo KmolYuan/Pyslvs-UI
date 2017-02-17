@@ -100,11 +100,11 @@ class Lists():
         if end['fix']==False:
             x = str(end['x'])
             y = str(end['y']-2*(end['y']-start['y']))
-            self.editTable(table, 'Point', self.LineList[row]['end'], *[x, y, False])
+            self.editTable(table, 'Point', self.LineList[row]['end'], x, y, False)
         elif start['fix']==False:
             x = str(start['x'])
             y = str(start['y']-2*(start['y']-end['y']))
-            self.editTable(table, 'Point', self.LineList[row]['start'], *[x, y, False])
+            self.editTable(table, 'Point', self.LineList[row]['start'], x, y, False)
     
     def batchMove(self, table, x, y, Points):
         call = "Batch move {{{}}}".format(', '.join(['Point{}'.format(i) for i in Points]))

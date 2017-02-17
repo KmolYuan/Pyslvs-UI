@@ -52,57 +52,57 @@ class File():
             li2 = data[tableIndex[1]:tableIndex[2]]
             if (len(li)-1)%4==0 and (len(li2)-1)%4==0:
                 for i in range(1, len(li), 4):
-                    self.Lists.editTable(Point, 'Point', False,
-                        *[li[i+1], li[i+2], li[i+3]=='True'],
+                    self.Lists.editTable(Point, 'Point', False, li[i+1], li[i+2], li[i+3]=='True',
                         **{'styleTable':Point_Style, 'color':li2[i+1], 'ringsize':li2[i+2], 'ringcolor':li2[i+3].replace(",", "")})
         except: errorInfo.append('Point')
         try:
             li = data[tableIndex[2]:tableIndex[3]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, *[li[i+1], li[i+2], li[i+3]])
+                for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, li[i+1], li[i+2], li[i+3])
         except: errorInfo.append('Link')
         try:
             li = data[tableIndex[3]:tableIndex[4]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, *[li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]])
+                for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
         except: errorInfo.append('Chain')
         try:
             li = data[tableIndex[4]:tableIndex[5]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Lists.editTable(Shaft, 'Shaft', False, *[li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]=='True'])
+                for i in range(1, len(li), 7): self.Lists.editTable(Shaft, 'Shaft', False, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]=='True')
         except: errorInfo.append('Shaft')
         try:
             li = data[tableIndex[5]:tableIndex[6]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 3): self.Lists.editTable(Slider, 'Slider', False, *[li[i+1], li[i+2], li[i+3]])
+                for i in range(1, len(li), 3): self.Lists.editTable(Slider, 'Slider', False, li[i+1], li[i+2], li[i+3])
         except: errorInfo.append('Slider')
         try:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%5==0:
-                for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, *[li[i+1], li[i+2], li[i+3], li[i+4]])
+                for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, li[i+1], li[i+2], li[i+3], li[i+4])
         except: errorInfo.append('Rod')
         try:
             li = data[tableIndex[7]:tableIndex[8]]
             if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'Parameter', False, *[li[i+1], li[i+2]])
+                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'Parameter', False, li[i+1], li[i+2])
         except: errorInfo.append('Parameter')
         #path
-        try:
-            pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
-            li = data[pathIndex[0]+1:pathIndex[1]]
-            runList = li
-            li = data[pathIndex[1]+1:pathIndex[2]]
-            shaftList = [int(e) for e in li]
-            li = data[pathIndex[2]+1::]
-            path = list()
-            path_e = list()
-            for i in range(0, len(li)):
-                if '+' in li[i]:
-                    path.append(path_e)
-                    path_e = list()
-                else: path_e.append(float(li[i]))
-            self.Lists.setPath([path], runList, shaftList)
-        except: errorInfo.append('Path')
+        if not("[New Workbook]" in fileName):
+            try:
+                pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
+                li = data[pathIndex[0]+1:pathIndex[1]]
+                runList = li
+                li = data[pathIndex[1]+1:pathIndex[2]]
+                shaftList = [int(e) for e in li]
+                li = data[pathIndex[2]+1::]
+                path = list()
+                path_e = list()
+                for i in range(0, len(li)):
+                    if '+' in li[i]:
+                        path.append(path_e)
+                        path_e = list()
+                    else: path_e.append(float(li[i]))
+                self.Lists.setPath([path], runList, shaftList)
+            except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents.")
         self.form['fileName'] = QFileInfo(fileName)
@@ -206,13 +206,12 @@ class File():
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
         for i in range(1, len(data)):
-            self.Lists.editTable(Point, 'Point', False,
-                *[str(data[i]['x']), str(data[i]['y']), i<3],
+            self.Lists.editTable(Point, 'Point', False, str(data[i]['x']), str(data[i]['y']), i<3,
                 **{'styleTable':Point_Style, 'color':'Green', 'ringsize':'10' if i<3 else '5', 'ringcolor':'Blue' if i<3 else 'Green'})
         self.Lists.editTable(Chain, 'Chain', False,
-            *["Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
-            str(Result['L1']), str(Result['L4']), str(Result['L3'])])
-        self.Lists.editTable(Link, 'Line', False, *["Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0'])])
-        self.Lists.editTable(Link, 'Line', False, *["Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2'])])
-        self.Lists.editTable(Shaft, 'Shaft', False, *["Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False])
+            "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
+            str(Result['L1']), str(Result['L4']), str(Result['L3']))
+        self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
+        self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
+        self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False)
         print("Generate Result Merged.")

@@ -92,10 +92,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.mouse_pos_x
         y = self.mouse_pos_y
         if action==self.action_painter_right_click_menu_add:
-            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), False], **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
+            self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), False, **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
             self.Resolve()
         elif action==self.action_painter_right_click_menu_fix_add:
-            self.File.Lists.editTable(table1, 'Point', False, *[str(x), str(y), True], **{'styleTable':table2, 'color':'Green', 'ringsize':'10', 'ringcolor':'Green'})
+            self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, **{'styleTable':table2, 'color':'Blue', 'ringsize':'10', 'ringcolor':'Green'})
             self.Resolve()
         elif action==self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action==self.action_painter_right_click_menu_dimension_add:
@@ -118,7 +118,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table_pos_0 = self.Entiteis_Point.currentRow()
         if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
         elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(self.Entiteis_Point, 'Point', False,
-            *[self.Entiteis_Point.item(table_pos_0, 1).text(), self.Entiteis_Point.item(table_pos_0, 2).text(), self.Entiteis_Point.item(table_pos_0, 3).checkState()==Qt.Checked],
+            self.Entiteis_Point.item(table_pos_0, 1).text(), self.Entiteis_Point.item(table_pos_0, 2).text(), self.Entiteis_Point.item(table_pos_0, 3).checkState()==Qt.Checked,
             **{'styleTable':self.Entiteis_Point_Style, 'color':'Green', 'ringsize':'5', 'ringcolor':'Orange'})
         elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, table_pos_0)
         elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
@@ -337,19 +337,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.File.form['changed']:
             reply = QMessageBox.question(self, 'Clear Message', "Do you want to Clear ALL Drawings?\nThe changes can't be recovery!",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply:
-                print(say)
-                self.loadWorkbook(name, data)
-        else:
-            print(say)
-            self.loadWorkbook(name, data)
-    def loadWorkbook(self, fileName=False, data=list()):
+            if reply==QMessageBox.Apply: self.loadWorkbook(say, name, data)
+        else: self.loadWorkbook(say, name, data)
+    def loadWorkbook(self, say, fileName=False, data=list()):
+        print(say)
         self.closePanel()
         self.File.reset(
             self.Entiteis_Point, self.Entiteis_Point_Style,
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
-            self.Drive_Shaft, self.Slider,
-            self.Rod, self.Parameter_list)
+            self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.File.Lists.clearPath()
         self.Resolve()
         self.FileState.clear()
@@ -364,16 +360,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     reader = csv.reader(stream, delimiter=' ', quotechar='|')
                     for row in reader: data += ' '.join(row).split('\t,')
             if self.File.check(data):
-                self.File.read(
-                    fileName, data,
+                self.File.read(fileName, data,
                     self.Entiteis_Point, self.Entiteis_Point_Style,
                     self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                    self.Drive_Shaft, self.Slider,
-                    self.Rod, self.Parameter_list)
+                    self.Drive_Shaft, self.Slider, self.Rod, self.Parameter_list)
                 for i in range(1, self.Entiteis_Point_Style.rowCount()): self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
                 self.File.form['changed'] = False
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
-                self.Resolve()
                 if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
                 self.Path_Clear.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
@@ -514,9 +507,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(table1, 'Point', False,
-                *[dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                bool(dlg.Fix_Point.checkState())],
+                bool(dlg.Fix_Point.checkState()),
                 **{'styleTable':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
     @pyqtSlot()
     def on_Point_add_button_clicked(self):
@@ -524,7 +517,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.X_coordinate.text() if not self.X_coordinate.text()in['', "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text()in['', "n", "-"] else self.Y_coordinate.placeholderText()
-        self.File.Lists.editTable(table1, 'Point', False, *[x, y, False], **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
+        self.File.Lists.editTable(table1, 'Point', False, x, y, False, **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
         self.X_coordinate.clear()
         self.Y_coordinate.clear()
     
@@ -539,9 +532,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             table2 = self.Entiteis_Point_Style
             self.File.Lists.editTable(table1, 'Point', pos,
-                *[dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                bool(dlg.Fix_Point.checkState())])
+                bool(dlg.Fix_Point.checkState()))
             self.File.Lists.styleFix(table2, bool(dlg.Fix_Point.checkState()), pos)
     point_feedback = pyqtSignal(float, float, bool)
     @pyqtSlot(int)
@@ -558,7 +551,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Link
         dlg = edit_link_show(self.Mask, table1, table2)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, *[dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len])
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos=0):
@@ -569,7 +562,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.link_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Line(pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', pos, *[dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len])
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', pos, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
     link_feedback = pyqtSignal(int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Line(self, pos):
@@ -585,7 +578,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Stay_Chain
         dlg = edit_stay_chain_show(self.Mask, table1, table2)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', False, *[dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val])
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
     @pyqtSlot()
     def on_actionEdit_Stay_Chain_triggered(self, pos=0):
@@ -596,7 +589,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.chain_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Chain(pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', pos, *[dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val])
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', pos, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     chain_feedback = pyqtSignal(int, int, int, float, float, float)
     @pyqtSlot(int)
     def Change_Edit_Chain(self, pos):
@@ -616,7 +609,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_shaft_show(table1, table2, cen=cen, ref=ref)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', False,
-            *[dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState())])
+            dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState()))
     
     @pyqtSlot()
     def on_action_Edit_Drive_Shaft_triggered(self, pos=0):
@@ -628,7 +621,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Shaft(pos)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', pos,
-            *[dlg.center, dlg.ref, dlg.start, dlg.end, table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState())])
+            dlg.center, dlg.ref, dlg.start, dlg.end, table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
     shaft_feedback = pyqtSignal(int, int, float, float)
     @pyqtSlot(int)
     def Change_Edit_Shaft(self, pos):
@@ -643,7 +636,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Set_Slider_triggered(self):
         dlg = edit_slider_show(self.Entiteis_Point, self.Slider)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', False, *[dlg.slider, dlg.start, dlg.end])
+        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', False, dlg.slider, dlg.start, dlg.end)
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos=0):
@@ -652,7 +645,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.slider_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Slider(pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', pos, *[dlg.slider, dlg.start])
+        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', pos, dlg.slider, dlg.start)
     slider_feedback = pyqtSignal(int, int)
     @pyqtSlot(int)
     def Change_Edit_Slider(self, pos):
@@ -667,7 +660,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Rod
         dlg = edit_rod_show(table1, table2)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', False, *[dlg.cen, dlg.start, dlg.end, dlg.pos])
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', False, dlg.cen, dlg.start, dlg.end, dlg.pos)
     
     @pyqtSlot()
     def on_action_Edit_Rod_triggered(self, pos=0):
@@ -678,7 +671,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.rod_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Rod(pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', pos, *[dlg.cen, dlg.start, dlg.end, dlg.pos])
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', pos, dlg.cen, dlg.start, dlg.end, dlg.pos)
     rod_feedback = pyqtSignal(int, int, int, float)
     @pyqtSlot(int)
     def Change_Edit_Rod(self, pos):
