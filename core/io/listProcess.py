@@ -32,6 +32,7 @@ class Lists():
             rowPosition = Style['styleTable'].rowCount()
             self.FileState.push(addStyleCommand(**Style))
             print("- Add style of {{Point{}}}".format(rowPosition))
+        if edit==False: table.scrollToBottom()
         self.FileState.endMacro()
     
     def deleteTable(self, table, name, index):

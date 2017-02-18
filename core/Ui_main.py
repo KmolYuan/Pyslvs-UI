@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -82,6 +82,9 @@ class Ui_MainWindow(object):
         self.Entiteis_Point.setToolTipDuration(-1)
         self.Entiteis_Point.setAutoFillBackground(True)
         self.Entiteis_Point.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Entiteis_Point.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.Entiteis_Point.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.Entiteis_Point.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Entiteis_Point.setRowCount(1)
         self.Entiteis_Point.setColumnCount(5)
         self.Entiteis_Point.setObjectName("Entiteis_Point")
@@ -393,6 +396,9 @@ class Ui_MainWindow(object):
         self.Entiteis_Link.setStatusTip("")
         self.Entiteis_Link.setAutoFillBackground(True)
         self.Entiteis_Link.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Entiteis_Link.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.Entiteis_Link.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.Entiteis_Link.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Entiteis_Link.setRowCount(0)
         self.Entiteis_Link.setColumnCount(4)
         self.Entiteis_Link.setObjectName("Entiteis_Link")
@@ -433,6 +439,9 @@ class Ui_MainWindow(object):
         self.Entiteis_Stay_Chain.setStatusTip("")
         self.Entiteis_Stay_Chain.setAutoFillBackground(True)
         self.Entiteis_Stay_Chain.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Entiteis_Stay_Chain.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.Entiteis_Stay_Chain.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.Entiteis_Stay_Chain.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Entiteis_Stay_Chain.setRowCount(0)
         self.Entiteis_Stay_Chain.setColumnCount(7)
         self.Entiteis_Stay_Chain.setObjectName("Entiteis_Stay_Chain")
@@ -496,6 +505,9 @@ class Ui_MainWindow(object):
         self.Drive_Shaft = QtWidgets.QTableWidget(self.Drive_Shaft_Widget)
         self.Drive_Shaft.setStatusTip("")
         self.Drive_Shaft.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Drive_Shaft.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.Drive_Shaft.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.Drive_Shaft.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Drive_Shaft.setObjectName("Drive_Shaft")
         self.Drive_Shaft.setColumnCount(7)
         self.Drive_Shaft.setRowCount(0)
@@ -542,6 +554,9 @@ class Ui_MainWindow(object):
         self.Slider = QtWidgets.QTableWidget(self.Slider_Widget)
         self.Slider.setStatusTip("")
         self.Slider.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Slider.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.Slider.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.Slider.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Slider.setObjectName("Slider")
         self.Slider.setColumnCount(4)
         self.Slider.setRowCount(0)
@@ -582,6 +597,9 @@ class Ui_MainWindow(object):
         self.Rod = QtWidgets.QTableWidget(self.Rod_Widget)
         self.Rod.setStatusTip("")
         self.Rod.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.Rod.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.Rod.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.Rod.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Rod.setObjectName("Rod")
         self.Rod.setColumnCount(5)
         self.Rod.setRowCount(0)
@@ -807,7 +825,7 @@ class Ui_MainWindow(object):
         self.centralLayout.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -1245,8 +1263,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
         self.Parameter_digital.setStatusTip(_translate("MainWindow", "Enter your parameter."))
         self.Parameter_digital.setPlaceholderText(_translate("MainWindow", "0.0"))
