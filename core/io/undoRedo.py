@@ -205,3 +205,15 @@ class shaftChangeCommand(QUndoCommand):
         self.table.insertRow(self.next)
         for j in range(len(tableRow)): self.table.setItem(self.next, j, tableRow[j])
         for k in range(self.next, self.table.rowCount()): self.table.setItem(k, 0, QTableWidgetItem('Shaft'+str(k)))
+
+class demoValueCommand(QUndoCommand):
+    def __init__(self, table, index, value, column):
+        QUndoCommand.__init__(self)
+        self.table = table
+        self.index = index
+        self.value = value
+        self.column = column
+        self.oldValue = float(table.item(index, self.column).text())
+    
+    def redo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.value)))
+    def undo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.oldValue)))

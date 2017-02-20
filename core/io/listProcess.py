@@ -3,7 +3,7 @@ from .modules import *
 from ..dialog.delete import deleteDlg
 from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
-    setPathCommand, clearPathCommand, shaftChangeCommand)
+    setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand)
 
 class Lists():
     def __init__(self, FileState):
@@ -204,9 +204,14 @@ class Lists():
             table.setItem(i, 4, digit)
         self.update(table, "Point")
     
-    def setDemo(self, table, index, angle):
-        table.setItem(index, 5, QTableWidgetItem(str(angle)))
-        self.ShaftList[index]['demo'] = angle
+    def setDemo(self, index, angle): self.ShaftList[index]['demo'] = angle
+    def saveDemo(self, table, index, angle):
+        call = "Adjust demo angle {{Shaft{}}}".format(index)
+        self.FileState.beginMacro(call)
+        self.FileState.push(demoValueCommand(table, index, angle, 5))
+        print(call)
+        print("- Moved to ({})".format(angle))
+        self.FileState.endMacro()
     
     def editParameterTable(self, table):
         rowPosition = table.rowCount()

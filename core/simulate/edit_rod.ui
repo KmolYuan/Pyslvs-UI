@@ -223,6 +223,9 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="value">
+        <double>10.000000000000000</double>
+       </property>
       </widget>
      </item>
     </layout>

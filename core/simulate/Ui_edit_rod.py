@@ -126,6 +126,7 @@ class Ui_Dialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.Position.sizePolicy().hasHeightForWidth())
         self.Position.setSizePolicy(sizePolicy)
+        self.Position.setProperty("value", 10.0)
         self.Position.setObjectName("Position")
         self.verticalLayout_2.addWidget(self.Position)
         self.horizontalLayout_2.addLayout(self.verticalLayout_2)
