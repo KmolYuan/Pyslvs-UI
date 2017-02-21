@@ -37,14 +37,14 @@ class editTableCommand(QUndoCommand):
         self.name = name
         self.edit = edit
         self.Args = Args
-        if self.edit:
+        if not edit is False:
             self.oldArgs = list()
             for column in range(1, table.columnCount()):
                 item = table.item(edit, column)
                 self.oldArgs.append(item.text() if item.text()!='' else item.checkState()!=Qt.Unchecked)
     
     def redo(self):
-        rowPosition = self.edit if self.edit else self.table.rowCount()
+        rowPosition = self.edit if not self.edit is False else self.table.rowCount()
         if self.edit is False: self.table.insertRow(rowPosition)
         name_set = QTableWidgetItem("{}{}".format(self.name, rowPosition))
         name_set.setFlags(Qt.ItemIsEnabled)

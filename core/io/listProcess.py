@@ -23,16 +23,17 @@ class Lists():
         self.FileState = FileState
     
     def editTable(self, table, name, edit, *Args, **Style):
-        rowPosition = edit if edit else table.rowCount()
-        call = "{} {{{}{}}}".format('Add' if edit is False else 'Edit', name, rowPosition)
+        isEdit = edit is False
+        rowPosition = edit if not isEdit else table.rowCount()
+        call = "{} {{{}{}}}".format('Add' if isEdit else 'Edit', name, rowPosition)
         self.FileState.beginMacro(call)
         self.FileState.push(editTableCommand(table, name, edit, Args))
         print(call)
-        if name=='Point' and edit is False:
+        if name=='Point' and isEdit:
             rowPosition = Style['styleTable'].rowCount()
             self.FileState.push(addStyleCommand(**Style))
             print("- Add style of {{Point{}}}".format(rowPosition))
-        if edit is False: table.scrollToBottom()
+        if isEdit: table.scrollToBottom()
         self.FileState.endMacro()
     
     def deleteTable(self, table, name, index):
