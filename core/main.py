@@ -505,36 +505,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_point_show(self.Mask, table1)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table1, 'Point', False,
-                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
-                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                bool(dlg.Fix_Point.checkState()),
-                **{'styleTable':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
+            x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in ['', "n", "-"] else dlg.X_coordinate.placeholderText()
+            y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in ['', "n", "-"] else dlg.Y_coordinate.placeholderText()
+            self.File.Lists.editTable(table1, 'Point', False, x, y, bool(dlg.Fix_Point.checkState()),
+            **{'styleTable':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
     @pyqtSlot()
     def on_Point_add_button_clicked(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
-        x = self.X_coordinate.text() if not self.X_coordinate.text()in['', "n", "-"] else self.X_coordinate.placeholderText()
-        y = self.Y_coordinate.text() if not self.Y_coordinate.text()in['', "n", "-"] else self.Y_coordinate.placeholderText()
+        x = self.X_coordinate.text() if not self.X_coordinate.text() in ['', "n", "-"] else self.X_coordinate.placeholderText()
+        y = self.Y_coordinate.text() if not self.Y_coordinate.text() in ['', "n", "-"] else self.Y_coordinate.placeholderText()
         self.File.Lists.editTable(table1, 'Point', False, x, y, False, **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
         self.X_coordinate.clear()
         self.Y_coordinate.clear()
     
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos=1):
-        table1 = self.Entiteis_Point
-        dlg = edit_point_show(self.Mask, table1, pos)
+        table = self.Entiteis_Point
+        dlg = edit_point_show(self.Mask, table, pos)
         dlg.Another_point.connect(self.Change_Edit_Point)
         self.point_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Point(pos)
         dlg.show()
         if dlg.exec_():
-            table2 = self.Entiteis_Point_Style
-            self.File.Lists.editTable(table1, 'Point', pos,
+            self.File.Lists.editTable(table, 'Point', pos,
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text()in['', "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in['', "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()))
-            self.File.Lists.styleFix(table2, bool(dlg.Fix_Point.checkState()), pos)
+            self.File.Lists.styleFix(self.Entiteis_Point_Style, bool(dlg.Fix_Point.checkState()), pos)
     point_feedback = pyqtSignal(float, float, bool)
     @pyqtSlot(int)
     def Change_Edit_Point(self, pos):

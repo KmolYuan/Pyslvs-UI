@@ -50,11 +50,14 @@ class editTableCommand(QUndoCommand):
         name_set.setFlags(Qt.ItemIsEnabled)
         self.table.setItem(rowPosition, 0, name_set)
         for i in range(len(self.Args)):
-            if type(self.Args[i])==str: self.table.setItem(rowPosition, i+1, QTableWidgetItem(self.Args[i]))
-            elif type(self.Args[i])==bool:
+            content = self.Args[i]
+            if type(content)==str:
+                try: self.table.setItem(rowPosition, i+1, QTableWidgetItem(str(float(content))))
+                except: self.table.setItem(rowPosition, i+1, QTableWidgetItem(content))
+            elif type(content)==bool:
                 checkbox = QTableWidgetItem('')
                 checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                checkbox.setCheckState(Qt.Checked if self.Args[i] else Qt.Unchecked)
+                checkbox.setCheckState(Qt.Checked if content else Qt.Unchecked)
                 self.table.setItem(rowPosition, i+1, checkbox)
     def undo(self):
         if self.edit is False: self.table.removeRow(self.table.rowCount()-1)
