@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-20, 00:03:56 -->
+<!-- Saved: 2017-02-21, 16:40:20 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -90,12 +90,12 @@
     <Source>core/panel/run_Path_Solving_listbox.py</Source>
     <Source>core/panel/run_Path_Solving_series.py</Source>
     <Source>core/panel/run_Path_Track.py</Source>
-    <Source>core/simulate/Ui_edit_drive_shaft.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
+    <Source>core/simulate/Ui_edit_shaft.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
     <Source>core/simulate/__init__.py</Source>
-    <Source>core/simulate/edit_drive_shaft.py</Source>
     <Source>core/simulate/edit_rod.py</Source>
+    <Source>core/simulate/edit_shaft.py</Source>
     <Source>core/simulate/edit_slider.py</Source>
     <Source>core/simulate/modules.py</Source>
     <Source>core/test/__init__.py</Source>
@@ -130,8 +130,8 @@
     <Form>core/panel/run_Path_Solving_listbox.ui</Form>
     <Form>core/panel/run_Path_Solving_series.ui</Form>
     <Form>core/panel/run_Path_Track.ui</Form>
-    <Form>core/simulate/edit_drive_shaft.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
+    <Form>core/simulate/edit_shaft.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>
   </Forms>
   <Translations/>

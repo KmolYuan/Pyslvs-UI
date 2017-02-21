@@ -17,7 +17,7 @@ from .draw.edit_point import edit_point_show
 from .draw.edit_link import edit_link_show
 from .draw.edit_stay_chain import edit_stay_chain_show
 #Simulate Dialog Ports
-from .simulate.edit_drive_shaft import edit_shaft_show
+from .simulate.edit_shaft import edit_shaft_show
 from .simulate.edit_slider import edit_slider_show
 from .simulate.edit_rod import edit_rod_show
 #Dialog

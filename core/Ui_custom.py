@@ -179,4 +179,3 @@ def actionEnabled(self):
     self.actionBatch_moving.setEnabled(TWO_POINT)
     self.actionUndo.setEnabled(self.FileState.canUndo())
     self.actionRedo.setEnabled(self.FileState.canRedo())
-    if (self.Shaft.rowCount()==0 and hasattr(self, 'DriveShaftWidget'))or(self.Rod.rowCount()==0 and hasattr(self, 'DriveRodWidget')): self.closePanel()

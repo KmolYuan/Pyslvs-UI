@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .Ui_edit_rod import Ui_Dialog as edit_rod_Dialog
 
 class edit_rod_show(QDialog, edit_rod_Dialog):
     Another_rod = pyqtSignal(int)

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .Ui_edit_slider import Ui_Dialog as edit_slider_Dialog
 
 class edit_slider_show(QDialog, edit_slider_Dialog):
     Another_slider = pyqtSignal(int)
@@ -23,10 +24,11 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
     @pyqtSlot(int)
     def on_Slider_currentIndexChanged(self, index): self.Another_slider.emit(index)
     
-    @pyqtSlot(int, int)
-    def change_feedback(self, point, line):
-        self.Slider_Center.setCurrentIndex(point)
-        self.References.setCurrentIndex(line)
+    @pyqtSlot(int, int, int)
+    def change_feedback(self, cen, start, end):
+        self.Slider_Center.setCurrentIndex(cen)
+        self.Start.setCurrentIndex(start)
+        self.End.setCurrentIndex(end)
     
     @pyqtSlot(int)
     def on_Slider_Center_currentIndexChanged(self, index): self.isOk()

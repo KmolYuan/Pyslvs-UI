@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .Ui_edit_shaft import Ui_Dialog as edit_shaft_Dialog
 
 class edit_shaft_show(QDialog, edit_shaft_Dialog):
     Another_shaft = pyqtSignal(int)

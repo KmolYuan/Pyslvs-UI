@@ -205,11 +205,11 @@ class Lists():
             table.setItem(i, 4, digit)
         self.update(table, "Point")
     
-    def setDemo(self, index, angle): self.ShaftList[index]['demo'] = angle
-    def saveDemo(self, table, index, angle):
-        call = "Adjust demo angle {{Shaft{}}}".format(index)
+    def setDemo(self, angle): self.ShaftList[0]['demo'] = angle
+    def saveDemo(self, table, angle):
+        call = "Adjust demo angle {Shaft0}"
         self.FileState.beginMacro(call)
-        self.FileState.push(demoValueCommand(table, index, angle, 5))
+        self.FileState.push(demoValueCommand(table, 0, angle, 5))
         print(call)
         print("- Moved to ({})".format(angle))
         self.FileState.endMacro()
