@@ -878,7 +878,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         self.workbookNoSave()
     
-    #TODO: Drive rod
     @pyqtSlot()
     def on_Drive_rod_clicked(self):
         if not hasattr(self, 'DriveRodWidget'):

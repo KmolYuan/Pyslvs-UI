@@ -125,14 +125,42 @@ class DynamicCanvas(QWidget):
                 mp = QPointF((self.points['x'][start]+self.points['x'][end])/2, (self.points['y'][start]+self.points['y'][end])/2)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, str(self.table_line[i]['len']))
+        for i in range(len(self.table_slider)):
+            start = self.table_slider[i]['start']
+            end = self.table_slider[i]['end']
+            pen = QPen(Qt.DotLine)
+            pen.setWidth(self.points['style']['penWidth']['pen'])
+            pen.setColor(Qt.darkMagenta)
+            painter.setPen(pen)
+            painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
+        for i in range(len(self.table_rod)):
+            start = self.table_rod[i]['start']
+            end = self.table_rod[i]['end']
+            pen = QPen(Qt.DotLine)
+            pen.setWidth(self.points['style']['penWidth']['pen'])
+            pen.setColor(Qt.darkRed)
+            painter.setPen(pen)
+            painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
+            if self.points['style']['dimension']:
+                pen.setColor(self.points['style']['text'])
+                painter.setPen(pen)
+                mp = QPointF((self.points['x'][start]+self.points['x'][end])/2, (self.points['y'][start]+self.points['y'][end])/2)
+                painter.setFont(QFont("Arial", self.Font_size))
+                painter.drawText(mp, '{{{}}}'.format(self.table_rod[i]['pos']))
         for i in range(len(self.table_shaft)):
             start = self.table_shaft[i]['cen']
             end = self.table_shaft[i]['ref']
-            penShaft = QPen(Qt.DotLine)
-            penShaft.setWidth(self.points['style']['penWidth']['pen']+2)
-            penShaft.setColor(QColor(225, 140, 0))
-            painter.setPen(penShaft)
+            pen = QPen(Qt.DotLine)
+            pen.setWidth(self.points['style']['penWidth']['pen']+2)
+            pen.setColor(QColor(225, 140, 0))
+            painter.setPen(pen)
             painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
+            if self.points['style']['dimension']:
+                pen.setColor(self.points['style']['text'])
+                painter.setPen(pen)
+                mp = QPointF((self.points['x'][start]+self.points['x'][end])/2, (self.points['y'][start]+self.points['y'][end])/2)
+                painter.setFont(QFont("Arial", self.Font_size))
+                painter.drawText(mp, '{{{}}}'.format(self.table_shaft[i]['demo']))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
             pen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
@@ -177,6 +205,7 @@ class DynamicCanvas(QWidget):
             if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
             if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
         for i in range(len(self.table_point)):
+            pen = QPen()
             pen.setWidth(2)
             point_center = QPointF(int(self.points['x'][i]), int(self.points['y'][i]))
             text_center = QPointF(int(self.points['x'][i]+6), int(self.points['y'][i]-6))
