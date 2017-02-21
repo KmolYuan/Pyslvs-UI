@@ -3,11 +3,36 @@ from .modules import *
 from .Ui_run_Drive_rod import Ui_Form
 
 class Drive_rod_show(QWidget, Ui_Form):
-    Rod_change = pyqtSignal(int)
-    def __init__(self, table, parent=None):
+    def __init__(self, table, tablePoint, parent=None):
         super(Drive_rod_show, self).__init__(parent)
         self.setupUi(self)
-        for i in range(table.rowCount()): self.Rod.insertItem(i, QIcon(QPixmap(":/icons/spring.png")), table.item(i, 0).text())
+        self.table = table
+        self.tablePoint = tablePoint
+        for i in range(len(table)): self.Rod.insertItem(i, QIcon(QPixmap(":/icons/spring.png")), 'Rod{}'.format(i))
+        self.on_Rod_currentIndexChanged(0)
     
     @pyqtSlot(int)
-    def on_Rod_currentIndexChanged(self, index): self.Rod_change.emit(index)
+    def on_Rod_currentIndexChanged(self, index):
+        start = self.table[index]['start']
+        end = self.table[index]['end']
+        distance = int(((self.tablePoint[start]['x']-self.tablePoint[end]['x'])**2+(self.tablePoint[start]['y']-self.tablePoint[end]['y'])**2)**(1/2)*100)
+        self.Position.setMaximum(distance)
+        self.Position.setValue(int(self.table[index]['pos']*100))
+        self.Distance_text.setValue(distance/100)
+        self.Center.setText(str(self.table[index]['cen']))
+        self.Start.setText(str(start))
+    
+    @pyqtSlot()
+    def on_ResetButton_clicked(self):
+        index = self.Rod.currentIndex()
+        start = self.table[index]['start']
+        end = self.table[index]['end']
+        distance = int(((self.tablePoint[start]['x']-self.tablePoint[end]['x'])**2+(self.tablePoint[start]['y']-self.tablePoint[end]['y'])**2)**(1/2)*100)
+        self.Position.setMaximum(distance)
+        self.Position.setValue(int(self.table[index]['pos']*100))
+        self.Distance_text.setValue(distance/100)
+    
+    @pyqtSlot(float)
+    def on_Distance_text_valueChanged(self, p0): self.Position.setMaximum(int(p0*100))
+    @pyqtSlot(int)
+    def on_Position_valueChanged(self, value): self.Distance.setText(str(value/100))

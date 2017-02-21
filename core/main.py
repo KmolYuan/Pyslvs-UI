@@ -258,7 +258,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.File.Obstacles_Exclusion()
         #Solve
         result = False
-        result, DOF, script = slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, self.Parameter_list, self.File.Lists.currentShaft)
+        result, DOF, script = slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, self.Parameter_list)
         self.Script = script
         if result:
             self.Solvefail = False
@@ -860,7 +860,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
         if not hasattr(self, 'DriveShaftWidget'):
-            self.DriveShaftWidget = Drive_shaft_show(self.File.Lists.ShaftList, self.File.Lists.currentShaft)
+            self.DriveShaftWidget = Drive_shaft_show(self.File.Lists.ShaftList)
             self.PointTab.addTab(self.DriveShaftWidget, QIcon(QPixmap(":/icons/same-orientation.png")), 'Drive Shaft')
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
             self.DriveShaftWidget.Degree.sliderReleased.connect(self.Save_demo_angle)
@@ -871,10 +871,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 del self.DriveShaftWidget
             except: pass
     @pyqtSlot()
-    def Save_demo_angle(self): self.File.Lists.saveDemo(self.Shaft, self.DriveShaftWidget.Degree.value()/100)
+    def Save_demo_angle(self): self.File.Lists.saveDemo(self.Shaft, 'Shaft', self.DriveShaftWidget.Degree.value()/100, 0, 5)
     @pyqtSlot(int)
     def Change_demo_angle(self, angle):
-        self.File.Lists.setDemo(angle/100)
+        self.File.Lists.setDemo('Shaft', 0, angle/100)
         self.Resolve()
         self.workbookNoSave()
     
@@ -882,14 +882,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_Drive_rod_clicked(self):
         if not hasattr(self, 'DriveRodWidget'):
-            self.DriveRodWidget = Drive_rod_show(self.Rod)
+            self.DriveRodWidget = Drive_rod_show(self.File.Lists.RodList, self.File.Lists.PointList)
             self.PointTab.addTab(self.DriveRodWidget, QIcon(QPixmap(":/icons/normal.png")), 'Drive Rod')
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.DriveRodWidget.Position.sliderReleased.connect(self.Save_position)
+            self.DriveRodWidget.Position.valueChanged.connect(self.Change_position)
         else:
             try:
                 self.DriveRodWidget.deleteLater()
                 del self.DriveRodWidget
             except: pass
+    @pyqtSlot()
+    def Save_position(self):self.File.Lists.saveDemo(self.Rod, 'Rod', self.DriveRodWidget.Position.value()/100, self.DriveRodWidget.Rod.currentIndex(), 4)
+    @pyqtSlot(int)
+    def Change_position(self, pos):
+        self.File.Lists.setDemo('Rod', self.DriveRodWidget.Rod.currentIndex(), pos/100)
+        self.Resolve()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_Measurement_clicked(self):

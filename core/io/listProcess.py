@@ -12,7 +12,6 @@ class Lists():
         self.LineList = list()
         self.ChainList = list()
         self.ShaftList = list()
-        self.currentShaft = 0
         self.SliderList = list()
         self.RodList = list()
         self.ParameterList = list()
@@ -205,13 +204,15 @@ class Lists():
             table.setItem(i, 4, digit)
         self.update(table, "Point")
     
-    def setDemo(self, angle): self.ShaftList[0]['demo'] = angle
-    def saveDemo(self, table, angle):
-        call = "Adjust demo angle {Shaft0}"
+    def setDemo(self, name, row, pos):
+        if name=='Shaft': self.ShaftList[row]['demo'] = pos
+        elif name=='Rod': self.RodList[row]['pos'] = pos
+    def saveDemo(self, table, name, pos, row, column):
+        call = "Adjust demo {} {{{}{}}}".format('angle' if name=='Shaft' else 'position', name, row)
         self.FileState.beginMacro(call)
-        self.FileState.push(demoValueCommand(table, 0, angle, 5))
+        self.FileState.push(demoValueCommand(table, row, pos, column))
         print(call)
-        print("- Moved to ({})".format(angle))
+        print("- Moved to ({})".format(str(pos)+' deg' if name=='Shaft' else pos))
         self.FileState.endMacro()
     
     def editParameterTable(self, table):

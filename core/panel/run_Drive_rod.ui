@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
+    <width>485</width>
     <height>213</height>
    </rect>
   </property>
@@ -75,6 +75,20 @@
        </property>
        <property name="value">
         <double>10.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ResetButton">
+       <property name="text">
+        <string>Reset</string>
        </property>
       </widget>
      </item>
@@ -152,7 +166,13 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <widget class="QSlider" name="horizontalSlider">
+      <widget class="QSlider" name="Position">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimum">
         <number>-99</number>
        </property>
@@ -161,6 +181,9 @@
        </property>
        <property name="tickPosition">
         <enum>QSlider::TicksBelow</enum>
+       </property>
+       <property name="tickInterval">
+        <number>1000</number>
        </property>
       </widget>
      </item>

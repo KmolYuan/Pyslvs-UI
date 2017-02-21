@@ -43,7 +43,7 @@ class Ui_Form(object):
         self.Degree.setPageStep(1000)
         self.Degree.setOrientation(QtCore.Qt.Horizontal)
         self.Degree.setTickPosition(QtWidgets.QSlider.TicksBelow)
-        self.Degree.setTickInterval(9000)
+        self.Degree.setTickInterval(36000)
         self.Degree.setObjectName("Degree")
         self.horizontalLayout_3.addWidget(self.Degree)
         self.Degree_text = QtWidgets.QDoubleSpinBox(Form)
