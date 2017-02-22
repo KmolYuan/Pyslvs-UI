@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-22, 16:27:17 -->
+<!-- Saved: 2017-02-22, 23:18:36 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -61,11 +61,14 @@
     <Source>core/io/dxfType.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
+    <Source>core/io/listForm.py</Source>
     <Source>core/io/listProcess.py</Source>
     <Source>core/io/modules.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/settings.py</Source>
-    <Source>core/io/slvsForm.py</Source>
+    <Source>core/io/slvsForm_assembly.py</Source>
+    <Source>core/io/slvsForm_chain.py</Source>
+    <Source>core/io/slvsForm_link.py</Source>
     <Source>core/io/slvsType.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/main.py</Source>
@@ -117,8 +120,6 @@
     <Form>core/info/options.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
     <Form>core/info/version.ui</Form>
-    <Form>core/io/script.ui</Form>
-    <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/panel/run_AuxLine.ui</Form>
     <Form>core/panel/run_Drive_rod.ui</Form>
