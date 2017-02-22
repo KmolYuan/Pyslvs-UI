@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-21, 16:40:20 -->
+<!-- Saved: 2017-02-22, 11:54:32 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -34,13 +34,13 @@
     <Source>core/dialog/delete.py</Source>
     <Source>core/dialog/modules.py</Source>
     <Source>core/dialog/replacePoint.py</Source>
+    <Source>core/draw/Ui_edit_chain.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
-    <Source>core/draw/Ui_edit_stay_chain.py</Source>
     <Source>core/draw/__init__.py</Source>
+    <Source>core/draw/edit_chain.py</Source>
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
-    <Source>core/draw/edit_stay_chain.py</Source>
     <Source>core/draw/modules.py</Source>
     <Source>core/info/Ui_editFileInfo.py</Source>
     <Source>core/info/Ui_fileInfo.py</Source>
@@ -111,9 +111,9 @@
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
     <Form>core/dialog/replacePoint.ui</Form>
+    <Form>core/draw/edit_chain.ui</Form>
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
-    <Form>core/draw/edit_stay_chain.ui</Form>
     <Form>core/info/editFileInfo.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
     <Form>core/info/options.ui</Form>

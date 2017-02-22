@@ -347,6 +347,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.Lists.clearPath()
         self.Resolve()
         self.FileState.clear()
+        self.File.form['fileName'] = QFileInfo("[New Workbook]")
+        self.File.form['changed'] = False
+        self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
         print("Reset workbook.")
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
@@ -569,7 +572,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Stay_Chain_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = edit_stay_chain_show(self.Mask, table1, table2)
+        dlg = edit_chain_show(self.Mask, table1, table2)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     

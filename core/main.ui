@@ -2371,6 +2371,9 @@ p, li { white-space: pre-wrap; }
    <property name="statusTip">
     <string>Set a point as a Slider center.</string>
    </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
   </action>
   <action name="action_Edit_Shaft">
    <property name="enabled">
@@ -2448,6 +2451,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Add  a extendable rod between two points.</string>
+   </property>
+   <property name="shortcut">
+    <string>F7</string>
    </property>
   </action>
   <action name="action_Edit_Rod">

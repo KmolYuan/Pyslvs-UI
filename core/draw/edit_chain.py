@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from .modules import *
+from .Ui_edit_chain import Ui_Dialog as edit_Dialog
 
-class edit_stay_chain_show(QDialog, edit_chain_Dialog):
+class edit_chain_show(QDialog, edit_Dialog):
     Another_chain = pyqtSignal(int)
     def __init__(self, mask, table1, table2, pos=False, parent=None):
-        super(edit_stay_chain_show, self).__init__(parent)
+        super(edit_chain_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/line.png"))

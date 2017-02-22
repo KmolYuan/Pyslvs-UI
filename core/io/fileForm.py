@@ -86,23 +86,22 @@ class File():
                 for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'Parameter', False, li[i+1], li[i+2])
         except: errorInfo.append('Parameter')
         #path
-        if not("[New Workbook]" in fileName):
-            try:
-                pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
-                li = data[pathIndex[0]+1:pathIndex[1]]
-                runList = li
-                li = data[pathIndex[1]+1:pathIndex[2]]
-                shaftList = [int(e) for e in li]
-                li = data[pathIndex[2]+1::]
-                path = list()
-                path_e = list()
-                for i in range(0, len(li)):
-                    if '+' in li[i]:
-                        path.append(path_e)
-                        path_e = list()
-                    else: path_e.append(float(li[i]))
-                self.Lists.setPath([path], runList, shaftList)
-            except: errorInfo.append('Path')
+        try:
+            pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
+            li = data[pathIndex[0]+1:pathIndex[1]]
+            runList = li
+            li = data[pathIndex[1]+1:pathIndex[2]]
+            shaftList = [int(e) for e in li]
+            li = data[pathIndex[2]+1::]
+            path = list()
+            path_e = list()
+            for i in range(0, len(li)):
+                if '+' in li[i]:
+                    path.append(path_e)
+                    path_e = list()
+                else: path_e.append(float(li[i]))
+            if path: self.Lists.setPath([path], runList, shaftList)
+        except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents.")
         self.form['fileName'] = QFileInfo(fileName)
