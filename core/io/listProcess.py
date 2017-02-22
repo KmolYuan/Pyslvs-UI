@@ -125,44 +125,44 @@ class Lists():
                 k['y'] = float(table.item(i, 2).text())
                 k['fix'] = bool(table.item(i, 3).checkState())
                 try:
-                    k['cx'] = float(table.item(i, 4).text().replace('(', '').replace(')', '').split(', ')[0])
-                    k['cy'] = float(table.item(i, 4).text().replace('(', '').replace(')', '').split(', ')[1])
+                    k['cx'] = float(table.item(i, 4).text().replace('(', str()).replace(')', str()).split(', ')[0])
+                    k['cy'] = float(table.item(i, 4).text().replace('(', str()).replace(')', str()).split(', ')[1])
                 except: pass
             elif name=='Line':
                 k = dict()
-                k['start'] = int(table.item(i, 1).text().replace('Point', ''))
-                k['end'] = int(table.item(i, 2).text().replace('Point', ''))
+                k['start'] = int(table.item(i, 1).text().replace('Point', str()))
+                k['end'] = int(table.item(i, 2).text().replace('Point', str()))
                 k['len'] = float(table.item(i, 3).text())
             elif name=='Chain':
                 k = dict()
-                k['p1'] = int(table.item(i, 1).text().replace('Point', ''))
-                k['p2'] = int(table.item(i, 2).text().replace('Point', ''))
-                k['p3'] = int(table.item(i, 3).text().replace('Point', ''))
+                k['p1'] = int(table.item(i, 1).text().replace('Point', str()))
+                k['p2'] = int(table.item(i, 2).text().replace('Point', str()))
+                k['p3'] = int(table.item(i, 3).text().replace('Point', str()))
                 k['p1p2'] = float(table.item(i, 4).text())
                 k['p2p3'] = float(table.item(i, 5).text())
                 k['p1p3'] = float(table.item(i, 6).text())
             elif name=='Shaft':
                 k = dict()
-                k['cen'] = int(table.item(i, 1).text().replace('Point', ''))
-                k['ref'] = int(table.item(i, 2).text().replace('Point', ''))
+                k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
+                k['ref'] = int(table.item(i, 2).text().replace('Point', str()))
                 k['start'] = float(table.item(i, 3).text())
                 k['end'] = float(table.item(i, 4).text())
                 k['demo'] = float(table.item(i, 5).text())
                 k['isParallelogram'] = bool(table.item(i, 6).checkState())
             elif name=='Slider':
                 k = dict()
-                k['cen'] = int(table.item(i, 1).text().replace('Point', ''))
-                k['start'] = int(table.item(i, 2).text().replace('Point', ''))
-                k['end'] = int(table.item(i, 3).text().replace('Point', ''))
+                k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
+                k['start'] = int(table.item(i, 2).text().replace('Point', str()))
+                k['end'] = int(table.item(i, 3).text().replace('Point', str()))
             elif name=='Rod':
                 k = dict()
-                k['cen'] = int(table.item(i, 1).text().replace('Point', ''))
-                k['start'] = int(table.item(i, 2).text().replace('Point', ''))
-                k['end'] = int(table.item(i, 3).text().replace('Point', ''))
+                k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
+                k['start'] = int(table.item(i, 2).text().replace('Point', str()))
+                k['end'] = int(table.item(i, 3).text().replace('Point', str()))
                 k['pos'] = float(table.item(i, 4).text())
             elif name=='Parameter':
                 try:
-                    k = {int(table.item(i, 0).text().replace('n', '')):float(table.item(i, 1).text())}
+                    k = {int(table.item(i, 0).text().replace('n', str())):float(table.item(i, 1).text())}
                 except: pass
             lst.append(k)
         if name=='Point': self.PointList = lst
@@ -220,7 +220,7 @@ class Lists():
         table.insertRow(rowPosition)
         name_set = 0
         existNum = list()
-        for k in range(rowPosition): existNum += [int(table.item(k, 0).text().replace('n', ''))]
+        for k in range(rowPosition): existNum += [int(table.item(k, 0).text().replace('n', str()))]
         for i in reversed(range(len(existNum)+1)):
             if not i in existNum: name_set = i
         name_set = QTableWidgetItem('n'+str(name_set))
@@ -246,7 +246,7 @@ class Lists():
             commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
             table.setItem(row-1, 2, commit_set)
             table.removeRow(row+1)
-            self.update(table, "Parameter")
+            self.update(table, 'Parameter')
         except: pass
     
     def setPath(self, path, runList, shaftList):

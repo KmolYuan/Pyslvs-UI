@@ -199,9 +199,9 @@ def slvsProcess(table_point=False, table_line=False, table_chain=False, table_sh
         elif generateConversionProcess:
             resultList = list()
             for i in range(0, 12, 2): resultList += [{'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val}]
-    elif sys.result==SLVS_RESULT_INCONSISTENT and "-w" in argv: print ("SLVS_RESULT_INCONSISTENT")
-    elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and "-w" in argv: print ("SLVS_RESULT_DIDNT_CONVERGE")
-    elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and "-w" in argv: print ("SLVS_RESULT_TOO_MANY_UNKNOWNS")
+    elif sys.result==SLVS_RESULT_INCONSISTENT and "-w" in argv: print("SLVS_RESULT_INCONSISTENT")
+    elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and "-w" in argv: print("SLVS_RESULT_DIDNT_CONVERGE")
+    elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and "-w" in argv: print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
     if pathTrackProcess:
         try: return x, y
         except: return 0, 0
@@ -209,9 +209,7 @@ def slvsProcess(table_point=False, table_line=False, table_chain=False, table_sh
         try: return resultList, sys.dof, script
         except: return list(), -1, str()
     elif generateConversionProcess:
-        try:
-            print(resultList)
-            return resultList
+        try: return resultList
         except: return list()
 
 def generateProcess(path, upper, lowerVal, type=0):

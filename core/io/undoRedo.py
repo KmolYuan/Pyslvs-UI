@@ -10,7 +10,7 @@ def writeTable(table, rowPosition, name, Args):
     for i in range(len(Args)):
         if type(Args[i])==str: table.setItem(rowPosition, i+1, QTableWidgetItem(Args[i]))
         elif type(Args[i])==bool:
-            checkbox = QTableWidgetItem('')
+            checkbox = QTableWidgetItem(str())
             checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             checkbox.setCheckState(Qt.Checked if Args[i] else Qt.Unchecked)
             table.setItem(rowPosition, i+1, checkbox)
@@ -41,7 +41,7 @@ class editTableCommand(QUndoCommand):
             self.oldArgs = list()
             for column in range(1, table.columnCount()):
                 item = table.item(edit, column)
-                self.oldArgs.append(item.text() if item.text()!='' else item.checkState()!=Qt.Unchecked)
+                self.oldArgs.append(item.text() if item.text()!=str() else item.checkState()!=Qt.Unchecked)
     
     def redo(self):
         rowPosition = self.edit if not self.edit is False else self.table.rowCount()
@@ -55,7 +55,7 @@ class editTableCommand(QUndoCommand):
                 try: self.table.setItem(rowPosition, i+1, QTableWidgetItem(str(float(content))))
                 except: self.table.setItem(rowPosition, i+1, QTableWidgetItem(content))
             elif type(content)==bool:
-                checkbox = QTableWidgetItem('')
+                checkbox = QTableWidgetItem(str())
                 checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 checkbox.setCheckState(Qt.Checked if content else Qt.Unchecked)
                 self.table.setItem(rowPosition, i+1, checkbox)
@@ -89,7 +89,7 @@ class deleteTableCommand(QUndoCommand):
         self.oldArgs = list()
         for column in range(1, table.columnCount()):
             item = table.item(index, column)
-            self.oldArgs += [item.text() if item.text()!='' else item.checkState()!=Qt.Unchecked]
+            self.oldArgs += [item.text() if item.text()!=str() else item.checkState()!=Qt.Unchecked]
     
     def redo(self):
         self.table.removeRow(self.index)
@@ -126,7 +126,7 @@ class changePointNumCommand(QUndoCommand):
         self.pos = pos
         self.row = row
         self.column = column
-        self.oldPos = int(table.item(row, column).text().replace('Point', ''))
+        self.oldPos = int(table.item(row, column).text().replace('Point', str()))
     
     def redo(self):
         cell = QTableWidgetItem("Point{}".format(self.pos))

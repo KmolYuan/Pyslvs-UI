@@ -38,6 +38,6 @@ class edit_link_show(QDialog, edit_link_Dialog):
     @pyqtSlot(str)
     def on_Length_textEdited(self, p0): self.isOk()
     def isOk(self):
-        self.len = self.Length.text() if not self.Length.text()in['', "n"] else self.Length.placeholderText()
+        self.len = self.Length.text() if not self.Length.text()in[str(), 'n'] else self.Length.placeholderText()
         n = self.Start_Point.currentIndex()!=self.End_Point.currentIndex() and float(self.len)!=0
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)

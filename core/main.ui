@@ -1396,16 +1396,16 @@ p, li { white-space: pre-wrap; }
                   <number>5</number>
                  </property>
                  <property name="leftMargin">
-                  <number>5</number>
+                  <number>6</number>
                  </property>
                  <property name="topMargin">
-                  <number>5</number>
+                  <number>6</number>
                  </property>
                  <property name="rightMargin">
-                  <number>5</number>
+                  <number>6</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>5</number>
+                  <number>6</number>
                  </property>
                  <item>
                   <widget class="QLabel" name="reqPath">
@@ -1551,23 +1551,6 @@ p, li { white-space: pre-wrap; }
                  <item>
                   <layout class="QGridLayout" name="gridLayout">
                    <item row="0" column="0">
-                    <widget class="QPushButton" name="Measurement">
-                     <property name="statusTip">
-                      <string>Measure the distance between two points.</string>
-                     </property>
-                     <property name="text">
-                      <string>Measurement</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
                     <widget class="QPushButton" name="Drive_shaft">
                      <property name="statusTip">
                       <string>Drive the selected drive shaft.</string>
@@ -1584,7 +1567,29 @@ p, li { white-space: pre-wrap; }
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="0">
+                   <item row="0" column="1">
+                    <widget class="QPushButton" name="Drive_rod">
+                     <property name="text">
+                      <string>Drive Piston</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../icons.qrc">
+                       <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_5">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <layout class="QGridLayout" name="gridLayout_2">
+                   <item row="0" column="0">
                     <widget class="QPushButton" name="AuxLine">
                      <property name="statusTip">
                       <string>See the limitation of the point.</string>
@@ -1601,14 +1606,20 @@ p, li { white-space: pre-wrap; }
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="1">
-                    <widget class="QPushButton" name="Drive_rod">
+                   <item row="0" column="1">
+                    <widget class="QPushButton" name="Measurement">
+                     <property name="statusTip">
+                      <string>Measure the distance between two points.</string>
+                     </property>
                      <property name="text">
-                      <string>Drive Piston</string>
+                      <string>Measurement</string>
                      </property>
                      <property name="icon">
                       <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
+                       <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
+                     </property>
+                     <property name="checkable">
+                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>

@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
 from .modules import *
-from .listProcess import *
+from .listProcess import Lists, PathSolvingReqs
+import datetime
 now = datetime.datetime.now()
 
 class File():
     def __init__(self, FileState):
-        self.form = {
-            'fileName':QFileInfo("[New Workbook]"),
-            'description':'',
-            'author':'anonymous',
-            'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
-            'changed':False,
-            }
         self.FileState = FileState
         self.resetAllList()
     
     def resetAllList(self):
         self.Lists = Lists(self.FileState)
         self.PathSolvingReqs = PathSolvingReqs(self.FileState)
-    
-    def updateTime(self):
-        self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
+        self.Script = str()
+        self.Stack = 0
+        self.form = {
+            'fileName':QFileInfo("[New Workbook]"),
+            'description':str(),
+            'author':'anonymous',
+            'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
+            'changed':False}
+    def updateTime(self): self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
+    def updateAuthorDescription(self, author, description):
+        self.form['author'] = author
+        self.form['description'] = description
     
     #Check, Read, Write, Reset
     def check(self, data):
@@ -33,13 +36,13 @@ class File():
         errorInfo = list()
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
-        try: author = data[infoIndex[0]:infoIndex[1]+1][1].replace('"', '')
+        try: author = data[infoIndex[0]:infoIndex[1]+1][1].replace('"', str())
         except:
-            author = ''
+            author = str()
             errorInfo.append('Author Information')
-        try: description = data[infoIndex[1]:infoIndex[2]+1][1].replace('"', '')
+        try: description = data[infoIndex[1]:infoIndex[2]+1][1].replace('"', str())
         except:
-            description = ''
+            description = str()
             errorInfo.append('Description Information')
         try: lastTime = data[infoIndex[2]:infoIndex[3]+1][1]
         except:
@@ -104,15 +107,17 @@ class File():
         except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents.")
+        self.Stack = self.FileState.index()
         self.form['fileName'] = QFileInfo(fileName)
         self.form['author'] = author
         self.form['description'] = description
         self.form['lastTime'] = lastTime
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        self.Stack = self.FileState.index()
         self.form['fileName'] = QFileInfo(fileName)
         writer.writerows([
-            ["_info_"], [self.form['author']] if self.form['author']!='' else ['anonymous'],
+            ["_info_"], [self.form['author']] if self.form['author']!=str() else ['anonymous'],
             ["_info_"], [self.form['description']],
             ["_info_"], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
         self.CSV_write(writer, Point, 4, init=1)
@@ -150,6 +155,7 @@ class File():
         for i in reversed(range(1, Point.rowCount())): Point.removeRow(i)
         for i in reversed(range(1, Style.rowCount())): Style.removeRow(i)
         for i in reversed(range(0, Parameter.rowCount())): Parameter.removeRow(i)
+        self.Lists.clearPath()
         self.resetAllList()
     
     def CSV_write(self, writer, table, k, init=0):
@@ -160,9 +166,9 @@ class File():
                 item = table.item(row, column)
                 cellWidget = table.cellWidget(row, column)
                 if not item is None:
-                    if item.text()=='': content = str(item.checkState()!=Qt.Unchecked)
+                    if item.text()==str(): content = str(item.checkState()!=Qt.Unchecked)
                     else: content = item.text()
-                    rowdata.append(content+('' if column==k-1 else '\t'))
+                    rowdata.append(content+(str() if column==k-1 else '\t'))
                 elif cellWidget: rowdata += [cellWidget.currentText()]
             writer.writerow(rowdata)
     

@@ -14,7 +14,7 @@ The '_path_' labels is used to indicate the location of Run list and the path da
 '''
 
 def new_workbook():
-    return ['_info_', '', '_info_', '', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
+    return ['_info_', str(), '_info_', str(), '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
         '_table_',
         '_table_',
         '_table_',

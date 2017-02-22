@@ -1807,5 +1807,6 @@ def slvsChain(length1, length2, length3, width=12, thickness=5, drilling=8, join
 """.format(length, width, thickness, drilling)
     else: raise ValueError
 
-def slvsAssembly():
-    return
+def slvsAssembly(Point, Line, Chain):
+    return '''
+'''

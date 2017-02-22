@@ -77,8 +77,8 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     @pyqtSlot()
     def on_add_clicked(self, x=False, y=False):
         if x is False:
-            x=float(self.X_coordinate.text() if self.X_coordinate.text()!='' else self.X_coordinate.placeholderText())
-            y=float(self.Y_coordinate.text() if self.Y_coordinate.text()!='' else self.Y_coordinate.placeholderText())
+            x=float(self.X_coordinate.text() if self.X_coordinate.text()!=str() else self.X_coordinate.placeholderText())
+            y=float(self.Y_coordinate.text() if self.Y_coordinate.text()!=str() else self.Y_coordinate.placeholderText())
         self.addPathPoint.emit(x, y)
         self.Point_list.addItem("({}, {})".format(x, y))
         self.Point_list_Count()

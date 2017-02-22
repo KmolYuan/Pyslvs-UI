@@ -25,13 +25,7 @@ class DynamicCanvas(QWidget):
             'Drag':{'x':0, 'y':0, 'isDrag':False},
             'Scanner':{'x':0, 'y':0, 'point':0, 'isClose':False},
             }
-        self.AuxLine = {
-            'show':False, 'pt':0,
-            'horizontal':True, 'vertical':True, 'isMax':True, 'isMin':True,
-            'color':6, 'limit_color':8,
-            'Max':{'x':0, 'y':0}, 'Min':{'x':0, 'y':0},
-            }
-        self.Reset_Aux_limit()
+        self.reset_Auxline()
         self.Color = colorlist()
         self.re_Color = colorName()
     
@@ -255,16 +249,16 @@ class DynamicCanvas(QWidget):
         self.change_event.emit()
     
     def Reset_Aux_limit(self):
-        try:
-            self.AuxLine['Max']['x'] = self.table_point[self.AuxLine['pt']]['cx']
-            self.AuxLine['Max']['y'] = self.table_point[self.AuxLine['pt']]['cy']
-            self.AuxLine['Min']['x'] = self.table_point[self.AuxLine['pt']]['cx']
-            self.AuxLine['Min']['y'] = self.table_point[self.AuxLine['pt']]['cy']
-        except:
-            self.AuxLine['Max']['x'] = 0
-            self.AuxLine['Max']['y'] = 0
-            self.AuxLine['Min']['x'] = 0
-            self.AuxLine['Min']['y'] = 0
+        self.AuxLine['Max']['x'] = self.table_point[self.AuxLine['pt']]['cx']
+        self.AuxLine['Max']['y'] = self.table_point[self.AuxLine['pt']]['cy']
+        self.AuxLine['Min']['x'] = self.table_point[self.AuxLine['pt']]['cx']
+        self.AuxLine['Min']['y'] = self.table_point[self.AuxLine['pt']]['cy']
+    
+    def reset_Auxline(self):
+        self.AuxLine = {'show':False, 'pt':0,
+            'horizontal':True, 'vertical':True, 'isMax':True, 'isMin':True,
+            'color':6, 'limit_color':8,
+            'Max':{'x':0, 'y':0}, 'Min':{'x':0, 'y':0}}
     
     def mousePressEvent(self, event):
         if event.buttons()==Qt.MiddleButton:
@@ -281,6 +275,7 @@ class DynamicCanvas(QWidget):
             self.points['origin']['x'] = event.x()
             self.points['origin']['y'] = event.y()
             self.update()
+        if event.button()==Qt.MidButton: self.SetIn()
     def mouseMoveEvent(self, event):
         if self.Selector['Drag']['isDrag']:
             self.points['origin']['x'] = event.x()-self.Selector['Drag']['x']
@@ -289,3 +284,8 @@ class DynamicCanvas(QWidget):
         self.Selector['Scanner']['x'] = round((event.x()-self.points['origin']['x'])/self.zoom/self.points['rate'], 2)
         self.Selector['Scanner']['y'] = round((event.y()-self.points['origin']['y'])*(-1)/self.zoom/self.points['rate'], 2)
         self.mouse_track.emit(self.Selector['Scanner']['x'], self.Selector['Scanner']['y'])
+    
+    def SetIn(self):
+        self.points['origin']['x'] = self.width()/2
+        self.points['origin']['y'] = self.height()/2
+        self.update()

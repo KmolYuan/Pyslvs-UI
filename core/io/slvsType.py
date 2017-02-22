@@ -79,5 +79,5 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
         if self.hasAssembly.checkState():
             assemblyFileName = self.AssemblyPreview.text()+'.slvs'
             filePath = QFileInfo(self.Environment_variables, assemblyFileName).absoluteFilePath()
-            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsAssembly())
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsAssembly(self.Point, self.Line, self.Chain))
             print("Saved: {}".format(filePath))
