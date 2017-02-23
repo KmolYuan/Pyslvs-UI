@@ -27,7 +27,13 @@ $python3 launch_pyslvs.py --help
 Compile
 ===
 
-Linux & Mac
+Make sure computer is installed [Qt5] and [PyQt5] in the same version.
+
+After following operation, the executable file's folder is located at `dist` / `launch_pyslvs` folder.
+
+As your wish, it can be renamed or moved out and operate independently in no-Python environment.
+
+Linux
 ---
 
 Use PyInstaller or cxFreeze as you like.
@@ -35,7 +41,7 @@ Use PyInstaller or cxFreeze as you like.
 First, enter the storage folder.
 
 ```bash
-$sudo pip3 install PyInstaller
+$sudo pip3 install -r requirements.txt
 $make
 ```
 
@@ -51,19 +57,15 @@ Other require installation: [MinGW] for win64.
 First, enter the storage folder.
 
 ```bash
->pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+>pip install -r requirements.txt
 >pip install cx_Freeze
 >make
 ```
 
-And than, the executable folder is located at `dist` / `launch_pyslvs` folder.
-
-As your wish, it can be renamed or moved out and operate independently in no-Python environment.
-
 Collaboration
 ===
 
-The manual is being written, you can see [here](https://github.com/40323230/Pyslvs-manual/).
+The manual is being written, you can look around [here](https://github.com/KmolYuan/Pyslvs-manual/).
 
 Power By
 ===
@@ -78,11 +80,14 @@ Here is the **origin kernel** repository:
 
 * https://github.com/kmollee/django-project-template
 
+Compiled kernel is in the `core` folder.
+
 If your Python version or platform is not compatible, maybe you should build them by self.
 
+[PyQt5]: http://doc.qt.io/qt-5/index.html
+[Qt5]: https://www.qt.io/download/
 [Anaconda]: https://www.continuum.io/downloads
 [MinGW]: https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files
 [Eric 6]: http://eric-ide.python-projects.org/
-[PyQt5]: http://doc.qt.io/qt-5/index.html
 [peewee]: http://docs.peewee-orm.com/en/latest/
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
