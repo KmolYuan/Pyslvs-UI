@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-23, 09:40:26 -->
+<!-- Saved: 2017-02-23, 19:32:48 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -61,7 +61,6 @@
     <Source>core/io/dxfType.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
-    <Source>core/io/listForm.py</Source>
     <Source>core/io/listProcess.py</Source>
     <Source>core/io/modules.py</Source>
     <Source>core/io/script.py</Source>
