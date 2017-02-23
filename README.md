@@ -62,6 +62,12 @@ First, enter the storage folder.
 >make
 ```
 
+If you installed PyInstaller with problem of coding error, you can try another source:
+
+```bash
+>pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+```
+
 Collaboration
 ===
 
