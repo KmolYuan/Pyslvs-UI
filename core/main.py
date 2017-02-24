@@ -334,6 +334,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionTwo_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink())
     @pyqtSlot()
     def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker())
+    @pyqtSlot()
+    def on_actionSlider_and_Rod_triggered(self): self.checkChange("[Example] Slider and Rod", example_sliderRod())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:

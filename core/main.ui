@@ -1850,6 +1850,8 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionTwo_Mutiple_Link"/>
      <addaction name="separator"/>
      <addaction name="actionReverse_Parsing_Rocker"/>
+     <addaction name="separator"/>
+     <addaction name="actionSlider_and_Rod"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
@@ -2717,6 +2719,14 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionSlider_and_Rod">
+   <property name="text">
+    <string>Slider and Rod</string>
+   </property>
+   <property name="statusTip">
+    <string>Rod #1</string>
    </property>
   </action>
  </widget>

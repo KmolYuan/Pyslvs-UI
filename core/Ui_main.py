@@ -1103,6 +1103,8 @@ class Ui_MainWindow(object):
         self.actionReplace_Point.setObjectName("actionReplace_Point")
         self.actionBatch_moving = QtWidgets.QAction(MainWindow)
         self.actionBatch_moving.setObjectName("actionBatch_moving")
+        self.actionSlider_and_Rod = QtWidgets.QAction(MainWindow)
+        self.actionSlider_and_Rod.setObjectName("actionSlider_and_Rod")
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionDrag_link)
         self.menuExample.addAction(self.actionDouble_rocker)
@@ -1112,6 +1114,8 @@ class Ui_MainWindow(object):
         self.menuExample.addAction(self.actionTwo_Mutiple_Link)
         self.menuExample.addSeparator()
         self.menuExample.addAction(self.actionReverse_Parsing_Rocker)
+        self.menuExample.addSeparator()
+        self.menuExample.addAction(self.actionSlider_and_Rod)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
@@ -1515,6 +1519,8 @@ class Ui_MainWindow(object):
         self.actionReplace_Point.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.actionBatch_moving.setText(_translate("MainWindow", "Batch moving"))
         self.actionBatch_moving.setShortcut(_translate("MainWindow", "Ctrl+B"))
+        self.actionSlider_and_Rod.setText(_translate("MainWindow", "Slider and Rod"))
+        self.actionSlider_and_Rod.setStatusTip(_translate("MainWindow", "Rod #1"))
 
 import icons_rc
 

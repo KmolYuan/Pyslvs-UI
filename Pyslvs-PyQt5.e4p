@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-24, 13:05:50 -->
+<!-- Saved: 2017-02-24, 17:44:39 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -115,6 +115,8 @@
     <Form>core/info/options.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
     <Form>core/info/version.ui</Form>
+    <Form>core/io/script.ui</Form>
+    <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/panel/run_AuxLine.ui</Form>
     <Form>core/panel/run_Drive_rod.ui</Form>

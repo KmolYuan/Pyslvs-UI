@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 def slvsAssembly(Point, Line, Chain):
-    script = '''±²³SolveSpaceREVa
+    script_group = '''±²³SolveSpaceREVa
 
 
 Group.h.v=00000001
@@ -42,7 +42,8 @@ Group.allDimsReference=0
 Group.remap={{
 }}
 AddGroup
-
+'''
+    script_param = '''
 Param.h.v.=00010010
 AddParam
 
@@ -114,7 +115,24 @@ AddParam
 Param.h.v.=00030023
 Param.val=-0.50000000000000000000
 AddParam
-
+'''
+    param_num = 0x40010
+    for e in Line:
+        for k in [e['start'], e['end']]:
+            Param(script_param, param_num, Point[k]['x'])
+            param_num += 1
+            Param(script_param, param_num, Point[k]['y'])
+            param_num += 2
+        param_num = up(param_num)
+    for e in Chain:
+        for k in [[e['p1'], e['p2']], [e['p2'], e['p3']], [e['p1'], e['p3']]]:
+            for p in k:
+                Param(script_param, param_num, Point[p1]['x'])
+                param_num += 1
+                Param(script_param, param_num, Point[p1]['y'])
+                param_num += 2
+            param_num = up(param_num)
+    script_request += '''
 Request.h.v=00000001
 Request.type=100
 Request.group.v=00000001
@@ -132,7 +150,8 @@ Request.type=100
 Request.group.v=00000001
 Request.construction=0
 AddRequest
-
+'''
+    script_entity += '''
 Entity.h.v=00010000
 Entity.type=10000
 Entity.construction=0
@@ -227,4 +246,16 @@ Entity.construction=1
 Entity.actVisible=1
 AddEntity
 '''
-    return script
+    return script_group+script_param+script_request+script_entity
+
+def up(num):
+    num += 10
+    num -= num%10
+    return num
+
+def Param(script, num, val):
+    script += '''
+Param.h.v.={:08x}
+Param.val={:.20f}
+AddParam
+'''.format(num, val)
