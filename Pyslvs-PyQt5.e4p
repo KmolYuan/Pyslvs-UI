@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-23, 19:32:48 -->
+<!-- Saved: 2017-02-24, 13:05:50 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -98,13 +98,8 @@
     <Source>core/simulate/edit_shaft.py</Source>
     <Source>core/simulate/edit_slider.py</Source>
     <Source>core/simulate/modules.py</Source>
-    <Source>core/test/__init__.py</Source>
-    <Source>core/test/testKernel.py</Source>
-    <Source>core/test/testQt.py</Source>
-    <Source>core/test0.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
-    <Source>launch_test.py</Source>
     <Source>requirements.txt</Source>
   </Sources>
   <Forms>
