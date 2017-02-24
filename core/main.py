@@ -554,7 +554,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionEdit_Stay_Chain_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = edit_stay_chain_show(self.Mask, table1, table2, pos)
+        dlg = edit_chain_show(self.Mask, table1, table2, pos)
         dlg.Another_chain.connect(self.Change_Edit_Chain)
         self.chain_feedback.connect(dlg.change_feedback)
         self.Change_Edit_Chain(pos)

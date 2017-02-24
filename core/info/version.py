@@ -42,7 +42,7 @@ Information and Debug Function:
 
 -v\t--version\tOnly show version infomations and Exit.
 -h\t--help\t\tShow this help message and Exit.
--w\t\t\tDon't show Rebuild warning.
+-w\t\t\tShow rebuild warning of canvas.
 --fusion\t\tRun Pyslvs in Fusion style.
 --file-data\t\tWhen open a file, show it's data in command line.
 

@@ -366,6 +366,9 @@
                    <property name="editTriggers">
                     <set>QAbstractItemView::NoEditTriggers</set>
                    </property>
+                   <property name="selectionBehavior">
+                    <enum>QAbstractItemView::SelectRows</enum>
+                   </property>
                    <property name="columnCount">
                     <number>4</number>
                    </property>
@@ -416,16 +419,10 @@
                     <property name="text">
                      <string>Red</string>
                     </property>
-                    <property name="flags">
-                     <set>ItemIsEnabled</set>
-                    </property>
                    </item>
                    <item row="0" column="2">
                     <property name="text">
                      <string>10</string>
-                    </property>
-                    <property name="flags">
-                     <set>ItemIsEnabled</set>
                     </property>
                    </item>
                    <item row="0" column="3">

@@ -21,12 +21,8 @@ def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox):
     table.setItem(rowPosition, 0, name_set)
     re_Color = colorName()
     for i in range(len(re_Color)): color_combobox.insertItem(i, re_Color[i])
-    color_combobox.setCurrentIndex(color_combobox.findText(color))
-    table.setCellWidget(rowPosition, 1, color_combobox)
     table.setItem(rowPosition, 1, QTableWidgetItem('Green'))
-    ring_size = QTableWidgetItem(ringsize)
-    ring_size.setFlags(Qt.ItemIsEnabled)
-    table.setItem(rowPosition, 2, ring_size)
+    table.setItem(rowPosition, 2, QTableWidgetItem(ringsize))
     color_combobox.setCurrentIndex(color_combobox.findText(ringcolor))
     table.setCellWidget(rowPosition, 3, color_combobox)
 

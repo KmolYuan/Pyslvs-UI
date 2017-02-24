@@ -29,7 +29,7 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
 def slvsProcess(table_point=False, table_line=False, table_chain=False, table_shaft=False, table_slider=False, table_rod=False,
-        table_parameter=False, point_int=False, angle=False, generateResult=False):
+        table_parameter=False, currentShaft=0, point_int=False, angle=False, generateResult=False):
     pathTrackProcess = not angle is False
     staticProcess = not(table_point is False) and angle is False
     generateConversionProcess = not generateResult is False
@@ -73,26 +73,26 @@ def slvsProcess(table_point=False, table_line=False, table_chain=False, table_sh
             x = sys.add_param(table_point[i]['x'])
             if len(table_shaft)>0:
                 #Quadrant Fix
-                if table_shaft[0]['ref']==i:
-                    cen = table_point[table_shaft[0]['cen']]['y']
+                if table_shaft[currentShaft]['ref']==i:
+                    cen = table_point[table_shaft[currentShaft]['cen']]['y']
                     ref = table_point[i]['y']
                     diff = ref-cen
                     case1 = diff>=0
-                    case2 = angle>=180 if pathTrackProcess else table_shaft[0]['demo']>=180
+                    case2 = angle>=180 if pathTrackProcess else table_shaft[currentShaft]['demo']>=180
                     if case1 and not case2: y = sys.add_param(ref)
                     elif case1 and case2: y = sys.add_param(cen-diff)
                     elif not case1 and not case2: y = sys.add_param(cen-diff)
                     elif not case1 and case2: y = sys.add_param(ref)
-                elif not table_point[i]['fix'] and (angle>=180 or table_shaft[0]['demo']>=180) and table_shaft[0]['isParallelogram']:
+                elif not table_point[i]['fix'] and (angle>=180 or table_shaft[currentShaft]['demo']>=180) and table_shaft[currentShaft]['isParallelogram']:
                     change = False
                     for e in table_line:
-                        if i in e.values() and not table_shaft[0]['ref'] in e.values():
+                        if i in e.values() and not table_shaft[currentShaft]['ref'] in e.values():
                             cen = table_point[e['start'] if e['end']==i else e['end']]['y']
                             ref = table_point[i]['y']
                             diff = ref-cen
                             for t in [table_line, table_chain]:
                                 for k in t:
-                                    if i in k.values() and table_shaft[0]['ref'] in k.values():
+                                    if i in k.values() and table_shaft[currentShaft]['ref'] in k.values():
                                         change = True
                                         y = sys.add_param(cen-diff)
                             break
@@ -147,8 +147,8 @@ def slvsProcess(table_point=False, table_line=False, table_chain=False, table_sh
                 script += "Constraint.on(Workplane1, Point{}, LineSegment2d(Workplane1, Point{}, Point{})\n".format(pt+1, start+1, end+1)
                 script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(leng, start+1, pt+1)
         if pathTrackProcess:
-            center = table_shaft[0]['cen']
-            reference = table_shaft[0]['ref']
+            center = table_shaft[currentShaft]['cen']
+            reference = table_shaft[currentShaft]['ref']
             line = LineSegment2d(Workplane1, Point[center], Point[reference])
             Constraint.angle(Workplane1, angle, line, Line0, False)
         elif staticProcess:
@@ -160,11 +160,11 @@ def slvsProcess(table_point=False, table_line=False, table_chain=False, table_sh
                 Constraint.dragged(Workplane1, Point[-1])
                 Line0 = LineSegment2d(Workplane1, Point[0], Point[-1])
                 #shaft demo switch
-                center = table_shaft[0]['cen']
-                reference = table_shaft[0]['ref']
+                center = table_shaft[currentShaft]['cen']
+                reference = table_shaft[currentShaft]['ref']
                 line = LineSegment2d(Workplane1, Point[center], Point[reference])
                 try:
-                    angle0 = table_shaft[0]['demo']
+                    angle0 = table_shaft[currentShaft]['demo']
                     Constraint.angle(Workplane1, angle0, line, Line0, False)
                 except: pass
     elif generateConversionProcess:

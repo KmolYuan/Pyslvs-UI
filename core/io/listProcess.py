@@ -226,13 +226,13 @@ class Lists():
         name_set = QTableWidgetItem('n'+str(name_set))
         name_set.setFlags(Qt.ItemIsEnabled)
         digit_set = QTableWidgetItem("0.0")
-        digit_set.setFlags(Qt.ItemIsEnabled)
+        digit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
         commit_set = QTableWidgetItem("Not committed yet.")
         commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
         table.setItem(rowPosition, 0, name_set)
         table.setItem(rowPosition, 1, digit_set)
         table.setItem(rowPosition, 2, commit_set)
-        self.update(table)
+        self.update(table, 'Parameter')
     
     def deleteParameterTable(self, table):
         row = table.currentRow()
