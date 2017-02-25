@@ -9,6 +9,23 @@ Compatible with Python 3.4, PyQt 5.5 and above.
 
 ![](icons/cover.png)
 
+Requirement
+---
+
+You should install some python module first.
+
+Linux:
+
+```bash
+$sudo pip3 install -r requirements.txt
+```
+
+Windows:
+
+```bash
+>pip install -r requirements.txt
+```
+
 How to startup
 ---
 
@@ -41,7 +58,7 @@ Use PyInstaller or cxFreeze as you like.
 First, enter the storage folder.
 
 ```bash
-$sudo pip3 install -r requirements.txt
+$sudo pip3 install PyInstaller
 $make
 ```
 
@@ -57,8 +74,7 @@ Other require installation: [MinGW] for win64.
 First, enter the storage folder.
 
 ```bash
->pip install -r requirements.txt
->pip install cx_Freeze
+>pip install cx_Freeze PyInstaller
 >make
 ```
 
