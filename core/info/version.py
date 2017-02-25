@@ -43,10 +43,10 @@ Information and Debug Function:
 -v\t--version\tOnly show version infomations and Exit.
 -h\t--help\t\tShow this help message and Exit.
 -w\t\t\tShow rebuild warning of canvas.
---fusion\t\tRun Pyslvs in Fusion style.
---file-data\t\tWhen open a file, show it's data in command line.
+-f\t--fusion\tRun Pyslvs in Fusion style.
+-F\t--file-data\tWhen open a file, show it's data in command line.
 
-Run launch_test.py can start unit test.
+Power by Python IDE Eric 6.
 ================""")
 
 def show_version(): print("[Pyslvs "+version_number+"]\nPython Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))

@@ -14,7 +14,7 @@ if __name__=="__main__":
         show_info()
         from PyQt5.QtWidgets import QApplication, QSplashScreen
         from PyQt5.QtGui import QPixmap
-        if "--fusion" in argv: QApplication.setStyle("fusion")
+        if "--fusion" in argv or "-f" in argv: QApplication.setStyle("fusion")
         app = QApplication(argv)
         splash = QSplashScreen(QPixmap(":/icons/title.png"))
         splash.show()
