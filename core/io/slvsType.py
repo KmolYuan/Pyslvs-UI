@@ -66,18 +66,12 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
             'thickness': self.ThicknessVal.value()*scale,
             'drilling': self.DrillingVal.value()*scale,
             'joint': self.JointVal.value()*scale if self.hasJoint.checkState() else 0}
-        for i in range(len(self.Line)):
-            linkFileName = self.LinkPreview.text()[:-1]+str(i)+'.slvs'
-            filePath = QFileInfo(self.Environment_variables, linkFileName).absoluteFilePath()
-            with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsLink(self.Line[i]['len'], type=self.LinkType.currentIndex(), width=self.LinkWidthVal.value()*scale, **setting))
-            print("Saved: {}".format(filePath))
-        for i in range(len(self.Chain)):
-            chainFileName = self.ChainPreview.text()[:-1]+str(i)+'.slvs'
-            filePath = QFileInfo(self.Environment_variables, chainFileName).absoluteFilePath()
-            with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsChain(self.Chain[i]['p1p2'], self.Chain[i]['p2p3'], self.Chain[i]['p1p3'], width=self.ChainWidthVal.value()*scale, type=self.ChainType.currentIndex(), **setting))
-            print("Saved: {}".format(filePath))
-        if self.hasAssembly.checkState():
-            assemblyFileName = self.AssemblyPreview.text()+'.slvs'
-            filePath = QFileInfo(self.Environment_variables, assemblyFileName).absoluteFilePath()
-            with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(slvsAssembly(self.Point, self.Line, self.Chain))
-            print("Saved: {}".format(filePath))
+        for i in range(len(self.Line)): self.write(self.LinkPreview.text()[:-1]+str(i)+'.slvs',
+            slvsLink(self.Line[i]['len'], type=self.LinkType.currentIndex(), width=self.LinkWidthVal.value()*scale, **setting))
+        for i in range(len(self.Chain)): self.write(self.ChainPreview.text()[:-1]+str(i)+'.slvs',
+            slvsChain(self.Chain[i]['p1p2'], self.Chain[i]['p2p3'], self.Chain[i]['p1p3'], width=self.ChainWidthVal.value()*scale, type=self.ChainType.currentIndex(), **setting))
+        if self.hasAssembly.checkState(): self.write(self.AssemblyPreview.text()+'.slvs', slvsAssembly(self.Point, self.Line, self.Chain))
+    def write(self, fileName, content):
+        filePath = QFileInfo(self.Environment_variables, fileName).absoluteFilePath()
+        with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(content)
+        print("Saved: {}".format(filePath))
