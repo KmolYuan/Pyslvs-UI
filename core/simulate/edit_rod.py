@@ -19,7 +19,7 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
         else:
             for i in range(table2.rowCount()): self.Rod.insertItem(i, iconSelf, table2.item(i, 0).text())
             self.Rod.setCurrentIndex(pos)
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.isOk()
     
     @pyqtSlot(int)
     def on_Rod_currentIndexChanged(self, index): self.Another_rod.emit(index)

@@ -160,32 +160,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if action==self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
         elif action==self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(table_pos)
         elif action==self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(table_pos)
-    def on_parameter_context_menu(self, point):
-        table_pos = self.Parameter_list.currentRow()
-        self.action_parameter_right_click_menu_copy.setVisible(self.Parameter_list.currentColumn()==1)
-        self.action_parameter_right_click_menu_move_up.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(table_pos>=1))
-        self.action_parameter_right_click_menu_move_down.setEnabled((not bool(self.Parameter_list.rowCount()<=1))and(table_pos<=self.Parameter_list.rowCount()-2))
-        self.action_parameter_right_click_menu_delete.setEnabled(self.Parameter_list.rowCount()>=1)
-        action = self.popMenu_parameter.exec_(self.Parameter_Widget.mapToGlobal(point))
-        if action==self.action_parameter_right_click_menu_copy: self.Coordinate_Copy(self.Parameter_list)
-        elif action==self.action_parameter_right_click_menu_add: self.on_parameter_add()
-        elif action==self.action_parameter_right_click_menu_move_up: self.on_parameter_del()
-        elif action==self.action_parameter_right_click_menu_move_down:
-            try:
-                table.insertRow(row+2)
-                for i in range(2):
-                    name_set = QTableWidgetItem(table.item(row+2, i).text())
-                    name_set.setFlags(Qt.ItemIsEnabled)
-                    table.setItem(row+2, i, name_set)
-                commit_set = QTableWidgetItem(table.item(row+2, 2).text())
-                commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
-                table.removeRow(row)
-                self.workbookNoSave()
-            except: pass
-        elif action==self.action_parameter_right_click_menu_delete:
-            self.Parameter_list.removeRow(table_pos)
-            self.workbookNoSave()
-            self.Mask_Change()
     
     #Table copy
     def Coordinate_Copy(self, table):
@@ -258,7 +232,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.File.Obstacles_Exclusion()
         #Solve
         result = False
-        result, DOF, script = slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod, self.Parameter_list)
+        result, DOF, script = slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod)
         self.File.Script = script
         if result:
             self.Solvefail = False
@@ -823,7 +797,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_deleteResult(self, row): self.File.PathSolvingReqs.removeResult(row)
     @pyqtSlot(int)
     def PathSolving_mergeResult(self, row): self.File.Generate_Merge(row, slvsProcess(generateResult=self.File.PathSolvingReqs.result[row]),
-            self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft)
+        self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft)
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):

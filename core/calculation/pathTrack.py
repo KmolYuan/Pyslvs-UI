@@ -28,7 +28,7 @@ class WorkerThread(QThread):
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
                     x, y = slvsProcess(
-                        self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, self.Parameter, i, n, angle)
+                        self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, i, n, angle)
                     Xval.append(x)
                     Yval.append(y)
                     self.progress_going()
@@ -38,7 +38,6 @@ class WorkerThread(QThread):
         t1 = timeit.default_timer()
         time_spand = t1-t0
         print('total cost time: {:.4f} [s]'.format(time_spand))
-        print(nPath)
         self.done.emit(nPath)
     
     def progress_going(self):

@@ -100,22 +100,6 @@ def init_Right_click_menu(self):
     self.popMenu_rod.addSeparator()
     self.action_rod_right_click_menu_delete = QAction("Delete this Rod", self)
     self.popMenu_rod.addAction(self.action_rod_right_click_menu_delete)
-    #Parameter Right-click menu
-    self.Parameter_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
-    self.Parameter_Widget.customContextMenuRequested.connect(self.on_parameter_context_menu)
-    self.popMenu_parameter = QMenu(self)
-    self.action_parameter_right_click_menu_copy = QAction("Copy Parameter", self)
-    self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_copy)
-    self.action_parameter_right_click_menu_add = QAction("Add a Parameter", self)
-    self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_add)
-    self.popMenu_parameter.addSeparator()
-    self.action_parameter_right_click_menu_move_up = QAction("Move up", self)
-    self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_move_up)
-    self.action_parameter_right_click_menu_move_down = QAction("Move down", self)
-    self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_move_down)
-    self.popMenu_parameter.addSeparator()
-    self.action_parameter_right_click_menu_delete = QAction("Delete this Parameter", self)
-    self.popMenu_parameter.addAction(self.action_parameter_right_click_menu_delete)
 
 def actionEnabled(self):
     TWO_POINT = len(self.File.Lists.PointList)>1
