@@ -95,7 +95,7 @@ def example_mutipleLink():
     return [
         '_info_', 'Yuang', '_info_', 'Example: Mutiple Link', '_info_', '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute), '_info_',
         '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'False', 'Point2', '-38.0', '-7.8', 'True', 'Point3', '-47.781645924846174', '32.53075009221798', 'False', 'Point4', '-77.50272355544476', '-14.695276042487995', 'False', 'Point5', '-57.75719471806708', '-48.79035033383228', 'False', 'Point6', '-6.737084852656755', '-90.1840502085893', 'False', 'Point7', '-21.448607086721726', '-43.44465447483369', 'False',
-        '_table_', 'Point1', 'Green', '5', 'Green', 'Point2', 'Green', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Green', '5', 'Green', 'Point7', 'Green', '5', 'Green',
+        '_table_', 'Point1', 'Green', '5', 'Green', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Green', '5', 'Green', 'Point7', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point4', 'Point5', '39.40', 'Line1', 'Point2', 'Point7', '39.30', 'Line2', 'Point1', 'Point3', '50.00', 'Line3', 'Point1', 'Point7', '61.90', 'Line4', 'Point0', 'Point1', '15.00',
         '_table_', 'Chain0', 'Point2', 'Point3', 'Point4', '41.50', '55.80', '40.10', 'Chain1', 'Point5', 'Point6', 'Point7', '65.70', '49.00', '36.70',
         '_table_', 'Shaft0', 'Point0', 'Point1', '0.00', '360.00', '45.00', 'False',
