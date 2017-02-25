@@ -366,7 +366,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.Entiteis_Point, self.Entiteis_Point_Style,
                     self.Entiteis_Link, self.Entiteis_Stay_Chain,
                     self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-                for i in range(1, self.Entiteis_Point_Style.rowCount()): self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
+                for i in range(1, self.Entiteis_Point_Style.rowCount()):
+                    self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Point_Style_set)
+                    self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
                 self.File.form['changed'] = False
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
                 if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
@@ -382,16 +384,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     if dlg.exec_(): pass
             else: print("Failed to load!")
-    
-    @pyqtSlot()
-    def on_action_Property_triggered(self):
-        dlg = editFileInfo_show()
-        self.File.updateTime()
-        dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
-        dlg.show()
-        if dlg.exec_():
-            self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
-            self.workbookNoSave()
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -415,8 +407,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Successful Save: {}".format(fileName))
         self.File.form['changed'] = False
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
-    
-    #TODO: Other format
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
         dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
@@ -458,9 +448,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
             suffix = form.split('*')[-1][:-1]
-            if QFileInfo(fileName).suffix()!=suffix: fileName += suffix
+            fileName = self.Default_Environment_variables+'/'+QFileInfo(fileName).baseName()+suffix
             print("Formate: {}".format(form))
         return fileName
+    
+    @pyqtSlot()
+    def on_action_Property_triggered(self):
+        dlg = editFileInfo_show()
+        self.File.updateTime()
+        dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+        dlg.show()
+        if dlg.exec_():
+            self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
+            self.workbookNoSave()
     
     def on_parameter_add(self):
         self.File.Lists.editParameterTable(self.Parameter_list)

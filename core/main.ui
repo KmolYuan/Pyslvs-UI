@@ -369,14 +369,20 @@
                    <property name="selectionBehavior">
                     <enum>QAbstractItemView::SelectRows</enum>
                    </property>
+                   <property name="verticalScrollMode">
+                    <enum>QAbstractItemView::ScrollPerPixel</enum>
+                   </property>
+                   <property name="horizontalScrollMode">
+                    <enum>QAbstractItemView::ScrollPerPixel</enum>
+                   </property>
                    <property name="columnCount">
                     <number>4</number>
                    </property>
                    <attribute name="horizontalHeaderDefaultSectionSize">
-                    <number>90</number>
+                    <number>95</number>
                    </attribute>
                    <attribute name="horizontalHeaderMinimumSectionSize">
-                    <number>90</number>
+                    <number>95</number>
                    </attribute>
                    <row>
                     <property name="text">
@@ -602,6 +608,12 @@
                    </property>
                    <property name="editTriggers">
                     <set>QAbstractItemView::DoubleClicked</set>
+                   </property>
+                   <property name="verticalScrollMode">
+                    <enum>QAbstractItemView::ScrollPerPixel</enum>
+                   </property>
+                   <property name="horizontalScrollMode">
+                    <enum>QAbstractItemView::ScrollPerPixel</enum>
                    </property>
                    <column>
                     <property name="text">
