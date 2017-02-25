@@ -2,16 +2,19 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+import os
 from .slvsForm_assembly import slvsAssembly
 from .slvsForm_link import slvsLink
 from .slvsForm_chain import slvsChain
 from .Ui_slvsType import Ui_Dialog
 
 class slvsTypeSettings(QDialog, Ui_Dialog):
-    def __init__(self, Environment_variables, Point, Line, Chain, parent=None):
+    def __init__(self, Environment_variables, name, Point, Line, Chain, parent=None):
         super(slvsTypeSettings, self).__init__(parent)
         self.setupUi(self)
         self.Environment_variables = QDir(Environment_variables)
+        self.folderName.setPlaceholderText(name)
+        self.folderName.setText(name)
         self.Point = Point
         self.Line = Line
         self.Chain = Chain
@@ -29,38 +32,43 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
     def on_LinkRule_currentIndexChanged(self, index):
         self.LinkHeaderText.setEnabled(index==2 or index==3)
         self.LinkHeader.setEnabled(index==2 or index==3)
-        if index==0: name = "Line0"
-        elif index==1: name = "Line0_75.02"
-        elif index==2: name = self.LinkHeader.text()+"0"
-        elif index==3: name = self.LinkHeader.text()+"0_75.02"
-        elif index==4: name = "0"
+        if index==0: name = 'Line0'
+        elif index==1: name = 'Line0_75.02'
+        elif index==2: name = self.LinkHeader.text()+'0'
+        elif index==3: name = self.LinkHeader.text()+'0_75.02'
+        elif index==4: name = '0'
         self.LinkPreview.setText(name)
     @pyqtSlot(int)
     def on_ChainRule_currentIndexChanged(self, index):
         self.ChainHeaderText.setEnabled(index==2 or index==3)
         self.ChainHeader.setEnabled(index==2 or index==3)
-        if index==0: name = "Chain0"
-        elif index==1: name = "Chain0_20_10.05_12.4"
-        elif index==2: name = self.ChainHeader.text()+"0"
-        elif index==3: name = self.ChainHeader.text()+"0_20_10.05_12.4"
-        elif index==4: name = "0"
-        self.ChainPreview.setText(name if self.LinkPreview.text()!=name else name+"_c")
+        if index==0: name = 'Chain0'
+        elif index==1: name = 'Chain0_20_10.05_12.4'
+        elif index==2: name = self.ChainHeader.text()+'0'
+        elif index==3: name = self.ChainHeader.text()+'0_20_10.05_12.4'
+        elif index==4: name = '0'
+        self.ChainPreview.setText(name if self.LinkPreview.text()!=name else name+'_c')
     
     @pyqtSlot(str)
     def on_LinkHeader_textEdited(self, p0):
-        if self.LinkRule.currentIndex()==2: self.LinkPreview.setText(p0+"0" if p0!="" else "Line0")
-        elif self.LinkRule.currentIndex()==3: self.LinkPreview.setText(p0+"0_75.02" if p0!="" else "Line0_75.02")
+        if self.LinkRule.currentIndex()==2: self.LinkPreview.setText(p0+'0' if p0!='' else 'Line0')
+        elif self.LinkRule.currentIndex()==3: self.LinkPreview.setText(p0+'0_75.02' if p0!='' else 'Line0_75.02')
     @pyqtSlot(str)
     def on_ChainHeader_textEdited(self, p0):
-        if self.ChainRule.currentIndex()==2: name = p0+"0" if self.ChainHeader.text()!="" else "Chain0"
-        elif self.ChainRule.currentIndex()==3: name = p0+"0_20_10.05_12.4" if p0!="" else "Chain0_20_10.05_12.4"
-        self.ChainPreview.setText(name if self.LinkPreview.text()!=name else name+"_c")
+        if self.ChainRule.currentIndex()==2: name = p0+'0' if self.ChainHeader.text()!='' else 'Chain0'
+        elif self.ChainRule.currentIndex()==3: name = p0+'0_20_10.05_12.4' if p0!='' else 'Chain0_20_10.05_12.4'
+        self.ChainPreview.setText(name if self.LinkPreview.text()!=name else name+'_c')
     @pyqtSlot(str)
     def on_AssemblyHeader_textEdited(self, p0):
-        name = p0+"0" if p0!="" else "Assembly"
+        name = p0+'0' if p0!='' else 'Assembly'
         self.AssemblyPreview.setText(name if self.LinkPreview.text()!=name and self.ChainPreview.text()!=name else name+"_a")
     
     def save(self):
+        if self.hasCreateFolder.checkState():
+            folderPath = self.Environment_variables.absolutePath()+'/'+(self.folderName.text() if not self.folderName.text()=='' else self.folderName.placeholderText())
+            if not os.path.exists(folderPath): os.makedirs(folderPath)
+            self.folderPath = QDir(folderPath)
+        else: self.folderPath = QDir(self.Environment_variables)
         scale = self.ScaleMolecular.value()/self.ScaleDenominator.value()
         setting = {
             'thickness': self.ThicknessVal.value()*scale,
@@ -72,6 +80,6 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
             slvsChain(self.Chain[i]['p1p2'], self.Chain[i]['p2p3'], self.Chain[i]['p1p3'], width=self.ChainWidthVal.value()*scale, type=self.ChainType.currentIndex(), **setting))
         if self.hasAssembly.checkState(): self.write(self.AssemblyPreview.text()+'.slvs', slvsAssembly(self.Point, self.Line, self.Chain))
     def write(self, fileName, content):
-        filePath = QFileInfo(self.Environment_variables, fileName).absoluteFilePath()
+        filePath = QFileInfo(self.folderPath, fileName).absoluteFilePath()
         with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(content)
         print("Saved: {}".format(filePath))

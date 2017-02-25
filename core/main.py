@@ -419,7 +419,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #TODO: Other format
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
-        dlg = slvsTypeSettings(self.Default_Environment_variables,
+        dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_():

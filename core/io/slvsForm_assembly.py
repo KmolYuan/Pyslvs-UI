@@ -20,8 +20,8 @@ Group.suppress=0
 Group.relaxConstraints=0
 Group.allowRedundant=0
 Group.allDimsReference=0
-Group.remap={{
-}}
+Group.remap={
+}
 AddGroup
 
 Group.h.v=00000002
@@ -42,8 +42,8 @@ Group.suppress=0
 Group.relaxConstraints=0
 Group.allowRedundant=0
 Group.allDimsReference=0
-Group.remap={{
-}}
+Group.remap={
+}
 AddGroup
 '''
     script_param = '''
@@ -281,8 +281,6 @@ AddEntity
 '''
     script_constraint = str()
     constraint_num = 0x1
-    print(line_num)
-    print(chain_num)
     for e in point_num:
         for p in e[1:]:
             script_constraint = Constraint_point(script_constraint, constraint_num, e[0], p)
