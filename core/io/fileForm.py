@@ -53,7 +53,6 @@ class File():
         try:
             li = data[tableIndex[0]:tableIndex[1]]
             li2 = data[tableIndex[1]:tableIndex[2]]
-            print(li2)
             if (len(li)-1)%4==0 and (len(li2)-1)%4==0:
                 for i in range(1, len(li), 4):
                     self.Lists.editTable(Point, 'Point', False, li[i+1], li[i+2], li[i+3]=='True',
@@ -166,11 +165,12 @@ class File():
             for column in range(k):
                 item = table.item(row, column)
                 cellWidget = table.cellWidget(row, column)
+                ending = str() if column==k-1 else '\t'
                 if not item is None:
                     if item.text()==str(): content = str(item.checkState()!=Qt.Unchecked)
                     else: content = item.text()
-                    rowdata.append(content+(str() if column==k-1 else '\t'))
-                elif cellWidget: rowdata += [cellWidget.currentText()+(str() if column==k-1 else '\t')]
+                    rowdata.append(content+ending)
+                elif cellWidget: rowdata += [cellWidget.currentText()+ending]
             writer.writerow(rowdata)
     
     def Obstacles_Exclusion(self):

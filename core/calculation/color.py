@@ -24,5 +24,4 @@ def colorlist():
         "Dark-Orange":QColor(225, 140, 0),
         "Dark-Pink":QColor(225, 20, 147),
         }
-def colorName():
-    return [e for e in colorlist()]
+def colorName(): return sorted(list(colorlist().keys()))

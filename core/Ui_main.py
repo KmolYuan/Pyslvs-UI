@@ -197,7 +197,6 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.Entiteis_Point_Style.setItem(0, 2, item)
         item = QtWidgets.QTableWidgetItem()
-        item.setFlags(QtCore.Qt.ItemIsEnabled)
         self.Entiteis_Point_Style.setItem(0, 3, item)
         self.Entiteis_Point_Style.horizontalHeader().setDefaultSectionSize(95)
         self.Entiteis_Point_Style.horizontalHeader().setMinimumSectionSize(95)
