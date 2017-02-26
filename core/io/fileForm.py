@@ -86,7 +86,7 @@ class File():
         try:
             li = data[tableIndex[7]:tableIndex[8]]
             if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'Parameter', False, li[i+1], li[i+2])
+                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'n', False, li[i+1], li[i+2])
         except: errorInfo.append('Parameter')
         #path
         try:

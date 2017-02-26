@@ -456,8 +456,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ctext if ctext!='' else self.Parameter_comment.placeholderText())
     @pyqtSlot()
     def on_Parameter_delete_clicked(self):
-        if self.Parameter_list.currentRow()>-1:
-            self.File.Lists.deleteTable(self.Parameter_list, 'n', self.Parameter_list.currentRow(), False)
+        pos = self.Parameter_list.currentRow()
+        if pos>-1:
+            self.File.Lists.deleteParameterTable(self.Parameter_list,
+                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, pos)
             self.Mask_Change()
     
     @pyqtSlot()
@@ -657,7 +659,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             if name=='Point': self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link,
-                self.Entiteis_Stay_Chain, self.Shaft, self.Slider, self.Rod, self.Parameter_list, dlg.Entity.currentIndex())
+                self.Entiteis_Stay_Chain, self.Shaft, self.Slider, self.Rod, dlg.Entity.currentIndex())
             else: self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
             self.closePanels()
     

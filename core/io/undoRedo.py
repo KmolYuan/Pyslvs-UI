@@ -114,19 +114,20 @@ class deleteStyleCommand(QUndoCommand):
         for j in range(self.row, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem('Point'+str(j)))
 
 class changePointNumCommand(QUndoCommand):
-    def __init__(self, table, pos, row, column):
+    def __init__(self, table, pos, row, column, name='Point'):
         QUndoCommand.__init__(self)
         self.table = table
         self.pos = pos
         self.row = row
         self.column = column
-        self.oldPos = int(table.item(row, column).text().replace('Point', str()))
+        self.name = name
+        self.oldPos = int(table.item(row, column).text().replace(name, str()))
     
     def redo(self):
-        cell = QTableWidgetItem("Point{}".format(self.pos))
+        cell = QTableWidgetItem(self.name+str(self.pos) if not self.name=='n' else str(self.pos))
         self.table.setItem(self.row, self.column, cell)
     def undo(self):
-        cell = QTableWidgetItem("Point{}".format(self.oldPos))
+        cell = QTableWidgetItem(self.name+str(self.oldPos))
         self.table.setItem(self.row, self.column, cell)
 
 class setPathCommand(QUndoCommand):

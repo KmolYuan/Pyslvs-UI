@@ -24,7 +24,7 @@ class Lists():
     def editTable(self, table, name, edit, *Args, **Style):
         isEdit = not edit is False
         rowPosition = edit if isEdit else table.rowCount()
-        call = "{} {{{}{}}}".format('Add' if not isEdit else 'Edit', name, rowPosition)
+        call = "{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if name=='n' else '', name, rowPosition)
         self.FileState.beginMacro(call)
         self.FileState.push(editTableCommand(table, name, edit, Args))
         print(call)
@@ -36,12 +36,13 @@ class Lists():
         self.FileState.endMacro()
     
     def deleteTable(self, table, name, index, isRename=True):
-        self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
+        call = "Delete {{{}{}}}".format(name, index)
+        self.FileState.beginMacro(call)
         self.FileState.push(deleteTableCommand(table, name, index, isRename))
-        print("Delete {{{}{}}}".format(name, index))
+        print(call)
         self.FileState.endMacro()
     
-    def deletePointTable(self, Point, Style, Line, Chain, Shaft, Slider, Rod, Parameter, pos):
+    def deletePointTable(self, Point, Style, Line, Chain, Shaft, Slider, Rod, pos):
         #Associated items
         if 'Point{}'.format(pos) in self.runList: self.clearPath()
         for e in self.LineList:
@@ -94,6 +95,21 @@ class Lists():
             if Judgment(e['cen'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['cen']), row, 1))
             if Judgment(e['start'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['start']), row, 2))
             if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['end']), row, 3))
+    
+    def deleteParameterTable(self, table, Point, Line, Chain, pos):
+        call = "Delete parameter {{n{}}}".format(pos)
+        self.FileState.beginMacro(call)
+        self.replaceDigit(Point, pos, 1, 2)
+        self.replaceDigit(Line, pos, 3)
+        self.replaceDigit(Chain, pos, 4, 5, 6)
+        self.FileState.push(deleteTableCommand(table, 'n', table.currentRow(), False))
+        print(call)
+        self.FileState.endMacro()
+    
+    def replaceDigit(self, table, pos, *column):
+        for row in range(table.rowCount()):
+            for k in column:
+                if table.item(row, k).text()=='n{}'.format(pos): self.FileState.push(changePointNumCommand(table, self.ParameterList[pos], row, k, 'n'))
     
     def lineNodeReversion(self, table, row):
         start = self.PointList[self.LineList[row]['start']]
@@ -155,9 +171,9 @@ class Lists():
                 k = dict()
                 k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
                 k['ref'] = int(table.item(i, 2).text().replace('Point', str()))
-                k['start'] = self.toFloat(table.item(i, 3).text())
-                k['end'] = self.toFloat(table.item(i, 4).text())
-                k['demo'] = self.toFloat(table.item(i, 5).text())
+                k['start'] = float(table.item(i, 3).text())
+                k['end'] = float(table.item(i, 4).text())
+                k['demo'] = float(table.item(i, 5).text())
                 k['isParallelogram'] = bool(table.item(i, 6).checkState())
             elif name=='Slider':
                 k = dict()
@@ -169,7 +185,7 @@ class Lists():
                 k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
                 k['start'] = int(table.item(i, 2).text().replace('Point', str()))
                 k['end'] = int(table.item(i, 3).text().replace('Point', str()))
-                k['pos'] = self.toFloat(table.item(i, 4).text())
+                k['pos'] = float(table.item(i, 4).text())
             if not name=='Parameter': lst.append(k)
         if name=='Parameter': self.ParameterList = lst
         elif name=='Point': self.PointList = lst
