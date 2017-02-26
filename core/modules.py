@@ -40,6 +40,7 @@ from .calculation.canvas_0 import DynamicCanvas
 from .io.fileForm import File
 from .io.example import *
 from .io.dxfType import dxfCode
+from .io.slvsForm_2d import slvs2D
 from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
 #Option

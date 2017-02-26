@@ -300,20 +300,7 @@
                    <item>
                     <widget class="QLabel" name="LinkPreview">
                      <property name="text">
-                      <string>Line0</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_9">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>.slvs</string>
+                      <string/>
                      </property>
                     </widget>
                    </item>
@@ -418,7 +405,7 @@
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_9">
                    <property name="spacing">
-                    <number>0</number>
+                    <number>3</number>
                    </property>
                    <property name="leftMargin">
                     <number>3</number>
@@ -435,20 +422,7 @@
                    <item>
                     <widget class="QLabel" name="ChainPreview">
                      <property name="text">
-                      <string>Chain0</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_11">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>.slvs</string>
+                      <string/>
                      </property>
                     </widget>
                    </item>

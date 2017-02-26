@@ -390,6 +390,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             reply = QMessageBox.question(self, 'Message', "The conversion was successful.", (QMessageBox.Ok), QMessageBox.Ok)
             if reply: print("Successful Saved Solvespace model.")
     @pyqtSlot()
+    def on_actionSolvespace_2D_sketch_triggered(self):
+        fileName = self.outputTo("Solvespace sketch", 'Solvespace module(*.slvs)')
+        if fileName:
+            content = slvs2D(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
+            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(content)
+            print("Saved: {}".format(filePath))
+    @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
         fileName = self.outputTo("Python Script", 'Python Script(*.py)')
         if fileName:

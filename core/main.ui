@@ -1867,6 +1867,8 @@ p, li { white-space: pre-wrap; }
       <string>Ex&amp;port to...</string>
      </property>
      <addaction name="action_Output_to_Solvespace"/>
+     <addaction name="actionSolvespace_2D_sketch"/>
+     <addaction name="separator"/>
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_Script"/>
      <addaction name="actionOutput_to_DXF"/>
@@ -2733,6 +2735,21 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Rod #1</string>
+   </property>
+  </action>
+  <action name="actionSolvespace_2D_sketch">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
+   </property>
+   <property name="text">
+    <string>Solvespace &amp;2D sketch</string>
+   </property>
+   <property name="statusTip">
+    <string>Output to Solvespace 2D sketch.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
    </property>
   </action>
  </widget>

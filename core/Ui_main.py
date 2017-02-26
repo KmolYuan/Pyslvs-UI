@@ -1107,6 +1107,9 @@ class Ui_MainWindow(object):
         self.actionBatch_moving.setObjectName("actionBatch_moving")
         self.actionSlider_and_Rod = QtWidgets.QAction(MainWindow)
         self.actionSlider_and_Rod.setObjectName("actionSlider_and_Rod")
+        self.actionSolvespace_2D_sketch = QtWidgets.QAction(MainWindow)
+        self.actionSolvespace_2D_sketch.setIcon(icon47)
+        self.actionSolvespace_2D_sketch.setObjectName("actionSolvespace_2D_sketch")
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionDrag_link)
         self.menuExample.addAction(self.actionDouble_rocker)
@@ -1119,6 +1122,8 @@ class Ui_MainWindow(object):
         self.menuExample.addSeparator()
         self.menuExample.addAction(self.actionSlider_and_Rod)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
+        self.menuExport.addAction(self.actionSolvespace_2D_sketch)
+        self.menuExport.addSeparator()
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
         self.menuExport.addAction(self.actionOutput_to_DXF)
@@ -1523,6 +1528,9 @@ class Ui_MainWindow(object):
         self.actionBatch_moving.setShortcut(_translate("MainWindow", "Ctrl+B"))
         self.actionSlider_and_Rod.setText(_translate("MainWindow", "Slider and Rod"))
         self.actionSlider_and_Rod.setStatusTip(_translate("MainWindow", "Rod #1"))
+        self.actionSolvespace_2D_sketch.setText(_translate("MainWindow", "Solvespace &2D sketch"))
+        self.actionSolvespace_2D_sketch.setStatusTip(_translate("MainWindow", "Output to Solvespace 2D sketch."))
+        self.actionSolvespace_2D_sketch.setShortcut(_translate("MainWindow", "Ctrl+2"))
 
 import icons_rc
 
