@@ -51,6 +51,11 @@ class File():
         #table
         tableIndex = [e for e, x in enumerate(data) if '_table_' in x]
         try:
+            li = data[tableIndex[7]:tableIndex[8]]
+            if (len(li)-1)%3==0:
+                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'n', False, li[i+1], li[i+2])
+        except: errorInfo.append('Parameter')
+        try:
             li = data[tableIndex[0]:tableIndex[1]]
             li2 = data[tableIndex[1]:tableIndex[2]]
             if (len(li)-1)%4==0 and (len(li2)-1)%4==0:
@@ -83,11 +88,6 @@ class File():
             if (len(li)-1)%5==0:
                 for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, li[i+1], li[i+2], li[i+3], li[i+4])
         except: errorInfo.append('Rod')
-        try:
-            li = data[tableIndex[7]:tableIndex[8]]
-            if (len(li)-1)%3==0:
-                for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'n', False, li[i+1], li[i+2])
-        except: errorInfo.append('Parameter')
         #path
         try:
             pathIndex = [e for e, x in enumerate(data) if '_path_' in x]

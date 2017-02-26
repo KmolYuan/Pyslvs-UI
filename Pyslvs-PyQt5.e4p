@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-24, 17:44:39 -->
+<!-- Saved: 2017-02-26, 21:25:27 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -65,6 +65,7 @@
     <Source>core/io/modules.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/settings.py</Source>
+    <Source>core/io/slvsForm_2d.py</Source>
     <Source>core/io/slvsForm_assembly.py</Source>
     <Source>core/io/slvsForm_chain.py</Source>
     <Source>core/io/slvsForm_link.py</Source>
