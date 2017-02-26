@@ -80,7 +80,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="spacing">
-        <number>1</number>
+        <number>6</number>
        </property>
        <property name="leftMargin">
         <number>0</number>
@@ -573,7 +573,7 @@
              <layout class="QVBoxLayout" name="verticalLayout_13">
               <item>
                <widget class="QWidget" name="Parameter_Widget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_8">
+                <layout class="QVBoxLayout" name="verticalLayout_18">
                  <property name="leftMargin">
                   <number>6</number>
                  </property>
@@ -604,7 +604,10 @@
                     <bool>true</bool>
                    </property>
                    <property name="editTriggers">
-                    <set>QAbstractItemView::DoubleClicked</set>
+                    <set>QAbstractItemView::NoEditTriggers</set>
+                   </property>
+                   <property name="selectionBehavior">
+                    <enum>QAbstractItemView::SelectRows</enum>
                    </property>
                    <property name="verticalScrollMode">
                     <enum>QAbstractItemView::ScrollPerPixel</enum>
@@ -694,6 +697,30 @@ p, li { white-space: pre-wrap; }
                     </layout>
                    </item>
                    <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_8">
+                     <item>
+                      <widget class="QLabel" name="Comment_lable">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="text">
+                        <string>Comment</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QLineEdit" name="Parameter_comment">
+                       <property name="enabled">
+                        <bool>false</bool>
+                       </property>
+                       <property name="placeholderText">
+                        <string>No-comment</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
                     <widget class="QPushButton" name="Parameter_update">
                      <property name="enabled">
                       <bool>false</bool>
@@ -717,14 +744,25 @@ p, li { white-space: pre-wrap; }
                     </widget>
                    </item>
                    <item>
-                    <widget class="QPushButton" name="Parameter_add">
-                     <property name="enabled">
-                      <bool>true</bool>
-                     </property>
-                     <property name="text">
-                      <string>Add a Parameter</string>
-                     </property>
-                    </widget>
+                    <layout class="QVBoxLayout" name="verticalLayout_16">
+                     <item>
+                      <widget class="QPushButton" name="Parameter_add">
+                       <property name="enabled">
+                        <bool>true</bool>
+                       </property>
+                       <property name="text">
+                        <string>Add</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="Parameter_delete">
+                       <property name="text">
+                        <string>Delete</string>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
                    </item>
                   </layout>
                  </item>
@@ -1870,8 +1908,8 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionSolvespace_2D_sketch"/>
      <addaction name="separator"/>
      <addaction name="action_Output_to_Picture"/>
-     <addaction name="action_Output_to_Script"/>
      <addaction name="actionOutput_to_DXF"/>
+     <addaction name="action_Output_to_Script"/>
      <addaction name="action_Output_to_S_QLite_Data_Base"/>
     </widget>
     <addaction name="action_New_Workbook"/>

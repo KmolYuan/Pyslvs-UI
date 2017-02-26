@@ -142,6 +142,7 @@ def actionEnabled(self):
     self.actionDelete_Shaft.setEnabled(self.Shaft.rowCount()>0)
     self.actionDelete_Slider.setEnabled(self.Slider.rowCount()>0)
     self.actionDelete_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+    self.Parameter_delete.setEnabled(self.Parameter_list.rowCount()>0)
     self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
     self.action_shaft_right_click_menu_delete.setEnabled(self.Shaft.rowCount()>0)

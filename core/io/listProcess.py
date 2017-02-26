@@ -22,22 +22,22 @@ class Lists():
         self.FileState = FileState
     
     def editTable(self, table, name, edit, *Args, **Style):
-        isEdit = edit is False
-        rowPosition = edit if not isEdit else table.rowCount()
-        call = "{} {{{}{}}}".format('Add' if isEdit else 'Edit', name, rowPosition)
+        isEdit = not edit is False
+        rowPosition = edit if isEdit else table.rowCount()
+        call = "{} {{{}{}}}".format('Add' if not isEdit else 'Edit', name, rowPosition)
         self.FileState.beginMacro(call)
         self.FileState.push(editTableCommand(table, name, edit, Args))
         print(call)
-        if name=='Point' and isEdit:
+        if name=='Point' and not isEdit:
             rowPosition = Style['styleTable'].rowCount()
             self.FileState.push(addStyleCommand(**Style))
             print("- Add style of {{Point{}}}".format(rowPosition))
-        if isEdit: table.scrollToBottom()
+        if not isEdit: table.scrollToBottom()
         self.FileState.endMacro()
     
-    def deleteTable(self, table, name, index):
+    def deleteTable(self, table, name, index, isRename=True):
         self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
-        self.FileState.push(deleteTableCommand(table, name, index))
+        self.FileState.push(deleteTableCommand(table, name, index, isRename))
         print("Delete {{{}{}}}".format(name, index))
         self.FileState.endMacro()
     
@@ -116,13 +116,22 @@ class Lists():
         print("- Moved ({:+.2f}, {:+.2f})".format(x, y))
         self.FileState.endMacro()
     
+    def updateAll(self, Point, Line, Chain, Shaft, Slider, Rod, Parameter):
+        self.update(Parameter, 'Parameter')
+        self.update(Point, 'Point')
+        self.update(Line, 'Line')
+        self.update(Chain, 'Chain')
+        self.update(Shaft, 'Shaft')
+        self.update(Slider, 'Slider')
+        self.update(Rod, 'Rod')
+    
     def update(self, table, name):
         lst = list()
         for i in range(table.rowCount()):
             if name=='Point':
                 k = dict()
-                k['x'] = float(table.item(i, 1).text())
-                k['y'] = float(table.item(i, 2).text())
+                k['x'] = self.toFloat(table.item(i, 1).text())
+                k['y'] = self.toFloat(table.item(i, 2).text())
                 k['fix'] = bool(table.item(i, 3).checkState())
                 try:
                     k['cx'] = float(table.item(i, 4).text().replace('(', str()).replace(')', str()).split(', ')[0])
@@ -132,22 +141,22 @@ class Lists():
                 k = dict()
                 k['start'] = int(table.item(i, 1).text().replace('Point', str()))
                 k['end'] = int(table.item(i, 2).text().replace('Point', str()))
-                k['len'] = float(table.item(i, 3).text())
+                k['len'] = self.toFloat(table.item(i, 3).text())
             elif name=='Chain':
                 k = dict()
                 k['p1'] = int(table.item(i, 1).text().replace('Point', str()))
                 k['p2'] = int(table.item(i, 2).text().replace('Point', str()))
                 k['p3'] = int(table.item(i, 3).text().replace('Point', str()))
-                k['p1p2'] = float(table.item(i, 4).text())
-                k['p2p3'] = float(table.item(i, 5).text())
-                k['p1p3'] = float(table.item(i, 6).text())
+                k['p1p2'] = self.toFloat(table.item(i, 4).text())
+                k['p2p3'] = self.toFloat(table.item(i, 5).text())
+                k['p1p3'] = self.toFloat(table.item(i, 6).text())
             elif name=='Shaft':
                 k = dict()
                 k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
                 k['ref'] = int(table.item(i, 2).text().replace('Point', str()))
-                k['start'] = float(table.item(i, 3).text())
-                k['end'] = float(table.item(i, 4).text())
-                k['demo'] = float(table.item(i, 5).text())
+                k['start'] = self.toFloat(table.item(i, 3).text())
+                k['end'] = self.toFloat(table.item(i, 4).text())
+                k['demo'] = self.toFloat(table.item(i, 5).text())
                 k['isParallelogram'] = bool(table.item(i, 6).checkState())
             elif name=='Slider':
                 k = dict()
@@ -159,11 +168,8 @@ class Lists():
                 k['cen'] = int(table.item(i, 1).text().replace('Point', str()))
                 k['start'] = int(table.item(i, 2).text().replace('Point', str()))
                 k['end'] = int(table.item(i, 3).text().replace('Point', str()))
-                k['pos'] = float(table.item(i, 4).text())
-            elif name=='Parameter':
-                try:
-                    k = {int(table.item(i, 0).text().replace('n', str())):float(table.item(i, 1).text())}
-                except: pass
+                k['pos'] = self.toFloat(table.item(i, 4).text())
+            elif name=='Parameter': k = float(table.item(i, 1).text())
             lst.append(k)
         if name=='Point': self.PointList = lst
         elif name=='Line': self.LineList = lst
@@ -173,14 +179,9 @@ class Lists():
         elif name=='Rod': self.RodList = lst
         elif name=='Parameter': self.ParameterList = lst
     
-    def updateAll(self, Point, Line, Chain, Shaft, Slider, Rod, Parameter):
-        self.update(Point, 'Point')
-        self.update(Line, 'Line')
-        self.update(Chain, 'Chain')
-        self.update(Shaft, 'Shaft')
-        self.update(Slider, 'Slider')
-        self.update(Rod, 'Rod')
-        self.update(Parameter, 'Parameter')
+    def toFloat(self, p):
+        digit = p
+        return float(digit)
     
     def coverageCoordinate(self, table, row):
         coordinate = table.item(row, 4).text()[1:-1].split(', ')
@@ -215,39 +216,8 @@ class Lists():
         print("- Moved to ({})".format(str(pos)+' deg' if name=='Shaft' else pos))
         self.FileState.endMacro()
     
-    def editParameterTable(self, table):
-        rowPosition = table.rowCount()
-        table.insertRow(rowPosition)
-        name_set = 0
-        existNum = list()
-        for k in range(rowPosition): existNum += [int(table.item(k, 0).text().replace('n', str()))]
-        for i in reversed(range(len(existNum)+1)):
-            if not i in existNum: name_set = i
-        name_set = QTableWidgetItem('n'+str(name_set))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        digit_set = QTableWidgetItem("0.0")
-        digit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
-        commit_set = QTableWidgetItem("Not committed yet.")
-        commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
-        table.setItem(rowPosition, 0, name_set)
-        table.setItem(rowPosition, 1, digit_set)
-        table.setItem(rowPosition, 2, commit_set)
-        self.update(table, 'Parameter')
-    
-    def deleteParameterTable(self, table):
-        row = table.currentRow()
-        try:
-            table.insertRow(row-1)
-            for i in range(2):
-                name_set = QTableWidgetItem(table.item(row+1, i).text())
-                name_set.setFlags(Qt.ItemIsEnabled)
-                table.setItem(row-1, i, name_set)
-            commit_set = QTableWidgetItem(table.item(row+1, 2).text())
-            commit_set.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable)
-            table.setItem(row-1, 2, commit_set)
-            table.removeRow(row+1)
-            self.update(table, 'Parameter')
-        except: pass
+    def saveStyle(self, combobox, pos, index):
+        call = "Adjust point style {{Point{}}}".format(index)
     
     def setPath(self, path, runList, shaftList):
         call = "Set {Path}"

@@ -341,8 +341,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.Entiteis_Link, self.Entiteis_Stay_Chain,
                     self.Shaft, self.Slider, self.Rod, self.Parameter_list)
                 for i in range(1, self.Entiteis_Point_Style.rowCount()):
-                    self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Point_Style_set)
-                    self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Point_Style_set)
+                    self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Edit_Point_Style)
+                    self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Edit_Point_Style)
                 self.File.form['changed'] = False
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
                 if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
@@ -443,17 +443,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
             self.workbookNoSave()
     
-    def on_parameter_add(self):
-        self.File.Lists.editParameterTable(self.Parameter_list)
-        self.workbookNoSave()
-        self.Mask_Change()
-    def on_parameter_del(self):
-        self.File.Lists.deleteParameterTable(self.Parameter_list)
-        self.Resolve()
-        self.workbookNoSave()
+    @pyqtSlot()
+    def on_Parameter_add_clicked(self):
+        self.File.Lists.editTable(self.Parameter_list, 'n', False, '0.0', 'No-comment')
         self.Mask_Change()
     @pyqtSlot()
-    def on_Parameter_add_clicked(self): self.on_parameter_add()
+    def on_Parameter_update_clicked(self):
+        dtext = self.Parameter_digital.text()
+        ctext = self.Parameter_comment.text()
+        self.File.Lists.editTable(self.Parameter_list, 'n', self.Parameter_list.currentRow(),
+            dtext if dtext!='' else self.Parameter_digital.placeholderText(),
+            ctext if ctext!='' else self.Parameter_comment.placeholderText())
+    @pyqtSlot()
+    def on_Parameter_delete_clicked(self):
+        if self.Parameter_list.currentRow()>-1:
+            self.File.Lists.deleteTable(self.Parameter_list, 'n', self.Parameter_list.currentRow(), False)
+            self.Mask_Change()
     
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
@@ -496,6 +501,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Change_Edit_Point(self, pos):
         thisTable = self.File.Lists.PointList[pos]
         self.point_feedback.emit(thisTable['x'], thisTable['y'], thisTable['fix'])
+    
+    @pyqtSlot(int)
+    def Edit_Point_Style(self, index):
+        self.Resolve()
+        self.workbookSaved()
     
     @pyqtSlot()
     def on_action_New_Line_triggered(self):
@@ -711,10 +721,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionDisplay_Point_Mark_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
-    @pyqtSlot(int)
-    def Point_Style_set(self, index):
-        self.Reload_Canvas()
-        self.workbookNoSave()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
         self.qpainterWindow.points['Path']['show'] = self.Path_data_show.checkState()
@@ -926,19 +932,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             self.Parameter_num.setPlainText("n"+str(currentRow))
             self.Parameter_digital.setPlaceholderText(str(self.Parameter_list.item(currentRow, 1).text()))
-            self.Parameter_digital.clear()
+            self.Parameter_comment.setPlaceholderText(str(self.Parameter_list.item(currentRow, 2).text()))
         except:
             self.Parameter_num.setPlainText("N/A")
             self.Parameter_digital.setPlaceholderText("0.0")
-            self.Parameter_digital.clear()
+            self.Parameter_comment.setPlaceholderText("No-comment")
+        self.Parameter_digital.clear()
+        self.Parameter_comment.clear()
         self.Parameter_num.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
         self.Parameter_digital.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
+        self.Parameter_comment.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
         self.Parameter_lable.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
+        self.Comment_lable.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
         self.Parameter_update.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-    @pyqtSlot()
-    def on_Parameter_update_clicked(self):
-        try: self.Parameter_list.setItem(self.Parameter_list.currentRow(), 1, QTableWidgetItem(self.Parameter_digital.text() if self.Parameter_digital.text() else Parameter_digital.placeholderText()))
-        except: pass
     @pyqtSlot(int, int, int, int)
     def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
         self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())

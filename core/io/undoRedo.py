@@ -8,7 +8,10 @@ def writeTable(table, rowPosition, name, Args):
     name_set.setFlags(Qt.ItemIsEnabled)
     table.setItem(rowPosition, 0, name_set)
     for i in range(len(Args)):
-        if type(Args[i])==str: table.setItem(rowPosition, i+1, QTableWidgetItem(Args[i]))
+        if type(Args[i])==str:
+            content = Args[i]
+            try: table.setItem(rowPosition, i+1, QTableWidgetItem(str(float(content))))
+            except: table.setItem(rowPosition, i+1, QTableWidgetItem(content))
         elif type(Args[i])==bool:
             checkbox = QTableWidgetItem(str())
             checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -43,26 +46,14 @@ class editTableCommand(QUndoCommand):
                 self.oldArgs.append(item.text() if item.text()!=str() else item.checkState()!=Qt.Unchecked)
     
     def redo(self):
-        rowPosition = self.edit if not self.edit is False else self.table.rowCount()
-        if self.edit is False: self.table.insertRow(rowPosition)
-        name_set = QTableWidgetItem("{}{}".format(self.name, rowPosition))
-        name_set.setFlags(Qt.ItemIsEnabled)
-        self.table.setItem(rowPosition, 0, name_set)
-        for i in range(len(self.Args)):
-            content = self.Args[i]
-            if type(content)==str:
-                try: self.table.setItem(rowPosition, i+1, QTableWidgetItem(str(float(content))))
-                except: self.table.setItem(rowPosition, i+1, QTableWidgetItem(content))
-            elif type(content)==bool:
-                checkbox = QTableWidgetItem(str())
-                checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                checkbox.setCheckState(Qt.Checked if content else Qt.Unchecked)
-                self.table.setItem(rowPosition, i+1, checkbox)
+        isEdit = not self.edit is False
+        rowPosition = self.edit if isEdit else self.table.rowCount()
+        if not isEdit: self.table.insertRow(rowPosition)
+        writeTable(self.table, rowPosition, self.name, self.Args)
     def undo(self):
-        if self.edit is False: self.table.removeRow(self.table.rowCount()-1)
-        else:
-            rowPosition = self.edit if self.edit else self.table.rowCount()
-            writeTable(self.table, rowPosition, self.name, self.oldArgs)
+        isEdit = not self.edit is False
+        if not isEdit: self.table.removeRow(self.table.rowCount()-1)
+        else: writeTable(self.table, self.edit, self.name, self.oldArgs)
 
 class addStyleCommand(QUndoCommand):
     def __init__(self, styleTable, color, ringsize, ringcolor):
@@ -81,11 +72,12 @@ class addStyleCommand(QUndoCommand):
     def undo(self): self.table.removeRow(self.table.rowCount()-1)
 
 class deleteTableCommand(QUndoCommand):
-    def __init__(self, table, name, index):
+    def __init__(self, table, name, index, isRename=True):
         QUndoCommand.__init__(self)
         self.table = table
         self.name = name
         self.index = index
+        self.isRename = isRename
         self.oldArgs = list()
         for column in range(1, table.columnCount()):
             item = table.item(index, column)
@@ -93,19 +85,20 @@ class deleteTableCommand(QUndoCommand):
     
     def redo(self):
         self.table.removeRow(self.index)
-        for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+        if self.isRename:
+            for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     def undo(self):
-        rowPosition = self.index
-        self.table.insertRow(rowPosition)
-        writeTable(self.table, rowPosition, self.name, self.oldArgs)
-        for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+        self.table.insertRow(self.index)
+        writeTable(self.table, self.index, self.name, self.oldArgs)
+        if self.isRename:
+            for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
 
 class deleteStyleCommand(QUndoCommand):
     def __init__(self, table, row):
         QUndoCommand.__init__(self)
         self.table = table
         self.row = row
-        self.oldColor = table.item(row, 1).text()
+        self.oldColor = table.cellWidget(row, 1).currentText()
         self.oldSize = table.item(row, 2).text()
         self.oldRingColor = table.cellWidget(row, 3).currentText()
     
