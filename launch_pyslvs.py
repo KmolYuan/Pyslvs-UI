@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-##Start Pyslvs
 ##PySolvespace - PyQt 5 GUI with Solvespace Library
-##Including Python module: PyQt5, peewee, dxfwrite
 ##Copyright (C) 2016 Yuan Chang [daan0014119@gmail.com]
 from sys import exit, argv
 from core.info.version import show_info, show_help, show_version

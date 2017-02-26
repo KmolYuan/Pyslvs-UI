@@ -126,9 +126,10 @@ class Lists():
         self.update(Rod, 'Rod')
     
     def update(self, table, name):
-        lst = list()
+        lst = list() if not name=='Parameter' else dict()
         for i in range(table.rowCount()):
-            if name=='Point':
+            if name=='Parameter': lst[int(table.item(i, 0).text().replace('n', ''))] = float(table.item(i, 1).text())
+            elif name=='Point':
                 k = dict()
                 k['x'] = self.toFloat(table.item(i, 1).text())
                 k['y'] = self.toFloat(table.item(i, 2).text())
@@ -169,19 +170,18 @@ class Lists():
                 k['start'] = int(table.item(i, 2).text().replace('Point', str()))
                 k['end'] = int(table.item(i, 3).text().replace('Point', str()))
                 k['pos'] = self.toFloat(table.item(i, 4).text())
-            elif name=='Parameter': k = float(table.item(i, 1).text())
-            lst.append(k)
-        if name=='Point': self.PointList = lst
+            if not name=='Parameter': lst.append(k)
+        if name=='Parameter': self.ParameterList = lst
+        elif name=='Point': self.PointList = lst
         elif name=='Line': self.LineList = lst
         elif name=='Chain': self.ChainList = lst
         elif name=='Shaft': self.ShaftList = lst
         elif name=='Slider': self.SliderList = lst
         elif name=='Rod': self.RodList = lst
-        elif name=='Parameter': self.ParameterList = lst
     
     def toFloat(self, p):
-        digit = p
-        return float(digit)
+        digit = self.ParameterList[int(p.replace('n', ''))] if 'n' in p else float(p)
+        return digit
     
     def coverageCoordinate(self, table, row):
         coordinate = table.item(row, 4).text()[1:-1].split(', ')
@@ -215,9 +215,6 @@ class Lists():
         print(call)
         print("- Moved to ({})".format(str(pos)+' deg' if name=='Shaft' else pos))
         self.FileState.endMacro()
-    
-    def saveStyle(self, combobox, pos, index):
-        call = "Adjust point style {{Point{}}}".format(index)
     
     def setPath(self, path, runList, shaftList):
         call = "Set {Path}"
