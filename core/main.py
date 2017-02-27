@@ -178,23 +178,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         undoView = QUndoView(stack)
         undoView.setEmptyLabel("~ Start Pyslvs")
         self.HistoryLayout.addWidget(undoView)
-    @pyqtSlot()
-    def on_actionUndo_triggered(self):
-        doText = self.FileState.undoText()
-        self.FileState.undo()
-        print("Undo - {}".format(doText))
-    @pyqtSlot()
-    def on_actionRedo_triggered(self):
-        doText = self.FileState.redoText()
-        self.FileState.redo()
-        print("Redo - {}".format(doText))
+        separator = QAction(self)
+        separator.setSeparator(True)
+        self.menu_Edit.insertAction(self.actionSearch_Points, separator)
+        redoAction = stack.createRedoAction(self, 'Redo')
+        undoAction = stack.createUndoAction(self, 'Undo')
+        redoAction.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
+        undoAction.setShortcut(_translate("MainWindow", "Ctrl+Z"))
+        self.menu_Edit.insertAction(separator, undoAction)
+        self.menu_Edit.insertAction(separator, redoAction)
     @pyqtSlot(int)
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point,
             self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.Resolve()
-        if self.FileState.index()!=self.File.Stack: self.workbookNoSave()
+        self.actionUndo.setText("Undo {}".format(self.FileState.undoText()))
+        self.actionRedo.setText("Redo {}".format(self.FileState.redoText()))
+        if self.FileState.undoText(): print(self.FileState.undoText())
+        if index!=self.File.Stack: self.workbookNoSave()
         else: self.workbookSaved()
     
     #Resolve

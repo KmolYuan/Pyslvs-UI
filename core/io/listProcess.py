@@ -24,10 +24,8 @@ class Lists():
     def editTable(self, table, name, edit, *Args, **Style):
         isEdit = not edit is False
         rowPosition = edit if isEdit else table.rowCount()
-        call = "{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if name=='n' else '', name, rowPosition)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if name=='n' else '', name, rowPosition))
         self.FileState.push(editTableCommand(table, name, edit, Args))
-        print(call)
         if name=='Point' and not isEdit:
             rowPosition = Style['styleTable'].rowCount()
             self.FileState.push(addStyleCommand(**Style))
@@ -36,10 +34,8 @@ class Lists():
         self.FileState.endMacro()
     
     def deleteTable(self, table, name, index, isRename=True):
-        call = "Delete {{{}{}}}".format(name, index)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
         self.FileState.push(deleteTableCommand(table, name, index, isRename))
-        print(call)
         self.FileState.endMacro()
     
     def deletePointTable(self, Point, Style, Line, Chain, Shaft, Slider, Rod, pos):
@@ -56,19 +52,15 @@ class Lists():
         for e in self.RodList:
             if pos in [e['cen'], e['start'], e['end']]: self.deleteTable(Rod, 'Rod', self.RodList.index(e))
         #Change Number and Delete Point
-        call = "Delete {{Point{}}}".format(pos)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
         self.replacePoint(Line, Chain, Shaft, Slider, Rod, pos, lambda x, y: x>y, lambda x: x-1)
         self.FileState.push(deleteStyleCommand(Style, pos))
         self.FileState.push(deleteTableCommand(Point, 'Point', pos))
-        print(call)
         self.FileState.endMacro()
     
     def ChangePoint(self, Line, Chain, Shaft, Slider, Rod, prv, next):
-        call = "Change {{Point{}}} to {{Point{}}}".format(prv, next)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Change {{Point{}}} to {{Point{}}}".format(prv, next))
         self.replacePoint(Line, Chain, Shaft, Slider, Rod, prv, lambda x, y: x==y, lambda x: next)
-        print(call)
         self.FileState.endMacro()
     
     def replacePoint(self, Line, Chain, Shaft, Slider, Rod, pos, Judgment, toNew):
@@ -97,13 +89,11 @@ class Lists():
             if Judgment(e['end'], pos): self.FileState.push(changePointNumCommand(Rod, toNew(e['end']), row, 3))
     
     def deleteParameterTable(self, table, Point, Line, Chain, pos):
-        call = "Delete parameter {{n{}}}".format(pos)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Delete parameter {{n{}}}".format(pos))
         self.replaceDigit(Point, pos, 1, 2)
         self.replaceDigit(Line, pos, 3)
         self.replaceDigit(Chain, pos, 4, 5, 6)
         self.FileState.push(deleteTableCommand(table, 'n', table.currentRow(), False))
-        print(call)
         self.FileState.endMacro()
     
     def replaceDigit(self, table, pos, *column):
@@ -124,11 +114,9 @@ class Lists():
             self.editTable(table, 'Point', self.LineList[row]['start'], x, y, False)
     
     def batchMove(self, table, x, y, Points):
-        call = "Batch move {{{}}}".format(', '.join(['Point{}'.format(i) for i in Points]))
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Batch move {{{}}}".format(', '.join(['Point{}'.format(i) for i in Points])))
         for row in Points: self.FileState.push(editTableCommand(table, 'Point', row,
             [str(self.PointList[row]['x']+x), str(self.PointList[row]['y']+y), self.PointList[row]['fix']]))
-        print(call)
         print("- Moved ({:+.2f}, {:+.2f})".format(x, y))
         self.FileState.endMacro()
     
@@ -226,32 +214,24 @@ class Lists():
         if name=='Shaft': self.ShaftList[row]['demo'] = pos
         elif name=='Rod': self.RodList[row]['pos'] = pos
     def saveDemo(self, table, name, pos, row, column):
-        call = "Adjust demo {} {{{}{}}}".format('angle' if name=='Shaft' else 'position', name, row)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Adjust demo {} {{{}{}}}".format('angle' if name=='Shaft' else 'position', name, row))
         self.FileState.push(demoValueCommand(table, row, pos, column))
-        print(call)
         print("- Moved to ({})".format(str(pos)+' deg' if name=='Shaft' else pos))
         self.FileState.endMacro()
     
     def setPath(self, path, runList, shaftList):
-        call = "Set {Path}"
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Set {Path}")
         self.FileState.push(setPathCommand(self.data, self.runList, self.shaftList, path, runList, shaftList))
-        print(call)
         self.FileState.endMacro()
     
     def clearPath(self):
-        call = "Clear {Path}"
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Clear {Path}")
         self.FileState.push(clearPathCommand(self.data, self.runList, self.shaftList))
-        print(call)
         self.FileState.endMacro()
     
     def shaftChange(self, table, prv, next):
-        call = "Change {{Shaft{}}} to {{Shaft{}}}".format(prv, next)
-        self.FileState.beginMacro(call)
+        self.FileState.beginMacro("Change {{Shaft{}}} to {{Shaft{}}}".format(prv, next))
         self.FileState.push(shaftChangeCommand(self.shaftList, table, prv, next))
-        print(call)
         self.FileState.endMacro()
 
 class PathSolvingReqs():
