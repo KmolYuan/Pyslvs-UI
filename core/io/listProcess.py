@@ -196,7 +196,8 @@ class Lists():
         elif name=='Rod': self.RodList = lst
     
     def toFloat(self, p):
-        digit = self.ParameterList[int(p.replace('n', ''))] if 'n' in p else float(p)
+        try: digit = self.ParameterList[int(p.replace('n', ''))] if 'n' in p else float(p)
+        except KeyError: digit = 0.
         return digit
     
     def coverageCoordinate(self, table, row):
