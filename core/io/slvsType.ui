@@ -772,7 +772,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_10">
                  <property name="text">
-                  <string>Width: </string>
+                  <string>Fillet diameter: </string>
                  </property>
                 </widget>
                </item>
@@ -873,7 +873,7 @@
                     <double>0.010000000000000</double>
                    </property>
                    <property name="value">
-                    <double>6.000000000000000</double>
+                    <double>8.000000000000000</double>
                    </property>
                   </widget>
                  </item>
@@ -895,7 +895,7 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_14">
                  <property name="text">
-                  <string>Edge width: </string>
+                  <string>Fillet diameter: </string>
                  </property>
                 </widget>
                </item>

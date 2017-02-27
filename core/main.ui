@@ -601,7 +601,7 @@
                  <item>
                   <widget class="QLabel" name="label_9">
                    <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#ff0000;&quot;&gt;The number that does not exist will be passed back to 0.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; color:#ff0000;&quot;&gt;The number that does not exist will return 0.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                   </widget>
                  </item>
@@ -1983,8 +1983,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
     <addaction name="action_Property"/>
-    <addaction name="separator"/>
-    <addaction name="action_Prefenece"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -2140,21 +2138,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Goto Kmolab learn about more.</string>
-   </property>
-  </action>
-  <action name="action_Prefenece">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/shaded.png</normaloff>:/icons/shaded.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Preferences...</string>
-   </property>
-   <property name="statusTip">
-    <string>Some options in this program.</string>
    </property>
   </action>
   <action name="actionGit_hub_Site">

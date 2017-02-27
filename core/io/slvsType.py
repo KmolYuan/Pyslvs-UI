@@ -66,7 +66,7 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
         for i in range(len(self.Line)):
             fileName = self.nameRule('Line', self.LinkRule.currentIndex(), self.LinkHeader.text()).format(i, self.Line[i]['len'])
             self.write(fileName,
-                slvsLink(self.Line[i]['len'], type=self.LinkType.currentIndex(), width=self.LinkWidthVal.value()*scale, **setting))
+                slvsLink(self.Line[i]['len'], width=self.LinkWidthVal.value()*scale, type=self.LinkType.currentIndex(), **setting))
         for i in range(len(self.Chain)):
             fileName = self.nameRule('Chain', self.ChainRule.currentIndex(), self.ChainHeader.text()).format(
                 i, '_'.join(['{}']*3).format(self.Chain[i]['p1p2'], self.Chain[i]['p2p3'], self.Chain[i]['p1p3']))

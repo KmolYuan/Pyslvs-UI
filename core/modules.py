@@ -7,9 +7,8 @@ from PyQt5.QtGui import *
 import sys, csv, math, webbrowser, platform
 from peewee import *
 #Dialog Ports
-from .info.version import Help_info_show, Info_show, version_show
+from .info.info import Help_info_show, Info_show, version_show
 from .info.path_point_data import path_point_data_show
-from .info.options import options_show
 from .io.script import Script_Dialog
 from .io.slvsType import slvsTypeSettings
 #Drawing Dialog Ports
@@ -43,5 +42,3 @@ from .io.dxfType import dxfCode
 from .io.slvsForm_2d import slvs2D
 from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show
-#Option
-from .io.settings import Pyslvs_Settings_ini

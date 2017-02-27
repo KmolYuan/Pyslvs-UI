@@ -31,7 +31,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState = QUndoStack()
         self.showUndoWindow(self.FileState)
         self.File = File(self.FileState)
-        self.load_settings()
+        self.Default_Environment_variables = QFileInfo('..').absolutePath()
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.mplLayout.insertWidget(0, self.qpainterWindow)
@@ -72,11 +72,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         FilePath = event.mimeData().urls()[-1].toLocalFile()
         self.checkChange(FilePath, list(), "Loaded drag-in file:\n"+FilePath)
         event.acceptProposedAction()
-    
-    def load_settings(self):
-        option_info = Pyslvs_Settings_ini()
-        self.Default_Environment_variables = QFileInfo(option_info.Environment_variables).absolutePath()
-        self.Default_canvas_view = option_info.Zoom_factor
     
     #TODO: Right-click menu event
     @pyqtSlot(float, float)
@@ -161,46 +156,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(table_pos)
         elif action==self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(table_pos)
     
-    #Table copy
-    def Coordinate_Copy(self, table):
-        clipboard = QApplication.clipboard()
-        clipboard.setText(table.currentItem().text())
-    def link2Shaft(self, row):
-        cen = self.File.Lists.LineList[row]['start']
-        ref = self.File.Lists.LineList[row]['end']
-        self.on_action_Set_Shaft_triggered(cen, ref)
-    
-    @pyqtSlot(int, int)
-    def on_Entiteis_Point_cellDoubleClicked(self, row, column):
-        if row>0: self.on_actionEdit_Point_triggered(row)
-    @pyqtSlot(int, int)
-    def on_Entiteis_Link_cellDoubleClicked(self, row, column): self.on_actionEdit_Linkage_triggered(row)
-    @pyqtSlot(int, int)
-    def on_Entiteis_Stay_Chain_cellDoubleClicked(self, row, column): self.on_actionEdit_Stay_Chain_triggered(row)
-    @pyqtSlot(int, int)
-    def on_Shaft_cellDoubleClicked(self, row, column): self.on_action_Edit_Shaft_triggered(row)
-    @pyqtSlot(int, int)
-    def on_Slider_cellDoubleClicked(self, row, column): self.on_action_Edit_Slider_triggered(row)
-    @pyqtSlot(int, int)
-    def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Rod_triggered(row)
-    
     #Close Event
     def closeEvent(self, event):
         if self.File.form['changed']:
-            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.", (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
-            if reply==QMessageBox.Discard or reply==QMessageBox.Ok:
-                print("Exit.")
-                event.accept()
-            elif reply==QMessageBox.Save:
+            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
+                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
+            if reply==QMessageBox.Save:
                 self.on_actionSave_triggered()
-                if not self.File.form['changed']:
-                    print("Exit.")
-                    event.accept()
-                else: event.ignore()
+                if self.File.form['changed']: event.ignore()
+                else: self.Exit(event)
+            elif reply==QMessageBox.Discard: self.Exit(event)
             else: event.ignore()
-        else:
-            print("Exit.")
-            event.accept()
+        else: self.Exit(event)
+    def Exit(self, event):
+        print('-'*7+"\nExit.")
+        event.accept()
     
     #TODO: Undo and Redo
     def showUndoWindow(self, stack):
@@ -415,7 +385,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionOutput_to_DXF_triggered(self):
         fileName = self.outputTo("DXF", 'AutoCAD DXF (*.dxf)')
         if fileName:
-            dxfCode(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
+            dxfCode(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
             print("Successful Save: "+fileName)
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):
@@ -443,24 +413,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
             self.workbookNoSave()
     
-    @pyqtSlot()
-    def on_Parameter_add_clicked(self):
-        self.File.Lists.editTable(self.Parameter_list, 'n', False, '0.0', 'No-comment')
-        self.Mask_Change()
-    @pyqtSlot()
-    def on_Parameter_update_clicked(self):
-        dtext = self.Parameter_digital.text()
-        ctext = self.Parameter_comment.text()
-        self.File.Lists.editTable(self.Parameter_list, 'n', self.Parameter_list.currentRow(),
-            dtext if dtext!='' else self.Parameter_digital.placeholderText(),
-            ctext if ctext!='' else self.Parameter_comment.placeholderText())
-    @pyqtSlot()
-    def on_Parameter_delete_clicked(self):
-        pos = self.Parameter_list.currentRow()
-        if pos>-1:
-            self.File.Lists.deleteParameterTable(self.Parameter_list,
-                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, pos)
-            self.Mask_Change()
+    @pyqtSlot(int, int)
+    def on_Entiteis_Point_cellDoubleClicked(self, row, column):
+        if row>0: self.on_actionEdit_Point_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Entiteis_Link_cellDoubleClicked(self, row, column): self.on_actionEdit_Linkage_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Entiteis_Stay_Chain_cellDoubleClicked(self, row, column): self.on_actionEdit_Stay_Chain_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Shaft_cellDoubleClicked(self, row, column): self.on_action_Edit_Shaft_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Slider_cellDoubleClicked(self, row, column): self.on_action_Edit_Slider_triggered(row)
+    @pyqtSlot(int, int)
+    def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Rod_triggered(row)
     
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
@@ -664,6 +629,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closePanels()
     
     @pyqtSlot()
+    def on_Parameter_add_clicked(self):
+        self.File.Lists.editTable(self.Parameter_list, 'n', False, '0.0', 'No-comment')
+        self.Mask_Change()
+    @pyqtSlot()
+    def on_Parameter_update_clicked(self):
+        dtext = self.Parameter_digital.text()
+        ctext = self.Parameter_comment.text()
+        self.File.Lists.editTable(self.Parameter_list, 'n', self.Parameter_list.currentRow(),
+            dtext if dtext!='' else self.Parameter_digital.placeholderText(),
+            ctext if ctext!='' else self.Parameter_comment.placeholderText())
+    @pyqtSlot()
+    def on_Parameter_delete_clicked(self):
+        pos = self.Parameter_list.currentRow()
+        if pos>-1:
+            self.File.Lists.deleteParameterTable(self.Parameter_list,
+                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, pos)
+            self.Mask_Change()
+    
+    @pyqtSlot()
     def on_actionReplace_Point_triggered(self, pos=0):
         dlg = replacePoint_show(QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos)
         dlg.show()
@@ -676,6 +660,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_(): self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
             [int(dlg.Move_list.item(e).text().replace('Point', "")) for e in range(dlg.Move_list.count())])
+    
+    def Coordinate_Copy(self, table):
+        clipboard = QApplication.clipboard()
+        clipboard.setText(table.currentItem().text())
+    
+    def link2Shaft(self, row):
+        cen = self.File.Lists.LineList[row]['start']
+        ref = self.File.Lists.LineList[row]['end']
+        self.on_action_Set_Shaft_triggered(cen, ref)
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self): self.qpainterWindow.SetIn()
@@ -954,15 +947,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int)
     def on_Parameter_list_cellChanged(self, row, column):
         if column in [1, 2]: self.Parameter_list.item(row, column).setToolTip(self.Parameter_list.item(row, column).text())
-    
-    @pyqtSlot()
-    def on_action_Prefenece_triggered(self):
-        dlg = options_show()
-        color_list = self.qpainterWindow.re_Color
-        for i in range(len(color_list)): dlg.LinkingLinesColor.insertItem(i, color_list[i])
-        for i in range(len(color_list)): dlg.StayChainColor.insertItem(i, color_list[i])
-        for i in range(len(color_list)): dlg.AuxiliaryLineColor.insertItem(i, color_list[i])
-        for i in range(len(color_list)): dlg.AuxiliaryLimitLineColor.insertItem(i, color_list[i])
-        for i in range(len(color_list)): dlg.TextColor.insertItem(i, color_list[i])
-        dlg.show()
-        if dlg.exec_(): pass
