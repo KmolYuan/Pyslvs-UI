@@ -7,7 +7,7 @@ from .Ui_info import Ui_About_Dialog
 
 version_number = "0.5.0(dev)"
 
-def show_version(): print("[Pyslvs "+version_number+"]\nPython Version: {:d}.{:d}.{:d}".format(*version_info[:3]))
+def show_version(): print("[Pyslvs {}]".format(version_number))
 
 def show_info():
     print("OS Type: {}".format(platform.system()))
