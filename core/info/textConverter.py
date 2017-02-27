@@ -5,7 +5,7 @@ def html(script): return '<html><head/><body>{}</body></html>'.format(script)
 
 def title(name, *others): return '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(others)) if others else '')
 
-def content(text): return '<p>{}</p>'.format(text.replace('\n', '</p><p>'))
+def content(*text): return '<p>{}</p>'.format('</p><p>'.join(text))
 
 def orderList(*List): return '<ol><li>{}</li></ol>'.format('</li><li>'.join(List))
 
