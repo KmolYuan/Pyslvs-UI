@@ -477,7 +477,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def Edit_Point_Style(self, index):
         self.Resolve()
-        self.workbookSaved()
+        self.workbookNoSave()
     
     @pyqtSlot()
     def on_action_New_Line_triggered(self):

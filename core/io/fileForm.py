@@ -3,6 +3,7 @@ from .modules import *
 from .listProcess import Lists, PathSolvingReqs
 import datetime
 now = datetime.datetime.now()
+from sys import argv #See argv
 
 class File():
     def __init__(self, FileState):

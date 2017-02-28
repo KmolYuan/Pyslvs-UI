@@ -126,7 +126,7 @@ class DynamicCanvas(QWidget):
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkMagenta)
             painter.setPen(pen)
-            painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
+            painter.drawLine(QPointF(self.points['x'][start], self.points['y'][start]), QPointF(self.points['x'][end], self.points['y'][end]))
         for i in range(len(self.table_rod)):
             start = self.table_rod[i]['start']
             end = self.table_rod[i]['end']
@@ -134,7 +134,7 @@ class DynamicCanvas(QWidget):
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkRed)
             painter.setPen(pen)
-            painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
+            painter.drawLine(QPointF(self.points['x'][start], self.points['y'][start]), QPointF(self.points['x'][end], self.points['y'][end]))
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
@@ -148,7 +148,7 @@ class DynamicCanvas(QWidget):
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
             pen.setColor(QColor(225, 140, 0))
             painter.setPen(pen)
-            painter.drawLine(QPointF(int(self.points['x'][start]), int(self.points['y'][start])), QPointF(int(self.points['x'][end]), int(self.points['y'][end])))
+            painter.drawLine(QPointF(self.points['x'][start], self.points['y'][start]), QPointF(self.points['x'][end], self.points['y'][end]))
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)

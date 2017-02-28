@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-#File Info
-from sys import argv #See argv
+from PyQt5.QtCore import pyqtSignal, pyqtSlot, QFileInfo, Qt, QDir
+from PyQt5.QtWidgets import QDialog, QUndoCommand, QTableWidgetItem, QComboBox, QDialogButtonBox, QFileDialog
+from PyQt5.QtGui import QIcon, QPixmap

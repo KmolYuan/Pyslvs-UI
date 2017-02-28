@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..draw.modules import *
 from .Ui_run_Path_Solving import Ui_Dialog as PathSolving_Dialog
 from ..calculation.pathSolving import WorkerThread
 from .run_Path_Solving_listbox import Path_Solving_listbox_show
@@ -15,7 +15,6 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         self.setAttribute(Qt.WA_QuitOnClose, False)
-        self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.move(QPoint(width-self.width(), 0))
         self.Listbox = Path_Solving_listbox_show(resultData)
         self.mechanism_data = list()
@@ -109,7 +108,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.timePanel.setEnabled(False)
         self.progressBar.setRange(0, 0)
     @pyqtSlot(bool)
-    def stop(self, p0): self.work.stop()
+    def stop(self, p0=True): self.work.stop()
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):

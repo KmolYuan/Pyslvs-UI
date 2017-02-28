@@ -159,7 +159,7 @@
                <item>
                 <widget class="QCheckBox" name="hasJoint">
                  <property name="text">
-                  <string>Create with Joint</string>
+                  <string>Create with Joints</string>
                  </property>
                 </widget>
                </item>

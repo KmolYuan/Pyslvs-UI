@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..draw.modules import *
 from .Ui_run_Drive_rod import Ui_Form
 
 class Drive_rod_show(QWidget, Ui_Form):

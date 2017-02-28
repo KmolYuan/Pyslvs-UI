@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..draw.modules import *
 from .Ui_delete import Ui_Dialog as delete_Dialog
 
 class deleteDlg(QDialog, delete_Dialog):

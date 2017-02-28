@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/slvsType.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\slvsType.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -425,7 +425,7 @@ class Ui_Dialog(object):
         self.setPath.setText(_translate("Dialog", "..."))
         self.hasCreateFolder.setText(_translate("Dialog", "Create a new folder:"))
         self.hasAssembly.setText(_translate("Dialog", "Create a Assembly"))
-        self.hasJoint.setText(_translate("Dialog", "Create with Joint"))
+        self.hasJoint.setText(_translate("Dialog", "Create with Joints"))
         self.pointWarning.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt; color:#ff0000;\">※No-entity-associated points will not be rendered.</span></p></body></html>"))
         self.groupBox_2.setTitle(_translate("Dialog", "Naming rules"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p>Set the named rule here.</p></body></html>"))

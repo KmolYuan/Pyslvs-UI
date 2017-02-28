@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from .modules import *
 import os
 from .slvsForm_assembly import slvsAssembly
 from .slvsForm_link import slvsLink
@@ -20,6 +18,8 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
         self.Chain = Chain
         self.folderPath.setText(Environment_variables)
         self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.save)
+        self.on_LinkRule_currentIndexChanged(0)
+        self.on_ChainRule_currentIndexChanged(0)
         self.on_LinkType_currentIndexChanged(0)
         self.on_ChainType_currentIndexChanged(0)
     

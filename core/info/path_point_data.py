@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from ..draw.modules import *
 from .Ui_path_point_data import Ui_Info_Dialog
 
 class path_point_data_show(QDialog, Ui_Info_Dialog):

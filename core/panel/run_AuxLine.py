@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..draw.modules import *
 from ..calculation.color import colorName
 from .Ui_run_AuxLine import Ui_Form as AuxLine_Form
 

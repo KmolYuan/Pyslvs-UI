@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..draw.modules import *
 from .Ui_run_Path_Solving_series import Ui_Dialog as PathSolvingSeries_Dialog
 
 class Path_Solving_series_show(QDialog, PathSolvingSeries_Dialog):
