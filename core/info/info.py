@@ -16,12 +16,11 @@ def show_version():
     if '--help' in argv or '-h' in argv or '-H' in argv:
         show_help()
         return 0
-    show_info()
     return 1
 
 def show_info():
     print("OS Type: {}".format(platform.system()))
-    print("Python Version: {0:d}.{1:d}.{2:d}".format(*version_info[:3]))
+    print("Python Version: {:d}.{:d}.{:d}".format(*version_info[:3]))
     try:
         from PyQt5.QtCore import qVersion
         print("Qt Version: {}".format(qVersion().strip()))
