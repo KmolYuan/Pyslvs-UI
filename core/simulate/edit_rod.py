@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_edit_rod import Ui_Dialog as edit_rod_Dialog
 
 class edit_rod_show(QDialog, edit_rod_Dialog):

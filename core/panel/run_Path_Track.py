@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from ..calculation.pathTrack import WorkerThread
 from .Ui_run_Path_Track import Ui_Dialog as PathTrack_Dialog
 

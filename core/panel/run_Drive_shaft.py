@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_run_Drive_shaft import Ui_Form as Drive_Form
 
 class Drive_shaft_show(QWidget, Drive_Form):

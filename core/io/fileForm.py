@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from .listProcess import Lists, PathSolvingReqs
 import datetime
 now = datetime.datetime.now()
@@ -82,7 +82,7 @@ class File():
         try:
             li = data[tableIndex[5]:tableIndex[6]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 3): self.Lists.editTable(Slider, 'Slider', False, li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 4): self.Lists.editTable(Slider, 'Slider', False, li[i+1], li[i+2], li[i+3])
         except: errorInfo.append('Slider')
         try:
             li = data[tableIndex[6]:tableIndex[7]]

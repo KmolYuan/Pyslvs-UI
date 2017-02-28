@@ -1,4 +1,4 @@
-from .modules import *
+from .QtModules import *
 
 def init_Right_click_menu(self):
     #qpainterWindow Right-click menu

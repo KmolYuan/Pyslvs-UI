@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_run_Measurement import Ui_Form as Measurement_Form
 
 class Measurement_show(QWidget, Measurement_Form):

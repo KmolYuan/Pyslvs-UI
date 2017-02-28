@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from .Ui_edit_chain import Ui_Dialog as edit_Dialog
 
 class edit_chain_show(QDialog, edit_Dialog):

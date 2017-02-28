@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from ..dialog.delete import deleteDlg
 from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,

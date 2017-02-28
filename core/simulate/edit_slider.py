@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_edit_slider import Ui_Dialog as edit_slider_Dialog
 
 class edit_slider_show(QDialog, edit_slider_Dialog):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from .color import colorlist, colorName
 _translate = QCoreApplication.translate
 

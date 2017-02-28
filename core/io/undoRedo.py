@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from ..calculation.color import colorlist, colorName
 from copy import copy
 

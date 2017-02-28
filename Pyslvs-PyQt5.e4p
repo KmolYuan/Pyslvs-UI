@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-28, 22:18:44 -->
+<!-- Saved: 2017-02-28, 22:53:01 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -14,6 +14,7 @@
   <Sources>
     <Source>Makefile</Source>
     <Source>README.md</Source>
+    <Source>core/QtModules.py</Source>
     <Source>core/Ui_custom.py</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
@@ -21,7 +22,6 @@
     <Source>core/calculation/calculation.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
     <Source>core/calculation/color.py</Source>
-    <Source>core/calculation/modules.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
     <Source>core/dialog/Ui_association.py</Source>
@@ -40,7 +40,6 @@
     <Source>core/draw/edit_chain.py</Source>
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
-    <Source>core/draw/modules.py</Source>
     <Source>core/info/Ui_editFileInfo.py</Source>
     <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>
@@ -60,7 +59,6 @@
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
     <Source>core/io/listProcess.py</Source>
-    <Source>core/io/modules.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/slvsForm_2d.py</Source>
     <Source>core/io/slvsForm_assembly.py</Source>

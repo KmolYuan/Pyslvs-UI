@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import webbrowser
-from ..calculation.modules import *
+from ..QtModules import *
 _translate = QCoreApplication.translate
 from .Ui_script import Ui_Info_Dialog
 

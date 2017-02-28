@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 import os
 from .slvsForm_assembly import slvsAssembly
 from .slvsForm_link import slvsLink

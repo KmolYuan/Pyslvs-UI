@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_run_Path_Solving import Ui_Dialog as PathSolving_Dialog
 from ..calculation.pathSolving import WorkerThread
 from .run_Path_Solving_listbox import Path_Solving_listbox_show

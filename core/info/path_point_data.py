@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_path_point_data import Ui_Info_Dialog
 
 class path_point_data_show(QDialog, Ui_Info_Dialog):

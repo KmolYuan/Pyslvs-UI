@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-#PyQt5
-from PyQt5.QtCore import QCoreApplication, pyqtSignal, pyqtSlot, QFileInfo, Qt, QRegExp
-from PyQt5.QtWidgets import QMainWindow, QUndoStack, QUndoView, QAction, QMenu, QFileDialog, QMessageBox
-from PyQt5.QtGui import QIcon, QPixmap, QRegExpValidator, QCursor
 #Splash
 from .info.info import Pyslvs_Splash
 #CSV & SQLite

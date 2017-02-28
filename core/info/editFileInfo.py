@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..calculation.modules import *
+from ..QtModules import *
 _translate = QCoreApplication.translate
 from .Ui_editFileInfo import Ui_Info_Dialog
 

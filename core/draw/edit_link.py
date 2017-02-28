@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from .Ui_edit_link import Ui_Dialog as edit_link_Dialog
 
 class edit_link_show(QDialog, edit_link_Dialog):

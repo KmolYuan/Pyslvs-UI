@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_association import Ui_Dialog as association_Form
 
 class Association_show(QDialog, association_Form):

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_batchMoving import Ui_Dialog as batchMoving_Dialog
 
 class batchMoving_show(QDialog, batchMoving_Dialog):

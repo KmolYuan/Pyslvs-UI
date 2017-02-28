@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from ..draw.modules import *
+from ..QtModules import *
 from .Ui_replacePoint import Ui_Dialog as replacePoint_Dialog
 
 class replacePoint_show(QDialog, replacePoint_Dialog):

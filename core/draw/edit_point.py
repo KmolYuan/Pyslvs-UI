@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .modules import *
+from ..QtModules import *
 from .Ui_edit_point import Ui_Dialog as edit_point_Dialog
 
 class edit_point_show(QDialog, edit_point_Dialog):
