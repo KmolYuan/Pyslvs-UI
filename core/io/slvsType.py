@@ -20,6 +20,8 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
         self.Chain = Chain
         self.folderPath.setText(Environment_variables)
         self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.save)
+        self.on_LinkType_currentIndexChanged(0)
+        self.on_ChainType_currentIndexChanged(0)
     
     @pyqtSlot()
     def on_setPath_clicked(self):
@@ -77,3 +79,11 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
         filePath = QFileInfo(self.folderPath, fileName).absoluteFilePath()
         with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(content)
         print("Saved: {}".format(filePath))
+    
+    @pyqtSlot(int)
+    def on_LinkType_currentIndexChanged(self, index):
+        if index==0: self.LinkImage.setPixmap(QPixmap(":/icons/preview/Link_round.png"))
+    @pyqtSlot(int)
+    def on_ChainType_currentIndexChanged(self, index):
+        if index==0: self.ChainImage.setPixmap(QPixmap(":/icons/preview/Chain_sheet.png"))
+        if index==1: self.ChainImage.setPixmap(QPixmap(":/icons/preview/Chain_frame.png"))
