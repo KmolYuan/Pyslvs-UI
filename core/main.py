@@ -47,22 +47,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,6})?[0-9][.][0-9]{1,8}$')))
         if len(sys.argv)>2: self.argvLoadFile()
     
-    #LoadFile
     def argvLoadFile(self):
         if ".csv" in sys.argv[1].lower():
             try: self.loadWorkbook(sys.argv[1])
             except: print("Error when loading file.")
-        elif "example" in sys.argv[1].lower():
-            try:
-                ExampleNum = int(sys.argv[1].lower().replace("example", str()))
-                if ExampleNum==0: self.on_actionCrank_rocker_triggered()
-                elif ExampleNum==1: self.on_actionDrag_link_triggered()
-                elif ExampleNum==2: self.on_actionDouble_rocker_triggered()
-                elif ExampleNum==3: self.on_actionParallelogram_linkage_triggered()
-                elif ExampleNum==4: self.on_actionMutiple_Link_triggered()
-                elif ExampleNum==5: self.on_actionTwo_Mutiple_Link_triggered()
-                elif ExampleNum==6: self.on_actionReverse_Parsing_Rocker_triggered()
-            except: print("Error when loading example.")
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasUrls():
@@ -400,7 +388,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Successful Save: "+fileName)
             #TODO: SQLite
     def outputTo(self, formatName, formatChoose):
-        print("Saving to {}...".format(formatName))
         fileName, form = QFileDialog.getSaveFileName(self, 'Save file...', self.Default_Environment_variables, formatChoose)
         if fileName:
             self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
