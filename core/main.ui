@@ -1995,7 +1995,6 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionGithub_Wiki"/>
     <addaction name="separator"/>
     <addaction name="action_About_Pyslvs"/>
-    <addaction name="action_About_Python_Solvspace"/>
    </widget>
    <widget class="QMenu" name="menu_Simulation">
     <property name="title">
@@ -2312,15 +2311,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>See Python scripts in this status.</string>
-   </property>
-  </action>
-  <action name="action_About_Python_Solvspace">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
-   </property>
-   <property name="text">
-    <string>About Python &amp;Solvspace</string>
    </property>
   </action>
   <action name="actionDelete_Point">

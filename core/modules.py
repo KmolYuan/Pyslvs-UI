@@ -3,11 +3,13 @@
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+#Splash
+from .info.info import Pyslvs_Splash
 #CSV & SQLite
 import sys, csv, math, webbrowser, platform
 from peewee import *
 #Dialog Ports
-from .info.info import Help_info_show, Info_show, version_show
+from .info.info import Help_info_show, version_show
 from .info.path_point_data import path_point_data_show
 from .io.script import Script_Dialog
 from .io.slvsType import slvsTypeSettings

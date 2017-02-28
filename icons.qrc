@@ -1,10 +1,16 @@
 <RCC>
   <qresource>
-    <file>icons/title.png</file>
+    <!--Splash-->
+    <file>icons/Splash.png</file>
+    <!--preview pictures-->
+    <file>icons/preview/Link_round.png</file>
+    <file>icons/preview/Chain_sheet.png</file>
+    <file>icons/preview/Chain_frame.png</file>
+    <!--main window icons-->
     <file>icons/main.png</file>
     <file>icons/main_big.png</file>
     <file>icons/Solvespace.ico</file>
-
+    <!--dialog icons-->
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>
     <file>icons/assemble.png</file>

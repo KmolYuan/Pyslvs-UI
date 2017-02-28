@@ -1,13 +1,23 @@
 # -*- coding: utf-8 -*-
 from sys import version_info, argv
 import csv, platform
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QSplashScreen
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import Qt
 from .textConverter import *
 from .Ui_info import Ui_About_Dialog
 
-version_number = "0.5.0(dev)"
+VERSION = "0.5.0(dev)"
 
-def show_version(): print("[Pyslvs {}]".format(version_number))
+def show_version():
+    print("[Pyslvs {}]".format(VERSION))
+    if '--version' in argv or '-v' in argv: return 0
+    show_info()
+    if '--help' in argv or '-h' in argv or '-H' in argv:
+        show_help()
+        return 0
+    show_info()
+    return 1
 
 def show_info():
     print("OS Type: {}".format(platform.system()))
@@ -31,7 +41,6 @@ def show_info():
     print('-'*7)
 
 def show_help():
-    show_info()
     print(help(argumentType(
         "python3 launch_pyslvs.py [FileName] [arg1] [arg2] ...",
         "launch_pyslvs [FileName] [arg1] [arg2] ..."),
@@ -43,6 +52,12 @@ def show_help():
         ['-f', '--fusion', "Run Pyslvs in Fusion style."],
         ['-F', '--file-data', "When open a file, show it's data in command line."]),
         present("Python IDE Eric 6")))
+
+class Pyslvs_Splash(QSplashScreen):
+    def __init__(self, parent=None):
+        super(Pyslvs_Splash, self).__init__(parent)
+        self.setPixmap(QPixmap(":/icons/Splash.png"))
+        self.showMessage("Version {}".format(VERSION), (Qt.AlignBottom|Qt.AlignRight))
 
 class Help_info_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
@@ -57,21 +72,11 @@ class Help_info_show(QDialog, Ui_About_Dialog):
         "Change canvas appearance.",
         "Draw dynamic simulation path at any point in the machinery.")))
 
-class Info_show(QDialog, Ui_About_Dialog):
-    def __init__(self, parent=None):
-        super(Info_show, self).__init__(parent)
-        self.setupUi(self)
-        self.Content.setText(html(title("Python Solvespace")+content(
-        "Library of Solvspace, within a interface of Python.",
-        "So any python script can using it in 2D or 3D computing problem-solving.",
-        "It use like Solvespace, but maybe not so convenience.",
-        "So Pyslvs will make up for shortcomings of Python Solvespace.")))
-
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.Content.setText(html(title("Pyslvs", "version {}".format(version_number))+content(
+        self.Content.setText(html(title("Pyslvs", "version {}".format(VERSION))+content(
         "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
         "It can use in Mechanical Design and Simulation.",
         "This program using Python 3 with Python Solvespace.",
