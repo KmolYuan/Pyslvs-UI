@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 import os
-from .slvsForm_assembly import slvsAssembly
-from .slvsForm_link import slvsLink
-from .slvsForm_chain import slvsChain
+from .slvsForm.assembly import slvsAssembly
+from .slvsForm.link import slvsLink
+from .slvsForm.chain import slvsChain
 from .Ui_slvsType import Ui_Dialog
 
 class slvsTypeSettings(QDialog, Ui_Dialog):

@@ -8,7 +8,6 @@ from peewee import *
 from .info.info import Help_info_show, version_show
 from .info.path_point_data import path_point_data_show
 from .io.script import Script_Dialog
-from .io.slvsType import slvsTypeSettings
 #Drawing Dialog Ports
 from .draw.edit_point import edit_point_show
 from .draw.edit_link import edit_link_show
@@ -36,7 +35,9 @@ from .calculation.canvas_0 import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io.example import *
-from .io.dxfType import dxfCode
-from .io.slvsForm_2d import slvs2D
+from .io.dxfType import dxfTypeSettings
+from .io.dxfForm.sketch import dxfSketch
+from .io.slvsType import slvsTypeSettings
+from .io.slvsForm.sketch import slvs2D
 from .info.editFileInfo import editFileInfo_show
 from .info.fileInfo import fileInfo_show

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-02-28, 22:53:01 -->
+<!-- Saved: 2017-03-01, 17:04:51 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -52,18 +52,22 @@
     <Source>core/info/info.py</Source>
     <Source>core/info/path_point_data.py</Source>
     <Source>core/info/textConverter.py</Source>
+    <Source>core/io/Ui_dxfType.py</Source>
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/Ui_slvsType.py</Source>
     <Source>core/io/__init__.py</Source>
+    <Source>core/io/dxfForm/model.py</Source>
+    <Source>core/io/dxfForm/sketch.py</Source>
     <Source>core/io/dxfType.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
     <Source>core/io/listProcess.py</Source>
     <Source>core/io/script.py</Source>
-    <Source>core/io/slvsForm_2d.py</Source>
-    <Source>core/io/slvsForm_assembly.py</Source>
-    <Source>core/io/slvsForm_chain.py</Source>
-    <Source>core/io/slvsForm_link.py</Source>
+    <Source>core/io/slvsForm/__init__.py</Source>
+    <Source>core/io/slvsForm/assembly.py</Source>
+    <Source>core/io/slvsForm/chain.py</Source>
+    <Source>core/io/slvsForm/link.py</Source>
+    <Source>core/io/slvsForm/sketch.py</Source>
     <Source>core/io/slvsType.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/main.py</Source>
@@ -109,6 +113,7 @@
     <Form>core/info/info.ui</Form>
     <Form>core/info/options.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
+    <Form>core/io/dxfType.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>

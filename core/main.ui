@@ -1936,8 +1936,10 @@ p, li { white-space: pre-wrap; }
      <addaction name="action_Output_to_Solvespace"/>
      <addaction name="actionSolvespace_2D_sketch"/>
      <addaction name="separator"/>
+     <addaction name="actionDXF_2D_models"/>
+     <addaction name="actionDXF_2D_sketch"/>
+     <addaction name="separator"/>
      <addaction name="action_Output_to_Picture"/>
-     <addaction name="actionOutput_to_DXF"/>
      <addaction name="action_Output_to_Script"/>
      <addaction name="action_Output_to_S_QLite_Data_Base"/>
     </widget>
@@ -2052,7 +2054,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Load Workbook (*.csv)</string>
+    <string>&amp;Load Workbook</string>
    </property>
    <property name="statusTip">
     <string>Load workbook by exist file.</string>
@@ -2610,19 +2612,19 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+3</string>
    </property>
   </action>
-  <action name="actionOutput_to_DXF">
+  <action name="actionDXF_2D_sketch">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;DXF</string>
+    <string>DXF 2D sketch</string>
    </property>
    <property name="statusTip">
     <string>Output to Drawing Exchange format.</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+D</string>
+    <string>Ctrl+Shift+D</string>
    </property>
   </action>
   <action name="action_Property">
@@ -2787,6 +2789,18 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionDXF_2D_models">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
+   </property>
+   <property name="text">
+    <string>DXF 2D models</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>
