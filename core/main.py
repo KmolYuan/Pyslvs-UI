@@ -32,7 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState = QUndoStack()
         self.showUndoWindow(self.FileState)
         self.File = File(self.FileState)
-        self.Default_Environment_variables = QFileInfo('..').absolutePath()
+        self.Default_Environment_variables = QFileInfo('.').absolutePath()
         print("Start at: [{}]".format(self.Default_Environment_variables))
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()

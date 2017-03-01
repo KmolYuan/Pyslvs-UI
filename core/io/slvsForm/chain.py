@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-def slvsChain(length1, length2, length3, width=8, thickness=5, drilling=8, joint=0, type=0):
+def slvsChain(length1, length2, length3, width=8, thickness=5, drilling=6, joint=0, type=0):
     if type==0: return"""±²³SolveSpaceREVa
 
 

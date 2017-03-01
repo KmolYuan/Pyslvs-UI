@@ -24,7 +24,8 @@ class dxfTypeSettings(QDialog, Ui_Dialog):
     
     def save(self): 
         dxfModel(self.filePath, self.Line, self.Chain,
-            self.LinkWidthVal.value(), self.ChainWidthVal.value(), self.IntervalVal.value())
+            self.LinkWidthVal.value(), self.ChainWidthVal.value(), self.IntervalVal.value(),
+            self.DrillingVal.value())
     
     @pyqtSlot(int)
     def on_LinkType_currentIndexChanged(self, index):
