@@ -5,6 +5,12 @@ Pyslvs(PySolveSpace)
 
 A GUI-based tool solving 2D linkage subject.
 
++ **Path tracking**: Render moving path of the points.
+
++ **Path solving**: This arithmetic generator will design a crank rocker to meet the path requirement.
+
++ **Output format**: CSV, DXF and Solvespace.
+
 Compatible with Python 3.4, PyQt 5.5 and above.
 
 ![](icons/cover.png)
