@@ -22,8 +22,9 @@ class dxfTypeSettings(QDialog, Ui_Dialog):
             self.filePath = fileName
             self.folderPath.setText(self.filePath)
     
-    def save(self):
-        ''''''
+    def save(self): 
+        dxfModel(self.filePath, self.Line, self.Chain,
+            self.LinkWidthVal.value(), self.ChainWidthVal.value(), self.IntervalVal.value())
     
     @pyqtSlot(int)
     def on_LinkType_currentIndexChanged(self, index):

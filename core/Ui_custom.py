@@ -159,6 +159,7 @@ def actionEnabled(self):
     self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_link_right_click_menu_reversion.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
+    self.actionDXF_2D_models.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
     self.actionReplace_Point.setEnabled(TWO_POINT)
     self.action_point_right_click_menu_replace.setEnabled(TWO_POINT)
     self.actionBatch_moving.setEnabled(TWO_POINT)
