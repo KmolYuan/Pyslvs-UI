@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/dxfType.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/io/dxfType.ui'
 #
-# Created by: PyQt5 UI code generator 5.7.1
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -136,7 +136,6 @@ class Ui_Dialog(object):
         self.ChainType = QtWidgets.QComboBox(self.groupBox_9)
         self.ChainType.setObjectName("ChainType")
         self.ChainType.addItem("")
-        self.ChainType.addItem("")
         self.formLayout_5.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.ChainType)
         self.horizontalLayout_14 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_14.setObjectName("horizontalLayout_14")
@@ -199,7 +198,6 @@ class Ui_Dialog(object):
         self.groupBox_9.setTitle(_translate("Dialog", "Chains"))
         self.label_12.setText(_translate("Dialog", "Type: "))
         self.ChainType.setItemText(0, _translate("Dialog", "Sheet"))
-        self.ChainType.setItemText(1, _translate("Dialog", "Frame"))
         self.label_14.setText(_translate("Dialog", "Fillet diameter: "))
         self.groupBox_12.setTitle(_translate("Dialog", "Preview"))
 

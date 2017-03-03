@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.8
 #
@@ -1403,6 +1403,7 @@ class Ui_MainWindow(object):
         self.Path_points_show.setText(_translate("MainWindow", "Show Path Points"))
         self.Drive_shaft.setStatusTip(_translate("MainWindow", "Drive the selected drive shaft."))
         self.Drive_shaft.setText(_translate("MainWindow", "Drive Shaft"))
+        self.Drive_rod.setStatusTip(_translate("MainWindow", "Drive the selected piston."))
         self.Drive_rod.setText(_translate("MainWindow", "Drive Piston"))
         self.AuxLine.setStatusTip(_translate("MainWindow", "See the limitation of the point."))
         self.AuxLine.setText(_translate("MainWindow", "Auxiliary Line"))

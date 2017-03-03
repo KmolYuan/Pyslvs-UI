@@ -12,8 +12,8 @@ class dxfTypeSettings(QDialog, Ui_Dialog):
         self.filePath = Environment_variables+'/'+name+'.dxf'
         self.folderPath.setText(self.filePath)
         self.buttonBox.button(QDialogButtonBox.Save).clicked.connect(self.save)
-        self.on_LinkType_currentIndexChanged(0)
-        self.on_ChainType_currentIndexChanged(0)
+        self.LinkImage.setPixmap(QPixmap(":/icons/preview/Link_round.png"))
+        self.ChainImage.setPixmap(QPixmap(":/icons/preview/Chain_sheet.png"))
     
     @pyqtSlot()
     def on_setPath_clicked(self):
@@ -26,15 +26,5 @@ class dxfTypeSettings(QDialog, Ui_Dialog):
         dxfModel(self.filePath, self.Line, self.Chain,
             LinkWidth=self.LinkWidthVal.value(),
             ChainWidth=self.ChainWidthVal.value(),
-            LinkType=self.LinkType.currentIndex(),
-            ChainType=self.ChainType.currentIndex(),
             interval=self.IntervalVal.value(),
             drilling=self.DrillingVal.value())
-    
-    @pyqtSlot(int)
-    def on_LinkType_currentIndexChanged(self, index):
-        if index==0: self.LinkImage.setPixmap(QPixmap(":/icons/preview/Link_round.png"))
-    @pyqtSlot(int)
-    def on_ChainType_currentIndexChanged(self, index):
-        if index==0: self.ChainImage.setPixmap(QPixmap(":/icons/preview/Chain_sheet.png"))
-        if index==1: self.ChainImage.setPixmap(QPixmap(":/icons/preview/Chain_frame.png"))

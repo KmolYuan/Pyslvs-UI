@@ -370,7 +370,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.outputTo("Python Script", 'Python Script(*.py)')
         if fileName:
             with open(fileName, 'w', newline=str()) as f: f.write(self.File.Script)
-            print("Successful Save: "+fileName)
+            print("Successful Save Python Script.")
     @pyqtSlot()
     def on_actionDXF_2D_models_triggered(self):
         dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
@@ -384,7 +384,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.outputTo("DXF", 'AutoCAD DXF (*.dxf)')
         if fileName:
             dxfSketch(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
-            print("Successful Save: "+fileName)
+            print("Successful Save DXF Sketch.")
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         fileName = self.outputTo("picture", "Portable Network Graphics (*.png);;Joint Photographic Experts Group (*.jpg);;Joint Photographic Experts Group (*.jpeg);;Bitmap Image file (*.bmp);;\
@@ -393,12 +393,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             pixmap = self.qpainterWindow.grab()
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
-            print("Successful Save: "+fileName)
+            print("Successful Save Capture.")
     @pyqtSlot()
     def on_action_Output_to_S_QLite_Data_Base_triggered(self):
         fileName = self.outputTo("Data Base", 'Data Base(*.db)')
         if fileName:
-            print("Successful Save: "+fileName)
+            print("Successful Save Data Base.")
             #TODO: SQLite
     def outputTo(self, formatName, formatChoose):
         fileName, form = QFileDialog.getSaveFileName(
