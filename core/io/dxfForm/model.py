@@ -2,7 +2,7 @@
 from dxfwrite import DXFEngine as dxf
 from math import *
 
-def dxfModel(file_name, Link, Chain, LinkWidth=8, ChainWidth=8, interval=2, drilling=6):
+def dxfModel(file_name, Link, Chain, LinkWidth=8, ChainWidth=8, LinkType=0, ChainType=0, interval=2, drilling=6):
     Anchor = [0, 0]
     mechanism = dxf.drawing(file_name)
     for e in Link:

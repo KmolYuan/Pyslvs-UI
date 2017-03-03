@@ -32,8 +32,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState = QUndoStack()
         self.showUndoWindow(self.FileState)
         self.File = File(self.FileState)
-        self.Default_Environment_variables = QFileInfo('.').absolutePath()
-        print("Start at: [{}]".format(self.Default_Environment_variables))
+        self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
         self.qpainterWindow = DynamicCanvas()
         self.mplLayout.insertWidget(0, self.qpainterWindow)
@@ -47,6 +46,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         actionEnabled(self)
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,6})?[0-9][.][0-9]{1,8}$')))
         if len(sys.argv)>2: self.argvLoadFile()
+    
+    def setLocate(self, locate):
+        self.Default_Environment_variables = locate
+        print("~Start at: [{}]".format(self.Default_Environment_variables))
     
     def argvLoadFile(self):
         if ".csv" in sys.argv[1].lower():
@@ -293,7 +296,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Reset workbook.")
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
-            if fileName: self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
+            if fileName: self.setLocate(QFileInfo(fileName).absolutePath())
         if QFileInfo(fileName).suffix()=="csv" or QFileInfo(fileName).suffix()=="txt" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==list():
                 print("Get: "+fileName)
@@ -401,7 +404,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName, form = QFileDialog.getSaveFileName(
             self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form['fileName'].baseName(), formatChoose)
         if fileName:
-            self.Default_Environment_variables = QFileInfo(fileName).absolutePath()
+            self.setLocate(QFileInfo(fileName).absolutePath())
             suffix = form.split('*')[-1][:-1]
             fileName = self.Default_Environment_variables+'/'+QFileInfo(fileName).baseName()+suffix
             print("Formate: {}".format(form))
@@ -912,16 +915,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         button.setChecked(False)
     
     def Mask_Change(self):
-        row_Count = str(self.Parameter_list.rowCount()-1)
+        Count = str(len(self.File.Lists.ParameterList)-1)
         param = '(('
-        for i in range(len(row_Count)): param += '[1-'+row_Count[i]+']' if i==0 and not len(row_Count)<=1 else '[0-'+row_Count[i]+']'
+        for i in range(len(Count)): param += '[1-'+Count[i]+']' if i==0 and not len(Count)<=1 else '[0-'+Count[i]+']'
         param += ')|'
-        param_100 = '[0-9]{0,'+str(len(row_Count)-2)+'}' if len(row_Count)>2 else str()
-        param_20 = '([1-'+str(int(row_Count[0])-1)+']'+param_100+')?' if self.Parameter_list.rowCount()>19 else str()
-        if len(row_Count)>1: param += param_20+'[0-9]'
+        param_100 = '[0-9]{0,'+str(len(Count)-2)+'}' if len(Count)>2 else str()
+        param_20 = '([1-'+str(int(Count[0])-1)+']'+param_100+')?' if self.Parameter_list.rowCount()>19 else str()
+        if len(Count)>1: param += param_20+'[0-9]'
         param += ')'
         param_use = '^[n]'+param+'$|' if self.Parameter_list.rowCount()>=1 else str()
-        mask = '('+param_use+'^[-]?([1-9][0-9]{0,6})?[0-9][.][0-9]{1,8}$)'
+        mask = '({}^[-]?(([1-9][0-9]{{0,7}})|[0])?[.][0-9]{{1,8}}$)'.format(param_use)
+        print(mask)
         self.Mask = QRegExpValidator(QRegExp(mask))
         self.X_coordinate.setValidator(self.Mask)
         self.Y_coordinate.setValidator(self.Mask)
@@ -948,6 +952,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
         self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
-    @pyqtSlot(int, int)
-    def on_Parameter_list_cellChanged(self, row, column):
-        if column in [1, 2]: self.Parameter_list.item(row, column).setToolTip(self.Parameter_list.item(row, column).text())
