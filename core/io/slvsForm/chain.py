@@ -7249,4 +7249,4 @@ Constraint.reference=0
 Constraint.disp.offset.x=-2.37670997726732746713
 Constraint.disp.offset.y=1.59155860994034004108
 AddConstraint
-""".format(length1, length3, length2, width, thickness, drilling, joint, length2)
+""".format(length1, length3, length2, width, thickness, drilling, joint, width/2)

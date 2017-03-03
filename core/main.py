@@ -916,16 +916,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def Mask_Change(self):
         Count = str(len(self.File.Lists.ParameterList)-1)
-        param = '(('
-        for i in range(len(Count)): param += '[1-'+Count[i]+']' if i==0 and not len(Count)<=1 else '[0-'+Count[i]+']'
-        param += ')|'
-        param_100 = '[0-9]{0,'+str(len(Count)-2)+'}' if len(Count)>2 else str()
-        param_20 = '([1-'+str(int(Count[0])-1)+']'+param_100+')?' if self.Parameter_list.rowCount()>19 else str()
-        if len(Count)>1: param += param_20+'[0-9]'
-        param += ')'
-        param_use = '^[n]'+param+'$|' if self.Parameter_list.rowCount()>=1 else str()
-        mask = '({}^[-]?(([1-9][0-9]{{0,7}})|[0])?[.][0-9]{{1,8}}$)'.format(param_use)
-        print(mask)
+        param = '(({}{}){})'.format(
+            '[1-{}]'.format(Count[0]) if int(Count)>9 else '[0-{}]'.format(Count),
+            ''.join(['[0-{}]'.format(e) for e in Count[1:]]),
+            '|[0-9]{{1,{}}}'.format(len(Count)-1) if len(Count)>1 else str())
+        mask = '({}^[-]?(([1-9][0-9]{{0,7}})|[0])?[.][0-9]{{1,8}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
         self.Mask = QRegExpValidator(QRegExp(mask))
         self.X_coordinate.setValidator(self.Mask)
         self.Y_coordinate.setValidator(self.Mask)
