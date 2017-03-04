@@ -194,11 +194,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Resolve
     def Resolve(self):
-        table_point, table_line, table_chain, table_shaft, table_slider, table_rod = self.File.Obstacles_Exclusion()
-        #Solve
         result = False
-        result, DOF, script = slvsProcess(table_point, table_line, table_chain, table_shaft, table_slider, table_rod)
-        self.File.Script = script
+        Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
+        result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod)
         if result:
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
@@ -246,7 +244,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionHow_to_use_triggered(self): self.OpenDlg(Help_info_show())
     @pyqtSlot()
-    def on_action_See_Python_Scripts_triggered(self): self.OpenDlg(Script_Dialog(self.File.Script, self.Default_Environment_variables))
+    def on_action_See_Python_Scripts_triggered(self):
+        Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
+        self.File.Script = slvsProcessScript(Point, Line, Chain, Shaft, Slider, Rod)
+        self.OpenDlg(Script_Dialog(self.File.Script, self.Default_Environment_variables))
     @pyqtSlot()
     def on_actionSearch_Points_triggered(self): self.OpenDlg(Association_show(self.File.Lists.PointList, self.File.Lists.LineList,
         self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList))
@@ -367,6 +368,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Saved: {}".format(filePath))
     @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
+        Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
+        self.File.Script = slvsProcessScript(Point, Line, Chain, Shaft, Slider, Rod)
         fileName = self.outputTo("Python Script", 'Python Script(*.py)')
         if fileName:
             with open(fileName, 'w', newline=str()) as f: f.write(self.File.Script)

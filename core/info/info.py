@@ -50,7 +50,7 @@ def show_help():
         ['-w', "Show rebuild warning of canvas."],
         ['-f', '--fusion', "Run Pyslvs in Fusion style."],
         ['-F', '--file-data', "When open a file, show it's data in command line."]),
-        present("Python IDE Eric 6")))
+        present("Python IDE Eric 6", "PyQt 5")))
 
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):

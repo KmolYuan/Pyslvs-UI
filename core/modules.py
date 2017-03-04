@@ -29,7 +29,7 @@ from .panel.run_Measurement import Measurement_show
 from .panel.run_AuxLine import AuxLine_show
 from .panel.run_Path_Solving import Path_Solving_show
 #Solve
-from .calculation.calculation import slvsProcess
+from .calculation.calculation import slvsProcess, slvsProcessScript
 #Canvas
 from .calculation.canvas_0 import DynamicCanvas
 #File & Example

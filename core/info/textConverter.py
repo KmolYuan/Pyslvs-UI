@@ -22,4 +22,4 @@ def argumentList(*Args):
     buff = [(e if len(e)==maxArg else e[:-1]+['\t']*(maxArg-len(e))+e[-1:]) for e in Args]
     return '\n'.join(['\t'.join(e) for e in buff])
 
-def present(*part): return "Power by"+' '.join(part)+'.'
+def present(*part): return "Power by "+', '.join(part)+'.'

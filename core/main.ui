@@ -2312,7 +2312,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
    </property>
    <property name="text">
-    <string>Workbook Python &amp;Script</string>
+    <string>Python &amp;Script</string>
    </property>
    <property name="statusTip">
     <string>See Python scripts in this status.</string>
@@ -2636,7 +2636,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
    </property>
    <property name="text">
-    <string>Workbook &amp;Property</string>
+    <string>&amp;Properties</string>
    </property>
    <property name="statusTip">
     <string>Property of this workbook.</string>

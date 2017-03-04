@@ -82,11 +82,11 @@ class DynamicCanvas(QWidget):
         painter.begin(self)
         painter.fillRect(event.rect(), QBrush(self.points['style']['Background']))
         painter.translate(self.points['origin']['x'], self.points['origin']['y'])
-        pen = QPen()
         for i in range(len(self.table_chain)):
             pa = self.table_chain[i]['p1']
             pb = self.table_chain[i]['p2']
             pc = self.table_chain[i]['p3']
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             painter.setBrush(self.points['style']['chain'])
             painter.drawPolygon(
@@ -109,6 +109,7 @@ class DynamicCanvas(QWidget):
             end = self.table_line[i]['end']
             point_start = QPointF(self.points['x'][start], self.points['y'][start])
             point_end = QPointF(self.points['x'][end], self.points['y'][end])
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(self.points['style']['link'])
             painter.setPen(pen)
