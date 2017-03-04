@@ -7,7 +7,7 @@ from PyQt5.QtCore import Qt
 from .textConverter import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = "0.5.0(dev)"
+VERSION = "0.5.0(stable)"
 
 def show_version():
     print("[Pyslvs {}]".format(VERSION))
