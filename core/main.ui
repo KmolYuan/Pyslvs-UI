@@ -1944,7 +1944,6 @@ p, li { white-space: pre-wrap; }
      <addaction name="separator"/>
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_Script"/>
-     <addaction name="action_Output_to_S_QLite_Data_Base"/>
     </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
@@ -2414,7 +2413,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/assemble.png</normaloff>:/icons/assemble.png</iconset>
    </property>
    <property name="text">
-    <string>How to use?</string>
+    <string>What can we do?</string>
    </property>
    <property name="statusTip">
     <string>See concept about Pyslvs.</string>
@@ -2484,21 +2483,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Delete Slider</string>
-   </property>
-  </action>
-  <action name="action_Output_to_S_QLite_Data_Base">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/SQL_icon.png</normaloff>:/icons/SQL_icon.png</iconset>
-   </property>
-   <property name="text">
-    <string>S&amp;QLite Data Base</string>
-   </property>
-   <property name="statusTip">
-    <string>Output to SQLite Data Base.</string>
    </property>
   </action>
   <action name="action_Set_Rod">
@@ -2671,28 +2655,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
-  <action name="actionUndo">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Undo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-  </action>
-  <action name="actionRedo">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
   <action name="actionSearch_Points">

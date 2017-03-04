@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 #Splash
 from .info.info import Pyslvs_Splash
-#CSV & SQLite
+#CSV
 import sys, csv, math, webbrowser, platform
-from peewee import *
 #Dialog Ports
 from .info.info import Help_info_show, version_show
 from .info.path_point_data import path_point_data_show

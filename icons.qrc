@@ -2,15 +2,20 @@
   <qresource>
     <!--Splash-->
     <file>icons/Splash.png</file>
-    <!--preview pictures-->
+    <!--Preview pictures-->
     <file>icons/preview/Link_round.png</file>
     <file>icons/preview/Chain_sheet.png</file>
     <file>icons/preview/Chain_frame.png</file>
-    <!--main window icons-->
+    <!--Main window icons-->
     <file>icons/main.png</file>
     <file>icons/main_big.png</file>
     <file>icons/Solvespace.ico</file>
-    <!--dialog icons-->
+    <file>icons/github-24.png</file>
+    <file>icons/kmol.png</file>
+    <!--File format icons-->
+    <file>icons/CSV.png</file>
+    <file>icons/dxf.png</file>
+    <!--Dialog icons-->
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>
     <file>icons/assemble.png</file>
@@ -23,14 +28,12 @@
     <file>icons/circle.png</file>
     <file>icons/constraint.png</file>
     <file>icons/construction.png</file>
-    <file>icons/CSV.png</file>
     <file>icons/delete.png</file>
     <file>icons/deletechain.png</file>
     <file>icons/deleteline.png</file>
     <file>icons/deleterod.png</file>
     <file>icons/deleteshaft.png</file>
     <file>icons/deleteslider.png</file>
-    <file>icons/dxf.png</file>
     <file>icons/edges.png</file>
     <file>icons/editchain.png</file>
     <file>icons/editpoint.png</file>
@@ -42,11 +45,9 @@
     <file>icons/extrude.png</file>
     <file>icons/faces.png</file>
     <file>icons/fullscreen.png</file>
-    <file>icons/github-24.png</file>
     <file>icons/hidden-lines.png</file>
     <file>icons/horiz.png</file>
     <file>icons/in3d.png</file>
-    <file>icons/kmol.png</file>
     <file>icons/length.png</file>
     <file>icons/line.png</file>
     <file>icons/maxmized.png</file>
@@ -67,7 +68,6 @@
     <file>icons/sketch-in-3d.png</file>
     <file>icons/sketch-in-plane.png</file>
     <file>icons/spring.png</file>
-    <file>icons/SQL_icon.png</file>
     <file>icons/step-rotate.png</file>
     <file>icons/step-translate.png</file>
     <file>icons/symmetric.png</file>

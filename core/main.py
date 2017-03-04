@@ -174,12 +174,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         separator = QAction(self)
         separator.setSeparator(True)
         self.menu_Edit.insertAction(self.actionSearch_Points, separator)
-        redoAction = stack.createRedoAction(self, 'Redo')
-        undoAction = stack.createUndoAction(self, 'Undo')
-        redoAction.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
-        undoAction.setShortcut(_translate("MainWindow", "Ctrl+Z"))
-        self.menu_Edit.insertAction(separator, undoAction)
-        self.menu_Edit.insertAction(separator, redoAction)
+        self.actionRedo = stack.createRedoAction(self, 'Redo')
+        self.actionUndo = stack.createUndoAction(self, 'Undo')
+        self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
+        self.actionUndo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
+        self.menu_Edit.insertAction(separator, self.actionUndo)
+        self.menu_Edit.insertAction(separator, self.actionRedo)
     @pyqtSlot(int)
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point,
@@ -194,10 +194,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Resolve
     def Resolve(self):
-        result = False
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
         result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod)
-        if result:
+        if not DOF is False:
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
@@ -397,12 +396,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pixmap = self.qpainterWindow.grab()
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
             print("Successful Save Capture.")
-    @pyqtSlot()
-    def on_action_Output_to_S_QLite_Data_Base_triggered(self):
-        fileName = self.outputTo("Data Base", 'Data Base(*.db)')
-        if fileName:
-            print("Successful Save Data Base.")
-            #TODO: SQLite
     def outputTo(self, formatName, formatChoose):
         fileName, form = QFileDialog.getSaveFileName(
             self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form['fileName'].baseName(), formatChoose)

@@ -154,7 +154,7 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
         except: return 0, 0
     elif staticProcess:
         try: return resultList, sys.dof
-        except: return list(), -1, str()
+        except: return list(), False
     elif generateConversionProcess:
         try: return resultList
         except: return list()

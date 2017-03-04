@@ -63,13 +63,14 @@ class Help_info_show(QDialog, Ui_About_Dialog):
         super(Help_info_show, self).__init__(parent)
         self.setupUi(self)
         self.Content.setText(html(title("Pyslvs")+content(
-        "Pyslvs just like a ordinary CAD software, but use table to add and edit points,",
-        "within changing points location, finally give the answer to designer.",
-        "We have these functions:")+orderList(
+        "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
+        "Within changing points location, finally give the answer to designer.",
+        "We have these features:")+orderList(
         "2D Linkages dynamic simulation.",
-        "Output points coordinate to table file format.",
+        "Dimensional Synthesis of Planar Four-bar Linkages.",
+        "Output points coordinate to Data Sheet (*.csv) format.",
         "Change canvas appearance.",
-        "Draw dynamic simulation path at any point in the machinery.")))
+        "Draw dynamic simulation path with any point in the machinery.")))
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):

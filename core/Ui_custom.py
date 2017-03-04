@@ -163,5 +163,3 @@ def actionEnabled(self):
     self.actionReplace_Point.setEnabled(TWO_POINT)
     self.action_point_right_click_menu_replace.setEnabled(TWO_POINT)
     self.actionBatch_moving.setEnabled(TWO_POINT)
-    self.actionUndo.setEnabled(self.FileState.canUndo())
-    self.actionRedo.setEnabled(self.FileState.canRedo())
