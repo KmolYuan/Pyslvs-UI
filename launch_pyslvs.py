@@ -5,8 +5,7 @@ from sys import exit, argv
 from core.info.info import show_version, Pyslvs_Splash
 from core.main import MainWindow
 if __name__=="__main__":
-    start = show_version()
-    if start:
+    if show_version():
         from PyQt5.QtWidgets import QApplication
         if "--fusion" in argv or "-f" in argv: QApplication.setStyle("fusion")
         app = QApplication(argv)

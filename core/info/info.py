@@ -43,14 +43,14 @@ def show_help():
     print(help(argumentType(
         "python3 launch_pyslvs.py [FileName] [arg1] [arg2] ...",
         "launch_pyslvs [FileName] [arg1] [arg2] ..."),
-        "Open a file directly by put file name behind the launch command.",
+        "Open a file directly by put file name after the launch command.",
         "Information and Debug Function:", argumentList(
         ['-v', '--version', "Show version infomations and Exit."],
         ['-h -H', '--help\t', "Show this help message and Exit."],
         ['-w', "Show rebuild warning of canvas."],
         ['-f', '--fusion', "Run Pyslvs in Fusion style."],
         ['-F', '--file-data', "When open a file, show it's data in command line."]),
-        present("Python IDE Eric 6", "PyQt 5")))
+        present("Python IDE Eric 6", "PyQt 5", "dxfwrite")))
 
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):

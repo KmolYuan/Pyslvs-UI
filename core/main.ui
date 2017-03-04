@@ -2263,7 +2263,7 @@ p, li { white-space: pre-wrap; }
     <string>&amp;Picture</string>
    </property>
    <property name="statusTip">
-    <string>Output to Image format.</string>
+    <string>Capture and output to Image format.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -2281,7 +2281,7 @@ p, li { white-space: pre-wrap; }
     <string>Save</string>
    </property>
    <property name="statusTip">
-    <string>Save</string>
+    <string>Save workbook.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -2593,7 +2593,7 @@ p, li { white-space: pre-wrap; }
     <string>Solvespace 3D models</string>
    </property>
    <property name="statusTip">
-    <string>Output to Solvespace 3D models</string>
+    <string>Output to Solvespace 3D models.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+3</string>
@@ -2608,7 +2608,7 @@ p, li { white-space: pre-wrap; }
     <string>DXF 2D sketch</string>
    </property>
    <property name="statusTip">
-    <string>Output to Drawing Exchange format.</string>
+    <string>Output to Drawing Exchange sketch.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
@@ -2651,7 +2651,7 @@ p, li { white-space: pre-wrap; }
     <string>Save &amp;as...</string>
    </property>
    <property name="statusTip">
-    <string>Save as...</string>
+    <string>Save to another workbook.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
@@ -2763,6 +2763,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>DXF 2D models</string>
+   </property>
+   <property name="statusTip">
+    <string>Output to Drawing Exchange models.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>

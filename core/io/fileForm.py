@@ -18,7 +18,7 @@ class File():
         self.form = {
             'fileName':QFileInfo("[New Workbook]"),
             'description':str(),
-            'author':'anonymous',
+            'author':'Anonymous',
             'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
             'changed':False}
     def updateTime(self): self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
@@ -118,9 +118,9 @@ class File():
         self.Stack = self.FileState.index()
         self.form['fileName'] = QFileInfo(fileName)
         writer.writerows([
-            ["_info_"], [self.form['author']] if self.form['author']!=str() else ['anonymous'],
-            ["_info_"], [self.form['description']],
-            ["_info_"], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
+            ['_info_'], [self.form['author'] if self.form['author']!=str() else 'Anonymous'],
+            ['_info_'], [self.form['description']],
+            ['_info_'], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
         self.CSV_write(writer, Point, 4, init=1)
         self.CSV_write(writer, Point_Style, 4, init=1)
         self.CSV_write(writer, Link, 4)
@@ -129,23 +129,23 @@ class File():
         self.CSV_write(writer, Slider, 4)
         self.CSV_write(writer, Rod, 5)
         self.CSV_write(writer, Parameter, 3)
-        writer.writerow(["_table_"])
-        writer.writerow(["_path_"])
+        writer.writerow(['_table_'])
+        writer.writerow(['_path_'])
         if self.Lists.runList:
             rowdata = list()
             for i in range(len(self.Lists.runList)):
                 if i == len(self.Lists.runList)-1: rowdata.append(str(self.Lists.runList[i]))
                 else: rowdata.append(str(self.Lists.runList[i])+'\t')
             writer.writerow(rowdata)
-        writer.writerow(["_path_"])
+        writer.writerow(['_path_'])
         if self.Lists.shaftList:
             writer.writerow(self.Lists.shaftList)
-        writer.writerow(["_path_"])
+        writer.writerow(['_path_'])
         if self.Lists.data:
             for i in range(len(self.Lists.data[0])):
                 rowdata = list()
                 for j in range(len(self.Lists.data[0][i])): rowdata.append(str(self.Lists.data[0][i][j])+'\t')
-                rowdata.append("+=")
+                rowdata.append('+')
                 writer.writerow(rowdata)
     def reset(self, Point, Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         for i in reversed(range(0, Rod.rowCount())): Rod.removeRow(i)

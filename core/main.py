@@ -52,9 +52,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("~Start at: [{}]".format(self.Default_Environment_variables))
     
     def argvLoadFile(self):
-        if ".csv" in sys.argv[1].lower():
-            try: self.loadWorkbook(sys.argv[1])
-            except: print("Error when loading file.")
+        pos = False
+        for e in sys.argv:
+            if '.csv' in e.lower():
+                pos = sys.argv.index(e)
+                break
+        if pos: self.loadWorkbook(sys.argv[pos])
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasUrls():
@@ -325,7 +328,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
                     dlg.show()
                     if dlg.exec_(): pass
-            else: print("Failed to load!")
+            else:
+                reply = QMessageBox.question(self, 'Loading failed',
+                    "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
+                if reply: print("Error: Incorrect format.")
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -355,16 +361,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
-        if dlg.exec_():
-            reply = QMessageBox.question(self, 'Message', "The conversion was successful.", (QMessageBox.Ok), QMessageBox.Ok)
-            if reply: print("Successful Saved Solvespace model.")
+        if dlg.exec_(): self.replyBox('Solvespace Models', dlg.folderPath.absolutePath())
     @pyqtSlot()
     def on_actionSolvespace_2D_sketch_triggered(self):
         fileName = self.outputTo("Solvespace sketch", 'Solvespace module(*.slvs)')
         if fileName:
             content = slvs2D(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f: f.write(content)
-            print("Saved: {}".format(filePath))
+            self.replyBox('Solvespace Sketch', fileName)
     @pyqtSlot()
     def on_action_Output_to_Script_triggered(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
@@ -372,21 +376,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.outputTo("Python Script", 'Python Script(*.py)')
         if fileName:
             with open(fileName, 'w', newline=str()) as f: f.write(self.File.Script)
-            print("Successful Save Python Script.")
+            self.replyBox('Python Script', fileName)
     @pyqtSlot()
     def on_actionDXF_2D_models_triggered(self):
         dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
             self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
-        if dlg.exec_():
-            reply = QMessageBox.question(self, 'Message', "The conversion was successful.", (QMessageBox.Ok), QMessageBox.Ok)
-            if reply: print("Successful Saved DXF model.")
+        if dlg.exec_(): self.replyBox('DXF 2D Models', dlg.filePath)
     @pyqtSlot()
     def on_actionDXF_2D_sketch_triggered(self):
         fileName = self.outputTo("DXF", 'AutoCAD DXF (*.dxf)')
         if fileName:
             dxfSketch(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
-            print("Successful Save DXF Sketch.")
+            self.replyBox('DXF 2D Sketch', fileName)
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         fileName = self.outputTo("picture", "Portable Network Graphics (*.png);;Joint Photographic Experts Group (*.jpg);;Joint Photographic Experts Group (*.jpeg);;Bitmap Image file (*.bmp);;\
@@ -395,7 +397,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             pixmap = self.qpainterWindow.grab()
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
-            print("Successful Save Capture.")
+            self.replyBox('Picture', fileName)
     def outputTo(self, formatName, formatChoose):
         fileName, form = QFileDialog.getSaveFileName(
             self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form['fileName'].baseName(), formatChoose)
@@ -405,6 +407,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName = self.Default_Environment_variables+'/'+QFileInfo(fileName).baseName()+suffix
             print("Formate: {}".format(form))
         return fileName
+    def replyBox(self, title, fileName):
+        reply = QMessageBox.question(self, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
+        if reply: print("Successful Saved {}.".format(title))
     
     @pyqtSlot()
     def on_action_Property_triggered(self):
