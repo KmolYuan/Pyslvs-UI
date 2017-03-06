@@ -108,9 +108,19 @@ Here is the **origin kernel** repository:
 
 * https://github.com/kmollee/django-project-template
 
+Build Kernel
+===
+
 Compiled kernel is in the `core` folder.
 
 If your Python version or platform is not compatible, maybe you should build them by self.
+
+```bash
+git submodule init
+git submodule update
+```
+
+Then follow the instructions in the readme.
 
 [PyQt5]: http://doc.qt.io/qt-5/index.html
 [Qt5]: https://www.qt.io/download/
