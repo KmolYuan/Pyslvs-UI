@@ -189,12 +189,8 @@ class Lists():
         return digit
     
     def coverageCoordinate(self, table, row):
-        coordinate = table.item(row, 4).text()[1:-1].split(', ')
-        x = QTableWidgetItem(coordinate[0])
-        y = QTableWidgetItem(coordinate[1])
-        table.setItem(row, 1, x)
-        table.setItem(row, 2, y)
-        self.update(table, "Point")
+        e = self.PointList[row]
+        self.editTable(table, 'Point', row, str(e['cx']), str(e['cy']), e['fix'])
     
     def styleFix(self, table, fix, edit):
         rowPosition = edit
@@ -205,10 +201,11 @@ class Lists():
     
     def currentPos(self, table, result):
         for i in range(table.rowCount()):
-            digit = QTableWidgetItem("("+str(result[i]['x'])+", "+str(result[i]['y'])+")")
-            digit.setToolTip("("+str(result[i]['x'])+", "+str(result[i]['y'])+")")
+            name = "({}, {})".format(result[i]['x'], result[i]['y'])
+            digit = QTableWidgetItem(name)
+            digit.setToolTip(name)
             table.setItem(i, 4, digit)
-        self.update(table, "Point")
+        self.update(table, 'Point')
     
     def setDemo(self, name, row, pos):
         if name=='Shaft': self.ShaftList[row]['demo'] = pos
