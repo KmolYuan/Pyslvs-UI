@@ -1,0 +1,3 @@
+[submodule "core/kernel/pyslvs_generate/pyslvs_generate"]
+	path = core/kernel/pyslvs_generate/pyslvs_generate
+	url = https://github.com/KmolYuan/pyslvs_generate
