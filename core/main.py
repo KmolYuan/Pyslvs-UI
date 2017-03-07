@@ -216,7 +216,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.qpainterWindow.update_figure(
             float(self.LineWidth.text()), float(self.PathWidth.text()),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
-            self.File.Lists.ParameterList, self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(),
+            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(),
             self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(), self.action_Black_Blackground.isChecked(),
             self.File.Lists.data, self.File.Lists.runList, self.File.Lists.shaftList)
     
@@ -293,6 +293,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.closePanels()
         self.File.reset(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+        self.qpainterWindow.path_solving(list())
         self.Resolve()
         self.FileState.clear()
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
@@ -789,21 +790,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
         self.File.PathSolvingReqs.add(x, y)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
         self.workbookNoSave()
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
         self.File.PathSolvingReqs.remove(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
         self.workbookNoSave()
     @pyqtSlot(int)
     def PathSolving_moveup(self, row):
         self.File.PathSolvingReqs.moveUP(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
     @pyqtSlot(int)
     def PathSolving_movedown(self, row):
         self.File.PathSolvingReqs.moveDown(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result)
+        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
     PathSolvingStart = pyqtSignal(list)
     @pyqtSlot()
     def PathSolving_send(self): self.PathSolvingStart.emit(self.File.PathSolvingReqs.list)

@@ -19,7 +19,7 @@ class DynamicCanvas(QWidget):
                 'dimension':False,
                 },
             'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
-            'slvsPath':{'path':list(), 'result':list(), 'show':False},
+            'slvsPath':{'path':list(), 'show':False},
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
@@ -29,13 +29,8 @@ class DynamicCanvas(QWidget):
         self.Color = colorlist()
         self.re_Color = colorName()
     
-    def update_figure(self,
-            width, pathwidth,
-            table_point, table_line,
-            table_chain, table_shaft,
-            table_slider, table_rod, table_parameter,
-            table_style, zoom_rate,
-            Font_size, showDimension, Point_mark, Blackground,
+    def update_figure(self, width, pathwidth, Point, Line, Chain, Shaft, Slider, Rod,
+            table_style, zoom_rate, Font_size, showDimension, Point_mark, Blackground,
             path, run_list, shaft_list):
         if Blackground: self.points['style']['Background'] = Qt.black
         else: self.points['style']['Background'] = Qt.white
@@ -47,19 +42,19 @@ class DynamicCanvas(QWidget):
         self.zoom = float(zoom_rate.replace("%", ""))/100
         self.points['x'] = list()
         self.points['y'] = list()
-        for i in range(len(table_point)):
+        for i in range(len(Point)):
             try:
-                self.points['x'] += [table_point[i]['cx']*self.zoom*self.points['rate']]
-                self.points['y'] += [table_point[i]['cy']*self.zoom*self.points['rate']*(-1)]
+                self.points['x'] += [Point[i]['cx']*self.zoom*self.points['rate']]
+                self.points['y'] += [Point[i]['cy']*self.zoom*self.points['rate']*(-1)]
             except:
-                self.points['x'] += [table_point[i]['x']*self.zoom*self.points['rate']]
-                self.points['y'] += [table_point[i]['y']*self.zoom*self.points['rate']*(-1)]
-        self.table_point = table_point
-        self.table_line = table_line
-        self.table_chain = table_chain
-        self.table_shaft = table_shaft
-        self.table_slider = table_slider
-        self.table_rod = table_rod
+                self.points['x'] += [Point[i]['x']*self.zoom*self.points['rate']]
+                self.points['y'] += [Point[i]['y']*self.zoom*self.points['rate']*(-1)]
+        self.Point = Point
+        self.Line = Line
+        self.Chain = Chain
+        self.Shaft = Shaft
+        self.Slider = Slider
+        self.Rod = Rod
         self.table_style = table_style
         self.points['Path']['path'] = path
         self.points['Path']['run_list'] = run_list
@@ -72,9 +67,8 @@ class DynamicCanvas(QWidget):
         self.points['Path']['shaft_list'] = shaft_list
         self.update()
     
-    def path_solving(self, path, result):
+    def path_solving(self, path):
         self.points['slvsPath']['path'] = path
-        self.points['slvsPath']['result'] = result
         self.update()
     
     def paintEvent(self, event):
@@ -82,112 +76,100 @@ class DynamicCanvas(QWidget):
         painter.begin(self)
         painter.fillRect(event.rect(), QBrush(self.points['style']['Background']))
         painter.translate(self.points['origin']['x'], self.points['origin']['y'])
-        for i in range(len(self.table_chain)):
-            pa = self.table_chain[i]['p1']
-            pb = self.table_chain[i]['p2']
-            pc = self.table_chain[i]['p3']
+        Tp = self.zoom*self.points['rate']
+        for e in self.Chain:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             painter.setBrush(self.points['style']['chain'])
             painter.drawPolygon(
-                QPointF(self.points['x'][pa], self.points['y'][pa]),
-                QPointF(self.points['x'][pb], self.points['y'][pb]),
-                QPointF(self.points['x'][pc], self.points['y'][pc]), fillRule=Qt.OddEvenFill)
+                QPointF(self.Point[e['p1']]['cx']*Tp, self.Point[e['p1']]['cy']*Tp*-1),
+                QPointF(self.Point[e['p2']]['cx']*Tp, self.Point[e['p2']]['cy']*Tp*-1),
+                QPointF(self.Point[e['p3']]['cx']*Tp, self.Point[e['p3']]['cy']*Tp*-1), fillRule=Qt.OddEvenFill)
             painter.setBrush(Qt.NoBrush)
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
-                mp = QPointF((self.points['x'][pa]+self.points['x'][pb])/2, (self.points['y'][pa]+self.points['y'][pb])/2)
-                painter.drawText(mp, str(self.table_chain[i]['p1p2']))
-                mp = QPointF((self.points['x'][pb]+self.points['x'][pc])/2, (self.points['y'][pb]+self.points['y'][pc])/2)
-                painter.drawText(mp, str(self.table_chain[i]['p2p3']))
-                mp = QPointF((self.points['x'][pa]+self.points['x'][pc])/2, (self.points['y'][pa]+self.points['y'][pc])/2)
-                painter.drawText(mp, str(self.table_chain[i]['p1p3']))
-        for i in range(len(self.table_line)):
-            start = self.table_line[i]['start']
-            end = self.table_line[i]['end']
-            point_start = QPointF(self.points['x'][start], self.points['y'][start])
-            point_end = QPointF(self.points['x'][end], self.points['y'][end])
+                mp = QPointF((self.Point[e['p1']]['cx']+self.Point[e['p2']]['cx'])*Tp/2, (self.Point[e['p1']]['cy']+self.Point[e['p2']]['cy'])*Tp*-1/2)
+                painter.drawText(mp, str(e['p1p2']))
+                mp = QPointF((self.Point[e['p2']]['cx']+self.Point[e['p3']]['cx'])*Tp/2, (self.Point[e['p2']]['cy']+self.Point[e['p3']]['cy'])*Tp*-1/2)
+                painter.drawText(mp, str(e['p2p3']))
+                mp = QPointF((self.Point[e['p1']]['cx']+self.Point[e['p3']]['cx'])*Tp/2, (self.Point[e['p1']]['cy']+self.Point[e['p3']]['cy'])*Tp*-1/2)
+                painter.drawText(mp, str(e['p1p3']))
+        for e in self.Line:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(self.points['style']['link'])
             painter.setPen(pen)
-            painter.drawLine(point_start, point_end)
+            painter.drawLine(QPointF(self.Point[e['start']]['cx']*Tp, self.Point[e['start']]['cy']*Tp*-1), QPointF(self.Point[e['end']]['cx']*Tp, self.Point[e['end']]['cy']*Tp*-1))
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
-                mp = QPointF((self.points['x'][start]+self.points['x'][end])/2, (self.points['y'][start]+self.points['y'][end])/2)
+                mp = QPointF((self.Point[e['start']]['cx']+self.Point[e['end']]['cx'])*Tp/2, (self.Point[e['start']]['cy']+self.Point[e['end']]['cy'])*Tp*-1/2)
                 painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(mp, str(self.table_line[i]['len']))
-        for i in range(len(self.table_slider)):
-            start = self.table_slider[i]['start']
-            end = self.table_slider[i]['end']
+                painter.drawText(mp, str(e['len']))
+        for e in self.Slider:
             pen = QPen(Qt.DotLine)
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkMagenta)
             painter.setPen(pen)
-            painter.drawLine(QPointF(self.points['x'][start], self.points['y'][start]), QPointF(self.points['x'][end], self.points['y'][end]))
-        for i in range(len(self.table_rod)):
-            start = self.table_rod[i]['start']
-            end = self.table_rod[i]['end']
+            painter.drawLine(QPointF(self.points['x'][e['start']], self.points['y'][e['start']]), QPointF(self.points['x'][e['end']], self.points['y'][e['end']]))
+        for e in self.Rod:
             pen = QPen(Qt.DotLine)
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkRed)
             painter.setPen(pen)
-            painter.drawLine(QPointF(self.points['x'][start], self.points['y'][start]), QPointF(self.points['x'][end], self.points['y'][end]))
+            painter.drawLine(QPointF(self.points['x'][e['start']], self.points['y'][e['start']]), QPointF(self.points['x'][e['end']], self.points['y'][e['end']]))
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
-                mp = QPointF((self.points['x'][start]+self.points['x'][end])/2, (self.points['y'][start]+self.points['y'][end])/2)
+                mp = QPointF((self.points['x'][start]+self.points['x'][e['end']])/2, (self.points['y'][start]+self.points['y'][e['end']])/2)
                 painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(mp, '{{{}}}'.format(self.table_rod[i]['pos']))
-        for i in range(len(self.table_shaft)):
-            start = self.table_shaft[i]['cen']
-            end = self.table_shaft[i]['ref']
+                painter.drawText(mp, '{{{}}}'.format(e['pos']))
+        for e in self.Shaft:
             pen = QPen(Qt.DotLine)
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
             pen.setColor(QColor(225, 140, 0))
             painter.setPen(pen)
-            painter.drawLine(QPointF(self.points['x'][start], self.points['y'][start]), QPointF(self.points['x'][end], self.points['y'][end]))
+            painter.drawLine(QPointF(self.points['x'][e['cen']], self.points['y'][e['cen']]), QPointF(self.points['x'][e['ref']], self.points['y'][e['ref']]))
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
-                mp = QPointF((self.points['x'][start]+self.points['x'][end])/2, (self.points['y'][start]+self.points['y'][end])/2)
+                mp = QPointF(int(self.points['x'][e['cen']]+6), int(self.points['y'][e['cen']]+6))
                 painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(mp, '{{{}}}'.format(self.table_shaft[i]['demo']))
+                painter.drawText(mp, '{{{}}}'.format(e['demo']))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
             pen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
             pen.setWidth(self.points['style']['penWidth']['pen'])
             painter.setPen(pen)
             if self.AuxLine['isMax']:
-                if self.AuxLine['Max']['x'] < self.table_point[self.AuxLine['pt']]['cx']: self.AuxLine['Max']['x'] = self.table_point[self.AuxLine['pt']]['cx']
-                if self.AuxLine['Max']['y'] < self.table_point[self.AuxLine['pt']]['cy']: self.AuxLine['Max']['y'] = self.table_point[self.AuxLine['pt']]['cy']
-                L_point = QPointF(self.width()*4, self.AuxLine['Max']['y']*self.zoom*self.points['rate']*(-1))
-                R_point = QPointF(self.width()*(-4), self.AuxLine['Max']['y']*self.zoom*self.points['rate']*(-1))
-                U_point = QPointF(self.AuxLine['Max']['x']*self.zoom*self.points['rate'], self.height()*4)
-                D_point = QPointF(self.AuxLine['Max']['x']*self.zoom*self.points['rate'], self.height()*(-4))
+                if self.AuxLine['Max']['x'] < self.Point[self.AuxLine['pt']]['cx']: self.AuxLine['Max']['x'] = self.Point[self.AuxLine['pt']]['cx']
+                if self.AuxLine['Max']['y'] < self.Point[self.AuxLine['pt']]['cy']: self.AuxLine['Max']['y'] = self.Point[self.AuxLine['pt']]['cy']
+                L_point = QPointF(self.width()*4, self.AuxLine['Max']['y']*Tp*(-1))
+                R_point = QPointF(self.width()*(-4), self.AuxLine['Max']['y']*Tp*(-1))
+                U_point = QPointF(self.AuxLine['Max']['x']*Tp, self.height()*4)
+                D_point = QPointF(self.AuxLine['Max']['x']*Tp, self.height()*(-4))
                 painter.drawLine(L_point, R_point)
                 painter.drawLine(U_point, D_point)
                 if self.points['style']['dimension']:
-                    text_center_x = QPointF(self.AuxLine['Max']['x']*self.zoom*self.points['rate']+self.points['style']['penWidth']['pen'], self.points['origin']['y']*(-1)+self.Font_size)
-                    text_center_y = QPointF(self.points['origin']['x']*(-1), self.AuxLine['Max']['y']*self.zoom*self.points['rate']*(-1)-self.points['style']['penWidth']['pen'])
+                    text_center_x = QPointF(self.AuxLine['Max']['x']*Tp+self.points['style']['penWidth']['pen'], self.points['origin']['y']*-1+self.Font_size)
+                    text_center_y = QPointF(self.points['origin']['x']*(-1), self.AuxLine['Max']['y']*Tp*-1-self.points['style']['penWidth']['pen'])
                     painter.setFont(QFont("Arial", self.Font_size))
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Max']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Max']['y'])
             if self.AuxLine['isMin']:
-                if self.AuxLine['Min']['x'] > self.table_point[self.AuxLine['pt']]['cx']: self.AuxLine['Min']['x'] = self.table_point[self.AuxLine['pt']]['cx']
-                if self.AuxLine['Min']['y'] > self.table_point[self.AuxLine['pt']]['cy']: self.AuxLine['Min']['y'] = self.table_point[self.AuxLine['pt']]['cy']
-                L_point = QPointF(self.width()*4, self.AuxLine['Min']['y']*self.zoom*self.points['rate']*(-1))
-                R_point = QPointF(self.width()*(-4), self.AuxLine['Min']['y']*self.zoom*self.points['rate']*(-1))
-                U_point = QPointF(self.AuxLine['Min']['x']*self.zoom*self.points['rate'], self.height()*4)
-                D_point = QPointF(self.AuxLine['Min']['x']*self.zoom*self.points['rate'], self.height()*(-4))
+                if self.AuxLine['Min']['x'] > self.Point[self.AuxLine['pt']]['cx']: self.AuxLine['Min']['x'] = self.Point[self.AuxLine['pt']]['cx']
+                if self.AuxLine['Min']['y'] > self.Point[self.AuxLine['pt']]['cy']: self.AuxLine['Min']['y'] = self.Point[self.AuxLine['pt']]['cy']
+                L_point = QPointF(self.width()*4, self.AuxLine['Min']['y']*Tp*-1)
+                R_point = QPointF(self.width()*(-4), self.AuxLine['Min']['y']*Tp*-1)
+                U_point = QPointF(self.AuxLine['Min']['x']*Tp, self.height()*4)
+                D_point = QPointF(self.AuxLine['Min']['x']*Tp, self.height()*-4)
                 painter.drawLine(L_point, R_point)
                 painter.drawLine(U_point, D_point)
                 if self.points['style']['dimension']:
-                    text_center_x = QPointF(self.AuxLine['Min']['x']*self.zoom*self.points['rate']+self.points['style']['penWidth']['pen'], self.points['origin']['y']*(-1)+self.Font_size)
-                    text_center_y = QPointF(self.points['origin']['x']*(-1), self.AuxLine['Min']['y']*self.zoom*self.points['rate']*(-1)-self.points['style']['penWidth']['pen'])
+                    text_center_x = QPointF(self.AuxLine['Min']['x']*Tp+self.points['style']['penWidth']['pen'], self.points['origin']['y']*-1+self.Font_size)
+                    text_center_y = QPointF(self.points['origin']['x']*-1, self.AuxLine['Min']['y']*Tp*-1-self.points['style']['penWidth']['pen'])
                     painter.setFont(QFont("Arial", self.Font_size))
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Min']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Min']['y'])
@@ -195,35 +177,36 @@ class DynamicCanvas(QWidget):
             L_point = QPointF(self.width()*4, self.points['y'][self.AuxLine['pt']])
             R_point = QPointF(self.width()*(-4), self.points['y'][self.AuxLine['pt']])
             U_point = QPointF(self.points['x'][self.AuxLine['pt']], self.height()*4)
-            D_point = QPointF(self.points['x'][self.AuxLine['pt']], self.height()*(-4))
+            D_point = QPointF(self.points['x'][self.AuxLine['pt']], self.height()*-4)
             painter.setPen(pen)
             if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
             if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
-        for i in range(len(self.table_point)):
+        for e in self.Point:
+            index = self.Point.index(e)
+            cx = e['cx']*Tp
+            cy = e['cy']*Tp*-1
             pen = QPen()
             pen.setWidth(2)
-            point_center = QPointF(int(self.points['x'][i]), int(self.points['y'][i]))
-            text_center = QPointF(int(self.points['x'][i]+6), int(self.points['y'][i]-6))
             try:
-                try: pen.setColor(self.Color[self.table_style.cellWidget(i, 3).currentText()])
-                except: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
+                try: pen.setColor(self.Color[self.table_style.cellWidget(index, 3).currentText()])
+                except: pen.setColor(self.Color[self.table_style.item(index, 3).text()])
             except: pen.setColor(self.points['style']['pt'])
             painter.setPen(pen)
-            r = float(self.table_style.item(i, 2).text())
-            painter.drawEllipse(point_center, r, r)
+            r = float(self.table_style.item(index, 2).text())
+            painter.drawEllipse(QPointF(cx, cy), r, r)
             try:
-                try: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
-                except: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
+                try: pen.setColor(self.Color[self.table_style.cellWidget(index, 1).currentText()])
+                except: pen.setColor(self.Color[self.table_style.item(index, 1).text()])
             except: pen.setColor(self.points['style']['pt'])
             pen.setWidth(5)
             painter.setPen(pen)
-            painter.drawPoint(point_center)
+            painter.drawPoint(QPointF(cx, cy))
             if self.Point_mark:
                 pen.setColor(self.points['style']['text'])
                 pen.setWidth(2)
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(text_center, "[Point"+str(i)+"]")
+                painter.drawText(QPointF(cx+6, cy-6), '[Point{}]'.format(index))
         if self.points['Path']['path'] and self.points['Path']['show']:
             for i in range(len(self.points['Path']['path'])):
                 nPath = self.points['Path']['path'][i]
@@ -250,10 +233,10 @@ class DynamicCanvas(QWidget):
         self.change_event.emit()
     
     def Reset_Aux_limit(self):
-        self.AuxLine['Max']['x'] = self.table_point[self.AuxLine['pt']]['cx']
-        self.AuxLine['Max']['y'] = self.table_point[self.AuxLine['pt']]['cy']
-        self.AuxLine['Min']['x'] = self.table_point[self.AuxLine['pt']]['cx']
-        self.AuxLine['Min']['y'] = self.table_point[self.AuxLine['pt']]['cy']
+        self.AuxLine['Max']['x'] = self.Point[self.AuxLine['pt']]['cx']
+        self.AuxLine['Max']['y'] = self.Point[self.AuxLine['pt']]['cy']
+        self.AuxLine['Min']['x'] = self.Point[self.AuxLine['pt']]['cx']
+        self.AuxLine['Min']['y'] = self.Point[self.AuxLine['pt']]['cy']
     
     def reset_Auxline(self):
         self.AuxLine = {'show':False, 'pt':0,
