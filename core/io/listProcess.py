@@ -194,8 +194,8 @@ class Lists():
     
     def styleFix(self, table, fix, edit):
         rowPosition = edit
-        if fix: fix_set = QTableWidgetItem("10")
-        else: fix_set = QTableWidgetItem("5")
+        if fix: fix_set = QTableWidgetItem('10')
+        else: fix_set = QTableWidgetItem('5')
         fix_set.setFlags(Qt.ItemIsEnabled)
         table.setItem(rowPosition, 2, fix_set)
     

@@ -242,8 +242,8 @@ AddEntity
         script_entity = Entity_line(script_entity, entity_num)
         for p in [e['start'], e['end']]:
             entity_num += 1
-            script_entity = Entity_point(script_entity, entity_num, Point[p]['cx'], Point[p]['cy'])
             point_num[p].append(entity_num)
+            script_entity = Entity_point(script_entity, entity_num, Point[p]['cx'], Point[p]['cy'])
             line_num[Line.index(e)].append(entity_num)
         entity_num = up(entity_num, 4)
     for e in Chain:
@@ -252,8 +252,8 @@ AddEntity
             script_entity = Entity_line(script_entity, entity_num)
             for p in k:
                 entity_num += 1
-                script_entity = Entity_point(script_entity, entity_num, Point[p]['cx'], Point[p]['cy'])
                 point_num[p].append(entity_num)
+                script_entity = Entity_point(script_entity, entity_num, Point[p]['cx'], Point[p]['cy'])
                 chain_num[Chain.index(e)][band.index(k)].append(entity_num)
             entity_num = up(entity_num, 4)
     script_entity += '''
@@ -286,8 +286,11 @@ AddEntity
             script_constraint = Constraint_point(script_constraint, constraint_num, e[0], p)
             constraint_num += 1
     for e in Point:
+        script_constraint = Constraint_comment(script_constraint, constraint_num, 'Point{}'.format(Point.index(e)), e['cx'], e['cy'])
+        constraint_num += 1
+    for e in Point:
         if e['fix'] and point_num[Point.index(e)]:
-            script_constraint = Constraint_fix(script_constraint, constraint_num, point_num[Point.index(e)][0], e['x'], e['y'])
+            script_constraint = Constraint_fix(script_constraint, constraint_num, point_num[Point.index(e)][0], e['cx'], e['cy'])
             constraint_num += 2
     for e in line_num:
         script_constraint = Constraint_line(script_constraint, constraint_num, e[0], e[1], Line[line_num.index(e)]['len'])
@@ -404,4 +407,20 @@ Constraint.disp.offset.x={4:.20f}
 Constraint.disp.offset.y={4:.20f}
 AddConstraint
 '''.format(num, p1, p2, len, 10)
+    return script
+
+def Constraint_comment(script, num, comment, x, y):
+    script += '''
+Constraint.h.v={0:08x}
+Constraint.type=1000
+Constraint.group.v=00000002
+Constraint.workplane.v=80020000
+Constraint.other=0
+Constraint.other2=0
+Constraint.reference=0
+Constraint.comment={1}
+Constraint.disp.offset.x={2:.20f}
+Constraint.disp.offset.y={3:.20f}
+AddConstraint
+'''.format(num, comment, x, y)
     return script
