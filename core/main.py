@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 '''
-PySolvespace - PyQt 5 GUI with Solvespace Library
+Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.
 Copyright (C) 2016 Yuan Chang
 E-mail: daan0014119@gmail.com
 
 This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
+it under the terms of the GNU Affero General Public License as published by
 the Free Software Foundation; either version 3 of the License, or
 (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+GNU Affero General Public License for more details.
 
-You should have received a copy of the GNU General Public License
+You should have received a copy of the GNU Affero General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
@@ -25,9 +25,10 @@ from .Ui_main import Ui_MainWindow
 from .Ui_custom import init_Right_click_menu, actionEnabled
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
+    def __init__(self, args, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        self.args = args
         #File & Default Setting
         self.FileState = QUndoStack()
         self.showUndoWindow(self.FileState)
@@ -45,19 +46,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         init_Right_click_menu(self)
         actionEnabled(self)
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,6})?[0-9][.][0-9]{1,8}$')))
-        if len(sys.argv)>2: self.argvLoadFile()
+        if self.args.r: self.loadWorkbook(self.args.r)
     
     def setLocate(self, locate):
         self.Default_Environment_variables = locate
         print("~Start at: [{}]".format(self.Default_Environment_variables))
     
-    def argvLoadFile(self):
-        pos = False
-        for e in sys.argv:
-            if '.csv' in e.lower():
-                pos = sys.argv.index(e)
-                break
-        if pos: self.loadWorkbook(sys.argv[pos])
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasUrls():
@@ -198,7 +192,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Resolve
     def Resolve(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
-        result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod)
+        result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod, self.args.w)
         if not DOF is False:
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
@@ -210,7 +204,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFview.setText("Failed.")
             self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.Solvefail = True
-            if "-w" in sys.argv: print("Rebuild the cavanc failed.")
     #Reload Canvas
     def Reload_Canvas(self):
         self.qpainterWindow.update_figure(

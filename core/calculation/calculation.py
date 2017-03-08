@@ -2,7 +2,7 @@
 #System infomation
 import sys, platform, numpy
 py_nm = sys.version[0:sys.version.find(" ")][0:3]
-argv = sys.argv
+
 #SLVS Version & pyslvs_generate Version
 if platform.system().lower()=="linux":
     if py_nm=="3.4":
@@ -29,7 +29,7 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
 def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
-        currentShaft=0, point_int=False, angle=False, generateResult=False):
+        currentShaft=0, point_int=False, angle=False, generateResult=False, hasWarning=False):
     pathTrackProcess = not(Point is False) and not angle is False
     staticProcess = not(Point is False) and angle is False
     generateConversionProcess = not generateResult is False
@@ -146,9 +146,9 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
         elif generateConversionProcess:
             resultList = list()
             for i in range(0, 12, 2): resultList.append({'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val})
-    elif sys.result==SLVS_RESULT_INCONSISTENT and "-w" in argv: print("SLVS_RESULT_INCONSISTENT")
-    elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and "-w" in argv: print("SLVS_RESULT_DIDNT_CONVERGE")
-    elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and "-w" in argv: print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
+    elif sys.result==SLVS_RESULT_INCONSISTENT and hasWarning: print("SLVS_RESULT_INCONSISTENT")
+    elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and hasWarning: print("SLVS_RESULT_DIDNT_CONVERGE")
+    elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and hasWarning: print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
     if pathTrackProcess:
         try: return x, y
         except: return 0, 0

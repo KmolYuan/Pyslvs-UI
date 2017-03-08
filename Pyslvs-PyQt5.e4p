@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-01, 17:04:51 -->
+<!-- Saved: 2017-03-08, 20:42:44 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -51,7 +51,6 @@
     <Source>core/info/fileInfo.py</Source>
     <Source>core/info/info.py</Source>
     <Source>core/info/path_point_data.py</Source>
-    <Source>core/info/textConverter.py</Source>
     <Source>core/io/Ui_dxfType.py</Source>
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/Ui_slvsType.py</Source>

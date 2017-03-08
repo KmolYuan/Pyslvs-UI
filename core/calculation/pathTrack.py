@@ -27,8 +27,7 @@ class WorkerThread(QThread):
                 Yval = list()
                 for j in range(int(start_angle), int(end_angle)+1, int(Resolution)):
                     angle = float(j/100)
-                    x, y = slvsProcess(
-                        self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, i, n, angle)
+                    x, y = slvsProcess(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, i, n, angle)
                     Xval.append(x)
                     Yval.append(y)
                     self.progress_going()

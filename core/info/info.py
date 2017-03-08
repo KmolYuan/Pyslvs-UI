@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
-from sys import version_info, argv
+from sys import version_info
 import csv, platform
-from PyQt5.QtWidgets import QDialog, QSplashScreen
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
-from .textConverter import *
+from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
+import argparse
 
 VERSION = "0.6.0(dev)"
 
+parser = argparse.ArgumentParser(usage='%(prog)s [options]',
+    description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
+    epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
+parser.add_argument('-r', metavar='FileName', type=str, help="Read the csv file from file path.")
+parser.add_argument('-v', '--version', action='store_true', help="Show version infomations and Exit.")
+parser.add_argument('-w', action='store_true', help="Show rebuild warning of canvas.")
+parser.add_argument('-f', '--fusion', action='store_true', help="Run Pyslvs in Fusion style.")
+parser.add_argument('-F', '--file-data', action='store_true', help="When open a file, show it's data in command line.")
+args = parser.parse_args()
+
 def show_version():
     print("[Pyslvs {}]".format(VERSION))
-    if '--version' in argv or '-v' in argv: return 0
+    if args.version: return 0
     show_info()
-    if '--help' in argv or '-h' in argv or '-H' in argv:
-        show_help()
-        return 0
-    return 1
+    return args
 
 def show_info():
     print("OS Type: {}".format(platform.system()))
@@ -39,24 +44,17 @@ def show_info():
     except ImportError: print("No QScintilla.")
     print('-'*7)
 
-def show_help():
-    print(help(argumentType(
-        "python3 launch_pyslvs.py [FileName] [arg1] [arg2] ...",
-        "launch_pyslvs [FileName] [arg1] [arg2] ..."),
-        "Open a file directly by put file name after the launch command.",
-        "Information and Debug Function:", argumentList(
-        ['-v', '--version', "Show version infomations and Exit."],
-        ['-h -H', '--help\t', "Show this help message and Exit."],
-        ['-w', "Show rebuild warning of canvas."],
-        ['-f', '--fusion', "Run Pyslvs in Fusion style."],
-        ['-F', '--file-data', "When open a file, show it's data in command line."]),
-        present("Python IDE Eric 6", "PyQt 5", "dxfwrite")))
-
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):
         super(Pyslvs_Splash, self).__init__(parent)
         self.setPixmap(QPixmap(":/icons/Splash.png"))
         self.showMessage("Version {}".format(VERSION), (Qt.AlignBottom|Qt.AlignRight))
+
+## Turn simple string to html format.
+def html(script): return '<html><head/><body>{}</body></html>'.format(script)
+def title(name, *others): return '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(others)) if others else '')
+def content(*text): return '<p>{}</p>'.format('</p><p>'.join(text))
+def orderList(*List): return '<ol><li>{}</li></ol>'.format('</li><li>'.join(List))
 
 class Help_info_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
@@ -76,7 +74,7 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.Content.setText(html(title("Pyslvs", "version {}".format(VERSION))+content(
+        self.Content.setText(html(title("Pyslvs", "Version {}".format(VERSION))+content(
         "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
         "It can use in Mechanical Design and Simulation.",
         "This program using Python 3 with Python Solvespace.",
