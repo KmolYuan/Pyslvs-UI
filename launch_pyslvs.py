@@ -6,13 +6,12 @@ from core.info.info import show_version, Pyslvs_Splash
 from core.main import MainWindow
 if __name__=="__main__":
     args = show_version()
-    if args:
-        from PyQt5.QtWidgets import QApplication
-        if args.fusion: QApplication.setStyle('fusion')
-        app = QApplication(argv)
-        splash = Pyslvs_Splash()
-        splash.show()
-        run = MainWindow(args)
-        run.show()
-        splash.finish(run)
-        exit(app.exec())
+    from PyQt5.QtWidgets import QApplication
+    if args.fusion: QApplication.setStyle('fusion')
+    app = QApplication(argv)
+    splash = Pyslvs_Splash()
+    splash.show()
+    run = MainWindow(args)
+    run.show()
+    splash.finish(run)
+    exit(app.exec())

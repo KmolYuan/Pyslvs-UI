@@ -11,19 +11,18 @@ parser = argparse.ArgumentParser(usage='%(prog)s [options]',
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
 parser.add_argument('-r', metavar='FileName', type=str, help="Read the csv file from file path.")
-parser.add_argument('-v', '--version', action='store_true', help="Show version infomations and Exit.")
+parser.add_argument('-v', '--version', action='version', help="Show version infomations and Exit.", version=VERSION)
 parser.add_argument('-w', action='store_true', help="Show rebuild warning of canvas.")
 parser.add_argument('-f', '--fusion', action='store_true', help="Run Pyslvs in Fusion style.")
 parser.add_argument('-F', '--file-data', action='store_true', help="When open a file, show it's data in command line.")
 args = parser.parse_args()
 
 def show_version():
-    print("[Pyslvs {}]".format(VERSION))
-    if args.version: return 0
     show_info()
     return args
 
 def show_info():
+    print("Pyslvs {}".format(VERSION))
     print("OS Type: {}".format(platform.system()))
     print("Python Version: {:d}.{:d}.{:d}".format(*version_info[:3]))
     try:
