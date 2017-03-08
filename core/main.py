@@ -46,7 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         init_Right_click_menu(self)
         actionEnabled(self)
         self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,6})?[0-9][.][0-9]{1,8}$')))
-        if self.args.r: self.loadWorkbook(self.args.r)
+        if self.args.r: self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
     
     def setLocate(self, locate):
         self.Default_Environment_variables = locate

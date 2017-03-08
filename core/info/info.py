@@ -10,7 +10,7 @@ VERSION = "0.6.0(dev)"
 parser = argparse.ArgumentParser(usage='%(prog)s [options]',
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
-parser.add_argument('-r', metavar='FileName', type=str, help="Read the csv file from file path.")
+parser.add_argument('-r', metavar='FileName', nargs='?', type=str, help="Read the csv file from file path.")
 parser.add_argument('-v', '--version', action='version', help="Show version infomations and Exit.", version=VERSION)
 parser.add_argument('-w', action='store_true', help="Show rebuild warning of canvas.")
 parser.add_argument('-f', '--fusion', action='store_true', help="Run Pyslvs in Fusion style.")
