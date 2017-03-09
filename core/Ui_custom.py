@@ -1,9 +1,9 @@
 from .QtModules import *
 
 def init_Right_click_menu(self):
-    #qpainterWindow Right-click menu
-    self.qpainterWindow.setContextMenuPolicy(Qt.CustomContextMenu)
-    self.qpainterWindow.customContextMenuRequested.connect(self.on_painter_context_menu)
+    #DynamicCanvasView Right-click menu
+    self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
+    self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
     self.popMenu_painter = QMenu(self)
     self.action_painter_right_click_menu_add = QAction("Add a Point", self)
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
@@ -16,7 +16,7 @@ def init_Right_click_menu(self):
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_add)
     self.action_painter_right_click_menu_dimension_path_track = QAction("Show Path Track", self)
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_path_track)
-    self.qpainterWindow.mouse_track.connect(self.context_menu_mouse_pos)
+    self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
     #Entiteis_Point Right-click menu
     self.Entiteis_Point_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)

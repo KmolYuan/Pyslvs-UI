@@ -37,9 +37,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File = File(self.FileState)
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
-        self.qpainterWindow = DynamicCanvas()
-        self.mplLayout.insertWidget(0, self.qpainterWindow)
-        self.qpainterWindow.show()
+        if self.args.t:
+            self.DynamicCanvasView = DynamicCanvasView(self)
+            self.DynamicCanvasView.setCursor(Qt.CrossCursor)
+        else: self.DynamicCanvasView = DynamicCanvas()
+        self.mplLayout.insertWidget(0, self.DynamicCanvasView)
+        self.DynamicCanvasView.show()
         self.Resolve()
         #Solve & Script & DOF & Mask
         self.Solvefail = False
@@ -72,7 +75,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_y = y
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path_add.setVisible(hasattr(self, 'PathSolvingDlg'))
-        action = self.popMenu_painter.exec_(self.qpainterWindow.mapToGlobal(point))
+        action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
         x = self.mouse_pos_x
@@ -204,7 +207,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Solvefail = True
     #Reload Canvas
     def Reload_Canvas(self):
-        self.qpainterWindow.update_figure(
+        self.DynamicCanvasView.update_figure(
             float(self.LineWidth.text()), float(self.PathWidth.text()),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
             self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(),
@@ -284,7 +287,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.closePanels()
         self.File.reset(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-        self.qpainterWindow.path_solving(list())
+        self.DynamicCanvasView.path_solving(list())
         self.Resolve()
         self.FileState.clear()
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
@@ -387,7 +390,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Business Process Model (*.bpm);;Tagged Image File Format (*.tiff);;Tagged Image File Format (*.tif);;Windows Icon (*.ico);;Wireless Application Protocol Bitmap (*.wbmp);;\
             X BitMap (*.xbm);;X Pixmap (*.xpm)")
         if fileName:
-            pixmap = self.qpainterWindow.grab()
+            pixmap = self.DynamicCanvasView.grab()
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
             self.replyBox('Picture', fileName)
     def outputTo(self, formatName, formatChoose):
@@ -675,17 +678,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.on_action_Set_Shaft_triggered(cen, ref)
     
     @pyqtSlot()
-    def on_ResetCanvas_clicked(self): self.qpainterWindow.SetIn()
+    def on_ResetCanvas_clicked(self): self.DynamicCanvasView.SetIn()
     @pyqtSlot()
     def on_FitW_clicked(self):
         self.Fit2H()
         self.Fit2W()
     def Fit2W(self):
         for i in range(10):
-            max_pt = max(self.qpainterWindow.points['x'])
-            min_pt = min(self.qpainterWindow.points['x'])
-            self.qpainterWindow.points['origin']['x'] = (self.qpainterWindow.width()-(max_pt+min_pt))/2
-            self.ZoomBar.setValue(self.ZoomBar.value()*self.qpainterWindow.width()/(max_pt+min_pt+100))
+            max_pt = max(self.DynamicCanvasView.points['x'])
+            min_pt = min(self.DynamicCanvasView.points['x'])
+            self.DynamicCanvasView.points['origin']['x'] = (self.DynamicCanvasView.width()-(max_pt+min_pt))/2
+            self.ZoomBar.setValue(self.ZoomBar.value()*self.DynamicCanvasView.width()/(max_pt+min_pt+100))
             self.Reload_Canvas()
     @pyqtSlot()
     def on_FitH_clicked(self):
@@ -693,10 +696,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Fit2H()
     def Fit2H(self):
         for i in range(10):
-            max_pt = max(self.qpainterWindow.points['y'])
-            min_pt = min(self.qpainterWindow.points['y'])
-            self.qpainterWindow.points['origin']['y'] = (self.qpainterWindow.height()-(max_pt+min_pt))/2
-            self.ZoomBar.setValue(self.ZoomBar.value()*self.qpainterWindow.height()/(max_pt-min_pt+100))
+            max_pt = max(self.DynamicCanvasView.points['y'])
+            min_pt = min(self.DynamicCanvasView.points['y'])
+            self.DynamicCanvasView.points['origin']['y'] = (self.DynamicCanvasView.height()-(max_pt+min_pt))/2
+            self.ZoomBar.setValue(self.ZoomBar.value()*self.DynamicCanvasView.height()/(max_pt-min_pt+100))
             self.Reload_Canvas()
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
@@ -722,11 +725,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
-        self.qpainterWindow.points['Path']['show'] = self.Path_data_show.checkState()
+        self.DynamicCanvasView.points['Path']['show'] = self.Path_data_show.checkState()
         self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_points_show_clicked(self):
-        self.qpainterWindow.points['slvsPath']['show'] = self.Path_points_show.checkState()
+        self.DynamicCanvasView.points['slvsPath']['show'] = self.Path_points_show.checkState()
         self.Reload_Canvas()
     
     @pyqtSlot()
@@ -785,21 +788,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
         self.File.PathSolvingReqs.add(x, y)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
+        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
         self.workbookNoSave()
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
         self.File.PathSolvingReqs.remove(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
+        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
         self.workbookNoSave()
     @pyqtSlot(int)
     def PathSolving_moveup(self, row):
         self.File.PathSolvingReqs.moveUP(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
+        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
     @pyqtSlot(int)
     def PathSolving_movedown(self, row):
         self.File.PathSolvingReqs.moveDown(row)
-        self.qpainterWindow.path_solving(self.File.PathSolvingReqs.list)
+        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
     PathSolvingStart = pyqtSignal(list)
     @pyqtSlot()
     def PathSolving_send(self): self.PathSolvingStart.emit(self.File.PathSolvingReqs.list)
@@ -852,10 +855,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.MeasurementWidget = Measurement_show(table)
             self.PointTab.addTab(self.MeasurementWidget, QIcon(QPixmap(":/icons/ref.png")), 'Measurement')
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-            self.qpainterWindow.change_event.connect(self.MeasurementWidget.Detection_do)
+            self.DynamicCanvasView.change_event.connect(self.MeasurementWidget.Detection_do)
             self.actionDisplay_Dimensions.setChecked(True)
             self.actionDisplay_Point_Mark.setChecked(True)
-            self.qpainterWindow.mouse_track.connect(self.MeasurementWidget.show_mouse_track)
+            self.DynamicCanvasView.mouse_track.connect(self.MeasurementWidget.show_mouse_track)
             self.MeasurementWidget.point_change.connect(self.distance_solving)
             self.distance_changed.connect(self.MeasurementWidget.change_distance)
             self.MeasurementWidget.Mouse.setPlainText("Detecting")
@@ -872,28 +875,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_AuxLine_clicked(self):
         if not hasattr(self, 'AuxLineWidget'):
-            self.qpainterWindow.AuxLine['show'] = True
-            self.qpainterWindow.AuxLine['horizontal'] = True
-            self.qpainterWindow.AuxLine['vertical'] = True
+            self.DynamicCanvasView.AuxLine['show'] = True
+            self.DynamicCanvasView.AuxLine['horizontal'] = True
+            self.DynamicCanvasView.AuxLine['vertical'] = True
             table = self.Entiteis_Point
-            self.AuxLineWidget = AuxLine_show(table, self.qpainterWindow.AuxLine['pt'], self.qpainterWindow.AuxLine['color'], self.qpainterWindow.AuxLine['limit_color'])
+            self.AuxLineWidget = AuxLine_show(table, self.DynamicCanvasView.AuxLine['pt'], self.DynamicCanvasView.AuxLine['color'], self.DynamicCanvasView.AuxLine['limit_color'])
             self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
             self.PointTab.addTab(self.AuxLineWidget, QIcon(QPixmap(":/icons/auxline.png")), 'Auxiliary Line')
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
         else:
             self.closePanel(self.AuxLineWidget, 'AuxLineWidget', self.AuxLine)
-            self.qpainterWindow.reset_Auxline()
+            self.DynamicCanvasView.reset_Auxline()
         self.Reload_Canvas()
     @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
     def draw_Auxline(self, pt, color, color_l, axe_H, axe_V, max_l, min_l, pt_change):
-        self.qpainterWindow.AuxLine['pt'] = pt
-        self.qpainterWindow.AuxLine['color'] = color
-        self.qpainterWindow.AuxLine['limit_color'] = color_l
-        if pt_change: self.qpainterWindow.Reset_Aux_limit()
-        self.qpainterWindow.AuxLine['horizontal'] = axe_H
-        self.qpainterWindow.AuxLine['vertical'] = axe_V
-        self.qpainterWindow.AuxLine['isMax'] = max_l
-        self.qpainterWindow.AuxLine['isMin'] = min_l
+        self.DynamicCanvasView.AuxLine['pt'] = pt
+        self.DynamicCanvasView.AuxLine['color'] = color
+        self.DynamicCanvasView.AuxLine['limit_color'] = color_l
+        if pt_change: self.DynamicCanvasView.Reset_Aux_limit()
+        self.DynamicCanvasView.AuxLine['horizontal'] = axe_H
+        self.DynamicCanvasView.AuxLine['vertical'] = axe_V
+        self.DynamicCanvasView.AuxLine['isMax'] = max_l
+        self.DynamicCanvasView.AuxLine['isMin'] = min_l
         self.Reload_Canvas()
     
     @pyqtSlot()
@@ -904,7 +907,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if hasattr(self, 'DriveRodWidget'): self.closePanel(self.DriveRodWidget, 'DriveRodWidget', self.Drive_rod)
         if hasattr(self, 'MeasurementWidget'): self.closePanel(self.MeasurementWidget, 'MeasurementWidget', self.Measurement)
         if hasattr(self, 'AuxLineWidget'): self.closePanel(self.AuxLineWidget, 'AuxLineWidget', self.AuxLine)
-        self.qpainterWindow.reset_Auxline()
+        self.DynamicCanvasView.reset_Auxline()
         self.PointTab.setCurrentIndex(0)
     def closePanel(self, panel, name, button):
         panel.deleteLater()

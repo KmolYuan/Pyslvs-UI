@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-08, 20:42:44 -->
+<!-- Saved: 2017-03-09, 19:18:02 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -21,6 +21,7 @@
     <Source>core/calculation/__init__.py</Source>
     <Source>core/calculation/calculation.py</Source>
     <Source>core/calculation/canvas_0.py</Source>
+    <Source>core/calculation/canvas_1.py</Source>
     <Source>core/calculation/color.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>

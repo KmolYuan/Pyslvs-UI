@@ -31,6 +31,7 @@ from .panel.run_Path_Solving import Path_Solving_show
 from .calculation.calculation import slvsProcess, slvsProcessScript
 #Canvas
 from .calculation.canvas_0 import DynamicCanvas
+from .calculation.canvas_1 import DynamicCanvasView
 #File & Example
 from .io.fileForm import File
 from .io.example import *

@@ -15,6 +15,7 @@ parser.add_argument('-w', action='store_true', help="show rebuild warning of can
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
 parser.add_argument('-F', '--file-data', action='store_true', help="display the file data in command-line when opening")
 parser.add_argument('-G', '--show-args', action='store_true', help="display the arguments when starting")
+parser.add_argument('-t', action='store_true', help="testing new canvas")
 args = parser.parse_args()
 
 def show_info():
