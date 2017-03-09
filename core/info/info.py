@@ -17,10 +17,6 @@ parser.add_argument('-F', '--file-data', action='store_true', help="display the 
 parser.add_argument('-G', '--show-args', action='store_true', help="display the arguments when starting")
 args = parser.parse_args()
 
-def show_version():
-    show_info()
-    return args
-
 def show_info():
     print("Pyslvs {}".format(VERSION))
     print("OS Type: {}".format(platform.system()))
@@ -42,6 +38,7 @@ def show_info():
         print("QScintilla Version: {}".format(qsciVersion.strip()))
     except ImportError: print("No QScintilla.")
     print('-'*7)
+    return args
 
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):
