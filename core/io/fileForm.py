@@ -62,7 +62,7 @@ class File():
             if (len(li)-1)%4==0 and (len(li2)-1)%4==0:
                 for i in range(1, len(li), 4):
                     self.Lists.editTable(Point, 'Point', False, li[i+1], li[i+2], li[i+3]=='True',
-                        **{'styleTable':Point_Style, 'color':li2[i+1], 'ringsize':li2[i+2], 'ringcolor':li2[i+3].replace(",", "")})
+                        styleTable=Point_Style, color=li2[i+1], ringsize=li2[i+2], ringcolor=li2[i+3].replace(",", ""))
         except: errorInfo.append('Point')
         try:
             li = data[tableIndex[2]:tableIndex[3]]
@@ -160,7 +160,7 @@ class File():
         self.resetAllList()
     
     def CSV_write(self, writer, table, k, init=0):
-        writer.writerow(["_table_"])
+        writer.writerow(['_table_'])
         for row in range(init, table.rowCount()):
             rowdata = list()
             for column in range(k):
@@ -212,11 +212,9 @@ class File():
         Bnum = Point.rowCount()+2
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
-        for i in range(1, len(data)):
-            self.Lists.editTable(Point, 'Point', False, str(data[i]['x']), str(data[i]['y']), i<3,
-                **{'styleTable':Point_Style, 'color':'Green', 'ringsize':'10' if i<3 else '5', 'ringcolor':'Blue' if i<3 else 'Green'})
-        self.Lists.editTable(Chain, 'Chain', False,
-            "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
+        for i in range(1, len(data)): self.Lists.editTable(Point, 'Point', False, str(data[i]['x']), str(data[i]['y']), i<3,
+                styleTable=Point_Style, color='Green', ringsize='10' if i<3 else '5', ringcolor='Blue' if i<3 else 'Green')
+        self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3']))
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))

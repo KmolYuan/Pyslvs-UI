@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
+from collections import defaultdict
 from ..dialog.delete import deleteDlg
 from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
@@ -14,7 +15,7 @@ class Lists():
         self.ShaftList = list()
         self.SliderList = list()
         self.RodList = list()
-        self.ParameterList = list()
+        self.ParameterList = defaultdict(lambda: 0., dict())
         self.data = list()
         self.runList = list()
         self.shaftList = list()
@@ -130,7 +131,7 @@ class Lists():
         self.update(Rod, 'Rod')
     
     def update(self, table, name):
-        lst = list() if not name=='Parameter' else dict()
+        lst = list() if not name=='Parameter' else defaultdict(lambda: 0., dict())
         for i in range(table.rowCount()):
             if name=='Parameter': lst[int(table.item(i, 0).text().replace('n', ''))] = float(table.item(i, 1).text())
             elif name=='Point':
@@ -183,10 +184,7 @@ class Lists():
         elif name=='Slider': self.SliderList = lst
         elif name=='Rod': self.RodList = lst
     
-    def toFloat(self, p):
-        try: digit = self.ParameterList[int(p.replace('n', ''))] if 'n' in p else float(p)
-        except KeyError: digit = 0.
-        return digit
+    def toFloat(self, p): return self.ParameterList[int(p.replace('n', ''))] if 'n' in p else float(p)
     
     def coverageCoordinate(self, table, row):
         e = self.PointList[row]

@@ -9,6 +9,7 @@ class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
         super(Path_Solving_listbox_show, self).__init__(parent)
         self.setupUi(self)
         for e in resultData: self.addResult(e)
+        self.isMerge()
     
     def addResult(self, e):
         item = QListWidgetItem(e['Algorithm']+(": {} ... {}".format(e['path'][:3], e['path'][-3:]) if len(e['path'])>6 else ": {}".format(e['path'])))
@@ -18,23 +19,22 @@ class Path_Solving_listbox_show(QWidget, PathSolvingListbox_Dialog):
         self.isMerge()
     
     def isMerge(self):
-        self.mergeButton.setEnabled(self.Result_list.count()>0)
-        self.deleteButton.setEnabled(self.Result_list.count()>0)
+        n = self.Result_list.count()>0 and self.Result_list.currentRow()>-1
+        self.mergeButton.setEnabled(n)
+        self.deleteButton.setEnabled(n)
     
     @pyqtSlot()
     def on_deleteButton_clicked(self):
-        if self.Result_list.currentRow()>-1:
-            self.deleteResult.emit(self.Result_list.currentRow())
-            self.Result_list.takeItem(self.Result_list.currentRow())
+        self.deleteResult.emit(self.Result_list.currentRow())
+        self.Result_list.takeItem(self.Result_list.currentRow())
         self.isMerge()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
-        if self.Result_list.currentRow()>-1:
-            reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?\nDo you want to remove the results at the same time?",
-                (QMessageBox.Apply | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply:
-                self.mergeResult.emit(self.Result_list.currentRow())
-                self.deleteResult.emit(self.Result_list.currentRow())
-                self.Result_list.takeItem(self.Result_list.currentRow())
-            elif reply==QMessageBox.Discard: self.mergeResult.emit(self.Result_list.currentRow())
+        reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?\nDo you want to remove the results at the same time?",
+            (QMessageBox.Apply | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Apply)
+        if reply==QMessageBox.Apply:
+            self.mergeResult.emit(self.Result_list.currentRow())
+            self.deleteResult.emit(self.Result_list.currentRow())
+            self.Result_list.takeItem(self.Result_list.currentRow())
+        elif reply==QMessageBox.Discard: self.mergeResult.emit(self.Result_list.currentRow())

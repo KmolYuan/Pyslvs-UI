@@ -4,7 +4,7 @@
 from sys import exit, argv
 from core.info.info import show_version, Pyslvs_Splash
 from core.main import MainWindow
-if __name__=="__main__":
+if __name__=='__main__':
     args = show_version()
     from PyQt5.QtWidgets import QApplication
     if args.fusion: QApplication.setStyle('fusion')

@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from sys import version_info
-import csv, platform
+import csv, platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
-import argparse
 
 VERSION = "0.6.0(dev)"
 
-parser = argparse.ArgumentParser(usage='%(prog)s [options]',
+parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
-parser.add_argument('-v', '--version', action='version', help="Show version infomations and exit", version=VERSION)
-parser.add_argument('-r', metavar='FileName', nargs='?', type=str, help="Read the csv file from file path")
-parser.add_argument('-w', action='store_true', help="Show rebuild warning of canvas")
-parser.add_argument('-f', '--fusion', action='store_true', help="Run Pyslvs in Fusion style")
-parser.add_argument('-F', '--file-data', action='store_true', help="When open a file, show it's data in command line")
+parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version=VERSION)
+parser.add_argument('-r', metavar='File Path', default=False, nargs='?', type=str, help="read csv file from the file path")
+parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
+parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
+parser.add_argument('-F', '--file-data', action='store_true', help="display the file data in command-line when opening")
+parser.add_argument('-G', '--show-args', action='store_true', help="display the arguments when starting")
 args = parser.parse_args()
 
 def show_version():

@@ -28,7 +28,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        #Arguments
         self.args = args
+        if self.args.show_args: print("Arguments: {}".format(vars(self.args)))
         #File & Default Setting
         self.FileState = QUndoStack()
         self.showUndoWindow(self.FileState)
@@ -39,13 +41,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mplLayout.insertWidget(0, self.qpainterWindow)
         self.qpainterWindow.show()
         self.Resolve()
-        #Solve & Script & DOF & Mask & Parameter
+        #Solve & Script & DOF & Mask
         self.Solvefail = False
         self.DOF = 0
         self.Mask_Change()
+        self.Parameter_digital.setValidator(self.Mask)
         init_Right_click_menu(self)
         actionEnabled(self)
-        self.Parameter_digital.setValidator(QRegExpValidator(QRegExp('^[-]?([1-9][0-9]{1,6})?[0-9][.][0-9]{1,8}$')))
         if self.args.r: self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
     
     def setLocate(self, locate):
@@ -75,12 +77,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Point_Style
         x = self.mouse_pos_x
         y = self.mouse_pos_y
-        if action==self.action_painter_right_click_menu_add:
-            self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), False, **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
-            self.Resolve()
-        elif action==self.action_painter_right_click_menu_fix_add:
-            self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, **{'styleTable':table2, 'color':'Blue', 'ringsize':'10', 'ringcolor':'Green'})
-            self.Resolve()
+        if action==self.action_painter_right_click_menu_add: self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), False, styleTable=table2, color='Green', ringsize='5', ringcolor='Green')
+        elif action==self.action_painter_right_click_menu_fix_add: self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, styleTable=table2, color='Blue', ringsize='10', ringcolor='Green')
         elif action==self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action==self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False: self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
@@ -103,7 +101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
         elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(self.Entiteis_Point, 'Point', False,
             self.Entiteis_Point.item(table_pos_0, 1).text(), self.Entiteis_Point.item(table_pos_0, 2).text(), self.Entiteis_Point.item(table_pos_0, 3).checkState()==Qt.Checked,
-            **{'styleTable':self.Entiteis_Point_Style, 'color':'Green', 'ringsize':'5', 'ringcolor':'Orange'})
+            styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Orange')
         elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, table_pos_0)
         elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action==self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
@@ -439,16 +437,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), "n", "-"] else dlg.X_coordinate.placeholderText()
             y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), "n", "-"] else dlg.Y_coordinate.placeholderText()
             self.File.Lists.editTable(table1, 'Point', False, x, y, bool(dlg.Fix_Point.checkState()),
-            **{'styleTable':table2, 'color':'Green', 'ringsize':'10' if dlg.Fix_Point.checkState() else '5', 'ringcolor':'Green'})
+            styleTable=table2, color='Green', ringsize='10' if dlg.Fix_Point.checkState() else '5', ringcolor='Green')
     @pyqtSlot()
     def on_Point_add_button_clicked(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
         x = self.X_coordinate.text() if not self.X_coordinate.text() in [str(), "n", "-"] else self.X_coordinate.placeholderText()
         y = self.Y_coordinate.text() if not self.Y_coordinate.text() in [str(), "n", "-"] else self.Y_coordinate.placeholderText()
-        self.File.Lists.editTable(table1, 'Point', False, x, y, False, **{'styleTable':table2, 'color':'Green', 'ringsize':'5', 'ringcolor':'Green'})
+        self.File.Lists.editTable(table1, 'Point', False, x, y, False, styleTable=table2, color='Green', ringsize='5', ringcolor='Green')
         self.X_coordinate.clear()
         self.Y_coordinate.clear()
+    @pyqtSlot(int, int, int, int)
+    def on_Entiteis_Point_currentCellChanged(self, c0, c1, p0, p1):
+        self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(c0, 1).text())
+        self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(c0, 2).text())
     
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos=1):
@@ -910,7 +912,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         button.setChecked(False)
     
     def Mask_Change(self):
-        Count = str(len(self.File.Lists.ParameterList)-1)
+        Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)
         param = '(({}{}){})'.format(
             '[1-{}]'.format(Count[0]) if int(Count)>9 else '[0-{}]'.format(Count),
             ''.join(['[0-{}]'.format(e) for e in Count[1:]]),
@@ -921,24 +923,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Y_coordinate.setValidator(self.Mask)
     
     @pyqtSlot(int, int, int, int)
-    def on_Parameter_list_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
+    def on_Parameter_list_currentCellChanged(self, c0, c1, p0, p1):
         try:
-            self.Parameter_num.setPlainText("n"+str(currentRow))
-            self.Parameter_digital.setPlaceholderText(str(self.Parameter_list.item(currentRow, 1).text()))
-            self.Parameter_comment.setPlaceholderText(str(self.Parameter_list.item(currentRow, 2).text()))
+            self.Parameter_num.setPlainText('n{}'.format(c0))
+            self.Parameter_digital.setPlaceholderText(str(self.Parameter_list.item(c0, 1).text()))
+            self.Parameter_comment.setPlaceholderText(str(self.Parameter_list.item(c0, 2).text()))
+            self.Parameter_comment.setText(str(self.Parameter_list.item(c0, 2).text()))
         except:
-            self.Parameter_num.setPlainText("N/A")
-            self.Parameter_digital.setPlaceholderText("0.0")
-            self.Parameter_comment.setPlaceholderText("No-comment")
+            self.Parameter_num.setPlainText('N/A')
+            self.Parameter_digital.setPlaceholderText('0.0')
+            self.Parameter_comment.setPlaceholderText('No-comment')
         self.Parameter_digital.clear()
         self.Parameter_comment.clear()
-        self.Parameter_num.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-        self.Parameter_digital.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-        self.Parameter_comment.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-        self.Parameter_lable.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-        self.Comment_lable.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-        self.Parameter_update.setEnabled(self.Parameter_list.rowCount()>0 and currentRow>-1)
-    @pyqtSlot(int, int, int, int)
-    def on_Entiteis_Point_currentCellChanged(self, currentRow, currentColumn, previousRow, previousColumn):
-        self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 1).text())
-        self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(currentRow, 2).text())
+        enabled = self.Parameter_list.rowCount()>0 and c0>-1
+        self.Parameter_num.setEnabled(enabled)
+        self.Parameter_digital.setEnabled(enabled)
+        self.Parameter_comment.setEnabled(enabled)
+        self.Parameter_lable.setEnabled(enabled)
+        self.Comment_lable.setEnabled(enabled)
+        self.Parameter_update.setEnabled(enabled)
