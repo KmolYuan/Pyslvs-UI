@@ -43,8 +43,7 @@ def show_info():
 
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):
-        super(Pyslvs_Splash, self).__init__(parent)
-        self.setPixmap(QPixmap(":/icons/Splash.png"))
+        super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
         self.showMessage("Version {}".format(VERSION), (Qt.AlignBottom|Qt.AlignRight))
 
 ## Turn simple string to html format.

@@ -1458,16 +1458,7 @@ p, li { white-space: pre-wrap; }
              <layout class="QVBoxLayout" name="verticalLayout_14">
               <item>
                <widget class="QWidget" name="widget_2" native="true">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <property name="spacing">
-                  <number>5</number>
-                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_20">
                  <property name="leftMargin">
                   <number>6</number>
                  </property>
@@ -1481,238 +1472,287 @@ p, li { white-space: pre-wrap; }
                   <number>6</number>
                  </property>
                  <item>
-                  <widget class="QLabel" name="reqPath">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 1 Shaft.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  <widget class="QScrollArea" name="scrollArea">
+                   <property name="horizontalScrollBarPolicy">
+                    <enum>Qt::ScrollBarAlwaysOff</enum>
                    </property>
+                   <property name="widgetResizable">
+                    <bool>true</bool>
+                   </property>
+                   <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                    <property name="geometry">
+                     <rect>
+                      <x>0</x>
+                      <y>-29</y>
+                      <width>402</width>
+                      <height>448</height>
+                     </rect>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_22">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox">
+                       <property name="title">
+                        <string>Path Track</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_4">
+                        <item>
+                         <widget class="QLabel" name="reqPath">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 1 Shaft.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QGridLayout" name="Path_Track_Functions">
+                          <item row="3" column="2">
+                           <widget class="QCheckBox" name="Path_data_show">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="statusTip">
+                             <string>Show Path Data.</string>
+                            </property>
+                            <property name="text">
+                             <string>Show Path Data</string>
+                            </property>
+                            <property name="checked">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="2">
+                           <widget class="QPushButton" name="Path_Clear">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="statusTip">
+                             <string>Clear the path form path track function.</string>
+                            </property>
+                            <property name="text">
+                             <string>Clear Path</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="2" column="2">
+                           <widget class="QPushButton" name="Path_coordinate">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="statusTip">
+                             <string>See the coordinates of Path Track result.</string>
+                            </property>
+                            <property name="text">
+                             <string>View path coordinate</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="2" column="1">
+                           <widget class="QLabel" name="Path_data_exist">
+                            <property name="text">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;No Path Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="textFormat">
+                             <enum>Qt::RichText</enum>
+                            </property>
+                            <property name="wordWrap">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="1">
+                           <widget class="QPushButton" name="PathTrack">
+                            <property name="statusTip">
+                             <string>Route calculation from the specified point.</string>
+                            </property>
+                            <property name="text">
+                             <string>Path Track</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_2">
+                       <property name="title">
+                        <string>Dimensional Synthesis of Planar Four-bar Linkages</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_21">
+                        <item>
+                         <widget class="QLabel" name="reqPathSolving">
+                          <property name="text">
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No specified point.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <layout class="QGridLayout" name="gridLayout_3">
+                          <item row="1" column="0">
+                           <widget class="QPushButton" name="PathSolving">
+                            <property name="enabled">
+                             <bool>true</bool>
+                            </property>
+                            <property name="statusTip">
+                             <string>This generator will design a crank rocker to meet this path requirement.</string>
+                            </property>
+                            <property name="text">
+                             <string>Path Solving</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="1">
+                           <widget class="QCheckBox" name="Path_points_show">
+                            <property name="toolTip">
+                             <string/>
+                            </property>
+                            <property name="statusTip">
+                             <string>Show design path.</string>
+                            </property>
+                            <property name="text">
+                             <string>Show Path Points</string>
+                            </property>
+                            <property name="checked">
+                             <bool>false</bool>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_3">
+                       <property name="title">
+                        <string>Drivers</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_23">
+                        <item>
+                         <layout class="QGridLayout" name="gridLayout">
+                          <item row="1" column="0">
+                           <widget class="QPushButton" name="Drive_shaft">
+                            <property name="statusTip">
+                             <string>Drive the selected drive shaft.</string>
+                            </property>
+                            <property name="text">
+                             <string>Drive Shaft</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="1" column="1">
+                           <widget class="QPushButton" name="Drive_rod">
+                            <property name="statusTip">
+                             <string>Drive the selected piston.</string>
+                            </property>
+                            <property name="text">
+                             <string>Drive Piston</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QGroupBox" name="groupBox_4">
+                       <property name="title">
+                        <string>Validation tools</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_24">
+                        <item>
+                         <layout class="QGridLayout" name="gridLayout_2">
+                          <item row="0" column="0">
+                           <widget class="QPushButton" name="AuxLine">
+                            <property name="statusTip">
+                             <string>See the limitation of the point.</string>
+                            </property>
+                            <property name="text">
+                             <string>Auxiliary Line</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/auxline.png</normaloff>:/icons/auxline.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="0" column="1">
+                           <widget class="QPushButton" name="Measurement">
+                            <property name="statusTip">
+                             <string>Measure the distance between two points.</string>
+                            </property>
+                            <property name="text">
+                             <string>Measurement</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>0</width>
+                         <height>10</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
-                 </item>
-                 <item>
-                  <layout class="QGridLayout" name="Path_Track_Functions">
-                   <item row="3" column="2">
-                    <widget class="QCheckBox" name="Path_data_show">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="statusTip">
-                      <string>Show Path Data.</string>
-                     </property>
-                     <property name="text">
-                      <string>Show Path Data</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="2">
-                    <widget class="QPushButton" name="Path_Clear">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="statusTip">
-                      <string>Clear the path form path track function.</string>
-                     </property>
-                     <property name="text">
-                      <string>Clear Path</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="2">
-                    <widget class="QPushButton" name="Path_coordinate">
-                     <property name="enabled">
-                      <bool>false</bool>
-                     </property>
-                     <property name="statusTip">
-                      <string>See the coordinates of Path Track result.</string>
-                     </property>
-                     <property name="text">
-                      <string>View path coordinate</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="2" column="1">
-                    <widget class="QLabel" name="Path_data_exist">
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;No Path Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="textFormat">
-                      <enum>Qt::RichText</enum>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QPushButton" name="PathTrack">
-                     <property name="statusTip">
-                      <string>Route calculation from the specified point.</string>
-                     </property>
-                     <property name="text">
-                      <string>Path Track</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="Line" name="line">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="reqPathSolving">
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No specified point.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QGridLayout" name="gridLayout_3">
-                   <item row="1" column="0">
-                    <widget class="QPushButton" name="PathSolving">
-                     <property name="enabled">
-                      <bool>true</bool>
-                     </property>
-                     <property name="statusTip">
-                      <string>This generator will design a crank rocker to meet this path requirement.</string>
-                     </property>
-                     <property name="text">
-                      <string>Path Solving</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="1" column="1">
-                    <widget class="QCheckBox" name="Path_points_show">
-                     <property name="toolTip">
-                      <string/>
-                     </property>
-                     <property name="statusTip">
-                      <string>Show design path.</string>
-                     </property>
-                     <property name="text">
-                      <string>Show Path Points</string>
-                     </property>
-                     <property name="checked">
-                      <bool>false</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="Line" name="line_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QGridLayout" name="gridLayout">
-                   <item row="0" column="0">
-                    <widget class="QPushButton" name="Drive_shaft">
-                     <property name="statusTip">
-                      <string>Drive the selected drive shaft.</string>
-                     </property>
-                     <property name="text">
-                      <string>Drive Shaft</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QPushButton" name="Drive_rod">
-                     <property name="statusTip">
-                      <string>Drive the selected piston.</string>
-                     </property>
-                     <property name="text">
-                      <string>Drive Piston</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="Line" name="line_5">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QGridLayout" name="gridLayout_2">
-                   <item row="0" column="0">
-                    <widget class="QPushButton" name="AuxLine">
-                     <property name="statusTip">
-                      <string>See the limitation of the point.</string>
-                     </property>
-                     <property name="text">
-                      <string>Auxiliary Line</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/auxline.png</normaloff>:/icons/auxline.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                   <item row="0" column="1">
-                    <widget class="QPushButton" name="Measurement">
-                     <property name="statusTip">
-                      <string>Measure the distance between two points.</string>
-                     </property>
-                     <property name="text">
-                      <string>Measurement</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
-                     </property>
-                     <property name="checkable">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                  </spacer>
                  </item>
                 </layout>
                </widget>
