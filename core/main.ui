@@ -1483,8 +1483,8 @@ p, li { white-space: pre-wrap; }
                     <property name="geometry">
                      <rect>
                       <x>0</x>
-                      <y>-29</y>
-                      <width>402</width>
+                      <y>0</y>
+                      <width>323</width>
                       <height>448</height>
                      </rect>
                     </property>
@@ -1968,6 +1968,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionReverse_Parsing_Rocker"/>
      <addaction name="separator"/>
      <addaction name="actionSlider_and_Rod"/>
+     <addaction name="actionRocker_and_two_sliders"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
@@ -2809,6 +2810,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionRocker_and_two_sliders">
+   <property name="text">
+    <string>Rocker and two sliders</string>
    </property>
   </action>
  </widget>

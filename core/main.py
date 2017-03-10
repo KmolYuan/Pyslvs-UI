@@ -81,7 +81,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         x = self.mouse_pos_x
         y = self.mouse_pos_y
         if action==self.action_painter_right_click_menu_add: self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), False, styleTable=table2, color='Green', ringsize='5', ringcolor='Green')
-        elif action==self.action_painter_right_click_menu_fix_add: self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, styleTable=table2, color='Blue', ringsize='10', ringcolor='Green')
+        elif action==self.action_painter_right_click_menu_fix_add: self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, styleTable=table2, color='Blue', ringsize='10', ringcolor='Blue')
         elif action==self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action==self.action_painter_right_click_menu_dimension_add:
             if self.actionDisplay_Dimensions.isChecked()==False: self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
@@ -275,6 +275,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker())
     @pyqtSlot()
     def on_actionSlider_and_Rod_triggered(self): self.checkChange("[Example] Slider and Rod", example_sliderRod())
+    @pyqtSlot()
+    def on_actionRocker_and_two_sliders_triggered(self): self.checkChange("[Example] Rocker and two sliders", example_rockerSlider())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:

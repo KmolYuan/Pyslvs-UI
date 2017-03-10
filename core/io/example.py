@@ -152,5 +152,15 @@ def example_sliderRod():
         '_table_',
         '_table_', 'Slider0', 'Point3', 'Point0', 'Point2',
         '_table_', 'Rod0', 'Point4', 'Point0', 'Point1', '51.41',
-        '_table_', '_table_', '_path_', '_path_', '_path_',
-        ]
+        '_table_', '_table_', '_path_', '_path_', '_path_']
+
+def example_rockerSlider():
+    return [
+        '_info_', 'Yuang', '_info_', 'Example: Rocker and two sliders.', '_info_', timeNow, '_info_',
+        '_table_', 'Point1', '10.0', '30.0', 'True', 'Point2', '50.0', '40.0', 'True', 'Point3', '4.25', '26.0', 'False', 'Point4', '35.25', '38.75', 'False', 'Point5', '27.64', '-7.36', 'True', 'Point6', '57.45', '15.47', 'True', 'Point7', '41.57', '5.83', 'False',
+        '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Blue', '10', 'Blue', 'Point6', 'Blue', '10', 'Blue', 'Point7', 'Green', '5', 'Green',
+        '_table_', 'Line0', 'Point0', 'Point3', '10.0', 'Line1', 'Point3', 'Point4', '50.0', 'Line2', 'Point3', 'Point7', '55.0',
+        '_table_',
+        '_table_', 'Shaft0', 'Point0', 'Point3', '0.0', '360.0', '129.8', 'False',
+        '_table_', 'Slider0', 'Point4', 'Point1', 'Point2', 'Slider1', 'Point7', 'Point5', 'Point6',
+        '_table_', '_table_', '_table_', '_path_', '_path_', '_path_']

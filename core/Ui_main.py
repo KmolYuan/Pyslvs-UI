@@ -694,7 +694,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -29, 402, 448))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 323, 448))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -1138,6 +1138,8 @@ class Ui_MainWindow(object):
         self.actionDXF_2D_models = QtWidgets.QAction(MainWindow)
         self.actionDXF_2D_models.setIcon(icon46)
         self.actionDXF_2D_models.setObjectName("actionDXF_2D_models")
+        self.actionRocker_and_two_sliders = QtWidgets.QAction(MainWindow)
+        self.actionRocker_and_two_sliders.setObjectName("actionRocker_and_two_sliders")
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionDrag_link)
         self.menuExample.addAction(self.actionDouble_rocker)
@@ -1149,6 +1151,7 @@ class Ui_MainWindow(object):
         self.menuExample.addAction(self.actionReverse_Parsing_Rocker)
         self.menuExample.addSeparator()
         self.menuExample.addAction(self.actionSlider_and_Rod)
+        self.menuExample.addAction(self.actionRocker_and_two_sliders)
         self.menuExport.addAction(self.action_Output_to_Solvespace)
         self.menuExport.addAction(self.actionSolvespace_2D_sketch)
         self.menuExport.addSeparator()
@@ -1557,6 +1560,7 @@ class Ui_MainWindow(object):
         self.actionDXF_2D_models.setText(_translate("MainWindow", "DXF 2D models"))
         self.actionDXF_2D_models.setStatusTip(_translate("MainWindow", "Output to Drawing Exchange models."))
         self.actionDXF_2D_models.setShortcut(_translate("MainWindow", "Ctrl+D"))
+        self.actionRocker_and_two_sliders.setText(_translate("MainWindow", "Rocker and two sliders"))
 
 import icons_rc
 
