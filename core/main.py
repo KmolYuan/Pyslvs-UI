@@ -765,25 +765,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_PathSolving_toggled(self, p0):
         if not hasattr(self, 'PathSolvingDlg'):
             self.PathSolvingDlg = Path_Solving_show(self.Mask, self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result, self.width())
-            self.PathSolving.toggled.connect(self.PathSolvingDlg.reject)
             self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
             self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
-            self.PathSolvingDlg.rejected.connect(self.PathSolving_return)
             self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
             self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
             self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
             self.PathSolvingDlg.mergeMechanism.connect(self.PathSolving_merge)
-            self.PathSolvingDlg.Listbox.deleteResult.connect(self.PathSolving_deleteResult)
-            self.PathSolvingDlg.Listbox.mergeResult.connect(self.PathSolving_mergeResult)
+            self.PathSolvingDlg.deleteResult.connect(self.PathSolving_deleteResult)
+            self.PathSolvingDlg.mergeResult.connect(self.PathSolving_mergeResult)
             self.PathSolvingStart.connect(self.PathSolvingDlg.start)
-            self.PathSolvingDlg.show()
-            self.PointTab.addTab(self.PathSolvingDlg.Listbox, QIcon(QPixmap(":/icons/bezier.png")), "Thinking list")
-            self.PathSolvingDlg.Listbox.show()
+            self.PointTab.addTab(self.PathSolvingDlg, QIcon(QPixmap(":/icons/bezier.png")), "Path Solving")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-            if self.PathSolvingDlg.exec_(): pass
         else: self.closePanel(self.PathSolvingDlg, 'PathSolvingDlg', self.PathSolving)
-    @pyqtSlot()
-    def PathSolving_return(self): self.PathSolving.setChecked(False)
     def PathSolving_add_rightClick(self, x, y):
         self.PathSolvingDlg.addPath(x, y)
         self.PathSolving_add(x, y)

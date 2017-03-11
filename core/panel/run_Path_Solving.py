@@ -1,35 +1,34 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from .Ui_run_Path_Solving import Ui_Dialog as PathSolving_Dialog
+from .Ui_run_Path_Solving import Ui_Form as PathSolving_Form
 from ..calculation.pathSolving import WorkerThread
-from .run_Path_Solving_listbox import Path_Solving_listbox_show
 from .run_Path_Solving_series import Path_Solving_series_show
 
-class Path_Solving_show(QDialog, PathSolving_Dialog):
+class Path_Solving_show(QWidget, PathSolving_Form):
     addPathPoint = pyqtSignal(float, float)
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
     mergeMechanism = pyqtSignal(list)
+    deleteResult = pyqtSignal(int)
+    mergeResult = pyqtSignal(int)
     def __init__(self, mask, data, resultData, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         self.setAttribute(Qt.WA_QuitOnClose, False)
         self.move(QPoint(width-self.width(), 0))
-        self.Listbox = Path_Solving_listbox_show(resultData)
         self.mechanism_data = list()
         self.work = WorkerThread()
-        self.buttonBox.button(QDialogButtonBox.Close).clicked.connect(self.stop)
         self.work.done.connect(self.finish)
         self.X_coordinate.setValidator(mask)
         self.Y_coordinate.setValidator(mask)
         for e in data: self.Point_list.addItem('('+str(e['x'])+", "+str(e['y'])+')')
+        for e in resultData: self.addResult(e)
+        self.Tabs.update()
         self.Point_list_Count()
+        self.isMerge()
     
-    def __del__(self):
-        self.stop()
-        self.Listbox.deleteLater()
-        del self.Listbox
+    def __del__(self): self.stop()
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
@@ -102,7 +101,7 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         print('Start Path Solving...')
         self.work.start()
         self.algorithmPanel.setEnabled(False)
-        self.mainPanel.setEnabled(False)
+        self.Tabs.setEnabled(False)
         self.Generate.setEnabled(False)
         self.timeShow.setText("<html><head/><body><p><span style=\" font-size:12pt; color:#ffff0000\">Calculating...</span></p></body></html>")
         self.timePanel.setEnabled(False)
@@ -114,9 +113,9 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
     def finish(self, mechanism, time_spand):
         self.mechanism_data = [mechanism]
         self.mergeMechanism.emit(self.mechanism_data)
-        self.Listbox.addResult(mechanism)
+        self.addResult(mechanism)
         self.algorithmPanel.setEnabled(True)
-        self.mainPanel.setEnabled(True)
+        self.Tabs.setEnabled(True)
         self.Generate.setEnabled(True)
         self.timePanel.setEnabled(True)
         self.progressBar.setRange(0, 100)
@@ -125,5 +124,33 @@ class Path_Solving_show(QDialog, PathSolving_Dialog):
         self.timeShow.setText("<html><head/><body><p><span style=\" font-size:12pt\">"+str(mins)+" [min] "+str(sec)+" [s]</span></p></body></html>")
         print('Finished.')
     
+    def addResult(self, e):
+        item = QListWidgetItem(e['Algorithm']+(": {} ... {}".format(e['path'][:3], e['path'][-3:]) if len(e['path'])>6 else ": {}".format(e['path'])))
+        item.setToolTip("[{}]\nAx: {}\nAy: {}\nDx: {}\nDy: {}\nL0: {}\nL1: {}\nL2: {}\nL3: {}\nL4: {}\nTime spand: {:.2f} s".format(
+            e['Algorithm'], e['Ax'], e['Ay'], e['Dx'], e['Dy'], e['L0'], e['L1'], e['L2'], e['L3'], e['L4'], e['time']))
+        self.Result_list.addItem(item)
+        self.isMerge()
+    
+    @pyqtSlot(int)
+    def on_Result_list_currentRowChanged(self, cr): self.isMerge()
+    
+    def isMerge(self):
+        n = self.Result_list.count()>0 and self.Result_list.currentRow()>-1
+        self.mergeButton.setEnabled(n)
+        self.deleteButton.setEnabled(n)
+    
     @pyqtSlot()
-    def on_isCustomize_clicked(self): self.limitPanel.setEnabled(self.isCustomize.isChecked())
+    def on_deleteButton_clicked(self):
+        self.deleteResult.emit(self.Result_list.currentRow())
+        self.Result_list.takeItem(self.Result_list.currentRow())
+        self.isMerge()
+    
+    @pyqtSlot()
+    def on_mergeButton_clicked(self):
+        reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?\nDo you want to remove the results at the same time?",
+            (QMessageBox.Apply | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Apply)
+        if reply==QMessageBox.Apply:
+            self.mergeResult.emit(self.Result_list.currentRow())
+            self.deleteResult.emit(self.Result_list.currentRow())
+            self.Result_list.takeItem(self.Result_list.currentRow())
+        elif reply==QMessageBox.Discard: self.mergeResult.emit(self.Result_list.currentRow())

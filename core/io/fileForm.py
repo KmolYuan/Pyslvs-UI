@@ -213,7 +213,7 @@ class File():
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
         for i in range(1, len(data)): self.Lists.editTable(Point, 'Point', False, str(data[i]['x']), str(data[i]['y']), i<3,
-                styleTable=Point_Style, color='Green', ringsize='10' if i<3 else '5', ringcolor='Blue' if i<3 else 'Green')
+                styleTable=Point_Style, color='Blue' if i<3 else 'Green', ringsize='10' if i<3 else '5', ringcolor='Blue' if i<3 else 'Green')
         self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3']))
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
