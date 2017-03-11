@@ -29,7 +29,7 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
 def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
-        currentShaft=0, point_int=False, angle=False, generateResult=False, hasWarning=False):
+        currentShaft=0, point_int=False, angle=False, generateResult=False, hasWarning=True):
     pathTrackProcess = not(Point is False) and not angle is False
     staticProcess = not(Point is False) and angle is False
     generateConversionProcess = not generateResult is False
@@ -138,8 +138,8 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
     sys.solve()
     if sys.result==SLVS_RESULT_OKAY:
         if pathTrackProcess:
-            x = sys.get_param((point_int+2)*2+5).val
-            y = sys.get_param((point_int+2)*2+6).val
+            x = float(sys.get_param((point_int+2)*2+5).val)
+            y = float(sys.get_param((point_int+2)*2+6).val)
         elif staticProcess:
             resultList = list()
             for i in range(0, len(Point)*2, 2): resultList.append({'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val})

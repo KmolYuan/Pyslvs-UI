@@ -116,6 +116,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.addResult(mechanism)
         self.algorithmPanel.setEnabled(True)
         self.Tabs.setEnabled(True)
+        self.Tabs.setCurrentIndex(self.Tabs.count()-1)
         self.Generate.setEnabled(True)
         self.timePanel.setEnabled(True)
         self.progressBar.setRange(0, 100)
