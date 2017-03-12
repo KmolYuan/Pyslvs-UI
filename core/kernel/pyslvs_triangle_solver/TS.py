@@ -5,13 +5,18 @@ from math import *
 ##[{'p1':Point1, 'p2':Point2, 'len1':Line1, ('len2':Line2, 'angle':angle)}, ...]
 
 class solver():
-    def __init__(self, Directions):
+    def __init__(self, Directions=list()):
         #Cosine Theorem
         self.CosineTheoremAngle = lambda a, b, c: acos((b**2+c**2-a**2)/(2*b*c))
         self.CosineTheoremSide = lambda alpha, b, c: b**2+c**2-2*b*c*cos(alpha)
         self.Directions = Directions
-        if self.Parser(): self.results = self.Iterator()
-        else: self.results = None
+    
+    def set(self, Directions): self.Directions = Directions
+    
+    def answer(self):
+        answer = self.Iterator() if self.Parser() else None
+        self.Directions.clear()
+        return answer
     
     def Parser(self):
         for e in self.Directions:
