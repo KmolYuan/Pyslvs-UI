@@ -34,8 +34,12 @@ class solver():
         for e in self.Directions:
             p1 = results[e['p1']] if type(e['p1'])==int else e['p1']
             p2 = results[e['p2']] if type(e['p2'])==int else e['p2']
-            if e['Type']=='PLAP': results.append(self.PLAP(p1, e['len1'], e['angle'], p2))
-            elif e['Type']=='PLLP': results.append(self.PLLP(p1, e['len1'], e['len2'], p2))
+            #Direction of the point
+            other = e.get('other', False)
+            ##True: Toward len1.
+            ##False: Toward len2.
+            if e['Type']=='PLAP': results.append(self.PLAP(p1, e['len1'], e['angle'], p2, other))
+            elif e['Type']=='PLLP': results.append(self.PLLP(p1, e['len1'], e['len2'], p2, other))
         return results
     
     def PLAP(self, p1, line1, angle, p2, other=False):
@@ -62,10 +66,8 @@ class solver():
         diffAB = sqrt((x1-x2)**2+(y2-y1)**2)
         angle1 = self.m(p1, p2)
         angle2 = self.CosineTheoremAngle(len2, len1, diffAB)
-        print(degrees(angle2))
-        print(degrees(angle1))
         if other:
-            cx = x1-len1*cos(angle1+angle2)
+            cx = x1+len1*cos(angle1+angle2)
             cy = y1+len1*sin(angle1+angle2)
         else:
             cx = x1+len1*cos(angle1-angle2)
@@ -87,9 +89,9 @@ if __name__=='__main__':
     s = solver([
         {'p1':(-60, 0), 'p2':(0, 0), 'len1':30, 'angle':50}, #C
         {'p1':0, 'p2':(0, 0), 'len1':50, 'len2':60}, #D
-        {'p1':1, 'p2':0, 'len1':50, 'len2':50}, #E
+        {'p1':0, 'p2':1, 'len1':50, 'len2':50, 'other':True}, #E
         ])
-    print(s.answer())
+    print("C={}\nD={}\nE={}".format(*s.answer()))
     
     ##cx= -40.716371709403816 cy= 22.98133329356934
     ##dx= -6.698073034033397 dy= 59.62495968661744
