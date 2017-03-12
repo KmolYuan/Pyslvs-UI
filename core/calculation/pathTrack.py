@@ -7,7 +7,7 @@ class WorkerThread(QThread):
     done = pyqtSignal(list)
     progress_Signal = pyqtSignal(int)
     def __init__(self, parent = None):
-        QThread.__init__(self, parent)
+        super(WorkerThread, self).__init__(parent)
         self.stoped = False
         self.mutex = QMutex()
         self.progress = 0

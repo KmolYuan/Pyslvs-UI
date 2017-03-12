@@ -74,7 +74,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     def on_painter_context_menu(self, point):
-        self.action_painter_right_click_menu_path_add.setVisible(hasattr(self, 'PathSolvingDlg'))
+        self.action_painter_right_click_menu_path_add.setVisible(self.PathSolving.checked())
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
@@ -763,22 +763,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(bool)
     def on_PathSolving_toggled(self, p0):
-        if not hasattr(self, 'PathSolvingDlg'):
-            self.PathSolvingDlg = Path_Solving_show(self.Mask, self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result, self.width())
-            self.PathSolvingDlg.addPathPoint.connect(self.PathSolving_add)
-            self.PathSolvingDlg.deletePathPoint.connect(self.PathSolving_delete)
-            self.PathSolvingDlg.Generate.clicked.connect(self.PathSolving_send)
-            self.PathSolvingDlg.moveupPathPoint.connect(self.PathSolving_moveup)
-            self.PathSolvingDlg.movedownPathPoint.connect(self.PathSolving_movedown)
-            self.PathSolvingDlg.mergeMechanism.connect(self.PathSolving_merge)
-            self.PathSolvingDlg.deleteResult.connect(self.PathSolving_deleteResult)
-            self.PathSolvingDlg.mergeResult.connect(self.PathSolving_mergeResult)
-            self.PathSolvingStart.connect(self.PathSolvingDlg.start)
-            self.PointTab.addTab(self.PathSolvingDlg, QIcon(QPixmap(":/icons/bezier.png")), "Path Solving")
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Path Solving" in tabNameList: self.closePanel(tabNameList.index("Path Solving"))
+        else:
+            panel = Path_Solving_show(self.Mask, self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result, self.width())
+            panel.addPathPoint.connect(self.PathSolving_add)
+            panel.deletePathPoint.connect(self.PathSolving_delete)
+            panel.Generate.clicked.connect(self.PathSolving_send)
+            panel.moveupPathPoint.connect(self.PathSolving_moveup)
+            panel.movedownPathPoint.connect(self.PathSolving_movedown)
+            panel.mergeMechanism.connect(self.PathSolving_merge)
+            panel.deleteResult.connect(self.PathSolving_deleteResult)
+            panel.mergeResult.connect(self.PathSolving_mergeResult)
+            self.PathSolvingStart.connect(panel.start)
+            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/bezier.png")), "Path Solving")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-        else: self.closePanel(self.PathSolvingDlg, 'PathSolvingDlg', self.PathSolving)
     def PathSolving_add_rightClick(self, x, y):
-        self.PathSolvingDlg.addPath(x, y)
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        self.PointTab.widget(tabNameList.index("Path Solving")).addPath(x, y)
         self.PathSolving_add(x, y)
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
@@ -811,15 +813,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
-        if not hasattr(self, 'DriveShaftWidget'):
-            self.DriveShaftWidget = Drive_shaft_show(self.File.Lists.ShaftList)
-            self.PointTab.addTab(self.DriveShaftWidget, QIcon(QPixmap(":/icons/same-orientation.png")), 'Drive Shaft')
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Drive Shaft" in tabNameList: self.closePanel(tabNameList.index("Drive Shaft"))
+        else:
+            panel = Drive_shaft_show(self.File.Lists.ShaftList)
+            panel.Degree.sliderReleased.connect(self.Save_demo_angle)
+            panel.Degree.valueChanged.connect(self.Change_demo_angle)
+            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/same-orientation.png")), "Drive Shaft")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-            self.DriveShaftWidget.Degree.sliderReleased.connect(self.Save_demo_angle)
-            self.DriveShaftWidget.Degree.valueChanged.connect(self.Change_demo_angle)
-        else: self.closePanel(self.DriveShaftWidget, 'DriveShaftWidget', self.Drive_shaft)
     @pyqtSlot()
-    def Save_demo_angle(self): self.File.Lists.saveDemo(self.Shaft, 'Shaft', self.DriveShaftWidget.Degree.value()/100, 0, 5)
+    def Save_demo_angle(self):
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        self.File.Lists.saveDemo(self.Shaft, 'Shaft',
+            self.PointTab.widget(tabNameList.index("Drive Shaft")).Degree.value()/100, 0, 5)
     @pyqtSlot(int)
     def Change_demo_angle(self, angle):
         self.File.Lists.setDemo('Shaft', 0, angle/100)
@@ -828,36 +834,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_Drive_rod_clicked(self):
-        if not hasattr(self, 'DriveRodWidget'):
-            self.DriveRodWidget = Drive_rod_show(self.File.Lists.RodList, self.File.Lists.PointList)
-            self.PointTab.addTab(self.DriveRodWidget, QIcon(QPixmap(":/icons/normal.png")), 'Drive Rod')
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Drive Rod" in tabNameList: self.closePanel(tabNameList.index("Drive Rod"))
+        else:
+            panel = Drive_rod_show(self.File.Lists.RodList, self.File.Lists.PointList)
+            panel.Position.sliderReleased.connect(self.Save_position)
+            panel.Position.valueChanged.connect(self.Change_position)
+            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/normal.png")), "Drive Rod")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-            self.DriveRodWidget.Position.sliderReleased.connect(self.Save_position)
-            self.DriveRodWidget.Position.valueChanged.connect(self.Change_position)
-        else: self.closePanel(self.DriveRodWidget, 'DriveRodWidget', self.Drive_rod)
     @pyqtSlot()
-    def Save_position(self):self.File.Lists.saveDemo(self.Rod, 'Rod', self.DriveRodWidget.Position.value()/100, self.DriveRodWidget.Rod.currentIndex(), 4)
+    def Save_position(self):
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        panel = self.PointTab.widget(tabNameList.index("Drive Rod"))
+        self.File.Lists.saveDemo(self.Rod, 'Rod',
+            panel.Position.value()/100, panel.Rod.currentIndex(), 4)
     @pyqtSlot(int)
     def Change_position(self, pos):
-        self.File.Lists.setDemo('Rod', self.DriveRodWidget.Rod.currentIndex(), pos/100)
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        self.File.Lists.setDemo('Rod', self.PointTab.widget(tabNameList.index("Drive Rod")).Rod.currentIndex(), pos/100)
         self.Resolve()
         self.workbookNoSave()
     
     @pyqtSlot()
     def on_Measurement_clicked(self):
-        if not hasattr(self, 'MeasurementWidget'):
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Measurement" in tabNameList: self.closePanel(tabNameList.index("Measurement"))
+        else:
             table = self.Entiteis_Point
-            self.MeasurementWidget = Measurement_show(table)
-            self.PointTab.addTab(self.MeasurementWidget, QIcon(QPixmap(":/icons/ref.png")), 'Measurement')
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-            self.DynamicCanvasView.change_event.connect(self.MeasurementWidget.Detection_do)
+            panel = Measurement_show(table)
+            self.DynamicCanvasView.change_event.connect(panel.Detection_do)
             self.actionDisplay_Dimensions.setChecked(True)
             self.actionDisplay_Point_Mark.setChecked(True)
-            self.DynamicCanvasView.mouse_track.connect(self.MeasurementWidget.show_mouse_track)
-            self.MeasurementWidget.point_change.connect(self.distance_solving)
-            self.distance_changed.connect(self.MeasurementWidget.change_distance)
-            self.MeasurementWidget.Mouse.setPlainText("Detecting")
-        else: self.closePanel(self.MeasurementWidget, 'MeasurementWidget', self.Measurement)
+            self.DynamicCanvasView.mouse_track.connect(panel.show_mouse_track)
+            panel.point_change.connect(self.distance_solving)
+            self.distance_changed.connect(panel.change_distance)
+            panel.Mouse.setPlainText("Detecting...")
+            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/ref.png")), "Measurement")
+            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
     distance_changed = pyqtSignal(float)
     @pyqtSlot(int, int)
     def distance_solving(self, start, end):
@@ -869,18 +882,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_AuxLine_clicked(self):
-        if not hasattr(self, 'AuxLineWidget'):
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Auxiliary Line" in tabNameList:
+            self.closePanel(tabNameList.index("Auxiliary Line"))
+            self.DynamicCanvasView.reset_Auxline()
+        else:
             self.DynamicCanvasView.AuxLine['show'] = True
             self.DynamicCanvasView.AuxLine['horizontal'] = True
             self.DynamicCanvasView.AuxLine['vertical'] = True
             table = self.Entiteis_Point
-            self.AuxLineWidget = AuxLine_show(table, self.DynamicCanvasView.AuxLine['pt'], self.DynamicCanvasView.AuxLine['color'], self.DynamicCanvasView.AuxLine['limit_color'])
-            self.AuxLineWidget.Point_change.connect(self.draw_Auxline)
-            self.PointTab.addTab(self.AuxLineWidget, QIcon(QPixmap(":/icons/auxline.png")), 'Auxiliary Line')
+            panel = AuxLine_show(table, self.DynamicCanvasView.AuxLine['pt'], self.DynamicCanvasView.AuxLine['color'], self.DynamicCanvasView.AuxLine['limit_color'])
+            panel.Point_change.connect(self.draw_Auxline)
+            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/auxline.png")), "Auxiliary Line")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-        else:
-            self.closePanel(self.AuxLineWidget, 'AuxLineWidget', self.AuxLine)
-            self.DynamicCanvasView.reset_Auxline()
         self.Reload_Canvas()
     @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
     def draw_Auxline(self, pt, color, color_l, axe_H, axe_V, max_l, min_l, pt_change):
@@ -897,17 +911,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionClose_all_panels_triggered(self): self.closePanels()
     def closePanels(self):
-        if hasattr(self, 'PathSolvingDlg'): self.closePanel(self.PathSolvingDlg, 'PathSolvingDlg', self.PathSolving)
-        if hasattr(self, 'DriveShaftWidget'): self.closePanel(self.DriveShaftWidget, 'DriveShaftWidget', self.Drive_shaft)
-        if hasattr(self, 'DriveRodWidget'): self.closePanel(self.DriveRodWidget, 'DriveRodWidget', self.Drive_rod)
-        if hasattr(self, 'MeasurementWidget'): self.closePanel(self.MeasurementWidget, 'MeasurementWidget', self.Measurement)
-        if hasattr(self, 'AuxLineWidget'): self.closePanel(self.AuxLineWidget, 'AuxLineWidget', self.AuxLine)
+        for i in range(3, self.PointTab.count()): self.closePanel(i)
+        self.PathSolving.setChecked(False)
+        self.Drive_shaft.setChecked(False)
+        self.Drive_rod.setChecked(False)
+        self.Measurement.setChecked(False)
+        self.AuxLine.setChecked(False)
         self.DynamicCanvasView.reset_Auxline()
         self.PointTab.setCurrentIndex(0)
-    def closePanel(self, panel, name, button):
-        panel.deleteLater()
-        delattr(self, name)
-        button.setChecked(False)
+    def closePanel(self, index):
+        panel = self.PointTab.widget(index)
+        #panel.setAttribute(Qt.WA_DeleteOnClose)
+        self.PointTab.removeTab(index)
+        panel.close()
     
     def Mask_Change(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)

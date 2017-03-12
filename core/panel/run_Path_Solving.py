@@ -15,7 +15,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def __init__(self, mask, data, resultData, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
-        self.setAttribute(Qt.WA_QuitOnClose, False)
         self.move(QPoint(width-self.width(), 0))
         self.mechanism_data = list()
         self.work = WorkerThread()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-11, 12:32:59 -->
+<!-- Saved: 2017-03-12, 15:25:54 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -70,6 +70,8 @@
     <Source>core/io/slvsForm/sketch.py</Source>
     <Source>core/io/slvsType.py</Source>
     <Source>core/io/undoRedo.py</Source>
+    <Source>core/kernel/__init__.py</Source>
+    <Source>core/kernel/pyslvs_triangle_solver/TS.py</Source>
     <Source>core/main.py</Source>
     <Source>core/modules.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
