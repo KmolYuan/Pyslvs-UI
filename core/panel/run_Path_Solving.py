@@ -15,7 +15,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def __init__(self, mask, data, resultData, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
-        self.move(QPoint(width-self.width(), 0))
         self.mechanism_data = list()
         self.work = WorkerThread()
         self.work.done.connect(self.finish)
@@ -23,11 +22,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.Y_coordinate.setValidator(mask)
         for e in data: self.Point_list.addItem('('+str(e['x'])+", "+str(e['y'])+')')
         for e in resultData: self.addResult(e)
-        self.Tabs.update()
         self.Point_list_Count()
         self.isMerge()
-    
-    def __del__(self): self.stop()
     
     @pyqtSlot()
     def on_clearAll_clicked(self):

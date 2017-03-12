@@ -874,11 +874,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     distance_changed = pyqtSignal(float)
     @pyqtSlot(int, int)
     def distance_solving(self, start, end):
-        start = self.Entiteis_Point.item(start, 4).text().replace('(', str()).replace(')', str())
-        end = self.Entiteis_Point.item(end, 4).text().replace('(', str()).replace(')', str())
-        x = float(start.split(", ")[0])-float(end.split(", ")[0])
-        y = float(start.split(", ")[1])-float(end.split(", ")[1])
-        self.distance_changed.emit(round(math.sqrt(x**2+y**2), 9))
+        x = self.File.Lists.PointList[start]['cx']-self.File.Lists.PointList[end]['cx']
+        y = self.File.Lists.PointList[start]['cy']-self.File.Lists.PointList[end]['cy']
+        self.distance_changed.emit(round(math.sqrt(x**2+y**2), 5))
     
     @pyqtSlot()
     def on_AuxLine_clicked(self):
@@ -908,22 +906,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.AuxLine['isMin'] = min_l
         self.Reload_Canvas()
     
-    @pyqtSlot()
-    def on_actionClose_all_panels_triggered(self): self.closePanels()
     def closePanels(self):
-        for i in range(3, self.PointTab.count()): self.closePanel(i)
+        self.__closePanels__()
+        self.__closePanels__()
+        self.DynamicCanvasView.reset_Auxline()
+    def __closePanels__(self):
+        while self.PointTab.count()>3: self.closePanel(self.PointTab.count()-1)
+        self.PointTab.setCurrentIndex(0)
         self.PathSolving.setChecked(False)
         self.Drive_shaft.setChecked(False)
         self.Drive_rod.setChecked(False)
         self.Measurement.setChecked(False)
         self.AuxLine.setChecked(False)
-        self.DynamicCanvasView.reset_Auxline()
-        self.PointTab.setCurrentIndex(0)
-    def closePanel(self, index):
-        panel = self.PointTab.widget(index)
-        #panel.setAttribute(Qt.WA_DeleteOnClose)
-        self.PointTab.removeTab(index)
+    def closePanel(self, pos):
+        panel = self.PointTab.widget(pos)
+        self.PointTab.removeTab(pos)
         panel.close()
+        panel.deleteLater()
     
     def Mask_Change(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)
