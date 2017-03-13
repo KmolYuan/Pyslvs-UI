@@ -36,8 +36,8 @@ class solver():
             p2 = results[e['p2']] if type(e['p2'])==int else e['p2']
             #Direction of the point
             other = e.get('other', False)
-            ##True: Toward len1.
-            ##False: Toward len2.
+            ##True: angle1-angle2
+            ##False: angle1+angle2
             if e['Type']=='PLAP': results.append(self.PLAP(p1, e['len1'], e['angle'], p2, other))
             elif e['Type']=='PLLP': results.append(self.PLLP(p1, e['len1'], e['len2'], p2, other))
         return results
@@ -66,8 +66,6 @@ class solver():
         d = sqrt((x1-x2)**2+(y2-y1)**2)
         angle1 = self.m(p1, p2)
         angle2 = self.CosineTheoremAngle(len2, d, len1)
-        print(degrees(angle1))
-        print(degrees(angle2))
         if other:
             cx = x1+len1*cos(angle1-angle2)
             cy = y1+len1*sin(angle1-angle2)
