@@ -22,13 +22,11 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         dlg = Triangle_Solver_edit_show(self.Point, row, name)
         dlg.show()
         if dlg.exec_():
-            p1 = self.Point[dlg.p1.currentIndex()]
-            p2 = self.Point[dlg.p2.currentIndex()]
             Arg = [edit, row, dlg.type.currentIndex(),
                 (dlg.x1.value(), dlg.y1.value()) if dlg.p1Customize.isChecked() else (
-                    (p1['x'], p1['y']) if dlg.p1Exist.isChecked() else dlg.r1.currentIndex()),
+                    dlg.p1.currentText() if dlg.p1Exist.isChecked() else dlg.r1.currentIndex()),
                 (dlg.x2.value(), dlg.y2.value()) if dlg.p2Customize.isChecked() else (
-                    (p2['x'], p2['y']) if dlg.p2Exist.isChecked() else dlg.r2.currentIndex()),
+                    dlg.p2.currentText() if dlg.p2Exist.isChecked() else dlg.r2.currentIndex()),
                 dlg.len1.value(), dlg.angle.value(), dlg.len2.value()]
             self.editTable(*Arg)
             self.editList(*Arg)
@@ -36,11 +34,11 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def editTable(self, edit, row, Type, p1, p2, len1, len2, angle):
         if edit is False: self.directionsTable.insertRow(row)
         self.directionsTable.setItem(row, 0, QTableWidgetItem('PLAP' if Type==0 else 'PLLP'))
-        self.directionsTable.setItem(row, 1, QTableWidgetItem(str(p1)))
+        self.directionsTable.setItem(row, 1, QTableWidgetItem('Result{}'.format(p1) if type(p1)==int else str(p1)))
         self.directionsTable.setItem(row, 2, QTableWidgetItem(str(len1)))
         self.directionsTable.setItem(row, 3, QTableWidgetItem(str(len2)))
         self.directionsTable.setItem(row, 4, QTableWidgetItem(str(angle)))
-        self.directionsTable.setItem(row, 5, QTableWidgetItem(str(p2)))
+        self.directionsTable.setItem(row, 5, QTableWidgetItem('Result{}'.format(p2) if type(p2)==int else str(p2)))
     
     def editList(self, edit, row, Type, p1, p2, len1, len2, angle):
         direction = {'p1':p1, 'p2':p2, 'len1':len1}
