@@ -63,15 +63,17 @@ class solver():
         y2 = p2[1]
         len1 = float(line1)
         len2 = float(line2)
-        diffAB = sqrt((x1-x2)**2+(y2-y1)**2)
+        d = sqrt((x1-x2)**2+(y2-y1)**2)
         angle1 = self.m(p1, p2)
-        angle2 = self.CosineTheoremAngle(len2, len1, diffAB)
+        angle2 = self.CosineTheoremAngle(len2, d, len1)
+        print(degrees(angle1))
+        print(degrees(angle2))
         if other:
+            cx = x1+len1*cos(angle1-angle2)
+            cy = y1+len1*sin(angle1-angle2)
+        else:
             cx = x1+len1*cos(angle1+angle2)
             cy = y1+len1*sin(angle1+angle2)
-        else:
-            cx = x1+len1*cos(angle1-angle2)
-            cy = y1-len1*sin(angle1-angle2)
         return cx, cy
     
     def m(self, p1, p2):
@@ -79,17 +81,17 @@ class solver():
         y1 = p1[1]
         x2 = p2[0]
         y2 = p2[1]
-        x = abs(x2-x1)
-        y = abs(y2-y1)
-        diffAB = sqrt(x**2+y**2)
-        return self.CosineTheoremAngle(y, x, diffAB)
+        x = x2-x1
+        y = y2-y1
+        d = sqrt(x**2+y**2)
+        return self.CosineTheoremAngle(y, x, d)*(-1 if y<0 else 1)*(-1 if x<0 else 1)
 
 if __name__=='__main__':
     #Test
     s = solver([
         {'p1':(-60, 0), 'p2':(0, 0), 'len1':30, 'angle':50}, #C
         {'p1':0, 'p2':(0, 0), 'len1':50, 'len2':60}, #D
-        {'p1':0, 'p2':1, 'len1':50, 'len2':50, 'other':True}, #E
+        {'p1':0, 'p2':1, 'len1':50, 'len2':50}, #E
         ])
     print("C={}\nD={}\nE={}".format(*s.answer()))
     

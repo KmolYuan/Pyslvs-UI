@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-12, 15:25:54 -->
+<!-- Saved: 2017-03-13, 11:57:06 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -71,7 +71,26 @@
     <Source>core/io/slvsType.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/kernel/__init__.py</Source>
+    <Source>core/kernel/py34/__init__.py</Source>
+    <Source>core/kernel/py34/slvs.py</Source>
+    <Source>core/kernel/py35/__init__.py</Source>
+    <Source>core/kernel/py35/slvs.py</Source>
+    <Source>core/kernel/py35w/__init__.py</Source>
+    <Source>core/kernel/py35w/slvs.py</Source>
+    <Source>core/kernel/pyslvs_generate/__init__.py</Source>
+    <Source>core/kernel/pyslvs_generate/py34/__init__.py</Source>
+    <Source>core/kernel/pyslvs_generate/py35/__init__.py</Source>
+    <Source>core/kernel/pyslvs_generate/py35w/__init__.py</Source>
+    <Source>core/kernel/pyslvs_generate/pyslvs_generate/setup.py</Source>
+    <Source>core/kernel/pyslvs_generate/pyslvs_generate/test.py</Source>
+    <Source>core/kernel/pyslvs_generate/pyslvs_generate/test2.py</Source>
     <Source>core/kernel/pyslvs_triangle_solver/TS.py</Source>
+    <Source>core/kernel/pyslvs_triangle_solver/__init__.py</Source>
+    <Source>core/kernel/python-solvespace-lite/solvespace/exposed/configure.py</Source>
+    <Source>core/kernel/python-solvespace-lite/solvespace/exposed/slvs_solid.py</Source>
+    <Source>core/kernel/python-solvespace-lite/solvespace/exposed/test.py</Source>
+    <Source>core/kernel/python-solvespace-lite/solvespace/exposed/test2.scad.py</Source>
+    <Source>core/kernel/python-solvespace-lite/solvespace/exposed/test3.scad.py</Source>
     <Source>core/main.py</Source>
     <Source>core/modules.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
