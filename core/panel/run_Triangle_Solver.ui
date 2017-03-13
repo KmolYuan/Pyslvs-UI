@@ -44,6 +44,10 @@
         <property name="text">
          <string>Type</string>
         </property>
+        <property name="icon">
+         <iconset resource="../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+          <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
+        </property>
        </column>
        <column>
         <property name="text">
@@ -176,6 +180,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../../../桌面/Pyslvs-PyQt5/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

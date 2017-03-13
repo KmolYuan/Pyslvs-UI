@@ -27,6 +27,9 @@ class Ui_Form(object):
         self.directionsTable.setColumnCount(6)
         self.directionsTable.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/TS.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        item.setIcon(icon)
         self.directionsTable.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.directionsTable.setHorizontalHeaderItem(1, item)
@@ -106,6 +109,7 @@ class Ui_Form(object):
         self.Solve.setText(_translate("Form", "Solve"))
         self.Merge.setText(_translate("Form", "Merge"))
 
+import icons_rc
 
 if __name__ == "__main__":
     import sys

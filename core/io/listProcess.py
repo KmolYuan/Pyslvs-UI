@@ -249,5 +249,4 @@ class Designs():
             self.list.insert(row+2, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
             del self.list[row]
     
-    def addDirection(self, Direction):
-        self.TSDirections.append(Direction)
+    def addDirections(self, Direction): self.TSDirections = list(Direction)

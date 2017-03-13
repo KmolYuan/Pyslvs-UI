@@ -85,7 +85,7 @@
         <item>
          <widget class="QRadioButton" name="p1Exist">
           <property name="text">
-           <string>Exist</string>
+           <string>From Exist Point</string>
           </property>
          </widget>
         </item>
@@ -141,6 +141,20 @@
          </widget>
         </item>
         <item>
+         <widget class="QRadioButton" name="p1Result">
+          <property name="text">
+           <string>From Result</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="r1">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
          <spacer name="verticalSpacer_2">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
@@ -169,7 +183,7 @@
         <item>
          <widget class="QRadioButton" name="p2Exist">
           <property name="text">
-           <string>Exist</string>
+           <string>From Exist Point</string>
           </property>
          </widget>
         </item>
@@ -196,7 +210,7 @@
            <item>
             <widget class="QLabel" name="label_10">
              <property name="text">
-              <string>x1:</string>
+              <string>x2:</string>
              </property>
             </widget>
            </item>
@@ -210,7 +224,7 @@
            <item>
             <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>y1:</string>
+              <string>y2:</string>
              </property>
             </widget>
            </item>
@@ -222,6 +236,20 @@
             </widget>
            </item>
           </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QRadioButton" name="p2Result">
+          <property name="text">
+           <string>From Result</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="r2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
          </widget>
         </item>
         <item>
@@ -302,7 +330,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QDoubleSpinBox" name="doubleSpinBox">
+           <widget class="QDoubleSpinBox" name="angle">
             <property name="maximum">
              <double>360.000000000000000</double>
             </property>
@@ -460,6 +488,38 @@
     <hint type="destinationlabel">
      <x>444</x>
      <y>85</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p1Result</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>r1</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>221</x>
+     <y>214</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>p2Result</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>r2</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>444</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>444</x>
+     <y>214</y>
     </hint>
    </hints>
   </connection>
