@@ -104,9 +104,11 @@ Including Python module: [PyQt5], [peewee], [dxfwrite]
 
 Here is the **origin kernel** repository:
 
-* https://github.com/KmolYuan/python-solvespace
+* [Python-solvespace]
 
-* https://github.com/kmollee/django-project-template
+* [Dimensional Synthesis of Planar Four-bar Linkages]
+
+* [Triangle solver]
 
 Build Kernel
 ===
@@ -129,3 +131,7 @@ Then follow the instructions in the readme.
 [Eric 6]: http://eric-ide.python-projects.org/
 [peewee]: http://docs.peewee-orm.com/en/latest/
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
+
+[Python-solvespace]: https://github.com/KmolYuan/python-solvespace
+[Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/django-project-template
+[Triangle solver]: https://gist.github.com/KmolYuan/c5a94b769bc410524bba66acc5204a8f
