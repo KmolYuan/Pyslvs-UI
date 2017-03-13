@@ -14,7 +14,7 @@ class solver():
     def set(self, Directions): self.Directions = Directions
     
     def answer(self):
-        answer = self.Iterator() if self.Parser() else None
+        answer = self.Iterator() if self.Parser() else list()
         self.Directions.clear()
         return answer
     
@@ -27,7 +27,7 @@ class solver():
             if e.get('len2', False) is False and e.get('angle', False) is False: return False
             if e.get('len2', False) is False: self.Directions[pos]['Type'] = 'PLAP'
             elif e.get('angle', False) is False: self.Directions[pos]['Type'] = 'PLLP'
-        return True
+        return bool(self.Directions)
     
     def Iterator(self):
         results = list()
