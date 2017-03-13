@@ -22,6 +22,7 @@ from .dialog.batchMoving import batchMoving_show
 from .dialog.association import Association_show
 #Panel
 from .panel.run_Path_Solving import Path_Solving_show
+from .panel.run_Triangle_Solver import Triangle_Solver_show
 from .panel.run_Path_Track import Path_Track_show
 from .panel.run_Drive_shaft import Drive_shaft_show
 from .panel.run_Drive_rod import Drive_rod_show

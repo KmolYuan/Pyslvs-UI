@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-13, 11:57:06 -->
+<!-- Saved: 2017-03-13, 19:58:34 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -100,6 +100,9 @@
     <Source>core/panel/Ui_run_Path_Solving.py</Source>
     <Source>core/panel/Ui_run_Path_Solving_series.py</Source>
     <Source>core/panel/Ui_run_Path_Track.py</Source>
+    <Source>core/panel/Ui_run_Triangle_Solver.py</Source>
+    <Source>core/panel/Ui_run_Triangle_Solver_directionItem.py</Source>
+    <Source>core/panel/Ui_run_Triangle_Solver_edit.py</Source>
     <Source>core/panel/__init__.py</Source>
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive_rod.py</Source>
@@ -108,6 +111,8 @@
     <Source>core/panel/run_Path_Solving.py</Source>
     <Source>core/panel/run_Path_Solving_series.py</Source>
     <Source>core/panel/run_Path_Track.py</Source>
+    <Source>core/panel/run_Triangle_Solver.py</Source>
+    <Source>core/panel/run_Triangle_Solver_edit.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_shaft.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
@@ -143,6 +148,8 @@
     <Form>core/panel/run_Path_Solving.ui</Form>
     <Form>core/panel/run_Path_Solving_series.ui</Form>
     <Form>core/panel/run_Path_Track.ui</Form>
+    <Form>core/panel/run_Triangle_Solver.ui</Form>
+    <Form>core/panel/run_Triangle_Solver_edit.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
     <Form>core/simulate/edit_shaft.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>

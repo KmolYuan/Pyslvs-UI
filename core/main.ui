@@ -68,7 +68,7 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>470</width>
+        <width>480</width>
         <height>0</height>
        </size>
       </property>
@@ -1643,6 +1643,10 @@ p, li { white-space: pre-wrap; }
                             <property name="text">
                              <string>Triangle Solver</string>
                             </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
+                            </property>
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
@@ -2031,6 +2035,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionDisplay_Dimensions"/>
     <addaction name="actionDisplay_Point_Mark"/>
     <addaction name="action_Black_Blackground"/>
+    <addaction name="actionClose_all_panel"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
     <addaction name="action_Property"/>
@@ -2812,6 +2817,15 @@ p, li { white-space: pre-wrap; }
   <action name="actionRocker_and_two_sliders">
    <property name="text">
     <string>Rocker and two sliders</string>
+   </property>
+  </action>
+  <action name="actionClose_all_panel">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>Close all panel</string>
    </property>
   </action>
  </widget>

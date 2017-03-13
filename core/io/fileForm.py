@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from .listProcess import Lists, PathSolvingReqs
+from .listProcess import Lists, Designs
 import datetime
 now = datetime.datetime.now()
 from sys import argv #See argv
@@ -12,7 +12,7 @@ class File():
     
     def resetAllList(self):
         self.Lists = Lists(self.FileState)
-        self.PathSolvingReqs = PathSolvingReqs(self.FileState)
+        self.Designs = Designs(self.FileState)
         self.Script = str()
         self.Stack = 0
         self.form = {
@@ -205,7 +205,7 @@ class File():
         return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
     
     def Generate_Merge(self, row, data, Point, Point_Style, Link, Chain, Shaft):
-        Result = self.PathSolvingReqs.result[row]
+        Result = self.Designs.result[row]
         #A-C-B-C-E
         Anum = Point.rowCount()+0
         Dnum = Point.rowCount()+1

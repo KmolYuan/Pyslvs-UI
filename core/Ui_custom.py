@@ -111,7 +111,7 @@ def actionEnabled(self):
     self.reqSlider.setVisible(not THREE_POINT)
     self.reqRod.setVisible(not THREE_POINT)
     self.reqPath.setVisible(not self.Shaft.rowCount()>0)
-    self.reqPathSolving.setVisible(not self.File.PathSolvingReqs.list)
+    self.reqPathSolving.setVisible(not self.File.Designs.list)
     #Add
     self.action_New_Line.setEnabled(TWO_POINT)
     self.action_New_Stay_Chain.setEnabled(THREE_POINT)

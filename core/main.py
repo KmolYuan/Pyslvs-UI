@@ -762,11 +762,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.exec()
     
     @pyqtSlot(bool)
-    def on_PathSolving_toggled(self, p0):
+    def on_PathSolving_clicked(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         if "Path Solving" in tabNameList: self.closePanel(tabNameList.index("Path Solving"))
         else:
-            panel = Path_Solving_show(self.Mask, self.File.PathSolvingReqs.list, self.File.PathSolvingReqs.result, self.width())
+            panel = Path_Solving_show(self.Mask, self.File.Designs.list, self.File.Designs.result, self.width())
             panel.addPathPoint.connect(self.PathSolving_add)
             panel.deletePathPoint.connect(self.PathSolving_delete)
             panel.Generate.clicked.connect(self.PathSolving_send)
@@ -784,32 +784,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.PathSolving_add(x, y)
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
-        self.File.PathSolvingReqs.add(x, y)
-        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
+        self.File.Designs.add(x, y)
+        self.DynamicCanvasView.path_solving(self.File.Designs.list)
         self.workbookNoSave()
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
-        self.File.PathSolvingReqs.remove(row)
-        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
+        self.File.Designs.remove(row)
+        self.DynamicCanvasView.path_solving(self.File.Designs.list)
         self.workbookNoSave()
     @pyqtSlot(int)
     def PathSolving_moveup(self, row):
-        self.File.PathSolvingReqs.moveUP(row)
-        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
+        self.File.Designs.moveUP(row)
+        self.DynamicCanvasView.path_solving(self.File.Designs.list)
     @pyqtSlot(int)
     def PathSolving_movedown(self, row):
-        self.File.PathSolvingReqs.moveDown(row)
-        self.DynamicCanvasView.path_solving(self.File.PathSolvingReqs.list)
+        self.File.Designs.moveDown(row)
+        self.DynamicCanvasView.path_solving(self.File.Designs.list)
     PathSolvingStart = pyqtSignal(list)
     @pyqtSlot()
-    def PathSolving_send(self): self.PathSolvingStart.emit(self.File.PathSolvingReqs.list)
+    def PathSolving_send(self): self.PathSolvingStart.emit(self.File.Designs.list)
     @pyqtSlot(list)
-    def PathSolving_merge(self, mechanism_data): self.File.PathSolvingReqs.resultMerge(mechanism_data)
+    def PathSolving_merge(self, mechanism_data): self.File.Designs.resultMerge(mechanism_data)
     @pyqtSlot(int)
-    def PathSolving_deleteResult(self, row): self.File.PathSolvingReqs.removeResult(row)
+    def PathSolving_deleteResult(self, row): self.File.Designs.removeResult(row)
     @pyqtSlot(int)
-    def PathSolving_mergeResult(self, row): self.File.Generate_Merge(row, slvsProcess(generateResult=self.File.PathSolvingReqs.result[row]),
+    def PathSolving_mergeResult(self, row): self.File.Generate_Merge(row, slvsProcess(generateResult=self.File.Designs.result[row]),
         self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft)
+    
+    @pyqtSlot(bool)
+    def on_TriangleSolver_clicked(self):
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Triangle Solver" in tabNameList: self.closePanel(tabNameList.index("Triangle Solver"))
+        else:
+            panel = Triangle_Solver_show(self.File.Lists.PointList)
+            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/TS.png")), "Triangle Solver")
+            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
@@ -906,6 +915,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.AuxLine['isMin'] = min_l
         self.Reload_Canvas()
     
+    @pyqtSlot()
+    def on_actionClose_all_panel_triggered(self): self.closePanels()
     def closePanels(self):
         self.__closePanels__()
         self.__closePanels__()

@@ -229,10 +229,11 @@ class Lists():
         self.FileState.push(shaftChangeCommand(self.shaftList, table, prv, next))
         self.FileState.endMacro()
 
-class PathSolvingReqs():
+class Designs():
     def __init__(self, FileState):
         self.list = list()
         self.result = list()
+        self.TSDirections = list()
         self.FileState = FileState
     
     def add(self, x, y): self.list.append({'x':x, 'y':y})
@@ -247,3 +248,6 @@ class PathSolvingReqs():
         if row<len(self.list)-1 and len(self.list)>1:
             self.list.insert(row+2, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
             del self.list[row]
+    
+    def addDirection(self, Direction):
+        self.TSDirections.append(Direction)
