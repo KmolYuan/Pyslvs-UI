@@ -74,7 +74,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     def on_painter_context_menu(self, point):
-        self.action_painter_right_click_menu_path_add.setVisible(self.PathSolving.checked())
+        self.action_painter_right_click_menu_path_add.setVisible(self.PathSolving.isChecked())
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
@@ -193,7 +193,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Resolve
     def Resolve(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
-        result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod, self.args.w)
+        result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod, hasWarning=self.args.w)
         if not DOF is False:
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
@@ -277,6 +277,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionSlider_and_Rod_triggered(self): self.checkChange("[Example] Slider and Rod", example_sliderRod())
     @pyqtSlot()
     def on_actionRocker_and_two_sliders_triggered(self): self.checkChange("[Example] Rocker and two sliders", example_rockerSlider())
+    @pyqtSlot()
+    def on_actionLift_Tailgate_triggered(self): self.checkChange("[Example] Lift Tailgate", example_liftTailgate())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:

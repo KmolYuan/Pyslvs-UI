@@ -164,3 +164,15 @@ def example_rockerSlider():
         '_table_', 'Shaft0', 'Point0', 'Point3', '0.0', '360.0', '129.8', 'False',
         '_table_', 'Slider0', 'Point4', 'Point1', 'Point2', 'Slider1', 'Point7', 'Point5', 'Point6',
         '_table_', '_table_', '_table_', '_path_', '_path_', '_path_']
+
+def example_liftTailgate():
+    return [
+        '_info_', 'Yuang', '_info_', 'Example: Lift Tailgate', '_info_', timeNow, '_info_',
+        '_table_', 'Point1', '50.0', '0.0', 'True', 'Point2', '25.53', '-46.05', 'False', 'Point3', '35.26', '-57.11', 'False', 'Point4', '30.0', '-24.21', 'False', 'Point5', '66.58', '-40.0', 'False', 'Point6', '67.63', '-20.0', 'True', 'Point7', '161.84', '-1.05', 'False',
+        '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Green', '5', 'Green', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Blue', '10', 'Blue', 'Point7', 'Dark-Yellow', '5', 'Dark-Yellow',
+        '_table_', 'Line0', 'Point1', 'Point2', '50.0', 'Line1', 'Point0', 'Point3', '80.0', 'Line2', 'Point4', 'Point5', '30.0',
+        '_table_', 'Chain0', 'Point6', 'Point5', 'Point7', '20.0', '150.0', '140.0',
+        '_table_',
+        '_table_',
+        '_table_', 'Rod0', 'Point2', 'Point0', 'Point3', '67.11', 'Rod1', 'Point4', 'Point1', 'Point2', '30.0',
+        '_table_', '_table_', '_path_', '_path_', '_path_']

@@ -1484,7 +1484,7 @@ p, li { white-space: pre-wrap; }
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>292</width>
+                      <width>412</width>
                       <height>441</height>
                      </rect>
                     </property>
@@ -1973,13 +1973,13 @@ p, li { white-space: pre-wrap; }
      <addaction name="actionDouble_rocker"/>
      <addaction name="actionParallelogram_linkage"/>
      <addaction name="separator"/>
+     <addaction name="actionReverse_Parsing_Rocker"/>
      <addaction name="actionMutiple_Link"/>
      <addaction name="actionTwo_Mutiple_Link"/>
      <addaction name="separator"/>
-     <addaction name="actionReverse_Parsing_Rocker"/>
-     <addaction name="separator"/>
      <addaction name="actionSlider_and_Rod"/>
      <addaction name="actionRocker_and_two_sliders"/>
+     <addaction name="actionLift_Tailgate"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
@@ -2781,7 +2781,7 @@ p, li { white-space: pre-wrap; }
     <string>Slider and Rod</string>
    </property>
    <property name="statusTip">
-    <string>Rod #1</string>
+    <string>Silder / Rod #1</string>
    </property>
   </action>
   <action name="actionSolvespace_2D_sketch">
@@ -2818,6 +2818,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Rocker and two sliders</string>
    </property>
+   <property name="statusTip">
+    <string>Silder / Rod #2</string>
+   </property>
   </action>
   <action name="actionClose_all_panel">
    <property name="icon">
@@ -2826,6 +2829,14 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Close all panel</string>
+   </property>
+  </action>
+  <action name="actionLift_Tailgate">
+   <property name="text">
+    <string>Lift Tailgate</string>
+   </property>
+   <property name="statusTip">
+    <string>Silder / Rod #3</string>
    </property>
   </action>
  </widget>
