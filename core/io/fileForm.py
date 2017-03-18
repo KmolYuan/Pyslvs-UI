@@ -30,8 +30,9 @@ class File():
     def check(self, data):
         n1 = len([e for e, x in enumerate(data) if x=='_info_'])==4
         n2 = len([e for e, x in enumerate(data) if x=='_table_'])==9
-        n3 = len([e for e, x in enumerate(data) if x=='_path_'])==3
-        return n1 and n2 and n3
+        n3 = len([e for e, x in enumerate(data) if x=='_design_'])==2
+        n4 = len([e for e, x in enumerate(data) if x=='_path_'])==3
+        return n1 and n2 and n3 and n4
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         if '--file-data' in argv or '-F' in argv: print(data)
         errorInfo = list()
@@ -89,6 +90,12 @@ class File():
             if (len(li)-1)%5==0:
                 for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, li[i+1], li[i+2], li[i+3], li[i+4])
         except: errorInfo.append('Rod')
+        #design
+        designIndex = [e for e, x in enumerate(data) if '_design_' in x]
+        li = data[designIndex[0]+1:designIndex[1]]
+        if len(li)%6==0:
+            directions = [li[i:i+6] for i in range(0, len(li), 6)]
+            print(directions)
         #path
         try:
             pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
@@ -116,11 +123,13 @@ class File():
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.Stack = self.FileState.index()
+        #info
         self.form['fileName'] = QFileInfo(fileName)
         writer.writerows([
             ['_info_'], [self.form['author'] if self.form['author']!=str() else 'Anonymous'],
             ['_info_'], [self.form['description']],
             ['_info_'], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
+        #table
         self.CSV_write(writer, Point, 4, init=1)
         self.CSV_write(writer, Point_Style, 4, init=1)
         self.CSV_write(writer, Link, 4)
@@ -130,6 +139,13 @@ class File():
         self.CSV_write(writer, Rod, 5)
         self.CSV_write(writer, Parameter, 3)
         writer.writerow(['_table_'])
+        #design
+        writer.writerow(['_design_'])
+        directions = [['{}:{}\t'.format(k, '{}@{}'.format(v[0], v[1]) if type(v)==tuple else v) for k, v in e.items()]
+            for e in self.Designs.TSDirections]
+        for e in directions: writer.writerow([p.replace('\t', '') if e.index(p)==len(e)-1 else p for p in e])
+        writer.writerow(['_design_'])
+        #path
         writer.writerow(['_path_'])
         if self.Lists.runList:
             rowdata = list()
@@ -171,7 +187,7 @@ class File():
                     if item.text()==str(): content = str(item.checkState()!=Qt.Unchecked)
                     else: content = item.text()
                     rowdata.append(content+ending)
-                elif cellWidget: rowdata += [cellWidget.currentText()+ending]
+                elif cellWidget: rowdata.append(cellWidget.currentText()+ending)
             writer.writerow(rowdata)
     
     def Obstacles_Exclusion(self):

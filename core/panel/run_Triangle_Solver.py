@@ -71,7 +71,6 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def on_Solve_clicked(self):
         if self.directions:
             directions = [{k:v for k, v in e.items() if k!='Type'} for e in self.directions]
-            print(directions)
             s = solver(directions)
             self.answers = s.answer()
             for e in self.answers:

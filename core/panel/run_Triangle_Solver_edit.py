@@ -6,7 +6,6 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, name='PLAP', parent=None):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
-        print(row)
         for i in range(len(Point)):
             self.p1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
             self.p2.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
