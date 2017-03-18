@@ -6,7 +6,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, name='PLAP', parent=None):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
-        self.type.setCurrentIndex(self.type.findText(name))
+        print(row)
         for i in range(len(Point)):
             self.p1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
             self.p2.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
@@ -17,12 +17,18 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         self.p1Result.setEnabled(row>0)
         self.p2Result.setEnabled(row>0)
         self.p3Result.setEnabled(row>0)
+        self.on_type_currentIndexChanged(0)
+        self.type.setCurrentIndex(self.type.findText(name))
     
     @pyqtSlot(int)
     def on_type_currentIndexChanged(self, pos):
         self.anglePanel.setEnabled(pos==0)
         self.len2Panel.setEnabled(pos==1)
         self.p3Panel.setEnabled(pos==2)
+        if pos==0: pic = ":/icons/preview/PLAP.png"
+        elif pos==1: pic = ":/icons/preview/PLLP.png"
+        elif pos==2: pic = ":/icons/preview/PLPP.png"
+        self.triangleImage.setPixmap(QPixmap(pic).scaledToWidth(590))
     
     def turnDict(self):
         self.condition = {

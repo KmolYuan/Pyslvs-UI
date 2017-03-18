@@ -6,6 +6,9 @@
     <file>icons/preview/Link_round.png</file>
     <file>icons/preview/Chain_sheet.png</file>
     <file>icons/preview/Chain_frame.png</file>
+    <file>icons/preview/PLAP.png</file>
+    <file>icons/preview/PLLP.png</file>
+    <file>icons/preview/PLPP.png</file>
     <!--Main window icons-->
     <file>icons/main.png</file>
     <file>icons/main_big.png</file>

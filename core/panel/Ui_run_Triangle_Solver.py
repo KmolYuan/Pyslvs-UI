@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -93,7 +93,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "<html><head/><body><p>Enter &quot;Point, Length, Angle, Point&quot; (PLAP) or &quot;Point, Length, Length, Point&quot; (PLLP) construction point location.</p></body></html>"))
+        self.label.setText(_translate("Form", "<html><head/><body><p>Enter &quot;Point, Length, Angle, Point&quot; (PLAP), &quot;Point, Length, Length, Point&quot; (PLLP) or &quot;Point, Length, Point, Point&quot; (PLPP) construction point location.</p></body></html>"))
         item = self.directionsTable.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Type"))
         item = self.directionsTable.horizontalHeaderItem(1)
