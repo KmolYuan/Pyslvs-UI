@@ -7,8 +7,7 @@ from math import *
 class solver():
     def __init__(self, Directions=list()):
         #Cosine Theorem
-        self.CosineTheoremAngle = lambda a, b, c: acos((b**2+c**2-a**2)/(2*b*c))
-        self.CosineTheoremSide = lambda alpha, b, c: b**2+c**2-2*b*c*cos(alpha)
+        self.CosineTheoremAngle = lambda a, b, c: acos(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.001))
         self.Directions = Directions
     
     def set(self, Directions): self.Directions = Directions

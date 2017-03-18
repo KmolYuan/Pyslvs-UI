@@ -28,6 +28,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QTableWidget" name="directionsTable">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="verticalScrollMode">
         <enum>QAbstractItemView::ScrollPerPixel</enum>
        </property>
@@ -51,27 +54,22 @@
        </column>
        <column>
         <property name="text">
+         <string>Result</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>p1</string>
         </property>
        </column>
        <column>
         <property name="text">
-         <string>len1</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>len2</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>angle</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>p2</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Condition</string>
         </property>
        </column>
       </widget>
@@ -107,6 +105,13 @@
         <widget class="QPushButton" name="pluse_PLLP">
          <property name="text">
           <string>+PLLP</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pluse_PLPP">
+         <property name="text">
+          <string>+PLPP</string>
          </property>
         </widget>
        </item>
@@ -151,6 +156,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="Solve">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Solve</string>
        </property>
@@ -158,6 +166,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="Merge">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Merge</string>
        </property>
