@@ -222,8 +222,6 @@ class TSCommand(QUndoCommand):
         self.TSDirections = TSDirections
         self.Direction = copy(Direction)
         self.oldDirection = copy(TSDirections)
-        print(self.TSDirections)
-        print(self.Direction)
     
     def redo(self):
         self.TSDirections.clear()

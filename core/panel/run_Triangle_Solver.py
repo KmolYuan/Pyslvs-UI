@@ -9,12 +9,13 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def __init__(self, Point, Directions=list(), parent=None):
         super(Triangle_Solver_show, self).__init__(parent)
         self.setupUi(self)
-        self.directions = Directions
         self.answers = list()
-        if Directions:
-            for e in self.directions:
-                self.editTable(False, self.directionsTable.rowCount(), **e)
         self.Point = Point
+        self.ReloadTable(Directions)
+    
+    def ReloadTable(self, Directions):
+        self.directions = Directions
+        for e in self.directions: self.editTable(False, self.directionsTable.rowCount(), **e)
     
     def editDirection(self, name, edit=False):
         if edit is False:

@@ -573,7 +573,7 @@
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>+Clockwise</string>
+              <string>+ Clockwise</string>
              </property>
             </widget>
            </item>

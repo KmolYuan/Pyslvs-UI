@@ -6,7 +6,6 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
-        print(condition)
         for i in range(len(Point)):
             self.p1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
             self.p2.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
@@ -19,41 +18,42 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         self.p3Result.setEnabled(row>0)
         self.on_type_currentIndexChanged(0)
         self.type.setCurrentIndex(self.type.findText(Type))
-        if type(condition['p1'])==tuple:
-            self.p1Customize.setChecked(True)
-            self.x1.setValue(condition['p1'][0])
-            self.y1.setValue(condition['p1'][1])
-        elif type(condition['p1'])==int:
-            self.p1Result.setChecked(True)
-            self.r1.setCurrentIndex(condition['p1'])
-        elif type(condition['p1'])==str:
-            self.p1Exist.setChecked(True)
-            self.p1.setCurrentIndex(int(condition['p1'].replace('Point', '')))
-        if type(condition['p2'])==tuple:
-            self.p2Customize.setChecked(True)
-            self.x2.setValue(condition['p2'][0])
-            self.y2.setValue(condition['p2'][1])
-        elif type(condition['p2'])==int:
-            self.p2Result.setChecked(True)
-            self.r2.setCurrentIndex(condition['p2'])
-        elif type(condition['p2'])==str:
-            self.p2Exist.setChecked(True)
-            self.p2.setCurrentIndex(int(condition['p2'].replace('Point', '')))
-        self.len1.setValue(condition['len1'])
-        self.other.setCheckState(condition['other'])
-        if Type=='PLAP': self.angle.setValue(condition['angle'])
-        elif Type=='PLLP': self.len2.setValue(condition['len2'])
-        elif Type=='PLPP':
-            if type(condition['p3'])==tuple:
-                self.p3Customize.setChecked(True)
-                self.x3.setValue(condition['p3'][0])
-                self.y3.setValue(condition['p3'][1])
-            elif type(condition['p3'])==int:
-                self.p3Result.setChecked(True)
-                self.r3.setCurrentIndex(condition['p3'])
-            elif type(condition['p3'])==str:
-                self.p3Exist.setChecked(True)
-                self.p3.setCurrentIndex(int(condition['p3'].replace('Point', '')))
+        if condition:
+            if type(condition['p1'])==tuple:
+                self.p1Customize.setChecked(True)
+                self.x1.setValue(condition['p1'][0])
+                self.y1.setValue(condition['p1'][1])
+            elif type(condition['p1'])==int:
+                self.p1Result.setChecked(True)
+                self.r1.setCurrentIndex(condition['p1'])
+            elif type(condition['p1'])==str:
+                self.p1Exist.setChecked(True)
+                self.p1.setCurrentIndex(int(condition['p1'].replace('Point', '')))
+            if type(condition['p2'])==tuple:
+                self.p2Customize.setChecked(True)
+                self.x2.setValue(condition['p2'][0])
+                self.y2.setValue(condition['p2'][1])
+            elif type(condition['p2'])==int:
+                self.p2Result.setChecked(True)
+                self.r2.setCurrentIndex(condition['p2'])
+            elif type(condition['p2'])==str:
+                self.p2Exist.setChecked(True)
+                self.p2.setCurrentIndex(int(condition['p2'].replace('Point', '')))
+            self.len1.setValue(condition['len1'])
+            self.other.setCheckState(condition['other'])
+            if Type=='PLAP': self.angle.setValue(condition['angle'])
+            elif Type=='PLLP': self.len2.setValue(condition['len2'])
+            elif Type=='PLPP':
+                if type(condition['p3'])==tuple:
+                    self.p3Customize.setChecked(True)
+                    self.x3.setValue(condition['p3'][0])
+                    self.y3.setValue(condition['p3'][1])
+                elif type(condition['p3'])==int:
+                    self.p3Result.setChecked(True)
+                    self.r3.setCurrentIndex(condition['p3'])
+                elif type(condition['p3'])==str:
+                    self.p3Exist.setChecked(True)
+                    self.p3.setCurrentIndex(int(condition['p3'].replace('Point', '')))
     
     @pyqtSlot(int)
     def on_type_currentIndexChanged(self, pos):

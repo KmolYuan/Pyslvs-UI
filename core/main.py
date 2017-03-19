@@ -189,6 +189,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.FileState.undoText(): print(self.FileState.undoText())
         if index!=self.File.Stack: self.workbookNoSave()
         else: self.workbookSaved()
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Triangle Solver" in tabNameList:
+            self.closePanel(tabNameList.index("Triangle Solver"))
+            self.TriangleSolver.setChecked(False)
     
     #Resolve
     def Resolve(self):

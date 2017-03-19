@@ -305,7 +305,7 @@ class Ui_Dialog(object):
         self.len1Panel.setTitle(_translate("Dialog", "L0"))
         self.len2Panel.setTitle(_translate("Dialog", "R0"))
         self.anglePanel.setTitle(_translate("Dialog", "β"))
-        self.label.setText(_translate("Dialog", "+Clockwise"))
+        self.label.setText(_translate("Dialog", "+ Clockwise"))
         self.angle.setSuffix(_translate("Dialog", "°"))
 
 import icons_rc
