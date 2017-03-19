@@ -930,6 +930,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         while self.PointTab.count()>3: self.closePanel(self.PointTab.count()-1)
         self.PointTab.setCurrentIndex(0)
         self.PathSolving.setChecked(False)
+        self.TriangleSolver.setChecked(False)
         self.Drive_shaft.setChecked(False)
         self.Drive_rod.setChecked(False)
         self.Measurement.setChecked(False)

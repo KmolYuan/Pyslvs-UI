@@ -92,10 +92,16 @@ class File():
         except: errorInfo.append('Rod')
         #design
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
-        li = data[designIndex[0]+1:designIndex[1]]
-        if len(li)%6==0:
-            directions = [li[i:i+6] for i in range(0, len(li), 6)]
-            print(directions)
+        try:
+            li = data[designIndex[0]+1:designIndex[1]]
+            if len(li)%6==0:
+                directions = [dict(zip([e.split(':')[0] for e in li[i:i+6]], [e.split(':')[1] for e in li[i:i+6]]))
+                    for i in range(0, len(li), 6)]
+                directions = [{
+                    k:((float(v.split('@')[0]), float(v.split('@')[1])) if '@' in v else float(v) if '.' in v else int(v) if v.isdigit() else v)
+                    for k, v in e.items()} for e in directions]
+                self.Designs.addDirections(directions)
+        except: errorInfo.append('Design')
         #path
         try:
             pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
