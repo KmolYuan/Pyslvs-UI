@@ -4,7 +4,7 @@ from collections import defaultdict
 from ..dialog.delete import deleteDlg
 from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
-    setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand)
+    setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand, TSCommand)
 
 class Lists():
     def __init__(self, FileState):
@@ -249,4 +249,7 @@ class Designs():
             self.list.insert(row+2, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
             del self.list[row]
     
-    def addDirections(self, Direction): self.TSDirections = list(Direction)
+    def addDirections(self, Direction):
+        self.FileState.beginMacro("TS Direction changed")
+        self.FileState.push(TSCommand(self.TSDirections, Direction))
+        self.FileState.endMacro()

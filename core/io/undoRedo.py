@@ -215,3 +215,19 @@ class demoValueCommand(QUndoCommand):
     
     def redo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.value)))
     def undo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.oldValue)))
+
+class TSCommand(QUndoCommand):
+    def __init__(self, TSDirections, Direction):
+        QUndoCommand.__init__(self)
+        self.TSDirections = TSDirections
+        self.Direction = copy(Direction)
+        self.oldDirection = copy(TSDirections)
+        print(self.TSDirections)
+        print(self.Direction)
+    
+    def redo(self):
+        self.TSDirections.clear()
+        self.TSDirections += self.Direction[:]
+    def undo(self):
+        self.TSDirections.clear()
+        self.TSDirections += self.oldDirection[:]
