@@ -451,6 +451,18 @@
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QGroupBox" name="PreviewPanel">
+       <property name="minimumSize">
+        <size>
+         <width>590</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>590</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="title">
         <string>Preview</string>
        </property>
@@ -495,18 +507,6 @@
      </item>
      <item>
       <widget class="QWidget" name="valuePanel" native="true">
-       <property name="minimumSize">
-        <size>
-         <width>120</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>120</width>
-         <height>16777215</height>
-        </size>
-       </property>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <property name="spacing">
          <number>6</number>
@@ -571,9 +571,19 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>+Clockwise</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QDoubleSpinBox" name="angle">
              <property name="suffix">
               <string>°</string>
+             </property>
+             <property name="minimum">
+              <double>-360.000000000000000</double>
              </property>
              <property name="maximum">
               <double>360.000000000000000</double>

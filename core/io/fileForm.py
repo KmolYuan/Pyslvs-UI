@@ -98,7 +98,7 @@ class File():
                 directions = [dict(zip([e.split(':')[0] for e in li[i:i+6]], [e.split(':')[1] for e in li[i:i+6]]))
                     for i in range(0, len(li), 6)]
                 directions = [{
-                    k:((float(v.split('@')[0]), float(v.split('@')[1])) if '@' in v else float(v) if '.' in v else int(v) if v.isdigit() else v)
+                    k:((float(v.split('@')[0]), float(v.split('@')[1])) if '@' in v else float(v) if '.' in v else int(v) if v.isdigit() else v if 'P' in v else bool(v))
                     for k, v in e.items()} for e in directions]
                 self.Designs.addDirections(directions)
         except: errorInfo.append('Design')

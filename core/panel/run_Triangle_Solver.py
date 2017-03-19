@@ -17,9 +17,12 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         self.Point = Point
     
     def editDirection(self, name, edit=False):
-        if edit is False: row = self.directionsTable.rowCount()
-        else: row = edit
-        dlg = Triangle_Solver_edit_show(self.Point, row, name)
+        if edit is False:
+            row = self.directionsTable.rowCount()
+            dlg = Triangle_Solver_edit_show(self.Point, row, name)
+        else:
+            row = edit
+            dlg = Triangle_Solver_edit_show(self.Point, row, **self.directions[row])
         dlg.show()
         if dlg.exec_():
             self.editList(edit, row, **dlg.condition)
@@ -71,6 +74,10 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def on_Solve_clicked(self):
         if self.directions:
             directions = [{k:v for k, v in e.items() if k!='Type'} for e in self.directions]
+            print(directions)
+            directions = [{k:(v if type(v)!=str else
+                (self.Point[int(v.replace('Point', ''))]['x'], self.Point[int(v.replace('Point', ''))]['y']))
+                for k, v in e.items()} for e in directions]
             s = solver(directions)
             self.answers = s.answer()
             for e in self.answers:
