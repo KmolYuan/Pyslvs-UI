@@ -819,8 +819,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if "Triangle Solver" in tabNameList: self.closePanel(tabNameList.index("Triangle Solver"))
         else:
             panel = Triangle_Solver_show(self.FileState, self.File.Lists.PointList, self.File.Designs.TSDirections)
+            panel.startMerge.connect(self.TriangleSolver_merge)
             self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/TS.png")), "Triangle Solver")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+    @pyqtSlot()
+    def TriangleSolver_merge(self):
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        panel = self.PointTab.widget(tabNameList.index("Triangle Solver"))
+        pgdlg = QProgressDialog("Creat Points...", "Abort", 0, len(panel.answers))
+        pgdlg.setWindowModality(Qt.WindowModal)
+        pgdlg.show()
+        for answer in panel.answers:
+            direction = panel.directions[panel.answers.index(answer)]
+            if type(direction['p1'])==tuple: self.File.Lists.editTable(
+                self.Entiteis_Point, 'Point', False, str(direction['p1'][0]), str(direction['p1'][1]), False,
+                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
+            if type(direction['p2'])==tuple: self.File.Lists.editTable(
+                self.Entiteis_Point, 'Point', False, str(direction['p2'][0]), str(direction['p2'][1]), False,
+                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
+            if type(direction.get('p3', 0))==tuple: self.File.Lists.editTable(
+                self.Entiteis_Point, 'Point', False, str(direction['p3'][0]), str(direction['p3'][1]), False,
+                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
+            self.File.Lists.editTable(
+                self.Entiteis_Point, 'Point', False, str(answer[0]), str(answer[1]), False,
+                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
+            pgdlg.setValue(panel.answers.index(answer))
+        pgdlg.close()
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):

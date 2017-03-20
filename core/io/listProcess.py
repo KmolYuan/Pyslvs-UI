@@ -251,5 +251,5 @@ class Designs():
     
     def addDirections(self, Direction):
         self.FileState.beginMacro("Input {TS Direction}")
-        self.FileState.push(TSCommand(self.TSDirections, Direction))
+        self.FileState.push(TSinitCommand(self.TSDirections, Direction))
         self.FileState.endMacro()

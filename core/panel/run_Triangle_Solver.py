@@ -6,6 +6,7 @@ from ..io.undoRedo import (TSinitCommand, TSeditCommand, TSdeleteCommand)
 from ..kernel.pyslvs_triangle_solver.TS import solver
 
 class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
+    startMerge = pyqtSignal()
     def __init__(self, FileState, Point, Directions=list(), parent=None):
         super(Triangle_Solver_show, self).__init__(parent)
         self.setupUi(self)
@@ -77,10 +78,9 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             s = solver(directions)
             self.answers = s.answer()
             for e in self.answers:
-                result = QTableWidgetItem(str(e))
+                result = QTableWidgetItem("({:.02f}, {:.02f})".format(e[0], e[1]))
                 result.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
                 self.directionsTable.setItem(self.answers.index(e), 1, result)
     
     @pyqtSlot()
-    def on_Merge_clicked(self):
-        pass
+    def on_Merge_clicked(self): self.startMerge.emit()

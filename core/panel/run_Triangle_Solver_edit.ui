@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>780</width>
-    <height>600</height>
+    <height>630</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>780</width>
-    <height>600</height>
+    <height>630</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>780</width>
-    <height>600</height>
+    <height>630</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -112,28 +112,7 @@
             <number>6</number>
            </property>
            <item>
-            <widget class="QComboBox" name="merge">
-             <item>
-              <property name="text">
-               <string>Only points</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Linking L0</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Linking R0</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Stay Chain</string>
-              </property>
-             </item>
-            </widget>
+            <widget class="QComboBox" name="merge"/>
            </item>
           </layout>
          </widget>
