@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(412, 332)
+        Form.resize(457, 387)
         self.verticalLayout = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Form)
@@ -69,6 +69,9 @@ class Ui_Form(object):
         self.verticalLayout_2.addWidget(self.remove_botton)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem)
+        self.clear_botton = QtWidgets.QPushButton(Form)
+        self.clear_botton.setObjectName("clear_botton")
+        self.verticalLayout_2.addWidget(self.clear_botton)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
@@ -109,6 +112,7 @@ class Ui_Form(object):
         self.pluse_PLLP.setText(_translate("Form", "+PLLP"))
         self.pluse_PLPP.setText(_translate("Form", "+PLPP"))
         self.remove_botton.setText(_translate("Form", "-"))
+        self.clear_botton.setText(_translate("Form", "Clear"))
         self.Solve.setText(_translate("Form", "Solve"))
         self.Merge.setText(_translate("Form", "Merge"))
 

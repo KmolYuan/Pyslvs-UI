@@ -94,7 +94,7 @@ class File():
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
         try:
             li = data[designIndex[0]+1:designIndex[1]]
-            if len(li)%6==0:
+            if len(li)>0 and len(li)%6==0:
                 directions = [dict(zip([e.split(':')[0] for e in li[i:i+6]], [e.split(':')[1] for e in li[i:i+6]]))
                     for i in range(0, len(li), 6)]
                 directions = [{

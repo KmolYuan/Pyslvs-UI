@@ -32,7 +32,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_10">
+  <layout class="QVBoxLayout" name="verticalLayout_14">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -54,29 +54,88 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Type:</string>
+         <widget class="QGroupBox" name="typeLayout">
+          <property name="title">
+           <string>Solving Type</string>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QComboBox" name="type">
+             <item>
+              <property name="text">
+               <string>PLAP</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PLLP</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PLPP</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="type">
-          <item>
-           <property name="text">
-            <string>PLAP</string>
+         <widget class="QGroupBox" name="mergeLayout">
+          <property name="title">
+           <string>Merge Type</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_11">
+           <property name="leftMargin">
+            <number>6</number>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>PLLP</string>
+           <property name="topMargin">
+            <number>6</number>
            </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>PLPP</string>
+           <property name="rightMargin">
+            <number>6</number>
            </property>
-          </item>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QComboBox" name="merge">
+             <item>
+              <property name="text">
+               <string>Only points</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Linking L0</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Linking R0</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Stay Chain</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
         <item>
@@ -483,24 +542,89 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QLabel" name="triangleImage">
-          <property name="text">
-           <string/>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>0</number>
           </property>
+          <widget class="QWidget" name="Solving">
+           <attribute name="title">
+            <string>Solving</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="triangleImage">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>218</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="Merge">
+           <attribute name="title">
+            <string>Merge</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_13">
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="mergeImage">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_8">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>218</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
          </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>1</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </widget>

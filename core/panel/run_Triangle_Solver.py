@@ -2,47 +2,46 @@
 from ..QtModules import *
 from .Ui_run_Triangle_Solver import Ui_Form as Triangle_Solver_Form
 from .run_Triangle_Solver_edit import Triangle_Solver_edit_show
+from ..io.undoRedo import (TSinitCommand, TSeditCommand, TSdeleteCommand)
 from ..kernel.pyslvs_triangle_solver.TS import solver
 
 class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
-    newDirections = pyqtSignal(list)
-    def __init__(self, Point, Directions=list(), parent=None):
+    def __init__(self, FileState, Point, Directions=list(), parent=None):
         super(Triangle_Solver_show, self).__init__(parent)
         self.setupUi(self)
         self.answers = list()
         self.Point = Point
+        self.FileState = FileState
         self.ReloadTable(Directions)
     
     def ReloadTable(self, Directions):
         self.directions = Directions
-        for e in self.directions: self.editTable(False, self.directionsTable.rowCount(), **e)
+        for condition in self.directions:
+            row = self.directionsTable.rowCount()
+            self.directionsTable.insertRow(row)
+            self.directionsTable.setItem(row, 0, QTableWidgetItem(condition['Type']))
+            e = condition['p1']
+            p1Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
+            if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+            self.directionsTable.setItem(row, 2, p1Item)
+            e = condition['p2']
+            p2Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
+            if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+            self.directionsTable.setItem(row, 3, p2Item)
+            condition = {k:v for k, v in condition.items() if k!='Type'}
+            conditionItem = QTableWidgetItem(str(condition))
+            conditionItem.setToolTip(str(condition))
+            self.directionsTable.setItem(row, 4, conditionItem)
     
     def editDirection(self, name, edit=False):
-        if edit is False:
-            row = self.directionsTable.rowCount()
-            dlg = Triangle_Solver_edit_show(self.Point, row, name)
-        else:
-            row = edit
-            dlg = Triangle_Solver_edit_show(self.Point, row, **self.directions[row])
+        if edit is False: dlg = Triangle_Solver_edit_show(self.Point, self.directionsTable.rowCount(), name)
+        else: dlg = Triangle_Solver_edit_show(self.Point, edit, **self.directions[edit])
         dlg.show()
         if dlg.exec_():
-            self.editList(edit, row, **dlg.condition)
-            self.editTable(edit, row, **dlg.condition)
-    
-    def editTable(self, edit, row, p1, p2, **condition):
-        if edit is False: self.directionsTable.insertRow(row)
-        self.directionsTable.setItem(row, 0, QTableWidgetItem(condition['Type']))
-        self.directionsTable.setItem(row, 2, QTableWidgetItem('Result{}'.format(p1) if type(p1)==int else str(p1)))
-        self.directionsTable.setItem(row, 3, QTableWidgetItem('Result{}'.format(p2) if type(p2)==int else str(p2)))
-        condition = {k:v for k, v in condition.items() if k!='Type'}
-        conditionItem = QTableWidgetItem(str(condition))
-        conditionItem.setToolTip(str(condition))
-        self.directionsTable.setItem(row, 4, conditionItem)
-    
-    def editList(self, edit, row, **condition):
-        if edit is False: self.directions.append(condition)
-        else: self.directions[row] = condition
-        self.newDirections.emit(self.directions)
+            direction = dlg.condition
+            self.FileState.beginMacro("{} {{TS Direction}}".format('Add' if edit is False else 'Edit'))
+            self.FileState.push(TSeditCommand(self.directions, self.directionsTable, direction, edit))
+            self.FileState.endMacro()
     
     @pyqtSlot()
     def on_pluse_PLAP_clicked(self): self.editDirection('PLAP')
@@ -53,18 +52,15 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     
     @pyqtSlot(int, int)
     def on_directionsTable_cellDoubleClicked(self, row, column):
-        row = self.directionsTable.currentRow()
-        if row>-1:
-            name = self.directionsTable.item(row, 0).text()
-            self.editDirection(name, row)
+        if row>-1: self.editDirection(self.directions[row]['Type'], row)
     
     @pyqtSlot()
     def on_remove_botton_clicked(self):
         n = self.directionsTable.rowCount()
         if n>0:
-            self.directionsTable.removeRow(n-1)
-            del self.directions[n-1]
-            self.newDirections.emit(self.directions)
+            self.FileState.beginMacro("Delete {TS Direction}")
+            self.FileState.push(TSdeleteCommand(self.directions))
+            self.FileState.endMacro()
     
     @pyqtSlot(QTableWidgetItem)
     def on_directionsTable_itemChanged(self, item):
@@ -75,7 +71,6 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def on_Solve_clicked(self):
         if self.directions:
             directions = [{k:v for k, v in e.items() if k!='Type'} for e in self.directions]
-            print(directions)
             directions = [{k:(v if type(v)!=str else
                 (self.Point[int(v.replace('Point', ''))]['x'], self.Point[int(v.replace('Point', ''))]['y']))
                 for k, v in e.items()} for e in directions]

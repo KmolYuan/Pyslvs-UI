@@ -32,6 +32,21 @@ def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox1, 
     table.setItem(rowPosition, 2, QTableWidgetItem(ringsize))
     table.setCellWidget(rowPosition, 3, color_combobox2)
 
+def writeTS(table, row, Direction):
+    table.setItem(row, 0, QTableWidgetItem(Direction['Type']))
+    e = Direction['p1']
+    p1Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
+    if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+    table.setItem(row, 2, p1Item)
+    e = Direction['p2']
+    p2Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
+    if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+    table.setItem(row, 3, p2Item)
+    condition = {k:v for k, v in Direction.items() if k!='Type'}
+    conditionItem = QTableWidgetItem(str(condition))
+    conditionItem.setToolTip('\n'.join(["{}: {}".format(k, v) for k, v in condition.items()]))
+    table.setItem(row, 4, conditionItem)
+
 class editTableCommand(QUndoCommand):
     def __init__(self, table, name, edit, Args):
         QUndoCommand.__init__(self)
@@ -216,16 +231,58 @@ class demoValueCommand(QUndoCommand):
     def redo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.value)))
     def undo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.oldValue)))
 
-class TSCommand(QUndoCommand):
-    def __init__(self, TSDirections, Direction):
+class TSinitCommand(QUndoCommand):
+    def __init__(self, TSDirections, Directions):
         QUndoCommand.__init__(self)
         self.TSDirections = TSDirections
-        self.Direction = copy(Direction)
-        self.oldDirection = copy(TSDirections)
+        self.Directions = copy(Directions)
+        self.oldDirections = copy(TSDirections)
     
     def redo(self):
         self.TSDirections.clear()
-        self.TSDirections += self.Direction[:]
+        self.TSDirections += self.Directions
     def undo(self):
         self.TSDirections.clear()
-        self.TSDirections += self.oldDirection[:]
+        self.TSDirections += self.oldDirections
+
+class TSeditCommand(QUndoCommand):
+    def __init__(self, TSDirections, table, Direction, edit):
+        QUndoCommand.__init__(self)
+        self.TSDirections = TSDirections
+        self.table = table
+        self.Direction = copy(Direction)
+        self.edit = edit
+        if not self.edit is False: self.oldDirection = copy(TSDirections[edit])
+    
+    def redo(self):
+        if self.edit is False:
+            self.TSDirections.append(self.Direction)
+            row = self.table.rowCount()
+            self.table.insertRow(row)
+        else:
+            self.TSDirections[self.edit] = self.Direction
+            row = self.edit
+        writeTS(self.table, row, self.Direction)
+    def undo(self):
+        if self.edit is False:
+            self.TSDirections.pop()
+            self.table.removeRow(self.table.rowCount()-1)
+        else:
+            self.TSDirections[self.edit] = self.oldDirection
+            writeTS(self.table, self.edit, self.Direction)
+
+class TSdeleteCommand(QUndoCommand):
+    def __init__(self, TSDirections, table):
+        QUndoCommand.__init__(self)
+        self.TSDirections = TSDirections
+        self.oldDirection = copy(TSDirections[-1])
+        self.table = table
+    
+    def redo(self):
+        self.TSDirections.pop()
+        self.table.removeRow(self.table.rowCount()-1)
+    def undo(self):
+        row = self.table.rowCount()
+        self.TSDirections.append(self.oldDirection)
+        self.table.insertRow(row)
+        writeTS(self.table, row, self.oldDirection)

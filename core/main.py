@@ -189,10 +189,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.FileState.undoText(): print(self.FileState.undoText())
         if index!=self.File.Stack: self.workbookNoSave()
         else: self.workbookSaved()
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        if "Triangle Solver" in tabNameList:
-            self.closePanel(tabNameList.index("Triangle Solver"))
-            self.TriangleSolver.setChecked(False)
     
     #Resolve
     def Resolve(self):
@@ -822,12 +818,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         if "Triangle Solver" in tabNameList: self.closePanel(tabNameList.index("Triangle Solver"))
         else:
-            panel = Triangle_Solver_show(self.File.Lists.PointList, self.File.Designs.TSDirections)
-            panel.newDirections.connect(self.TriangleSolver_addDirections)
+            panel = Triangle_Solver_show(self.FileState, self.File.Lists.PointList, self.File.Designs.TSDirections)
             self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/TS.png")), "Triangle Solver")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
-    @pyqtSlot(list)
-    def TriangleSolver_addDirections(self, Directions): self.File.Designs.addDirections(Directions)
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
