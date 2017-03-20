@@ -9,9 +9,11 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         for i in range(len(Point)):
             self.p1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
             self.p2.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
+            self.p3.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
         for i in range(row):
-            self.r1.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i))
-            self.r2.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i))
+            self.r1.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
+            self.r2.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
+            self.r3.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.turnDict)
         self.p1Result.setEnabled(row>0)
         self.p2Result.setEnabled(row>0)

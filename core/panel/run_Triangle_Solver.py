@@ -60,7 +60,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         n = self.directionsTable.rowCount()
         if n>0:
             self.FileState.beginMacro("Delete {TS Direction}")
-            self.FileState.push(TSdeleteCommand(self.directions))
+            self.FileState.push(TSdeleteCommand(self.directions, self.directionsTable))
             self.FileState.endMacro()
     
     @pyqtSlot(QTableWidgetItem)

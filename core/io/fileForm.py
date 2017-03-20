@@ -42,7 +42,9 @@ class File():
         except:
             author = str()
             errorInfo.append('Author Information')
-        try: description = '\n'.join(data[infoIndex[1]:infoIndex[2]+1][1:-1])[1:-1]
+        try:
+            description = '\n'.join(data[infoIndex[1]:infoIndex[2]+1][1:-1])
+            if '\n' in description: description = description[1:-1]
         except:
             description = str()
             errorInfo.append('Description Information')
@@ -94,9 +96,9 @@ class File():
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
         try:
             li = data[designIndex[0]+1:designIndex[1]]
-            if len(li)>0 and len(li)%6==0:
-                directions = [dict(zip([e.split(':')[0] for e in li[i:i+6]], [e.split(':')[1] for e in li[i:i+6]]))
-                    for i in range(0, len(li), 6)]
+            if len(li)>0 and len(li)%7==0:
+                directions = [dict(zip([e.split(':')[0] for e in li[i:i+7]], [e.split(':')[1] for e in li[i:i+7]]))
+                    for i in range(0, len(li), 7)]
                 directions = [{
                     k:((float(v.split('@')[0]), float(v.split('@')[1])) if '@' in v else float(v) if '.' in v else int(v) if v.isdigit() else v if 'P' in v else v=='True')
                     for k, v in e.items()} for e in directions]
