@@ -37,7 +37,7 @@ def writeTS(table, row, Direction):
     for i in [2, 3]:
         e = [Direction['p1'], Direction['p2']][i-2]
         Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else "({:.02f}, {:.02f})".format(e[0], e[1]) if type(e)==tuple else e)
-        if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+        if type(e)==tuple: Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
         table.setItem(row, i, Item)
     condition = {k:v for k, v in Direction.items() if k!='Type'}
     conditionItem = QTableWidgetItem(str(condition))

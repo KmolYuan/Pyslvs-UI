@@ -38,11 +38,11 @@ class File():
         errorInfo = list()
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
-        try: author = data[infoIndex[0]:infoIndex[1]+1][1].replace('"', str())
+        try: author = data[infoIndex[0]:infoIndex[1]+1][1].replace('"', '')
         except:
             author = str()
             errorInfo.append('Author Information')
-        try: description = data[infoIndex[1]:infoIndex[2]+1][1].replace('"', str())
+        try: description = '\n'.join(data[infoIndex[1]:infoIndex[2]+1][1:-1])[1:-1]
         except:
             description = str()
             errorInfo.append('Description Information')

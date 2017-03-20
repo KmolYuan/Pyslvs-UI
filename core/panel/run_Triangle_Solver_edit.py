@@ -41,6 +41,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.p2.setCurrentIndex(int(condition['p2'].replace('Point', '')))
             self.len1.setValue(condition['len1'])
             self.other.setCheckState(Qt.Checked if condition['other'] else Qt.Unchecked)
+            self.merge.setCurrentIndex(condition['merge'])
             if Type=='PLAP': self.angle.setValue(condition['angle'])
             elif Type=='PLLP': self.len2.setValue(condition['len2'])
             elif Type=='PLPP':
@@ -65,8 +66,8 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         elif pos==2: pic = ":/icons/preview/PLPP.png"
         self.triangleImage.setPixmap(QPixmap(pic).scaledToWidth(560))
         for i in range(self.merge.count()): self.merge.removeItem(0)
-        if pos==2: self.merge.insertItems(0, ["Only points", "Slider"])
-        else: self.merge.insertItems(0, ["Only points", "Linking L0", "Linking R0", "Stay Chain"])
+        if pos==2: self.merge.insertItems(0, ["Points only", "Slider"])
+        else: self.merge.insertItems(0, ["Points only", "Linking L0", "Linking R0", "Stay Chain"])
     
     def turnDict(self):
         self.condition = {
@@ -77,6 +78,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.p2.currentText() if self.p2Exist.isChecked() else self.r2.currentIndex(),
             'len1':self.len1.value(),
             'other':bool(self.other.checkState()),
+            'merge':self.merge.currentIndex(),
         }
         if self.type.currentIndex()==0:
             PLAP = {'angle':self.angle.value()}

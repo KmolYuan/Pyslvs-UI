@@ -826,9 +826,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def TriangleSolver_merge(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         panel = self.PointTab.widget(tabNameList.index("Triangle Solver"))
-        pgdlg = QProgressDialog("Creat Points...", "Abort", 0, len(panel.answers))
-        pgdlg.setWindowModality(Qt.WindowModal)
-        pgdlg.show()
         for answer in panel.answers:
             direction = panel.directions[panel.answers.index(answer)]
             if type(direction['p1'])==tuple: self.File.Lists.editTable(
@@ -843,8 +840,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.editTable(
                 self.Entiteis_Point, 'Point', False, str(answer[0]), str(answer[1]), False,
                 styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
-            pgdlg.setValue(panel.answers.index(answer))
-        pgdlg.close()
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):

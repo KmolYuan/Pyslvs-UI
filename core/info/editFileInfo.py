@@ -13,4 +13,4 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
         self.fileName.setText(_translate("File Name", "File Name: "+name))
         self.authorName_input.setText(author)
         self.dateName.setText(lastTime)
-        self.descriptionText.setHtml(description)
+        self.descriptionText.setPlainText(description)
