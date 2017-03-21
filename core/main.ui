@@ -1484,7 +1484,7 @@ p, li { white-space: pre-wrap; }
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>292</width>
+                      <width>412</width>
                       <height>441</height>
                      </rect>
                     </property>
@@ -1994,12 +1994,15 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>Ex&amp;port to...</string>
      </property>
+     <addaction name="SolvespaceMenuTitle"/>
      <addaction name="action_Output_to_Solvespace"/>
      <addaction name="actionSolvespace_2D_sketch"/>
      <addaction name="separator"/>
+     <addaction name="DXFMenuTitle"/>
      <addaction name="actionDXF_2D_models"/>
      <addaction name="actionDXF_2D_sketch"/>
      <addaction name="separator"/>
+     <addaction name="OtherFormatMenuTitle"/>
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_Script"/>
     </widget>
@@ -2648,7 +2651,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Solvespace &amp;3D models</string>
+    <string>&amp;3D models</string>
    </property>
    <property name="toolTip">
     <string>Solvespace 3D models</string>
@@ -2666,7 +2669,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>DXF 2D sketch</string>
+    <string>2D sketch</string>
    </property>
    <property name="statusTip">
     <string>Output to Drawing Exchange sketch.</string>
@@ -2799,7 +2802,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
    </property>
    <property name="text">
-    <string>Solvespace &amp;2D sketch</string>
+    <string>&amp;2D sketch</string>
    </property>
    <property name="statusTip">
     <string>Output to Solvespace 2D sketch.</string>
@@ -2814,7 +2817,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
    </property>
    <property name="text">
-    <string>DXF 2D models</string>
+    <string>2D models</string>
    </property>
    <property name="statusTip">
     <string>Output to Drawing Exchange models.</string>
@@ -2883,6 +2886,30 @@ p, li { white-space: pre-wrap; }
   <action name="actionTheo_Jansen_s_multi_linkage">
    <property name="text">
     <string>Theo Jansen's multi linkage</string>
+   </property>
+  </action>
+  <action name="SolvespaceMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Solvespace</string>
+   </property>
+  </action>
+  <action name="DXFMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>DXF</string>
+   </property>
+  </action>
+  <action name="OtherFormatMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Other Format</string>
    </property>
   </action>
  </widget>
