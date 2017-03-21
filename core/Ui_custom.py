@@ -1,4 +1,5 @@
 from .QtModules import *
+_translate = QCoreApplication.translate
 
 def init_Right_click_menu(self):
     #DynamicCanvasView Right-click menu
@@ -163,3 +164,17 @@ def actionEnabled(self):
     self.actionReplace_Point.setEnabled(TWO_POINT)
     self.action_point_right_click_menu_replace.setEnabled(TWO_POINT)
     self.actionBatch_moving.setEnabled(TWO_POINT)
+
+def showUndoWindow(self):
+    undoView = QUndoView(self.FileState)
+    undoView.setEmptyLabel("~ Start Pyslvs")
+    self.HistoryLayout.addWidget(undoView)
+    separator = QAction(self)
+    separator.setSeparator(True)
+    self.menu_Edit.insertAction(self.actionSearch_Points, separator)
+    self.actionRedo = self.FileState.createRedoAction(self, 'Redo')
+    self.actionUndo = self.FileState.createUndoAction(self, 'Undo')
+    self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
+    self.actionUndo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
+    self.menu_Edit.insertAction(separator, self.actionUndo)
+    self.menu_Edit.insertAction(separator, self.actionRedo)

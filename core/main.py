@@ -22,7 +22,7 @@ from .QtModules import *
 from .modules import *
 _translate = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
-from .Ui_custom import init_Right_click_menu, actionEnabled
+from .Ui_custom import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
@@ -33,7 +33,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.args.show_args: print("Arguments: {}".format(vars(self.args)))
         #File & Default Setting
         self.FileState = QUndoStack()
-        self.showUndoWindow(self.FileState)
+        self.FileState.indexChanged.connect(self.commandReload)
+        showUndoWindow(self)
         self.File = File(self.FileState)
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
@@ -164,24 +165,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.accept()
     
     #TODO: Undo and Redo
-    def showUndoWindow(self, stack):
-        stack.indexChanged.connect(self.commandReload)
-        undoView = QUndoView(stack)
-        undoView.setEmptyLabel("~ Start Pyslvs")
-        self.HistoryLayout.addWidget(undoView)
-        separator = QAction(self)
-        separator.setSeparator(True)
-        self.menu_Edit.insertAction(self.actionSearch_Points, separator)
-        self.actionRedo = stack.createRedoAction(self, 'Redo')
-        self.actionUndo = stack.createUndoAction(self, 'Undo')
-        self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
-        self.actionUndo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
-        self.menu_Edit.insertAction(separator, self.actionUndo)
-        self.menu_Edit.insertAction(separator, self.actionRedo)
     @pyqtSlot(int)
     def commandReload(self, index=0):
-        self.File.Lists.updateAll(self.Entiteis_Point,
-            self.Entiteis_Link, self.Entiteis_Stay_Chain,
+        self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.Resolve()
         self.actionUndo.setText("Undo {}".format(self.FileState.undoText()))
@@ -279,6 +265,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionRocker_and_two_sliders_triggered(self): self.checkChange("[Example] Rocker and two sliders", example_rockerSlider())
     @pyqtSlot()
     def on_actionLift_Tailgate_triggered(self): self.checkChange("[Example] Lift Tailgate", example_liftTailgate())
+    @pyqtSlot()
+    def on_actionTheo_Jansen_s_multi_linkage_triggered(self): self.checkChange("[Example] Theo Jansen\'s multiple linkage", example_TJLinkage())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:
@@ -583,7 +571,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Change_Edit_Slider(pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Slider, 'Slider', pos, dlg.slider, dlg.start)
+            self.File.Lists.editTable(self.Slider, 'Slider', pos, dlg.slider, dlg.start, dlg.end)
             self.closePanels()
     slider_feedback = pyqtSignal(int, int, int)
     @pyqtSlot(int)
@@ -828,19 +816,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         panel = self.PointTab.widget(tabNameList.index("Triangle Solver"))
         for answer in panel.answers:
             direction = panel.directions[panel.answers.index(answer)]
-            if type(direction['p1'])==tuple: self.File.Lists.editTable(
-                self.Entiteis_Point, 'Point', False, str(direction['p1'][0]), str(direction['p1'][1]), False,
-                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
-            if type(direction['p2'])==tuple: self.File.Lists.editTable(
-                self.Entiteis_Point, 'Point', False, str(direction['p2'][0]), str(direction['p2'][1]), False,
-                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
-            if type(direction.get('p3', 0))==tuple: self.File.Lists.editTable(
-                self.Entiteis_Point, 'Point', False, str(direction['p3'][0]), str(direction['p3'][1]), False,
-                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
+            for p in ['p1', 'p2', 'p3']:
+                if type(direction.get(p, 0))==tuple:
+                    self.File.Lists.editTable(
+                        self.Entiteis_Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
+                        styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
             self.File.Lists.editTable(
                 self.Entiteis_Point, 'Point', False, str(answer[0]), str(answer[1]), False,
                 styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
-    
+            '''
+            if direction['Type']!='PLPP':
+                if direction['merge']==1: self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
+                    'Point{}'.format(pointNum-2), 'Point{}'.format(pointNum), str(direction['len1']))
+                elif direction['merge']==2:
+                    x = direction['p2'][0]
+                    y = direction['p2'][1]
+                    self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
+                        'Point{}'.format(pointNum-1), 'Point{}'.format(pointNum),
+                        str(direction.get('len2', ((answer[0]-x)**2+(answer[1]-y)**2)**(1/2))))
+                elif direction['merge']==3: self.File.Lists.editTable(table2, 'Chain', False,
+                    'Point{}'.format(pointNum-2), 'Point{}'.format(pointNum), 'Point{}'.format(pointNum-1),
+                    str(direction['len1']), str(direction.get('len2', ((answer[0]-direction['p2'][0])**2+(answer[1]-direction['p2'][1])**2)**(1/2))),
+                    str(((direction['p1'][0]-direction['p2'][0])**2+(direction['p1'][1]-direction['p2'][1])**2)**(1/2)))
+                elif direction['merge']==4:
+                    self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
+                        'Point{}'.format(pointNum-2), 'Point{}'.format(pointNum), str(direction['len1']))
+                    self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
+                        'Point{}'.format(pointNum-1), 'Point{}'.format(pointNum),
+                        str(direction.get('len2', ((answer[0]-direction['p2'][0])**2+(answer[1]-direction['p2'][1])**2)**(1/2))))
+            elif direction['Type']=='PLPP' and direction['merge']==1:
+                self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
+                    'Point{}'.format(pointNum-3), 'Point{}'.format(pointNum), str(direction['len1']))
+                self.File.Lists.editTable(self.Slider, 'Slider', False, 'Point{}'.format(pointNum), 'Point{}'.format(pointNum-1), 'Point{}'.format(pointNum-2))
+            '''
+
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]

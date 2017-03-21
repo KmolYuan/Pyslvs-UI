@@ -1484,7 +1484,7 @@ p, li { white-space: pre-wrap; }
                      <rect>
                       <x>0</x>
                       <y>0</y>
-                      <width>412</width>
+                      <width>292</width>
                       <height>441</height>
                      </rect>
                     </property>
@@ -1968,18 +1968,24 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>&amp;Example</string>
      </property>
+     <addaction name="GrashofChainMenuTitle"/>
      <addaction name="actionCrank_rocker"/>
      <addaction name="actionDrag_link"/>
      <addaction name="actionDouble_rocker"/>
      <addaction name="actionParallelogram_linkage"/>
      <addaction name="separator"/>
+     <addaction name="LinkagesMenuTitle"/>
      <addaction name="actionReverse_Parsing_Rocker"/>
      <addaction name="actionMutiple_Link"/>
      <addaction name="actionTwo_Mutiple_Link"/>
      <addaction name="separator"/>
+     <addaction name="SlidersMenuTitle"/>
      <addaction name="actionSlider_and_Rod"/>
      <addaction name="actionRocker_and_two_sliders"/>
      <addaction name="actionLift_Tailgate"/>
+     <addaction name="separator"/>
+     <addaction name="DesignsMenuTitle"/>
+     <addaction name="actionTheo_Jansen_s_multi_linkage"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
@@ -2337,6 +2343,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+   <property name="priority">
+    <enum>QAction::HighPriority</enum>
    </property>
   </action>
   <action name="action_New_Stay_Chain">
@@ -2837,6 +2846,43 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Silder / Rod #3</string>
+   </property>
+  </action>
+  <action name="GrashofChainMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Grashof chain</string>
+   </property>
+  </action>
+  <action name="LinkagesMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Linkages</string>
+   </property>
+  </action>
+  <action name="SlidersMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Sliders</string>
+   </property>
+  </action>
+  <action name="DesignsMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Design</string>
+   </property>
+  </action>
+  <action name="actionTheo_Jansen_s_multi_linkage">
+   <property name="text">
+    <string>Theo Jansen's multi linkage</string>
    </property>
   </action>
  </widget>

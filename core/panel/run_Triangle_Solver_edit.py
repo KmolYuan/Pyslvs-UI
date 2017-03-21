@@ -69,7 +69,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         self.triangleImage.setPixmap(QPixmap(pic).scaledToWidth(560))
         for i in range(self.merge.count()): self.merge.removeItem(0)
         if pos==2: self.merge.insertItems(0, ["Points only", "Slider"])
-        else: self.merge.insertItems(0, ["Points only", "Linking L0", "Linking R0", "Stay Chain"])
+        else: self.merge.insertItems(0, ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"])
     
     def turnDict(self):
         self.condition = {
