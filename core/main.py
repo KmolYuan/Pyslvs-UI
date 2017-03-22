@@ -813,43 +813,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def TriangleSolver_merge(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        panel = self.PointTab.widget(tabNameList.index("Triangle Solver"))
-        for answer in panel.answers:
-            direction = panel.directions[panel.answers.index(answer)]
-            for p in ['p1', 'p2', 'p3']:
-                if type(direction.get(p, 0))==tuple:
-                    self.File.Lists.editTable(
-                        self.Entiteis_Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
-                        styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
-            self.File.Lists.editTable(
-                self.Entiteis_Point, 'Point', False, str(answer[0]), str(answer[1]), False,
-                styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Green')
-            '''
-            if direction['Type']!='PLPP':
-                if direction['merge']==1: self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
-                    'Point{}'.format(pointNum-2), 'Point{}'.format(pointNum), str(direction['len1']))
-                elif direction['merge']==2:
-                    x = direction['p2'][0]
-                    y = direction['p2'][1]
-                    self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
-                        'Point{}'.format(pointNum-1), 'Point{}'.format(pointNum),
-                        str(direction.get('len2', ((answer[0]-x)**2+(answer[1]-y)**2)**(1/2))))
-                elif direction['merge']==3: self.File.Lists.editTable(table2, 'Chain', False,
-                    'Point{}'.format(pointNum-2), 'Point{}'.format(pointNum), 'Point{}'.format(pointNum-1),
-                    str(direction['len1']), str(direction.get('len2', ((answer[0]-direction['p2'][0])**2+(answer[1]-direction['p2'][1])**2)**(1/2))),
-                    str(((direction['p1'][0]-direction['p2'][0])**2+(direction['p1'][1]-direction['p2'][1])**2)**(1/2)))
-                elif direction['merge']==4:
-                    self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
-                        'Point{}'.format(pointNum-2), 'Point{}'.format(pointNum), str(direction['len1']))
-                    self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
-                        'Point{}'.format(pointNum-1), 'Point{}'.format(pointNum),
-                        str(direction.get('len2', ((answer[0]-direction['p2'][0])**2+(answer[1]-direction['p2'][1])**2)**(1/2))))
-            elif direction['Type']=='PLPP' and direction['merge']==1:
-                self.File.Lists.editTable(self.Entiteis_Link, 'Line', False,
-                    'Point{}'.format(pointNum-3), 'Point{}'.format(pointNum), str(direction['len1']))
-                self.File.Lists.editTable(self.Slider, 'Slider', False, 'Point{}'.format(pointNum), 'Point{}'.format(pointNum-1), 'Point{}'.format(pointNum-2))
-            '''
-
+        self.File.TS_Merge(self.PointTab.widget(tabNameList.index("Triangle Solver")).answers,
+            self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Slider)
+    
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]

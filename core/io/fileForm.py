@@ -244,3 +244,46 @@ class File():
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
         self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False)
         print("Generate Result Merged.")
+    
+    def TS_Merge(self, answers, Point, Point_Style, Link, Chain, Slider):
+        Pythagorean = lambda p1, p2: ((p1['x']-p2['x'])**2+(p1['y']-p2['y'])**2)**(1/2)
+        pNums = list()
+        for answer in answers:
+            pNum = dict()
+            direction = self.Designs.TSDirections[answers.index(answer)]
+            #New Points
+            for p in ['p1', 'p2', 'p3']:
+                if type(direction.get(p, 0))==tuple:
+                    self.Lists.editTable(Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
+                        styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
+                    pNum[p] = Point.rowCount()-1
+            self.Lists.editTable(Point, 'Point', False, str(answer[0]), str(answer[1]), False,
+                styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
+            pNum['answer'] = Point.rowCount()-1
+            pNums.append(pNum)
+            #Number of Points & Length of Sides
+            p1 = int(direction['p1'].replace('Point', '')) if type(direction['p1'])==str else pNums[direction['p1']]['answer'] if type(direction['p1'])==int else pNum['p1']
+            p2 = int(direction['p2'].replace('Point', '')) if type(direction['p2'])==str else pNums[direction['p2']]['answer'] if type(direction['p2'])==int else pNum['p2']
+            if direction['Type']=='PLPP': p3 = int(direction['p3'].replace('Point', '')) if type(direction['p3'])==str else pNums[direction['p3']]['answer'] if type(direction['p3'])==int else pNum['p3']
+            pA = pNum['answer']
+            #Merge options
+            if direction['Type']!='PLPP':
+                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False,
+                    'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
+                elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False,
+                    'Point{}'.format(p2), 'Point{}'.format(pA), str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, 'Point{}'.format(p1), 'Point{}'.format(pA), 'Point{}'.format(p2),
+                    str(direction['len1']),
+                    str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))),
+                    str(Pythagorean(self.Lists.PointList[p1], self.Lists.PointList[p2])))
+                elif direction['merge']==4:
+                    self.Lists.editTable(Link, 'Line', False,
+                        'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
+                    self.Lists.editTable(Link, 'Line', False,
+                        'Point{}'.format(p2), 'Point{}'.format(pA), str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+            elif direction['Type']=='PLPP':
+                if direction['merge']==1:
+                    self.Lists.editTable(Link, 'Line', False,
+                        'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
+                    self.Lists.editTable(Slider, 'Slider', False,
+                        'Point{}'.format(pA), 'Point{}'.format(p2), 'Point{}'.format(p3))
