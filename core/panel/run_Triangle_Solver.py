@@ -31,7 +31,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.directionsTable.setItem(row, 3, p2Item)
             condition = {k:v for k, v in condition.items() if k!='Type'}
             conditionItem = QTableWidgetItem(str(condition))
-            conditionItem.setToolTip(str(condition))
+            conditionItem.setToolTip('\n'.join(["{}: {}".format(k, v) for k, v in condition.items()]))
             self.directionsTable.setItem(row, 4, conditionItem)
     
     def editDirection(self, name, edit=False):
@@ -62,6 +62,10 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.FileState.beginMacro("Delete {TS Direction}")
             self.FileState.push(TSdeleteCommand(self.directions, self.directionsTable))
             self.FileState.endMacro()
+    
+    @pyqtSlot()
+    def on_clear_botton_clicked(self):
+        for i in range(self.directionsTable.rowCount()): self.on_remove_botton_clicked()
     
     @pyqtSlot(QTableWidgetItem)
     def on_directionsTable_itemChanged(self, item):
