@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -694,7 +694,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 412, 441))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -187, 395, 442))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -883,7 +883,7 @@ class Ui_MainWindow(object):
         self.centralLayout.addLayout(self.mplLayout)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -1344,8 +1344,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
@@ -1445,6 +1445,7 @@ class Ui_MainWindow(object):
         self.PathSolving.setText(_translate("MainWindow", "Path Solving"))
         self.Path_points_show.setStatusTip(_translate("MainWindow", "Show design path."))
         self.Path_points_show.setText(_translate("MainWindow", "Show Path Points"))
+        self.TriangleSolver.setStatusTip(_translate("MainWindow", "Use Solver to calculate the reference points of your mechanism."))
         self.TriangleSolver.setText(_translate("MainWindow", "Triangle Solver"))
         self.groupBox_3.setTitle(_translate("MainWindow", "Drivers"))
         self.Drive_shaft.setStatusTip(_translate("MainWindow", "Drive the selected drive shaft."))

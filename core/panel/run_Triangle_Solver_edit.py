@@ -70,6 +70,21 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         for i in range(self.merge.count()): self.merge.removeItem(0)
         if pos==2: self.merge.insertItems(0, ["Points only", "Slider"])
         else: self.merge.insertItems(0, ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"])
+        self.merge.setCurrentIndex(0)
+    
+    @pyqtSlot(int)
+    def on_merge_currentIndexChanged(self, pos):
+        if pos!=-1:
+            if self.type.currentIndex()!=2:
+                if pos==0: pic = ":/icons/preview/TSMergePointsOnly.png"
+                elif pos==1: pic = ":/icons/preview/TSMergeL0.png"
+                elif pos==2: pic = ":/icons/preview/TSMergeR0.png"
+                elif pos==3: pic = ":/icons/preview/TSMergeChain.png"
+                elif pos==4: pic = ":/icons/preview/TSMergeL0R0.png"
+            else:
+                if pos==0: pic = ":/icons/preview/TSMergeSliderPointsOnly.png"
+                elif pos==1: pic = ":/icons/preview/TSMergeSlider.png"
+            self.mergeImage.setPixmap(QPixmap(pic).scaledToWidth(560))
     
     def turnDict(self):
         self.condition = {

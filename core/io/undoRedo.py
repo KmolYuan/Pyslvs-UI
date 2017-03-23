@@ -254,19 +254,24 @@ class TSeditCommand(QUndoCommand):
     def redo(self):
         if self.edit is False:
             self.TSDirections.append(self.Direction)
-            row = self.table.rowCount()
-            self.table.insertRow(row)
+            try:
+                row = self.table.rowCount()
+                self.table.insertRow(row)
+            except: pass
         else:
             self.TSDirections[self.edit] = self.Direction
             row = self.edit
-        writeTS(self.table, row, self.Direction)
+        try: writeTS(self.table, row, self.Direction)
+        except: pass
     def undo(self):
         if self.edit is False:
             self.TSDirections.pop()
-            self.table.removeRow(self.table.rowCount()-1)
+            try: self.table.removeRow(self.table.rowCount()-1)
+            except: pass
         else:
             self.TSDirections[self.edit] = self.oldDirection
-            writeTS(self.table, self.edit, self.Direction)
+            try: writeTS(self.table, self.edit, self.Direction)
+            except: pass
 
 class TSdeleteCommand(QUndoCommand):
     def __init__(self, TSDirections, table):
@@ -277,9 +282,11 @@ class TSdeleteCommand(QUndoCommand):
     
     def redo(self):
         self.TSDirections.pop()
-        self.table.removeRow(self.table.rowCount()-1)
+        try: self.table.removeRow(self.table.rowCount()-1)
+        except: pass
     def undo(self):
         row = self.table.rowCount()
         self.TSDirections.append(self.oldDirection)
         self.table.insertRow(row)
-        writeTS(self.table, row, self.oldDirection)
+        try: writeTS(self.table, row, self.oldDirection)
+        except: pass

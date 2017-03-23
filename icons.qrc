@@ -9,6 +9,13 @@
     <file>icons/preview/PLAP.png</file>
     <file>icons/preview/PLLP.png</file>
     <file>icons/preview/PLPP.png</file>
+    <file>icons/preview/TSMergePointsOnly.png</file>
+    <file>icons/preview/TSMergeSliderPointsOnly.png</file>
+    <file>icons/preview/TSMergeL0.png</file>
+    <file>icons/preview/TSMergeR0.png</file>
+    <file>icons/preview/TSMergeChain.png</file>
+    <file>icons/preview/TSMergeL0R0.png</file>
+    <file>icons/preview/TSMergeSlider.png</file>
     <!--Main window icons-->
     <file>icons/main.png</file>
     <file>icons/main_big.png</file>

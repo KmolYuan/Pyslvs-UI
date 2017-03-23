@@ -119,8 +119,11 @@
         </item>
         <item>
          <widget class="QCheckBox" name="other">
+          <property name="toolTip">
+           <string>Let the triangle upside down.</string>
+          </property>
           <property name="text">
-           <string>Reverse angle</string>
+           <string>Reverse angle (?)</string>
           </property>
          </widget>
         </item>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver_edit.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver_edit.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -317,7 +317,8 @@ class Ui_Dialog(object):
         self.type.setItemText(1, _translate("Dialog", "PLLP"))
         self.type.setItemText(2, _translate("Dialog", "PLPP"))
         self.mergeLayout.setTitle(_translate("Dialog", "Merge Type"))
-        self.other.setText(_translate("Dialog", "Reverse angle"))
+        self.other.setToolTip(_translate("Dialog", "Let the triangle upside down."))
+        self.other.setText(_translate("Dialog", "Reverse angle (?)"))
         self.p1Panel.setTitle(_translate("Dialog", "Point A"))
         self.p1Exist.setText(_translate("Dialog", "From Exist Point"))
         self.p1Customize.setText(_translate("Dialog", "Customize"))
