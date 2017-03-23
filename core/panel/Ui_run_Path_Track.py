@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Path_Track.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Path_Track.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,14 +11,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(435, 442)
+        Dialog.resize(513, 474)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
-        Dialog.setMinimumSize(QtCore.QSize(435, 442))
-        Dialog.setMaximumSize(QtCore.QSize(435, 442))
+        Dialog.setMinimumSize(QtCore.QSize(513, 474))
+        Dialog.setMaximumSize(QtCore.QSize(513, 474))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -66,7 +66,7 @@ class Ui_Dialog(object):
         self.shaftsScrollArea.setWidgetResizable(True)
         self.shaftsScrollArea.setObjectName("shaftsScrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 128, 128))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 128, 136))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.scrollAreaWidgetLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.scrollAreaWidgetLayout.setContentsMargins(0, 0, 0, 0)

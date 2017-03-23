@@ -8,7 +8,6 @@ class DynamicCanvas(QWidget):
     change_event = pyqtSignal()
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
-        self.setStyleSheet("")
         self.setMouseTracking(True)
         self.setCursor(Qt.CrossCursor)
         self.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
