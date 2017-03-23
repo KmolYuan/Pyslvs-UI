@@ -13,8 +13,8 @@ parser.add_argument('-v', '--version', action='version', help="show version info
 parser.add_argument('-r', metavar='File Path', default=False, nargs='?', type=str, help="read csv file from the file path")
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
-parser.add_argument('-F', '--file-data', action='store_true', help="display the file data in command-line when opening")
-parser.add_argument('-G', '--show-args', action='store_true', help="display the arguments when starting")
+parser.add_argument('-d', '--file-data', action='store_true', help="display the file data in command-line when opening")
+parser.add_argument('-g', '--show-args', action='store_true', help="display the arguments when starting")
 parser.add_argument('-t', action='store_true', help="testing new canvas")
 args = parser.parse_args()
 

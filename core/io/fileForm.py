@@ -6,8 +6,9 @@ now = datetime.datetime.now()
 from sys import argv #See argv
 
 class File():
-    def __init__(self, FileState):
+    def __init__(self, FileState, args):
         self.FileState = FileState
+        self.args = args
         self.resetAllList()
     
     def resetAllList(self):
@@ -34,7 +35,7 @@ class File():
         n4 = len([e for e, x in enumerate(data) if x=='_path_'])==3
         return n1 and n2 and n3 and n4
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        if '--file-data' in argv or '-F' in argv: print(data)
+        if self.args.file_data: print(data)
         errorInfo = list()
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]

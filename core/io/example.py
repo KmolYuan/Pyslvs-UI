@@ -10,6 +10,7 @@ I will explain the format of the Data Sheet for you.
 
 The '_info_' labels is used to indicate the location of the information.
 The '_table_' labels is used to indicate the location of the table data.
+The '_design_' labels is used to indicate the location of the Triangle solver data.
 The '_path_' labels is used to indicate the location of Run list and the path data.
 '''
 
@@ -24,6 +25,7 @@ def new_workbook():
         '_table_',
         '_table_',
         '_table_',
+        '_design_',
         '_design_',
         '_path_',
         '_path_',
@@ -167,15 +169,15 @@ def example_sliderRod():
         '_table_', 'Rod0', 'Point4', 'Point0', 'Point1', '51.41',
         '_table_', '_table_', '_design_', '_design_', '_path_', '_path_', '_path_']
 
-def example_rockerSlider():
+def example_rockSlider():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Rocker and two sliders.', '_info_', timeNow, '_info_',
-        '_table_', 'Point1', '10.0', '30.0', 'True', 'Point2', '50.0', '40.0', 'True', 'Point3', '4.25', '26.0', 'False', 'Point4', '35.25', '38.75', 'False', 'Point5', '27.64', '-7.36', 'True', 'Point6', '57.45', '15.47', 'True', 'Point7', '41.57', '5.83', 'False',
-        '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Blue', '10', 'Blue', 'Point6', 'Blue', '10', 'Blue', 'Point7', 'Green', '5', 'Green',
-        '_table_', 'Line0', 'Point0', 'Point3', '10.0', 'Line1', 'Point3', 'Point4', '50.0', 'Line2', 'Point3', 'Point7', '55.0',
+        '_info_', 'Yuang', '_info_', 'Example: Rock Slider', '_info_', timeNow, '_info_',
+        '_table_', 'Point1', '27.25', '46.25', 'False', 'Point2', '21.0', '11.8', 'True', 'Point3', '50.0', '11.8', 'True', 'Point4', '35.6', '11.8', 'False',
+        '_table_', 'Point1', 'Green', '5', 'Green', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Blue', '10', 'Blue', 'Point4', 'Green', '5', 'Green',
+        '_table_', 'Line0', 'Point0', 'Point1', '30.0', 'Line1', 'Point1', 'Point4', '20.0',
         '_table_',
-        '_table_', 'Shaft0', 'Point0', 'Point3', '0.0', '360.0', '129.8', 'False',
-        '_table_', 'Slider0', 'Point4', 'Point1', 'Point2', 'Slider1', 'Point7', 'Point5', 'Point6',
+        '_table_', 'Shaft0', 'Point0', 'Point1', '0.0', '70.0', '39.17', 'False',
+        '_table_', 'Slider0', 'Point4', 'Point2', 'Point3',
         '_table_', '_table_', '_table_', '_design_', '_design_', '_path_', '_path_', '_path_']
 
 def example_liftTailgate():

@@ -1483,8 +1483,8 @@ p, li { white-space: pre-wrap; }
                     <property name="geometry">
                      <rect>
                       <x>0</x>
-                      <y>-187</y>
-                      <width>395</width>
+                      <y>0</y>
+                      <width>302</width>
                       <height>442</height>
                      </rect>
                     </property>
@@ -1984,7 +1984,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="separator"/>
      <addaction name="SlidersMenuTitle"/>
      <addaction name="actionSlider_and_Rod"/>
-     <addaction name="actionRocker_and_two_sliders"/>
+     <addaction name="actionRock_Slider"/>
      <addaction name="actionLift_Tailgate"/>
      <addaction name="separator"/>
      <addaction name="DesignsMenuTitle"/>
@@ -2692,6 +2692,9 @@ p, li { white-space: pre-wrap; }
    <property name="statusTip">
     <string>Property of this workbook.</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
   </action>
   <action name="actionCrank_rocker">
    <property name="text">
@@ -2829,9 +2832,9 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+D</string>
    </property>
   </action>
-  <action name="actionRocker_and_two_sliders">
+  <action name="actionRock_Slider">
    <property name="text">
-    <string>Rocker and two sliders</string>
+    <string>Rock Slider</string>
    </property>
    <property name="statusTip">
     <string>Silder / Rod #2</string>
@@ -2844,6 +2847,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Close all panel</string>
+   </property>
+   <property name="shortcut">
+    <string>Esc</string>
    </property>
   </action>
   <action name="actionLift_Tailgate">

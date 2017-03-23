@@ -35,7 +35,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState = QUndoStack()
         self.FileState.indexChanged.connect(self.commandReload)
         showUndoWindow(self)
-        self.File = File(self.FileState)
+        self.File = File(self.FileState, args)
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
         if self.args.t:
@@ -262,7 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionSlider_and_Rod_triggered(self): self.checkChange("[Example] Slider and Rod", example_sliderRod())
     @pyqtSlot()
-    def on_actionRocker_and_two_sliders_triggered(self): self.checkChange("[Example] Rocker and two sliders", example_rockerSlider())
+    def on_actionRock_Slider_triggered(self): self.checkChange("[Example] Rock Slider", example_rockSlider())
     @pyqtSlot()
     def on_actionLift_Tailgate_triggered(self): self.checkChange("[Example] Lift Tailgate", example_liftTailgate())
     @pyqtSlot()
