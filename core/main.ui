@@ -419,10 +419,10 @@
                    <number>4</number>
                   </property>
                   <attribute name="horizontalHeaderDefaultSectionSize">
-                   <number>100</number>
+                   <number>110</number>
                   </attribute>
                   <attribute name="horizontalHeaderMinimumSectionSize">
-                   <number>100</number>
+                   <number>110</number>
                   </attribute>
                   <row>
                    <property name="text">

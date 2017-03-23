@@ -19,6 +19,8 @@ class Ui_Dialog(object):
         Dialog.setWindowIcon(icon)
         Dialog.setModal(True)
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout_14.setContentsMargins(6, 6, 6, 6)
+        self.verticalLayout_14.setSpacing(6)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
