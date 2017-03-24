@@ -9,6 +9,8 @@ A GUI-based tool solving 2D linkage subject.
 
 + **Path solving**: This arithmetic generator will design a crank rocker to meet the path requirement.
 
++ **Triangle solver**: Use Solver to calculate the reference points of your mechanism by triangle constraints.
+
 + **Output format**: CSV, DXF and Solvespace.
 
 Compatible with Python 3.4, PyQt 5.5 and above.
