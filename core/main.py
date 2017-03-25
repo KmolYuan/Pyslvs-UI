@@ -38,10 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File = File(self.FileState, args)
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
-        if self.args.t:
-            self.DynamicCanvasView = DynamicCanvasView(self)
-            self.DynamicCanvasView.setCursor(Qt.CrossCursor)
-        else: self.DynamicCanvasView = DynamicCanvas()
+        self.DynamicCanvasView = DynamicCanvas()
         self.mplLayout.insertWidget(0, self.DynamicCanvasView)
         self.DynamicCanvasView.show()
         self.Resolve()
