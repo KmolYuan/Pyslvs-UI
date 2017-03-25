@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-19, 01:46:22 -->
+<!-- Saved: 2017-03-25, 20:09:29 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -114,6 +114,7 @@
     <Source>core/simulate/edit_slider.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
+    <Source>preview_rc.py</Source>
     <Source>requirements.txt</Source>
   </Sources>
   <Forms>
@@ -149,6 +150,7 @@
   <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
+    <Resource>preview.qrc</Resource>
   </Resources>
   <Interfaces/>
   <Others>

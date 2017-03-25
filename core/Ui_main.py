@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -684,7 +684,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 292, 441))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -170, 420, 442))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -887,7 +887,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 998, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 998, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -1348,8 +1348,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
@@ -1437,6 +1437,7 @@ class Ui_MainWindow(object):
         self.Path_Clear.setText(_translate("MainWindow", "Clear Path"))
         self.Path_coordinate.setStatusTip(_translate("MainWindow", "See the coordinates of Path Track result."))
         self.Path_coordinate.setText(_translate("MainWindow", "View path coordinate"))
+        self.PathTrack.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Path Track</span></p><p><span style=\" font-size:10pt;\">Route calculation from the specified point.</span></p><p><span style=\" font-size:10pt;\">Every single path track cannot change settings after calculation.</span></p><p><img src=\":/icons/tooltips/PathTrack.png\"/></p><p><span style=\" font-size:10pt;\">Larger resolution will take longer.</span></p></body></html>"))
         self.PathTrack.setStatusTip(_translate("MainWindow", "Route calculation from the specified point."))
         self.PathTrack.setText(_translate("MainWindow", "Path Track"))
         self.Path_data_show.setStatusTip(_translate("MainWindow", "Show Path Data."))
@@ -1445,20 +1446,26 @@ class Ui_MainWindow(object):
         self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
         self.groupBox_2.setTitle(_translate("MainWindow", "Dimensional Synthesis"))
         self.reqPathSolving.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">No specified point.</span></p></body></html>"))
+        self.PathSolving.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Path Solving</span></p><p><span style=\" font-size:10pt;\">This generator will design a crank rocker to meet this path requirement.</span></p><p><img src=\":/icons/tooltips/PathSolving.png\"/></p><p><span style=\" font-size:10pt;\">There may be some interference problems in the solution of faster convergence.</span></p></body></html>"))
         self.PathSolving.setStatusTip(_translate("MainWindow", "This generator will design a crank rocker to meet this path requirement."))
         self.PathSolving.setText(_translate("MainWindow", "Path Solving"))
         self.Path_points_show.setStatusTip(_translate("MainWindow", "Show design path."))
         self.Path_points_show.setText(_translate("MainWindow", "Show Path Points"))
+        self.TriangleSolver.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Triangle Solver</span></p><p><span style=\" font-size:10pt;\">Use Solver to calculate the reference points of your mechanism.</span><img src=\":/icons/tooltips/TS.png\"/></p><p><span style=\" font-size:10pt;\">You must manually adjust the stacking method.</span></p></body></html>"))
         self.TriangleSolver.setStatusTip(_translate("MainWindow", "Use Solver to calculate the reference points of your mechanism."))
         self.TriangleSolver.setText(_translate("MainWindow", "Triangle Solver"))
         self.groupBox_3.setTitle(_translate("MainWindow", "Drivers"))
+        self.Drive_shaft.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Drive Shaft</span></p><p><span style=\" font-size:10pt;\">Drive the selected drive shaft.<br/></span><img src=\":/icons/tooltips/DriveShaft.png\"/></p><p><span style=\" font-size:10pt;\">The solving problem occurs when the drive shaft is interfering at some angle.</span></p></body></html>"))
         self.Drive_shaft.setStatusTip(_translate("MainWindow", "Drive the selected drive shaft."))
         self.Drive_shaft.setText(_translate("MainWindow", "Drive Shaft"))
+        self.Drive_rod.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; font-weight:600;\">Drive Piston</span></p><p><span style=\" font-size:10pt;\">Drive the selected piston.<br/></span><img src=\":/icons/tooltips/DriveRod.png\"/></p><p><span style=\" font-size:10pt;\">The solving problem might occurs when the rod is interfering at some position.</span></p></body></html>"))
         self.Drive_rod.setStatusTip(_translate("MainWindow", "Drive the selected piston."))
         self.Drive_rod.setText(_translate("MainWindow", "Drive Piston"))
         self.groupBox_4.setTitle(_translate("MainWindow", "Validation tools"))
-        self.AuxLine.setStatusTip(_translate("MainWindow", "See the limitation of the point."))
+        self.AuxLine.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Auxiliary Line</span></p><p><span style=\" font-size:10pt;\">See the limitation of the specified point.</span></p><p><img src=\":/icons/tooltips/AuxLine.png\"/></p><p><span style=\" font-size:10pt;\">The maximum and minimum values will get after solved.</span></p></body></html>"))
+        self.AuxLine.setStatusTip(_translate("MainWindow", "See the limitation of the specified point."))
         self.AuxLine.setText(_translate("MainWindow", "Auxiliary Line"))
+        self.Measurement.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Measurement</span></p><p><span style=\" font-size:10pt;\">Measure the distance between two points.</span></p><p><img src=\":/icons/tooltips/Measurement.png\"/></p><p><span style=\" font-size:10pt;\">The maximum and minimum values will get after solved.</span></p></body></html>"))
         self.Measurement.setStatusTip(_translate("MainWindow", "Measure the distance between two points."))
         self.Measurement.setText(_translate("MainWindow", "Measurement"))
         self.OpTab.setTabText(self.OpTab.indexOf(self.Panels), _translate("MainWindow", "Panels"))
@@ -1623,6 +1630,7 @@ class Ui_MainWindow(object):
         self.OtherFormatMenuTitle.setText(_translate("MainWindow", "Other Format"))
 
 import icons_rc
+import preview_rc
 
 if __name__ == "__main__":
     import sys

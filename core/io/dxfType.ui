@@ -401,6 +401,7 @@
  </widget>
  <resources>
   <include location="../../icons.qrc"/>
+  <include location="../../preview.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -96,6 +96,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="pluse_PLAP">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Length(L0), Angle(β), Point(B)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PLAP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>+PLAP</string>
          </property>
@@ -103,6 +106,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="pluse_PLLP">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Length(L0), Length(R0), Point(B)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PLLP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>+PLLP</string>
          </property>
@@ -110,6 +116,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="pluse_PLPP">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Length(L0), Point(B), Point(C)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PLPP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
          <property name="text">
           <string>+PLPP</string>
          </property>
@@ -200,6 +209,7 @@
  </widget>
  <resources>
   <include location="../../icons.qrc"/>
+  <include location="../../preview.qrc"/>
  </resources>
  <connections/>
 </ui>

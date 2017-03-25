@@ -722,8 +722,8 @@
                        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;N/A&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                      </widget>
                     </item>
@@ -1514,9 +1514,9 @@ p, li { white-space: pre-wrap; }
                    <property name="geometry">
                     <rect>
                      <x>0</x>
-                     <y>0</y>
-                     <width>292</width>
-                     <height>441</height>
+                     <y>-170</y>
+                     <width>420</width>
+                     <height>442</height>
                     </rect>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1568,6 +1568,9 @@ p, li { white-space: pre-wrap; }
                          </item>
                          <item row="2" column="1">
                           <widget class="QPushButton" name="PathTrack">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Track&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Route calculation from the specified point.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Every single path track cannot change settings after calculation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathTrack.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Larger resolution will take longer.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
                             <string>Route calculation from the specified point.</string>
                            </property>
@@ -1638,6 +1641,9 @@ p, li { white-space: pre-wrap; }
                         <layout class="QGridLayout" name="gridLayout_3">
                          <item row="1" column="0">
                           <widget class="QPushButton" name="PathSolving">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
                             <string>This generator will design a crank rocker to meet this path requirement.</string>
                            </property>
@@ -1671,6 +1677,9 @@ p, li { white-space: pre-wrap; }
                          </item>
                          <item row="2" column="0">
                           <widget class="QPushButton" name="TriangleSolver">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
                             <string>Use Solver to calculate the reference points of your mechanism.</string>
                            </property>
@@ -1701,6 +1710,9 @@ p, li { white-space: pre-wrap; }
                         <layout class="QGridLayout" name="gridLayout">
                          <item row="1" column="0">
                           <widget class="QPushButton" name="Drive_shaft">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
                             <string>Drive the selected drive shaft.</string>
                            </property>
@@ -1718,6 +1730,9 @@ p, li { white-space: pre-wrap; }
                          </item>
                          <item row="1" column="1">
                           <widget class="QPushButton" name="Drive_rod">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
                             <string>Drive the selected piston.</string>
                            </property>
@@ -1745,8 +1760,11 @@ p, li { white-space: pre-wrap; }
                         <layout class="QGridLayout" name="gridLayout_2">
                          <item row="0" column="0">
                           <widget class="QPushButton" name="AuxLine">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Auxiliary Line&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;See the limitation of the specified point.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/AuxLine.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
-                            <string>See the limitation of the point.</string>
+                            <string>See the limitation of the specified point.</string>
                            </property>
                            <property name="text">
                             <string>Auxiliary Line</string>
@@ -1762,6 +1780,9 @@ p, li { white-space: pre-wrap; }
                          </item>
                          <item row="0" column="1">
                           <widget class="QPushButton" name="Measurement">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Measurement&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Measure the distance between two points.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/Measurement.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
                            <property name="statusTip">
                             <string>Measure the distance between two points.</string>
                            </property>
@@ -2009,7 +2030,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>998</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -2988,6 +3009,7 @@ p, li { white-space: pre-wrap; }
  </tabstops>
  <resources>
   <include location="../icons.qrc"/>
+  <include location="../preview.qrc"/>
  </resources>
  <connections>
   <connection>

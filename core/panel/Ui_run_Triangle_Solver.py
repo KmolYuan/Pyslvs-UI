@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -108,8 +108,11 @@ class Ui_Form(object):
         item = self.directionsTable.horizontalHeaderItem(4)
         item.setText(_translate("Form", "Condition"))
         self.label_2.setText(_translate("Form", "Target(s):"))
+        self.pluse_PLAP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Angle(β), Point(B)</span></p><p><img src=\":/icons/preview/PLAP.png\"/></p></body></html>"))
         self.pluse_PLAP.setText(_translate("Form", "+PLAP"))
+        self.pluse_PLLP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Length(R0), Point(B)</span></p><p><img src=\":/icons/preview/PLLP.png\"/></p></body></html>"))
         self.pluse_PLLP.setText(_translate("Form", "+PLLP"))
+        self.pluse_PLPP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Point(B), Point(C)</span></p><p><img src=\":/icons/preview/PLPP.png\"/></p></body></html>"))
         self.pluse_PLPP.setText(_translate("Form", "+PLPP"))
         self.remove_botton.setText(_translate("Form", "-"))
         self.clear_botton.setText(_translate("Form", "Clear"))
@@ -117,6 +120,7 @@ class Ui_Form(object):
         self.Merge.setText(_translate("Form", "Merge"))
 
 import icons_rc
+import preview_rc
 
 if __name__ == "__main__":
     import sys
