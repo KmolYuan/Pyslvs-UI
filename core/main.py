@@ -798,8 +798,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def PathSolving_deleteResult(self, row): self.File.Designs.removeResult(row)
     @pyqtSlot(int)
-    def PathSolving_mergeResult(self, row): self.File.Generate_Merge(row, slvsProcess(generateResult=self.File.Designs.result[row]),
-        self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft)
+    def PathSolving_mergeResult(self, row): self.File.Generate_Merge(row, self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft)
     
     @pyqtSlot(bool)
     def on_TriangleSolver_clicked(self):

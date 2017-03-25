@@ -3,7 +3,7 @@ from ..QtModules import *
 from .listProcess import Lists, Designs
 import datetime
 now = datetime.datetime.now()
-from sys import argv #See argv
+from ..kernel.pyslvs_triangle_solver.TS import solver
 
 class File():
     def __init__(self, FileState, args):
@@ -229,21 +229,31 @@ class File():
                 else: table_point[c]['y'] += 0.01
         return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
     
-    def Generate_Merge(self, row, data, Point, Point_Style, Link, Chain, Shaft):
+    def Generate_Merge(self, row, Point, Point_Style, Link, Chain, Shaft):
         Result = self.Designs.result[row]
+        pointAvg = sum([e['y'] for e in self.Designs.list])/len(self.Designs.list)
+        other = (Result['Ay']+Result['Dy'])/2>pointAvg
+        s = solver([
+            {'p1':(Result['Ax'], Result['Ay']), 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L0'], 'angle':0, 'other':other}, #B
+            {'p1':0, 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L1'], 'len2':Result['L2'], 'other':other}, #C
+            {'p1':0, 'p2':1, 'len1':Result['L3'], 'len2':Result['L4']}, #E
+            ])
+        answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s.answer()
         #A-C-B-C-E
         Anum = Point.rowCount()+0
         Dnum = Point.rowCount()+1
         Bnum = Point.rowCount()+2
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
-        for i in range(1, len(data)): self.Lists.editTable(Point, 'Point', False, str(data[i]['x']), str(data[i]['y']), i<3,
-            styleTable=Point_Style, color='Blue' if i<3 else 'Green', ringsize='10' if i<3 else '5', ringcolor='Blue' if i<3 else 'Green')
+        for e in answer:
+            fix = answer.index(e)<2
+            self.Lists.editTable(Point, 'Point', False, str(e[0]), str(e[1]), fix,
+                styleTable=Point_Style, color='Blue' if fix else 'Green', ringsize='10' if fix else '5', ringcolor='Blue' if fix else 'Green')
         self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3']))
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
-        self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), "0", "360", "0", False)
+        self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), '0', '360', '0', False)
         print("Generate Result Merged.")
     
     def TS_Merge(self, answers, Point, Point_Style, Link, Chain, Slider):

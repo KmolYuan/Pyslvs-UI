@@ -451,7 +451,10 @@
                 <item row="3" column="2">
                  <widget class="QDoubleSpinBox" name="DxMin">
                   <property name="minimum">
-                   <double>-99.989999999999995</double>
+                   <double>-999.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>999.000000000000000</double>
                   </property>
                   <property name="value">
                    <double>-50.000000000000000</double>

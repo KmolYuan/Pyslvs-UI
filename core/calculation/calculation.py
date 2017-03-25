@@ -29,10 +29,9 @@ elif platform.system().lower()=="windows":
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
 
 def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
-        currentShaft=0, point_int=False, angle=False, generateResult=False, hasWarning=True):
+        currentShaft=0, point_int=False, angle=False, hasWarning=True):
     pathTrackProcess = not(Point is False) and not angle is False
     staticProcess = not(Point is False) and angle is False
-    generateConversionProcess = not generateResult is False
     sys = System(1000)
     p0 = sys.add_param(0.)
     p1 = sys.add_param(0.)
@@ -119,22 +118,6 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
                     angle0 = Shaft[currentShaft]['demo']
                     Constraint.angle(Workplane1, angle0, line, Line0, False)
                 except: pass
-    elif generateConversionProcess:
-        print("Start merge result: {}".format(generateResult))
-        Ap = Point2d(Workplane1, sys.add_param(generateResult['Ax']), sys.add_param(generateResult['Ay'])) #A-1
-        Constraint.dragged(Workplane1, Ap)
-        Dp = Point2d(Workplane1, sys.add_param(generateResult['Dx']), sys.add_param(generateResult['Dy'])) #D-2
-        Constraint.dragged(Workplane1, Dp)
-        Points.append(Ap)
-        Points.append(Dp)
-        Xe = generateResult['path'][0][0]
-        Ye = generateResult['path'][0][1]
-        factor = 1 if generateResult['Dx']-generateResult['Ax']>0 else -1
-        for e in [[Xe-(0.25*factor), Ye-(0.5*factor)], [Xe+(0.25*factor), Ye-(0.25*factor)], [Xe, Ye]]: #B-3 C-4 E-5
-            Points.append(Point2d(Workplane1, sys.add_param(e[0]), sys.add_param(e[1])))
-        Constraint.distance(generateResult['L0'], Workplane1, Points[1], Points[3])
-        Constraint.distance(generateResult['L2'], Workplane1, Points[2], Points[4])
-        for e in [['L1', 3, 4], ['L4', 4, 5], ['L3', 3, 5]]: Constraint.distance(generateResult[e[0]], Workplane1, Points[e[1]], Points[e[2]])
     sys.solve()
     if sys.result==SLVS_RESULT_OKAY:
         if pathTrackProcess:
@@ -143,9 +126,6 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
         elif staticProcess:
             resultList = list()
             for i in range(0, len(Point)*2, 2): resultList.append({'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val})
-        elif generateConversionProcess:
-            resultList = list()
-            for i in range(0, 12, 2): resultList.append({'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val})
     elif sys.result==SLVS_RESULT_INCONSISTENT and hasWarning: print("SLVS_RESULT_INCONSISTENT")
     elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and hasWarning: print("SLVS_RESULT_DIDNT_CONVERGE")
     elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and hasWarning: print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
@@ -155,9 +135,6 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
     elif staticProcess:
         try: return resultList, sys.dof
         except: return list(), False
-    elif generateConversionProcess:
-        try: return resultList
-        except: return list()
 
 def slvsProcessScript(Point, Line, Chain, Shaft, Slider, Rod):
     script = """'''This code is generate by Pyslvs'''
