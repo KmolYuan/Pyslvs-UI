@@ -22,6 +22,7 @@ class Ui_Form(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.directionsTable = QtWidgets.QTableWidget(Form)
         self.directionsTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.directionsTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.directionsTable.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.directionsTable.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.directionsTable.setObjectName("directionsTable")
