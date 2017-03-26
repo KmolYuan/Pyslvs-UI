@@ -12,7 +12,7 @@ ifeq ($(OS),Windows_NT)
 	xcopy .\build\exe.win-amd64-3.5\core\kernel\pyslvs_generate\py35w .\dist\launch_pyslvs\core\kernel\pyslvs_generate\py35w /s /y /i
 else
 	@echo ---Linux Version---
-	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
+	pyinstaller launch_pyslvs.py
 endif
 	@echo ---Done---
 

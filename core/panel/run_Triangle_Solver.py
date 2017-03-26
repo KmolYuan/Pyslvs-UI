@@ -17,21 +17,24 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     
     def ReloadTable(self, Directions):
         self.directions = Directions
-        for condition in self.directions:
+        for direction in self.directions:
             row = self.directionsTable.rowCount()
             self.directionsTable.insertRow(row)
-            self.directionsTable.setItem(row, 0, QTableWidgetItem(condition['Type']))
-            e = condition['p1']
+            self.directionsTable.setItem(row, 0, QTableWidgetItem(direction['Type']))
+            e = direction['p1']
             p1Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
             if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
             self.directionsTable.setItem(row, 2, p1Item)
-            e = condition['p2']
+            e = direction['p2']
             p2Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
             if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
             self.directionsTable.setItem(row, 3, p2Item)
-            condition = {k:v for k, v in condition.items() if k!='Type'}
-            conditionItem = QTableWidgetItem(str(condition))
-            conditionItem.setToolTip('\n'.join(["{}: {}".format(k, v) for k, v in condition.items()]))
+            condition = {k:v for k, v in direction.items() if k!='Type'}
+            condition = [
+                "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if direction['Type']=='PLPP' else
+                ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"][v])) for k, v in condition.items()]
+            conditionItem = QTableWidgetItem(', '.join(condition))
+            conditionItem.setToolTip('\n'.join(condition))
             self.directionsTable.setItem(row, 4, conditionItem)
     
     def editDirection(self, name, edit=False):
