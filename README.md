@@ -17,6 +17,10 @@ Compatible with Python 3.4, PyQt 5.5 and above.
 
 ![](icons/cover.png)
 
+Using Solvespace C++ kernel pass to Python 3.
+
+![](icons/cover2.png)
+
 Requirement
 ---
 
