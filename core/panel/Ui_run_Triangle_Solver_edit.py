@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver_edit.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver_edit.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -281,11 +281,6 @@ class Ui_Dialog(object):
         self.angle.setObjectName("angle")
         self.verticalLayout_4.addWidget(self.angle)
         self.verticalLayout_7.addWidget(self.anglePanel)
-        self.SilderWarning = QtWidgets.QLabel(self.valuePanel)
-        self.SilderWarning.setEnabled(True)
-        self.SilderWarning.setWordWrap(True)
-        self.SilderWarning.setObjectName("SilderWarning")
-        self.verticalLayout_7.addWidget(self.SilderWarning)
         spacerItem7 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_7.addItem(spacerItem7)
         self.buttonBox = QtWidgets.QDialogButtonBox(self.valuePanel)
@@ -352,7 +347,6 @@ class Ui_Dialog(object):
         self.anglePanel.setTitle(_translate("Dialog", "β"))
         self.label.setText(_translate("Dialog", "+ Clockwise"))
         self.angle.setSuffix(_translate("Dialog", "°"))
-        self.SilderWarning.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">When your results do not meet Heron\'s Formula, will return (0,0) coordinate.</span></p></body></html>"))
 
 import icons_rc
 import preview_rc

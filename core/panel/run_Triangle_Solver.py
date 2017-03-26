@@ -73,7 +73,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     @pyqtSlot(QTableWidgetItem)
     def on_directionsTable_itemChanged(self, item):
         self.Solve.setEnabled(len(self.directions)>0)
-        self.Merge.setEnabled(len(self.answers)>0)
+        self.Merge.setEnabled(len(self.answers)>0 and not(False in self.answers))
     
     @pyqtSlot()
     def on_Solve_clicked(self):
@@ -85,8 +85,10 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             s = solver(directions)
             self.answers = s.answer()
             for e in self.answers:
-                result = QTableWidgetItem("({:.02f}, {:.02f})".format(e[0], e[1]))
-                result.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+                if e!=False:
+                    result = QTableWidgetItem("({:.02f}, {:.02f})".format(e[0], e[1]))
+                    result.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+                else: result = QTableWidgetItem('Failed!')
                 self.directionsTable.setItem(self.answers.index(e), 1, result)
     
     @pyqtSlot()
