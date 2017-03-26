@@ -264,6 +264,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionLift_Tailgate_triggered(self): self.checkChange("[Example] Lift Tailgate", example_liftTailgate())
     @pyqtSlot()
     def on_actionTheo_Jansen_s_multi_linkage_triggered(self): self.checkChange("[Example] Theo Jansen\'s multiple linkage", example_TJLinkage())
+    @pyqtSlot()
+    def on_actionRock_Slider_Design_triggered(self): self.checkChange("[Example] Rock slider design", example_RockSliderDesign())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:
