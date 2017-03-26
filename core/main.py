@@ -315,6 +315,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
                     dlg.show()
                     if dlg.exec_(): pass
+                else: self.on_action_Property_triggered()
             else:
                 reply = QMessageBox.question(self, 'Loading failed',
                     "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
