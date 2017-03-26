@@ -97,7 +97,7 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.label.setText(_translate("Form", "<html><head/><body><p>Enter &quot;Point, Length, Angle, Point&quot; (PLAP), &quot;Point, Length, Length, Point&quot; (PLLP) or &quot;Point, Length, Point, Point&quot; (PLPP) construction location of the point.</p></body></html>"))
+        self.label.setText(_translate("Form", "<html><head/><body><p>Use triangles to find the solution.</p></body></html>"))
         item = self.directionsTable.horizontalHeaderItem(0)
         item.setText(_translate("Form", "Type"))
         item = self.directionsTable.horizontalHeaderItem(1)

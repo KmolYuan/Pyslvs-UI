@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter &amp;quot;Point, Length, Angle, Point&amp;quot; (PLAP), &amp;quot;Point, Length, Length, Point&amp;quot; (PLLP) or &amp;quot;Point, Length, Point, Point&amp;quot; (PLPP) construction location of the point.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use triangles to find the solution.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
