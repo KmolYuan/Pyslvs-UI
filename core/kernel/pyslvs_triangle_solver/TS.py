@@ -45,11 +45,11 @@ class solver():
         return results
     
     def PLAP(self, p1, line1, angle, p2, other=False):
-        x1 = p1[0] #p1 start point
-        y1 = p1[1]
-        len1 = float(line1)
-        angle2 = radians(float(angle))
         try:
+            x1 = p1[0] #p1 start point
+            y1 = p1[1]
+            len1 = float(line1)
+            angle2 = radians(float(angle))
             angle1 = self.m(p1, p2)
             if other:
                 cx = x1+len1*cos(angle1-angle2)
@@ -61,13 +61,13 @@ class solver():
         except ValueError: return False
     
     def PLLP(self, p1, line1, line2, p2, other=False):
-        x1 = p1[0] #p1 start point
-        y1 = p1[1]
-        x2 = p2[0] #p2 start point2
-        y2 = p2[1]
-        len1 = float(line1)
-        len2 = float(line2)
         try:
+            x1 = p1[0] #p1 start point
+            y1 = p1[1]
+            x2 = p2[0] #p2 start point2
+            y2 = p2[1]
+            len1 = float(line1)
+            len2 = float(line2)
             d = sqrt((x1-x2)**2+(y2-y1)**2)
             angle1 = self.m(p1, p2)
             angle2 = self.CosineTheoremAngle(len2, d, len1)
@@ -78,17 +78,17 @@ class solver():
                 cx = x1+len1*cos(angle1+angle2)
                 cy = y1+len1*sin(angle1+angle2)
             return cx, cy
-        except ValueError: return False
+        except: return False
     
     def PLPP(self, p1, line1, p2, p3, other=False):
-        x1 = p1[0] #p1 start point
-        y1 = p1[1]
-        x2 = p2[0] #p2 slider start point
-        y2 = p2[1]
-        x3 = p3[0] #p3 slider end point
-        y3 = p3[1]
-        len1 = float(line1) #len1 slider link
         try:
+            x1 = p1[0] #p1 start point
+            y1 = p1[1]
+            x2 = p2[0] #p2 slider start point
+            y2 = p2[1]
+            x3 = p3[0] #p3 slider end point
+            y3 = p3[1]
+            len1 = float(line1) #len1 slider link
             if other:
                 ex = ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))
                 ey = (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
@@ -96,7 +96,7 @@ class solver():
                 ex = ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))
                 ey = (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
             return ex, ey
-        except ValueError: return False
+        except: return False
     
     def m(self, p1, p2):
         x1 = p1[0]
