@@ -10,17 +10,19 @@ ifeq ($(OS),Windows_NT)
 	@echo ---Copying Folder and Files---
 	xcopy .\build\exe.win-amd64-3.5\core\kernel\py35w .\dist\launch_pyslvs\core\kernel\py35w /s /y /i
 	xcopy .\build\exe.win-amd64-3.5\core\kernel\pyslvs_generate\py35w .\dist\launch_pyslvs\core\kernel\pyslvs_generate\py35w /s /y /i
+	rename .\dist\launch_pyslvs Pyslvs
 else
 	@echo ---Linux Version---
 	pyinstaller launch_pyslvs.py
+	mv dist/launch_pyslvs dist/Pyslvs
 endif
 	@echo ---Done---
 
-run: build
+run: build dist/Pyslvs/launch_pyslvs.exe
 ifeq ($(OS),Windows_NT)
-	@dist/launch_pyslvs/launch_pyslvs.exe
+	@dist/Pyslvs/launch_pyslvs.exe
 else
-	@dist/launch_pyslvs/launch_pyslvs
+	@dist/Pyslvs/launch_pyslvs
 endif
 
 clean:
