@@ -11,6 +11,6 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.Degree.setValue(int(table[0]['demo']*100))
     
     @pyqtSlot(int)
-    def on_Degree_valueChanged(self, value): self.Degree_text.setValue(float(value/100))
+    def on_Degree_valueChanged(self, value): self.Degree_text.setValue(float((value)/100))
     @pyqtSlot(float)
-    def on_Degree_text_valueChanged(self, val): self.Degree.setValue(int(val*100))
+    def on_Degree_text_valueChanged(self, value): self.Degree.setValue(int((value)*100))
