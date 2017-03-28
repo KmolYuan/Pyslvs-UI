@@ -207,8 +207,8 @@ def example_TJLinkage():
 def example_RockSliderDesign():
     return [
         '_info_', 'Yuang', '_info_', 'Example: Rock slider design', '_info_', timeNow, '_info_',
-        '_table_', 'Point1', '70.75', '11.5', 'True', 'Point2', '88.75', '56.75', 'True',
+        '_table_', 'Point1', '70.75', '11.5', 'True', 'Point2', '151.07', '67.14', 'True',
         '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Blue', '10', 'Blue',
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',
-        '_design_', 'p1:Point0', 'Type:PLAP', 'p2:Point1', 'other:False', 'angle:30.0', 'merge:1', 'len1:40.0', 'p1:0', 'Type:PLPP', 'p2:Point1', 'other:False', 'merge:1', 'p3:Point2', 'len1:50.0',
+        '_design_', 'p1:Point0', 'Type:PLAP', 'p2:Point1', 'other:False', 'angle:30.0', 'merge:1', 'len1:30.0', 'p1:0', 'Type:PLPP', 'p2:Point1', 'other:False', 'merge:1', 'p3:Point2', 'len1:90.0',
         '_design_', '_path_', '_path_', '_path_']
