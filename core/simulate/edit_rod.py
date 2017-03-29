@@ -23,10 +23,11 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
     
     @pyqtSlot(int)
     def on_Rod_currentIndexChanged(self, index):
-        self.Center.setCurrentIndex(self.Rods[index]['cen'])
-        self.Start.setCurrentIndex(self.Rods[index]['start'])
-        self.End.setCurrentIndex(self.Rods[index]['end'])
-        self.Position.setValue(self.Rods[index]['pos'])
+        if len(self.Rods)>index:
+            self.Center.setCurrentIndex(self.Rods[index]['cen'])
+            self.Start.setCurrentIndex(self.Rods[index]['start'])
+            self.End.setCurrentIndex(self.Rods[index]['end'])
+            self.Position.setValue(self.Rods[index]['pos'])
     
     @pyqtSlot(int)
     def on_Center_currentIndexChanged(self, index): self.isOk()
