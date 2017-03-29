@@ -15,11 +15,12 @@ class playShaft(QThread):
     
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
-        for i in range(self.minima, self.maxima, 100):
-            if self.stoped: return
-            else:
-                sleep(.05)
-                self.progress_Signal.emit(i)
+        for t in range(10):
+            for i in range(self.minima, self.maxima, 300):
+                if self.stoped: return
+                else:
+                    sleep(.05)
+                    self.progress_Signal.emit(i)
         self.done.emit()
     
     def stop(self):

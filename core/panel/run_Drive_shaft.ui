@@ -57,6 +57,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="playButton">
+       <property name="toolTip">
+        <string>A 60-lap mechanism demo</string>
+       </property>
        <property name="text">
         <string>Play</string>
        </property>
