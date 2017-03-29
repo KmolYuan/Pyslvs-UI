@@ -10,21 +10,19 @@ class DynamicCanvas(QWidget):
         QWidget.__init__(self, parent)
         self.setMouseTracking(True)
         self.setCursor(Qt.CrossCursor)
-        self.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
+        self.setStatusTip(_translate("MainWindow", "Use mouse wheel or middle button to look around."))
         self.points = {
             'x':list(), 'y':list(), 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
                 'Background':Qt.white, 'penWidth':{'pen':2, 'path':1},
                 'pt':Qt.green, 'link':Qt.darkGray, 'chain':Qt.cyan, 'text':Qt.darkGray,
-                'dimension':False,
-                },
+                'dimension':False},
             'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
             'slvsPath':{'path':list(), 'show':False},
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
-            'Scanner':{'x':0, 'y':0, 'point':0, 'isClose':False},
-            }
+            'Scanner':{'x':0, 'y':0, 'point':0, 'isClose':False}}
         self.reset_Auxline()
         self.Color = colorlist()
         self.re_Color = colorName()
@@ -127,7 +125,7 @@ class DynamicCanvas(QWidget):
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['pos']))
         for e in self.Shaft:
-            pen = QPen(Qt.DotLine)
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
             pen.setColor(QColor(225, 140, 0))
             painter.setPen(pen)
