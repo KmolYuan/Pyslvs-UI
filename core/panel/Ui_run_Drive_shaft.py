@@ -37,6 +37,9 @@ class Ui_Form(object):
         self.Degree_text.setSingleStep(10.0)
         self.Degree_text.setObjectName("Degree_text")
         self.horizontalLayout_2.addWidget(self.Degree_text)
+        self.playButton = QtWidgets.QPushButton(Form)
+        self.playButton.setObjectName("playButton")
+        self.horizontalLayout_2.addWidget(self.playButton)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -68,6 +71,7 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "<html><head/><body><p>Drive the shaft to the specified angle.</p></body></html>"))
         self.label_2.setText(_translate("Form", "Shaft0 in Angle:"))
         self.Degree_text.setSuffix(_translate("Form", "°"))
+        self.playButton.setText(_translate("Form", "Play"))
 
 
 if __name__ == "__main__":

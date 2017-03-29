@@ -6,7 +6,7 @@ import timeit
 class WorkerThread(QThread):
     done = pyqtSignal(dict, int)
     progress_Signal = pyqtSignal(int)
-    def __init__(self, parent = None):
+    def __init__(self, parent=None):
         super(WorkerThread, self).__init__(parent)
         self.stoped = False
         self.mutex = QMutex()
