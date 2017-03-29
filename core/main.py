@@ -426,7 +426,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Point_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
-        dlg = edit_point_show(self.Mask, table1)
+        dlg = edit_point_show(self.Mask, table1, self.File.Lists.PointList)
         dlg.show()
         if dlg.exec_():
             x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), "n", "-"] else dlg.X_coordinate.placeholderText()
@@ -450,10 +450,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos=1):
         table = self.Entiteis_Point
-        dlg = edit_point_show(self.Mask, table, pos)
-        dlg.Another_point.connect(self.Change_Edit_Point)
-        self.point_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Point(pos)
+        dlg = edit_point_show(self.Mask, table, self.File.Lists.PointList, pos)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(table, 'Point', pos,
@@ -462,11 +459,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 bool(dlg.Fix_Point.checkState()))
             self.File.Lists.styleFix(self.Entiteis_Point_Style, bool(dlg.Fix_Point.checkState()), pos)
             self.closePanels()
-    point_feedback = pyqtSignal(float, float, bool)
-    @pyqtSlot(int)
-    def Change_Edit_Point(self, pos):
-        thisTable = self.File.Lists.PointList[pos]
-        self.point_feedback.emit(thisTable['x'], thisTable['y'], thisTable['fix'])
     
     @pyqtSlot(int)
     def Edit_Point_Style(self, index):
@@ -477,7 +469,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Line_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        dlg = edit_link_show(self.Mask, table1, table2)
+        dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
     
@@ -485,25 +477,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionEdit_Linkage_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        dlg = edit_link_show(self.Mask, table1, table2, pos)
-        dlg.Another_line.connect(self.Change_Edit_Line)
-        self.link_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Line(pos)
+        dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(table2, 'Line', pos, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
             self.closePanels()
-    link_feedback = pyqtSignal(int, int, float)
-    @pyqtSlot(int)
-    def Change_Edit_Line(self, pos):
-        thisTable = self.File.Lists.LineList[pos]
-        self.link_feedback.emit(thisTable['start'], thisTable['end'], thisTable['len'])
     
     @pyqtSlot()
     def on_action_New_Stay_Chain_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = edit_chain_show(self.Mask, table1, table2)
+        dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
@@ -511,25 +495,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionEdit_Stay_Chain_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = edit_chain_show(self.Mask, table1, table2, pos)
-        dlg.Another_chain.connect(self.Change_Edit_Chain)
-        self.chain_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Chain(pos)
+        dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList, pos)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(table2, 'Chain', pos, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
             self.closePanels()
-    chain_feedback = pyqtSignal(int, int, int, float, float, float)
-    @pyqtSlot(int)
-    def Change_Edit_Chain(self, pos):
-        thisTable = self.File.Lists.ChainList[pos]
-        self.chain_feedback.emit(thisTable['p1'], thisTable['p2'], thisTable['p3'], thisTable['p1p2'], thisTable['p2p3'], thisTable['p1p3'])
     
     @pyqtSlot()
     def on_action_Set_Shaft_triggered(self, cen=0, ref=0):
         table1 = self.Entiteis_Point
         table2 = self.Shaft
-        dlg = edit_shaft_show(table1, table2, cen=cen, ref=ref)
+        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, cen=cen, ref=ref)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', False,
             dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState()))
@@ -538,52 +514,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Edit_Shaft_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Shaft
-        dlg = edit_shaft_show(table1, table2, pos)
-        dlg.Another_shaft.connect(self.Change_Edit_Shaft)
-        self.shaft_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Shaft(pos)
+        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, pos)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(table2, 'Shaft', pos, dlg.center, dlg.ref, dlg.start, dlg.end,
                 table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
             self.closePanels()
-    shaft_feedback = pyqtSignal(int, int, float, float)
-    @pyqtSlot(int)
-    def Change_Edit_Shaft(self, pos):
-        table = self.Shaft
-        center = int(table.item(pos, 1).text().replace("Point", str()))
-        references = int(table.item(pos, 2).text().replace("Point", str()))
-        start = float(table.item(pos, 3).text())
-        end = float(table.item(pos, 4).text())
-        self.shaft_feedback.emit(center, references, start, end)
     
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self):
-        dlg = edit_slider_show(self.Entiteis_Point, self.Slider)
+        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', False, dlg.slider, dlg.start, dlg.end)
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos=0):
-        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, pos)
-        dlg.Another_slider.connect(self.Change_Edit_Slider)
-        self.slider_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Slider(pos)
+        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList, pos)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(self.Slider, 'Slider', pos, dlg.slider, dlg.start, dlg.end)
             self.closePanels()
-    slider_feedback = pyqtSignal(int, int, int)
-    @pyqtSlot(int)
-    def Change_Edit_Slider(self, pos):
-        thisTable = self.File.Lists.SliderList[pos]
-        self.slider_feedback.emit(thisTable['cen'], thisTable['start'], thisTable['end'])
     
     @pyqtSlot()
     def on_action_Set_Rod_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        dlg = edit_rod_show(table1, table2)
+        dlg = edit_rod_show(table1, table2, self.File.Lists.RodList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', False, dlg.cen, dlg.start, dlg.end, dlg.pos)
     
@@ -591,19 +547,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Edit_Rod_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        dlg = edit_rod_show(table1, table2, pos)
-        dlg.Another_rod.connect(self.Change_Edit_Rod)
-        self.rod_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Rod(pos)
+        dlg = edit_rod_show(table1, table2, self.File.Lists.RodList, pos)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.editTable(table2, 'Rod', pos, dlg.cen, dlg.start, dlg.end, dlg.pos)
             self.closePanels()
-    rod_feedback = pyqtSignal(int, int, int, float)
-    @pyqtSlot(int)
-    def Change_Edit_Rod(self, pos):
-        thisTable = self.File.Lists.RodList[pos]
-        self.rod_feedback.emit(thisTable['cen'], thisTable['start'], thisTable['end'], thisTable['pos'])
     
     @pyqtSlot()
     def on_actionDelete_Point_triggered(self, pos = 1): self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
