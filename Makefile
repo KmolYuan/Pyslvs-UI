@@ -25,19 +25,21 @@ else
 	@dist/Pyslvs/launch_pyslvs
 endif
 
-DEBIANCONTROL = dist/Pyslvs/DEBIAN/control
+DEBIANCONTROL = dist/temp/DEBIAN/control
 
 deb: build dist/Pyslvs
 ifeq ($(OS),Windows_NT)
 	@echo ---Ubuntu only---
 else
-	mkdir dist/Pyslvs/DEBIAN
+	mkdir dist/temp dist/temp/DEBIAN dist/temp/~
 	touch $(DEBIANCONTROL)
 	echo 'Package: Pyslvs' >> $(DEBIANCONTROL)
 	echo 'Version: 0.6.1' >> $(DEBIANCONTROL)
 	echo 'Architecture: all' >> $(DEBIANCONTROL)
 	echo 'Description: Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.' >> $(DEBIANCONTROL)
 	echo 'Maintainer: Yuan Chang <daan0014119@gmail.com>' >> $(DEBIANCONTROL)
+	mv dist/Pyslvs dist/temp/~
+	mv dist/temp dist/Pyslvs
 	dpkg -b dist/Pyslvs
 endif
 
