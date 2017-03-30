@@ -293,6 +293,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.path_solving(list())
         self.Resolve()
         self.FileState.clear()
+        self.X_coordinate.clear()
+        self.Y_coordinate.clear()
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
         print("Reset workbook.")
         if fileName==False:
@@ -906,7 +908,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             '[1-{}]'.format(Count[0]) if int(Count)>9 else '[0-{}]'.format(Count),
             ''.join(['[0-{}]'.format(e) for e in Count[1:]]),
             '|[0-9]{{1,{}}}'.format(len(Count)-1) if len(Count)>1 else str())
-        mask = '({}^[-]?(([1-9][0-9]{{0,7}})|[0])?[.][0-9]{{1,8}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
+        mask = '({}^[-]?(([1-9][0-9]{{0,13}})|[0])?[.][0-9]{{1,14}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
         self.Mask = QRegExpValidator(QRegExp(mask))
         self.X_coordinate.setValidator(self.Mask)
         self.Y_coordinate.setValidator(self.Mask)
