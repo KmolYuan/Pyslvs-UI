@@ -259,7 +259,7 @@ class DynamicCanvas(QWidget):
             self.points['origin']['y'] = event.y()
             self.update()
         if event.button()==Qt.MidButton: self.SetIn()
-        self.mouse_getClick.emit()
+        if QApplication.keyboardModifiers()==Qt.AltModifier: self.mouse_getClick.emit()
     def mouseMoveEvent(self, event):
         if self.Selector['Drag']['isDrag']:
             self.points['origin']['x'] = event.x()-self.Selector['Drag']['x']
