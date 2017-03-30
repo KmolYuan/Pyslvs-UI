@@ -233,7 +233,6 @@ class File():
         Result = self.Designs.result[row]
         pointAvg = sum([e['y'] for e in self.Designs.list])/len(self.Designs.list)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
-        print(other)
         s = solver([
             {'p1':(Result['Ax'], Result['Ay']), 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L0'], 'angle':0, 'other':other}, #B
             {'p1':0, 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L1'], 'len2':Result['L2'], 'other':other}, #C
