@@ -5,17 +5,17 @@ _translate = QCoreApplication.translate
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
+    mouse_getClick = pyqtSignal()
     change_event = pyqtSignal()
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setMouseTracking(True)
-        self.setCursor(Qt.CrossCursor)
         self.setStatusTip(_translate("MainWindow", "Use mouse wheel or middle button to look around."))
         self.points = {
             'x':list(), 'y':list(), 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
                 'Background':Qt.white, 'penWidth':{'pen':2, 'path':1},
-                'pt':Qt.green, 'link':Qt.darkGray, 'chain':Qt.cyan, 'text':Qt.darkGray,
+                'pt':Qt.green, 'link':Qt.darkGray, 'chain':QColor(226, 219, 190), 'text':Qt.darkGray,
                 'dimension':False},
             'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
             'slvsPath':{'path':list(), 'show':False},
@@ -259,6 +259,7 @@ class DynamicCanvas(QWidget):
             self.points['origin']['y'] = event.y()
             self.update()
         if event.button()==Qt.MidButton: self.SetIn()
+        self.mouse_getClick.emit()
     def mouseMoveEvent(self, event):
         if self.Selector['Drag']['isDrag']:
             self.points['origin']['x'] = event.x()-self.Selector['Drag']['x']
@@ -267,6 +268,8 @@ class DynamicCanvas(QWidget):
         self.Selector['Scanner']['x'] = round((event.x()-self.points['origin']['x'])/self.zoom/self.points['rate'], 2)
         self.Selector['Scanner']['y'] = round((event.y()-self.points['origin']['y'])*(-1)/self.zoom/self.points['rate'], 2)
         self.mouse_track.emit(self.Selector['Scanner']['x'], self.Selector['Scanner']['y'])
+        if QApplication.keyboardModifiers()==Qt.AltModifier: self.setCursor(Qt.CrossCursor)
+        else: self.setCursor(Qt.ArrowCursor)
     
     def SetIn(self):
         self.points['origin']['x'] = self.width()/2

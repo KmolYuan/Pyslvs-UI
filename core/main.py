@@ -39,6 +39,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
         self.DynamicCanvasView = DynamicCanvas()
+        self.DynamicCanvasView.mouse_getClick.connect(self.addLinkGroup)
         self.mplLayout.insertWidget(0, self.DynamicCanvasView)
         self.DynamicCanvasView.show()
         self.Resolve()
@@ -66,11 +67,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.checkChange(FilePath, list(), "Loaded drag-in file:\n"+FilePath)
         event.acceptProposedAction()
     
-    #TODO: Right-click menu event
+    #Mouse position on canvace
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
+    #TODO: Right-click menu event
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path_add.setVisible(self.PathSolving.isChecked())
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
@@ -92,20 +94,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Path_data_show.setChecked(not self.Path_data_show.checkState())
             self.on_Path_data_show_clicked()
     def on_point_context_menu(self, point):
-        NOT_ORIGIN = self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        NOT_ORIGIN = table1.rowCount()>1 and table1.currentRow()!=0
         self.action_point_right_click_menu_delete.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_edit.setEnabled(NOT_ORIGIN)
-        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
+        self.action_point_right_click_menu_lock.setEnabled(NOT_ORIGIN)
+        self.action_point_right_click_menu_coverage.setVisible(table1.currentColumn()==4 and table1.currentRow()!=0)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
-        table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
-        table_pos_0 = self.Entiteis_Point.currentRow()
-        if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
-        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(self.Entiteis_Point, 'Point', False,
-            self.Entiteis_Point.item(table_pos_0, 1).text(), self.Entiteis_Point.item(table_pos_0, 2).text(), self.Entiteis_Point.item(table_pos_0, 3).checkState()==Qt.Checked,
-            styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Orange')
-        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, table_pos_0)
+        table_pos = table1.currentRow() if table1.currentRow()>=1 else 1
+        table_pos_0 = table1.currentRow()
+        if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(table1)
+        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(table1, 'Point', False,
+            table1.item(table_pos_0, 1).text(), table1.item(table_pos_0, 2).text(), table1.item(table_pos_0, 3).checkState()==Qt.Checked,
+            styleTable=table2, color='Green', ringsize='5', ringcolor='Orange')
+        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(table1, table_pos_0)
         elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action==self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
+        elif action==self.action_point_right_click_menu_lock:
+            self.File.Lists.editTable(table1, 'Point', table_pos_0,
+                str(self.File.Lists.PointList[table_pos_0]['x']), str(self.File.Lists.PointList[table_pos_0]['y']), not(self.File.Lists.PointList[table_pos_0]['fix']))
+            self.File.Lists.styleFix(table2, self.File.Lists.PointList[table_pos_0]['fix'], table_pos_0)
         elif action==self.action_point_right_click_menu_replace: self.on_actionReplace_Point_triggered(table_pos_0)
         elif action==self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
@@ -166,12 +175,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-        self.Resolve()
         self.actionUndo.setText("Undo {}".format(self.FileState.undoText()))
         self.actionRedo.setText("Redo {}".format(self.FileState.redoText()))
         if self.FileState.undoText(): print(self.FileState.undoText())
         if index!=self.File.Stack: self.workbookNoSave()
         else: self.workbookSaved()
+        self.Resolve()
     
     #Resolve
     def Resolve(self):
@@ -472,6 +481,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+    def addLinkGroup(self):
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        table3 = self.Entiteis_Link
+        self.File.Lists.editTable(table1, 'Point', False, str(self.mouse_pos_x), str(self.mouse_pos_y), False,
+            styleTable=table2, color='Green', ringsize='5', ringcolor='Green')
+        if len(self.File.Lists.PointList)>2:
+            leng = str(((self.File.Lists.PointList[-2]['cx']-self.File.Lists.PointList[-1]['cx'])**2+(self.File.Lists.PointList[-2]['cy']-self.File.Lists.PointList[-1]['cy'])**2)**(1/2))
+            self.File.Lists.editTable(table3, 'Line', False, 'Point{}'.format(len(self.File.Lists.PointList)-2), 'Point{}'.format(len(self.File.Lists.PointList)-1), leng)
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos=0):

@@ -28,6 +28,8 @@ def init_Right_click_menu(self):
     self.popMenu_point.addAction(self.action_point_right_click_menu_add)
     self.action_point_right_click_menu_edit = QAction("Edit this Point", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_edit)
+    self.action_point_right_click_menu_lock = QAction("Fix/Unfix this Point", self)
+    self.popMenu_point.addAction(self.action_point_right_click_menu_lock)
     self.action_point_right_click_menu_copyPoint = QAction("Copy this Point", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copyPoint)
     self.action_point_right_click_menu_replace = QAction("Replace this Point", self)
