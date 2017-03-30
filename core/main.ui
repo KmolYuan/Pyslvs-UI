@@ -1619,7 +1619,7 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>414</width>
+                         <width>302</width>
                          <height>442</height>
                         </rect>
                        </property>
@@ -2200,19 +2200,9 @@ p, li { white-space: pre-wrap; }
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_Script"/>
     </widget>
-    <widget class="QMenu" name="menuImport_from">
-     <property name="title">
-      <string>&amp;Import from...</string>
-     </property>
-     <addaction name="TemplatesMenuTitle"/>
-     <addaction name="separator"/>
-     <addaction name="ImportFormatsMenuTitle"/>
-     <addaction name="actionImportWorkbook"/>
-    </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
     <addaction name="menuExample"/>
-    <addaction name="menuImport_from"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
@@ -3125,31 +3115,6 @@ p, li { white-space: pre-wrap; }
   <action name="actionRock_Slider_Design">
    <property name="text">
     <string>Rock Slider Design</string>
-   </property>
-  </action>
-  <action name="TemplatesMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Templates</string>
-   </property>
-  </action>
-  <action name="actionImportWorkbook">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
-   </property>
-   <property name="text">
-    <string>Other Workbook</string>
-   </property>
-  </action>
-  <action name="ImportFormatsMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>File Format</string>
    </property>
   </action>
  </widget>
