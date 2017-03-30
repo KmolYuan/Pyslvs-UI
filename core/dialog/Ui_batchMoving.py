@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/dialog/batchMoving.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\dialog\batchMoving.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -20,11 +20,13 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(460, 331))
         Dialog.setMaximumSize(QtCore.QSize(460, 331))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout_5.setContentsMargins(6, 6, 6, 6)
+        self.verticalLayout_5.setSpacing(6)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setTextFormat(QtCore.Qt.RichText)
@@ -37,7 +39,8 @@ class Ui_Dialog(object):
         self.mainPanel = QtWidgets.QWidget(Dialog)
         self.mainPanel.setObjectName("mainPanel")
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout(self.mainPanel)
-        self.horizontalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_4.setContentsMargins(6, 6, 6, 6)
+        self.horizontalLayout_4.setSpacing(6)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")

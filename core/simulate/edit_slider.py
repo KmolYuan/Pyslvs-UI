@@ -23,9 +23,10 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
     
     @pyqtSlot(int)
     def on_Slider_currentIndexChanged(self, index):
-        self.Slider_Center.setCurrentIndex(self.Sliders[index]['cen'])
-        self.Start.setCurrentIndex(self.Sliders[index]['start'])
-        self.End.setCurrentIndex(self.Sliders[index]['end'])
+        if len(self.Sliders)>index:
+            self.Slider_Center.setCurrentIndex(self.Sliders[index]['cen'])
+            self.Start.setCurrentIndex(self.Sliders[index]['start'])
+            self.End.setCurrentIndex(self.Sliders[index]['end'])
     
     @pyqtSlot(int)
     def on_Slider_Center_currentIndexChanged(self, index): self.isOk()

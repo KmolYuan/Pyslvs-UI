@@ -27,15 +27,16 @@ class edit_chain_show(QDialog, edit_Dialog):
     
     @pyqtSlot(int)
     def on_Chain_currentIndexChanged(self, index):
-        self.Point1.setCurrentIndex(self.Chains[index]['p1'])
-        self.Point2.setCurrentIndex(self.Chains[index]['p2'])
-        self.Point3.setCurrentIndex(self.Chains[index]['p3'])
-        self.p1_p2.setText(str(self.Chains[index]['p1p2']))
-        self.p1_p2.setPlaceholderText(str(self.Chains[index]['p1p2']))
-        self.p2_p3.setText(str(self.Chains[index]['p2p3']))
-        self.p2_p3.setPlaceholderText(str(self.Chains[index]['p2p3']))
-        self.p1_p3.setText(str(self.Chains[index]['p1p3']))
-        self.p1_p3.setPlaceholderText(str(self.Chains[index]['p1p3']))
+        if len(self.Chains)>index:
+            self.Point1.setCurrentIndex(self.Chains[index]['p1'])
+            self.Point2.setCurrentIndex(self.Chains[index]['p2'])
+            self.Point3.setCurrentIndex(self.Chains[index]['p3'])
+            self.p1_p2.setText(str(self.Chains[index]['p1p2']))
+            self.p1_p2.setPlaceholderText(str(self.Chains[index]['p1p2']))
+            self.p2_p3.setText(str(self.Chains[index]['p2p3']))
+            self.p2_p3.setPlaceholderText(str(self.Chains[index]['p2p3']))
+            self.p1_p3.setText(str(self.Chains[index]['p1p3']))
+            self.p1_p3.setPlaceholderText(str(self.Chains[index]['p1p3']))
     
     @pyqtSlot(int)
     def on_Point1_currentIndexChanged(self, index):

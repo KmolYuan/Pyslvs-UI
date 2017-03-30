@@ -24,10 +24,11 @@ class edit_link_show(QDialog, edit_link_Dialog):
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):
-        self.Start_Point.setCurrentIndex(self.Lines[index]['start'])
-        self.End_Point.setCurrentIndex(self.Lines[index]['end'])
-        self.Length.setText(str(self.Lines[index]['len']))
-        self.Length.setPlaceholderText(str(self.Lines[index]['len']))
+        if len(self.Lines)>index:
+            self.Start_Point.setCurrentIndex(self.Lines[index]['start'])
+            self.End_Point.setCurrentIndex(self.Lines[index]['end'])
+            self.Length.setText(str(self.Lines[index]['len']))
+            self.Length.setPlaceholderText(str(self.Lines[index]['len']))
     
     @pyqtSlot(int)
     def on_Start_Point_currentIndexChanged(self, index):
