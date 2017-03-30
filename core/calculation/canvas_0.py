@@ -107,13 +107,13 @@ class DynamicCanvas(QWidget):
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, str(e['len']))
         for e in self.Slider:
-            pen = QPen(Qt.DotLine)
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkMagenta)
             painter.setPen(pen)
             painter.drawLine(QPointF(self.points['x'][e['start']], self.points['y'][e['start']]), QPointF(self.points['x'][e['end']], self.points['y'][e['end']]))
         for e in self.Rod:
-            pen = QPen(Qt.DotLine)
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkRed)
             painter.setPen(pen)
