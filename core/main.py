@@ -278,9 +278,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:
-            reply = QMessageBox.question(self, 'Clear Message', "Do you want to Clear ALL Drawings?\nThe changes can't be recovery!",
-                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply: self.loadWorkbook(say, name, data)
+            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit this file?\nAny Changes won't be saved.",
+                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
+            if reply==QMessageBox.Save:
+                self.on_actionSave_triggered()
+                if not self.File.form['changed']: self.loadWorkbook(say, name, data)
+            elif reply==QMessageBox.Discard: self.loadWorkbook(say, name, data)
         else: self.loadWorkbook(say, name, data)
     def loadWorkbook(self, say, fileName=False, data=list()):
         print(say)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/info/fileInfo.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\info\fileInfo.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -43,20 +43,14 @@ class Ui_Info_Dialog(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Info_Dialog)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
-        self.buttonBox.setSizePolicy(sizePolicy)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
-        self.buttonBox.setObjectName("buttonBox")
-        self.horizontalLayout.addWidget(self.buttonBox)
+        self.closeButton = QtWidgets.QPushButton(Info_Dialog)
+        self.closeButton.setDefault(True)
+        self.closeButton.setObjectName("closeButton")
+        self.horizontalLayout.addWidget(self.closeButton)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Info_Dialog)
-        self.buttonBox.rejected.connect(Info_Dialog.reject)
+        self.closeButton.clicked.connect(Info_Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Info_Dialog)
 
     def retranslateUi(self, Info_Dialog):
@@ -67,9 +61,9 @@ class Ui_Info_Dialog(object):
         self.descriptionText.setHtml(_translate("Info_Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p></body></html>"))
+        self.closeButton.setText(_translate("Info_Dialog", "Close"))
 
 import icons_rc
 

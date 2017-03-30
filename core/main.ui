@@ -723,8 +723,8 @@
                            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;N/A&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
                         </item>
@@ -1619,8 +1619,8 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>292</width>
-                         <height>441</height>
+                         <width>414</width>
+                         <height>442</height>
                         </rect>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -2138,7 +2138,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>998</width>
-     <height>23</height>
+     <height>26</height>
     </rect>
    </property>
    <property name="defaultUp">
@@ -2186,7 +2186,7 @@ p, li { white-space: pre-wrap; }
       <string>Export to other format.</string>
      </property>
      <property name="title">
-      <string>Ex&amp;port to...</string>
+      <string>E&amp;xport to...</string>
      </property>
      <addaction name="SolvespaceMenuTitle"/>
      <addaction name="action_Output_to_Solvespace"/>
@@ -2200,9 +2200,19 @@ p, li { white-space: pre-wrap; }
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_Script"/>
     </widget>
+    <widget class="QMenu" name="menuImport_from">
+     <property name="title">
+      <string>&amp;Import from...</string>
+     </property>
+     <addaction name="TemplatesMenuTitle"/>
+     <addaction name="separator"/>
+     <addaction name="ImportFormatsMenuTitle"/>
+     <addaction name="actionImportWorkbook"/>
+    </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
     <addaction name="menuExample"/>
+    <addaction name="menuImport_from"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
     <addaction name="actionSave_as"/>
@@ -3115,6 +3125,31 @@ p, li { white-space: pre-wrap; }
   <action name="actionRock_Slider_Design">
    <property name="text">
     <string>Rock Slider Design</string>
+   </property>
+  </action>
+  <action name="TemplatesMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Templates</string>
+   </property>
+  </action>
+  <action name="actionImportWorkbook">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+   </property>
+   <property name="text">
+    <string>Other Workbook</string>
+   </property>
+  </action>
+  <action name="ImportFormatsMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>File Format</string>
    </property>
   </action>
  </widget>

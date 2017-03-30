@@ -20,7 +20,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
             for i in range(table2.rowCount()): self.Link.insertItem(i, iconSelf, table2.item(i, 0).text())
             self.Link.setCurrentIndex(pos)
         self.Length.setValidator(mask)
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.isOk()
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):

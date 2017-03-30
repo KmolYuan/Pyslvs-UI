@@ -23,7 +23,7 @@ class edit_chain_show(QDialog, edit_Dialog):
         self.p1_p2.setValidator(mask)
         self.p2_p3.setValidator(mask)
         self.p1_p3.setValidator(mask)
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
+        self.isOk()
     
     @pyqtSlot(int)
     def on_Chain_currentIndexChanged(self, index):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -695,7 +695,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 292, 441))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 414, 442))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -899,7 +899,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 998, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 998, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -910,6 +910,8 @@ class Ui_MainWindow(object):
         self.menuExample.setObjectName("menuExample")
         self.menuExport = QtWidgets.QMenu(self.menuFile)
         self.menuExport.setObjectName("menuExport")
+        self.menuImport_from = QtWidgets.QMenu(self.menuFile)
+        self.menuImport_from.setObjectName("menuImport_from")
         self.menu_Draw = QtWidgets.QMenu(self.menuBar)
         self.menu_Draw.setObjectName("menu_Draw")
         self.menu_Options = QtWidgets.QMenu(self.menuBar)
@@ -1190,6 +1192,15 @@ class Ui_MainWindow(object):
         self.OtherFormatMenuTitle.setObjectName("OtherFormatMenuTitle")
         self.actionRock_Slider_Design = QtWidgets.QAction(MainWindow)
         self.actionRock_Slider_Design.setObjectName("actionRock_Slider_Design")
+        self.TemplatesMenuTitle = QtWidgets.QAction(MainWindow)
+        self.TemplatesMenuTitle.setEnabled(False)
+        self.TemplatesMenuTitle.setObjectName("TemplatesMenuTitle")
+        self.actionImportWorkbook = QtWidgets.QAction(MainWindow)
+        self.actionImportWorkbook.setIcon(icon20)
+        self.actionImportWorkbook.setObjectName("actionImportWorkbook")
+        self.ImportFormatsMenuTitle = QtWidgets.QAction(MainWindow)
+        self.ImportFormatsMenuTitle.setEnabled(False)
+        self.ImportFormatsMenuTitle.setObjectName("ImportFormatsMenuTitle")
         self.menuExample.addAction(self.GrashofChainMenuTitle)
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionDrag_link)
@@ -1220,9 +1231,14 @@ class Ui_MainWindow(object):
         self.menuExport.addAction(self.OtherFormatMenuTitle)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
+        self.menuImport_from.addAction(self.TemplatesMenuTitle)
+        self.menuImport_from.addSeparator()
+        self.menuImport_from.addAction(self.ImportFormatsMenuTitle)
+        self.menuImport_from.addAction(self.actionImportWorkbook)
         self.menuFile.addAction(self.action_New_Workbook)
         self.menuFile.addAction(self.action_Load_Workbook)
         self.menuFile.addAction(self.menuExample.menuAction())
+        self.menuFile.addAction(self.menuImport_from.menuAction())
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addAction(self.actionSave_as)
@@ -1364,8 +1380,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
@@ -1501,7 +1517,8 @@ class Ui_MainWindow(object):
         self.menuExample.setStatusTip(_translate("MainWindow", "Some example of the Linkage mechanism."))
         self.menuExample.setTitle(_translate("MainWindow", "&Example"))
         self.menuExport.setStatusTip(_translate("MainWindow", "Export to other format."))
-        self.menuExport.setTitle(_translate("MainWindow", "Ex&port to..."))
+        self.menuExport.setTitle(_translate("MainWindow", "E&xport to..."))
+        self.menuImport_from.setTitle(_translate("MainWindow", "&Import from..."))
         self.menu_Draw.setTitle(_translate("MainWindow", "&Draw"))
         self.menu_Options.setTitle(_translate("MainWindow", "&Options"))
         self.menu_Help.setTitle(_translate("MainWindow", "&Help"))
@@ -1647,6 +1664,9 @@ class Ui_MainWindow(object):
         self.DXFMenuTitle.setText(_translate("MainWindow", "DXF"))
         self.OtherFormatMenuTitle.setText(_translate("MainWindow", "Other Format"))
         self.actionRock_Slider_Design.setText(_translate("MainWindow", "Rock Slider Design"))
+        self.TemplatesMenuTitle.setText(_translate("MainWindow", "Templates"))
+        self.actionImportWorkbook.setText(_translate("MainWindow", "Other Workbook"))
+        self.ImportFormatsMenuTitle.setText(_translate("MainWindow", "File Format"))
 
 import icons_rc
 import preview_rc
