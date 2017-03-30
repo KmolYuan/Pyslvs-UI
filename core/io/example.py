@@ -194,7 +194,7 @@ def example_liftTailgate():
 
 def example_TJLinkage():
     return [
-        '_info_', 'Yuang', '_info_', '"Theo Jansen\'s multiple linkage.', timeNow, 'You can use Triangle Solver panel to rebuld them."', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', '"Theo Jansen\'s multiple linkage.', '', 'You can use Triangle Solver panel to rebuld them."', '_info_', timeNow, '_info_',
         '_table_', 'Point1', '-38.0', '-7.8', 'True',
         '_table_', 'Point1', 'Blue', '10', 'Blue',
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',
