@@ -31,14 +31,15 @@ deb: build dist/Pyslvs
 ifeq ($(OS),Windows_NT)
 	@echo ---Ubuntu only---
 else
-	mkdir dist/temp dist/temp/DEBIAN dist/temp/~
+	mkdir dist/temp dist/temp/DEBIAN dist/temp/usr/ dist/temp/usr/bin dist/temp/usr/share/
 	touch $(DEBIANCONTROL)
-	echo 'Package: Pyslvs' >> $(DEBIANCONTROL)
+	echo 'Package: pyslvs' >> $(DEBIANCONTROL)
 	echo 'Version: 0.6.1' >> $(DEBIANCONTROL)
 	echo 'Architecture: all' >> $(DEBIANCONTROL)
 	echo 'Description: Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.' >> $(DEBIANCONTROL)
 	echo 'Maintainer: Yuan Chang <daan0014119@gmail.com>' >> $(DEBIANCONTROL)
-	mv dist/Pyslvs dist/temp/~
+	mv dist/Pyslvs dist/temp/usr/share/
+	ln -s /usr/share/Pyslvs/launch_pyslvs dist/temp/usr/bin/pyslvs
 	mv dist/temp dist/Pyslvs
 	dpkg -b dist/Pyslvs
 endif
