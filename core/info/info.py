@@ -4,7 +4,7 @@ import csv, platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = "0.6.1(stable)"
+VERSION = "0.6.2(dev)"
 
 parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
@@ -55,11 +55,11 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.Content.setText(html(title("Pyslvs", "Version {}".format(VERSION))+content(
+        self.Title.setText(html(title("Pyslvs", "Version {}".format(VERSION))))
+        self.Content.setText(html(content(
         "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
         "It can use in Mechanical Design and Simulation.",
         "This program using Python 3 with Python Solvespace.",
-        "If you want to know about more, you can reference by our website.",
         "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
         "Within changing points location, finally give the answer to designer.",
         "We have these features:")+orderList(
@@ -67,4 +67,6 @@ class version_show(QDialog, Ui_About_Dialog):
         "Dimensional Synthesis of Planar Four-bar Linkages.",
         "Output points coordinate to Data Sheet (*.csv) format.",
         "Change canvas appearance.",
-        "Draw dynamic simulation path with any point in the machinery.")))
+        "Draw dynamic simulation path with any point in the machinery.")+content(
+        "If you want to know about more, you can reference by our website.",
+        )))

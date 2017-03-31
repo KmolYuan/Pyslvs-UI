@@ -34,7 +34,7 @@ def init_Right_click_menu(self):
     self.popMenu_point.addAction(self.action_point_right_click_menu_copyPoint)
     self.action_point_right_click_menu_replace = QAction("Replace this Point", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_replace)
-    self.action_point_right_click_menu_coverage = QAction("Coverage Coordinate", self)
+    self.action_point_right_click_menu_coverage = QAction("Cover current coordinate to (x, y)", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_coverage)
     self.popMenu_point.addSeparator()
     self.action_point_right_click_menu_delete = QAction("Delete this Point", self)

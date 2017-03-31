@@ -124,31 +124,12 @@ class DynamicCanvas(QWidget):
                 mp = QPointF((self.points['x'][start]+self.points['x'][e['end']])/2, (self.points['y'][start]+self.points['y'][e['end']])/2)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['pos']))
-        if self.Shaft:
-            e = self.Shaft[0]
+        for e in self.Shaft:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
             pen.setColor(QColor(225, 140, 0))
             painter.setPen(pen)
             painter.drawLine(QPointF(self.points['x'][e['cen']], self.points['y'][e['cen']]), QPointF(self.points['x'][e['ref']], self.points['y'][e['ref']]))
-            if self.points['style']['dimension']:
-                pen.setColor(self.points['style']['text'])
-                painter.setPen(pen)
-                mp = QPointF(int(self.points['x'][e['cen']]+6), int(self.points['y'][e['cen']]+6))
-                painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(mp, '{{{}}}'.format(e['demo']))
-            for n in self.Shaft[1:]:
-                pen = QPen()
-                pen.setWidth(self.points['style']['penWidth']['pen']+2)
-                pen.setColor(QColor(225, 140, 0))
-                painter.setPen(pen)
-                painter.drawLine(QPointF(self.points['x'][n['cen']], self.points['y'][n['cen']]), QPointF(self.points['x'][n['ref']], self.points['y'][n['ref']]))
-                if self.points['style']['dimension']:
-                    pen.setColor(self.points['style']['text'])
-                    painter.setPen(pen)
-                    mp = QPointF(int(self.points['x'][n['cen']]+6), int(self.points['y'][n['cen']]+6))
-                    painter.setFont(QFont("Arial", self.Font_size))
-                    painter.drawText(mp, '{{{}}}'.format(n['demo']))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
             pen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
