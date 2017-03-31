@@ -196,7 +196,7 @@ class DynamicCanvas(QWidget):
             for i in range(len(self.points['Path']['path'])):
                 nPath = self.points['Path']['path'][i]
                 for j in range(0, len(nPath), 2):
-                    pointNum = int(self.points['Path']['run_list'][int(j/2/len(self.Shaft))].replace("Point", ''))
+                    pointNum = int(self.points['Path']['run_list'][int(j/2/len(self.Shaft))].replace('Point', ''))
                     X_path = nPath[j]
                     Y_path = nPath[j+1]
                     if self.points['Path']['shaft_list'][i]==self.points['currentShaft']:
