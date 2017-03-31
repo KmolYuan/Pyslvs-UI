@@ -137,6 +137,18 @@ class DynamicCanvas(QWidget):
                 mp = QPointF(int(self.points['x'][e['cen']]+6), int(self.points['y'][e['cen']]+6))
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['demo']))
+            for n in self.Shaft[1:]:
+                pen = QPen()
+                pen.setWidth(self.points['style']['penWidth']['pen']+2)
+                pen.setColor(QColor(225, 140, 0))
+                painter.setPen(pen)
+                painter.drawLine(QPointF(self.points['x'][n['cen']], self.points['y'][n['cen']]), QPointF(self.points['x'][n['ref']], self.points['y'][n['ref']]))
+                if self.points['style']['dimension']:
+                    pen.setColor(self.points['style']['text'])
+                    painter.setPen(pen)
+                    mp = QPointF(int(self.points['x'][n['cen']]+6), int(self.points['y'][n['cen']]+6))
+                    painter.setFont(QFont("Arial", self.Font_size))
+                    painter.drawText(mp, '{{{}}}'.format(n['demo']))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
             pen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])

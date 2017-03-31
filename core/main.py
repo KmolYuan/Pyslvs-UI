@@ -230,8 +230,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionGithub_Wiki_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-manual/tree/master")
     @pyqtSlot()
-    def on_actionHow_to_use_triggered(self): self.OpenDlg(Help_info_show())
-    @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
         self.File.Script = slvsProcessScript(Point, Line, Chain, Shaft, Slider, Rod)

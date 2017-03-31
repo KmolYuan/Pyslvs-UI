@@ -51,20 +51,6 @@ def title(name, *others): return '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.forma
 def content(*text): return '<p>{}</p>'.format('</p><p>'.join(text))
 def orderList(*List): return '<ol><li>{}</li></ol>'.format('</li><li>'.join(List))
 
-class Help_info_show(QDialog, Ui_About_Dialog):
-    def __init__(self, parent=None):
-        super(Help_info_show, self).__init__(parent)
-        self.setupUi(self)
-        self.Content.setText(html(title("Pyslvs")+content(
-        "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
-        "Within changing points location, finally give the answer to designer.",
-        "We have these features:")+orderList(
-        "2D Linkages dynamic simulation.",
-        "Dimensional Synthesis of Planar Four-bar Linkages.",
-        "Output points coordinate to Data Sheet (*.csv) format.",
-        "Change canvas appearance.",
-        "Draw dynamic simulation path with any point in the machinery.")))
-
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
@@ -73,4 +59,12 @@ class version_show(QDialog, Ui_About_Dialog):
         "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
         "It can use in Mechanical Design and Simulation.",
         "This program using Python 3 with Python Solvespace.",
-        "If you want to know about more, you can reference by our website.")))
+        "If you want to know about more, you can reference by our website.",
+        "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
+        "Within changing points location, finally give the answer to designer.",
+        "We have these features:")+orderList(
+        "2D Linkages dynamic simulation.",
+        "Dimensional Synthesis of Planar Four-bar Linkages.",
+        "Output points coordinate to Data Sheet (*.csv) format.",
+        "Change canvas appearance.",
+        "Draw dynamic simulation path with any point in the machinery.")))
