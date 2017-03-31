@@ -202,8 +202,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             float(self.LineWidth.text()), float(self.PathWidth.text()),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
-            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(),
-            self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(), self.action_Black_Blackground.isChecked(),
+            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(), self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
             self.File.Lists.data, self.File.Lists.runList, self.File.Lists.shaftList)
     
     #Workbook Change
@@ -682,8 +681,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionDisplay_Dimensions_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_actionDisplay_Point_Mark_toggled(self, p0): self.Reload_Canvas()
-    @pyqtSlot(bool)
-    def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
         self.DynamicCanvasView.points['Path']['show'] = self.Path_data_show.checkState()

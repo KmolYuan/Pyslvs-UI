@@ -28,10 +28,8 @@ class DynamicCanvas(QWidget):
         self.re_Color = colorName()
     
     def update_figure(self, width, pathwidth, Point, Line, Chain, Shaft, Slider, Rod,
-            table_style, zoom_rate, Font_size, showDimension, Point_mark, Blackground,
+            table_style, zoom_rate, Font_size, showDimension, Point_mark,
             path, run_list, shaft_list):
-        if Blackground: self.points['style']['Background'] = Qt.black
-        else: self.points['style']['Background'] = Qt.white
         self.Font_size = Font_size
         self.points['style']['dimension'] = showDimension
         self.Point_mark = Point_mark
@@ -207,10 +205,10 @@ class DynamicCanvas(QWidget):
                     Y_path = nPath[j+1]
                     if self.points['Path']['shaft_list'][i]==0:
                         pen.setWidth(self.points['style']['penWidth']['path'])
-                        point_color = self.table_style.cellWidget(int(self.points['Path']['run_list'][int(j/2)].replace("Point", "")), 3).currentText()
+                        point_color = self.table_style.cellWidget(int(self.points['Path']['run_list'][int(j/2/len(self.points['Path']['run_list']))].replace("Point", '')), 3).currentText()
                         pen.setColor(self.Color[point_color])
                     else:
-                        pen.setWidth(self.points['style']['penWidth']['path']/2)
+                        pen.setWidth(self.points['style']['penWidth']['path'])
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
                     for k in range(len(X_path)-1):

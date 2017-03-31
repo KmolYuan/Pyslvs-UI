@@ -163,13 +163,12 @@ class File():
                 else: rowdata.append(str(self.Lists.runList[i])+'\t')
             writer.writerow(rowdata)
         writer.writerow(['_path_'])
-        if self.Lists.shaftList:
-            writer.writerow(self.Lists.shaftList)
+        if self.Lists.shaftList: writer.writerow(['{}\t'.format(e) for e in self.Lists.shaftList])
         writer.writerow(['_path_'])
-        if self.Lists.data:
-            for i in range(len(self.Lists.data[0])):
+        for n in self.Lists.data:
+            for i in range(len(n)):
                 rowdata = list()
-                for j in range(len(self.Lists.data[0][i])): rowdata.append(str(self.Lists.data[0][i][j])+'\t')
+                for j in range(len(n[i])): rowdata.append(str(n[i][j])+'\t')
                 rowdata.append('+')
                 writer.writerow(rowdata)
     def reset(self, Point, Style, Link, Chain, Shaft, Slider, Rod, Parameter):

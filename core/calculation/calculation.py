@@ -106,16 +106,16 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
             reference = Shaft[currentShaft]['ref']
             Constraint.angle(Workplane1, angle, LineSegment2d(Workplane1, Points[center], Points[reference]), Line0, False)
         elif staticProcess:
-            if len(Shaft) >= 1:
+            for e in Shaft:
                 Points.append(Point2d(Workplane1, sys.add_param(10.), sys.add_param(0.)))
                 Constraint.dragged(Workplane1, Points[-1])
                 Line0 = LineSegment2d(Workplane1, Points[0], Points[-1])
                 #shaft demo switch
-                center = Shaft[currentShaft]['cen']
-                reference = Shaft[currentShaft]['ref']
+                center = e['cen']
+                reference = e['ref']
                 line = LineSegment2d(Workplane1, Points[center], Points[reference])
                 try:
-                    angle0 = Shaft[currentShaft]['demo']
+                    angle0 = e['demo']
                     Constraint.angle(Workplane1, angle0, line, Line0, False)
                 except: pass
     sys.solve()
