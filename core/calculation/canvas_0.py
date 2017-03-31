@@ -17,7 +17,7 @@ class DynamicCanvas(QWidget):
                 'Background':Qt.white, 'penWidth':{'pen':3, 'path':2},
                 'link':Qt.darkGray, 'chain':QColor(226, 219, 190), 'text':Qt.darkGray, 'dimension':False},
             'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
-            'slvsPath':{'path':list(), 'show':False},
+            'slvsPath':{'path':list(), 'show':False}, 'currentShaft':0,
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
@@ -61,10 +61,10 @@ class DynamicCanvas(QWidget):
         self.points['Path']['run_list'] = run_list
         self.points['Path']['shaft_list'] = shaft_list
         self.update()
-    
     def path_solving(self, path):
         self.points['slvsPath']['path'] = path
         self.update()
+    def changeCurrentShaft(self, pos): self.points['currentShaft'] = pos
     
     def paintEvent(self, event):
         painter = QPainter()
@@ -124,7 +124,7 @@ class DynamicCanvas(QWidget):
         for e in self.Shaft:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
-            pen.setColor(QColor(225, 140, 0))
+            pen.setColor(QColor(225, 140, 0) if self.Shaft.index(e)==self.points['currentShaft'] else QColor(175, 90, 0))
             painter.setPen(pen)
             painter.drawLine(QPointF(self.points['x'][e['cen']], self.points['y'][e['cen']]), QPointF(self.points['x'][e['ref']], self.points['y'][e['ref']]))
         if self.AuxLine['show']:

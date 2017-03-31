@@ -27,14 +27,15 @@ class playShaft(QThread):
         with QMutexLocker(self.mutex): self.stoped = True
 
 class Drive_shaft_show(QWidget, Drive_Form):
-    def __init__(self, table, parent=None):
+    def __init__(self, table, currentShaft, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
         self.table = table
         for i in range(len(table)): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
-        self.startAngle = int(table[0]['start']*100)
-        self.endAngle = int(table[0]['end']*100)
-        self.demoAngle = int(table[0]['demo']*100)
+        self.Shaft.setCurrentIndex(currentShaft)
+        self.startAngle = int(table[currentShaft]['start']*100)
+        self.endAngle = int(table[currentShaft]['end']*100)
+        self.demoAngle = int(table[currentShaft]['demo']*100)
         self.playButton.clicked.connect(self.playStart)
         self.Degree.setMinimum(self.startAngle)
         self.Degree.setMaximum(self.endAngle)

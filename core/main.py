@@ -287,6 +287,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.closePanels()
         self.File.reset(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+        self.DynamicCanvasView.changeCurrentShaft(0)
         self.DynamicCanvasView.path_solving(list())
         self.Resolve()
         self.FileState.clear()
@@ -786,9 +787,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         if "Drive Shaft" in tabNameList: self.closePanel(tabNameList.index("Drive Shaft"))
         else:
-            panel = Drive_shaft_show(self.File.Lists.ShaftList)
+            panel = Drive_shaft_show(self.File.Lists.ShaftList, self.DynamicCanvasView.points['currentShaft'])
             panel.Degree.sliderReleased.connect(self.Save_demo_angle)
             panel.Degree.valueChanged.connect(self.Change_demo_angle)
+            panel.Shaft.currentIndexChanged.connect(self.changeCurrentShaft)
             self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/same-orientation.png")), "Drive Shaft")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
     @pyqtSlot()
@@ -804,6 +806,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.Lists.setDemo('Shaft', row=panel.Shaft.currentIndex(), pos=angle/100)
         self.Resolve()
         self.workbookNoSave()
+    @pyqtSlot(int)
+    def changeCurrentShaft(self, pos): self.DynamicCanvasView.changeCurrentShaft(pos)
     
     @pyqtSlot()
     def on_Drive_rod_clicked(self):
