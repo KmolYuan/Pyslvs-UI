@@ -30,6 +30,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QComboBox" name="Shaft"/>
+     </item>
+     <item>
       <widget class="QLabel" name="label_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -38,7 +41,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Shaft0 in Angle:</string>
+        <string> in Angle:</string>
        </property>
       </widget>
      </item>

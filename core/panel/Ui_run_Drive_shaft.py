@@ -24,6 +24,9 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.label)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.Shaft = QtWidgets.QComboBox(Form)
+        self.Shaft.setObjectName("Shaft")
+        self.horizontalLayout_2.addWidget(self.Shaft)
         self.label_2 = QtWidgets.QLabel(Form)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
@@ -69,7 +72,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "<html><head/><body><p>Drive the shaft to the specified angle.</p></body></html>"))
-        self.label_2.setText(_translate("Form", "Shaft0 in Angle:"))
+        self.label_2.setText(_translate("Form", " in Angle:"))
         self.Degree_text.setSuffix(_translate("Form", "°"))
         self.playButton.setToolTip(_translate("Form", "A 60-lap mechanism demo"))
         self.playButton.setText(_translate("Form", "Play"))

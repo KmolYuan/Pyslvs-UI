@@ -794,11 +794,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def Save_demo_angle(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        panel = self.PointTab.widget(tabNameList.index("Drive Shaft"))
         self.File.Lists.saveDemo(self.Shaft, 'Shaft',
-            self.PointTab.widget(tabNameList.index("Drive Shaft")).Degree.value()/100, 0, 5)
+            panel.Degree.value()/100, row=panel.Shaft.currentIndex(), column=5)
     @pyqtSlot(int)
     def Change_demo_angle(self, angle):
-        self.File.Lists.setDemo('Shaft', 0, angle/100)
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        panel = self.PointTab.widget(tabNameList.index("Drive Shaft"))
+        self.File.Lists.setDemo('Shaft', row=panel.Shaft.currentIndex(), pos=angle/100)
         self.Resolve()
         self.workbookNoSave()
     
@@ -817,11 +820,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         panel = self.PointTab.widget(tabNameList.index("Drive Rod"))
         self.File.Lists.saveDemo(self.Rod, 'Rod',
-            panel.Position.value()/100, panel.Rod.currentIndex(), 4)
+            panel.Position.value()/100, row=panel.Rod.currentIndex(), column=4)
     @pyqtSlot(int)
     def Change_position(self, pos):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        self.File.Lists.setDemo('Rod', self.PointTab.widget(tabNameList.index("Drive Rod")).Rod.currentIndex(), pos/100)
+        panel = self.PointTab.widget(tabNameList.index("Drive Rod"))
+        self.File.Lists.setDemo('Rod', row=panel.Rod.currentIndex(), pos=pos/100)
         self.Resolve()
         self.workbookNoSave()
     

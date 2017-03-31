@@ -1249,7 +1249,7 @@ p, li { white-space: pre-wrap; }
                         <item>
                          <widget class="QLabel" name="label_6">
                           <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Only Shaft0 is active.&lt;/span&gt;&lt;br/&gt;Using right click menu to change the priority.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Shaft0 is active highlighting.&lt;/span&gt;&lt;br/&gt;Using right click menu to change the priority.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
                         </item>
@@ -1619,7 +1619,7 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>292</width>
+                         <width>427</width>
                          <height>441</height>
                         </rect>
                        </property>
