@@ -125,7 +125,7 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
             y = float(sys.get_param((point_int+2)*2+6).val)
         elif staticProcess:
             resultList = list()
-            for i in range(0, len(Point)*2, 2): resultList.append({'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val})
+            for i in range(0, len(Point)*2, 2): resultList.append({'x':float(sys.get_param(i+7).val), 'y':float(sys.get_param(i+8).val)})
     elif sys.result==SLVS_RESULT_INCONSISTENT and hasWarning: print("SLVS_RESULT_INCONSISTENT")
     elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and hasWarning: print("SLVS_RESULT_DIDNT_CONVERGE")
     elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and hasWarning: print("SLVS_RESULT_TOO_MANY_UNKNOWNS")

@@ -199,7 +199,7 @@ class DynamicCanvas(QWidget):
                     pointNum = int(self.points['Path']['run_list'][int(j/2/len(self.Shaft))].replace("Point", ''))
                     X_path = nPath[j]
                     Y_path = nPath[j+1]
-                    if self.points['Path']['shaft_list'][i]==0:
+                    if self.points['Path']['shaft_list'][i]==self.points['currentShaft']:
                         pen.setWidth(self.points['style']['penWidth']['path'])
                         point_color = self.table_style.cellWidget(pointNum, 3).currentText()
                         pen.setColor(self.Color[point_color])
