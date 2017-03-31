@@ -67,6 +67,7 @@ class version_show(QDialog, Ui_About_Dialog):
         "Dimensional Synthesis of Planar Four-bar Linkages.",
         "Output points coordinate to Data Sheet (*.csv) format.",
         "Change canvas appearance.",
-        "Draw dynamic simulation path with any point in the machinery.")+content(
+        "Draw dynamic simulation path with any point in the machinery.",
+        "Using triangle iterate the mechanism results.")+content(
         "If you want to know about more, you can reference by our website.",
         )))
