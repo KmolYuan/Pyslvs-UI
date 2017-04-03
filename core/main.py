@@ -302,7 +302,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
             if fileName: self.setLocate(QFileInfo(fileName).absolutePath())
-        if QFileInfo(fileName).suffix()=="csv" or QFileInfo(fileName).suffix()=="txt" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
+        if QFileInfo(fileName).suffix()=='csv' or QFileInfo(fileName).suffix()=='txt' or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==list():
                 print("Get: "+fileName)
                 with open(fileName, newline=str()) as stream:
@@ -339,7 +339,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionSave_triggered(self):
         n = self.File.form['fileName'].absoluteFilePath()
-        if "[New Workbook]" in n or "[Example]" in n: fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
+        if ('[New Workbook]' in n or '[Example]' in n)and(QFileInfo(n).suffix()!='csv' and QFileInfo(n).suffix()!='txt'):
+            fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
         else: fileName = self.File.form['fileName'].absoluteFilePath()
         if fileName: self.save(fileName)
     @pyqtSlot()
