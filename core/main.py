@@ -303,28 +303,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
             if fileName: self.setLocate(QFileInfo(fileName).absolutePath())
         if QFileInfo(fileName).suffix()=='csv' or QFileInfo(fileName).suffix()=='txt' or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
-            if data==list():
-                print("Get: "+fileName)
-                with open(fileName, newline=str()) as stream:
-                    reader = csv.reader(stream, delimiter=' ', quotechar='|')
-                    for row in reader: data += ' '.join(row).split('\t,')
-            if self.File.check(data):
-                self.File.read(fileName, data,
+            if self.File.read(fileName, data,
                     self.Entiteis_Point, self.Entiteis_Point_Style,
                     self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                    self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+                    self.Shaft, self.Slider, self.Rod, self.Parameter_list):
                 for i in range(1, self.Entiteis_Point_Style.rowCount()):
                     self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Edit_Point_Style)
                     self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Edit_Point_Style)
-                self.File.form['changed'] = False
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
                 if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
                 self.Path_Clear.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 self.Path_coordinate.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
-                print("Loaded the workbook.")
                 actionEnabled(self)
+                self.workbookSaved()
+                print("Loaded the workbook.")
                 if not("[New Workbook]" in fileName):
                     dlg = fileInfo_show()
                     dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
@@ -357,8 +351,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Shaft, self.Slider,
                 self.Rod, self.Parameter_list)
         print("Successful Save: {}".format(fileName))
-        self.File.form['changed'] = False
-        self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
+        self.workbookSaved()
     
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
@@ -859,7 +852,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def distance_solving(self, start, end):
         x = self.File.Lists.PointList[start]['cx']-self.File.Lists.PointList[end]['cx']
         y = self.File.Lists.PointList[start]['cy']-self.File.Lists.PointList[end]['cy']
-        self.distance_changed.emit(round(math.sqrt(x**2+y**2), 5))
+        self.distance_changed.emit(round((x**2+y**2)**(1/2), 5))
     
     @pyqtSlot()
     def on_AuxLine_clicked(self):

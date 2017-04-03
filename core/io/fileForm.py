@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .listProcess import Lists, Designs
+import csv
 import datetime
 now = datetime.datetime.now()
 from ..kernel.pyslvs_triangle_solver.TS import solver
 from ..info.info import html, title, content, orderList
+
+class Form():
+    def __init__(self):
+        self.__dict__({
+            'fileName':QFileInfo('[New Workbook]'),
+            'description':str(),
+            'author':'Anonymous',
+            'lastTime':"{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute),
+            'changed':False})
 
 class File():
     def __init__(self, FileState, args):
@@ -29,13 +39,19 @@ class File():
         self.form['description'] = description
     
     #Check, Read, Write, Reset
-    def check(self, data):
+    def check(self, fileName, data):
+        if data==list():
+            print("Get: "+fileName)
+            with open(fileName, newline=str()) as stream:
+                reader = csv.reader(stream, delimiter=' ', quotechar='|')
+                for row in reader: data += ' '.join(row).split('\t,')
         n1 = len([e for e, x in enumerate(data) if x=='_info_'])==4
         n2 = len([e for e, x in enumerate(data) if x=='_table_'])==9
         n3 = len([e for e, x in enumerate(data) if x=='_design_'])==2
         n4 = len([e for e, x in enumerate(data) if x=='_path_'])==3
         return n1 and n2 and n3 and n4
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        if not self.check(fileName, data): return False
         if self.args.file_data: print(data)
         errorInfo = list()
         #info
@@ -54,6 +70,18 @@ class File():
         except:
             lastTime = '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute)
             errorInfo.append('Date Information')
+        self.Stack = self.FileState.index()
+        self.form['fileName'] = QFileInfo(fileName)
+        self.form['author'] = author
+        self.form['description'] = description
+        self.form['lastTime'] = lastTime
+        if errorInfo: print("The following information(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
+        else: print("Successful loaded informations of the file.")
+        self.readMerge(data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter)
+        return True
+    
+    def readMerge(self, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
+        errorInfo = list()
         #table
         tableIndex = [e for e, x in enumerate(data) if '_table_' in x]
         try:
@@ -127,12 +155,7 @@ class File():
                 self.Lists.setPath(path, runList, shaftList)
         except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
-        else: print("Successful loaded contents.")
-        self.Stack = self.FileState.index()
-        self.form['fileName'] = QFileInfo(fileName)
-        self.form['author'] = author
-        self.form['description'] = description
-        self.form['lastTime'] = lastTime
+        else: print("Successful loaded contents of the file.")
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.Stack = self.FileState.index()
