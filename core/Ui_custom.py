@@ -170,7 +170,7 @@ def actionEnabled(self):
 def showUndoWindow(self):
     undoView = QUndoView(self.FileState)
     undoView.setEmptyLabel("~ Start Pyslvs")
-    self.HistoryLayout.addWidget(undoView)
+    self.UndoRedoLayout.addWidget(undoView)
     separator = QAction(self)
     separator.setSeparator(True)
     self.menu_Edit.insertAction(self.actionSearch_Points, separator)
