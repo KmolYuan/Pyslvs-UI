@@ -470,7 +470,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_point_show(self.Mask, table, self.File.Lists.PointList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table, 'Point', pos,
+            self.File.Lists.editTable(table, 'Point', dlg.Point.currentIndex(),
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text()in[str(), "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in[str(), "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()))
@@ -506,7 +506,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Line', pos, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+            self.File.Lists.editTable(table2, 'Line', dlg.Link.currentIndex(), dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
             self.closePanels()
     
     @pyqtSlot()
@@ -524,7 +524,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Chain', pos, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+            self.File.Lists.editTable(table2, 'Chain', dlg.Chain.currentIndex(), dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
             self.closePanels()
     
     @pyqtSlot()
@@ -543,7 +543,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Shaft', pos, dlg.center, dlg.ref, dlg.start, dlg.end,
+            self.File.Lists.editTable(table2, 'Shaft', dlg.Shaft.currentIndex(), dlg.center, dlg.ref, dlg.start, dlg.end,
                 table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
             self.closePanels()
     
@@ -558,7 +558,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Slider, 'Slider', pos, dlg.slider, dlg.start, dlg.end)
+            self.File.Lists.editTable(self.Slider, 'Slider', dlg.Slider.currentIndex(), dlg.slider, dlg.start, dlg.end)
             self.closePanels()
     
     @pyqtSlot()
@@ -576,7 +576,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_rod_show(table1, table2, self.File.Lists.RodList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Rod', pos, dlg.cen, dlg.start, dlg.end, dlg.pos)
+            self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
             self.closePanels()
     
     @pyqtSlot()
