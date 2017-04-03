@@ -121,9 +121,10 @@ class File():
                     path.append(path_e)
                     path_e = list()
                 else: path_e.append(float(li[i]))
-            section = int(len(path)/len(shaftList))
-            path = [path[x:x+section] for x in range(0, len(path), section)]
-            if path: self.Lists.setPath(path, runList, shaftList)
+            if path:
+                section = int(len(path)/len(shaftList))
+                path = [path[x:x+section] for x in range(0, len(path), section)]
+                self.Lists.setPath(path, runList, shaftList)
         except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents.")
