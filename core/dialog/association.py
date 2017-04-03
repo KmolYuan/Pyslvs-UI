@@ -19,27 +19,27 @@ class Association_show(QDialog, association_Form):
     @pyqtSlot(int, int, int, int)
     def on_tableWidget_currentCellChanged(self, pos, _cc, _pr, _pc):
         net = list()
-        for i in range(len(self.LineList)):
-            check = [self.LineList[i]['start'], self.LineList[i]['end']]
-            if pos in check: net.append('Line{}: '.format(i)+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
+        for e in self.LineList:
+            check = [e['start'], e['end']]
+            if pos in check: net.append('Line{}: '.format(self.LineList.index(e))+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
         self.lineLable.setText('\n'.join(net) if net!=[] else 'None')
         net.clear()
-        for i in range(len(self.ChainList)):
-            check = [self.ChainList[i]['p1'], self.ChainList[i]['p2'], self.ChainList[i]['p3']]
-            if pos in check: net.append('Chain{}: '.format(i)+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
+        for e in self.ChainList:
+            check = [e['p1'], e['p2'], e['p3']]
+            if pos in check: net.append('Chain{}: '.format(self.ChainList.index(e))+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
         self.chainLable.setText('\n'.join(net) if net!=[] else 'None')
         net.clear()
-        for i in range(len(self.ShaftList)):
-            check = [self.ShaftList[i]['cen'], self.ShaftList[i]['ref']]
-            if pos in check: net.append('Shaft{}: '.format(i)+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
+        for e in self.ShaftList:
+            check = [e['cen'], e['ref']]
+            if pos in check: net.append('Shaft{}: '.format(self.ShaftList.index(e))+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
         self.shaftLable.setText('\n'.join(net) if net!=[] else 'None')
         net.clear()
-        for i in range(len(self.SliderList)):
-            check = [self.SliderList[i]['cen'], self.SliderList[i]['start'], self.SliderList[i]['end']]
-            if pos in check: net.append('Slider{}: '.format(i)+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
+        for e in self.SliderList:
+            check = [e['cen'], e['start'], e['end']]
+            if pos in check: net.append('Slider{}: '.format(self.SliderList.index(e))+', '.join(['Point{}'.format(k) for k in check if k!=pos]))
         self.sliderLable.setText('\n'.join(net) if net!=[] else 'None')
         net.clear()
-        for i in range(len(self.RodList)):
-            check = [self.RodList[i]['cen'], self.RodList[i]['start'], self.RodList[i]['end']]
-            if pos in check: net.append('Rod{}: '.format(i)+', '.join(['Point{}'.format(k) for k in check]))
+        for e in self.RodList:
+            check = [e['cen'], e['start'], e['end']]
+            if pos in check: net.append('Rod{}: '.format(self.RodList.index(e))+', '.join(['Point{}'.format(k) for k in check]))
         self.rodLable.setText('\n'.join(net) if net!=[] else 'None')

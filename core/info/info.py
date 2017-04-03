@@ -49,7 +49,7 @@ class Pyslvs_Splash(QSplashScreen):
 def html(script): return '<html><head/><body>{}</body></html>'.format(script)
 def title(name, *others): return '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(others)) if others else '')
 def content(*text): return '<p>{}</p>'.format('</p><p>'.join(text))
-def orderList(*List): return '<ol><li>{}</li></ol>'.format('</li><li>'.join(List))
+def orderList(*List): return '<ul><li>{}</li></ul>'.format('</li><li>'.join(List))
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):

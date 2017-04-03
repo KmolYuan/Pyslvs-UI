@@ -186,7 +186,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Resolve(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
         result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod, hasWarning=self.args.w)
-        if not DOF is False:
+        Failed = DOF is False
+        self.ConflictGuide.setVisible(Failed)
+        self.DOFview.setVisible(not Failed)
+        if not Failed:
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
@@ -194,9 +197,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
-            self.DOFview.setText("Failed.")
-            self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.Solvefail = True
+            self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
+            self.File.conflictMessage(self.ConflictGuide)
+            self.Reload_Canvas()
     #Reload Canvas
     def Reload_Canvas(self):
         self.DynamicCanvasView.update_figure(

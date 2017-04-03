@@ -4,6 +4,7 @@ from .listProcess import Lists, Designs
 import datetime
 now = datetime.datetime.now()
 from ..kernel.pyslvs_triangle_solver.TS import solver
+from ..info.info import html, title, content, orderList
 
 class File():
     def __init__(self, FileState, args):
@@ -17,12 +18,12 @@ class File():
         self.Script = str()
         self.Stack = 0
         self.form = {
-            'fileName':QFileInfo("[New Workbook]"),
+            'fileName':QFileInfo('[New Workbook]'),
             'description':str(),
             'author':'Anonymous',
-            'lastTime':'%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute),
+            'lastTime':"{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute),
             'changed':False}
-    def updateTime(self): self.form['lastTime'] = "%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)
+    def updateTime(self): self.form['lastTime'] = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
     def updateAuthorDescription(self, author, description):
         self.form['author'] = author
         self.form['description'] = description
@@ -299,3 +300,25 @@ class File():
                         'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
                     self.Lists.editTable(Slider, 'Slider', False,
                         'Point{}'.format(pA), 'Point{}'.format(p2), 'Point{}'.format(p3))
+    
+    def conflictMessage(self, ConflictGuide):
+        errorTable = list()
+        checkLine = [sorted([e['start'], e['end']]) for e in self.Lists.LineList]
+        checkChain = [sorted([e['p1'], e['p2'], e['p3']]) for e in self.Lists.ChainList]
+        checkShaft = [sorted([e['cen'], e['ref']]) for e in self.Lists.ShaftList]
+        checkSlider = [sorted([e['cen'], e['start'], e['end']]) for e in self.Lists.SliderList]
+        checkRod = [sorted([e['cen'], e['start'], e['end']]) for e in self.Lists.RodList]
+        checkList = [checkLine, checkChain, checkShaft, checkSlider, checkRod]
+        for check in checkList:
+            for e1 in range(len(check)):
+                for e2 in range(len(check)):
+                    errorInfo = [checkList.index(check), sorted([e1, e2])]
+                    if check[e1]==check[e2] and e1!=e2 and not(errorInfo in errorTable):
+                        errorTable.append(errorInfo)
+        toolTipText = html(title("Conflict Guide")+content(
+            "Some table might contain errors:")+orderList(
+            *([['Link', 'Chain', 'Shaft', 'Slider', 'Rod'][p[0]]+' {}, {}'.format(p[1][0], p[1][1]) for p in errorTable] if len(errorTable)!=0 else ['None']))+content(
+            "If there is no any conflict, please check dimension,",
+            "Or use Undo function to return to the previous action."))
+        ConflictGuide.setToolTip(toolTipText)
+        QToolTip.showText(ConflictGuide.mapToGlobal(QPoint(0, 0)), toolTipText)

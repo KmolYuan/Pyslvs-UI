@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 now = datetime.datetime.now()
-timeNow = '{:d}/{:d}/{:d} {:d}:{:d}'.format(now.year, now.month, now.day, now.hour, now.minute)
+timeNow = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 '''
 CSV File for Pyslvs
 =====
