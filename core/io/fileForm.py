@@ -145,7 +145,7 @@ class File():
                     path.append(path_e)
                     path_e = list()
                 else: path_e.append(float(li[i]))
-            if path:
+            if path and self.Lists.data==list():
                 section = int(len(path)/len(shaftList))
                 path = [path[x:x+section] for x in range(0, len(path), section)]
                 self.Lists.setPath(path, runList, shaftList)
