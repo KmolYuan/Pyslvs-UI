@@ -21,6 +21,8 @@ class Ui_Dialog(object):
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(Dialog)
+        self.horizontalLayout_2.setContentsMargins(6, 6, 6, 6)
+        self.horizontalLayout_2.setSpacing(6)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout()
         self.verticalLayout_5.setObjectName("verticalLayout_5")

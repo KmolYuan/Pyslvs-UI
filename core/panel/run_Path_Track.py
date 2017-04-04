@@ -27,11 +27,11 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.shaftList = list()
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
-            shaftCheckBox.setText("Shaft"+str(i))
+            shaftCheckBox.setText('Shaft{}'.format(i))
             if i==0: shaftCheckBox.setChecked(True)
             shaftCheckBox.clicked.connect(self.isReady)
             self.shaftList.append(shaftCheckBox)
-        for checkBox in self.shaftList: self.scrollAreaWidgetLayout.insertWidget(0, checkBox)
+        for checkBox in reversed(self.shaftList): self.scrollAreaWidgetLayout.insertWidget(0, checkBox)
         self.isReady()
     
     @pyqtSlot()

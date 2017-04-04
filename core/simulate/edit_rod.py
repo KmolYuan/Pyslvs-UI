@@ -3,12 +3,12 @@ from ..QtModules import *
 from .Ui_edit_rod import Ui_Dialog as edit_rod_Dialog
 
 class edit_rod_show(QDialog, edit_rod_Dialog):
-    Another_rod = pyqtSignal(int)
-    def __init__(self, table1, table2, pos=False, parent=None):
+    def __init__(self, table1, table2, Rods, pos=False, parent=None):
         super(edit_rod_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/spring.png"))
+        self.Rods = Rods
         for i in range(table1.rowCount()):
                 self.Center.insertItem(i, icon, table1.item(i, 0).text())
                 self.Start.insertItem(i, icon, table1.item(i, 0).text())
@@ -22,14 +22,12 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
         self.isOk()
     
     @pyqtSlot(int)
-    def on_Rod_currentIndexChanged(self, index): self.Another_rod.emit(index)
-    
-    @pyqtSlot(int, int, int, float)
-    def change_feedback(self, center, start, end, position):
-        self.Center.setCurrentIndex(center)
-        self.Start.setCurrentIndex(start)
-        self.End.setCurrentIndex(end)
-        self.Position.setValue(position)
+    def on_Rod_currentIndexChanged(self, index):
+        if len(self.Rods)>index:
+            self.Center.setCurrentIndex(self.Rods[index]['cen'])
+            self.Start.setCurrentIndex(self.Rods[index]['start'])
+            self.End.setCurrentIndex(self.Rods[index]['end'])
+            self.Position.setValue(self.Rods[index]['pos'])
     
     @pyqtSlot(int)
     def on_Center_currentIndexChanged(self, index): self.isOk()

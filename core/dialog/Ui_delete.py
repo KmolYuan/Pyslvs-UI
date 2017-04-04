@@ -20,6 +20,8 @@ class Ui_Dialog(object):
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Dialog)
+        self.horizontalLayout.setContentsMargins(6, 6, 6, 6)
+        self.horizontalLayout.setSpacing(6)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.Entity = QtWidgets.QComboBox(Dialog)
         self.Entity.setObjectName("Entity")

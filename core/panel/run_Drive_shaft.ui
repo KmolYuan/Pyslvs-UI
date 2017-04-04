@@ -30,6 +30,9 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
+      <widget class="QComboBox" name="Shaft"/>
+     </item>
+     <item>
       <widget class="QLabel" name="label_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -38,7 +41,30 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Shaft0 in Angle:</string>
+        <string> in Angle:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="Degree_text">
+       <property name="suffix">
+        <string>°</string>
+       </property>
+       <property name="maximum">
+        <double>360.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>10.000000000000000</double>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="playButton">
+       <property name="toolTip">
+        <string>A 60-lap mechanism demo</string>
+       </property>
+       <property name="text">
+        <string>Play</string>
        </property>
       </widget>
      </item>
@@ -58,41 +84,44 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QSlider" name="Degree">
+      <widget class="QDial" name="Degree">
        <property name="maximum">
         <number>36000</number>
        </property>
        <property name="singleStep">
-        <number>1000</number>
+        <number>100</number>
        </property>
        <property name="pageStep">
         <number>1000</number>
        </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+       <property name="invertedAppearance">
+        <bool>true</bool>
        </property>
-       <property name="tickPosition">
-        <enum>QSlider::TicksBelow</enum>
+       <property name="wrapping">
+        <bool>true</bool>
        </property>
-       <property name="tickInterval">
-        <number>1000</number>
+       <property name="notchTarget">
+        <double>0.004500000000000</double>
+       </property>
+       <property name="notchesVisible">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="Degree_text">
-       <property name="suffix">
-        <string>°</string>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="maximum">
-        <double>360.000000000000000</double>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
        </property>
-       <property name="singleStep">
-        <double>10.000000000000000</double>
-       </property>
-      </widget>
+      </spacer>
      </item>
     </layout>
    </item>
@@ -110,6 +139,8 @@
     </spacer>
    </item>
   </layout>
+  <zorder>label</zorder>
+  <zorder>verticalSpacer</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -106,16 +106,16 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
             reference = Shaft[currentShaft]['ref']
             Constraint.angle(Workplane1, angle, LineSegment2d(Workplane1, Points[center], Points[reference]), Line0, False)
         elif staticProcess:
-            if len(Shaft) >= 1:
-                Points.append(Point2d(Workplane1, sys.add_param(10.), sys.add_param(0.)))
-                Constraint.dragged(Workplane1, Points[-1])
-                Line0 = LineSegment2d(Workplane1, Points[0], Points[-1])
+            Points.append(Point2d(Workplane1, sys.add_param(10.), sys.add_param(0.)))
+            Constraint.dragged(Workplane1, Points[-1])
+            Line0 = LineSegment2d(Workplane1, Points[0], Points[-1])
+            for e in Shaft:
                 #shaft demo switch
-                center = Shaft[currentShaft]['cen']
-                reference = Shaft[currentShaft]['ref']
+                center = e['cen']
+                reference = e['ref']
                 line = LineSegment2d(Workplane1, Points[center], Points[reference])
                 try:
-                    angle0 = Shaft[currentShaft]['demo']
+                    angle0 = e['demo']
                     Constraint.angle(Workplane1, angle0, line, Line0, False)
                 except: pass
     sys.solve()
@@ -125,7 +125,7 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
             y = float(sys.get_param((point_int+2)*2+6).val)
         elif staticProcess:
             resultList = list()
-            for i in range(0, len(Point)*2, 2): resultList.append({'x':sys.get_param(i+7).val, 'y':sys.get_param(i+8).val})
+            for i in range(0, len(Point)*2, 2): resultList.append({'x':float(sys.get_param(i+7).val), 'y':float(sys.get_param(i+8).val)})
     elif sys.result==SLVS_RESULT_INCONSISTENT and hasWarning: print("SLVS_RESULT_INCONSISTENT")
     elif sys.result==SLVS_RESULT_DIDNT_CONVERGE and hasWarning: print("SLVS_RESULT_DIDNT_CONVERGE")
     elif sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS and hasWarning: print("SLVS_RESULT_TOO_MANY_UNKNOWNS")

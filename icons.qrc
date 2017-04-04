@@ -16,11 +16,13 @@
     <file>icons/assemble.png</file>
     <file>icons/auxline.png</file>
     <file>icons/bezier.png</file>
+    <file>icons/BrowseGuide.png</file>
     <file>icons/char-0-check-false.png</file>
     <file>icons/char-1-check-true.png</file>
     <file>icons/char-2-radio-false.png</file>
     <file>icons/char-3-radio-true.png</file>
     <file>icons/circle.png</file>
+    <file>icons/ConflictGuide.png</file>
     <file>icons/constraint.png</file>
     <file>icons/construction.png</file>
     <file>icons/delete.png</file>

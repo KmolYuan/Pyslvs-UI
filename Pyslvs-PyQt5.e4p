@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-26, 09:46:37 -->
+<!-- Saved: 2017-03-31, 16:37:58 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -44,7 +44,6 @@
     <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>
     <Source>core/info/Ui_info.py</Source>
-    <Source>core/info/Ui_options.py</Source>
     <Source>core/info/Ui_path_point_data.py</Source>
     <Source>core/info/__init__.py</Source>
     <Source>core/info/editFileInfo.py</Source>
@@ -127,7 +126,6 @@
     <Form>core/info/editFileInfo.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
     <Form>core/info/info.ui</Form>
-    <Form>core/info/options.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
     <Form>core/io/dxfType.ui</Form>
     <Form>core/io/script.ui</Form>

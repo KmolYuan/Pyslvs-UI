@@ -90,6 +90,12 @@
      <property name="tabKeyNavigation">
       <bool>false</bool>
      </property>
+     <property name="verticalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+     <property name="horizontalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
      <column>
       <property name="text">
        <string>Point</string>

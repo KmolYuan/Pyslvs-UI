@@ -1249,7 +1249,7 @@ p, li { white-space: pre-wrap; }
                         <item>
                          <widget class="QLabel" name="label_6">
                           <property name="text">
-                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Only Shaft0 is active.&lt;/span&gt;&lt;br/&gt;Using right click menu to change the priority.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Shaft0 is active highlighting.&lt;/span&gt;&lt;br/&gt;Using right click menu to change the priority.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
                         </item>
@@ -1550,35 +1550,61 @@ p, li { white-space: pre-wrap; }
                 <attribute name="title">
                  <string>History</string>
                 </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_17">
+                <layout class="QVBoxLayout" name="verticalLayout">
+                 <property name="leftMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>6</number>
+                 </property>
                  <item>
-                  <layout class="QVBoxLayout" name="HistoryLayout">
-                   <property name="leftMargin">
-                    <number>6</number>
+                  <widget class="QTabWidget" name="History_tab">
+                   <property name="currentIndex">
+                    <number>0</number>
                    </property>
-                   <property name="topMargin">
-                    <number>6</number>
-                   </property>
-                   <property name="rightMargin">
-                    <number>6</number>
-                   </property>
-                   <property name="bottomMargin">
-                    <number>6</number>
-                   </property>
-                   <item>
-                    <widget class="QLabel" name="label_8">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
+                   <widget class="QWidget" name="Undo_and_Redo">
+                    <attribute name="title">
+                     <string>Undo and Redo</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_17">
+                     <property name="leftMargin">
+                      <number>6</number>
                      </property>
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in this file will show here.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     <property name="topMargin">
+                      <number>6</number>
                      </property>
-                    </widget>
-                   </item>
-                  </layout>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <item>
+                      <layout class="QVBoxLayout" name="UndoRedoLayout">
+                       <item>
+                        <widget class="QLabel" name="label_8">
+                         <property name="sizePolicy">
+                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <horstretch>0</horstretch>
+                           <verstretch>0</verstretch>
+                          </sizepolicy>
+                         </property>
+                         <property name="text">
+                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in &lt;span style=&quot; font-weight:600;&quot;&gt;this edition&lt;/span&gt; will show here.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
                  </item>
                 </layout>
                </widget>
@@ -1619,7 +1645,7 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>292</width>
+                         <width>427</width>
                          <height>441</height>
                         </rect>
                        </property>
@@ -1983,9 +2009,24 @@ p, li { white-space: pre-wrap; }
            <item>
             <layout class="QHBoxLayout" name="zoombarLayout">
              <item>
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="BrowseGuide">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Browse Guide&lt;/span&gt;&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + Mouse Double Click:&lt;/span&gt; Set origin to mouse position.&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ctrl + Mouse Press:&lt;/span&gt; Set origin to mouse position.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse Wheel or Middle button Drag:&lt;/span&gt; Plane movement.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse Wheel Scrolling:&lt;/span&gt; Zoom the display size.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Alt + Mouse Double Click:&lt;/span&gt; Quickly added a point and link it to the last point.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="statusTip">
+                <string>Show Browse Guide tool tips.</string>
+               </property>
                <property name="text">
-                <string>Zoom Size</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width='30' src=&quot;:/icons/BrowseGuide.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="textFormat">
+                <enum>Qt::RichText</enum>
                </property>
               </widget>
              </item>
@@ -2028,6 +2069,12 @@ p, li { white-space: pre-wrap; }
              </item>
              <item>
               <widget class="QLabel" name="ZoomText">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>200%</string>
                </property>
@@ -2103,6 +2150,12 @@ p, li { white-space: pre-wrap; }
              </item>
              <item>
               <widget class="QLabel" name="DOFLable">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>DOF:</string>
                </property>
@@ -2118,6 +2171,25 @@ p, li { white-space: pre-wrap; }
                </property>
                <property name="text">
                 <string/>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="ConflictGuide">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="statusTip">
+                <string>Show Conflict Guide tool tips.</string>
+               </property>
+               <property name="text">
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width='30' src=&quot;:/icons/ConflictGuide.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               </property>
+               <property name="textFormat">
+                <enum>Qt::RichText</enum>
                </property>
               </widget>
              </item>
@@ -2186,7 +2258,7 @@ p, li { white-space: pre-wrap; }
       <string>Export to other format.</string>
      </property>
      <property name="title">
-      <string>Ex&amp;port to...</string>
+      <string>E&amp;xport to...</string>
      </property>
      <addaction name="SolvespaceMenuTitle"/>
      <addaction name="action_Output_to_Solvespace"/>
@@ -2237,7 +2309,6 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="actionDisplay_Dimensions"/>
     <addaction name="actionDisplay_Point_Mark"/>
-    <addaction name="action_Black_Blackground"/>
     <addaction name="actionClose_all_panel"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
@@ -2247,8 +2318,6 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="actionHow_to_use"/>
-    <addaction name="separator"/>
     <addaction name="action_Get_Help"/>
     <addaction name="actionGit_hub_Site"/>
     <addaction name="actionGithub_Wiki"/>

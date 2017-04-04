@@ -5,35 +5,30 @@ _translate = QCoreApplication.translate
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
+    mouse_getClick = pyqtSignal()
     change_event = pyqtSignal()
     def __init__(self, parent=None):
         QWidget.__init__(self, parent)
         self.setMouseTracking(True)
-        self.setCursor(Qt.CrossCursor)
-        self.setStatusTip(_translate("MainWindow", "Press Ctrl Key and use mouse to Change Origin or Zoom Size."))
+        self.setStatusTip(_translate("MainWindow", "Use mouse wheel or middle button to look around."))
         self.points = {
             'x':list(), 'y':list(), 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
-                'Background':Qt.white, 'penWidth':{'pen':2, 'path':1},
-                'pt':Qt.green, 'link':Qt.darkGray, 'chain':Qt.cyan, 'text':Qt.darkGray,
-                'dimension':False,
-                },
+                'Background':Qt.white, 'penWidth':{'pen':3, 'path':2},
+                'link':Qt.darkGray, 'chain':QColor(226, 219, 190), 'text':Qt.darkGray, 'dimension':False},
             'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
-            'slvsPath':{'path':list(), 'show':False},
+            'slvsPath':{'path':list(), 'show':False}, 'currentShaft':0,
             }
         self.Selector = {
             'Drag':{'x':0, 'y':0, 'isDrag':False},
-            'Scanner':{'x':0, 'y':0, 'point':0, 'isClose':False},
-            }
+            'Scanner':{'x':0, 'y':0, 'point':0, 'isClose':False}}
         self.reset_Auxline()
         self.Color = colorlist()
         self.re_Color = colorName()
     
     def update_figure(self, width, pathwidth, Point, Line, Chain, Shaft, Slider, Rod,
-            table_style, zoom_rate, Font_size, showDimension, Point_mark, Blackground,
+            table_style, zoom_rate, Font_size, showDimension, Point_mark,
             path, run_list, shaft_list):
-        if Blackground: self.points['style']['Background'] = Qt.black
-        else: self.points['style']['Background'] = Qt.white
         self.Font_size = Font_size
         self.points['style']['dimension'] = showDimension
         self.Point_mark = Point_mark
@@ -66,10 +61,10 @@ class DynamicCanvas(QWidget):
         self.points['Path']['run_list'] = run_list
         self.points['Path']['shaft_list'] = shaft_list
         self.update()
-    
     def path_solving(self, path):
         self.points['slvsPath']['path'] = path
         self.update()
+    def changeCurrentShaft(self, pos): self.points['currentShaft'] = pos
     
     def paintEvent(self, event):
         painter = QPainter()
@@ -109,13 +104,13 @@ class DynamicCanvas(QWidget):
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, str(e['len']))
         for e in self.Slider:
-            pen = QPen(Qt.DotLine)
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkMagenta)
             painter.setPen(pen)
             painter.drawLine(QPointF(self.points['x'][e['start']], self.points['y'][e['start']]), QPointF(self.points['x'][e['end']], self.points['y'][e['end']]))
         for e in self.Rod:
-            pen = QPen(Qt.DotLine)
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(Qt.darkRed)
             painter.setPen(pen)
@@ -127,17 +122,11 @@ class DynamicCanvas(QWidget):
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['pos']))
         for e in self.Shaft:
-            pen = QPen(Qt.DotLine)
+            pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
-            pen.setColor(QColor(225, 140, 0))
+            pen.setColor(QColor(225, 140, 0) if self.Shaft.index(e)==self.points['currentShaft'] else QColor(175, 90, 0))
             painter.setPen(pen)
             painter.drawLine(QPointF(self.points['x'][e['cen']], self.points['y'][e['cen']]), QPointF(self.points['x'][e['ref']], self.points['y'][e['ref']]))
-            if self.points['style']['dimension']:
-                pen.setColor(self.points['style']['text'])
-                painter.setPen(pen)
-                mp = QPointF(int(self.points['x'][e['cen']]+6), int(self.points['y'][e['cen']]+6))
-                painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(mp, '{{{}}}'.format(e['demo']))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
             pen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
@@ -187,17 +176,13 @@ class DynamicCanvas(QWidget):
             cy = e['cy']*Tp*-1
             pen = QPen()
             pen.setWidth(2)
-            try:
-                try: pen.setColor(self.Color[self.table_style.cellWidget(index, 3).currentText()])
-                except: pen.setColor(self.Color[self.table_style.item(index, 3).text()])
-            except: pen.setColor(self.points['style']['pt'])
+            if index!=0: pen.setColor(self.Color[self.table_style.cellWidget(index, 3).currentText()])
+            else: pen.setColor(self.Color[self.table_style.item(index, 3).text()])
             painter.setPen(pen)
             r = float(self.table_style.item(index, 2).text())
             painter.drawEllipse(QPointF(cx, cy), r, r)
-            try:
-                try: pen.setColor(self.Color[self.table_style.cellWidget(index, 1).currentText()])
-                except: pen.setColor(self.Color[self.table_style.item(index, 1).text()])
-            except: pen.setColor(self.points['style']['pt'])
+            if index!=0: pen.setColor(self.Color[self.table_style.cellWidget(index, 1).currentText()])
+            else: pen.setColor(self.Color[self.table_style.item(index, 1).text()])
             pen.setWidth(5)
             painter.setPen(pen)
             painter.drawPoint(QPointF(cx, cy))
@@ -211,14 +196,15 @@ class DynamicCanvas(QWidget):
             for i in range(len(self.points['Path']['path'])):
                 nPath = self.points['Path']['path'][i]
                 for j in range(0, len(nPath), 2):
+                    pointNum = int(self.points['Path']['run_list'][int(j/2/len(self.Shaft))].replace('Point', ''))
                     X_path = nPath[j]
                     Y_path = nPath[j+1]
-                    if self.points['Path']['shaft_list'][i]==0:
+                    if self.points['Path']['shaft_list'][i]==self.points['currentShaft']:
                         pen.setWidth(self.points['style']['penWidth']['path'])
-                        point_color = self.table_style.cellWidget(int(self.points['Path']['run_list'][int(j/2)].replace("Point", "")), 3).currentText()
+                        point_color = self.table_style.cellWidget(pointNum, 3).currentText()
                         pen.setColor(self.Color[point_color])
                     else:
-                        pen.setWidth(self.points['style']['penWidth']['path']/2)
+                        pen.setWidth(self.points['style']['penWidth']['path'])
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
                     for k in range(len(X_path)-1):
@@ -260,6 +246,7 @@ class DynamicCanvas(QWidget):
             self.points['origin']['y'] = event.y()
             self.update()
         if event.button()==Qt.MidButton: self.SetIn()
+        if QApplication.keyboardModifiers()==Qt.AltModifier: self.mouse_getClick.emit()
     def mouseMoveEvent(self, event):
         if self.Selector['Drag']['isDrag']:
             self.points['origin']['x'] = event.x()-self.Selector['Drag']['x']
@@ -268,6 +255,8 @@ class DynamicCanvas(QWidget):
         self.Selector['Scanner']['x'] = round((event.x()-self.points['origin']['x'])/self.zoom/self.points['rate'], 2)
         self.Selector['Scanner']['y'] = round((event.y()-self.points['origin']['y'])*(-1)/self.zoom/self.points['rate'], 2)
         self.mouse_track.emit(self.Selector['Scanner']['x'], self.Selector['Scanner']['y'])
+        if QApplication.keyboardModifiers()==Qt.AltModifier: self.setCursor(Qt.CrossCursor)
+        else: self.setCursor(Qt.ArrowCursor)
     
     def SetIn(self):
         self.points['origin']['x'] = self.width()/2

@@ -4,7 +4,7 @@ from .info.info import Pyslvs_Splash
 #CSV
 import sys, csv, math, webbrowser, platform
 #Dialog Ports
-from .info.info import Help_info_show, version_show
+from .info.info import version_show
 from .info.path_point_data import path_point_data_show
 from .io.script import Script_Dialog
 #Drawing Dialog Ports

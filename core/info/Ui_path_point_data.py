@@ -44,6 +44,8 @@ class Ui_Info_Dialog(object):
         self.path_data = QtWidgets.QTableWidget(Info_Dialog)
         self.path_data.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.path_data.setTabKeyNavigation(False)
+        self.path_data.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.path_data.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.path_data.setObjectName("path_data")
         self.path_data.setColumnCount(3)
         self.path_data.setRowCount(0)

@@ -39,6 +39,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
         self.DynamicCanvasView = DynamicCanvas()
+        self.DynamicCanvasView.mouse_getClick.connect(self.addLinkGroup)
         self.mplLayout.insertWidget(0, self.DynamicCanvasView)
         self.DynamicCanvasView.show()
         self.Resolve()
@@ -66,11 +67,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.checkChange(FilePath, list(), "Loaded drag-in file:\n"+FilePath)
         event.acceptProposedAction()
     
-    #TODO: Right-click menu event
+    #Mouse position on canvace
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
+    #TODO: Right-click menu event
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path_add.setVisible(self.PathSolving.isChecked())
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
@@ -92,20 +94,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Path_data_show.setChecked(not self.Path_data_show.checkState())
             self.on_Path_data_show_clicked()
     def on_point_context_menu(self, point):
-        NOT_ORIGIN = self.Entiteis_Point.rowCount()>1 and self.Entiteis_Point.currentRow()!=0
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        NOT_ORIGIN = table1.rowCount()>1 and table1.currentRow()!=0
         self.action_point_right_click_menu_delete.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_edit.setEnabled(NOT_ORIGIN)
-        self.action_point_right_click_menu_coverage.setVisible(self.Entiteis_Point.currentColumn()==4 and self.Entiteis_Point.currentRow()!=0)
+        self.action_point_right_click_menu_lock.setEnabled(NOT_ORIGIN)
+        self.action_point_right_click_menu_coverage.setEnabled(NOT_ORIGIN)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
-        table_pos = self.Entiteis_Point.currentRow() if self.Entiteis_Point.currentRow()>=1 else 1
-        table_pos_0 = self.Entiteis_Point.currentRow()
-        if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(self.Entiteis_Point)
-        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(self.Entiteis_Point, 'Point', False,
-            self.Entiteis_Point.item(table_pos_0, 1).text(), self.Entiteis_Point.item(table_pos_0, 2).text(), self.Entiteis_Point.item(table_pos_0, 3).checkState()==Qt.Checked,
-            styleTable=self.Entiteis_Point_Style, color='Green', ringsize='5', ringcolor='Orange')
-        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(self.Entiteis_Point, table_pos_0)
+        table_pos = table1.currentRow() if table1.currentRow()>=1 else 1
+        table_pos_0 = table1.currentRow()
+        if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(table1)
+        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(table1, 'Point', False,
+            table1.item(table_pos_0, 1).text(), table1.item(table_pos_0, 2).text(), table1.item(table_pos_0, 3).checkState()==Qt.Checked,
+            styleTable=table2, color='Green', ringsize='5', ringcolor='Orange')
+        elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(table1, table_pos_0)
         elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action==self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
+        elif action==self.action_point_right_click_menu_lock:
+            self.File.Lists.editTable(table1, 'Point', table_pos_0,
+                str(self.File.Lists.PointList[table_pos_0]['x']), str(self.File.Lists.PointList[table_pos_0]['y']), not(self.File.Lists.PointList[table_pos_0]['fix']))
+            self.File.Lists.styleFix(table2, self.File.Lists.PointList[table_pos_0]['fix'], table_pos_0)
         elif action==self.action_point_right_click_menu_replace: self.on_actionReplace_Point_triggered(table_pos_0)
         elif action==self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
@@ -166,18 +175,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-        self.Resolve()
         self.actionUndo.setText("Undo {}".format(self.FileState.undoText()))
         self.actionRedo.setText("Redo {}".format(self.FileState.redoText()))
         if self.FileState.undoText(): print(self.FileState.undoText())
         if index!=self.File.Stack: self.workbookNoSave()
         else: self.workbookSaved()
+        self.Resolve()
     
     #Resolve
     def Resolve(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
         result, DOF = slvsProcess(Point, Line, Chain, Shaft, Slider, Rod, hasWarning=self.args.w)
-        if not DOF is False:
+        Failed = DOF is False
+        self.ConflictGuide.setVisible(Failed)
+        self.DOFview.setVisible(not Failed)
+        if not Failed:
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
@@ -185,16 +197,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
-            self.DOFview.setText("Failed.")
-            self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.Solvefail = True
+            self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
+            self.File.conflictMessage(self.ConflictGuide)
+            self.Reload_Canvas()
     #Reload Canvas
     def Reload_Canvas(self):
         self.DynamicCanvasView.update_figure(
             float(self.LineWidth.text()), float(self.PathWidth.text()),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
-            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(),
-            self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(), self.action_Black_Blackground.isChecked(),
+            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(), self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
             self.File.Lists.data, self.File.Lists.runList, self.File.Lists.shaftList)
     
     #Workbook Change
@@ -220,8 +232,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionGit_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
     @pyqtSlot()
     def on_actionGithub_Wiki_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-manual/tree/master")
-    @pyqtSlot()
-    def on_actionHow_to_use_triggered(self): self.OpenDlg(Help_info_show())
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
@@ -269,24 +279,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form['changed']:
-            reply = QMessageBox.question(self, 'Clear Message', "Do you want to Clear ALL Drawings?\nThe changes can't be recovery!",
-                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply: self.loadWorkbook(say, name, data)
+            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit this file?\nAny Changes won't be saved.",
+                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
+            if reply==QMessageBox.Save:
+                self.on_actionSave_triggered()
+                if not self.File.form['changed']: self.loadWorkbook(say, name, data)
+            elif reply==QMessageBox.Discard: self.loadWorkbook(say, name, data)
         else: self.loadWorkbook(say, name, data)
     def loadWorkbook(self, say, fileName=False, data=list()):
         print(say)
         self.closePanels()
         self.File.reset(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+        self.DynamicCanvasView.changeCurrentShaft(0)
         self.DynamicCanvasView.path_solving(list())
         self.Resolve()
         self.FileState.clear()
+        self.X_coordinate.clear()
+        self.Y_coordinate.clear()
         self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
         print("Reset workbook.")
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
             if fileName: self.setLocate(QFileInfo(fileName).absolutePath())
-        if QFileInfo(fileName).suffix()=="csv" or QFileInfo(fileName).suffix()=="txt" or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
+        if QFileInfo(fileName).suffix()=='csv' or QFileInfo(fileName).suffix()=='txt' or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
             if data==list():
                 print("Get: "+fileName)
                 with open(fileName, newline=str()) as stream:
@@ -323,7 +339,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionSave_triggered(self):
         n = self.File.form['fileName'].absoluteFilePath()
-        if "[New Workbook]" in n or "[Example]" in n: fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
+        if ('[New Workbook]' in n or '[Example]' in n)and(QFileInfo(n).suffix()!='csv' and QFileInfo(n).suffix()!='txt'):
+            fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
         else: fileName = self.File.form['fileName'].absoluteFilePath()
         if fileName: self.save(fileName)
     @pyqtSlot()
@@ -426,7 +443,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Point_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
-        dlg = edit_point_show(self.Mask, table1)
+        dlg = edit_point_show(self.Mask, table1, self.File.Lists.PointList)
         dlg.show()
         if dlg.exec_():
             x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), "n", "-"] else dlg.X_coordinate.placeholderText()
@@ -450,23 +467,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionEdit_Point_triggered(self, pos=1):
         table = self.Entiteis_Point
-        dlg = edit_point_show(self.Mask, table, pos)
-        dlg.Another_point.connect(self.Change_Edit_Point)
-        self.point_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Point(pos)
+        dlg = edit_point_show(self.Mask, table, self.File.Lists.PointList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table, 'Point', pos,
+            self.File.Lists.editTable(table, 'Point', dlg.Point.currentIndex(),
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text()in[str(), "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in[str(), "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()))
             self.File.Lists.styleFix(self.Entiteis_Point_Style, bool(dlg.Fix_Point.checkState()), pos)
             self.closePanels()
-    point_feedback = pyqtSignal(float, float, bool)
-    @pyqtSlot(int)
-    def Change_Edit_Point(self, pos):
-        thisTable = self.File.Lists.PointList[pos]
-        self.point_feedback.emit(thisTable['x'], thisTable['y'], thisTable['fix'])
     
     @pyqtSlot(int)
     def Edit_Point_Style(self, index):
@@ -477,33 +486,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Line_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        dlg = edit_link_show(self.Mask, table1, table2)
+        dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+    def addLinkGroup(self):
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        table3 = self.Entiteis_Link
+        self.File.Lists.editTable(table1, 'Point', False, str(self.mouse_pos_x), str(self.mouse_pos_y), False,
+            styleTable=table2, color='Green', ringsize='5', ringcolor='Green')
+        if len(self.File.Lists.PointList)>2:
+            leng = str(((self.File.Lists.PointList[-2]['cx']-self.File.Lists.PointList[-1]['cx'])**2+(self.File.Lists.PointList[-2]['cy']-self.File.Lists.PointList[-1]['cy'])**2)**(1/2))
+            self.File.Lists.editTable(table3, 'Line', False, 'Point{}'.format(len(self.File.Lists.PointList)-2), 'Point{}'.format(len(self.File.Lists.PointList)-1), leng)
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
-        dlg = edit_link_show(self.Mask, table1, table2, pos)
-        dlg.Another_line.connect(self.Change_Edit_Line)
-        self.link_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Line(pos)
+        dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Line', pos, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+            self.File.Lists.editTable(table2, 'Line', dlg.Link.currentIndex(), dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
             self.closePanels()
-    link_feedback = pyqtSignal(int, int, float)
-    @pyqtSlot(int)
-    def Change_Edit_Line(self, pos):
-        thisTable = self.File.Lists.LineList[pos]
-        self.link_feedback.emit(thisTable['start'], thisTable['end'], thisTable['len'])
     
     @pyqtSlot()
     def on_action_New_Stay_Chain_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = edit_chain_show(self.Mask, table1, table2)
+        dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
@@ -511,25 +521,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionEdit_Stay_Chain_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
-        dlg = edit_chain_show(self.Mask, table1, table2, pos)
-        dlg.Another_chain.connect(self.Change_Edit_Chain)
-        self.chain_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Chain(pos)
+        dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Chain', pos, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+            self.File.Lists.editTable(table2, 'Chain', dlg.Chain.currentIndex(), dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
             self.closePanels()
-    chain_feedback = pyqtSignal(int, int, int, float, float, float)
-    @pyqtSlot(int)
-    def Change_Edit_Chain(self, pos):
-        thisTable = self.File.Lists.ChainList[pos]
-        self.chain_feedback.emit(thisTable['p1'], thisTable['p2'], thisTable['p3'], thisTable['p1p2'], thisTable['p2p3'], thisTable['p1p3'])
     
     @pyqtSlot()
     def on_action_Set_Shaft_triggered(self, cen=0, ref=0):
         table1 = self.Entiteis_Point
         table2 = self.Shaft
-        dlg = edit_shaft_show(table1, table2, cen=cen, ref=ref)
+        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, cen=cen, ref=ref)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', False,
             dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState()))
@@ -538,52 +540,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Edit_Shaft_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Shaft
-        dlg = edit_shaft_show(table1, table2, pos)
-        dlg.Another_shaft.connect(self.Change_Edit_Shaft)
-        self.shaft_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Shaft(pos)
+        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Shaft', pos, dlg.center, dlg.ref, dlg.start, dlg.end,
+            self.File.Lists.editTable(table2, 'Shaft', dlg.Shaft.currentIndex(), dlg.center, dlg.ref, dlg.start, dlg.end,
                 table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
             self.closePanels()
-    shaft_feedback = pyqtSignal(int, int, float, float)
-    @pyqtSlot(int)
-    def Change_Edit_Shaft(self, pos):
-        table = self.Shaft
-        center = int(table.item(pos, 1).text().replace("Point", str()))
-        references = int(table.item(pos, 2).text().replace("Point", str()))
-        start = float(table.item(pos, 3).text())
-        end = float(table.item(pos, 4).text())
-        self.shaft_feedback.emit(center, references, start, end)
     
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self):
-        dlg = edit_slider_show(self.Entiteis_Point, self.Slider)
+        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', False, dlg.slider, dlg.start, dlg.end)
     
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos=0):
-        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, pos)
-        dlg.Another_slider.connect(self.Change_Edit_Slider)
-        self.slider_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Slider(pos)
+        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Slider, 'Slider', pos, dlg.slider, dlg.start, dlg.end)
+            self.File.Lists.editTable(self.Slider, 'Slider', dlg.Slider.currentIndex(), dlg.slider, dlg.start, dlg.end)
             self.closePanels()
-    slider_feedback = pyqtSignal(int, int, int)
-    @pyqtSlot(int)
-    def Change_Edit_Slider(self, pos):
-        thisTable = self.File.Lists.SliderList[pos]
-        self.slider_feedback.emit(thisTable['cen'], thisTable['start'], thisTable['end'])
     
     @pyqtSlot()
     def on_action_Set_Rod_triggered(self):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        dlg = edit_rod_show(table1, table2)
+        dlg = edit_rod_show(table1, table2, self.File.Lists.RodList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', False, dlg.cen, dlg.start, dlg.end, dlg.pos)
     
@@ -591,19 +573,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Edit_Rod_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Rod
-        dlg = edit_rod_show(table1, table2, pos)
-        dlg.Another_rod.connect(self.Change_Edit_Rod)
-        self.rod_feedback.connect(dlg.change_feedback)
-        self.Change_Edit_Rod(pos)
+        dlg = edit_rod_show(table1, table2, self.File.Lists.RodList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Rod', pos, dlg.cen, dlg.start, dlg.end, dlg.pos)
+            self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
             self.closePanels()
-    rod_feedback = pyqtSignal(int, int, int, float)
-    @pyqtSlot(int)
-    def Change_Edit_Rod(self, pos):
-        thisTable = self.File.Lists.RodList[pos]
-        self.rod_feedback.emit(thisTable['cen'], thisTable['start'], thisTable['end'], thisTable['pos'])
     
     @pyqtSlot()
     def on_actionDelete_Point_triggered(self, pos = 1): self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
@@ -713,8 +687,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionDisplay_Dimensions_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_actionDisplay_Point_Mark_toggled(self, p0): self.Reload_Canvas()
-    @pyqtSlot(bool)
-    def on_action_Black_Blackground_toggled(self, p0): self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
         self.DynamicCanvasView.points['Path']['show'] = self.Path_data_show.checkState()
@@ -820,21 +792,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         if "Drive Shaft" in tabNameList: self.closePanel(tabNameList.index("Drive Shaft"))
         else:
-            panel = Drive_shaft_show(self.File.Lists.ShaftList)
+            panel = Drive_shaft_show(self.File.Lists.ShaftList, self.DynamicCanvasView.points['currentShaft'])
             panel.Degree.sliderReleased.connect(self.Save_demo_angle)
             panel.Degree.valueChanged.connect(self.Change_demo_angle)
+            panel.Shaft.currentIndexChanged.connect(self.changeCurrentShaft)
             self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/same-orientation.png")), "Drive Shaft")
             self.PointTab.setCurrentIndex(self.PointTab.count()-1)
     @pyqtSlot()
     def Save_demo_angle(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        panel = self.PointTab.widget(tabNameList.index("Drive Shaft"))
         self.File.Lists.saveDemo(self.Shaft, 'Shaft',
-            self.PointTab.widget(tabNameList.index("Drive Shaft")).Degree.value()/100, 0, 5)
+            panel.Degree.value()/100, row=panel.Shaft.currentIndex(), column=5)
     @pyqtSlot(int)
     def Change_demo_angle(self, angle):
-        self.File.Lists.setDemo('Shaft', 0, angle/100)
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        panel = self.PointTab.widget(tabNameList.index("Drive Shaft"))
+        self.File.Lists.setDemo('Shaft', row=panel.Shaft.currentIndex(), pos=angle/100)
         self.Resolve()
         self.workbookNoSave()
+    @pyqtSlot(int)
+    def changeCurrentShaft(self, pos): self.DynamicCanvasView.changeCurrentShaft(pos)
     
     @pyqtSlot()
     def on_Drive_rod_clicked(self):
@@ -851,11 +829,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         panel = self.PointTab.widget(tabNameList.index("Drive Rod"))
         self.File.Lists.saveDemo(self.Rod, 'Rod',
-            panel.Position.value()/100, panel.Rod.currentIndex(), 4)
+            panel.Position.value()/100, row=panel.Rod.currentIndex(), column=4)
     @pyqtSlot(int)
     def Change_position(self, pos):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        self.File.Lists.setDemo('Rod', self.PointTab.widget(tabNameList.index("Drive Rod")).Rod.currentIndex(), pos/100)
+        panel = self.PointTab.widget(tabNameList.index("Drive Rod"))
+        self.File.Lists.setDemo('Rod', row=panel.Rod.currentIndex(), pos=pos/100)
         self.Resolve()
         self.workbookNoSave()
     
@@ -937,7 +916,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             '[1-{}]'.format(Count[0]) if int(Count)>9 else '[0-{}]'.format(Count),
             ''.join(['[0-{}]'.format(e) for e in Count[1:]]),
             '|[0-9]{{1,{}}}'.format(len(Count)-1) if len(Count)>1 else str())
-        mask = '({}^[-]?(([1-9][0-9]{{0,7}})|[0])?[.][0-9]{{1,8}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
+        mask = '({}^[-]?(([1-9][0-9]{{0,14}})|[0])?[.][0-9]{{1,15}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
         self.Mask = QRegExpValidator(QRegExp(mask))
         self.X_coordinate.setValidator(self.Mask)
         self.Y_coordinate.setValidator(self.Mask)

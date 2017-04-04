@@ -3,11 +3,11 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 def colorlist():
     return {
-        "Red":Qt.red,
-        "Green":Qt.green,
-        "Blue":Qt.blue,
+        "Red":QColor(172, 68, 68),
+        "Green":QColor(110, 190, 30),
+        "Blue":QColor(68, 120, 172),
         "Cyan":Qt.cyan,
-        "Magenta":Qt.magenta,
+        "Magenta":QColor(255, 130, 130),
         "Yellow":Qt.yellow,
         "Gray":Qt.gray,
         "Orange":QColor(225, 165, 0),
