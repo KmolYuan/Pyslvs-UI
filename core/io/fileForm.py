@@ -9,12 +9,12 @@ from ..info.info import html, title, content, orderList
 
 class Form():
     def __init__(self):
-        self.__dict__({
-            'fileName':QFileInfo('[New Workbook]'),
-            'description':str(),
-            'author':'Anonymous',
-            'lastTime':"{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute),
-            'changed':False})
+        self.fileName = QFileInfo('[New Workbook]')
+        self.description = str()
+        self.author = 'Anonymous'
+        self.lastTime = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
+        self.changed = False
+        self.Stack = 0
 
 class File():
     def __init__(self, FileState, args):
@@ -26,32 +26,27 @@ class File():
         self.Lists = Lists(self.FileState)
         self.Designs = Designs(self.FileState)
         self.Script = str()
-        self.Stack = 0
-        self.form = {
-            'fileName':QFileInfo('[New Workbook]'),
-            'description':str(),
-            'author':'Anonymous',
-            'lastTime':"{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute),
-            'changed':False}
-    def updateTime(self): self.form['lastTime'] = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
+        self.form = Form()
+    def updateTime(self): self.form.lastTime = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
     def updateAuthorDescription(self, author, description):
-        self.form['author'] = author
-        self.form['description'] = description
+        self.form.author = author
+        self.form.description = description
     
     #Check, Read, Write, Reset
-    def check(self, fileName, data):
+    def readData(self, fileName, data):
         if data==list():
             print("Get: "+fileName)
             with open(fileName, newline=str()) as stream:
                 reader = csv.reader(stream, delimiter=' ', quotechar='|')
                 for row in reader: data += ' '.join(row).split('\t,')
+        return data
+    def check(self, data):
         n1 = len([e for e, x in enumerate(data) if x=='_info_'])==4
         n2 = len([e for e, x in enumerate(data) if x=='_table_'])==9
         n3 = len([e for e, x in enumerate(data) if x=='_design_'])==2
         n4 = len([e for e, x in enumerate(data) if x=='_path_'])==3
         return n1 and n2 and n3 and n4
     def read(self, fileName, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        if not self.check(fileName, data): return False
         if self.args.file_data: print(data)
         errorInfo = list()
         #info
@@ -70,15 +65,14 @@ class File():
         except:
             lastTime = '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute)
             errorInfo.append('Date Information')
-        self.Stack = self.FileState.index()
-        self.form['fileName'] = QFileInfo(fileName)
-        self.form['author'] = author
-        self.form['description'] = description
-        self.form['lastTime'] = lastTime
+        self.form.Stack = self.FileState.index()
+        self.form.fileName = QFileInfo(fileName)
+        self.form.author = author
+        self.form.description = description
+        self.form.lastTime = lastTime
         if errorInfo: print("The following information(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded informations of the file.")
         self.readMerge(data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter)
-        return True
     
     def readMerge(self, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         errorInfo = list()
@@ -158,13 +152,13 @@ class File():
         else: print("Successful loaded contents of the file.")
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
-        self.Stack = self.FileState.index()
+        self.form.Stack = self.FileState.index()
         #info
         self.form['fileName'] = QFileInfo(fileName)
         writer.writerows([
-            ['_info_'], [self.form['author'] if self.form['author']!=str() else 'Anonymous'],
-            ['_info_'], [self.form['description']],
-            ['_info_'], ["%d/%d/%d %d:%d"%(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
+            ['_info_'], [self.form.author if self.form.author!=str() else 'Anonymous'],
+            ['_info_'], [self.form.description],
+            ['_info_'], ["{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
         #table
         self.CSV_write(writer, Point, 4, init=1)
         self.CSV_write(writer, Point_Style, 4, init=1)

@@ -5,7 +5,7 @@ from copy import copy
 
 def writeTable(table, rowPosition, name, Args):
     name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
-    name_set.setFlags(Qt.ItemIsEnabled)
+    name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
     table.setItem(rowPosition, 0, name_set)
     for i in range(len(Args)):
         if type(Args[i])==str:
@@ -20,7 +20,7 @@ def writeTable(table, rowPosition, name, Args):
 
 def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox1, color_combobox2):
     name_set = QTableWidgetItem('Point{}'.format(rowPosition))
-    name_set.setFlags(Qt.ItemIsEnabled)
+    name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
     table.setItem(rowPosition, 0, name_set)
     re_Color = colorName()
     for i in range(len(re_Color)):

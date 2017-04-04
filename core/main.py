@@ -156,12 +156,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Close Event
     def closeEvent(self, event):
-        if self.File.form['changed']:
+        if self.File.form.changed:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
                 self.on_actionSave_triggered()
-                if self.File.form['changed']: event.ignore()
+                if self.File.form.changed: event.ignore()
                 else: self.Exit(event)
             elif reply==QMessageBox.Discard: self.Exit(event)
             else: event.ignore()
@@ -178,8 +178,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionUndo.setText("Undo {}".format(self.FileState.undoText()))
         self.actionRedo.setText("Redo {}".format(self.FileState.redoText()))
         if self.FileState.undoText(): print(self.FileState.undoText())
-        if index!=self.File.Stack: self.workbookNoSave()
+        if index!=self.File.form.Stack: self.workbookNoSave()
         else: self.workbookSaved()
+        for i in range(1, self.Entiteis_Point_Style.rowCount()):
+            self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Edit_Point_Style)
+            self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Edit_Point_Style)
         self.Resolve()
     
     #Resolve
@@ -211,11 +214,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Workbook Change
     def workbookNoSave(self):
-        self.File.form['changed'] = True
+        self.File.form.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', str())+'*')
         actionEnabled(self)
     def workbookSaved(self):
-        self.File.form['changed'] = False
+        self.File.form.changed = False
         self.setWindowTitle(self.windowTitle().replace('*', str()))
         actionEnabled(self)
     
@@ -278,12 +281,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_actionRock_Slider_Design_triggered(self): self.checkChange("[Example] Rock slider design", example_RockSliderDesign())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
-        if self.File.form['changed']:
+        if self.File.form.changed:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit this file?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
                 self.on_actionSave_triggered()
-                if not self.File.form['changed']: self.loadWorkbook(say, name, data)
+                if not self.File.form.changed: self.loadWorkbook(say, name, data)
             elif reply==QMessageBox.Discard: self.loadWorkbook(say, name, data)
         else: self.loadWorkbook(say, name, data)
     def loadWorkbook(self, say, fileName=False, data=list()):
@@ -302,14 +305,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
             if fileName: self.setLocate(QFileInfo(fileName).absolutePath())
-        if QFileInfo(fileName).suffix()=='csv' or QFileInfo(fileName).suffix()=='txt' or ("[Example]" in fileName) or ("[New Workbook]" in fileName):
-            if self.File.read(fileName, data,
+        if QFileInfo(fileName).suffix()=='csv' or QFileInfo(fileName).suffix()=='txt' or ('[Example]' in fileName) or ('[New Workbook]' in fileName):
+            data = self.File.readData(fileName, data)
+            if self.File.check(data):
+                self.File.read(fileName, data,
                     self.Entiteis_Point, self.Entiteis_Point_Style,
                     self.Entiteis_Link, self.Entiteis_Stay_Chain,
-                    self.Shaft, self.Slider, self.Rod, self.Parameter_list):
-                for i in range(1, self.Entiteis_Point_Style.rowCount()):
-                    self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Edit_Point_Style)
-                    self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Edit_Point_Style)
+                    self.Shaft, self.Slider, self.Rod, self.Parameter_list)
                 self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
                 if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
                 else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
@@ -319,23 +321,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 actionEnabled(self)
                 self.workbookSaved()
                 print("Loaded the workbook.")
-                if not("[New Workbook]" in fileName):
+                if not('[New Workbook]' in fileName):
                     dlg = fileInfo_show()
-                    dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+                    dlg.rename(self.File.form.fileName.fileName(), self.File.form.author, self.File.form.description, self.File.form.lastTime)
                     dlg.show()
                     if dlg.exec_(): pass
                 else: self.on_action_Property_triggered()
             else:
-                reply = QMessageBox.question(self, 'Loading failed',
+                reply = QMessageBox.question(self, "Loading failed",
+                    "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
+                if reply: print("Error: Incorrect format.")
+    
+    @pyqtSlot()
+    def on_actionImportFromWorkbook_triggered(self): self.importWorkbook(say='Import from file...')
+    @pyqtSlot()
+    def on_actionImportFromLinkagesTemplate_triggered(self): self.importWorkbook(say='Import from file...')
+    def importWorkbook(self, say, fileName=False, data=list()):
+        print(say)
+        if fileName==False:
+            fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
+            if fileName: self.setLocate(QFileInfo(fileName).absolutePath())
+        if QFileInfo(fileName).suffix()=='csv' or QFileInfo(fileName).suffix()=='txt' or ('[Template]' in fileName):
+            data = self.File.readData(fileName, data)
+            if self.File.check(data):
+                self.File.readMerge(data,
+                    self.Entiteis_Point, self.Entiteis_Point_Style,
+                    self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                    self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+            else:
+                reply = QMessageBox.question(self, "Loading failed",
                     "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
                 if reply: print("Error: Incorrect format.")
     
     @pyqtSlot()
     def on_actionSave_triggered(self):
-        n = self.File.form['fileName'].absoluteFilePath()
+        n = self.File.form.fileName.absoluteFilePath()
         if ('[New Workbook]' in n or '[Example]' in n)and(QFileInfo(n).suffix()!='csv' and QFileInfo(n).suffix()!='txt'):
             fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
-        else: fileName = self.File.form['fileName'].absoluteFilePath()
+        else: fileName = self.File.form.fileName.absoluteFilePath()
         if fileName: self.save(fileName)
     @pyqtSlot()
     def on_actionSave_as_triggered(self):
@@ -355,7 +378,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
-        dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
+        dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.form.fileName.baseName(),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_(): self.replyBox('Solvespace Models', dlg.folderPath.absolutePath())
@@ -376,7 +399,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.replyBox('Python Script', fileName)
     @pyqtSlot()
     def on_actionDXF_2D_models_triggered(self):
-        dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form['fileName'].baseName(),
+        dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form.fileName.baseName(),
             self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_(): self.replyBox('DXF 2D Models', dlg.filePath)
@@ -397,7 +420,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.replyBox('Picture', fileName)
     def outputTo(self, formatName, formatChoose):
         fileName, form = QFileDialog.getSaveFileName(
-            self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form['fileName'].baseName(), formatChoose)
+            self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form.fileName.baseName(), formatChoose)
         if fileName:
             self.setLocate(QFileInfo(fileName).absolutePath())
             suffix = form.split('*')[-1][:-1]
@@ -412,7 +435,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Property_triggered(self):
         dlg = editFileInfo_show()
         self.File.updateTime()
-        dlg.rename(self.File.form['fileName'].fileName(), self.File.form['author'], self.File.form['description'], self.File.form['lastTime'])
+        dlg.rename(self.File.form.fileName.fileName(), self.File.form.author, self.File.form.description, self.File.form.lastTime)
         dlg.show()
         if dlg.exec_():
             self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
