@@ -16,6 +16,7 @@ class Lists():
         self.SliderList = list()
         self.RodList = list()
         self.ParameterList = defaultdict(lambda: 0., dict())
+        #Path
         self.data = list()
         self.runList = list()
         self.shaftList = list()

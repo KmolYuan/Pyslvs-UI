@@ -76,6 +76,8 @@ class File():
     
     def readMerge(self, data, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         errorInfo = list()
+        b = Point.rowCount()-1 #point base number
+        bs = Shaft.rowCount() #shaft base number
         #table
         tableIndex = [e for e, x in enumerate(data) if '_table_' in x]
         try:
@@ -94,27 +96,27 @@ class File():
         try:
             li = data[tableIndex[2]:tableIndex[3]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3])
         except: errorInfo.append('Link')
         try:
             li = data[tableIndex[3]:tableIndex[4]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6])
+                for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4], li[i+5], li[i+6])
         except: errorInfo.append('Chain')
         try:
             li = data[tableIndex[4]:tableIndex[5]]
             if (len(li)-1)%7==0:
-                for i in range(1, len(li), 7): self.Lists.editTable(Shaft, 'Shaft', False, li[i+1], li[i+2], li[i+3], li[i+4], li[i+5], li[i+6]=='True')
+                for i in range(1, len(li), 7): self.Lists.editTable(Shaft, 'Shaft', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3], li[i+4], li[i+5], li[i+6]=='True')
         except: errorInfo.append('Shaft')
         try:
             li = data[tableIndex[5]:tableIndex[6]]
             if (len(li)-1)%4==0:
-                for i in range(1, len(li), 4): self.Lists.editTable(Slider, 'Slider', False, li[i+1], li[i+2], li[i+3])
+                for i in range(1, len(li), 4): self.Lists.editTable(Slider, 'Slider', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b))
         except: errorInfo.append('Slider')
         try:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%5==0:
-                for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, li[i+1], li[i+2], li[i+3], li[i+4])
+                for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4])
         except: errorInfo.append('Rod')
         #design
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
@@ -132,9 +134,9 @@ class File():
         try:
             pathIndex = [e for e, x in enumerate(data) if '_path_' in x]
             li = data[pathIndex[0]+1:pathIndex[1]]
-            runList = li
+            runList = [self.pNumAdd(e, b) for e in li]
             li = data[pathIndex[1]+1:pathIndex[2]]
-            shaftList = [int(e) for e in li]
+            shaftList = [int(e)+bs for e in li]
             li = data[pathIndex[2]+1::]
             path = list()
             path_e = list()
@@ -150,11 +152,13 @@ class File():
         except: errorInfo.append('Path')
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents of the file.")
+    def pNumAdd(self, pointRef, base):
+        return 'Point{}'.format(int(pointRef.replace('Point', ''))+base)
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form.Stack = self.FileState.index()
         #info
-        self.form['fileName'] = QFileInfo(fileName)
+        self.form.fileName = QFileInfo(fileName)
         writer.writerows([
             ['_info_'], [self.form.author if self.form.author!=str() else 'Anonymous'],
             ['_info_'], [self.form.description],
