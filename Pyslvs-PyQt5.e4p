@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-03-31, 16:37:58 -->
+<!-- Saved: 2017-04-05, 16:55:55 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -28,11 +28,13 @@
     <Source>core/dialog/Ui_batchMoving.py</Source>
     <Source>core/dialog/Ui_delete.py</Source>
     <Source>core/dialog/Ui_replacePoint.py</Source>
+    <Source>core/dialog/Ui_template.py</Source>
     <Source>core/dialog/__init__.py</Source>
     <Source>core/dialog/association.py</Source>
     <Source>core/dialog/batchMoving.py</Source>
     <Source>core/dialog/delete.py</Source>
     <Source>core/dialog/replacePoint.py</Source>
+    <Source>core/dialog/template.py</Source>
     <Source>core/draw/Ui_edit_chain.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
@@ -120,6 +122,7 @@
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
     <Form>core/dialog/replacePoint.ui</Form>
+    <Form>core/dialog/template.ui</Form>
     <Form>core/draw/edit_chain.ui</Form>
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
