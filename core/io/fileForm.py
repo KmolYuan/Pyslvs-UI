@@ -339,8 +339,8 @@ class File():
                         errorTable.append(errorInfo)
         toolTipText = html(title("Conflict Guide")+content(
             "Some table might contain errors:")+orderList(
-            *([['Link', 'Chain', 'Shaft', 'Slider', 'Rod'][p[0]]+' {}, {}'.format(p[1][0], p[1][1]) for p in errorTable] if len(errorTable)!=0 else ['None']))+content(
-            "If there is no any conflict, please check dimension,",
+            *([(', '.join(list([['Line', 'Chain', 'Shaft', 'Slider', 'Rod'][p[0]]+'{}']*2))).format(p[1][0], p[1][1]) for p in errorTable] if len(errorTable)!=0 else ['None']))+content(
+            "If there is no any table conflict, please check dimensions.",
             "Or use Undo function to return to the previous action."))
         ConflictGuide.setToolTip(toolTipText)
         QToolTip.showText(ConflictGuide.mapToGlobal(QPoint(0, 0)), toolTipText)

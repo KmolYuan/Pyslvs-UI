@@ -1645,7 +1645,7 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>427</width>
+                         <width>292</width>
                          <height>441</height>
                         </rect>
                        </property>
@@ -2231,7 +2231,7 @@ p, li { white-space: pre-wrap; }
       <string>Some example of the Linkage mechanism.</string>
      </property>
      <property name="title">
-      <string>&amp;Example</string>
+      <string>Example</string>
      </property>
      <addaction name="GrashofChainMenuTitle"/>
      <addaction name="actionCrank_rocker"/>

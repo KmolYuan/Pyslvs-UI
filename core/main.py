@@ -331,7 +331,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 reply = QMessageBox.question(self, "Loading failed",
                     "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
                 if reply: print("Error: Incorrect format.")
-    
+    #TODO: Import
     @pyqtSlot()
     def on_actionImportFromWorkbook_triggered(self): self.importWorkbook(say='Import from file...')
     @pyqtSlot()
