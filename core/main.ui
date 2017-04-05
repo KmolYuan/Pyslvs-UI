@@ -2276,7 +2276,7 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>&amp;Import from...</string>
      </property>
-     <addaction name="actionImportFromLinkagesTemplate"/>
+     <addaction name="actionImportFromTemplate"/>
      <addaction name="separator"/>
      <addaction name="actionImportFromWorkbook"/>
     </widget>
@@ -3180,9 +3180,9 @@ p, li { white-space: pre-wrap; }
     <string>Import from workbook.</string>
    </property>
   </action>
-  <action name="actionImportFromLinkagesTemplate">
+  <action name="actionImportFromTemplate">
    <property name="text">
-    <string>Linkages Template</string>
+    <string>Template</string>
    </property>
    <property name="statusTip">
     <string>Import from Linkages Template.</string>

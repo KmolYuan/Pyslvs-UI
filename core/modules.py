@@ -20,6 +20,7 @@ from .dialog.delete import deleteDlg
 from .dialog.replacePoint import replacePoint_show
 from .dialog.batchMoving import batchMoving_show
 from .dialog.association import Association_show
+from .dialog.template import template_show
 #Panel
 from .panel.run_Path_Solving import Path_Solving_show
 from .panel.run_Triangle_Solver import Triangle_Solver_show

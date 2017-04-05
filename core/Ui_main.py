@@ -1217,8 +1217,8 @@ class Ui_MainWindow(object):
         self.actionImportFromWorkbook = QtWidgets.QAction(MainWindow)
         self.actionImportFromWorkbook.setIcon(icon20)
         self.actionImportFromWorkbook.setObjectName("actionImportFromWorkbook")
-        self.actionImportFromLinkagesTemplate = QtWidgets.QAction(MainWindow)
-        self.actionImportFromLinkagesTemplate.setObjectName("actionImportFromLinkagesTemplate")
+        self.actionImportFromTemplate = QtWidgets.QAction(MainWindow)
+        self.actionImportFromTemplate.setObjectName("actionImportFromTemplate")
         self.menuExample.addAction(self.GrashofChainMenuTitle)
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionDrag_link)
@@ -1249,7 +1249,7 @@ class Ui_MainWindow(object):
         self.menuExport.addAction(self.OtherFormatMenuTitle)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
-        self.menuImport.addAction(self.actionImportFromLinkagesTemplate)
+        self.menuImport.addAction(self.actionImportFromTemplate)
         self.menuImport.addSeparator()
         self.menuImport.addAction(self.actionImportFromWorkbook)
         self.menuFile.addAction(self.action_New_Workbook)
@@ -1682,8 +1682,8 @@ class Ui_MainWindow(object):
         self.actionRock_Slider_Design.setText(_translate("MainWindow", "Rock Slider Design"))
         self.actionImportFromWorkbook.setText(_translate("MainWindow", "From Workbook"))
         self.actionImportFromWorkbook.setStatusTip(_translate("MainWindow", "Import from workbook."))
-        self.actionImportFromLinkagesTemplate.setText(_translate("MainWindow", "Linkages Template"))
-        self.actionImportFromLinkagesTemplate.setStatusTip(_translate("MainWindow", "Import from Linkages Template."))
+        self.actionImportFromTemplate.setText(_translate("MainWindow", "Template"))
+        self.actionImportFromTemplate.setStatusTip(_translate("MainWindow", "Import from Linkages Template."))
 
 import icons_rc
 import preview_rc
