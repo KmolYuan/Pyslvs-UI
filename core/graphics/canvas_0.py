@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from .color import colorlist, colorName
+from ..calculation.color import colorlist, colorName
 _translate = QCoreApplication.translate
 
 class DynamicCanvas(QWidget):
@@ -8,7 +8,7 @@ class DynamicCanvas(QWidget):
     mouse_getClick = pyqtSignal()
     change_event = pyqtSignal()
     def __init__(self, parent=None):
-        QWidget.__init__(self, parent)
+        super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip(_translate("MainWindow", "Use mouse wheel or middle button to look around."))
         self.points = {

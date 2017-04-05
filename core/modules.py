@@ -32,7 +32,7 @@ from .panel.run_AuxLine import AuxLine_show
 #Solve
 from .calculation.calculation import slvsProcess, slvsProcessScript
 #Canvas
-from .calculation.canvas_0 import DynamicCanvas
+from .graphics.canvas_0 import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io.example import *
