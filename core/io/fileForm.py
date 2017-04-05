@@ -153,7 +153,8 @@ class File():
         if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
         else: print("Successful loaded contents of the file.")
     def pNumAdd(self, pointRef, base):
-        return 'Point{}'.format(int(pointRef.replace('Point', ''))+base)
+        if pointRef=='Point0': return 'Point0'
+        else: return 'Point{}'.format(int(pointRef.replace('Point', ''))+base)
     
     def write(self, fileName, writer, Point, Point_Style, Link, Chain, Shaft, Slider, Rod, Parameter):
         self.form.Stack = self.FileState.index()
