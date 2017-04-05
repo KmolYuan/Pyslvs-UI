@@ -32,7 +32,9 @@ class templatePreview(QGraphicsScene):
     @pyqtSlot(float)
     def setBy(self, y): self.B.setPos(QPointF(self.B.x(), -y))
     
-    def setTemplate(self, p0): pass
+    def setTemplate(self, option):
+        if option==0: #4-bar
+            pass
 
 class template_show(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
