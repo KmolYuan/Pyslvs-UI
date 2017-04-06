@@ -2,6 +2,7 @@
 from ..QtModules import *
 from collections import defaultdict
 from ..dialog.delete import deleteDlg
+from math import sqrt, acos, degrees
 from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
     setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand, TSinitCommand)
@@ -22,6 +23,9 @@ class Lists():
         self.shaftList = list()
         #FileState
         self.FileState = FileState
+        #Cosine Theorem
+        self.CosineTheoremAngle = lambda a, b, c: acos(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01))
+        self.CosineTheoremAngleE = lambda a, b, c: acos(min(1, max(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01), -1)))
     
     def editTable(self, table, name, edit, *Args, **Style):
         isEdit = not edit is False
@@ -229,6 +233,18 @@ class Lists():
         self.FileState.beginMacro("Change {{Shaft{}}} to {{Shaft{}}}".format(prv, next))
         self.FileState.push(shaftChangeCommand(self.shaftList, table, prv, next))
         self.FileState.endMacro()
+    
+    def m(self, p1, p2):
+        x1 = self.PointList[int(p1.replace('Point', ''))]['cx']
+        y1 = self.PointList[int(p1.replace('Point', ''))]['cy']
+        x2 = self.PointList[int(p2.replace('Point', ''))]['cx']
+        y2 = self.PointList[int(p2.replace('Point', ''))]['cy']
+        x = x2-x1
+        y = y2-y1
+        d = sqrt(x**2+y**2)
+        try: angle = self.CosineTheoremAngle(y, x, d)
+        except ValueError: angle = self.CosineTheoremAngleE(y, x, d)
+        return '{:.02f}'.format(360-degrees(angle) if y<0 else degrees(angle))
 
 class Designs():
     def __init__(self, FileState):

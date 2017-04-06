@@ -3,6 +3,7 @@
 from .info.info import Pyslvs_Splash
 #CSV
 import sys, csv, webbrowser, platform
+from math import acos
 #Dialog Ports
 from .info.info import version_show
 from .info.path_point_data import path_point_data_show

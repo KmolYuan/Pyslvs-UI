@@ -555,8 +555,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Shaft
         dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, cen=cen, ref=ref)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', False,
-            dlg.center, dlg.ref, dlg.start, dlg.end, dlg.start, bool(dlg.isParallelogram.checkState()))
+        if dlg.exec_():
+            self.File.Lists.editTable(table2, 'Shaft', False,
+            dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref), bool(dlg.isParallelogram.checkState()))
     
     @pyqtSlot()
     def on_action_Edit_Shaft_triggered(self, pos=0):

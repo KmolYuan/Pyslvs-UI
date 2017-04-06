@@ -106,9 +106,9 @@ class solver():
         x = x2-x1
         y = y2-y1
         d = sqrt(x**2+y**2)
-        try: angle = self.CosineTheoremAngle(y, x, d)*(-1 if y<0 else 1)
-        except ValueError: angle = self.CosineTheoremAngleE(y, x, d)*(-1 if y<0 else 1)
-        return angle
+        try: angle = self.CosineTheoremAngle(y, x, d)
+        except ValueError: angle = self.CosineTheoremAngleE(y, x, d)
+        return angle*(-1 if y<0 else 1)
 
 if __name__=='__main__':
     #Test

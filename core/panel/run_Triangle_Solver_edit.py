@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .Ui_run_Triangle_Solver_edit import Ui_Dialog
+from math import acos, degrees
 
 class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
@@ -86,6 +87,10 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 elif pos==1: pic = ":/icons/preview/TSMergeSlider.png"
             self.mergeImage.setPixmap(QPixmap(pic).scaledToWidth(560))
     
+    def threePointsAngle(self, p1, p2, p3):
+        self.Point[p1]['cx']
+        self.Point[p1]['cy']
+    
     def turn2Dict(self):
         self.condition = {
             'Type':self.type.currentText(),
@@ -101,7 +106,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
             'result':self.R1.currentIndex()+1 if self.R1Exist.isChecked() else False,
         }
         if self.type.currentIndex()==0:
-            PLAP = {'angle':self.angle.value()}
+            PLAP = {'angle':self.angle.value() if self.angleCustomize.isChecked() else degrees(acos())}
             self.condition.update(PLAP)
         elif self.type.currentIndex()==1:
             PLLP = {'len2':self.len2.value()}
