@@ -8,8 +8,8 @@ def writeTable(table, rowPosition, name, Args):
     name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
     table.setItem(rowPosition, 0, name_set)
     for i in range(len(Args)):
-        if type(Args[i])==str:
-            content = Args[i]
+        if type(Args[i]) in [str, float, int]:
+            content = 'Point{}'.format(Args[i]) if type(Args[i])==int else Args[i]
             try: table.setItem(rowPosition, i+1, QTableWidgetItem(str(float(content))))
             except: table.setItem(rowPosition, i+1, QTableWidgetItem(content))
         elif type(Args[i])==bool:

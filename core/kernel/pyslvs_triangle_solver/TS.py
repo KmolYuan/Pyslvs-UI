@@ -48,7 +48,9 @@ class solver():
         try:
             x1 = p1[0] #p1 start point
             y1 = p1[1]
-            len1 = float(line1)
+            x2 = p2[0] #p2 start point2
+            y2 = p2[1]
+            len1 = float(line1) if type(line1)!=bool else sqrt((x1-x2)**2+(y1-y2)**2)
             angle2 = radians(float(angle))
             angle1 = self.m(p1, p2)
             if other:

@@ -6,7 +6,6 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
-        self.Point = Point
         for i in range(len(Point)):
             for e in [self.p1, self.p2, self.p3]: e.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
         if len(Point)>1:
@@ -93,16 +92,16 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.p1.currentText() if self.p1Exist.isChecked() else self.r1.currentIndex(),
             'p2':(self.x2.value(), self.y2.value()) if self.p2Customize.isChecked() else
                 self.p2.currentText() if self.p2Exist.isChecked() else self.r2.currentIndex(),
-            'len1':self.len1.value() if self.len1Customize.isChecked() else False,
+            'len1':self.len1.value() if self.R1Exist.isChecked() else False,
             'other':bool(self.other.checkState()),
             'merge':self.merge.currentIndex(),
             'result':self.R1.currentIndex()+1 if self.R1Exist.isChecked() else False,
         }
         if self.type.currentIndex()==0:
-            PLAP = {'angle':self.angle.value() if self.angleCustomize.isChecked() else False}
+            PLAP = {'angle':self.angle.value() if self.R1Exist.isChecked() else False}
             self.condition.update(PLAP)
         elif self.type.currentIndex()==1:
-            PLLP = {'len2':self.len2.value() if self.len2Customize.isChecked() else False}
+            PLLP = {'len2':self.len2.value() if self.R1Exist.isChecked() else False}
             self.condition.update(PLLP)
         elif self.type.currentIndex()==2:
             PLPP = {'p3':(self.x3.value(), self.y3.value()) if self.p3Customize.isChecked() else

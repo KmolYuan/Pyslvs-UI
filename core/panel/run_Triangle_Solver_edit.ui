@@ -496,8 +496,11 @@
         </property>
         <item>
          <widget class="QRadioButton" name="R1Exist">
+          <property name="toolTip">
+           <string>This option will let  the exist point become to the result point.</string>
+          </property>
           <property name="text">
-           <string>From Exist Point</string>
+           <string>Is Exist Point (?)</string>
           </property>
          </widget>
         </item>
@@ -699,26 +702,6 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
-              <widget class="QRadioButton" name="len1Exist">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>From Exist Points</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="len1Customize">
-               <property name="text">
-                <string>Customize</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QDoubleSpinBox" name="len1">
                <property name="minimum">
                 <double>0.010000000000000</double>
@@ -741,26 +724,6 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
-              <widget class="QRadioButton" name="len2Exist">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>From Exist Point</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="len2Customize">
-               <property name="text">
-                <string>Customize</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QDoubleSpinBox" name="len2">
                <property name="minimum">
                 <double>0.010000000000000</double>
@@ -779,26 +742,6 @@
              <string>β</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
-             <item>
-              <widget class="QRadioButton" name="angleExist">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>From Exist Points</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="angleCustomize">
-               <property name="text">
-                <string>Customize</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
              <item>
               <widget class="QLabel" name="angleWise">
                <property name="text">
@@ -1044,6 +987,22 @@
     <hint type="destinationlabel">
      <x>843</x>
      <y>82</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Customize</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>valuePanel</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>765</x>
+     <y>476</y>
     </hint>
    </hints>
   </connection>
