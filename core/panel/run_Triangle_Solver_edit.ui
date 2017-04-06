@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>936</width>
-    <height>653</height>
+    <height>666</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>936</width>
-    <height>653</height>
+    <height>666</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>936</width>
-    <height>653</height>
+    <height>666</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -675,7 +675,10 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>
-        <widget class="QWidget" name="valuePanel" native="true">
+        <widget class="QGroupBox" name="valuePanel">
+         <property name="title">
+          <string>Parameter</string>
+         </property>
          <layout class="QGridLayout" name="gridLayout">
           <property name="leftMargin">
            <number>6</number>
@@ -834,7 +837,7 @@
           </sizepolicy>
          </property>
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
          <property name="standardButtons">
           <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
@@ -1029,70 +1032,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>len1Customize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>len1</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>687</x>
-     <y>352</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>384</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>len2Customize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>len2</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>352</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>843</x>
-     <y>384</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>angleCustomize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>angle</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>687</x>
-     <y>490</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>546</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>angleCustomize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>angleWise</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>687</x>
-     <y>490</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>517</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>R1Exist</sender>
    <signal>toggled(bool)</signal>
    <receiver>R1</receiver>
@@ -1105,102 +1044,6 @@
     <hint type="destinationlabel">
      <x>843</x>
      <y>82</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Exist</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>len1Exist</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>322</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Exist</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>angleExist</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>460</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Exist</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>len2Exist</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>843</x>
-     <y>322</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Customize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>len1Customize</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>113</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>352</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Customize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>angleCustomize</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>113</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>687</x>
-     <y>490</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Customize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>len2Customize</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>113</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>843</x>
-     <y>352</y>
     </hint>
    </hints>
   </connection>

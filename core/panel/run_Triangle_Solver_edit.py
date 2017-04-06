@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .Ui_run_Triangle_Solver_edit import Ui_Dialog
-from math import acos, degrees
 
 class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
@@ -87,10 +86,6 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 elif pos==1: pic = ":/icons/preview/TSMergeSlider.png"
             self.mergeImage.setPixmap(QPixmap(pic).scaledToWidth(560))
     
-    def threePointsAngle(self, p1, p2, p3):
-        self.Point[p1]['cx']
-        self.Point[p1]['cy']
-    
     def turn2Dict(self):
         self.condition = {
             'Type':self.type.currentText(),
@@ -98,18 +93,16 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.p1.currentText() if self.p1Exist.isChecked() else self.r1.currentIndex(),
             'p2':(self.x2.value(), self.y2.value()) if self.p2Customize.isChecked() else
                 self.p2.currentText() if self.p2Exist.isChecked() else self.r2.currentIndex(),
-            'len1':self.len1.value() if self.len1Customize.isChecked() else
-                ((self.Point[self.p1.currentIndex()]['x']-self.Point[self.R1.currentIndex()]['x'])**2+
-                (self.Point[self.p1.currentIndex()]['x']-self.Point[self.R1.currentIndex()]['x'])**2)**(1/2),
+            'len1':self.len1.value() if self.len1Customize.isChecked() else False,
             'other':bool(self.other.checkState()),
             'merge':self.merge.currentIndex(),
             'result':self.R1.currentIndex()+1 if self.R1Exist.isChecked() else False,
         }
         if self.type.currentIndex()==0:
-            PLAP = {'angle':self.angle.value()} #if self.angleCustomize.isChecked() else degrees(acos())
+            PLAP = {'angle':self.angle.value() if self.angleCustomize.isChecked() else False}
             self.condition.update(PLAP)
         elif self.type.currentIndex()==1:
-            PLLP = {'len2':self.len2.value()}
+            PLLP = {'len2':self.len2.value() if self.len2Customize.isChecked() else False}
             self.condition.update(PLLP)
         elif self.type.currentIndex()==2:
             PLPP = {'p3':(self.x3.value(), self.y3.value()) if self.p3Customize.isChecked() else
