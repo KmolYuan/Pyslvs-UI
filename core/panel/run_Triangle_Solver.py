@@ -85,13 +85,16 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
                 (self.Point[int(v.replace('Point', ''))]['x'], self.Point[int(v.replace('Point', ''))]['y']))
                 for k, v in e.items()} for e in directions]
             s = solver(directions)
-            self.answers = s.answer()
-            for e in self.answers:
+            answers = s.answer()
+            print(self.directions)
+            print(answers)
+            self.answers = [{'answer':e, 'result':self.directions[answers.index(e)]['result']} for e in answers]
+            for e in answers:
                 if e!=False:
                     result = QTableWidgetItem("({:.02f}, {:.02f})".format(e[0], e[1]))
                     result.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
                 else: result = QTableWidgetItem('Failed!')
-                self.directionsTable.setItem(self.answers.index(e), 1, result)
+                self.directionsTable.setItem(answers.index(e), 1, result)
     
     @pyqtSlot()
     def on_Merge_clicked(self): self.startMerge.emit()

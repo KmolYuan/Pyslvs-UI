@@ -200,7 +200,7 @@ def example_TJLinkage():
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',
         '_table_',
         '_design_',
-        'p2:Point1', 'len1:15.0', 'merge:1', 'angle:-55.0', 'p1:Point0', 'Type:PLAP', 'other:False', 'p2:0', 'len1:41.5', 'merge:2', 'other:False', 'p1:Point1', 'Type:PLLP', 'len2:50.0', 'p2:1', 'len1:40.1', 'merge:3', 'other:False', 'p1:Point1', 'Type:PLLP', 'len2:55.8', 'p2:Point1', 'len1:61.9', 'merge:4', 'Type:PLLP', 'p1:0', 'len2:39.3', 'other:False', 'p2:2', 'len1:36.7', 'merge:2', 'Type:PLLP', 'p1:3', 'len2:39.4', 'other:False', 'p2:4', 'len1:49.0', 'merge:3', 'Type:PLLP', 'p1:3', 'len2:65.7', 'other:False',
+        'Type:PLAP', 'p1:Point0', 'other:False', 'len1:15.0', 'merge:1', 'p2:Point1', 'angle:-55.0', 'result:False', 'len2:50.0', 'Type:PLLP', 'p1:Point1', 'other:False', 'len1:41.5', 'merge:2', 'p2:0', 'result:False', 'len2:55.8', 'Type:PLLP', 'p1:Point1', 'other:False', 'len1:40.1', 'merge:3', 'p2:1', 'result:False', 'len2:39.3', 'Type:PLLP', 'p1:0', 'other:False', 'len1:61.9', 'merge:4', 'p2:Point1', 'result:False', 'len2:39.4', 'Type:PLLP', 'p1:3', 'other:False', 'len1:36.7', 'merge:2', 'p2:2', 'result:False', 'len2:65.7', 'Type:PLLP', 'p1:3', 'other:False', 'len1:49.0', 'merge:3', 'p2:4', 'result:False',
         '_design_',
         '_path_', '_path_', '_path_']
 

@@ -697,8 +697,11 @@
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QRadioButton" name="len1Exist">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="text">
-                <string>From Exist Point</string>
+                <string>From Exist Points</string>
                </property>
               </widget>
              </item>
@@ -736,6 +739,9 @@
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
               <widget class="QRadioButton" name="len2Exist">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="text">
                 <string>From Exist Point</string>
                </property>
@@ -772,8 +778,11 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <widget class="QRadioButton" name="angleExist">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
                <property name="text">
-                <string>From Exist Point</string>
+                <string>From Exist Points</string>
                </property>
               </widget>
              </item>
@@ -1096,6 +1105,102 @@
     <hint type="destinationlabel">
      <x>843</x>
      <y>82</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Exist</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>len1Exist</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>687</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Exist</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>angleExist</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>687</x>
+     <y>460</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Exist</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>len2Exist</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Customize</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>len1Customize</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>687</x>
+     <y>352</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Customize</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>angleCustomize</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>687</x>
+     <y>490</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>R1Customize</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>len2Customize</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>843</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>352</y>
     </hint>
    </hints>
   </connection>

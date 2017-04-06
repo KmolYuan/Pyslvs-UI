@@ -121,14 +121,16 @@ class File():
         #design
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
         try:
+            itemNum = 8
             li = data[designIndex[0]+1:designIndex[1]]
-            if len(li)>0 and len(li)%7==0:
-                directions = [dict(zip([e.split(':')[0] for e in li[i:i+7]], [e.split(':')[1] for e in li[i:i+7]]))
-                    for i in range(0, len(li), 7)]
+            if len(li)>0 and len(li)%itemNum==0:
+                directions = [dict(zip([e.split(':')[0] for e in li[i:i+itemNum]], [e.split(':')[1] for e in li[i:i+itemNum]]))
+                    for i in range(0, len(li), itemNum)]
                 directions = [{
                     k:((float(v.split('@')[0]), float(v.split('@')[1])) if '@' in v else float(v) if '.' in v else int(v) if v.isdigit() else v if 'P' in v else v=='True')
                     for k, v in e.items()} for e in directions]
                 self.Designs.addDirections(directions)
+            elif len(li)%itemNum!=0: errorInfo.append('Design')
         except: errorInfo.append('Design')
         #path
         try:
@@ -293,7 +295,7 @@ class File():
                     self.Lists.editTable(Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
                         styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
                     pNum[p] = Point.rowCount()-1
-            self.Lists.editTable(Point, 'Point', False, str(answer[0]), str(answer[1]), False,
+            self.Lists.editTable(Point, 'Point', answer['result'], str(answer['answer'][0]), str(answer['answer'][1]), False,
                 styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
             pNum['answer'] = Point.rowCount()-1
             pNums.append(pNum)

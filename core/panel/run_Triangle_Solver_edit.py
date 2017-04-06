@@ -6,14 +6,15 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
+        self.Point = Point
         for i in range(len(Point)):
             for e in [self.p1, self.p2, self.p3]: e.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
-        self.R1Exist.setEnabled(len(Point)>1)
         if len(Point)>1:
             for i in range(1, len(Point)): self.R1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
         for i in range(row):
             for e in [self.r1, self.r2, self.r3]: e.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
-        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.turnDict)
+        self.R1Exist.setEnabled(len(Point)>1)
+        self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.turn2Dict)
         self.p1Result.setEnabled(row>0)
         self.p2Result.setEnabled(row>0)
         self.p3Result.setEnabled(row>0)
@@ -85,16 +86,19 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 elif pos==1: pic = ":/icons/preview/TSMergeSlider.png"
             self.mergeImage.setPixmap(QPixmap(pic).scaledToWidth(560))
     
-    def turnDict(self):
+    def turn2Dict(self):
         self.condition = {
             'Type':self.type.currentText(),
             'p1':(self.x1.value(), self.y1.value()) if self.p1Customize.isChecked() else
                 self.p1.currentText() if self.p1Exist.isChecked() else self.r1.currentIndex(),
             'p2':(self.x2.value(), self.y2.value()) if self.p2Customize.isChecked() else
                 self.p2.currentText() if self.p2Exist.isChecked() else self.r2.currentIndex(),
-            'len1':self.len1.value(),
+            'len1':self.len1.value() if self.len1Customize.isChecked() else
+                ((self.Point[self.p1.currentIndex()]['x']-self.Point[self.R1.currentIndex()]['x'])**2+
+                (self.Point[self.p1.currentIndex()]['x']-self.Point[self.R1.currentIndex()]['x'])**2)**(1/2),
             'other':bool(self.other.checkState()),
             'merge':self.merge.currentIndex(),
+            'result':self.R1.currentIndex()+1 if self.R1Exist.isChecked() else False,
         }
         if self.type.currentIndex()==0:
             PLAP = {'angle':self.angle.value()}
