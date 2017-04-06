@@ -106,7 +106,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
             'result':self.R1.currentIndex()+1 if self.R1Exist.isChecked() else False,
         }
         if self.type.currentIndex()==0:
-            PLAP = {'angle':self.angle.value() if self.angleCustomize.isChecked() else degrees(acos())}
+            PLAP = {'angle':self.angle.value()} #if self.angleCustomize.isChecked() else degrees(acos())
             self.condition.update(PLAP)
         elif self.type.currentIndex()==1:
             PLLP = {'len2':self.len2.value()}
