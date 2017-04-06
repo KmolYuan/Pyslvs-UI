@@ -11,9 +11,11 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         super(Triangle_Solver_show, self).__init__(parent)
         self.setupUi(self)
         self.answers = list()
-        self.Point = Point
+        self.setPoint(Point)
         self.FileState = FileState
         self.ReloadTable(Directions)
+    
+    def setPoint(self, Point): self.Point = Point
     
     def ReloadTable(self, Directions):
         self.directions = Directions

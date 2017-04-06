@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .Ui_template import Ui_Dialog
+from ..kernel.pyslvs_triangle_solver.TS import solver
 
 class templatePreview(QGraphicsScene):
     def __init__(self, Ax, Ay, Bx, By, parent=None):

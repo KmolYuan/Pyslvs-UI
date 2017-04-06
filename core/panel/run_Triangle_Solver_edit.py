@@ -7,13 +7,12 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
         for i in range(len(Point)):
-            self.p1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
-            self.p2.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
-            self.p3.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
+            for e in [self.p1, self.p2, self.p3]: e.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
+        self.R1Exist.setEnabled(len(Point)>1)
+        if len(Point)>1:
+            for i in range(1, len(Point)): self.R1.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
         for i in range(row):
-            self.r1.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
-            self.r2.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
-            self.r3.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
+            for e in [self.r1, self.r2, self.r3]: e.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.turnDict)
         self.p1Result.setEnabled(row>0)
         self.p2Result.setEnabled(row>0)

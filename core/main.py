@@ -183,6 +183,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(1, self.Entiteis_Point_Style.rowCount()):
             self.Entiteis_Point_Style.cellWidget(i, 1).currentIndexChanged.connect(self.Edit_Point_Style)
             self.Entiteis_Point_Style.cellWidget(i, 3).currentIndexChanged.connect(self.Edit_Point_Style)
+        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        if "Triangle Solver" in tabNameList:
+            self.PointTab.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
         self.Resolve()
     
     #Resolve
@@ -489,7 +492,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_point_show(self.Mask, table, self.File.Lists.PointList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table, 'Point', dlg.Point.currentIndex(),
+            self.File.Lists.editTable(table, 'Point', dlg.Point.currentIndex()+1,
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text()in[str(), "n", "-"] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in[str(), "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()))
