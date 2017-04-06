@@ -244,7 +244,7 @@ class Lists():
         d = sqrt(x**2+y**2)
         try: angle = self.CosineTheoremAngle(y, x, d)
         except ValueError: angle = self.CosineTheoremAngleE(y, x, d)
-        return '{:.02f}'.format(360-degrees(angle) if y<0 else degrees(angle))
+        return '{:.02f}'.format(360.-degrees(angle) if y<0 else degrees(angle))
 
 class Designs():
     def __init__(self, FileState):

@@ -353,11 +353,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 reply = QMessageBox.question(self, "Loading failed",
                     "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
                 if reply: print("Error: Incorrect format.")
-    @pyqtSlot()
-    def on_actionImportFromTemplate_triggered(self):
-        dlg = template_show()
-        dlg.show()
-        if dlg.exec_(): pass
     
     @pyqtSlot()
     def on_actionSave_triggered(self):

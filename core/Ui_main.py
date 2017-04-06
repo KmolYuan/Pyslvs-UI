@@ -1249,8 +1249,6 @@ class Ui_MainWindow(object):
         self.menuExport.addAction(self.OtherFormatMenuTitle)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_Script)
-        self.menuImport.addAction(self.actionImportFromTemplate)
-        self.menuImport.addSeparator()
         self.menuImport.addAction(self.actionImportFromWorkbook)
         self.menuFile.addAction(self.action_New_Workbook)
         self.menuFile.addAction(self.action_Load_Workbook)
