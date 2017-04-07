@@ -10,6 +10,7 @@
     <!--File format icons-->
     <file>icons/CSV.png</file>
     <file>icons/dxf.png</file>
+    <file>icons/Logo_Qt.png</file>
     <!--Dialog icons-->
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>

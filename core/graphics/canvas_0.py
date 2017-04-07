@@ -81,28 +81,29 @@ class DynamicCanvas(QWidget):
                 QPointF(self.Point[e['p2']]['cx']*Tp, self.Point[e['p2']]['cy']*Tp*-1),
                 QPointF(self.Point[e['p3']]['cx']*Tp, self.Point[e['p3']]['cy']*Tp*-1), fillRule=Qt.OddEvenFill)
             painter.setBrush(Qt.NoBrush)
-            if self.points['style']['dimension']:
+            if self.Point_mark:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
-                mp = QPointF((self.Point[e['p1']]['cx']+self.Point[e['p2']]['cx'])*Tp/2, (self.Point[e['p1']]['cy']+self.Point[e['p2']]['cy'])*Tp*-1/2)
-                painter.drawText(mp, str(e['p1p2']))
-                mp = QPointF((self.Point[e['p2']]['cx']+self.Point[e['p3']]['cx'])*Tp/2, (self.Point[e['p2']]['cy']+self.Point[e['p3']]['cy'])*Tp*-1/2)
-                painter.drawText(mp, str(e['p2p3']))
-                mp = QPointF((self.Point[e['p1']]['cx']+self.Point[e['p3']]['cx'])*Tp/2, (self.Point[e['p1']]['cy']+self.Point[e['p3']]['cy'])*Tp*-1/2)
-                painter.drawText(mp, str(e['p1p3']))
+                text = '[Chain{}]'.format(self.Chain.index(e))
+                if self.points['style']['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e['p1p2'], e['p2p3'], e['p1p3'])
+                mp = QPointF((self.Point[e['p1']]['cx']+self.Point[e['p2']]['cx']+self.Point[e['p3']]['cx'])*Tp/3,
+                    (self.Point[e['p1']]['cy']+self.Point[e['p2']]['cy']+self.Point[e['p3']]['cy'])*Tp*-1/3)
+                painter.drawText(mp, text)
         for e in self.Line:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
             pen.setColor(self.points['style']['link'])
             painter.setPen(pen)
             painter.drawLine(QPointF(self.Point[e['start']]['cx']*Tp, self.Point[e['start']]['cy']*Tp*-1), QPointF(self.Point[e['end']]['cx']*Tp, self.Point[e['end']]['cy']*Tp*-1))
-            if self.points['style']['dimension']:
+            if self.Point_mark:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
                 mp = QPointF((self.Point[e['start']]['cx']+self.Point[e['end']]['cx'])*Tp/2, (self.Point[e['start']]['cy']+self.Point[e['end']]['cy'])*Tp*-1/2)
                 painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(mp, str(e['len']))
+                text = '[Line{}]'.format(self.Line.index(e))
+                if self.points['style']['dimension']: text += ':{:.02f}'.format(e['len'])
+                painter.drawText(mp, text)
         for e in self.Slider:
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen'])
@@ -170,10 +171,9 @@ class DynamicCanvas(QWidget):
             painter.setPen(pen)
             if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
             if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
-        for e in self.Point:
-            index = self.Point.index(e)
-            cx = e['cx']*Tp
-            cy = e['cy']*Tp*-1
+        for index in range(len(self.Point)):
+            cx = self.Point[index]['cx']*Tp
+            cy = self.Point[index]['cy']*Tp*-1
             pen = QPen()
             pen.setWidth(2)
             if index!=0: pen.setColor(self.Color[self.table_style.cellWidget(index, 3).currentText()])
@@ -191,7 +191,9 @@ class DynamicCanvas(QWidget):
                 pen.setWidth(2)
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
-                painter.drawText(QPointF(cx+6, cy-6), '[Point{}]'.format(index))
+                text = '[Point{}]'.format(index)
+                if self.points['style']['dimension']: text += ':({:.02f}, {:.02f})'.format(self.Point[index]['cx'], self.Point[index]['cy'])
+                painter.drawText(QPointF(cx+6, cy-6), text)
         if self.points['Path']['path'] and self.points['Path']['show']:
             for i in range(len(self.points['Path']['path'])):
                 nPath = self.points['Path']['path'][i]

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -703,7 +703,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 292, 441))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 302, 442))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -932,7 +932,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_27.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 998, 23))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 998, 26))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
         self.menuBar.setObjectName("menuBar")
@@ -1219,6 +1219,11 @@ class Ui_MainWindow(object):
         self.actionImportFromWorkbook.setObjectName("actionImportFromWorkbook")
         self.actionImportFromTemplate = QtWidgets.QAction(MainWindow)
         self.actionImportFromTemplate.setObjectName("actionImportFromTemplate")
+        self.actionAbout_Qt = QtWidgets.QAction(MainWindow)
+        icon46 = QtGui.QIcon()
+        icon46.addPixmap(QtGui.QPixmap(":/icons/Logo_Qt.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionAbout_Qt.setIcon(icon46)
+        self.actionAbout_Qt.setObjectName("actionAbout_Qt")
         self.menuExample.addAction(self.GrashofChainMenuTitle)
         self.menuExample.addAction(self.actionCrank_rocker)
         self.menuExample.addAction(self.actionDrag_link)
@@ -1287,6 +1292,7 @@ class Ui_MainWindow(object):
         self.menu_Help.addAction(self.actionGithub_Wiki)
         self.menu_Help.addSeparator()
         self.menu_Help.addAction(self.action_About_Pyslvs)
+        self.menu_Help.addAction(self.actionAbout_Qt)
         self.menu_Simulation.addAction(self.action_Set_Shaft)
         self.menu_Simulation.addAction(self.action_Set_Slider)
         self.menu_Simulation.addAction(self.action_Set_Rod)
@@ -1393,8 +1399,8 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'Sans Serif\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">N/A</p></body></html>"))
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
         self.Parameter_lable.setText(_translate("MainWindow", "Parameter"))
@@ -1682,6 +1688,7 @@ class Ui_MainWindow(object):
         self.actionImportFromWorkbook.setStatusTip(_translate("MainWindow", "Import from workbook."))
         self.actionImportFromTemplate.setText(_translate("MainWindow", "Template"))
         self.actionImportFromTemplate.setStatusTip(_translate("MainWindow", "Import from Linkages Template."))
+        self.actionAbout_Qt.setText(_translate("MainWindow", "About Qt"))
 
 import icons_rc
 import preview_rc

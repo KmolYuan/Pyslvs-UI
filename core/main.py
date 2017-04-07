@@ -233,6 +233,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.OpenDlg(dlg)
         splash.finish(dlg)
     @pyqtSlot()
+    def on_actionAbout_Qt_triggered(self): QMessageBox.aboutQt(self)
+    @pyqtSlot()
     def on_action_Get_Help_triggered(self): self.OpenURL("http://project.mde.tw/blog/slvs-library-functions.html")
     @pyqtSlot()
     def on_actionGit_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
@@ -334,7 +336,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 reply = QMessageBox.question(self, "Loading failed",
                     "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
                 if reply: print("Error: Incorrect format.")
-    #TODO: Import
+    
     @pyqtSlot()
     def on_actionImportFromWorkbook_triggered(self): self.importWorkbook(say='Import from file...')
     def importWorkbook(self, say, fileName=False, data=list()):
@@ -353,7 +355,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 reply = QMessageBox.question(self, "Loading failed",
                     "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
                 if reply: print("Error: Incorrect format.")
-    
+    #TODO: Save format
     @pyqtSlot()
     def on_actionSave_triggered(self):
         n = self.File.form.fileName.absoluteFilePath()
@@ -429,8 +431,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Formate: {}".format(form))
         return fileName
     def replyBox(self, title, fileName):
-        reply = QMessageBox.question(self, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
-        if reply: print("Successful Saved {}.".format(title))
+        dlgbox = QMessageBox(QMessageBox.Information, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), self)
+        if dlgbox.exec_(): print("Successful Saved {}.".format(title))
     
     @pyqtSlot()
     def on_action_Property_triggered(self):
