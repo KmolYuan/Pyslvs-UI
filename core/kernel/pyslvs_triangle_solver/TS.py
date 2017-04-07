@@ -50,7 +50,7 @@ class solver():
             y1 = p1[1]
             x2 = p2[0] #p2 start point2
             y2 = p2[1]
-            len1 = float(line1) if type(line1)!=bool else sqrt((x1-x2)**2+(y1-y2)**2)
+            len1 = float(line1)
             angle2 = radians(float(angle))
             angle1 = self.m(p1, p2)
             if other:
@@ -70,7 +70,7 @@ class solver():
             y2 = p2[1]
             len1 = float(line1)
             len2 = float(line2)
-            d = sqrt((x1-x2)**2+(y2-y1)**2)
+            d = self.diff(p1, p2)
             angle1 = self.m(p1, p2)
             angle2 = self.CosineTheoremAngle(len2, d, len1)
             if other:
@@ -100,17 +100,24 @@ class solver():
             return ex, ey
         except: return False
     
+    def uPLAP(self, p1, p2, p3):
+        angle1 = self.m(p1, p2)
+        angle = self.m(p1, p3)
+        angle2 = angle-angle1
+        len1 = self.diff(p1, p3)
+    
+    def uPLLP(self, p1, p2, p3):
+        pass
+    
     def m(self, p1, p2):
-        x1 = p1[0]
-        y1 = p1[1]
-        x2 = p2[0]
-        y2 = p2[1]
-        x = x2-x1
-        y = y2-y1
-        d = sqrt(x**2+y**2)
+        x = p2[0]-p1[0]
+        y = p2[1]-p1[1]
+        d = self.diff(p1, p2)
         try: angle = self.CosineTheoremAngle(y, x, d)
         except ValueError: angle = self.CosineTheoremAngleE(y, x, d)
         return angle*(-1 if y<0 else 1)
+    
+    def diff(self, p1, p2): return sqrt((p2[0]-p1[0])**2+(p2[1]-p1[1])**2)
 
 if __name__=='__main__':
     #Test

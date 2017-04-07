@@ -73,16 +73,14 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         for i in range(self.directionsTable.rowCount()): self.on_remove_botton_clicked()
     
     @pyqtSlot(QTableWidgetItem)
-    def on_directionsTable_itemChanged(self, item):
-        self.Solve.setEnabled(len(self.directions)>0)
-        self.Merge.setEnabled(len(self.answers)>0 and not(False in self.answers))
+    def on_directionsTable_itemChanged(self, item): self.Solve.setEnabled(len(self.directions)>0)
     
     @pyqtSlot()
     def on_Solve_clicked(self):
         if self.directions:
             directions = [{k:v for k, v in e.items() if k!='Type'} for e in self.directions]
             directions = [{k:(v if type(v)!=str else
-                (self.Point[int(v.replace('Point', ''))]['x'], self.Point[int(v.replace('Point', ''))]['y']))
+                (self.Point[int(v.replace('Point', ''))]['cx'], self.Point[int(v.replace('Point', ''))]['cy']))
                 for k, v in e.items()} for e in directions]
             s = solver(directions)
             answers = s.answer()
@@ -96,6 +94,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.answers = [{'answer':e if self.directions[answers.index(e)]['result'] is False else
                 (self.Point[self.directions[answers.index(e)]['result']]['cx'], self.Point[self.directions[answers.index(e)]['result']]['cy']),
                 'result':self.directions[answers.index(e)]['result']} for e in answers]
+            self.Merge.setEnabled(len(self.answers)>0 and not(False in self.answers))
     
     @pyqtSlot()
     def on_Merge_clicked(self): self.startMerge.emit()
