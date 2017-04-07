@@ -38,7 +38,7 @@ class solver():
         for e in self.Directions:
             p1 = results[e['p1']] if type(e['p1'])==int else e['p1']
             p2 = results[e['p2']] if type(e['p2'])==int else e['p2']
-            p3 = results[e['p3']] if type(e['p3'])==int else e['p3']
+            if e['Type'] in ['PLPP', 'PPP']: p3 = results[e['p3']] if type(e['p3'])==int else e['p3']
             #Direction of the point
             other = e.get('other', False)
             ##True: angle1-angle2

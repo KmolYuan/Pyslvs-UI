@@ -65,7 +65,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         if pos==0: pic = ":/icons/preview/PLAP.png"
         elif pos==1: pic = ":/icons/preview/PLLP.png"
         elif pos==2: pic = ":/icons/preview/PLPP.png"
-        elif pos==3: pic = ":/icons/preview/PLLP.png"
+        elif pos==3: pic = ":/icons/preview/PPP.png"
         self.triangleImage.setPixmap(QPixmap(pic).scaledToWidth(560))
         for i in range(self.merge.count()): self.merge.removeItem(0)
         if pos==2: self.merge.insertItems(0, ["Points only", "Slider"])

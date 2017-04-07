@@ -69,7 +69,6 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.FileState.beginMacro("Delete {TS Direction}")
             self.FileState.push(TSdeleteCommand(self.directions, self.directionsTable))
             self.FileState.endMacro()
-    
     @pyqtSlot()
     def on_clear_botton_clicked(self):
         for i in range(self.directionsTable.rowCount()): self.on_remove_botton_clicked()

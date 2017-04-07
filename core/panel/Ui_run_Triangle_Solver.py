@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -46,16 +46,6 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.directionsTable)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.label_2 = QtWidgets.QLabel(Form)
-        self.label_2.setObjectName("label_2")
-        self.horizontalLayout_3.addWidget(self.label_2)
-        self.targetNum = QtWidgets.QLabel(Form)
-        self.targetNum.setText("")
-        self.targetNum.setObjectName("targetNum")
-        self.horizontalLayout_3.addWidget(self.targetNum)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
         self.pluse_PLAP = QtWidgets.QPushButton(Form)
         self.pluse_PLAP.setObjectName("pluse_PLAP")
         self.verticalLayout_2.addWidget(self.pluse_PLAP)
@@ -68,11 +58,11 @@ class Ui_Form(object):
         self.pluse_PPP = QtWidgets.QPushButton(Form)
         self.pluse_PPP.setObjectName("pluse_PPP")
         self.verticalLayout_2.addWidget(self.pluse_PPP)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem)
         self.remove_botton = QtWidgets.QPushButton(Form)
         self.remove_botton.setObjectName("remove_botton")
         self.verticalLayout_2.addWidget(self.remove_botton)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem)
         self.clear_botton = QtWidgets.QPushButton(Form)
         self.clear_botton.setObjectName("clear_botton")
         self.verticalLayout_2.addWidget(self.clear_botton)
@@ -122,13 +112,13 @@ class Ui_Form(object):
         item.setText(_translate("Form", "p2"))
         item = self.directionsTable.horizontalHeaderItem(4)
         item.setText(_translate("Form", "Condition"))
-        self.label_2.setText(_translate("Form", "Target(s):"))
         self.pluse_PLAP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Angle(β), Point(B)</span></p><p><img src=\":/icons/preview/PLAP.png\"/></p></body></html>"))
         self.pluse_PLAP.setText(_translate("Form", "+PLAP"))
         self.pluse_PLLP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Length(R0), Point(B)</span></p><p><img src=\":/icons/preview/PLLP.png\"/></p></body></html>"))
         self.pluse_PLLP.setText(_translate("Form", "+PLLP"))
         self.pluse_PLPP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Point(B), Point(C)</span></p><p><img src=\":/icons/preview/PLPP.png\"/></p></body></html>"))
         self.pluse_PLPP.setText(_translate("Form", "+PLPP"))
+        self.pluse_PPP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Point(B), Point(C) </span><span style=\" font-size:12pt; color:#ff0000;\">Return three side length.</span></p><p><img src=\":/icons/preview/PPP.png\"/></p></body></html>"))
         self.pluse_PPP.setText(_translate("Form", "+PPP"))
         self.remove_botton.setText(_translate("Form", "-"))
         self.clear_botton.setText(_translate("Form", "Clear"))
