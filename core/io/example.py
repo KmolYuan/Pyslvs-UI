@@ -200,7 +200,7 @@ def example_TJLinkage():
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',
         '_table_',
         '_design_',
-        'Type:PLAP', 'p1:Point0', 'other:False', 'len1:15.0', 'merge:1', 'p2:Point1', 'angle:-55.0', 'result:False', 'len2:50.0', 'Type:PLLP', 'p1:Point1', 'other:False', 'len1:41.5', 'merge:2', 'p2:0', 'result:False', 'len2:55.8', 'Type:PLLP', 'p1:Point1', 'other:False', 'len1:40.1', 'merge:3', 'p2:1', 'result:False', 'len2:39.3', 'Type:PLLP', 'p1:0', 'other:False', 'len1:61.9', 'merge:4', 'p2:Point1', 'result:False', 'len2:39.4', 'Type:PLLP', 'p1:3', 'other:False', 'len1:36.7', 'merge:2', 'p2:2', 'result:False', 'len2:65.7', 'Type:PLLP', 'p1:3', 'other:False', 'len1:49.0', 'merge:3', 'p2:4', 'result:False',
+        'Type:PLAP', 'p1:Point0', 'other:False', 'len1:15.0', 'merge:1', 'p2:Point1', 'angle:-55.0', 'len2:50.0', 'Type:PLLP', 'p1:Point1', 'other:False', 'len1:41.5', 'merge:2', 'p2:0', 'len2:55.8', 'Type:PLLP', 'p1:Point1', 'other:False', 'len1:40.1', 'merge:3', 'p2:1', 'len2:39.3', 'Type:PLLP', 'p1:0', 'other:False', 'len1:61.9', 'merge:4', 'p2:Point1', 'len2:39.4', 'Type:PLLP', 'p1:3', 'other:False', 'len1:36.7', 'merge:2', 'p2:2', 'len2:65.7', 'Type:PLLP', 'p1:3', 'other:False', 'len1:49.0', 'merge:3', 'p2:4',
         '_design_',
         '_path_', '_path_', '_path_']
 
@@ -210,5 +210,5 @@ def example_RockSliderDesign():
         '_table_', 'Point1', '70.75', '11.5', 'True', 'Point2', '151.07', '67.14', 'True',
         '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Blue', '10', 'Blue',
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',
-        '_design_', 'p1:Point0', 'Type:PLAP', 'p2:Point1', 'other:False', 'result:False', 'angle:30.0', 'merge:1', 'len1:30.0', 'p1:0', 'Type:PLPP', 'p2:Point1', 'other:False', 'merge:1', 'p3:Point2', 'result:False', 'len1:90.0',
+        '_design_', 'p1:Point0', 'Type:PLAP', 'p2:Point1', 'other:False', 'angle:30.0', 'merge:1', 'len1:30.0', 'p1:0', 'Type:PLPP', 'p2:Point1', 'other:False', 'merge:1', 'p3:Point2', 'len1:90.0',
         '_design_', '_path_', '_path_', '_path_']

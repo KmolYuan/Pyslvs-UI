@@ -128,6 +128,13 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="pluse_PPP">
+         <property name="text">
+          <string>+PPP</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="remove_botton">
          <property name="text">
           <string>-</string>

@@ -21,14 +21,17 @@ class solver():
     def Parser(self):
         for e in self.Directions:
             pos = self.Directions.index(e)
-            if e.get('p1', False) is False: return False
-            if e.get('p2', False) is False: return False
-            if e.get('len1', False) is False: return False
-            if e.get('len2', False) is False and e.get('angle', False) is False and e.get('p3', False) is False: return False
-            if not(e.get('angle', False) is False): self.Directions[pos]['Type'] = 'PLAP'
-            elif not(e.get('len2', False) is False): self.Directions[pos]['Type'] = 'PLLP'
-            elif not(e.get('p3', False) is False): self.Directions[pos]['Type'] = 'PLPP'
+            if self.getCheck(e, 'p1', 'p2', 'len1', 'angle'): self.Directions[pos]['Type'] = 'PLAP'
+            elif self.getCheck(e, 'p1', 'p2', 'len1', 'len2'): self.Directions[pos]['Type'] = 'PLLP'
+            elif self.getCheck(e, 'p1', 'p2', 'len1', 'p3'): self.Directions[pos]['Type'] = 'PLPP'
+            elif self.getCheck(e, 'p1', 'p2', 'p3'): self.Directions[pos]['Type'] = 'PPP'
+            else: return False
         return bool(self.Directions)
+    
+    def getCheck(self, e, *args):
+        for arg in args:
+            if e.get(arg, False) is False: return False
+        return True
     
     def Iterator(self):
         results = list()
@@ -100,14 +103,8 @@ class solver():
             return ex, ey
         except: return False
     
-    def uPLAP(self, p1, p2, p3):
-        angle1 = self.m(p1, p2)
-        angle = self.m(p1, p3)
-        angle2 = angle-angle1
-        len1 = self.diff(p1, p3)
-    
-    def uPLLP(self, p1, p2, p3):
-        pass
+    def PPP(self, p1, p2, p3):
+        return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
     
     def m(self, p1, p2):
         x = p2[0]-p1[0]
@@ -122,11 +119,11 @@ class solver():
 if __name__=='__main__':
     #Test
     s = solver([
-        {'p1':(-60, 0), 'p2':(0, 0), 'len1':30, 'angle':50}, #C
-        {'p1':0, 'p2':(0, 0), 'len1':50, 'len2':60}, #D
-        {'p1':0, 'p2':1, 'len1':50, 'len2':50}, #E
-        {'p1':(-45, 0), 'p2':(0, 12), 'len1':30, 'angle':55},
-        {'p1':3, 'len1':40, 'p2':(0, 12), 'p3':(10, 30)}, #Slider E
+        {'p1':(-60, 0), 'p2':(0, 0), 'len1':30, 'angle':50}, #C PLAP
+        {'p1':0, 'p2':(0, 0), 'len1':50, 'len2':60}, #D PLLP
+        {'p1':0, 'p2':1, 'len1':50, 'len2':50}, #E PLLP
+        {'p1':(-45, 0), 'p2':(0, 12), 'len1':30, 'angle':55}, # PLAP
+        {'p1':3, 'len1':40, 'p2':(0, 12), 'p3':(10, 30)}, #Slider E PLPP
         ])
     answer = s.answer()
     print("C={}\nD={}\nE={}\n\nSlider B={}\nSlider E={}".format(*answer))

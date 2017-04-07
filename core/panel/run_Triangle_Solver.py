@@ -55,6 +55,8 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def on_pluse_PLLP_clicked(self): self.editDirection('PLLP')
     @pyqtSlot()
     def on_pluse_PLPP_clicked(self): self.editDirection('PLPP')
+    @pyqtSlot()
+    def on_pluse_PPP_clicked(self): self.editDirection('PPP')
     
     @pyqtSlot(int, int)
     def on_directionsTable_cellDoubleClicked(self, row, column):
@@ -86,14 +88,12 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             answers = s.answer()
             for e in answers:
                 if e!=False:
-                    result = QTableWidgetItem("({:.02f}, {:.02f})".format(e[0], e[1]))
-                    result.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
-                elif not directions[answers.index(e)]['result'] is False: result = QTableWidgetItem('N/A')
+                    show = ('({})'.format(', '.join(['{:.02f}']*len(e)))).format(*e)
+                    result = QTableWidgetItem(show)
+                    result.setToolTip(show)
                 else: result = QTableWidgetItem('Failed!')
                 self.directionsTable.setItem(answers.index(e), 1, result)
-            self.answers = [{'answer':e if self.directions[answers.index(e)]['result'] is False else
-                (self.Point[self.directions[answers.index(e)]['result']]['cx'], self.Point[self.directions[answers.index(e)]['result']]['cy']),
-                'result':self.directions[answers.index(e)]['result']} for e in answers]
+            self.answers = answers
             self.Merge.setEnabled(len(self.answers)>0 and not(False in self.answers))
     
     @pyqtSlot()

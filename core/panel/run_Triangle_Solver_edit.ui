@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>936</width>
+    <width>839</width>
     <height>666</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>936</width>
+    <width>839</width>
     <height>666</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>936</width>
+    <width>839</width>
     <height>666</height>
    </size>
   </property>
@@ -32,7 +32,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_15">
+  <layout class="QVBoxLayout" name="verticalLayout_14">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -86,6 +86,11 @@
              <item>
               <property name="text">
                <string>PLPP</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>PPP</string>
               </property>
              </item>
             </widget>
@@ -474,70 +479,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="rPanel">
-       <property name="title">
-        <string>Result Point</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout_14">
-        <property name="spacing">
-         <number>6</number>
-        </property>
-        <property name="leftMargin">
-         <number>6</number>
-        </property>
-        <property name="topMargin">
-         <number>6</number>
-        </property>
-        <property name="rightMargin">
-         <number>6</number>
-        </property>
-        <property name="bottomMargin">
-         <number>6</number>
-        </property>
-        <item>
-         <widget class="QRadioButton" name="R1Exist">
-          <property name="toolTip">
-           <string>This option will let  the exist point become to the result point.</string>
-          </property>
-          <property name="text">
-           <string>Is Exist Point (?)</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="R1">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QRadioButton" name="R1Customize">
-          <property name="text">
-           <string>New Point</string>
-          </property>
-          <property name="checked">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="verticalSpacer_9">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>1</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -680,7 +621,7 @@
        <item>
         <widget class="QGroupBox" name="valuePanel">
          <property name="title">
-          <string>Parameter</string>
+          <string>Parameters</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <property name="leftMargin">
@@ -702,6 +643,13 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Length:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QDoubleSpinBox" name="len1">
                <property name="minimum">
                 <double>0.010000000000000</double>
@@ -710,6 +658,19 @@
                 <double>10.000000000000000</double>
                </property>
               </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -724,6 +685,13 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_5">
              <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Length:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QDoubleSpinBox" name="len2">
                <property name="minimum">
                 <double>0.010000000000000</double>
@@ -732,6 +700,19 @@
                 <double>10.000000000000000</double>
                </property>
               </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -742,6 +723,13 @@
              <string>β</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Angle:</string>
+               </property>
+              </widget>
+             </item>
              <item>
               <widget class="QLabel" name="angleWise">
                <property name="text">
@@ -764,6 +752,19 @@
                 <double>30.000000000000000</double>
                </property>
               </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -971,38 +972,6 @@
     <hint type="destinationlabel">
      <x>634</x>
      <y>201</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Exist</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>R1</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>51</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>843</x>
-     <y>82</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>R1Customize</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>valuePanel</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>843</x>
-     <y>113</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>765</x>
-     <y>476</y>
     </hint>
    </hints>
   </connection>

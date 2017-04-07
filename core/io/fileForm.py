@@ -121,7 +121,7 @@ class File():
         #design
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
         try:
-            itemNum = 8
+            itemNum = 7
             li = data[designIndex[0]+1:designIndex[1]]
             if len(li)>0 and len(li)%itemNum==0:
                 directions = [dict(zip([e.split(':')[0] for e in li[i:i+itemNum]], [e.split(':')[1] for e in li[i:i+itemNum]]))
@@ -295,7 +295,8 @@ class File():
                     self.Lists.editTable(Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
                         styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
                     pNum[p] = Point.rowCount()-1
-            self.Lists.editTable(Point, 'Point', answer['result'], str(answer['answer'][0]), str(answer['answer'][1]), False,
+            self.Lists.editTable(Point, 'Point', False if len(answer)==2 else int(direction['p3'].replace('Point', '')),
+                str(answer[0]), str(answer[1]), False,
                 styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
             pNum['answer'] = Point.rowCount()-1
             pNums.append(pNum)
