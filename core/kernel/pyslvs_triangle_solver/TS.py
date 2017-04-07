@@ -103,8 +103,7 @@ class solver():
             return ex, ey
         except: return False
     
-    def PPP(self, p1, p2, p3):
-        return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
+    def PPP(self, p1, p2, p3): return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
     
     def m(self, p1, p2):
         x = p2[0]-p1[0]

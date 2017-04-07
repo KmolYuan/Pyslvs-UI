@@ -29,7 +29,7 @@ def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox1, 
     color_combobox1.setCurrentIndex(color_combobox1.findText(color))
     color_combobox2.setCurrentIndex(color_combobox2.findText(ringcolor))
     table.setCellWidget(rowPosition, 1, color_combobox1)
-    table.setItem(rowPosition, 2, QTableWidgetItem(ringsize))
+    table.setItem(rowPosition, 2, QTableWidgetItem(str(ringsize)))
     table.setCellWidget(rowPosition, 3, color_combobox2)
 
 def writeTS(table, row, Direction):

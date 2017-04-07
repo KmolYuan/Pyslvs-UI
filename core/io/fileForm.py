@@ -4,6 +4,7 @@ from .listProcess import Lists, Designs
 import csv
 import datetime
 now = datetime.datetime.now()
+timeNow = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 from ..kernel.pyslvs_triangle_solver.TS import solver
 from ..info.info import html, title, content, orderList
 
@@ -12,7 +13,7 @@ class Form():
         self.fileName = QFileInfo('[New Workbook]')
         self.description = str()
         self.author = 'Anonymous'
-        self.lastTime = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
+        self.lastTime = timeNow
         self.changed = False
         self.Stack = 0
 
@@ -27,7 +28,7 @@ class File():
         self.Designs = Designs(self.FileState)
         self.Script = str()
         self.form = Form()
-    def updateTime(self): self.form.lastTime = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
+    def updateTime(self): self.form.lastTime = timeNow
     def updateAuthorDescription(self, author, description):
         self.form.author = author
         self.form.description = description
@@ -63,7 +64,7 @@ class File():
             errorInfo.append('Description Information')
         try: lastTime = data[infoIndex[2]:infoIndex[3]+1][1]
         except:
-            lastTime = '%d/%d/%d %d:%d'%(now.year, now.month, now.day, now.hour, now.minute)
+            lastTime = timeNow
             errorInfo.append('Date Information')
         self.form.Stack = self.FileState.index()
         self.form.fileName = QFileInfo(fileName)
@@ -165,7 +166,7 @@ class File():
         writer.writerows([
             ['_info_'], [self.form.author if self.form.author!=str() else 'Anonymous'],
             ['_info_'], [self.form.description],
-            ['_info_'], ["{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)], ["_info_"]])
+            ['_info_'], [timeNow], ["_info_"]])
         #table
         self.CSV_write(writer, Point, 4, init=1)
         self.CSV_write(writer, Point_Style, 4, init=1)
@@ -275,7 +276,7 @@ class File():
         for e in answer:
             fix = answer.index(e)<2
             self.Lists.editTable(Point, 'Point', False, str(e[0]), str(e[1]), fix,
-                styleTable=Point_Style, color='Blue' if fix else 'Green', ringsize='10' if fix else '5', ringcolor='Blue' if fix else 'Green')
+                styleTable=Point_Style, color='Blue' if fix else 'Green', ringsize=10 if fix else 5, ringcolor='Blue' if fix else 'Green')
         self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3']))
         self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
@@ -293,11 +294,16 @@ class File():
             for p in ['p1', 'p2', 'p3']:
                 if type(direction.get(p, 0))==tuple:
                     self.Lists.editTable(Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
-                        styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
+                        styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
                     pNum[p] = Point.rowCount()-1
-            self.Lists.editTable(Point, 'Point', False if len(answer)==2 else int(direction['p3'].replace('Point', '')),
+            if len(answer)==2: self.Lists.editTable(Point, 'Point', False,
                 str(answer[0]), str(answer[1]), False,
-                styleTable=Point_Style, color='Green', ringsize='5', ringcolor='Green')
+                styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
+            elif len(answer)==3:
+                point = self.Lists.PointList[int(direction['p3'].replace('Point', ''))]
+                self.Lists.editTable(Point, 'Point', int(direction['p3'].replace('Point', '')),
+                    point['cx'], point['cy'], point['fix'])
+                self.Lists.styleFix(Point_Style, point['fix'], int(direction['p3'].replace('Point', '')))
             pNum['answer'] = Point.rowCount()-1
             pNums.append(pNum)
             #Number of Points & Length of Sides
@@ -306,26 +312,29 @@ class File():
             if direction['Type']=='PLPP': p3 = int(direction['p3'].replace('Point', '')) if type(direction['p3'])==str else pNums[direction['p3']]['answer'] if type(direction['p3'])==int else pNum['p3']
             pA = pNum['answer']
             #Merge options
-            if direction['Type']!='PLPP':
-                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False,
-                    'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
+            if direction['Type'] in ['PLAP', 'PLLP']:
+                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
                 elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False,
-                    'Point{}'.format(p2), 'Point{}'.format(pA), str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
-                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, 'Point{}'.format(p1), 'Point{}'.format(pA), 'Point{}'.format(p2),
+                    p2, pA, str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, pA, p2,
                     str(direction['len1']),
                     str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))),
                     str(Pythagorean(self.Lists.PointList[p1], self.Lists.PointList[p2])))
                 elif direction['merge']==4:
-                    self.Lists.editTable(Link, 'Line', False,
-                        'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
-                    self.Lists.editTable(Link, 'Line', False,
-                        'Point{}'.format(p2), 'Point{}'.format(pA), str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
+                    self.Lists.editTable(Link, 'Line', False, p2, pA,
+                        str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+            elif direction['Type']=='PPP':
+                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, pA, answer[2])
+                elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False, p2, pA, answer[1])
+                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, p2, pA, answer[0], answer[1], answer[2])
+                elif direction['merge']==4:
+                    self.Lists.editTable(Link, 'Line', False, p1, pA, answer[2])
+                    self.Lists.editTable(Link, 'Line', False, p2, pA, answer[1])
             elif direction['Type']=='PLPP':
                 if direction['merge']==1:
-                    self.Lists.editTable(Link, 'Line', False,
-                        'Point{}'.format(p1), 'Point{}'.format(pA), str(direction['len1']))
-                    self.Lists.editTable(Slider, 'Slider', False,
-                        'Point{}'.format(pA), 'Point{}'.format(p2), 'Point{}'.format(p3))
+                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
+                    self.Lists.editTable(Slider, 'Slider', False, pA, p2, p3)
     
     def conflictMessage(self, ConflictGuide):
         errorTable = list()
