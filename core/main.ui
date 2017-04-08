@@ -2490,7 +2490,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;About</string>
+    <string>&amp;About Pyslvs</string>
    </property>
    <property name="statusTip">
     <string>Version and introduction of Pyslvs.</string>
@@ -2932,9 +2932,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Property of this workbook.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionCrank_rocker">
