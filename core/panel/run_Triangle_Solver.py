@@ -2,6 +2,7 @@
 from ..QtModules import *
 from .Ui_run_Triangle_Solver import Ui_Form as Triangle_Solver_Form
 from .run_Triangle_Solver_edit import Triangle_Solver_edit_show
+from .run_Triangle_Solver_template import Triangle_Solver_template_show
 from ..io.undoRedo import (TSinitCommand, TSeditCommand, TSdeleteCommand)
 from ..kernel.pyslvs_triangle_solver.TS import solver
 
@@ -57,6 +58,17 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def on_pluse_PLPP_clicked(self): self.editDirection('PLPP')
     @pyqtSlot()
     def on_pluse_PPP_clicked(self): self.editDirection('PPP')
+    
+    def addTemplate(self, name):
+        dlg = Triangle_Solver_template_show(self.Point, self.directionsTable.rowCount(), name)
+        dlg.show()
+        if dlg.exec_():
+            pass
+    
+    @pyqtSlot()
+    def on_Bar4_clicked(self): self.addTemplate('Bar4')
+    @pyqtSlot()
+    def on_Bar8_clicked(self): self.addTemplate('Bar8')
     
     @pyqtSlot(int, int)
     def on_directionsTable_cellDoubleClicked(self, row, column):

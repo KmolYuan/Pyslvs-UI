@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-04-06, 17:34:55 -->
+<!-- Saved: 2017-04-08, 15:54:20 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -95,6 +95,7 @@
     <Source>core/panel/Ui_run_Triangle_Solver.py</Source>
     <Source>core/panel/Ui_run_Triangle_Solver_directionItem.py</Source>
     <Source>core/panel/Ui_run_Triangle_Solver_edit.py</Source>
+    <Source>core/panel/Ui_run_Triangle_Solver_template.py</Source>
     <Source>core/panel/__init__.py</Source>
     <Source>core/panel/run_AuxLine.py</Source>
     <Source>core/panel/run_Drive_rod.py</Source>
@@ -105,6 +106,7 @@
     <Source>core/panel/run_Path_Track.py</Source>
     <Source>core/panel/run_Triangle_Solver.py</Source>
     <Source>core/panel/run_Triangle_Solver_edit.py</Source>
+    <Source>core/panel/run_Triangle_Solver_template.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_shaft.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
@@ -118,6 +120,7 @@
     <Source>requirements.txt</Source>
   </Sources>
   <Forms>
+    <Form>core/panel/run_Triangle_Solver_template.ui</Form>
     <Form>core/dialog/association.ui</Form>
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
