@@ -12,6 +12,23 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int)
     def on_templateType_currentIndexChanged(self, pos):
-        if pos==0: pic = ":/icons/preview/4Bar.png"
-        elif pos==1: pic = ":/icons/preview/8Bar.png"
+        self.clearTables()
+        if pos==0:
+            pic = ":/icons/preview/4Bar.png"
+            self.paramaTable(5)
+        elif pos==1:
+            pic = ":/icons/preview/8Bar.png"
+            self.paramaTable(8)
         self.templateImage.setPixmap(QPixmap(pic).scaledToWidth(500))
+    
+    def clearTables(self):
+        for table in [self.triangleTable, self.parameterTable]:
+            for i in range(table.rowCount()): table.removeRow(0)
+    
+    def paramaTable(self, c):
+        for i in range(c):
+            self.parameterTable.insertRow(i)
+            self.parameterTable.setItem(i, 0, QTableWidgetItem('P{}'.format(i)))
+            pointBox = QComboBox(self.parameterTable)
+            for k in range(len(self.Point)): pointBox.insertItem(k, 'Point{}'.format(k))
+            self.parameterTable.setCellWidget(i, 1, pointBox)
