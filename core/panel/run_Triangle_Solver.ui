@@ -85,7 +85,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Length(L0), Angle(β), Point(B)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PLAP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>+PLAP</string>
+          <string>+[PLAP]</string>
          </property>
         </widget>
        </item>
@@ -95,7 +95,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Length(L0), Length(R0), Point(B)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PLLP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>+PLLP</string>
+          <string>+[PLLP]</string>
          </property>
         </widget>
        </item>
@@ -105,7 +105,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Length(L0), Point(B), Point(C)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PLPP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>+PLPP</string>
+          <string>+[PLPP]</string>
          </property>
         </widget>
        </item>
@@ -115,7 +115,7 @@
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Point(A), Point(B), Point(C) &lt;/span&gt;&lt;span style=&quot; font-size:12pt; color:#ff0000;&quot;&gt;Return three side length.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/PPP.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>+PPP</string>
+          <string>+[PPP]</string>
          </property>
         </widget>
        </item>
