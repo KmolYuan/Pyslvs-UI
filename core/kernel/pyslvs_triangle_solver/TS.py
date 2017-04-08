@@ -38,13 +38,15 @@ class solver():
         for e in self.Directions:
             p1 = results[e['p1']] if type(e['p1'])==int else e['p1']
             p2 = results[e['p2']] if type(e['p2'])==int else e['p2']
+            p3 = results[e['p3']] if type(e['p3'])==int else e['p3']
             #Direction of the point
             other = e.get('other', False)
             ##True: angle1-angle2
             ##False: angle1+angle2
             if e['Type']=='PLAP': results.append(self.PLAP(p1, e['len1'], e['angle'], p2, other))
             elif e['Type']=='PLLP': results.append(self.PLLP(p1, e['len1'], e['len2'], p2, other))
-            elif e['Type']=='PLPP': results.append(self.PLPP(p1, e['len1'], e['p3'], p2, other))
+            elif e['Type']=='PLPP': results.append(self.PLPP(p1, e['len1'], p3, p2, other))
+            elif e['Type']=='PPP': results.append(self.PPP(p1, p2, p3))
         return results
     
     def PLAP(self, p1, line1, angle, p2, other=False):

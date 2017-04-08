@@ -37,12 +37,13 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
             elif type(condition['p2'])==str:
                 self.p2Exist.setChecked(True)
                 self.p2.setCurrentIndex(int(condition['p2'].replace('Point', '')))
-            self.len1.setValue(condition['len1'])
-            self.other.setCheckState(Qt.Checked if condition['other'] else Qt.Unchecked)
+            if Type in ['PLAP', 'PLLP', 'PLPP']:
+                self.len1.setValue(condition['len1'])
+                self.other.setCheckState(Qt.Checked if condition['other'] else Qt.Unchecked)
             self.merge.setCurrentIndex(condition['merge'])
             if Type=='PLAP': self.angle.setValue(condition['angle'])
             elif Type=='PLLP': self.len2.setValue(condition['len2'])
-            elif Type in ['PLPP','PPP']:
+            elif Type in ['PLPP', 'PPP']:
                 if type(condition['p3'])==tuple:
                     self.p3Customize.setChecked(True)
                     self.x3.setValue(condition['p3'][0])
@@ -60,6 +61,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         self.valuePanel.setEnabled(pos in [0, 1, 2])
         self.len2Panel.setEnabled(pos==1)
         self.p3Panel.setEnabled(pos in [2, 3])
+        self.other.setEnabled(pos in [0, 1, 2])
         if pos==0: pic = ":/icons/preview/PLAP.png"
         elif pos==1: pic = ":/icons/preview/PLLP.png"
         elif pos==2: pic = ":/icons/preview/PLPP.png"

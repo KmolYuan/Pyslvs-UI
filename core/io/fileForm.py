@@ -293,24 +293,22 @@ class File():
             #New Points
             for p in ['p1', 'p2', 'p3']:
                 if type(direction.get(p, 0))==tuple:
-                    self.Lists.editTable(Point, 'Point', False, str(direction[p][0]), str(direction[p][1]), False,
+                    self.Lists.editTable(Point, 'Point', False, direction[p][0], direction[p][1], False,
                         styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
                     pNum[p] = Point.rowCount()-1
             if len(answer)==2: self.Lists.editTable(Point, 'Point', False,
                 str(answer[0]), str(answer[1]), False,
                 styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
             elif len(answer)==3:
-                point = self.Lists.PointList[int(direction['p3'].replace('Point', ''))]
-                self.Lists.editTable(Point, 'Point', int(direction['p3'].replace('Point', '')),
-                    point['cx'], point['cy'], point['fix'])
-                self.Lists.styleFix(Point_Style, point['fix'], int(direction['p3'].replace('Point', '')))
+                if type(direction.get('p3', 0))==tuple: self.Lists.editTable(Point, 'Point', False, direction['p3'][0], direction['p3'][1], False,
+                    styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
             pNum['answer'] = Point.rowCount()-1
             pNums.append(pNum)
             #Number of Points & Length of Sides
             p1 = int(direction['p1'].replace('Point', '')) if type(direction['p1'])==str else pNums[direction['p1']]['answer'] if type(direction['p1'])==int else pNum['p1']
             p2 = int(direction['p2'].replace('Point', '')) if type(direction['p2'])==str else pNums[direction['p2']]['answer'] if type(direction['p2'])==int else pNum['p2']
-            if direction['Type']=='PLPP': p3 = int(direction['p3'].replace('Point', '')) if type(direction['p3'])==str else pNums[direction['p3']]['answer'] if type(direction['p3'])==int else pNum['p3']
-            pA = pNum['answer']
+            if direction['Type'] in ['PLPP', 'PPP']: p3 = int(direction['p3'].replace('Point', '')) if type(direction['p3'])==str else pNums[direction['p3']]['answer'] if type(direction['p3'])==int else pNum['p3']
+            if direction['Type'] in ['PLAP', 'PLLP', 'PLPP']: pA = pNum['answer']
             #Merge options
             if direction['Type'] in ['PLAP', 'PLLP']:
                 if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
@@ -325,12 +323,12 @@ class File():
                     self.Lists.editTable(Link, 'Line', False, p2, pA,
                         str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
             elif direction['Type']=='PPP':
-                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, pA, answer[2])
-                elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False, p2, pA, answer[1])
-                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, p2, pA, answer[0], answer[1], answer[2])
+                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
+                elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
+                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, p2, p3, answer[0], answer[1], answer[2])
                 elif direction['merge']==4:
-                    self.Lists.editTable(Link, 'Line', False, p1, pA, answer[2])
-                    self.Lists.editTable(Link, 'Line', False, p2, pA, answer[1])
+                    self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
+                    self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
             elif direction['Type']=='PLPP':
                 if direction['merge']==1:
                     self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
