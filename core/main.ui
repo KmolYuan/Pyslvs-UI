@@ -897,7 +897,7 @@ p, li { white-space: pre-wrap; }
                   <normaloff>:/icons/trim.png</normaloff>:/icons/trim.png</iconset>
                 </attribute>
                 <attribute name="title">
-                 <string>Entites</string>
+                 <string>Entities</string>
                 </attribute>
                 <layout class="QVBoxLayout" name="verticalLayout_2">
                  <property name="leftMargin">

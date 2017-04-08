@@ -118,7 +118,7 @@ class Ui_Form(object):
         self.pluse_PLLP.setText(_translate("Form", "+[PLLP]"))
         self.pluse_PLPP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Length(L0), Point(B), Point(C)</span></p><p><img src=\":/icons/preview/PLPP.png\"/></p></body></html>"))
         self.pluse_PLPP.setText(_translate("Form", "+[PLPP]"))
-        self.pluse_PPP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Point(B), Point(C) </span><span style=\" font-size:12pt; color:#ff0000;\">Return three side length.</span></p><p><img src=\":/icons/preview/PPP.png\"/></p></body></html>"))
+        self.pluse_PPP.setToolTip(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Point(A), Point(B), Point(C)</span></p><p><span style=\" font-size:12pt; color:#ff0000;\">Return three side length.</span></p><p><span style=\" font-size:12pt; color:#ff0000;\">Use to build 3 points entities</span></p><p><img src=\":/icons/preview/PPP.png\"/></p></body></html>"))
         self.pluse_PPP.setText(_translate("Form", "+[PPP]"))
         self.remove_botton.setText(_translate("Form", "-"))
         self.clear_botton.setText(_translate("Form", "Clear"))

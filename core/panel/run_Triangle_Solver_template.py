@@ -7,4 +7,11 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
         super(Triangle_Solver_template_show, self).__init__(parent)
         self.setupUi(self)
         self.Point = Point
+        self.on_templateType_currentIndexChanged(0)
         self.templateType.setCurrentIndex(self.templateType.findText(template))
+    
+    @pyqtSlot(int)
+    def on_templateType_currentIndexChanged(self, pos):
+        if pos==0: pic = ":/icons/preview/4Bar.png"
+        elif pos==1: pic = ":/icons/preview/8Bar.png"
+        self.templateImage.setPixmap(QPixmap(pic).scaledToWidth(500))

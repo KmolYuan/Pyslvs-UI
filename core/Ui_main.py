@@ -1439,7 +1439,7 @@ class Ui_MainWindow(object):
         item = self.Entiteis_Stay_Chain.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "[1]-[3]"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ChainTab), _translate("MainWindow", "Stay Chain"))
-        self.OptionTab.setTabText(self.OptionTab.indexOf(self.Entites), _translate("MainWindow", "Entites"))
+        self.OptionTab.setTabText(self.OptionTab.indexOf(self.Entites), _translate("MainWindow", "Entities"))
         self.Shaft_Widget.setStatusTip(_translate("MainWindow", "All drive shaft will show here. Needs two point."))
         self.label_6.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Shaft0 is active highlighting.</span><br/>Using right click menu to change the priority.</p></body></html>"))
         self.reqShaft.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 2 Points.</span></p></body></html>"))

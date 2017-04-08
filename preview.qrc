@@ -18,6 +18,8 @@
     <file>icons/preview/TSMergeChain.png</file>
     <file>icons/preview/TSMergeL0R0.png</file>
     <file>icons/preview/TSMergeSlider.png</file>
+    <file>icons/preview/4Bar.png</file>
+    <file>icons/preview/8Bar.png</file>
     <!--Tool tip preview pictures-->
     <file>icons/tooltips/PathTrack.png</file>
     <file>icons/tooltips/PathSolving.png</file>
