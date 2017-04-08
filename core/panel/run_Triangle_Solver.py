@@ -66,9 +66,9 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             pass
     
     @pyqtSlot()
-    def on_Bar4_clicked(self): self.addTemplate('Bar4')
+    def on_Bar4_clicked(self): self.addTemplate('4-bar linkage')
     @pyqtSlot()
-    def on_Bar8_clicked(self): self.addTemplate('Bar8')
+    def on_Bar8_clicked(self): self.addTemplate('8-bar linkage')
     
     @pyqtSlot(int, int)
     def on_directionsTable_cellDoubleClicked(self, row, column):

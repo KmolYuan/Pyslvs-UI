@@ -30,7 +30,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QComboBox" name="template_2">
+         <widget class="QComboBox" name="templateType">
           <property name="minimumSize">
            <size>
             <width>120</width>
@@ -102,7 +102,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="previewPanel">
        <property name="title">
         <string>Preview</string>
        </property>
@@ -139,7 +139,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <widget class="QTableWidget" name="tableWidget">
+           <widget class="QTableWidget" name="triangleTable">
             <column>
              <property name="text">
               <string>Type</string>

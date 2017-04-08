@@ -422,8 +422,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
             self.replyBox('Picture', fileName)
     def outputTo(self, formatName, formatChoose):
+        suffix0 = formatChoose.split(';;')[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(
-            self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form.fileName.baseName(), formatChoose)
+            self, 'Save file...', self.Default_Environment_variables+'/'+self.File.form.fileName.baseName()+suffix0, formatChoose)
         if fileName:
             self.setLocate(QFileInfo(fileName).absolutePath())
             suffix = form.split('*')[-1][:-1]
@@ -704,9 +705,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_PathWidth_valueChanged(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
-    def on_actionDisplay_Dimensions_toggled(self, p0): self.Reload_Canvas()
+    def on_actionDisplay_Dimensions_toggled(self, p0):
+        if p0: self.actionDisplay_Point_Mark.setChecked(True)
+        self.Reload_Canvas()
     @pyqtSlot(bool)
-    def on_actionDisplay_Point_Mark_toggled(self, p0): self.Reload_Canvas()
+    def on_actionDisplay_Point_Mark_toggled(self, p0):
+        if not p0: self.actionDisplay_Dimensions.setChecked(False)
+        self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
         self.DynamicCanvasView.points['Path']['show'] = self.Path_data_show.checkState()
