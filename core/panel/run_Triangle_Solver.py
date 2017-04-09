@@ -57,15 +57,16 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     @pyqtSlot()
     def on_pluse_PLPP_clicked(self): self.editDirection('PLPP')
     @pyqtSlot()
-    def on_pluse_PPP_clicked(self):
-        self.editDirection('PPP')
-        print(self.directions)
+    def on_pluse_PPP_clicked(self): self.editDirection('PPP')
     
     def addTemplate(self, name):
         dlg = Triangle_Solver_template_show(self.Point, self.directionsTable.rowCount(), name)
         dlg.show()
         if dlg.exec_():
-            print(dlg.conditions)
+            for e in dlg.conditions:
+                self.FileState.beginMacro("Add {TS Direction}")
+                self.FileState.push(TSeditCommand(self.directions, self.directionsTable, e, False))
+                self.FileState.endMacro()
     
     @pyqtSlot()
     def on_Bar4_clicked(self): self.addTemplate('4-bar linkage')

@@ -376,7 +376,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entiteis_Link, self.Entiteis_Stay_Chain,
                 self.Shaft, self.Slider,
                 self.Rod, self.Parameter_list)
-        print("Successful Save: {}".format(fileName))
+        print("Successful saved: {}".format(fileName))
         self.workbookSaved()
     
     @pyqtSlot()

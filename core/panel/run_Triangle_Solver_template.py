@@ -57,7 +57,7 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
     def paramaTable(self, c):
         for i in range(c):
             self.parameterTable.insertRow(i)
-            self.parameterTable.setItem(i, 0, QTableWidgetItem('P{}'.format(i)))
+            self.parameterTable.setItem(i, 0, QTableWidgetItem('P{}'.format(i+1)))
             pointBox = QComboBox(self.parameterTable)
             for k in range(len(self.Point)): pointBox.insertItem(k, 'Point{}'.format(k))
             pointBox.currentIndexChanged.connect(self.isOk)

@@ -211,8 +211,12 @@ class DynamicCanvas(QWidget):
                         pen.setWidth(self.points['style']['penWidth']['path'])
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
-                    pointPath.moveTo(Xs[0], Ys[0])
-                    for x, y in zip(Xs[1:], Ys[1:]): pointPath.lineTo(QPointF(x, y))
+                    for x, y in zip(Xs, Ys):
+                        if x!=None and y!=None:
+                            if Xs.index(x)==0 and Ys.index(y)==0:
+                                pointPath.moveTo(x, y)
+                                continue
+                            pointPath.lineTo(QPointF(x, y))
                     painter.drawPath(pointPath)
         if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
             pen.setWidth(self.points['style']['penWidth']['path'])
