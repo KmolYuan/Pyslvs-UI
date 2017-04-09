@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver_template.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver_template.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -17,6 +17,7 @@ class Ui_Dialog(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/TS.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
+        Dialog.setModal(True)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -78,6 +79,9 @@ class Ui_Dialog(object):
         self.Parameters.setObjectName("Parameters")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.Parameters)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.label = QtWidgets.QLabel(self.Parameters)
+        self.label.setObjectName("label")
+        self.verticalLayout_3.addWidget(self.label)
         self.parameterTable = QtWidgets.QTableWidget(self.Parameters)
         self.parameterTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.parameterTable.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
@@ -120,6 +124,7 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Point[3]"))
         self.previewPanel.setTitle(_translate("Dialog", "Preview"))
         self.Parameters.setTitle(_translate("Dialog", "Parameters"))
+        self.label.setText(_translate("Dialog", "All points should not be repeated."))
         item = self.parameterTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Name"))
         item = self.parameterTable.horizontalHeaderItem(1)

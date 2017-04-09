@@ -29,6 +29,9 @@
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -160,6 +163,13 @@
           <string>Parameters</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>All points should not be repeated.</string>
+            </property>
+           </widget>
+          </item>
           <item>
            <widget class="QTableWidget" name="parameterTable">
             <property name="selectionBehavior">

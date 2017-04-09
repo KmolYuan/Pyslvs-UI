@@ -9,6 +9,7 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
         self.Point = Point
         self.on_templateType_currentIndexChanged(0)
         self.templateType.setCurrentIndex(self.templateType.findText(template))
+        self.isOk()
     
     @pyqtSlot(int)
     def on_templateType_currentIndexChanged(self, pos):
@@ -31,8 +32,10 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
             self.parameterTable.setItem(i, 0, QTableWidgetItem('P{}'.format(i)))
             pointBox = QComboBox(self.parameterTable)
             for k in range(len(self.Point)): pointBox.insertItem(k, 'Point{}'.format(k))
+            pointBox.currentIndexChanged.connect(self.isOk)
             self.parameterTable.setCellWidget(i, 1, pointBox)
     
-    def isOk(self):
+    @pyqtSlot(int)
+    def isOk(self, *args):
         parameters = [self.parameterTable.cellWidget(i, 1).currentIndex() for i in range(self.parameterTable.rowCount())]
-        
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(len(set(parameters))==len(parameters))
