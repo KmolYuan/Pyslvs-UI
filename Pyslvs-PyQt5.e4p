@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-04-08, 15:54:20 -->
+<!-- Saved: 2017-04-09, 21:56:30 -->
 <!-- Copyright (C) 2017 ,  -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -39,7 +39,6 @@
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
     <Source>core/graphics/__init__.py</Source>
-    <Source>core/graphics/canvasItem.py</Source>
     <Source>core/graphics/canvas_0.py</Source>
     <Source>core/graphics/canvas_1.py</Source>
     <Source>core/info/Ui_editFileInfo.py</Source>
@@ -120,7 +119,6 @@
     <Source>requirements.txt</Source>
   </Sources>
   <Forms>
-    <Form>core/panel/run_Triangle_Solver_template.ui</Form>
     <Form>core/dialog/association.ui</Form>
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
@@ -145,6 +143,7 @@
     <Form>core/panel/run_Path_Track.ui</Form>
     <Form>core/panel/run_Triangle_Solver.ui</Form>
     <Form>core/panel/run_Triangle_Solver_edit.ui</Form>
+    <Form>core/panel/run_Triangle_Solver_template.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
     <Form>core/simulate/edit_shaft.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>

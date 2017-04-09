@@ -200,8 +200,8 @@ class DynamicCanvas(QWidget):
                 nPath = [[l[i],l[i+1]] for i in range(0,len(l),2)]
                 for e in nPath:
                     pointNum = int(self.points['Path']['run_list'][int(nPath.index(e)/len(self.Shaft))].replace('Point', ''))
-                    Xs = [x*self.zoom*self.points['rate'] for x in e[0] if x!=None]
-                    Ys = [y*self.zoom*self.points['rate']*-1 for y in e[1] if y!=None]
+                    Xs = [x*self.zoom*self.points['rate'] if x!=None else False for x in e[0]]
+                    Ys = [y*self.zoom*self.points['rate']*-1 if y!=None else False for y in e[1]]
                     pointPath = QPainterPath()
                     if self.points['Path']['shaft_list'][i]==self.points['currentShaft']:
                         pen.setWidth(self.points['style']['penWidth']['path'])
@@ -211,11 +211,15 @@ class DynamicCanvas(QWidget):
                         pen.setWidth(self.points['style']['penWidth']['path'])
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
+                    error = False
                     for x, y in zip(Xs, Ys):
-                        if Xs.index(x)==0 and Ys.index(y)==0:
-                            pointPath.moveTo(x, y)
+                        if x is False and y is False:
+                            error = True
                             continue
-                        pointPath.lineTo(QPointF(x, y))
+                        if (Xs.index(x)==0 and Ys.index(y)==0) or error:
+                            error = False
+                            pointPath.moveTo(x, y)
+                        else: pointPath.lineTo(QPointF(x, y))
                     painter.drawPath(pointPath)
         if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
             pen.setWidth(self.points['style']['penWidth']['path'])
