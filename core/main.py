@@ -502,7 +502,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in[str(), "n", "-"] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()))
             self.File.Lists.styleFix(self.Entiteis_Point_Style, bool(dlg.Fix_Point.checkState()), pos)
-            self.closePanels()
     
     @pyqtSlot(int)
     def Edit_Point_Style(self, index):
@@ -523,9 +522,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Link
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Line', dlg.Link.currentIndex(), dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
-            self.closePanels()
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', dlg.Link.currentIndex(),
+            dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
     
     @pyqtSlot()
     def on_action_New_Stay_Chain_triggered(self):
@@ -541,9 +539,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Stay_Chain
         dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList, pos)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Chain', dlg.Chain.currentIndex(), dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
-            self.closePanels()
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', dlg.Chain.currentIndex(),
+            dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
     @pyqtSlot()
     def on_action_Set_Shaft_triggered(self, cen=0, ref=0):
@@ -560,10 +557,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Shaft
         dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, pos)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Shaft', dlg.Shaft.currentIndex(), dlg.center, dlg.ref, dlg.start, dlg.end,
-                table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
-            self.closePanels()
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', dlg.Shaft.currentIndex(), dlg.center, dlg.ref, dlg.start, dlg.end,
+            table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
     
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self):
@@ -575,9 +570,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Edit_Slider_triggered(self, pos=0):
         dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList, pos)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.editTable(self.Slider, 'Slider', dlg.Slider.currentIndex(), dlg.slider, dlg.start, dlg.end)
-            self.closePanels()
+        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', dlg.Slider.currentIndex(), dlg.slider, dlg.start, dlg.end)
     
     @pyqtSlot()
     def on_action_Set_Rod_triggered(self):
@@ -593,9 +586,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Rod
         dlg = edit_rod_show(table1, table2, self.File.Lists.RodList, pos)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
-            self.closePanels()
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
     
     @pyqtSlot()
     def on_actionDelete_Point_triggered(self, pos = 1): self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
