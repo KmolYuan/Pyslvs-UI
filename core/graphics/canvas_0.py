@@ -119,7 +119,7 @@ class DynamicCanvas(QWidget):
             if self.points['style']['dimension']:
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
-                mp = QPointF((self.points['x'][start]+self.points['x'][e['end']])/2, (self.points['y'][start]+self.points['y'][e['end']])/2)
+                mp = QPointF((self.points['x']['start']+self.points['x'][e['end']])/2, (self.points['y'][start]+self.points['y'][e['end']])/2)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['pos']))
         for e in self.Shaft:

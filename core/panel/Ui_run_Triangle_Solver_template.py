@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/run_Triangle_Solver_template.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\run_Triangle_Solver_template.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.7
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -35,13 +35,17 @@ class Ui_Dialog(object):
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem)
         self.horizontalLayout.addWidget(self.templatePanel)
-        self.groupBox_2 = QtWidgets.QGroupBox(Dialog)
-        self.groupBox_2.setObjectName("groupBox_2")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.groupBox_2)
+        self.trianglePanel = QtWidgets.QGroupBox(Dialog)
+        self.trianglePanel.setObjectName("trianglePanel")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.trianglePanel)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.triangleTable = QtWidgets.QTableWidget(self.groupBox_2)
+        self.triangleTable = QtWidgets.QTableWidget(self.trianglePanel)
+        self.triangleTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.triangleTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.triangleTable.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
+        self.triangleTable.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.triangleTable.setObjectName("triangleTable")
-        self.triangleTable.setColumnCount(4)
+        self.triangleTable.setColumnCount(5)
         self.triangleTable.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.triangleTable.setHorizontalHeaderItem(0, item)
@@ -51,8 +55,10 @@ class Ui_Dialog(object):
         self.triangleTable.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.triangleTable.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.triangleTable.setHorizontalHeaderItem(4, item)
         self.verticalLayout_4.addWidget(self.triangleTable)
-        self.horizontalLayout.addWidget(self.groupBox_2)
+        self.horizontalLayout.addWidget(self.trianglePanel)
         self.verticalLayout_6.addLayout(self.horizontalLayout)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -83,6 +89,7 @@ class Ui_Dialog(object):
         self.label.setObjectName("label")
         self.verticalLayout_3.addWidget(self.label)
         self.parameterTable = QtWidgets.QTableWidget(self.Parameters)
+        self.parameterTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.parameterTable.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.parameterTable.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.parameterTable.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
@@ -113,14 +120,16 @@ class Ui_Dialog(object):
         self.templatePanel.setTitle(_translate("Dialog", "Template"))
         self.templateType.setItemText(0, _translate("Dialog", "4-bar linkage"))
         self.templateType.setItemText(1, _translate("Dialog", "8-bar linkage"))
-        self.groupBox_2.setTitle(_translate("Dialog", "Triangles"))
+        self.trianglePanel.setTitle(_translate("Dialog", "Triangles"))
         item = self.triangleTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Type"))
         item = self.triangleTable.horizontalHeaderItem(1)
-        item.setText(_translate("Dialog", "Point[1]"))
+        item.setText(_translate("Dialog", "Merge"))
         item = self.triangleTable.horizontalHeaderItem(2)
-        item.setText(_translate("Dialog", "Point[2]"))
+        item.setText(_translate("Dialog", "Point[1]"))
         item = self.triangleTable.horizontalHeaderItem(3)
+        item.setText(_translate("Dialog", "Point[2]"))
+        item = self.triangleTable.horizontalHeaderItem(4)
         item.setText(_translate("Dialog", "Point[3]"))
         self.previewPanel.setTitle(_translate("Dialog", "Preview"))
         self.Parameters.setTitle(_translate("Dialog", "Parameters"))

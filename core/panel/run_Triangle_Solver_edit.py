@@ -93,7 +93,6 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.p1.currentText() if self.p1Exist.isChecked() else self.r1.currentIndex(),
             'p2':(self.x2.value(), self.y2.value()) if self.p2Customize.isChecked() else
                 self.p2.currentText() if self.p2Exist.isChecked() else self.r2.currentIndex(),
-            'other':bool(self.other.checkState()),
             'merge':self.merge.currentIndex(),
         }
         if self.type.currentIndex()==0: triangle = {
