@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.7
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -703,7 +703,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 302, 442))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 312, 477))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -1399,7 +1399,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1523,7 +1523,7 @@ class Ui_MainWindow(object):
         self.Measurement.setStatusTip(_translate("MainWindow", "Measure the distance between two points."))
         self.Measurement.setText(_translate("MainWindow", "Measurement"))
         self.OptionTab.setTabText(self.OptionTab.indexOf(self.Panels), _translate("MainWindow", "Panels"))
-        self.BrowseGuide.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Browse Guide</span></p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Ctrl + Mouse Double Click:</span> Set origin to mouse position.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Ctrl + Mouse Press:</span> Set origin to mouse position.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mouse Wheel or Middle button Drag:</span> Plane movement.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mouse Wheel Scrolling:</span> Zoom the display size.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Alt + Mouse Double Click:</span> Quickly added a point and link it to the last point.</li></ul></body></html>"))
+        self.BrowseGuide.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Browse Guide</span></p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"><kbd>Ctrl</kbd> + Mouse Double Click:</span> Set origin to mouse position.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"><kbd>Ctrl</kbd> + Mouse Press:</span> Set origin to mouse position.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mouse Wheel or Middle button Drag:</span> Plane movement.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mouse Wheel Scrolling:</span> Zoom the display size.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\"><kbd>Alt</kbd> + Mouse Double Click:</span> Quickly added a normal point.</li></ul></body></html>"))
         self.BrowseGuide.setStatusTip(_translate("MainWindow", "Show Browse Guide tool tips."))
         self.BrowseGuide.setText(_translate("MainWindow", "<html><head/><body><p><img width=\'30\' src=\":/icons/BrowseGuide.png\"/></p></body></html>"))
         self.ZoomBar.setStatusTip(_translate("MainWindow", "Adjust the slider to change demo size."))
@@ -1688,6 +1688,7 @@ class Ui_MainWindow(object):
         self.actionImportFromTemplate.setText(_translate("MainWindow", "Template"))
         self.actionImportFromTemplate.setStatusTip(_translate("MainWindow", "Import from Linkages Template."))
         self.actionAbout_Qt.setText(_translate("MainWindow", "About Qt"))
+        self.actionAbout_Qt.setStatusTip(_translate("MainWindow", "Show Qt about."))
 
 import icons_rc
 import preview_rc

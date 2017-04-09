@@ -196,11 +196,13 @@ class DynamicCanvas(QWidget):
                 painter.drawText(QPointF(cx+6, cy-6), text)
         if self.points['Path']['path'] and self.points['Path']['show']:
             for i in range(len(self.points['Path']['path'])):
-                nPath = self.points['Path']['path'][i]
-                for j in range(0, len(nPath), 2):
-                    pointNum = int(self.points['Path']['run_list'][int(j/2/len(self.Shaft))].replace('Point', ''))
-                    X_path = nPath[j]
-                    Y_path = nPath[j+1]
+                l = self.points['Path']['path'][i]
+                nPath = [[l[i],l[i+1]] for i in range(0,len(l),2)]
+                for e in nPath:
+                    pointNum = int(self.points['Path']['run_list'][int(nPath.index(e)/len(self.Shaft))].replace('Point', ''))
+                    Xs = [x*self.zoom*self.points['rate'] for x in e[0]]
+                    Ys = [y*self.zoom*self.points['rate']*-1 for y in e[1]]
+                    pointPath = QPainterPath()
                     if self.points['Path']['shaft_list'][i]==self.points['currentShaft']:
                         pen.setWidth(self.points['style']['penWidth']['path'])
                         point_color = self.table_style.cellWidget(pointNum, 3).currentText()
@@ -209,9 +211,9 @@ class DynamicCanvas(QWidget):
                         pen.setWidth(self.points['style']['penWidth']['path'])
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
-                    for k in range(len(X_path)-1):
-                        point_center = QPointF(X_path[k]*self.zoom*self.points['rate'], Y_path[k]*self.zoom*self.points['rate']*(-1))
-                        painter.drawPoint(point_center)
+                    pointPath.moveTo(Xs[0], Ys[0])
+                    for x, y in zip(Xs[1:], Ys[1:]): pointPath.lineTo(QPointF(x, y))
+                    painter.drawPath(pointPath)
         if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
             pen.setWidth(self.points['style']['penWidth']['path'])
             pen.setColor(self.Color['Gray'])

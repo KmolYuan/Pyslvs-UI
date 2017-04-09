@@ -39,7 +39,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setLocate(QFileInfo('.').absolutePath())
         #QPainter Window
         self.DynamicCanvasView = DynamicCanvas()
-        self.DynamicCanvasView.mouse_getClick.connect(self.addLinkGroup)
+        self.DynamicCanvasView.mouse_getClick.connect(self.addPointGroup)
         self.mplLayout.insertWidget(0, self.DynamicCanvasView)
         self.DynamicCanvasView.show()
         self.Resolve()
@@ -470,6 +470,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), "n", "-"] else dlg.Y_coordinate.placeholderText()
             self.File.Lists.editTable(table1, 'Point', False, x, y, bool(dlg.Fix_Point.checkState()),
                 styleTable=table2, color='Green', ringsize=10 if dlg.Fix_Point.checkState() else 5, ringcolor='Green')
+    def addPointGroup(self):
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        table3 = self.Entiteis_Link
+        self.File.Lists.editTable(table1, 'Point', False, str(self.mouse_pos_x), str(self.mouse_pos_y), False,
+            styleTable=table2, color='Green', ringsize=5, ringcolor='Green')
     @pyqtSlot()
     def on_Point_add_button_clicked(self):
         table1 = self.Entiteis_Point
@@ -510,15 +516,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
-    def addLinkGroup(self):
-        table1 = self.Entiteis_Point
-        table2 = self.Entiteis_Point_Style
-        table3 = self.Entiteis_Link
-        self.File.Lists.editTable(table1, 'Point', False, str(self.mouse_pos_x), str(self.mouse_pos_y), False,
-            styleTable=table2, color='Green', ringsize=5, ringcolor='Green')
-        if len(self.File.Lists.PointList)>2:
-            leng = str(((self.File.Lists.PointList[-2]['cx']-self.File.Lists.PointList[-1]['cx'])**2+(self.File.Lists.PointList[-2]['cy']-self.File.Lists.PointList[-1]['cy'])**2)**(1/2))
-            self.File.Lists.editTable(table3, 'Line', False, 'Point{}'.format(len(self.File.Lists.PointList)-2), 'Point{}'.format(len(self.File.Lists.PointList)-1), leng)
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos=0):

@@ -32,3 +32,7 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
             pointBox = QComboBox(self.parameterTable)
             for k in range(len(self.Point)): pointBox.insertItem(k, 'Point{}'.format(k))
             self.parameterTable.setCellWidget(i, 1, pointBox)
+    
+    def isOk(self):
+        parameters = [self.parameterTable.cellWidget(i, 1).currentIndex() for i in range(self.parameterTable.rowCount())]
+        
