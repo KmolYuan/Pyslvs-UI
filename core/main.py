@@ -46,7 +46,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Solve & Script & DOF & Mask
         self.Solvefail = False
         self.DOF = 0
-        self.Mask_Change()
+        self.FocusTable = None
+        self.MaskChange()
         self.Parameter_digital.setValidator(self.Mask)
         init_Right_click_menu(self)
         actionEnabled(self)
@@ -305,7 +306,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.clear()
         self.X_coordinate.clear()
         self.Y_coordinate.clear()
-        self.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
+        self.setWindowTitle("Pyslvs - [New Workbook]")
         print("Reset workbook.")
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, 'CSV File(*.csv);;Text File(*.txt)')
@@ -314,29 +315,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             data = self.File.readData(fileName, data)
             if self.File.check(data):
                 self.File.read(fileName, data,
-                    self.Entiteis_Point, self.Entiteis_Point_Style,
-                    self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                    self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain,
                     self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-                self.setWindowTitle(_translate("MainWindow", "Pyslvs - {}".format(QFileInfo(fileName).fileName())))
-                if (bool(self.File.Lists.data) and bool(self.File.Lists.runList)): self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
-                else: self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
+                self.setWindowTitle("Pyslvs - {}".format(QFileInfo(fileName).fileName()))
                 self.Path_Clear.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 self.Path_coordinate.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
                 self.Path_data_show.setEnabled(bool(self.File.Lists.data) and bool(self.File.Lists.runList))
-                actionEnabled(self)
                 self.workbookSaved()
                 print("Loaded the workbook.")
-                if not('[New Workbook]' in fileName):
-                    dlg = fileInfo_show()
-                    dlg.rename(self.File.form.fileName.fileName(), self.File.form.author, self.File.form.description, self.File.form.lastTime)
-                    dlg.show()
-                    if dlg.exec_(): pass
+                if not('[New Workbook]' in fileName): self.show_Property()
                 else: self.on_action_Property_triggered()
-            else:
-                reply = QMessageBox.question(self, "Loading failed",
-                    "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
-                if reply: print("Error: Incorrect format.")
-    
+            else: self.loadWorkbookError()
     @pyqtSlot()
     def on_actionImportFromWorkbook_triggered(self): self.importWorkbook(say='Import from file...')
     def importWorkbook(self, say, fileName=False, data=list()):
@@ -348,13 +337,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             data = self.File.readData(fileName, data)
             if self.File.check(data):
                 self.File.readMerge(data,
-                    self.Entiteis_Point, self.Entiteis_Point_Style,
-                    self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                    self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link, self.Entiteis_Stay_Chain,
                     self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-            else:
-                reply = QMessageBox.question(self, "Loading failed",
-                    "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), QMessageBox.Ok)
-                if reply: print("Error: Incorrect format.")
+            else: self.loadWorkbookError()
+    def loadWorkbookError(self):
+        dlgbox = QMessageBox(QMessageBox.Warning, "Loading failed", "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), self)
+        if dlgbox.exec_(): print("Error: Incorrect format.")
+    
     #TODO: Save format
     @pyqtSlot()
     def on_actionSave_triggered(self):
@@ -435,6 +424,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlgbox = QMessageBox(QMessageBox.Information, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), self)
         if dlgbox.exec_(): print("Successful Saved {}.".format(title))
     
+    def show_Property(self):
+        dlg = fileInfo_show()
+        dlg.rename(self.File.form.fileName.fileName(), self.File.form.author, self.File.form.description, self.File.form.lastTime)
+        dlg.show()
+        if dlg.exec_(): pass
     @pyqtSlot()
     def on_action_Property_triggered(self):
         dlg = editFileInfo_show()
@@ -589,18 +583,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
     
     @pyqtSlot()
-    def on_actionDelete_Point_triggered(self, pos = 1): self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
+    def on_actionDelete_Point_triggered(self, pos=None):
+        if pos==None: pos = self.Entiteis_Point.currentRow()
+        self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Linkage_triggered(self, pos = 0): self.deletePanel(self.Entiteis_Link, 'Line', ":/icons/deleteline.png", ":/icons/line.png", pos)
+    def on_actionDelete_Linkage_triggered(self, pos=None):
+        if pos==None: pos = self.Entiteis_Link.currentRow()
+        self.deletePanel(self.Entiteis_Link, 'Line', ":/icons/deleteline.png", ":/icons/line.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Stay_Chain_triggered(self, pos = 0): self.deletePanel(self.Entiteis_Stay_Chain, 'Chain', ":/icons/deletechain.png", ":/icons/equal.png", pos)
+    def on_actionDelete_Stay_Chain_triggered(self, pos=None):
+        if pos==None: pos = self.Entiteis_Stay_Chain.currentRow()
+        self.deletePanel(self.Entiteis_Stay_Chain, 'Chain', ":/icons/deletechain.png", ":/icons/equal.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Shaft_triggered(self, pos=0): self.deletePanel(self.Shaft, 'Shaft', ":/icons/deleteshaft.png", ":/icons/circle.png", pos)
+    def on_actionDelete_Shaft_triggered(self, pos=None):
+        if pos==None: pos = self.Shaft.currentRow()
+        self.deletePanel(self.Shaft, 'Shaft', ":/icons/deleteshaft.png", ":/icons/circle.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Slider_triggered(self, pos=0): self.deletePanel(self.Slider, 'Slider', ":/icons/deleteslider.png", ":/icons/pointonx.png", pos)
+    def on_actionDelete_Slider_triggered(self, pos=None):
+        if pos==None: pos = self.Slider.currentRow()
+        self.deletePanel(self.Slider, 'Slider', ":/icons/deleteslider.png", ":/icons/pointonx.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Piston_Spring_triggered(self, pos=0): self.deletePanel(self.Rod, 'Rod',
-        QIcon(QPixmap(":/icons/deleterod.png")), QIcon(QPixmap(":/icons/spring.png")), pos)
+    def on_actionDelete_Piston_Spring_triggered(self, pos=None):
+        if pos==None: pos = self.Rod.currentRow()
+        self.deletePanel(self.Rod, 'Rod', QIcon(QPixmap(":/icons/deleterod.png")), QIcon(QPixmap(":/icons/spring.png")), pos)
     def deletePanel(self, table, name, icon1, icon2, pos):
         dlg = deleteDlg(QIcon(QPixmap(icon1)), QIcon(QPixmap(icon2)), table, pos)
         dlg.show()
@@ -613,7 +618,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_Parameter_add_clicked(self):
         self.File.Lists.editTable(self.Parameter_list, 'n', False, '0.0', 'No-comment')
-        self.Mask_Change()
+        self.MaskChange()
     @pyqtSlot()
     def on_Parameter_update_clicked(self):
         dtext = self.Parameter_digital.text()
@@ -627,7 +632,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if pos>-1:
             self.File.Lists.deleteParameterTable(self.Parameter_list,
                 self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, pos)
-            self.Mask_Change()
+            self.MaskChange()
     
     @pyqtSlot()
     def on_actionReplace_Point_triggered(self, pos=0):
@@ -716,20 +721,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
         self.actionDisplay_Point_Mark.setChecked(True)
         dlg.show()
-        if dlg.exec_():
-            self.File.Lists.setPath(dlg.Path_data, [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)
-            self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>"))
-            self.Path_Clear.setEnabled(True)
-            self.Path_coordinate.setEnabled(True)
-            self.Path_data_show.setEnabled(True)
+        if dlg.exec_(): self.File.Lists.setPath(dlg.Path_data,
+            [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)
     @pyqtSlot()
     def on_Path_Clear_clicked(self):
         self.File.Lists.clearPath()
         self.Reload_Canvas()
-        self.Path_data_exist.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-weight:600; color:#000000;\">No Path Data</span></p></body></html>"))
-        self.Path_Clear.setEnabled(False)
-        self.Path_coordinate.setEnabled(False)
-        self.Path_data_show.setEnabled(False)
     @pyqtSlot()
     def on_Path_coordinate_clicked(self):
         dlg = path_point_data_show(self.Default_Environment_variables, self.File.Lists.data, self.File.Lists.runList)
@@ -905,25 +902,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionClose_all_panel_triggered(self): self.closePanels()
     def closePanels(self):
-        self.__closePanels__()
-        self.__closePanels__()
-        self.DynamicCanvasView.reset_Auxline()
-    def __closePanels__(self):
         while self.PointTab.count()>3: self.closePanel(self.PointTab.count()-1)
         self.PointTab.setCurrentIndex(0)
-        self.PathSolving.setChecked(False)
-        self.TriangleSolver.setChecked(False)
-        self.Drive_shaft.setChecked(False)
-        self.Drive_rod.setChecked(False)
-        self.Measurement.setChecked(False)
-        self.AuxLine.setChecked(False)
+        for button in [self.PathSolving, self.TriangleSolver,
+            self.Drive_shaft, self.Drive_rod, self.Measurement, self.AuxLine]: button.setChecked(False)
+        self.DynamicCanvasView.reset_Auxline()
     def closePanel(self, pos):
         panel = self.PointTab.widget(pos)
         self.PointTab.removeTab(pos)
         panel.close()
         panel.deleteLater()
     
-    def Mask_Change(self):
+    def FocusChange(self, item):
+        if self.FocusTable!=item:
+            self.claerTableDelShortcut()
+            if item.tableWidget()==self.Entiteis_Point: self.actionDelete_Point.setShortcut('Del')
+            elif item.tableWidget()==self.Entiteis_Link: self.actionDelete_Linkage.setShortcut('Del')
+            elif item.tableWidget()==self.Entiteis_Stay_Chain: self.actionDelete_Stay_Chain.setShortcut('Del')
+            elif item.tableWidget()==self.Shaft: self.action_Set_Shaft.setShortcut('Del')
+            elif item.tableWidget()==self.Slider: self.actionDelete_Slider.setShortcut('Del')
+            elif item.tableWidget()==self.Rod: self.actionDelete_Piston_Spring.setShortcut('Del')
+            self.FocusTable = item
+    def claerTableDelShortcut(self):
+        for action in [self.actionDelete_Point, self.actionDelete_Linkage, self.actionDelete_Stay_Chain,
+            self.action_Set_Shaft, self.actionDelete_Slider, self.actionDelete_Piston_Spring]: action.setShortcut('')
+    
+    def MaskChange(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)
         param = '(({}{}){})'.format(
             '[1-{}]'.format(Count[0]) if int(Count)>9 else '[0-{}]'.format(Count),
@@ -931,8 +935,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             '|[0-9]{{1,{}}}'.format(len(Count)-1) if len(Count)>1 else str())
         mask = '({}^[-]?(([1-9][0-9]{{0,14}})|[0])?[.][0-9]{{1,15}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
         self.Mask = QRegExpValidator(QRegExp(mask))
-        self.X_coordinate.setValidator(self.Mask)
-        self.Y_coordinate.setValidator(self.Mask)
+        for textBox in [self.X_coordinate, self.Y_coordinate]: textBox.setValidator(self.Mask)
     
     @pyqtSlot(int, int, int, int)
     def on_Parameter_list_currentCellChanged(self, c0, c1, p0, p1):
@@ -948,9 +951,5 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Parameter_digital.clear()
         self.Parameter_comment.clear()
         enabled = self.Parameter_list.rowCount()>0 and c0>-1
-        self.Parameter_num.setEnabled(enabled)
-        self.Parameter_digital.setEnabled(enabled)
-        self.Parameter_comment.setEnabled(enabled)
-        self.Parameter_lable.setEnabled(enabled)
-        self.Comment_lable.setEnabled(enabled)
-        self.Parameter_update.setEnabled(enabled)
+        for widget in [self.Parameter_num, self.Parameter_digital, self.Parameter_comment, self.Parameter_lable,
+            self.Comment_lable, self.Parameter_update]: widget.setEnabled(enabled)

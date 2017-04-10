@@ -2,6 +2,8 @@ from .QtModules import *
 _translate = QCoreApplication.translate
 
 def init_Right_click_menu(self):
+    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+            self.Shaft, self.Slider, self.Rod]: table.itemClicked.connect(self.FocusChange)
     #DynamicCanvasView Right-click menu
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
@@ -19,7 +21,6 @@ def init_Right_click_menu(self):
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_path_track)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
     #Entiteis_Point Right-click menu
-    self.Entiteis_Point_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
     self.popMenu_point = QMenu(self)
     self.action_point_right_click_menu_copy = QAction("Copy Coordinate", self)
@@ -40,7 +41,6 @@ def init_Right_click_menu(self):
     self.action_point_right_click_menu_delete = QAction("Delete this Point", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_delete) 
     #Entiteis_Link Right-click menu
-    self.Entiteis_Link_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Entiteis_Link_Widget.customContextMenuRequested.connect(self.on_link_context_menu)
     self.popMenu_link = QMenu(self)
     self.action_link_right_click_menu_add = QAction("Add a Link", self)
@@ -55,7 +55,6 @@ def init_Right_click_menu(self):
     self.action_link_right_click_menu_delete = QAction("Delete this Link", self)
     self.popMenu_link.addAction(self.action_link_right_click_menu_delete) 
     #Entiteis_Chain Right-click menu
-    self.Entiteis_Stay_Chain_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Entiteis_Stay_Chain_Widget.customContextMenuRequested.connect(self.on_chain_context_menu)
     self.popMenu_chain = QMenu(self)
     self.action_chain_right_click_menu_add = QAction("Add a Chain", self)
@@ -66,7 +65,6 @@ def init_Right_click_menu(self):
     self.action_chain_right_click_menu_delete = QAction("Delete this Chain", self)
     self.popMenu_chain.addAction(self.action_chain_right_click_menu_delete) 
     #Shaft Right-click menu
-    self.Shaft_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Shaft_Widget.customContextMenuRequested.connect(self.on_shaft_context_menu)
     self.popMenu_shaft = QMenu(self)
     self.action_shaft_right_click_menu_add = QAction("Add a Drive Shaft", self)
@@ -82,7 +80,6 @@ def init_Right_click_menu(self):
     self.action_shaft_right_click_menu_delete = QAction("Delete this Drive Shaft", self)
     self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_delete) 
     #Slider Right-click menu
-    self.Slider_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Slider_Widget.customContextMenuRequested.connect(self.on_slider_context_menu)
     self.popMenu_slider = QMenu(self)
     self.action_slider_right_click_menu_add = QAction("Add a Slider", self)
@@ -93,7 +90,6 @@ def init_Right_click_menu(self):
     self.action_slider_right_click_menu_delete = QAction("Delete this Slider", self)
     self.popMenu_slider.addAction(self.action_slider_right_click_menu_delete) 
     #Rod Right-click menu
-    self.Rod_Widget.setContextMenuPolicy(Qt.CustomContextMenu)
     self.Rod_Widget.customContextMenuRequested.connect(self.on_rod_context_menu)
     self.popMenu_rod = QMenu(self)
     self.action_rod_right_click_menu_add = QAction("Add a Rod", self)
@@ -108,24 +104,16 @@ def actionEnabled(self):
     TWO_POINT = len(self.File.Lists.PointList)>1
     THREE_POINT = len(self.File.Lists.PointList)>2
     #Warning
-    self.reqLine.setVisible(not TWO_POINT)
-    self.reqChain.setVisible(not THREE_POINT)
-    self.reqShaft.setVisible(not TWO_POINT)
-    self.reqSlider.setVisible(not THREE_POINT)
-    self.reqRod.setVisible(not THREE_POINT)
+    for lable in [self.reqLine, self.reqShaft]: lable.setVisible(not TWO_POINT)
+    for lable in [self.reqChain, self.reqSlider, self.reqRod]: lable.setVisible(not THREE_POINT)
     self.reqPath.setVisible(not self.Shaft.rowCount()>0)
     self.reqPathSolving.setVisible(not self.File.Designs.list)
     #Add
-    self.action_New_Line.setEnabled(TWO_POINT)
-    self.action_New_Stay_Chain.setEnabled(THREE_POINT)
-    self.action_Set_Shaft.setEnabled(TWO_POINT)
-    self.action_Set_Slider.setEnabled(THREE_POINT)
-    self.action_Set_Rod.setEnabled(THREE_POINT)
-    self.action_link_right_click_menu_add.setEnabled(TWO_POINT)
-    self.action_chain_right_click_menu_add.setEnabled(THREE_POINT)
-    self.action_shaft_right_click_menu_add.setEnabled(TWO_POINT)
-    self.action_slider_right_click_menu_add.setEnabled(THREE_POINT)
-    self.action_rod_right_click_menu_add.setEnabled(THREE_POINT)
+    for action in [self.action_New_Line, self.action_Set_Shaft, self.action_link_right_click_menu_add,
+        self.action_shaft_right_click_menu_add]: action.setEnabled(TWO_POINT)
+    for action in [self.action_New_Stay_Chain, self.action_Set_Slider, self.action_Set_Rod,
+        self.action_chain_right_click_menu_add, self.action_slider_right_click_menu_add,
+        self.action_rod_right_click_menu_add]: action.setEnabled(THREE_POINT)
     #Edit
     self.actionEdit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.actionEdit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
@@ -157,6 +145,11 @@ def actionEnabled(self):
     self.AuxLine.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.Drive_shaft.setEnabled(self.Shaft.rowCount()>0)
     self.Drive_rod.setEnabled(self.Rod.rowCount()>0)
+    #Path
+    if self.File.Lists.data and self.File.Lists.runList:self.Path_data_exist.setText(
+        "<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">Path Data Exist</span></p></body></html>")
+    else: self.Path_data_exist.setText("No Path Data")
+    for widget in [self.Path_Clear, self.Path_coordinate, self.Path_data_show]: widget.setEnabled(bool(self.File.Lists.data and self.File.Lists.runList))
     #Others
     self.action_point_right_click_menu_copy.setVisible(self.Entiteis_Point.currentColumn()==4)
     self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)

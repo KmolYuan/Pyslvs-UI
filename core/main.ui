@@ -155,6 +155,9 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="contextMenuPolicy">
+                    <enum>Qt::CustomContextMenu</enum>
+                   </property>
                    <layout class="QVBoxLayout" name="verticalLayout_25">
                     <property name="spacing">
                      <number>6</number>
@@ -942,6 +945,9 @@ p, li { white-space: pre-wrap; }
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
+                       <property name="contextMenuPolicy">
+                        <enum>Qt::CustomContextMenu</enum>
+                       </property>
                        <property name="statusTip">
                         <string>All Links in this workbook. Needs two point.</string>
                        </property>
@@ -1067,6 +1073,9 @@ p, li { white-space: pre-wrap; }
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
+                       </property>
+                       <property name="contextMenuPolicy">
+                        <enum>Qt::CustomContextMenu</enum>
                        </property>
                        <property name="statusTip">
                         <string>All Stay Chains in this workbook. Needs three point.</string>
@@ -1230,6 +1239,9 @@ p, li { white-space: pre-wrap; }
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
+                       <property name="contextMenuPolicy">
+                        <enum>Qt::CustomContextMenu</enum>
+                       </property>
                        <property name="statusTip">
                         <string>All drive shaft will show here. Needs two point.</string>
                        </property>
@@ -1354,6 +1366,9 @@ p, li { white-space: pre-wrap; }
                          <verstretch>0</verstretch>
                         </sizepolicy>
                        </property>
+                       <property name="contextMenuPolicy">
+                        <enum>Qt::CustomContextMenu</enum>
+                       </property>
                        <property name="statusTip">
                         <string>All slider will show here. Needs a point and a link.</string>
                        </property>
@@ -1455,6 +1470,9 @@ p, li { white-space: pre-wrap; }
                          <horstretch>0</horstretch>
                          <verstretch>0</verstretch>
                         </sizepolicy>
+                       </property>
+                       <property name="contextMenuPolicy">
+                        <enum>Qt::CustomContextMenu</enum>
                        </property>
                        <property name="statusTip">
                         <string>All extendable rod will show here. Needs two point.</string>
@@ -2212,12 +2230,6 @@ p, li { white-space: pre-wrap; }
      <width>998</width>
      <height>26</height>
     </rect>
-   </property>
-   <property name="defaultUp">
-    <bool>false</bool>
-   </property>
-   <property name="nativeMenuBar">
-    <bool>true</bool>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="statusTip">
