@@ -46,7 +46,10 @@ class Lists():
     
     def deletePointTable(self, Point, Style, Line, Chain, Shaft, Slider, Rod, pos):
         #Associated items
-        if 'Point{}'.format(pos) in self.runList: self.clearPath()
+        n = False
+        for i in [int(e.replace('Point', '')) for e in self.runList]:
+            if i>=pos: n = True
+        if n: self.clearPath()
         for e in self.LineList:
             if pos in [e['start'], e['end']]: self.deleteTable(Line, 'Line', self.LineList.index(e))
         for e in self.ChainList:

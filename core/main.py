@@ -585,6 +585,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionDelete_Point_triggered(self, pos=None):
         if pos==None: pos = self.Entiteis_Point.currentRow()
+        print(pos)
         self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
     @pyqtSlot()
     def on_actionDelete_Linkage_triggered(self, pos=None):
@@ -613,7 +614,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             if name=='Point': self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link,
                 self.Entiteis_Stay_Chain, self.Shaft, self.Slider, self.Rod, dlg.Entity.currentIndex())
-            else: self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
+            else:
+                if table==self.Shaft: self.File.Lists.clearPath()
+                self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
             self.closePanels()
     
     @pyqtSlot()
