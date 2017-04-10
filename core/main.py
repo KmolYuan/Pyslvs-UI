@@ -638,6 +638,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_actionReplace_Point_triggered(self, pos=0):
         dlg = replacePoint_show(QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos)
+        dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
         if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft, self.Slider, self.Rod,
             dlg.Prv.currentIndex(), dlg.Next.currentIndex())
