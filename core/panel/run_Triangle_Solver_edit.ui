@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Direction</string>
+   <string>Triangle Editor</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">

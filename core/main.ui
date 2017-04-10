@@ -2580,7 +2580,7 @@ p, li { white-space: pre-wrap; }
     <string>Let the window truns to full screen.</string>
    </property>
    <property name="shortcut">
-    <string>F11</string>
+    <string>Shift+F1</string>
    </property>
   </action>
   <action name="actionNormalmized">
@@ -2595,7 +2595,7 @@ p, li { white-space: pre-wrap; }
     <string>Let the window back to normal.</string>
    </property>
    <property name="shortcut">
-    <string>F12</string>
+    <string>Shift+F2</string>
    </property>
   </action>
   <action name="action_Output_to_Picture">
@@ -2896,6 +2896,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Display point mark in canvas.</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
   <action name="action_Output_to_Solvespace">

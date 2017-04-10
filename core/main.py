@@ -608,6 +608,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.deletePanel(self.Rod, 'Rod', QIcon(QPixmap(":/icons/deleterod.png")), QIcon(QPixmap(":/icons/spring.png")), pos)
     def deletePanel(self, table, name, icon1, icon2, pos):
         dlg = deleteDlg(QIcon(QPixmap(icon1)), QIcon(QPixmap(icon2)), table, pos)
+        dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
         if dlg.exec_():
             if name=='Point': self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Point_Style, self.Entiteis_Link,
@@ -914,18 +915,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         panel.deleteLater()
     
     def FocusChange(self, item):
-        if self.FocusTable!=item:
+        if self.FocusTable!=item.tableWidget():
             self.claerTableDelShortcut()
             if item.tableWidget()==self.Entiteis_Point: self.actionDelete_Point.setShortcut('Del')
             elif item.tableWidget()==self.Entiteis_Link: self.actionDelete_Linkage.setShortcut('Del')
             elif item.tableWidget()==self.Entiteis_Stay_Chain: self.actionDelete_Stay_Chain.setShortcut('Del')
-            elif item.tableWidget()==self.Shaft: self.action_Set_Shaft.setShortcut('Del')
+            elif item.tableWidget()==self.Shaft: self.actionDelete_Shaft.setShortcut('Del')
             elif item.tableWidget()==self.Slider: self.actionDelete_Slider.setShortcut('Del')
             elif item.tableWidget()==self.Rod: self.actionDelete_Piston_Spring.setShortcut('Del')
-            self.FocusTable = item
+            self.FocusTable = item.tableWidget()
     def claerTableDelShortcut(self):
         for action in [self.actionDelete_Point, self.actionDelete_Linkage, self.actionDelete_Stay_Chain,
-            self.action_Set_Shaft, self.actionDelete_Slider, self.actionDelete_Piston_Spring]: action.setShortcut('')
+            self.actionDelete_Shaft, self.actionDelete_Slider, self.actionDelete_Piston_Spring]: action.setShortcut('')
     
     def MaskChange(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)

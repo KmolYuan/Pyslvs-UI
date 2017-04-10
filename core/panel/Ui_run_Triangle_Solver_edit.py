@@ -327,7 +327,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Direction"))
+        Dialog.setWindowTitle(_translate("Dialog", "Triangle Editor"))
         self.typeLayout.setTitle(_translate("Dialog", "Solving Type"))
         self.type.setItemText(0, _translate("Dialog", "PLAP"))
         self.type.setItemText(1, _translate("Dialog", "PLLP"))
