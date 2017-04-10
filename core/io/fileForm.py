@@ -265,10 +265,8 @@ class File():
         s = solver([
             {'p1':(Result['Ax'], Result['Ay']), 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L0'], 'angle':0, 'other':other}, #B
             {'p1':0, 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L1'], 'len2':Result['L2'], 'other':other}, #C
-            {'p1':0, 'p2':1, 'len1':Result['L3'], 'len2':Result['L4'], 'other':other}, #E
-            ])
+            {'p1':0, 'p2':1, 'len1':Result['L3'], 'len2':Result['L4'], 'other':other}]) #E
         answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s.answer()
-        print(answer)
         #A-C-B-C-E
         Anum = Point.rowCount()+0
         Dnum = Point.rowCount()+1
@@ -350,12 +348,10 @@ class File():
             for e1 in range(len(check)):
                 for e2 in range(len(check)):
                     errorInfo = [checkList.index(check), sorted([e1, e2])]
-                    if check[e1]==check[e2] and e1!=e2 and not(errorInfo in errorTable):
-                        errorTable.append(errorInfo)
+                    if check[e1]==check[e2] and e1!=e2 and not(errorInfo in errorTable): errorTable.append(errorInfo)
         toolTipText = html(title("Conflict Guide")+content(
             "Some table might contain errors:")+orderList(
             *([(', '.join(list([['Line', 'Chain', 'Shaft', 'Slider', 'Rod'][p[0]]+'{}']*2))).format(p[1][0], p[1][1]) for p in errorTable] if len(errorTable)!=0 else ['None']))+content(
             "If there is no any table conflict, please check dimensions.",
             "Or use Undo function to return to the previous action."))
         ConflictGuide.setToolTip(toolTipText)
-        QToolTip.showText(ConflictGuide.mapToGlobal(QPoint(0, 0)), toolTipText)
