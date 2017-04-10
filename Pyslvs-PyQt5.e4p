@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-04-09, 21:56:30 -->
-<!-- Copyright (C) 2017 ,  -->
+<!-- Saved: 2017-04-10, 11:55:17 -->
+<!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
-  <Language>en_US</Language>
+  <Language></Language>
   <Hash>8830517c87a377b45c7328ed685a32516abd547e</Hash>
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
-  <Version>0.4.0</Version>
-  <Author></Author>
-  <Email></Email>
+  <Version>0.6.4</Version>
+  <Author>Yuan</Author>
+  <Email>daan0014119@gmail.com</Email>
   <Sources>
     <Source>README.md</Source>
     <Source>core/QtModules.py</Source>
