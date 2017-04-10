@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
-now = datetime.datetime.now()
-timeNow = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
+def timeNow():
+    now = datetime.datetime.now()
+    return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 '''
 CSV File for Pyslvs
 =====
@@ -15,7 +16,7 @@ The '_path_' labels is used to indicate the location of Run list and the path da
 '''
 
 def new_workbook():
-    return ['_info_', str(), '_info_', str(), '_info_', timeNow, '_info_',
+    return ['_info_', str(), '_info_', str(), '_info_', timeNow(), '_info_',
         '_table_',
         '_table_',
         '_table_',
@@ -34,7 +35,7 @@ def new_workbook():
 
 def example_crankRocker():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Crank Rocker', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Crank Rocker', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '90.00', '0.00', 'True', 'Point2', '20', '20', 'False', 'Point3', '0', '10', 'False', 'Point4', '30', '20', 'False',
         '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Magenta', '5', 'Magenta', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point3', '35.00', 'Line1', 'Point1', 'Point4', '70.00',
@@ -53,7 +54,7 @@ def example_crankRocker():
 
 def example_DragLink():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Drag-link', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Drag-link', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '50.0', '0.0', 'True', 'Point2', '2.75', '46.5', 'False', 'Point3', '56.25', '45.75', 'False', 'Point4', '36.82', '78.64', 'False',
         '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Orange', '5', 'Orange', 'Point3', 'Magenta', '5', 'Magenta', 'Point4', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point2', '70.0', 'Line1', 'Point1', 'Point3', '70.0',
@@ -72,7 +73,7 @@ def example_DragLink():
 
 def example_doubleRocker():
     return [
-        '_info_', 'Yuan', '_info_', 'Example: Parallelogram Linkage', '_info_', timeNow, '_info_',
+        '_info_', 'Yuan', '_info_', 'Example: Parallelogram Linkage', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '70', '0', 'True', 'Point2', '10.5', '59.25', 'False', 'Point3', '63.5', '60.75', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Orange', '5', 'Orange', 'Point3', 'Magenta', '5', 'Magenta',
         '_table_', 'Line0', 'Point0', 'Point2', '70', 'Line1', 'Point1', 'Point3', '70', 'Line2', 'Point2', 'Point3', '40',
@@ -91,7 +92,7 @@ def example_doubleRocker():
 
 def example_parallelogramLinkage():
     return [
-        '_info_', 'Yuan', '_info_', 'Example: Parallelogram Linkage', '_info_', timeNow, '_info_',
+        '_info_', 'Yuan', '_info_', 'Example: Parallelogram Linkage', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '70', '0', 'True', 'Point2', '10.5', '59.25', 'False', 'Point3', '63.5', '60.75', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Green', '5', 'Green', 'Point3', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point2', '70', 'Line1', 'Point1', 'Point3', '70', 'Line2', 'Point2', 'Point3', '70',
@@ -102,7 +103,7 @@ def example_parallelogramLinkage():
 
 def example_mutipleLink():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Mutiple Link', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Mutiple Link', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'False', 'Point2', '-38.0', '-7.8', 'True', 'Point3', '-47.781645924846174', '32.53075009221798', 'False', 'Point4', '-77.50272355544476', '-14.695276042487995', 'False', 'Point5', '-57.75719471806708', '-48.79035033383228', 'False', 'Point6', '-6.737084852656755', '-90.1840502085893', 'False', 'Point7', '-21.448607086721726', '-43.44465447483369', 'False',
         '_table_', 'Point1', 'Green', '5', 'Green', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Green', '5', 'Green', 'Point7', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point4', 'Point5', '39.40', 'Line1', 'Point2', 'Point7', '39.30', 'Line2', 'Point1', 'Point3', '50.00', 'Line3', 'Point1', 'Point7', '61.90', 'Line4', 'Point0', 'Point1', '15.00',
@@ -121,7 +122,7 @@ def example_mutipleLink():
 
 def example_twoMutipleLink():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Two Pairs Mutiple Link', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Two Pairs Mutiple Link', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '-0.9673638087211588', '14.96877440746491', 'False', 'Point2', '-38.0', '-7.8', 'True', 'Point3', '-47.781645924846174', '32.53075009221798', 'False', 'Point4', '-77.50272355544476', '-14.695276042487995', 'False', 'Point5', '-57.75719471806708', '-48.79035033383228', 'False', 'Point6', '-6.737084852656755', '-90.1840502085893', 'False', 'Point7', '-21.448607086721726', '-43.44465447483369', 'False', 'Point8', '40.6', '30.6', 'False', 'Point9', '86.0', '14.8', 'False', 'Point10', '38.0', '-7.8', 'True', 'Point11', '41.2', '-35.8', 'False', 'Point12', '79.4', '-40.2', 'False', 'Point13', '44.8', '-88.4', 'False',
         '_table_', 'Point1', 'Dark-Yellow', '5', 'Dark-Yellow', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Magenta', '5', 'Magenta', 'Point7', 'Green', '5', 'Green', 'Point8', 'Green', '5', 'Green', 'Point9', 'Green', '5', 'Green', 'Point10', 'Blue', '10', 'Blue', 'Point11', 'Green', '5', 'Green', 'Point12', 'Green', '5', 'Green', 'Point13', 'Magenta', '5', 'Magenta',
         '_table_', 'Line0', 'Point4', 'Point5', '39.40', 'Line1', 'Point2', 'Point7', '39.30', 'Line2', 'Point1', 'Point3', '50.00', 'Line3', 'Point1', 'Point7', '61.90', 'Line4', 'Point0', 'Point1', '15.00', 'Line5', 'Point1', 'Point8', '50', 'Line6', 'Point10', 'Point11', '39.3', 'Line7', 'Point9', 'Point12', '39.4', 'Line8', 'Point1', 'Point11', '61.9',
@@ -140,7 +141,7 @@ def example_twoMutipleLink():
 
 def example_reverseParsingRocker():
     return [
-        '_info_', 'Kmol Lee', '_info_', 'Genetic algorithm.', '_info_', timeNow, '_info_',
+        '_info_', 'Kmol Lee', '_info_', 'Genetic algorithm.', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '-1.9', '-17.742', 'True', 'Point2', '45.6743', '-35.318', 'True', 'Point3', '-10.0', '-10', 'False', 'Point4', '40', '30.0', 'False', 'Point5', '-5', '30.0', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Green', '10', 'Green', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Magenta', '5', 'Magenta',
         '_table_', 'Line0', 'Point1', 'Point3', '8.9691', 'Line1', 'Point2', 'Point4', '37.8102',
@@ -159,7 +160,7 @@ def example_reverseParsingRocker():
 
 def example_sliderRod():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Slider and Rod.', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Slider and Rod.', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '70.0', '0.0', 'True', 'Point2', '0.0', '70.0', 'True', 'Point3', '0.75', '47.75', 'False', 'Point4', '47.75', '1.5', 'False',
         '_table_', 'Point1', 'Green', '10', 'Green', 'Point2', 'Green', '10', 'Green', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point3', 'Point4', '70.0',
@@ -171,7 +172,7 @@ def example_sliderRod():
 
 def example_rockSlider():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Rock Slider', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Rock Slider', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '27.25', '46.25', 'False', 'Point2', '21.0', '11.8', 'True', 'Point3', '50.0', '11.8', 'True', 'Point4', '35.6', '11.8', 'False',
         '_table_', 'Point1', 'Green', '5', 'Green', 'Point2', 'Blue', '10', 'Blue', 'Point3', 'Blue', '10', 'Blue', 'Point4', 'Green', '5', 'Green',
         '_table_', 'Line0', 'Point0', 'Point1', '30.0', 'Line1', 'Point1', 'Point4', '20.0',
@@ -182,7 +183,7 @@ def example_rockSlider():
 
 def example_liftTailgate():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Lift Tailgate', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Lift Tailgate', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '50.0', '0.0', 'True', 'Point2', '25.53', '-46.05', 'False', 'Point3', '35.26', '-57.11', 'False', 'Point4', '30.0', '-24.21', 'False', 'Point5', '66.58', '-40.0', 'False', 'Point6', '67.63', '-20.0', 'True', 'Point7', '161.84', '-1.05', 'False',
         '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Green', '5', 'Green', 'Point3', 'Green', '5', 'Green', 'Point4', 'Green', '5', 'Green', 'Point5', 'Green', '5', 'Green', 'Point6', 'Blue', '10', 'Blue', 'Point7', 'Dark-Yellow', '5', 'Dark-Yellow',
         '_table_', 'Line0', 'Point1', 'Point2', '50.0', 'Line1', 'Point0', 'Point3', '77.0', 'Line2', 'Point4', 'Point5', '30.0',
@@ -194,7 +195,7 @@ def example_liftTailgate():
 
 def example_TJLinkage():
     return [
-        '_info_', 'Yuang', '_info_', '"Theo Jansen\'s multiple linkage.', '', 'You can use Triangle Solver panel to rebuld them."', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', '"Theo Jansen\'s multiple linkage.', '', 'You can use Triangle Solver panel to rebuld them."', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '-38.0', '-7.8', 'True',
         '_table_', 'Point1', 'Blue', '10', 'Blue',
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',
@@ -206,7 +207,7 @@ def example_TJLinkage():
 
 def example_RockSliderDesign():
     return [
-        '_info_', 'Yuang', '_info_', 'Example: Rock slider design', '_info_', timeNow, '_info_',
+        '_info_', 'Yuang', '_info_', 'Example: Rock slider design', '_info_', timeNow(), '_info_',
         '_table_', 'Point1', '70.75', '11.5', 'True', 'Point2', '151.07', '67.14', 'True',
         '_table_', 'Point1', 'Blue', '10', 'Blue', 'Point2', 'Blue', '10', 'Blue',
         '_table_', '_table_', '_table_', '_table_', '_table_', '_table_', '_table_',

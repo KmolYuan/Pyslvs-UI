@@ -855,7 +855,7 @@ class Ui_MainWindow(object):
         self.zoombarLayout.addWidget(self.BrowseGuide)
         self.ZoomBar = QtWidgets.QSlider(self.histogramArea)
         self.ZoomBar.setMinimum(25)
-        self.ZoomBar.setMaximum(800)
+        self.ZoomBar.setMaximum(1000)
         self.ZoomBar.setSingleStep(50)
         self.ZoomBar.setPageStep(50)
         self.ZoomBar.setProperty("value", 200)

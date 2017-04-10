@@ -3,8 +3,9 @@ from ..QtModules import *
 from .listProcess import Lists, Designs
 import csv
 import datetime
-now = datetime.datetime.now()
-timeNow = "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
+def timeNow():
+    now = datetime.datetime.now()
+    return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 from ..kernel.pyslvs_triangle_solver.TS import solver
 from ..info.info import html, title, content, orderList
 
@@ -13,7 +14,7 @@ class Form():
         self.fileName = QFileInfo('[New Workbook]')
         self.description = str()
         self.author = 'Anonymous'
-        self.lastTime = timeNow
+        self.lastTime = timeNow()
         self.changed = False
         self.Stack = 0
 
@@ -28,7 +29,7 @@ class File():
         self.Designs = Designs(self.FileState)
         self.Script = str()
         self.form = Form()
-    def updateTime(self): self.form.lastTime = timeNow
+    def updateTime(self): self.form.lastTime = timeNow()
     def updateAuthorDescription(self, author, description):
         self.form.author = author
         self.form.description = description
@@ -64,7 +65,7 @@ class File():
             errorInfo.append('Description Information')
         try: lastTime = data[infoIndex[2]:infoIndex[3]+1][1]
         except:
-            lastTime = timeNow
+            lastTime = timeNow()
             errorInfo.append('Date Information')
         self.form.Stack = self.FileState.index()
         self.form.fileName = QFileInfo(fileName)
@@ -166,7 +167,7 @@ class File():
         writer.writerows([
             ['_info_'], [self.form.author if self.form.author!=str() else 'Anonymous'],
             ['_info_'], [self.form.description],
-            ['_info_'], [timeNow], ["_info_"]])
+            ['_info_'], [timeNow()], ["_info_"]])
         #table
         self.CSV_write(writer, Point, 4, init=1)
         self.CSV_write(writer, Point_Style, 4, init=1)

@@ -2039,7 +2039,7 @@ p, li { white-space: pre-wrap; }
                 <number>25</number>
                </property>
                <property name="maximum">
-                <number>800</number>
+                <number>1000</number>
                </property>
                <property name="singleStep">
                 <number>50</number>
