@@ -36,6 +36,11 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
             self.Point_list.addItem(self.Move_list.item(0).text())
             self.Move_list.takeItem(0)
         self.isReady()
+    @pyqtSlot(QListWidgetItem)
+    def on_Point_list_itemDoubleClicked(self, item): self.on_add_button_clicked()
+    @pyqtSlot(QListWidgetItem)
+    def on_Move_list_itemDoubleClicked(self, item): self.on_remove_botton_clicked()
+    
     @pyqtSlot(float)
     def on_XIncrease_valueChanged(self, p0): self.isReady()
     @pyqtSlot(float)

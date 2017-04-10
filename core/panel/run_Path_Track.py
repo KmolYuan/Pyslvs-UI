@@ -60,6 +60,11 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
             self.Point_list.addItem(self.Run_list.item(0).text())
             self.Run_list.takeItem(0)
         self.isReady()
+    @pyqtSlot(QListWidgetItem)
+    def on_Point_list_itemDoubleClicked(self, item): self.on_add_button_clicked()
+    @pyqtSlot(QListWidgetItem)
+    def on_Run_list_itemDoubleClicked(self, item): self.on_remove_botton_clicked()
+    
     @pyqtSlot()
     def isReady(self):
         self.shaftReadyList = [e.isChecked() for e in self.shaftList]
