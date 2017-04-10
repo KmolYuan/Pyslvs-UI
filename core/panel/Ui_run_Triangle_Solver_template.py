@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(861, 663)
-        Dialog.setMinimumSize(QtCore.QSize(861, 663))
-        Dialog.setMaximumSize(QtCore.QSize(861, 663))
+        Dialog.resize(890, 663)
+        Dialog.setMinimumSize(QtCore.QSize(890, 663))
+        Dialog.setMaximumSize(QtCore.QSize(890, 663))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/TS.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
