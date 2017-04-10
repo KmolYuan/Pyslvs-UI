@@ -267,15 +267,18 @@ class File():
             {'p1':0, 'p2':1, 'len1':Result['L3'], 'len2':Result['L4'], 'other':other}, #E
             ])
         answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s.answer()
+        print(answer)
         #A-C-B-C-E
         Anum = Point.rowCount()+0
         Dnum = Point.rowCount()+1
         Bnum = Point.rowCount()+2
         Cnum = Point.rowCount()+3
         Enum = Point.rowCount()+4
-        for e in answer:
-            fix = answer.index(e)<2
-            self.Lists.editTable(Point, 'Point', False, str(e[0]), str(e[1]), fix,
+        for i in range(len(answer)):
+            x = answer[i][0]
+            y = answer[i][1]
+            fix = i<2
+            self.Lists.editTable(Point, 'Point', False, x, y, fix,
                 styleTable=Point_Style, color='Blue' if fix else 'Green', ringsize=10 if fix else 5, ringcolor='Blue' if fix else 'Green')
         self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
             str(Result['L1']), str(Result['L4']), str(Result['L3']))
