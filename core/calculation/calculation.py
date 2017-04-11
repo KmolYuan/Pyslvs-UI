@@ -5,14 +5,14 @@ py_nm = sys.version[0:sys.version.find(" ")][0:3]
 
 #SLVS Version & pyslvs_generate Version
 if platform.system().lower()=="linux":
-    if py_nm=="3.4":
+    if py_nm=='3.4':
         from ..kernel.py34.slvs import *
         from ..kernel.pyslvs_generate.py34 import tinycadlib
         from ..kernel.pyslvs_generate.py34.planarlinkage import build_planar
         from ..kernel.pyslvs_generate.py34.rga import Genetic
         from ..kernel.pyslvs_generate.py34.firefly import Firefly
         from ..kernel.pyslvs_generate.py34.de import DiffertialEvolution
-    elif py_nm=="3.5":
+    elif py_nm=='3.5':
         from ..kernel.py35.slvs import *
         from ..kernel.pyslvs_generate.py35 import tinycadlib
         from ..kernel.pyslvs_generate.py35.planarlinkage import build_planar
@@ -20,13 +20,20 @@ if platform.system().lower()=="linux":
         from ..kernel.pyslvs_generate.py35.firefly import Firefly
         from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
 elif platform.system().lower()=="windows":
-    if py_nm=="3.5":
+    if py_nm=='3.5':
         from ..kernel.py35w.slvs import *
         from ..kernel.pyslvs_generate.py35w import tinycadlib
         from ..kernel.pyslvs_generate.py35w.planarlinkage import build_planar
         from ..kernel.pyslvs_generate.py35w.rga import Genetic
         from ..kernel.pyslvs_generate.py35w.firefly import Firefly
         from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
+    if py_nm=='3.6':
+        from ..kernel.py36w.slvs import *
+        from ..kernel.pyslvs_generate.py36w import tinycadlib
+        from ..kernel.pyslvs_generate.py36w.planarlinkage import build_planar
+        from ..kernel.pyslvs_generate.py36w.rga import Genetic
+        from ..kernel.pyslvs_generate.py36w.firefly import Firefly
+        from ..kernel.pyslvs_generate.py36w.de import DiffertialEvolution
 
 def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
         currentShaft=0, point_int=False, angle=False, hasWarning=True):
