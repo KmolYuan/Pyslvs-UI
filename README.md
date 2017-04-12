@@ -121,6 +121,10 @@ Build Kernel
 
 Compiled kernel is in the `core` folder.
 
+* Linux: Python 3.4, Python 3.5
+
+* Windows: Python 3.5, Python 3.6
+
 If your Python version or platform is not compatible, maybe you should build them by self.
 
 ```bash
