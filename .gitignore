@@ -14,3 +14,5 @@ _eric6project*
 
 dist*
 build*
+
+*.log

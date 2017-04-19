@@ -17,6 +17,10 @@ parser.add_argument('-d', '--file-data', action='store_true', help="display the 
 parser.add_argument('-g', '--show-args', action='store_true', help="display the arguments when starting")
 args = parser.parse_args()
 
+import logging
+logging.basicConfig(filename='PyslvsLogFile.log',level=logging.INFO)
+logging.info("Pyslvs Log Message.")
+
 def show_info():
     print("Pyslvs {}".format(VERSION))
     print("OS Type: {}".format(platform.system()))
