@@ -4,7 +4,7 @@ import csv, platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = "0.6.4(stable)"
+VERSION = "0.6.5(dev)"
 
 parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
