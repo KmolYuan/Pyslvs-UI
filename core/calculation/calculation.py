@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy
-from ..kernel.kernel import *
+from ..kernel.kernels import *
 
 def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
         currentShaft=0, point_int=False, angle=False, hasWarning=True):

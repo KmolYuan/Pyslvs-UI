@@ -15,9 +15,9 @@ if __name__=='__main__':
         run = MainWindow(args)
         run.show()
         splash.finish(run)
-        ExitCode = app.exec()
-    except:
-        import logging
-        logging.exception("Exception Happened.")
-        ExitCode = 1
-    finally: exit(ExitCode)
+        exit(app.exec())
+    except Exception as e:
+        if e!=SystemExit:
+            import logging
+            logging.exception("Exception Happened.")
+            exit(1)

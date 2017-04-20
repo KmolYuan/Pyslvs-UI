@@ -4,7 +4,18 @@ import csv, platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = "0.6.5(dev)"
+VERSION = '0.6.5(dev)'
+from PyQt5.QtCore import qVersion
+from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
+from sip import SIP_VERSION_STR as sipVersion
+from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
+INFO = ["Pyslvs {}".format(VERSION),
+    "OS Type: {}".format(platform.system()),
+    "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
+    "Qt Version: {}".format(qVersion().strip()),
+    "PyQt Version: {}".format(pyqtVersion.strip()),
+    "Sip Version: {}".format(sipVersion.strip()),
+    "QScintilla Version: {}".format(qsciVersion.strip())]
 
 parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
@@ -24,25 +35,7 @@ logging.basicConfig(filename='PyslvsLogFile.log', filemode='w',
 logging.info("Pyslvs Log Message Start.")
 
 def show_info():
-    print("Pyslvs {}".format(VERSION))
-    print("OS Type: {}".format(platform.system()))
-    print("Python Version: {:d}.{:d}.{:d}".format(*version_info[:3]))
-    try:
-        from PyQt5.QtCore import qVersion
-        print("Qt Version: {}".format(qVersion().strip()))
-    except ImportError: print("No Qt5.")
-    try:
-        from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
-        print("PyQt Version: {}".format(pyqtVersion.strip()))
-    except ImportError: print("No PyQt5.")
-    try:
-        from sip import SIP_VERSION_STR as sipVersion
-        print("Sip Version: {}".format(sipVersion.strip()))
-    except ImportError: print("No Sip.")
-    try:
-        from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
-        print("QScintilla Version: {}".format(qsciVersion.strip()))
-    except ImportError: print("No QScintilla.")
+    print('\n'.join(INFO))
     print('-'*7)
     return args
 
@@ -75,5 +68,5 @@ class version_show(QDialog, Ui_About_Dialog):
         "Change canvas appearance.",
         "Draw dynamic simulation path with any point in the machinery.",
         "Using triangle iterate the mechanism results.")+content(
-        "If you want to know about more, you can reference by our website.",
-        )))
+        "If you want to know about more, you can reference by our website.")))
+        self.Versions.setText(html(orderList(*INFO)))

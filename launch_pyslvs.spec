@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['launch_pyslvs.py'],
-             pathex=['./core/kernel/py35/', './core/kernel/pyslvs_generate/py35/', '/home/ahshoe/Desktop/Pyslvs-PyQt5'],
+             pathex=['C:\\Users\\ahshoe\\Desktop\\Pyslvs-PyQt5'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -23,7 +23,7 @@ exe = EXE(pyz,
           debug=False,
           strip=False,
           upx=True,
-          console=True )
+          console=True , icon='icons\\main_big.ico')
 coll = COLLECT(exe,
                a.binaries,
                a.zipfiles,

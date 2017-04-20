@@ -1,13 +1,10 @@
 all: build run
 
-BUILDFLAG = --path=./core/kernel/py35/ --path=./core/kernel/pyslvs_generate/py35/
-
-#Windows: Temporarily display log for debugging.
 build: launch_pyslvs.py
 	@echo ---Pyslvs  Build---
 ifeq ($(OS),Windows_NT)
 	@echo ---Windows Version---
-	pyinstaller launch_pyslvs.py $(BUILDFLAG) -i ./icons/main_big.ico
+	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 	python setup.py build
 	@echo ---Copying Folder and Files---
 	xcopy .\build\exe.win-amd64-3.6\core\kernel\py36w .\dist\launch_pyslvs\core\kernel\py36w /s /y /i
@@ -15,7 +12,7 @@ ifeq ($(OS),Windows_NT)
 	rename .\dist\launch_pyslvs Pyslvs
 else
 	@echo ---Linux Version---
-	pyinstaller launch_pyslvs.py $(BUILDFLAG)
+	pyinstaller launch_pyslvs.py
 	mv dist/launch_pyslvs dist/Pyslvs
 endif
 	@echo ---Done---
