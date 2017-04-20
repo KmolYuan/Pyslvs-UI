@@ -18,8 +18,10 @@ parser.add_argument('-g', '--show-args', action='store_true', help="display the 
 args = parser.parse_args()
 
 import logging
-logging.basicConfig(filename='PyslvsLogFile.log',level=logging.INFO)
-logging.info("Pyslvs Log Message.")
+logging.basicConfig(filename='PyslvsLogFile.log', filemode='w',
+                    format='%(asctime)s | %(message)s',
+                    level=logging.INFO)
+logging.info("Pyslvs Log Message Start.")
 
 def show_info():
     print("Pyslvs {}".format(VERSION))
