@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['launch_pyslvs.py'],
-             pathex=['/home/ahshoe/Desktop/Pyslvs-PyQt5'],
+             pathex=['./core/kernel/py35/', './core/kernel/pyslvs_generate/py35/', '/home/ahshoe/Desktop/Pyslvs-PyQt5'],
              binaries=[],
              datas=[],
              hiddenimports=[],

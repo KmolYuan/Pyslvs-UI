@@ -1,37 +1,6 @@
 # -*- coding: utf-8 -*-
-#System infomation
-import sys, platform, numpy
-py_nm = '{}{}'.format(sys.version_info.major, sys.version_info.minor)
-py_nm += 'w' if platform.system().lower()=='windows' else ''
-#SLVS Version & pyslvs_generate Version
-if py_nm=='36w':
-    from ..kernel.py36w.slvs import *
-    from ..kernel.pyslvs_generate.py36w import tinycadlib
-    from ..kernel.pyslvs_generate.py36w.planarlinkage import build_planar
-    from ..kernel.pyslvs_generate.py36w.rga import Genetic
-    from ..kernel.pyslvs_generate.py36w.firefly import Firefly
-    from ..kernel.pyslvs_generate.py36w.de import DiffertialEvolution
-elif py_nm=='35w':
-    from ..kernel.py35w.slvs import *
-    from ..kernel.pyslvs_generate.py35w import tinycadlib
-    from ..kernel.pyslvs_generate.py35w.planarlinkage import build_planar
-    from ..kernel.pyslvs_generate.py35w.rga import Genetic
-    from ..kernel.pyslvs_generate.py35w.firefly import Firefly
-    from ..kernel.pyslvs_generate.py35w.de import DiffertialEvolution
-elif py_nm=='35':
-    from ..kernel.py35.slvs import *
-    from ..kernel.pyslvs_generate.py35 import tinycadlib
-    from ..kernel.pyslvs_generate.py35.planarlinkage import build_planar
-    from ..kernel.pyslvs_generate.py35.rga import Genetic
-    from ..kernel.pyslvs_generate.py35.firefly import Firefly
-    from ..kernel.pyslvs_generate.py35.de import DiffertialEvolution
-elif py_nm=='34':
-    from ..kernel.py34.slvs import *
-    from ..kernel.pyslvs_generate.py34 import tinycadlib
-    from ..kernel.pyslvs_generate.py34.planarlinkage import build_planar
-    from ..kernel.pyslvs_generate.py34.rga import Genetic
-    from ..kernel.pyslvs_generate.py34.firefly import Firefly
-    from ..kernel.pyslvs_generate.py34.de import DiffertialEvolution
+import numpy
+from ..kernel.kernel import *
 
 def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
         currentShaft=0, point_int=False, angle=False, hasWarning=True):
