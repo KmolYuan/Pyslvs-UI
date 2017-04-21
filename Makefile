@@ -1,6 +1,6 @@
 all: build run
 
-PYTHON = py35
+PYTHON = py$(shell python3 -c "import sys, platform;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]))+('w' if platform.system().lower()=='windows' else '');sys.stdout.write(t)")
 
 build: launch_pyslvs.py
 	@echo ---Pyslvs  Build---
