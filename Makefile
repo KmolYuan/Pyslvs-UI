@@ -46,7 +46,8 @@ else
 	mkdir dist/temp dist/temp/DEBIAN dist/temp/usr/ dist/temp/usr/bin dist/temp/usr/share/
 	touch $(DEBIANCONTROL)
 	echo 'Package: pyslvs' >> $(DEBIANCONTROL)
-	echo 'Version: 0.6.4' >> $(DEBIANCONTROL)
+	$(eval PYSLVS = "Version: $(shell python3 -c "import sys;from core.info.info import VERSION;sys.stdout.write(VERSION[0])")")
+	echo $(PYSLVS) >> $(DEBIANCONTROL)
 	echo 'Architecture: all' >> $(DEBIANCONTROL)
 	echo 'Description: Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.' >> $(DEBIANCONTROL)
 	echo 'Maintainer: Yuan Chang <daan0014119@gmail.com>' >> $(DEBIANCONTROL)

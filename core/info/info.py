@@ -4,12 +4,12 @@ import csv, platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = '0.6.5(dev)'
+VERSION = ('0.6.5', 'dev')
 from PyQt5.QtCore import qVersion
 from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 from sip import SIP_VERSION_STR as sipVersion
 from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
-INFO = ["Pyslvs {}".format(VERSION),
+INFO = ["Pyslvs {}({})".format(VERSION[0], VERSION[1]),
     "OS Type: {}".format(platform.system()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
     "Qt Version: {}".format(qVersion().strip()),
@@ -20,7 +20,7 @@ INFO = ["Pyslvs {}".format(VERSION),
 parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
-parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version=VERSION)
+parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}({})'.format(VERSION[0], VERSION[1]))
 parser.add_argument('-r', metavar='File Path', default=False, nargs='?', type=str, help="read csv file from the file path")
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
@@ -36,7 +36,7 @@ def show_info():
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):
         super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
-        self.showMessage("Version {}".format(VERSION), (Qt.AlignBottom|Qt.AlignRight))
+        self.showMessage("Version {}({})".format(VERSION[0], VERSION[1]), (Qt.AlignBottom|Qt.AlignRight))
 
 ## Turn simple string to html format.
 def html(script): return '<html><head/><body>{}</body></html>'.format(script)
@@ -48,7 +48,7 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.Title.setText(html(title("Pyslvs", "Version {}".format(VERSION))))
+        self.Title.setText(html(title("Pyslvs", "Version {}({})".format(VERSION[0], VERSION[1]))))
         self.Content.setText(html(content(
         "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
         "It can use in Mechanical Design and Simulation.",
