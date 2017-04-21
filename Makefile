@@ -13,8 +13,9 @@ ifeq ($(OS),Windows_NT)
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 	python setup.py build
 	@echo ---Copying Folder and Files---
-	xcopy .\build\exe.win-amd64-3.6\core\kernel\py36w .\dist\launch_pyslvs\core\kernel\py36w /s /y /i
-	xcopy .\build\exe.win-amd64-3.6\core\kernel\pyslvs_generate\py36w .\dist\launch_pyslvs\core\kernel\pyslvs_generate\py36w /s /y /i
+	$(eval PYTHOND = $(shell python -c "import sys, platform;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
+	xcopy .\build\exe.win-amd64-$(PYTHOND)\core\kernel\$(PYTHON) .\dist\launch_pyslvs\core\kernel\$(PYTHON) /s /y /i
+	xcopy .\build\exe.win-amd64-$(PYTHOND)\core\kernel\pyslvs_generate\$(PYTHON) .\dist\launch_pyslvs\core\kernel\pyslvs_generate\$(PYTHON) /s /y /i
 	rename .\dist\launch_pyslvs Pyslvs
 	rename .\core\kernel\kernel_getter.py $(PYTHON).py
 	rename .\core\kernel\_kernel_getter.py kernel_getter.py
