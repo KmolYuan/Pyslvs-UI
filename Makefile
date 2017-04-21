@@ -1,12 +1,13 @@
+#Pyslvs Makefile
+
 all: build run
 
-PYTHON = py$(shell python3 -c "import sys, platform;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]))+('w' if platform.system().lower()=='windows' else '');sys.stdout.write(t)")
-
 build: launch_pyslvs.py
-	@echo ---Pyslvs  Build---
+	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
-	@echo --Python Version $(PYTHON)--
 ifeq ($(OS),Windows_NT)
+	$(eval PYTHON = py$(shell python -c "import sys, platform;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]))+('w' if platform.system().lower()=='windows' else '');sys.stdout.write(t)"))
+	@echo --Python Version $(PYTHON)--
 	rename .\core\kernel\kernel_getter.py _kernel_getter.py
 	rename .\core\kernel\$(PYTHON).py kernel_getter.py
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
@@ -18,6 +19,8 @@ ifeq ($(OS),Windows_NT)
 	rename .\core\kernel\kernel_getter.py $(PYTHON).py
 	rename .\core\kernel\_kernel_getter.py kernel_getter.py
 else
+	$(eval PYTHON = py$(shell python3 -c "import sys, platform;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]))+('w' if platform.system().lower()=='windows' else '');sys.stdout.write(t)"))
+	@echo --Python Version $(PYTHON)--
 	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
 	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
 	pyinstaller launch_pyslvs.py
