@@ -10,7 +10,7 @@ ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYTHON)--
 	rename .\core\kernel\kernel_getter.py _kernel_getter.py
 	rename .\core\kernel\$(PYTHON).py kernel_getter.py
-	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
+	pyinstaller $< -i ./icons/main_big.ico
 	python setup.py build
 	@echo ---Copying Folder and Files---
 	$(eval PYTHOND = $(shell python -c "import sys, platform;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
@@ -24,7 +24,7 @@ else
 	@echo --Python Version $(PYTHON)--
 	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
 	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
-	pyinstaller launch_pyslvs.py
+	pyinstaller $<
 	mv dist/launch_pyslvs dist/Pyslvs
 	mv core/kernel/kernel_getter.py core/kernel/$(PYTHON).py
 	mv core/kernel/_kernel_getter.py core/kernel/kernel_getter.py
