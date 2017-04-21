@@ -22,5 +22,5 @@ if __name__=='__main__':
             logging.basicConfig(filename='PyslvsLogFile.log', filemode='w',
                 format='%(asctime)s | %(message)s', level=logging.INFO)
             logging.exception("Exception Happened.")
-            print("Exception Happened. Please check the log file.")
+            print('{}\n{}'.format(type(e), e))
             exit(1)
