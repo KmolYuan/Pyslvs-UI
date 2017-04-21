@@ -143,5 +143,5 @@ Then follow the instructions in the readme.
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
-[Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/django-project-template
+[Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
 [Triangle solver]: https://gist.github.com/KmolYuan/c5a94b769bc410524bba66acc5204a8f
