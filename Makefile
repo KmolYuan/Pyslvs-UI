@@ -1,19 +1,29 @@
 all: build run
 
+PYTHON = py35
+
 build: launch_pyslvs.py
 	@echo ---Pyslvs  Build---
+	@echo ---$(OS) Version---
+	@echo --Python Version $(PYTHON)--
 ifeq ($(OS),Windows_NT)
-	@echo ---Windows Version---
+	rename .\core\kernel\kernel_getter.py _kernel_getter.py
+	rename .\core\kernel\$(PYTHON).py kernel_getter.py
 	pyinstaller launch_pyslvs.py -i ./icons/main_big.ico
 	python setup.py build
 	@echo ---Copying Folder and Files---
 	xcopy .\build\exe.win-amd64-3.6\core\kernel\py36w .\dist\launch_pyslvs\core\kernel\py36w /s /y /i
 	xcopy .\build\exe.win-amd64-3.6\core\kernel\pyslvs_generate\py36w .\dist\launch_pyslvs\core\kernel\pyslvs_generate\py36w /s /y /i
 	rename .\dist\launch_pyslvs Pyslvs
+	rename .\core\kernel\kernel_getter.py $(PYTHON).py
+	rename .\core\kernel\_kernel_getter.py kernel_getter.py
 else
-	@echo ---Linux Version---
+	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
+	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
 	pyinstaller launch_pyslvs.py
 	mv dist/launch_pyslvs dist/Pyslvs
+	mv core/kernel/kernel_getter.py core/kernel/$(PYTHON).py
+	mv core/kernel/_kernel_getter.py core/kernel/kernel_getter.py
 endif
 	@echo ---Done---
 

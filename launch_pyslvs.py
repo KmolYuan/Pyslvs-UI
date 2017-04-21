@@ -20,4 +20,5 @@ if __name__=='__main__':
         if e!=SystemExit:
             import logging
             logging.exception("Exception Happened.")
+            print("Exception Happened. Please check the log file.")
             exit(1)
