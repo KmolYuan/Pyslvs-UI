@@ -70,9 +70,9 @@ class edit_chain_show(QDialog, edit_Dialog):
         self.p1_p3.setText(p1p3)
         self.p1_p3.setPlaceholderText(p1p3)
     def isOk(self):
-        self.p1 = self.Point1.currentText()
-        self.p2 = self.Point2.currentText()
-        self.p3 = self.Point3.currentText()
+        self.p1 = self.Point1.currentIndex()
+        self.p2 = self.Point2.currentIndex()
+        self.p3 = self.Point3.currentIndex()
         self.p1_p2Val = self.p1_p2.text() if not self.p1_p2.text()in[str(), "n"] else self.p1_p2.placeholderText()
         self.p2_p3Val = self.p2_p3.text() if not self.p2_p3.text()in[str(), "n"] else self.p2_p3.placeholderText()
         self.p1_p3Val = self.p1_p3.text() if not self.p1_p3.text()in[str(), "n"] else self.p1_p3.placeholderText()

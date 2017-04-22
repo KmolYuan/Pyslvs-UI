@@ -35,7 +35,7 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
     @pyqtSlot(int)
     def on_End_currentIndexChanged(self, index): self.isOk()
     def isOk(self):
-        self.slider = self.Slider_Center.currentText()
-        self.start = self.Start.currentText()
-        self.end = self.End.currentText()
+        self.slider = self.Slider_Center.currentIndex()
+        self.start = self.Start.currentIndex()
+        self.end = self.End.currentIndex()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.slider!=self.start and self.start!=self.end and self.slider!=self.end)

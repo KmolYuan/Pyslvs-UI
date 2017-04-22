@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(410, 290)
-        Dialog.setMinimumSize(QtCore.QSize(410, 290))
-        Dialog.setMaximumSize(QtCore.QSize(410, 290))
+        Dialog.resize(410, 340)
+        Dialog.setMinimumSize(QtCore.QSize(410, 340))
+        Dialog.setMaximumSize(QtCore.QSize(410, 340))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/editchain.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -123,6 +123,10 @@ class Ui_Dialog(object):
         self.verticalLayout_3.addWidget(self.Point2)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.verticalLayout_5.addLayout(self.horizontalLayout)
+        self.isReplace = QtWidgets.QCheckBox(Dialog)
+        self.isReplace.setChecked(True)
+        self.isReplace.setObjectName("isReplace")
+        self.verticalLayout_5.addWidget(self.isReplace)
         self.horizontalLayout_2.addLayout(self.verticalLayout_5)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setObjectName("verticalLayout_4")
@@ -159,6 +163,8 @@ class Ui_Dialog(object):
         self.label_6.setText(_translate("Dialog", "[1]-[2]"))
         self.p1_p2.setPlaceholderText(_translate("Dialog", "30.0"))
         self.label_4.setText(_translate("Dialog", "Point[2]"))
+        self.isReplace.setToolTip(_translate("Dialog", "Remove the links that contain these points."))
+        self.isReplace.setText(_translate("Dialog", "Replication constraints(?)"))
 
 import icons_rc
 

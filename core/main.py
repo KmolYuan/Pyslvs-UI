@@ -460,8 +460,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_point_show(self.Mask, table1, self.File.Lists.PointList)
         dlg.show()
         if dlg.exec_():
-            x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), "n", "-"] else dlg.X_coordinate.placeholderText()
-            y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), "n", "-"] else dlg.Y_coordinate.placeholderText()
+            x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), 'n', '-'] else dlg.X_coordinate.placeholderText()
+            y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), 'n', '-'] else dlg.Y_coordinate.placeholderText()
             self.File.Lists.editTable(table1, 'Point', False, x, y, bool(dlg.Fix_Point.checkState()),
                 styleTable=table2, color='Green', ringsize=10 if dlg.Fix_Point.checkState() else 5, ringcolor='Green')
     def addPointGroup(self):
@@ -508,7 +508,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Link
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False, dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False,
+            dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
     
     @pyqtSlot()
     def on_actionEdit_Linkage_triggered(self, pos=0):
@@ -517,7 +518,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', dlg.Link.currentIndex(),
-            dlg.Start_Point.currentText(), dlg.End_Point.currentText(), dlg.len)
+            dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
     
     @pyqtSlot()
     def on_action_New_Stay_Chain_triggered(self):
@@ -525,7 +526,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table2 = self.Entiteis_Stay_Chain
         dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+        if dlg.exec_():
+            if dlg.isReplace.isChecked():
+                Lists = self.File.Lists.LineList
+                threePoints = [dlg.p1, dlg.p2, dlg.p3]
+                for e in self.File.Lists.LineList:
+                    if e['start'] in threePoints and e['end'] in threePoints: self.File.Lists.deleteTable(
+                        self.Entiteis_Link, 'Line', self.File.Lists.LineList.index(e))
+            self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
     @pyqtSlot()
     def on_actionEdit_Stay_Chain_triggered(self, pos=0):

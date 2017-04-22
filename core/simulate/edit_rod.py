@@ -40,8 +40,8 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
     @pyqtSlot()
     def on_Position_editingFinished(self): self.isOk()
     def isOk(self):
-        self.cen = self.Center.currentText()
-        self.start = self.Start.currentText()
-        self.end = self.End.currentText()
+        self.cen = self.Center.currentIndex()
+        self.start = self.Start.currentIndex()
+        self.end = self.End.currentIndex()
         self.pos = self.Position.text()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.cen!=self.start and self.start!=self.end and self.cen!=self.end)

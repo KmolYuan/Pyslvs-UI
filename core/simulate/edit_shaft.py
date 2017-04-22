@@ -44,8 +44,8 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
     @pyqtSlot(int)
     def on_References_currentIndexChanged(self, index): self.isOk()
     def isOk(self):
-        self.center = self.Shaft_Center.currentText()
-        self.ref = self.References.currentText()
+        self.center = self.Shaft_Center.currentIndex()
+        self.ref = self.References.currentIndex()
         self.start = self.Start_Angle.text()
         self.end = self.End_Angle.text()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.center!=self.ref and self.start!=self.end)
