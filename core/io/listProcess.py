@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
+from .elements import VPoint, VLine, VChain, VShaft, VSlider, VRod
 from collections import defaultdict
 from ..dialog.delete import deleteDlg
 from math import sqrt, acos, degrees
@@ -7,7 +8,7 @@ from .undoRedo import (
     editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
     setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand, TSinitCommand)
 
-class Lists():
+class Lists:
     def __init__(self, FileState):
         #Lists
         self.PointList = [{'x':0, 'y':0, 'fix':True, 'cx':0, 'cy':0}]

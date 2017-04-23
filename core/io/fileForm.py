@@ -9,7 +9,7 @@ def timeNow():
 from ..kernel.pyslvs_triangle_solver.TS import solver
 from ..info.info import html, title, content, orderList
 
-class Form():
+class Form:
     def __init__(self):
         self.fileName = QFileInfo('[New Workbook]')
         self.description = str()
@@ -18,7 +18,7 @@ class Form():
         self.changed = False
         self.Stack = 0
 
-class File():
+class File:
     def __init__(self, FileState, args):
         self.FileState = FileState
         self.args = args
