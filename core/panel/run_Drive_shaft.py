@@ -33,9 +33,9 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.table = table
         for i in range(len(table)): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
         self.Shaft.setCurrentIndex(currentShaft)
-        self.startAngle = int(table[currentShaft]['start']*100)
-        self.endAngle = int(table[currentShaft]['end']*100)
-        self.demoAngle = int(table[currentShaft]['demo']*100)
+        self.startAngle = int(table[currentShaft].start*100)
+        self.endAngle = int(table[currentShaft].end*100)
+        self.demoAngle = int(table[currentShaft].demo*100)
         self.playButton.clicked.connect(self.playStart)
         self.Degree.setMinimum(self.startAngle)
         self.Degree.setMaximum(self.endAngle)
@@ -43,9 +43,9 @@ class Drive_shaft_show(QWidget, Drive_Form):
     
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index):
-        self.startAngle = int(self.table[index]['start']*100)
-        self.endAngle = int(self.table[index]['end']*100)
-        self.demoAngle = int(self.table[index]['demo']*100)
+        self.startAngle = int(self.table[index].start*100)
+        self.endAngle = int(self.table[index].end*100)
+        self.demoAngle = int(self.table[index].demo*100)
         self.Degree.setValue(self.demoAngle)
     
     @pyqtSlot(int)

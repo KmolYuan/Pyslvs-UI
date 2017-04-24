@@ -229,34 +229,29 @@ class File:
             writer.writerow(rowdata)
     
     def Obstacles_Exclusion(self):
-        table_point = self.Lists.PointList
-        table_line = self.Lists.LineList
-        table_chain = self.Lists.ChainList
-        table_shaft = self.Lists.ShaftList
-        table_slider = self.Lists.SliderList
-        table_rod = self.Lists.RodList
-        for i in range(len(table_line)):
-            a = table_line[i]['start']
-            b = table_line[i]['end']
-            case1 = table_point[a]['x']==table_point[b]['x']
-            case2 = table_point[a]['y']==table_point[b]['y']
+        table_points = self.Lists.PointList
+        for e in self.Lists.LineList:
+            a = e.start
+            b = e.end
+            case1 = table_points[a].x==table_points[b].x
+            case2 = table_points[a].y==table_points[b].y
             if case1 and case2:
-                if b==0: table_point[a]['x'] += 0.01
-                else: table_point[b]['x'] += 0.01
-        for i in range(len(table_chain)):
-            a = table_chain[i]['p1']
-            b = table_chain[i]['p2']
-            c = table_chain[i]['p3']
-            if table_point[a]['x']==table_point[b]['x'] and table_point[a]['y']==table_point[b]['y']:
-                if b==0: table_point[a]['x'] += 0.01
-                else: table_point[b]['x'] += 0.01
-            if table_point[b]['x']==table_point[c]['x'] and table_point[b]['y']==table_point[c]['y']:
-                if c==0: table_point[b]['y'] += 0.01
-                else: table_point[c]['y'] += 0.01
-            if table_point[a]['x']==table_point[c]['x'] and table_point[a]['y']==table_point[c]['y']:
-                if c==0: table_point[a]['y'] += 0.01
-                else: table_point[c]['y'] += 0.01
-        return table_point, table_line, table_chain, table_shaft, table_slider, table_rod
+                if b.fix==True: table_points[a].x += 0.01
+                else: table_points[b].x += 0.01
+        for e in self.Lists.ChainList:
+            a = e.p1
+            b = e.p2
+            c = e.p3
+            if table_points[a].x==table_points[b].x and table_points[a].y==table_points[b].y:
+                if b.fix==True: table_points[a].x += 0.01
+                else: table_points[b].x += 0.01
+            if table_points[b].x==table_points[c].x and table_points[b].y==table_points[c].y:
+                if c.fix==True: table_points[b].y += 0.01
+                else: table_points[c].y += 0.01
+            if table_points[a].x==table_points[c].x and table_points[a].y==table_points[c].y:
+                if c.fix==True: table_points[a].y += 0.01
+                else: table_points[c].y += 0.01
+        return table_points, self.Lists.LineList, self.Lists.ChainList, self.Lists.ShaftList, self.Lists.SliderList, self.Lists.RodList
     
     def Generate_Merge(self, row, Point, Point_Style, Link, Chain, Shaft):
         Result = self.Designs.result[row]
@@ -287,7 +282,7 @@ class File:
         print("Generate Result Merged.")
     
     def TS_Merge(self, answers, Point, Point_Style, Link, Chain, Slider):
-        Pythagorean = lambda p1, p2: ((p1['x']-p2['x'])**2+(p1['y']-p2['y'])**2)**(1/2)
+        Pythagorean = lambda p1, p2: ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**(1/2)
         pNums = list()
         for answer in answers:
             pNum = dict()
@@ -312,18 +307,19 @@ class File:
             if direction['Type'] in ['PLPP', 'PPP']: p3 = int(direction['p3'].replace('Point', '')) if type(direction['p3'])==str else pNums[direction['p3']]['answer'] if type(direction['p3'])==int else pNum['p3']
             if direction['Type'] in ['PLAP', 'PLLP', 'PLPP']: pA = pNum['answer']
             #Merge options
+            table_points = self.Lists.PointList
             if direction['Type'] in ['PLAP', 'PLLP']:
                 if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
                 elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False,
-                    p2, pA, str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+                    p2, pA, str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
                 elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, pA, p2,
                     str(direction['len1']),
-                    str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))),
-                    str(Pythagorean(self.Lists.PointList[p1], self.Lists.PointList[p2])))
+                    str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))),
+                    str(Pythagorean(table_points[p1], table_points[p2])))
                 elif direction['merge']==4:
                     self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
                     self.Lists.editTable(Link, 'Line', False, p2, pA,
-                        str(direction.get('len2', Pythagorean(self.Lists.PointList[p2], self.Lists.PointList[pA]))))
+                        str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
             elif direction['Type']=='PPP':
                 if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
                 elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
@@ -338,11 +334,11 @@ class File:
     
     def conflictMessage(self, ConflictGuide):
         errorTable = list()
-        checkLine = [sorted([e['start'], e['end']]) for e in self.Lists.LineList]
-        checkChain = [sorted([e['p1'], e['p2'], e['p3']]) for e in self.Lists.ChainList]
-        checkShaft = [sorted([e['cen'], e['ref']]) for e in self.Lists.ShaftList]
-        checkSlider = [sorted([e['cen'], e['start'], e['end']]) for e in self.Lists.SliderList]
-        checkRod = [sorted([e['cen'], e['start'], e['end']]) for e in self.Lists.RodList]
+        checkLine = [sorted([e.start, e.end]) for e in self.Lists.LineList]
+        checkChain = [sorted([e.p1, e.p2, e.p3]) for e in self.Lists.ChainList]
+        checkShaft = [sorted([e.cen, e.ref]) for e in self.Lists.ShaftList]
+        checkSlider = [sorted([e.cen, e.start, e.end]) for e in self.Lists.SliderList]
+        checkRod = [sorted([e.cen, e.start, e.end]) for e in self.Lists.RodList]
         checkList = [checkLine, checkChain, checkShaft, checkSlider, checkRod]
         for check in checkList:
             for e1 in range(len(check)):

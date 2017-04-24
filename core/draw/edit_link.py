@@ -25,10 +25,10 @@ class edit_link_show(QDialog, edit_link_Dialog):
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):
         if len(self.Lines)>index:
-            self.Start_Point.setCurrentIndex(self.Lines[index]['start'])
-            self.End_Point.setCurrentIndex(self.Lines[index]['end'])
-            self.Length.setText(str(self.Lines[index]['len']))
-            self.Length.setPlaceholderText(str(self.Lines[index]['len']))
+            self.Start_Point.setCurrentIndex(self.Lines[index].start)
+            self.End_Point.setCurrentIndex(self.Lines[index].end)
+            self.Length.setText(str(self.Lines[index].len))
+            self.Length.setPlaceholderText(str(self.Lines[index].len))
     
     @pyqtSlot(int)
     def on_Start_Point_currentIndexChanged(self, index):
@@ -43,7 +43,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
     def demoLen(self):
         start = self.Point[self.Start_Point.currentIndex()]
         end = self.Point[self.End_Point.currentIndex()]
-        leng = str(round(((start['cx']-end['cx'])**2+(start['cy']-end['cy'])**2)**(1/2), 2))
+        leng = str(round(((start.cx-end.cx)**2+(start.cy-end.cy)**2)**(1/2), 2))
         self.Length.setText(leng)
         self.Length.setPlaceholderText(leng)
     def isOk(self):

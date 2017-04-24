@@ -9,6 +9,10 @@ class VPoint:
     def x(self): return self._x
     @property
     def y(self): return self._y
+    @x.setter
+    def x(self, x): self._x = x
+    @y.setter
+    def y(self, y): self._y = y
     @property
     def fix(self): return self._fix
     @property
@@ -45,6 +49,7 @@ class VLine:
         self._end = end
         self._len = len
     
+    def __contains__(self, point): return point==self._start or point==self._end
     def __str__(self): return "<Line start={v.start} end={v.end} len={v.len}>".format(v=self)
 
 class VChain:
@@ -70,6 +75,7 @@ class VChain:
         self._p2p3 = p2p3
         self._p1p3 = p1p3
     
+    def __contains__(self, point): return point==self._p1 or point==self._p2 or point==self._p3
     def __str__(self):
         return "<Chain p1={v.p1} p2={v.p2} p3={v.p3} p1p2={v.p1p2} p2p3={v.p2p3} p1p3={v.p1p3}>".format(v=self)
 
@@ -85,6 +91,8 @@ class VShaft:
     def end(self): return self._end
     @property
     def demo(self): return self._demo
+    @demo.setter
+    def demo(self, demo): self._demo = demo
     @property
     def isParallelogram(self): return self._isParallelogram
     
@@ -99,6 +107,7 @@ class VShaft:
     def drive(self, demo):
         if demo>self._start and demo<self._end: self._demo = demo
     
+    def __contains__(self, point): return point==self._cen or point==self._ref
     def __str__(self):
         return "<Shaft cen={v.cen} ref={v.ref} start={v.start}, end={v.end} demo={v.demo} isParallelogram={v.isParallelogram}>".format(v=self)
 
@@ -116,6 +125,7 @@ class VSlider:
         self._start = start
         self._end = end
     
+    def __contains__(self, point): return point==self._cen or point==self._start or point==self._end
     def __str__(self):
         return "<Slider cen={v.cen} start={v.start} end={v.end}>".format(v=self)
 
