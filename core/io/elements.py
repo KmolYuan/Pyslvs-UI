@@ -32,7 +32,7 @@ class VPoint:
     def __str__(self): return "<Point x={v.x} y={v.y} fix={v.fix} cx={v.cx} cy={v.cy}>".format(v=self)
 
 class VLine:
-    def __init__(self, start=VPoint(), end=VPoint(), len=0.): self.set(start, end, len)
+    def __init__(self, start=0, end=0, len=0.): self.set(start, end, len)
     @property
     def start(self): return self._start
     @property
@@ -48,7 +48,7 @@ class VLine:
     def __str__(self): return "<Line start={v.start} end={v.end} len={v.len}>".format(v=self)
 
 class VChain:
-    def __init__(self, p1=VPoint(), p2=VPoint(), p3=VPoint(), p1p2=0., p2p3=0., p1p3=0.): self.set(p1, p2, p3, p1p2, p2p3, p1p3)
+    def __init__(self, p1=VPoint(), p2=0, p3=0, p1p2=0., p2p3=0., p1p3=0.): self.set(p1, p2, p3, p1p2, p2p3, p1p3)
     @property
     def p1(self): return self._p1
     @property
@@ -62,7 +62,7 @@ class VChain:
     @property
     def p1p3(self): return self._p1p3
     
-    def set(self, p1=VPoint(), p2=VPoint(), p3=VPoint(), p1p2=0., p2p3=0., p1p3=0.):
+    def set(self, p1=0, p2=0, p3=0, p1p2=0., p2p3=0., p1p3=0.):
         self._p1 = p1
         self._p2 = p2
         self._p3 = p3
@@ -74,7 +74,7 @@ class VChain:
         return "<Chain p1={v.p1} p2={v.p2} p3={v.p3} p1p2={v.p1p2} p2p3={v.p2p3} p1p3={v.p1p3}>".format(v=self)
 
 class VShaft:
-    def __init__(self, cen=VPoint(), ref=VPoint(), start=0., end=360., demo=0., isParallelogram=False): self.set(cen, ref, start, end, demo, isParallelogram)
+    def __init__(self, cen=0, ref=0, start=0., end=360., demo=0., isParallelogram=False): self.set(cen, ref, start, end, demo, isParallelogram)
     @property
     def cen(self): return self._cen
     @property
@@ -88,7 +88,7 @@ class VShaft:
     @property
     def isParallelogram(self): return self._isParallelogram
     
-    def set(self, cen=VPoint(), ref=VPoint(), start=0., end=360., demo=0., isParallelogram=False):
+    def set(self, cen=0, ref=0, start=0., end=360., demo=0., isParallelogram=False):
         self._cen = cen
         self._ref = ref
         self._start = start
@@ -103,7 +103,7 @@ class VShaft:
         return "<Shaft cen={v.cen} ref={v.ref} start={v.start}, end={v.end} demo={v.demo} isParallelogram={v.isParallelogram}>".format(v=self)
 
 class VSlider:
-    def __init___(self, cen=VPoint(), start=VPoint(), end=VPoint()): self.set(cen, start, end)
+    def __init___(self, cen=0, start=0, end=0): self.set(cen, start, end)
     @property
     def cen(self): return self._cen
     @property
@@ -111,7 +111,7 @@ class VSlider:
     @property
     def end(self): return self._end
     
-    def set(self, cen=VPoint(), start=VPoint(), end=VPoint()):
+    def set(self, cen=0, start=0, end=0):
         self._cen = cen
         self._start = start
         self._end = end
@@ -120,11 +120,11 @@ class VSlider:
         return "<Slider cen={v.cen} start={v.start} end={v.end}>".format(v=self)
 
 class VRod(VSlider):
-    def __init__(self, cen=VPoint(), start=VPoint(), end=VPoint(), pos=0.): self.set(cen, start, end, pos)
+    def __init__(self, cen=0, start=0, end=0, pos=0.): self.set(cen, start, end, pos)
     @property
     def pos(self): return self._pos
     
-    def set(self, cen=VPoint(), start=VPoint(), end=VPoint(), pos=0.):
+    def set(self, cen=0, start=0, end=0, pos=0.):
         super(VRod, self).set(cen, start, end)
         self._pos = pos
     
