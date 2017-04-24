@@ -19,8 +19,8 @@ if __name__=='__main__':
     except Exception as e:
         if e!=SystemExit:
             import logging
-            logging.basicConfig(filename='PyslvsLogFile.log', filemode='w',
-                format='%(asctime)s | %(message)s', level=logging.INFO)
+            logging.basicConfig(filename='PyslvsLogFile.log',
+                filemode='a', format='%(asctime)s | %(message)s', level=logging.INFO)
             logging.exception("Exception Happened.")
             print('{}\n{}'.format(type(e), e))
             exit(1)

@@ -2,7 +2,7 @@
 #Splash
 from .info.info import Pyslvs_Splash
 #CSV
-import sys, csv, webbrowser, platform
+import sys, os, csv, webbrowser, platform
 from math import acos
 #Dialog Ports
 from .info.info import version_show

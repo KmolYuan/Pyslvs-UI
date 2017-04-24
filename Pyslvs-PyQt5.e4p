@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-04-23, 14:55:45 -->
+<!-- Saved: 2017-04-24, 11:55:10 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -79,7 +79,7 @@
     <Source>core/kernel/pyslvs_triangle_solver/TS.py</Source>
     <Source>core/kernel/pyslvs_triangle_solver/__init__.py</Source>
     <Source>core/main.py</Source>
-    <Source>core/modules.py</Source>
+    <Source>core/main_modules.py</Source>
     <Source>core/panel/Ui_run_AuxLine.py</Source>
     <Source>core/panel/Ui_run_Drive_rod.py</Source>
     <Source>core/panel/Ui_run_Drive_shaft.py</Source>

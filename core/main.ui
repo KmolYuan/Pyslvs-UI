@@ -2246,24 +2246,24 @@ p, li { white-space: pre-wrap; }
       <string>Example</string>
      </property>
      <addaction name="GrashofChainMenuTitle"/>
-     <addaction name="actionCrank_rocker"/>
-     <addaction name="actionDrag_link"/>
-     <addaction name="actionDouble_rocker"/>
-     <addaction name="actionParallelogram_linkage"/>
+     <addaction name="action_Crank_rocker"/>
+     <addaction name="action_Drag_link"/>
+     <addaction name="action_Double_rocker"/>
+     <addaction name="action_Parallelogram_linkage"/>
      <addaction name="separator"/>
      <addaction name="LinkagesMenuTitle"/>
-     <addaction name="actionReverse_Parsing_Rocker"/>
-     <addaction name="actionMutiple_Link"/>
-     <addaction name="actionTwo_Mutiple_Link"/>
+     <addaction name="action_Reverse_Parsing_Rocker"/>
+     <addaction name="action_Mutiple_Link"/>
+     <addaction name="action_Two_Mutiple_Link"/>
      <addaction name="separator"/>
      <addaction name="SlidersMenuTitle"/>
-     <addaction name="actionSlider_and_Rod"/>
-     <addaction name="actionRock_Slider"/>
-     <addaction name="actionLift_Tailgate"/>
+     <addaction name="action_Slider_and_Rod"/>
+     <addaction name="action_Rock_Slider"/>
+     <addaction name="action_Lift_Tailgate"/>
      <addaction name="separator"/>
      <addaction name="DesignsMenuTitle"/>
-     <addaction name="actionTheo_Jansen_s_multi_linkage"/>
-     <addaction name="actionRock_Slider_Design"/>
+     <addaction name="action_Theo_Jansen_s_multi_linkage"/>
+     <addaction name="action_Rock_Slider_Design"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
@@ -2274,11 +2274,11 @@ p, li { white-space: pre-wrap; }
      </property>
      <addaction name="SolvespaceMenuTitle"/>
      <addaction name="action_Output_to_Solvespace"/>
-     <addaction name="actionSolvespace_2D_sketch"/>
+     <addaction name="action_Solvespace_2D_sketch"/>
      <addaction name="separator"/>
      <addaction name="DXFMenuTitle"/>
-     <addaction name="actionDXF_2D_models"/>
-     <addaction name="actionDXF_2D_sketch"/>
+     <addaction name="action_DXF_2D_models"/>
+     <addaction name="action_DXF_2D_sketch"/>
      <addaction name="separator"/>
      <addaction name="OtherFormatMenuTitle"/>
      <addaction name="action_Output_to_Picture"/>
@@ -2288,23 +2288,23 @@ p, li { white-space: pre-wrap; }
      <property name="title">
       <string>&amp;Import from...</string>
      </property>
-     <addaction name="actionImportFromWorkbook"/>
+     <addaction name="action_ImportFromWorkbook"/>
     </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
     <addaction name="menuExample"/>
     <addaction name="menuImport"/>
     <addaction name="separator"/>
-    <addaction name="actionSave"/>
-    <addaction name="actionSave_as"/>
+    <addaction name="action_Save"/>
+    <addaction name="action_Save_as"/>
     <addaction name="menuExport"/>
     <addaction name="separator"/>
-    <addaction name="actionMi_nimized"/>
-    <addaction name="actionM_axmized"/>
-    <addaction name="actionNormalmized"/>
+    <addaction name="action_Minimized"/>
+    <addaction name="action_Maxmized"/>
+    <addaction name="action_Normalmized"/>
     <addaction name="action_Full_Screen"/>
     <addaction name="separator"/>
-    <addaction name="actionE_xit"/>
+    <addaction name="action_Exit"/>
    </widget>
    <widget class="QMenu" name="menu_Draw">
     <property name="title">
@@ -2314,21 +2314,23 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_New_Line"/>
     <addaction name="action_New_Stay_Chain"/>
     <addaction name="separator"/>
-    <addaction name="actionEdit_Point"/>
-    <addaction name="actionEdit_Linkage"/>
-    <addaction name="actionEdit_Stay_Chain"/>
+    <addaction name="action_Edit_Point"/>
+    <addaction name="action_Edit_Linkage"/>
+    <addaction name="action_Edit_Stay_Chain"/>
     <addaction name="separator"/>
-    <addaction name="actionDelete_Point"/>
-    <addaction name="actionDelete_Linkage"/>
-    <addaction name="actionDelete_Stay_Chain"/>
+    <addaction name="action_Delete_Point"/>
+    <addaction name="action_Delete_Linkage"/>
+    <addaction name="action_Delete_Stay_Chain"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
      <string>&amp;Options</string>
     </property>
-    <addaction name="actionDisplay_Dimensions"/>
-    <addaction name="actionDisplay_Point_Mark"/>
-    <addaction name="actionClose_all_panel"/>
+    <addaction name="action_ViewLogFile"/>
+    <addaction name="separator"/>
+    <addaction name="action_Display_Dimensions"/>
+    <addaction name="action_Display_Point_Mark"/>
+    <addaction name="action_Close_all_panel"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
     <addaction name="action_Property"/>
@@ -2338,11 +2340,11 @@ p, li { white-space: pre-wrap; }
      <string>&amp;Help</string>
     </property>
     <addaction name="action_Get_Help"/>
-    <addaction name="actionGit_hub_Site"/>
-    <addaction name="actionGithub_Wiki"/>
+    <addaction name="action_Git_hub_Site"/>
+    <addaction name="action_Github_Wiki"/>
     <addaction name="separator"/>
     <addaction name="action_About_Pyslvs"/>
-    <addaction name="actionAbout_Qt"/>
+    <addaction name="action_About_Qt"/>
    </widget>
    <widget class="QMenu" name="menu_Simulation">
     <property name="title">
@@ -2356,17 +2358,17 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_Edit_Slider"/>
     <addaction name="action_Edit_Rod"/>
     <addaction name="separator"/>
-    <addaction name="actionDelete_Shaft"/>
-    <addaction name="actionDelete_Slider"/>
-    <addaction name="actionDelete_Piston_Spring"/>
+    <addaction name="action_Delete_Shaft"/>
+    <addaction name="action_Delete_Slider"/>
+    <addaction name="action_Delete_Piston_Spring"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="actionSearch_Points"/>
-    <addaction name="actionReplace_Point"/>
-    <addaction name="actionBatch_moving"/>
+    <addaction name="action_Search_Points"/>
+    <addaction name="action_Replace_Point"/>
+    <addaction name="action_Batch_moving"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -2454,7 +2456,7 @@ p, li { white-space: pre-wrap; }
     <string>Output to a Python 3 slvs module script.</string>
    </property>
   </action>
-  <action name="actionE_xit">
+  <action name="action_Exit">
    <property name="checkable">
     <bool>false</bool>
    </property>
@@ -2484,7 +2486,7 @@ p, li { white-space: pre-wrap; }
     <string>Goto Kmolab learn about more.</string>
    </property>
   </action>
-  <action name="actionGit_hub_Site">
+  <action name="action_Git_hub_Site">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/github-24.png</normaloff>:/icons/github-24.png</iconset>
@@ -2529,7 +2531,7 @@ p, li { white-space: pre-wrap; }
     <string>F5</string>
    </property>
   </action>
-  <action name="actionGithub_Wiki">
+  <action name="action_Github_Wiki">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/github-24.png</normaloff>:/icons/github-24.png</iconset>
@@ -2541,7 +2543,7 @@ p, li { white-space: pre-wrap; }
     <string>See our Wiki on Github.</string>
    </property>
   </action>
-  <action name="actionMi_nimized">
+  <action name="action_Minimized">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/minmized.png</normaloff>:/icons/minmized.png</iconset>
@@ -2553,7 +2555,7 @@ p, li { white-space: pre-wrap; }
     <string>Minimized the window.</string>
    </property>
   </action>
-  <action name="actionM_axmized">
+  <action name="action_Maxmized">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/maxmized.png</normaloff>:/icons/maxmized.png</iconset>
@@ -2583,7 +2585,7 @@ p, li { white-space: pre-wrap; }
     <string>Shift+F1</string>
    </property>
   </action>
-  <action name="actionNormalmized">
+  <action name="action_Normalmized">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/normalsized.png</normaloff>:/icons/normalsized.png</iconset>
@@ -2613,7 +2615,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="actionSave">
+  <action name="action_Save">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
@@ -2664,7 +2666,7 @@ p, li { white-space: pre-wrap; }
     <string>See Python scripts in this status.</string>
    </property>
   </action>
-  <action name="actionDelete_Point">
+  <action name="action_Delete_Point">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2679,7 +2681,7 @@ p, li { white-space: pre-wrap; }
     <string>Delete an Existing point.</string>
    </property>
   </action>
-  <action name="actionDelete_Linkage">
+  <action name="action_Delete_Linkage">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2694,7 +2696,7 @@ p, li { white-space: pre-wrap; }
     <string>Delete an Existing linkage.</string>
    </property>
   </action>
-  <action name="actionDelete_Stay_Chain">
+  <action name="action_Delete_Stay_Chain">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2709,7 +2711,7 @@ p, li { white-space: pre-wrap; }
     <string>Delete an Existing stay chain.</string>
    </property>
   </action>
-  <action name="actionEdit_Point">
+  <action name="action_Edit_Point">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2724,7 +2726,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit an Existing point.</string>
    </property>
   </action>
-  <action name="actionEdit_Linkage">
+  <action name="action_Edit_Linkage">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2739,7 +2741,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit an Existing linkage.</string>
    </property>
   </action>
-  <action name="actionEdit_Stay_Chain">
+  <action name="action_Edit_Stay_Chain">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2796,7 +2798,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit Slider</string>
    </property>
   </action>
-  <action name="actionDelete_Shaft">
+  <action name="action_Delete_Shaft">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2808,7 +2810,7 @@ p, li { white-space: pre-wrap; }
     <string>Delete Drive Shaft</string>
    </property>
   </action>
-  <action name="actionDelete_Slider">
+  <action name="action_Delete_Slider">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2850,7 +2852,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit Piston</string>
    </property>
   </action>
-  <action name="actionDelete_Piston_Spring">
+  <action name="action_Delete_Piston_Spring">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2862,7 +2864,7 @@ p, li { white-space: pre-wrap; }
     <string>Delete Piston</string>
    </property>
   </action>
-  <action name="actionDisplay_Dimensions">
+  <action name="action_Display_Dimensions">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -2880,7 +2882,7 @@ p, li { white-space: pre-wrap; }
     <string>F10</string>
    </property>
   </action>
-  <action name="actionDisplay_Point_Mark">
+  <action name="action_Display_Point_Mark">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -2922,7 +2924,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+3</string>
    </property>
   </action>
-  <action name="actionDXF_2D_sketch">
+  <action name="action_DXF_2D_sketch">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
@@ -2949,7 +2951,7 @@ p, li { white-space: pre-wrap; }
     <string>Property of this workbook.</string>
    </property>
   </action>
-  <action name="actionCrank_rocker">
+  <action name="action_Crank_rocker">
    <property name="text">
     <string>Crank rocker</string>
    </property>
@@ -2957,7 +2959,7 @@ p, li { white-space: pre-wrap; }
     <string>Grashof chain #1</string>
    </property>
   </action>
-  <action name="actionMutiple_Link">
+  <action name="action_Mutiple_Link">
    <property name="text">
     <string>Mutiple Link</string>
    </property>
@@ -2965,7 +2967,7 @@ p, li { white-space: pre-wrap; }
     <string>Mutiple Link #1</string>
    </property>
   </action>
-  <action name="actionSave_as">
+  <action name="action_Save_as">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
@@ -2980,7 +2982,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="actionSearch_Points">
+  <action name="action_Search_Points">
    <property name="enabled">
     <bool>true</bool>
    </property>
@@ -2991,7 +2993,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="actionTwo_Mutiple_Link">
+  <action name="action_Two_Mutiple_Link">
    <property name="text">
     <string>Two Pairs Mutiple Link</string>
    </property>
@@ -2999,7 +3001,7 @@ p, li { white-space: pre-wrap; }
     <string>Mutiple Link #2</string>
    </property>
   </action>
-  <action name="actionDrag_link">
+  <action name="action_Drag_link">
    <property name="text">
     <string>Drag-link</string>
    </property>
@@ -3007,7 +3009,7 @@ p, li { white-space: pre-wrap; }
     <string>Grashof chain #2</string>
    </property>
   </action>
-  <action name="actionDouble_rocker">
+  <action name="action_Double_rocker">
    <property name="text">
     <string>Double rocker</string>
    </property>
@@ -3015,7 +3017,7 @@ p, li { white-space: pre-wrap; }
     <string>Grashof chain #3</string>
    </property>
   </action>
-  <action name="actionParallelogram_linkage">
+  <action name="action_Parallelogram_linkage">
    <property name="text">
     <string>Parallelogram linkage</string>
    </property>
@@ -3023,7 +3025,7 @@ p, li { white-space: pre-wrap; }
     <string>Grashof chain #4</string>
    </property>
   </action>
-  <action name="actionReverse_Parsing_Rocker">
+  <action name="action_Reverse_Parsing_Rocker">
    <property name="text">
     <string>Reverse Parsing Rocker</string>
    </property>
@@ -3031,7 +3033,7 @@ p, li { white-space: pre-wrap; }
     <string>Crank rocker #1</string>
    </property>
   </action>
-  <action name="actionReplace_Point">
+  <action name="action_Replace_Point">
    <property name="text">
     <string>Replace Point</string>
    </property>
@@ -3039,7 +3041,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionBatch_moving">
+  <action name="action_Batch_moving">
    <property name="text">
     <string>Batch moving</string>
    </property>
@@ -3047,7 +3049,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+B</string>
    </property>
   </action>
-  <action name="actionSlider_and_Rod">
+  <action name="action_Slider_and_Rod">
    <property name="text">
     <string>Slider and Rod</string>
    </property>
@@ -3055,7 +3057,7 @@ p, li { white-space: pre-wrap; }
     <string>Silder / Rod #1</string>
    </property>
   </action>
-  <action name="actionSolvespace_2D_sketch">
+  <action name="action_Solvespace_2D_sketch">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
@@ -3070,7 +3072,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+2</string>
    </property>
   </action>
-  <action name="actionDXF_2D_models">
+  <action name="action_DXF_2D_models">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
@@ -3085,7 +3087,7 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+D</string>
    </property>
   </action>
-  <action name="actionRock_Slider">
+  <action name="action_Rock_Slider">
    <property name="text">
     <string>Rock Slider</string>
    </property>
@@ -3093,7 +3095,7 @@ p, li { white-space: pre-wrap; }
     <string>Silder / Rod #2</string>
    </property>
   </action>
-  <action name="actionClose_all_panel">
+  <action name="action_Close_all_panel">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
@@ -3105,7 +3107,7 @@ p, li { white-space: pre-wrap; }
     <string>Esc</string>
    </property>
   </action>
-  <action name="actionLift_Tailgate">
+  <action name="action_Lift_Tailgate">
    <property name="text">
     <string>Lift Tailgate</string>
    </property>
@@ -3145,7 +3147,7 @@ p, li { white-space: pre-wrap; }
     <string>Design</string>
    </property>
   </action>
-  <action name="actionTheo_Jansen_s_multi_linkage">
+  <action name="action_Theo_Jansen_s_multi_linkage">
    <property name="text">
     <string>Theo Jansen's multi linkage</string>
    </property>
@@ -3174,12 +3176,12 @@ p, li { white-space: pre-wrap; }
     <string>Other Format</string>
    </property>
   </action>
-  <action name="actionRock_Slider_Design">
+  <action name="action_Rock_Slider_Design">
    <property name="text">
     <string>Rock Slider Design</string>
    </property>
   </action>
-  <action name="actionImportFromWorkbook">
+  <action name="action_ImportFromWorkbook">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
@@ -3191,15 +3193,7 @@ p, li { white-space: pre-wrap; }
     <string>Import from workbook.</string>
    </property>
   </action>
-  <action name="actionImportFromTemplate">
-   <property name="text">
-    <string>Template</string>
-   </property>
-   <property name="statusTip">
-    <string>Import from Linkages Template.</string>
-   </property>
-  </action>
-  <action name="actionAbout_Qt">
+  <action name="action_About_Qt">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/Logo_Qt.png</normaloff>:/icons/Logo_Qt.png</iconset>
@@ -3209,6 +3203,15 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Show Qt about.</string>
+   </property>
+  </action>
+  <action name="action_ViewLogFile">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/ConflictGuide.png</normaloff>:/icons/ConflictGuide.png</iconset>
+   </property>
+   <property name="text">
+    <string>View the Log file</string>
    </property>
   </action>
  </widget>
@@ -3221,7 +3224,7 @@ p, li { white-space: pre-wrap; }
  </resources>
  <connections>
   <connection>
-   <sender>actionM_axmized</sender>
+   <sender>action_Maxmized</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>showMaximized()</slot>
@@ -3237,7 +3240,7 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>actionMi_nimized</sender>
+   <sender>action_Minimized</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>showMinimized()</slot>
@@ -3269,7 +3272,7 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>actionNormalmized</sender>
+   <sender>action_Normalmized</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>showNormal()</slot>
@@ -3285,7 +3288,7 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>actionE_xit</sender>
+   <sender>action_Exit</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>

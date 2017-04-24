@@ -100,7 +100,7 @@ def init_Right_click_menu(self):
     self.action_rod_right_click_menu_delete = QAction("Delete this Rod", self)
     self.popMenu_rod.addAction(self.action_rod_right_click_menu_delete)
 
-def actionEnabled(self):
+def action_Enabled(self):
     TWO_POINT = len(self.File.Lists.PointList)>1
     THREE_POINT = len(self.File.Lists.PointList)>2
     #Warning
@@ -115,9 +115,9 @@ def actionEnabled(self):
         self.action_chain_right_click_menu_add, self.action_slider_right_click_menu_add,
         self.action_rod_right_click_menu_add]: action.setEnabled(THREE_POINT)
     #Edit
-    self.actionEdit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.actionEdit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
-    self.actionEdit_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+    self.action_Edit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
+    self.action_Edit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
+    self.action_Edit_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
     self.action_Edit_Shaft.setEnabled(self.Shaft.rowCount()>0)
     self.action_Edit_Slider.setEnabled(self.Slider.rowCount()>0)
     self.action_Edit_Rod.setEnabled(self.Rod.rowCount()>0)
@@ -127,12 +127,12 @@ def actionEnabled(self):
     self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>0)
     self.action_rod_right_click_menu_edit.setEnabled(self.Rod.rowCount()>=1)
     #Delete
-    self.actionDelete_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.actionDelete_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
-    self.actionDelete_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
-    self.actionDelete_Shaft.setEnabled(self.Shaft.rowCount()>0)
-    self.actionDelete_Slider.setEnabled(self.Slider.rowCount()>0)
-    self.actionDelete_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+    self.action_Delete_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
+    self.action_Delete_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
+    self.action_Delete_Stay_Chain.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
+    self.action_Delete_Shaft.setEnabled(self.Shaft.rowCount()>0)
+    self.action_Delete_Slider.setEnabled(self.Slider.rowCount()>0)
+    self.action_Delete_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
     self.Parameter_delete.setEnabled(self.Parameter_list.rowCount()>0)
     self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Stay_Chain.rowCount()>0)
@@ -155,10 +155,10 @@ def actionEnabled(self):
     self.action_link_right_click_menu_shaft.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_link_right_click_menu_reversion.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
-    self.actionDXF_2D_models.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
-    self.actionReplace_Point.setEnabled(TWO_POINT)
+    self.action_DXF_2D_models.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Stay_Chain.rowCount()>0)
+    self.action_Replace_Point.setEnabled(TWO_POINT)
     self.action_point_right_click_menu_replace.setEnabled(TWO_POINT)
-    self.actionBatch_moving.setEnabled(TWO_POINT)
+    self.action_Batch_moving.setEnabled(TWO_POINT)
 
 def showUndoWindow(self):
     undoView = QUndoView(self.FileState)
@@ -166,10 +166,10 @@ def showUndoWindow(self):
     self.UndoRedoLayout.addWidget(undoView)
     separator = QAction(self)
     separator.setSeparator(True)
-    self.menu_Edit.insertAction(self.actionSearch_Points, separator)
-    self.actionRedo = self.FileState.createRedoAction(self, 'Redo')
-    self.actionUndo = self.FileState.createUndoAction(self, 'Undo')
-    self.actionRedo.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
-    self.actionUndo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
-    self.menu_Edit.insertAction(separator, self.actionUndo)
-    self.menu_Edit.insertAction(separator, self.actionRedo)
+    self.menu_Edit.insertAction(self.action_Search_Points, separator)
+    self.action_Redo = self.FileState.createRedoAction(self, 'Redo')
+    self.action_Undo = self.FileState.createUndoAction(self, 'Undo')
+    self.action_Redo.setShortcut(_translate("MainWindow", "Ctrl+Shift+Z"))
+    self.action_Undo.setShortcut(_translate("MainWindow", "Ctrl+Z"))
+    self.menu_Edit.insertAction(separator, self.action_Undo)
+    self.menu_Edit.insertAction(separator, self.action_Redo)

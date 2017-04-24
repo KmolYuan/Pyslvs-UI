@@ -19,7 +19,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 '''
 from .QtModules import *
-from .modules import *
+from .main_modules import *
 _translate = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
 from .Ui_custom import *
@@ -50,7 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.MaskChange()
         self.Parameter_digital.setValidator(self.Mask)
         init_Right_click_menu(self)
-        actionEnabled(self)
+        action_Enabled(self)
         if self.args.r: self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
     
     def setLocate(self, locate):
@@ -85,10 +85,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_painter_right_click_menu_fix_add: self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, styleTable=table2, color='Blue', ringsize=10, ringcolor='Blue')
         elif action==self.action_painter_right_click_menu_path_add: self.PathSolving_add_rightClick(x, y)
         elif action==self.action_painter_right_click_menu_dimension_add:
-            if self.actionDisplay_Dimensions.isChecked()==False: self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
-            elif self.actionDisplay_Dimensions.isChecked()==True: self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
-            self.action_painter_right_click_menu_dimension_add.setChecked(not self.actionDisplay_Dimensions.isChecked())
-            self.actionDisplay_Dimensions.setChecked(not self.actionDisplay_Dimensions.isChecked())
+            if self.action_Display_Dimensions.isChecked()==False: self.action_painter_right_click_menu_dimension_add.setText("Hide Dimension")
+            elif self.action_Display_Dimensions.isChecked()==True: self.action_painter_right_click_menu_dimension_add.setText("Show Dimension")
+            self.action_painter_right_click_menu_dimension_add.setChecked(not self.action_Display_Dimensions.isChecked())
+            self.action_Display_Dimensions.setChecked(not self.action_Display_Dimensions.isChecked())
         elif action==self.action_painter_right_click_menu_dimension_path_track:
             if self.Path_data_show.checkState()==True: self.action_painter_right_click_menu_dimension_path_track.setText("Hide Path Track")
             elif self.Path_data_show.checkState()==False: self.action_painter_right_click_menu_dimension_path_track.setText("Show Path Track")
@@ -111,27 +111,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             styleTable=table2, color='Green', ringsize=5, ringcolor='Orange')
         elif action==self.action_point_right_click_menu_coverage: self.File.Lists.coverageCoordinate(table1, table_pos_0)
         elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
-        elif action==self.action_point_right_click_menu_edit: self.on_actionEdit_Point_triggered(table_pos)
+        elif action==self.action_point_right_click_menu_edit: self.on_action_Edit_Point_triggered(table_pos)
         elif action==self.action_point_right_click_menu_lock:
             self.File.Lists.editTable(table1, 'Point', table_pos_0,
                 str(self.File.Lists.PointList[table_pos_0]['x']), str(self.File.Lists.PointList[table_pos_0]['y']), not(self.File.Lists.PointList[table_pos_0]['fix']))
             self.File.Lists.styleFix(table2, self.File.Lists.PointList[table_pos_0]['fix'], table_pos_0)
-        elif action==self.action_point_right_click_menu_replace: self.on_actionReplace_Point_triggered(table_pos_0)
-        elif action==self.action_point_right_click_menu_delete: self.on_actionDelete_Point_triggered(table_pos)
+        elif action==self.action_point_right_click_menu_replace: self.on_action_Replace_Point_triggered(table_pos_0)
+        elif action==self.action_point_right_click_menu_delete: self.on_action_Delete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Link.currentRow()
         if action==self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
-        elif action==self.action_link_right_click_menu_edit: self.on_actionEdit_Linkage_triggered(table_pos)
+        elif action==self.action_link_right_click_menu_edit: self.on_action_Edit_Linkage_triggered(table_pos)
         elif action==self.action_link_right_click_menu_shaft: self.link2Shaft(table_pos)
         elif action==self.action_link_right_click_menu_reversion: self.File.Lists.lineNodeReversion(self.Entiteis_Point, table_pos)
-        elif action==self.action_link_right_click_menu_delete: self.on_actionDelete_Linkage_triggered(table_pos)
+        elif action==self.action_link_right_click_menu_delete: self.on_action_Delete_Linkage_triggered(table_pos)
     def on_chain_context_menu(self, point):
         action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Stay_Chain.currentRow()
         if action==self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
-        elif action==self.action_chain_right_click_menu_edit: self.on_actionEdit_Stay_Chain_triggered(table_pos)
-        elif action==self.action_chain_right_click_menu_delete: self.on_actionDelete_Stay_Chain_triggered(table_pos)
+        elif action==self.action_chain_right_click_menu_edit: self.on_action_Edit_Stay_Chain_triggered(table_pos)
+        elif action==self.action_chain_right_click_menu_delete: self.on_action_Delete_Stay_Chain_triggered(table_pos)
     def on_shaft_context_menu(self, point):
         self.action_shaft_right_click_menu_move_up.setEnabled(self.Shaft.rowCount()>0 and self.Shaft.currentRow()>0)
         self.action_shaft_right_click_menu_move_down.setEnabled(self.Shaft.rowCount()>0 and self.Shaft.currentRow()<self.Shaft.rowCount()-1)
@@ -141,19 +141,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_shaft_right_click_menu_edit: self.on_action_Edit_Shaft_triggered(table_pos)
         elif action==self.action_shaft_right_click_menu_move_up: self.File.Lists.shaftChange(self.Shaft, table_pos, table_pos-1)
         elif action==self.action_shaft_right_click_menu_move_down: self.File.Lists.shaftChange(self.Shaft, table_pos, table_pos+1)
-        elif action==self.action_shaft_right_click_menu_delete: self.on_actionDelete_Shaft_triggered(table_pos)
+        elif action==self.action_shaft_right_click_menu_delete: self.on_action_Delete_Shaft_triggered(table_pos)
     def on_slider_context_menu(self, point):
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
         table_pos = self.Slider.currentRow()
         if action==self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
         elif action==self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(table_pos)
-        elif action==self.action_slider_right_click_menu_delete: self.on_actionDelete_Slider_triggered(table_pos)
+        elif action==self.action_slider_right_click_menu_delete: self.on_action_Delete_Slider_triggered(table_pos)
     def on_rod_context_menu(self, point):
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
         table_pos = self.Rod.currentRow()
         if action==self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
         elif action==self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(table_pos)
-        elif action==self.action_rod_right_click_menu_delete: self.on_actionDelete_Piston_Spring_triggered(table_pos)
+        elif action==self.action_rod_right_click_menu_delete: self.on_action_Delete_Piston_Spring_triggered(table_pos)
     
     #Close Event
     def closeEvent(self, event):
@@ -161,7 +161,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
-                self.on_actionSave_triggered()
+                self.on_action_Save_triggered()
                 if self.File.form.changed: event.ignore()
                 else: self.Exit(event)
             elif reply==QMessageBox.Discard: self.Exit(event)
@@ -176,8 +176,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
-        self.actionUndo.setText("Undo {}".format(self.FileState.undoText()))
-        self.actionRedo.setText("Redo {}".format(self.FileState.redoText()))
+        self.action_Undo.setText("Undo {}".format(self.FileState.undoText()))
+        self.action_Redo.setText("Redo {}".format(self.FileState.redoText()))
         if self.FileState.undoText(): print(self.FileState.undoText())
         if index!=self.File.form.Stack: self.workbookNoSave()
         else: self.workbookSaved()
@@ -213,18 +213,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             float(self.LineWidth.text()), float(self.PathWidth.text()),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
-            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(), self.actionDisplay_Dimensions.isChecked(), self.actionDisplay_Point_Mark.isChecked(),
+            self.Entiteis_Point_Style, self.ZoomText.text(), self.Font_size.value(), self.action_Display_Dimensions.isChecked(), self.action_Display_Point_Mark.isChecked(),
             self.File.Lists.data, self.File.Lists.runList, self.File.Lists.shaftList)
     
     #Workbook Change
     def workbookNoSave(self):
         self.File.form.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', str())+'*')
-        actionEnabled(self)
+        action_Enabled(self)
     def workbookSaved(self):
         self.File.form.changed = False
         self.setWindowTitle(self.windowTitle().replace('*', str()))
-        actionEnabled(self)
+        action_Enabled(self)
     
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
@@ -234,20 +234,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.OpenDlg(dlg)
         splash.finish(dlg)
     @pyqtSlot()
-    def on_actionAbout_Qt_triggered(self): QMessageBox.aboutQt(self)
+    def on_action_About_Qt_triggered(self): QMessageBox.aboutQt(self)
     @pyqtSlot()
     def on_action_Get_Help_triggered(self): self.OpenURL("http://project.mde.tw/blog/slvs-library-functions.html")
     @pyqtSlot()
-    def on_actionGit_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
+    def on_action_Git_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
     @pyqtSlot()
-    def on_actionGithub_Wiki_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-manual/tree/master")
+    def on_action_Github_Wiki_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-manual/tree/master")
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
         self.File.Script = slvsProcessScript(Point, Line, Chain, Shaft, Slider, Rod)
         self.OpenDlg(Script_Dialog(self.File.Script, self.Default_Environment_variables))
     @pyqtSlot()
-    def on_actionSearch_Points_triggered(self): self.OpenDlg(Association_show(self.File.Lists.PointList, self.File.Lists.LineList,
+    def on_action_Search_Points_triggered(self): self.OpenDlg(Association_show(self.File.Lists.PointList, self.File.Lists.LineList,
         self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList))
     def OpenURL(self, URL):
         print("Open - {{{}}}".format(URL))
@@ -262,36 +262,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self): self.checkChange(say='Open file...')
     @pyqtSlot()
-    def on_actionCrank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker())
+    def on_action_Crank_rocker_triggered(self): self.checkChange("[Example] Crank Rocker", example_crankRocker())
     @pyqtSlot()
-    def on_actionDrag_link_triggered(self): self.checkChange("[Example] Drag-link", example_DragLink())
+    def on_action_Drag_link_triggered(self): self.checkChange("[Example] Drag-link", example_DragLink())
     @pyqtSlot()
-    def on_actionDouble_rocker_triggered(self): self.checkChange("[Example] Double Rocker", example_doubleRocker())
+    def on_action_Double_rocker_triggered(self): self.checkChange("[Example] Double Rocker", example_doubleRocker())
     @pyqtSlot()
-    def on_actionParallelogram_linkage_triggered(self): self.checkChange("[Example] Parallelogram Linkage", example_parallelogramLinkage())
+    def on_action_Parallelogram_linkage_triggered(self): self.checkChange("[Example] Parallelogram Linkage", example_parallelogramLinkage())
     @pyqtSlot()
-    def on_actionMutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink())
+    def on_action_Mutiple_Link_triggered(self): self.checkChange("[Example] Mutiple Link", example_mutipleLink())
     @pyqtSlot()
-    def on_actionTwo_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink())
+    def on_action_Two_Mutiple_Link_triggered(self): self.checkChange("[Example] Two Pairs Mutiple Link", example_twoMutipleLink())
     @pyqtSlot()
-    def on_actionReverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker())
+    def on_action_Reverse_Parsing_Rocker_triggered(self): self.checkChange("[Example] Reverse Parsing Rocker", example_reverseParsingRocker())
     @pyqtSlot()
-    def on_actionSlider_and_Rod_triggered(self): self.checkChange("[Example] Slider and Rod", example_sliderRod())
+    def on_action_Slider_and_Rod_triggered(self): self.checkChange("[Example] Slider and Rod", example_sliderRod())
     @pyqtSlot()
-    def on_actionRock_Slider_triggered(self): self.checkChange("[Example] Rock Slider", example_rockSlider())
+    def on_action_Rock_Slider_triggered(self): self.checkChange("[Example] Rock Slider", example_rockSlider())
     @pyqtSlot()
-    def on_actionLift_Tailgate_triggered(self): self.checkChange("[Example] Lift Tailgate", example_liftTailgate())
+    def on_action_Lift_Tailgate_triggered(self): self.checkChange("[Example] Lift Tailgate", example_liftTailgate())
     @pyqtSlot()
-    def on_actionTheo_Jansen_s_multi_linkage_triggered(self): self.checkChange("[Example] Theo Jansen\'s multiple linkage", example_TJLinkage())
+    def on_action_Theo_Jansen_s_multi_linkage_triggered(self): self.checkChange("[Example] Theo Jansen\'s multiple linkage", example_TJLinkage())
     @pyqtSlot()
-    def on_actionRock_Slider_Design_triggered(self): self.checkChange("[Example] Rock slider design", example_RockSliderDesign())
+    def on_action_Rock_Slider_Design_triggered(self): self.checkChange("[Example] Rock slider design", example_RockSliderDesign())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form.changed:
             reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit this file?\nAny Changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
-                self.on_actionSave_triggered()
+                self.on_action_Save_triggered()
                 if not self.File.form.changed: self.loadWorkbook(say, name, data)
             elif reply==QMessageBox.Discard: self.loadWorkbook(say, name, data)
         else: self.loadWorkbook(say, name, data)
@@ -327,7 +327,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 else: self.on_action_Property_triggered()
             else: self.loadWorkbookError()
     @pyqtSlot()
-    def on_actionImportFromWorkbook_triggered(self): self.importWorkbook(say='Import from file...')
+    def on_action_ImportFromWorkbook_triggered(self): self.importWorkbook(say='Import from file...')
     def importWorkbook(self, say, fileName=False, data=list()):
         print(say)
         if fileName==False:
@@ -346,14 +346,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Save format
     @pyqtSlot()
-    def on_actionSave_triggered(self):
+    def on_action_Save_triggered(self):
         n = self.File.form.fileName.absoluteFilePath()
         if ('[New Workbook]' in n or '[Example]' in n)and(QFileInfo(n).suffix()!='csv' and QFileInfo(n).suffix()!='txt'):
             fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
         else: fileName = self.File.form.fileName.absoluteFilePath()
         if fileName: self.save(fileName)
     @pyqtSlot()
-    def on_actionSave_as_triggered(self):
+    def on_action_Save_as_triggered(self):
         fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
         if fileName: self.save(fileName)
     def save(self, fileName):
@@ -375,7 +375,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_(): self.replyBox('Solvespace Models', dlg.folderPath.absolutePath())
     @pyqtSlot()
-    def on_actionSolvespace_2D_sketch_triggered(self):
+    def on_action_Solvespace_2D_sketch_triggered(self):
         fileName = self.outputTo("Solvespace sketch", 'Solvespace module(*.slvs)')
         if fileName:
             content = slvs2D(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
@@ -390,13 +390,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(fileName, 'w', newline=str()) as f: f.write(self.File.Script)
             self.replyBox('Python Script', fileName)
     @pyqtSlot()
-    def on_actionDXF_2D_models_triggered(self):
+    def on_action_DXF_2D_models_triggered(self):
         dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form.fileName.baseName(),
             self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_(): self.replyBox('DXF 2D Models', dlg.filePath)
     @pyqtSlot()
-    def on_actionDXF_2D_sketch_triggered(self):
+    def on_action_DXF_2D_sketch_triggered(self):
         fileName = self.outputTo("DXF", 'AutoCAD DXF (*.dxf)')
         if fileName:
             dxfSketch(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
@@ -441,11 +441,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int, int)
     def on_Entiteis_Point_cellDoubleClicked(self, row, column):
-        if row>0: self.on_actionEdit_Point_triggered(row)
+        if row>0: self.on_action_Edit_Point_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Link_cellDoubleClicked(self, row, column): self.on_actionEdit_Linkage_triggered(row)
+    def on_Entiteis_Link_cellDoubleClicked(self, row, column): self.on_action_Edit_Linkage_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Stay_Chain_cellDoubleClicked(self, row, column): self.on_actionEdit_Stay_Chain_triggered(row)
+    def on_Entiteis_Stay_Chain_cellDoubleClicked(self, row, column): self.on_action_Edit_Stay_Chain_triggered(row)
     @pyqtSlot(int, int)
     def on_Shaft_cellDoubleClicked(self, row, column): self.on_action_Edit_Shaft_triggered(row)
     @pyqtSlot(int, int)
@@ -486,7 +486,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(c0, 2).text())
     
     @pyqtSlot()
-    def on_actionEdit_Point_triggered(self, pos=1):
+    def on_action_Edit_Point_triggered(self, pos=1):
         table = self.Entiteis_Point
         dlg = edit_point_show(self.Mask, table, self.File.Lists.PointList, pos)
         dlg.show()
@@ -512,7 +512,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
     
     @pyqtSlot()
-    def on_actionEdit_Linkage_triggered(self, pos=0):
+    def on_action_Edit_Linkage_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
@@ -536,7 +536,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
     @pyqtSlot()
-    def on_actionEdit_Stay_Chain_triggered(self, pos=0):
+    def on_action_Edit_Stay_Chain_triggered(self, pos=0):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
         dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList, pos)
@@ -591,28 +591,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
     
     @pyqtSlot()
-    def on_actionDelete_Point_triggered(self, pos=None):
+    def on_action_Delete_Point_triggered(self, pos=None):
         if pos==None: pos = self.Entiteis_Point.currentRow()
         print(pos)
         self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Linkage_triggered(self, pos=None):
+    def on_action_Delete_Linkage_triggered(self, pos=None):
         if pos==None: pos = self.Entiteis_Link.currentRow()
         self.deletePanel(self.Entiteis_Link, 'Line', ":/icons/deleteline.png", ":/icons/line.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Stay_Chain_triggered(self, pos=None):
+    def on_action_Delete_Stay_Chain_triggered(self, pos=None):
         if pos==None: pos = self.Entiteis_Stay_Chain.currentRow()
         self.deletePanel(self.Entiteis_Stay_Chain, 'Chain', ":/icons/deletechain.png", ":/icons/equal.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Shaft_triggered(self, pos=None):
+    def on_action_Delete_Shaft_triggered(self, pos=None):
         if pos==None: pos = self.Shaft.currentRow()
         self.deletePanel(self.Shaft, 'Shaft', ":/icons/deleteshaft.png", ":/icons/circle.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Slider_triggered(self, pos=None):
+    def on_action_Delete_Slider_triggered(self, pos=None):
         if pos==None: pos = self.Slider.currentRow()
         self.deletePanel(self.Slider, 'Slider', ":/icons/deleteslider.png", ":/icons/pointonx.png", pos)
     @pyqtSlot()
-    def on_actionDelete_Piston_Spring_triggered(self, pos=None):
+    def on_action_Delete_Piston_Spring_triggered(self, pos=None):
         if pos==None: pos = self.Rod.currentRow()
         self.deletePanel(self.Rod, 'Rod', QIcon(QPixmap(":/icons/deleterod.png")), QIcon(QPixmap(":/icons/spring.png")), pos)
     def deletePanel(self, table, name, icon1, icon2, pos):
@@ -647,7 +647,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.MaskChange()
     
     @pyqtSlot()
-    def on_actionReplace_Point_triggered(self, pos=0):
+    def on_action_Replace_Point_triggered(self, pos=0):
         dlg = replacePoint_show(QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos)
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
@@ -655,7 +655,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.Prv.currentIndex(), dlg.Next.currentIndex())
     
     @pyqtSlot()
-    def on_actionBatch_moving_triggered(self):
+    def on_action_Batch_moving_triggered(self):
         dlg = batchMoving_show(self.File.Lists.PointList, self.File.Lists.ParameterList)
         dlg.show()
         if dlg.exec_(): self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
@@ -711,12 +711,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_PathWidth_valueChanged(self, p0): self.Reload_Canvas()
     @pyqtSlot(bool)
-    def on_actionDisplay_Dimensions_toggled(self, p0):
-        if p0: self.actionDisplay_Point_Mark.setChecked(True)
+    def on_action_Display_Dimensions_toggled(self, p0):
+        if p0: self.action_Display_Point_Mark.setChecked(True)
         self.Reload_Canvas()
     @pyqtSlot(bool)
-    def on_actionDisplay_Point_Mark_toggled(self, p0):
-        if not p0: self.actionDisplay_Dimensions.setChecked(False)
+    def on_action_Display_Point_Mark_toggled(self, p0):
+        if not p0: self.action_Display_Dimensions.setChecked(False)
         self.Reload_Canvas()
     @pyqtSlot()
     def on_Path_data_show_clicked(self):
@@ -732,7 +732,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table1 = self.Entiteis_Point
         dlg = Path_Track_show(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
             self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
-        self.actionDisplay_Point_Mark.setChecked(True)
+        self.action_Display_Point_Mark.setChecked(True)
         dlg.show()
         if dlg.exec_(): self.File.Lists.setPath(dlg.Path_data,
             [dlg.Run_list.item(i).text() for i in range(dlg.Run_list.count())], dlg.work.ShaftList)
@@ -869,8 +869,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table = self.Entiteis_Point
             panel = Measurement_show(table)
             self.DynamicCanvasView.change_event.connect(panel.Detection_do)
-            self.actionDisplay_Dimensions.setChecked(True)
-            self.actionDisplay_Point_Mark.setChecked(True)
+            self.action_Display_Dimensions.setChecked(True)
+            self.action_Display_Point_Mark.setChecked(True)
             self.DynamicCanvasView.mouse_track.connect(panel.show_mouse_track)
             panel.point_change.connect(self.distance_solving)
             self.distance_changed.connect(panel.change_distance)
@@ -913,7 +913,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Reload_Canvas()
     
     @pyqtSlot()
-    def on_actionClose_all_panel_triggered(self): self.closePanels()
+    def on_action_Close_all_panel_triggered(self): self.closePanels()
     def closePanels(self):
         while self.PointTab.count()>3: self.closePanel(self.PointTab.count()-1)
         self.PointTab.setCurrentIndex(0)
@@ -929,16 +929,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def FocusChange(self, item):
         if self.FocusTable!=item.tableWidget():
             self.claerTableDelShortcut()
-            if item.tableWidget()==self.Entiteis_Point: self.actionDelete_Point.setShortcut('Del')
-            elif item.tableWidget()==self.Entiteis_Link: self.actionDelete_Linkage.setShortcut('Del')
-            elif item.tableWidget()==self.Entiteis_Stay_Chain: self.actionDelete_Stay_Chain.setShortcut('Del')
-            elif item.tableWidget()==self.Shaft: self.actionDelete_Shaft.setShortcut('Del')
-            elif item.tableWidget()==self.Slider: self.actionDelete_Slider.setShortcut('Del')
-            elif item.tableWidget()==self.Rod: self.actionDelete_Piston_Spring.setShortcut('Del')
+            if item.tableWidget()==self.Entiteis_Point: self.action_Delete_Point.setShortcut('Del')
+            elif item.tableWidget()==self.Entiteis_Link: self.action_Delete_Linkage.setShortcut('Del')
+            elif item.tableWidget()==self.Entiteis_Stay_Chain: self.action_Delete_Stay_Chain.setShortcut('Del')
+            elif item.tableWidget()==self.Shaft: self.action_Delete_Shaft.setShortcut('Del')
+            elif item.tableWidget()==self.Slider: self.action_Delete_Slider.setShortcut('Del')
+            elif item.tableWidget()==self.Rod: self.action_Delete_Piston_Spring.setShortcut('Del')
             self.FocusTable = item.tableWidget()
     def claerTableDelShortcut(self):
-        for action in [self.actionDelete_Point, self.actionDelete_Linkage, self.actionDelete_Stay_Chain,
-            self.actionDelete_Shaft, self.actionDelete_Slider, self.actionDelete_Piston_Spring]: action.setShortcut('')
+        for action in [self.action_Delete_Point, self.action_Delete_Linkage, self.action_Delete_Stay_Chain,
+            self.action_Delete_Shaft, self.action_Delete_Slider, self.action_Delete_Piston_Spring]: action.setShortcut('')
     
     def MaskChange(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)
@@ -966,3 +966,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         enabled = self.Parameter_list.rowCount()>0 and c0>-1
         for widget in [self.Parameter_num, self.Parameter_digital, self.Parameter_comment, self.Parameter_lable,
             self.Comment_lable, self.Parameter_update]: widget.setEnabled(enabled)
+    
+    @pyqtSlot()
+    def on_action_ViewLogFile_triggered(self):
+        logfile = 'PyslvsLogFile.log'
+        if os.path.isfile(logfile):
+            with open (logfile, 'r') as f:
+                data = f.read()
+                dlgbox = QMessageBox(QMessageBox.Information, logfile, data, (QMessageBox.Ok), self)
+                if dlgbox.exec_(): pass
+        else:
+            dlgbox = QMessageBox(QMessageBox.Warning, "No Log file", "There is no Pyslvs log file!", (QMessageBox.Ok), self)
+            if dlgbox.exec_(): pass
