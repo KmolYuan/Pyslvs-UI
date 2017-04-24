@@ -44,17 +44,16 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
                     else:
                         if case2: y = e.y
                         else: y = cen*2-ref
-                    print(i, e.x, y)
                 elif Shaft[currentShaft].isParallelogram and (not e.fix) and (angle>=180 or Shaft[currentShaft].demo>=180):
                     change = False
                     for f in Line:
-                        if i in f and not Shaft[currentShaft].ref in f:
-                            cen = Point[f.start if f.end==i else f.end].y
+                        if i+1 in f and not Shaft[currentShaft].ref in f:
+                            cen = Point[f.start if f.end==i+1 else f.end].y
                             ref = e.y
                             diff = ref-cen
                             for table in [Line, Chain]:
                                 for k in table:
-                                    if i in k and Shaft[currentShaft].ref in k:
+                                    if i+1 in k and Shaft[currentShaft].ref in k:
                                         change = True
                                         y = cen-diff
                             break

@@ -11,8 +11,7 @@ class DynamicCanvas(QWidget):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip(_translate("MainWindow", "Use mouse wheel or middle button to look around."))
-        self.points = {
-            'x':list(), 'y':list(), 'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
+        self.points = {'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
             'style':{
                 'Background':Qt.white, 'penWidth':{'pen':3, 'path':2},
                 'link':Qt.darkGray, 'chain':QColor(226, 219, 190), 'text':Qt.darkGray, 'dimension':False},
@@ -35,15 +34,6 @@ class DynamicCanvas(QWidget):
         self.points['style']['penWidth']['pen'] = width
         self.points['style']['penWidth']['path'] = pathwidth
         self.zoom = float(zoom_rate.replace("%", ""))/100
-        self.points['x'] = list()
-        self.points['y'] = list()
-        for i in range(len(Point)):
-            try:
-                self.points['x'] += [Point[i].cx*self.zoom*self.points['rate']]
-                self.points['y'] += [Point[i].cy*self.zoom*self.points['rate']*(-1)]
-            except:
-                self.points['x'] += [Point[i].x*self.zoom*self.points['rate']]
-                self.points['y'] += [Point[i].y*self.zoom*self.points['rate']*(-1)]
         self.Point = Point
         self.Line = Line
         self.Chain = Chain
@@ -128,12 +118,12 @@ class DynamicCanvas(QWidget):
                 mp = QPointF((start.cx*Tp+end.cx*Tp)/2, (start.cy*Tp+end.cy*Tp)/2*-1)
                 painter.setFont(QFont("Arial", self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['pos']))
-        for e in self.Shaft:
+        for i, e in enumerate(self.Shaft):
             cen = self.Point[e.cen]
             ref = self.Point[e.ref]
             pen = QPen()
             pen.setWidth(self.points['style']['penWidth']['pen']+2)
-            pen.setColor(QColor(225, 140, 0) if self.Shaft.index(e)==self.points['currentShaft'] else QColor(175, 90, 0))
+            pen.setColor(QColor(225, 140, 0) if i==self.points['currentShaft'] else QColor(175, 90, 0))
             painter.setPen(pen)
             painter.drawLine(QPointF(cen.cx*Tp, cen.cy*Tp*-1), QPointF(ref.cx*Tp, ref.cy*Tp*-1))
         if self.AuxLine['show']:
@@ -172,25 +162,25 @@ class DynamicCanvas(QWidget):
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Min']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Min']['y'])
             pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
-            L_point = QPointF(self.width()*4, self.points['y'][self.AuxLine['pt']])
-            R_point = QPointF(self.width()*(-4), self.points['y'][self.AuxLine['pt']])
-            U_point = QPointF(self.points['x'][self.AuxLine['pt']], self.height()*4)
-            D_point = QPointF(self.points['x'][self.AuxLine['pt']], self.height()*-4)
+            L_point = QPointF(self.width()*4, self.Point[self.AuxLine['pt']].y*Tp*-1)
+            R_point = QPointF(self.width()*-4, self.Point[self.AuxLine['pt']].y*Tp*-1)
+            U_point = QPointF(self.Point[self.AuxLine['pt']].x*Tp, self.height()*4)
+            D_point = QPointF(self.Point[self.AuxLine['pt']].x*Tp, self.height()*-4)
             painter.setPen(pen)
             if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
             if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
-        for index in range(len(self.Point)):
-            cx = self.Point[index].cx*Tp
-            cy = self.Point[index].cy*Tp*-1
+        for i, e in enumerate(self.Point):
+            cx = e.cx*Tp
+            cy = e.cy*Tp*-1
             pen = QPen()
             pen.setWidth(2)
-            if index!=0: pen.setColor(self.Color[self.table_style.cellWidget(index, 3).currentText()])
-            else: pen.setColor(self.Color[self.table_style.item(index, 3).text()])
+            if i!=0: pen.setColor(self.Color[self.table_style.cellWidget(i, 3).currentText()])
+            else: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
             painter.setPen(pen)
-            r = float(self.table_style.item(index, 2).text())
+            r = float(self.table_style.item(i, 2).text())
             painter.drawEllipse(QPointF(cx, cy), r, r)
-            if index!=0: pen.setColor(self.Color[self.table_style.cellWidget(index, 1).currentText()])
-            else: pen.setColor(self.Color[self.table_style.item(index, 1).text()])
+            if i!=0: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
+            else: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
             pen.setWidth(5)
             painter.setPen(pen)
             painter.drawPoint(QPointF(cx, cy))
@@ -199,8 +189,8 @@ class DynamicCanvas(QWidget):
                 pen.setWidth(2)
                 painter.setPen(pen)
                 painter.setFont(QFont("Arial", self.Font_size))
-                text = '[Point{}]'.format(index)
-                if self.points['style']['dimension']: text += ':({:.02f}, {:.02f})'.format(self.Point[index]['cx'], self.Point[index]['cy'])
+                text = '[Point{}]'.format(i)
+                if self.points['style']['dimension']: text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
                 painter.drawText(QPointF(cx+6, cy-6), text)
         if self.points['Path']['path'] and self.points['Path']['show']:
             for i in range(len(self.points['Path']['path'])):
