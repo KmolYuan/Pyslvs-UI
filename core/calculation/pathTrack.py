@@ -18,8 +18,8 @@ class WorkerThread(QThread):
         t0 = timeit.default_timer()
         nPath = list()
         for i in self.ShaftList:
-            start_angle = self.Shaft[i]['start']*100
-            end_angle = self.Shaft[i]['end']*100
+            start_angle = self.Shaft[i].start*100
+            end_angle = self.Shaft[i].end*100
             Resolution = self.Resolution*100
             Path = list()
             for n in self.Run_list:

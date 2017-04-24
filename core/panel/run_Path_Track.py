@@ -23,7 +23,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.work.Rod = Rod
         self.work.Parameter = Parameter
         for i in range(len(Point)):
-            if not Point[i]['fix']: self.Point_list.addItem('Point{}'.format(i))
+            if not Point[i].fix: self.Point_list.addItem('Point{}'.format(i))
         self.shaftList = list()
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
@@ -84,8 +84,8 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         if not self.Run_list.count()==0:
             q = 0
             for i in range(len(self.work.Shaft)):
-                start_angle = self.work.Shaft[i]['start']*100
-                end_angle = self.work.Shaft[i]['end']*100
+                start_angle = self.work.Shaft[i].start*100
+                end_angle = self.work.Shaft[i].end*100
                 Resolution = float(self.Resolution.text())*100
                 angle_set = int((end_angle+1-start_angle)/Resolution)
                 q = q+angle_set
