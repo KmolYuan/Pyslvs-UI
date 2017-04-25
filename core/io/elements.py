@@ -112,7 +112,7 @@ class VShaft:
         return "<Shaft cen={v.cen} ref={v.ref} start={v.start}, end={v.end} demo={v.demo} isParallelogram={v.isParallelogram}>".format(v=self)
 
 class VSlider:
-    def __init___(self, cen=0, start=0, end=0): self.set(cen, start, end)
+    def __init__(self, cen=0, start=0, end=0): self.set(cen, start, end)
     @property
     def cen(self): return self._cen
     @property
@@ -133,6 +133,8 @@ class VRod(VSlider):
     def __init__(self, cen=0, start=0, end=0, pos=0.): self.set(cen, start, end, pos)
     @property
     def pos(self): return self._pos
+    @pos.setter
+    def pos(self, pos): self._pos = pos
     
     def set(self, cen=0, start=0, end=0, pos=0.):
         super(VRod, self).set(cen, start, end)
@@ -142,9 +144,5 @@ class VRod(VSlider):
         return "<Rod cen={v.cen} start={v.start} end={v.end} pos={v.pos}>".format(v=self)
 
 if __name__=='__main__':
-    a = VPoint(10., 20., True)
-    a.move(40., 30.)
-    b = VPoint()
-    l = VLine(b, a, 30)
-    print(l)
-    print(l.end)
+    a = VSlider(1, 0, 2)
+    print(a.end)

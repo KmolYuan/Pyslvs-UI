@@ -13,23 +13,23 @@ class Drive_rod_show(QWidget, Ui_Form):
     
     @pyqtSlot(int)
     def on_Rod_currentIndexChanged(self, index):
-        start = self.table[index]['start']
-        end = self.table[index]['end']
-        distance = int(((self.tablePoint[start]['cx']-self.tablePoint[end]['cx'])**2+(self.tablePoint[start]['cy']-self.tablePoint[end]['cy'])**2)**(1/2)*100)
+        start = self.table[index].start
+        end = self.table[index].end
+        distance = int(((self.tablePoint[start].cx-self.tablePoint[end].cx)**2+(self.tablePoint[start].cy-self.tablePoint[end].cy)**2)**(1/2)*100)
         self.Position.setMaximum(distance)
-        self.Position.setValue(int(self.table[index]['pos']*100))
+        self.Position.setValue(int(self.table[index].pos*100))
         self.Distance_text.setValue(distance/100)
-        self.Center.setText(str(self.table[index]['cen']))
+        self.Center.setText(str(self.table[index].cen))
         self.Start.setText(str(start))
     
     @pyqtSlot()
     def on_ResetButton_clicked(self):
         index = self.Rod.currentIndex()
-        start = self.table[index]['start']
-        end = self.table[index]['end']
-        distance = int(((self.tablePoint[start]['x']-self.tablePoint[end]['x'])**2+(self.tablePoint[start]['y']-self.tablePoint[end]['y'])**2)**(1/2)*100)
+        start = self.table[index].start
+        end = self.table[index].end
+        distance = int(((self.tablePoint[start].cx-self.tablePoint[end].cx)**2+(self.tablePoint[start].cy-self.tablePoint[end].cy)**2)**(1/2)*100)
         self.Position.setMaximum(distance)
-        self.Position.setValue(int(self.table[index]['pos']*100))
+        self.Position.setValue(int(self.table[index].pos*100))
         self.Distance_text.setValue(distance/100)
     
     @pyqtSlot(float)
