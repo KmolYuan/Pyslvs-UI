@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .listProcess import Lists, Designs
-import csv
-import datetime
+from ..kernel.pyslvs_triangle_solver.TS import Direction
+import csv, datetime
 def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
@@ -126,11 +126,9 @@ class File:
             itemNum = 7
             li = data[designIndex[0]+1:designIndex[1]]
             if len(li)>0 and len(li)%itemNum==0:
-                directions = [dict(zip([e.split(':')[0] for e in li[i:i+itemNum]], [e.split(':')[1] for e in li[i:i+itemNum]]))
-                    for i in range(0, len(li), itemNum)]
-                directions = [{
+                directions = [Direction(**{
                     k:((float(v.split('@')[0]), float(v.split('@')[1])) if '@' in v else float(v) if '.' in v else int(v) if v.isdigit() else v if 'P' in v else v=='True')
-                    for k, v in e.items()} for e in directions]
+                    for k, v in e.items()}) for e in [dict(zip([e.split(':')[0] for e in li[i:i+itemNum]], [e.split(':')[1] for e in li[i:i+itemNum]])) for i in range(0, len(li), itemNum)]]
                 self.Designs.addDirections(directions)
             elif len(li)%itemNum!=0: errorInfo.append('Design')
         except: errorInfo.append('Design')
@@ -284,52 +282,52 @@ class File:
     def TS_Merge(self, answers, Point, Point_Style, Link, Chain, Slider):
         Pythagorean = lambda p1, p2: ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**(1/2)
         pNums = list()
-        for answer in answers:
+        for i, answer in enumerate(answers):
             pNum = dict()
-            direction = self.Designs.TSDirections[answers.index(answer)]
+            direction = self.Designs.TSDirections[i]
             #New Points
             for p in ['p1', 'p2', 'p3']:
-                if type(direction.get(p, 0))==tuple:
-                    self.Lists.editTable(Point, 'Point', False, direction[p][0], direction[p][1], False,
+                if type(direction.get(p))==tuple:
+                    self.Lists.editTable(Point, 'Point', False, direction.get(p)[0], direction.get(p)[1], False,
                         styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
                     pNum[p] = Point.rowCount()-1
             if len(answer)==2: self.Lists.editTable(Point, 'Point', False,
                 str(answer[0]), str(answer[1]), False,
                 styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
             elif len(answer)==3:
-                if type(direction.get('p3', 0))==tuple: self.Lists.editTable(Point, 'Point', False, direction['p3'][0], direction['p3'][1], False,
+                if type(direction.get('p3'))==tuple: self.Lists.editTable(Point, 'Point', False, direction.p3[0], direction.p3[1], False,
                     styleTable=Point_Style, color='Green', ringsize=5, ringcolor='Green')
             pNum['answer'] = Point.rowCount()-1
             pNums.append(pNum)
             #Number of Points & Length of Sides
-            p1 = int(direction['p1'].replace('Point', '')) if type(direction['p1'])==str else pNums[direction['p1']]['answer'] if type(direction['p1'])==int else pNum['p1']
-            p2 = int(direction['p2'].replace('Point', '')) if type(direction['p2'])==str else pNums[direction['p2']]['answer'] if type(direction['p2'])==int else pNum['p2']
-            if direction['Type'] in ['PLPP', 'PPP']: p3 = int(direction['p3'].replace('Point', '')) if type(direction['p3'])==str else pNums[direction['p3']]['answer'] if type(direction['p3'])==int else pNum['p3']
-            if direction['Type'] in ['PLAP', 'PLLP', 'PLPP']: pA = pNum['answer']
+            p1 = int(direction.p1.replace('Point', '')) if type(direction.p1)==str else pNums[direction.p1]['answer'] if type(direction.p1)==int else pNum['p1']
+            p2 = int(direction.p2.replace('Point', '')) if type(direction.p2)==str else pNums[direction.p2]['answer'] if type(direction.p2)==int else pNum['p2']
+            if direction.Type in ['PLPP', 'PPP']: p3 = int(direction.p3.replace('Point', '')) if type(direction.p3)==str else pNums[direction.p3]['answer'] if type(direction.p3)==int else pNum['p3']
+            if direction.Type in ['PLAP', 'PLLP', 'PLPP']: pA = pNum['answer']
             #Merge options
             table_points = self.Lists.PointList
-            if direction['Type'] in ['PLAP', 'PLLP']:
-                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
-                elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False,
+            if direction.Type in ['PLAP', 'PLLP']:
+                if direction.merge==1: self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction.len1))
+                elif direction.merge==2: self.Lists.editTable(Link, 'Line', False,
                     p2, pA, str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
-                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, pA, p2,
-                    str(direction['len1']),
+                elif direction.merge==3: self.Lists.editTable(Chain, 'Chain', False, p1, pA, p2,
+                    str(direction.len1),
                     str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))),
                     str(Pythagorean(table_points[p1], table_points[p2])))
-                elif direction['merge']==4:
-                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
+                elif direction.merge==4:
+                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction.len1))
                     self.Lists.editTable(Link, 'Line', False, p2, pA,
                         str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
-            elif direction['Type']=='PPP':
-                if direction['merge']==1: self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
-                elif direction['merge']==2: self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
-                elif direction['merge']==3: self.Lists.editTable(Chain, 'Chain', False, p1, p2, p3, answer[0], answer[1], answer[2])
-                elif direction['merge']==4:
+            elif direction.Type=='PPP':
+                if direction.merge==1: self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
+                elif direction.merge==2: self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
+                elif direction.merge==3: self.Lists.editTable(Chain, 'Chain', False, p1, p2, p3, answer[0], answer[1], answer[2])
+                elif direction.merge==4:
                     self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
                     self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
-            elif direction['Type']=='PLPP':
-                if direction['merge']==1:
-                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction['len1']))
+            elif direction.Type=='PLPP':
+                if direction.merge==1:
+                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction.len1))
                     self.Lists.editTable(Slider, 'Slider', False, pA, p2, p3)
     
     def conflictMessage(self, ConflictGuide):

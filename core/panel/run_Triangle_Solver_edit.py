@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .Ui_run_Triangle_Solver_edit import Ui_Dialog
+from ..kernel.pyslvs_triangle_solver.TS import Direction
 
 class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
@@ -88,14 +89,13 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
             self.mergeImage.setPixmap(QPixmap(pic).scaledToWidth(560))
     
     def isOk(self):
-        self.condition = {
-            'Type':self.type.currentText(),
+        condition = {
             'p1':(self.x1.value(), self.y1.value()) if self.p1Customize.isChecked() else
                 self.p1.currentText() if self.p1Exist.isChecked() else self.r1.currentIndex(),
             'p2':(self.x2.value(), self.y2.value()) if self.p2Customize.isChecked() else
                 self.p2.currentText() if self.p2Exist.isChecked() else self.r2.currentIndex(),
             'merge':self.merge.currentIndex()}
-        n = self.condition['p1']!=self.condition['p2']
+        n = condition['p1']!=condition['p2']
         if self.type.currentIndex()==0:
             triangle = {
                 'len1':self.len1.value(),
@@ -114,13 +114,15 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 'p3':(self.x3.value(), self.y3.value()) if self.p3Customize.isChecked() else
                 self.p3.currentText() if self.p3Exist.isChecked() else self.r3.currentIndex(),
                 'other':self.other.isChecked()}
-            n &= triangle['len1']>=0 and triangle['p3']!=self.condition['p1'] and triangle['p3']!=self.condition['p2']
+            n &= triangle['len1']>=0 and triangle['p3']!=condition['p1'] and triangle['p3']!=condition['p2']
         elif self.type.currentIndex()==3:
             triangle = {
                 'p3':(self.x3.value(), self.y3.value()) if self.p3Customize.isChecked() else
                 self.p3.currentText() if self.p3Exist.isChecked() else self.r3.currentIndex()}
-            n &= triangle['p3']!=self.condition['p1'] and triangle['p3']!=self.condition['p2']
-        self.condition.update(triangle)
+            n &= triangle['p3']!=condition['p1'] and triangle['p3']!=condition['p2']
+        condition.update(triangle)
+        self.condition = Direction(**condition)
+        self.condition.Type = self.type.currentText()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
     
     @pyqtSlot()
