@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         table_pos = self.Entiteis_Link.currentRow()
         if action==self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action==self.action_link_right_click_menu_edit: self.on_action_Edit_Linkage_triggered(table_pos)
-        elif action==self.action_link_right_click_menu_shaft: self.link2Shaft(table_pos)
+        elif action==self.action_link_right_click_menu_shaft: self.File.Lists.link2Shaft(self.Shaft, table_pos)
         elif action==self.action_link_right_click_menu_reversion: self.File.Lists.lineNodeReversion(self.Entiteis_Point, table_pos)
         elif action==self.action_link_right_click_menu_delete: self.on_action_Delete_Linkage_triggered(table_pos)
     def on_chain_context_menu(self, point):
@@ -664,11 +664,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Coordinate_Copy(self, table):
         clipboard = QApplication.clipboard()
         clipboard.setText(table.currentItem().text())
-    
-    def link2Shaft(self, row):
-        cen = self.File.Lists.LineList[row]['start']
-        ref = self.File.Lists.LineList[row]['end']
-        self.on_action_Set_Shaft_triggered(cen, ref)
     
     @pyqtSlot()
     def on_ResetCanvas_clicked(self): self.DynamicCanvasView.SetIn()

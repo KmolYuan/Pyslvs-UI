@@ -207,6 +207,12 @@ class Lists:
             table.setItem(i, 4, digit)
         self.update(table, 'Point')
     
+    def link2Shaft(self, table, row):
+        cen = self.LineList[row].start
+        ref = self.LineList[row].end
+        self.editTable(table, 'Shaft', False,
+            cen, ref, 0., 360., self.m(cen, ref), False)
+    
     def setDemo(self, name, row, pos):
         if name=='Shaft': self.ShaftList[row].demo = pos
         elif name=='Rod': self.RodList[row].pos = pos
@@ -232,10 +238,12 @@ class Lists:
         self.FileState.endMacro()
     
     def m(self, p1, p2):
-        x1 = self.PointList[int(p1.replace('Point', ''))].cx
-        y1 = self.PointList[int(p1.replace('Point', ''))].cy
-        x2 = self.PointList[int(p2.replace('Point', ''))].cx
-        y2 = self.PointList[int(p2.replace('Point', ''))].cy
+        p1 = int(p1.replace('Point', '')) if type(p1)==str else p1
+        p2 = int(p2.replace('Point', '')) if type(p2)==str else p2
+        x1 = self.PointList[p1].cx
+        y1 = self.PointList[p1].cy
+        x2 = self.PointList[p2].cx
+        y2 = self.PointList[p2].cy
         x = x2-x1
         y = y2-y1
         d = sqrt(x**2+y**2)

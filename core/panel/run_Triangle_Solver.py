@@ -96,7 +96,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         if self.directions:
             directions = [{k:v for k, v in e.items() if k!='Type'} for e in self.directions]
             directions = [{k:(v if type(v)!=str else
-                (self.Point[int(v.replace('Point', ''))]['cx'], self.Point[int(v.replace('Point', ''))]['cy']))
+                (self.Point[int(v.replace('Point', ''))].cx, self.Point[int(v.replace('Point', ''))].cy))
                 for k, v in e.items()} for e in directions]
             s = solver(directions)
             answers = s.answer()
