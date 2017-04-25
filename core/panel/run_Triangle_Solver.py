@@ -42,7 +42,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     
     def editDirection(self, name, edit=False):
         if edit is False: dlg = Triangle_Solver_edit_show(self.Point, self.directionsTable.rowCount(), name)
-        else: dlg = Triangle_Solver_edit_show(self.Point, edit, **self.directions[edit].items())
+        else: dlg = Triangle_Solver_edit_show(self.Point, edit, self.directions[edit].Type, **self.directions[edit].items())
         dlg.show()
         if dlg.exec_():
             direction = dlg.condition

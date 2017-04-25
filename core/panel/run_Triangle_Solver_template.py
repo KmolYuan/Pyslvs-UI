@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
+from ..kernel.pyslvs_triangle_solver.TS import Direction
 from .Ui_run_Triangle_Solver_template import Ui_Dialog
 
 class Triangle_Solver_template_show(QDialog, Ui_Dialog):
@@ -88,8 +89,8 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
     
     def turn2Dict(self):
         triangle = self.template[self.templateType.currentIndex()]['triangle']
-        self.conditions = [{'Type':'PPP',
+        self.conditions = [Direction(**{'Type':'PPP',
             'p1':self.triangleTable.item(row, 2).text(),
             'p2':self.triangleTable.item(row, 3).text(),
             'p3':self.triangleTable.item(row, 4).text(),
-            'merge':triangle[row]['merge']} for row in range(len(triangle))]
+            'merge':triangle[row]['merge']}) for row in range(len(triangle))]

@@ -33,16 +33,15 @@ def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox1, 
     table.setCellWidget(rowPosition, 3, color_combobox2)
 
 def writeTS(table, row, Direction):
-    table.setItem(row, 0, QTableWidgetItem(Direction['Type']))
+    table.setItem(row, 0, QTableWidgetItem(Direction.Type))
     for i in [2, 3]:
-        e = [Direction['p1'], Direction['p2']][i-2]
+        e = [Direction.p1, Direction.p2][i-2]
         Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else "({:.02f}, {:.02f})".format(e[0], e[1]) if type(e)==tuple else e)
         if type(e)==tuple: Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
         table.setItem(row, i, Item)
-    condition = {k:v for k, v in Direction.items() if k!='Type'}
     condition = [
-        "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if Direction['Type']=='PLPP' else
-        ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"][v])) for k, v in condition.items()]
+        "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if Direction.Type=='PLPP' else
+        ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"][v])) for k, v in Direction.items().items()]
     conditionItem = QTableWidgetItem(', '.join(condition))
     conditionItem.setToolTip('\n'.join(condition))
     table.setItem(row, 4, conditionItem)

@@ -90,6 +90,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     
     def isOk(self):
         condition = {
+            'Type':self.type.currentText(),
             'p1':(self.x1.value(), self.y1.value()) if self.p1Customize.isChecked() else
                 self.p1.currentText() if self.p1Exist.isChecked() else self.r1.currentIndex(),
             'p2':(self.x2.value(), self.y2.value()) if self.p2Customize.isChecked() else
@@ -122,7 +123,6 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
             n &= triangle['p3']!=condition['p1'] and triangle['p3']!=condition['p2']
         condition.update(triangle)
         self.condition = Direction(**condition)
-        self.condition.Type = self.type.currentText()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
     
     @pyqtSlot()
