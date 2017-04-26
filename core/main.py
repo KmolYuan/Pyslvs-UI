@@ -454,17 +454,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Rod_triggered(row)
     
     #Entities
-    @pyqtSlot()
-    def on_action_New_Point_triggered(self):
-        table1 = self.Entiteis_Point
-        table2 = self.Entiteis_Point_Style
-        dlg = edit_point_show(self.Mask, table1, self.File.Lists.PointList)
-        dlg.show()
-        if dlg.exec_():
-            x = dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), 'n', '-'] else dlg.X_coordinate.placeholderText()
-            y = dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), 'n', '-'] else dlg.Y_coordinate.placeholderText()
-            self.File.Lists.editTable(table1, 'Point', False, x, y, bool(dlg.Fix_Point.checkState()),
-                styleTable=table2, color='Green', ringsize=10 if dlg.Fix_Point.checkState() else 5, ringcolor='Green')
     def addPointGroup(self):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Point_Style
@@ -487,16 +476,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(c0, 2).text())
     
     @pyqtSlot()
-    def on_action_Edit_Point_triggered(self, pos=1):
-        table = self.Entiteis_Point
-        dlg = edit_point_show(self.Mask, table, self.File.Lists.PointList, pos)
+    def on_action_New_Point_triggered(self): self.editPoint()
+    @pyqtSlot()
+    def on_action_Edit_Point_triggered(self, pos=1): self.editPoint(pos)
+    def editPoint(self, pos=False):
+        table1 = self.Entiteis_Point
+        table2 = self.Entiteis_Point_Style
+        dlg = edit_point_show(self.Mask, table1, self.File.Lists.PointList, pos)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(table, 'Point', dlg.Point.currentIndex()+1,
-                dlg.X_coordinate.text() if not dlg.X_coordinate.text()in[str(), "n", "-"] else dlg.X_coordinate.placeholderText(),
-                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text()in[str(), "n", "-"] else dlg.Y_coordinate.placeholderText(),
-                bool(dlg.Fix_Point.checkState()))
-            self.File.Lists.styleFix(self.Entiteis_Point_Style, bool(dlg.Fix_Point.checkState()), pos)
+            self.File.Lists.editTable(table1, 'Point', False if pos is False else dlg.Point.currentIndex()+1,
+                dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), 'n', '-'] else dlg.X_coordinate.placeholderText(),
+                dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), 'n', '-'] else dlg.Y_coordinate.placeholderText(),
+                bool(dlg.Fix_Point.checkState()),
+                **({'styleTable':table2, 'color':'Green', 'ringsize':10 if dlg.Fix_Point.checkState() else 5, 'ringcolor':'Green'} if pos is False else dict()))
+            if not pos is False: self.File.Lists.styleFix(self.Entiteis_Point_Style, bool(dlg.Fix_Point.checkState()), pos)
     
     @pyqtSlot(int)
     def Edit_Point_Style(self, index):
@@ -541,55 +535,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Simulate
     @pyqtSlot()
-    def on_action_Set_Shaft_triggered(self, cen=0, ref=0):
+    def on_action_Set_Shaft_triggered(self, cen=0, ref=0): self.editShaft(cen=cen, ref=ref)
+    @pyqtSlot()
+    def on_action_Edit_Shaft_triggered(self, pos=0): self.editShaft(pos)
+    def editShaft(self, pos=False, cen=0, ref=0):
         table1 = self.Entiteis_Point
         table2 = self.Shaft
-        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, cen=cen, ref=ref)
+        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, **({'cen':cen, 'ref':ref} if pos is False else {'pos':pos}))
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', False,
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', False if pos is False else dlg.Shaft.currentIndex(),
             dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref), bool(dlg.isParallelogram.checkState()))
     
     @pyqtSlot()
-    def on_action_Edit_Shaft_triggered(self, pos=0):
-        table1 = self.Entiteis_Point
-        table2 = self.Shaft
-        dlg = edit_shaft_show(table1, table2, self.File.Lists.ShaftList, pos)
-        dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Shaft', dlg.Shaft.currentIndex(), dlg.center, dlg.ref, dlg.start, dlg.end,
-            table2.item(dlg.Shaft.currentIndex(), 5), bool(dlg.isParallelogram.checkState()))
-    
+    def on_action_Set_Slider_triggered(self): self.editSlider()
     @pyqtSlot()
-    def on_action_Set_Slider_triggered(self):
-        dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList)
-        dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', False, dlg.slider, dlg.start, dlg.end)
-    
-    @pyqtSlot()
-    def on_action_Edit_Slider_triggered(self, pos=0):
+    def on_action_Edit_Slider_triggered(self, pos=0): self.editSlider(pos)
+    def editSlider(self, pos=False):
         dlg = edit_slider_show(self.Entiteis_Point, self.Slider, self.File.Lists.SliderList, pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', dlg.Slider.currentIndex(), dlg.slider, dlg.start, dlg.end)
+        if dlg.exec_(): self.File.Lists.editTable(self.Slider, 'Slider', False if pos is False else dlg.Slider.currentIndex(),
+            dlg.slider, dlg.start, dlg.end)
     
     @pyqtSlot()
-    def on_action_Set_Rod_triggered(self):
-        table1 = self.Entiteis_Point
-        table2 = self.Rod
-        dlg = edit_rod_show(table1, table2, self.File.Lists.RodList)
-        dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', False, dlg.cen, dlg.start, dlg.end, dlg.pos)
-    
+    def on_action_Set_Rod_triggered(self): self.editRod()
     @pyqtSlot()
-    def on_action_Edit_Rod_triggered(self, pos=0):
+    def on_action_Edit_Rod_triggered(self, pos=0): self.editRod(pos)
+    def editRod(self, pos=False):
         table1 = self.Entiteis_Point
         table2 = self.Rod
         dlg = edit_rod_show(table1, table2, self.File.Lists.RodList, pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', dlg.Rod.currentIndex(), dlg.cen, dlg.start, dlg.end, dlg.pos)
+        if dlg.exec_(): self.File.Lists.editTable(table2, 'Rod', False if pos is False else dlg.Rod.currentIndex(),
+            dlg.cen, dlg.start, dlg.end, dlg.pos)
     
+    #Delete
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self, pos=None):
         if pos==None: pos = self.Entiteis_Point.currentRow()
-        print(pos)
         self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
     @pyqtSlot()
     def on_action_Delete_Linkage_triggered(self, pos=None):
