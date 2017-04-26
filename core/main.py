@@ -285,6 +285,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Theo_Jansen_s_multi_linkage_triggered(self): self.checkChange("[Example] Theo Jansen\'s multiple linkage", example_TJLinkage())
     @pyqtSlot()
     def on_action_Rock_Slider_Design_triggered(self): self.checkChange("[Example] Rock slider design", example_RockSliderDesign())
+    @pyqtSlot()
+    def on_action_Four_bar_linkage_triggered(self): self.checkChange("[Example] Four bar linkage", example_4BarFeet())
     #Workbook Functions
     def checkChange(self, name=False, data=list(), say='Loading Example...'):
         if self.File.form.changed:
@@ -351,7 +353,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if ('[New Workbook]' in n or '[Example]' in n)and(QFileInfo(n).suffix()!='csv' and QFileInfo(n).suffix()!='txt'):
             fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')
         else: fileName = self.File.form.fileName.absoluteFilePath()
-        if fileName: self.save(fileName)
+        if fileName:
+            self.save(fileName)
+            self.setWindowTitle("Pyslvs - {}".format(QFileInfo(fileName).fileName()))
     @pyqtSlot()
     def on_action_Save_as_triggered(self):
         fileName = self.outputTo("Workbook", 'Spreadsheet(*.csv)')

@@ -2255,6 +2255,7 @@ p, li { white-space: pre-wrap; }
      <addaction name="action_Reverse_Parsing_Rocker"/>
      <addaction name="action_Mutiple_Link"/>
      <addaction name="action_Two_Mutiple_Link"/>
+     <addaction name="action_Four_bar_linkage"/>
      <addaction name="separator"/>
      <addaction name="SlidersMenuTitle"/>
      <addaction name="action_Slider_and_Rod"/>
@@ -2961,7 +2962,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Mutiple_Link">
    <property name="text">
-    <string>Mutiple Link</string>
+    <string>Mutiple linkage</string>
    </property>
    <property name="statusTip">
     <string>Mutiple Link #1</string>
@@ -2995,7 +2996,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Two_Mutiple_Link">
    <property name="text">
-    <string>Two Pairs Mutiple Link</string>
+    <string>Two pairs mutiple linkage</string>
    </property>
    <property name="statusTip">
     <string>Mutiple Link #2</string>
@@ -3212,6 +3213,11 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>View the Log file</string>
+   </property>
+  </action>
+  <action name="action_Four_bar_linkage">
+   <property name="text">
+    <string>Four bar linkage</string>
    </property>
   </action>
  </widget>

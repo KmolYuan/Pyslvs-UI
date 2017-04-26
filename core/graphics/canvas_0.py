@@ -62,24 +62,6 @@ class DynamicCanvas(QWidget):
         painter.fillRect(event.rect(), QBrush(self.points['style']['Background']))
         painter.translate(self.points['origin']['x'], self.points['origin']['y'])
         Tp = self.zoom*self.points['rate']
-        for i, e in enumerate(self.Chain):
-            pen = QPen()
-            pen.setWidth(self.points['style']['penWidth']['pen'])
-            painter.setBrush(self.points['style']['chain'])
-            painter.drawPolygon(
-                QPointF(self.Point[e.p1].cx*Tp, self.Point[e.p1].cy*Tp*-1),
-                QPointF(self.Point[e.p2].cx*Tp, self.Point[e.p2].cy*Tp*-1),
-                QPointF(self.Point[e.p3].cx*Tp, self.Point[e.p3].cy*Tp*-1), fillRule=Qt.OddEvenFill)
-            painter.setBrush(Qt.NoBrush)
-            if self.Point_mark:
-                pen.setColor(self.points['style']['text'])
-                painter.setPen(pen)
-                painter.setFont(QFont("Arial", self.Font_size))
-                text = '[Chain{}]'.format(i)
-                if self.points['style']['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
-                mp = QPointF((self.Point[e.p1].cx+self.Point[e.p2].cx+self.Point[e.p3].cx)*Tp/3,
-                    (self.Point[e.p1].cy+self.Point[e.p2].cy+self.Point[e.p3].cy)*Tp*-1/3)
-                painter.drawText(mp, text)
         for i, e in enumerate(self.Line):
             start = self.Point[e.start]
             end = self.Point[e.end]
@@ -95,6 +77,25 @@ class DynamicCanvas(QWidget):
                 painter.setFont(QFont('Arial', self.Font_size))
                 text = '[Line{}]'.format(i)
                 if self.points['style']['dimension']: text += ':{:.02f}'.format(e.len)
+                painter.drawText(mp, text)
+        for i, e in enumerate(self.Chain):
+            pen = QPen()
+            pen.setWidth(self.points['style']['penWidth']['pen'])
+            pen.setColor(self.points['style']['link'])
+            painter.setBrush(self.points['style']['chain'])
+            painter.drawPolygon(
+                QPointF(self.Point[e.p1].cx*Tp, self.Point[e.p1].cy*Tp*-1),
+                QPointF(self.Point[e.p2].cx*Tp, self.Point[e.p2].cy*Tp*-1),
+                QPointF(self.Point[e.p3].cx*Tp, self.Point[e.p3].cy*Tp*-1))
+            painter.setBrush(Qt.NoBrush)
+            if self.Point_mark:
+                pen.setColor(self.points['style']['text'])
+                painter.setPen(pen)
+                painter.setFont(QFont('Arial', self.Font_size))
+                text = '[Chain{}]'.format(i)
+                if self.points['style']['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
+                mp = QPointF((self.Point[e.p1].cx+self.Point[e.p2].cx+self.Point[e.p3].cx)*Tp/3,
+                    (self.Point[e.p1].cy+self.Point[e.p2].cy+self.Point[e.p3].cy)*Tp*-1/3)
                 painter.drawText(mp, text)
         for e in self.Slider:
             start = self.Point[e.start]
@@ -116,7 +117,7 @@ class DynamicCanvas(QWidget):
                 pen.setColor(self.points['style']['text'])
                 painter.setPen(pen)
                 mp = QPointF((start.cx*Tp+end.cx*Tp)/2, (start.cy*Tp+end.cy*Tp)/2*-1)
-                painter.setFont(QFont("Arial", self.Font_size))
+                painter.setFont(QFont('Arial', self.Font_size))
                 painter.drawText(mp, '{{{}}}'.format(e['pos']))
         for i, e in enumerate(self.Shaft):
             cen = self.Point[e.cen]
@@ -143,7 +144,7 @@ class DynamicCanvas(QWidget):
                 if self.points['style']['dimension']:
                     text_center_x = QPointF(self.AuxLine['Max']['x']*Tp+self.points['style']['penWidth']['pen'], self.points['origin']['y']*-1+self.Font_size)
                     text_center_y = QPointF(self.points['origin']['x']*(-1), self.AuxLine['Max']['y']*Tp*-1-self.points['style']['penWidth']['pen'])
-                    painter.setFont(QFont("Arial", self.Font_size))
+                    painter.setFont(QFont('Arial', self.Font_size))
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Max']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Max']['y'])
             if self.AuxLine['isMin']:
@@ -158,7 +159,7 @@ class DynamicCanvas(QWidget):
                 if self.points['style']['dimension']:
                     text_center_x = QPointF(self.AuxLine['Min']['x']*Tp+self.points['style']['penWidth']['pen'], self.points['origin']['y']*-1+self.Font_size)
                     text_center_y = QPointF(self.points['origin']['x']*-1, self.AuxLine['Min']['y']*Tp*-1-self.points['style']['penWidth']['pen'])
-                    painter.setFont(QFont("Arial", self.Font_size))
+                    painter.setFont(QFont('Arial', self.Font_size))
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Min']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Min']['y'])
             pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
@@ -188,7 +189,7 @@ class DynamicCanvas(QWidget):
                 pen.setColor(self.points['style']['text'])
                 pen.setWidth(2)
                 painter.setPen(pen)
-                painter.setFont(QFont("Arial", self.Font_size))
+                painter.setFont(QFont('Arial', self.Font_size))
                 text = '[Point{}]'.format(i)
                 if self.points['style']['dimension']: text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
                 painter.drawText(QPointF(cx+6, cy-6), text)
