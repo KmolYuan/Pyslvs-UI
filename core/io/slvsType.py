@@ -66,18 +66,18 @@ class slvsTypeSettings(QDialog, Ui_Dialog):
             'drilling': self.DrillingVal.value()*scale,
             'joint': self.JointVal.value()*scale if self.hasJoint.checkState() else 0}
         for i in range(len(self.Line)):
-            fileName = self.nameRule('Line', self.LinkRule.currentIndex(), self.LinkHeader.text()).format(i, self.Line[i]['len'])
+            fileName = self.nameRule('Line', self.LinkRule.currentIndex(), self.LinkHeader.text()).format(i, self.Line[i].len)
             self.write(fileName,
                 slvsLink(self.Line[i]['len'], width=self.LinkWidthVal.value()*scale, type=self.LinkType.currentIndex(), **setting))
         for i in range(len(self.Chain)):
             fileName = self.nameRule('Chain', self.ChainRule.currentIndex(), self.ChainHeader.text()).format(
-                i, '_'.join(['{}']*3).format(self.Chain[i]['p1p2'], self.Chain[i]['p2p3'], self.Chain[i]['p1p3']))
+                i, '_'.join(['{}']*3).format(self.Chain[i].p1p2, self.Chain[i].p2p3, self.Chain[i].p1p3))
             self.write(fileName,
-                slvsChain(self.Chain[i]['p1p2'], self.Chain[i]['p2p3'], self.Chain[i]['p1p3'], width=self.ChainWidthVal.value()*scale, type=self.ChainType.currentIndex(), **setting))
+                slvsChain(self.Chain[i].p1p2, self.Chain[i].p2p3, self.Chain[i].p1p3, width=self.ChainWidthVal.value()*scale, type=self.ChainType.currentIndex(), **setting))
         if self.hasAssembly.checkState(): self.write(self.AssemblyPreview.text()+'.slvs', slvsAssembly(self.Point, self.Line, self.Chain))
     def write(self, fileName, content):
         filePath = QFileInfo(self.folderPath, fileName).absoluteFilePath()
-        with open(filePath, 'w', encoding="iso-8859-15", newline="") as f: f.write(content)
+        with open(filePath, 'w', encoding='iso-8859-15', newline="") as f: f.write(content)
         print("Saved: {}".format(filePath))
     
     @pyqtSlot(int)

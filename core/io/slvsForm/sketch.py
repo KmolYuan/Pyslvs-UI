@@ -240,20 +240,20 @@ AddEntity
     entity_num = 0x40000
     for e in Line:
         script_entity = Entity_line(script_entity, entity_num)
-        for p in [e['start'], e['end']]:
+        for p in [e.start, e.end]:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity = Entity_point(script_entity, entity_num, Point[p]['cx'], Point[p]['cy'])
+            script_entity = Entity_point(script_entity, entity_num, Point[p].cx, Point[p].cy)
             line_num[Line.index(e)].append(entity_num)
         entity_num = up(entity_num, 4)
     for e in Chain:
-        band = [[e['p1'], e['p2']], [e['p2'], e['p3']], [e['p1'], e['p3']]]
+        band = [[e.p1, e.p2], [e.p2, e.p3], [e.p1, e.p3]]
         for k in band:
             script_entity = Entity_line(script_entity, entity_num)
             for p in k:
                 entity_num += 1
                 point_num[p].append(entity_num)
-                script_entity = Entity_point(script_entity, entity_num, Point[p]['cx'], Point[p]['cy'])
+                script_entity = Entity_point(script_entity, entity_num, Point[p].cx, Point[p].cy)
                 chain_num[Chain.index(e)][band.index(k)].append(entity_num)
             entity_num = up(entity_num, 4)
     script_entity += '''
@@ -285,20 +285,20 @@ AddEntity
         for p in e[1:]:
             script_constraint = Constraint_point(script_constraint, constraint_num, e[0], p)
             constraint_num += 1
-    for e in Point:
-        script_constraint = Constraint_comment(script_constraint, constraint_num, 'Point{}'.format(Point.index(e)), e['cx'], e['cy'])
+    for i, e in enumerate(Point):
+        script_constraint = Constraint_comment(script_constraint, constraint_num, 'Point{}'.format(i), e.cx, e.cy)
         constraint_num += 1
-    for e in Point:
-        if e['fix'] and point_num[Point.index(e)]:
-            script_constraint = Constraint_fix(script_constraint, constraint_num, point_num[Point.index(e)][0], e['cx'], e['cy'])
+    for i, e in enumerate(Point):
+        if e.fix and point_num[Point.index(e)]:
+            script_constraint = Constraint_fix(script_constraint, constraint_num, point_num[i][0], e.cx, e.cy)
             constraint_num += 2
     for e in line_num:
-        script_constraint = Constraint_line(script_constraint, constraint_num, e[0], e[1], Line[line_num.index(e)]['len'])
+        script_constraint = Constraint_line(script_constraint, constraint_num, e[0], e[1], Line[line_num.index(e)].len)
         constraint_num += 1
-    for e in chain_num:
-        band = ['p1p2', 'p2p3', 'p1p3']
+    for i, e in enumerate(chain_num):
+        band = [Chain[i].p1p2, Chain[i].p2p3, Chain[i].p1p3]
         for p in e:
-            script_constraint = Constraint_line(script_constraint, constraint_num, p[0], p[1], Chain[chain_num.index(e)][band[e.index(p)]])
+            script_constraint = Constraint_line(script_constraint, constraint_num, p[0], p[1], band[e.index(p)])
             constraint_num += 1
     return script_group+script_param+script_request+script_entity+script_constraint
 
