@@ -79,6 +79,10 @@ class Ui_Dialog(object):
         self.Length.setObjectName("Length")
         self.gridLayout.addWidget(self.Length, 1, 0, 1, 1)
         self.verticalLayout.addLayout(self.gridLayout)
+        self.isReplace = QtWidgets.QCheckBox(Dialog)
+        self.isReplace.setChecked(True)
+        self.isReplace.setObjectName("isReplace")
+        self.verticalLayout.addWidget(self.isReplace)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -112,6 +116,8 @@ class Ui_Dialog(object):
         self.label_2.setText(_translate("Dialog", "End Point"))
         self.End_Point.setWhatsThis(_translate("Dialog", "End point for next link."))
         self.Length.setPlaceholderText(_translate("Dialog", "30.0"))
+        self.isReplace.setToolTip(_translate("Dialog", "Remove the links that contain these points."))
+        self.isReplace.setText(_translate("Dialog", "Replication constraints(?)"))
 
 import icons_rc
 

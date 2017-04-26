@@ -57,7 +57,7 @@ class editTableCommand(QUndoCommand):
             self.oldArgs = list()
             for column in range(1, table.columnCount()):
                 item = table.item(edit, column)
-                self.oldArgs.append(item.text() if item.text()!=str() else item.checkState()!=Qt.Unchecked)
+                self.oldArgs.append(item.text() if item.text()!='' else item.checkState()!=Qt.Unchecked)
     
     def redo(self):
         isEdit = not self.edit is False

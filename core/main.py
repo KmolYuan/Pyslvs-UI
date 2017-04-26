@@ -453,6 +453,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int)
     def on_Rod_cellDoubleClicked(self, row, column): self.on_action_Edit_Rod_triggered(row)
     
+    #Entities
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
         table1 = self.Entiteis_Point
@@ -503,47 +504,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.workbookNoSave()
     
     @pyqtSlot()
-    def on_action_New_Line_triggered(self):
-        table1 = self.Entiteis_Point
-        table2 = self.Entiteis_Link
-        dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList)
-        dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', False,
-            dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
-    
+    def on_action_New_Line_triggered(self): self.editLine()
     @pyqtSlot()
-    def on_action_Edit_Linkage_triggered(self, pos=0):
+    def on_action_Edit_Linkage_triggered(self, pos=0): self.editLine(pos)
+    def editLine(self, pos=False):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Link
         dlg = edit_link_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.LineList, pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Line', dlg.Link.currentIndex(),
-            dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
-    
-    @pyqtSlot()
-    def on_action_New_Stay_Chain_triggered(self):
-        table1 = self.Entiteis_Point
-        table2 = self.Entiteis_Stay_Chain
-        dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList)
-        dlg.show()
         if dlg.exec_():
-            if dlg.isReplace.isChecked():
-                Lists = self.File.Lists.LineList
-                threePoints = [dlg.p1, dlg.p2, dlg.p3]
-                for e in self.File.Lists.LineList:
-                    if e['start'] in threePoints and e['end'] in threePoints: self.File.Lists.deleteTable(
-                        self.Entiteis_Link, 'Line', self.File.Lists.LineList.index(e))
-            self.File.Lists.editTable(table2, 'Chain', False, dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+            if dlg.isReplace.isChecked(): self.checkEntitiesConflict(pos, [dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex()])
+            self.File.Lists.editTable(table2, 'Line', False if pos is False else dlg.Link.currentIndex(),
+                dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
     
     @pyqtSlot()
-    def on_action_Edit_Stay_Chain_triggered(self, pos=0):
+    def on_action_New_Stay_Chain_triggered(self): self.editChain()
+    @pyqtSlot()
+    def on_action_Edit_Stay_Chain_triggered(self, pos=0): self.editChain(pos)
+    def editChain(self, pos=False):
         table1 = self.Entiteis_Point
         table2 = self.Entiteis_Stay_Chain
         dlg = edit_chain_show(self.Mask, table1, table2, self.File.Lists.PointList, self.File.Lists.ChainList, pos)
         dlg.show()
-        if dlg.exec_(): self.File.Lists.editTable(table2, 'Chain', dlg.Chain.currentIndex(),
-            dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
+        if dlg.exec_():
+            if dlg.isReplace.isChecked(): self.checkEntitiesConflict(pos, [dlg.p1, dlg.p2, dlg.p3])
+            self.File.Lists.editTable(table2, 'Chain', False if pos is False else dlg.Chain.currentIndex(),
+                dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
     
+    def checkEntitiesConflict(self, pos, points):
+        for i, e in enumerate(self.File.Lists.LineList):
+            if len(set(points) & set([e.start, e.end]))>1 and (i!=pos or len(points)!=2): self.File.Lists.deleteTable(
+                self.Entiteis_Link, 'Line', i)
+        for i, e in enumerate(self.File.Lists.ChainList):
+            if len(set(points) & set([e.p1, e.p2, e.p3]))>1 and (i!=pos or len(points)!=3): self.File.Lists.deleteTable(
+                self.Entiteis_Stay_Chain, 'Chain', i)
+    
+    #Simulate
     @pyqtSlot()
     def on_action_Set_Shaft_triggered(self, cen=0, ref=0):
         table1 = self.Entiteis_Point

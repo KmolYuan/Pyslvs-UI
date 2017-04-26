@@ -159,6 +159,19 @@
        </item>
       </layout>
      </item>
+     <item>
+      <widget class="QCheckBox" name="isReplace">
+       <property name="toolTip">
+        <string>Remove the links that contain these points.</string>
+       </property>
+       <property name="text">
+        <string>Replication constraints(?)</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
