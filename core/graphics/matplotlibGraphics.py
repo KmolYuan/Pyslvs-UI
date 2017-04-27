@@ -19,7 +19,7 @@ class BasicChart(FigureCanvas):
     def initial_figure(self):
         x = [i for i in range(len(self.data))]
         y = self.data
-        self.axes.plot(x, y, 'r')
+        self.axes.plot(x, y, 'g')
 
 class BasicChartDialog(QDialog):
     def __init__(self, Title, data=[0], parent=None):
@@ -30,5 +30,5 @@ class BasicChartDialog(QDialog):
         layout.addWidget(chart)
         self.setWindowTitle(Title)
         self.setModal(True)
-        self.setMinimumSize(chart.size())
-        self.setMaximumSize(chart.size())
+        self.setMinimumSize(chart.size()+QSize(11, 11))
+        self.setMaximumSize(chart.size()+QSize(11, 11))

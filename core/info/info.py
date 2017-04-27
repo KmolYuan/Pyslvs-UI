@@ -10,8 +10,9 @@ from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 from sip import SIP_VERSION_STR as sipVersion
 from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
 INFO = ["Pyslvs {}({})".format(VERSION[0], VERSION[1]),
-    "OS Type: {}".format(platform.system()),
+    "OS Type: {} {} [{}]".format(platform.system(), platform.release(), platform.machine()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
+    "Python Compiler: {}".format(platform.python_compiler()),
     "Qt Version: {}".format(qVersion().strip()),
     "PyQt Version: {}".format(pyqtVersion.strip()),
     "Sip Version: {}".format(sipVersion.strip()),
