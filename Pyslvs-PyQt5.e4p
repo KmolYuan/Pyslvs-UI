@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-04-27, 13:20:30 -->
+<!-- Saved: 2017-04-27, 22:33:24 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -38,10 +38,10 @@
     <Source>core/draw/edit_chain.py</Source>
     <Source>core/draw/edit_link.py</Source>
     <Source>core/draw/edit_point.py</Source>
+    <Source>core/graphics/ChartGraphics.py</Source>
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas_0.py</Source>
     <Source>core/graphics/canvas_1.py</Source>
-    <Source>core/graphics/matplotlibGraphics.py</Source>
     <Source>core/info/Ui_editFileInfo.py</Source>
     <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>

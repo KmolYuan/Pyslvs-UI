@@ -2,7 +2,7 @@
 from ..QtModules import *
 from .Ui_run_Path_Solving import Ui_Form as PathSolving_Form
 from ..calculation.pathSolving import WorkerThread
-from ..graphics.matplotlibGraphics import BasicChartDialog
+from ..graphics.ChartGraphics import BasicChartDialog
 from .run_Path_Solving_series import Path_Solving_series_show
 
 class Path_Solving_show(QWidget, PathSolving_Form):
