@@ -120,8 +120,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def addResult(self, e):
         item = QListWidgetItem(e['Algorithm']+(": {} ... {}".format(e['path'][:3], e['path'][-3:]) if len(e['path'])>6 else ": {}".format(e['path'])))
-        item.setToolTip("[{}]\nAx: {}\nAy: {}\nDx: {}\nDy: {}\nL0: {}\nL1: {}\nL2: {}\nL3: {}\nL4: {}\nTime spand: {:.2f} s".format(
-            e['Algorithm'], e['Ax'], e['Ay'], e['Dx'], e['Dy'], e['L0'], e['L1'], e['L2'], e['L3'], e['L4'], e['time']))
+        item.setToolTip('\n'.join(['[{}]'.format(e['Algorithm'])]+[
+            "{}: {}".format(k, v) for k, v in e.items() if not k in ['Algorithm', 'TimeAndFitness']]))
         self.Result_list.addItem(item)
         self.isGetResult()
     
