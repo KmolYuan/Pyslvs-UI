@@ -36,7 +36,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.indexChanged.connect(self.commandReload)
         showUndoWindow(self)
         self.File = File(self.FileState, args)
-        self.setLocate(QFileInfo('.').absolutePath())
+        self.setLocate(QFileInfo(self.args.i if self.args.i else '..').canonicalFilePath())
         #QPainter Window
         self.DynamicCanvasView = DynamicCanvas()
         self.DynamicCanvasView.mouse_getClick.connect(self.addPointGroup)
@@ -708,7 +708,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_PathTrack_clicked(self):
         table1 = self.Entiteis_Point
         dlg = Path_Track_show(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
-            self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list)
+            self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.Parameter_list, self.args.w)
         self.action_Display_Point_Mark.setChecked(True)
         dlg.show()
         if dlg.exec_(): self.File.Lists.setPath(dlg.Path_data,

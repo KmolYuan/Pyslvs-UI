@@ -4,10 +4,10 @@ from ..calculation.pathTrack import WorkerThread
 from .Ui_run_Path_Track import Ui_Dialog as PathTrack_Dialog
 
 class Path_Track_show(QDialog, PathTrack_Dialog):
-    def __init__(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter, parent=None):
+    def __init__(self, Point, Link, Chain, Shaft, Slider, Rod, Parameter, warning, parent=None):
         super(Path_Track_show, self).__init__(parent)
         self.setupUi(self)
-        self.work = WorkerThread()
+        self.work = WorkerThread(warning)
         self.Path_data = list()
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.start)
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.stop)
