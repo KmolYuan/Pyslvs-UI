@@ -20,7 +20,7 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
         else:
             for i in range(table2.rowCount()): self.Shaft.insertItem(i, iconSelf, table2.item(i, 0).text())
             self.Shaft.setCurrentIndex(pos)
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(cen!=ref)
+        self.isOk()
     
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index):
