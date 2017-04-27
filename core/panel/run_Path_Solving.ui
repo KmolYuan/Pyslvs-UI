@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>471</width>
-        <height>439</height>
+        <width>461</width>
+        <height>462</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -617,22 +617,32 @@
               </spacer>
              </item>
              <item>
-              <widget class="QPushButton" name="mergeButton">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Merge</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QPushButton" name="deleteButton">
                <property name="enabled">
                 <bool>false</bool>
                </property>
                <property name="text">
                 <string>Delete</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="getTimeAndFitness">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Convergence value</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="mergeButton">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Merge</string>
                </property>
               </widget>
              </item>

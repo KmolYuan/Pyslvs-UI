@@ -29,6 +29,7 @@ class WorkerThread(QThread):
         mechanism = {
             'Algorithm':alg,
             'path':pathData,
+            'time':time_spand,
             'Ax':fitnessParameter[0],
             'Ay':fitnessParameter[1],
             'Dx':fitnessParameter[2],
@@ -38,7 +39,7 @@ class WorkerThread(QThread):
             'L2':fitnessParameter[6],
             'L3':fitnessParameter[7],
             'L4':fitnessParameter[8],
-            'time':time_spand}
+            'TimeAndFitness':time_and_fitness}
         print('total cost time: {:.4f} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     

@@ -2,6 +2,7 @@
 from ..QtModules import *
 from .Ui_run_Path_Solving import Ui_Form as PathSolving_Form
 from ..calculation.pathSolving import WorkerThread
+from ..graphics.matplotlibGraphics import BasicChartDialog
 from .run_Path_Solving_series import Path_Solving_series_show
 
 class Path_Solving_show(QWidget, PathSolving_Form):
@@ -15,7 +16,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def __init__(self, mask, data, resultData, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
-        self.mechanism_data = list()
+        self.mechanism_data = resultData
         self.work = WorkerThread()
         self.work.done.connect(self.finish)
         self.X_coordinate.setValidator(mask)
@@ -23,7 +24,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         for e in data: self.Point_list.addItem('('+str(e['x'])+", "+str(e['y'])+')')
         for e in resultData: self.addResult(e)
         self.Point_list_Count()
-        self.isMerge()
+        self.isGetResult()
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
@@ -36,10 +37,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         dlg = Path_Solving_series_show()
         dlg.show()
         if dlg.exec_():
-            start = int(dlg.startNum.value()*10)
-            end = int(dlg.endNum.value()*10)
-            diff = int(dlg.diffNum.value()*10)
-            for e in range(start, end, diff): self.on_add_clicked(e/10, e/10)
+            for e in dlg.path: self.on_add_clicked(e[0], e[1])
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
@@ -106,8 +104,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):
-        self.mechanism_data = [mechanism]
-        self.mergeMechanism.emit(self.mechanism_data)
+        self.mechanism_data += [mechanism]
+        self.mergeMechanism.emit([mechanism])
         self.addResult(mechanism)
         self.algorithmPanel.setEnabled(True)
         self.Tabs.setEnabled(True)
@@ -125,21 +123,24 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         item.setToolTip("[{}]\nAx: {}\nAy: {}\nDx: {}\nDy: {}\nL0: {}\nL1: {}\nL2: {}\nL3: {}\nL4: {}\nTime spand: {:.2f} s".format(
             e['Algorithm'], e['Ax'], e['Ay'], e['Dx'], e['Dy'], e['L0'], e['L1'], e['L2'], e['L3'], e['L4'], e['time']))
         self.Result_list.addItem(item)
-        self.isMerge()
+        self.isGetResult()
     
     @pyqtSlot(int)
-    def on_Result_list_currentRowChanged(self, cr): self.isMerge()
+    def on_Result_list_currentRowChanged(self, cr): self.isGetResult()
     
-    def isMerge(self):
+    def isGetResult(self):
         n = self.Result_list.count()>0 and self.Result_list.currentRow()>-1
         self.mergeButton.setEnabled(n)
+        self.getTimeAndFitness.setEnabled(n)
         self.deleteButton.setEnabled(n)
     
     @pyqtSlot()
     def on_deleteButton_clicked(self):
-        self.deleteResult.emit(self.Result_list.currentRow())
-        self.Result_list.takeItem(self.Result_list.currentRow())
-        self.isMerge()
+        row = self.Result_list.currentRow()
+        del self.mechanism_data[row]
+        self.deleteResult.emit(row)
+        self.Result_list.takeItem(row)
+        self.isGetResult()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
@@ -150,3 +151,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.deleteResult.emit(self.Result_list.currentRow())
             self.Result_list.takeItem(self.Result_list.currentRow())
         elif reply==QMessageBox.Discard: self.mergeResult.emit(self.Result_list.currentRow())
+    
+    @pyqtSlot()
+    def on_getTimeAndFitness_clicked(self):
+        row = self.Result_list.currentRow()
+        dlg = BasicChartDialog("Result{} Convergence Value Chart".format(row), self.mechanism_data[row]['TimeAndFitness'], self)
+        dlg.show()
