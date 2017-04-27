@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 from .listProcess import Lists, Designs
-from ..kernel.pyslvs_triangle_solver.TS import Direction
 import csv, datetime
 def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
-from ..kernel.pyslvs_triangle_solver.TS import solver
+from ..kernel.pyslvs_triangle_solver.TS import solver, Direction
 from ..info.info import html, title, content, orderList
 
 class Form:
@@ -256,9 +255,9 @@ class File:
         pointAvg = sum([e['y'] for e in self.Designs.list])/len(self.Designs.list)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         s = solver([
-            {'p1':(Result['Ax'], Result['Ay']), 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L0'], 'angle':0, 'other':other}, #B
-            {'p1':0, 'p2':(Result['Dx'], Result['Dy']), 'len1':Result['L1'], 'len2':Result['L2'], 'other':other}, #C
-            {'p1':0, 'p2':1, 'len1':Result['L3'], 'len2':Result['L4'], 'other':other}]) #E
+            Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Dx'], Result['Dy']), len1=Result['L0'], angle=0., other=other), #B
+            Direction(p1=0, p2=(Result['Dx'], Result['Dy']), len1=Result['L1'], len2=Result['L2'], other=other), #C
+            Direction(p1=0, p2=1, len1=Result['L3'], len2=Result['L4'], other=other)]) #E
         answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s.answer()
         #A-C-B-C-E
         Anum = Point.rowCount()+0
