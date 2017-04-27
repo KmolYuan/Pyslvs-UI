@@ -11,11 +11,13 @@ class WorkerThread(QThread):
         self.stoped = False
         self.mutex = QMutex()
         self.progress = 0
-    def setPath(self, path, upper, lower, type_num):
+    def setPath(self, path, upper, lower, minAngle, maxAngle, type_num):
         self.path = path
         self.type_num = type_num
         self.upper = upper
         self.lower = lower
+        self.minAngle = minAngle
+        self.maxAngle = maxAngle
     
     def run(self):
         alg = 'Genetic' if self.type_num==0 else ('Firefly' if self.type_num==1 else 'Differtial Evolution')
@@ -23,7 +25,8 @@ class WorkerThread(QThread):
         t0 = timeit.default_timer()
         pathData = tuple((e['x'],e['y']) for e in self.path)
         print("Through: {}".format(pathData))
-        time_and_fitness, fitnessParameter = generateProcess(pathData, self.upper, self.lower, self.type_num)
+        time_and_fitness, fitnessParameter = generateProcess(
+            pathData, self.upper, self.lower, self.minAngle, self.maxAngle, self.type_num)
         t1 = timeit.default_timer()
         time_spand = t1-t0
         mechanism = {

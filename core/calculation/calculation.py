@@ -129,10 +129,10 @@ Constraint.dragged(Workplane1, Point1)
         script += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(e.pos, e.start+1, e.cen+1)
     return script
 
-def generateProcess(path, upper, lowerVal, type=0):
+def generateProcess(path, upper, lowerVal, minAngle=0., maxAngle=360., type=0):
     p = len(path)
-    upperVal = upper+[360.0]*p
-    lowerVal = lowerVal+[0.0]*p
+    upperVal = upper+[maxAngle]*p
+    lowerVal = lowerVal+[minAngle]*p
     Parm_num = p+9
     maxGen = 1500
     report = 100
@@ -144,10 +144,9 @@ def generateProcess(path, upper, lowerVal, type=0):
         'ExpressionName':'PLAP,PLLP,PLLP',
         'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
         'targetPath':path,
-        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'},],
+        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
         'VARS':9,
-        'formula':['PLAP','PLLP'],
-    }
+        'formula':['PLAP','PLLP']}
     mechanismObj = build_planar(mechanismParams)
     if type==0:
         algorithmPrams = {
@@ -160,8 +159,7 @@ def generateProcess(path, upper, lowerVal, type=0):
             'upper':upperVal,
             'lower':lowerVal,
             'maxGen':maxGen,
-            'report':report,
-        }
+            'report':report}
         foo = Genetic(mechanismObj, **algorithmPrams)
     elif type==1:
         algorithmPrams = {
@@ -174,8 +172,7 @@ def generateProcess(path, upper, lowerVal, type=0):
             'ub':upperVal,
             'lb':lowerVal,
             'maxGen':maxGen,
-            'report':report,
-        }
+            'report':report}
         foo = Firefly(mechanismObj, **algorithmPrams)
     elif type==2:
         algorithmPrams = {
@@ -187,8 +184,7 @@ def generateProcess(path, upper, lowerVal, type=0):
             'upper':upperVal,
             'lower':lowerVal,
             'maxGen':maxGen,
-            'report':report,
-        }
+            'report':report}
         foo = DiffertialEvolution(mechanismObj, **algorithmPrams)
     time_and_fitness, fitnessParameter = foo.run()
     time_and_fitness = [float(k[1]) for k in [e.split(',') for e in time_and_fitness.split(';')[0:-1]]]

@@ -90,7 +90,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else (1 if self.type1.isChecked() else 2)
         upper = [self.AxMax.value(), self.AyMax.value(), self.DxMax.value(), self.DyMax.value()]+[self.LMax.value()]*5
         lower = [self.AxMin.value(), self.AyMin.value(), self.DxMin.value(), self.DyMin.value()]+[self.LMin.value()]*5
-        self.work.setPath(path, upper, lower, type_num)
+        self.work.setPath(path, upper, lower, self.AMin.value(), self.AMax.value(), type_num)
         print('Start Path Solving...')
         self.work.start()
         self.algorithmPanel.setEnabled(False)
