@@ -18,9 +18,9 @@ if __name__=='__main__':
         exit(app.exec())
     except Exception as e:
         if e!=SystemExit:
-            import logging
+            import logging, traceback
             logging.basicConfig(filename='PyslvsLogFile.log',
                 filemode='a', format='%(asctime)s | %(message)s', level=logging.INFO)
             logging.exception("Exception Happened.")
-            print('{}\n{}'.format(type(e), e))
+            traceback.print_tb(e.__traceback__)
             exit(1)
