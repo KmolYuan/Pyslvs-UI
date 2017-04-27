@@ -19,7 +19,6 @@ class BasicChart(FigureCanvas):
     def initial_figure(self):
         x = [i for i in range(len(self.data))]
         y = self.data
-        self.axes.xlabel("Progress Rate")
         self.axes.plot(x, y, 'g')
 
 class BasicChartDialog(QDialog):
