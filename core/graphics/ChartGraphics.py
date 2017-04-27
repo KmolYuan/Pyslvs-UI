@@ -1,34 +1,35 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-import matplotlib
-matplotlib.use('Qt5Agg')
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-
-class BasicChart(FigureCanvas):
-    def __init__(self, data, parent=None, width=5, height=4, dpi=100):
-        self.data = data
-        fig = Figure(figsize=(width, height), dpi=dpi)
-        self.axes = fig.add_subplot(111)
-        FigureCanvas.__init__(self, fig)
-        self.setParent(parent)
-        FigureCanvas.setSizePolicy(self, QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.initial_figure()
-        FigureCanvas.updateGeometry(self)
-    
-    def initial_figure(self):
-        x = [i for i in range(len(self.data))]
-        y = self.data
-        self.axes.plot(x, y, 'g')
+from PyQt5.QtChart import *
 
 class BasicChartDialog(QDialog):
     def __init__(self, Title, data=[0], parent=None):
         super(BasicChartDialog, self).__init__(parent)
-        self.CentralWidget = QWidget(self)
-        layout = QVBoxLayout(self.CentralWidget)
-        chart = BasicChart(data=data, parent=self.CentralWidget)
-        layout.addWidget(chart)
-        self.setWindowTitle(Title)
+        chart = QChart()
+        chart.legend().hide()
+        chart.setTitle(Title)
+        chart.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        axisX = QCategoryAxis()
+        axisY = QValueAxis()
+        axisX.append('1st',  len(data)*1/4)
+        axisX.append('2nd',  len(data)*2/4)
+        axisX.append('3rd',  len(data)*3/4)
+        axisX.append('4th',  len(data))
+        chart.addAxis(axisX, Qt.AlignBottom)
+        chart.addAxis(axisY, Qt.AlignLeft)
+        series = QSplineSeries()
+        for i, e in enumerate(data): series.append(QPointF(i, e))
+        chart.addSeries(series)
+        series.attachAxis(axisX)
+        series.attachAxis(axisY)
+        series.setColor(Qt.green)
+        axisY.setRange(-10, axisY.max())
+        layout = QVBoxLayout(self)
+        chartView = QChartView(chart)
+        chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        layout.addWidget(chartView)
+        self.setWindowTitle("Chart")
         self.setModal(True)
-        self.setMinimumSize(chart.size()+QSize(20, 20))
-        self.setMaximumSize(chart.size()+QSize(20, 20))
+        size = QSize(800, 600)
+        self.setMinimumSize(size)
+        self.setMaximumSize(size)
