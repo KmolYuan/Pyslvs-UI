@@ -10,8 +10,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    mergeMechanism = pyqtSignal(list)
-    deleteResult = pyqtSignal(int)
     mergeResult = pyqtSignal(int)
     def __init__(self, mask, data, resultData, width, parent=None):
         super(Path_Solving_show, self).__init__(parent)
@@ -104,8 +102,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):
-        self.mechanism_data += [mechanism]
-        self.mergeMechanism.emit([mechanism])
+        self.mechanism_data.append(mechanism)
         self.addResult(mechanism)
         self.algorithmPanel.setEnabled(True)
         self.Tabs.setEnabled(True)
@@ -119,7 +116,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         print('Finished.')
     
     def addResult(self, e):
-        item = QListWidgetItem(e['Algorithm']+(": {} ... {}".format(e['path'][:3], e['path'][-3:]) if len(e['path'])>6 else ": {}".format(e['path'])))
+        item = QListWidgetItem(e['Algorithm'])
         item.setToolTip('\n'.join(['[{}]'.format(e['Algorithm'])]+[
             "{}: {}".format(k, v) for k, v in e.items() if not k in ['Algorithm', 'TimeAndFitness']]))
         self.Result_list.addItem(item)
@@ -138,7 +135,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
         del self.mechanism_data[row]
-        self.deleteResult.emit(row)
         self.Result_list.takeItem(row)
         self.isGetResult()
     
@@ -148,12 +144,12 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             (QMessageBox.Apply | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Apply)
         if reply==QMessageBox.Apply:
             self.mergeResult.emit(self.Result_list.currentRow())
-            self.deleteResult.emit(self.Result_list.currentRow())
+            del self.mechanism_data[self.Result_list.currentRow()]
             self.Result_list.takeItem(self.Result_list.currentRow())
         elif reply==QMessageBox.Discard: self.mergeResult.emit(self.Result_list.currentRow())
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
-        row = self.Result_list.currentRow()
-        dlg = BasicChartDialog("Result{} Convergence Value Chart".format(row), self.mechanism_data[row]['TimeAndFitness'], self)
+        result = self.mechanism_data[self.Result_list.currentRow()]
+        dlg = BasicChartDialog("{} Convergence Value Chart".format(result['Algorithm']), result['TimeAndFitness'], self)
         dlg.show()

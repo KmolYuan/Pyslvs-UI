@@ -259,24 +259,28 @@ class File:
             Direction(p1=0, p2=(Result['Dx'], Result['Dy']), len1=Result['L1'], len2=Result['L2'], other=other), #C
             Direction(p1=0, p2=1, len1=Result['L3'], len2=Result['L4'], other=other)]) #E
         answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s.answer()
-        #A-C-B-C-E
-        Anum = Point.rowCount()+0
-        Dnum = Point.rowCount()+1
-        Bnum = Point.rowCount()+2
-        Cnum = Point.rowCount()+3
-        Enum = Point.rowCount()+4
-        for i in range(len(answer)):
-            x = answer[i][0]
-            y = answer[i][1]
-            fix = i<2
-            self.Lists.editTable(Point, 'Point', False, x, y, fix,
-                styleTable=Point_Style, color='Blue' if fix else 'Green', ringsize=10 if fix else 5, ringcolor='Blue' if fix else 'Green')
-        self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
-            str(Result['L1']), str(Result['L4']), str(Result['L3']))
-        self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
-        self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
-        self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), '0', '360', '0', False)
-        print("Generate Result Merged.")
+        if not (False in answer):
+            #A-C-B-C-E
+            Anum = Point.rowCount()+0
+            Dnum = Point.rowCount()+1
+            Bnum = Point.rowCount()+2
+            Cnum = Point.rowCount()+3
+            Enum = Point.rowCount()+4
+            for i in range(len(answer)):
+                x = answer[i][0]
+                y = answer[i][1]
+                fix = i<2
+                self.Lists.editTable(Point, 'Point', False, x, y, fix,
+                    styleTable=Point_Style, color='Blue' if fix else 'Green', ringsize=10 if fix else 5, ringcolor='Blue' if fix else 'Green')
+            self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
+                str(Result['L1']), str(Result['L4']), str(Result['L3']))
+            self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
+            self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
+            self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), '0', '360', '0', False)
+            print("Generate Result Merged.")
+        else:
+            dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension:\n{}\n\n{}".format(Result, answer), (QMessageBox.Ok))
+            if dlgbox.exec_(): print("Generate Result Error.")
     
     def TS_Merge(self, answers, Point, Point_Style, Link, Chain, Slider):
         Pythagorean = lambda p1, p2: ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**(1/2)

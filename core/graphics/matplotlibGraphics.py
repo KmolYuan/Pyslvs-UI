@@ -30,5 +30,5 @@ class BasicChartDialog(QDialog):
         layout.addWidget(chart)
         self.setWindowTitle(Title)
         self.setModal(True)
-        self.setMinimumSize(chart.size()+QSize(11, 11))
-        self.setMaximumSize(chart.size()+QSize(11, 11))
+        self.setMinimumSize(chart.size()+QSize(20, 20))
+        self.setMaximumSize(chart.size()+QSize(20, 20))
