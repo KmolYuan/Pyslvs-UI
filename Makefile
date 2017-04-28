@@ -24,7 +24,7 @@ else
 	@echo --Python Version $(PYTHON)--
 	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
 	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
-	pyinstaller $< --exclude-module=PyQt4 --exclude-module=matplotlib.backends.backend_qt4agg --exclude-module=tkinter
+	pyinstaller $<
 	mv dist/launch_pyslvs dist/Pyslvs
 	mv core/kernel/kernel_getter.py core/kernel/$(PYTHON).py
 	mv core/kernel/_kernel_getter.py core/kernel/kernel_getter.py
