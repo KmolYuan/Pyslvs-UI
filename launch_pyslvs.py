@@ -23,4 +23,5 @@ if __name__=='__main__':
                 filemode='a', format='%(asctime)s | %(message)s', level=logging.INFO)
             logging.exception("Exception Happened.")
             traceback.print_tb(e.__traceback__)
+            print(e)
             exit(1)
