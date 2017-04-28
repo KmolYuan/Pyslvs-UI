@@ -23,7 +23,7 @@ class BasicChartDialog(QDialog):
         series.attachAxis(axisX)
         series.attachAxis(axisY)
         series.setColor(Qt.green)
-        axisY.setRange(-10, axisY.max())
+        axisY.setRange(-30, axisY.max())
         layout = QVBoxLayout(self)
         chartView = QChartView(chart)
         chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
