@@ -160,7 +160,7 @@
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_25">
                     <property name="spacing">
-                     <number>6</number>
+                     <number>3</number>
                     </property>
                     <property name="leftMargin">
                      <number>3</number>
@@ -213,13 +213,13 @@
                        <number>1</number>
                       </property>
                       <property name="columnCount">
-                       <number>5</number>
+                       <number>6</number>
                       </property>
                       <attribute name="horizontalHeaderDefaultSectionSize">
-                       <number>70</number>
+                       <number>75</number>
                       </attribute>
                       <attribute name="horizontalHeaderMinimumSectionSize">
-                       <number>70</number>
+                       <number>75</number>
                       </attribute>
                       <row>
                        <property name="text">
@@ -252,6 +252,11 @@
                       </column>
                       <column>
                        <property name="text">
+                        <string>Color</string>
+                       </property>
+                      </column>
+                      <column>
+                       <property name="text">
                         <string>Current</string>
                        </property>
                       </column>
@@ -280,8 +285,20 @@
                        <property name="checkState">
                         <enum>Checked</enum>
                        </property>
+                       <property name="flags">
+                        <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+                       </property>
                       </item>
                       <item row="0" column="4">
+                       <property name="text">
+                        <string>Red</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+                       </property>
+                      </item>
+                      <item row="0" column="5">
                        <property name="text">
                         <string>(0.0, 0.0)</string>
                        </property>
@@ -295,16 +312,16 @@
                         <number>6</number>
                        </property>
                        <property name="leftMargin">
-                        <number>6</number>
+                        <number>3</number>
                        </property>
                        <property name="topMargin">
-                        <number>6</number>
+                        <number>3</number>
                        </property>
                        <property name="rightMargin">
-                        <number>6</number>
+                        <number>3</number>
                        </property>
                        <property name="bottomMargin">
-                        <number>6</number>
+                        <number>3</number>
                        </property>
                        <item>
                         <layout class="QVBoxLayout" name="point_x_layout">
@@ -372,255 +389,6 @@
                        </item>
                       </layout>
                      </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="Style">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/char-3-radio-true.png</normaloff>:/icons/char-3-radio-true.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Point Style</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_11">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="QWidget" name="widget" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_10">
-                    <property name="leftMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>3</number>
-                    </property>
-                    <item>
-                     <widget class="QTableWidget" name="Entiteis_Point_Style">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="statusTip">
-                       <string>All points style settings will show here.</string>
-                      </property>
-                      <property name="editTriggers">
-                       <set>QAbstractItemView::NoEditTriggers</set>
-                      </property>
-                      <property name="selectionBehavior">
-                       <enum>QAbstractItemView::SelectRows</enum>
-                      </property>
-                      <property name="verticalScrollMode">
-                       <enum>QAbstractItemView::ScrollPerPixel</enum>
-                      </property>
-                      <property name="horizontalScrollMode">
-                       <enum>QAbstractItemView::ScrollPerPixel</enum>
-                      </property>
-                      <property name="columnCount">
-                       <number>4</number>
-                      </property>
-                      <attribute name="horizontalHeaderDefaultSectionSize">
-                       <number>110</number>
-                      </attribute>
-                      <attribute name="horizontalHeaderMinimumSectionSize">
-                       <number>110</number>
-                      </attribute>
-                      <row>
-                       <property name="text">
-                        <string>Origin</string>
-                       </property>
-                      </row>
-                      <column>
-                       <property name="text">
-                        <string>Name</string>
-                       </property>
-                       <property name="icon">
-                        <iconset resource="../icons.qrc">
-                         <normaloff>:/icons/point.png</normaloff>:/icons/point.png</iconset>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Center</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Ring Size</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Color</string>
-                       </property>
-                      </column>
-                      <item row="0" column="0">
-                       <property name="text">
-                        <string>Point0</string>
-                       </property>
-                       <property name="flags">
-                        <set>ItemIsSelectable|ItemIsEnabled</set>
-                       </property>
-                      </item>
-                      <item row="0" column="1">
-                       <property name="text">
-                        <string>Red</string>
-                       </property>
-                      </item>
-                      <item row="0" column="2">
-                       <property name="text">
-                        <string>10</string>
-                       </property>
-                      </item>
-                      <item row="0" column="3">
-                       <property name="text">
-                        <string>Red</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_3">
-                      <item>
-                       <widget class="QLabel" name="label_4">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="text">
-                         <string>Line Width</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QSpinBox" name="LineWidth">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimum">
-                         <number>1</number>
-                        </property>
-                        <property name="maximum">
-                         <number>10</number>
-                        </property>
-                        <property name="value">
-                         <number>3</number>
-                        </property>
-                        <property name="displayIntegerBase">
-                         <number>10</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="label_7">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="text">
-                         <string>Font size</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QSpinBox" name="Font_size">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimum">
-                         <number>1</number>
-                        </property>
-                        <property name="maximum">
-                         <number>30</number>
-                        </property>
-                        <property name="singleStep">
-                         <number>5</number>
-                        </property>
-                        <property name="value">
-                         <number>10</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLabel" name="label_5">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="text">
-                         <string>Path Width</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QSpinBox" name="PathWidth">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimum">
-                         <number>1</number>
-                        </property>
-                        <property name="maximum">
-                         <number>5</number>
-                        </property>
-                        <property name="value">
-                         <number>3</number>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <spacer name="horizontalSpacer">
-                        <property name="orientation">
-                         <enum>Qt::Horizontal</enum>
-                        </property>
-                        <property name="sizeHint" stdset="0">
-                         <size>
-                          <width>40</width>
-                          <height>20</height>
-                         </size>
-                        </property>
-                       </spacer>
-                      </item>
-                     </layout>
                     </item>
                    </layout>
                   </widget>
@@ -726,7 +494,7 @@
                            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
@@ -1587,6 +1355,10 @@ p, li { white-space: pre-wrap; }
                     <number>0</number>
                    </property>
                    <widget class="QWidget" name="Undo_and_Redo">
+                    <attribute name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/undo.png</normaloff>:/icons/undo.png</iconset>
+                    </attribute>
                     <attribute name="title">
                      <string>Undo and Redo</string>
                     </attribute>
@@ -1622,6 +1394,87 @@ p, li { white-space: pre-wrap; }
                      </item>
                     </layout>
                    </widget>
+                   <widget class="QWidget" name="Console">
+                    <attribute name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
+                    </attribute>
+                    <attribute name="title">
+                     <string>Console</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_10">
+                     <property name="spacing">
+                      <number>6</number>
+                     </property>
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <item>
+                      <widget class="QWidget" name="consoleWidget" native="true">
+                       <layout class="QVBoxLayout" name="verticalLayout_11">
+                        <property name="spacing">
+                         <number>6</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>6</number>
+                        </property>
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_5">
+                          <item>
+                           <widget class="QLabel" name="label_3">
+                            <property name="text">
+                             <string>Pyslvs text-console</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <spacer name="horizontalSpacer_2">
+                            <property name="orientation">
+                             <enum>Qt::Horizontal</enum>
+                            </property>
+                            <property name="sizeHint" stdset="0">
+                             <size>
+                              <width>40</width>
+                              <height>20</height>
+                             </size>
+                            </property>
+                           </spacer>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="clearConsole">
+                            <property name="text">
+                             <string>Clear</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <widget class="QTextBrowser" name="consoleWidgetBrowser"/>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -1651,6 +1504,56 @@ p, li { white-space: pre-wrap; }
                      <number>6</number>
                     </property>
                     <item>
+                     <widget class="QGroupBox" name="groupBox_3">
+                      <property name="title">
+                       <string>Drivers</string>
+                      </property>
+                      <layout class="QVBoxLayout" name="verticalLayout_23">
+                       <item>
+                        <layout class="QGridLayout" name="gridLayout">
+                         <item row="1" column="0">
+                          <widget class="QPushButton" name="Drive_shaft">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
+                           <property name="statusTip">
+                            <string>Drive the selected drive shaft.</string>
+                           </property>
+                           <property name="text">
+                            <string>Drive Shaft</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="../icons.qrc">
+                             <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
+                           </property>
+                           <property name="checkable">
+                            <bool>true</bool>
+                           </property>
+                          </widget>
+                         </item>
+                         <item row="1" column="1">
+                          <widget class="QPushButton" name="Drive_rod">
+                           <property name="toolTip">
+                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                           </property>
+                           <property name="statusTip">
+                            <string>Drive the selected piston.</string>
+                           </property>
+                           <property name="text">
+                            <string>Drive Piston</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="../icons.qrc">
+                             <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
+                       </item>
+                      </layout>
+                     </widget>
+                    </item>
+                    <item>
                      <widget class="QScrollArea" name="scrollArea">
                       <property name="horizontalScrollBarPolicy">
                        <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -1663,8 +1566,8 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>312</width>
-                         <height>477</height>
+                         <width>414</width>
+                         <height>298</height>
                         </rect>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1681,101 +1584,9 @@ p, li { white-space: pre-wrap; }
                          <number>6</number>
                         </property>
                         <item>
-                         <widget class="QGroupBox" name="groupBox">
+                         <widget class="QGroupBox" name="DimensionalSynthesisGroupBox">
                           <property name="title">
-                           <string>Path Track</string>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_4">
-                           <item>
-                            <layout class="QGridLayout" name="Path_Track_Functions">
-                             <item row="2" column="2">
-                              <widget class="QPushButton" name="Path_Clear">
-                               <property name="enabled">
-                                <bool>false</bool>
-                               </property>
-                               <property name="statusTip">
-                                <string>Clear the path form path track function.</string>
-                               </property>
-                               <property name="text">
-                                <string>Clear Path</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="4" column="1">
-                              <widget class="QPushButton" name="Path_coordinate">
-                               <property name="enabled">
-                                <bool>false</bool>
-                               </property>
-                               <property name="statusTip">
-                                <string>See the coordinates of Path Track result.</string>
-                               </property>
-                               <property name="text">
-                                <string>View path coordinate</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="2" column="1">
-                              <widget class="QPushButton" name="PathTrack">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Track&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Route calculation from the specified point.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Every single path track cannot change settings after calculation.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathTrack.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Larger resolution will take longer.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>Route calculation from the specified point.</string>
-                               </property>
-                               <property name="text">
-                                <string>Path Track</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="4" column="2">
-                              <widget class="QCheckBox" name="Path_data_show">
-                               <property name="enabled">
-                                <bool>false</bool>
-                               </property>
-                               <property name="statusTip">
-                                <string>Show Path Data.</string>
-                               </property>
-                               <property name="text">
-                                <string>Show Path Data</string>
-                               </property>
-                               <property name="checked">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="0" column="2">
-                              <widget class="QLabel" name="reqPath">
-                               <property name="text">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;Requirement: 1 Shaft.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="0" column="1">
-                              <widget class="QLabel" name="Path_data_exist">
-                               <property name="text">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;No Path Data&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="textFormat">
-                                <enum>Qt::RichText</enum>
-                               </property>
-                               <property name="wordWrap">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QGroupBox" name="groupBox_2">
-                          <property name="title">
-                           <string>Dimensional Synthesis</string>
+                           <string>Dimensional synthesis system</string>
                           </property>
                           <layout class="QVBoxLayout" name="verticalLayout_21">
                            <item>
@@ -1849,57 +1660,7 @@ p, li { white-space: pre-wrap; }
                          </widget>
                         </item>
                         <item>
-                         <widget class="QGroupBox" name="groupBox_3">
-                          <property name="title">
-                           <string>Drivers</string>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_23">
-                           <item>
-                            <layout class="QGridLayout" name="gridLayout">
-                             <item row="1" column="0">
-                              <widget class="QPushButton" name="Drive_shaft">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>Drive the selected drive shaft.</string>
-                               </property>
-                               <property name="text">
-                                <string>Drive Shaft</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
-                               </property>
-                               <property name="checkable">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="1" column="1">
-                              <widget class="QPushButton" name="Drive_rod">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>Drive the selected piston.</string>
-                               </property>
-                               <property name="text">
-                                <string>Drive Piston</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QGroupBox" name="groupBox_4">
+                         <widget class="QGroupBox" name="ValidationToolsGroupBox">
                           <property name="title">
                            <string>Validation tools</string>
                           </property>
@@ -1945,6 +1706,134 @@ p, li { white-space: pre-wrap; }
                                 <bool>true</bool>
                                </property>
                               </widget>
+                             </item>
+                            </layout>
+                           </item>
+                          </layout>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QGroupBox" name="CanvasSettingsGroupBox">
+                          <property name="title">
+                           <string>Canvas settings</string>
+                          </property>
+                          <layout class="QVBoxLayout" name="verticalLayout_32">
+                           <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_3">
+                             <item>
+                              <widget class="QLabel" name="label_4">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>Line Width</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QSpinBox" name="LineWidth">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimum">
+                                <number>1</number>
+                               </property>
+                               <property name="maximum">
+                                <number>10</number>
+                               </property>
+                               <property name="value">
+                                <number>3</number>
+                               </property>
+                               <property name="displayIntegerBase">
+                                <number>10</number>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="label_7">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>Font size</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QSpinBox" name="Font_size">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimum">
+                                <number>1</number>
+                               </property>
+                               <property name="maximum">
+                                <number>30</number>
+                               </property>
+                               <property name="singleStep">
+                                <number>5</number>
+                               </property>
+                               <property name="value">
+                                <number>10</number>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QLabel" name="label_5">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="text">
+                                <string>Path Width</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QSpinBox" name="PathWidth">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
+                               </property>
+                               <property name="minimum">
+                                <number>1</number>
+                               </property>
+                               <property name="maximum">
+                                <number>5</number>
+                               </property>
+                               <property name="value">
+                                <number>3</number>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <spacer name="horizontalSpacer">
+                               <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                               </property>
+                               <property name="sizeHint" stdset="0">
+                                <size>
+                                 <width>40</width>
+                                 <height>20</height>
+                                </size>
+                               </property>
+                              </spacer>
                              </item>
                             </layout>
                            </item>
@@ -2035,7 +1924,7 @@ p, li { white-space: pre-wrap; }
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Browse Guide&lt;/span&gt;&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;kbd&gt;Ctrl&lt;/kbd&gt; + Mouse Double Click:&lt;/span&gt; Set origin to mouse position.&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;kbd&gt;Ctrl&lt;/kbd&gt; + Mouse Press:&lt;/span&gt; Set origin to mouse position.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse Wheel or Middle button Drag:&lt;/span&gt; Plane movement.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse Wheel Scrolling:&lt;/span&gt; Zoom the display size.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;&lt;kbd&gt;Alt&lt;/kbd&gt; + Mouse Double Click:&lt;/span&gt; Quickly added a normal point.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Browse Guide&lt;/span&gt;&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans Mono'; font-weight:600;&quot;&gt;Ctrl&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; + Mouse Double Click:&lt;/span&gt; Set origin to mouse position.&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans Mono'; font-weight:600;&quot;&gt;Ctrl&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; + Mouse Press:&lt;/span&gt; Set origin to mouse position.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse Wheel or Middle button Drag:&lt;/span&gt; Plane movement.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Mouse Wheel Scrolling:&lt;/span&gt; Zoom the display size.&lt;/li&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'DejaVu Sans Mono'; font-weight:600;&quot;&gt;Alt&lt;/span&gt;&lt;span style=&quot; font-weight:600;&quot;&gt; + Mouse Double Click:&lt;/span&gt; Quickly added a normal point.&lt;/li&gt;&lt;/ul&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Middle button Double Click or &lt;/span&gt;&lt;span style=&quot; font-family:'DejaVu Sans Mono'; font-weight:600;&quot;&gt;Space: &lt;/span&gt;Zoom to fit.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="statusTip">
                 <string>Show Browse Guide tool tips.</string>
@@ -2099,13 +1988,6 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="Line" name="line_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QPushButton" name="ResetCanvas">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -2113,49 +1995,18 @@ p, li { white-space: pre-wrap; }
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
                <property name="statusTip">
-                <string>Focus to Origin.</string>
+                <string>Zoom to fit.</string>
                </property>
-               <property name="text">
-                <string>Origin</string>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
                </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="FitW">
-               <property name="maximumSize">
+               <property name="iconSize">
                 <size>
-                 <width>50</width>
-                 <height>16777215</height>
+                 <width>32</width>
+                 <height>32</height>
                 </size>
-               </property>
-               <property name="statusTip">
-                <string>Fit by width.</string>
-               </property>
-               <property name="text">
-                <string>Width</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="FitH">
-               <property name="maximumSize">
-                <size>
-                 <width>50</width>
-                 <height>16777215</height>
-                </size>
-               </property>
-               <property name="statusTip">
-                <string>Fit by height.</string>
-               </property>
-               <property name="text">
-                <string>Height</string>
                </property>
               </widget>
              </item>
@@ -2252,7 +2103,6 @@ p, li { white-space: pre-wrap; }
      <addaction name="action_Parallelogram_linkage"/>
      <addaction name="separator"/>
      <addaction name="LinkagesMenuTitle"/>
-     <addaction name="action_Reverse_Parsing_Rocker"/>
      <addaction name="action_Mutiple_Link"/>
      <addaction name="action_Two_Mutiple_Link"/>
      <addaction name="action_Four_bar_linkage"/>
@@ -2265,13 +2115,17 @@ p, li { white-space: pre-wrap; }
      <addaction name="DesignsMenuTitle"/>
      <addaction name="action_Theo_Jansen_s_multi_linkage"/>
      <addaction name="action_Rock_Slider_Design"/>
+     <addaction name="separator"/>
+     <addaction name="AlgorithmMenuTitle"/>
+     <addaction name="action_Reverse_Parsing_Rocker"/>
+     <addaction name="action_Three_Algorithm_Result"/>
     </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
       <string>Export to other format.</string>
      </property>
      <property name="title">
-      <string>E&amp;xport to...</string>
+      <string>E&amp;xport</string>
      </property>
      <addaction name="SolvespaceMenuTitle"/>
      <addaction name="action_Output_to_Solvespace"/>
@@ -2283,13 +2137,12 @@ p, li { white-space: pre-wrap; }
      <addaction name="separator"/>
      <addaction name="OtherFormatMenuTitle"/>
      <addaction name="action_Output_to_Picture"/>
-     <addaction name="action_Output_to_Script"/>
     </widget>
     <widget class="QMenu" name="menuImport">
      <property name="title">
-      <string>&amp;Import from...</string>
+      <string>&amp;Import</string>
      </property>
-     <addaction name="action_ImportFromWorkbook"/>
+     <addaction name="action_Import_From_Workbook"/>
     </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
@@ -2302,7 +2155,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="separator"/>
     <addaction name="action_Minimized"/>
     <addaction name="action_Maxmized"/>
-    <addaction name="action_Normalmized"/>
+    <addaction name="action_Normal_sized"/>
     <addaction name="action_Full_Screen"/>
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
@@ -2322,6 +2175,8 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_Delete_Point"/>
     <addaction name="action_Delete_Linkage"/>
     <addaction name="action_Delete_Stay_Chain"/>
+    <addaction name="separator"/>
+    <addaction name="action_Update_all_points"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
@@ -2329,8 +2184,9 @@ p, li { white-space: pre-wrap; }
     </property>
     <addaction name="action_ViewLogFile"/>
     <addaction name="separator"/>
-    <addaction name="action_Display_Dimensions"/>
+    <addaction name="action_Zoom_to_fit"/>
     <addaction name="action_Display_Point_Mark"/>
+    <addaction name="action_Display_Dimensions"/>
     <addaction name="action_Close_all_panel"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
@@ -2371,10 +2227,24 @@ p, li { white-space: pre-wrap; }
     <addaction name="action_Replace_Point"/>
     <addaction name="action_Batch_moving"/>
    </widget>
+   <widget class="QMenu" name="menu_Path">
+    <property name="title">
+     <string>&amp;Path</string>
+    </property>
+    <addaction name="action_Path_Track"/>
+    <addaction name="separator"/>
+    <addaction name="action_Save_path_only"/>
+    <addaction name="action_Path_coordinate"/>
+    <addaction name="action_Path_data_show"/>
+    <addaction name="action_Path_style"/>
+    <addaction name="separator"/>
+    <addaction name="action_Path_Clear"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
    <addaction name="menu_Draw"/>
    <addaction name="menu_Simulation"/>
+   <addaction name="menu_Path"/>
    <addaction name="menu_Options"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -2382,7 +2252,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_New_Workbook">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+     <normaloff>:/icons/newfile.png</normaloff>:/icons/newfile.png</iconset>
    </property>
    <property name="text">
     <string>&amp;New Workbook</string>
@@ -2395,21 +2265,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcutContext">
     <enum>Qt::WindowShortcut</enum>
-   </property>
-  </action>
-  <action name="action_Load_Workbook">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Load Workbook</string>
-   </property>
-   <property name="statusTip">
-    <string>Load workbook by exist file.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="action_New_Point">
@@ -2443,18 +2298,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>F3</string>
-   </property>
-  </action>
-  <action name="action_Output_to_Script">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
-   </property>
-   <property name="text">
-    <string>Python &amp;Script</string>
-   </property>
-   <property name="statusTip">
-    <string>Output to a Python 3 slvs module script.</string>
    </property>
   </action>
   <action name="action_Exit">
@@ -2526,7 +2369,7 @@ p, li { white-space: pre-wrap; }
     <string>Set &amp;Drive Shaft</string>
    </property>
    <property name="statusTip">
-    <string>Set a point as a Drive Shaft.</string>
+    <string>Set two points as a Drive Shaft.</string>
    </property>
    <property name="shortcut">
     <string>F5</string>
@@ -2586,13 +2429,13 @@ p, li { white-space: pre-wrap; }
     <string>Shift+F1</string>
    </property>
   </action>
-  <action name="action_Normalmized">
+  <action name="action_Normal_sized">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/normalsized.png</normaloff>:/icons/normalsized.png</iconset>
    </property>
    <property name="text">
-    <string>Normal</string>
+    <string>Normal sized</string>
    </property>
    <property name="statusTip">
     <string>Let the window back to normal.</string>
@@ -2604,10 +2447,10 @@ p, li { white-space: pre-wrap; }
   <action name="action_Output_to_Picture">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/faces.png</normaloff>:/icons/faces.png</iconset>
+     <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Picture</string>
+    <string>&amp;Image</string>
    </property>
    <property name="statusTip">
     <string>Capture and output to Image format.</string>
@@ -2619,7 +2462,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_Save">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+     <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Save</string>
@@ -2628,7 +2471,7 @@ p, li { white-space: pre-wrap; }
     <string>Save</string>
    </property>
    <property name="statusTip">
-    <string>Save workbook.</string>
+    <string>Save the workbook.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -2658,13 +2501,13 @@ p, li { white-space: pre-wrap; }
   <action name="action_See_Python_Scripts">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/edges.png</normaloff>:/icons/edges.png</iconset>
+     <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
    </property>
    <property name="text">
-    <string>Python &amp;Script</string>
+    <string>Python &amp;script</string>
    </property>
    <property name="statusTip">
-    <string>See Python scripts in this status.</string>
+    <string>Generate a Python scripts from the workbook.</string>
    </property>
   </action>
   <action name="action_Delete_Point">
@@ -2679,7 +2522,7 @@ p, li { white-space: pre-wrap; }
     <string>Delet a Point</string>
    </property>
    <property name="statusTip">
-    <string>Delete an Existing point.</string>
+    <string>Delete an existing point.</string>
    </property>
   </action>
   <action name="action_Delete_Linkage">
@@ -2694,7 +2537,7 @@ p, li { white-space: pre-wrap; }
     <string>Delet a Linkage</string>
    </property>
    <property name="statusTip">
-    <string>Delete an Existing linkage.</string>
+    <string>Delete an existing linkage.</string>
    </property>
   </action>
   <action name="action_Delete_Stay_Chain">
@@ -2709,7 +2552,7 @@ p, li { white-space: pre-wrap; }
     <string>Delete a Stay Chain</string>
    </property>
    <property name="statusTip">
-    <string>Delete an Existing stay chain.</string>
+    <string>Delete an existing stay chain.</string>
    </property>
   </action>
   <action name="action_Edit_Point">
@@ -2724,7 +2567,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit a Point</string>
    </property>
    <property name="statusTip">
-    <string>Edit an Existing point.</string>
+    <string>Edit an existing point.</string>
    </property>
   </action>
   <action name="action_Edit_Linkage">
@@ -2739,7 +2582,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit a Linkage</string>
    </property>
    <property name="statusTip">
-    <string>Edit an Existing linkage.</string>
+    <string>Edit an existing linkage.</string>
    </property>
   </action>
   <action name="action_Edit_Stay_Chain">
@@ -2754,7 +2597,7 @@ p, li { white-space: pre-wrap; }
     <string>Edit a Stay Chain</string>
    </property>
    <property name="statusTip">
-    <string>Edit an Existing stay chain.</string>
+    <string>Edit an existing stay chain.</string>
    </property>
   </action>
   <action name="action_Set_Slider">
@@ -2769,7 +2612,7 @@ p, li { white-space: pre-wrap; }
     <string>Set &amp;Slider</string>
    </property>
    <property name="statusTip">
-    <string>Set a point as a Slider center.</string>
+    <string>Set three points as a Slider center.</string>
    </property>
    <property name="shortcut">
     <string>F6</string>
@@ -2786,6 +2629,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Edit Drive Shaft</string>
    </property>
+   <property name="statusTip">
+    <string>Edit an existing drive shaft.</string>
+   </property>
   </action>
   <action name="action_Edit_Slider">
    <property name="enabled">
@@ -2797,6 +2643,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Edit Slider</string>
+   </property>
+   <property name="statusTip">
+    <string>Edit an existing slider.</string>
    </property>
   </action>
   <action name="action_Delete_Shaft">
@@ -2810,6 +2659,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Delete Drive Shaft</string>
    </property>
+   <property name="statusTip">
+    <string>Delete an existing drive shaft.</string>
+   </property>
   </action>
   <action name="action_Delete_Slider">
    <property name="enabled">
@@ -2821,6 +2673,9 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="text">
     <string>Delete Slider</string>
+   </property>
+   <property name="statusTip">
+    <string>Delete an existing slider.</string>
    </property>
   </action>
   <action name="action_Set_Rod">
@@ -2852,6 +2707,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Edit Piston</string>
    </property>
+   <property name="statusTip">
+    <string>Edit an existing rod.</string>
+   </property>
   </action>
   <action name="action_Delete_Piston_Spring">
    <property name="enabled">
@@ -2864,6 +2722,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Delete Piston</string>
    </property>
+   <property name="statusTip">
+    <string>Delete an existing rod.</string>
+   </property>
   </action>
   <action name="action_Display_Dimensions">
    <property name="checkable">
@@ -2874,13 +2735,13 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/constraint.png</normaloff>:/icons/constraint.png</iconset>
    </property>
    <property name="text">
-    <string>Display &amp;Dimensions</string>
+    <string>Display &amp;dimensions</string>
    </property>
    <property name="statusTip">
     <string>Display dimensions in the canvas.</string>
    </property>
    <property name="shortcut">
-    <string>F10</string>
+    <string>F11</string>
    </property>
   </action>
   <action name="action_Display_Point_Mark">
@@ -2901,7 +2762,7 @@ p, li { white-space: pre-wrap; }
     <string>Display point mark in canvas.</string>
    </property>
    <property name="shortcut">
-    <string>F11</string>
+    <string>F10</string>
    </property>
   </action>
   <action name="action_Output_to_Solvespace">
@@ -2943,7 +2804,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_Property">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+     <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
    </property>
    <property name="text">
     <string>&amp;Properties</string>
@@ -2971,7 +2832,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_Save_as">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+     <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
    </property>
    <property name="text">
     <string>Save &amp;as...</string>
@@ -2988,7 +2849,10 @@ p, li { white-space: pre-wrap; }
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Search Points</string>
+    <string>Point association</string>
+   </property>
+   <property name="statusTip">
+    <string>View the association between points.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
@@ -3036,7 +2900,10 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Replace_Point">
    <property name="text">
-    <string>Replace Point</string>
+    <string>Replace point</string>
+   </property>
+   <property name="statusTip">
+    <string>Replace a point to another point.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
@@ -3045,6 +2912,9 @@ p, li { white-space: pre-wrap; }
   <action name="action_Batch_moving">
    <property name="text">
     <string>Batch moving</string>
+   </property>
+   <property name="statusTip">
+    <string>Move some of points.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
@@ -3099,10 +2969,13 @@ p, li { white-space: pre-wrap; }
   <action name="action_Close_all_panel">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/exit.png</normaloff>:/icons/exit.png</iconset>
+     <normaloff>:/icons/close.png</normaloff>:/icons/close.png</iconset>
    </property>
    <property name="text">
     <string>Close all panel</string>
+   </property>
+   <property name="statusTip">
+    <string>Close all opened panel.</string>
    </property>
    <property name="shortcut">
     <string>Esc</string>
@@ -3182,10 +3055,10 @@ p, li { white-space: pre-wrap; }
     <string>Rock Slider Design</string>
    </property>
   </action>
-  <action name="action_ImportFromWorkbook">
+  <action name="action_Import_From_Workbook">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+     <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
     <string>From Workbook</string>
@@ -3214,10 +3087,140 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>View the Log file</string>
    </property>
+   <property name="statusTip">
+    <string>Find and view the current Log file.</string>
+   </property>
   </action>
   <action name="action_Four_bar_linkage">
    <property name="text">
     <string>Four bar linkage</string>
+   </property>
+  </action>
+  <action name="action_Load_Workbook">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+   </property>
+   <property name="text">
+    <string>L&amp;oad Workbook</string>
+   </property>
+   <property name="statusTip">
+    <string>Load Workbook from xml or csv file.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="action_Zoom_to_fit">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom to fit</string>
+   </property>
+   <property name="statusTip">
+    <string>Zoom in as mechanism size.</string>
+   </property>
+   <property name="shortcut">
+    <string>Space</string>
+   </property>
+  </action>
+  <action name="action_Path_Track">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+   </property>
+   <property name="text">
+    <string>Path Track</string>
+   </property>
+   <property name="statusTip">
+    <string>Tracking point with the shaft angle.</string>
+   </property>
+  </action>
+  <action name="action_Path_Clear">
+   <property name="text">
+    <string>Clear path</string>
+   </property>
+   <property name="statusTip">
+    <string>Clear current path.</string>
+   </property>
+  </action>
+  <action name="action_Path_coordinate">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
+   </property>
+   <property name="text">
+    <string>View path coordinate</string>
+   </property>
+   <property name="statusTip">
+    <string>View path coordinate.</string>
+   </property>
+  </action>
+  <action name="action_Path_data_show">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show path data</string>
+   </property>
+   <property name="statusTip">
+    <string>Show path data on canvas.</string>
+   </property>
+  </action>
+  <action name="action_Save_path_only">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save path only</string>
+   </property>
+   <property name="statusTip">
+    <string>Save path for merge to another workbook.</string>
+   </property>
+  </action>
+  <action name="AlgorithmMenuTitle">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Algorithm</string>
+   </property>
+  </action>
+  <action name="action_Three_Algorithm_Result">
+   <property name="text">
+    <string>Three Algorithm Result</string>
+   </property>
+  </action>
+  <action name="action_Path_style">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show in solid path style</string>
+   </property>
+   <property name="statusTip">
+    <string>Show path in solid line style, otherwise will be isolated dots.</string>
+   </property>
+  </action>
+  <action name="action_Update_all_points">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+   </property>
+   <property name="text">
+    <string>Update all points</string>
+   </property>
+   <property name="statusTip">
+    <string>Update base coordinate from current coordinate.</string>
    </property>
   </action>
  </widget>
@@ -3278,7 +3281,7 @@ p, li { white-space: pre-wrap; }
    </hints>
   </connection>
   <connection>
-   <sender>action_Normalmized</sender>
+   <sender>action_Normal_sized</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>showNormal()</slot>
@@ -3306,6 +3309,22 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>388</x>
      <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>clearConsole</sender>
+   <signal>clicked()</signal>
+   <receiver>consoleWidgetBrowser</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>74</x>
+     <y>391</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>247</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>

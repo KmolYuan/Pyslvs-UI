@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/io/script.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/io/script.ui'
 #
 # Created by: PyQt5 UI code generator 5.8
 #
@@ -12,10 +12,10 @@ class Ui_Info_Dialog(object):
     def setupUi(self, Info_Dialog):
         Info_Dialog.setObjectName("Info_Dialog")
         Info_Dialog.setEnabled(True)
-        Info_Dialog.resize(408, 485)
-        Info_Dialog.setMinimumSize(QtCore.QSize(246, 346))
+        Info_Dialog.resize(479, 503)
+        Info_Dialog.setMinimumSize(QtCore.QSize(479, 503))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/edges.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Info_Dialog.setWindowIcon(icon)
         Info_Dialog.setAutoFillBackground(True)
         Info_Dialog.setSizeGripEnabled(True)
@@ -46,10 +46,6 @@ class Ui_Info_Dialog(object):
         self.save.setObjectName("save")
         self.horizontalLayout_2.addWidget(self.save)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.script = QtWidgets.QTextBrowser(Info_Dialog)
-        self.script.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.script.setObjectName("script")
-        self.verticalLayout.addWidget(self.script)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -61,7 +57,7 @@ class Ui_Info_Dialog(object):
         sizePolicy.setHeightForWidth(self.buttonBox.sizePolicy().hasHeightForWidth())
         self.buttonBox.setSizePolicy(sizePolicy)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Close|QtWidgets.QDialogButtonBox.Help)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
         self.verticalLayout.addLayout(self.horizontalLayout)

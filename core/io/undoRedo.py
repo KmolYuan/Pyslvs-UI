@@ -1,36 +1,24 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from ..calculation.color import colorlist, colorName
-from copy import copy
+from ..graphics.color import colorIcons
+from copy import copy, deepcopy
 
 def writeTable(table, rowPosition, name, Args):
     name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
     name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
     table.setItem(rowPosition, 0, name_set)
-    for i in range(len(Args)):
-        if type(Args[i]) in [str, float, int]:
-            content = 'Point{}'.format(Args[i]) if type(Args[i])==int else Args[i]
-            try: table.setItem(rowPosition, i+1, QTableWidgetItem(str(float(content))))
-            except: table.setItem(rowPosition, i+1, QTableWidgetItem(content))
-        elif type(Args[i])==bool:
+    for i, e in enumerate(Args):
+        if type(e) in [str, float, int]:
+            content = 'Point{}'.format(e) if type(e)==int else e
+            try: table.setItem(rowPosition, i+1, QTableWidgetItem(str(round(float(content), 4))))
+            except:
+                try: table.setItem(rowPosition, i+1, QTableWidgetItem(colorIcons()[content], content))
+                except KeyError: table.setItem(rowPosition, i+1, QTableWidgetItem(content))
+        elif type(e)==bool:
             checkbox = QTableWidgetItem(str())
             checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            checkbox.setCheckState(Qt.Checked if Args[i] else Qt.Unchecked)
+            checkbox.setCheckState(Qt.Checked if e else Qt.Unchecked)
             table.setItem(rowPosition, i+1, checkbox)
-
-def writeStyle(table, rowPosition, color, ringsize, ringcolor, color_combobox1, color_combobox2):
-    name_set = QTableWidgetItem('Point{}'.format(rowPosition))
-    name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-    table.setItem(rowPosition, 0, name_set)
-    re_Color = colorName()
-    for i in range(len(re_Color)):
-        color_combobox1.insertItem(i, re_Color[i])
-        color_combobox2.insertItem(i, re_Color[i])
-    color_combobox1.setCurrentIndex(color_combobox1.findText(color))
-    color_combobox2.setCurrentIndex(color_combobox2.findText(ringcolor))
-    table.setCellWidget(rowPosition, 1, color_combobox1)
-    table.setItem(rowPosition, 2, QTableWidgetItem(str(ringsize)))
-    table.setCellWidget(rowPosition, 3, color_combobox2)
 
 def writeTS(table, row, Direction):
     table.setItem(row, 0, QTableWidgetItem(Direction.Type))
@@ -69,22 +57,6 @@ class editTableCommand(QUndoCommand):
         if not isEdit: self.table.removeRow(self.table.rowCount()-1)
         else: writeTable(self.table, self.edit, self.name, self.oldArgs)
 
-class addStyleCommand(QUndoCommand):
-    def __init__(self, styleTable, color, ringsize, ringcolor):
-        QUndoCommand.__init__(self)
-        self.table = styleTable
-        self.color = color
-        self.ringsize = ringsize
-        self.ringcolor = ringcolor
-    
-    def redo(self):
-        color_combobox1 = QComboBox(self.table)
-        color_combobox2 = QComboBox(self.table)
-        rowPosition = self.table.rowCount()
-        self.table.insertRow(rowPosition)
-        writeStyle(self.table, rowPosition, self.color, self.ringsize, self.ringcolor, color_combobox1, color_combobox2)
-    def undo(self): self.table.removeRow(self.table.rowCount()-1)
-
 class deleteTableCommand(QUndoCommand):
     def __init__(self, table, name, index, isRename=True):
         QUndoCommand.__init__(self)
@@ -107,26 +79,6 @@ class deleteTableCommand(QUndoCommand):
         if self.isRename:
             for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
 
-class deleteStyleCommand(QUndoCommand):
-    def __init__(self, table, row):
-        QUndoCommand.__init__(self)
-        self.table = table
-        self.row = row
-        self.oldColor = table.cellWidget(row, 1).currentText()
-        self.oldSize = table.item(row, 2).text()
-        self.oldRingColor = table.cellWidget(row, 3).currentText()
-    
-    def redo(self):
-        self.table.removeRow(self.row)
-        for j in range(self.row, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem('Point'+str(j)))
-    def undo(self):
-        color_combobox1 = QComboBox(self.table)
-        color_combobox2 = QComboBox(self.table)
-        rowPosition = self.row
-        self.table.insertRow(rowPosition)
-        writeStyle(self.table, rowPosition, self.oldColor, self.oldSize, self.oldRingColor, color_combobox1, color_combobox2)
-        for j in range(self.row, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem('Point'+str(j)))
-
 class changePointNumCommand(QUndoCommand):
     def __init__(self, table, pos, row, column, name='Point'):
         QUndoCommand.__init__(self)
@@ -145,51 +97,27 @@ class changePointNumCommand(QUndoCommand):
         self.table.setItem(self.row, self.column, cell)
 
 class setPathCommand(QUndoCommand):
-    def __init__(self, data, runTable, shaftTable, path, runList, shaftList):
+    def __init__(self, data, path):
         QUndoCommand.__init__(self)
         self.data = data
-        self.runTable = runTable
-        self.shaftTable = shaftTable
-        self.path = copy(path)
-        self.runList = copy(runList)
-        self.shaftList = copy(shaftList)
-        self.oldPath = copy(data)
-        self.oldRunList = copy(runTable)
-        self.oldShaftList = copy(shaftTable)
+        self.path = deepcopy(path)
+        self.oldPath = deepcopy(data)
     
     def redo(self):
         self.data.clear()
-        self.runTable.clear()
-        self.shaftTable.clear()
         self.data += self.path
-        self.runTable += self.runList
-        self.shaftTable += self.shaftList
     def undo(self):
         self.data.clear()
-        self.runTable.clear()
-        self.shaftTable.clear()
         self.data += self.oldPath
-        self.runTable += self.oldRunList
-        self.shaftTable += self.oldShaftList
 
 class clearPathCommand(QUndoCommand):
-    def __init__(self, data, runTable, shaftTable):
+    def __init__(self, data):
         QUndoCommand.__init__(self)
         self.data = data
-        self.runTable = runTable
-        self.shaftTable = shaftTable
-        self.oldPath = copy(data)
-        self.oldRunList = copy(runTable)
-        self.oldShaftList = copy(shaftTable)
+        self.oldPath = deepcopy(data)
     
-    def redo(self):
-        self.data.clear()
-        self.runTable.clear()
-        self.shaftTable.clear()
-    def undo(self):
-        self.data += self.oldPath
-        self.runTable += self.oldRunList
-        self.shaftTable += self.oldShaftList
+    def redo(self): self.data.clear()
+    def undo(self): self.data += self.oldPath
 
 class shaftChangeCommand(QUndoCommand):
     def __init__(self, shaftList, table, prv, next):

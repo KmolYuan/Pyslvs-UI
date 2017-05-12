@@ -122,19 +122,19 @@ AddParam
     param_num = 0x40000
     for e in Line:
         param_num += 0x10
-        for p in [e['start'], e['end']]:
-            script_param = Param(script_param, param_num, Point[p]['cx'])
+        for p in [e.start, e.end]:
+            script_param = Param(script_param, param_num, Point[p].cx)
             param_num += 1
-            script_param = Param(script_param, param_num, Point[p]['cy'])
+            script_param = Param(script_param, param_num, Point[p].cy)
             param_num += 2
         param_num = up(param_num, 4)
     for e in Chain:
-        for k in [[e['p1'], e['p2']], [e['p2'], e['p3']], [e['p1'], e['p3']]]:
+        for k in [[e.p1, e.p2], [e.p2, e.p3], [e.p1, e.p3]]:
             param_num += 0x10
             for p in k:
-                script_param = Param(script_param, param_num, Point[p]['cx'])
+                script_param = Param(script_param, param_num, Point[p].cx)
                 param_num += 1
-                script_param = Param(script_param, param_num, Point[p]['cy'])
+                script_param = Param(script_param, param_num, Point[p].cy)
                 param_num += 2
             param_num = up(param_num, 4)
     script_request = '''

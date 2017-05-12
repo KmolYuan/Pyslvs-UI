@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 from math import *
+import logging, traceback
 
 ##Directions:
 ##[Direction('p1':Point1, 'p2':Point2, 'len1':Line1, ('len2':Line2, 'angle':angle ...)), ...]
 
 class Direction:
-    ITEM = ['merge', 'p1', 'p2', 'p3', 'len1', 'len2', 'angle', 'other']
+    ITEM = ['Type', 'merge', 'p1', 'p2', 'p3', 'len1', 'len2', 'angle', 'other']
     def __init__(self, **Args):
         if not Args.get('Type', False) is False:
             self._type = Args['Type']
@@ -24,12 +25,7 @@ class Direction:
     def __str__(self): return "<{}>".format(self.items())
 
 class solver:
-    def __init__(self, Directions=list()):
-        #Cosine Theorem
-        self.CosineTheoremAngle = lambda a, b, c: acos(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01))
-        self.CosineTheoremAngleE = lambda a, b, c: acos(min(1, max(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01), -1)))
-        self.Directions = Directions
-    
+    def __init__(self, Directions=list(), *keywords): self.set(Directions)
     def set(self, Directions): self.Directions = Directions
     
     def answer(self):
@@ -84,7 +80,7 @@ class solver:
                 cx = x1+len1*cos(angle1+angle2)
                 cy = y1+len1*sin(angle1+angle2)
             return cx, cy
-        except ValueError: return False
+        except Exception as e: return self.ErrorBack(e)
     
     def PLLP(self, p1, line1, line2, p2, other=False):
         try:
@@ -104,7 +100,7 @@ class solver:
                 cx = x1+len1*cos(angle1+angle2)
                 cy = y1+len1*sin(angle1+angle2)
             return cx, cy
-        except: return False
+        except Exception as e: return self.ErrorBack(e)
     
     def PLPP(self, p1, line1, p2, p3, other=False):
         try:
@@ -122,7 +118,7 @@ class solver:
                 ex = ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))
                 ey = (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
             return ex, ey
-        except: return False
+        except Exception as e: return self.ErrorBack(e)
     
     def PPP(self, p1, p2, p3): return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
     
@@ -130,24 +126,41 @@ class solver:
         x = p2[0]-p1[0]
         y = p2[1]-p1[1]
         d = self.diff(p1, p2)
-        try: angle = self.CosineTheoremAngle(y, x, d)
-        except ValueError: angle = self.CosineTheoremAngleE(y, x, d)
+        angle = self.CosineTheoremAngle(y, x, d)
         return angle*(-1 if y<0 else 1)
     
     def diff(self, p1, p2): return sqrt((p2[0]-p1[0])**2+(p2[1]-p1[1])**2)
+    
+    def CosineTheoremAngle(self, a, b, c):
+        numerator = float(b**2+c**2-a**2)
+        denominator = float(2*b*c)
+        try: return acos(numerator/denominator)
+        except ZeroDivisionError:
+            if numerator>0: return radians(90.)
+            else: return radians(270.)
+    
+    def ErrorBack(self, e):
+        logging.exception("TS Exception.")
+        traceback.print_tb(e.__traceback__)
+        print(e)
+        return False
 
 if __name__=='__main__':
     #Test
     print(Direction(p1=(-60, 0), p2=(0, 0), len1=30, angle=50))
-    s = solver([
+    s1 = solver([
         Direction(p1=(-60, 0), p2=(0, 0), len1=30, angle=50), #C PLAP
         Direction(p1=0, p2=(0, 0), len1=50, len2=60), #D PLLP
         Direction(p1=0, p2=1, len1=50, len2=50), #E PLLP
         Direction(p1=(-45, 0), p2=(0, 12), len1=30, angle=55), # PLAP
         Direction(p1=3, len1=40, p2=(0, 12), p3=(10, 30)), #Slider E PLPP
         ])
-    answer = s.answer()
+    answer = s1.answer()
     print("C={}\nD={}\nE={}\n\nSlider B={}\nSlider E={}".format(*answer))
+    s2 = solver([
+        Direction(p1=(0, 0), p2=(0, 10), len1=30, angle=0)
+        ])
+    print(s2.answer())
     
     ##C= (-40.716371709403816, 22.98133329356934)
     ##D= (-6.698073034033397, 59.62495968661744)

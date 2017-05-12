@@ -20,7 +20,7 @@ if __name__=='__main__':
         if e!=SystemExit:
             import logging, traceback
             logging.basicConfig(filename='PyslvsLogFile.log',
-                filemode='a', format='%(asctime)s | %(message)s', level=logging.INFO)
+                filemode='a', format="%(asctime)s | %(message)s", level=logging.INFO)
             logging.exception("Exception Happened.")
             traceback.print_tb(e.__traceback__)
             print(e)

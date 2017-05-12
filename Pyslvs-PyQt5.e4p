@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-04-27, 22:33:24 -->
+<!-- Saved: 2017-05-12, 11:51:44 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
   <Hash>8830517c87a377b45c7328ed685a32516abd547e</Hash>
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
-  <Version>0.6.4</Version>
+  <Version>0.7.0</Version>
   <Author>Yuan</Author>
   <Email>daan0014119@gmail.com</Email>
   <Sources>
@@ -18,19 +18,21 @@
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
     <Source>core/calculation/__init__.py</Source>
-    <Source>core/calculation/calculation.py</Source>
-    <Source>core/calculation/color.py</Source>
+    <Source>core/calculation/algorithm.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
+    <Source>core/calculation/planeSolving.py</Source>
     <Source>core/dialog/Ui_association.py</Source>
     <Source>core/dialog/Ui_batchMoving.py</Source>
     <Source>core/dialog/Ui_delete.py</Source>
     <Source>core/dialog/Ui_replacePoint.py</Source>
+    <Source>core/dialog/Ui_run_Path_Track.py</Source>
     <Source>core/dialog/__init__.py</Source>
     <Source>core/dialog/association.py</Source>
     <Source>core/dialog/batchMoving.py</Source>
     <Source>core/dialog/delete.py</Source>
     <Source>core/dialog/replacePoint.py</Source>
+    <Source>core/dialog/run_Path_Track.py</Source>
     <Source>core/draw/Ui_edit_chain.py</Source>
     <Source>core/draw/Ui_edit_link.py</Source>
     <Source>core/draw/Ui_edit_point.py</Source>
@@ -42,13 +44,12 @@
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas_0.py</Source>
     <Source>core/graphics/canvas_1.py</Source>
-    <Source>core/info/Ui_editFileInfo.py</Source>
+    <Source>core/graphics/color.py</Source>
     <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>
     <Source>core/info/Ui_info.py</Source>
     <Source>core/info/Ui_path_point_data.py</Source>
     <Source>core/info/__init__.py</Source>
-    <Source>core/info/editFileInfo.py</Source>
     <Source>core/info/fileInfo.py</Source>
     <Source>core/info/info.py</Source>
     <Source>core/info/path_point_data.py</Source>
@@ -63,7 +64,9 @@
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
     <Source>core/io/listProcess.py</Source>
+    <Source>core/io/loggingHandler.py</Source>
     <Source>core/io/script.py</Source>
+    <Source>core/io/scriptType.py</Source>
     <Source>core/io/slvsForm/__init__.py</Source>
     <Source>core/io/slvsForm/assembly.py</Source>
     <Source>core/io/slvsForm/chain.py</Source>
@@ -86,8 +89,8 @@
     <Source>core/panel/Ui_run_Drive_shaft.py</Source>
     <Source>core/panel/Ui_run_Measurement.py</Source>
     <Source>core/panel/Ui_run_Path_Solving.py</Source>
+    <Source>core/panel/Ui_run_Path_Solving_progress.py</Source>
     <Source>core/panel/Ui_run_Path_Solving_series.py</Source>
-    <Source>core/panel/Ui_run_Path_Track.py</Source>
     <Source>core/panel/Ui_run_Triangle_Solver.py</Source>
     <Source>core/panel/Ui_run_Triangle_Solver_directionItem.py</Source>
     <Source>core/panel/Ui_run_Triangle_Solver_edit.py</Source>
@@ -98,8 +101,8 @@
     <Source>core/panel/run_Drive_shaft.py</Source>
     <Source>core/panel/run_Measurement.py</Source>
     <Source>core/panel/run_Path_Solving.py</Source>
+    <Source>core/panel/run_Path_Solving_progress.py</Source>
     <Source>core/panel/run_Path_Solving_series.py</Source>
-    <Source>core/panel/run_Path_Track.py</Source>
     <Source>core/panel/run_Triangle_Solver.py</Source>
     <Source>core/panel/run_Triangle_Solver_edit.py</Source>
     <Source>core/panel/run_Triangle_Solver_template.py</Source>
@@ -120,10 +123,10 @@
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
     <Form>core/dialog/replacePoint.ui</Form>
+    <Form>core/dialog/run_Path_Track.ui</Form>
     <Form>core/draw/edit_chain.ui</Form>
     <Form>core/draw/edit_link.ui</Form>
     <Form>core/draw/edit_point.ui</Form>
-    <Form>core/info/editFileInfo.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
     <Form>core/info/info.ui</Form>
     <Form>core/info/path_point_data.ui</Form>
@@ -136,8 +139,8 @@
     <Form>core/panel/run_Drive_shaft.ui</Form>
     <Form>core/panel/run_Measurement.ui</Form>
     <Form>core/panel/run_Path_Solving.ui</Form>
+    <Form>core/panel/run_Path_Solving_progress.ui</Form>
     <Form>core/panel/run_Path_Solving_series.ui</Form>
-    <Form>core/panel/run_Path_Track.ui</Form>
     <Form>core/panel/run_Triangle_Solver.ui</Form>
     <Form>core/panel/run_Triangle_Solver_edit.ui</Form>
     <Form>core/panel/run_Triangle_Solver_template.ui</Form>
@@ -156,7 +159,7 @@
   </Others>
   <MainScript>launch_pyslvs.py</MainScript>
   <Vcs>
-    <VcsType>Git</VcsType>
+    <VcsType>None</VcsType>
     <VcsOptions>
       <dict>
         <key>

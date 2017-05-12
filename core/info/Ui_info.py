@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/info/info.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/info/info.ui'
 #
 # Created by: PyQt5 UI code generator 5.8
 #
@@ -58,7 +58,7 @@ class Ui_About_Dialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 402, 361))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 407, 353))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setContentsMargins(6, 6, 6, 6)
@@ -88,7 +88,7 @@ class Ui_About_Dialog(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 352, 281))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 98, 31))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_5.setContentsMargins(6, 6, 6, 6)
@@ -109,6 +109,36 @@ class Ui_About_Dialog(object):
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.verticalLayout_6.addWidget(self.scrollArea_2)
         self.tabWidget.addTab(self.VersionsTab, "")
+        self.ArgumentsTab = QtWidgets.QWidget()
+        self.ArgumentsTab.setObjectName("ArgumentsTab")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.ArgumentsTab)
+        self.verticalLayout_9.setContentsMargins(6, 6, 6, 6)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
+        self.scrollArea_3 = QtWidgets.QScrollArea(self.ArgumentsTab)
+        self.scrollArea_3.setWidgetResizable(True)
+        self.scrollArea_3.setObjectName("scrollArea_3")
+        self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 407, 353))
+        self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
+        self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
+        self.verticalLayout_8.setContentsMargins(6, 6, 6, 6)
+        self.verticalLayout_8.setObjectName("verticalLayout_8")
+        self.Arguments = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.Arguments.sizePolicy().hasHeightForWidth())
+        self.Arguments.setSizePolicy(sizePolicy)
+        self.Arguments.setText("")
+        self.Arguments.setTextFormat(QtCore.Qt.RichText)
+        self.Arguments.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.Arguments.setWordWrap(True)
+        self.Arguments.setOpenExternalLinks(True)
+        self.Arguments.setObjectName("Arguments")
+        self.verticalLayout_8.addWidget(self.Arguments)
+        self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
+        self.verticalLayout_9.addWidget(self.scrollArea_3)
+        self.tabWidget.addTab(self.ArgumentsTab, "")
         self.verticalLayout_3.addWidget(self.tabWidget)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.verticalLayout_7.addLayout(self.horizontalLayout)
@@ -142,6 +172,8 @@ class Ui_About_Dialog(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.IntroductionTab), _translate("About_Dialog", "Introduction"))
         self.Versions.setWhatsThis(_translate("About_Dialog", "Version Info"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.VersionsTab), _translate("About_Dialog", "Versions"))
+        self.Arguments.setWhatsThis(_translate("About_Dialog", "Version Info"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.ArgumentsTab), _translate("About_Dialog", "Arguments"))
         self.buttonBox.setWhatsThis(_translate("About_Dialog", "Click to exit"))
 
 import icons_rc

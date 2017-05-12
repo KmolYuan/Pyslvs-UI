@@ -2,7 +2,7 @@
 #Splash
 from .info.info import Pyslvs_Splash
 #CSV
-import sys, os, csv, webbrowser, platform
+import sys, os, webbrowser, platform
 from math import acos
 #Dialog Ports
 from .info.info import version_show
@@ -21,24 +21,25 @@ from .dialog.delete import deleteDlg
 from .dialog.replacePoint import replacePoint_show
 from .dialog.batchMoving import batchMoving_show
 from .dialog.association import Association_show
+from .dialog.run_Path_Track import Path_Track_show
 #Panel
 from .panel.run_Path_Solving import Path_Solving_show
 from .panel.run_Triangle_Solver import Triangle_Solver_show
-from .panel.run_Path_Track import Path_Track_show
 from .panel.run_Drive_shaft import Drive_shaft_show
 from .panel.run_Drive_rod import Drive_rod_show
 from .panel.run_Measurement import Measurement_show
 from .panel.run_AuxLine import AuxLine_show
 #Solve
-from .calculation.calculation import slvsProcess, slvsProcessScript
+from .calculation.planeSolving import slvsProcess
 #Canvas
 from .graphics.canvas_0 import DynamicCanvas
 #File & Example
 from .io.fileForm import File
-from .io.example import *
+from .io import example
 from .io.dxfType import dxfTypeSettings
 from .io.dxfForm.sketch import dxfSketch
 from .io.slvsType import slvsTypeSettings
 from .io.slvsForm.sketch import slvs2D
-from .info.editFileInfo import editFileInfo_show
-from .info.fileInfo import fileInfo_show
+from .info.fileInfo import fileInfo_show, editFileInfo_show
+#Logging
+from .io.loggingHandler import XStream

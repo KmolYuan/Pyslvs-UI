@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/draw/edit_point.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\draw\edit_point.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,28 +11,29 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(384, 226)
-        Dialog.setMinimumSize(QtCore.QSize(384, 226))
-        Dialog.setMaximumSize(QtCore.QSize(384, 226))
+        Dialog.resize(384, 286)
+        Dialog.setMinimumSize(QtCore.QSize(384, 286))
+        Dialog.setMaximumSize(QtCore.QSize(384, 286))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/editpoint.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.horizontalLayout = QtWidgets.QHBoxLayout(Dialog)
-        self.horizontalLayout.setContentsMargins(6, 6, 6, 6)
-        self.horizontalLayout.setSpacing(6)
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.label_3 = QtWidgets.QLabel(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label_3.sizePolicy().hasHeightForWidth())
+        self.label_3.setSizePolicy(sizePolicy)
         self.label_3.setTextFormat(QtCore.Qt.RichText)
         self.label_3.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.label_3.setWordWrap(True)
         self.label_3.setObjectName("label_3")
         self.verticalLayout.addWidget(self.label_3)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
         self.label_4 = QtWidgets.QLabel(Dialog)
         self.label_4.setTextFormat(QtCore.Qt.RichText)
         self.label_4.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
@@ -41,6 +42,14 @@ class Ui_Dialog(object):
         self.Point = QtWidgets.QComboBox(Dialog)
         self.Point.setObjectName("Point")
         self.verticalLayout.addWidget(self.Point)
+        self.label_5 = QtWidgets.QLabel(Dialog)
+        self.label_5.setTextFormat(QtCore.Qt.RichText)
+        self.label_5.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.label_5.setObjectName("label_5")
+        self.verticalLayout.addWidget(self.label_5)
+        self.Color = QtWidgets.QComboBox(Dialog)
+        self.Color.setObjectName("Color")
+        self.verticalLayout.addWidget(self.Color)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.label = QtWidgets.QLabel(Dialog)
@@ -69,8 +78,8 @@ class Ui_Dialog(object):
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.verticalLayout_2.addWidget(self.buttonBox)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem1)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_2.addItem(spacerItem)
         self.Fix_Point = QtWidgets.QCheckBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -91,6 +100,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Point"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Setting new Coordinates for this Point.</span></p></body></html>"))
         self.label_4.setText(_translate("Dialog", "<html><head/><body><p>Point Number</p></body></html>"))
+        self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Color</p></body></html>"))
         self.label.setText(_translate("Dialog", "x coordinate"))
         self.label_2.setText(_translate("Dialog", "y coordinate"))
         self.X_coordinate.setPlaceholderText(_translate("Dialog", "0.0"))

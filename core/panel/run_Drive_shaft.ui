@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>410</width>
-    <height>213</height>
+    <width>460</width>
+    <height>361</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
@@ -60,9 +60,6 @@
      </item>
      <item>
       <widget class="QPushButton" name="playButton">
-       <property name="toolTip">
-        <string>A 60-lap mechanism demo</string>
-       </property>
        <property name="text">
         <string>Play</string>
        </property>
@@ -84,9 +81,54 @@
     </layout>
    </item>
    <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="a0">
+         <property name="text">
+          <string>0/360°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="a90">
+         <property name="text">
+          <string>90°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="a180">
+         <property name="text">
+          <string>180°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="a270">
+         <property name="text">
+          <string>270°</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
       <widget class="QDial" name="Degree">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>150</height>
+        </size>
+       </property>
        <property name="maximum">
         <number>36000</number>
        </property>
@@ -109,6 +151,38 @@
         <bool>true</bool>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="a45">
+         <property name="text">
+          <string>45°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="a135">
+         <property name="text">
+          <string>135°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="a225">
+         <property name="text">
+          <string>225°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="a315">
+         <property name="text">
+          <string>315°</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -141,6 +215,7 @@
   </layout>
   <zorder>label</zorder>
   <zorder>verticalSpacer</zorder>
+  <zorder>line</zorder>
  </widget>
  <resources/>
  <connections/>

@@ -1,38 +1,65 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from ..calculation.color import colorlist, colorName
+from ..graphics.color import colorlist, colorName
 _translate = QCoreApplication.translate
+
+class Selector:
+    def __init__(self):
+        self._x = 0
+        self._y = 0
+        self._isDrag = False
+    @property
+    def x(self): return self._x
+    @x.setter
+    def x(self, x): self._x = x
+    @property
+    def y(self): return self._y
+    @y.setter
+    def y(self, y): self._y = y
+    @property
+    def isDrag(self): return self._isDrag
+    @isDrag.setter
+    def isDrag(self, isDrag): self._isDrag = isDrag
+
+class PointOptions:
+    def __init__(self, width, height):
+        self.origin = {'x':width/2, 'y':height/2}
+        self.rate = 2
+        self.style = {
+            'Background':Qt.white, 'penWidth':{'pen':3, 'path':2},
+            'link':Qt.darkGray, 'chain':QColor(226, 219, 190), 'text':Qt.darkGray, 'dimension':False}
+        self.Path = Path()
+        self.slvsPath = {'path':list(), 'show':False}
+        self.currentShaft = 0
+
+class Path:
+    def __init__(self):
+        self.path = list()
+        self.show = True
+        self.mode = True
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
     mouse_getClick = pyqtSignal()
     change_event = pyqtSignal()
+    zoom_change = pyqtSignal(int)
     def __init__(self, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip(_translate("MainWindow", "Use mouse wheel or middle button to look around."))
-        self.points = {'origin':{'x':self.width()/2, 'y':self.height()/2}, 'rate':2,
-            'style':{
-                'Background':Qt.white, 'penWidth':{'pen':3, 'path':2},
-                'link':Qt.darkGray, 'chain':QColor(226, 219, 190), 'text':Qt.darkGray, 'dimension':False},
-            'Path':{'path':list(), 'run_list':list(), 'shaft_list':list(), 'show':True},
-            'slvsPath':{'path':list(), 'show':False}, 'currentShaft':0,
-            }
-        self.Selector = {
-            'Drag':{'x':0, 'y':0, 'isDrag':False},
-            'Scanner':{'x':0, 'y':0, 'point':0, 'isClose':False}}
+        self.options = PointOptions(self.width(), self.height())
+        self.Selector = Selector()
         self.reset_Auxline()
         self.Color = colorlist()
         self.re_Color = colorName()
     
     def update_figure(self, width, pathwidth, Point, Line, Chain, Shaft, Slider, Rod,
-            table_style, zoom_rate, Font_size, showDimension, Point_mark,
-            path, run_list, shaft_list):
+            zoom_rate, Font_size, showDimension, Point_mark, path):
         self.Font_size = Font_size
-        self.points['style']['dimension'] = showDimension
+        self.options.style['dimension'] = showDimension
         self.Point_mark = Point_mark
-        self.points['style']['penWidth']['pen'] = width
-        self.points['style']['penWidth']['path'] = pathwidth
+        self.options.style['penWidth']['pen'] = width
+        self.options.style['penWidth']['path'] = pathwidth
         self.zoom = float(zoom_rate.replace("%", ""))/100
         self.Point = Point
         self.Line = Line
@@ -40,60 +67,52 @@ class DynamicCanvas(QWidget):
         self.Shaft = Shaft
         self.Slider = Slider
         self.Rod = Rod
-        self.table_style = table_style
-        self.points['Path']['path'] = path
-        self.points['Path']['run_list'] = run_list
-        self.points['Path']['shaft_list'] = shaft_list
+        self.options.Path.path = path
         self.update()
     
-    def path_track(self, path, run_list, shaft_list):
-        self.points['Path']['path'] = path
-        self.points['Path']['run_list'] = run_list
-        self.points['Path']['shaft_list'] = shaft_list
+    def path_solving(self, path=list()):
+        self.options.slvsPath['path'] = path
         self.update()
-    def path_solving(self, path):
-        self.points['slvsPath']['path'] = path
-        self.update()
-    def changeCurrentShaft(self, pos): self.points['currentShaft'] = pos
+    def changeCurrentShaft(self, pos=0): self.options.currentShaft = pos
     
     def paintEvent(self, event):
         painter = QPainter()
         painter.begin(self)
-        painter.fillRect(event.rect(), QBrush(self.points['style']['Background']))
-        painter.translate(self.points['origin']['x'], self.points['origin']['y'])
-        Tp = self.zoom*self.points['rate']
+        painter.fillRect(event.rect(), QBrush(self.options.style['Background']))
+        painter.translate(self.options.origin['x'], self.options.origin['y'])
+        Tp = self.zoom*self.options.rate
         for i, e in enumerate(self.Line):
             start = self.Point[e.start]
             end = self.Point[e.end]
             pen = QPen()
-            pen.setWidth(self.points['style']['penWidth']['pen'])
-            pen.setColor(self.points['style']['link'])
+            pen.setWidth(self.options.style['penWidth']['pen'])
+            pen.setColor(self.options.style['link'])
             painter.setPen(pen)
             painter.drawLine(QPointF(start.cx*Tp, start.cy*Tp*-1), QPointF(end.cx*Tp, end.cy*Tp*-1))
             if self.Point_mark:
-                pen.setColor(self.points['style']['text'])
+                pen.setColor(self.options.style['text'])
                 painter.setPen(pen)
                 mp = QPointF((start.cx+end.cx)*Tp/2, (start.cy+end.cy)*Tp*-1/2)
                 painter.setFont(QFont('Arial', self.Font_size))
                 text = '[Line{}]'.format(i)
-                if self.points['style']['dimension']: text += ':{:.02f}'.format(e.len)
+                if self.options.style['dimension']: text += ':{:.02f}'.format(e.len)
                 painter.drawText(mp, text)
         for i, e in enumerate(self.Chain):
             pen = QPen()
-            pen.setWidth(self.points['style']['penWidth']['pen'])
-            pen.setColor(self.points['style']['link'])
-            painter.setBrush(self.points['style']['chain'])
+            pen.setWidth(self.options.style['penWidth']['pen'])
+            pen.setColor(self.options.style['link'])
+            painter.setBrush(self.options.style['chain'])
             painter.drawPolygon(
                 QPointF(self.Point[e.p1].cx*Tp, self.Point[e.p1].cy*Tp*-1),
                 QPointF(self.Point[e.p2].cx*Tp, self.Point[e.p2].cy*Tp*-1),
                 QPointF(self.Point[e.p3].cx*Tp, self.Point[e.p3].cy*Tp*-1))
             painter.setBrush(Qt.NoBrush)
             if self.Point_mark:
-                pen.setColor(self.points['style']['text'])
+                pen.setColor(self.options.style['text'])
                 painter.setPen(pen)
                 painter.setFont(QFont('Arial', self.Font_size))
                 text = '[Chain{}]'.format(i)
-                if self.points['style']['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
+                if self.options.style['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
                 mp = QPointF((self.Point[e.p1].cx+self.Point[e.p2].cx+self.Point[e.p3].cx)*Tp/3,
                     (self.Point[e.p1].cy+self.Point[e.p2].cy+self.Point[e.p3].cy)*Tp*-1/3)
                 painter.drawText(mp, text)
@@ -101,7 +120,7 @@ class DynamicCanvas(QWidget):
             start = self.Point[e.start]
             end = self.Point[e.end]
             pen = QPen()
-            pen.setWidth(self.points['style']['penWidth']['pen'])
+            pen.setWidth(self.options.style['penWidth']['pen'])
             pen.setColor(Qt.darkMagenta)
             painter.setPen(pen)
             painter.drawLine(QPointF(start.cx*Tp, start.cy*Tp*-1), QPointF(end.cx*Tp, end.cy*Tp*-1))
@@ -109,12 +128,12 @@ class DynamicCanvas(QWidget):
             start = self.Point[e.start]
             end = self.Point[e.end]
             pen = QPen()
-            pen.setWidth(self.points['style']['penWidth']['pen'])
+            pen.setWidth(self.options.style['penWidth']['pen'])
             pen.setColor(Qt.darkRed)
             painter.setPen(pen)
             painter.drawLine(QPointF(start.cx*Tp, start.cy*Tp*-1), QPointF(end.cx*Tp, end.cy*Tp*-1))
-            if self.points['style']['dimension']:
-                pen.setColor(self.points['style']['text'])
+            if self.options.style['dimension']:
+                pen.setColor(self.options.style['text'])
                 painter.setPen(pen)
                 mp = QPointF((start.cx*Tp+end.cx*Tp)/2, (start.cy*Tp+end.cy*Tp)/2*-1)
                 painter.setFont(QFont('Arial', self.Font_size))
@@ -123,14 +142,14 @@ class DynamicCanvas(QWidget):
             cen = self.Point[e.cen]
             ref = self.Point[e.ref]
             pen = QPen()
-            pen.setWidth(self.points['style']['penWidth']['pen']+2)
-            pen.setColor(QColor(225, 140, 0) if i==self.points['currentShaft'] else QColor(175, 90, 0))
+            pen.setWidth(self.options.style['penWidth']['pen']+2)
+            pen.setColor(QColor(225, 140, 0) if i==self.options.currentShaft else QColor(175, 90, 0))
             painter.setPen(pen)
             painter.drawLine(QPointF(cen.cx*Tp, cen.cy*Tp*-1), QPointF(ref.cx*Tp, ref.cy*Tp*-1))
         if self.AuxLine['show']:
             pen = QPen(Qt.DashDotLine)
             pen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
-            pen.setWidth(self.points['style']['penWidth']['pen'])
+            pen.setWidth(self.options.style['penWidth']['pen'])
             painter.setPen(pen)
             if self.AuxLine['isMax']:
                 if self.AuxLine['Max']['x'] < self.Point[self.AuxLine['pt']].cx: self.AuxLine['Max']['x'] = self.Point[self.AuxLine['pt']].cx
@@ -138,12 +157,12 @@ class DynamicCanvas(QWidget):
                 L_point = QPointF(self.width()*4, self.AuxLine['Max']['y']*Tp*(-1))
                 R_point = QPointF(self.width()*(-4), self.AuxLine['Max']['y']*Tp*(-1))
                 U_point = QPointF(self.AuxLine['Max']['x']*Tp, self.height()*4)
-                D_point = QPointF(self.AuxLine['Max']['x']*Tp, self.height()*(-4))
+                D_point = QPointF(self.AuxLine['Max']['x']*Tp, self.height()*-4)
                 painter.drawLine(L_point, R_point)
                 painter.drawLine(U_point, D_point)
-                if self.points['style']['dimension']:
-                    text_center_x = QPointF(self.AuxLine['Max']['x']*Tp+self.points['style']['penWidth']['pen'], self.points['origin']['y']*-1+self.Font_size)
-                    text_center_y = QPointF(self.points['origin']['x']*(-1), self.AuxLine['Max']['y']*Tp*-1-self.points['style']['penWidth']['pen'])
+                if self.options.style['dimension']:
+                    text_center_x = QPointF(self.AuxLine['Max']['x']*Tp+self.options.style['penWidth']['pen'], self.options.origin['y']*-1+self.Font_size)
+                    text_center_y = QPointF(self.options.origin['x']*(-1), self.AuxLine['Max']['y']*Tp*-1-self.options.style['penWidth']['pen'])
                     painter.setFont(QFont('Arial', self.Font_size))
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Max']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Max']['y'])
@@ -156,17 +175,17 @@ class DynamicCanvas(QWidget):
                 D_point = QPointF(self.AuxLine['Min']['x']*Tp, self.height()*-4)
                 painter.drawLine(L_point, R_point)
                 painter.drawLine(U_point, D_point)
-                if self.points['style']['dimension']:
-                    text_center_x = QPointF(self.AuxLine['Min']['x']*Tp+self.points['style']['penWidth']['pen'], self.points['origin']['y']*-1+self.Font_size)
-                    text_center_y = QPointF(self.points['origin']['x']*-1, self.AuxLine['Min']['y']*Tp*-1-self.points['style']['penWidth']['pen'])
+                if self.options.style['dimension']:
+                    text_center_x = QPointF(self.AuxLine['Min']['x']*Tp+self.options.style['penWidth']['pen'], self.options.origin['y']*-1+self.Font_size)
+                    text_center_y = QPointF(self.options.origin['x']*-1, self.AuxLine['Min']['y']*Tp*-1-self.options.style['penWidth']['pen'])
                     painter.setFont(QFont('Arial', self.Font_size))
                     painter.drawText(text_center_x, "%.6f"%self.AuxLine['Min']['x'])
                     painter.drawText(text_center_y, "%.6f"%self.AuxLine['Min']['y'])
             pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
-            L_point = QPointF(self.width()*4, self.Point[self.AuxLine['pt']].y*Tp*-1)
-            R_point = QPointF(self.width()*-4, self.Point[self.AuxLine['pt']].y*Tp*-1)
-            U_point = QPointF(self.Point[self.AuxLine['pt']].x*Tp, self.height()*4)
-            D_point = QPointF(self.Point[self.AuxLine['pt']].x*Tp, self.height()*-4)
+            L_point = QPointF(self.width()*4, self.Point[self.AuxLine['pt']].cy*Tp*-1)
+            R_point = QPointF(self.width()*-4, self.Point[self.AuxLine['pt']].cy*Tp*-1)
+            U_point = QPointF(self.Point[self.AuxLine['pt']].cx*Tp, self.height()*4)
+            D_point = QPointF(self.Point[self.AuxLine['pt']].cx*Tp, self.height()*-4)
             painter.setPen(pen)
             if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
             if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
@@ -175,56 +194,56 @@ class DynamicCanvas(QWidget):
             cy = e.cy*Tp*-1
             pen = QPen()
             pen.setWidth(2)
-            if i!=0: pen.setColor(self.Color[self.table_style.cellWidget(i, 3).currentText()])
-            else: pen.setColor(self.Color[self.table_style.item(i, 3).text()])
+            pen.setColor(self.Color[e.color])
             painter.setPen(pen)
-            r = float(self.table_style.item(i, 2).text())
+            r = 10. if e.fix else 5.
             painter.drawEllipse(QPointF(cx, cy), r, r)
-            if i!=0: pen.setColor(self.Color[self.table_style.cellWidget(i, 1).currentText()])
-            else: pen.setColor(self.Color[self.table_style.item(i, 1).text()])
             pen.setWidth(5)
             painter.setPen(pen)
             painter.drawPoint(QPointF(cx, cy))
             if self.Point_mark:
-                pen.setColor(self.points['style']['text'])
+                pen.setColor(self.options.style['text'])
                 pen.setWidth(2)
                 painter.setPen(pen)
                 painter.setFont(QFont('Arial', self.Font_size))
                 text = '[Point{}]'.format(i)
-                if self.points['style']['dimension']: text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
+                if self.options.style['dimension']: text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
                 painter.drawText(QPointF(cx+6, cy-6), text)
-        if self.points['Path']['path'] and self.points['Path']['show']:
-            for i in range(len(self.points['Path']['path'])):
-                l = self.points['Path']['path'][i]
-                nPath = [[l[i],l[i+1]] for i in range(0,len(l),2)]
-                for e in nPath:
-                    pointNum = int(self.points['Path']['run_list'][int(nPath.index(e)/len(self.Shaft))].replace('Point', ''))
-                    Xs = [x*self.zoom*self.points['rate'] if x!=None else False for x in e[0]]
-                    Ys = [y*self.zoom*self.points['rate']*-1 if y!=None else False for y in e[1]]
-                    pointPath = QPainterPath()
-                    if self.points['Path']['shaft_list'][i]==self.points['currentShaft']:
-                        pen.setWidth(self.points['style']['penWidth']['path'])
-                        point_color = self.table_style.cellWidget(pointNum, 3).currentText()
-                        pen.setColor(self.Color[point_color])
+        if self.options.Path.path and self.options.Path.show:
+            for vpaths in self.options.Path.path:
+                for vpath in vpaths.paths:
+                    if vpaths.shaft==self.options.currentShaft:
+                        pen.setWidth(self.options.style['penWidth']['path'])
+                        pen.setColor(self.Color[self.Point[vpath.point].color])
                     else:
-                        pen.setWidth(self.points['style']['penWidth']['path'])
+                        pen.setWidth(self.options.style['penWidth']['path'])
                         pen.setColor(self.Color['Gray'])
                     painter.setPen(pen)
-                    error = False
-                    for x, y in zip(Xs, Ys):
-                        if x is False and y is False:
-                            error = True
-                            continue
-                        if (Xs.index(x)==0 and Ys.index(y)==0) or error:
-                            error = False
-                            pointPath.moveTo(x, y)
-                        else: pointPath.lineTo(QPointF(x, y))
-                    painter.drawPath(pointPath)
-        if self.points['slvsPath']['path'] and self.points['slvsPath']['show']:
-            pen.setWidth(self.points['style']['penWidth']['path'])
+                    if self.options.Path.mode==True:
+                        error = False
+                        pointPath = QPainterPath()
+                        for i, point in enumerate(vpath.path):
+                            if point[0] is None or point[0] is False:
+                                error = True
+                                continue
+                            x = point[0]*Tp
+                            y = point[1]*Tp*-1
+                            if i==0 or error:
+                                pointPath.moveTo(x, y)
+                                error = False
+                            else: pointPath.lineTo(QPointF(x, y))
+                        painter.drawPath(pointPath)
+                    else:
+                        for i, point in enumerate(vpath.path):
+                            if point[0] is None or point[0] is False: continue
+                            x = point[0]*Tp
+                            y = point[1]*Tp*-1
+                            painter.drawPoint(QPointF(x, y))
+        if self.options.slvsPath['path'] and self.options.slvsPath['show']:
+            pen.setWidth(self.options.style['penWidth']['path'])
             pen.setColor(self.Color['Gray'])
             painter.setPen(pen)
-            for e in self.points['slvsPath']['path']: painter.drawPoint(QPointF(e['x']*self.zoom*self.points['rate'], e['y']*self.zoom*self.points['rate']*(-1)))
+            for e in self.options.slvsPath['path']: painter.drawPoint(QPointF(e['x']*self.zoom*self.options.rate, e['y']*self.zoom*self.options.rate*(-1)))
         painter.end()
         self.change_event.emit()
     
@@ -242,33 +261,49 @@ class DynamicCanvas(QWidget):
     
     def mousePressEvent(self, event):
         if event.buttons()==Qt.MiddleButton:
-            self.Selector['Drag']['x'] = event.x()-self.points['origin']['x']
-            self.Selector['Drag']['y'] = event.y()-self.points['origin']['y']
-            self.Selector['Drag']['isDrag'] = True
+            self.Selector.x = event.x()-self.options.origin['x']
+            self.Selector.y = event.y()-self.options.origin['y']
+            self.Selector.isDrag = True
         elif QApplication.keyboardModifiers()==Qt.ControlModifier:
-            self.Selector['Drag']['x'] = 0
-            self.Selector['Drag']['y'] = 0
-            self.Selector['Drag']['isDrag'] = True
-    def mouseReleaseEvent(self, event): self.Selector['Drag']['isDrag'] = False
+            self.Selector.x = 0
+            self.Selector.y = 0
+            self.Selector.isDrag = True
+    def mouseReleaseEvent(self, event): self.Selector.isDrag = False
     def mouseDoubleClickEvent(self, event):
         if QApplication.keyboardModifiers()==Qt.ControlModifier:
-            self.points['origin']['x'] = event.x()
-            self.points['origin']['y'] = event.y()
+            self.options.origin['x'] = event.x()
+            self.options.origin['y'] = event.y()
             self.update()
         if event.button()==Qt.MidButton: self.SetIn()
         if QApplication.keyboardModifiers()==Qt.AltModifier: self.mouse_getClick.emit()
     def mouseMoveEvent(self, event):
-        if self.Selector['Drag']['isDrag']:
-            self.points['origin']['x'] = event.x()-self.Selector['Drag']['x']
-            self.points['origin']['y'] = event.y()-self.Selector['Drag']['y']
+        if self.Selector.isDrag:
+            self.options.origin['x'] = event.x()-self.Selector.x
+            self.options.origin['y'] = event.y()-self.Selector.y
             self.update()
-        self.Selector['Scanner']['x'] = round((event.x()-self.points['origin']['x'])/self.zoom/self.points['rate'], 2)
-        self.Selector['Scanner']['y'] = round((event.y()-self.points['origin']['y'])*(-1)/self.zoom/self.points['rate'], 2)
-        self.mouse_track.emit(self.Selector['Scanner']['x'], self.Selector['Scanner']['y'])
+        self.mouse_track.emit(
+            round((event.x()-self.options.origin['x'])/self.zoom/self.options.rate, 2),
+            -round((event.y()-self.options.origin['y'])/self.zoom/self.options.rate, 2))
         if QApplication.keyboardModifiers()==Qt.AltModifier: self.setCursor(Qt.CrossCursor)
         else: self.setCursor(Qt.ArrowCursor)
     
     def SetIn(self):
-        self.points['origin']['x'] = self.width()/2
-        self.points['origin']['y'] = self.height()/2
+        width = self.width()
+        height = self.height()
+        if len(self.Point)==1:
+            self.zoom_change.emit(200)
+            self.options.origin['x'] = width/2
+            self.options.origin['y'] = height/2
+        else:
+            Xs = [e.cx for e in self.Point]
+            Ys = [e.cy for e in self.Point]
+            diffX = max(Xs)-min(Xs)
+            diffY = max(Ys)-min(Ys)
+            event = diffX/diffY > width/height
+            self.zoom_change.emit(int((width if event else height)/((diffX if event else diffY)+3)*50))
+            Tp = self.zoom*self.options.rate
+            cenx = (min(Xs)+max(Xs))/2
+            ceny = (min(Ys)+max(Ys))/2
+            self.options.origin['x'] = (width/2)-cenx*Tp
+            self.options.origin['y'] = (height/2)+ceny*Tp
         self.update()

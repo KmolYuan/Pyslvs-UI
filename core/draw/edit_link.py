@@ -3,21 +3,22 @@ from ..QtModules import *
 from .Ui_edit_link import Ui_Dialog as edit_link_Dialog
 
 class edit_link_show(QDialog, edit_link_Dialog):
-    def __init__(self, mask, table1, table2, Point, Lines, pos=False, parent=None):
+    def __init__(self, mask, Point, Lines, pos=False, parent=None):
         super(edit_link_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/line.png"))
         self.Point = Point
         self.Lines = Lines
-        for i in range(table1.rowCount()):
-            self.Start_Point.insertItem(i, icon, table1.item(i, 0).text())
-            self.End_Point.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(len(Point)):
+            name = 'Point{}'.format(i)
+            self.Start_Point.insertItem(i, icon, name)
+            self.End_Point.insertItem(i, icon, name)
         if pos is False:
-            self.Link.addItem(iconSelf, 'Line{}'.format(table2.rowCount()))
+            self.Link.addItem(iconSelf, 'Line{}'.format(len(Lines)))
             self.Link.setEnabled(False)
         else:
-            for i in range(table2.rowCount()): self.Link.insertItem(i, iconSelf, table2.item(i, 0).text())
+            for i in range(len(Lines)): self.Link.insertItem(i, iconSelf, 'Line{}'.format(i))
             self.Link.setCurrentIndex(pos)
         self.Length.setValidator(mask)
         self.isOk()

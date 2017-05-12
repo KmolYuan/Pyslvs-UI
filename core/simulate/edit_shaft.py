@@ -3,30 +3,29 @@ from ..QtModules import *
 from .Ui_edit_shaft import Ui_Dialog as edit_shaft_Dialog
 
 class edit_shaft_show(QDialog, edit_shaft_Dialog):
-    def __init__(self, table1, table2, Shafts, pos=False, cen=0, ref=0, parent=None):
+    def __init__(self, Point, Shafts, pos=False, parent=None):
         super(edit_shaft_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/circle.png"))
         self.Shafts = Shafts
-        for i in range(table1.rowCount()):
-            self.Shaft_Center.insertItem(i, icon, table1.item(i, 0).text())
-            self.References.insertItem(i, icon, table1.item(i, 0).text())
+        for i, p in enumerate(Point):
+            name = 'Point{}'.format(i)
+            if p.fix: self.Center.insertItem(i, icon, name)
+            else: self.References.insertItem(i, icon, name)
         if pos is False:
-            self.Shaft.addItem(iconSelf, 'Shaft{}'.format(table2.rowCount()))
+            self.Shaft.addItem(iconSelf, 'Shaft{}'.format(len(Shafts)))
             self.Shaft.setEnabled(False)
-            self.Shaft_Center.setCurrentIndex(cen)
-            self.References.setCurrentIndex(ref)
         else:
-            for i in range(table2.rowCount()): self.Shaft.insertItem(i, iconSelf, table2.item(i, 0).text())
+            for i in range(len(Shafts)): self.Shaft.insertItem(i, iconSelf, 'Shaft{}'.format(i))
             self.Shaft.setCurrentIndex(pos)
         self.isOk()
     
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index):
         if len(self.Shafts)>index:
-            self.Shaft_Center.setCurrentIndex(self.Shafts[index].cen)
-            self.References.setCurrentIndex(self.Shafts[index].ref)
+            self.Center.setCurrentIndex(self.Center.findText('Point{}'.format(self.Shafts[index].cen)))
+            self.References.setCurrentIndex(self.References.findText('Point{}'.format(self.Shafts[index].ref)))
             self.Start_Angle.setValue(self.Shafts[index].start)
             self.End_Angle.setValue(self.Shafts[index].end)
             self.isParallelogram.setCheckState(Qt.Checked if self.Shafts[index].isParallelogram else Qt.Unchecked)
@@ -40,12 +39,15 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
     @pyqtSlot()
     def on_End_Angle_editingFinished(self): self.isOk()
     @pyqtSlot(int)
-    def on_Shaft_Center_currentIndexChanged(self, index): self.isOk()
+    def on_Center_currentIndexChanged(self, index): self.isOk()
     @pyqtSlot(int)
     def on_References_currentIndexChanged(self, index): self.isOk()
     def isOk(self):
-        self.center = self.Shaft_Center.currentIndex()
-        self.ref = self.References.currentIndex()
+        try: self.center = int(self.Center.currentText().replace('Point', ''))
+        except: self.center = None
+        try: self.ref = int(self.References.currentText().replace('Point', ''))
+        except: self.ref = None
         self.start = self.Start_Angle.text()
         self.end = self.End_Angle.text()
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.center!=self.ref and self.start!=self.end)
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
+            self.center!=None and self.ref!=None and self.center!=self.ref and self.start!=self.end)

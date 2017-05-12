@@ -6,16 +6,22 @@ from time import sleep
 class playShaft(QThread):
     done = pyqtSignal()
     progress_Signal = pyqtSignal(int)
-    def __init__(self, minima, maxima, parent=None):
+    def __init__(self, startAngle, minima, maxima, parent=None):
         super(playShaft, self).__init__(parent)
         self.stoped = False
         self.mutex = QMutex()
+        self.startAngle = startAngle
         self.minima = minima
         self.maxima = maxima
     
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
-        for t in range(10):
+        for i in range(self.startAngle if self.startAngle>self.minima else self.minima, self.maxima, 300):
+            if self.stoped: return
+            else:
+                sleep(.05)
+                self.progress_Signal.emit(i)
+        for t in range(9):
             for i in range(self.minima, self.maxima, 300):
                 if self.stoped: return
                 else:
@@ -26,7 +32,32 @@ class playShaft(QThread):
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
 
+class playAngle(QThread):
+    done = pyqtSignal(float)
+    progress_Signal = pyqtSignal(int)
+    def __init__(self, startAngle, endAngle, parent=None):
+        super(playAngle, self).__init__(parent)
+        self.stoped = False
+        self.mutex = QMutex()
+        self.startAngle = startAngle
+        self.endAngle = endAngle
+    
+    def run(self):
+        with QMutexLocker(self.mutex): self.stoped = False
+        start = int(self.startAngle*100)
+        end = int((self.endAngle if self.endAngle>self.startAngle else self.endAngle+360)*100)
+        for i in range(start, end+300, 300):
+            if self.stoped: return
+            else:
+                sleep(.05)
+                self.progress_Signal.emit(i)
+        self.done.emit(self.endAngle)
+    
+    def stop(self):
+        with QMutexLocker(self.mutex): self.stoped = True
+
 class Drive_shaft_show(QWidget, Drive_Form):
+    degreeChange = pyqtSignal(float)
     def __init__(self, table, currentShaft, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
@@ -54,34 +85,62 @@ class Drive_shaft_show(QWidget, Drive_Form):
     def on_Degree_text_valueChanged(self, val): self.Degree.setValue(int(val*100))
     
     @pyqtSlot()
+    def on_a0_clicked(self): self.playAngle(360.)
+    @pyqtSlot()
+    def on_a90_clicked(self): self.playAngle(90.)
+    @pyqtSlot()
+    def on_a180_clicked(self): self.playAngle(180.)
+    @pyqtSlot()
+    def on_a270_clicked(self): self.playAngle(270.)
+    @pyqtSlot()
+    def on_a45_clicked(self): self.playAngle(45.)
+    @pyqtSlot()
+    def on_a135_clicked(self): self.playAngle(135.)
+    @pyqtSlot()
+    def on_a225_clicked(self): self.playAngle(225.)
+    @pyqtSlot()
+    def on_a315_clicked(self): self.playAngle(315.)
+    @pyqtSlot()
+    def on_Degree_sliderReleased(self): self.setAngle(self.Degree_text.value())
+    def setAngle(self, angle):
+        self.Degree_text.setValue(angle)
+        self.degreeChange.emit(float(angle))
+    def playAngle(self, angle):
+        self.playShaft = playAngle(self.Degree_text.value(), angle)
+        self.playShaft.done.connect(self.goal)
+        self.startPlay(self.playShaft)
+    
+    @pyqtSlot()
     def playStart(self):
-        self.playShaft = playShaft(self.startAngle, self.endAngle)
+        self.playShaft = playShaft(int(self.Degree_text.value()*100), self.startAngle, self.endAngle)
         self.playShaft.done.connect(self.finish)
-        self.playShaft.progress_Signal.connect(self.playGoing)
-        self.playButton.clicked.disconnect(self.playStart)
-        self.playButton.clicked.connect(self.playStop)
-        self.Degree_text.setEnabled(False)
-        self.Degree.setEnabled(False)
-        self.playButton.setText('Stop')
-        self.playShaft.start()
+        self.startPlay(self.playShaft)
     
     @pyqtSlot(int)
     def playGoing(self, val): self.Degree.setValue(val)
     
+    def startPlay(self, work):
+        work.progress_Signal.connect(self.playGoing)
+        self.playButton.clicked.disconnect(self.playStart)
+        self.playButton.clicked.connect(self.playStop)
+        for widget in [self.a0, self.a90, self.a180, self.a270, self.a45, self.a135, self.a225, self.a315,
+            self.Degree_text, self.Degree]: widget.setEnabled(False)
+        self.playButton.setText('Stop')
+        work.start()
     @pyqtSlot()
-    def finish(self):
-        self.playButton.clicked.disconnect(self.playStop)
-        self.playButton.clicked.connect(self.playStart)
-        self.playButton.setText('Play')
-        self.Degree_text.setEnabled(True)
-        self.Degree.setEnabled(True)
-        self.Degree.setValue(self.demoAngle)
-    
+    def finish(self): self.stopPlay()
+    @pyqtSlot(float)
+    def goal(self, angle):
+        self.stopPlay()
+        self.setAngle(angle)
     @pyqtSlot()
     def playStop(self):
         self.playShaft.stop()
+        self.stopPlay()
+    def stopPlay(self):
         self.playButton.clicked.disconnect(self.playStop)
         self.playButton.clicked.connect(self.playStart)
         self.playButton.setText('Play')
-        self.Degree_text.setEnabled(True)
-        self.Degree.setEnabled(True)
+        for widget in [self.a0, self.a90, self.a180, self.a270, self.a45, self.a135, self.a225, self.a315,
+            self.Degree_text, self.Degree]: widget.setEnabled(True)
+        self.setAngle(self.Degree_text.value())

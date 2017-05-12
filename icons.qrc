@@ -7,10 +7,13 @@
     <file>icons/Solvespace.ico</file>
     <file>icons/github-24.png</file>
     <file>icons/kmol.png</file>
+    <file>icons/picture.png</file>
     <!--File format icons-->
     <file>icons/CSV.png</file>
+    <file>icons/XML.png</file>
     <file>icons/dxf.png</file>
     <file>icons/Logo_Qt.png</file>
+    <file>icons/script.png</file>
     <!--Dialog icons-->
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>
@@ -18,14 +21,18 @@
     <file>icons/auxline.png</file>
     <file>icons/bezier.png</file>
     <file>icons/BrowseGuide.png</file>
+    <file>icons/BrowseAim.png</file>
     <file>icons/char-0-check-false.png</file>
     <file>icons/char-1-check-true.png</file>
     <file>icons/char-2-radio-false.png</file>
     <file>icons/char-3-radio-true.png</file>
     <file>icons/circle.png</file>
+    <file>icons/close.png</file>
     <file>icons/ConflictGuide.png</file>
     <file>icons/constraint.png</file>
     <file>icons/construction.png</file>
+    <file>icons/data.png</file>
+    <file>icons/dataupdate.png</file>
     <file>icons/delete.png</file>
     <file>icons/deletechain.png</file>
     <file>icons/deleteline.png</file>
@@ -46,11 +53,14 @@
     <file>icons/hidden-lines.png</file>
     <file>icons/horiz.png</file>
     <file>icons/in3d.png</file>
+    <file>icons/konsole.png</file>
     <file>icons/length.png</file>
     <file>icons/line.png</file>
+    <file>icons/loadfile.png</file>
     <file>icons/maxmized.png</file>
     <file>icons/mesh.png</file>
     <file>icons/minmized.png</file>
+    <file>icons/newfile.png</file>
     <file>icons/normal.png</file>
     <file>icons/normalsized.png</file>
     <file>icons/ontoworkplane.png</file>
@@ -59,9 +69,12 @@
     <file>icons/perpendicular.png</file>
     <file>icons/point.png</file>
     <file>icons/pointonx.png</file>
+    <file>icons/properties.png</file>
     <file>icons/rectangle.png</file>
+    <file>icons/redo.png</file>
     <file>icons/ref.png</file>
     <file>icons/same-orientation.png</file>
+    <file>icons/savefile.png</file>
     <file>icons/shaded.png</file>
     <file>icons/sketch-in-3d.png</file>
     <file>icons/sketch-in-plane.png</file>
@@ -74,6 +87,7 @@
     <file>icons/TS.png</file>
     <file>icons/text.png</file>
     <file>icons/trim.png</file>
+    <file>icons/undo.png</file>
     <file>icons/vert.png</file>
     <file>icons/workplane.png</file>
   </qresource>

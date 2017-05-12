@@ -3,22 +3,23 @@ from ..QtModules import *
 from .Ui_edit_chain import Ui_Dialog as edit_Dialog
 
 class edit_chain_show(QDialog, edit_Dialog):
-    def __init__(self, mask, table1, table2, Point, Chains, pos=False, parent=None):
+    def __init__(self, mask, Point, Chains, pos=False, parent=None):
         super(edit_chain_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/line.png"))
         self.Point = Point
         self.Chains = Chains
-        for i in range(table1.rowCount()):
-            self.Point1.insertItem(i, icon, table1.item(i, 0).text())
-            self.Point2.insertItem(i, icon, table1.item(i, 0).text())
-            self.Point3.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(len(Point)):
+            name = 'Point{}'.format(i)
+            self.Point1.insertItem(i, icon, name)
+            self.Point2.insertItem(i, icon, name)
+            self.Point3.insertItem(i, icon, name)
         if pos is False:
-            self.Chain.addItem(iconSelf, "Chain"+str(table2.rowCount()))
+            self.Chain.addItem(iconSelf, 'Chain{}'.format(len(Chains)))
             self.Chain.setEnabled(False)
         else:
-            for i in range(table2.rowCount()): self.Chain.insertItem(i, iconSelf, table2.item(i, 0).text())
+            for i in range(len(Chains)): self.Chain.insertItem(i, iconSelf, 'Chain{}'.format(i))
             self.Chain.setCurrentIndex(pos)
         self.p1_p2.setValidator(mask)
         self.p2_p3.setValidator(mask)

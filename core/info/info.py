@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from sys import version_info
-import csv, platform, argparse
+import platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = ('0.6.5', 'stable')
+VERSION = ('0.7.0', 'dev')
 from PyQt5.QtCore import qVersion
 from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 from sip import SIP_VERSION_STR as sipVersion
@@ -27,12 +27,10 @@ parser.add_argument('-i', metavar='Start Path', default=False, nargs='?', type=s
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
 parser.add_argument('-d', '--file-data', action='store_true', help="display the file data in command-line when opening")
-parser.add_argument('-g', '--show-args', action='store_true', help="display the arguments when starting")
 args = parser.parse_args()
 
 def show_info():
     print('\n'.join(INFO))
-    print('-'*7)
     return args
 
 class Pyslvs_Splash(QSplashScreen):
@@ -52,17 +50,23 @@ class version_show(QDialog, Ui_About_Dialog):
         self.setupUi(self)
         self.Title.setText(html(title("Pyslvs", "Version {}({})".format(VERSION[0], VERSION[1]))))
         self.Content.setText(html(content(
-        "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
-        "It can use in Mechanical Design and Simulation.",
-        "This program using Python 3 with Python Solvespace.",
-        "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
-        "Within changing points location, finally give the answer to designer.",
-        "We have these features:")+orderList(
-        "2D Linkages dynamic simulation.",
-        "Dimensional Synthesis of Planar Four-bar Linkages.",
-        "Output points coordinate to Data Sheet (*.csv) format.",
-        "Change canvas appearance.",
-        "Draw dynamic simulation path with any point in the machinery.",
-        "Using triangle iterate the mechanism results.")+content(
-        "If you want to know about more, you can reference by our website.")))
+            "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
+            "It can use in Mechanical Design and Simulation.",
+            "This program using Python 3 with Python Solvespace.",
+            "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
+            "Within changing points location, finally give the answer to designer.",
+            "We have these features:")+orderList(
+            "2D Linkages dynamic simulation.",
+            "Dimensional Synthesis of Planar Four-bar Linkages.",
+            "Output points coordinate to Data Sheet (*.csv) format.",
+            "Change canvas appearance.",
+            "Draw dynamic simulation path with any point in the machinery.",
+            "Using triangle iterate the mechanism results.")+content(
+            "If you want to know about more, you can reference by our website.")))
         self.Versions.setText(html(orderList(*INFO)))
+        self.Arguments.setText(html(orderList(
+            "Initialization loaded file: {}".format(args.r),
+            "Start Path: {}".format(args.i),
+            "Enable solving warning: {}".format(args.w),
+            "Fusion style: {}".format(args.fusion),
+            "Show file data in console: {}".format(args.file_data))))

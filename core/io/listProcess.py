@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from .elements import VPoint, VLine, VChain, VShaft, VSlider, VRod
+from .elements import VPoint, VLine, VChain, VShaft, VSlider, VRod, VParameter
 from collections import defaultdict
-from ..dialog.delete import deleteDlg
 from math import sqrt, acos, degrees
-from .undoRedo import (
-    editTableCommand, addStyleCommand, deleteTableCommand, deleteStyleCommand, changePointNumCommand,
+from .undoRedo import (editTableCommand, deleteTableCommand, changePointNumCommand,
     setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand, TSinitCommand)
 
 class Lists:
@@ -19,24 +17,18 @@ class Lists:
         self.RodList = list()
         self.ParameterList = defaultdict(lambda: 0., dict())
         #Path
-        self.data = list()
-        self.runList = list()
-        self.shaftList = list()
+        self.pathData = list()
         #FileState
         self.FileState = FileState
         #Cosine Theorem
         self.CosineTheoremAngle = lambda a, b, c: acos(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01))
         self.CosineTheoremAngleE = lambda a, b, c: acos(min(1, max(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01), -1)))
     
-    def editTable(self, table, name, edit, *Args, **Style):
+    def editTable(self, table, name, edit, *Args):
         isEdit = not edit is False
         rowPosition = edit if isEdit else table.rowCount()
         self.FileState.beginMacro("{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if name=='n' else '', name, rowPosition))
         self.FileState.push(editTableCommand(table, name, edit, Args))
-        if name=='Point' and not isEdit:
-            rowPosition = Style['styleTable'].rowCount()
-            self.FileState.push(addStyleCommand(**Style))
-            print("- Add style of {{Point{}}}".format(rowPosition))
         if not isEdit: table.scrollToBottom()
         self.FileState.endMacro()
     
@@ -45,11 +37,12 @@ class Lists:
         self.FileState.push(deleteTableCommand(table, name, index, isRename))
         self.FileState.endMacro()
     
-    def deletePointTable(self, Point, Style, Line, Chain, Shaft, Slider, Rod, pos):
+    def deletePointTable(self, Point, Line, Chain, Shaft, Slider, Rod, pos):
         #Associated items
         n = False
-        for i in [int(e.replace('Point', '')) for e in self.runList]:
-            if i>=pos: n = True
+        for paths in [e.paths for e in self.pathData]:
+            for path in paths:
+                if path.point>=pos: n = True
         if n: self.clearPath()
         for e in self.LineList:
             if pos in [e.start, e.end]: self.deleteTable(Line, 'Line', self.LineList.index(e))
@@ -64,7 +57,6 @@ class Lists:
         #Change Number and Delete Point
         self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
         self.replacePoint(Line, Chain, Shaft, Slider, Rod, pos, lambda x, y: x>y, lambda x: x-1)
-        self.FileState.push(deleteStyleCommand(Style, pos))
         self.FileState.push(deleteTableCommand(Point, 'Point', pos))
         self.FileState.endMacro()
     
@@ -111,18 +103,6 @@ class Lists:
             for k in column:
                 if table.item(row, k).text()=='n{}'.format(pos): self.FileState.push(changePointNumCommand(table, self.ParameterList[pos], row, k, 'n'))
     
-    def lineNodeReversion(self, table, row):
-        start = self.PointList[self.LineList[row].start]
-        end = self.PointList[self.LineList[row].end]
-        if end.fix==False:
-            x = str(end.x)
-            y = str(end.y-2*(end.y-start.y))
-            self.editTable(table, 'Point', self.LineList[row].end, x, y, False)
-        elif start.fix==False:
-            x = str(start.x)
-            y = str(start.y-2*(start.y-end.y))
-            self.editTable(table, 'Point', self.LineList[row].start, x, y, False)
-    
     def batchMove(self, table, x, y, Points):
         self.FileState.beginMacro("Batch move {{{}}}".format(', '.join(['Point{}'.format(i) for i in Points])))
         for row in Points: self.FileState.push(editTableCommand(table, 'Point', row,
@@ -140,15 +120,18 @@ class Lists:
         self.update(Rod, 'Rod')
     
     def update(self, table, name):
-        lst = list() if not name=='Parameter' else defaultdict(lambda: 0., dict())
+        lst = list() if name!='Parameter' else defaultdict(lambda: 0., dict())
         for i in range(table.rowCount()):
-            if name=='Parameter': lst[int(table.item(i, 0).text().replace('n', ''))] = float(table.item(i, 1).text())
+            if name=='Parameter':
+                k = {int(table.item(i, 0).text().replace('n', '')):
+                    VParameter(float(table.item(i, 1).text()), table.item(i, 2).text())}
             elif name=='Point':
                 k = VPoint(self.toFloat(table.item(i, 1).text()),
                     self.toFloat(table.item(i, 2).text()),
-                    bool(table.item(i, 3).checkState()))
-                try: k.move(float(table.item(i, 4).text().replace('(', str()).replace(')', str()).split(', ')[0]),
-                    float(table.item(i, 4).text().replace('(', str()).replace(')', str()).split(', ')[1]))
+                    bool(table.item(i, 3).checkState()),
+                    table.item(i, 4).text())
+                try: k.move(float(table.item(i, 5).text().replace('(', str()).replace(')', str()).split(', ')[0]),
+                    float(table.item(i, 5).text().replace('(', str()).replace(')', str()).split(', ')[1]))
                 except: pass
             elif name=='Line':
                 k = VLine(int(table.item(i, 1).text().replace('Point', str())),
@@ -177,7 +160,8 @@ class Lists:
                     int(table.item(i, 2).text().replace('Point', str())),
                     int(table.item(i, 3).text().replace('Point', str())),
                     float(table.item(i, 4).text()))
-            if not name=='Parameter': lst.append(k)
+            if name!='Parameter': lst.append(k)
+            else: lst.update(k)
         if name=='Parameter': self.ParameterList = lst
         elif name=='Point': self.PointList = lst
         elif name=='Line': self.LineList = lst
@@ -186,50 +170,44 @@ class Lists:
         elif name=='Slider': self.SliderList = lst
         elif name=='Rod': self.RodList = lst
     
-    def toFloat(self, p): return float(self.ParameterList[int(p.replace('n', ''))] if 'n' in p else p)
+    def toFloat(self, p): return float(self.ParameterList[int(p.replace('n', ''))].val if 'n' in p else p)
     
-    def coverageCoordinate(self, table, row):
-        e = self.PointList[row]
-        self.editTable(table, 'Point', row, str(e.cx), str(e.cy), e.fix)
-    
-    def styleFix(self, table, fix, edit):
-        rowPosition = edit
-        if fix: fix_set = QTableWidgetItem('10')
-        else: fix_set = QTableWidgetItem('5')
-        fix_set.setFlags(Qt.ItemIsEnabled)
-        table.setItem(rowPosition, 2, fix_set)
+    def coverageCoordinate(self, table):
+        for i, e in enumerate(self.PointList[1:]):
+            cx = e.cx if e.fix else float(round(e.cx))
+            cy = e.cy if e.fix else float(round(e.cy))
+            self.editTable(table, 'Point', i+1, cx, cy, e.fix)
     
     def currentPos(self, table, result):
         for i in range(table.rowCount()):
             name = "({}, {})".format(result[i]['x'], result[i]['y'])
             digit = QTableWidgetItem(name)
             digit.setToolTip(name)
-            table.setItem(i, 4, digit)
+            table.setItem(i, 5, digit)
         self.update(table, 'Point')
     
     def link2Shaft(self, table, row):
         cen = self.LineList[row].start
         ref = self.LineList[row].end
-        self.editTable(table, 'Shaft', False,
-            cen, ref, 0., 360., self.m(cen, ref), False)
+        self.editTable(table, 'Shaft', False, cen, ref, 0., 360., self.m(cen, ref), False)
     
     def setDemo(self, name, row, pos):
         if name=='Shaft': self.ShaftList[row].demo = pos
         elif name=='Rod': self.RodList[row].pos = pos
     def saveDemo(self, table, name, pos, row, column):
-        self.FileState.beginMacro("Adjust demo {} {{{}{}}}".format('angle' if name=='Shaft' else 'position', name, row))
+        self.FileState.beginMacro("Adjust demo {} {} {{{}{}}}".format('angle' if name=='Shaft' else 'position', pos, name, row))
         self.FileState.push(demoValueCommand(table, row, pos, column))
         print("- Moved to ({})".format(str(pos)+' deg' if name=='Shaft' else pos))
         self.FileState.endMacro()
     
-    def setPath(self, path, runList, shaftList):
+    def setPath(self, path):
         self.FileState.beginMacro("Set {Path}")
-        self.FileState.push(setPathCommand(self.data, self.runList, self.shaftList, path, runList, shaftList))
+        self.FileState.push(setPathCommand(self.pathData, path))
         self.FileState.endMacro()
     
     def clearPath(self):
         self.FileState.beginMacro("Clear {Path}")
-        self.FileState.push(clearPathCommand(self.data, self.runList, self.shaftList))
+        self.FileState.push(clearPathCommand(self.pathData))
         self.FileState.endMacro()
     
     def shaftChange(self, table, prv, next):
@@ -253,24 +231,26 @@ class Lists:
 
 class Designs():
     def __init__(self, FileState):
-        self.list = list()
+        self.path = list()
         self.result = list()
         self.TSDirections = list()
         self.FileState = FileState
     
-    def add(self, x, y): self.list.append({'x':x, 'y':y})
-    def remove(self, pos): del self.list[pos]
+    def setPath(self, path): self.path = path
+    def addResult(self, result): self.result = result
+    def add(self, x, y): self.path.append({'x':x, 'y':y})
+    def remove(self, pos): del self.path[pos]
     def removeResult(self, pos): del self.result[pos]
     def moveUP(self, row):
-        if row>0 and len(self.list)>1:
-            self.list.insert(row-1, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
-            del self.list[row+1]
+        if row>0 and len(self.path)>1:
+            self.path.insert(row-1, {'x':self.path[row]['x'], 'y':self.path[row]['y']})
+            del self.path[row+1]
     def moveDown(self, row):
-        if row<len(self.list)-1 and len(self.list)>1:
-            self.list.insert(row+2, {'x':self.list[row]['x'], 'y':self.list[row]['y']})
-            del self.list[row]
+        if row<len(self.path)-1 and len(self.path)>1:
+            self.path.insert(row+2, {'x':self.path[row]['x'], 'y':self.path[row]['y']})
+            del self.path[row]
     
-    def addDirections(self, Direction):
+    def setDirections(self, Direction):
         self.FileState.beginMacro("Input {TS Direction}")
         self.FileState.push(TSinitCommand(self.TSDirections, Direction))
         self.FileState.endMacro()

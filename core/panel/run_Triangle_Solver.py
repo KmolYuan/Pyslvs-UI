@@ -3,8 +3,8 @@ from ..QtModules import *
 from .Ui_run_Triangle_Solver import Ui_Form as Triangle_Solver_Form
 from .run_Triangle_Solver_edit import Triangle_Solver_edit_show
 from .run_Triangle_Solver_template import Triangle_Solver_template_show
-from ..io.undoRedo import (TSinitCommand, TSeditCommand, TSdeleteCommand)
-from ..kernel.pyslvs_triangle_solver.TS import solver, Direction
+from ..io.undoRedo import TSeditCommand, TSdeleteCommand
+from ..kernel.pyslvs_triangle_solver.TS import solver
 from copy import deepcopy
 
 class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
@@ -41,8 +41,8 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.directionsTable.setItem(row, 4, conditionItem)
     
     def editDirection(self, name, edit=False):
-        if edit is False: dlg = Triangle_Solver_edit_show(self.Point, self.directionsTable.rowCount(), name)
-        else: dlg = Triangle_Solver_edit_show(self.Point, edit, self.directions[edit].Type, **self.directions[edit].items())
+        if edit is False: dlg = Triangle_Solver_edit_show(self.Point, self.directionsTable.rowCount(), name, parent=self)
+        else: dlg = Triangle_Solver_edit_show(self.Point, edit, self.directions[edit].Type, parent=self, **self.directions[edit].items())
         dlg.show()
         if dlg.exec_():
             direction = dlg.condition
@@ -60,7 +60,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     def on_pluse_PPP_clicked(self): self.editDirection('PPP')
     
     def addTemplate(self, name):
-        dlg = Triangle_Solver_template_show(self.Point, self.directionsTable.rowCount(), name)
+        dlg = Triangle_Solver_template_show(self.Point, self.directionsTable.rowCount(), name, self)
         dlg.show()
         if dlg.exec_():
             for e in dlg.conditions:

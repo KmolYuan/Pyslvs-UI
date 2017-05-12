@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 class VPoint:
-    def __init__(self, x=0., y=0., fix=False):
+    def __init__(self, x=0., y=0., fix=False, color='Red'):
         self.set(x, y, fix)
+        self.setColor(color)
         self._cx = self._x
         self._cy = self._y
     @property
@@ -16,6 +17,8 @@ class VPoint:
     @property
     def fix(self): return self._fix
     @property
+    def color(self): return self._color
+    @property
     def cx(self): return self._cx
     @property
     def cy(self): return self._cy
@@ -25,13 +28,25 @@ class VPoint:
         self._y = y
         self._fix = fix
     
-    def move(self, x=0., y=0.):
+    def round(self, d=8):
+        self._x = round(self._x, d)
+        self._y = round(self._y, d)
+    
+    def setColor(self, color='Red'): self._color = color
+    
+    def move(self, x=None, y=None):
+        if x==None: x = self._x
+        if y==None: y = self._y
         self._cx = x
         self._cy = y
     
     def reset(self):
         self._x = self._cx
         self._y = self._cy
+    
+    def items(self, index=0): return ('Point{}'.format(index), self.x, self.y, self.fix, self.color)
+    def items_tags(self, index=0):
+        return ('Point{}'.format(index), ('x', self.x), ('y', self.y), ('fix', self.fix), ('color', self.color))
     
     def __str__(self): return "<Point x={v.x} y={v.y} fix={v.fix} cx={v.cx} cy={v.cy}>".format(v=self)
 
@@ -48,6 +63,10 @@ class VLine:
         self._start = start
         self._end = end
         self._len = len
+    
+    def items(self, index=0): return ('Line{}'.format(index), self.start, self.end, self.len)
+    def items_tags(self, index=0):
+        return ('Line{}'.format(index), ('start', self.start), ('end', self.end), ('len', self.len))
     
     def __contains__(self, point): return point==self._start or point==self._end
     def __str__(self): return "<Line start={v.start} end={v.end} len={v.len}>".format(v=self)
@@ -74,6 +93,10 @@ class VChain:
         self._p1p2 = p1p2
         self._p2p3 = p2p3
         self._p1p3 = p1p3
+    
+    def items(self, index=0): return ('Chain{}'.format(index), self.p1, self.p2, self.p3, self.p1p2, self.p2p3, self.p1p3)
+    def items_tags(self, index=0):
+        return ('Chain{}'.format(index), ('p1', self.p1), ('p2', self.p2), ('p3', self.p3), ('p1p2', self.p1p2), ('p2p3', self.p2p3), ('p1p3', self.p1p3))
     
     def __contains__(self, point): return point==self._p1 or point==self._p2 or point==self._p3
     def __str__(self):
@@ -107,6 +130,10 @@ class VShaft:
     def drive(self, demo):
         if demo>self._start and demo<self._end: self._demo = demo
     
+    def items(self, index=0): return ('Shaft{}'.format(index), self.cen, self.ref, self.start, self.end, self.demo, self.isParallelogram)
+    def items_tags(self, index=0):
+        return ('Shaft{}'.format(index), ('cen', self.cen), ('ref', self.ref), ('start', self.start), ('end', self.end), ('demo', self.demo), ('isParallelogram', self.isParallelogram))
+    
     def __contains__(self, point): return point==self._cen or point==self._ref
     def __str__(self):
         return "<Shaft cen={v.cen} ref={v.ref} start={v.start}, end={v.end} demo={v.demo} isParallelogram={v.isParallelogram}>".format(v=self)
@@ -125,6 +152,10 @@ class VSlider:
         self._start = start
         self._end = end
     
+    def items(self, index=0): return ('Slider{}'.format(index), self.cen, self.start, self.end)
+    def items_tags(self, index=0):
+        return ('Slider{}'.format(index), ('cen', self.cen), ('start', self.start), ('end', self.end))
+    
     def __contains__(self, point): return point==self._cen or point==self._start or point==self._end
     def __str__(self):
         return "<Slider cen={v.cen} start={v.start} end={v.end}>".format(v=self)
@@ -140,9 +171,66 @@ class VRod(VSlider):
         super(VRod, self).set(cen, start, end)
         self._pos = pos
     
+    def items(self, index=0): return ('Rod{}'.format(index), self.cen, self.start, self.end, self.pos)
+    def items_tags(self, index=0):
+        return ('Rod{}'.format(index), ('cen', self.cen), ('start', self.start), ('end', self.end), ('pos', self.pos))
+    
     def __str__(self):
         return "<Rod cen={v.cen} start={v.start} end={v.end} pos={v.pos}>".format(v=self)
 
+class VParameter:
+    def __init__(self, val=0., commit=''): self.set(val, commit)
+    @property
+    def val(self): return self._val
+    @property
+    def commit(self): return self._commit
+    
+    def set(self, val=0., commit=''):
+        self._val = val
+        self._commit = commit
+    
+    def items(self, index=0): return ('n{}'.format(index), self.val, self.commit)
+    def items_tags(self, index=0):
+        return ('n{}'.format(index), ('val', self.val), ('commit', self.commit))
+    
+    def __str__(self): return "<Parameter val={v.val} commit=\"{v.commit}\">".format(v=self)
+
+class VPath:
+    def __init__(self, point=0, points=list()): self.set(point, points)
+    @property
+    def point(self): return self._point
+    @property
+    def path(self): return self._path
+    
+    def set(self, point=0, points=list()):
+        self._point = point
+        self._path = list()
+        if points:
+            for p in points:
+                PointType = type(p)
+                if PointType==tuple or PointType==list or p==None: self._path.append(p)
+    
+    def __str__(self): return "<Path point={v.point} path={v.path}>".format(v=self)
+
+class VPaths:
+    def __init__(self, shaft=0, paths=list()): self.set(shaft, paths)
+    @property
+    def shaft(self): return self._shaft
+    @property
+    def paths(self): return self._paths
+    
+    def set(self, shaft=0, paths=list()):
+        self._shaft = shaft
+        self._paths = list()
+        if paths:
+            for path in paths:
+                if type(path)==VPath: self._paths.append(path)
+    
+    def __str__(self): return "<Paths shaft={v.shaft} paths={v.paths}>".format(v=self)
+
 if __name__=='__main__':
-    a = VSlider(1, 0, 2)
-    print(a.end)
+    a = VPath(1, (None, (0, 2)))
+    b = VPath(2, ((3, 5), (0, 2)))
+    print(a.path)
+    c = VPaths(0, (a, b))
+    print(c.paths)

@@ -3,21 +3,22 @@ from ..QtModules import *
 from .Ui_edit_rod import Ui_Dialog as edit_rod_Dialog
 
 class edit_rod_show(QDialog, edit_rod_Dialog):
-    def __init__(self, table1, table2, Rods, pos=False, parent=None):
+    def __init__(self, Point, Rods, pos=False, parent=None):
         super(edit_rod_show, self).__init__(parent)
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/spring.png"))
         self.Rods = Rods
-        for i in range(table1.rowCount()):
-                self.Center.insertItem(i, icon, table1.item(i, 0).text())
-                self.Start.insertItem(i, icon, table1.item(i, 0).text())
-                self.End.insertItem(i, icon, table1.item(i, 0).text())
+        for i in range(len(Point)):
+            name = 'Point{}'.format(i)
+            self.Center.insertItem(i, icon, name)
+            self.Start.insertItem(i, icon, name)
+            self.End.insertItem(i, icon, name)
         if pos is False:
-            self.Rod.addItem(iconSelf, "Rod"+str(table2.rowCount()))
+            self.Rod.addItem(iconSelf, 'Rod{}'.format(len(Rods)))
             self.Rod.setEnabled(False)
         else:
-            for i in range(table2.rowCount()): self.Rod.insertItem(i, iconSelf, table2.item(i, 0).text())
+            for i in range(len(Rods)): self.Rod.insertItem(i, iconSelf, 'Rod{}'.format(i))
             self.Rod.setCurrentIndex(pos)
         self.isOk()
     

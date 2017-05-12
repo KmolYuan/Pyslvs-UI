@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
-from ..calculation.color import colorName
+from ..graphics.color import colorName
 from .Ui_run_AuxLine import Ui_Form as AuxLine_Form
 
 class AuxLine_show(QWidget, AuxLine_Form):
