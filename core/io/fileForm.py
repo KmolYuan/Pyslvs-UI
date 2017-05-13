@@ -191,38 +191,45 @@ class File:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%3==0:
                 for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'n', False, li[i+1], li[i+2])
+            else: raise ValueError
         except: errorInfo.append('Parameter')
         if not 'Parameter' in errorInfo:
             try:
                 li = data[tableIndex[0]:tableIndex[1]]
                 if (len(li)-1)%5==0:
                     for i in range(1, len(li), 5): self.Lists.editTable(Point, 'Point', False, li[i+1], li[i+2], li[i+3]=='True', li[i+4])
+                else: raise ValueError
             except: errorInfo.append('Point')
         if not 'Parameter' in errorInfo and not 'Point' in errorInfo:
             try:
                 li = data[tableIndex[1]:tableIndex[2]]
                 if (len(li)-1)%4==0:
                     for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3])
+                else: raise ValueError
             except: errorInfo.append('Link')
             try:
                 li = data[tableIndex[2]:tableIndex[3]]
                 if (len(li)-1)%7==0:
                     for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4], li[i+5], li[i+6])
+                else: raise ValueError
             except: errorInfo.append('Chain')
             try:
                 li = data[tableIndex[3]:tableIndex[4]]
-                if (len(li)-1)%7==0:
-                    for i in range(1, len(li), 7): self.Lists.editTable(Shaft, 'Shaft', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3], li[i+4], li[i+5], li[i+6]=='True')
+                if (len(li)-1)%6==0:
+                    for i in range(1, len(li), 6): self.Lists.editTable(Shaft, 'Shaft', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3], li[i+4], li[i+5])
+                else: raise ValueError
             except: errorInfo.append('Shaft')
             try:
                 li = data[tableIndex[4]:tableIndex[5]]
                 if (len(li)-1)%4==0:
                     for i in range(1, len(li), 4): self.Lists.editTable(Slider, 'Slider', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b))
+                else: raise ValueError
             except: errorInfo.append('Slider')
             try:
                 li = data[tableIndex[5]:tableIndex[6]]
                 if (len(li)-1)%5==0:
                     for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4])
+                else: raise ValueError
             except: errorInfo.append('Rod')
         #design
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]

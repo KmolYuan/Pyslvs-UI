@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.2
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -172,6 +172,7 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.tab)
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.Parameter_Widget = QtWidgets.QWidget(self.tab)
         self.Parameter_Widget.setObjectName("Parameter_Widget")
@@ -440,7 +441,7 @@ class Ui_MainWindow(object):
         self.Shaft.setVerticalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Shaft.setHorizontalScrollMode(QtWidgets.QAbstractItemView.ScrollPerPixel)
         self.Shaft.setObjectName("Shaft")
-        self.Shaft.setColumnCount(7)
+        self.Shaft.setColumnCount(6)
         self.Shaft.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         icon8 = QtGui.QIcon()
@@ -457,8 +458,6 @@ class Ui_MainWindow(object):
         self.Shaft.setHorizontalHeaderItem(4, item)
         item = QtWidgets.QTableWidgetItem()
         self.Shaft.setHorizontalHeaderItem(5, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.Shaft.setHorizontalHeaderItem(6, item)
         self.Shaft.horizontalHeader().setDefaultSectionSize(120)
         self.Shaft.horizontalHeader().setMinimumSectionSize(90)
         self.Drive_Shaft_Layout.addWidget(self.Shaft)
@@ -621,6 +620,7 @@ class Ui_MainWindow(object):
         self.Panels = QtWidgets.QWidget()
         self.Panels.setObjectName("Panels")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.Panels)
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.widget_2 = QtWidgets.QWidget(self.Panels)
         self.widget_2.setObjectName("widget_2")
@@ -653,7 +653,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 414, 298))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 388, 330))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -1392,7 +1392,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1448,8 +1448,6 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End Angle(deg)"))
         item = self.Shaft.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "Demo Angle(deg)"))
-        item = self.Shaft.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "Parallelogram?"))
         self.Simulate_tab.setTabText(self.Simulate_tab.indexOf(self.Shaft_tab), _translate("MainWindow", "Shaft"))
         self.Slider_Widget.setStatusTip(_translate("MainWindow", "All slider will show here. Needs a point and a link."))
         self.reqSlider.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 3 Points.</span></p></body></html>"))

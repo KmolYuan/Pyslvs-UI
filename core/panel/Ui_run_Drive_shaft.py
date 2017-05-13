@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\panel\run_Drive_shaft.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/panel/run_Drive_shaft.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.2
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -51,8 +51,8 @@ class Ui_Form(object):
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.verticalLayout_3.addWidget(self.line)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.anglePanel = QtWidgets.QHBoxLayout()
+        self.anglePanel.setObjectName("anglePanel")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.a0 = QtWidgets.QPushButton(Form)
@@ -67,18 +67,7 @@ class Ui_Form(object):
         self.a270 = QtWidgets.QPushButton(Form)
         self.a270.setObjectName("a270")
         self.verticalLayout.addWidget(self.a270)
-        self.horizontalLayout.addLayout(self.verticalLayout)
-        self.Degree = QtWidgets.QDial(Form)
-        self.Degree.setMinimumSize(QtCore.QSize(150, 150))
-        self.Degree.setMaximum(36000)
-        self.Degree.setSingleStep(100)
-        self.Degree.setPageStep(1000)
-        self.Degree.setInvertedAppearance(True)
-        self.Degree.setWrapping(True)
-        self.Degree.setNotchTarget(0.0045)
-        self.Degree.setNotchesVisible(True)
-        self.Degree.setObjectName("Degree")
-        self.horizontalLayout.addWidget(self.Degree)
+        self.anglePanel.addLayout(self.verticalLayout)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.a45 = QtWidgets.QPushButton(Form)
@@ -93,10 +82,10 @@ class Ui_Form(object):
         self.a315 = QtWidgets.QPushButton(Form)
         self.a315.setObjectName("a315")
         self.verticalLayout_2.addWidget(self.a315)
-        self.horizontalLayout.addLayout(self.verticalLayout_2)
+        self.anglePanel.addLayout(self.verticalLayout_2)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
-        self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.anglePanel.addItem(spacerItem1)
+        self.verticalLayout_3.addLayout(self.anglePanel)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_3.addItem(spacerItem2)
         self.label.raise_()

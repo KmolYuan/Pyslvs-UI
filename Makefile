@@ -7,16 +7,11 @@ build: launch_pyslvs.py
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
 	$(eval PYTHON = py$(shell python -c "import sys, platform;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]))+('w' if platform.system().lower()=='windows' else '');sys.stdout.write(t)"))
+	$(eval CPPYTHON = cp$(shell python -c "import sys, platform;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	@echo --Python Version $(PYTHON)--
 	rename .\core\kernel\kernel_getter.py _kernel_getter.py
 	rename .\core\kernel\$(PYTHON).py kernel_getter.py
-	pyinstaller $< -i ./icons/main_big.ico
-	python setup.py build
-	@echo ---Copying Folder and Files---
-	$(eval PYTHOND = $(shell python -c "import sys, platform;t='{v[0]}.{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
-	xcopy .\build\exe.win-amd64-$(PYTHOND)\core\kernel\$(PYTHON) .\dist\launch_pyslvs\core\kernel\$(PYTHON) /s /y /i
-	xcopy .\build\exe.win-amd64-$(PYTHOND)\core\kernel\pyslvs_generate\$(PYTHON) .\dist\launch_pyslvs\core\kernel\pyslvs_generate\$(PYTHON) /s /y /i
-	rename .\dist\launch_pyslvs Pyslvs
+	pyinstaller -F $< -i ./icons/main_big.ico --add-binary="core/kernel/$(PYTHON)/libslvs.so;." --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/de.$(CPPYTHON)-win_amd64.pyd;." --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/firefly.$(CPPYTHON)-win_amd64.pyd;." --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/rga.$(CPPYTHON)-win_amd64.pyd;." --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
 	rename .\core\kernel\kernel_getter.py $(PYTHON).py
 	rename .\core\kernel\_kernel_getter.py kernel_getter.py
 else
@@ -31,9 +26,9 @@ else
 endif
 	@echo ---Done---
 
-run: build dist/Pyslvs
+run: build dist/
 ifeq ($(OS),Windows_NT)
-	@dist/Pyslvs/launch_pyslvs.exe
+	@dist/launch_pyslvs.exe
 else
 	@dist/Pyslvs/launch_pyslvs
 endif

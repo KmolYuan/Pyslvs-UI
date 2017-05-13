@@ -56,11 +56,37 @@ class playAngle(QThread):
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
 
+class RotatableView(QGraphicsView):
+    def __init__(self, item):
+        QGraphicsView.__init__(self)
+        scene = QGraphicsScene(self)
+        self.setScene(scene)
+        graphics_item = scene.addWidget(item)
+        graphics_item.setRotation(-90)
+        # make the QGraphicsView invisible
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setFixedHeight(item.height())
+        self.setFixedWidth(item.width())
+        self.setStyleSheet("border: 0px;")
+
 class Drive_shaft_show(QWidget, Drive_Form):
     degreeChange = pyqtSignal(float)
     def __init__(self, table, currentShaft, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
+        self.Degree = QDial()
+        self.Degree.setMinimumSize(QSize(150, 150))
+        self.Degree.setMaximum(36000)
+        self.Degree.setSingleStep(100)
+        self.Degree.setPageStep(100)
+        self.Degree.setInvertedAppearance(True)
+        self.Degree.setWrapping(True)
+        self.Degree.setNotchTarget(.1)
+        self.Degree.setNotchesVisible(True)
+        self.Degree.valueChanged.connect(self.on_Degree_valueChanged)
+        self.Degree.sliderReleased.connect(self.on_Degree_sliderReleased)
+        self.anglePanel.insertWidget(1, RotatableView(self.Degree))
         self.table = table
         for i in range(len(table)): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
         self.Shaft.setCurrentIndex(currentShaft)
@@ -85,7 +111,7 @@ class Drive_shaft_show(QWidget, Drive_Form):
     def on_Degree_text_valueChanged(self, val): self.Degree.setValue(int(val*100))
     
     @pyqtSlot()
-    def on_a0_clicked(self): self.playAngle(360.)
+    def on_a0_clicked(self): self.playAngle(0.)
     @pyqtSlot()
     def on_a90_clicked(self): self.playAngle(90.)
     @pyqtSlot()

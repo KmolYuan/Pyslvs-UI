@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-05-12, 11:51:44 -->
+<!-- Saved: 2017-05-13, 13:40:49 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -33,13 +33,13 @@
     <Source>core/dialog/delete.py</Source>
     <Source>core/dialog/replacePoint.py</Source>
     <Source>core/dialog/run_Path_Track.py</Source>
-    <Source>core/draw/Ui_edit_chain.py</Source>
-    <Source>core/draw/Ui_edit_link.py</Source>
-    <Source>core/draw/Ui_edit_point.py</Source>
-    <Source>core/draw/__init__.py</Source>
-    <Source>core/draw/edit_chain.py</Source>
-    <Source>core/draw/edit_link.py</Source>
-    <Source>core/draw/edit_point.py</Source>
+    <Source>core/entities/Ui_edit_chain.py</Source>
+    <Source>core/entities/Ui_edit_link.py</Source>
+    <Source>core/entities/Ui_edit_point.py</Source>
+    <Source>core/entities/__init__.py</Source>
+    <Source>core/entities/edit_chain.py</Source>
+    <Source>core/entities/edit_link.py</Source>
+    <Source>core/entities/edit_point.py</Source>
     <Source>core/graphics/ChartGraphics.py</Source>
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas_0.py</Source>
@@ -124,9 +124,9 @@
     <Form>core/dialog/delete.ui</Form>
     <Form>core/dialog/replacePoint.ui</Form>
     <Form>core/dialog/run_Path_Track.ui</Form>
-    <Form>core/draw/edit_chain.ui</Form>
-    <Form>core/draw/edit_link.ui</Form>
-    <Form>core/draw/edit_point.ui</Form>
+    <Form>core/entities/edit_chain.ui</Form>
+    <Form>core/entities/edit_link.ui</Form>
+    <Form>core/entities/edit_point.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
     <Form>core/info/info.ui</Form>
     <Form>core/info/path_point_data.ui</Form>

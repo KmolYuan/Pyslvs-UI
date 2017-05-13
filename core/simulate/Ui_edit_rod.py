@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\simulate\edit_rod.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/simulate/edit_rod.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.2
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -142,7 +142,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Piston / Spring"))
+        Dialog.setWindowTitle(_translate("Dialog", "Rod / Piston"))
         self.label_3.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Choose Points for this Rod.</span></p></body></html>"))
         self.label_5.setText(_translate("Dialog", "<html><head/><body><p>Name</p></body></html>"))
         self.label_4.setText(_translate("Dialog", "Drive Point"))

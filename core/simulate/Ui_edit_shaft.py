@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\simulate\edit_shaft.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/simulate/edit_shaft.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.2
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -106,9 +106,6 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addWidget(self.buttonBox)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem)
-        self.isParallelogram = QtWidgets.QCheckBox(Dialog)
-        self.isParallelogram.setObjectName("isParallelogram")
-        self.verticalLayout_2.addWidget(self.isParallelogram)
         self.horizontalLayout.addLayout(self.verticalLayout_2)
 
         self.retranslateUi(Dialog)
@@ -129,7 +126,6 @@ class Ui_Dialog(object):
         self.References.setWhatsThis(_translate("Dialog", "End point for next link."))
         self.label_7.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">Must be a fixed point</span></p></body></html>"))
         self.label_8.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">Must not be a fixed point</span></p></body></html>"))
-        self.isParallelogram.setText(_translate("Dialog", "Parallelogram?"))
 
 import icons_rc
 

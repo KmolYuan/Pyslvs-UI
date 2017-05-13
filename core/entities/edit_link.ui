@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Edit Link</string>
+   <string>Link</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">

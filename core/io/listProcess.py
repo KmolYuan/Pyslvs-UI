@@ -149,8 +149,7 @@ class Lists:
                     int(table.item(i, 2).text().replace('Point', str())),
                     float(table.item(i, 3).text()),
                     float(table.item(i, 4).text()),
-                    float(table.item(i, 5).text()),
-                    bool(table.item(i, 6).checkState()))
+                    float(table.item(i, 5).text()))
             elif name=='Slider':
                 k = VSlider(int(table.item(i, 1).text().replace('Point', str())),
                     int(table.item(i, 2).text().replace('Point', str())),

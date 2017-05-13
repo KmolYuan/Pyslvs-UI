@@ -90,7 +90,6 @@ def crankRocker():
       <start>0.0</start>
       <end>360.0</end>
       <demo>70.07</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>
@@ -388,7 +387,6 @@ def DragLink():
       <start>0.0</start>
       <end>360.0</end>
       <demo>36.51</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>
@@ -675,7 +673,6 @@ def doubleRocker():
       <start>0.0</start>
       <end>360.0</end>
       <demo>81.09</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>
@@ -887,7 +884,6 @@ def parallelogramLinkage():
       <start>0.0</start>
       <end>360.0</end>
       <demo>117.05</demo>
-      <isParallelogram>True</isParallelogram>
     </element>
   </table>
 </pyslvs>
@@ -997,7 +993,6 @@ def mutipleLink():
       <start>0.0</start>
       <end>360.0</end>
       <demo>45.0</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>
@@ -1258,7 +1253,6 @@ def twoMutipleLink():
       <start>0.0</start>
       <end>360.0</end>
       <demo>360.0</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>
@@ -2187,7 +2181,6 @@ def FourBarFeet():
       <start>0.0</start>
       <end>360.0</end>
       <demo>272.19</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>
@@ -2684,7 +2677,6 @@ def rockSlider():
       <start>0.0</start>
       <end>70.0</end>
       <demo>39.17</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <table name="Slider">
@@ -2984,7 +2976,6 @@ def reverseParsingRocker():
       <start>0.0</start>
       <end>360.0</end>
       <demo>360.0</demo>
-      <isParallelogram>False</isParallelogram>
     </element>
   </table>
   <path>

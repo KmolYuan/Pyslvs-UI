@@ -103,7 +103,7 @@ class VChain:
         return "<Chain p1={v.p1} p2={v.p2} p3={v.p3} p1p2={v.p1p2} p2p3={v.p2p3} p1p3={v.p1p3}>".format(v=self)
 
 class VShaft:
-    def __init__(self, cen=0, ref=0, start=0., end=360., demo=0., isParallelogram=False): self.set(cen, ref, start, end, demo, isParallelogram)
+    def __init__(self, cen=0, ref=0, start=0., end=360., demo=0.): self.set(cen, ref, start, end, demo)
     @property
     def cen(self): return self._cen
     @property
@@ -116,27 +116,24 @@ class VShaft:
     def demo(self): return self._demo
     @demo.setter
     def demo(self, demo): self._demo = demo
-    @property
-    def isParallelogram(self): return self._isParallelogram
     
-    def set(self, cen=0, ref=0, start=0., end=360., demo=0., isParallelogram=False):
+    def set(self, cen=0, ref=0, start=0., end=360., demo=0.):
         self._cen = cen
         self._ref = ref
         self._start = start
         self._end = end
         self._demo = demo
-        self._isParallelogram = isParallelogram
     
     def drive(self, demo):
         if demo>self._start and demo<self._end: self._demo = demo
     
-    def items(self, index=0): return ('Shaft{}'.format(index), self.cen, self.ref, self.start, self.end, self.demo, self.isParallelogram)
+    def items(self, index=0): return ('Shaft{}'.format(index), self.cen, self.ref, self.start, self.end, self.demo)
     def items_tags(self, index=0):
-        return ('Shaft{}'.format(index), ('cen', self.cen), ('ref', self.ref), ('start', self.start), ('end', self.end), ('demo', self.demo), ('isParallelogram', self.isParallelogram))
+        return ('Shaft{}'.format(index), ('cen', self.cen), ('ref', self.ref), ('start', self.start), ('end', self.end), ('demo', self.demo))
     
     def __contains__(self, point): return point==self._cen or point==self._ref
     def __str__(self):
-        return "<Shaft cen={v.cen} ref={v.ref} start={v.start}, end={v.end} demo={v.demo} isParallelogram={v.isParallelogram}>".format(v=self)
+        return "<Shaft cen={v.cen} ref={v.ref} start={v.start}, end={v.end} demo={v.demo}".format(v=self)
 
 class VSlider:
     def __init__(self, cen=0, start=0, end=0): self.set(cen, start, end)

@@ -5,38 +5,15 @@ Pyslvs(PySolveSpace)
 
 A GUI-based tool solving 2D linkage subject.
 
-+ **Path tracking**: Render moving path of the points.
++ **Planar Linkages Simulation**: Kernel from Solvespace Python bundle.
 
-+ **Path solving**: This arithmetic generator will design a crank rocker to meet the path requirement.
-
-+ **Triangle solver**: Use Solver to calculate the reference points of your mechanism by triangle constraints.
-
-+ **Output format**: CSV, DXF and Solvespace.
++ **Dimensional Synthesis**: Kernel from three Cython algorithm API.
 
 Compatible with Python 3.4, PyQt 5.5 and above.
 
-![](icons/cover.png)
+Cross-platform Development: Ubuntu and Windows OS
 
-Using Solvespace C++ kernel pass to Python 3.
-
-![](icons/cover2.png)
-
-Requirement
----
-
-You should install some python module first.
-
-Linux:
-
-```bash
-$sudo pip3 install -r requirements.txt
-```
-
-Windows:
-
-```bash
->pip install -r requirements.txt
-```
+![](icons/cover/main.png)
 
 How to startup
 ---
@@ -51,6 +28,83 @@ Or see help:
 
 ```bash
 $python3 launch_pyslvs.py --help
+```
+
+Symbolic
+---
+
+1. Point
+
+    ![](icons/cover/Point.png)
+
+1. Line (Link)
+
+    ![](icons/cover/Line.png)
+
+1. Chain (Stay Chain)
+
+    ![](icons/cover/Chain.png)
+
+1. Shaft (Drive Shaft)
+
+    ![](icons/cover/Shaft.png)
+
+1. Slider
+
+    ![](icons/cover/Slider.png)
+
+1. Rod (Piston)
+
+    ![](icons/cover/Rod.png)
+
+Path Track
+---
+
+![](icons/cover/PathTrack.png)
+
+Calculate the path of the node.
+
+![](icons/cover/PathTrack_all.png)
+
+Triangle Solver
+---
+
+![](icons/cover/TriangleSolver.png)
+
+Triangle solver find the node position by using three triangular relationship.
+
+![](icons/cover/TriangleSolver_merge.png)
+
+Then merge into canvace as well.
+
+Algorithm
+---
+
+![](icons/cover/Algorithm.png)
+
+Contains three algorithms:
+
++ Genetic Algorithm
++ Firefly Algorithm
++ Differential Evolution
+
+Specify a path and options to generate a crank rocker.
+
+Requirement
+===
+
+You should install some python module first.
+
+Linux:
+
+```bash
+$sudo pip3 install -r requirements.txt
+```
+
+Windows:
+
+```bash
+>pip install -r requirements.txt
 ```
 
 Compile
@@ -95,11 +149,6 @@ If you installed PyInstaller with problem of coding error, you can try another s
 ```bash
 >pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
 ```
-
-Collaboration
-===
-
-The manual is being written, you can look around [here](https://github.com/KmolYuan/Pyslvs-manual/).
 
 Power By
 ===

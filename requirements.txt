@@ -1,3 +1,2 @@
 dxfwrite
 numpy
-matplotlib

@@ -520,7 +520,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_shaft_show(self.File.Lists.PointList, self.File.Lists.ShaftList, pos, self)
         dlg.show()
         if dlg.exec_(): self.File.Lists.editTable(self.Shaft, 'Shaft', False if pos is False else dlg.Shaft.currentIndex(),
-            dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref), bool(dlg.isParallelogram.checkState()))
+            dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref))
     
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self): self.editSlider()

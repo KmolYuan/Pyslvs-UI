@@ -28,7 +28,6 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
             self.References.setCurrentIndex(self.References.findText('Point{}'.format(self.Shafts[index].ref)))
             self.Start_Angle.setValue(self.Shafts[index].start)
             self.End_Angle.setValue(self.Shafts[index].end)
-            self.isParallelogram.setCheckState(Qt.Checked if self.Shafts[index].isParallelogram else Qt.Unchecked)
     
     @pyqtSlot(float)
     def on_Start_Angle_valueChanged(self, p0): self.isOk()
