@@ -123,28 +123,28 @@ As your wish, it can be renamed or moved out and operate independently in no-Pyt
 Linux
 ---
 
-Use PyInstaller or cxFreeze as you like.
+Use PyInstaller to build.
 
 First, enter the storage folder.
 
 ```bash
-$sudo pip3 install PyInstaller
+$sudo pip3 install pyinstaller
 $make
 ```
 
 Windows
 ---
 
-Python 3: [Anaconda] for Windows 64 bit.
+Python 3: [Official Python] for Windows 64 bit.
 
-Use both PyInstaller and cxFreeze to build.
+Use PyInstaller to build.
 
 Other require installation: [MinGW] for win64.
 
 First, enter the storage folder.
 
 ```bash
->pip install cx_Freeze PyInstaller
+>pip install pyinstaller
 >make
 ```
 
@@ -189,7 +189,7 @@ Then follow the instructions in the readme.
 
 [PyQt5]: http://doc.qt.io/qt-5/index.html
 [Qt5]: https://www.qt.io/download/
-[Anaconda]: https://www.continuum.io/downloads
+[Official Python]: https://www.python.org/
 [MinGW]: https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files
 [Eric 6]: http://eric-ide.python-projects.org/
 [peewee]: http://docs.peewee-orm.com/en/latest/
