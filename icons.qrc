@@ -29,6 +29,7 @@
     <file>icons/circle.png</file>
     <file>icons/close.png</file>
     <file>icons/ConflictGuide.png</file>
+    <file>icons/connect.png</file>
     <file>icons/constraint.png</file>
     <file>icons/construction.png</file>
     <file>icons/data.png</file>
@@ -39,6 +40,7 @@
     <file>icons/deleterod.png</file>
     <file>icons/deleteshaft.png</file>
     <file>icons/deleteslider.png</file>
+    <file>icons/disconnect.png</file>
     <file>icons/edges.png</file>
     <file>icons/editchain.png</file>
     <file>icons/editpoint.png</file>

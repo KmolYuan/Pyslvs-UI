@@ -17,7 +17,6 @@ class Ui_Dialog(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
-        Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -58,7 +57,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:10pt;\">It may take about 10 to 60 seconds.</span></p><p><span style=\" font-size:10pt;\">Please wait patiently.</span></p></body></html>"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p>This will take some time, depending on the number of path points.</p><p>Please wait patiently.</p></body></html>"))
         self.Start.setText(_translate("Dialog", "Start"))
 
 import icons_rc

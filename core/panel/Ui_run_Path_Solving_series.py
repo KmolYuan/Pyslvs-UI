@@ -17,7 +17,6 @@ class Ui_Dialog(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
-        Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_4.setObjectName("verticalLayout_4")

@@ -21,6 +21,11 @@ class WorkerThread(QThread):
         self.Rod = Rod
         self.warning = warning
     
+    def set(self, ShaftList, Run_list, Resolution):
+        self.ShaftList = ShaftList
+        self.Run_list = Run_list
+        self.Resolution = Resolution
+    
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
         print("Path Tracking...")
@@ -29,6 +34,9 @@ class WorkerThread(QThread):
         Point = [(copy(vpoint.cx), copy(vpoint.cy)) for vpoint in self.Point]
         for vpoint in self.Point: vpoint.move()
         for i in self.ShaftList:
+            if self.stoped:
+                for p, vpoint in enumerate(self.Point): vpoint.move(Point[p][0], Point[p][1])
+                return
             normal = self.Shaft[i].start<self.Shaft[i].end
             start_angle = (self.Shaft[i].start if normal else self.Shaft[i].start-360)*100
             end_angle = (self.Shaft[i].end if normal else self.Shaft[i].end-360)*100
@@ -36,8 +44,10 @@ class WorkerThread(QThread):
             paths = list()
             allPath = list()
             for j in range(int(start_angle), int(end_angle)+int(Resolution)*2, int(Resolution)):
+                if self.stoped:
+                    for p, vpoint in enumerate(self.Point): vpoint.move(Point[p][0], Point[p][1])
+                    return
                 angle = float(j/100)
-                print(angle)
                 result = slvsProcess(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod,
                     currentShaft=i, currentAngle=angle, hasWarning=self.warning)
                 allPath.append(result)
@@ -61,7 +71,3 @@ class WorkerThread(QThread):
         self.progress_Signal.emit(self.progress)
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
-    def __del__(self):
-        self.quit()
-        self.requestInterruption()
-        self.wait()

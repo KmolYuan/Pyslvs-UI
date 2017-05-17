@@ -455,8 +455,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>296</width>
-            <height>287</height>
+            <width>307</width>
+            <height>352</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -499,10 +499,10 @@
                   <number>1</number>
                  </property>
                  <property name="maximum">
-                  <number>100</number>
+                  <number>10</number>
                  </property>
                  <property name="value">
-                  <number>5</number>
+                  <number>1</number>
                  </property>
                 </widget>
                </item>
@@ -882,8 +882,8 @@
        <property name="text">
         <string>Generate</string>
        </property>
-       <property name="default">
-        <bool>false</bool>
+       <property name="autoDefault">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

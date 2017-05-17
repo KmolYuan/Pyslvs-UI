@@ -100,7 +100,6 @@ def action_Enabled(self):
     #Warning
     for lable in [self.reqLine, self.reqShaft]: lable.setVisible(not TWO_POINT)
     for lable in [self.reqChain, self.reqSlider, self.reqRod]: lable.setVisible(not THREE_POINT)
-    self.reqPathSolving.setVisible(not self.File.Designs.path)
     #Add
     for action in [self.action_New_Line, self.action_Set_Shaft, self.action_link_right_click_menu_add,
         self.action_shaft_right_click_menu_add]: action.setEnabled(TWO_POINT)

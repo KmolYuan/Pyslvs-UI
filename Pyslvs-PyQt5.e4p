@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-05-13, 13:40:49 -->
+<!-- Saved: 2017-05-17, 00:25:05 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -43,7 +43,6 @@
     <Source>core/graphics/ChartGraphics.py</Source>
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas_0.py</Source>
-    <Source>core/graphics/canvas_1.py</Source>
     <Source>core/graphics/color.py</Source>
     <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/Ui_help.py</Source>

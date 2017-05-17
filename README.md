@@ -66,6 +66,10 @@ Calculate the path of the node.
 
 ![](icons/cover/PathTrack_all.png)
 
+View them in the table.
+
+![](icons/cover/PathResult.png)
+
 Triangle Solver
 ---
 

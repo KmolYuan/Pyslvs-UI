@@ -49,4 +49,4 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
         self.start = self.Start_Angle.text()
         self.end = self.End_Angle.text()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
-            self.center!=None and self.ref!=None and self.center!=self.ref and self.start!=self.end)
+            self.center!=None and self.ref!=None and self.center!=self.ref and self.Start_Angle.value()<self.End_Angle.value())

@@ -1454,7 +1454,42 @@ p, li { white-space: pre-wrap; }
                            </spacer>
                           </item>
                           <item>
+                           <widget class="QPushButton" name="disconnectButton">
+                            <property name="statusTip">
+                             <string>Disconnect from GUI console.</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QPushButton" name="connectButton">
+                            <property name="enabled">
+                             <bool>false</bool>
+                            </property>
+                            <property name="statusTip">
+                             <string>Connect to GUI console.</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/connect.png</normaloff>:/icons/connect.png</iconset>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="Line" name="line_2">
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
                            <widget class="QPushButton" name="clearConsole">
+                            <property name="statusTip">
+                             <string>Clear GUI console.</string>
+                            </property>
                             <property name="text">
                              <string>Clear</string>
                             </property>
@@ -1541,6 +1576,9 @@ p, li { white-space: pre-wrap; }
                             <iconset resource="../icons.qrc">
                              <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
                            </property>
+                           <property name="checkable">
+                            <bool>true</bool>
+                           </property>
                           </widget>
                          </item>
                         </layout>
@@ -1561,8 +1599,8 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>388</width>
-                         <height>330</height>
+                         <width>427</width>
+                         <height>268</height>
                         </rect>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1583,17 +1621,10 @@ p, li { white-space: pre-wrap; }
                           <property name="title">
                            <string>Dimensional synthesis system</string>
                           </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_21">
+                          <layout class="QVBoxLayout" name="verticalLayout_4">
                            <item>
-                            <widget class="QLabel" name="reqPathSolving">
-                             <property name="text">
-                              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No specified point.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <layout class="QGridLayout" name="gridLayout_3">
-                             <item row="1" column="0">
+                            <layout class="QHBoxLayout" name="horizontalLayout_6">
+                             <item>
                               <widget class="QPushButton" name="PathSolving">
                                <property name="toolTip">
                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1613,23 +1644,7 @@ p, li { white-space: pre-wrap; }
                                </property>
                               </widget>
                              </item>
-                             <item row="1" column="1">
-                              <widget class="QCheckBox" name="Path_points_show">
-                               <property name="toolTip">
-                                <string/>
-                               </property>
-                               <property name="statusTip">
-                                <string>Show design path.</string>
-                               </property>
-                               <property name="text">
-                                <string>Show Path Points</string>
-                               </property>
-                               <property name="checked">
-                                <bool>false</bool>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="2" column="0">
+                             <item>
                               <widget class="QPushButton" name="TriangleSolver">
                                <property name="toolTip">
                                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -2098,8 +2113,8 @@ p, li { white-space: pre-wrap; }
      <addaction name="action_Parallelogram_linkage"/>
      <addaction name="separator"/>
      <addaction name="LinkagesMenuTitle"/>
-     <addaction name="action_Mutiple_Link"/>
-     <addaction name="action_Two_Mutiple_Link"/>
+     <addaction name="action_Multiple_Link"/>
+     <addaction name="action_Two_Multiple_Link"/>
      <addaction name="action_Four_bar_linkage"/>
      <addaction name="separator"/>
      <addaction name="SlidersMenuTitle"/>
@@ -2227,9 +2242,9 @@ p, li { white-space: pre-wrap; }
      <string>&amp;Path</string>
     </property>
     <addaction name="action_Path_Track"/>
-    <addaction name="separator"/>
-    <addaction name="action_Save_path_only"/>
     <addaction name="action_Path_coordinate"/>
+    <addaction name="action_Save_path_only"/>
+    <addaction name="separator"/>
     <addaction name="action_Path_data_show"/>
     <addaction name="action_Path_style"/>
     <addaction name="separator"/>
@@ -2319,7 +2334,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/kmol.png</normaloff>:/icons/kmol.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Get Help on Kmolab</string>
+    <string>&amp;MDE.tw</string>
    </property>
    <property name="statusTip">
     <string>Goto Kmolab learn about more.</string>
@@ -2816,9 +2831,9 @@ p, li { white-space: pre-wrap; }
     <string>Grashof chain #1</string>
    </property>
   </action>
-  <action name="action_Mutiple_Link">
+  <action name="action_Multiple_Link">
    <property name="text">
-    <string>Mutiple linkage</string>
+    <string>Multiple linkage</string>
    </property>
    <property name="statusTip">
     <string>Mutiple Link #1</string>
@@ -2853,9 +2868,9 @@ p, li { white-space: pre-wrap; }
     <string>Ctrl+F</string>
    </property>
   </action>
-  <action name="action_Two_Mutiple_Link">
+  <action name="action_Two_Multiple_Link">
    <property name="text">
-    <string>Two pairs mutiple linkage</string>
+    <string>Two pairs multiple linkage</string>
    </property>
    <property name="statusTip">
     <string>Mutiple Link #2</string>
@@ -3130,7 +3145,7 @@ p, li { white-space: pre-wrap; }
     <string>Path Track</string>
    </property>
    <property name="statusTip">
-    <string>Tracking point with the shaft angle.</string>
+    <string>Update all points, then tracking point with the shaft angle.</string>
    </property>
   </action>
   <action name="action_Path_Clear">

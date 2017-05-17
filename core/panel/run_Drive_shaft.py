@@ -61,6 +61,14 @@ class RotatableView(QGraphicsView):
         QGraphicsView.__init__(self)
         scene = QGraphicsScene(self)
         self.setScene(scene)
+        item.setMinimumSize(QSize(150, 150))
+        item.setMaximum(36000)
+        item.setSingleStep(100)
+        item.setPageStep(100)
+        item.setInvertedAppearance(True)
+        item.setWrapping(True)
+        item.setNotchTarget(.1)
+        item.setNotchesVisible(True)
         graphics_item = scene.addWidget(item)
         graphics_item.setRotation(-90)
         # make the QGraphicsView invisible
@@ -71,28 +79,20 @@ class RotatableView(QGraphicsView):
         self.setStyleSheet("border: 0px;")
 
 class Drive_shaft_show(QWidget, Drive_Form):
-    degreeChange = pyqtSignal(float)
-    def __init__(self, table, currentShaft, parent=None):
+    degreeChange = pyqtSignal(float, int)
+    def __init__(self, Shaft, currentShaft, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
         self.Degree = QDial()
-        self.Degree.setMinimumSize(QSize(150, 150))
-        self.Degree.setMaximum(36000)
-        self.Degree.setSingleStep(100)
-        self.Degree.setPageStep(100)
-        self.Degree.setInvertedAppearance(True)
-        self.Degree.setWrapping(True)
-        self.Degree.setNotchTarget(.1)
-        self.Degree.setNotchesVisible(True)
         self.Degree.valueChanged.connect(self.on_Degree_valueChanged)
         self.Degree.sliderReleased.connect(self.on_Degree_sliderReleased)
         self.anglePanel.insertWidget(1, RotatableView(self.Degree))
-        self.table = table
-        for i in range(len(table)): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
+        self.tableShaft = Shaft
+        for i in range(len(self.tableShaft)): self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
         self.Shaft.setCurrentIndex(currentShaft)
-        self.startAngle = int(table[currentShaft].start*100)
-        self.endAngle = int(table[currentShaft].end*100)
-        self.demoAngle = int(table[currentShaft].demo*100)
+        self.startAngle = int(self.tableShaft[currentShaft].start*100)
+        self.endAngle = int(self.tableShaft[currentShaft].end*100)
+        self.demoAngle = int(self.tableShaft[currentShaft].demo*100)
         self.playButton.clicked.connect(self.playStart)
         self.Degree.setMinimum(self.startAngle)
         self.Degree.setMaximum(self.endAngle)
@@ -100,9 +100,9 @@ class Drive_shaft_show(QWidget, Drive_Form):
     
     @pyqtSlot(int)
     def on_Shaft_currentIndexChanged(self, index):
-        self.startAngle = int(self.table[index].start*100)
-        self.endAngle = int(self.table[index].end*100)
-        self.demoAngle = int(self.table[index].demo*100)
+        self.startAngle = int(self.tableShaft[index].start*100)
+        self.endAngle = int(self.tableShaft[index].end*100)
+        self.demoAngle = int(self.tableShaft[index].demo*100)
         self.Degree.setValue(self.demoAngle)
     
     @pyqtSlot(int)
@@ -128,11 +128,9 @@ class Drive_shaft_show(QWidget, Drive_Form):
     def on_a315_clicked(self): self.playAngle(315.)
     @pyqtSlot()
     def on_Degree_sliderReleased(self): self.setAngle(self.Degree_text.value())
-    def setAngle(self, angle):
-        self.Degree_text.setValue(angle)
-        self.degreeChange.emit(float(angle))
+    def setAngle(self, angle): self.Degree_text.setValue(angle)
     def playAngle(self, angle):
-        self.playShaft = playAngle(self.Degree_text.value(), angle)
+        self.playShaft = playAngle(self.Degree_text.value(), angle, None)
         self.playShaft.done.connect(self.goal)
         self.startPlay(self.playShaft)
     
@@ -170,3 +168,5 @@ class Drive_shaft_show(QWidget, Drive_Form):
         for widget in [self.a0, self.a90, self.a180, self.a270, self.a45, self.a135, self.a225, self.a315,
             self.Degree_text, self.Degree]: widget.setEnabled(True)
         self.setAngle(self.Degree_text.value())
+    
+    def __del__(self): self.degreeChange.emit(self.Degree_text.value(), self.Shaft.currentIndex())

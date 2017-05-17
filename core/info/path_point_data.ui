@@ -9,13 +9,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>428</width>
+    <width>481</width>
     <height>485</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>428</width>
+    <width>481</width>
     <height>485</height>
    </size>
   </property>
@@ -24,7 +24,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+    <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>
@@ -35,51 +35,88 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="QTableWidget" name="path_data">
-     <property name="editTriggers">
-      <set>QAbstractItemView::NoEditTriggers</set>
-     </property>
-     <property name="tabKeyNavigation">
-      <bool>false</bool>
-     </property>
-     <property name="verticalScrollMode">
-      <enum>QAbstractItemView::ScrollPerPixel</enum>
-     </property>
-     <property name="horizontalScrollMode">
-      <enum>QAbstractItemView::ScrollPerPixel</enum>
-     </property>
-     <property name="sortingEnabled">
-      <bool>true</bool>
-     </property>
-     <attribute name="horizontalHeaderDefaultSectionSize">
-      <number>75</number>
-     </attribute>
-     <attribute name="horizontalHeaderMinimumSectionSize">
-      <number>75</number>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Shaft</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Point</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>x</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>y</string>
-      </property>
-     </column>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="showAll">
+           <property name="text">
+            <string>Show all</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="hideAll">
+           <property name="text">
+            <string>Hide all</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="pathTree">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <column>
+          <property name="text">
+           <string>Shafts and Points</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QTableWidget" name="path_data">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="tabKeyNavigation">
+        <bool>false</bool>
+       </property>
+       <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="horizontalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>100</number>
+       </attribute>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>100</number>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>x</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>y</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

@@ -29,9 +29,6 @@
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
   </property>
-  <property name="sizeGripEnabled">
-   <bool>false</bool>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -39,7 +36,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;It may take about 10 to 60 seconds.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Please wait patiently.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This will take some time, depending on the number of path points.&lt;/p&gt;&lt;p&gt;Please wait patiently.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

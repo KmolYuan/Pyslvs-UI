@@ -3,6 +3,7 @@ from ..QtModules import *
 from .Ui_run_Drive_rod import Ui_Form
 
 class Drive_rod_show(QWidget, Ui_Form):
+    positionChange = pyqtSignal(float, int)
     def __init__(self, table, tablePoint, parent=None):
         super(Drive_rod_show, self).__init__(parent)
         self.setupUi(self)
@@ -36,3 +37,5 @@ class Drive_rod_show(QWidget, Ui_Form):
     def on_Distance_text_valueChanged(self, p0): self.Position.setMaximum(int(p0*100))
     @pyqtSlot(int)
     def on_Position_valueChanged(self, value): self.Distance.setText(str(value/100))
+    
+    def __del__(self): self.positionChange.emit(self.Distance_text.value(), self.Rod.currentIndex())

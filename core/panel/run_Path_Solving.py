@@ -30,7 +30,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_series_clicked(self):
-        dlg = Path_Solving_series_show()
+        dlg = Path_Solving_series_show(self)
         dlg.show()
         if dlg.exec_():
             for e in dlg.path: self.on_add_clicked(e[0], e[1])
@@ -144,7 +144,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         elif args['Algorithm']=='Firefly': self.type1.setChecked(True)
         elif args['Algorithm']=="Differtial Evolution": self.type2.setChecked(True)
         self.isCustomize.setChecked(True)
-        self.setArgs(maxGen=args['maxGen'], report=args['report'],
+        self.setArgs(maxGen=args['maxGen'], report=args['report']*100,
             AxMin=args['AxMin'], AyMin=args['AyMin'], DxMin=args['DxMin'], DyMin=args['DyMin'], LMin=args['LMin'], AMin=args['minAngle'],
             AxMax=args['AxMax'], AyMax=args['AyMax'], DxMax=args['DxMax'], DyMax=args['DyMax'], LMax=args['LMax'], AMax=args['maxAngle'])
         self.on_clearAll_clicked()
@@ -154,7 +154,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def on_isCustomize_clicked(self): self.setArgs()
     @pyqtSlot()
     def on_setDefault_clicked(self): self.setArgs()
-    def setArgs(self, maxGen=1500, report=5, AxMin=-50., AyMin=-50., DxMin=-50., DyMin=-50., LMin=5., AMin=0.,
+    def setArgs(self, maxGen=1500, report=1, AxMin=-50., AyMin=-50., DxMin=-50., DyMin=-50., LMin=5., AMin=0.,
             AxMax=50., AyMax=50., DxMax=50., DyMax=50., LMax=50., AMax=360.):
         self.maxGen.setValue(maxGen)
         self.report.setValue(report)

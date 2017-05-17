@@ -193,15 +193,20 @@ class VParameter:
     def __str__(self): return "<Parameter val={v.val} commit=\"{v.commit}\">".format(v=self)
 
 class VPath:
-    def __init__(self, point=0, points=list()): self.set(point, points)
+    def __init__(self, point=0, points=list(), show=True): self.set(point, points, show)
     @property
     def point(self): return self._point
     @property
     def path(self): return self._path
+    @property
+    def show(self): return self._show
+    @show.setter
+    def show(self, show): self._show = show
     
-    def set(self, point=0, points=list()):
+    def set(self, point=0, points=list(), show=True):
         self._point = point
         self._path = list()
+        self._show = show
         if points:
             for p in points:
                 PointType = type(p)

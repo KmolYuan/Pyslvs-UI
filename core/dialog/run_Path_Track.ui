@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>513</width>
+    <width>379</width>
     <height>474</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>513</width>
+    <width>379</width>
     <height>474</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>513</width>
+    <width>379</width>
     <height>474</height>
    </size>
   </property>
@@ -138,7 +138,7 @@
              <x>0</x>
              <y>0</y>
              <width>128</width>
-             <height>136</height>
+             <height>124</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="scrollAreaWidgetLayout">
@@ -157,80 +157,6 @@
             </item>
            </layout>
           </widget>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Point(s):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-          <property name="textFormat">
-           <enum>Qt::RichText</enum>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-          </property>
-          <property name="wordWrap">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QListWidget" name="Point_list">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QToolButton" name="add_button">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="addAll_button">
-          <property name="text">
-           <string>&gt;&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="removeAll_botton">
-          <property name="text">
-           <string>&lt;&lt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="remove_botton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&lt;</string>
-          </property>
          </widget>
         </item>
        </layout>
@@ -296,7 +222,7 @@
          <double>0.500000000000000</double>
         </property>
         <property name="maximum">
-         <double>45.000000000000000</double>
+         <double>5.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.500000000000000</double>

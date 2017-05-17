@@ -29,9 +29,6 @@
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
   </property>
-  <property name="sizeGripEnabled">
-   <bool>false</bool>
-  </property>
   <property name="modal">
    <bool>true</bool>
   </property>

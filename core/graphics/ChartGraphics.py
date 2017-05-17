@@ -6,6 +6,8 @@ class ChartDialog(QDialog):
     def __init__(self, Title, DataSet=list(), parent=None):
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle('Chart')
+        self.setWindowFlags(Qt.Window)
+        self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
         chart = QChart()
@@ -15,12 +17,10 @@ class ChartDialog(QDialog):
         axisX = QCategoryAxis()
         axisY = QValueAxis()
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
-        axisY.setTickCount(10)
+        axisY.setTickCount(11)
         if len(DataSet)>0:
             maxGen = max([data[1] for data in DataSet])
             chart.setTitle("{} (max {} generations)".format(Title, maxGen))
-            maxLen = max([len(data[2]) for data in DataSet])
-            report = int(round(maxGen/maxLen-2, 0))
             for i in range(0, maxGen+1, int(maxGen/10)): axisX.append(str(i), i)
         chart.addAxis(axisX, Qt.AlignBottom)
         chart.addAxis(axisY, Qt.AlignLeft)
@@ -39,7 +39,9 @@ class ChartDialog(QDialog):
                 series.attachAxis(axisX)
                 series.attachAxis(axisY)
             chart.legend().markers(scatter)[0].setVisible(False)
-        axisY.setRange(0., max([max(e[2]) for e in DataSet]) if DataSet else 100.)
+        maxima = max([max(e[2]) for e in DataSet])+10
+        maxima -= maxima%10
+        axisY.setRange(0., maxima if DataSet else 100.)
         layout = QVBoxLayout(self)
         layout.setContentsMargins(*([2]*4))
         chartView = QChartView(chart)

@@ -31,6 +31,7 @@ args = parser.parse_args()
 
 def show_info():
     print('\n'.join(INFO))
+    print('-'*7)
     return args
 
 class Pyslvs_Splash(QSplashScreen):

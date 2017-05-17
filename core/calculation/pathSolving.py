@@ -9,7 +9,6 @@ class WorkerThread(QThread):
         super(WorkerThread, self).__init__(parent)
         self.stoped = False
         self.mutex = QMutex()
-        self.progress = 0
         self.path = path
         self.type_num = type_num
         self.upper = upper
@@ -20,6 +19,7 @@ class WorkerThread(QThread):
         self.report = report
     
     def run(self):
+        with QMutexLocker(self.mutex): self.stoped = False
         alg = 'Genetic' if self.type_num==0 else ('Firefly' if self.type_num==1 else "Differtial Evolution")
         print("Algorithm: "+alg)
         t0 = timeit.default_timer()
@@ -27,6 +27,7 @@ class WorkerThread(QThread):
         print("Through: {}".format(pathData))
         time_and_fitness, fitnessParameter = generateProcess(pathData,
             self.upper, self.lower, self.minAngle, self.maxAngle, self.type_num, self.maxGen, self.report)
+        if self.stoped: return
         t1 = timeit.default_timer()
         time_spand = t1-t0
         mechanism = {
@@ -62,7 +63,3 @@ class WorkerThread(QThread):
     
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
-    def __del__(self):
-        self.quit()
-        self.requestInterruption()
-        self.wait()

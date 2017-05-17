@@ -74,8 +74,8 @@ class edit_chain_show(QDialog, edit_Dialog):
         self.p1 = self.Point1.currentIndex()
         self.p2 = self.Point2.currentIndex()
         self.p3 = self.Point3.currentIndex()
-        self.p1_p2Val = self.p1_p2.text() if not self.p1_p2.text()in[str(), "n"] else self.p1_p2.placeholderText()
-        self.p2_p3Val = self.p2_p3.text() if not self.p2_p3.text()in[str(), "n"] else self.p2_p3.placeholderText()
-        self.p1_p3Val = self.p1_p3.text() if not self.p1_p3.text()in[str(), "n"] else self.p1_p3.placeholderText()
+        vals = [text.text() if (not 'n' in text.text()) or (text.text()!='') else text.placeholderText()
+            for text in [self.p1_p2, self.p2_p3, self.p1_p3]]
+        self.p1_p2Val, self.p2_p3Val, self.p1_p3Val = vals
         n = not((self.p1==self.p2)|(self.p2==self.p3)|(self.p1==self.p3)) and (float(self.p1_p2Val)!=0 or float(self.p2_p3Val)!=0 or float(self.p1_p3Val)!=0)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
