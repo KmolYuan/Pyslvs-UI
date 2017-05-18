@@ -1,6 +1,3 @@
-Pyslvs
-===
-
 ![](icons/title.png)
 
 + [Introduction](#introduction)
