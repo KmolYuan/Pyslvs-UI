@@ -4,7 +4,7 @@ from .elements import VPoint, VLine, VChain, VShaft, VSlider, VRod, VParameter
 from collections import defaultdict
 from math import sqrt, acos, degrees
 from .undoRedo import (editTableCommand, deleteTableCommand, changePointNumCommand,
-    setPathCommand, clearPathCommand, shaftChangeCommand, demoValueCommand, TSinitCommand)
+    setPathCommand, clearPathCommand, demoValueCommand, TSinitCommand)
 
 class Lists:
     def __init__(self, FileState):
@@ -207,11 +207,6 @@ class Lists:
     def clearPath(self):
         self.FileState.beginMacro("Clear {Path}")
         self.FileState.push(clearPathCommand(self.pathData))
-        self.FileState.endMacro()
-    
-    def shaftChange(self, table, prv, next):
-        self.FileState.beginMacro("Change {{Shaft{}}} to {{Shaft{}}}".format(prv, next))
-        self.FileState.push(shaftChangeCommand(self.shaftList, table, prv, next))
         self.FileState.endMacro()
     
     def m(self, p1, p2):

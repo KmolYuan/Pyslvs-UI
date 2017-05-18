@@ -125,14 +125,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_chain_right_click_menu_edit: self.on_action_Edit_Stay_Chain_triggered(table_pos)
         elif action==self.action_chain_right_click_menu_delete: self.on_action_Delete_Stay_Chain_triggered(table_pos)
     def on_shaft_context_menu(self, point):
-        self.action_shaft_right_click_menu_move_up.setEnabled(self.Shaft.rowCount()>0 and self.Shaft.currentRow()>0)
-        self.action_shaft_right_click_menu_move_down.setEnabled(self.Shaft.rowCount()>0 and self.Shaft.currentRow()<self.Shaft.rowCount()-1)
         action = self.popMenu_shaft.exec_(self.Shaft_Widget.mapToGlobal(point))
         table_pos = self.Shaft.currentRow()
         if action==self.action_shaft_right_click_menu_add: self.on_action_Set_Shaft_triggered()
         elif action==self.action_shaft_right_click_menu_edit: self.on_action_Edit_Shaft_triggered(table_pos)
-        elif action==self.action_shaft_right_click_menu_move_up: self.File.Lists.shaftChange(self.Shaft, table_pos, table_pos-1)
-        elif action==self.action_shaft_right_click_menu_move_down: self.File.Lists.shaftChange(self.Shaft, table_pos, table_pos+1)
         elif action==self.action_shaft_right_click_menu_delete: self.on_action_Delete_Shaft_triggered(table_pos)
     def on_slider_context_menu(self, point):
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))

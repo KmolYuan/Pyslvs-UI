@@ -119,33 +119,6 @@ class clearPathCommand(QUndoCommand):
     def redo(self): self.data.clear()
     def undo(self): self.data += self.oldPath
 
-class shaftChangeCommand(QUndoCommand):
-    def __init__(self, shaftList, table, prv, next):
-        QUndoCommand.__init__(self)
-        self.shaftList = shaftList
-        self.table = table
-        self.prv = prv
-        self.next = next
-    
-    def redo(self):
-        try: self.shaftList[self.prv], self.shaftList[self.next] = self.shaftList[self.next], self.shaftList[self.prv]
-        except: pass
-        tableRow = list()
-        for i in range(self.table.columnCount()): tableRow.append(self.table.takeItem(self.prv, i))
-        self.table.removeRow(self.prv)
-        self.table.insertRow(self.next)
-        for j in range(len(tableRow)): self.table.setItem(self.next, j, tableRow[j])
-        for k in range(self.next, self.table.rowCount()): self.table.setItem(k, 0, QTableWidgetItem('Shaft'+str(k)))
-    def undo(self):
-        try: self.shaftList[self.prv], self.shaftList[self.next] = self.shaftList[self.next], self.shaftList[self.prv]
-        except: pass
-        tableRow = list()
-        for i in range(self.table.columnCount()): tableRow.append(self.table.takeItem(self.prv, i))
-        self.table.removeRow(self.prv)
-        self.table.insertRow(self.next)
-        for j in range(len(tableRow)): self.table.setItem(self.next, j, tableRow[j])
-        for k in range(self.next, self.table.rowCount()): self.table.setItem(k, 0, QTableWidgetItem('Shaft'+str(k)))
-
 class demoValueCommand(QUndoCommand):
     def __init__(self, table, index, value, column):
         QUndoCommand.__init__(self)

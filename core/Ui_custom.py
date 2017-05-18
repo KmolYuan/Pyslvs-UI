@@ -66,11 +66,6 @@ def init_Right_click_menu(self):
     self.action_shaft_right_click_menu_edit = QAction("&Edit", self)
     self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_edit)
     self.popMenu_shaft.addSeparator()
-    self.action_shaft_right_click_menu_move_up = QAction("Move up", self)
-    self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_move_up)
-    self.action_shaft_right_click_menu_move_down = QAction("Move down", self)
-    self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_move_down)
-    self.popMenu_shaft.addSeparator()
     self.action_shaft_right_click_menu_delete = QAction("&Delete", self)
     self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_delete) 
     #Slider Right-click menu

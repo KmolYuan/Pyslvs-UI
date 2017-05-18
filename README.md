@@ -123,7 +123,7 @@ $sudo pip3 install -r requirements.txt
 PyQt
 ---
 
-Download [Qt5] and install it.
+Download [Qt] and install it.
 
 Make sure computer is installed Qt5 and PyQt5 in the same version.
 
@@ -186,9 +186,7 @@ $make
 
 Python 3: [Official Python] for Windows 64 bit.
 
-Use PyInstaller to build.
-
-Other require installation: [MinGW] for win64, Makefile tool.
+Makefile tool: [MinGW] for win64.
 
 First, enter the storage folder.
 
