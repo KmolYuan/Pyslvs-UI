@@ -1,6 +1,8 @@
 Pyslvs
 ===
 
+![](icons/title.png)
+
 + [Introduction](#introduction)
     - [How to startup](#how-to-startup)
     - [Symbolic](#symbolic)
@@ -14,8 +16,6 @@ Pyslvs
 
 Introduction
 ===
-
-![](icons/title.png)
 
 A GUI-based tool solving 2D linkage subject.
 
