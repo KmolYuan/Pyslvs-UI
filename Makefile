@@ -8,10 +8,12 @@ build: launch_pyslvs.py
 ifeq ($(OS),Windows_NT)
 	$(eval PYTHON = py$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)")w)
 	$(eval CPPYTHON = cp$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
+	$(eval PYQTPATH = $(shell python -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
 	@echo --Python Version $(PYTHON)--
 	rename .\core\kernel\kernel_getter.py _kernel_getter.py
 	rename .\core\kernel\$(PYTHON).py kernel_getter.py
 	pyinstaller -F $< -i ./icons/main_big.ico \
+--path="$(PYQTPATH)\Qt\bin" \
 --add-binary="core/kernel/$(PYTHON)/libslvs.so;." \
 --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/de.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/firefly.$(CPPYTHON)-win_amd64.pyd;." \

@@ -28,7 +28,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         #Console Widget & Arguments
-        self.connectConsole()
+        self.on_connectButton_clicked()
         self.args = args
         #File & Default Setting
         FileState = QUndoStack()
@@ -94,7 +94,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_delete.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_edit.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_lock.setEnabled(NOT_ORIGIN)
-        self.action_point_right_click_menu_coverage.setEnabled(NOT_ORIGIN)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = table1.currentRow() if table1.currentRow()>=1 else 1
         table_pos_0 = table1.currentRow()
@@ -902,12 +901,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def disconnectConsole(self): XStream.back()
     @pyqtSlot()
     def on_connectButton_clicked(self):
+        print("Connect to GUI console.")
         self.connectConsole()
         self.connectButton.setEnabled(False)
         self.disconnectButton.setEnabled(True)
         print("Connect to GUI console.")
     @pyqtSlot()
     def on_disconnectButton_clicked(self):
+        print("Disconnect from GUI console.")
         self.disconnectConsole()
         self.connectButton.setEnabled(True)
         self.disconnectButton.setEnabled(False)
