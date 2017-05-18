@@ -1,4 +1,13 @@
-Pyslvs(PySolveSpace)
+Pyslvs
+===
+
++ [Introduction](#introduction)
+
++ [Requirement](#requirement)
+
++ [Power By](#power-by)
+
+Introduction
 ===
 
 ![](icons/title.png)
@@ -99,31 +108,72 @@ Requirement
 
 You should install some python module first.
 
-Linux:
+**Linux**:
 
 ```bash
 $sudo pip3 install -r requirements.txt
 ```
 
-Windows:
+**Windows**:
 
 ```bash
 >pip install -r requirements.txt
 ```
 
+PyQt
+---
+
+Download [Qt] and install it.
+
+Make sure computer is installed Qt5 and PyQt5 in the same version.
+
+**Linux**:
+
+Linux OS has to add Qt file path in user's `.bashrc`, like `/opt/Qt/5.8/gcc_64/`.
+
+```bash
+export QTDIR=/opt/Qt/5.8/gcc_64/
+
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${QTDIR}/lib/
+
+export PATH=${QTDIR}/bin:${PATH}
+```
+
+Then relink QMake command (If your desktop is made by earlier Qt version).
+
+```bash
+$sudo rm /usr/bin/qmake
+$sudo ln -s /opt/Qt/5.8/gcc_64/bin/qmake /usr/bin/qmake
+```
+
+Upgrade Python [SIP].
+
+```bash
+$sudo rm -f /usr/lib/python3/dist-packages/sip*
+```
+
+Download and build [PyQt5], [PyQtChart] and [QScintilla2] by self.
+
+**Windows**:
+
+Windows OS has to add Qt file path in environment variables, like `C:\Qt\5.8\msvc2015_64\bin`.
+
+Install PyQt5, PyQtChart and QScintilla2 by pip.
+
+```bash
+>pip install -U pyqt5 qscintilla2 pyqtchart
+```
+
 Compile
 ===
 
-Make sure computer is installed [Qt5] and [PyQt5] in the same version.
+Use PyInstaller to build.
 
 After following operation, the executable file's folder is located at `dist` / `launch_pyslvs` folder.
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
-Linux
----
-
-Use PyInstaller to build.
+**Linux**:
 
 First, enter the storage folder.
 
@@ -132,14 +182,13 @@ $sudo pip3 install pyinstaller
 $make
 ```
 
-Windows
----
+**Windows**:
 
 Python 3: [Official Python] for Windows 64 bit.
 
 Use PyInstaller to build.
 
-Other require installation: [MinGW] for win64.
+Other require installation: [MinGW] for win64, Makefile tool.
 
 First, enter the storage folder.
 
@@ -157,7 +206,7 @@ If you installed PyInstaller with problem of coding error, you can try another s
 Power By
 ===
 
-Made by PyQt 5.7 and Python editor [Eric 6].
+Made by [Qt5] and Python IDE [Eric 6].
 
 Including Python module: [PyQt5], [peewee], [dxfwrite]
 
@@ -169,12 +218,12 @@ Here is the **origin kernel** repository:
 
 * [Triangle solver]
 
-Build Kernel
-===
+Kernel
+---
 
-Compiled kernel is in the `core` folder.
+Compiled binary files is in the `core/kernel` folder.
 
-* Linux (64 bit): Python 3.4, Python 3.5
+* Ubuntu (64 bit): Python 3.4, Python 3.5
 
 * Windows (64 bit): Python 3.5, Python 3.6
 
@@ -187,10 +236,15 @@ git submodule update
 
 Then follow the instructions in the readme.
 
-[PyQt5]: http://doc.qt.io/qt-5/index.html
+[PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
+[PyQtChart]: https://www.riverbankcomputing.com/software/pyqtchart/download
 [Qt5]: https://www.qt.io/download/
+[SIP]: https://riverbankcomputing.com/software/sip/download
+[QScintilla2]: https://riverbankcomputing.com/software/qscintilla/download
+
 [Official Python]: https://www.python.org/
-[MinGW]: https://sourceforge.net/projects/mingw-w64/files/latest/download?source=files
+[MinGW]: https://sourceforge.net/projects/mingw-w64/files/
+
 [Eric 6]: http://eric-ide.python-projects.org/
 [peewee]: http://docs.peewee-orm.com/en/latest/
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
