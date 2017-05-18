@@ -2,6 +2,11 @@ Pyslvs
 ===
 
 + [Introduction](#introduction)
+    - [How to startup](#how-to-startup)
+    - [Symbolic](#symbolic)
+    - [Path Track](#path-track)
+    - [Triangle Solver](#triangle-solver)
+    - [Algorithm](#algorithm)
 
 + [Requirement](#requirement)
 
