@@ -123,7 +123,7 @@ $sudo pip3 install -r requirements.txt
 PyQt
 ---
 
-Download [Qt] and install it.
+Download [Qt5] and install it.
 
 Make sure computer is installed Qt5 and PyQt5 in the same version.
 
