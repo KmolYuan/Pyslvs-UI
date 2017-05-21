@@ -1,39 +1,45 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
+from ..graphics.color import colorIcons
 from .Ui_batchMoving import Ui_Dialog as batchMoving_Dialog
 
 class batchMoving_show(QDialog, batchMoving_Dialog):
     def __init__(self, Point, Parameter, parent=None):
         super(batchMoving_show, self).__init__(parent)
         self.setupUi(self)
-        for i in range(1, len(Point)):
-            self.Point_list.addItem('Point{}'.format(i))
+        self.Point = Point
+        for i, e in enumerate(self.Point): self.Point_list.addItem(
+            QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
         self.isReady()
     
     @pyqtSlot()
     def on_add_button_clicked(self):
         try:
-            self.Move_list.addItem(self.Point_list.currentItem().text())
+            item = self.Point_list.currentItem()
+            self.Move_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Point_list.takeItem(self.Point_list.currentRow())
         except: pass
         self.isReady()
     @pyqtSlot()
     def on_remove_botton_clicked(self):
         try:
-            self.Point_list.addItem(self.Move_list.currentItem().text())
+            item = self.Move_list.currentItem()
+            self.Point_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Move_list.takeItem(self.Move_list.currentRow())
         except: pass
         self.isReady()
     @pyqtSlot()
     def on_addAll_button_clicked(self):
         for i in range(self.Point_list.count()):
-            self.Move_list.addItem(self.Point_list.item(0).text())
+            item = self.Point_list.item(0)
+            self.Move_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Point_list.takeItem(0)
         self.isReady()
     @pyqtSlot()
     def on_removeAll_botton_clicked(self):
         for i in range(self.Move_list.count()):
-            self.Point_list.addItem(self.Move_list.item(0).text())
+            item = self.Move_list.item(0)
+            self.Point_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Move_list.takeItem(0)
         self.isReady()
     @pyqtSlot(QListWidgetItem)

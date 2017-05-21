@@ -331,7 +331,7 @@ class File:
             mechanism = ET.SubElement(algorithm, 'mechanism')
             ET.SubElement(mechanism, 'Algorithm').text = str(result['Algorithm'])
             algorithm_path = ET.SubElement(mechanism, 'path')
-            for dot in self.Designs.path: ET.SubElement(algorithm_path, 'dot').text = '{}@{}'.format(dot['x'], dot['y'])
+            for dot in result['path']: ET.SubElement(algorithm_path, 'dot').text = '{}@{}'.format(dot[0], dot[1])
             for tag in PATHSOLVINGTAG: ET.SubElement(mechanism, tag).text = str(result[tag])
             algorithm_fitness = ET.SubElement(mechanism, 'TimeAndFitness')
             for fitness in result['TimeAndFitness']: ET.SubElement(algorithm_fitness, 'fitness').text = str(fitness)
@@ -463,16 +463,17 @@ class File:
             CPath.append(answerT[3])
             EPath.append(answerT[4])
         if not (False in answer):
+            dataAdd = len(self.Lists.PointList)==1
+            if not dataAdd: self.Lists.clearPath()
             for i, point in enumerate(answer): self.Lists.editTable(Point, 'Point', False,
                 point[0] if i<2 else float(round(point[0])), point[1] if i<2 else float(round(point[1])),
-                i<2, 'Blue' if i<2 else 'Green')
+                i<2, 'Blue' if i<2 else 'Green' if i<4 else 'Brick-Red')
             self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
                 str(Result['L1']), str(Result['L4']), str(Result['L3']))
             self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
             self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
             self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), startAngle, endAngle, startAngle, False)
-            self.Lists.setPath([VPaths(Shaft.rowCount()-1,
-                [VPath(Bnum, BPath), VPath(Cnum, CPath), VPath(Enum, EPath)])])
+            if dataAdd: self.Lists.setPath([VPaths(Shaft.rowCount()-1, [VPath(Bnum, BPath), VPath(Cnum, CPath), VPath(Enum, EPath)])])
             print("Generate Result Merged. At: {} deg ~ {} deg.".format(startAngle, endAngle))
             return True
         else: return False

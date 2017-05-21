@@ -3,7 +3,7 @@ _translate = QCoreApplication.translate
 
 def init_Right_click_menu(self):
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
-            self.Shaft, self.Slider, self.Rod]: table.itemClicked.connect(self.FocusChange)
+        self.Shaft, self.Slider, self.Rod]: table.itemClicked.connect(self.tableFocusChange)
     #DynamicCanvasView Right-click menu
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
@@ -12,11 +12,8 @@ def init_Right_click_menu(self):
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
     self.action_painter_right_click_menu_fix_add = QAction("Add a Fixed Point", self)
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
-    self.action_painter_right_click_menu_path_add = QAction("Add a Path Point [Path Solving]", self)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_path_add)
-    self.popMenu_painter.addSeparator()
-    self.action_painter_right_click_menu_dimension_add = QAction("Show Dimension", self)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_dimension_add)
+    self.action_painter_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
+    self.popMenu_painter.addAction(self.action_painter_right_click_menu_path)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
     #Entiteis_Point Right-click menu
     self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)

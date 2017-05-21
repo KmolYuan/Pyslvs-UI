@@ -16,17 +16,21 @@ class playShaft(QThread):
     
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
-        for i in range(self.startAngle if self.startAngle>self.minima else self.minima, self.maxima, 300):
+        angleSE = sorted([self.minima, self.maxima])
+        for i in range(self.startAngle if self.startAngle>angleSE[0] else angleSE[0], angleSE[1], 300):
             if self.stoped: return
-            else:
+            sleep(.05)
+            self.progress_Signal.emit(i)
+        while True:
+            if angleSE[0]!=0 and angleSE[1]!=36000:
+                for i in range(angleSE[0], angleSE[1], 300):
+                    if self.stoped: return
+                    sleep(.05)
+                    self.progress_Signal.emit(angleSE[1]-i)
+            for i in range(angleSE[0], angleSE[1], 300):
+                if self.stoped: return
                 sleep(.05)
                 self.progress_Signal.emit(i)
-        for t in range(9):
-            for i in range(self.minima, self.maxima, 300):
-                if self.stoped: return
-                else:
-                    sleep(.05)
-                    self.progress_Signal.emit(i)
         self.done.emit()
     
     def stop(self):
@@ -48,9 +52,8 @@ class playAngle(QThread):
         end = int((self.endAngle if self.endAngle>self.startAngle else self.endAngle+360)*100)
         for i in range(start, end+300, 300):
             if self.stoped: return
-            else:
-                sleep(.05)
-                self.progress_Signal.emit(i)
+            sleep(.05)
+            self.progress_Signal.emit(i)
         self.done.emit(self.endAngle)
     
     def stop(self):
@@ -80,9 +83,10 @@ class RotatableView(QGraphicsView):
 
 class Drive_shaft_show(QWidget, Drive_Form):
     degreeChange = pyqtSignal(float, int)
-    def __init__(self, Shaft, currentShaft, parent=None):
+    def __init__(self, Shaft, currentShaft, isPathDemoMode, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
+        self.pathDemoMode.setVisible(isPathDemoMode)
         self.Degree = QDial()
         self.Degree.valueChanged.connect(self.on_Degree_valueChanged)
         self.Degree.sliderReleased.connect(self.on_Degree_sliderReleased)

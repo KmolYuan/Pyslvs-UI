@@ -6,7 +6,7 @@ class ChartDialog(QDialog):
     def __init__(self, Title, DataSet=list(), parent=None):
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle('Chart')
-        self.setWindowFlags(Qt.Window)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))

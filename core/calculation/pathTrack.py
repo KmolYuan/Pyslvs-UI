@@ -43,7 +43,8 @@ class WorkerThread(QThread):
             Resolution = self.Resolution*100
             paths = list()
             allPath = list()
-            for j in range(int(start_angle), int(end_angle)+int(Resolution)*2, int(Resolution)):
+            angleSE = sorted([int(start_angle), int(end_angle)])
+            for j in range(angleSE[0], angleSE[1]+int(Resolution)*2, int(Resolution)):
                 if self.stoped:
                     for p, vpoint in enumerate(self.Point): vpoint.move(Point[p][0], Point[p][1])
                     return

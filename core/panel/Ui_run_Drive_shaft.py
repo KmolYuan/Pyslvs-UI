@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/panel/run_Drive_shaft.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\panel\run_Drive_shaft.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -26,6 +26,9 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.label)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
+        self.pathDemoMode = QtWidgets.QLabel(Form)
+        self.pathDemoMode.setObjectName("pathDemoMode")
+        self.horizontalLayout.addWidget(self.pathDemoMode)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
@@ -103,6 +106,8 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.label.setText(_translate("Form", "<html><head/><body><p>Drive the shaft to the specified angle.</p></body></html>"))
+        self.pathDemoMode.setToolTip(_translate("Form", "Using Path data to present mechanism."))
+        self.pathDemoMode.setText(_translate("Form", "<html><head/><body><p><span style=\" color:#ff0000;\">Path demo mode (?)</span></p></body></html>"))
         self.label_2.setText(_translate("Form", " in Angle:"))
         self.Degree_text.setSuffix(_translate("Form", "°"))
         self.playButton.setText(_translate("Form", "Play"))

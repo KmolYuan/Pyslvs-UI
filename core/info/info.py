@@ -22,11 +22,12 @@ parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
 parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}({})'.format(VERSION[0], VERSION[1]))
-parser.add_argument('-r', metavar='File Path', default=False, nargs='?', type=str, help="read csv file from the file path")
+parser.add_argument('r', metavar='File Path', default=False, nargs='?', type=str, help="read workbook from the file path")
 parser.add_argument('-i', metavar='Start Path', default=False, nargs='?', type=str, help="start Pyslvs in the specified path")
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
-parser.add_argument('-d', '--file-data', action='store_true', help="display the file data in command-line when opening")
+parser.add_argument('--file-data', action='store_true', help="display the file data in command-line when opening")
+parser.add_argument('-d', '--debug-mode', action='store_true', help="don't connect to GUI console when opening")
 args = parser.parse_args()
 
 def show_info():
@@ -65,9 +66,13 @@ class version_show(QDialog, Ui_About_Dialog):
             "Using triangle iterate the mechanism results.")+content(
             "If you want to know about more, you can reference by our website.")))
         self.Versions.setText(html(orderList(*INFO)))
-        self.Arguments.setText(html(orderList(
-            "Initialization loaded file: {}".format(args.r),
+        self.Arguments.setText(html(content(
+            "Startup arguments are as follows:")+orderList(
+            "The loaded file when startup: {}".format(args.r),
             "Start Path: {}".format(args.i),
             "Enable solving warning: {}".format(args.w),
             "Fusion style: {}".format(args.fusion),
-            "Show file data in console: {}".format(args.file_data))))
+            "Show file data in console: {}".format(args.file_data),
+            "Debug mode: {}".format(args.debug_mode))+content(
+            "Using the \"-h\" argument to view help."
+            )))

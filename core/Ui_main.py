@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -172,7 +172,6 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.tab)
-        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.Parameter_Widget = QtWidgets.QWidget(self.tab)
         self.Parameter_Widget.setObjectName("Parameter_Widget")
@@ -180,6 +179,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_19.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_19.setObjectName("verticalLayout_19")
         self.label_9 = QtWidgets.QLabel(self.Parameter_Widget)
+        self.label_9.setStyleSheet("color: rgb(255, 0, 0);")
         self.label_9.setObjectName("label_9")
         self.verticalLayout_19.addWidget(self.label_9)
         self.Parameter_list = QtWidgets.QTableWidget(self.Parameter_Widget)
@@ -310,6 +310,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_12.setObjectName("verticalLayout_12")
         self.reqLine = QtWidgets.QLabel(self.Entiteis_Link_Widget)
+        self.reqLine.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqLine.setObjectName("reqLine")
         self.verticalLayout_12.addWidget(self.reqLine)
         self.Entiteis_Link = QtWidgets.QTableWidget(self.Entiteis_Link_Widget)
@@ -362,6 +363,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_15.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_15.setObjectName("verticalLayout_15")
         self.reqChain = QtWidgets.QLabel(self.Entiteis_Stay_Chain_Widget)
+        self.reqChain.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqChain.setObjectName("reqChain")
         self.verticalLayout_15.addWidget(self.reqChain)
         self.Entiteis_Stay_Chain = QtWidgets.QTableWidget(self.Entiteis_Stay_Chain_Widget)
@@ -429,6 +431,7 @@ class Ui_MainWindow(object):
         self.Drive_Shaft_Layout.setContentsMargins(6, 6, 6, 6)
         self.Drive_Shaft_Layout.setObjectName("Drive_Shaft_Layout")
         self.reqShaft = QtWidgets.QLabel(self.Shaft_Widget)
+        self.reqShaft.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqShaft.setObjectName("reqShaft")
         self.Drive_Shaft_Layout.addWidget(self.reqShaft)
         self.Shaft = QtWidgets.QTableWidget(self.Shaft_Widget)
@@ -477,6 +480,7 @@ class Ui_MainWindow(object):
         self.Slider_Layout.setContentsMargins(6, 6, 6, 6)
         self.Slider_Layout.setObjectName("Slider_Layout")
         self.reqSlider = QtWidgets.QLabel(self.Slider_Widget)
+        self.reqSlider.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqSlider.setObjectName("reqSlider")
         self.Slider_Layout.addWidget(self.reqSlider)
         self.Slider = QtWidgets.QTableWidget(self.Slider_Widget)
@@ -521,6 +525,7 @@ class Ui_MainWindow(object):
         self.Rod_Layout.setContentsMargins(6, 6, 6, 6)
         self.Rod_Layout.setObjectName("Rod_Layout")
         self.reqRod = QtWidgets.QLabel(self.Rod_Widget)
+        self.reqRod.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqRod.setObjectName("reqRod")
         self.Rod_Layout.addWidget(self.reqRod)
         self.Rod = QtWidgets.QTableWidget(self.Rod_Widget)
@@ -635,7 +640,6 @@ class Ui_MainWindow(object):
         self.Panels = QtWidgets.QWidget()
         self.Panels.setObjectName("Panels")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.Panels)
-        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.widget_2 = QtWidgets.QWidget(self.Panels)
         self.widget_2.setObjectName("widget_2")
@@ -669,7 +673,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 388, 268))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 414, 239))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -1388,7 +1392,7 @@ class Ui_MainWindow(object):
         self.Point_add_button.setStatusTip(_translate("MainWindow", "Quick insert a joint point."))
         self.Point_add_button.setText(_translate("MainWindow", "Add a Point"))
         self.PointTab.setTabText(self.PointTab.indexOf(self.Coordinate), _translate("MainWindow", "Point Coordinate"))
-        self.label_9.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:10pt; color:#ff0000;\">The number that does not exist will return 0.</span></p></body></html>"))
+        self.label_9.setText(_translate("MainWindow", "The number that does not exist will return 0."))
         self.Parameter_list.setStatusTip(_translate("MainWindow", "List of Parameter."))
         item = self.Parameter_list.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
@@ -1400,7 +1404,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1413,7 +1417,7 @@ class Ui_MainWindow(object):
         self.Parameter_delete.setText(_translate("MainWindow", "Delete"))
         self.PointTab.setTabText(self.PointTab.indexOf(self.tab), _translate("MainWindow", "Parameter"))
         self.Entiteis_Link_Widget.setStatusTip(_translate("MainWindow", "All Links in this workbook. Needs two point."))
-        self.reqLine.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 2 Points.</span></p></body></html>"))
+        self.reqLine.setText(_translate("MainWindow", "Requirement: 2 Points."))
         item = self.Entiteis_Link.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.Entiteis_Link.horizontalHeaderItem(1)
@@ -1424,7 +1428,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Length"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.LinkTab), _translate("MainWindow", "Link"))
         self.Entiteis_Stay_Chain_Widget.setStatusTip(_translate("MainWindow", "All Stay Chains in this workbook. Needs three point."))
-        self.reqChain.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 3 Points.</span></p></body></html>"))
+        self.reqChain.setText(_translate("MainWindow", "Requirement: 3 Points."))
         item = self.Entiteis_Stay_Chain.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.Entiteis_Stay_Chain.horizontalHeaderItem(1)
@@ -1442,7 +1446,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ChainTab), _translate("MainWindow", "Stay Chain"))
         self.OptionTab.setTabText(self.OptionTab.indexOf(self.Entites), _translate("MainWindow", "Entities"))
         self.Shaft_Widget.setStatusTip(_translate("MainWindow", "All drive shaft will show here. Needs two point."))
-        self.reqShaft.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 2 Points.</span></p></body></html>"))
+        self.reqShaft.setText(_translate("MainWindow", "Requirement: 2 Points."))
         item = self.Shaft.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.Shaft.horizontalHeaderItem(1)
@@ -1457,7 +1461,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Demo Angle(deg)"))
         self.Simulate_tab.setTabText(self.Simulate_tab.indexOf(self.Shaft_tab), _translate("MainWindow", "Shaft"))
         self.Slider_Widget.setStatusTip(_translate("MainWindow", "All slider will show here. Needs a point and a link."))
-        self.reqSlider.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 3 Points.</span></p></body></html>"))
+        self.reqSlider.setText(_translate("MainWindow", "Requirement: 3 Points."))
         item = self.Slider.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.Slider.horizontalHeaderItem(1)
@@ -1468,7 +1472,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End Side"))
         self.Simulate_tab.setTabText(self.Simulate_tab.indexOf(self.Slider_tab), _translate("MainWindow", "Slider"))
         self.Rod_Widget.setStatusTip(_translate("MainWindow", "All extendable rod will show here. Needs two point."))
-        self.reqRod.setText(_translate("MainWindow", "<html><head/><body><p><span style=\" color:#ff0000;\">Requirement: 3 Points.</span></p></body></html>"))
+        self.reqRod.setText(_translate("MainWindow", "Requirement: 3 Points."))
         item = self.Rod.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
         item = self.Rod.horizontalHeaderItem(1)

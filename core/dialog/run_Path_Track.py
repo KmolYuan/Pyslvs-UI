@@ -9,23 +9,16 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         super(Path_Track_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
-        self.Point = Point
-        self.Link = Link
-        self.Chain = Chain
-        self.Shaft = Shaft
-        self.Slider = Slider
-        self.Rod = Rod
-        self.warning = warning
-        self.work = WorkerThread(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod, self.warning, None)
+        self.work = WorkerThread(Point, Link, Chain, Shaft, Slider, Rod, warning, None)
         self.work.done.connect(self.finish)
         self.work.progress_Signal.connect(self.progressbar_change)
         self.buttonBox.button(QDialogButtonBox.Apply).clicked.connect(self.start)
         self.allShafts.clicked.connect(self.isReady)
         self.chooseShafts.clicked.connect(self.isReady)
-        for i, e in enumerate(self.Point):
+        for i, e in enumerate(Point):
             if not e.fix: self.Run_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
         self.shaftList = list()
-        for i in range(len(self.Shaft)):
+        for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
             shaftCheckBox.setText('Shaft{}'.format(i))
             if i==0: shaftCheckBox.setChecked(True)
@@ -61,6 +54,13 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
     
     @pyqtSlot(list)
     def finish(self, Path):
+        self.ShaftSuggest = list()
+        for vpaths in Path:
+            route = vpaths.paths[0].path
+            resolution = self.Resolution.value()
+            fallIndex = sorted([i*resolution for i, dot in enumerate(route) if dot[0]==False])
+            if (not fallIndex) or len(fallIndex)==len(route): continue
+            self.ShaftSuggest.append(list(reversed([fallIndex[0]%360, fallIndex[-1]%360])))
         self.Path_data = Path
         self.accept()
     
