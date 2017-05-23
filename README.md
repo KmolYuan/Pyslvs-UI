@@ -1,5 +1,4 @@
-Pyslvs
-===
+![](icons/title.png)
 
 + [Introduction](#introduction)
 
@@ -9,8 +8,6 @@ Pyslvs
 
 Introduction
 ===
-
-![](icons/title.png)
 
 A GUI-based tool solving 2D linkage subject.
 
