@@ -3518,7 +3518,9 @@ def threeAlgorithmResult():
       <AyMin>-50.0</AyMin>
       <DxMin>-50.0</DxMin>
       <DyMin>-50.0</DyMin>
+      <IMin>5.0</IMin>
       <LMin>5.0</LMin>
+      <FMin>5.0</FMin>
       <minAngle>0.0</minAngle>
       <maxAngle>360.0</maxAngle>
       <maxGen>1500</maxGen>
@@ -3661,7 +3663,9 @@ def threeAlgorithmResult():
       <AyMin>-50.0</AyMin>
       <DxMin>-50.0</DxMin>
       <DyMin>-50.0</DyMin>
+      <IMin>5.0</IMin>
       <LMin>5.0</LMin>
+      <FMin>5.0</FMin>
       <minAngle>0.0</minAngle>
       <maxAngle>360.0</maxAngle>
       <maxGen>1500</maxGen>
@@ -3804,7 +3808,9 @@ def threeAlgorithmResult():
       <AyMin>-50.0</AyMin>
       <DxMin>-50.0</DxMin>
       <DyMin>-50.0</DyMin>
+      <IMin>5.0</IMin>
       <LMin>5.0</LMin>
+      <FMin>5.0</FMin>
       <minAngle>0.0</minAngle>
       <maxAngle>360.0</maxAngle>
       <maxGen>1500</maxGen>

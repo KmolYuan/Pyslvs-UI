@@ -84,8 +84,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_Generate_clicked(self):
         type_num = 0 if self.type0.isChecked() else (1 if self.type1.isChecked() else 2)
-        upper = [self.AxMax.value(), self.AyMax.value(), self.DxMax.value(), self.DyMax.value()]+[self.LMax.value()]*5
-        lower = [self.AxMin.value(), self.AyMin.value(), self.DxMin.value(), self.DyMin.value()]+[self.LMin.value()]*5
+        upper = ([self.AxMax.value(), self.AyMax.value(), self.DxMax.value(), self.DyMax.value()]+
+            [self.IMax.value()]+[self.LMax.value()]+[self.FMax.value()]+[self.LMax.value()]*2)
+        lower = ([self.AxMin.value(), self.AyMin.value(), self.DxMin.value(), self.DyMin.value()]+
+            [self.IMin.value()]+[self.LMin.value()]+[self.FMin.value()]+[self.LMin.value()]*2)
         dlg = Path_Solving_progress_show(self.path, upper, lower, self.AMin.value(), self.AMax.value(),
             type_num, self.maxGen.value(), self.report.value()/100, self)
         dlg.show()
@@ -99,16 +101,21 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             print('Finished.')
     
     def addResult(self, e):
+        keys = sorted(list(e.keys()))
         item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['maxGen']))
         item.setToolTip('\n'.join(['[{}]'.format(e['Algorithm'])]+[
-            "{}: {}".format(k, v) for k, v in e.items() if not k in ['Algorithm', 'TimeAndFitness']]))
+            "{}: {}".format(k, e[k]) for k in keys if not k in ['Algorithm', 'TimeAndFitness']]))
         self.Result_list.addItem(item)
     
     @pyqtSlot(int)
     def on_Result_list_currentRowChanged(self, cr): self.isGetResult()
     
     def isGetResult(self):
-        n = self.Result_list.count()>0 and self.Result_list.currentRow()>-1
+        n = (self.Result_list.count()>0 and self.Result_list.currentRow()>-1)
+        for a, b in zip(
+            [self.AxMin, self.AyMin, self.DxMin, self.DyMin, self.IMin, self.LMin, self.FMin, self.AMin],
+            [self.AxMax, self.AyMax, self.DxMax, self.DyMax, self.IMax, self.LMax, self.FMax, self.AMax]
+            ): n &= a.value()<b.value()
         self.mergeButton.setEnabled(n)
         self.deleteButton.setEnabled(n)
         self.copySettings.setEnabled(n)
@@ -145,8 +152,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         elif args['Algorithm']=="Differtial Evolution": self.type2.setChecked(True)
         self.isCustomize.setChecked(True)
         self.setArgs(maxGen=args['maxGen'], report=args['report']*100,
-            AxMin=args['AxMin'], AyMin=args['AyMin'], DxMin=args['DxMin'], DyMin=args['DyMin'], LMin=args['LMin'], AMin=args['minAngle'],
-            AxMax=args['AxMax'], AyMax=args['AyMax'], DxMax=args['DxMax'], DyMax=args['DyMax'], LMax=args['LMax'], AMax=args['maxAngle'])
+            AxMin=args['AxMin'], AyMin=args['AyMin'], DxMin=args['DxMin'], DyMin=args['DyMin'],
+            IMin=arg['IMin'], LMin=args['LMin'], FMin=arg['FMin'], AMin=args['minAngle'],
+            AxMax=args['AxMax'], AyMax=args['AyMax'], DxMax=args['DxMax'], DyMax=args['DyMax'],
+            IMax=arg['IMax'], LMax=args['LMax'], FMax=arg['FMax'], AMax=args['maxAngle'])
         self.on_clearAll_clicked()
         for e in args['path']: self.on_add_clicked(e[0], e[1])
     
@@ -154,19 +163,23 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def on_isCustomize_clicked(self): self.setArgs()
     @pyqtSlot()
     def on_setDefault_clicked(self): self.setArgs()
-    def setArgs(self, maxGen=1500, report=1, AxMin=-50., AyMin=-50., DxMin=-50., DyMin=-50., LMin=5., AMin=0.,
-            AxMax=50., AyMax=50., DxMax=50., DyMax=50., LMax=50., AMax=360.):
+    def setArgs(self, maxGen=1500, report=1, AxMin=-50., AyMin=-50., DxMin=-50., DyMin=-50., IMin=5., LMin=5., FMin=5., AMin=0.,
+            AxMax=50., AyMax=50., DxMax=50., DyMax=50., IMax=50., LMax=50., FMax=50., AMax=360.):
         self.maxGen.setValue(maxGen)
         self.report.setValue(report)
         self.AxMin.setValue(AxMin)
         self.AyMin.setValue(AyMin)
         self.DxMin.setValue(DxMin)
         self.DyMin.setValue(DyMin)
+        self.IMin.setValue(IMin)
         self.LMin.setValue(LMin)
+        self.FMin.setValue(FMin)
         self.AMin.setValue(AMin)
         self.AxMax.setValue(AxMax)
         self.AyMax.setValue(AyMax)
         self.DxMax.setValue(DxMax)
         self.DyMax.setValue(DyMax)
+        self.IMax.setValue(IMax)
         self.LMax.setValue(LMax)
+        self.FMax.setValue(FMax)
         self.AMax.setValue(AMax)
