@@ -29,7 +29,7 @@ def writeTS(table, row, Direction):
         table.setItem(row, i, Item)
     condition = [
         "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if Direction.Type=='PLPP' else
-        ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"][v])) for k, v in Direction.items().items()]
+        ["Points only", "Linking L0", "Linking R0", "Fixed Chain", "Linking L0 & R0"][v])) for k, v in Direction.items().items()]
     conditionItem = QTableWidgetItem(', '.join(condition))
     conditionItem.setToolTip('\n'.join(condition))
     table.setItem(row, 4, conditionItem)

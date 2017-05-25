@@ -163,7 +163,7 @@ class Ui_Dialog(object):
         self.tableWidget.setSortingEnabled(__sortingEnabled)
         self.lineBox.setTitle(_translate("Dialog", "Linkage"))
         self.lineLable.setText(_translate("Dialog", "None"))
-        self.chainBox.setTitle(_translate("Dialog", "Stay chain"))
+        self.chainBox.setTitle(_translate("Dialog", "Fixed Chain"))
         self.chainLable.setText(_translate("Dialog", "None"))
         self.shaftBox.setTitle(_translate("Dialog", "Shaft"))
         self.shaftLable.setText(_translate("Dialog", "None"))

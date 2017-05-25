@@ -30,10 +30,10 @@ Open GUI by Python:
 $python3 launch_pyslvs.py
 ```
 
-Or view help:
+Or see help:
 
 ```bash
-$python3 launch_pyslvs.py -h
+$python3 launch_pyslvs.py --help
 ```
 
 Symbolic
@@ -47,7 +47,7 @@ Symbolic
 
     ![](icons/cover/Line.png)
 
-1. Chain (Stay Chain)
+1. Chain (Fixed Chain)
 
     ![](icons/cover/Chain.png)
 

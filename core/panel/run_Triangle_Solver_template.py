@@ -73,7 +73,7 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
             row = li.index(e)
             self.triangleTable.setItem(row, 0, QTableWidgetItem('PPP'))
             self.triangleTable.setItem(row, 1, QTableWidgetItem(
-                ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"][e['merge']]))
+                ["Points only", "Linking L0", "Linking R0", "Fixed Chain", "Linking L0 & R0"][e['merge']]))
             points = [self.parameterTable.cellWidget(p-1, 1).currentIndex() for p in e['p']]
             self.triangleTable.setItem(row, 2, QTableWidgetItem('Point{}'.format(points[0])))
             self.triangleTable.setItem(row, 3, QTableWidgetItem('Point{}'.format(points[1])))

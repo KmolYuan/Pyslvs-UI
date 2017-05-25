@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
                    </widget>
                    <widget class="QWidget" name="ChainTab">
                     <attribute name="title">
-                     <string>Stay Chain</string>
+                     <string>Fixed Chain</string>
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_28">
                      <property name="leftMargin">
@@ -852,7 +852,7 @@ p, li { white-space: pre-wrap; }
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
                        <property name="statusTip">
-                        <string>All Stay Chains in this workbook. Needs three point.</string>
+                        <string>All Fixed Chains in this workbook. Needs three point.</string>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_15">
                         <property name="leftMargin">
@@ -2501,7 +2501,7 @@ p, li { white-space: pre-wrap; }
     <string>New Stay &amp;Chain</string>
    </property>
    <property name="statusTip">
-    <string>Add a stay chain by existing points.</string>
+    <string>Add a Fixed Chain by existing points.</string>
    </property>
    <property name="shortcut">
     <string>F4</string>
@@ -2558,10 +2558,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/deletechain.png</normaloff>:/icons/deletechain.png</iconset>
    </property>
    <property name="text">
-    <string>Delete a Stay Chain</string>
+    <string>Delete a Fixed Chain</string>
    </property>
    <property name="statusTip">
-    <string>Delete an existing stay chain.</string>
+    <string>Delete an existing Fixed Chain.</string>
    </property>
   </action>
   <action name="action_Edit_Point">
@@ -2603,10 +2603,10 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/editchain.png</normaloff>:/icons/editchain.png</iconset>
    </property>
    <property name="text">
-    <string>Edit a Stay Chain</string>
+    <string>Edit a Fixed Chain</string>
    </property>
    <property name="statusTip">
-    <string>Edit an existing stay chain.</string>
+    <string>Edit an existing Fixed Chain.</string>
    </property>
   </action>
   <action name="action_Set_Slider">

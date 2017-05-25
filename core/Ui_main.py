@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -172,7 +172,6 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.tab)
-        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.Parameter_Widget = QtWidgets.QWidget(self.tab)
         self.Parameter_Widget.setObjectName("Parameter_Widget")
@@ -641,7 +640,6 @@ class Ui_MainWindow(object):
         self.Panels = QtWidgets.QWidget()
         self.Panels.setObjectName("Panels")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.Panels)
-        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.widget_2 = QtWidgets.QWidget(self.Panels)
         self.widget_2.setObjectName("widget_2")
@@ -1429,7 +1427,7 @@ class Ui_MainWindow(object):
         item = self.Entiteis_Link.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Length"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.LinkTab), _translate("MainWindow", "Link"))
-        self.Entiteis_Stay_Chain_Widget.setStatusTip(_translate("MainWindow", "All Stay Chains in this workbook. Needs three point."))
+        self.Entiteis_Stay_Chain_Widget.setStatusTip(_translate("MainWindow", "All Fixed Chains in this workbook. Needs three point."))
         self.reqChain.setText(_translate("MainWindow", "Requirement: 3 Points."))
         item = self.Entiteis_Stay_Chain.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
@@ -1445,7 +1443,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "[2]-[3]"))
         item = self.Entiteis_Stay_Chain.horizontalHeaderItem(6)
         item.setText(_translate("MainWindow", "[1]-[3]"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.ChainTab), _translate("MainWindow", "Stay Chain"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.ChainTab), _translate("MainWindow", "Fixed Chain"))
         self.OptionTab.setTabText(self.OptionTab.indexOf(self.Entites), _translate("MainWindow", "Entities"))
         self.Shaft_Widget.setStatusTip(_translate("MainWindow", "All drive shaft will show here. Needs two point."))
         self.reqShaft.setText(_translate("MainWindow", "Requirement: 2 Points."))
@@ -1583,7 +1581,7 @@ class Ui_MainWindow(object):
         self.action_Save.setStatusTip(_translate("MainWindow", "Save the workbook."))
         self.action_Save.setShortcut(_translate("MainWindow", "Ctrl+S"))
         self.action_New_Stay_Chain.setText(_translate("MainWindow", "New Stay &Chain"))
-        self.action_New_Stay_Chain.setStatusTip(_translate("MainWindow", "Add a stay chain by existing points."))
+        self.action_New_Stay_Chain.setStatusTip(_translate("MainWindow", "Add a Fixed Chain by existing points."))
         self.action_New_Stay_Chain.setShortcut(_translate("MainWindow", "F4"))
         self.action_See_Python_Scripts.setText(_translate("MainWindow", "Python &script"))
         self.action_See_Python_Scripts.setStatusTip(_translate("MainWindow", "Generate a Python scripts from the workbook."))
@@ -1591,14 +1589,14 @@ class Ui_MainWindow(object):
         self.action_Delete_Point.setStatusTip(_translate("MainWindow", "Delete an existing point."))
         self.action_Delete_Linkage.setText(_translate("MainWindow", "Delet a Linkage"))
         self.action_Delete_Linkage.setStatusTip(_translate("MainWindow", "Delete an existing linkage."))
-        self.action_Delete_Stay_Chain.setText(_translate("MainWindow", "Delete a Stay Chain"))
-        self.action_Delete_Stay_Chain.setStatusTip(_translate("MainWindow", "Delete an existing stay chain."))
+        self.action_Delete_Stay_Chain.setText(_translate("MainWindow", "Delete a Fixed Chain"))
+        self.action_Delete_Stay_Chain.setStatusTip(_translate("MainWindow", "Delete an existing Fixed Chain."))
         self.action_Edit_Point.setText(_translate("MainWindow", "Edit a Point"))
         self.action_Edit_Point.setStatusTip(_translate("MainWindow", "Edit an existing point."))
         self.action_Edit_Linkage.setText(_translate("MainWindow", "Edit a Linkage"))
         self.action_Edit_Linkage.setStatusTip(_translate("MainWindow", "Edit an existing linkage."))
-        self.action_Edit_Stay_Chain.setText(_translate("MainWindow", "Edit a Stay Chain"))
-        self.action_Edit_Stay_Chain.setStatusTip(_translate("MainWindow", "Edit an existing stay chain."))
+        self.action_Edit_Stay_Chain.setText(_translate("MainWindow", "Edit a Fixed Chain"))
+        self.action_Edit_Stay_Chain.setStatusTip(_translate("MainWindow", "Edit an existing Fixed Chain."))
         self.action_Set_Slider.setText(_translate("MainWindow", "Set &Slider"))
         self.action_Set_Slider.setStatusTip(_translate("MainWindow", "Set three points as a Slider center."))
         self.action_Set_Slider.setShortcut(_translate("MainWindow", "F6"))

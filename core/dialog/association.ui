@@ -144,7 +144,7 @@
           </sizepolicy>
          </property>
          <property name="title">
-          <string>Stay chain</string>
+          <string>Fixed Chain</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>

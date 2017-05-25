@@ -35,7 +35,7 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.directionsTable.setItem(row, 3, p2Item)
             condition = [
                 "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if direction.Type=='PLPP' else
-                ["Points only", "Linking L0", "Linking R0", "Stay Chain", "Linking L0 & R0"][v])) for k, v in direction.items().items()]
+                ["Points only", "Linking L0", "Linking R0", "Fixed Chain", "Linking L0 & R0"][v])) for k, v in direction.items().items()]
             conditionItem = QTableWidgetItem(', '.join(condition))
             conditionItem.setToolTip('\n'.join(condition))
             self.directionsTable.setItem(row, 4, conditionItem)
