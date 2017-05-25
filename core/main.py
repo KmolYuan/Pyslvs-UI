@@ -205,6 +205,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action_Enabled(self)
     
     @pyqtSlot()
+    def on_action_Get_Help_triggered(self): self.OpenURL("http://mde.tw")
+    @pyqtSlot()
+    def on_action_Pyslvs_com_triggered(self): self.OpenURL("https://pyslvs.com")
+    @pyqtSlot()
+    def on_action_Git_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
+    @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
         dlg = version_show(self)
         splash = Pyslvs_Splash()
@@ -213,12 +219,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         splash.finish(dlg)
     @pyqtSlot()
     def on_action_About_Qt_triggered(self): QMessageBox.aboutQt(self)
-    @pyqtSlot()
-    def on_action_Get_Help_triggered(self): self.OpenURL("http://mde.tw")
-    @pyqtSlot()
-    def on_action_Git_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
-    @pyqtSlot()
-    def on_action_Github_Wiki_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-manual/tree/master")
+    def OpenURL(self, URL):
+        print("Open - {{{}}}".format(URL))
+        webbrowser.open(URL)
+    
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
         Point, Line, Chain, Shaft, Slider, Rod = self.File.Obstacles_Exclusion()
@@ -226,9 +230,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Search_Points_triggered(self): self.OpenDlg(Association_show(self.File.Lists.PointList, self.File.Lists.LineList,
         self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self))
-    def OpenURL(self, URL):
-        print("Open - {{{}}}".format(URL))
-        webbrowser.open(URL)
     def OpenDlg(self, dlg):
         dlg.show()
         dlg.exec()

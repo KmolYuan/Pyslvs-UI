@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import numpy
 from ..kernel.kernel_getter import *
 
 def generateProcess(path, upper, lowerVal, minAngle=0., maxAngle=360., type=0, maxGen=1500, report=.05):

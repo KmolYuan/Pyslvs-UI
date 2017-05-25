@@ -497,7 +497,7 @@
                            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
@@ -1610,8 +1610,8 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>414</width>
-                         <height>239</height>
+                         <width>427</width>
+                         <height>268</height>
                         </rect>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -2217,9 +2217,9 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>&amp;Help</string>
     </property>
-    <addaction name="action_Get_Help"/>
+    <addaction name="action_Pyslvs_com"/>
     <addaction name="action_Git_hub_Site"/>
-    <addaction name="action_Github_Wiki"/>
+    <addaction name="action_Get_Help"/>
     <addaction name="separator"/>
     <addaction name="action_About_Pyslvs"/>
     <addaction name="action_About_Qt"/>
@@ -2394,18 +2394,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="shortcut">
     <string>F5</string>
-   </property>
-  </action>
-  <action name="action_Github_Wiki">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/github-24.png</normaloff>:/icons/github-24.png</iconset>
-   </property>
-   <property name="text">
-    <string>Github &amp;Manual</string>
-   </property>
-   <property name="statusTip">
-    <string>See our Wiki on Github.</string>
    </property>
   </action>
   <action name="action_Minimized">
@@ -2847,7 +2835,7 @@ p, li { white-space: pre-wrap; }
     <string>Multiple linkage</string>
    </property>
    <property name="statusTip">
-    <string>Mutiple Link #1</string>
+    <string>Linkage #1</string>
    </property>
   </action>
   <action name="action_Save_as">
@@ -2884,7 +2872,7 @@ p, li { white-space: pre-wrap; }
     <string>Two pairs multiple linkage</string>
    </property>
    <property name="statusTip">
-    <string>Mutiple Link #2</string>
+    <string>Linkage #2</string>
    </property>
   </action>
   <action name="action_Drag_link">
@@ -2916,7 +2904,7 @@ p, li { white-space: pre-wrap; }
     <string>Reverse Parsing Rocker</string>
    </property>
    <property name="statusTip">
-    <string>Crank rocker #1</string>
+    <string>Algorithm #1</string>
    </property>
   </action>
   <action name="action_Replace_Point">
@@ -3046,6 +3034,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Theo Jansen's multi linkage</string>
    </property>
+   <property name="statusTip">
+    <string>Design #1</string>
+   </property>
   </action>
   <action name="SolvespaceMenuTitle">
    <property name="enabled">
@@ -3074,6 +3065,9 @@ p, li { white-space: pre-wrap; }
   <action name="action_Rock_Slider_Design">
    <property name="text">
     <string>Rock Slider Design</string>
+   </property>
+   <property name="statusTip">
+    <string>Design #2</string>
    </property>
   </action>
   <action name="action_Import_From_Workbook">
@@ -3115,6 +3109,9 @@ p, li { white-space: pre-wrap; }
   <action name="action_Four_bar_linkage">
    <property name="text">
     <string>Four bar linkage</string>
+   </property>
+   <property name="statusTip">
+    <string>Linkage #3</string>
    </property>
   </action>
   <action name="action_Load_Workbook">
@@ -3217,6 +3214,9 @@ p, li { white-space: pre-wrap; }
    <property name="text">
     <string>Three Algorithm Result</string>
    </property>
+   <property name="statusTip">
+    <string>Algorithm #2</string>
+   </property>
   </action>
   <action name="action_Path_style">
    <property name="checkable">
@@ -3242,6 +3242,18 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="statusTip">
     <string>Update base coordinate from current coordinate.</string>
+   </property>
+  </action>
+  <action name="action_Pyslvs_com">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Pyslvs.com</string>
+   </property>
+   <property name="statusTip">
+    <string>Goto Pyslvs home page.</string>
    </property>
   </action>
  </widget>

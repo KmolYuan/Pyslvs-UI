@@ -50,3 +50,10 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
                     self.path_data.insertRow(i)
                     self.path_data.setItem(i, 0, QTableWidgetItem(str(dot[0])))
                     self.path_data.setItem(i, 1, QTableWidgetItem(str(dot[1])))
+    
+    @pyqtSlot()
+    def on_copyPath_clicked(self):
+        clipboard = QApplication.clipboard()
+        clipboard.setText('\n'.join([
+            ', '.join([self.path_data.item(row, column).text() for column in range(self.path_data.columnCount())
+            ]) for row in range(self.path_data.rowCount())]))

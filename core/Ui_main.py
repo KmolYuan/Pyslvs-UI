@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.2
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -172,6 +172,7 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.tab)
+        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.Parameter_Widget = QtWidgets.QWidget(self.tab)
         self.Parameter_Widget.setObjectName("Parameter_Widget")
@@ -640,6 +641,7 @@ class Ui_MainWindow(object):
         self.Panels = QtWidgets.QWidget()
         self.Panels.setObjectName("Panels")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.Panels)
+        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.widget_2 = QtWidgets.QWidget(self.Panels)
         self.widget_2.setObjectName("widget_2")
@@ -673,7 +675,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 414, 239))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 427, 268))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -960,9 +962,6 @@ class Ui_MainWindow(object):
         self.action_Set_Shaft.setEnabled(True)
         self.action_Set_Shaft.setIcon(icon8)
         self.action_Set_Shaft.setObjectName("action_Set_Shaft")
-        self.action_Github_Wiki = QtWidgets.QAction(MainWindow)
-        self.action_Github_Wiki.setIcon(icon27)
-        self.action_Github_Wiki.setObjectName("action_Github_Wiki")
         self.action_Minimized = QtWidgets.QAction(MainWindow)
         icon28 = QtGui.QIcon()
         icon28.addPixmap(QtGui.QPixmap(":/icons/minmized.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -1233,6 +1232,9 @@ class Ui_MainWindow(object):
         icon57.addPixmap(QtGui.QPixmap(":/icons/dataupdate.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Update_all_points.setIcon(icon57)
         self.action_Update_all_points.setObjectName("action_Update_all_points")
+        self.action_Pyslvs_com = QtWidgets.QAction(MainWindow)
+        self.action_Pyslvs_com.setIcon(icon)
+        self.action_Pyslvs_com.setObjectName("action_Pyslvs_com")
         self.menuExample.addAction(self.GrashofChainMenuTitle)
         self.menuExample.addAction(self.action_Crank_rocker)
         self.menuExample.addAction(self.action_Drag_link)
@@ -1304,9 +1306,9 @@ class Ui_MainWindow(object):
         self.menu_Options.addSeparator()
         self.menu_Options.addAction(self.action_See_Python_Scripts)
         self.menu_Options.addAction(self.action_Property)
-        self.menu_Help.addAction(self.action_Get_Help)
+        self.menu_Help.addAction(self.action_Pyslvs_com)
         self.menu_Help.addAction(self.action_Git_hub_Site)
-        self.menu_Help.addAction(self.action_Github_Wiki)
+        self.menu_Help.addAction(self.action_Get_Help)
         self.menu_Help.addSeparator()
         self.menu_Help.addAction(self.action_About_Pyslvs)
         self.menu_Help.addAction(self.action_About_Qt)
@@ -1404,7 +1406,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1563,8 +1565,6 @@ class Ui_MainWindow(object):
         self.action_Set_Shaft.setText(_translate("MainWindow", "Set &Drive Shaft"))
         self.action_Set_Shaft.setStatusTip(_translate("MainWindow", "Set two points as a Drive Shaft."))
         self.action_Set_Shaft.setShortcut(_translate("MainWindow", "F5"))
-        self.action_Github_Wiki.setText(_translate("MainWindow", "Github &Manual"))
-        self.action_Github_Wiki.setStatusTip(_translate("MainWindow", "See our Wiki on Github."))
         self.action_Minimized.setText(_translate("MainWindow", "Minimized"))
         self.action_Minimized.setStatusTip(_translate("MainWindow", "Minimized the window."))
         self.action_Maxmized.setText(_translate("MainWindow", "Maxmized"))
@@ -1635,7 +1635,7 @@ class Ui_MainWindow(object):
         self.action_Crank_rocker.setText(_translate("MainWindow", "Crank rocker"))
         self.action_Crank_rocker.setStatusTip(_translate("MainWindow", "Grashof chain #1"))
         self.action_Multiple_Link.setText(_translate("MainWindow", "Multiple linkage"))
-        self.action_Multiple_Link.setStatusTip(_translate("MainWindow", "Mutiple Link #1"))
+        self.action_Multiple_Link.setStatusTip(_translate("MainWindow", "Linkage #1"))
         self.action_Save_as.setText(_translate("MainWindow", "Save &as..."))
         self.action_Save_as.setStatusTip(_translate("MainWindow", "Save to another workbook."))
         self.action_Save_as.setShortcut(_translate("MainWindow", "Ctrl+Shift+S"))
@@ -1643,7 +1643,7 @@ class Ui_MainWindow(object):
         self.action_Search_Points.setStatusTip(_translate("MainWindow", "View the association between points."))
         self.action_Search_Points.setShortcut(_translate("MainWindow", "Ctrl+F"))
         self.action_Two_Multiple_Link.setText(_translate("MainWindow", "Two pairs multiple linkage"))
-        self.action_Two_Multiple_Link.setStatusTip(_translate("MainWindow", "Mutiple Link #2"))
+        self.action_Two_Multiple_Link.setStatusTip(_translate("MainWindow", "Linkage #2"))
         self.action_Drag_link.setText(_translate("MainWindow", "Drag-link"))
         self.action_Drag_link.setStatusTip(_translate("MainWindow", "Grashof chain #2"))
         self.action_Double_rocker.setText(_translate("MainWindow", "Double rocker"))
@@ -1651,7 +1651,7 @@ class Ui_MainWindow(object):
         self.action_Parallelogram_linkage.setText(_translate("MainWindow", "Parallelogram linkage"))
         self.action_Parallelogram_linkage.setStatusTip(_translate("MainWindow", "Grashof chain #4"))
         self.action_Reverse_Parsing_Rocker.setText(_translate("MainWindow", "Reverse Parsing Rocker"))
-        self.action_Reverse_Parsing_Rocker.setStatusTip(_translate("MainWindow", "Crank rocker #1"))
+        self.action_Reverse_Parsing_Rocker.setStatusTip(_translate("MainWindow", "Algorithm #1"))
         self.action_Replace_Point.setText(_translate("MainWindow", "Replace point"))
         self.action_Replace_Point.setStatusTip(_translate("MainWindow", "Replace a point to another point."))
         self.action_Replace_Point.setShortcut(_translate("MainWindow", "Ctrl+R"))
@@ -1678,10 +1678,12 @@ class Ui_MainWindow(object):
         self.SlidersMenuTitle.setText(_translate("MainWindow", "Sliders"))
         self.DesignsMenuTitle.setText(_translate("MainWindow", "Design"))
         self.action_Theo_Jansen_s_multi_linkage.setText(_translate("MainWindow", "Theo Jansen\'s multi linkage"))
+        self.action_Theo_Jansen_s_multi_linkage.setStatusTip(_translate("MainWindow", "Design #1"))
         self.SolvespaceMenuTitle.setText(_translate("MainWindow", "Solvespace"))
         self.DXFMenuTitle.setText(_translate("MainWindow", "DXF"))
         self.OtherFormatMenuTitle.setText(_translate("MainWindow", "Other Format"))
         self.action_Rock_Slider_Design.setText(_translate("MainWindow", "Rock Slider Design"))
+        self.action_Rock_Slider_Design.setStatusTip(_translate("MainWindow", "Design #2"))
         self.action_Import_From_Workbook.setText(_translate("MainWindow", "From Workbook"))
         self.action_Import_From_Workbook.setStatusTip(_translate("MainWindow", "Import from workbook."))
         self.action_About_Qt.setText(_translate("MainWindow", "About Qt"))
@@ -1689,6 +1691,7 @@ class Ui_MainWindow(object):
         self.action_ViewLogFile.setText(_translate("MainWindow", "View the Log file"))
         self.action_ViewLogFile.setStatusTip(_translate("MainWindow", "Find and view the current Log file."))
         self.action_Four_bar_linkage.setText(_translate("MainWindow", "Four bar linkage"))
+        self.action_Four_bar_linkage.setStatusTip(_translate("MainWindow", "Linkage #3"))
         self.action_Load_Workbook.setText(_translate("MainWindow", "L&oad Workbook"))
         self.action_Load_Workbook.setStatusTip(_translate("MainWindow", "Load Workbook from xml or csv file."))
         self.action_Load_Workbook.setShortcut(_translate("MainWindow", "Ctrl+O"))
@@ -1707,10 +1710,13 @@ class Ui_MainWindow(object):
         self.action_Save_path_only.setStatusTip(_translate("MainWindow", "Save path for merge to another workbook."))
         self.AlgorithmMenuTitle.setText(_translate("MainWindow", "Algorithm"))
         self.action_Three_Algorithm_Result.setText(_translate("MainWindow", "Three Algorithm Result"))
+        self.action_Three_Algorithm_Result.setStatusTip(_translate("MainWindow", "Algorithm #2"))
         self.action_Path_style.setText(_translate("MainWindow", "Show in solid path style"))
         self.action_Path_style.setStatusTip(_translate("MainWindow", "Show path in solid line style, otherwise will be isolated dots."))
         self.action_Update_all_points.setText(_translate("MainWindow", "Update all points"))
         self.action_Update_all_points.setStatusTip(_translate("MainWindow", "Update base coordinate from current coordinate."))
+        self.action_Pyslvs_com.setText(_translate("MainWindow", "&Pyslvs.com"))
+        self.action_Pyslvs_com.setStatusTip(_translate("MainWindow", "Goto Pyslvs home page."))
 
 import icons_rc
 import preview_rc
