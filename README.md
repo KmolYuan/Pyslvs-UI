@@ -30,10 +30,10 @@ Open GUI by Python:
 $python3 launch_pyslvs.py
 ```
 
-Or see help:
+Or view help:
 
 ```bash
-$python3 launch_pyslvs.py --help
+$python3 launch_pyslvs.py -h
 ```
 
 Symbolic
