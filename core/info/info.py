@@ -4,7 +4,7 @@ import platform, argparse
 from ..QtModules import *
 from .Ui_info import Ui_About_Dialog
 
-VERSION = ('0.7.0', 'dev')
+VERSION = ('0.7.0', 'stable')
 from PyQt5.QtCore import qVersion
 from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 from sip import SIP_VERSION_STR as sipVersion
