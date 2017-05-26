@@ -24,7 +24,7 @@ def writeTS(table, row, Direction):
     table.setItem(row, 0, QTableWidgetItem(Direction.Type))
     for i in [2, 3]:
         e = [Direction.p1, Direction.p2][i-2]
-        Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else "({:.02f}, {:.02f})".format(e[0], e[1]) if type(e)==tuple else e)
+        Item = QTableWidgetItem('Result{}'.format(e+1) if type(e)==int else "({:.02f}, {:.02f})".format(e[0], e[1]) if type(e)==tuple else e)
         if type(e)==tuple: Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
         table.setItem(row, i, Item)
     condition = [

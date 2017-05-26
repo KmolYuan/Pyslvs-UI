@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/mde1a1/src/core/simulate/edit_shaft.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\mde1a1\src\core\simulate\edit_shaft.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -122,7 +122,7 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "<html><head/><body><p>Start Angle(deg)</p></body></html>"))
         self.label.setText(_translate("Dialog", "Shaft Center"))
         self.Center.setWhatsThis(_translate("Dialog", "Start point for next link."))
-        self.label_2.setText(_translate("Dialog", "References"))
+        self.label_2.setText(_translate("Dialog", "Reference"))
         self.References.setWhatsThis(_translate("Dialog", "End point for next link."))
         self.label_7.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">Must be a fixed point</span></p></body></html>"))
         self.label_8.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">Must not be a fixed point</span></p></body></html>"))

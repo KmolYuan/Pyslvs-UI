@@ -673,7 +673,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 427, 268))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 366, 239))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -1404,7 +1404,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1452,7 +1452,7 @@ class Ui_MainWindow(object):
         item = self.Shaft.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "Shaft Center"))
         item = self.Shaft.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "References"))
+        item.setText(_translate("MainWindow", "Reference"))
         item = self.Shaft.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "Start Angle(deg)"))
         item = self.Shaft.horizontalHeaderItem(4)

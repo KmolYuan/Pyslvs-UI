@@ -26,11 +26,11 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.directionsTable.insertRow(row)
             self.directionsTable.setItem(row, 0, QTableWidgetItem(direction.Type))
             e = direction.p1
-            p1Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
+            p1Item = QTableWidgetItem('Result{}'.format(e+1) if type(e)==int else str(e))
             if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
             self.directionsTable.setItem(row, 2, p1Item)
             e = direction.p2
-            p2Item = QTableWidgetItem('Result{}'.format(e) if type(e)==int else str(e))
+            p2Item = QTableWidgetItem('Result{}'.format(e+1) if type(e)==int else str(e))
             if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
             self.directionsTable.setItem(row, 3, p2Item)
             condition = [
