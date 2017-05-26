@@ -346,7 +346,7 @@ class Ui_Form(object):
         self.IMax = QtWidgets.QDoubleSpinBox(self.limitPanel)
         self.IMax.setMinimum(0.01)
         self.IMax.setMaximum(999.0)
-        self.IMax.setProperty("value", 5.0)
+        self.IMax.setProperty("value", 50.0)
         self.IMax.setObjectName("IMax")
         self.gridLayout.addWidget(self.IMax, 5, 3, 1, 1)
         self.label_19 = QtWidgets.QLabel(self.limitPanel)

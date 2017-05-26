@@ -19,14 +19,14 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.path = data
         for e in data: self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
         for e in resultData: self.addResult(e)
-        self.Point_list_Count()
+        self.isGenerate()
         self.isGetResult()
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
         self.Point_list.setCurrentRow(0)
         for i in reversed(range(self.Point_list.count()+1)): self.on_remove_clicked()
-        self.Point_list_Count()
+        self.isGenerate()
     
     @pyqtSlot()
     def on_series_clicked(self):
@@ -59,7 +59,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def addPath(self, x, y):
         self.Point_list.addItem('({}, {})'.format(x, y))
-        self.Point_list_Count()
+        self.isGenerate()
     
     @pyqtSlot()
     def on_add_clicked(self, x=False, y=False):
@@ -68,18 +68,23 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             y = self.Y_coordinate.value()
         self.addPathPoint.emit(x, y)
         self.Point_list.addItem("({}, {})".format(x, y))
-        self.Point_list_Count()
+        self.isGenerate()
     @pyqtSlot()
     def on_remove_clicked(self):
         if self.Point_list.currentRow()>-1:
             self.deletePathPoint.emit(self.Point_list.currentRow())
             self.Point_list.takeItem(self.Point_list.currentRow())
-            self.Point_list_Count()
+            self.isGenerate()
     
-    def Point_list_Count(self):
+    def isGenerate(self):
         self.pointNum.setText(
             "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
-        self.Generate.setEnabled(self.Point_list.count()>1)
+        n = self.Point_list.count()>1
+        for a, b in zip(
+            [self.AxMin, self.AyMin, self.DxMin, self.DyMin, self.IMin, self.LMin, self.FMin, self.AMin],
+            [self.AxMax, self.AyMax, self.DxMax, self.DyMax, self.IMax, self.LMax, self.FMax, self.AMax]
+            ): n &= a.value()<=b.value()
+        self.Generate.setEnabled(n)
     
     @pyqtSlot()
     def on_Generate_clicked(self):
@@ -110,16 +115,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot(int)
     def on_Result_list_currentRowChanged(self, cr): self.isGetResult()
     
-    def isGetResult(self):
-        n = (self.Result_list.count()>0 and self.Result_list.currentRow()>-1)
-        for a, b in zip(
-            [self.AxMin, self.AyMin, self.DxMin, self.DyMin, self.IMin, self.LMin, self.FMin, self.AMin],
-            [self.AxMax, self.AyMax, self.DxMax, self.DyMax, self.IMax, self.LMax, self.FMax, self.AMax]
-            ): n &= a.value()<b.value()
-        self.mergeButton.setEnabled(n)
-        self.deleteButton.setEnabled(n)
-        self.copySettings.setEnabled(n)
-    
     @pyqtSlot()
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
@@ -127,10 +122,15 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.Result_list.takeItem(row)
         self.isGetResult()
     
+    def isGetResult(self):
+        n = (self.Result_list.count()>0 and self.Result_list.currentRow()>-1)
+        self.mergeButton.setEnabled(n)
+        self.deleteButton.setEnabled(n)
+        self.copySettings.setEnabled(n)
+    
     @pyqtSlot(QModelIndex)
     def on_Result_list_doubleClicked(self, index):
-        row = self.Result_list.currentRow()
-        if row!=-1: self.on_mergeButton_clicked()
+        if self.Result_list.currentRow()!=-1: self.on_mergeButton_clicked()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
@@ -183,3 +183,40 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.LMax.setValue(LMax)
         self.FMax.setValue(FMax)
         self.AMax.setValue(AMax)
+    
+    @pyqtSlot(float)
+    def on_maxGen_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_report_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_AxMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_AyMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_DxMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_DyMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_IMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_LMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_FMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_AMin_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_AxMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_AyMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_DxMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_DyMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_IMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_LMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_FMax_valueChanged(self, p0): self.isGenerate()
+    @pyqtSlot(float)
+    def on_AMax_valueChanged(self, p0): self.isGenerate()
