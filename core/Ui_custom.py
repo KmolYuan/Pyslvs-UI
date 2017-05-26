@@ -24,7 +24,7 @@ def init_Right_click_menu(self):
     self.popMenu_point.addAction(self.action_point_right_click_menu_edit)
     self.action_point_right_click_menu_lock = QAction("&Fix / Unfix", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_lock)
-    self.action_point_right_click_menu_copy = QAction("Copy current Coordinate", self)
+    self.action_point_right_click_menu_copy = QAction("Copy table data", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copy)
     self.action_point_right_click_menu_copyPoint = QAction("&Copy", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copyPoint)
