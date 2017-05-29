@@ -120,13 +120,13 @@ $sudo pip3 install -r requirements.txt
 PyQt
 ---
 
-Download [Qt] and install it.
+Download [Qt5] and install it.
 
 Make sure computer is installed Qt5 and PyQt5 in the same version.
 
 **Linux**:
 
-Linux OS has to add Qt file path in user's `.bashrc`, like `/opt/Qt/5.8/gcc_64/`.
+Linux user has to add Qt file path in user's `.bashrc`, like `/opt/Qt/5.8/gcc_64/`.
 
 ```bash
 export QTDIR=/opt/Qt/5.8/gcc_64/
@@ -153,7 +153,7 @@ Download and build [PyQt5], [PyQtChart] and [QScintilla2] by self.
 
 **Windows**:
 
-Windows OS has to add Qt file path in environment variables, like `C:\Qt\5.8\msvc2015_64\bin`.
+Windows user has to add Qt file path in environment variables, like `C:\Qt\5.8\msvc2015_64\bin`.
 
 Install PyQt5, PyQtChart and QScintilla2 by pip.
 
