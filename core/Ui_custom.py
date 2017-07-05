@@ -1,7 +1,9 @@
 from .QtModules import *
+from .info.info import VERSION
 _translate = QCoreApplication.translate
 
-def init_Right_click_menu(self):
+def init_Widgets(self):
+    self.menuBar.setCornerWidget(QLabel("Pyslvs {} ({})".format(VERSION[0], VERSION[1])))
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
         self.Shaft, self.Slider, self.Rod]: table.itemClicked.connect(self.tableFocusChange)
     #DynamicCanvasView Right-click menu

@@ -49,7 +49,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FocusTable = None
         self.MaskChange()
         self.Parameter_digital.setValidator(self.Mask)
-        init_Right_click_menu(self)
+        init_Widgets(self)
         action_Enabled(self)
         if self.args.r: self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
     

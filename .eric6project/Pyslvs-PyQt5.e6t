@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
+<!-- eric6 tasks file for project Pyslvs-PyQt5 -->
+<!-- Saved: 2017-07-05, 13:14:11 -->
+<Tasks version="6.0">
+  <ProjectScanFilter></ProjectScanFilter>
+  <Task priority="1" completed="False" type="1" uid="{531d6b9f-7dae-4b29-b6e4-1ada349bb9ab}">
+    <Summary>TODO: Right-click menu event</Summary>
+    <Description></Description>
+    <Created>2017-07-05, 13:10:12</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>76</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{fbccdd1b-89ab-4e9b-aa61-2c46d646385b}">
+    <Summary>TODO: Undo and Redo</Summary>
+    <Description></Description>
+    <Created>2017-07-05, 13:10:12</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>158</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{b07b6133-ad82-4837-9518-581ed469f1e4}">
+    <Summary>TODO: Example</Summary>
+    <Description></Description>
+    <Created>2017-07-05, 13:10:12</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>242</Linenumber>
+    </Resource>
+  </Task>
+  <Task priority="1" completed="False" type="1" uid="{ef1eed29-8ac8-4caf-88f9-ae3f6abf1b0d}">
+    <Summary>TODO: Save format</Summary>
+    <Description></Description>
+    <Created>2017-07-05, 13:10:12</Created>
+    <Resource>
+      <Filename>core/main.py</Filename>
+      <Linenumber>340</Linenumber>
+    </Resource>
+  </Task>
+</Tasks>

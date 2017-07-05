@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-05-17, 00:25:05 -->
+<!-- Saved: 2017-07-05, 11:39:11 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -26,13 +26,11 @@
     <Source>core/dialog/Ui_batchMoving.py</Source>
     <Source>core/dialog/Ui_delete.py</Source>
     <Source>core/dialog/Ui_replacePoint.py</Source>
-    <Source>core/dialog/Ui_run_Path_Track.py</Source>
     <Source>core/dialog/__init__.py</Source>
     <Source>core/dialog/association.py</Source>
     <Source>core/dialog/batchMoving.py</Source>
     <Source>core/dialog/delete.py</Source>
     <Source>core/dialog/replacePoint.py</Source>
-    <Source>core/dialog/run_Path_Track.py</Source>
     <Source>core/entities/Ui_edit_chain.py</Source>
     <Source>core/entities/Ui_edit_link.py</Source>
     <Source>core/entities/Ui_edit_point.py</Source>
@@ -83,28 +81,36 @@
     <Source>core/kernel/pyslvs_triangle_solver/__init__.py</Source>
     <Source>core/main.py</Source>
     <Source>core/main_modules.py</Source>
-    <Source>core/panel/Ui_run_AuxLine.py</Source>
-    <Source>core/panel/Ui_run_Drive_rod.py</Source>
-    <Source>core/panel/Ui_run_Drive_shaft.py</Source>
-    <Source>core/panel/Ui_run_Measurement.py</Source>
-    <Source>core/panel/Ui_run_Path_Solving.py</Source>
-    <Source>core/panel/Ui_run_Path_Solving_progress.py</Source>
-    <Source>core/panel/Ui_run_Path_Solving_series.py</Source>
-    <Source>core/panel/Ui_run_Triangle_Solver.py</Source>
-    <Source>core/panel/Ui_run_Triangle_Solver_directionItem.py</Source>
-    <Source>core/panel/Ui_run_Triangle_Solver_edit.py</Source>
-    <Source>core/panel/Ui_run_Triangle_Solver_template.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Path_Solving.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Path_Solving_options.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Path_Solving_progress.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Path_Solving_series.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Triangle_Solver.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Triangle_Solver_edit.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Triangle_Solver_template.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_options.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_progress.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_series.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Triangle_Solver.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Triangle_Solver_directionItem.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Triangle_Solver_edit.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Triangle_Solver_template.py</Source>
+    <Source>core/panel/DimensionalSynthesis/__init__.py</Source>
+    <Source>core/panel/Drivers/Drive_rod.py</Source>
+    <Source>core/panel/Drivers/Drive_shaft.py</Source>
+    <Source>core/panel/Drivers/Ui_Drive_rod.py</Source>
+    <Source>core/panel/Drivers/Ui_Drive_shaft.py</Source>
+    <Source>core/panel/Drivers/__init__.py</Source>
+    <Source>core/panel/Validation/AuxLine.py</Source>
+    <Source>core/panel/Validation/Measurement.py</Source>
+    <Source>core/panel/Validation/Ui_AuxLine.py</Source>
+    <Source>core/panel/Validation/Ui_Measurement.py</Source>
+    <Source>core/panel/Validation/__init__.py</Source>
     <Source>core/panel/__init__.py</Source>
-    <Source>core/panel/run_AuxLine.py</Source>
-    <Source>core/panel/run_Drive_rod.py</Source>
-    <Source>core/panel/run_Drive_shaft.py</Source>
-    <Source>core/panel/run_Measurement.py</Source>
-    <Source>core/panel/run_Path_Solving.py</Source>
-    <Source>core/panel/run_Path_Solving_progress.py</Source>
-    <Source>core/panel/run_Path_Solving_series.py</Source>
-    <Source>core/panel/run_Triangle_Solver.py</Source>
-    <Source>core/panel/run_Triangle_Solver_edit.py</Source>
-    <Source>core/panel/run_Triangle_Solver_template.py</Source>
+    <Source>core/path/Path_Track.py</Source>
+    <Source>core/path/Ui_Path_Track.py</Source>
+    <Source>core/path/__init__.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_shaft.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>
@@ -122,7 +128,6 @@
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
     <Form>core/dialog/replacePoint.ui</Form>
-    <Form>core/dialog/run_Path_Track.ui</Form>
     <Form>core/entities/edit_chain.ui</Form>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
@@ -133,16 +138,18 @@
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
-    <Form>core/panel/run_AuxLine.ui</Form>
-    <Form>core/panel/run_Drive_rod.ui</Form>
-    <Form>core/panel/run_Drive_shaft.ui</Form>
-    <Form>core/panel/run_Measurement.ui</Form>
-    <Form>core/panel/run_Path_Solving.ui</Form>
-    <Form>core/panel/run_Path_Solving_progress.ui</Form>
-    <Form>core/panel/run_Path_Solving_series.ui</Form>
-    <Form>core/panel/run_Triangle_Solver.ui</Form>
-    <Form>core/panel/run_Triangle_Solver_edit.ui</Form>
-    <Form>core/panel/run_Triangle_Solver_template.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Path_Solving.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Path_Solving_options.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Path_Solving_progress.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Path_Solving_series.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Triangle_Solver.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Triangle_Solver_edit.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Triangle_Solver_template.ui</Form>
+    <Form>core/panel/Drivers/Drive_rod.ui</Form>
+    <Form>core/panel/Drivers/Drive_shaft.ui</Form>
+    <Form>core/panel/Validation/AuxLine.ui</Form>
+    <Form>core/panel/Validation/Measurement.ui</Form>
+    <Form>core/path/Path_Track.ui</Form>
     <Form>core/simulate/edit_rod.ui</Form>
     <Form>core/simulate/edit_shaft.ui</Form>
     <Form>core/simulate/edit_slider.ui</Form>
