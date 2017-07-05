@@ -39,7 +39,7 @@ class ChartDialog(QDialog):
                 series.attachAxis(axisX)
                 series.attachAxis(axisY)
             chart.legend().markers(scatter)[0].setVisible(False)
-        maxima = max([max(e[2]) for e in DataSet])+10
+        maxima = max([max(e[2]) for e in DataSet])+10 if DataSet else 100
         maxima -= maxima%10
         axisY.setRange(0., maxima if DataSet else 100.)
         layout = QVBoxLayout(self)

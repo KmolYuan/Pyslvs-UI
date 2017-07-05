@@ -6,7 +6,6 @@ import sys, os, webbrowser, platform
 from math import acos
 #Dialog Ports
 from .info.info import version_show
-from .info.path_point_data import path_point_data_show
 from .io.script import Script_Dialog
 #Drawing Dialog Ports
 from .entities.edit_point import edit_point_show
@@ -23,6 +22,7 @@ from .dialog.batchMoving import batchMoving_show
 from .dialog.association import Association_show
 #Path
 from .path.Path_Track import Path_Track_show
+from .path.path_point_data import path_point_data_show
 #Panel
 from .panel.DimensionalSynthesis.Path_Solving import Path_Solving_show
 from .panel.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
