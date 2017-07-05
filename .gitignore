@@ -102,3 +102,7 @@ ENV/
 
 #logging
 *.log
+
+#Eric cache
+.eric6project/
+
