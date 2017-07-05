@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.
-##Copyright (C) 2016 Yuan Chang
-##E-mail: daan0014119@gmail.com
+##Copyright (C) 2016-2017 Yuan Chang
+##E-mail: pyslvs@gmail.com
 ##
 ##This program is free software; you can redistribute it and/or modify
 ##it under the terms of the GNU General Public License as published by
@@ -211,12 +211,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Git_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
     @pyqtSlot()
-    def on_action_About_Pyslvs_triggered(self):
-        dlg = version_show(self)
-        splash = Pyslvs_Splash()
-        splash.show()
-        self.OpenDlg(dlg)
-        splash.finish(dlg)
+    def on_action_About_Pyslvs_triggered(self): self.OpenDlg(version_show(self))
     @pyqtSlot()
     def on_action_About_Qt_triggered(self): QMessageBox.aboutQt(self)
     def OpenURL(self, URL):
