@@ -1,26 +1,17 @@
 # -*- coding: utf-8 -*-
 from ...QtModules import *
-from copy import deepcopy
 from .Ui_Path_Solving_progress import Ui_Dialog
 from ...calculation.pathSolving import WorkerThread
 
 class Path_Solving_progress_show(QDialog, Ui_Dialog):
-    def __init__(self, path, upper, lower, minAngle, maxAngle, type_num, maxGen, report, parent=None):
+    def __init__(self, type_num, mechanismParams, GenerateData, parent=None):
         super(Path_Solving_progress_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
         msgGeo = QApplication.desktop().availableGeometry()
         self.move(msgGeo.topLeft())
-        self.path = deepcopy(path)
         self.type_num = type_num
-        self.upper = deepcopy(upper)
-        self.lower = deepcopy(lower)
-        self.minAngle = minAngle
-        self.maxAngle = maxAngle
-        self.maxGen = maxGen
-        self.report = report
-        self.work = WorkerThread(self.path, self.upper, self.lower, self.minAngle, self.maxAngle,
-            self.type_num, self.maxGen, self.report, None)
+        self.work = WorkerThread(type_num, mechanismParams, GenerateData)
         self.work.done.connect(self.finish)
     
     @pyqtSlot()
@@ -40,7 +31,6 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
     @pyqtSlot()
     def closeWork(self):
         if self.work.isRunning():
-            #self.work.terminate()
             self.work.exit()
             self.work.wait()
             print("The thread has been canceled.")

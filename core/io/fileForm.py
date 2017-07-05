@@ -328,6 +328,7 @@ class File:
     def writeXMLAlgorithm(self, root):
         if self.Designs.result: algorithm = ET.SubElement(root, 'algorithm')
         for result in self.Designs.result:
+            #TODO: Write File Format
             mechanism = ET.SubElement(algorithm, 'mechanism')
             ET.SubElement(mechanism, 'Algorithm').text = str(result['Algorithm'])
             algorithm_path = ET.SubElement(mechanism, 'path')
@@ -434,7 +435,8 @@ class File:
         Result = self.Designs.result[row]
         print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag])
             for tag in ['Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4']]))
-        pointAvg = sum([e[1] for e in Result['path']])/len(Result['path'])
+        path = Result['mechanismParams']['targetPath']
+        pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         #A-C-B-C-E
         Anum = Point.rowCount()

@@ -93,8 +93,28 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*2)
         lower = ([self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*2)
-        dlg = Path_Solving_progress_show(self.path, upper, lower, self.Settings['AMin'], self.Settings['AMax'],
-            type_num, self.Settings['maxGen'], self.Settings['report']/100, self)
+        p = len(self.path)
+        upperVal = upper+[self.Settings['AMax']]*p
+        lowerVal = lower+[self.Settings['AMin']]*p
+        Parm_num = p+9
+        mechanismParams = {
+            'Driving':'A',
+            'Follower':'D',
+            'Link':'L0,L1,L2,L3,L4',
+            'Target':'E',
+            'ExpressionName':'PLAP,PLLP,PLLP',
+            'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
+            'targetPath':tuple((e['x'], e['y']) for e in self.path),
+            'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
+            'VARS':9,
+            'formula':['PLAP','PLLP']}
+        GenerateData = {
+            'nParm':Parm_num,
+            'upper':upperVal,
+            'lower':lowerVal,
+            'maxGen':self.Settings['maxGen'],
+            'report':self.Settings['maxGen']*self.Settings['report']/100}
+        dlg = Path_Solving_progress_show(type_num, mechanismParams, GenerateData, self)
         dlg.show()
         if dlg.exec_():
             self.mechanism_data.append(dlg.mechanism)
@@ -106,9 +126,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def addResult(self, e):
         keys = sorted(list(e.keys()))
-        item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['maxGen']))
+        item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['GenerateData']['maxGen']))
         item.setToolTip('\n'.join(['[{}]'.format(e['Algorithm'])]+[
-            "{}: {}".format(k, e[k]) for k in keys if not k in ['Algorithm', 'TimeAndFitness']]))
+            "{}: {}".format(k, e[k]) for k in keys if not k in ['Algorithm', 'TimeAndFitness', 'mechanismParams', 'GenerateData']]))
         self.Result_list.addItem(item)
     
     @pyqtSlot(int)
@@ -138,7 +158,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
-        results = [[e['Algorithm'], e['maxGen'], e['TimeAndFitness']] for e in self.mechanism_data]
+        results = [[e['Algorithm'], e['GenerateData']['maxGen'], e['TimeAndFitness']] for e in self.mechanism_data]
         dlg = ChartDialog("Convergence Value", results, self)
         dlg.show()
     
