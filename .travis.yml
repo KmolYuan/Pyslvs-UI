@@ -1,0 +1,27 @@
+dist: trusty
+sudo: required
+language: python
+
+python:
+- 3.4
+- 3.5
+
+#virtualenv:
+#  system_site_packages: true
+
+before_install:
+- pip install -r requirements.txt
+- pip install pyinstaller
+
+install:
+ - sudo apt update
+ - sudo apt -y install python3-pyqt5
+ 
+script:
+ - make
+
+before_cache:
+  - rm -rf $HOME/.cache/pip/log
+cache:
+  directories:
+    - $HOME/.cache/pip
