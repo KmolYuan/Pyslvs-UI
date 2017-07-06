@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg?branch=master)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
+[![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
+[![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
+[![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
 ![](icons/title.png)
 
