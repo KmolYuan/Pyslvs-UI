@@ -691,7 +691,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.options.slvsPath['show'] = not "Path Solving" in tabNameList
         if "Path Solving" in tabNameList: self.closePanel(tabNameList.index("Path Solving"))
         else:
-            panel = Path_Solving_show(self.File.FileState, self.File.Designs.path, self.File.Designs.result, self.width(), self)
+            panel = Path_Solving_show(self.File.Designs.path, self.File.Designs.result, self)
             panel.addPathPoint.connect(self.PathSolving_add)
             panel.deletePathPoint.connect(self.PathSolving_delete)
             panel.moveupPathPoint.connect(self.PathSolving_moveup)

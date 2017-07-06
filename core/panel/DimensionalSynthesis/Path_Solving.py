@@ -12,18 +12,20 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
     mergeResult = pyqtSignal(int)
-    def __init__(self, FileState, data, resultData, width, parent=None):
+    GeneticPrams = {'nPop':250, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
+    FireflyPrams = {'n':40, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
+    DifferentialPrams = {'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}
+    defaultSettings = {'maxGen':1500, 'report':1, 'AxMin':-50., 'AyMin':-50., 'DxMin':-50., 'DyMin':-50., 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
+        'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
+        'algorithmPrams':DifferentialPrams}
+    def __init__(self, path, mechanism_data, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
-        self.FileState = FileState
-        self.mechanism_data = resultData
-        self.path = data
-        for e in data: self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
-        for e in resultData: self.addResult(e)
-        self.Settings = {
-            'maxGen':1500, 'report':1, 'AxMin':-50., 'AyMin':-50., 'DxMin':-50., 'DyMin':-50., 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-            'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
-            'algorithmPrams':{'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}}
+        self.mechanism_data = mechanism_data
+        self.path = path
+        for e in path: self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
+        for e in mechanism_data: self.addResult(e)
+        self.Settings = self.defaultSettings
         self.isGenerate()
         self.isGetResult()
     
@@ -96,7 +98,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         lower = [self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*2
         p = len(self.path)
-        Parm_num = p+9
+        VARS = 9
+        Parm_num = p+VARS
         mechanismParams = {
             'Driving':'A',
             'Follower':'D',
@@ -104,9 +107,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             'Target':'E',
             'ExpressionName':'PLAP,PLLP,PLLP',
             'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
+            'VARS':VARS,
             'targetPath':tuple((e['x'], e['y']) for e in self.path),
             'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-            'VARS':9,
             'formula':['PLAP','PLLP']}
         GenerateData = {
             'nParm':Parm_num,
@@ -121,7 +124,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.addResult(dlg.mechanism)
             sec = dlg.time_spand%60
             mins = int(dlg.time_spand/60)
-            self.timeShow.setText("<html><head/><body><p><span style=\" font-size:10pt\">{} [min] {} [s]</span></p></body></html>".format(mins, sec))
+            self.timeShow.setText("<html><head/><body><p><span style=\"font-size:10pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
             print('Finished.')
     
     def addResult(self, e):
@@ -139,8 +142,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.isGetResult()
     
     def isGetResult(self):
-        self.mergeButton.setEnabled(self.Result_list.currentRow()>-1)
-        self.deleteButton.setEnabled(self.Result_list.currentRow()>-1)
+        for button in [self.mergeButton, self.deleteButton]: button.setEnabled(self.Result_list.currentRow()>-1)
     
     @pyqtSlot(QModelIndex)
     def on_Result_list_doubleClicked(self, index):
@@ -161,7 +163,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot(int)
     def on_Result_list_currentRowChanged(self, cr):
         self.isGetResult()
-        if cr!=-1:
+        if cr>-1:
             args = self.mechanism_data[cr]
             if args['Algorithm']=='Genetic': self.type0.setChecked(True)
             elif args['Algorithm']=='Firefly': self.type1.setChecked(True)
@@ -182,23 +184,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def algorithmPrams_default(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        if type_num==0: self.Settings['algorithmPrams'] = {
-            'nPop':250,
-            'pCross':0.95,
-            'pMute':0.05,
-            'pWin':0.95,
-            'bDelta':5.}
-        elif type_num==1: self.Settings['algorithmPrams'] = {
-            'n':40,
-            'alpha':0.01,
-            'betaMin':0.2,
-            'gamma':1.,
-            'beta0':1.}
-        elif type_num==2: self.Settings['algorithmPrams'] = {
-            'strategy':1,
-            'NP':190,
-            'F':0.6,
-            'CR':0.9}
+        if type_num==0: self.Settings['algorithmPrams'] = self.GeneticPrams
+        elif type_num==1: self.Settings['algorithmPrams'] = self.FireflyPrams
+        elif type_num==2: self.Settings['algorithmPrams'] = self.DifferentialPrams
     @pyqtSlot(bool)
     def on_type0_toggled(self, checked): self.algorithmPrams_default()
     @pyqtSlot(bool)

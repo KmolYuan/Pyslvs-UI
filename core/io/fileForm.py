@@ -328,14 +328,33 @@ class File:
     def writeXMLAlgorithm(self, root):
         if self.Designs.result: algorithm = ET.SubElement(root, 'algorithm')
         for result in self.Designs.result:
-            #TODO: Write File Format
+            #Root
             mechanism = ET.SubElement(algorithm, 'mechanism')
-            ET.SubElement(mechanism, 'Algorithm').text = str(result['Algorithm'])
-            algorithm_path = ET.SubElement(mechanism, 'path')
-            for dot in result['path']: ET.SubElement(algorithm_path, 'dot').text = '{}@{}'.format(dot[0], dot[1])
-            for tag in PATHSOLVINGTAG: ET.SubElement(mechanism, tag).text = str(result[tag])
-            algorithm_fitness = ET.SubElement(mechanism, 'TimeAndFitness')
-            for fitness in result['TimeAndFitness']: ET.SubElement(algorithm_fitness, 'fitness').text = str(fitness)
+            for tag in ['Algorithm', 'time', 'Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4']:
+                ET.SubElement(mechanism, tag).text = str(result[tag])
+            #mechanismParams(Misc)
+            mechanismParams = ET.SubElement(mechanism, 'mechanismParams')
+            for tag in ['Driving', 'Follower', 'Link', 'Target', 'ExpressionName', 'Expression',
+                'VARS']: ET.SubElement(mechanismParams, tag).text = str(result['mechanismParams'][tag])
+            #mechanismParams-->targetPath
+            targetPath = ET.SubElement(mechanismParams, 'targetPath')
+            for x, y in result['mechanismParams']['targetPath']: ET.SubElement(targetPath, 'dot').text = '{}@{}'.format(x, y)
+            #mechanismParams-->constraint
+            constraint = ET.SubElement(mechanismParams, 'constraint')
+            for tag in ['driver', 'follower', 'connect']: ET.SubElement(constraint, tag).text = result['mechanismParams']['constraint'][tag]
+            #mechanismParams-->formula
+            for e in result['mechanismParams']['formula']: ET.SubElement(mechanismParams, 'formula').text = e
+            #GenerateData(Misc)
+            GenerateData = ET.SubElement(mechanism, 'GenerateData')
+            for tag in ['nParm', 'maxGen', 'report']: ET.SubElement(GenerateData, tag).text = str(result['GenerateData'][tag])
+            #GenerateData-->upper / lower
+            for e in result['GenerateData']['upper']: ET.SubElement(GenerateData, 'upper').text = str(e)
+            for e in result['GenerateData']['lower']: ET.SubElement(GenerateData, 'lower').text = str(e)
+            #algorithmPrams(Misc)
+            algorithmPrams = ET.SubElement(mechanism, 'algorithmPrams')
+            for tag, e in result['algorithmPrams'].items(): ET.SubElement(algorithmPrams, tag).text = str(e)
+            #algorithm_fitness
+            for fitness in result['TimeAndFitness']: ET.SubElement(mechanism, 'fitness').text = str(fitness)
     
     def writeCSV(self, fileName):
         with open(fileName, 'w', newline=str()) as stream:
