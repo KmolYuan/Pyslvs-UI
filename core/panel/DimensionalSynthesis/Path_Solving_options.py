@@ -21,6 +21,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                 self.PLTable.setItem(i, 0, QTableWidgetItem(name))
                 spinbox = QDoubleSpinBox()
                 spinbox.setMaximum(10000.)
+                spinbox.setMinimum(-10000.)
                 spinbox.setValue(value)
                 self.PLTable.setCellWidget(i, 1, spinbox)
             for i, (name, value) in enumerate(Length):
@@ -41,6 +42,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
             [('AxMax', 50.), ('AxMin', -50.), ('AyMax', 50.), ('AyMin', -50.), ('DxMax', 50.), ('DxMin', -50.), ('DyMax', 50.), ('DyMin', -50.)],
             [('IMax', 50.), ('IMin', 5.), ('LMax', 50.), ('LMin', 5.), ('FMax', 50.), ('FMin', 5.)],
             [('AMax', 360.), ('AMin', 0.)])
+        for i in range(self.PLTable.rowCount()): self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
         def writeTable(Integers, Floats):
@@ -67,11 +69,13 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         elif self.algorithm=="Differential Evolution": writeTable(
             [("Evolutionary strategy", 1), ("Population Size", 190)],
             [("Weight factor", 0.6), ("Recombination factor", 0.9)])
+        for i in range(self.APTable.rowCount()): self.APTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])
         self.report.setValue(PLnAP['report'])
-        for i, tag in enumerate(['AxMax', 'AxMin', 'AyMax', 'AyMin', 'DxMax', 'DxMin', 'DyMax', 'DyMin']): self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
+        for i, tag in enumerate(['AxMax', 'AxMin', 'AyMax', 'AyMin', 'DxMax', 'DxMin', 'DyMax', 'DyMin',
+            'IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']): self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
         if self.algorithm=="Genetic Algorithm":
             for i, tag in enumerate(['nPop', 'pCross', 'pMute', 'pWin', 'bDelta']): self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
         elif self.algorithm=="Firefly Algorithm":
@@ -79,7 +83,9 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         elif self.algorithm=="Differential Evolution":
             for i, tag in enumerate(['strategy', 'NP', 'F', 'CR']): self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
     
-    def isOk(self):
+    @pyqtSlot(int)
+    @pyqtSlot(float)
+    def isOk(self, r=None):
         n = True
         pre = 0
         for i in range(self.PLTable.rowCount()):
