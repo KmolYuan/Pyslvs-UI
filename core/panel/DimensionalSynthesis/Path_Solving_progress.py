@@ -4,14 +4,14 @@ from .Ui_Path_Solving_progress import Ui_Dialog
 from ...calculation.pathSolving import WorkerThread
 
 class Path_Solving_progress_show(QDialog, Ui_Dialog):
-    def __init__(self, type_num, mechanismParams, GenerateData, parent=None):
+    def __init__(self, type_num, mechanismParams, GenerateData, algorithmPrams, parent=None):
         super(Path_Solving_progress_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
         msgGeo = QApplication.desktop().availableGeometry()
         self.move(msgGeo.topLeft())
         self.type_num = type_num
-        self.work = WorkerThread(type_num, mechanismParams, GenerateData)
+        self.work = WorkerThread(type_num, mechanismParams, GenerateData, algorithmPrams)
         self.work.done.connect(self.finish)
     
     @pyqtSlot()

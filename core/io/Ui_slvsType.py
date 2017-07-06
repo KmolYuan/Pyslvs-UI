@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/io/slvsType.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\slvsType.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -31,7 +31,6 @@ class Ui_Dialog(object):
         self.general = QtWidgets.QWidget()
         self.general.setObjectName("general")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.general)
-        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.verticalWidget = QtWidgets.QWidget(self.general)
         self.verticalWidget.setObjectName("verticalWidget")
@@ -231,7 +230,6 @@ class Ui_Dialog(object):
         self.appearance = QtWidgets.QWidget()
         self.appearance.setObjectName("appearance")
         self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.appearance)
-        self.verticalLayout_10.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.verticalWidget1 = QtWidgets.QWidget(self.appearance)
         self.verticalWidget1.setObjectName("verticalWidget1")

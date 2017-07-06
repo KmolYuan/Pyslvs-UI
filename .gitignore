@@ -105,4 +105,4 @@ ENV/
 
 #Eric cache
 .eric6project/
-
+_eric6project/

@@ -22,7 +22,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         for e in resultData: self.addResult(e)
         self.Settings = {
             'maxGen':1500, 'report':1, 'AxMin':-50., 'AyMin':-50., 'DxMin':-50., 'DyMin':-50., 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-            'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.}
+            'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
+            'algorithmPrams':{'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}}
         self.isGenerate()
         self.isGetResult()
     
@@ -84,18 +85,17 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.pointNum.setText(
             "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
         n = self.Point_list.count()>1
-        self.Generate.setEnabled(n)
+        self.GenerateLocal.setEnabled(n)
+        self.GenerateZMQ.setEnabled(n)
     
     @pyqtSlot()
-    def on_Generate_clicked(self):
+    def on_GenerateLocal_clicked(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        upper = ([self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
-            self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*2)
-        lower = ([self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
-            self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*2)
+        upper = [self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
+            self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*2
+        lower = [self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
+            self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*2
         p = len(self.path)
-        upperVal = upper+[self.Settings['AMax']]*p
-        lowerVal = lower+[self.Settings['AMin']]*p
         Parm_num = p+9
         mechanismParams = {
             'Driving':'A',
@@ -110,11 +110,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             'formula':['PLAP','PLLP']}
         GenerateData = {
             'nParm':Parm_num,
-            'upper':upperVal,
-            'lower':lowerVal,
+            'upper':upper+[self.Settings['AMax']]*p,
+            'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],
             'report':self.Settings['maxGen']*self.Settings['report']/100}
-        dlg = Path_Solving_progress_show(type_num, mechanismParams, GenerateData, self)
+        dlg = Path_Solving_progress_show(type_num, mechanismParams, GenerateData, self.Settings['algorithmPrams'], self)
         dlg.show()
         if dlg.exec_():
             self.mechanism_data.append(dlg.mechanism)
@@ -131,9 +131,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             "{}: {}".format(k, e[k]) for k in keys if not k in ['Algorithm', 'TimeAndFitness', 'mechanismParams', 'GenerateData']]))
         self.Result_list.addItem(item)
     
-    @pyqtSlot(int)
-    def on_Result_list_currentRowChanged(self, cr): self.isGetResult()
-    
     @pyqtSlot()
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
@@ -142,9 +139,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.isGetResult()
     
     def isGetResult(self):
-        n = (self.Result_list.count()>0 and self.Result_list.currentRow()>-1)
-        self.mergeButton.setEnabled(n)
-        self.deleteButton.setEnabled(n)
+        self.mergeButton.setEnabled(self.Result_list.currentRow()>-1)
+        self.deleteButton.setEnabled(self.Result_list.currentRow()>-1)
     
     @pyqtSlot(QModelIndex)
     def on_Result_list_doubleClicked(self, index):
@@ -162,29 +158,74 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         dlg = ChartDialog("Convergence Value", results, self)
         dlg.show()
     
-    def CopySettings(self):
-        if self.Result_list.currentRow()!=-1:
-            args = self.mechanism_data[self.Result_list.currentRow()]
+    @pyqtSlot(int)
+    def on_Result_list_currentRowChanged(self, cr):
+        self.isGetResult()
+        if cr!=-1:
+            args = self.mechanism_data[cr]
             if args['Algorithm']=='Genetic': self.type0.setChecked(True)
             elif args['Algorithm']=='Firefly': self.type1.setChecked(True)
             elif args['Algorithm']=="Differtial Evolution": self.type2.setChecked(True)
-            self.Settings = args
+            GenerateData = args['GenerateData']
+            self.Settings = {'maxGen':GenerateData['maxGen'], 'report':GenerateData['maxGen']/GenerateData['report']/100,
+                'AxMax':GenerateData['upper'][0], 'AxMin':GenerateData['lower'][0],
+                'AyMax':GenerateData['upper'][1], 'AyMin':GenerateData['lower'][1],
+                'DxMax':GenerateData['upper'][2], 'DxMin':GenerateData['lower'][2],
+                'DyMax':GenerateData['upper'][3], 'DyMin':GenerateData['lower'][3],
+                'IMax':GenerateData['upper'][4], 'IMin':GenerateData['lower'][4],
+                'LMax':GenerateData['upper'][5], 'LMin':GenerateData['lower'][5],
+                'FMax':GenerateData['upper'][6], 'FMin':GenerateData['lower'][6],
+                'AMax':GenerateData['upper'][9], 'AMin':GenerateData['lower'][9]}
+            self.Settings['algorithmPrams'] = args['algorithmPrams']
             self.on_clearAll_clicked()
-            for e in args['path']: self.on_add_clicked(e[0], e[1])
+            for e in args['mechanismParams']['targetPath']: self.on_add_clicked(e[0], e[1])
+    
+    def algorithmPrams_default(self):
+        type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
+        if type_num==0: self.Settings['algorithmPrams'] = {
+            'nPop':250,
+            'pCross':0.95,
+            'pMute':0.05,
+            'pWin':0.95,
+            'bDelta':5.}
+        elif type_num==1: self.Settings['algorithmPrams'] = {
+            'n':40,
+            'alpha':0.01,
+            'betaMin':0.2,
+            'gamma':1.,
+            'beta0':1.}
+        elif type_num==2: self.Settings['algorithmPrams'] = {
+            'strategy':1,
+            'NP':190,
+            'F':0.6,
+            'CR':0.9}
+    @pyqtSlot(bool)
+    def on_type0_toggled(self, checked): self.algorithmPrams_default()
+    @pyqtSlot(bool)
+    def on_type1_toggled(self, checked): self.algorithmPrams_default()
+    @pyqtSlot(bool)
+    def on_type2_toggled(self, checked): self.algorithmPrams_default()
     
     @pyqtSlot()
     def on_advanceButton_clicked(self):
-        dlg = Path_Solving_options_show(
-            "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution",
-            self.Settings)
+        type_num = "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution"
+        dlg = Path_Solving_options_show("4 Bar", type_num, self.Settings)
         dlg.show()
-        if dlg.exec_(): self.Settings = {
-            'maxGen':dlg.maxGen.value(), 'report':dlg.report.value(),
-            'AxMin':dlg.AxMin.value(), 'AyMin':dlg.AyMin.value(),
-            'DxMin':dlg.DxMin.value(), 'DyMin':dlg.DyMin.value(),
-            'IMin':dlg.IMin.value(), 'LMin':dlg.LMin.value(),
-            'FMin':dlg.FMin.value(), 'AMin':dlg.AMin.value(),
-            'AxMax':dlg.AxMax.value(), 'AyMax':dlg.AyMax.value(),
-            'DxMax':dlg.DxMax.value(), 'DyMax':dlg.DyMax.value(),
-            'IMax':dlg.IMax.value(), 'LMax':dlg.LMax.value(),
-            'FMax':dlg.FMax.value(), 'AMax':dlg.AMax.value()}
+        if dlg.exec_():
+            tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()
+            self.Settings = {'maxGen':dlg.maxGen.value(), 'report':dlg.report.value(),
+                'AxMax':tablePL(0), 'AxMin':tablePL(1),
+                'AyMax':tablePL(2), 'AyMin':tablePL(3),
+                'DxMax':tablePL(4), 'DxMin':tablePL(5),
+                'DyMax':tablePL(6), 'DyMin':tablePL(7),
+                'IMax':tablePL(8), 'IMin':tablePL(9),
+                'LMax':tablePL(10), 'LMin':tablePL(11),
+                'FMax':tablePL(12), 'FMin':tablePL(13),
+                'AMax':tablePL(14), 'AMin':tablePL(15)}
+            tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
+            if type_num=="Genetic Algorithm": self.Settings['algorithmPrams'] = {
+                'nPop':tableAP(0), 'pCross':tableAP(1), 'pMute':tableAP(2), 'pWin':tableAP(3), 'bDelta':tableAP(4)}
+            elif type_num=="Firefly Algorithm": self.Settings['algorithmPrams'] = {
+                'n':tableAP(0), 'alpha':tableAP(1), 'betaMin':tableAP(2), 'gamma':tableAP(3), 'beta0':tableAP(4)}
+            elif type_num=="Differential Evolution": self.Settings['algorithmPrams'] = {
+                'strategy':tableAP(0), 'NP':tableAP(1), 'F':tableAP(2), 'CR':tableAP(3)}

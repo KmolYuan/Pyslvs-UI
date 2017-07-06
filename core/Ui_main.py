@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.8.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -172,7 +172,6 @@ class Ui_MainWindow(object):
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.verticalLayout_13 = QtWidgets.QVBoxLayout(self.tab)
-        self.verticalLayout_13.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_13.setObjectName("verticalLayout_13")
         self.Parameter_Widget = QtWidgets.QWidget(self.tab)
         self.Parameter_Widget.setObjectName("Parameter_Widget")
@@ -641,7 +640,6 @@ class Ui_MainWindow(object):
         self.Panels = QtWidgets.QWidget()
         self.Panels.setObjectName("Panels")
         self.verticalLayout_14 = QtWidgets.QVBoxLayout(self.Panels)
-        self.verticalLayout_14.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_14.setObjectName("verticalLayout_14")
         self.widget_2 = QtWidgets.QWidget(self.Panels)
         self.widget_2.setObjectName("widget_2")
