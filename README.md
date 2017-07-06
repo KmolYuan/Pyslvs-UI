@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg?branch=master)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
+
 ![](icons/title.png)
 
 + [Introduction](#introduction)
