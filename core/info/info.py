@@ -22,11 +22,13 @@ parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
 parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}({})'.format(VERSION[0], VERSION[1]))
-parser.add_argument('r', metavar='File Path', default=False, nargs='?', type=str, help="read workbook from the file path")
-parser.add_argument('-i', metavar='Start Path', default=False, nargs='?', type=str, help="start Pyslvs in the specified path")
+parser.add_argument('r', metavar='FILE PATH', default=False, nargs='?', type=str, help="read workbook from the file path")
+parser.add_argument('-i', metavar='START PATH', default=False, nargs='?', type=str, help="start Pyslvs in the specified path")
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
+parser.add_argument('--full-screen', action='store_true', help="run Pyslvs in full-screen mode")
 parser.add_argument('--file-data', action='store_true', help="display the file data in command-line when opening")
+parser.add_argument('--server', metavar='PORT', default=False, nargs='?', type=str, help="start ZMQ server")
 parser.add_argument('-d', '--debug-mode', action='store_true', help="don't connect to GUI console when opening")
 args = parser.parse_args()
 

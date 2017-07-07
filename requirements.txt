@@ -1,2 +1,4 @@
 dxfwrite
 numpy
+cython
+pyzmq

@@ -6,16 +6,20 @@ if __name__=='__main__':
     try:
         from core.info.info import show_info, Pyslvs_Splash
         args = show_info()
-        from PyQt5.QtWidgets import QApplication
-        from core.main import MainWindow
-        if args.fusion: QApplication.setStyle('fusion')
-        app = QApplication(list(vars(args).values()))
-        splash = Pyslvs_Splash()
-        splash.show()
-        run = MainWindow(args)
-        run.show()
-        splash.finish(run)
-        exit(app.exec())
+        if args.server:
+            from core.server.rep import startRep
+            startRep(args.server)
+        else:
+            from PyQt5.QtWidgets import QApplication
+            from core.main import MainWindow
+            if args.fusion: QApplication.setStyle('fusion')
+            app = QApplication(list(vars(args).values()))
+            splash = Pyslvs_Splash()
+            splash.show()
+            run = MainWindow(args)
+            run.show()
+            splash.finish(run)
+            exit(app.exec())
     except Exception as e:
         if e!=SystemExit:
             import logging, traceback
