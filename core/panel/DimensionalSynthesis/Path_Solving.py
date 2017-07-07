@@ -116,7 +116,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             'upper':upper+[self.Settings['AMax']]*p,
             'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],
-            'report':self.Settings['maxGen']*self.Settings['report']/100}
+            'report':int(self.Settings['maxGen']*self.Settings['report']/100)}
         dlg = Path_Solving_progress_show(type_num, mechanismParams, GenerateData, self.Settings['algorithmPrams'], self)
         dlg.show()
         if dlg.exec_():
@@ -130,8 +130,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def addResult(self, e):
         keys = sorted(list(e.keys()))
         item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['GenerateData']['maxGen']))
-        item.setToolTip('\n'.join(['[{}]'.format(e['Algorithm'])]+[
-            "{}: {}".format(k, e[k]) for k in keys if not k in ['Algorithm', 'TimeAndFitness', 'mechanismParams', 'GenerateData']]))
+        item.setToolTip('\n'.join(["[{}] ({} gen)".format(e['Algorithm'], e['GenerateData']['maxGen'])]+["{}: {}".format(k, e[k]) for k in keys
+            if not k in ['Algorithm', 'TimeAndFitness', 'mechanismParams', 'GenerateData', 'algorithmPrams']]))
         self.Result_list.addItem(item)
     
     @pyqtSlot()

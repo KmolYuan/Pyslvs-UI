@@ -12,7 +12,7 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
         self.authorName_input.setText(author)
         self.dateName.setText(lastTime)
         self.descriptionText.setPlainText(description)
-        if results: self.Results.setText('\n'.join(["{} ({} gen)".format(result['Algorithm'], result['maxGen']) for result in results]))
+        if results: self.Results.setText('\n'.join(["{} ({} gen)".format(result['Algorithm'], result['GenerateData']['maxGen']) for result in results]))
 
 class fileInfo_show(editFileInfo_show):
     def __init__(self, name, author, description, lastTime, results, errorInfo, parent=None):

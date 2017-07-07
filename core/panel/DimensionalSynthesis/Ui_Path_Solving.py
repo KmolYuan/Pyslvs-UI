@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving.ui'
 #
-# Created by: PyQt5 UI code generator 5.8.2
+# Created by: PyQt5 UI code generator 5.8
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -36,7 +36,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 468, 399))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 472, 402))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_7.setContentsMargins(6, 6, 6, 6)
@@ -192,6 +192,7 @@ class Ui_Form(object):
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.timePanelLayout.addItem(spacerItem6)
         self.GenerateZMQ = QtWidgets.QPushButton(self.timePanel)
+        self.GenerateZMQ.setEnabled(False)
         self.GenerateZMQ.setMinimumSize(QtCore.QSize(100, 0))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/ZeroMQ.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

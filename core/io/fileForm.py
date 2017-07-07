@@ -2,6 +2,7 @@
 from ..QtModules import *
 from .elements import VPath, VPaths
 from .listProcess import Lists, Designs
+import traceback, logging
 from xml.etree import ElementTree as ET
 from xml.dom import minidom
 import csv, datetime
@@ -9,10 +10,6 @@ def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 from ..kernel.pyslvs_triangle_solver.TS import solver, Direction
-
-PATHSOLVINGTAG = ['time', 'Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4',
-    'AxMax', 'AyMax', 'DxMax', 'DyMax', 'LMax', 'AxMin', 'AyMin', 'DxMin', 'DyMin', 'LMin',
-    'minAngle', 'maxAngle', 'maxGen', 'report']
 
 class Form:
     def __init__(self):
@@ -76,22 +73,30 @@ class File:
         self.form.fileName = QFileInfo(fileName)
         return errorInfo
     
+    def ReadError(e, part, errorInfo):
+        logging.basicConfig(filename='pyslvs_error.log', filemode='a', level=logging.WARNING)
+        logging.exception("Exception Happened.")
+        traceback.print_tb(e.__traceback__)
+        errorInfo.append(part)
+        print(e)
+    
     def readXMLMerge(self, data, Point, Link, Chain, Shaft, Slider, Rod, Parameter):
         errorInfo = list()
+        def ReadError(e, part): self.ReadError(e, part, errorInfo)
         #info
         info = data.find('info')
         try: author = info.find('author').text
-        except:
+        except Exception as e:
             author = 'Anonymous'
-            errorInfo.append('Author Information')
+            ReadError(e, "Author Information")
         try: description = info.find('description').text
-        except:
+        except Exception as e:
             description = str()
-            errorInfo.append('Description Information')
+            ReadError(e, "Description Information")
         try: lastTime = info.find('lastTime').text
-        except:
+        except Exception as e:
             lastTime = timeNow()
-            errorInfo.append('Date Information')
+            ReadError(e, "Date Information")
         self.form.author = author
         self.form.description = description
         self.form.lastTime = lastTime
@@ -103,12 +108,12 @@ class File:
                 elements = table.findall('element')
                 for element in elements:
                     try: self.Lists.editTable(Parameter, tableName, False, element.find('val').text, element.find('commit').text)
-                    except: errorInfo.append('Parameter')
+                    except Exception as e: ReadError(e, 'Parameter')
             elif tableName=='Point' and not 'Parameter' in errorInfo:
                 elements = table.findall('element')
                 for element in elements:
                     try: self.Lists.editTable(Point, tableName, False, element.find('x').text, element.find('y').text, element.find('fix').text=='True', element.find('color').text)
-                    except: errorInfo.append(tableName)
+                    except Exception as e: ReadError(e, tableName)
             elif not 'Parameter' in errorInfo and not 'Point' in errorInfo:
                 for tableTag, Qtable in zip(['Line', 'Chain', 'Shaft', 'Slider', 'Rod'], [Link, Chain, Shaft, Slider, Rod]):
                     if tableName==tableTag:
@@ -116,7 +121,7 @@ class File:
                         for element in elements:
                             tableArgs = [self.pNumAdd(arg.text, b) if 'Point' in arg.text else arg.text for arg in element]
                             try: self.Lists.editTable(Qtable, tableTag, False, *tableArgs)
-                            except: errorInfo.append(tableName)
+                            except Exception as e: ReadError(e, tableName)
         #design
         design = data.find('design')
         if design:
@@ -131,7 +136,7 @@ class File:
                             round(float(v), 4) if '.' in v else int(v) if v.isdigit() else v if 'P' in v else v=='True')
                     directions.append(Direction(**DirectionDict))
                 self.Designs.setDirections(directions)
-            except: errorInfo.append('Design')
+            except Exception as e: ReadError(e, 'Design')
         #path
         path = data.find('path')
         if path:
@@ -146,41 +151,66 @@ class File:
                         vpaths.append(VPath(pointIndex, dots))
                     pathdata.append(VPaths(shaftIndex, vpaths))
                 if pathdata: self.Lists.setPath(pathdata)
-            except: errorInfo.append('Path')
-        #algorithm
+            except Exception as e: ReadError(e, 'Path')
+        #TODO: algorithm
         algorithm = data.find('algorithm')
         if algorithm:
             results = list()
             try:
                 for mechanism in algorithm.findall('mechanism'):
+                    #Root
                     result = dict()
                     result['Algorithm'] = mechanism.find('Algorithm').text
-                    result['path'] = tuple(tuple(round(float(val), 4) for val in dot.text.split('@')) for dot in mechanism.find('path').findall('dot'))
-                    for tag in PATHSOLVINGTAG: result[tag] = round(float(mechanism.find(tag).text) if tag!='maxGen' else int(mechanism.find(tag).text), 4)
-                    result['TimeAndFitness'] = [float(val.text) for val in mechanism.find('TimeAndFitness').findall('fitness')]
+                    for tag in ['time', 'Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4']: result[tag] = round(float(mechanism.find(tag).text))
+                    #mechanismParams(Misc)
+                    result['mechanismParams'] = dict()
+                    mechanismParams = mechanism.find('mechanismParams')
+                    for tag in ['Driving', 'Follower', 'Link', 'Target', 'ExpressionName', 'Expression']: result['mechanismParams'][tag] = mechanismParams.find(tag).text
+                    result['mechanismParams']['VARS'] = int(mechanismParams.find('VARS').text)
+                    #mechanismParams-->targetPath
+                    result['mechanismParams']['targetPath'] = tuple(tuple(round(float(val), 4) for val in dot.text.split('@'))
+                        for dot in mechanismParams.find('targetPath').findall('dot'))
+                    #mechanismParams-->constraint
+                    result['mechanismParams']['constraint'] = [{tag:constraint.find(tag).text for tag in ['driver', 'follower', 'connect']}
+                        for constraint in mechanismParams.findall('constraint')]
+                    #mechanismParams-->formula
+                    result['mechanismParams']['formula'] = [formula.text for formula in mechanismParams.findall('formula')]
+                    #GenerateData(Misc)
+                    result['GenerateData'] = dict()
+                    GenerateData = mechanism.find('GenerateData')
+                    for tag in ['nParm', 'maxGen', 'report']: result['GenerateData'][tag] = int(GenerateData.find(tag).text)
+                    #GenerateData-->upper / lower
+                    result['GenerateData']['upper'] = [float(upper.text) for upper in GenerateData.findall('upper')]
+                    result['GenerateData']['lower'] = [float(lower.text) for lower in GenerateData.findall('lower')]
+                    #algorithmPrams(Misc)
+                    result['algorithmPrams'] = {e.tag:int(e.text) if e.tag in ['nPop', 'n', 'NP', 'strategy'] else float(e.text)
+                        for e in list(mechanism.find('algorithmPrams'))}
+                    #algorithm_fitness
+                    result['TimeAndFitness'] = [float(val.text) for val in mechanism.findall('fitness')]
                     results.append(result)
                 self.Designs.addResult(results)
-            except: errorInfo.append('Algorithm')
+            except Exception as e: ReadError(e, 'Algorithm')
         return errorInfo
     
     def readCSVMerge(self, data, Point, Link, Chain, Shaft, Slider, Rod, Parameter):
         errorInfo = list()
+        def ReadError(e, part): self.ReadError(e, part, errorInfo)
         #info
         infoIndex = [e for e, x in enumerate(data) if '_info_' in x]
         try: author = data[infoIndex[0]:infoIndex[1]+1][1].replace('"', '')
-        except:
+        except Exception as e:
             author = 'Anonymous'
-            errorInfo.append('Author Information')
+            ReadError(e, "Author Information")
         try:
             description = '\n'.join(data[infoIndex[1]:infoIndex[2]+1][1:-1])
             if '\n' in description: description = description[1:-1]
-        except:
+        except Exception as e:
             description = str()
-            errorInfo.append('Description Information')
+            ReadError(e, "Description Information")
         try: lastTime = data[infoIndex[2]:infoIndex[3]+1][1]
-        except:
+        except Exception as e:
             lastTime = timeNow()
-            errorInfo.append('Date Information')
+            ReadError(e, "Date Information")
         self.form.author = author
         self.form.description = description
         self.form.lastTime = lastTime
@@ -192,45 +222,45 @@ class File:
             if (len(li)-1)%3==0:
                 for i in range(1, len(li), 3): self.Lists.editTable(Parameter, 'n', False, li[i+1], li[i+2])
             else: raise ValueError
-        except: errorInfo.append('Parameter')
+        except Exception as e: ReadError(e, 'Parameter')
         if not 'Parameter' in errorInfo:
             try:
                 li = data[tableIndex[0]:tableIndex[1]]
                 if (len(li)-1)%5==0:
                     for i in range(1, len(li), 5): self.Lists.editTable(Point, 'Point', False, li[i+1], li[i+2], li[i+3]=='True', li[i+4])
                 else: raise ValueError
-            except: errorInfo.append('Point')
+            except Exception as e: ReadError(e, 'Point')
         if not 'Parameter' in errorInfo and not 'Point' in errorInfo:
             try:
                 li = data[tableIndex[1]:tableIndex[2]]
                 if (len(li)-1)%4==0:
                     for i in range(1, len(li), 4): self.Lists.editTable(Link, 'Line', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3])
                 else: raise ValueError
-            except: errorInfo.append('Link')
+            except Exception as e: ReadError(e, 'Link')
             try:
                 li = data[tableIndex[2]:tableIndex[3]]
                 if (len(li)-1)%7==0:
                     for i in range(1, len(li), 7): self.Lists.editTable(Chain, 'Chain', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4], li[i+5], li[i+6])
                 else: raise ValueError
-            except: errorInfo.append('Chain')
+            except Exception as e: ReadError(e, 'Chain')
             try:
                 li = data[tableIndex[3]:tableIndex[4]]
                 if (len(li)-1)%6==0:
                     for i in range(1, len(li), 6): self.Lists.editTable(Shaft, 'Shaft', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3], li[i+4], li[i+5])
                 else: raise ValueError
-            except: errorInfo.append('Shaft')
+            except Exception as e: ReadError(e, 'Shaft')
             try:
                 li = data[tableIndex[4]:tableIndex[5]]
                 if (len(li)-1)%4==0:
                     for i in range(1, len(li), 4): self.Lists.editTable(Slider, 'Slider', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b))
                 else: raise ValueError
-            except: errorInfo.append('Slider')
+            except Exception as e: ReadError(e, 'Slider')
             try:
                 li = data[tableIndex[5]:tableIndex[6]]
                 if (len(li)-1)%5==0:
                     for i in range(1, len(li), 5): self.Lists.editTable(Rod, 'Rod', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4])
                 else: raise ValueError
-            except: errorInfo.append('Rod')
+            except Exception as e: ReadError(e, 'Rod')
         #design
         designIndex = [e for e, x in enumerate(data) if '_design_' in x]
         try:
@@ -250,7 +280,7 @@ class File:
                     directions.append(Direction(**directionDict))
                 self.Designs.setDirections(directions)
             elif len(li)%itemNum!=0: errorInfo.append('Design')
-        except: errorInfo.append('Design')
+        except Exception as e: ReadError(e, 'Design')
         #path
         try:
             pathIndex = data.index('_path_')
@@ -269,7 +299,7 @@ class File:
                     if len(pathSTR)==0: break
                 pathdata.append(VPaths(shaft, paths))
             if pathdata: self.Lists.setPath(pathdata)
-        except: errorInfo.append('Path')
+        except Exception as e: ReadError(e, 'Path')
         return errorInfo
     
     def pNumAdd(self, pointRef, base):
@@ -340,8 +370,9 @@ class File:
             targetPath = ET.SubElement(mechanismParams, 'targetPath')
             for x, y in result['mechanismParams']['targetPath']: ET.SubElement(targetPath, 'dot').text = '{}@{}'.format(x, y)
             #mechanismParams-->constraint
-            constraint = ET.SubElement(mechanismParams, 'constraint')
-            for tag in ['driver', 'follower', 'connect']: ET.SubElement(constraint, tag).text = result['mechanismParams']['constraint'][tag]
+            for e in result['mechanismParams']['constraint']:
+                constraint = ET.SubElement(mechanismParams, 'constraint')
+                for tag in ['driver', 'follower', 'connect']: ET.SubElement(constraint, tag).text = e[tag]
             #mechanismParams-->formula
             for e in result['mechanismParams']['formula']: ET.SubElement(mechanismParams, 'formula').text = e
             #GenerateData(Misc)

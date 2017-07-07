@@ -905,7 +905,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_ViewLogFile_triggered(self):
-        logfile = 'crash_report.log'
+        logfile = 'pyslvs_error.log'
         if os.path.isfile(logfile):
             with open(logfile, 'r') as f: data = f.read()
             dlgbox = QMessageBox(QMessageBox.Information, logfile, "In last 1000 characters:\n\n"+data[-1000:], (QMessageBox.Ok), self)
