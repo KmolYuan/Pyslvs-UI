@@ -20,7 +20,7 @@ ifeq ($(OS),Windows_NT)
 --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/rga.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_generate/$(PYTHON)/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
-	rename .\dist\launch_pyslvs.exe Pyslvs.exe
+	rename .\dist\launch_pyslvs.exe pyslvs.exe
 	rename .\core\kernel\kernel_getter.py $(PYTHON).py
 	rename .\core\kernel\_kernel_getter.py kernel_getter.py
 else
@@ -29,7 +29,7 @@ else
 	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
 	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
 	pyinstaller -F $<
-	mv dist/launch_pyslvs dist/Pyslvs
+	mv dist/launch_pyslvs dist/pyslvs
 	mv core/kernel/kernel_getter.py core/kernel/$(PYTHON).py
 	mv core/kernel/_kernel_getter.py core/kernel/kernel_getter.py
 endif
@@ -37,14 +37,14 @@ endif
 
 run: build dist/
 ifeq ($(OS),Windows_NT)
-	@dist/Pyslvs.exe
+	@dist/pyslvs.exe -h
 else
-	@dist/Pyslvs
+	@dist/pyslvs -h
 endif
 
 DEBIANCONTROL = dist/temp/DEBIAN/control
 
-deb: build dist/Pyslvs
+deb: build dist/pyslvs
 ifeq ($(OS),Windows_NT)
 	@echo ---Ubuntu only---
 else
@@ -56,10 +56,10 @@ else
 	echo 'Architecture: all' >> $(DEBIANCONTROL)
 	echo 'Description: Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.' >> $(DEBIANCONTROL)
 	echo 'Maintainer: Yuan Chang <daan0014119@gmail.com>' >> $(DEBIANCONTROL)
-	mv dist/Pyslvs dist/temp/usr/share/
-	ln -s /usr/share/Pyslvs dist/temp/usr/bin/pyslvs
-	mv dist/temp dist/Pyslvs
-	dpkg -b dist/Pyslvs
+	mv dist/pyslvs dist/temp/usr/share/
+	ln -s /usr/share/pyslvs dist/temp/usr/bin/pyslvs
+	mv dist/temp dist/pyslvs
+	dpkg -b dist/pyslvs
 endif
 
 clean:
