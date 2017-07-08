@@ -1,15 +1,27 @@
 [![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-![OS](https://img.shields.io/badge/OS-Linux%2C%20Windows-blue.svg)
+[![OS](https://img.shields.io/badge/os-Linux(Ubuntu)%2C%20Windows-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
-![](icons/title.png)
+![title](icons/title.png)
 
-+ [Introduction](#introduction)
+1. [Introduction](#introduction)
 
-+ [Requirement](#requirement)
+    + [How to startup](#how-to-startup)
+    + [Symbolic](#symbolic)
+    + [Path Track](#path-track)
+    + [Triangle Solver](#triangle-solver)
+    + [Algorithm](#algorithm)
+    
+1. [Requirement](#requirement)
 
-+ [Power By](#power-by)
+    + [PyQt](#pyqt)
+    
+1. [Compile](#compile)
+
+1. [Power By](#power-by)
+
+    + [Kernel](#kernel)
 
 Introduction
 ===
@@ -24,7 +36,7 @@ Compatible with Python 3.4, PyQt 5.5 and above.
 
 Cross-platform Development: Ubuntu and Windows OS
 
-![](icons/cover/main.png)
+![main](icons/cover/main.png)
 
 How to startup
 ---
@@ -46,56 +58,56 @@ Symbolic
 
 1. Point
 
-    ![](icons/cover/Point.png)
+    ![Point](icons/cover/Point.png)
 
 1. Line (Link)
 
-    ![](icons/cover/Line.png)
+    ![Line](icons/cover/Line.png)
 
 1. Chain (Fixed Chain)
 
-    ![](icons/cover/Chain.png)
+    ![Chain](icons/cover/Chain.png)
 
 1. Shaft (Drive Shaft)
 
-    ![](icons/cover/Shaft.png)
+    ![Shaft](icons/cover/Shaft.png)
 
 1. Slider
 
-    ![](icons/cover/Slider.png)
+    ![Slider](icons/cover/Slider.png)
 
 1. Rod (Piston)
 
-    ![](icons/cover/Rod.png)
+    ![Rod](icons/cover/Rod.png)
 
 Path Track
 ---
 
-![](icons/cover/PathTrack.png)
+![PathTrack](icons/cover/PathTrack.png)
 
 Calculate the path of the node.
 
-![](icons/cover/PathTrack_all.png)
+![PathTrack_all](icons/cover/PathTrack_all.png)
 
 View them in the table.
 
-![](icons/cover/PathResult.png)
+![PathResult](icons/cover/PathResult.png)
 
 Triangle Solver
 ---
 
-![](icons/cover/TriangleSolver.png)
+![TriangleSolver](icons/cover/TriangleSolver.png)
 
 Triangle solver find the node position by using three triangular relationship.
 
-![](icons/cover/TriangleSolver_merge.png)
+![TriangleSolver_merge](icons/cover/TriangleSolver_merge.png)
 
 Then merge into canvace as well.
 
 Algorithm
 ---
 
-![](icons/cover/Algorithm.png)
+![Algorithm](icons/cover/Algorithm.png)
 
 Contains three algorithms:
 
@@ -127,14 +139,18 @@ PyQt
 
 Download [Qt5] and install it.
 
+Remember it should include QtChart.
+
 Make sure computer is installed Qt5 and PyQt5 in the same version.
 
 **Linux**:
 
-Linux user has to add Qt file path in user's `.bashrc`, like `/opt/Qt/5.8/gcc_64/`.
+Linux user has to add Qt file path in user's `QTDIR`, `LD_LIBRARY_PATH`, and `PATH`.
+
+Just like `/opt/Qt/5.9.1/gcc_64/`.
 
 ```bash
-export QTDIR=/opt/Qt/5.8/gcc_64/
+export QTDIR=/opt/Qt/5.9.1/gcc_64/
 
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${QTDIR}/lib/
 
@@ -145,20 +161,20 @@ Then relink QMake command (If your desktop is made by earlier Qt version).
 
 ```bash
 $sudo rm /usr/bin/qmake
-$sudo ln -s /opt/Qt/5.8/gcc_64/bin/qmake /usr/bin/qmake
+$sudo ln -s /opt/Qt/5.9.1/gcc_64/bin/qmake /usr/bin/qmake
 ```
 
-Upgrade Python [SIP].
+Download and upgrade Python [SIP].
 
 ```bash
 $sudo rm -f /usr/lib/python3/dist-packages/sip*
 ```
 
-Download and build [PyQt5], [PyQtChart] and [QScintilla2] by self.
+Download and build [PyQt5], [QScintilla2] and [PyQtChart] by self.
 
 **Windows**:
 
-Windows user has to add Qt file path in environment variables, like `C:\Qt\5.8\msvc2015_64\bin`.
+Windows user has to add Qt file path in environment variables, like `C:\Qt\5.9.1\msvc2015_64\bin`.
 
 Install PyQt5, PyQtChart and QScintilla2 by pip.
 
@@ -251,4 +267,4 @@ Then follow the instructions in the readme.
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
-[Triangle solver]: https://gist.github.com/KmolYuan/c5a94b769bc410524bba66acc5204a8f
+[Triangle solver]: https://gist.github.com/KmolYuan/c5.9.14b769bc410524bba66acc5204a8f
