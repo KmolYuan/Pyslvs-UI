@@ -166,8 +166,17 @@ $sudo ln -s /opt/Qt/5.9.1/gcc_64/bin/qmake /usr/bin/qmake
 
 Download and upgrade Python [SIP].
 
+Before that, you should remove earlier SIP version.
+
+```python
+import sip
+print(sip, sip.SIP_VERSION_STR)
+```
+
+Then remove SIP from the location:
+
 ```bash
-$sudo rm -f /usr/lib/python3/dist-packages/sip*
+$sudo rm -fr /usr/local/lib/python3.5/dist-packages/sip*
 ```
 
 Download and build [PyQt5], [QScintilla2] and [PyQtChart] by self.
