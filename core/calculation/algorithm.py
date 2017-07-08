@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy
-from ..kernel.kernel_getter import *
+from ..kernel.kernel_getter import build_planar, Genetic, Firefly, DiffertialEvolution
 
 def generateProcess(type_num, mechanismParams, GenerateData, algorithmPrams):
     mechanismObj = build_planar(mechanismParams)
