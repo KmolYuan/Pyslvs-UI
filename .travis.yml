@@ -7,22 +7,25 @@ python:
 - 3.5
 
 before_install:
-  - pip install -r requirements.txt
-  - pip install pyinstaller
-  - sudo apt-add-repository "ppa:beineri/opt-qt551" -y
-  - sudo apt-get update
-  - sudo apt-get install qt-latest
-  - source /opt/qt55/bin/qt55-env.sh
+  #SIP
+  - cd ..
+  - curl -L -O "https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.3/sip-4.19.3.tar.gz"
+  - tar -xvf sip-4.19.3.tar.gz
+  - cd sip-4.19.3
+  - python configure.py
+  - sudo make install
+  #PyQt5
+  - cd ..
+  - curl -L -O "https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9/PyQt5_gpl-5.9.tar.gz"
+  - tar -xvf PyQt5_gpl-5.9.tar.gz
+  - cd PyQt5_gpl-5.9
+  - python configure.py --confirm-license
+  - sudo make install
+  - cd $TRAVIS_BUILD_DIR
 
 install:
-  - sudo mkdir -p /builds && sudo chmod a+rw /builds
-  - sudo mkdir -p /downloads && sudo chmod a+rw /downloads
-  - curl -L -o /downloads/sip.tar.gz "http://sourceforge.net/projects/pyqt/files/sip/sip-4.17/sip-4.17.tar.gz"
-  - curl -L -o /downloads/pyqt.tar.gz "http://skylink.dl.sourceforge.net/project/pyqt/PyQt5/PyQt-5.5.1/PyQt-gpl-5.5.1.tar.gz"
-  - tar xzf /downloads/sip.tar.gz -C /builds --keep-newer-files
-  - tar xzf /downloads/pyqt.tar.gz -C /builds --keep-newer-files
-  - cd /builds/sip-4.17 && python configure.py && sudo make && sudo make install
-  - cd /builds/PyQt-gpl-5.5.1 && python configure.py --confirm-license && sudo make && sudo make install
+  - pip install -r requirements.txt
+  - pip install pyinstaller
 
 script:
  - make
