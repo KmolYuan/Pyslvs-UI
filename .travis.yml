@@ -29,8 +29,22 @@ before_install:
   - cd PyQt5_gpl-5.9
   - python configure.py --confirm-license
   - sudo make install
-  #PyQtChart
+  #QScintilla
   - cd ..
+  - curl -L -O "https://sourceforge.net/projects/pyqt/files/QScintilla2/QScintilla-2.10.1/QScintilla_gpl-2.10.1.tar.gz"
+  - tar -xvf QScintilla_gpl-2.10.1.tar.gz
+  - cd QScintilla_gpl-2.10.1
+  - cd Qt4Qt5
+  - qmake qscintilla.pro
+  - sudo make install
+  - cd ../designer-Qt4Qt5
+  - qmake designer.pro
+  - sudo make install
+  - cd ../Python
+  - python configure.py --pyqt=PyQt5
+  - sudo make install
+  #PyQtChart
+  - cd ../..
   - curl -L -O "https://sourceforge.net/projects/pyqt/files/PyQtChart/PyQtChart-5.9/PyQtChart_gpl-5.9.tar.gz"
   - tar -xvf PyQtChart_gpl-5.9.tar.gz
   - cd PyQtChart_gpl-5.9
