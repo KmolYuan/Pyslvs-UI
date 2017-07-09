@@ -12,5 +12,4 @@ def startRep(PORT):
         mechanismParams, Chrom_v = socket.recv_pyobj()
         mechanismObj = build_planar(mechanismParams)
         fitness = mechanismObj(Chrom_v)
-        print("Fitness: {}".format(fitness))
         socket.send_pyobj(fitness)
