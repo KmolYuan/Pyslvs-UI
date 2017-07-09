@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
+from ..kernel.kernel_getter import build_planar
 
 def startRep(PORT):
-    import os, timeit
-    import zmq
+    import os, zmq
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.connect(PORT) #tcp://localhost:8000
     print(PORT)
-    print("Worker {} is awaiting orders...".format(os.getpid()))
+    print("Worker {} at {} is awaiting orders...".format(os.getpid(), PORT))
     while True:
-        func, Chrom_v = socket.recv_multipart()
-        t0 = timeit.default_timer()
-        fitness = func(Chrom_v)
-        t1 = timeit.default_timer()
-        print('total cost time: {:.4f} [s]'.format(t1-t0))
+        mechanismParams, Chrom_v = socket.recv_pyobj()
+        mechanismObj = build_planar(mechanismParams)
+        fitness = mechanismObj(Chrom_v)
+        print("Fitness: {}".format(fitness))
         socket.send_pyobj(fitness)

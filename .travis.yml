@@ -34,7 +34,7 @@ before_install:
   - curl -L -O "https://sourceforge.net/projects/pyqt/files/PyQtChart/PyQtChart-5.9/PyQtChart_gpl-5.9.tar.gz"
   - tar -xvf PyQtChart_gpl-5.9.tar.gz
   - cd PyQtChart_gpl-5.9
-  - python configure.py --confirm-license
+  - python configure.py
   - sudo make install
   - cd $TRAVIS_BUILD_DIR
 

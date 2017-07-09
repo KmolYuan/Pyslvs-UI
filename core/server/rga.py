@@ -29,11 +29,8 @@ class Chromosome(object):
             self.cp(obj)
 
 class Genetic(object):
-    def __init__(self, func, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report):
-        """
-        init(function func)
-        """
-        self.func=func
+    def __init__(self, mechanismParams, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report, socket):
+        self.mechanismParams=mechanismParams
         self.nParm=nParm
         self.nPop=nPop
         self.pCross=pCross
@@ -48,14 +45,16 @@ class Genetic(object):
         self.chromBest = [Chromosome(nParm)]
         self.maxLimit = upper[:]
         self.minLimit = lower[:]
-        
+        #Gen
         self.maxGen = maxGen
         self.rpt = report
         self.gen = 0
-        
+        #seed
         self.seed = 0.0
         self.iseed = 470211272.0
         self.mask = 2147483647
+        #socket
+        self.socket = socket
     
     def newSeed(self):
         if(self.seed == 0.0):
@@ -125,7 +124,8 @@ class Genetic(object):
                     # third baby, 1/4 of fater and 3/4 of mother
                     self.babyChrom[2].v[s] = self.check(s,-0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s])
                 for j in range(3):
-                    self.babyChrom[j].f = self.func(self.babyChrom[j].v)
+                    self.babyChrom[j].f = self.socket_fitness(self.babyChrom[j].v)
+                    #self.babyChrom[j].f = self.mechanismParams(self.babyChrom[j].v)
                 
                 if self.babyChrom[1].f < self.babyChrom[0].f:
                     self.babyChrom[0], self.babyChrom[1] = self.babyChrom[1], self.babyChrom[0]
@@ -153,7 +153,8 @@ class Genetic(object):
     def fitness(self):
         for j in range(self.nPop):
             #Calculate the fitness value
-            self.chrom[j].f = self.func(self.chrom[j].v)
+            self.chrom[j].f = self.socket_fitness(self.chrom[j].v)
+            #self.chrom[j].f = self.mechanismParams(self.chrom[j].v)
         self.chromBest[0].assign(self.chrom[0])
         for j in range(self.nPop):
             if(self.chrom[j].f < self.chromBest[0].f):
@@ -181,7 +182,8 @@ class Genetic(object):
         """
         self.randomize()
         self.initialPop()
-        self.chrom[0].f = self.func(self.chrom[0].v)
+        self.chrom[0].f = self.socket_fitness(self.chrom[0].v)
+        #self.chrom[0].f = self.mechanismParams(self.chrom[0].v)
         self.chromElite[0].assign(self.chrom[0])
         
         self.gen = 0
@@ -195,3 +197,7 @@ class Genetic(object):
             if self.rpt != 0:
                 if self.gen%self.rpt == 0:
                     self.report()
+    
+    def socket_fitness(self, chrom):
+        self.socket.send_pyobj([self.mechanismParams, chrom])
+        return self.socket.recv_pyobj()

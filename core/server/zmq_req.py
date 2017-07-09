@@ -26,7 +26,6 @@ def startReq(PORT):
         'targetPath':path,
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
         'formula':['PLAP','PLLP']}
-    mechanismObj = build_planar(mechanismParams)
     APs = {
         'nParm':Parm_num,
         'nPop':250, #250
@@ -37,8 +36,8 @@ def startReq(PORT):
         'upper':[50,50,50,50,50,50,50,50,50] + [360.0] * p,
         'lower':[-50,-50,-50,-50, 5, 5, 5, 5, 5] + [0.0] * p,
         'maxGen':1500,
-        'report':100}
-    foo = Genetic(mechanismObj, **APs)
+        'report':500}
+    foo = Genetic(mechanismParams, socket=socket, **APs)
     t0 = timeit.default_timer()
     foo.run()
     t1 = timeit.default_timer()
