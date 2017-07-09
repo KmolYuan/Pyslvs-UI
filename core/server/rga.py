@@ -1,9 +1,7 @@
 import time
 import math
 
-
 class Chromosome(object):
-
     def __init__(self, n=None):
         self.np = n if n > 0 else 2
         self.f = 0.0
@@ -30,9 +28,7 @@ class Chromosome(object):
         if not self.is_self(obj):
             self.cp(obj)
 
-
 class Genetic(object):
-
     def __init__(self, func, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report):
         """
         init(function func)
@@ -99,11 +95,11 @@ class Genetic(object):
             if(self.rnd() < self.pCross):
                 for s in range(self.nParm):
                     # first baby, half father half mother
-                    self.babyChrom[0].v[s] = 0.5 * self.chrom[i].v[s] + 0.5*self.chrom[i+1].v[s];
+                    self.babyChrom[0].v[s] = 0.5 * self.chrom[i].v[s] + 0.5*self.chrom[i+1].v[s]
                     # second baby, three quaters of fater and quater of mother
                     self.babyChrom[1].v[s] = self.check(s, 1.5 * self.chrom[i].v[s] - 0.5*self.chrom[i+1].v[s])
                     # third baby, quater of fater and three quaters of mother
-                    self.babyChrom[2].v[s] = self.check(s,-0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s]);
+                    self.babyChrom[2].v[s] = self.check(s,-0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s])
 
                 for j in range(3):
                     self.babyChrom[j].f = self.func(self.babyChrom[j].v)
@@ -122,7 +118,7 @@ class Genetic(object):
                 self.chrom[i+1].assign(self.babyChrom[1])
 
     def delta(self, y):
-        r = float(self.gen) / self.maxGen;
+        r = float(self.gen) / self.maxGen
         return y*self.rnd()*math.pow(1.0-r, self.bDelta)
 
     def fitness(self):
@@ -180,7 +176,7 @@ class Genetic(object):
             self.chrom[i].assign(self.newChrom[i])
 
         # select random one chrom to be best chrom, make best chrom still exist
-        j = self.random(self.nPop);
+        j = self.random(self.nPop)
         self.chrom[j].assign(self.chromElite[0])
 
     def run(self):

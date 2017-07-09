@@ -1,6 +1,0 @@
-[submodule "core/kernel/pyslvs_generate/pyslvs_generate"]
-	path = core/kernel/pyslvs_generate/pyslvs_generate
-	url = https://github.com/KmolYuan/pyslvs_generate
-[submodule "core/kernel/python-solvespace-lite"]
-	path = core/kernel/python-solvespace-lite
-	url = https://github.com/KmolYuan/python-solvespace-lite/
