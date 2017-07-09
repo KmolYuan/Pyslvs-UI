@@ -9,8 +9,9 @@ def startRep(PORT):
     print(PORT)
     print("Worker {} is awaiting orders...".format(os.getpid()))
     while True:
-        type_num, mechanismParams, GenerateData, algorithmPrams = socket.recv_multipart()
+        func, Chrom_v = socket.recv_multipart()
         t0 = timeit.default_timer()
+        fitness = func(Chrom_v)
         t1 = timeit.default_timer()
         print('total cost time: {:.4f} [s]'.format(t1-t0))
-        socket.send()
+        socket.send_pyobj(fitness)
