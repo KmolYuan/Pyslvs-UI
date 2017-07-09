@@ -67,9 +67,8 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
             [("Population Size", 40)],
             [("Alpha value", 0.01), ("Minimum Beta value", 0.2), ("Gamma value", 1.), ("Beta0 value", 1.)])
         elif self.algorithm=="Differential Evolution": writeTable(
-            [("Evolutionary strategy", 1), ("Population Size", 190)],
+            [("Evolutionary strategy (0-9)", 1), ("Population Size", 190)],
             [("Weight factor", 0.6), ("Recombination factor", 0.9)])
-        for i in range(self.APTable.rowCount()): self.APTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])

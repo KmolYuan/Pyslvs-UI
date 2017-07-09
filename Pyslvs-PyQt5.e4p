@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-08, 17:06:11 -->
+<!-- Saved: 2017-07-09, 14:10:39 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -12,6 +12,7 @@
   <Author>Yuan</Author>
   <Email>daan0014119@gmail.com</Email>
   <Sources>
+    <Source>.travis.yml</Source>
     <Source>README.md</Source>
     <Source>core/QtModules.py</Source>
     <Source>core/Ui_custom.py</Source>

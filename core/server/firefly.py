@@ -2,13 +2,11 @@ import random
 import math
 
 class Chromosome(object):
-
     """
     just copy the idea of genetic algorithm, pretty similar..
     refer to real-coded genetic algorithm(RGA)
     it's call gene in GA, it's call position of dimension in FA
     """
-
     def __init__(self, n):
         """
         int n, dimension of question
@@ -18,33 +16,29 @@ class Chromosome(object):
         self.v = [0] * n
         # the fitness value
         self.f = 0
-
+    
     def distance(self, obj):
         """
         Chromosome obj
         return float
-
         calculate distance between itself and obj
         """
         dist = 0
         for i in range(self.n):
             dist += (self.v[i] - obj.v[i])**2
         return math.sqrt(dist)
-
+    
     def assign(self, obj):
         """
         Chromosome obj
-
         copy all attribute from obj to itself
         """
         self.n = obj.n
         self.v = obj.v[:]
         self.f = obj.f
 
-
 class Firefly(object):
-
-    def __init__(self, D, n, alpha, betaMin, beta0, gamma, lb, ub, f, maxGen, report):
+    def __init__(self, func, D, n, alpha, betaMin, beta0, gamma, lb, ub, maxGen, report):
         """
         init the fireflies pool and dimension
         int D, dimension of question
@@ -55,7 +49,7 @@ class Firefly(object):
         flaot gamma
         list of float lb
         list of float ub
-        function object f
+        function object func
         int maxGen
         int report
         """
@@ -81,7 +75,7 @@ class Firefly(object):
         # fireflies pool, depend on population n
         self.fireflys = [Chromosome(self.D) for i in range(self.n)]
         # object function, maybe can call the environment
-        self.f = f
+        self.func = func
         # maxima generation
         self.maxGen = maxGen
         # report, how many generation report status once
@@ -92,7 +86,7 @@ class Firefly(object):
         self.genbest = Chromosome(self.D)
         # best firefly so far
         self.bestFirefly = Chromosome(self.D)
-
+    
     def init(self):
         """
         init all firefly, each firefly random place in landscape
@@ -100,19 +94,19 @@ class Firefly(object):
         for i in range(self.n):
             # init the Chromosome
             for j in range(self.D):
-                self.fireflys[i].v[j]=random.random()*(self.ub[j]-self.lb[j])+self.lb[j];
-
+                self.fireflys[i].v[j]=random.random()*(self.ub[j]-self.lb[j])+self.lb[j]
+    
     def movefireflies(self):
         """
         move fireflies, this is most import step of whole algorithm
         firefly will check each another firefly that light intensity is stronger than itself
         if anyone is better than itself, the firefly will toward to her with alpha, gamma, betaMin, beta and r affect
         if not, then randomly move
-
+        
         above step also need to check the bound
-
+        
         note:
-
+        
         1. light intensity = 1 / fitness value, lower fitness value represent better light intensity
         2. scale mean the landscape range in dimension e.g. 50 to -50 then scale will be 100
         """
@@ -128,28 +122,26 @@ class Firefly(object):
                     self.fireflys[i].v[k] += self.alpha * (random.random() - 0.5) * scale
                     # check bound
                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])
-
+    
     def evaluate(self):
         """
         evaluate each firefly's fitness value
         """
-        # for i in range(self.n):
-        #     self.fireflys[i].f = self.f(self.fireflys[i].v)
         for firefly in self.fireflys:
-            firefly.f = self.f(firefly.v)
-
+            firefly.f = self.func(firefly.v)
+    
     def movefly(self, me, she):
         """
         Chromosome object me, she
         return bool, am i move?
-
+        
         two firefly me, she
         Is my fitness value larger than her,
         if it is true, then toward to her, need to check the dimension bound
-
+        
         note: fitness value low is better
         """
-
+        
         # is my fitness value larger than her
         if me.f > she.f:
             # calculate the distance between me and her
@@ -163,7 +155,7 @@ class Firefly(object):
                 me.v[i] = self.check(i, me.v[i])
             return True
         return False
-
+    
     def check(self, i, v):
         """
         int i, float v
@@ -183,21 +175,21 @@ class Firefly(object):
             return self.lb[i]
         else:
             return v
-
+    
     def randVal(self, low, high):
         """
         float low, high
         return float
         """
         return random.random()*(high-low)+low
-
+    
     def findFirefly(self):
         """
         return Chromosome object
         find the best one firefly(minimum fitness value) in fireflys
         """
         return min(self.fireflys, key=lambda chrom:chrom.f)
-
+    
     def report(self):
         """
         report current generation status
@@ -213,7 +205,7 @@ class Firefly(object):
             print("Var", i, ":", v)
         # print("now the gen best fitness is :", self.genbest.f)
         # print("now alpha is :", self.alpha)
-
+    
     def calculate_new_alpha(self):
         """
         calculate new alpha, why need this?
@@ -224,7 +216,7 @@ class Firefly(object):
         # self.alpha = self.alpha0 / math.log(self.gen + 1)
         # depend on cureent gen best firefly
         self.alpha = self.alpha0 * math.log10(self.genbest.f + 1)
-
+    
     def run(self):
         """
         run the algorithm...
@@ -245,7 +237,6 @@ class Firefly(object):
             # bestFirefly, copy all its
             if self.bestFirefly.f > self.genbest.f:
                 self.bestFirefly.assign(self.genbest)
-
             # generate new alpha
             self.calculate_new_alpha()
             # report?

@@ -1,6 +1,6 @@
 #Pyslvs Makefile
 
-all: build
+all: build run
 
 build: launch_pyslvs.py
 	@echo ---Pyslvs Build---
