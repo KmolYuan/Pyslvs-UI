@@ -15,16 +15,22 @@ before_install:
   - python configure.py
   - sudo make install
   #Qt5
-  - sudo add-apt-repository --yes "ppa:ubuntu-sdk-team/ppa"
+  - sudo add-apt-repository --yes "ppa:beineri/opt-qt57-trusty"
   - sudo apt-get update -qq
-  - sudo apt-get install qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev libsqlite3-dev
-  - sudo apt-get install qt5-default qttools5-dev-tools
+  - sudo apt-get install qt57-meta-full
   - qmake -v
   #PyQt5
   - cd ..
   - curl -L -O "https://sourceforge.net/projects/pyqt/files/PyQt5/PyQt-5.9/PyQt5_gpl-5.9.tar.gz"
   - tar -xvf PyQt5_gpl-5.9.tar.gz
   - cd PyQt5_gpl-5.9
+  - python configure.py --confirm-license
+  - sudo make install
+  #PyQtChart
+  - cd ..
+  - curl -L -O "https://sourceforge.net/projects/pyqt/files/PyQtChart/PyQtChart-5.9/PyQtChart_gpl-5.9.tar.gz"
+  - tar -xvf PyQtChart_gpl-5.9.tar.gz
+  - cd PyQtChart_gpl-5.9
   - python configure.py --confirm-license
   - sudo make install
   - cd $TRAVIS_BUILD_DIR
