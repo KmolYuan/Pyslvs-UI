@@ -3,7 +3,7 @@ from ...QtModules import *
 from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from .Path_Solving_options import Path_Solving_options_show
-from .Path_Solving_progress import Path_Solving_progress_show
+from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
 from .Path_Solving_series import Path_Solving_series_show
 
 class Path_Solving_show(QWidget, PathSolving_Form):
@@ -85,13 +85,28 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def isGenerate(self):
         self.pointNum.setText(
-            "<html><head/><body><p><span style=\" font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
+            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
         n = self.Point_list.count()>1
         self.GenerateLocal.setEnabled(n)
         self.GenerateZMQ.setEnabled(n)
     
     @pyqtSlot()
-    def on_GenerateLocal_clicked(self):
+    def on_GenerateLocal_clicked(self): self.startAlgorithm()
+    @pyqtSlot()
+    def on_GenerateZMQ_clicked(self): self.startAlgorithm(True)
+    def startAlgorithm(self, hasPort=False):
+        type_num, mechanismParams, GenerateData = self.getGenerate()
+        dlg = Path_Solving_progress_zmq_show(type_num, mechanismParams, GenerateData, self.Settings['algorithmPrams'],
+            PORT=self.portText.text() if hasPort else None, parent=self)
+        dlg.show()
+        if dlg.exec_():
+            self.mechanism_data.append(dlg.mechanism)
+            self.addResult(dlg.mechanism)
+            sec = dlg.time_spand%60
+            mins = int(dlg.time_spand/60)
+            self.timeShow.setText("<html><head/><body><p><span style=\"font-size:10pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
+            print('Finished.')
+    def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         upper = [self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*2
@@ -117,15 +132,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],
             'report':int(self.Settings['maxGen']*self.Settings['report']/100)}
-        dlg = Path_Solving_progress_show(type_num, mechanismParams, GenerateData, self.Settings['algorithmPrams'], self)
-        dlg.show()
-        if dlg.exec_():
-            self.mechanism_data.append(dlg.mechanism)
-            self.addResult(dlg.mechanism)
-            sec = dlg.time_spand%60
-            mins = int(dlg.time_spand/60)
-            self.timeShow.setText("<html><head/><body><p><span style=\"font-size:10pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
-            print('Finished.')
+        return type_num, mechanismParams, GenerateData
     
     def addResult(self, e):
         keys = sorted(list(e.keys()))

@@ -6,8 +6,8 @@ def startRep(PORT):
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.connect(PORT) #tcp://localhost:8000
-    print(PORT)
-    print("Worker {} at {} is awaiting orders...".format(os.getpid(), PORT))
+    print("Address: {}".format(PORT))
+    print("Worker {} is awaiting orders...".format(os.getpid(), PORT))
     while True:
         mechanismParams, Chrom_v = socket.recv_pyobj()
         mechanismObj = build_planar(mechanismParams)

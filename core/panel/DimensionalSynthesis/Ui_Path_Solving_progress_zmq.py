@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_progress.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_progress_zmq.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(370, 169)
-        Dialog.setMinimumSize(QtCore.QSize(370, 169))
-        Dialog.setMaximumSize(QtCore.QSize(370, 169))
+        Dialog.resize(419, 304)
+        Dialog.setMinimumSize(QtCore.QSize(419, 304))
+        Dialog.setMaximumSize(QtCore.QSize(419, 304))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -24,6 +24,18 @@ class Ui_Dialog(object):
         self.label.setWordWrap(True)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
+        self.argumentText = QtWidgets.QTextBrowser(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.argumentText.sizePolicy().hasHeightForWidth())
+        self.argumentText.setSizePolicy(sizePolicy)
+        self.argumentText.setMaximumSize(QtCore.QSize(16777215, 30))
+        self.argumentText.setStyleSheet("background-color: rgb(0, 0, 0);\n"
+"color: rgb(255, 255, 255);")
+        self.argumentText.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.argumentText.setObjectName("argumentText")
+        self.verticalLayout.addWidget(self.argumentText)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.progressBar = QtWidgets.QProgressBar(Dialog)
@@ -57,7 +69,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p>This will take some time, depending on the number of path points.</p><p>Please wait patiently.</p></body></html>"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs will start the algorithm via the ZMQ module.<br/>More servers can save more time.<br/><br/>Start Pyslvs server by following argument:</span></p><p><span style=\" font-size:12pt;\">(for example, localhost)</span></p></body></html>"))
         self.Start.setText(_translate("Dialog", "Start"))
 
 import icons_rc

@@ -13,6 +13,8 @@ class WorkerThread(QThread):
         self.mechanismParams = mechanismParams
         self.GenerateData = GenerateData
         self.algorithmPrams = algorithmPrams
+        self.socket = None
+    def setSocket(self, socket): self.socket = socket
     
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
@@ -37,6 +39,7 @@ class WorkerThread(QThread):
         print('total cost time: {:.4f} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     
+    #TODO: Put socket into Cython lib.
     def generateProcess(self, type_num, mechanismParams, GenerateData, algorithmPrams):
         mechanismObj = build_planar(mechanismParams)
         #Genetic Algorithm

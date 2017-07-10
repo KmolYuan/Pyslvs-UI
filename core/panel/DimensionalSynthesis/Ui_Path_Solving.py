@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,16 +11,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(492, 494)
+        Form.resize(489, 522)
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.FourBar = QtWidgets.QRadioButton(Form)
+        self.FourBar.setEnabled(False)
         self.FourBar.setChecked(True)
         self.FourBar.setObjectName("FourBar")
         self.horizontalLayout_8.addWidget(self.FourBar)
         self.radioButton = QtWidgets.QRadioButton(Form)
+        self.radioButton.setEnabled(False)
         self.radioButton.setObjectName("radioButton")
         self.horizontalLayout_8.addWidget(self.radioButton)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -36,7 +38,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 472, 402))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 469, 430))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_7.setContentsMargins(6, 6, 6, 6)
@@ -189,10 +191,17 @@ class Ui_Form(object):
         self.timePanelLayout = QtWidgets.QHBoxLayout(self.timePanel)
         self.timePanelLayout.setContentsMargins(6, 0, 6, 0)
         self.timePanelLayout.setObjectName("timePanelLayout")
+        self.portText = QtWidgets.QLineEdit(self.timePanel)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.portText.sizePolicy().hasHeightForWidth())
+        self.portText.setSizePolicy(sizePolicy)
+        self.portText.setObjectName("portText")
+        self.timePanelLayout.addWidget(self.portText)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.timePanelLayout.addItem(spacerItem6)
         self.GenerateZMQ = QtWidgets.QPushButton(self.timePanel)
-        self.GenerateZMQ.setEnabled(False)
         self.GenerateZMQ.setMinimumSize(QtCore.QSize(100, 0))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/ZeroMQ.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -240,6 +249,7 @@ class Ui_Form(object):
         self.type1.setText(_translate("Form", "Firefly Algorithm"))
         self.type2.setText(_translate("Form", "Differential Evolution"))
         self.advanceButton.setText(_translate("Form", "Advance"))
+        self.portText.setText(_translate("Form", "tcp://*:8000"))
         self.GenerateZMQ.setText(_translate("Form", "ZeroMQ Generate"))
         self.GenerateLocal.setText(_translate("Form", "Local Generate"))
 

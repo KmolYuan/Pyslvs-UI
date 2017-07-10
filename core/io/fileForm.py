@@ -152,7 +152,7 @@ class File:
                     pathdata.append(VPaths(shaftIndex, vpaths))
                 if pathdata: self.Lists.setPath(pathdata)
             except Exception as e: ReadError(e, 'Path')
-        #TODO: algorithm
+        #algorithm
         algorithm = data.find('algorithm')
         if algorithm:
             results = list()

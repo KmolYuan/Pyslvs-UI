@@ -29,7 +29,6 @@ parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in F
 parser.add_argument('--full-screen', action='store_true', help="run Pyslvs in full-screen mode")
 parser.add_argument('--file-data', action='store_true', help="display the file data in command-line when opening")
 parser.add_argument('--server', metavar='PORT', default=False, nargs='?', type=str, help="start ZMQ server")
-parser.add_argument('--client', metavar='PORT', default=False, nargs='?', type=str, help="start ZMQ client")
 parser.add_argument('-d', '--debug-mode', action='store_true', help="don't connect to GUI console when opening")
 args = parser.parse_args()
 

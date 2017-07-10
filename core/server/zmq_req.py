@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-import time, timeit, numpy
+import time, timeit
 import zmq
-from ..kernel.kernel_getter import build_planar
 from .rga import Genetic
-from .firefly import Firefly
-from .de import DiffertialEvolution
 
 def startReq(PORT):
     context = zmq.Context()

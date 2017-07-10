@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_options.ui'
 #
-# Created by: PyQt5 UI code generator 5.8
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -78,33 +78,14 @@ class Ui_Dialog(object):
         self.APTable.horizontalHeader().setMinimumSectionSize(150)
         self.verticalLayout_3.addWidget(self.APTable)
         self.tabWidget.addTab(self.algorithm, "")
-        self.network = QtWidgets.QWidget()
-        self.network.setObjectName("network")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.network)
-        self.verticalLayout_4.setContentsMargins(6, 6, 6, 6)
-        self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.label = QtWidgets.QLabel(self.network)
-        self.label.setObjectName("label")
-        self.horizontalLayout_3.addWidget(self.label)
-        self.lineEdit = QtWidgets.QLineEdit(self.network)
-        self.lineEdit.setObjectName("lineEdit")
-        self.horizontalLayout_3.addWidget(self.lineEdit)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem)
-        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem1)
-        self.tabWidget.addTab(self.network, "")
         self.verticalLayout.addWidget(self.tabWidget)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.setDefault = QtWidgets.QPushButton(Dialog)
         self.setDefault.setObjectName("setDefault")
         self.horizontalLayout.addWidget(self.setDefault)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
@@ -134,10 +115,6 @@ class Ui_Dialog(object):
         item = self.APTable.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Value"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.algorithm), _translate("Dialog", "Algorithm"))
-        self.label.setText(_translate("Dialog", "Local port: "))
-        self.lineEdit.setInputMask(_translate("Dialog", "9999"))
-        self.lineEdit.setText(_translate("Dialog", "8000"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.network), _translate("Dialog", "Network"))
         self.setDefault.setText(_translate("Dialog", "Reset to Default"))
 
 import icons_rc

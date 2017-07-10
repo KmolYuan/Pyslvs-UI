@@ -155,7 +155,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print('Exit.')
         event.accept()
     
-    #TODO: Undo and Redo
+    #Undo and Redo
     @pyqtSlot(int)
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,

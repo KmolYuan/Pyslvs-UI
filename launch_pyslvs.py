@@ -9,9 +9,6 @@ if __name__=='__main__':
         if args.server:
             from core.server.zmq_rep import startRep
             startRep(args.server)
-        elif args.client:
-            from core.server.zmq_req import startReq
-            startReq(args.client)
         else:
             from PyQt5.QtWidgets import QApplication
             from core.main import MainWindow
