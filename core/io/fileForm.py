@@ -491,12 +491,6 @@ class File:
         path = Result['mechanismParams']['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
-        #A-C-B-C-E
-        Anum = Point.rowCount()
-        Dnum = Point.rowCount()+1
-        Bnum = Point.rowCount()+2
-        Cnum = Point.rowCount()+3
-        Enum = Point.rowCount()+4
         answer = [False]
         startAngle = False
         endAngle = False
@@ -530,13 +524,13 @@ class File:
             if not dataAdd: self.Lists.clearPath()
             for i, point in enumerate(answer): self.Lists.editTable(Point, 'Point', False,
                 point[0] if i<2 else float(round(point[0])), point[1] if i<2 else float(round(point[1])),
-                i<2, 'Blue' if i<2 else 'Green' if i<4 else 'Brick-Red')
+                i<2, 'Blue' if i<2 else 'Green' if i<len(answer) else 'Brick-Red')
             #TODO: Sort triangle and links.
-            self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
-                str(Result['L1']), str(Result['L4']), str(Result['L3']))
-            self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
-            self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
-            self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), startAngle, endAngle, startAngle, False)
+            #self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
+            #    str(Result['L1']), str(Result['L4']), str(Result['L3']))
+            #self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
+            #self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
+            #self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), startAngle, endAngle, startAngle, False)
             if dataAdd:
                 path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
                 self.Lists.setPath([VPaths(Shaft.rowCount()-1, path_dots)])

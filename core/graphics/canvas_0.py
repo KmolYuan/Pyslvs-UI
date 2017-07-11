@@ -401,7 +401,7 @@ class DynamicCanvas(QWidget):
         if self.options.slvsPath['path'] and self.options.slvsPath['show']:
             pathData = self.options.slvsPath['path']
             pen.setWidth(self.options.style['penWidth']['path'])
-            pen.setColor(self.Color['Gray'])
+            pen.setColor(self.Color['Dark-Magenta'])
             painter.setPen(pen)
             if self.options.Path.mode==True:
                 if len(pathData)>1:

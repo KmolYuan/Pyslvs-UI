@@ -129,14 +129,15 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             print('Finished.')
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        p = len(self.path)
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
-        link_q = len(mechanismParams['Link'].split(','))-3
+        link_q = mechanismParams['VARS']-7
         upper = [self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
         lower = [self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
         mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
+        print(link_q, mechanismParams['VARS'], len(upper))
+        p = len(self.path)
         GenerateData = {
             'nParm':p+mechanismParams['VARS'],
             'upper':upper+[self.Settings['AMax']]*p,

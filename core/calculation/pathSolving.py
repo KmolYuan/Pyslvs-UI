@@ -35,7 +35,7 @@ class WorkerThread(QThread):
             'GenerateData':self.GenerateData,
             'algorithmPrams':self.algorithmPrams,
             'TimeAndFitness':TnF}
-        for i in range(self.mechanismParams['VARS']-4): mechanism['L{}'.format(i)] = FP[4+i]
+        for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
         print('total cost time: {:.4f} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     
