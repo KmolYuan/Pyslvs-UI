@@ -19,7 +19,7 @@ class WorkerThread(QThread):
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
         alg = 'Genetic' if self.type_num==0 else 'Firefly' if self.type_num==1 else "Differtial Evolution"
-        print("Algorithm: "+alg)
+        print("Algorithm: {}".format(alg))
         print("Through: {}".format(self.mechanismParams['targetPath']))
         t0 = timeit.default_timer()
         TnF, FP = self.generateProcess(self.type_num, self.mechanismParams, self.GenerateData, self.algorithmPrams)

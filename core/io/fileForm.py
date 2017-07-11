@@ -499,17 +499,9 @@ class File:
         for a in range(360+1):
             Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
             for exp in expression_tag[1:]:
-                try: p1 = expression_result.index(exp[0])
-                except:
-                    if exp[0]=='A': p1 = (Result['Ax'], Result['Ay'])
-                    else: p1 = (Result['Dx'], Result['Dy'])
-                try: p2 = expression_result.index(exp[3])
-                except:
-                    if exp[0]=='A': p2 = (Result['Ax'], Result['Ay'])
-                    else: p2 = (Result['Dx'], Result['Dy'])
-                len1 = Result[exp[1]]
-                len2 = Result[exp[2]]
-                Directions.append(Direction(p1=p1, p2=p2, len1=len1, len2=len2, other=other))
+                p1 = (Result['Ax'], Result['Ay']) if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else (Result['Dx'], Result['Dy'])
+                p2 = (Result['Ax'], Result['Ay']) if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else (Result['Dx'], Result['Dy'])
+                Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
             s = solver(Directions)
             s_answer = s.answer()
             answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
@@ -522,15 +514,18 @@ class File:
         if not (False in answer):
             dataAdd = len(self.Lists.PointList)==1
             if not dataAdd: self.Lists.clearPath()
-            for i, point in enumerate(answer): self.Lists.editTable(Point, 'Point', False,
-                point[0] if i<2 else float(round(point[0])), point[1] if i<2 else float(round(point[1])),
-                i<2, 'Blue' if i<2 else 'Green' if i<len(answer) else 'Brick-Red')
-            #TODO: Sort triangle and links.
-            #self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
-            #    str(Result['L1']), str(Result['L4']), str(Result['L3']))
-            #self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
-            #self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
-            #self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), startAngle, endAngle, startAngle, False)
+            for i, (x, y) in enumerate(answer): self.Lists.editTable(Point, 'Point', False,
+                round(x, 4), round(y, 4), i<2, 'Blue' if i<2 else 'Green' if i<len(answer)-1 else 'Brick-Red')
+            Rnum = Point.rowCount()-len(expression_result)
+            self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), str(Result['L0']))
+            #exp = ('B', 'L2', 'L1', 'C', 'D')
+            for i, exp in enumerate(expression_tag[1:]):
+                p1 = -2 if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else -1
+                p2 = -2 if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else -1
+                p3 = -2 if exp[-1]=='A' else expression_result.index(exp[-1]) if exp[-1] in expression_result else -1
+                self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum+p1), "Point{}".format(Rnum+p3), str(Result[exp[1]]))
+                self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum+p2), "Point{}".format(Rnum+p3), str(Result[exp[2]]))
+            self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), startAngle, endAngle, startAngle, False)
             if dataAdd:
                 path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
                 self.Lists.setPath([VPaths(Shaft.rowCount()-1, path_dots)])

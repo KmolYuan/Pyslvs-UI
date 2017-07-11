@@ -35,7 +35,6 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         self.Start.setEnabled(False)
         self.buttonBox.setEnabled(False)
         self.progressBar.setRange(0, 0)
-        print("Start Path Solving...")
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):

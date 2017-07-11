@@ -496,12 +496,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closeAllPanels()
     
     def checkEntitiesConflict(self, pos, points):
+        d_list = list()
         for i, e in enumerate(self.File.Lists.LineList):
-            if len(set(points) & set([e.start, e.end]))>1 and (i!=pos or len(points)!=2): self.File.Lists.deleteTable(
-                self.Entiteis_Link, 'Line', i)
+            if len(set(points) & set([e.start, e.end]))>1 and (i!=pos or len(points)!=2): d_list.append(i)
+        for i in reversed(d_list): self.File.Lists.deleteTable(self.Entiteis_Link, 'Line', i)
+        del d_list[:]
         for i, e in enumerate(self.File.Lists.ChainList):
-            if len(set(points) & set([e.p1, e.p2, e.p3]))>1 and (i!=pos or len(points)!=3): self.File.Lists.deleteTable(
-                self.Entiteis_Stay_Chain, 'Chain', i)
+            if len(set(points) & set([e.p1, e.p2, e.p3]))>1 and (i!=pos or len(points)!=3): d_list.append(i)
+        for i in reversed(d_list): self.File.Lists.deleteTable(self.Entiteis_Stay_Chain, 'Chain', i)
     
     #Simulate
     @pyqtSlot()
