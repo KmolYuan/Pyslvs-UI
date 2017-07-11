@@ -79,9 +79,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         n = self.Point_list.currentRow()
         if n<self.Point_list.count()-1 and self.Point_list.count()>1:
             self.movedownPathPoint.emit(n)
-            x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
-            y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
-            self.Point_list.insertItem(n+2, '('+str(x)+", "+str(y)+')')
+            c = self.Point_list.currentItem().text()[1:-1].split(', ')
+            self.Point_list.insertItem(n+2, "({}, {})".format(c[0], c[1]))
             self.Point_list.takeItem(n)
             self.Point_list.setCurrentRow(n+1)
     
@@ -195,7 +194,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 'IMax':GenerateData['upper'][4], 'IMin':GenerateData['lower'][4],
                 'LMax':GenerateData['upper'][5], 'LMin':GenerateData['lower'][5],
                 'FMax':GenerateData['upper'][6], 'FMin':GenerateData['lower'][6],
-                'AMax':GenerateData['upper'][9], 'AMin':GenerateData['lower'][9]}
+                'AMax':GenerateData['upper'][-1], 'AMin':GenerateData['lower'][-1]}
             self.Settings['algorithmPrams'] = args['algorithmPrams']
             self.on_clearAll_clicked()
             for e in args['mechanismParams']['targetPath']: self.on_add_clicked(e[0], e[1])
