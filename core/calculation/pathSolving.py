@@ -31,11 +31,11 @@ class WorkerThread(QThread):
             'time':time_spand,
             'Ax':FP[0], 'Ay':FP[1],
             'Dx':FP[2], 'Dy':FP[3],
-            'L0':FP[4], 'L1':FP[5], 'L2':FP[6], 'L3':FP[7], 'L4':FP[8],
             'mechanismParams':self.mechanismParams,
             'GenerateData':self.GenerateData,
             'algorithmPrams':self.algorithmPrams,
             'TimeAndFitness':TnF}
+        for i in range(self.mechanismParams['VARS']-4): mechanism['L{}'.format(i)] = FP[4+i]
         print('total cost time: {:.4f} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     

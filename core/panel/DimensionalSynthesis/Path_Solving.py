@@ -18,6 +18,27 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     defaultSettings = {'maxGen':1500, 'report':1, 'AxMin':-50., 'AyMin':-50., 'DxMin':-50., 'DyMin':-50., 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
         'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
         'algorithmPrams':DifferentialPrams}
+    mechanismParams_4Bar = { #No 'targetPath'
+        'Driving':'A',
+        'Follower':'D',
+        'Link':'L0,L1,L2,L3,L4',
+        'Target':'E',
+        'ExpressionName':'PLAP,PLLP,PLLP',
+        'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
+        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
+        'formula':['PLAP','PLLP']}
+    mechanismParams_4Bar['VARS'] = len(set(mechanismParams_4Bar['Expression'].split(',')))-2
+    mechanismParams_8Bar = { #No 'targetPath'
+        'Driving':'A',
+        'Follower':'B',
+        'Link':'L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10',
+        'Target':'H',
+        'ExpressionName':'PLAP,PLLP,PLLP,PLLP,PLLP,PLLP',
+        'Expression':'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H',
+        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
+        'formula':['PLAP','PLLP']}
+    mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
+    
     def __init__(self, path, mechanism_data, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
@@ -108,26 +129,16 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             print('Finished.')
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        upper = [self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
-            self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*2
-        lower = [self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
-            self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*2
         p = len(self.path)
-        VARS = 9
-        Parm_num = p+VARS
-        mechanismParams = {
-            'Driving':'A',
-            'Follower':'D',
-            'Link':'L0,L1,L2,L3,L4',
-            'Target':'E',
-            'ExpressionName':'PLAP,PLLP,PLLP',
-            'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
-            'VARS':VARS,
-            'targetPath':tuple((e['x'], e['y']) for e in self.path),
-            'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-            'formula':['PLAP','PLLP']}
+        mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
+        link_q = len(mechanismParams['Link'].split(','))-3
+        upper = [self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
+            self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
+        lower = [self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
+            self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
+        mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
         GenerateData = {
-            'nParm':Parm_num,
+            'nParm':p+mechanismParams['VARS'],
             'upper':upper+[self.Settings['AMax']]*p,
             'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],

@@ -483,49 +483,63 @@ class File:
     
     def Generate_Merge(self, row, Point, Link, Chain, Shaft):
         Result = self.Designs.result[row]
+        links_tag = Result['mechanismParams']['Link'].split(',')
+        expression = Result['mechanismParams']['Expression'].split(',')
+        expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag])
-            for tag in ['Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4']]))
+            for tag in (['Ax', 'Ay', 'Dx', 'Dy']+links_tag)]))
         path = Result['mechanismParams']['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         #A-C-B-C-E
         Anum = Point.rowCount()
-        Dnum = Anum+1
-        Bnum = Dnum+1
-        Cnum = Bnum+1
-        Enum = Cnum+1
-        BPath = list()
-        CPath = list()
-        EPath = list()
+        Dnum = Point.rowCount()+1
+        Bnum = Point.rowCount()+2
+        Cnum = Point.rowCount()+3
+        Enum = Point.rowCount()+4
         answer = [False]
         startAngle = False
         endAngle = False
+        expression_result = [exp[-1] for exp in expression_tag]
+        Paths = {tag:list() for tag in expression_result}
         for a in range(360+1):
-            s = solver([
-                Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other), #B
-                Direction(p1=0, p2=(Result['Dx'], Result['Dy']), len1=Result['L1'], len2=Result['L2'], other=other), #C
-                Direction(p1=0, p2=1, len1=Result['L3'], len2=Result['L4'], other=other)]) #E
-            answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s.answer()
+            Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
+            for exp in expression_tag[1:]:
+                try: p1 = expression_result.index(exp[0])
+                except:
+                    if exp[0]=='A': p1 = (Result['Ax'], Result['Ay'])
+                    else: p1 = (Result['Dx'], Result['Dy'])
+                try: p2 = expression_result.index(exp[3])
+                except:
+                    if exp[0]=='A': p2 = (Result['Ax'], Result['Ay'])
+                    else: p2 = (Result['Dx'], Result['Dy'])
+                len1 = Result[exp[1]]
+                len2 = Result[exp[2]]
+                Directions.append(Direction(p1=p1, p2=p2, len1=len1, len2=len2, other=other))
+            s = solver(Directions)
+            s_answer = s.answer()
+            answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
             if not False in answerT:
                 if startAngle is False:
                     startAngle = float(a)
                     answer = answerT
                 endAngle = float(a)
-            BPath.append(answerT[2])
-            CPath.append(answerT[3])
-            EPath.append(answerT[4])
+            for i, a in enumerate(s_answer): Paths[expression_result[i]].append(a)
         if not (False in answer):
             dataAdd = len(self.Lists.PointList)==1
             if not dataAdd: self.Lists.clearPath()
             for i, point in enumerate(answer): self.Lists.editTable(Point, 'Point', False,
                 point[0] if i<2 else float(round(point[0])), point[1] if i<2 else float(round(point[1])),
                 i<2, 'Blue' if i<2 else 'Green' if i<4 else 'Brick-Red')
+            #TODO: Sort triangle and links.
             self.Lists.editTable(Chain, 'Chain', False, "Point{}".format(Bnum), "Point{}".format(Cnum), "Point{}".format(Enum),
                 str(Result['L1']), str(Result['L4']), str(Result['L3']))
             self.Lists.editTable(Link, 'Line', False, "Point{}".format(Anum), "Point{}".format(Bnum), str(Result['L0']))
             self.Lists.editTable(Link, 'Line', False, "Point{}".format(Dnum), "Point{}".format(Cnum), str(Result['L2']))
             self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Anum), "Point{}".format(Bnum), startAngle, endAngle, startAngle, False)
-            if dataAdd: self.Lists.setPath([VPaths(Shaft.rowCount()-1, [VPath(Bnum, BPath), VPath(Cnum, CPath), VPath(Enum, EPath)])])
+            if dataAdd:
+                path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
+                self.Lists.setPath([VPaths(Shaft.rowCount()-1, path_dots)])
             print("Generate Result Merged. At: {} deg ~ {} deg.".format(startAngle, endAngle))
             return True
         else: return False

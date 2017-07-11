@@ -15,9 +15,6 @@
     <layout class="QHBoxLayout" name="horizontalLayout_8">
      <item>
       <widget class="QRadioButton" name="FourBar">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="text">
         <string>Four-Bar</string>
        </property>
@@ -28,9 +25,6 @@
      </item>
      <item>
       <widget class="QRadioButton" name="radioButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="text">
         <string>Eight-Bar</string>
        </property>
