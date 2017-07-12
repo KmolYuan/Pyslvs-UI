@@ -5,7 +5,7 @@ class Chromosome(object):
     def __init__(self, n=None):
         self.np = n if n > 0 else 2
         self.f = 0.0
-        self.v = [0.0] * n
+        self.v = [0.0]*n
     
     def cp(self, obj):
         """
@@ -29,32 +29,38 @@ class Chromosome(object):
             self.cp(obj)
 
 class Genetic(object):
-    def __init__(self, mechanismParams, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report, socket):
-        self.mechanismParams=mechanismParams
-        self.nParm=nParm
-        self.nPop=nPop
-        self.pCross=pCross
-        self.pMute=pMute
-        self.pWin=pWin
-        self.bDelta=bDelta
+    def __init__(self, bar_type, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report, socket, targetPath):
+        self.bar_type = bar_type
+        self.nParm = nParm
+        self.nPop = nPop
+        self.pCross = pCross
+        self.pMute = pMute
+        self.pWin = pWin
+        self.bDelta = bDelta
         
         self.chrom = [Chromosome(nParm) for i in range(nPop)]
         self.newChrom = [Chromosome(nParm) for i in range(nPop)]
         self.babyChrom = [Chromosome(nParm) for i in range(3)]
-        self.chromElite = [Chromosome(nParm)]
-        self.chromBest = [Chromosome(nParm)]
+        self.chromElite = Chromosome(nParm)
+        self.chromBest = Chromosome(nParm)
         self.maxLimit = upper[:]
         self.minLimit = lower[:]
         #Gen
         self.maxGen = maxGen
         self.rpt = report
         self.gen = 0
+        # setup benchmark
+        self.timeS = time.time()
+        self.timeE = 0
+        self.fitnessTime = ''
+        self.fitnessParameter = ''
         #seed
         self.seed = 0.0
         self.iseed = 470211272.0
         self.mask = 2147483647
         #socket
         self.socket = socket
+        self.targetPath = targetPath
     
     def newSeed(self):
         if(self.seed == 0.0):
@@ -110,7 +116,7 @@ class Genetic(object):
 
         # select random one chrom to be best chrom, make best chrom still exist
         j = self.random(self.nPop)
-        self.chrom[j].assign(self.chromElite[0])
+        self.chrom[j].assign(self.chromElite)
     
     def crossOver(self):
         for i in range(0, self.nPop-1, 2):
@@ -125,7 +131,7 @@ class Genetic(object):
                     self.babyChrom[2].v[s] = self.check(s,-0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s])
                 for j in range(3):
                     self.babyChrom[j].f = self.socket_fitness(self.babyChrom[j].v)
-                    #self.babyChrom[j].f = self.mechanismParams(self.babyChrom[j].v)
+                    #self.babyChrom[j].f = self.bar_type(self.babyChrom[j].v)
                 
                 if self.babyChrom[1].f < self.babyChrom[0].f:
                     self.babyChrom[0], self.babyChrom[1] = self.babyChrom[1], self.babyChrom[0]
@@ -154,24 +160,20 @@ class Genetic(object):
         for j in range(self.nPop):
             #Calculate the fitness value
             self.chrom[j].f = self.socket_fitness(self.chrom[j].v)
-            #self.chrom[j].f = self.mechanismParams(self.chrom[j].v)
-        self.chromBest[0].assign(self.chrom[0])
+            #self.chrom[j].f = self.bar_type(self.chrom[j].v)
+        self.chromBest.assign(self.chrom[0])
         for j in range(self.nPop):
-            if(self.chrom[j].f < self.chromBest[0].f):
-                self.chromBest[0].assign(self.chrom[j])
-        if(self.chromBest[0].f < self.chromElite[0].f):
-            self.chromElite[0].assign(self.chromBest[0])
+            if(self.chrom[j].f < self.chromBest.f):
+                self.chromBest.assign(self.chrom[j])
+        if(self.chromBest.f < self.chromElite.f):
+            self.chromElite.assign(self.chromBest)
     
     def report(self):
-        if self.gen == 0:
-            print("Genetik results - Initial population")
-        elif self.gen == self.maxGen:
-            print("Final Genetik results at", self.gen, "generations")
-        else:
-            print("Genetik results after", self.gen, "generations")
-        print("Function : %.6f" % (self.chromElite[0].f))
-        for i, p in enumerate(self.chromElite[0].v):
-            print("Var", i+1, ":", p)
+        self.timeE = time.time()
+        self.fitnessTime += '%d,%.3f,%d;'%(self.gen, self.chromElite.f, self.timeE-self.timeS)
+    
+    def getParamValue(self):
+        self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.chromElite.v])
     
     def run(self):
         """
@@ -183,8 +185,8 @@ class Genetic(object):
         self.randomize()
         self.initialPop()
         self.chrom[0].f = self.socket_fitness(self.chrom[0].v)
-        #self.chrom[0].f = self.mechanismParams(self.chrom[0].v)
-        self.chromElite[0].assign(self.chrom[0])
+        #self.chrom[0].f = self.bar_type(self.chrom[0].v)
+        self.chromElite.assign(self.chrom[0])
         
         self.gen = 0
         self.fitness()
@@ -197,7 +199,10 @@ class Genetic(object):
             if self.rpt != 0:
                 if self.gen%self.rpt == 0:
                     self.report()
+        self.getParamValue()
+        return self.fitnessTime, self.fitnessParameter
     
     def socket_fitness(self, chrom):
-        self.socket.send_pyobj([self.mechanismParams, chrom])
-        return self.socket.recv_pyobj()
+        self.socket.send_string(';'.join([str(self.bar_type)]+[','.join([str(e) for e in chrom])]+
+            [','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath])]))
+        return float(self.socket.recv().decode("utf-8"))

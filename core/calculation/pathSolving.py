@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from ..QtModules import *
 import timeit, numpy
-from ..kernel.kernel_getter import build_planar, Genetic, Firefly, DiffertialEvolution
 
 class WorkerThread(QThread):
     done = pyqtSignal(dict, int)
@@ -22,8 +21,7 @@ class WorkerThread(QThread):
         print("Algorithm: {}".format(alg))
         print("Through: {}".format(self.mechanismParams['targetPath']))
         t0 = timeit.default_timer()
-        TnF, FP = self.generateProcess(self.type_num, self.mechanismParams, self.GenerateData, self.algorithmPrams)
-        if self.stoped: return
+        TnF, FP = self.generateProcess()
         t1 = timeit.default_timer()
         time_spand = t1-t0
         mechanism = {
@@ -40,48 +38,64 @@ class WorkerThread(QThread):
         self.done.emit(mechanism, time_spand)
     
     #TODO: Put socket into Cython lib.
-    def generateProcess(self, type_num, mechanismParams, GenerateData, algorithmPrams):
-        mechanismObj = build_planar(mechanismParams)
+    def generateProcess(self):
+        if self.socket:
+            from ..server.rga import Genetic
+            from ..server.firefly import Firefly
+            from ..server.de import DiffertialEvolution
+            mechanismObj = 4 if self.mechanismParams['VARS']==9 else 8
+        else:
+            from ..kernel.kernel_getter import build_planar, Genetic, Firefly, DiffertialEvolution
+            mechanismObj = build_planar(self.mechanismParams)
         #Genetic Algorithm
-        if type_num==0:
+        if self.type_num==0:
             APs = {
-                'nParm':GenerateData['nParm'],
-                'nPop':algorithmPrams['nPop'], #250
-                'pCross':algorithmPrams['pCross'], #0.95
-                'pMute':algorithmPrams['pMute'], #0.05
-                'pWin':algorithmPrams['pWin'], #0.95
-                'bDelta':algorithmPrams['bDelta'], #5.
-                'upper':GenerateData['upper'],
-                'lower':GenerateData['lower'],
-                'maxGen':GenerateData['maxGen'],
-                'report':GenerateData['report']}
+                'nParm':self.GenerateData['nParm'],
+                'nPop':self.algorithmPrams['nPop'], #250
+                'pCross':self.algorithmPrams['pCross'], #0.95
+                'pMute':self.algorithmPrams['pMute'], #0.05
+                'pWin':self.algorithmPrams['pWin'], #0.95
+                'bDelta':self.algorithmPrams['bDelta'], #5.
+                'upper':self.GenerateData['upper'],
+                'lower':self.GenerateData['lower'],
+                'maxGen':self.GenerateData['maxGen'],
+                'report':self.GenerateData['report']}
+            if self.socket:
+                APs['socket'] = self.socket
+                APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = Genetic(mechanismObj, **APs)
         #Firefly Algorithm
-        elif type_num==1:
+        elif self.type_num==1:
             APs = {
-                'D':GenerateData['nParm'],
-                'n':algorithmPrams['n'], #40
-                'alpha':algorithmPrams['alpha'], #0.01
-                'betaMin':algorithmPrams['betaMin'], #0.2
-                'gamma':algorithmPrams['gamma'], #1.
-                'beta0':algorithmPrams['beta0'], #1.
-                'ub':GenerateData['upper'],
-                'lb':GenerateData['lower'],
-                'maxGen':GenerateData['maxGen'],
-                'report':GenerateData['report']}
+                'D':self.GenerateData['nParm'],
+                'n':self.algorithmPrams['n'], #40
+                'alpha':self.algorithmPrams['alpha'], #0.01
+                'betaMin':self.algorithmPrams['betaMin'], #0.2
+                'gamma':self.algorithmPrams['gamma'], #1.
+                'beta0':self.algorithmPrams['beta0'], #1.
+                'ub':self.GenerateData['upper'],
+                'lb':self.GenerateData['lower'],
+                'maxGen':self.GenerateData['maxGen'],
+                'report':self.GenerateData['report']}
+            if self.socket:
+                APs['socket'] = self.socket
+                APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = Firefly(mechanismObj, **APs)
         #Differential Evolution
-        elif type_num==2:
+        elif self.type_num==2:
             APs = {
-                'D':GenerateData['nParm'],
-                'strategy':algorithmPrams['strategy'], #1
-                'NP':algorithmPrams['NP'], #190
-                'F':algorithmPrams['F'], #0.6
-                'CR':algorithmPrams['CR'], #0.9
-                'upper':GenerateData['upper'],
-                'lower':GenerateData['lower'],
-                'maxGen':GenerateData['maxGen'],
-                'report':GenerateData['report']}
+                'D':self.GenerateData['nParm'],
+                'strategy':self.algorithmPrams['strategy'], #1
+                'NP':self.algorithmPrams['NP'], #190
+                'F':self.algorithmPrams['F'], #0.6
+                'CR':self.algorithmPrams['CR'], #0.9
+                'upper':self.GenerateData['upper'],
+                'lower':self.GenerateData['lower'],
+                'maxGen':self.GenerateData['maxGen'],
+                'report':self.GenerateData['report']}
+            if self.socket:
+                APs['socket'] = self.socket
+                APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = DiffertialEvolution(mechanismObj, **APs)
         time_and_fitness, fitnessParameter = self.foo.run()
         return([float(k[1]) for k in [e.split(',') for e in time_and_fitness.split(';')[0:-1]]],

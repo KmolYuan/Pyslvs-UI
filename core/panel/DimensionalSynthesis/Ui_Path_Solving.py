@@ -206,6 +206,7 @@ class Ui_Form(object):
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.timePanelLayout.addItem(spacerItem6)
         self.GenerateZMQ = QtWidgets.QPushButton(self.timePanel)
+        self.GenerateZMQ.setEnabled(False)
         self.GenerateZMQ.setMinimumSize(QtCore.QSize(100, 0))
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/icons/ZeroMQ.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
