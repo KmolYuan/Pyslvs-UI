@@ -5,6 +5,7 @@ from ...graphics.ChartGraphics import ChartDialog
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
 from .Path_Solving_series import Path_Solving_series_show
+import csv
 
 class Path_Solving_show(QWidget, PathSolving_Form):
     addPathPoint = pyqtSignal(float, float)
@@ -39,11 +40,12 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         'formula':['PLAP','PLLP']}
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
-    def __init__(self, path, mechanism_data, parent=None):
+    def __init__(self, path, mechanism_data, env, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
-        self.mechanism_data = mechanism_data
         self.path = path
+        self.mechanism_data = mechanism_data
+        self.env = env
         for e in path: self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
         for e in mechanism_data: self.addResult(e)
         self.Settings = self.defaultSettings
@@ -62,6 +64,21 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         dlg.show()
         if dlg.exec_():
             for e in dlg.path: self.on_add_clicked(e[0], e[1])
+    
+    @pyqtSlot()
+    def on_importCSV_clicked(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.env, "Text File(*.txt);;CSV File(*.csv)")
+        if fileName:
+            data = list()
+            with open(fileName, newline=str()) as stream:
+                reader = csv.reader(stream, delimiter=' ', quotechar='|')
+                for row in reader: data += ' '.join(row).split(',\t')
+            try:
+                data = [(float(data[i]), float(data[i+1])) for i in range(0, len(data), 2)]
+                for e in data: self.on_add_clicked(e[0], e[1])
+            except:
+                dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:\n0.0,[\\tab]0.0", (QMessageBox.Ok), self)
+                if dlgbox.exec_(): pass
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
