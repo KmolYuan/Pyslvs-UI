@@ -73,7 +73,7 @@ class File:
         self.form.fileName = QFileInfo(fileName)
         return errorInfo
     
-    def ReadError(e, part, errorInfo):
+    def ReadError(self, e, part, errorInfo):
         logging.basicConfig(filename='pyslvs_error.log', filemode='a', level=logging.WARNING)
         logging.exception("Exception Happened.")
         traceback.print_tb(e.__traceback__)
@@ -161,7 +161,9 @@ class File:
                     #Root
                     result = dict()
                     result['Algorithm'] = mechanism.find('Algorithm').text
-                    for tag in ['time', 'Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4']: result[tag] = round(float(mechanism.find(tag).text))
+                    for tag in ['time', 'Ax', 'Ay', 'Dx', 'Dy']: result[tag] = round(float(mechanism.find(tag).text), 4)
+                    for node in mechanism.findall('./'):
+                        if 'L' in node.tag: result[node.tag] = round(float(node.text), 4)
                     #mechanismParams(Misc)
                     result['mechanismParams'] = dict()
                     mechanismParams = mechanism.find('mechanismParams')
@@ -360,8 +362,9 @@ class File:
         for result in self.Designs.result:
             #Root
             mechanism = ET.SubElement(algorithm, 'mechanism')
-            for tag in ['Algorithm', 'time', 'Ax', 'Ay', 'Dx', 'Dy', 'L0', 'L1', 'L2', 'L3', 'L4']:
-                ET.SubElement(mechanism, tag).text = str(result[tag])
+            for tag in ['Algorithm', 'time', 'Ax', 'Ay', 'Dx', 'Dy']: ET.SubElement(mechanism, tag).text = str(result[tag])
+            for tag in result.keys():
+                if 'L' in tag: ET.SubElement(mechanism, tag).text = str(result[tag])
             #mechanismParams(Misc)
             mechanismParams = ET.SubElement(mechanism, 'mechanismParams')
             for tag in ['Driving', 'Follower', 'Link', 'Target', 'ExpressionName', 'Expression',

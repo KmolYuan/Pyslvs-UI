@@ -132,20 +132,17 @@
                  <string>Point Coordinate</string>
                 </attribute>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
-                 <property name="spacing">
-                  <number>3</number>
-                 </property>
                  <property name="leftMargin">
-                  <number>3</number>
+                  <number>6</number>
                  </property>
                  <property name="topMargin">
-                  <number>3</number>
+                  <number>6</number>
                  </property>
                  <property name="rightMargin">
-                  <number>3</number>
+                  <number>6</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>3</number>
+                  <number>6</number>
                  </property>
                  <item>
                   <widget class="QWidget" name="Entiteis_Point_Widget" native="true">
@@ -159,20 +156,17 @@
                     <enum>Qt::CustomContextMenu</enum>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_25">
-                    <property name="spacing">
-                     <number>3</number>
-                    </property>
                     <property name="leftMargin">
-                     <number>3</number>
+                     <number>0</number>
                     </property>
                     <property name="topMargin">
-                     <number>3</number>
+                     <number>0</number>
                     </property>
                     <property name="rightMargin">
-                     <number>3</number>
+                     <number>0</number>
                     </property>
                     <property name="bottomMargin">
-                     <number>3</number>
+                     <number>0</number>
                     </property>
                     <item>
                      <widget class="QTableWidget" name="Entiteis_Point">
@@ -305,89 +299,89 @@
                       </item>
                      </widget>
                     </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QWidget" name="widget_3" native="true">
+                   <layout class="QHBoxLayout" name="horizontalLayout">
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
+                    <property name="leftMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>3</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>3</number>
+                    </property>
                     <item>
-                     <widget class="QWidget" name="widget_3" native="true">
-                      <layout class="QHBoxLayout" name="horizontalLayout">
-                       <property name="spacing">
-                        <number>6</number>
-                       </property>
-                       <property name="leftMargin">
-                        <number>3</number>
-                       </property>
-                       <property name="topMargin">
-                        <number>3</number>
-                       </property>
-                       <property name="rightMargin">
-                        <number>3</number>
-                       </property>
-                       <property name="bottomMargin">
-                        <number>3</number>
-                       </property>
-                       <item>
-                        <layout class="QVBoxLayout" name="point_x_layout">
-                         <item>
-                          <widget class="QLabel" name="label">
-                           <property name="text">
-                            <string>x coordinate</string>
-                           </property>
-                           <property name="textFormat">
-                            <enum>Qt::RichText</enum>
-                           </property>
-                           <property name="wordWrap">
-                            <bool>true</bool>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLineEdit" name="X_coordinate">
-                           <property name="placeholderText">
-                            <string>0.0</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <layout class="QVBoxLayout" name="point_y_layout">
-                         <item>
-                          <widget class="QLabel" name="label_2">
-                           <property name="text">
-                            <string>y coordinate</string>
-                           </property>
-                           <property name="textFormat">
-                            <enum>Qt::RichText</enum>
-                           </property>
-                           <property name="wordWrap">
-                            <bool>true</bool>
-                           </property>
-                          </widget>
-                         </item>
-                         <item>
-                          <widget class="QLineEdit" name="Y_coordinate">
-                           <property name="placeholderText">
-                            <string>0.0</string>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                       <item>
-                        <widget class="QPushButton" name="Point_add_button">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="statusTip">
-                          <string>Quick insert a joint point.</string>
-                         </property>
-                         <property name="text">
-                          <string>Add a Point</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
+                     <layout class="QVBoxLayout" name="point_x_layout">
+                      <item>
+                       <widget class="QLabel" name="label">
+                        <property name="text">
+                         <string>x coordinate</string>
+                        </property>
+                        <property name="textFormat">
+                         <enum>Qt::RichText</enum>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="X_coordinate">
+                        <property name="placeholderText">
+                         <string>0.0</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="point_y_layout">
+                      <item>
+                       <widget class="QLabel" name="label_2">
+                        <property name="text">
+                         <string>y coordinate</string>
+                        </property>
+                        <property name="textFormat">
+                         <enum>Qt::RichText</enum>
+                        </property>
+                        <property name="wordWrap">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QLineEdit" name="Y_coordinate">
+                        <property name="placeholderText">
+                         <string>0.0</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="Point_add_button">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="statusTip">
+                       <string>Quick insert a joint point.</string>
+                      </property>
+                      <property name="text">
+                       <string>Add a Point</string>
+                      </property>
                      </widget>
                     </item>
                    </layout>
@@ -497,7 +491,7 @@
                            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
@@ -695,19 +689,29 @@ p, li { white-space: pre-wrap; }
                     <attribute name="title">
                      <string>Link</string>
                     </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_26">
+                    <layout class="QVBoxLayout" name="verticalLayout_21">
                      <property name="leftMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="topMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="rightMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="bottomMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
+                     <item>
+                      <widget class="QLabel" name="reqLine">
+                       <property name="styleSheet">
+                        <string notr="true">color: rgb(255, 0, 0);</string>
+                       </property>
+                       <property name="text">
+                        <string>Requirement: 2 Points.</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <widget class="QWidget" name="Entiteis_Link_Widget" native="true">
                        <property name="sizePolicy">
@@ -724,27 +728,17 @@ p, li { white-space: pre-wrap; }
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_12">
                         <property name="leftMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="topMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
-                        <item>
-                         <widget class="QLabel" name="reqLine">
-                          <property name="styleSheet">
-                           <string notr="true">color: rgb(255, 0, 0);</string>
-                          </property>
-                          <property name="text">
-                           <string>Requirement: 2 Points.</string>
-                          </property>
-                         </widget>
-                        </item>
                         <item>
                          <widget class="QTableWidget" name="Entiteis_Link">
                           <property name="sizePolicy">
@@ -827,21 +821,31 @@ p, li { white-space: pre-wrap; }
                     <attribute name="title">
                      <string>Fixed Chain</string>
                     </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_28">
+                    <layout class="QVBoxLayout" name="verticalLayout_26">
                      <property name="leftMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="topMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="rightMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="bottomMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="Entiteis_Stay_Chain_Widget" native="true">
+                      <widget class="QLabel" name="reqChain">
+                       <property name="styleSheet">
+                        <string notr="true">color: rgb(255, 0, 0);</string>
+                       </property>
+                       <property name="text">
+                        <string>Requirement: 3 Points.</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="Entiteis_Chain_Widget" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -856,29 +860,19 @@ p, li { white-space: pre-wrap; }
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_15">
                         <property name="leftMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="topMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <item>
-                         <widget class="QLabel" name="reqChain">
-                          <property name="styleSheet">
-                           <string notr="true">color: rgb(255, 0, 0);</string>
-                          </property>
-                          <property name="text">
-                           <string>Requirement: 3 Points.</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QTableWidget" name="Entiteis_Stay_Chain">
+                         <widget class="QTableWidget" name="Entiteis_Chain">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                             <horstretch>0</horstretch>
@@ -997,17 +991,27 @@ p, li { white-space: pre-wrap; }
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_5">
                      <property name="leftMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="topMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="rightMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="bottomMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
+                     <item>
+                      <widget class="QLabel" name="reqShaft">
+                       <property name="styleSheet">
+                        <string notr="true">color: rgb(255, 0, 0);</string>
+                       </property>
+                       <property name="text">
+                        <string>Requirement: 2 Points.</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <widget class="QWidget" name="Shaft_Widget" native="true">
                        <property name="sizePolicy">
@@ -1024,27 +1028,17 @@ p, li { white-space: pre-wrap; }
                        </property>
                        <layout class="QVBoxLayout" name="Drive_Shaft_Layout">
                         <property name="leftMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="topMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
-                        <item>
-                         <widget class="QLabel" name="reqShaft">
-                          <property name="styleSheet">
-                           <string notr="true">color: rgb(255, 0, 0);</string>
-                          </property>
-                          <property name="text">
-                           <string>Requirement: 2 Points.</string>
-                          </property>
-                         </widget>
-                        </item>
                         <item>
                          <widget class="QTableWidget" name="Shaft">
                           <property name="statusTip">
@@ -1115,17 +1109,27 @@ p, li { white-space: pre-wrap; }
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_6">
                      <property name="leftMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="topMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="rightMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="bottomMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
+                     <item>
+                      <widget class="QLabel" name="reqSlider">
+                       <property name="styleSheet">
+                        <string notr="true">color: rgb(255, 0, 0);</string>
+                       </property>
+                       <property name="text">
+                        <string>Requirement: 3 Points.</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <widget class="QWidget" name="Slider_Widget" native="true">
                        <property name="sizePolicy">
@@ -1142,27 +1146,17 @@ p, li { white-space: pre-wrap; }
                        </property>
                        <layout class="QVBoxLayout" name="Slider_Layout">
                         <property name="leftMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="topMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
-                        <item>
-                         <widget class="QLabel" name="reqSlider">
-                          <property name="styleSheet">
-                           <string notr="true">color: rgb(255, 0, 0);</string>
-                          </property>
-                          <property name="text">
-                           <string>Requirement: 3 Points.</string>
-                          </property>
-                         </widget>
-                        </item>
                         <item>
                          <widget class="QTableWidget" name="Slider">
                           <property name="statusTip">
@@ -1217,23 +1211,33 @@ p, li { white-space: pre-wrap; }
                      </item>
                     </layout>
                    </widget>
-                   <widget class="QWidget" name="Extendable_rod_tab">
+                   <widget class="QWidget" name="Rod_tab">
                     <attribute name="title">
                      <string>Piston</string>
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_7">
                      <property name="leftMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="topMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="rightMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
                      <property name="bottomMargin">
-                      <number>0</number>
+                      <number>6</number>
                      </property>
+                     <item>
+                      <widget class="QLabel" name="reqRod">
+                       <property name="styleSheet">
+                        <string notr="true">color: rgb(255, 0, 0);</string>
+                       </property>
+                       <property name="text">
+                        <string>Requirement: 3 Points.</string>
+                       </property>
+                      </widget>
+                     </item>
                      <item>
                       <widget class="QWidget" name="Rod_Widget" native="true">
                        <property name="sizePolicy">
@@ -1250,27 +1254,17 @@ p, li { white-space: pre-wrap; }
                        </property>
                        <layout class="QVBoxLayout" name="Rod_Layout">
                         <property name="leftMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="topMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="rightMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
                         <property name="bottomMargin">
-                         <number>6</number>
+                         <number>0</number>
                         </property>
-                        <item>
-                         <widget class="QLabel" name="reqRod">
-                          <property name="styleSheet">
-                           <string notr="true">color: rgb(255, 0, 0);</string>
-                          </property>
-                          <property name="text">
-                           <string>Requirement: 3 Points.</string>
-                          </property>
-                         </widget>
-                        </item>
                         <item>
                          <widget class="QTableWidget" name="Rod">
                           <property name="statusTip">
@@ -1610,8 +1604,8 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>366</width>
-                         <height>239</height>
+                         <width>427</width>
+                         <height>268</height>
                         </rect>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_22">

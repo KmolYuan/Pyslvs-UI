@@ -89,17 +89,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_point_right_click_menu_delete.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_edit.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_lock.setEnabled(NOT_ORIGIN)
+        self.action_point_right_click_menu_copy.setEnabled(table1.currentColumn()!=3)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
         table_pos = table1.currentRow() if table1.currentRow()>=1 else 1
         table_pos_0 = table1.currentRow()
-        if action==self.action_point_right_click_menu_copy: self.Coordinate_Copy(table1)
-        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(table1, 'Point', False,
-            table1.item(table_pos_0, 1).text(), table1.item(table_pos_0, 2).text(), table1.item(table_pos_0, 3).checkState()==Qt.Checked, 'Orange')
-        elif action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
+        if action==self.action_point_right_click_menu_add: self.on_action_New_Point_triggered()
         elif action==self.action_point_right_click_menu_edit: self.on_action_Edit_Point_triggered(table_pos)
         elif action==self.action_point_right_click_menu_lock:
             self.File.Lists.editTable(table1, 'Point', table_pos_0,
                 str(self.File.Lists.PointList[table_pos_0]['x']), str(self.File.Lists.PointList[table_pos_0]['y']), not(self.File.Lists.PointList[table_pos_0]['fix']), 'Green')
+        elif action==self.action_point_right_click_menu_copy: self.tableCopy(table1)
+        elif action==self.action_point_right_click_menu_copyPoint: self.File.Lists.editTable(table1, 'Point', False,
+            table1.item(table_pos_0, 1).text(), table1.item(table_pos_0, 2).text(), table1.item(table_pos_0, 3).checkState()==Qt.Checked, 'Orange')
         elif action==self.action_point_right_click_menu_replace: self.on_action_Replace_Point_triggered(table_pos_0)
         elif action==self.action_point_right_click_menu_delete: self.on_action_Delete_Point_triggered(table_pos)
     def on_link_context_menu(self, point):
@@ -111,32 +112,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else: self.action_link_right_click_menu_shaft.setEnabled(False)
         if action==self.action_link_right_click_menu_add: self.on_action_New_Line_triggered()
         elif action==self.action_link_right_click_menu_edit: self.on_action_Edit_Linkage_triggered(table_pos)
+        elif action==self.action_link_right_click_menu_copy: self.tableCopy(self.Entiteis_Link)
         elif action==self.action_link_right_click_menu_shaft: self.File.Lists.link2Shaft(self.Shaft, table_pos)
         elif action==self.action_link_right_click_menu_delete: self.on_action_Delete_Linkage_triggered(table_pos)
     def on_chain_context_menu(self, point):
-        action = self.popMenu_chain.exec_(self.Entiteis_Stay_Chain_Widget.mapToGlobal(point))
-        table_pos = self.Entiteis_Stay_Chain.currentRow()
+        action = self.popMenu_chain.exec_(self.Entiteis_Chain_Widget.mapToGlobal(point))
+        table_pos = self.Entiteis_Chain.currentRow()
         if action==self.action_chain_right_click_menu_add: self.on_action_New_Stay_Chain_triggered()
         elif action==self.action_chain_right_click_menu_edit: self.on_action_Edit_Stay_Chain_triggered(table_pos)
+        elif action==self.action_chain_right_click_menu_copy: self.tableCopy(self.Entiteis_Chain)
         elif action==self.action_chain_right_click_menu_delete: self.on_action_Delete_Stay_Chain_triggered(table_pos)
     def on_shaft_context_menu(self, point):
         action = self.popMenu_shaft.exec_(self.Shaft_Widget.mapToGlobal(point))
         table_pos = self.Shaft.currentRow()
         if action==self.action_shaft_right_click_menu_add: self.on_action_Set_Shaft_triggered()
         elif action==self.action_shaft_right_click_menu_edit: self.on_action_Edit_Shaft_triggered(table_pos)
+        elif action==self.action_shaft_right_click_menu_copy: self.tableCopy(self.Shaft)
         elif action==self.action_shaft_right_click_menu_delete: self.on_action_Delete_Shaft_triggered(table_pos)
     def on_slider_context_menu(self, point):
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
         table_pos = self.Slider.currentRow()
         if action==self.action_slider_right_click_menu_add: self.on_action_Set_Slider_triggered()
         elif action==self.action_slider_right_click_menu_edit: self.on_action_Edit_Slider_triggered(table_pos)
+        elif action==self.action_slider_right_click_menu_copy: self.tableCopy(self.Slider)
         elif action==self.action_slider_right_click_menu_delete: self.on_action_Delete_Slider_triggered(table_pos)
     def on_rod_context_menu(self, point):
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
         table_pos = self.Rod.currentRow()
         if action==self.action_rod_right_click_menu_add: self.on_action_Set_Rod_triggered()
         elif action==self.action_rod_right_click_menu_edit: self.on_action_Edit_Rod_triggered(table_pos)
+        elif action==self.action_rod_right_click_menu_copy: self.tableCopy(self.Rod)
         elif action==self.action_rod_right_click_menu_delete: self.on_action_Delete_Piston_Spring_triggered(table_pos)
+    
+    def tableCopy(self, table):
+        text = table.currentItem().text()
+        if text:
+            clipboard = QApplication.clipboard()
+            clipboard.setText(text)
     
     #Close Event
     def closeEvent(self, event):
@@ -158,7 +170,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Undo and Redo
     @pyqtSlot(int)
     def commandReload(self, index=0):
-        self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+        self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
             self.Shaft, self.Slider, self.Rod, self.Parameter_list)
         self.action_Undo.setText("Undo {}".format(self.File.FileState.undoText()))
         self.action_Redo.setText("Redo {}".format(self.File.FileState.redoText()))
@@ -285,7 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName or isFile==False:
             print(say)
             self.closeAllPanels(True)
-            self.File.reset(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+            self.File.reset(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
                 self.Shaft, self.Slider, self.Rod, self.Parameter_list)
             self.DynamicCanvasView.changeCurrentShaft()
             self.DynamicCanvasView.path_solving()
@@ -297,7 +309,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             checkdone, data = self.File.check(fileName, data)
             if checkdone:
                 errorInfo = self.File.read(fileName, data,
-                    self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                    self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
                     self.Shaft, self.Slider, self.Rod, self.Parameter_list)
                 if errorInfo: print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
                 else: print("Successful loaded contents of the file.")
@@ -321,7 +333,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             checkdone, data = self.File.check(fileName, data)
             if checkdone:
                 suffix = QFileInfo(fileName).suffix().lower()
-                tables = [data, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain,
+                tables = [data, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
                     self.Shaft, self.Slider, self.Rod, self.Parameter_list]
                 if suffix=='xml': errorInfo = self.File.readXMLMerge(*tables)
                 elif suffix=='csv': errorInfo = self.File.readCSVMerge(*tables)
@@ -421,7 +433,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int)
     def on_Entiteis_Link_cellDoubleClicked(self, row, column): self.on_action_Edit_Linkage_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Stay_Chain_cellDoubleClicked(self, row, column): self.on_action_Edit_Stay_Chain_triggered(row)
+    def on_Entiteis_Chain_cellDoubleClicked(self, row, column): self.on_action_Edit_Stay_Chain_triggered(row)
     @pyqtSlot(int, int)
     def on_Shaft_cellDoubleClicked(self, row, column): self.on_action_Edit_Shaft_triggered(row)
     @pyqtSlot(int, int)
@@ -491,7 +503,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             self.File.Lists.clearPath()
             if dlg.isReplace.isChecked(): self.checkEntitiesConflict(pos, [dlg.p1, dlg.p2, dlg.p3])
-            self.File.Lists.editTable(self.Entiteis_Stay_Chain, 'Chain', False if pos is False else dlg.Chain.currentIndex(),
+            self.File.Lists.editTable(self.Entiteis_Chain, 'Chain', False if pos is False else dlg.Chain.currentIndex(),
                 dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
             self.closeAllPanels()
     
@@ -503,7 +515,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         del d_list[:]
         for i, e in enumerate(self.File.Lists.ChainList):
             if len(set(points) & set([e.p1, e.p2, e.p3]))>1 and (i!=pos or len(points)!=3): d_list.append(i)
-        for i in reversed(d_list): self.File.Lists.deleteTable(self.Entiteis_Stay_Chain, 'Chain', i)
+        for i in reversed(d_list): self.File.Lists.deleteTable(self.Entiteis_Chain, 'Chain', i)
     
     #Simulate
     @pyqtSlot()
@@ -556,8 +568,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.deletePanel(self.Entiteis_Link, 'Line', ":/icons/deleteline.png", ":/icons/line.png", pos)
     @pyqtSlot()
     def on_action_Delete_Stay_Chain_triggered(self, pos=None):
-        if pos==None: pos = self.Entiteis_Stay_Chain.currentRow()
-        self.deletePanel(self.Entiteis_Stay_Chain, 'Chain', ":/icons/deletechain.png", ":/icons/equal.png", pos)
+        if pos==None: pos = self.Entiteis_Chain.currentRow()
+        self.deletePanel(self.Entiteis_Chain, 'Chain', ":/icons/deletechain.png", ":/icons/equal.png", pos)
     @pyqtSlot()
     def on_action_Delete_Shaft_triggered(self, pos=None):
         if pos==None: pos = self.Shaft.currentRow()
@@ -577,7 +589,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec_():
             self.File.Lists.clearPath()
             if name=='Point': self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Link,
-                self.Entiteis_Stay_Chain, self.Shaft, self.Slider, self.Rod, dlg.Entity.currentIndex())
+                self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod, dlg.Entity.currentIndex())
             else: self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
             self.closeAllPanels()
     
@@ -597,7 +609,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pos = self.Parameter_list.currentRow()
         if pos>-1:
             self.File.Lists.deleteParameterTable(self.Parameter_list,
-                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, pos)
+                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, pos)
             self.MaskChange()
     
     @pyqtSlot()
@@ -605,7 +617,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = replacePoint_show(QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos, self)
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
-        if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft, self.Slider, self.Rod,
+        if dlg.exec_(): self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod,
             dlg.Prv.currentIndex(), dlg.Next.currentIndex())
     
     @pyqtSlot()
@@ -614,10 +626,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_(): self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
             [int(dlg.Move_list.item(e).text().replace('Point', "")) for e in range(dlg.Move_list.count())])
-    
-    def Coordinate_Copy(self, table):
-        clipboard = QApplication.clipboard()
-        clipboard.setText(table.currentItem().text())
     
     @pyqtSlot()
     def on_action_Zoom_to_fit_triggered(self): self.DynamicCanvasView.SetIn()
@@ -726,7 +734,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_deleteResult(self, row): self.File.Designs.removeResult(row)
     @pyqtSlot(int)
     def PathSolving_mergeResult(self, row):
-        if self.File.Generate_Merge(row, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Shaft)==False:
+        if self.File.Generate_Merge(row, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft)==False:
             dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension.", (QMessageBox.Ok), self)
             if dlgbox.exec_():
                 print("Generate Result Error.")
@@ -745,7 +753,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def TriangleSolver_merge(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
         self.File.TS_Merge(self.PointTab.widget(tabNameList.index("Triangle Solver")).answers,
-            self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Stay_Chain, self.Slider)
+            self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Slider)
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
@@ -868,17 +876,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def tableFocusChange(self, item):
         if self.FocusTable!=item.tableWidget():
-            self.claerTableDelShortcut()
-            if item.tableWidget()==self.Entiteis_Point: self.action_Delete_Point.setShortcut('Del')
-            elif item.tableWidget()==self.Entiteis_Link: self.action_Delete_Linkage.setShortcut('Del')
-            elif item.tableWidget()==self.Entiteis_Stay_Chain: self.action_Delete_Stay_Chain.setShortcut('Del')
-            elif item.tableWidget()==self.Shaft: self.action_Delete_Shaft.setShortcut('Del')
-            elif item.tableWidget()==self.Slider: self.action_Delete_Slider.setShortcut('Del')
-            elif item.tableWidget()==self.Rod: self.action_Delete_Piston_Spring.setShortcut('Del')
+            if item.tableWidget()==self.Entiteis_Point:
+                self.action_point_right_click_menu_delete.setShortcut('Del')
+                self.action_point_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
+            elif item.tableWidget()==self.Entiteis_Link:
+                self.action_link_right_click_menu_delete.setShortcut('Del')
+                self.action_link_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
+            elif item.tableWidget()==self.Entiteis_Chain:
+                self.action_chain_right_click_menu_delete.setShortcut('Del')
+                self.action_chain_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
+            elif item.tableWidget()==self.Shaft:
+                self.action_shaft_right_click_menu_delete.setShortcut('Del')
+                self.action_shaft_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
+            elif item.tableWidget()==self.Slider:
+                self.action_slider_right_click_menu_delete.setShortcut('Del')
+                self.action_slider_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
+            elif item.tableWidget()==self.Rod:
+                self.action_rod_right_click_menu_delete.setShortcut('Del')
+                self.action_rod_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
             self.FocusTable = item.tableWidget()
-    def claerTableDelShortcut(self):
-        for action in [self.action_Delete_Point, self.action_Delete_Linkage, self.action_Delete_Stay_Chain,
-            self.action_Delete_Shaft, self.action_Delete_Slider, self.action_Delete_Piston_Spring]: action.setShortcut('')
     
     def MaskChange(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)

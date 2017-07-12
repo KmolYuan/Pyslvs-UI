@@ -223,8 +223,10 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        self.FourBar.setText(_translate("Form", "Four-Bar"))
-        self.radioButton.setText(_translate("Form", "Eight-Bar"))
+        self.FourBar.setToolTip(_translate("Form", "<html><head/><body><p><img src=\":/icons/preview/4Bar_triangle.png\"/></p></body></html>"))
+        self.FourBar.setText(_translate("Form", "Four-Bar (?)"))
+        self.radioButton.setToolTip(_translate("Form", "<html><head/><body><p><img src=\":/icons/preview/8Bar_triangle.png\"/></p></body></html>"))
+        self.radioButton.setText(_translate("Form", "Eight-Bar (?)"))
         self.label_7.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:10pt;\">Time spent: </span></p></body></html>"))
         self.timeShow.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt\">[No record]</span></p></body></html>"))
         self.groupBox.setTitle(_translate("Form", "Path"))
@@ -252,6 +254,7 @@ class Ui_Form(object):
         self.GenerateLocal.setText(_translate("Form", "Local Generate"))
 
 import icons_rc
+import preview_rc
 
 if __name__ == "__main__":
     import sys
