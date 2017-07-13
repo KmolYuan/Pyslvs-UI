@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+import time
 import random
 
 class Chromosome(object):
@@ -25,7 +27,7 @@ class Chromosome(object):
         self.f = obj.f
 
 class DiffertialEvolution(object):
-    def __init__(self, func, strategy, D, NP, F, CR, lower, upper, maxGen, report):
+    def __init__(self, bar_type, strategy, D, NP, F, CR, lower, upper, maxGen, report, socket, targetPath):
         # strategy 1~10, choice what strategy to generate new member in temporary
         self.strategy = strategy
         # dimesion of quesiton
@@ -48,7 +50,7 @@ class DiffertialEvolution(object):
         # how many generation report once
         self.rpt = report
         # object function, or enviorment
-        self.func = func
+        self.bar_type = bar_type
         # check parameter is set properly
         self.checkParameter()
         
@@ -66,6 +68,14 @@ class DiffertialEvolution(object):
         self.r3 = 0
         self.r4 = 0
         self.r5 = 0
+        #socket
+        self.socket = socket
+        self.targetPath = targetPath
+        # setup benchmark
+        self.timeS = time.time()
+        self.timeE = 0
+        self.fitnessTime = ''
+        self.fitnessParameter = ''
     
     def checkParameter(self):
         """
@@ -100,7 +110,8 @@ class DiffertialEvolution(object):
         """
         evalute the member in enviorment
         """
-        return self.func(p.v)
+        #return self.func(p.v)
+        return self.socket_fitness(p.v)
     
     def findBest(self):
         """
@@ -229,15 +240,8 @@ class DiffertialEvolution(object):
         """
         report current generation status
         """
-        if self.gen == 0:
-            print("DiffertialEvolution results - init pop")
-        elif self.gen == self.maxGen:
-            print("Final DiffertialEvolution results at", self.gen, "generations")
-        else:
-            print("DiffertialEvolution results after", self.gen, "generations")
-        print("Function : %.6f" % (self.currentbest.f))
-        for i, v in enumerate(self.currentbest.v, start=1):
-            print("Var", i, ":", v)
+        self.timeE = time.time()
+        self.fitnessTime += '%d,%.3f,%d;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
     
     def overbound(self, member):
         """
@@ -247,6 +251,9 @@ class DiffertialEvolution(object):
             if member.v[i] > self.ub[i] or member.v[i] < self.lb[i]:
                 return True
         return False
+    
+    def getParamValue(self):
+        self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.lastgenbest.v])
     
     def run(self):
         """
@@ -297,3 +304,10 @@ class DiffertialEvolution(object):
                     self.report()
         # the evolution journey is done, report the final status
         self.report()
+        self.getParamValue()
+        return self.fitnessTime, self.fitnessParameter
+    
+    def socket_fitness(self, chrom):
+        self.socket.send_string(';'.join([str(self.bar_type)]+[','.join([str(e) for e in chrom])]+
+            [','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath])]))
+        return float(self.socket.recv().decode("utf-8"))

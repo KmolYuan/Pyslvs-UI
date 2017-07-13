@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+import time
 import random
 import math
 
@@ -38,21 +40,7 @@ class Chromosome(object):
         self.f = obj.f
 
 class Firefly(object):
-    def __init__(self, func, D, n, alpha, betaMin, beta0, gamma, lb, ub, maxGen, report):
-        """
-        init the fireflies pool and dimension
-        int D, dimension of question
-        int n, population
-        float alpha
-        float betaMin
-        float beta0
-        flaot gamma
-        list of float lb
-        list of float ub
-        function object func
-        int maxGen
-        int report
-        """
+    def __init__(self, bar_type, D, n, alpha, betaMin, beta0, gamma, lb, ub, maxGen, report, socket, targetPath):
         # D, the dimension of question
         # and each firefly will random place position in this landscape
         self.D = D
@@ -75,7 +63,7 @@ class Firefly(object):
         # fireflies pool, depend on population n
         self.fireflys = [Chromosome(self.D) for i in range(self.n)]
         # object function, maybe can call the environment
-        self.func = func
+        self.bar_type = bar_type
         # maxima generation
         self.maxGen = maxGen
         # report, how many generation report status once
@@ -86,6 +74,14 @@ class Firefly(object):
         self.genbest = Chromosome(self.D)
         # best firefly so far
         self.bestFirefly = Chromosome(self.D)
+        #socket
+        self.socket = socket
+        self.targetPath = targetPath
+        # setup benchmark
+        self.timeS = time.time()
+        self.timeE = 0
+        self.fitnessTime = ''
+        self.fitnessParameter = ''
     
     def init(self):
         """
@@ -128,7 +124,8 @@ class Firefly(object):
         evaluate each firefly's fitness value
         """
         for firefly in self.fireflys:
-            firefly.f = self.func(firefly.v)
+            #firefly.f = self.func(firefly.v)
+            firefly.f = self.socket_fitness(firefly.v)
     
     def movefly(self, me, she):
         """
@@ -194,17 +191,8 @@ class Firefly(object):
         """
         report current generation status
         """
-        if self.gen == 0:
-            print("Firefly results - init pop")
-        elif self.gen == self.maxGen:
-            print("Final Firefly results at", self.gen, "generations")
-        else:
-            print("Final Firefly results after", self.gen, "generations")
-        print("Function : %.6f" % (self.bestFirefly.f))
-        for i, v in enumerate(self.bestFirefly.v, start=1):
-            print("Var", i, ":", v)
-        # print("now the gen best fitness is :", self.genbest.f)
-        # print("now alpha is :", self.alpha)
+        self.timeE = time.time()
+        self.fitnessTime += '%d,%.3f,%d;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
     
     def calculate_new_alpha(self):
         """
@@ -216,6 +204,9 @@ class Firefly(object):
         # self.alpha = self.alpha0 / math.log(self.gen + 1)
         # depend on cureent gen best firefly
         self.alpha = self.alpha0 * math.log10(self.genbest.f + 1)
+    
+    def getParamValue(self):
+        self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.bestFirefly.v])
     
     def run(self):
         """
@@ -245,3 +236,10 @@ class Firefly(object):
                     self.report()
         # finish all process, report final status
         self.report()
+        self.getParamValue()
+        return self.fitnessTime, self.fitnessParameter
+    
+    def socket_fitness(self, chrom):
+        self.socket.send_string(';'.join([str(self.bar_type)]+[','.join([str(e) for e in chrom])]+
+            [','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath])]))
+        return float(self.socket.recv().decode("utf-8"))

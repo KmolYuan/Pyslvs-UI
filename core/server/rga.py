@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import time
 import math
 
@@ -61,6 +62,11 @@ class Genetic(object):
         #socket
         self.socket = socket
         self.targetPath = targetPath
+        # setup benchmark
+        self.timeS = time.time()
+        self.timeE = 0
+        self.fitnessTime = ''
+        self.fitnessParameter = ''
     
     def newSeed(self):
         if(self.seed == 0.0):
