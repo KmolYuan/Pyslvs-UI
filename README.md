@@ -233,14 +233,19 @@ Power By
 
 Made by [Qt5] and Python IDE [Eric 6].
 
-Including Python module: [PyQt5], [peewee], [dxfwrite]
+Including Python module:
+
+* [PyQt5]
+* [peewee]
+* [dxfwrite]
+* [Cython]
+* [PyZMQ]
+* [openpyxl]
 
 Here is the **origin kernel** repository:
 
 * [Python-solvespace]
-
 * [Dimensional Synthesis of Planar Four-bar Linkages]
-
 * [Triangle solver]
 
 Kernel
@@ -273,6 +278,9 @@ Then follow the instructions in the readme.
 [Eric 6]: http://eric-ide.python-projects.org/
 [peewee]: http://docs.peewee-orm.com/en/latest/
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
+[Cython]: http://cython.org/
+[PyZMQ]: http://zeromq.org/bindings:python
+[openpyxl]: http://openpyxl.readthedocs.io/
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm

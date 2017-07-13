@@ -20,7 +20,7 @@ INFO = ["Pyslvs {}({})".format(VERSION[0], VERSION[1]),
 
 parser = argparse.ArgumentParser(
     description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
-    epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite.")
+    epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite, Cython, PyZMQ, openpyxl.")
 parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}({})'.format(VERSION[0], VERSION[1]))
 parser.add_argument('r', metavar='FILE PATH', default=False, nargs='?', type=str, help="read workbook from the file path")
 parser.add_argument('-i', metavar='START PATH', default=False, nargs='?', type=str, help="start Pyslvs in the specified path")
