@@ -117,7 +117,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Series..."))
+        Dialog.setWindowTitle(_translate("Dialog", "Formula ..."))
         self.formula.setItemText(0, _translate("Dialog", "f(x) = kx+c"))
         self.formula.setItemText(1, _translate("Dialog", "f(x) = kx²+c"))
         self.formula.setItemText(2, _translate("Dialog", "f(x) = kcos(xπ/180)+c"))

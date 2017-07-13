@@ -27,8 +27,6 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         super(Path_Solving_progress_zmq_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
-        msgGeo = QApplication.desktop().availableGeometry()
-        self.move(msgGeo.topLeft())
         self.work = WorkerThread(type_num, mechanismParams, GenerateData, algorithmPrams)
         self.work.done.connect(self.finish)
         if PORT is None:

@@ -31,13 +31,17 @@ class ChartDialog(QDialog):
         chart = QChart()
         chart.setTitle(Title)
         chart.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        chart.legend().setAlignment(Qt.AlignRight)
+        legend = chart.legend()
+        legend.setAlignment(Qt.AlignBottom)
+        legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
         axisX = QCategoryAxis()
         axisY = QValueAxis()
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
+        axisX.setMin(0)
         axisY.setTickCount(11)
         if len(DataSet)>0:
             maxGen = max([data[1] for data in DataSet])
+            axisX.setMax(maxGen)
             chart.setTitle("{} (max {} generations)".format(Title, maxGen))
             for i in range(0, maxGen+1, int(maxGen/10)): axisX.append(str(i), i)
         chart.addAxis(axisX, Qt.AlignBottom)
@@ -45,18 +49,21 @@ class ChartDialog(QDialog):
         for data in DataSet:
             line = QLineSeries()
             scatter = QScatterSeries()
-            line.setName("{} ({} gen)".format(data[0], data[1]))
+            gen = data[1]
+            points = data[2][:-1]
+            pnum = len(points)
+            line.setName("{} ({} Generations, {} Chromosome)".format(data[0], gen, data[3]))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
-            for i, e in enumerate(data[2][:-1]):
-                x = round(i*data[1]/(len(data[2])-2), 0)
+            for i, e in enumerate(points):
+                x = round(i*gen/(pnum-1), 0)
                 line.append(QPointF(x, e))
                 scatter.append(QPointF(x, e))
             for series in [line, scatter]:
                 chart.addSeries(series)
                 series.attachAxis(axisX)
                 series.attachAxis(axisY)
-            chart.legend().markers(scatter)[0].setVisible(False)
+            legend.markers(scatter)[0].setVisible(False)
         maxima = max([max(e[2]) for e in DataSet])+10 if DataSet else 100
         maxima -= maxima%10
         axisY.setRange(0., maxima if DataSet else 100.)

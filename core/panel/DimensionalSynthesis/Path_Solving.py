@@ -224,7 +224,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
-        results = [[e['Algorithm'], e['GenerateData']['maxGen'], e['TimeAndFitness']] for e in self.mechanism_data]
+        results = tuple((e['Algorithm'], e['GenerateData']['maxGen'], e['TimeAndFitness'], e['mechanismParams']['VARS']) for e in self.mechanism_data)
         dlg = ChartDialog("Convergence Value", results, self)
         dlg.show()
     
