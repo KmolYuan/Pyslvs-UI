@@ -6,65 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>489</width>
-    <height>503</height>
+    <width>529</width>
+    <height>490</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_8">
-     <item>
-      <widget class="QRadioButton" name="FourBar">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Four Bar&lt;/h1&gt;&lt;img src=&quot;:/icons/preview/4Bar_triangle.png&quot;/&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Four Bar (?)</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QRadioButton" name="radioButton">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Eight Bar&lt;/h1&gt;&lt;img src=&quot;:/icons/preview/8Bar_triangle.png&quot;/&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>Eight Bar (?)</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Time spent: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="timeShow">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt&quot;&gt;[No record]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
    <item>
     <widget class="QScrollArea" name="scrollArea">
      <property name="widgetResizable">
@@ -75,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>469</width>
-        <height>411</height>
+        <width>515</width>
+        <height>439</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -233,6 +191,17 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="importXLSX">
+              <property name="text">
+               <string>Excel ...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../icons.qrc">
+                <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
              <spacer name="verticalSpacer_3">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -375,6 +344,48 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
+             <widget class="QWidget" name="Bar" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QRadioButton" name="FourBar">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Four Bar&lt;/h1&gt;&lt;img src=&quot;:/icons/preview/4Bar_triangle.png&quot;/&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>Four Bar (?)</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="radioButton">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Eight Bar&lt;/h1&gt;&lt;img src=&quot;:/icons/preview/8Bar_triangle.png&quot;/&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="text">
+                  <string>Eight Bar (?)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <widget class="QRadioButton" name="type0">
               <property name="text">
                <string>Genetic Algorithm</string>
@@ -405,6 +416,19 @@
              <widget class="QPushButton" name="advanceButton">
               <property name="text">
                <string>Advance</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="portText">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>tcp://*:8000</string>
               </property>
              </widget>
             </item>
@@ -451,17 +475,22 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="portText">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>tcp://*:8000</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Time spent: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="timeShow">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt&quot;&gt;[No record]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <spacer name="horizontalSpacer_6">

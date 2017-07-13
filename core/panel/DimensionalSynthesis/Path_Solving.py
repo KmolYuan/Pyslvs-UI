@@ -5,7 +5,7 @@ from ...graphics.ChartGraphics import ChartDialog
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
 from .Path_Solving_series import Path_Solving_series_show
-import csv
+import csv, openpyxl
 
 class Path_Solving_show(QWidget, PathSolving_Form):
     addPathPoint = pyqtSignal(float, float)
@@ -81,13 +81,29 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 if dlgbox.exec_(): pass
     
     @pyqtSlot()
+    def on_importXLSX_clicked(self):
+        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.env, "Microsoft Office Excel(*.xlsx *.xlsm *.xltx *.xltm)")
+        if fileName:
+            wb = openpyxl.load_workbook(fileName)
+            ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
+            data = list()
+            i = 1
+            while True:
+                x = ws.cell(row=i, column=1).value
+                y = ws.cell(row=i, column=2).value
+                if x==None or y==None: break
+                data.append((float(x), float(y)))
+                i += 1
+            for e in data: self.on_add_clicked(e[0], e[1])
+    
+    @pyqtSlot()
     def on_moveUp_clicked(self):
         n = self.Point_list.currentRow()
         if n>0 and self.Point_list.count()>1:
             self.moveupPathPoint.emit(n)
             x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
             y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
-            self.Point_list.insertItem(n-1, '('+str(x)+", "+str(y)+')')
+            self.Point_list.insertItem(n-1, '({}, {})'.format(x, y))
             self.Point_list.takeItem(n+1)
             self.Point_list.setCurrentRow(n-1)
     

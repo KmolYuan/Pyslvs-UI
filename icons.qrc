@@ -11,6 +11,7 @@
     <!--File format icons-->
     <file>icons/CSV.png</file>
     <file>icons/XML.png</file>
+    <file>icons/excel_2013.png</file>
     <file>icons/dxf.png</file>
     <file>icons/Logo_Qt.png</file>
     <file>icons/script.png</file>
