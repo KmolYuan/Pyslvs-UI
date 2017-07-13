@@ -35,15 +35,14 @@ class WorkerThread(QThread):
     
     def run(self):
         with QMutexLocker(self.mutex): self.stoped = False
-        alg = 'Genetic' if self.type_num==0 else 'Firefly' if self.type_num==1 else "Differtial Evolution"
-        print("Algorithm: {}".format(alg))
+        print("Algorithm: {}".format("Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
         print("Through: {}".format(self.mechanismParams['targetPath']))
         t0 = timeit.default_timer()
         TnF, FP = self.generateProcess()
         t1 = timeit.default_timer()
-        time_spand = t1-t0
+        time_spand = round(t1-t0, 2)
         mechanism = {
-            'Algorithm':alg,
+            'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
             'time':time_spand,
             'Ax':FP[0], 'Ay':FP[1],
             'Dx':FP[2], 'Dy':FP[3],
@@ -52,7 +51,7 @@ class WorkerThread(QThread):
             'algorithmPrams':self.algorithmPrams,
             'TimeAndFitness':TnF}
         for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
-        print('total cost time: {:.4f} [s]'.format(time_spand))
+        print('total cost time: {} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     
     #TODO: Put socket into Cython lib.

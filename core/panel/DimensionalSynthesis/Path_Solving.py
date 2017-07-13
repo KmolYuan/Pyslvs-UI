@@ -173,9 +173,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         if dlg.exec_():
             self.mechanism_data.append(dlg.mechanism)
             self.addResult(dlg.mechanism)
-            sec = dlg.time_spand%60
-            mins = int(dlg.time_spand/60)
-            self.timeShow.setText("<html><head/><body><p><span style=\"font-size:10pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
+            self.setTime(dlg.time_spand)
             print('Finished.')
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
@@ -194,6 +192,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             'maxGen':self.Settings['maxGen'],
             'report':int(self.Settings['maxGen']*self.Settings['report']/100)}
         return type_num, mechanismParams, GenerateData
+    
+    def setTime(self, time_spand):
+        sec = time_spand%60
+        mins = int(time_spand/60)
+        self.timeShow.setText("<html><head/><body><p><span style=\"font-size:12pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
     
     def addResult(self, e):
         keys = sorted(list(e.keys()))
@@ -233,9 +236,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.isGetResult()
         if cr>-1:
             args = self.mechanism_data[cr]
-            if args['Algorithm']=='Genetic': self.type0.setChecked(True)
-            elif args['Algorithm']=='Firefly': self.type1.setChecked(True)
-            elif args['Algorithm']=="Differtial Evolution": self.type2.setChecked(True)
+            keys = list(args['algorithmPrams'].keys())
+            if keys==list(self.GeneticPrams.keys()): self.type0.setChecked(True)
+            elif keys==list(self.FireflyPrams.keys()): self.type1.setChecked(True)
+            elif keys==list(self.DifferentialPrams.keys()): self.type2.setChecked(True)
+            self.setTime(args['time'])
             GenerateData = args['GenerateData']
             self.Settings = {'maxGen':GenerateData['maxGen'], 'report':GenerateData['maxGen']/GenerateData['report']/100,
                 'AxMax':GenerateData['upper'][0], 'AxMin':GenerateData['lower'][0],

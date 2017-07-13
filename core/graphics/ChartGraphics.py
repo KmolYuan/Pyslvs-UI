@@ -52,7 +52,7 @@ class ChartDialog(QDialog):
             gen = data[1]
             points = data[2][:-1]
             pnum = len(points)
-            line.setName("{} ({} Generations, {} Chromosome)".format(data[0], gen, data[3]))
+            line.setName("{} ({} gen, {} chrom)".format(data[0], gen, data[3]))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):
