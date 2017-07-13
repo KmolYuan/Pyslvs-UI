@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
+##Copyright (C) 2016-2017 Yuan Chang
+##E-mail: pyslvs@gmail.com
+##
+##This program is free software; you can redistribute it and/or modify
+##it under the terms of the GNU Affero General Public License as published by
+##the Free Software Foundation; either version 3 of the License, or
+##(at your option) any later version.
+##
+##This program is distributed in the hope that it will be useful,
+##but WITHOUT ANY WARRANTY; without even the implied warranty of
+##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##GNU Affero General Public License for more details.
+##
+##You should have received a copy of the GNU Affero General Public License
+##along with this program; if not, write to the Free Software
+##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 from sys import version_info
 import platform, argparse
 from ..QtModules import *
@@ -19,7 +37,7 @@ INFO = ["Pyslvs {}({})".format(VERSION[0], VERSION[1]),
     "QScintilla Version: {}".format(qsciVersion.strip())]
 
 parser = argparse.ArgumentParser(
-    description="Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.",
+    description="Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite, Cython, PyZMQ, openpyxl.")
 parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}({})'.format(VERSION[0], VERSION[1]))
 parser.add_argument('r', metavar='FILE PATH', default=False, nargs='?', type=str, help="read workbook from the file path")

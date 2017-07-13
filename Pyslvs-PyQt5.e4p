@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-10, 13:21:52 -->
+<!-- Saved: 2017-07-13, 17:16:00 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -116,7 +116,6 @@
     <Source>core/server/firefly.py</Source>
     <Source>core/server/rga.py</Source>
     <Source>core/server/zmq_rep.py</Source>
-    <Source>core/server/zmq_req.py</Source>
     <Source>core/simulate/Ui_edit_rod.py</Source>
     <Source>core/simulate/Ui_edit_shaft.py</Source>
     <Source>core/simulate/Ui_edit_slider.py</Source>

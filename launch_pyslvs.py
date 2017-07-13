@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.
+##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 ##Copyright (C) 2016-2017 Yuan Chang [pyslvs@gmail.com]
 from sys import exit
 if __name__=='__main__':
