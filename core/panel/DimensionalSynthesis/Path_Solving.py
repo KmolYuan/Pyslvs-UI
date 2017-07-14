@@ -233,7 +233,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot(int)
     def on_Result_list_currentRowChanged(self, cr):
         self.isGetResult()
-        if cr>-1:
+        if cr>-1 and cr!=len(self.mechanism_data):
             args = self.mechanism_data[cr]
             keys = set(args['algorithmPrams'].keys())
             if keys==set(self.GeneticPrams.keys()): self.type0.setChecked(True)
