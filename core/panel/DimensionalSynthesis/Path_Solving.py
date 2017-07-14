@@ -34,9 +34,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     GeneticPrams = {'nPop':250, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':40, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}
-    defaultSettings = {'maxGen':1500, 'report':1, 'AxMin':-50., 'AyMin':-50., 'DxMin':-50., 'DyMin':-50., 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-        'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
-        'algorithmPrams':DifferentialPrams}
+    defaultSettings = {'maxGen':1500, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
+        'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360., 'algorithmPrams':DifferentialPrams}
     mechanismParams_4Bar = { #No 'targetPath'
         'Driving':'A',
         'Follower':'D',
@@ -236,10 +235,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.isGetResult()
         if cr>-1:
             args = self.mechanism_data[cr]
-            keys = list(args['algorithmPrams'].keys())
-            if keys==list(self.GeneticPrams.keys()): self.type0.setChecked(True)
-            elif keys==list(self.FireflyPrams.keys()): self.type1.setChecked(True)
-            elif keys==list(self.DifferentialPrams.keys()): self.type2.setChecked(True)
+            keys = set(args['algorithmPrams'].keys())
+            if keys==set(self.GeneticPrams.keys()): self.type0.setChecked(True)
+            elif keys==set(self.FireflyPrams.keys()): self.type1.setChecked(True)
+            elif keys==set(self.DifferentialPrams.keys()): self.type2.setChecked(True)
             self.setTime(args['time'])
             GenerateData = args['GenerateData']
             self.Ax.setValue((GenerateData['upper'][0]+GenerateData['lower'][0])/2)

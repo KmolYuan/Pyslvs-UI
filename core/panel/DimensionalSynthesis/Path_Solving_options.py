@@ -49,7 +49,10 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                 spinbox.setValue(value)
                 self.PLTable.setCellWidget(i+len(Length), 1, spinbox)
         if self.linkage_type=="4 Bar": writeTable(
-            [('IMax', 50.), ('IMin', 5.), ('LMax', 50.), ('LMin', 5.), ('FMax', 50.), ('FMin', 5.)], [('AMax', 360.), ('AMin', 0.)])
+            [("Input linkage maximum (IMax)", 50.), ("Input linkage minimum (IMin)", 5.),
+            ("Connected linkage maximum (LMax)", 50.), ("Connected linkage minimum (LMin)", 5.),
+            ("Follower linkage maximum (FMax)", 50.), ("Follower linkage minimum (FMin)", 5.)],
+            [("Angle maximum (AMax)", 360.), ("Angle minimum (AMin)", 0.)])
         for i in range(self.PLTable.rowCount()): self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
@@ -101,6 +104,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_setDefault_clicked(self): self.setArgs({'maxGen':1500, 'report':1,
+        'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
         'algorithmPrams':{'nPop':250, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
             {'n':40, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
             {'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}})

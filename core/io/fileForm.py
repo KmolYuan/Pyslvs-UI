@@ -533,7 +533,7 @@ class File:
                 endAngle = float(a)
             for i, a in enumerate(s_answer): Paths[expression_result[i]].append(a)
         if not (False in answer):
-            dataAdd = len(self.Lists.PointList)==1 and False in Paths[0]
+            dataAdd = len(self.Lists.PointList)==1 and not False in Paths[list(Paths.keys())[0]]
             if not dataAdd: self.Lists.clearPath()
             for i, (x, y) in enumerate(answer): self.Lists.editTable(Point, 'Point', False,
                 round(x, 4), round(y, 4), i<2, 'Blue' if i<2 else 'Green' if i<len(answer)-1 else 'Brick-Red')
