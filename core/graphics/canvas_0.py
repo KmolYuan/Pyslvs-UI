@@ -38,7 +38,9 @@ class Path:
         self.demo = 0.
         self.show = True
         self.mode = True
-        self.Drivemode = False
+        self.drive_mode = False
+        defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
+        self.ranges = [defult_range, defult_range]
 
 class Selector:
     def __init__(self):
@@ -100,6 +102,12 @@ class DynamicCanvas(QWidget):
         self.options.Path.path = path
         self.update()
     
+    @pyqtSlot(tuple, float, tuple, float)
+    def update_ranges(self, point1, range1, point2, range2):
+        self.options.Path.ranges[0] = QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1))
+        self.options.Path.ranges[1] = QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
+        self.update()
+    
     def paintEvent(self, event):
         painter = QPainter()
         painter.begin(self)
@@ -108,7 +116,7 @@ class DynamicCanvas(QWidget):
         Tp = self.zoom*self.options.rate
         pen = QPen()
         pathShaft = None
-        if self.options.Path.path and self.options.Path.Drivemode:
+        if self.options.Path.path and self.options.Path.drive_mode:
             for vpaths in self.options.Path.path:
                 if vpaths.shaft==self.options.currentShaft: pathShaft = vpaths
         if not pathShaft==None:
@@ -416,6 +424,20 @@ class DynamicCanvas(QWidget):
                                 x = point[0]*Tp
                                 y = point[1]*Tp*-1
                                 painter.drawPoint(QPointF(x, y))
+        if self.options.slvsPath['show']:
+            range_color = QColor(231, 178, 244, 30)
+            for i, rect in enumerate(self.options.Path.ranges):
+                pen.setColor(range_color)
+                painter.setBrush(range_color)
+                painter.setPen(pen)
+                cx = rect.x()*Tp
+                cy = rect.y()*-Tp
+                painter.drawRect(QRectF(cx, cy, rect.width()*Tp, rect.height()*Tp))
+                painter.setFont(QFont('Arial', self.Font_size+5))
+                pen.setColor(QColor(231, 178, 244))
+                painter.setPen(pen)
+                painter.drawText(QPointF(cx+6, cy-6), 'Driver' if i==0 else 'Follower')
+            painter.setBrush(Qt.NoBrush)
         if self.options.slvsPath['path'] and self.options.slvsPath['show']:
             pathData = self.options.slvsPath['path']
             pen.setWidth(self.options.style['penWidth']['path'])

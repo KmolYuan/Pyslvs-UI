@@ -702,6 +702,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if "Path Solving" in tabNameList: self.closePanel(tabNameList.index("Path Solving"))
         else:
             panel = Path_Solving_show(self.File.Designs.path, self.File.Designs.result, self.Default_Environment_variables, self)
+            panel.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
             panel.addPathPoint.connect(self.PathSolving_add)
             panel.deletePathPoint.connect(self.PathSolving_delete)
             panel.moveupPathPoint.connect(self.PathSolving_moveup)
@@ -758,7 +759,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
         tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        self.DynamicCanvasView.options.Path.Drivemode = not "Drive Shaft" in tabNameList
+        self.DynamicCanvasView.options.Path.drive_mode = not "Drive Shaft" in tabNameList
         if "Drive Shaft" in tabNameList: self.closePanel(tabNameList.index("Drive Shaft"))
         else:
             isPathDemoMode = bool(self.File.Lists.pathData)
@@ -863,9 +864,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if not((self.PointTab.tabText(i)=="Path Solving" and not closePathSolving) or i==0 or i==1): self.closePanel(i)
         self.PointTab.setCurrentIndex(0)
         for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.Measurement, self.AuxLine]: button.setChecked(False)
-        if closePathSolving: self.PathSolving.setChecked(False)
-        self.DynamicCanvasView.options.slvsPath['show'] = False
-        self.DynamicCanvasView.options.Path.Drivemode = False
+        if closePathSolving:
+            self.PathSolving.setChecked(False)
+            self.DynamicCanvasView.options.slvsPath['show'] = False
+        self.DynamicCanvasView.options.Path.drive_mode = False
         self.DynamicCanvasView.reset_Auxline()
         self.Reload_Canvas()
     def closePanel(self, pos):

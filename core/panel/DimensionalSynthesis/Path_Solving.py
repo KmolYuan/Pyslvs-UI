@@ -26,6 +26,7 @@ from .Path_Solving_series import Path_Solving_series_show
 import csv, openpyxl
 
 class Path_Solving_show(QWidget, PathSolving_Form):
+    fixPointRange = pyqtSignal(tuple, float, tuple, float)
     addPathPoint = pyqtSignal(float, float)
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
@@ -178,10 +179,12 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
         link_q = mechanismParams['VARS']-7
-        upper = [self.Ax.value()+self.Ar.value(), self.Ay.value()+self.Ar.value(), self.Dx.value()+self.Dr.value(), self.Dy.value()+self.Dr.value(),
+        upper = [self.Ax.value()+self.Ar.value()/2, self.Ay.value()+self.Ar.value()/2, self.Dx.value()+self.Dr.value()/2, self.Dy.value()+self.Dr.value()/2,
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
-        lower = [self.Ax.value()-self.Ar.value(), self.Ay.value()-self.Ar.value(), self.Dx.value()-self.Dr.value(), self.Dy.value()-self.Dr.value(),
+        lower = [self.Ax.value()-self.Ar.value()/2, self.Ay.value()-self.Ar.value()/2, self.Dx.value()-self.Dr.value()/2, self.Dy.value()-self.Dr.value()/2,
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
+        print(upper)
+        print(lower)
         mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
         p = len(self.path)
         GenerateData = {
@@ -243,10 +246,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             GenerateData = args['GenerateData']
             self.Ax.setValue((GenerateData['upper'][0]+GenerateData['lower'][0])/2)
             self.Ay.setValue((GenerateData['upper'][1]+GenerateData['lower'][1])/2)
-            self.Ar.setValue(abs(GenerateData['upper'][0]-self.Ax.value()))
+            self.Ar.setValue(abs(GenerateData['upper'][0]-self.Ax.value())*2)
             self.Dx.setValue((GenerateData['upper'][2]+GenerateData['lower'][2])/2)
             self.Dy.setValue((GenerateData['upper'][3]+GenerateData['lower'][3])/2)
-            self.Dr.setValue(abs(GenerateData['upper'][2]-self.Dx.value()))
+            self.Dr.setValue(abs(GenerateData['upper'][2]-self.Dx.value())*2)
             self.Settings = {'maxGen':GenerateData['maxGen'], 'report':GenerateData['maxGen']/GenerateData['report']/100,
                 'IMax':GenerateData['upper'][4], 'IMin':GenerateData['lower'][4],
                 'LMax':GenerateData['upper'][5], 'LMin':GenerateData['lower'][5],
@@ -287,3 +290,17 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 'n':tableAP(0), 'alpha':tableAP(1), 'betaMin':tableAP(2), 'gamma':tableAP(3), 'beta0':tableAP(4)}
             elif type_num=="Differential Evolution": self.Settings['algorithmPrams'] = {
                 'strategy':tableAP(0), 'NP':tableAP(1), 'F':tableAP(2), 'CR':tableAP(3)}
+    
+    def updateRange(self): self.fixPointRange.emit((self.Ax.value(), self.Ay.value()), self.Ar.value(), (self.Dx.value(), self.Dy.value()), self.Dr.value())
+    @pyqtSlot(float)
+    def on_Ar_valueChanged(self, p0): self.updateRange()
+    @pyqtSlot(float)
+    def on_Ax_valueChanged(self, p0): self.updateRange()
+    @pyqtSlot(float)
+    def on_Ay_valueChanged(self, p0): self.updateRange()
+    @pyqtSlot(float)
+    def on_Dx_valueChanged(self, p0): self.updateRange()
+    @pyqtSlot(float)
+    def on_Dy_valueChanged(self, p0): self.updateRange()
+    @pyqtSlot(float)
+    def on_Dr_valueChanged(self, p0): self.updateRange()
