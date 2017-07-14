@@ -33,33 +33,23 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         self.isOk()
     
     def init_PLTable(self):
-        def writeTable(Coordinates, Length, Degrees):
-            for i, (name, value) in enumerate(Coordinates):
+        def writeTable(Length, Degrees):
+            for i, (name, value) in enumerate(Length):
                 self.PLTable.insertRow(i)
                 self.PLTable.setItem(i, 0, QTableWidgetItem(name))
                 spinbox = QDoubleSpinBox()
-                spinbox.setMaximum(10000.)
-                spinbox.setMinimum(-10000.)
-                spinbox.setValue(value)
-                self.PLTable.setCellWidget(i, 1, spinbox)
-            for i, (name, value) in enumerate(Length):
-                self.PLTable.insertRow(i+len(Coordinates))
-                self.PLTable.setItem(i+len(Coordinates), 0, QTableWidgetItem(name))
-                spinbox = QDoubleSpinBox()
                 spinbox.setMaximum(1000.)
                 spinbox.setValue(value)
-                self.PLTable.setCellWidget(i+len(Coordinates), 1, spinbox)
+                self.PLTable.setCellWidget(i, 1, spinbox)
             for i, (name, value) in enumerate(Degrees):
-                self.PLTable.insertRow(i+len(Coordinates)+len(Length))
-                self.PLTable.setItem(i+len(Coordinates)+len(Length), 0, QTableWidgetItem(name))
+                self.PLTable.insertRow(i+len(Length))
+                self.PLTable.setItem(i+len(Length), 0, QTableWidgetItem(name))
                 spinbox = QDoubleSpinBox()
                 spinbox.setMaximum(360.)
                 spinbox.setValue(value)
-                self.PLTable.setCellWidget(i+len(Coordinates)+len(Length), 1, spinbox)
+                self.PLTable.setCellWidget(i+len(Length), 1, spinbox)
         if self.linkage_type=="4 Bar": writeTable(
-            [('AxMax', 50.), ('AxMin', -50.), ('AyMax', 50.), ('AyMin', -50.), ('DxMax', 50.), ('DxMin', -50.), ('DyMax', 50.), ('DyMin', -50.)],
-            [('IMax', 50.), ('IMin', 5.), ('LMax', 50.), ('LMin', 5.), ('FMax', 50.), ('FMin', 5.)],
-            [('AMax', 360.), ('AMin', 0.)])
+            [('IMax', 50.), ('IMin', 5.), ('LMax', 50.), ('LMin', 5.), ('FMax', 50.), ('FMin', 5.)], [('AMax', 360.), ('AMin', 0.)])
         for i in range(self.PLTable.rowCount()): self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
@@ -91,8 +81,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])
         self.report.setValue(PLnAP['report'])
-        for i, tag in enumerate(['AxMax', 'AxMin', 'AyMax', 'AyMin', 'DxMax', 'DxMin', 'DyMax', 'DyMin',
-            'IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']): self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
+        for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']): self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
         if self.algorithm=="Genetic Algorithm":
             for i, tag in enumerate(['nPop', 'pCross', 'pMute', 'pWin', 'bDelta']): self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
         elif self.algorithm=="Firefly Algorithm":
@@ -112,8 +101,6 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_setDefault_clicked(self): self.setArgs({'maxGen':1500, 'report':1,
-        'AxMin':-50., 'AyMin':-50., 'DxMin':-50., 'DyMin':-50., 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-        'AxMax':50., 'AyMax':50., 'DxMax':50., 'DyMax':50., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
         'algorithmPrams':{'nPop':250, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
             {'n':40, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
             {'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}})

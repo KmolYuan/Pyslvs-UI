@@ -179,9 +179,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
         link_q = mechanismParams['VARS']-7
-        upper = [self.Settings['AxMax'], self.Settings['AyMax'], self.Settings['DxMax'], self.Settings['DyMax'],
+        upper = [self.Ax.value()+self.Ar.value(), self.Ay.value()+self.Ar.value(), self.Dx.value()+self.Dr.value(), self.Dy.value()+self.Dr.value(),
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
-        lower = [self.Settings['AxMin'], self.Settings['AyMin'], self.Settings['DxMin'], self.Settings['DyMin'],
+        lower = [self.Ax.value()-self.Ar.value(), self.Ay.value()-self.Ar.value(), self.Dx.value()-self.Dr.value(), self.Dy.value()-self.Dr.value(),
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
         mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
         p = len(self.path)
@@ -242,11 +242,13 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             elif keys==list(self.DifferentialPrams.keys()): self.type2.setChecked(True)
             self.setTime(args['time'])
             GenerateData = args['GenerateData']
+            self.Ax.setValue((GenerateData['upper'][0]+GenerateData['lower'][0])/2)
+            self.Ay.setValue((GenerateData['upper'][1]+GenerateData['lower'][1])/2)
+            self.Ar.setValue(abs(GenerateData['upper'][0]-self.Ax.value()))
+            self.Dx.setValue((GenerateData['upper'][2]+GenerateData['lower'][2])/2)
+            self.Dy.setValue((GenerateData['upper'][3]+GenerateData['lower'][3])/2)
+            self.Dr.setValue(abs(GenerateData['upper'][2]-self.Dx.value()))
             self.Settings = {'maxGen':GenerateData['maxGen'], 'report':GenerateData['maxGen']/GenerateData['report']/100,
-                'AxMax':GenerateData['upper'][0], 'AxMin':GenerateData['lower'][0],
-                'AyMax':GenerateData['upper'][1], 'AyMin':GenerateData['lower'][1],
-                'DxMax':GenerateData['upper'][2], 'DxMin':GenerateData['lower'][2],
-                'DyMax':GenerateData['upper'][3], 'DyMin':GenerateData['lower'][3],
                 'IMax':GenerateData['upper'][4], 'IMin':GenerateData['lower'][4],
                 'LMax':GenerateData['upper'][5], 'LMin':GenerateData['lower'][5],
                 'FMax':GenerateData['upper'][6], 'FMin':GenerateData['lower'][6],
@@ -275,14 +277,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         if dlg.exec_():
             tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()
             self.Settings = {'maxGen':dlg.maxGen.value(), 'report':dlg.report.value(),
-                'AxMax':tablePL(0), 'AxMin':tablePL(1),
-                'AyMax':tablePL(2), 'AyMin':tablePL(3),
-                'DxMax':tablePL(4), 'DxMin':tablePL(5),
-                'DyMax':tablePL(6), 'DyMin':tablePL(7),
-                'IMax':tablePL(8), 'IMin':tablePL(9),
-                'LMax':tablePL(10), 'LMin':tablePL(11),
-                'FMax':tablePL(12), 'FMin':tablePL(13),
-                'AMax':tablePL(14), 'AMin':tablePL(15)}
+                'IMax':tablePL(0), 'IMin':tablePL(1),
+                'LMax':tablePL(2), 'LMin':tablePL(3),
+                'FMax':tablePL(4), 'FMin':tablePL(5),
+                'AMax':tablePL(6), 'AMin':tablePL(7)}
             tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
             if type_num=="Genetic Algorithm": self.Settings['algorithmPrams'] = {
                 'nPop':tableAP(0), 'pCross':tableAP(1), 'pMute':tableAP(2), 'pWin':tableAP(3), 'bDelta':tableAP(4)}
