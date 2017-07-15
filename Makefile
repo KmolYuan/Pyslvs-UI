@@ -2,7 +2,15 @@
 
 all: build run
 
-build: launch_pyslvs.py
+generate_build: ./core/kernel/pyslvs_generate/*.pyx
+	@echo ---Pyslvs generate Build---
+ifeq ($(OS),Windows_NT)
+	$(MAKE) -C .\core\kernel\pyslvs_generate
+else
+	$(MAKE) -C ./core/kernel/pyslvs_generate
+endif
+
+build: launch_pyslvs.py generate_build
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
@@ -15,20 +23,21 @@ ifeq ($(OS),Windows_NT)
 	pyinstaller -F $< -i ./icons/main_big.ico \
 --path="$(PYQTPATH)\Qt\bin" \
 --add-binary="core/kernel/$(PYTHON)/libslvs.so;." \
---add-binary="core/kernel/pyslvs_generate/$(PYTHON)/de.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/$(PYTHON)/firefly.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/$(PYTHON)/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/$(PYTHON)/rga.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/$(PYTHON)/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
+--add-binary="core/kernel/pyslvs_generate/de.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_generate/firefly.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_generate/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_generate/rga.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_generate/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
 	rename .\dist\launch_pyslvs.exe pyslvs.exe
 	rename .\core\kernel\kernel_getter.py $(PYTHON).py
 	rename .\core\kernel\_kernel_getter.py kernel_getter.py
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
+	$(eval PYQTPATH = $(shell python3 -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
 	@echo --Python Version $(PYTHON)--
 	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
 	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
-	pyinstaller -F $<
+	pyinstaller -F $< --exclude-module="PyQt4"
 	mv dist/launch_pyslvs dist/pyslvs
 	mv core/kernel/kernel_getter.py core/kernel/$(PYTHON).py
 	mv core/kernel/_kernel_getter.py core/kernel/kernel_getter.py
@@ -64,10 +73,12 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
+	make -C .\core\kernel\pyslvs_generate clean
 	rd build /s /q
 	rd dist /s /q
 	del launch_pyslvs.spec
 else
+	make -C ./core/kernel/pyslvs_generate clean
 	rm -f -r build
 	rm -f -r dist
 	rm -f launch_pyslvs.spec

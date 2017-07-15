@@ -34,52 +34,52 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     
     def init_PLTable(self):
         def writeTable(Length, Degrees):
-            for i, (name, value) in enumerate(Length):
+            for i, name in enumerate(Length):
                 self.PLTable.insertRow(i)
                 self.PLTable.setItem(i, 0, QTableWidgetItem(name))
                 spinbox = QDoubleSpinBox()
                 spinbox.setMaximum(1000.)
-                spinbox.setValue(value)
+                spinbox.setValue(0.)
                 self.PLTable.setCellWidget(i, 1, spinbox)
-            for i, (name, value) in enumerate(Degrees):
+            for i, name in enumerate(Degrees):
                 self.PLTable.insertRow(i+len(Length))
                 self.PLTable.setItem(i+len(Length), 0, QTableWidgetItem(name))
                 spinbox = QDoubleSpinBox()
                 spinbox.setMaximum(360.)
-                spinbox.setValue(value)
+                spinbox.setValue(0.)
                 self.PLTable.setCellWidget(i+len(Length), 1, spinbox)
         if self.linkage_type=="4 Bar": writeTable(
-            [("Input linkage maximum (IMax)", 50.), ("Input linkage minimum (IMin)", 5.),
-            ("Connected linkage maximum (LMax)", 50.), ("Connected linkage minimum (LMin)", 5.),
-            ("Follower linkage maximum (FMax)", 50.), ("Follower linkage minimum (FMin)", 5.)],
-            [("Angle maximum (AMax)", 360.), ("Angle minimum (AMin)", 0.)])
+            ["Input linkage maximum (IMax)", "Input linkage minimum (IMin)",
+            "Connected linkage maximum (LMax)", "Connected linkage minimum (LMin)",
+            "Follower linkage maximum (FMax)", "Follower linkage minimum (FMin)"],
+            ["Angle maximum (AMax)", "Angle minimum (AMin)"])
         for i in range(self.PLTable.rowCount()): self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
         def writeTable(Integers, Floats):
-            for i, (name, value) in enumerate(Integers):
+            for i, name in enumerate(Integers):
                 self.APTable.insertRow(i)
                 self.APTable.setItem(i, 0, QTableWidgetItem(name))
                 spinbox = QSpinBox()
                 spinbox.setMaximum(1000)
-                spinbox.setValue(value)
+                spinbox.setValue(0.)
                 self.APTable.setCellWidget(i, 1, spinbox)
-            for i, (name, value) in enumerate(Floats):
+            for i, name in enumerate(Floats):
                 self.APTable.insertRow(i+len(Integers))
                 self.APTable.setItem(i+len(Integers), 0, QTableWidgetItem(name))
                 spinbox = QDoubleSpinBox()
                 spinbox.setMaximum(10.)
-                spinbox.setValue(value)
+                spinbox.setValue(0.)
                 self.APTable.setCellWidget(i+len(Integers), 1, spinbox)
         if self.algorithm=="Genetic Algorithm": writeTable(
-            [("Population Size", 250)],
-            [("Crossover Rate", 0.95), ("Mutation Rate", 0.05), ("Winning Rate", 0.95), ("Delta value", 5.)])
+            ["Population Size"],
+            ["Crossover Rate", "Mutation Rate", "Winning Rate", "Delta value"])
         elif self.algorithm=="Firefly Algorithm": writeTable(
-            [("Population Size", 40)],
-            [("Alpha value", 0.01), ("Minimum Beta value", 0.2), ("Gamma value", 1.), ("Beta0 value", 1.)])
+            ["Population Size"],
+            ["Alpha value", "Minimum Beta value", "Gamma value", "Beta0 value"])
         elif self.algorithm=="Differential Evolution": writeTable(
-            [("Evolutionary strategy (0-9)", 1), ("Population Size", 190)],
-            [("Weight factor", 0.6), ("Recombination factor", 0.9)])
+            ["Evolutionary strategy (0-9)", "Population Size"],
+            ["Weight factor", "Recombination factor"])
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])
@@ -104,7 +104,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_setDefault_clicked(self): self.setArgs({'maxGen':1500, 'report':1,
-        'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0., 'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360.,
-        'algorithmPrams':{'nPop':250, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
-            {'n':40, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
-            {'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}})
+        'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0., 'IMax':300., 'LMax':300., 'FMax':300., 'AMax':360.,
+        'algorithmPrams':{'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
+            {'n':500, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
+            {'strategy':1, 'NP':500, 'F':0.6, 'CR':0.9}})

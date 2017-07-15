@@ -32,11 +32,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
     mergeResult = pyqtSignal(int)
-    GeneticPrams = {'nPop':250, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
-    FireflyPrams = {'n':40, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
-    DifferentialPrams = {'strategy':1, 'NP':190, 'F':0.6, 'CR':0.9}
+    GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
+    FireflyPrams = {'n':500, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
+    DifferentialPrams = {'strategy':1, 'NP':500, 'F':0.6, 'CR':0.9}
     defaultSettings = {'maxGen':1500, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-        'IMax':50., 'LMax':50., 'FMax':50., 'AMax':360., 'algorithmPrams':DifferentialPrams}
+        'IMax':300., 'LMax':300., 'FMax':300., 'AMax':360., 'algorithmPrams':DifferentialPrams}
     mechanismParams_4Bar = { #No 'targetPath'
         'Driving':'A',
         'Follower':'D',

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-13, 17:16:00 -->
+<!-- Saved: 2017-07-15, 16:26:59 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -12,7 +12,6 @@
   <Author>Yuan</Author>
   <Email>daan0014119@gmail.com</Email>
   <Sources>
-    <Source>.travis.yml</Source>
     <Source>README.md</Source>
     <Source>core/QtModules.py</Source>
     <Source>core/Ui_custom.py</Source>
@@ -75,6 +74,15 @@
     <Source>core/kernel/py35.py</Source>
     <Source>core/kernel/py35w.py</Source>
     <Source>core/kernel/py36w.py</Source>
+    <Source>core/kernel/pyslvs_generate/Makefile</Source>
+    <Source>core/kernel/pyslvs_generate/README.md</Source>
+    <Source>core/kernel/pyslvs_generate/__init__.py</Source>
+    <Source>core/kernel/pyslvs_generate/de.pyx</Source>
+    <Source>core/kernel/pyslvs_generate/firefly.pyx</Source>
+    <Source>core/kernel/pyslvs_generate/planarlinkage.pyx</Source>
+    <Source>core/kernel/pyslvs_generate/rga.pyx</Source>
+    <Source>core/kernel/pyslvs_generate/setup.py</Source>
+    <Source>core/kernel/pyslvs_generate/tinycadlib.pyx</Source>
     <Source>core/kernel/pyslvs_triangle_solver/TS.py</Source>
     <Source>core/kernel/pyslvs_triangle_solver/__init__.py</Source>
     <Source>core/main.py</Source>
@@ -166,7 +174,9 @@
   </Resources>
   <Interfaces/>
   <Others>
+    <Other>.travis.yml</Other>
     <Other>Makefile</Other>
+    <Other>core/kernel/pyslvs_generate/Makefile</Other>
   </Others>
   <MainScript>launch_pyslvs.py</MainScript>
   <Vcs>

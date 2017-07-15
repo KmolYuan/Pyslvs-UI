@@ -4,7 +4,10 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
+core/kernel/pyslvs_generate/*.so
+core/kernel/pyslvs_generate/*.pyd
+core/kernel/pyslvs_generate/*.o
+core/kernel/pyslvs_generate/*.c
 
 # Distribution / packaging
 .Python
