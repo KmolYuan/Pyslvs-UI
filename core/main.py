@@ -19,7 +19,7 @@
 
 from .QtModules import *
 from .main_modules import *
-_translate = QCoreApplication.translate
+tr = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
 from .Ui_custom import *
 
@@ -353,10 +353,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Save_as_triggered(self): self.save()
     def save(self, fileName=str()):
-        if bool(fileName)==False: fileName = self.outputTo("Workbook", ["XML File(*.xml)", "CSV File(*.csv)"])
+        hasReply = bool(fileName)==False
+        if hasReply: fileName = self.outputTo("Workbook", ["XML File(*.xml)", "CSV File(*.csv)"])
         if fileName:
             self.File.write(fileName)
-            self.replyBox('Workbook', fileName)
+            if hasReply: self.replyBox('Workbook', fileName)
             self.workbookSaved()
     
     @pyqtSlot()

@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-_translate = QCoreApplication.translate
+tr = QCoreApplication.translate
 from .Ui_fileInfo import Ui_Info_Dialog
 
 class editFileInfo_show(QDialog, Ui_Info_Dialog):

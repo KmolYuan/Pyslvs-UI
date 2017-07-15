@@ -20,6 +20,7 @@
 from sys import version_info
 import platform, argparse
 from ..QtModules import *
+tr = QCoreApplication.translate
 from .Ui_info import Ui_About_Dialog
 
 VERSION = ('0.8.0', 'dev')
@@ -55,16 +56,36 @@ def show_info():
     print('-'*7)
     return args
 
-class Pyslvs_Splash(QSplashScreen):
-    def __init__(self, parent=None):
-        super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
-        self.showMessage("Version {}({})".format(VERSION[0], VERSION[1]), (Qt.AlignBottom|Qt.AlignRight))
-
 ## Turn simple string to html format.
 def html(script): return '<html><head/><body>{}</body></html>'.format(script)
 def title(name, *others): return '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(others)) if others else '')
 def content(*text): return '<p>{}</p>'.format('</p><p>'.join(text))
 def orderList(*List): return '<ul><li>{}</li></ul>'.format('</li><li>'.join(List))
+
+#Splash
+class Pyslvs_Splash(QSplashScreen):
+    def __init__(self, parent=None):
+        super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
+        self.showMessage("Version {}({})".format(VERSION[0], VERSION[1]), (Qt.AlignBottom|Qt.AlignRight))
+
+#SystemTrayIcon
+class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
+    def __init__(self, parent=None):
+        QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
+        self.SystemTrayIconMenu = QMenu(parent)
+        self.setContextMenu(self.SystemTrayIconMenu)
+        self.setToolTip(tr("Tray icon tool tip",
+            html(title('Pyslvs')+content("Your solving task will be show here."))))
+        self.action_SystemTrayIconMenu_minimize = QAction("Minimize", self)
+        self.action_SystemTrayIconMenu_minimize.triggered.connect(parent.showMinimized)
+        self.SystemTrayIconMenu.addAction(self.action_SystemTrayIconMenu_minimize)
+        self.action_SystemTrayIconMenu_full_screen = QAction("Full screen", self)
+        self.action_SystemTrayIconMenu_full_screen.triggered.connect(parent.showFullScreen)
+        self.SystemTrayIconMenu.addAction(self.action_SystemTrayIconMenu_full_screen)
+        self.SystemTrayIconMenu.addSeparator()
+        self.action_SystemTrayIconMenu_exit = QAction("Exit", self)
+        self.action_SystemTrayIconMenu_exit.triggered.connect(parent.close)
+        self.SystemTrayIconMenu.addAction(self.action_SystemTrayIconMenu_exit)
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):

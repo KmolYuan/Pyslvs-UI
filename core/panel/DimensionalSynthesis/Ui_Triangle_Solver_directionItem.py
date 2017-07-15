@@ -124,17 +124,17 @@ class Ui_Form(object):
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
-        _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.Type.setItemText(0, _translate("Form", "PLAP"))
-        self.Type.setItemText(1, _translate("Form", "PLLP"))
-        self.p1Option.setItemText(0, _translate("Form", "Existed Point"))
-        self.p1Option.setItemText(1, _translate("Form", "Customize Point"))
-        self.p2Option.setItemText(0, _translate("Form", "Existed Point"))
-        self.p2Option.setItemText(1, _translate("Form", "Customize Point"))
-        self.label.setText(_translate("Form", "Length1"))
-        self.label_2.setText(_translate("Form", "Length2"))
-        self.label_3.setText(_translate("Form", "Angle"))
+        tr = QtCore.QCoreApplication.translate
+        Form.setWindowTitle(tr("Form", "Form"))
+        self.Type.setItemText(0, tr("Form", "PLAP"))
+        self.Type.setItemText(1, tr("Form", "PLLP"))
+        self.p1Option.setItemText(0, tr("Form", "Existed Point"))
+        self.p1Option.setItemText(1, tr("Form", "Customize Point"))
+        self.p2Option.setItemText(0, tr("Form", "Existed Point"))
+        self.p2Option.setItemText(1, tr("Form", "Customize Point"))
+        self.label.setText(tr("Form", "Length1"))
+        self.label_2.setText(tr("Form", "Length2"))
+        self.label_3.setText(tr("Form", "Angle"))
 
 
 if __name__ == "__main__":

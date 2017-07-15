@@ -19,7 +19,7 @@
 
 from ..QtModules import *
 from ..graphics.color import colorlist, colorName
-_translate = QCoreApplication.translate
+tr = QCoreApplication.translate
 
 class PointOptions:
     def __init__(self, width, height):
@@ -68,7 +68,7 @@ class DynamicCanvas(QWidget):
     def __init__(self, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
-        self.setStatusTip(_translate("DynamicCanvas", "Use mouse wheel or middle button to look around."))
+        self.setStatusTip(tr("DynamicCanvas", "Use mouse wheel or middle button to look around."))
         self.options = PointOptions(self.width(), self.height())
         self.Selector = Selector()
         self.reset_Auxline()

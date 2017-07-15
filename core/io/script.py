@@ -19,7 +19,7 @@
 
 from ..QtModules import *
 from .scriptType import slvsProcessScript
-_translate = QCoreApplication.translate
+tr = QCoreApplication.translate
 from .Ui_script import Ui_Info_Dialog
 
 class highlightRule:
@@ -80,7 +80,7 @@ class Script_Dialog(QDialog, Ui_Info_Dialog):
     def on_copy_clicked(self):
         clipboard = QApplication.clipboard()
         clipboard.setText(self.script.toPlainText())
-        self.copy.setText(_translate("Info_Dialog", "Copied!"))
+        self.copy.setText(tr("Info_Dialog", "Copied!"))
     
     @pyqtSlot()
     def on_save_clicked(self):

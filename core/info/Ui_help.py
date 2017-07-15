@@ -64,12 +64,12 @@ class Ui_Info_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Info_Dialog)
 
     def retranslateUi(self, Info_Dialog):
-        _translate = QtCore.QCoreApplication.translate
-        Info_Dialog.setWindowTitle(_translate("Info_Dialog", "Help"))
-        self.label.setWhatsThis(_translate("Info_Dialog", "Pyslvs Icon!"))
-        self.label_2.setWhatsThis(_translate("Info_Dialog", "Version Info"))
-        self.label_2.setText(_translate("Info_Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs</span></p><p><span style=\" font-size:12pt;\">Pyslvs just like a ordinary CAD software, but use table format to add and edit, within changing points location, finally give the answer to designer.</span></p><p><span style=\" font-size:12pt;\">We have these functions:</span></p><p><span style=\" font-size:12pt;\">- Change canvas appearance.</span></p><p><span style=\" font-size:12pt;\">- 2D Linkages dynamic simulation.</span></p><p><span style=\" font-size:12pt;\">- Draw dynamic simulation path at any point in the machinery.</span></p><p><span style=\" font-size:12pt;\">- Output points coordinate to table file format.</span></p></body></html>"))
-        self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))
+        tr = QtCore.QCoreApplication.translate
+        Info_Dialog.setWindowTitle(tr("Info_Dialog", "Help"))
+        self.label.setWhatsThis(tr("Info_Dialog", "Pyslvs Icon!"))
+        self.label_2.setWhatsThis(tr("Info_Dialog", "Version Info"))
+        self.label_2.setText(tr("Info_Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs</span></p><p><span style=\" font-size:12pt;\">Pyslvs just like a ordinary CAD software, but use table format to add and edit, within changing points location, finally give the answer to designer.</span></p><p><span style=\" font-size:12pt;\">We have these functions:</span></p><p><span style=\" font-size:12pt;\">- Change canvas appearance.</span></p><p><span style=\" font-size:12pt;\">- 2D Linkages dynamic simulation.</span></p><p><span style=\" font-size:12pt;\">- Draw dynamic simulation path at any point in the machinery.</span></p><p><span style=\" font-size:12pt;\">- Output points coordinate to table file format.</span></p></body></html>"))
+        self.buttonBox.setWhatsThis(tr("Info_Dialog", "Click to exit"))
 
 import icons_rc
 
