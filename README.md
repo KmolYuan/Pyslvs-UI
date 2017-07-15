@@ -12,16 +12,16 @@
     + [Path Track](#path-track)
     + [Triangle Solver](#triangle-solver)
     + [Algorithm](#algorithm)
-    
+
 1. [Requirement](#requirement)
 
     + [PyQt](#pyqt)
-    
+
 1. [Compile](#compile)
 
 1. [Power By](#power-by)
 
-    + [Kernel](#kernel)
+    + [Kernels](#kernels)
 
 Introduction
 ===
@@ -32,7 +32,7 @@ A GUI-based tool solving 2D linkage subject.
 
 + **Dimensional Synthesis**: Kernel from three Cython algorithm API.
 
-Compatible with Python 3.4, PyQt 5.5 and above.
+Compatible with Python 3.4, PyQt 5.7 (for PyQtChart) and above.
 
 Cross-platform Development: Ubuntu and Windows OS
 
@@ -188,7 +188,7 @@ Windows user has to add Qt file path in environment variables, like `C:\Qt\5.9.1
 Install PyQt5, PyQtChart and QScintilla2 by pip.
 
 ```bash
->pip install -U pyqt5 qscintilla2 pyqtchart
+>pip install -U pyqt5 qscintilla pyqtchart
 ```
 
 Compile
@@ -248,7 +248,7 @@ Here is the **origin kernel** repository:
 * [Dimensional Synthesis of Planar Four-bar Linkages]
 * [Triangle solver]
 
-Kernel
+Kernels
 ---
 
 Compiled binary files is in the `core/kernel` folder.
@@ -259,12 +259,14 @@ Compiled binary files is in the `core/kernel` folder.
 
 If your Python version or platform is not compatible, maybe you should build them by self.
 
-```bash
-git submodule init
-git submodule update
-```
+Dimensional Synthesis kernel source code is included at compile steps.
 
-Then follow the instructions in the readme.
+If you want to obtain it independently, just follow this step:
+
+```bash
+cd core/kernel/pyslvs_generate
+make
+```
 
 [PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
 [PyQtChart]: https://www.riverbankcomputing.com/software/pyqtchart/download
