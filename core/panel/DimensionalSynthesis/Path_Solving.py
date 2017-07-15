@@ -110,7 +110,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 x = ws.cell(row=i, column=1).value
                 y = ws.cell(row=i, column=2).value
                 if x==None or y==None: break
-                data.append((float(x), float(y)))
+                try: data.append((float(x), float(y)))
+                except:
+                    dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nThe datasheet seems to including non-digital cell.", (QMessageBox.Ok), self)
+                    if dlgbox.exec_(): break
                 i += 1
             for e in data: self.on_add_clicked(e[0], e[1])
     
