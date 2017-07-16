@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/info/info.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\info\info.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -58,7 +58,7 @@ class Ui_About_Dialog(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 407, 353))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 402, 361))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout.setContentsMargins(6, 6, 6, 6)
@@ -100,7 +100,7 @@ class Ui_About_Dialog(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 407, 353))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 402, 361))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_5.setContentsMargins(6, 6, 6, 6)
@@ -130,7 +130,7 @@ class Ui_About_Dialog(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollArea_3.setObjectName("scrollArea_3")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 407, 353))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 402, 361))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_8.setContentsMargins(6, 6, 6, 6)
@@ -182,7 +182,7 @@ class Ui_About_Dialog(object):
         self.iconLabel.setWhatsThis(_translate("About_Dialog", "Pyslvs Icon!"))
         self.Content.setWhatsThis(_translate("About_Dialog", "Version Info"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.IntroductionTab), _translate("About_Dialog", "Introduction"))
-        self.label.setText(_translate("About_Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span></p></body></html>"))
+        self.label.setText(_translate("About_Dialog", "<html><head/><body><p>This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p></body></html>"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.license), _translate("About_Dialog", "LICENSE"))
         self.Versions.setWhatsThis(_translate("About_Dialog", "Version Info"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.VersionsTab), _translate("About_Dialog", "Versions"))

@@ -3,8 +3,8 @@
 ##Copyright (C) 2016-2017 Yuan Chang [pyslvs@gmail.com]
 #Splash
 from .info.info import Pyslvs_Splash
-#CSV
-import sys, os, webbrowser, platform
+#System
+import sys, os, platform
 from math import acos
 #Dialog Ports
 from .info.info import version_show

@@ -24,6 +24,7 @@ from .Ui_main import Ui_MainWindow
 from .Ui_custom import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
+    close_Program = pyqtSignal()
     def __init__(self, args, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -164,6 +165,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else: self.Exit(event)
     def Exit(self, event):
         self.disconnectConsole()
+        self.close_Program.emit()
         print('Exit.')
         event.accept()
     
@@ -221,14 +223,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self): self.OpenURL("https://pyslvs.com")
     @pyqtSlot()
-    def on_action_Git_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/python-solvespace")
+    def on_action_Git_hub_Site_triggered(self): self.OpenURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self): self.OpenDlg(version_show(self))
     @pyqtSlot()
     def on_action_About_Qt_triggered(self): QMessageBox.aboutQt(self)
     def OpenURL(self, URL):
         print("Open - {{{}}}".format(URL))
-        webbrowser.open(URL)
+        QDesktopServices.openUrl(QUrl(URL))
     
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
