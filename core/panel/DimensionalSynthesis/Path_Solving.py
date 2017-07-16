@@ -186,8 +186,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
         lower = [self.Ax.value()-self.Ar.value()/2, self.Ay.value()-self.Ar.value()/2, self.Dx.value()-self.Dr.value()/2, self.Dy.value()-self.Dr.value()/2,
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
-        print(upper)
-        print(lower)
         mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
         p = len(self.path)
         GenerateData = {

@@ -24,7 +24,6 @@ from .Ui_main import Ui_MainWindow
 from .Ui_custom import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    close_Program = pyqtSignal()
     def __init__(self, args, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -165,7 +164,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else: self.Exit(event)
     def Exit(self, event):
         self.disconnectConsole()
-        self.close_Program.emit()
+        self.setAttribute(Qt.WA_DeleteOnClose)
         print('Exit.')
         event.accept()
     

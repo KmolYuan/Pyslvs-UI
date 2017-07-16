@@ -72,7 +72,7 @@ class Pyslvs_Splash(QSplashScreen):
 class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
         QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
-        parent.close_Program.connect(self.hide)
+        parent.destroyed.connect(self.hide)
         self.SystemTrayIconMenu = QMenu(parent)
         self.setContextMenu(self.SystemTrayIconMenu)
         if platform.system().lower()=='windows': self.setToolTip(tr("Tray icon tool tip",
