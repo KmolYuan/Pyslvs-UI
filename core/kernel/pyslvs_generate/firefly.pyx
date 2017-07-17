@@ -13,7 +13,7 @@ from libc.time cimport time
 srand(time(NULL))
 
 cdef double randV():
-    return rand()/(RAND_MAX*1.0)
+    return rand()/(RAND_MAX*1.01)
 
 cdef class Chromosome(object):
     cdef public int n

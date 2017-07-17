@@ -130,8 +130,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>407</width>
-                <height>353</height>
+                <width>402</width>
+                <height>361</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout">
@@ -201,7 +201,7 @@
            <item>
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="textFormat">
               <enum>Qt::RichText</enum>
@@ -243,8 +243,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>407</width>
-                <height>353</height>
+                <width>402</width>
+                <height>361</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -321,8 +321,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>407</width>
-                <height>353</height>
+                <width>402</width>
+                <height>361</height>
                </rect>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
