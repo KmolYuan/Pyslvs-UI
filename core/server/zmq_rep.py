@@ -57,3 +57,4 @@ def startRep(PORT):
         mechanismObj = build_planar(mechanismParams)
         fitness = mechanismObj(Chrom_v)
         socket.send_string(str(fitness))
+    socket.close()
