@@ -74,15 +74,20 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	$(MAKE) -C .\core\kernel\pyslvs_generate clean
-	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed clean
 	rd build /s /q
 	rd dist /s /q
 	del launch_pyslvs.spec
 else
-	$(MAKE) -C ./core/kernel/pyslvs_generate clean
-	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed clean
 	rm -f -r build
 	rm -f -r dist
 	rm -f launch_pyslvs.spec
+endif
+
+clean-all: clean
+ifeq ($(OS),Windows_NT)
+	$(MAKE) -C .\core\kernel\pyslvs_generate clean
+	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed clean
+else
+	$(MAKE) -C ./core/kernel/pyslvs_generate clean
+	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed clean
 endif
