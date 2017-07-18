@@ -194,7 +194,7 @@ pip install -U pyqt5 qscintilla pyqtchart
 Kernels
 ---
 
-Compiled binary files ([Python-solvespace]) is in the `core/kernel` folder.
+The compiled binary files of [Python-solvespace] is in the `core/kernel` folder.
 
 * Ubuntu (64 bit): Python 3.4, Python 3.5
 
@@ -270,12 +270,16 @@ Made by [Qt5] and Python IDE [Eric 6].
 
 Including Python module:
 
-* [PyQt5]
-* [peewee]
-* [dxfwrite]
-* [Cython]
-* [PyZMQ]
-* [openpyxl]
+* [SIP] (GPLv2, GPLv3)
+* [QScintilla2] (GPLv3)
+* [PyQt5], [PyQtChart] (GPLv3)
+* [dxfwrite] (MIT)
+* [numpy] (BSD 3-Clause)
+* [Cython] (Apache 2.0)
+* [PyZMQ] (New BSD 3-Clause, LGPL, Apache)
+* [openpyxl] (MIT)
+
+Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
 
 Here is the **origin kernel** repository:
 
@@ -293,7 +297,8 @@ Here is the **origin kernel** repository:
 [MinGW]: https://sourceforge.net/projects/mingw-w64/files/
 
 [Eric 6]: http://eric-ide.python-projects.org/
-[peewee]: http://docs.peewee-orm.com/en/latest/
+
+[numpy]: http://www.numpy.org/
 [dxfwrite]: https://pypi.python.org/pypi/dxfwrite/
 [Cython]: http://cython.org/
 [PyZMQ]: http://zeromq.org/bindings:python
