@@ -83,7 +83,7 @@ else
 	rm -f launch_pyslvs.spec
 endif
 
-clean-all: clean
+clean-kernel:
 ifeq ($(OS),Windows_NT)
 	$(MAKE) -C .\core\kernel\pyslvs_generate clean
 	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed clean
@@ -91,3 +91,5 @@ else
 	$(MAKE) -C ./core/kernel/pyslvs_generate clean
 	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed clean
 endif
+
+clean-all: clean-kernel clean
