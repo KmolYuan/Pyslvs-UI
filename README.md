@@ -17,11 +17,11 @@
 
     + [PyQt](#pyqt)
 
+    + [Kernels](#kernels)
+
 1. [Compile](#compile)
 
 1. [Power By](#power-by)
-
-    + [Kernels](#kernels)
 
 Introduction
 ===
@@ -191,6 +191,25 @@ Install PyQt5, PyQtChart and QScintilla2 by pip.
 >pip install -U pyqt5 qscintilla pyqtchart
 ```
 
+Kernels
+---
+
+Compiled binary files ([Python-solvespace]) is in the `core/kernel` folder.
+
+* Ubuntu (64 bit): Python 3.4, Python 3.5
+
+* Windows (64 bit): Python 3.5, Python 3.6
+
+If your Python version or platform is not compatible, maybe you should build them by self.
+
+The Makefile of Dimensional Synthesis kernel is included at compile steps.
+
+If you want to obtain it independently, just using this command:
+
+```bash
+make -C core/kernel/pyslvs_generate
+```
+
 Compile
 ===
 
@@ -247,26 +266,6 @@ Here is the **origin kernel** repository:
 * [Python-solvespace]
 * [Dimensional Synthesis of Planar Four-bar Linkages]
 * [Triangle solver]
-
-Kernels
----
-
-Compiled binary files is in the `core/kernel` folder.
-
-* Ubuntu (64 bit): Python 3.4, Python 3.5
-
-* Windows (64 bit): Python 3.5, Python 3.6
-
-If your Python version or platform is not compatible, maybe you should build them by self.
-
-Dimensional Synthesis kernel source code is included at compile steps.
-
-If you want to obtain it independently, just follow this step:
-
-```bash
-cd core/kernel/pyslvs_generate
-make
-```
 
 [PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
 [PyQtChart]: https://www.riverbankcomputing.com/software/pyqtchart/download

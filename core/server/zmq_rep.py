@@ -45,16 +45,23 @@ def startRep(PORT):
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.connect(PORT) #tcp://localhost:8000
+    print("The server starts.\nYou can using Ctrl + C to terminate.")
     print("Address: {}".format(PORT))
     print("Worker {} is awaiting orders...".format(os.getpid(), PORT))
     while True:
-        data = socket.recv().decode("utf-8").split(';')
-        bar_type = data[0]
-        Chrom_v = [float(e) for e in data[1].split(',')]
-        targetPath = tuple(tuple(float(k) for k in e.split(':')) for e in data[2].split(','))
-        mechanismParams = mechanismParams_4Bar if int(bar_type)==4 else mechanismParams_8Bar
-        mechanismParams['targetPath'] = targetPath
-        mechanismObj = build_planar(mechanismParams)
-        fitness = mechanismObj(Chrom_v)
-        socket.send_string(str(fitness))
-        print(fitness, end='\r')
+        try:
+            data = socket.recv().decode("utf-8").split(';')
+            bar_type = data[0]
+            Chrom_v = [float(e) for e in data[1].split(',')]
+            targetPath = tuple(tuple(float(k) for k in e.split(':')) for e in data[2].split(','))
+            mechanismParams = mechanismParams_4Bar if int(bar_type)==4 else mechanismParams_8Bar
+            mechanismParams['targetPath'] = targetPath
+            mechanismObj = build_planar(mechanismParams)
+            fitness = mechanismObj(Chrom_v)
+            socket.send_string(str(fitness))
+            print("Fitness: {}".format(fitness), end='\r')
+        except KeyboardInterrupt:
+            print("W: interrupt received, stopping...")
+            break
+    socket.close()
+    context.term()
