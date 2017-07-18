@@ -120,7 +120,7 @@ Specify a path and options to generate a crank rocker.
 Requirement
 ===
 
-You should install some python module first.
+You should install some python module and SDK first.
 
 **Linux**:
 
@@ -129,6 +129,10 @@ sudo pip3 install -r requirements.txt
 ```
 
 **Windows**:
+
+Python 3: [Official Python] for Windows 64 bit.
+
+Makefile tool: [MinGW] for win64.
 
 ```bash
 pip install -r requirements.txt
@@ -194,25 +198,103 @@ pip install -U pyqt5 qscintilla pyqtchart
 Kernels
 ---
 
-The compiled binary files of [Python-solvespace] is in the `core/kernel` folder.
-
-* Ubuntu (64 bit): Python 3.4, Python 3.5
-
-* Windows (64 bit): Python 3.5, Python 3.6
-
-If your Python version or platform is not compatible, maybe you should build them by self.
-
-The Makefile of Dimensional Synthesis kernel is included at compile steps.
+The Makefile is included at compile steps, so some environment setting should be set.
 
 If you want to obtain it independently, just following these steps:
 
+###[Python-solvespace]
+
+Make command:
+
+```bash
+make -C core/kernel/python_solvespace/solvespace/exposed
+```
+
 **Linux**:
 
-Linux user can compile kernel by Cython directly.
+First, install SWIG. This tool kit can make a Python bundle with C/C++ library.
+
+If your not, install python development kit.
+
+```bash
+sudo apt install swig python3-dev
+```
+
+**Windows**:
+
+Download and install [SWIG](http://www.swig.org/download.html).
+
+Some conflicts between the Microsoft C Language and Python.
+
+You need change a few of Python files to avoid these conflicts.
+
+But you can be assured that the changes won't cause any negative impact.
+
+**Python development**
+
+If your Python doesn't have development library, like `libpython35.a`, using `gendef` to generate it.
+
+First copy `python3x.dll` to `where_your_python\libs` folder.
+
+Then using this command:
+
+```bash
+gendef python3x.dll
+dlltool --dllname python3x.dll --def python3x.def --output-lib libpython3x.a
+```
+
+And then adjust source code about Visual C. Find this code in `where_your_python\include\pyconfig.h`.
+
+```c
+#ifdef _WIN64
+#define MS_WIN64
+#endif
+```
+
+Cut them and paste **Above** this:
+
+```c
+#ifdef _MSC_VER
+```
+
+Find this code in `where_your_python\Lib\distutils\cygwinccompiler.py`:
+
+```python
+#with MSVC 7.0 or later.
+self.dll_libraries = get_msvcr()
+```
+
+Commit `self.dll_libraries = get_msvcr()`.
+
+**`math.h` conflict with `pyconfig.h`**
+
+You will definitely get warning with `_hypot` in `pyconfig.h`, and you should do this step.
+
+In `where_your_python\include\pyconfig.h`, find this:
+
+```c
+#define hypot _hypot
+```
+
+Edit it to this:
+
+```c
+#ifndef _MATH_H_
+#define hypot _hypot
+#endif
+```
+
+###[Dimensional Synthesis of Planar Four-bar Linkages]
+
+Make command:
 
 ```bash
 make -C core/kernel/pyslvs_generate
 ```
+
+**Linux**:
+
+Linux user can compile kernel by Cython directly.
 
 **Windows**:
 
@@ -221,10 +303,6 @@ If you are using 64 bit OS with 64bit Python, unfortunately you **can not** use 
 Using Microsoft Visual Studio is the only option, you can get it from [here](https://www.visualstudio.com/downloads/), then startup the Visual Studio Community and install Windows SDK.
 
 When installation finished, see the instructions [here](https://github.com/cython/cython/wiki/CythonExtensionsOnWindows#using-windows-sdk-cc-compiler-works-for-all-python-versions) to set up the Windows SDK.
-
-```bash
-make -C core/kernel/pyslvs_generate
-```
 
 Compile
 ===
@@ -237,7 +315,7 @@ As your wish, it can be renamed or moved out and operate independently in no-Pyt
 
 **Linux**:
 
-First, enter the storage folder.
+Make command:
 
 ```bash
 sudo pip3 install pyinstaller
@@ -246,11 +324,7 @@ make
 
 **Windows**:
 
-Python 3: [Official Python] for Windows 64 bit.
-
-Makefile tool: [MinGW] for win64.
-
-First, enter the storage folder.
+Make command:
 
 ```bash
 pip install pyinstaller
