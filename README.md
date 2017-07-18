@@ -34,7 +34,7 @@ A GUI-based tool solving 2D linkage subject.
 
 Compatible with Python 3.4, PyQt 5.7 (for PyQtChart) and above.
 
-Cross-platform Development: Ubuntu and Windows OS
+Cross-platform Development: Ubuntu and Windows OS.
 
 ![main](icons/cover/main.png)
 
@@ -44,13 +44,13 @@ How to startup
 Open GUI by Python:
 
 ```bash
-$python3 launch_pyslvs.py
+python3 launch_pyslvs.py
 ```
 
 Or see help:
 
 ```bash
-$python3 launch_pyslvs.py --help
+python3 launch_pyslvs.py --help
 ```
 
 Symbolic
@@ -125,13 +125,13 @@ You should install some python module first.
 **Linux**:
 
 ```bash
-$sudo pip3 install -r requirements.txt
+sudo pip3 install -r requirements.txt
 ```
 
 **Windows**:
 
 ```bash
->pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 PyQt
@@ -160,8 +160,8 @@ export PATH=${QTDIR}/bin:${PATH}
 Then relink QMake command (If your desktop is made by earlier Qt version).
 
 ```bash
-$sudo rm /usr/bin/qmake
-$sudo ln -s /opt/Qt/5.9.1/gcc_64/bin/qmake /usr/bin/qmake
+sudo rm /usr/bin/qmake
+sudo ln -s /opt/Qt/5.9.1/gcc_64/bin/qmake /usr/bin/qmake
 ```
 
 Download and upgrade Python [SIP].
@@ -176,7 +176,7 @@ print(sip, sip.SIP_VERSION_STR)
 Then remove SIP from the location:
 
 ```bash
-$sudo rm -fr /usr/local/lib/python3.5/dist-packages/sip*
+sudo rm -fr /usr/local/lib/python3.5/dist-packages/sip*
 ```
 
 Download and build [PyQt5], [QScintilla2] and [PyQtChart] by self.
@@ -188,7 +188,7 @@ Windows user has to add Qt file path in environment variables, like `C:\Qt\5.9.1
 Install PyQt5, PyQtChart and QScintilla2 by pip.
 
 ```bash
->pip install -U pyqt5 qscintilla pyqtchart
+pip install -U pyqt5 qscintilla pyqtchart
 ```
 
 Kernels
@@ -204,7 +204,23 @@ If your Python version or platform is not compatible, maybe you should build the
 
 The Makefile of Dimensional Synthesis kernel is included at compile steps.
 
-If you want to obtain it independently, just using this command:
+If you want to obtain it independently, just following these steps:
+
+**Linux**:
+
+Linux user can compile kernel by Cython directly.
+
+```bash
+make -C core/kernel/pyslvs_generate
+```
+
+**Windows**:
+
+If you are using 64 bit OS with 64bit Python, unfortunately you **can not** use mingw64 to complete the compilation.
+
+Using Microsoft Visual Studio is the only option, you can get it from [here](https://www.visualstudio.com/downloads/), then startup the Visual Studio Community and install Windows SDK.
+
+When installation finished, see the instructions [here](https://github.com/cython/cython/wiki/CythonExtensionsOnWindows#using-windows-sdk-cc-compiler-works-for-all-python-versions) to set up the Windows SDK.
 
 ```bash
 make -C core/kernel/pyslvs_generate
@@ -224,8 +240,8 @@ As your wish, it can be renamed or moved out and operate independently in no-Pyt
 First, enter the storage folder.
 
 ```bash
-$sudo pip3 install pyinstaller
-$make
+sudo pip3 install pyinstaller
+make
 ```
 
 **Windows**:
@@ -237,14 +253,14 @@ Makefile tool: [MinGW] for win64.
 First, enter the storage folder.
 
 ```bash
->pip install pyinstaller
->make
+pip install pyinstaller
+make
 ```
 
 If you installed PyInstaller with problem of coding error, you can try another source:
 
 ```bash
->pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
+pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
 ```
 
 Power By
