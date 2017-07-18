@@ -8,6 +8,8 @@ python:
 - 3.5
 
 before_install:
+  #SWIG
+  - sudo apt -y install swig
   #SIP
   - cd ..
   - curl -L -O "https://sourceforge.net/projects/pyqt/files/sip/sip-4.19.3/sip-4.19.3.tar.gz"
