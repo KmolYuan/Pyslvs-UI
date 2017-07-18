@@ -8,6 +8,9 @@ core/kernel/pyslvs_generate/*.so
 core/kernel/pyslvs_generate/*.pyd
 core/kernel/pyslvs_generate/*.o
 core/kernel/pyslvs_generate/*.c
+core/kernel/python_solvespace/*.so
+core/kernel/python_solvespace/*.pyd
+core/kernel/python_solvespace/solvespace/obj/*.o
 
 # Distribution / packaging
 .Python

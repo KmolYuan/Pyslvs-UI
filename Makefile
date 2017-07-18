@@ -2,15 +2,23 @@
 
 all: build run
 
-generate_build: ./core/kernel/pyslvs_generate/*.pyx
+kernel_build: ./core/kernel/pyslvs_generate/*.pyx
 	@echo ---Pyslvs generate Build---
 ifeq ($(OS),Windows_NT)
 	$(MAKE) -C .\core\kernel\pyslvs_generate
 else
 	$(MAKE) -C ./core/kernel/pyslvs_generate
 endif
+	@echo ---Done---
+	@echo ---Python solvespace Build---
+ifeq ($(OS),Windows_NT)
+	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed
+else
+	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed
+endif
+	@echo ---Done---
 
-build: launch_pyslvs.py generate_build
+build: launch_pyslvs.py kernel_build
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)
@@ -18,8 +26,6 @@ ifeq ($(OS),Windows_NT)
 	$(eval CPPYTHON = cp$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	$(eval PYQTPATH = $(shell python -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
 	@echo --Python Version $(PYTHON)--
-	rename .\core\kernel\kernel_getter.py _kernel_getter.py
-	rename .\core\kernel\$(PYTHON).py kernel_getter.py
 	pyinstaller -F $< -i ./icons/main_big.ico \
 --path="$(PYQTPATH)\Qt\bin" \
 --add-binary="core/kernel/$(PYTHON)/libslvs.so;." \
@@ -29,22 +35,16 @@ ifeq ($(OS),Windows_NT)
 --add-binary="core/kernel/pyslvs_generate/rga.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_generate/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
 	rename .\dist\launch_pyslvs.exe pyslvs.exe
-	rename .\core\kernel\kernel_getter.py $(PYTHON).py
-	rename .\core\kernel\_kernel_getter.py kernel_getter.py
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	$(eval PYQTPATH = $(shell python3 -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
 	@echo --Python Version $(PYTHON)--
-	mv core/kernel/kernel_getter.py core/kernel/_kernel_getter.py
-	mv core/kernel/$(PYTHON).py core/kernel/kernel_getter.py
 	pyinstaller -F $< --exclude-module="PyQt4"
 	mv dist/launch_pyslvs dist/pyslvs
-	mv core/kernel/kernel_getter.py core/kernel/$(PYTHON).py
-	mv core/kernel/_kernel_getter.py core/kernel/kernel_getter.py
 endif
 	@echo ---Done---
 
-run: build dist/
+run: build dist
 ifeq ($(OS),Windows_NT)
 	@dist/pyslvs.exe -h
 else
@@ -70,15 +70,18 @@ else
 	mv dist/temp dist/pyslvs
 	dpkg -b dist/pyslvs
 endif
+	@echo ---Done---
 
 clean:
 ifeq ($(OS),Windows_NT)
-	make -C .\core\kernel\pyslvs_generate clean
+	$(MAKE) -C .\core\kernel\pyslvs_generate clean
+	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed clean
 	rd build /s /q
 	rd dist /s /q
 	del launch_pyslvs.spec
 else
-	make -C ./core/kernel/pyslvs_generate clean
+	$(MAKE) -C ./core/kernel/pyslvs_generate clean
+	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed clean
 	rm -f -r build
 	rm -f -r dist
 	rm -f launch_pyslvs.spec
