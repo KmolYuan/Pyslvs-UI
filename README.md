@@ -17,7 +17,9 @@
 
     + [PyQt](#pyqt)
 
-    + [Kernels](#kernels)
+    + [Python-solvespace Kernel](#python-solvespace-kernel)
+
+    + [Dimensional Synthesis Kernel](#dimensional-synthesis-kernel)
 
 1. [Compile](#compile)
 
@@ -122,6 +124,8 @@ Requirement
 
 You should install some python module and SDK first.
 
+The Makefile is included at compile steps, so some environment setting also should be set.
+
 **Linux**:
 
 ```bash
@@ -195,14 +199,8 @@ Install PyQt5, PyQtChart and QScintilla2 by pip.
 pip install -U pyqt5 qscintilla pyqtchart
 ```
 
-Kernels
+Python-solvespace Kernel
 ---
-
-The Makefile is included at compile steps, so some environment setting should be set.
-
-If you want to obtain it independently, just following these steps:
-
-###[Python-solvespace]
 
 Make command:
 
@@ -284,7 +282,8 @@ Edit it to this:
 #endif
 ```
 
-###[Dimensional Synthesis of Planar Four-bar Linkages]
+Dimensional Synthesis Kernel
+---
 
 Make command:
 
