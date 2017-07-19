@@ -14,6 +14,8 @@ core/kernel/python_solvespace/slvs.py
 core/kernel/python_solvespace/solvespace/obj/*.o*
 core/kernel/python_solvespace/solvespace/exposed/slvs_python.hpp
 core/kernel/python_solvespace/solvespace/exposed/slvs_wrap.cxx
+core/kernel/python_solvespace/solvespace/exposed/*.def
+core/kernel/python_solvespace/solvespace/exposed/*.lib
 
 # Distribution / packaging
 .Python

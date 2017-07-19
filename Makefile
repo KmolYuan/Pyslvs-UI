@@ -28,7 +28,7 @@ ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main_big.ico \
 --path="$(PYQTPATH)\Qt\bin" \
---add-binary="core/kernel/$(PYTHON)/libslvs.so;." \
+--add-binary="core/kernel/python_solvespace/libslvs.so;." \
 --add-binary="core/kernel/pyslvs_generate/de.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_generate/firefly.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_generate/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \

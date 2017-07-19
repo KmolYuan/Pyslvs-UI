@@ -11,13 +11,27 @@ VPATH = .. ../win32
 OUTDIR = ../..
 
 all: solver wrap $(HEADERS)
+ifeq ($(OS),Windows_NT)
+	move /y _slvs.pyd ..\..
+	move /y libslvs.so ..\..
+	move /y slvs.py ..\..
+else
+	mv _slvs.so ../../_slvs.so
+	mv libslvs.so ../../libslvs.so
+	mv slvs.py ../../slvs.py
+endif
 	@echo Finish
 
 clean:
 ifeq ($(OS),Windows_NT)
-	del $(OBJDIR)\*.o*
-	del $(OUTDIR)\*.so
-	del $(OUTDIR)\slvs.py
+	del "$(OBJDIR)/*.o*"
+	del "$(OUTDIR)/*.so"
+	del "$(OUTDIR)/*.pyd"
+	del "$(OUTDIR)/slvs.py"
+	del *.so
+	del slvs.py
+	del *.def
+	del *.lib
 	del slvs_wrap.cxx
 	-rename slvs_python.hpp slvs_python.hpp.win
 else
@@ -49,19 +63,20 @@ help:
 solver: $(OFILES)
 	@echo --------------------------------
 	@echo Dynamic link library: libslvs.so
-	g++ -shared -o $(OUTDIR)/libslvs.so $^
+	g++ -shared -o libslvs.so $^
 	@echo --------------------------------
 
 wrap: $(OFILES) $(OBJDIR)/slvs_wrap.o
 	@echo --------------------------------
 ifeq ($(OS),Windows_NT)
 	@echo Dynamic link library: _slvs.pyd
-	g++ -shared -o $(OUTDIR)/_slvs.pyd $^ \
--L$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('srcdir'))") \
--I$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('LDLIBRARY'))") -Wl,--output-def,libslvs.def,--out-implib,libslvs.lib -L. -l:libslvs.so
+	g++ -shared -o _slvs.pyd $^ -L. -l:libslvs.so \
+-L$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('BINDIR'))")\libs \
+-lPython$(shell python -c "from distutils import sysconfig;print(sysconfig.get_config_var('VERSION'))") \
+-Wl,--output-def,libslvs.def,--out-implib,libslvs.lib
 else
 	@echo Dynamic link library: _slvs.so
-	g++ -shared -o $(OUTDIR)/_slvs.so $^ \
+	g++ -shared -o _slvs.so $^ \
 -L$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_config_var('srcdir'))") \
 -I$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_config_var('LDLIBRARY'))")
 endif
@@ -84,10 +99,8 @@ ifeq ($(OS),Windows_NT)
 	g++ -fPIC -I../extlib -I../../common/win32 -I. -I.. -O2 $(DEFINES) -c -o $@ slvs_wrap.cxx \
 -I$(shell python -c "from distutils import sysconfig;print(sysconfig.get_python_inc())")
 	rename slvs_python.hpp slvs_python.hpp.win
-	move /Y slvs.py ..\..
 else
 	g++ -fPIC -I../extlib -I../../common/win32 -I. -I.. -O2 $(DEFINES) -c -o $@ slvs_wrap.cxx \
 -I$(shell python3 -c "from distutils import sysconfig;print(sysconfig.get_python_inc())")
 	mv slvs_python.hpp slvs_python.hpp.ubuntu
-	mv -f slvs.py ../../slvs.py
 endif
