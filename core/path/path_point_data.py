@@ -73,5 +73,5 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
     def on_copyPath_clicked(self):
         clipboard = QApplication.clipboard()
         clipboard.setText('\n'.join([
-            ', '.join([self.path_data.item(row, column).text() for column in range(self.path_data.columnCount())
+            ',\t'.join([self.path_data.item(row, column).text() for column in range(self.path_data.columnCount())
             ]) for row in range(self.path_data.rowCount())]))

@@ -24,7 +24,7 @@ from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
 from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
 from .Path_Solving_series import Path_Solving_series_show
-import csv, openpyxl
+import csv, openpyxl, re
 
 class Path_Solving_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
@@ -68,6 +68,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         for e in path: self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
         for e in mechanism_data: self.addResult(e)
         self.Settings = self.defaultSettings
+        self.Point_list.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.Point_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
+        self.popMenu_list = QMenu(self)
+        self.action_paste_from_clipboard = QAction("&Paste from clipboard", self)
+        self.popMenu_list.addAction(self.action_paste_from_clipboard)
         self.isGenerate()
         self.isGetResult()
     
@@ -83,6 +88,18 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         dlg.show()
         if dlg.exec_():
             for e in dlg.path: self.on_add_clicked(e[0], e[1])
+    
+    def on_Point_list_context_menu(self, point):
+        action = self.popMenu_list.exec_(self.Point_list.mapToGlobal(point))
+        if action==self.action_paste_from_clipboard:
+            data = QApplication.clipboard().text()
+            data = re.split(',\t|\n', data)
+            try:
+                data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
+                for e in data: self.on_add_clicked(e[0], e[1])
+            except:
+                dlgbox = QMessageBox(QMessageBox.Warning, "Text error", "Wrong format.\nIt should be look like this:\n0.0,[\\tab]0.0", (QMessageBox.Ok), self)
+                if dlgbox.exec_(): pass
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
