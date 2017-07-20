@@ -21,6 +21,7 @@ from ...QtModules import *
 from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from .Path_Solving_options import Path_Solving_options_show
+from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
 from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
 from .Path_Solving_series import Path_Solving_series_show
 import csv, openpyxl
@@ -92,7 +93,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 reader = csv.reader(stream, delimiter=' ', quotechar='|')
                 for row in reader: data += ' '.join(row).split(',\t')
             try:
-                data = [(float(data[i]), float(data[i+1])) for i in range(0, len(data), 2)]
+                data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
                 for e in data: self.on_add_clicked(e[0], e[1])
             except:
                 dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:\n0.0,[\\tab]0.0", (QMessageBox.Ok), self)
@@ -110,12 +111,20 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 x = ws.cell(row=i, column=1).value
                 y = ws.cell(row=i, column=2).value
                 if x==None or y==None: break
-                try: data.append((float(x), float(y)))
+                try: data.append((round(float(x), 4), round(float(y), 4)))
                 except:
                     dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nThe datasheet seems to including non-digital cell.", (QMessageBox.Ok), self)
                     if dlgbox.exec_(): break
                 i += 1
             for e in data: self.on_add_clicked(e[0], e[1])
+    
+    @pyqtSlot()
+    def on_pathAdjust_clicked(self):
+        dlg = Path_Solving_path_adjust_show(self.path)
+        dlg.show()
+        if dlg.exec_():
+            self.on_clearAll_clicked()
+            for e in dlg.get_path(): self.on_add_clicked(e[0], e[1])
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
@@ -306,11 +315,3 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def on_Dy_valueChanged(self, p0): self.updateRange()
     @pyqtSlot(float)
     def on_Dr_valueChanged(self, p0): self.updateRange()
-    
-    @pyqtSlot()
-    def on_pathAdjust_clicked(self):
-        """
-        Slot documentation goes here.
-        """
-        # TODO: not implemented yet
-        raise NotImplementedError

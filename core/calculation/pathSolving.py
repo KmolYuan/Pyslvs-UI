@@ -19,6 +19,7 @@
 
 from ..QtModules import *
 import timeit, numpy
+from ..kernel.pyslvs_generate import tinycadlib
 
 class WorkerThread(QThread):
     done = pyqtSignal(dict, int)
@@ -62,7 +63,10 @@ class WorkerThread(QThread):
             from ..server.de import DiffertialEvolution
             mechanismObj = 4 if self.mechanismParams['VARS']==9 else 8
         else:
-            from ..kernel.kernel_getter import build_planar, Genetic, Firefly, DiffertialEvolution
+            from ..kernel.pyslvs_generate.planarlinkage import build_planar
+            from ..kernel.pyslvs_generate.rga import Genetic
+            from ..kernel.pyslvs_generate.firefly import Firefly
+            from ..kernel.pyslvs_generate.de import DiffertialEvolution
             mechanismObj = build_planar(self.mechanismParams)
         #Genetic Algorithm
         if self.type_num==0:

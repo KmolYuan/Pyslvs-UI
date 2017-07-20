@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from math import pi, cos, sin
-from ..kernel.kernel_getter import (System, Slvs_MakeQuaternion,
+from ..kernel.python_solvespace.slvs import (System, Slvs_MakeQuaternion,
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS)
 
