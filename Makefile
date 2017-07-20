@@ -2,7 +2,7 @@
 
 all: build run
 
-kernel_build: ./core/kernel/pyslvs_generate/*.pyx
+build-kernel: ./core/kernel/pyslvs_generate/*.pyx
 	@echo ---Pyslvs generate Build---
 ifeq ($(OS),Windows_NT)
 	$(MAKE) -C .\core\kernel\pyslvs_generate
@@ -18,7 +18,7 @@ else
 endif
 	@echo ---Done---
 
-build: launch_pyslvs.py kernel_build
+build: launch_pyslvs.py build-kernel
 	@echo ---Pyslvs Build---
 	@echo ---$(OS) Version---
 ifeq ($(OS),Windows_NT)

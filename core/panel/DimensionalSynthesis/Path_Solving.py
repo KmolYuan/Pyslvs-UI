@@ -285,12 +285,13 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 'FMax':tablePL(4), 'FMin':tablePL(5),
                 'AMax':tablePL(6), 'AMin':tablePL(7)}
             tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
+            popSize = dlg.popSize.value()
             if type_num=="Genetic Algorithm": self.Settings['algorithmPrams'] = {
-                'nPop':tableAP(0), 'pCross':tableAP(1), 'pMute':tableAP(2), 'pWin':tableAP(3), 'bDelta':tableAP(4)}
+                'nPop':popSize, 'pCross':tableAP(0), 'pMute':tableAP(1), 'pWin':tableAP(2), 'bDelta':tableAP(3)}
             elif type_num=="Firefly Algorithm": self.Settings['algorithmPrams'] = {
-                'n':tableAP(0), 'alpha':tableAP(1), 'betaMin':tableAP(2), 'gamma':tableAP(3), 'beta0':tableAP(4)}
+                'n':popSize, 'alpha':tableAP(0), 'betaMin':tableAP(1), 'gamma':tableAP(2), 'beta0':tableAP(3)}
             elif type_num=="Differential Evolution": self.Settings['algorithmPrams'] = {
-                'strategy':tableAP(0), 'NP':tableAP(1), 'F':tableAP(2), 'CR':tableAP(3)}
+                'NP':popSize, 'strategy':tableAP(0), 'F':tableAP(1), 'CR':tableAP(2)}
     
     def updateRange(self): self.fixPointRange.emit((self.Ax.value(), self.Ay.value()), self.Ar.value(), (self.Dx.value(), self.Dy.value()), self.Dr.value())
     @pyqtSlot(float)
@@ -305,3 +306,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def on_Dy_valueChanged(self, p0): self.updateRange()
     @pyqtSlot(float)
     def on_Dr_valueChanged(self, p0): self.updateRange()
+    
+    @pyqtSlot()
+    def on_pathAdjust_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        raise NotImplementedError
