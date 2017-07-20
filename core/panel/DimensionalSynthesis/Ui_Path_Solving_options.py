@@ -124,7 +124,7 @@ class Ui_Dialog(object):
         item = self.PLTable.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Value"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.planarlinkage), _translate("Dialog", "Planar Linkage"))
-        self.label.setText(_translate("Dialog", "First generation population size: "))
+        self.label.setText(_translate("Dialog", "The first generation of the population: "))
         item = self.APTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Parameter"))
         item = self.APTable.horizontalHeaderItem(1)

@@ -161,7 +161,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>First generation population size: </string>
+            <string>The first generation of the population: </string>
            </property>
           </widget>
          </item>
