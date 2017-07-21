@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-20, 15:24:20 -->
+<!-- Saved: 2017-07-21, 10:11:05 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -38,6 +38,7 @@
     <Source>core/entities/edit_link.py</Source>
     <Source>core/entities/edit_point.py</Source>
     <Source>core/graphics/ChartGraphics.py</Source>
+    <Source>core/graphics/Path_Solving_preview.py</Source>
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas_0.py</Source>
     <Source>core/graphics/color.py</Source>

@@ -68,7 +68,7 @@ class ChartDialog(QDialog):
         maxima -= maxima%10
         axisY.setRange(0., maxima if DataSet else 100.)
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(*([2]*4))
+        layout.setContentsMargins(2, 2, 2, 2)
         chartView = QChartView(chart)
         chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         layout.addWidget(chartView)

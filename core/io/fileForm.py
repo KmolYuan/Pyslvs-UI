@@ -27,7 +27,7 @@ import csv, datetime
 def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
-from ..kernel.pyslvs_triangle_solver.TS import solver, Direction
+from ..kernel.pyslvs_triangle_solver.TS import Direction
 
 class Form:
     def __init__(self):
@@ -502,37 +502,12 @@ class File:
                 else: table_points[c].y += 0.01
         return table_points, self.Lists.LineList, self.Lists.ChainList, self.Lists.ShaftList, self.Lists.SliderList, self.Lists.RodList
     
-    def Generate_Merge(self, row, Point, Link, Chain, Shaft):
-        Result = self.Designs.result[row]
-        links_tag = Result['mechanismParams']['Link'].split(',')
-        expression = Result['mechanismParams']['Expression'].split(',')
-        expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
-        print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag])
-            for tag in (['Ax', 'Ay', 'Dx', 'Dy']+links_tag)]))
-        path = Result['mechanismParams']['targetPath']
-        pointAvg = sum([e[1] for e in path])/len(path)
-        other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
-        answer = [False]
-        startAngle = False
-        endAngle = False
-        expression_result = [exp[-1] for exp in expression_tag]
-        Paths = {tag:list() for tag in expression_result}
-        for a in range(360+1):
-            Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
-            for exp in expression_tag[1:]:
-                p1 = (Result['Ax'], Result['Ay']) if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else (Result['Dx'], Result['Dy'])
-                p2 = (Result['Ax'], Result['Ay']) if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else (Result['Dx'], Result['Dy'])
-                Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
-            s = solver(Directions)
-            s_answer = s.answer()
-            answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
-            if not False in answerT:
-                if startAngle is False:
-                    startAngle = float(a)
-                    answer = answerT
-                endAngle = float(a)
-            for i, a in enumerate(s_answer): Paths[expression_result[i]].append(a)
+    def Generate_Merge(self, row, startAngle, endAngle, answer, Paths, Point, Link, Chain, Shaft):
         if not (False in answer):
+            Result = self.Designs.result[row]
+            expression = Result['mechanismParams']['Expression'].split(',')
+            expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+            expression_result = [exp[-1] for exp in expression_tag]
             dataAdd = len(self.Lists.PointList)==1 and not False in Paths[list(Paths.keys())[0]]
             if not dataAdd: self.Lists.clearPath()
             for i, (x, y) in enumerate(answer): self.Lists.editTable(Point, 'Point', False,

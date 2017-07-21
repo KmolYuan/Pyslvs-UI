@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(553, 473)
+        Form.resize(565, 487)
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_8.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
@@ -19,7 +19,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 539, 420))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 551, 434))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_7.setContentsMargins(6, 6, 6, 6)
@@ -316,7 +316,7 @@ class Ui_Form(object):
         self.timePanelLayout.addItem(spacerItem9)
         self.GenerateZMQ = QtWidgets.QPushButton(self.timePanel)
         self.GenerateZMQ.setEnabled(False)
-        self.GenerateZMQ.setMinimumSize(QtCore.QSize(100, 0))
+        self.GenerateZMQ.setMinimumSize(QtCore.QSize(120, 0))
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icons/ZeroMQ.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.GenerateZMQ.setIcon(icon4)
@@ -324,7 +324,7 @@ class Ui_Form(object):
         self.GenerateZMQ.setObjectName("GenerateZMQ")
         self.timePanelLayout.addWidget(self.GenerateZMQ)
         self.GenerateLocal = QtWidgets.QPushButton(self.timePanel)
-        self.GenerateLocal.setMinimumSize(QtCore.QSize(100, 0))
+        self.GenerateLocal.setMinimumSize(QtCore.QSize(120, 0))
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/icons/local.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.GenerateLocal.setIcon(icon5)
@@ -373,7 +373,7 @@ class Ui_Form(object):
         self.timeShow.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:12pt\">[No record]</span></p></body></html>"))
         self.label.setText(_translate("Form", "ZMQ filter: "))
         self.portText.setText(_translate("Form", "tcp://*:8000"))
-        self.GenerateZMQ.setText(_translate("Form", "ZeroMQ Generate"))
+        self.GenerateZMQ.setText(_translate("Form", "ZMQ Generate"))
         self.GenerateLocal.setText(_translate("Form", "Local Generate"))
 
 import icons_rc

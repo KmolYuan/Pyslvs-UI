@@ -20,6 +20,8 @@
 from ...QtModules import *
 from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
+from ...graphics.Path_Solving_preview import PreviewDialog
+from ...kernel.pyslvs_triangle_solver.TS import solver, Direction
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
 from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
@@ -32,7 +34,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    mergeResult = pyqtSignal(int)
+    mergeResult = pyqtSignal(int, float, float, list, dict)
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':500, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':500, 'F':0.6, 'CR':0.9}
@@ -229,13 +231,49 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot(QModelIndex)
     def on_Result_list_doubleClicked(self, index):
-        if self.Result_list.currentRow()!=-1: self.on_mergeButton_clicked()
+        row = self.Result_list.currentRow()
+        if row!=-1:
+            mechanism = self.mechanism_data[row]
+            dlg = PreviewDialog("{} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']), *self.legal_crank(row))
+            dlg.show()
+            if dlg.exec_(): pass
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
         reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?",
             (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-        if reply==QMessageBox.Apply: self.mergeResult.emit(self.Result_list.currentRow())
+        if reply==QMessageBox.Apply: self.mergeResult.emit(*self.legal_crank(self.Result_list.currentRow()))
+    
+    def legal_crank(self, row):
+        Result = self.mechanism_data[row]
+        links_tag = Result['mechanismParams']['Link'].split(',')
+        print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag]) for tag in (['Ax', 'Ay', 'Dx', 'Dy']+links_tag)]))
+        path = Result['mechanismParams']['targetPath']
+        pointAvg = sum([e[1] for e in path])/len(path)
+        other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
+        answer = [False]
+        startAngle = False
+        endAngle = False
+        expression = Result['mechanismParams']['Expression'].split(',')
+        expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        expression_result = [exp[-1] for exp in expression_tag]
+        Paths = {tag:list() for tag in expression_result}
+        for a in range(360+1):
+            Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
+            for exp in expression_tag[1:]:
+                p1 = (Result['Ax'], Result['Ay']) if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else (Result['Dx'], Result['Dy'])
+                p2 = (Result['Ax'], Result['Ay']) if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else (Result['Dx'], Result['Dy'])
+                Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
+            s = solver(Directions)
+            s_answer = s.answer()
+            answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
+            if not False in answerT:
+                if startAngle is False:
+                    startAngle = float(a)
+                    answer = answerT
+                endAngle = float(a)
+            for i, a in enumerate(s_answer): Paths[expression_result[i]].append(a)
+        return row, startAngle, endAngle, answer, Paths
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):

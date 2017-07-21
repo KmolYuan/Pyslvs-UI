@@ -735,9 +735,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.path_solving(self.File.Designs.path)
     @pyqtSlot(int)
     def PathSolving_deleteResult(self, row): self.File.Designs.removeResult(row)
-    @pyqtSlot(int)
-    def PathSolving_mergeResult(self, row):
-        if self.File.Generate_Merge(row, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft)==False:
+    @pyqtSlot(int, float, float, list, dict)
+    def PathSolving_mergeResult(self, row, startAngle, endAngle, answer, Paths):
+        if self.File.Generate_Merge(row, startAngle, endAngle, answer, Paths,
+                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft)==False:
             dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension.", (QMessageBox.Ok), self)
             if dlgbox.exec_():
                 print("Generate Result Error.")

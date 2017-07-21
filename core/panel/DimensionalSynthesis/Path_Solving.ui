@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>473</height>
+    <width>565</width>
+    <height>487</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>539</width>
-        <height>420</height>
+        <width>551</width>
+        <height>434</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -840,12 +840,12 @@
           </property>
           <property name="minimumSize">
            <size>
-            <width>100</width>
+            <width>120</width>
             <height>0</height>
            </size>
           </property>
           <property name="text">
-           <string>ZeroMQ Generate</string>
+           <string>ZMQ Generate</string>
           </property>
           <property name="icon">
            <iconset resource="../../../icons.qrc">
@@ -860,7 +860,7 @@
          <widget class="QPushButton" name="GenerateLocal">
           <property name="minimumSize">
            <size>
-            <width>100</width>
+            <width>120</width>
             <height>0</height>
            </size>
           </property>
