@@ -35,10 +35,22 @@ class DynamicCanvas(QWidget):
             painter = QPainter()
             painter.begin(self)
             painter.fillRect(event.rect(), QBrush(self.options.style['Background']))
+            width = self.width()
+            height = self.height()
             pen = QPen()
+            pathMaxX = max([max(dot[0] for dot in path) for path in self.Paths.values()])
+            pathMinX = min([min(dot[0] for dot in path) for path in self.Paths.values()])
+            pathMaxY = max([max(dot[1] for dot in path) for path in self.Paths.values()])
+            pathMinY = min([min(dot[1] for dot in path) for path in self.Paths.values()])
+            diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
+            diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
+            cdiff = diffX/diffY > width/height
+            self.zoom = int((width if cdiff else height)/((diffX if cdiff else diffY))*0.5)
             Tp = self.zoom*self.options.rate
-            origin_x = event.rect().width()/2
-            origin_y = event.rect().height()/2
+            cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
+            ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
+            origin_x = width/2-cenx*Tp
+            origin_y = height/2+ceny*Tp
             painter.translate(origin_x, origin_y)
             expression = self.mechanism['mechanismParams']['Expression'].split(',')
             expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))

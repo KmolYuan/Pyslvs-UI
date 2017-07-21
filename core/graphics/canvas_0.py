@@ -526,8 +526,8 @@ class DynamicCanvas(QWidget):
                 diffY = max(Ys)-min(Ys)
                 cenx = (min(Xs)+max(Xs))/2
                 ceny = (min(Ys)+max(Ys))/2
-            event = diffX/diffY > width/height
-            self.zoom_change.emit(int((width if event else height)/((diffX if event else diffY))*0.95*50))
+            cdiff = diffX/diffY > width/height
+            self.zoom_change.emit(int((width if cdiff else height)/((diffX if cdiff else diffY))*0.95*50))
             Tp = self.zoom*self.options.rate
             self.options.origin['x'] = (width/2)-cenx*Tp
             self.options.origin['y'] = (height/2)+ceny*Tp
