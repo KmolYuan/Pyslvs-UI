@@ -60,29 +60,17 @@ class DynamicCanvas(QWidget):
             shaft_r = self.Paths[expression_tag[0][-1]][0]
             painter.drawLine(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1), QPointF(shaft_r[0]*Tp, shaft_r[1]*Tp*-1))
             for i, exp in enumerate(expression_tag[1:]):
-                if exp[0] in self.Paths:
-                    p1x = self.Paths[exp[0]][0][0]*Tp
-                    p1y = self.Paths[exp[0]][0][1]*Tp*-1
-                else:
-                    p1x = self.mechanism[exp[0]+'x']*Tp
-                    p1y = self.mechanism[exp[0]+'y']*Tp*-1
-                if exp[3] in self.Paths:
-                    p2x = self.Paths[exp[3]][0][0]*Tp
-                    p2y = self.Paths[exp[3]][0][1]*Tp*-1
-                else:
-                    p2x = self.mechanism[exp[3]+'x']*Tp
-                    p2y = self.mechanism[exp[3]+'y']*Tp*-1
-                if exp[-1] in self.Paths:
-                    p3x = self.Paths[exp[-1]][0][0]*Tp
-                    p3y = self.Paths[exp[-1]][0][1]*Tp*-1
-                else:
-                    p3x = self.mechanism[exp[-1]+'x']*Tp
-                    p3y = self.mechanism[exp[-1]+'y']*Tp*-1
+                p_l = list()
+                for i, index in enumerate([0, 3, -1]):
+                    if exp[index] in self.Paths: p_l.append(QPointF(self.Paths[exp[index]][0][0]*Tp, self.Paths[exp[index]][0][1]*Tp*-1))
+                    else:
+                        if exp[index]=='A': p_l.append(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1))
+                        else: p_l.append(QPointF(self.mechanism['Dx']*Tp, self.mechanism['Dy']*Tp*-1))
                 pen.setWidth(self.options.style['penWidth']['pen'])
                 pen.setColor(self.options.style['link'])
                 painter.setPen(pen)
-                painter.drawLine(QPointF(p1x, p1y), QPointF(p3x, p3y))
-                painter.drawLine(QPointF(p2x, p2y), QPointF(p3x, p3y))
+                painter.drawLine(p_l[2], p_l[0])
+                painter.drawLine(p_l[2], p_l[1])
             for tag in ['A', 'D']:
                 cx = self.mechanism[tag+'x']*Tp
                 cy = self.mechanism[tag+'y']*Tp*-1
@@ -113,6 +101,17 @@ class DynamicCanvas(QWidget):
                 pen.setWidth(5)
                 painter.setPen(pen)
                 painter.drawPoint(QPointF(cx, cy))
+            pathData = self.mechanism['mechanismParams']['targetPath']
+            pen.setWidth(self.options.style['penWidth']['path']+3)
+            pen.setColor(QColor(69, 247, 232))
+            painter.setPen(pen)
+            pointPath = QPainterPath()
+            for i, coordinate in enumerate(pathData):
+                point = QPointF(coordinate[0]*Tp, coordinate[1]*Tp*-1)
+                if i==0: pointPath.moveTo(point)
+                else: pointPath.lineTo(point)
+            painter.drawPath(pointPath)
+            painter.end()
 
 class PreviewDialog(QDialog):
     def __init__(self, name, mechanism, Paths, parent=None):
