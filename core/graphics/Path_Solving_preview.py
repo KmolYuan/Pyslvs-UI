@@ -45,7 +45,7 @@ class DynamicCanvas(QWidget):
             diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
             diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
             cdiff = diffX/diffY > width/height
-            self.zoom = int((width if cdiff else height)/((diffX if cdiff else diffY))*0.5)
+            self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47
             Tp = self.zoom*self.options.rate
             cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
@@ -71,16 +71,6 @@ class DynamicCanvas(QWidget):
                 painter.setPen(pen)
                 painter.drawLine(p_l[2], p_l[0])
                 painter.drawLine(p_l[2], p_l[1])
-            for tag in ['A', 'D']:
-                cx = self.mechanism[tag+'x']*Tp
-                cy = self.mechanism[tag+'y']*Tp*-1
-                pen.setWidth(2)
-                pen.setColor(self.Color['Blue'])
-                painter.setPen(pen)
-                painter.drawEllipse(QPointF(cx, cy), 10., 10.)
-                pen.setWidth(5)
-                painter.setPen(pen)
-                painter.drawPoint(QPointF(cx, cy))
             for i, tag in enumerate(set(self.Paths.keys())):
                 pen.setWidth(self.options.style['penWidth']['path'])
                 pen.setColor(self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red'])
@@ -91,6 +81,16 @@ class DynamicCanvas(QWidget):
                     if j==0: pointPath.moveTo(point)
                     else: pointPath.lineTo(point)
                 painter.drawPath(pointPath)
+            for tag in ['A', 'D']:
+                cx = self.mechanism[tag+'x']*Tp
+                cy = self.mechanism[tag+'y']*Tp*-1
+                pen.setWidth(2)
+                pen.setColor(self.Color['Blue'])
+                painter.setPen(pen)
+                painter.drawEllipse(QPointF(cx, cy), 10., 10.)
+                pen.setWidth(5)
+                painter.setPen(pen)
+                painter.drawPoint(QPointF(cx, cy))
             for i, tag in enumerate(set(self.Paths.keys())):
                 cx = self.Paths[tag][0][0]*Tp
                 cy = self.Paths[tag][0][1]*Tp*-1

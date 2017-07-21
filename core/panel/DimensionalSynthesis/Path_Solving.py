@@ -254,7 +254,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         if row!=-1:
             mechanism = self.mechanism_data[row]
             _, _, _, _, Paths = self.legal_crank(row)
-            dlg = PreviewDialog("{} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']), mechanism, Paths)
+            dlg = PreviewDialog("{} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']),
+                mechanism, Paths, self)
             dlg.show()
             if dlg.exec_(): pass
     
