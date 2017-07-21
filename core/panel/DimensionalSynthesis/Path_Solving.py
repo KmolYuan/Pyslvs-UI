@@ -100,7 +100,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
                 for e in data: self.on_add_clicked(e[0], e[1])
             except:
-                dlgbox = QMessageBox(QMessageBox.Warning, "Text error", "Wrong format.\nIt should be look like this:\n0.0,[\\tab]0.0", (QMessageBox.Ok), self)
+                dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:"+
+                    "\n0.0,[\\tab]0.0[\\n]"*3, (QMessageBox.Ok), self)
                 if dlgbox.exec_(): pass
     
     @pyqtSlot()
@@ -115,7 +116,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
                 for e in data: self.on_add_clicked(e[0], e[1])
             except:
-                dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:\n0.0,[\\tab]0.0", (QMessageBox.Ok), self)
+                dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:"+
+                    "\n0.0,[\\tab]0.0[\\n]"*3, (QMessageBox.Ok), self)
                 if dlgbox.exec_(): pass
     
     @pyqtSlot()
@@ -251,7 +253,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         row = self.Result_list.currentRow()
         if row!=-1:
             mechanism = self.mechanism_data[row]
-            dlg = PreviewDialog("{} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']), *self.legal_crank(row))
+            _, _, _, _, Paths = self.legal_crank(row)
+            dlg = PreviewDialog("{} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']), mechanism, Paths)
             dlg.show()
             if dlg.exec_(): pass
     
@@ -263,8 +266,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def legal_crank(self, row):
         Result = self.mechanism_data[row]
-        links_tag = Result['mechanismParams']['Link'].split(',')
-        print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag]) for tag in (['Ax', 'Ay', 'Dx', 'Dy']+links_tag)]))
         path = Result['mechanismParams']['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']

@@ -505,6 +505,8 @@ class File:
     def Generate_Merge(self, row, startAngle, endAngle, answer, Paths, Point, Link, Chain, Shaft):
         if not (False in answer):
             Result = self.Designs.result[row]
+            links_tag = Result['mechanismParams']['Link'].split(',')
+            print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag]) for tag in (['Ax', 'Ay', 'Dx', 'Dy']+links_tag)]))
             expression = Result['mechanismParams']['Expression'].split(',')
             expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
             expression_result = [exp[-1] for exp in expression_tag]
