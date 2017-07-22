@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>565</width>
+    <width>552</width>
     <height>487</height>
    </rect>
   </property>
@@ -33,7 +33,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>551</width>
+        <width>538</width>
         <height>434</height>
        </rect>
       </property>
@@ -215,6 +215,9 @@
               <layout class="QVBoxLayout" name="verticalLayout_3">
                <item>
                 <widget class="QPushButton" name="clearAll">
+                 <property name="statusTip">
+                  <string>Clear all points.</string>
+                 </property>
                  <property name="text">
                   <string>Clear All</string>
                  </property>
@@ -225,6 +228,9 @@
                </item>
                <item>
                 <widget class="QPushButton" name="series">
+                 <property name="statusTip">
+                  <string>Generat points by formula.</string>
+                 </property>
                  <property name="text">
                   <string>Formula ...</string>
                  </property>
@@ -238,29 +244,54 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="importCSV">
-                 <property name="text">
-                  <string>CSV ...</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="importXLSX">
-                 <property name="text">
-                  <string>Excel ...</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
-                 </property>
-                </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                 <item>
+                  <widget class="QPushButton" name="importCSV">
+                   <property name="statusTip">
+                    <string>Import path by CSV format.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../../icons.qrc">
+                     <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="importXLSX">
+                   <property name="statusTip">
+                    <string>Import path by Microsoft Excel format.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="icon">
+                    <iconset resource="../../../icons.qrc">
+                     <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
+                   </property>
+                   <property name="iconSize">
+                    <size>
+                     <width>20</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item>
                 <widget class="QPushButton" name="pathAdjust">
+                 <property name="statusTip">
+                  <string>Process path data, such as moving or scaling.</string>
+                 </property>
                  <property name="text">
                   <string>Process ...</string>
                  </property>
@@ -551,6 +582,9 @@
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
                <widget class="QPushButton" name="getTimeAndFitness">
+                <property name="statusTip">
+                 <string>Fitness / Time chart</string>
+                </property>
                 <property name="text">
                  <string>Chart</string>
                 </property>
@@ -574,6 +608,9 @@
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="statusTip">
+                 <string>Delete this result.</string>
+                </property>
                 <property name="text">
                  <string>Delete</string>
                 </property>
@@ -583,6 +620,9 @@
                <widget class="QPushButton" name="mergeButton">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="statusTip">
+                 <string>Merge this result to canvas.</string>
                 </property>
                 <property name="text">
                  <string>Merge</string>
@@ -813,6 +853,9 @@
           </item>
           <item>
            <widget class="QLineEdit" name="portText">
+            <property name="statusTip">
+             <string>LAN screening.</string>
+            </property>
             <property name="text">
              <string>tcp://*:8000</string>
             </property>
@@ -844,6 +887,9 @@
             <height>0</height>
            </size>
           </property>
+          <property name="statusTip">
+           <string>Calculated by the zmq servers.</string>
+          </property>
           <property name="text">
            <string>ZMQ Generate</string>
           </property>
@@ -863,6 +909,9 @@
             <width>120</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="statusTip">
+           <string>Calculated on the local side.</string>
           </property>
           <property name="text">
            <string>Local Generate</string>

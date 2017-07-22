@@ -20,6 +20,28 @@
 from ..QtModules import *
 from ..graphics.color import colorlist
 from .canvas_0 import PointOptions
+from time import sleep
+
+class playShaft(QThread):
+    progress_Signal = pyqtSignal(int)
+    def __init__(self, limit, parent=None):
+        super(playShaft, self).__init__(parent)
+        self.limit = limit
+        self.stoped = False
+        self.mutex = QMutex()
+    
+    def run(self):
+        with QMutexLocker(self.mutex): self.stoped = False
+        i = 0
+        while True:
+            i += 1
+            if self.stoped: return
+            if i>=self.limit: i = 0
+            sleep(.05)
+            self.progress_Signal.emit(i)
+    
+    def stop(self):
+        with QMutexLocker(self.mutex): self.stoped = True
 
 class DynamicCanvas(QWidget):
     def __init__(self, mechanism, Paths, parent=None):
@@ -29,15 +51,16 @@ class DynamicCanvas(QWidget):
         self.mechanism = mechanism
         self.Paths = Paths
         self.zoom = 5
+        self.index = 0
     
     def paintEvent(self, event):
+        painter = QPainter()
+        painter.begin(self)
+        painter.fillRect(event.rect(), QBrush(self.options.style['Background']))
+        width = self.width()
+        height = self.height()
+        pen = QPen()
         if not False in self.Paths[list(self.Paths.keys())[0]]:
-            painter = QPainter()
-            painter.begin(self)
-            painter.fillRect(event.rect(), QBrush(self.options.style['Background']))
-            width = self.width()
-            height = self.height()
-            pen = QPen()
             pathMaxX = max([max(dot[0] for dot in path) for path in self.Paths.values()])
             pathMinX = min([min(dot[0] for dot in path) for path in self.Paths.values()])
             pathMaxY = max([max(dot[1] for dot in path) for path in self.Paths.values()])
@@ -57,14 +80,14 @@ class DynamicCanvas(QWidget):
             pen.setWidth(self.options.style['penWidth']['pen']+2)
             pen.setColor(QColor(225, 140, 0))
             painter.setPen(pen)
-            shaft_r = self.Paths[expression_tag[0][-1]][0]
+            shaft_r = self.Paths[expression_tag[0][-1]][self.index]
             painter.drawLine(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1), QPointF(shaft_r[0]*Tp, shaft_r[1]*Tp*-1))
             for i, exp in enumerate(expression_tag[1:]):
                 p_l = list()
-                for i, index in enumerate([0, 3, -1]):
-                    if exp[index] in self.Paths: p_l.append(QPointF(self.Paths[exp[index]][0][0]*Tp, self.Paths[exp[index]][0][1]*Tp*-1))
+                for i, k in enumerate([0, 3, -1]):
+                    if exp[k] in self.Paths: p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*Tp, self.Paths[exp[k]][self.index][1]*Tp*-1))
                     else:
-                        if exp[index]=='A': p_l.append(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1))
+                        if exp[k]=='A': p_l.append(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1))
                         else: p_l.append(QPointF(self.mechanism['Dx']*Tp, self.mechanism['Dy']*Tp*-1))
                 pen.setWidth(self.options.style['penWidth']['pen'])
                 pen.setColor(self.options.style['link'])
@@ -92,8 +115,8 @@ class DynamicCanvas(QWidget):
                 painter.setPen(pen)
                 painter.drawPoint(QPointF(cx, cy))
             for i, tag in enumerate(set(self.Paths.keys())):
-                cx = self.Paths[tag][0][0]*Tp
-                cy = self.Paths[tag][0][1]*Tp*-1
+                cx = self.Paths[tag][self.index][0]*Tp
+                cy = self.Paths[tag][self.index][1]*Tp*-1
                 pen.setWidth(2)
                 pen.setColor(self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red'])
                 painter.setPen(pen)
@@ -111,12 +134,23 @@ class DynamicCanvas(QWidget):
                 if i==0: pointPath.moveTo(point)
                 else: pointPath.lineTo(point)
             painter.drawPath(pointPath)
-            painter.end()
+        else:
+            painter.translate(width/2, height/2)
+            pen.setColor(self.options.style['text'])
+            painter.setPen(pen)
+            painter.setFont(QFont('Arial', self.Font_size))
+            painter.drawText("Error occurred!\nPlease check dimension data.")
+        painter.end()
+    
+    @pyqtSlot(int)
+    def change_index(self, i):
+        self.index = i
+        self.update()
 
 class PreviewDialog(QDialog):
-    def __init__(self, name, mechanism, Paths, parent=None):
+    def __init__(self, mechanism, Paths, parent=None):
         super(PreviewDialog, self).__init__(parent)
-        self.setWindowTitle('Preview {}'.format(name))
+        self.setWindowTitle("Preview: {} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
@@ -125,3 +159,6 @@ class PreviewDialog(QDialog):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(6, 6, 6, 6)
         layout.addWidget(previewWidget)
+        self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
+        self.playShaft.progress_Signal.connect(previewWidget.change_index)
+        self.playShaft.start()

@@ -22,7 +22,6 @@ from .Ui_Drive_shaft import Ui_Form as Drive_Form
 from time import sleep
 
 class playShaft(QThread):
-    done = pyqtSignal()
     progress_Signal = pyqtSignal(int)
     def __init__(self, startAngle, minima, maxima, reversed, parent=None):
         super(playShaft, self).__init__(parent)
@@ -53,7 +52,6 @@ class playShaft(QThread):
                 if self.stoped: return
                 sleep(.05)
                 self.progress_Signal.emit(i)
-        self.done.emit()
     
     def stop(self):
         with QMutexLocker(self.mutex): self.stoped = True
@@ -182,7 +180,6 @@ class Drive_shaft_show(QWidget, Drive_Form):
     @pyqtSlot()
     def playStart(self):
         self.playShaft = playShaft(int(self.Degree_text.value()*100), self.startAngle, self.endAngle, self.reversed.isChecked())
-        self.playShaft.done.connect(self.finish)
         self.startPlay(self.playShaft)
     @pyqtSlot()
     def playStop(self):

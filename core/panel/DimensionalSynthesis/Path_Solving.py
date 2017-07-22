@@ -234,8 +234,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def addResult(self, e):
         keys = sorted(list(e.keys()))
         item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['GenerateData']['maxGen']))
-        item.setToolTip('\n'.join(["[{}] ({} gen)".format(e['Algorithm'], e['GenerateData']['maxGen'])]+["{}: {}".format(k, e[k]) for k in keys
-            if not k in ['Algorithm', 'TimeAndFitness', 'mechanismParams', 'GenerateData', 'algorithmPrams']]))
+        item.setToolTip('\n'.join(["[{}] ({} gen)\n".format(e['Algorithm'], e['GenerateData']['maxGen'])]+
+            ["{}: {}".format(k, e[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
+            ["\nClick to apply setting."]+["Double click to see dynamic preview."]))
         self.Result_list.addItem(item)
     
     @pyqtSlot()
@@ -254,8 +255,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         if row!=-1:
             mechanism = self.mechanism_data[row]
             _, _, _, _, Paths = self.legal_crank(row)
-            dlg = PreviewDialog("{} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']),
-                mechanism, Paths, self)
+            dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
             if dlg.exec_(): pass
     
