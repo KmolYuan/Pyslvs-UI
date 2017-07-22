@@ -94,7 +94,7 @@ class DynamicCanvas(QWidget):
                 painter.setPen(pen)
                 painter.drawLine(p_l[2], p_l[0])
                 painter.drawLine(p_l[2], p_l[1])
-            for i, tag in enumerate(set(self.Paths.keys())):
+            for i, tag in enumerate(sorted(list(self.Paths.keys()))):
                 pen.setWidth(self.options.style['penWidth']['path'])
                 pen.setColor(self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red'])
                 painter.setPen(pen)
@@ -114,7 +114,7 @@ class DynamicCanvas(QWidget):
                 pen.setWidth(5)
                 painter.setPen(pen)
                 painter.drawPoint(QPointF(cx, cy))
-            for i, tag in enumerate(set(self.Paths.keys())):
+            for i, tag in enumerate(sorted(list(self.Paths.keys()))):
                 cx = self.Paths[tag][self.index][0]*Tp
                 cy = self.Paths[tag][self.index][1]*Tp*-1
                 pen.setWidth(2)
