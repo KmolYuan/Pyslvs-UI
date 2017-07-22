@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
 [![PYTHON](https://img.shields.io/badge/Python-3.4%2C%203.5%2C%203.6-blue.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-[![OS](https://img.shields.io/badge/os-Linux(Ubuntu)%2C%20Windows-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
+[![QT](https://img.shields.io/badge/PyQt-5.7%2C%205.8%2C%205.9-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
+[![OS](https://img.shields.io/badge/OS-Ubuntu%2C%20Windows-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![GitHub license](https://img.shields.io/badge/license-AGPLv3-blue.svg)](https://raw.githubusercontent.com/KmolYuan/Pyslvs-PyQt5/master/LICENSE)
 
@@ -309,7 +310,7 @@ Compile
 
 Use PyInstaller to build.
 
-After following operation, the executable file's folder is located at `dist` / `launch_pyslvs` folder.
+After following operation, the executable file is located at `dist` folder.
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
