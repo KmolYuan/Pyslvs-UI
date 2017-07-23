@@ -17,9 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-import time
-import random
-import math
+import zmq, time, random, math
+context = zmq.Context()
 
 class Chromosome(object):
     """
@@ -58,7 +57,7 @@ class Chromosome(object):
         self.f = obj.f
 
 class Firefly(object):
-    def __init__(self, bar_type, D, n, alpha, betaMin, beta0, gamma, lb, ub, maxGen, report, socket, targetPath):
+    def __init__(self, func, D, n, alpha, betaMin, beta0, gamma, lb, ub, maxGen, report, socket_port, targetPath):
         # D, the dimension of question
         # and each firefly will random place position in this landscape
         self.D = D
@@ -81,7 +80,7 @@ class Firefly(object):
         # fireflies pool, depend on population n
         self.fireflys = [Chromosome(self.D) for i in range(self.n)]
         # object function, maybe can call the environment
-        self.bar_type = bar_type
+        self.func = func
         # maxima generation
         self.maxGen = maxGen
         # report, how many generation report status once
@@ -93,7 +92,11 @@ class Firefly(object):
         # best firefly so far
         self.bestFirefly = Chromosome(self.D)
         #socket
-        self.socket = socket
+        self.socket_port = socket_port
+        self.socket = context.socket(zmq.REQ)
+        self.socket.bind(self.socket_port)
+        self.poll = zmq.Poller()
+        self.poll.register(self.socket, zmq.POLLIN)
         self.targetPath = targetPath
         # setup benchmark
         self.timeS = time.time()
@@ -258,6 +261,25 @@ class Firefly(object):
         return self.fitnessTime, self.fitnessParameter
     
     def socket_fitness(self, chrom):
-        self.socket.send_string(';'.join([str(self.bar_type)]+[','.join([str(e) for e in chrom])]+
-            [','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath])]))
-        return float(self.socket.recv().decode("utf-8"))
+        if self.socket.closed:
+            self.socket = context.socket(zmq.REQ)
+            self.socket.bind(self.socket_port)
+            self.poll.register(self.socket, zmq.POLLIN)
+        self.socket.send_string(';'.join([
+            self.func.get_Driving(),
+            self.func.get_Follower(),
+            self.func.get_Link(),
+            self.func.get_Target(),
+            self.func.get_ExpressionName(),
+            self.func.get_Expression(),
+            ','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath]),
+            ','.join([str(e) for e in chrom])
+            ]))
+        while True:
+            socks = dict(self.poll.poll(100))
+            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode('utf-8'))
+            else:
+                self.socket.setsockopt(zmq.LINGER, 0)
+                self.socket.close()
+                self.poll.unregister(self.socket)
+                return self.func(chrom)
