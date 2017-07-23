@@ -47,9 +47,9 @@ class Path_Solving_path_adjust_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_blurringButton_clicked(self):
-        try: target_num = round(len(self.path)/(len(self.path)-self.blurring_num.value()))
+        try: target_num = round(len(self.path)/self.blurring_num.value())
         except ZeroDivisionError: target_num = len(self.path)
-        self.r_path = [(e['x'], e['y']) for i, e in enumerate(self.path) if i%target_num!=0]
+        self.r_path = [(e['x'], e['y']) for i, e in enumerate(self.path) if i%target_num==0]
         f_p = (self.path[0]['x'], self.path[0]['y'])
         e_p = (self.path[-1]['x'], self.path[-1]['y'])
         if self.r_path[0]!=f_p: self.r_path.insert(0, f_p)

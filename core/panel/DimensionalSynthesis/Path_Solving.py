@@ -191,6 +191,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.pointNum.setText(
             "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
         n = self.Point_list.count()>1
+        self.pathAdjust.setEnabled(n)
         self.GenerateLocal.setEnabled(n)
         self.GenerateZMQ.setEnabled(n)
     
