@@ -89,11 +89,11 @@ Path Track
 
 ![PathTrack](icons/cover/PathTrack.png)
 
-Calculate the path of the node.
+Calculate the move trajectory of the node.
 
 ![PathTrack_all](icons/cover/PathTrack_all.png)
 
-View them in the table.
+And view them in the table or save as text data.
 
 ![PathResult](icons/cover/PathResult.png)
 
@@ -115,7 +115,7 @@ Algorithm
 
 Contains three algorithms:
 
-+ Genetic Algorithm
++ Real Genetic Algorithm
 + Firefly Algorithm
 + Differential Evolution
 
