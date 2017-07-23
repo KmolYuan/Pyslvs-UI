@@ -24,7 +24,7 @@ def startRep(PORT):
     import os, zmq
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.bind(PORT) #tcp://localhost:8000
+    socket.connect(PORT) #tcp://localhost:8000
     print("The server starts.\nYou can using Ctrl + C to terminate.")
     print("Address: {}".format(PORT))
     print("Worker {} is awaiting orders...".format(os.getpid(), PORT))

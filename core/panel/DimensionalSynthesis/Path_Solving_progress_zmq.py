@@ -37,7 +37,10 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         else:
             context = zmq.Context()
             self.socket = context.socket(zmq.REQ)
-            try: self.socket.bind(PORT)
+            try:
+                self.socket.bind(PORT)
+                self.socket.setsockopt(zmq.LINGER, 0)
+                self.socket.close()
             except:
                 dlgbox = QMessageBox(QMessageBox.Warning, "Connect Error",
                     "The following address are not available:\n{}".format(PORT), (QMessageBox.Ok), self)

@@ -17,9 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-import zmq
-import time
-import math
+import zmq, time, math
 
 context = zmq.Context()
 
@@ -83,7 +81,7 @@ class Genetic(object):
         #socket
         self.socket_port = socket_port
         self.socket = context.socket(zmq.REQ)
-        self.socket.connect(self.socket_port)
+        self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
         self.targetPath = targetPath
@@ -234,6 +232,10 @@ class Genetic(object):
         return self.fitnessTime, self.fitnessParameter
     
     def socket_fitness(self, chrom):
+        if self.socket.closed:
+            self.socket = context.socket(zmq.REQ)
+            self.socket.bind(self.socket_port)
+            self.poll.register(self.socket, zmq.POLLIN)
         self.socket.send_string(';'.join([
             self.func.get_Driving(),
             self.func.get_Follower(),
@@ -245,13 +247,10 @@ class Genetic(object):
             ','.join([str(e) for e in chrom])
             ]))
         while True:
-            socks = dict(self.poll.poll(2000))
-            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode("utf-8"))
+            socks = dict(self.poll.poll(100))
+            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode('utf-8'))
             else:
                 self.socket.setsockopt(zmq.LINGER, 0)
                 self.socket.close()
                 self.poll.unregister(self.socket)
-                self.socket = context.socket(zmq.REQ)
-                self.socket.connect(self.socket_port)
-                self.poll.register(self.socket, zmq.POLLIN)
                 return self.func(chrom)
