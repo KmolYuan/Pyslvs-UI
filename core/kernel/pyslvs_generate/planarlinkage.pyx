@@ -9,7 +9,7 @@ cdef class build_planar(object):
     cdef int POINTS, count, _tmp, VARS
     cdef object formula, ExpressionL, ExpressionNameL, coord
     cdef object Exp, Link
-    cdef str Driving, Follower, targetPoint
+    cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
     cdef np.ndarray target
     cdef:
         object constraint
@@ -17,6 +17,7 @@ cdef class build_planar(object):
     def __cinit__ (self, object mechanismParams):
         self.VARS = mechanismParams['VARS']
         # split string to list
+        self.Link_str = mechanismParams['Link']
         self.Link = mechanismParams['Link'].split(',')
         #target point
         self.targetPoint = mechanismParams['Target']
@@ -40,10 +41,12 @@ cdef class build_planar(object):
         
         # Expression A, L0, a0, D, B, B, L1, L2, D, C, B, L3, L4, C, E
         # split Expression to list
+        self.Expression_str = mechanismParams['Expression']
         ExpressionL = mechanismParams['Expression'].split(',')
         
         # ExpressionName PLAP, PLLP, PLLP
         # split ExpressionName to list
+        self.ExpressionName_str = mechanismParams['ExpressionName']
         ExpressionNameL = mechanismParams['ExpressionName'].split(',')
         
         # combine ExpressionName and Expression, to set Expression List
@@ -59,6 +62,13 @@ cdef class build_planar(object):
             target = ExpressionL[_tmp]
             count = _tmp + 1
             self.Exp.append({"relate":relate, 'target':target, 'params':params})
+    
+    def get_Driving(self): return self.Driving
+    def get_Follower(self): return self.Follower
+    def get_Target(self): return self.targetPoint
+    def get_Link(self): return self.Link_str
+    def get_ExpressionName(self): return self.ExpressionName_str
+    def get_Expression(self): return self.Expression_str
     
     def __call__(self, v):
         """

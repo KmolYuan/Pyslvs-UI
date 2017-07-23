@@ -17,8 +17,11 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+import zmq
 import time
 import math
+
+context = zmq.Context()
 
 class Chromosome(object):
     def __init__(self, n=None):
@@ -48,8 +51,8 @@ class Chromosome(object):
             self.cp(obj)
 
 class Genetic(object):
-    def __init__(self, bar_type, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report, socket, targetPath):
-        self.bar_type = bar_type
+    def __init__(self, func, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report, socket_port, targetPath):
+        self.func = func
         self.nParm = nParm
         self.nPop = nPop
         self.pCross = pCross
@@ -78,7 +81,11 @@ class Genetic(object):
         self.iseed = 470211272.0
         self.mask = 2147483647
         #socket
-        self.socket = socket
+        self.socket_port = socket_port
+        self.socket = context.socket(zmq.REQ)
+        self.socket.connect(self.socket_port)
+        self.poll = zmq.Poller()
+        self.poll.register(self.socket, zmq.POLLIN)
         self.targetPath = targetPath
         # setup benchmark
         self.timeS = time.time()
@@ -155,7 +162,7 @@ class Genetic(object):
                     self.babyChrom[2].v[s] = self.check(s,-0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s])
                 for j in range(3):
                     self.babyChrom[j].f = self.socket_fitness(self.babyChrom[j].v)
-                    #self.babyChrom[j].f = self.bar_type(self.babyChrom[j].v)
+                    #self.babyChrom[j].f = self.func(self.babyChrom[j].v)
                 
                 if self.babyChrom[1].f < self.babyChrom[0].f:
                     self.babyChrom[0], self.babyChrom[1] = self.babyChrom[1], self.babyChrom[0]
@@ -184,7 +191,7 @@ class Genetic(object):
         for j in range(self.nPop):
             #Calculate the fitness value
             self.chrom[j].f = self.socket_fitness(self.chrom[j].v)
-            #self.chrom[j].f = self.bar_type(self.chrom[j].v)
+            #self.chrom[j].f = self.func(self.chrom[j].v)
         self.chromBest.assign(self.chrom[0])
         for j in range(self.nPop):
             if(self.chrom[j].f < self.chromBest.f):
@@ -209,7 +216,7 @@ class Genetic(object):
         self.randomize()
         self.initialPop()
         self.chrom[0].f = self.socket_fitness(self.chrom[0].v)
-        #self.chrom[0].f = self.bar_type(self.chrom[0].v)
+        #self.chrom[0].f = self.func(self.chrom[0].v)
         self.chromElite.assign(self.chrom[0])
         
         self.gen = 0
@@ -227,6 +234,24 @@ class Genetic(object):
         return self.fitnessTime, self.fitnessParameter
     
     def socket_fitness(self, chrom):
-        self.socket.send_string(';'.join([str(self.bar_type)]+[','.join([str(e) for e in chrom])]+
-            [','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath])]))
-        return float(self.socket.recv().decode("utf-8"))
+        self.socket.send_string(';'.join([
+            self.func.get_Driving(),
+            self.func.get_Follower(),
+            self.func.get_Link(),
+            self.func.get_Target(),
+            self.func.get_ExpressionName(),
+            self.func.get_Expression(),
+            ','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath]),
+            ','.join([str(e) for e in chrom])
+            ]))
+        while True:
+            socks = dict(self.poll.poll(2000))
+            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode("utf-8"))
+            else:
+                self.socket.setsockopt(zmq.LINGER, 0)
+                self.socket.close()
+                self.poll.unregister(self.socket)
+                self.socket = context.socket(zmq.REQ)
+                self.socket.connect(self.socket_port)
+                self.poll.register(self.socket, zmq.POLLIN)
+                return self.func(chrom)

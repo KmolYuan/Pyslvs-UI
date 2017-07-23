@@ -51,8 +51,9 @@ else
 	@dist/pyslvs -h
 endif
 
-DEBIANCONTROL = dist/temp/DEBIAN/control
+.PHONY: deb clean clean-kernel clean-all
 
+DEBIANCONTROL = dist/temp/DEBIAN/control
 deb: build dist/pyslvs
 ifeq ($(OS),Windows_NT)
 	@echo ---Ubuntu only---

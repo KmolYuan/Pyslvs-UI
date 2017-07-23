@@ -43,7 +43,7 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
                     "The following address are not available:\n{}".format(PORT), (QMessageBox.Ok), self)
                 if dlgbox.exec_(): self.reject()
             self.argumentText.setText("--server tcp://localhost:{}".format(PORT.split(':')[2]))
-            self.work.setSocket(self.socket)
+            self.work.setSocket(PORT)
     
     @pyqtSlot()
     def on_Start_clicked(self):

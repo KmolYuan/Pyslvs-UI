@@ -22,6 +22,7 @@ else
 endif
 	@echo Finish
 
+.PHONY: clean
 clean:
 ifeq ($(OS),Windows_NT)
 	del "$(OBJDIR)/*.o*"

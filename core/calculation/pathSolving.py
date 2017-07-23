@@ -20,6 +20,7 @@
 from ..QtModules import *
 import timeit, numpy
 from ..kernel.pyslvs_generate import tinycadlib
+from ..kernel.pyslvs_generate.planarlinkage import build_planar
 
 class WorkerThread(QThread):
     done = pyqtSignal(dict, int)
@@ -57,17 +58,15 @@ class WorkerThread(QThread):
     
     #TODO: Put socket into Cython lib.
     def generateProcess(self):
-        if self.socket:
+        if not self.socket==None:
             from ..server.rga import Genetic
             from ..server.firefly import Firefly
             from ..server.de import DiffertialEvolution
-            mechanismObj = 4 if self.mechanismParams['VARS']==9 else 8
         else:
-            from ..kernel.pyslvs_generate.planarlinkage import build_planar
             from ..kernel.pyslvs_generate.rga import Genetic
             from ..kernel.pyslvs_generate.firefly import Firefly
             from ..kernel.pyslvs_generate.de import DiffertialEvolution
-            mechanismObj = build_planar(self.mechanismParams)
+        mechanismObj = build_planar(self.mechanismParams)
         #Genetic Algorithm
         if self.type_num==0:
             APs = {
@@ -81,8 +80,8 @@ class WorkerThread(QThread):
                 'lower':self.GenerateData['lower'],
                 'maxGen':self.GenerateData['maxGen'],
                 'report':self.GenerateData['report']}
-            if self.socket:
-                APs['socket'] = self.socket
+            if not self.socket==None:
+                APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = Genetic(mechanismObj, **APs)
         #Firefly Algorithm
@@ -98,8 +97,8 @@ class WorkerThread(QThread):
                 'lb':self.GenerateData['lower'],
                 'maxGen':self.GenerateData['maxGen'],
                 'report':self.GenerateData['report']}
-            if self.socket:
-                APs['socket'] = self.socket
+            if not self.socket==None:
+                APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = Firefly(mechanismObj, **APs)
         #Differential Evolution
@@ -114,8 +113,8 @@ class WorkerThread(QThread):
                 'lower':self.GenerateData['lower'],
                 'maxGen':self.GenerateData['maxGen'],
                 'report':self.GenerateData['report']}
-            if self.socket:
-                APs['socket'] = self.socket
+            if not self.socket==None:
+                APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = DiffertialEvolution(mechanismObj, **APs)
         time_and_fitness, fitnessParameter = self.foo.run()

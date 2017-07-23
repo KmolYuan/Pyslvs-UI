@@ -17,47 +17,33 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..kernel.kernel_getter import build_planar
-
-mechanismParams_4Bar = { #No 'targetPath'
-    'Driving':'A',
-    'Follower':'D',
-    'Link':'L0,L1,L2,L3,L4',
-    'Target':'E',
-    'ExpressionName':'PLAP,PLLP,PLLP',
-    'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
-    'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-    'formula':['PLAP','PLLP']}
-mechanismParams_4Bar['VARS'] = len(set(mechanismParams_4Bar['Expression'].split(',')))-2
-mechanismParams_8Bar = { #No 'targetPath'
-    'Driving':'A',
-    'Follower':'B',
-    'Link':'L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10',
-    'Target':'H',
-    'ExpressionName':'PLAP,PLLP,PLLP,PLLP,PLLP,PLLP',
-    'Expression':'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H',
-    'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-    'formula':['PLAP','PLLP']}
-mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
+from ..kernel.pyslvs_generate import tinycadlib
+from ..kernel.pyslvs_generate.planarlinkage import build_planar
 
 def startRep(PORT):
     import os, zmq
     context = zmq.Context()
     socket = context.socket(zmq.REP)
-    socket.connect(PORT) #tcp://localhost:8000
+    socket.bind(PORT) #tcp://localhost:8000
     print("The server starts.\nYou can using Ctrl + C to terminate.")
     print("Address: {}".format(PORT))
     print("Worker {} is awaiting orders...".format(os.getpid(), PORT))
     while True:
         try:
             data = socket.recv().decode("utf-8").split(';')
-            bar_type = data[0]
-            Chrom_v = [float(e) for e in data[1].split(',')]
-            targetPath = tuple(tuple(float(k) for k in e.split(':')) for e in data[2].split(','))
-            mechanismParams = mechanismParams_4Bar if int(bar_type)==4 else mechanismParams_8Bar
-            mechanismParams['targetPath'] = targetPath
+            mechanismParams = {
+                'Driving':data[0],
+                'Follower':data[1],
+                'Link':data[2],
+                'Target':data[3],
+                'ExpressionName':data[4],
+                'Expression':data[5],
+                'targetPath':tuple(tuple(float(k) for k in e.split(':')) for e in data[6].split(',')),
+                'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
+                'formula':['PLAP','PLLP']}
+            mechanismParams['VARS'] = len(set(mechanismParams['Expression'].split(',')))-2
             mechanismObj = build_planar(mechanismParams)
-            fitness = mechanismObj(Chrom_v)
+            fitness = mechanismObj([float(e) for e in data[7].split(',')])
             socket.send_string(str(fitness))
             print("Fitness: {}".format(fitness), end='\r')
         except KeyboardInterrupt:
