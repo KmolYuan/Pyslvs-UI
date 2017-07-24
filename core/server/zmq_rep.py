@@ -19,9 +19,9 @@
 
 from ..kernel.pyslvs_generate import tinycadlib
 from ..kernel.pyslvs_generate.planarlinkage import build_planar
+import os, zmq
 
 def startRep(PORT):
-    import os, zmq
     context = zmq.Context()
     socket = context.socket(zmq.REP)
     socket.connect(PORT) #tcp://localhost:8000

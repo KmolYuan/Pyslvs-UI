@@ -18,7 +18,6 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 import zmq, time, random, math
-context = zmq.Context()
 
 class Chromosome(object):
     """
@@ -93,7 +92,8 @@ class Firefly(object):
         self.bestFirefly = Chromosome(self.D)
         #socket
         self.socket_port = socket_port
-        self.socket = context.socket(zmq.REQ)
+        self.context = zmq.Context()
+        self.socket = self.context.socket(zmq.REQ)
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
@@ -258,11 +258,12 @@ class Firefly(object):
         # finish all process, report final status
         self.report()
         self.getParamValue()
+        self.context.term()
         return self.fitnessTime, self.fitnessParameter
     
     def socket_fitness(self, chrom):
         if self.socket.closed:
-            self.socket = context.socket(zmq.REQ)
+            self.socket = self.context.socket(zmq.REQ)
             self.socket.bind(self.socket_port)
             self.poll.register(self.socket, zmq.POLLIN)
         self.socket.send_string(';'.join([
