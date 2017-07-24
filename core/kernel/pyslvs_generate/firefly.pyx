@@ -2,12 +2,11 @@
 from libc.math cimport sqrt, exp, log10
 from cpython cimport bool
 from array import array
-
 import numpy as np
 cimport numpy as np
-
 from libc.stdlib cimport rand, RAND_MAX, srand
 from libc.time cimport time
+from time import time as pytime
 
 # make true it is random everytime
 srand(time(NULL))
@@ -41,15 +40,11 @@ cdef class Chromosome(object):
 
 cdef class Firefly(object):
     cdef int D, n, maxGen, rp, gen
-    cdef double alpha, alpha0, betaMin, beta0, gamma
+    cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE
     cdef object f
-    #cdef double[:] lb, ub
     cdef np.ndarray lb, ub
-    #cdef Chromosome[:] fireflys
-    #cdef object fireflys
     cdef np.ndarray fireflys
     cdef Chromosome genbest, bestFirefly
-    cdef int timeS, timeE
     cdef object fitnessTime, fitnessParameter
     
     def __init__(self, object f, int D, int n, double alpha, double betaMin, double beta0, double gamma,
@@ -91,7 +86,7 @@ cdef class Firefly(object):
         self.bestFirefly = Chromosome(self.D)
         
         # setup benchmark
-        self.timeS = time(NULL)
+        self.timeS = pytime()
         self.timeE = 0
         self.fitnessTime = ''
         self.fitnessParameter = ''
@@ -146,8 +141,8 @@ cdef class Firefly(object):
         return min(self.fireflys, key=lambda chrom:chrom.f)
     
     cdef void report(self):
-        self.timeE = time(NULL)
-        self.fitnessTime += '%d,%.3f,%d;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
+        self.timeE = pytime()
+        self.fitnessTime += '%d,%.3f,%.2f;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
     
     cdef void calculate_new_alpha(self):
         self.alpha = self.alpha0 * log10(self.genbest.f + 1)

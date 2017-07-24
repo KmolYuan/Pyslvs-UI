@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from libc.math cimport fmod, pow
-from libc.time cimport time
 import numpy as np
 cimport numpy as np
+from libc.time cimport time
+from time import time as pytime
 
 #https://stackoverflow.com/questions/25974975/cython-c-array-initialization
 from libc.stdlib cimport rand, RAND_MAX, srand
@@ -41,12 +42,11 @@ cdef class Chromosome(object):
 
 cdef class Genetic(object):
     cdef int nParm, nPop, maxGen, gen, rpt
-    cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed
+    cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE
     cdef object func
     cdef np.ndarray chrom, newChrom, babyChrom
     cdef Chromosome chromElite, chromBest
     cdef np.ndarray maxLimit, minLimit
-    cdef int timeS, timeE
     cdef object fitnessTime, fitnessParameter
     
     def __cinit__(self, object objFunc, int nParm, int nPop, double pCross, double pMute, double pWin, double bDelta,
@@ -88,7 +88,7 @@ cdef class Genetic(object):
         self.gen = 0
         
         # setup benchmark
-        self.timeS = time(NULL)
+        self.timeS = pytime()
         self.timeE = 0
         self.fitnessTime = ''
         self.fitnessParameter = ''
@@ -167,8 +167,8 @@ cdef class Genetic(object):
                     self.chrom[i].v[s] -= self.delta(self.chrom[i].v[s]-self.minLimit[s])
     
     cdef void report(self)except *:
-        self.timeE = time(NULL)
-        self.fitnessTime += '%d,%.3f,%d;'%(self.gen, self.chromElite.f, self.timeE - self.timeS)
+        self.timeE = pytime()
+        self.fitnessTime += '%d,%.3f,%.2f;'%(self.gen, self.chromElite.f, self.timeE - self.timeS)
     
     cdef void select(self)except *:
         """

@@ -138,7 +138,7 @@ class DynamicCanvas(QWidget):
             painter.translate(width/2, height/2)
             pen.setColor(self.options.style['text'])
             painter.setPen(pen)
-            painter.setFont(QFont('Arial', self.Font_size))
+            painter.setFont(QFont('Arial', 20))
             painter.drawText("Error occurred!\nPlease check dimension data.")
         painter.end()
     

@@ -4,6 +4,7 @@ import numpy as np
 cimport numpy as np
 from libc.stdlib cimport rand, RAND_MAX, srand
 from libc.time cimport time
+from time import time as pytime
 
 # make true it is random everytime
 srand(time(NULL))
@@ -40,13 +41,11 @@ cdef class Chromosome(object):
         self.f = obj.f
 
 cdef class DiffertialEvolution(object):
-    cdef:
-        int strategy, D, NP, maxGen, rpt, gen, r1, r2, r3, r4, r5
-        double F, CR
-        np.ndarray lb, ub, pop
-        object f
-        Chromosome lastgenbest, currentbest
-    cdef int timeS, timeE
+    cdef int strategy, D, NP, maxGen, rpt, gen, r1, r2, r3, r4, r5
+    cdef double F, CR, timeS, timeE
+    cdef np.ndarray lb, ub, pop
+    cdef object f
+    cdef Chromosome lastgenbest, currentbest
     cdef object fitnessTime, fitnessParameter
     
     def __cinit__(self, object Func, int strategy, int D, int NP, double F, double CR,
@@ -95,7 +94,7 @@ cdef class DiffertialEvolution(object):
         self.r5 = 0
         
         # setup benchmark
-        self.timeS = time(NULL)
+        self.timeS = pytime()
         self.timeE = 0
         self.fitnessTime = ''
         self.fitnessParameter = ''
@@ -265,8 +264,8 @@ cdef class DiffertialEvolution(object):
         """
         report current generation status
         """
-        self.timeE = time(NULL)
-        self.fitnessTime += '%d,%.3f,%d;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
+        self.timeE = pytime()
+        self.fitnessTime += '%d,%.3f,%.2f;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
     
     cdef bool overbound(self, Chromosome member):
         """

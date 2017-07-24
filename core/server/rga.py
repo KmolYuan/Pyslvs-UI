@@ -91,8 +91,8 @@ class Genetic(object):
         self.fitnessParameter = ''
     
     def newSeed(self):
-        if(self.seed == 0.0):
-            self.seed=self.iseed
+        if self.seed==0.:
+            self.seed = self.iseed
         else:
             self.seed *= 16807.0
             self.seed = math.fmod(self.seed, self.mask)
@@ -118,8 +118,7 @@ class Genetic(object):
         If a variable is out of bound,
         replace it with a random value
         """
-        if (v > self.maxLimit[i]) or (v < self.minLimit[i]):
-            return self.randVal(self.minLimit[i], self.maxLimit[i])
+        if v>self.maxLimit[i] or v<self.minLimit[i]: return self.randVal(self.minLimit[i], self.maxLimit[i])
         return v
     
     def initialPop(self):
@@ -135,7 +134,7 @@ class Genetic(object):
             j = self.random(self.nPop)
             k = self.random(self.nPop)
             self.newChrom[i].assign(self.chrom[j])
-            if(self.chrom[k].f < self.chrom[j].f) and (self.rnd() < self.pWin):
+            if self.chrom[k].f<self.chrom[j].f and self.rnd()<self.pWin:
                 self.newChrom[i].assign(self.chrom[k])
         # in this stage, newChrom is select finish
         # now replace origin chrom
