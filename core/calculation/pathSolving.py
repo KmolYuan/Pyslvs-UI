@@ -118,7 +118,7 @@ class WorkerThread(QThread):
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = DiffertialEvolution(mechanismObj, **APs)
         time_and_fitness, fitnessParameter = self.foo.run()
-        return([float(k[1]) for k in [e.split(',') for e in time_and_fitness.split(';')[0:-1]]],
+        return(tuple(tuple(float(v) for v in e.split(',')) for e in time_and_fitness.split(';')[0:-1]),
             [float(e) for e in fitnessParameter.split(',')])
     
     def stop(self):

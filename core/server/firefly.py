@@ -159,7 +159,6 @@ class Firefly(object):
         
         note: fitness value low is better
         """
-        
         # is my fitness value larger than her
         if me.f > she.f:
             # calculate the distance between me and her

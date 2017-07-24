@@ -206,7 +206,8 @@ class File:
                     result['algorithmPrams'] = {e.tag:int(e.text) if e.tag in ['nPop', 'n', 'NP', 'strategy'] else float(e.text)
                         for e in list(mechanism.find('algorithmPrams'))}
                     #algorithm_fitness
-                    result['TimeAndFitness'] = [float(val.text) for val in mechanism.findall('fitness')]
+                    result['TimeAndFitness'] = [tuple(float(v) for v in val.text.split('@')) if '@' in val.text else float(val.text)
+                        for val in mechanism.findall('fitness')]
                     results.append(result)
                 self.Designs.addResult(results)
             except Exception as e: ReadError(e, 'Algorithm')
@@ -406,7 +407,7 @@ class File:
             algorithmPrams = ET.SubElement(mechanism, 'algorithmPrams')
             for tag, e in result['algorithmPrams'].items(): ET.SubElement(algorithmPrams, tag).text = str(e)
             #algorithm_fitness
-            for fitness in result['TimeAndFitness']: ET.SubElement(mechanism, 'fitness').text = str(fitness)
+            for fitness in result['TimeAndFitness']: ET.SubElement(mechanism, 'fitness').text = '@'.join([str(e) for e in fitness])
     
     def writeCSV(self, fileName):
         with open(fileName, 'w', newline=str()) as stream:
