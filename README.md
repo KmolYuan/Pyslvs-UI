@@ -353,6 +353,8 @@ Including Python module:
 * [Cython] (Apache 2.0)
 * [PyZMQ] (New BSD 3-Clause, LGPL, Apache)
 * [openpyxl] (MIT)
+* [py-cpuinfo] (MIT)
+* [psutil] (BSD)
 
 Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
 
@@ -378,6 +380,8 @@ Here is the **origin kernel** repository:
 [Cython]: http://cython.org/
 [PyZMQ]: http://zeromq.org/bindings:python
 [openpyxl]: http://openpyxl.readthedocs.io/
+[py-cpuinfo]: https://github.com/workhorsy/py-cpuinfo
+[psutil]: https://github.com/giampaolo/psutil
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
