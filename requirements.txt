@@ -4,3 +4,4 @@ cython
 pyzmq
 openpyxl
 py-cpuinfo
+psutil

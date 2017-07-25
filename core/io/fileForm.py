@@ -207,7 +207,7 @@ class File:
                         for e in list(mechanism.find('algorithmPrams'))}
                     #hardwareInfo
                     hardwareInfo = mechanism.find('hardwareInfo')
-                    result['hardwareInfo'] = {e.tag:int(e.text) if e.tag in ['os', 'memory', 'cpu', 'network'] else float(e.text)
+                    result['hardwareInfo'] = {e.tag:e.text for e in ['os', 'memory', 'cpu', 'network']
                         for e in list(hardwareInfo)} if hardwareInfo!=None else {'os':'N/A', 'memory':'N/A', 'cpu':'N/A', 'network':'N/A'}
                     #algorithm_fitness
                     result['TimeAndFitness'] = [tuple(float(v) for v in val.text.split('@')) if '@' in val.text else float(val.text)
