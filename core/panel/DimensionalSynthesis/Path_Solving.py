@@ -200,8 +200,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_GenerateZMQ_clicked(self): self.startAlgorithm(True)
     def startAlgorithm(self, hasPort=False):
-        type_num, mechanismParams, GenerateData = self.getGenerate()
-        dlg = Path_Solving_progress_zmq_show(type_num, mechanismParams, GenerateData, self.Settings['algorithmPrams'],
+        type_num, mechanismParams, generateData = self.getGenerate()
+        dlg = Path_Solving_progress_zmq_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
             PORT=self.portText.text() if hasPort else None, parent=self)
         dlg.show()
         if dlg.exec_():
@@ -219,13 +219,13 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
         mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
         p = len(self.path)
-        GenerateData = {
+        generateData = {
             'nParm':p+mechanismParams['VARS'],
             'upper':upper+[self.Settings['AMax']]*p,
             'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],
             'report':int(self.Settings['maxGen']*self.Settings['report']/100)}
-        return type_num, mechanismParams, GenerateData
+        return type_num, mechanismParams, generateData
     
     def setTime(self, time_spand):
         sec = time_spand%60
@@ -234,8 +234,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def addResult(self, e):
         keys = sorted(list(e.keys()))
-        item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['GenerateData']['maxGen']))
-        item.setToolTip('\n'.join(["[{}] ({} gen)\n".format(e['Algorithm'], e['GenerateData']['maxGen'])]+
+        item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['generateData']['maxGen']))
+        item.setToolTip('\n'.join(["[{}] ({} gen)\n".format(e['Algorithm'], e['generateData']['maxGen'])]+
             ["{}: {}".format(k, e[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
             ["\nClick to apply setting."]+["Double click to see dynamic preview."]))
         self.Result_list.addItem(item)
@@ -297,7 +297,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
-        results = tuple((e['Algorithm'], e['GenerateData']['maxGen'], e['TimeAndFitness'], e['mechanismParams']['VARS']) for e in self.mechanism_data)
+        results = tuple((e['Algorithm'], e['generateData']['maxGen'], e['TimeAndFitness'], e['mechanismParams']['VARS']) for e in self.mechanism_data)
         dlg = ChartDialog("Convergence Value", results, self)
         dlg.show()
     
@@ -311,18 +311,18 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             elif keys==set(self.FireflyPrams.keys()): self.type1.setChecked(True)
             elif keys==set(self.DifferentialPrams.keys()): self.type2.setChecked(True)
             self.setTime(args['time'])
-            GenerateData = args['GenerateData']
-            self.Ax.setValue((GenerateData['upper'][0]+GenerateData['lower'][0])/2)
-            self.Ay.setValue((GenerateData['upper'][1]+GenerateData['lower'][1])/2)
-            self.Ar.setValue(abs(GenerateData['upper'][0]-self.Ax.value())*2)
-            self.Dx.setValue((GenerateData['upper'][2]+GenerateData['lower'][2])/2)
-            self.Dy.setValue((GenerateData['upper'][3]+GenerateData['lower'][3])/2)
-            self.Dr.setValue(abs(GenerateData['upper'][2]-self.Dx.value())*2)
-            self.Settings = {'maxGen':GenerateData['maxGen'], 'report':GenerateData['maxGen']/GenerateData['report']/100,
-                'IMax':GenerateData['upper'][4], 'IMin':GenerateData['lower'][4],
-                'LMax':GenerateData['upper'][5], 'LMin':GenerateData['lower'][5],
-                'FMax':GenerateData['upper'][6], 'FMin':GenerateData['lower'][6],
-                'AMax':GenerateData['upper'][-1], 'AMin':GenerateData['lower'][-1]}
+            generateData = args['generateData']
+            self.Ax.setValue((generateData['upper'][0]+generateData['lower'][0])/2)
+            self.Ay.setValue((generateData['upper'][1]+generateData['lower'][1])/2)
+            self.Ar.setValue(abs(generateData['upper'][0]-self.Ax.value())*2)
+            self.Dx.setValue((generateData['upper'][2]+generateData['lower'][2])/2)
+            self.Dy.setValue((generateData['upper'][3]+generateData['lower'][3])/2)
+            self.Dr.setValue(abs(generateData['upper'][2]-self.Dx.value())*2)
+            self.Settings = {'maxGen':generateData['maxGen'], 'report':generateData['maxGen']/generateData['report']/100,
+                'IMax':generateData['upper'][4], 'IMin':generateData['lower'][4],
+                'LMax':generateData['upper'][5], 'LMin':generateData['lower'][5],
+                'FMax':generateData['upper'][6], 'FMin':generateData['lower'][6],
+                'AMax':generateData['upper'][-1], 'AMin':generateData['lower'][-1]}
             self.Settings['algorithmPrams'] = args['algorithmPrams']
             self.on_clearAll_clicked()
             for e in args['mechanismParams']['targetPath']: self.on_add_clicked(e[0], e[1])

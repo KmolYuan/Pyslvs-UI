@@ -3543,7 +3543,7 @@ def threeAlgorithmResult():
         <formula>PLAP</formula>
         <formula>PLLP</formula>
       </mechanismParams>
-      <GenerateData>
+      <generateData>
         <nParm>19</nParm>
         <maxGen>1500</maxGen>
         <report>15</report>
@@ -3585,7 +3585,7 @@ def threeAlgorithmResult():
         <lower>0.0</lower>
         <lower>0.0</lower>
         <lower>0.0</lower>
-      </GenerateData>
+      </generateData>
       <algorithmPrams>
         <bDelta>5.0</bDelta>
         <pMute>0.05</pMute>
@@ -3736,7 +3736,7 @@ def threeAlgorithmResult():
         <formula>PLAP</formula>
         <formula>PLLP</formula>
       </mechanismParams>
-      <GenerateData>
+      <generateData>
         <nParm>19</nParm>
         <maxGen>1500</maxGen>
         <report>15</report>
@@ -3778,7 +3778,7 @@ def threeAlgorithmResult():
         <lower>0.0</lower>
         <lower>0.0</lower>
         <lower>0.0</lower>
-      </GenerateData>
+      </generateData>
       <algorithmPrams>
         <gamma>1.0</gamma>
         <n>40</n>
@@ -3929,7 +3929,7 @@ def threeAlgorithmResult():
         <formula>PLAP</formula>
         <formula>PLLP</formula>
       </mechanismParams>
-      <GenerateData>
+      <generateData>
         <nParm>19</nParm>
         <maxGen>1500</maxGen>
         <report>15</report>
@@ -3971,7 +3971,7 @@ def threeAlgorithmResult():
         <lower>0.0</lower>
         <lower>0.0</lower>
         <lower>0.0</lower>
-      </GenerateData>
+      </generateData>
       <algorithmPrams>
         <F>0.6</F>
         <NP>190</NP>

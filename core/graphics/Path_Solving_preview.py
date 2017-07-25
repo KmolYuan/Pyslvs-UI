@@ -46,6 +46,7 @@ class playShaft(QThread):
 class DynamicCanvas(QWidget):
     def __init__(self, mechanism, Paths, parent=None):
         super(DynamicCanvas, self).__init__(parent)
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.options = PointOptions(self.width(), self.height())
         self.Color = colorlist()
         self.mechanism = mechanism
@@ -150,15 +151,21 @@ class DynamicCanvas(QWidget):
 class PreviewDialog(QDialog):
     def __init__(self, mechanism, Paths, parent=None):
         super(PreviewDialog, self).__init__(parent)
-        self.setWindowTitle("Preview: {} (max {} generations)".format(mechanism['Algorithm'], mechanism['GenerateData']['maxGen']))
+        self.setWindowTitle("Preview: {} (max {} generations)".format(mechanism['Algorithm'], mechanism['generateData']['maxGen']))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
+        layout_main = QHBoxLayout(self)
+        layout_main.setContentsMargins(6, 6, 6, 6)
         previewWidget = DynamicCanvas(mechanism, Paths, self)
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(6, 6, 6, 6)
-        layout.addWidget(previewWidget)
+        layout_main.addWidget(previewWidget)
+        info_groupbox = QGroupBox(self)
+        info_groupbox.setTitle("Hardware information")
+        layout_info = QVBoxLayout(info_groupbox)
+        layout_info.addWidget(QLabel("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in ['os', 'memory', 'cpu', 'network']])))
+        layout_info.addItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
+        layout_main.addWidget(info_groupbox)
         self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
         self.playShaft.progress_Signal.connect(previewWidget.change_index)
         self.playShaft.start()

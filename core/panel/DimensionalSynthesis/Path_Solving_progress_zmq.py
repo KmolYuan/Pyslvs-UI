@@ -23,11 +23,11 @@ from .Ui_Path_Solving_progress_zmq import Ui_Dialog
 from ...calculation.pathSolving import WorkerThread
 
 class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
-    def __init__(self, type_num, mechanismParams, GenerateData, algorithmPrams, PORT=None, parent=None):
+    def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, PORT=None, parent=None):
         super(Path_Solving_progress_zmq_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
-        self.work = WorkerThread(type_num, mechanismParams, GenerateData, algorithmPrams)
+        self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
         self.work.done.connect(self.finish)
         if PORT is None:
             self.label.setText("<html><head/><body><p><span style=\"font-size:12pt;\">"+

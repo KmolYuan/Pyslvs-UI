@@ -3,3 +3,4 @@ numpy
 cython
 pyzmq
 openpyxl
+py-cpuinfo

@@ -195,16 +195,20 @@ class File:
                         for constraint in mechanismParams.findall('constraint')]
                     #mechanismParams-->formula
                     result['mechanismParams']['formula'] = [formula.text for formula in mechanismParams.findall('formula')]
-                    #GenerateData(Misc)
-                    result['GenerateData'] = dict()
-                    GenerateData = mechanism.find('GenerateData')
-                    for tag in ['nParm', 'maxGen', 'report']: result['GenerateData'][tag] = int(GenerateData.find(tag).text)
-                    #GenerateData-->upper / lower
-                    result['GenerateData']['upper'] = [float(upper.text) for upper in GenerateData.findall('upper')]
-                    result['GenerateData']['lower'] = [float(lower.text) for lower in GenerateData.findall('lower')]
+                    #generateData(Misc)
+                    result['generateData'] = dict()
+                    generateData = mechanism.find('generateData')
+                    for tag in ['nParm', 'maxGen', 'report']: result['generateData'][tag] = int(generateData.find(tag).text)
+                    #generateData-->upper / lower
+                    result['generateData']['upper'] = [float(upper.text) for upper in generateData.findall('upper')]
+                    result['generateData']['lower'] = [float(lower.text) for lower in generateData.findall('lower')]
                     #algorithmPrams(Misc)
                     result['algorithmPrams'] = {e.tag:int(e.text) if e.tag in ['nPop', 'n', 'NP', 'strategy'] else float(e.text)
                         for e in list(mechanism.find('algorithmPrams'))}
+                    #hardwareInfo
+                    hardwareInfo = mechanism.find('hardwareInfo')
+                    result['hardwareInfo'] = {e.tag:int(e.text) if e.tag in ['os', 'memory', 'cpu', 'network'] else float(e.text)
+                        for e in list(hardwareInfo)} if hardwareInfo!=None else {'os':'N/A', 'memory':'N/A', 'cpu':'N/A', 'network':'N/A'}
                     #algorithm_fitness
                     result['TimeAndFitness'] = [tuple(float(v) for v in val.text.split('@')) if '@' in val.text else float(val.text)
                         for val in mechanism.findall('fitness')]
@@ -397,15 +401,18 @@ class File:
                 for tag in ['driver', 'follower', 'connect']: ET.SubElement(constraint, tag).text = e[tag]
             #mechanismParams-->formula
             for e in result['mechanismParams']['formula']: ET.SubElement(mechanismParams, 'formula').text = e
-            #GenerateData(Misc)
-            GenerateData = ET.SubElement(mechanism, 'GenerateData')
-            for tag in ['nParm', 'maxGen', 'report']: ET.SubElement(GenerateData, tag).text = str(result['GenerateData'][tag])
-            #GenerateData-->upper / lower
-            for e in result['GenerateData']['upper']: ET.SubElement(GenerateData, 'upper').text = str(e)
-            for e in result['GenerateData']['lower']: ET.SubElement(GenerateData, 'lower').text = str(e)
+            #generateData(Misc)
+            generateData = ET.SubElement(mechanism, 'generateData')
+            for tag in ['nParm', 'maxGen', 'report']: ET.SubElement(generateData, tag).text = str(result['generateData'][tag])
+            #generateData-->upper / lower
+            for e in result['generateData']['upper']: ET.SubElement(generateData, 'upper').text = str(e)
+            for e in result['generateData']['lower']: ET.SubElement(generateData, 'lower').text = str(e)
             #algorithmPrams(Misc)
             algorithmPrams = ET.SubElement(mechanism, 'algorithmPrams')
             for tag, e in result['algorithmPrams'].items(): ET.SubElement(algorithmPrams, tag).text = str(e)
+            #hardwareInfo
+            hardwareInfo = ET.SubElement(mechanism, 'hardwareInfo')
+            for tag, e in result['hardwareInfo'].items(): ET.SubElement(hardwareInfo, tag).text = e
             #algorithm_fitness
             for fitness in result['TimeAndFitness']: ET.SubElement(mechanism, 'fitness').text = '@'.join([str(e) for e in fitness])
     

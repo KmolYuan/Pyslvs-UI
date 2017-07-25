@@ -18,19 +18,20 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-import timeit, numpy
+import timeit, numpy, platform, cpuinfo
+from psutil import virtual_memory
 from ..kernel.pyslvs_generate import tinycadlib
 from ..kernel.pyslvs_generate.planarlinkage import build_planar
 
 class WorkerThread(QThread):
     done = pyqtSignal(dict, int)
-    def __init__(self, type_num, mechanismParams, GenerateData, algorithmPrams, parent=None):
+    def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, parent=None):
         super(WorkerThread, self).__init__(parent)
         self.stoped = False
         self.mutex = QMutex()
         self.type_num = type_num
         self.mechanismParams = mechanismParams
-        self.GenerateData = GenerateData
+        self.generateData = generateData
         self.algorithmPrams = algorithmPrams
         self.socket = None
     def setSocket(self, socket): self.socket = socket
@@ -43,14 +44,21 @@ class WorkerThread(QThread):
         TnF, FP = self.generateProcess()
         t1 = timeit.default_timer()
         time_spand = round(t1-t0, 2)
+        mem = virtual_memory()
+        cpu = cpuinfo.get_cpu_info()
         mechanism = {
             'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
             'time':time_spand,
             'Ax':FP[0], 'Ay':FP[1],
             'Dx':FP[2], 'Dy':FP[3],
             'mechanismParams':self.mechanismParams,
-            'GenerateData':self.GenerateData,
+            'generateData':self.generateData,
             'algorithmPrams':self.algorithmPrams,
+            'hardwareInfo':{
+                'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
+                'memory':str(mem.total/(1024.**3)),
+                'cpu':"{} {} core".format(cpu['brand'], cpu['count']),
+                'network':str(not self.socket==None)},
             'TimeAndFitness':TnF}
         for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
         print('total cost time: {} [s]'.format(time_spand))
@@ -70,16 +78,16 @@ class WorkerThread(QThread):
         #Genetic Algorithm
         if self.type_num==0:
             APs = {
-                'nParm':self.GenerateData['nParm'],
+                'nParm':self.generateData['nParm'],
                 'nPop':self.algorithmPrams['nPop'], #250
                 'pCross':self.algorithmPrams['pCross'], #0.95
                 'pMute':self.algorithmPrams['pMute'], #0.05
                 'pWin':self.algorithmPrams['pWin'], #0.95
                 'bDelta':self.algorithmPrams['bDelta'], #5.
-                'upper':self.GenerateData['upper'],
-                'lower':self.GenerateData['lower'],
-                'maxGen':self.GenerateData['maxGen'],
-                'report':self.GenerateData['report']}
+                'upper':self.generateData['upper'],
+                'lower':self.generateData['lower'],
+                'maxGen':self.generateData['maxGen'],
+                'report':self.generateData['report']}
             if not self.socket==None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
@@ -87,16 +95,16 @@ class WorkerThread(QThread):
         #Firefly Algorithm
         elif self.type_num==1:
             APs = {
-                'D':self.GenerateData['nParm'],
+                'D':self.generateData['nParm'],
                 'n':self.algorithmPrams['n'], #40
                 'alpha':self.algorithmPrams['alpha'], #0.01
                 'betaMin':self.algorithmPrams['betaMin'], #0.2
                 'gamma':self.algorithmPrams['gamma'], #1.
                 'beta0':self.algorithmPrams['beta0'], #1.
-                'ub':self.GenerateData['upper'],
-                'lb':self.GenerateData['lower'],
-                'maxGen':self.GenerateData['maxGen'],
-                'report':self.GenerateData['report']}
+                'ub':self.generateData['upper'],
+                'lb':self.generateData['lower'],
+                'maxGen':self.generateData['maxGen'],
+                'report':self.generateData['report']}
             if not self.socket==None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
@@ -104,15 +112,15 @@ class WorkerThread(QThread):
         #Differential Evolution
         elif self.type_num==2:
             APs = {
-                'D':self.GenerateData['nParm'],
+                'D':self.generateData['nParm'],
                 'strategy':self.algorithmPrams['strategy'], #1
                 'NP':self.algorithmPrams['NP'], #190
                 'F':self.algorithmPrams['F'], #0.6
                 'CR':self.algorithmPrams['CR'], #0.9
-                'upper':self.GenerateData['upper'],
-                'lower':self.GenerateData['lower'],
-                'maxGen':self.GenerateData['maxGen'],
-                'report':self.GenerateData['report']}
+                'upper':self.generateData['upper'],
+                'lower':self.generateData['lower'],
+                'maxGen':self.generateData['maxGen'],
+                'report':self.generateData['report']}
             if not self.socket==None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
