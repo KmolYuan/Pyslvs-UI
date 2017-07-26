@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-26, 13:42:59 -->
+<!-- Saved: 2017-07-26, 17:55:09 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -180,6 +180,7 @@
     <Other>.travis.yml</Other>
     <Other>Makefile</Other>
     <Other>core/kernel/pyslvs_generate/Makefile</Other>
+    <Other>core/kernel/python_solvespace/solvespace/exposed/Makefile</Other>
   </Others>
   <MainScript>launch_pyslvs.py</MainScript>
   <Vcs>

@@ -22,12 +22,12 @@ endif
 clean:
 ifeq ($(OS),Windows_NT)
 	-rename .__init__.py __init__.py
-	del *.pyd /q
-	rd .\build /s /q
-	del *.c /q
+	-del *.pyd /q
+	-rd .\build /s /q
+	-del *.c /q
 else
 	-mv .__init__.py __init__.py
-	rm -f *.so
-	rm -f -r build
-	rm -f *.c
+	-rm -f *.so
+	-rm -fr build
+	-rm -f *.c
 endif

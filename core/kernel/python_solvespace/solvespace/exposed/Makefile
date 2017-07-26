@@ -1,4 +1,5 @@
 #Python Solvespace Makefile
+
 DEFINES = -DISOLATION_AWARE_ENABLED -DLIBRARY -DDLL_EXPORT
 CFLAGS  = -I../extlib -I../../common/win32 -I. -I.. -D_DEBUG -D_CRT_SECURE_NO_WARNINGS -O2 -g -Wno-write-strings -fpermissive
 HEADERS = $(SRCDIR)/solvespace.h $(SRCDIR)/dsc.h $(SRCDIR)/sketch.h $(SRCDIR)/expr.h slvs.h
@@ -10,36 +11,26 @@ VPATH = .. ../win32
 
 OUTDIR = ../..
 
-all: solver wrap $(HEADERS)
-ifeq ($(OS),Windows_NT)
-	move /y _slvs.pyd ..\..
-	move /y libslvs.so ..\..
-	move /y slvs.py ..\..
-else
-	mv _slvs.so ../../_slvs.so
-	mv libslvs.so ../../libslvs.so
-	mv slvs.py ../../slvs.py
-endif
-	@echo Finish
+all: ../../%.so
 
 .PHONY: clean
 clean:
 ifeq ($(OS),Windows_NT)
-	del "$(OBJDIR)/*.o*"
-	del "$(OUTDIR)/*.so"
-	del "$(OUTDIR)/*.pyd"
-	del "$(OUTDIR)/slvs.py"
-	del *.so
-	del slvs.py
-	del *.def
-	del *.lib
-	del slvs_wrap.cxx
+	-del "$(OBJDIR)/*.o*"
+	-del "$(OUTDIR)/*.so"
+	-del "$(OUTDIR)/*.pyd"
+	-del "$(OUTDIR)/slvs.py"
+	-del *.so
+	-del slvs.py
+	-del *.def
+	-del *.lib
+	-del slvs_wrap.cxx
 	-rename slvs_python.hpp slvs_python.hpp.win
 else
-	rm -f $(OBJDIR)/*.o*
-	rm -f $(OUTDIR)/*.so
-	rm -f $(OUTDIR)/slvs.py
-	rm -f slvs_wrap.cxx
+	-rm -f $(OBJDIR)/*.o*
+	-rm -f $(OUTDIR)/*.so
+	-rm -f $(OUTDIR)/slvs.py
+	-rm -f slvs_wrap.cxx
 	-mv slvs_python.hpp slvs_python.hpp.ubuntu
 endif
 
@@ -60,6 +51,18 @@ help:
 	@echo ================================
 
 .SECONDEXPANSION:
+
+../../%.so: solver wrap $(HEADERS)
+ifeq ($(OS),Windows_NT)
+	move /y _slvs.pyd ..\..
+	move /y libslvs.so ..\..
+	move /y slvs.py ..\..
+else
+	mv _slvs.so ../../_slvs.so
+	mv libslvs.so ../../libslvs.so
+	mv slvs.py ../../slvs.py
+endif
+	@echo Finish
 
 solver: $(OFILES)
 	@echo --------------------------------

@@ -75,13 +75,13 @@ endif
 
 clean:
 ifeq ($(OS),Windows_NT)
-	rd build /s /q
-	rd dist /s /q
-	del launch_pyslvs.spec
+	-rd build /s /q
+	-rd dist /s /q
+	-del launch_pyslvs.spec
 else
-	rm -f -r build
-	rm -f -r dist
-	rm -f launch_pyslvs.spec
+	-rm -f -r build
+	-rm -f -r dist
+	-rm -f launch_pyslvs.spec
 endif
 
 clean-kernel:
