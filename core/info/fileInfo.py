@@ -25,7 +25,7 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
     def __init__(self, name, author, description, lastTime, results, parent=None):
         super(editFileInfo_show, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("About {}".format(name))
+        self.setWindowTitle("About {} (Edit mode)".format(name))
         self.fileName.setText("File Name: {}".format(name))
         self.authorName_input.setText(author)
         self.dateName.setText(lastTime)
@@ -35,7 +35,7 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
 class fileInfo_show(editFileInfo_show):
     def __init__(self, name, author, description, lastTime, results, errorInfo, parent=None):
         super(fileInfo_show, self).__init__(name, author, description, lastTime, results, parent)
-        self.setWindowTitle("About {} (Edit mode)".format(name))
+        self.setWindowTitle("About {}".format(name))
         self.authorName_input.setReadOnly(True)
         self.descriptionText.setReadOnly(True)
         if errorInfo:

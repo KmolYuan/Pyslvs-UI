@@ -160,11 +160,11 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         self.basic_label.setText("\n".join(["{}: {}".format(tag, mechanism[tag]) for tag in ['Algorithm', 'time']]+
-            ["A: ({}, {})".format(mechanism['Ax'], mechanism['Ay'])]+
-            ["D: ({}, {})".format(mechanism['Dx'], mechanism['Dy'])]+
+            ["{}: ({}, {})".format(tag, mechanism[tag+'x'], mechanism[tag+'y']) for tag in ['A', 'D']]+
             ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['mechanismParams']['Link'].split(',')]))
         #Algorithm information
-        self.algorithm_label.setText("\n".join(["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()]))
+        self.algorithm_label.setText("\n".join(["Max generation: {}".format(mechanism['generateData']['maxGen'])]+
+            ["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()]))
         #Hardware information
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in
             ['os', 'memory', 'cpu', 'network']]))

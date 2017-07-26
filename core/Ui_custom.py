@@ -22,6 +22,8 @@ from .info.info import VERSION, Pyslvs_SystemTrayIcon
 tr = QCoreApplication.translate
 
 def init_Widgets(self):
+    self.MainSplitter.setStretchFactor(0, 1)
+    self.MainSplitter.setStretchFactor(1, 4)
     self.menuBar.setCornerWidget(QLabel("Version {} ({})".format(VERSION[0], VERSION[1])))
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
         self.Shaft, self.Slider, self.Rod]: table.itemClicked.connect(self.tableFocusChange)
