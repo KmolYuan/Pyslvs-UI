@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-import timeit, numpy, platform, cpuinfo
+import timeit, numpy, platform
 from psutil import virtual_memory
 from ..kernel.pyslvs_generate import tinycadlib
 from ..kernel.pyslvs_generate.planarlinkage import build_planar
@@ -45,7 +45,7 @@ class WorkerThread(QThread):
         t1 = timeit.default_timer()
         time_spand = round(t1-t0, 2)
         mem = virtual_memory()
-        cpu = cpuinfo.get_cpu_info()
+        cpu = numpy.distutils.cpuinfo.cpu.info[0]
         mechanism = {
             'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
             'time':time_spand,
@@ -57,7 +57,7 @@ class WorkerThread(QThread):
             'hardwareInfo':{
                 'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
                 'memory':str(mem.total/(1024.**3)),
-                'cpu':"{} {} core".format(cpu['brand'], cpu['count']),
+                'cpu':"{} {} core".format(cpu["model name"], cpu["cpu cores"]),
                 'network':str(not self.socket==None)},
             'TimeAndFitness':TnF}
         for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
