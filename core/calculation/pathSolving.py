@@ -19,6 +19,7 @@
 
 from ..QtModules import *
 import timeit, numpy, platform
+import numpy.distutils.cpuinfo
 from psutil import virtual_memory
 from ..kernel.pyslvs_generate import tinycadlib
 from ..kernel.pyslvs_generate.planarlinkage import build_planar
@@ -56,9 +57,9 @@ class WorkerThread(QThread):
             'algorithmPrams':self.algorithmPrams,
             'hardwareInfo':{
                 'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
-                'memory':str(mem.total/(1024.**3)),
+                'memory':"{} GB".format(round(mem.total/(1024.**3), 4)),
                 'cpu':"{} {} core".format(cpu["model name"], cpu["cpu cores"]),
-                'network':str(not self.socket==None)},
+                'network':str(self.socket!=None)},
             'TimeAndFitness':TnF}
         for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
         print('total cost time: {} [s]'.format(time_spand))
@@ -66,7 +67,7 @@ class WorkerThread(QThread):
     
     #TODO: Put socket into Cython lib.
     def generateProcess(self):
-        if not self.socket==None:
+        if self.socket!=None:
             from ..server.rga import Genetic
             from ..server.firefly import Firefly
             from ..server.de import DiffertialEvolution
@@ -88,7 +89,7 @@ class WorkerThread(QThread):
                 'lower':self.generateData['lower'],
                 'maxGen':self.generateData['maxGen'],
                 'report':self.generateData['report']}
-            if not self.socket==None:
+            if self.socket!=None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = Genetic(mechanismObj, **APs)
@@ -105,7 +106,7 @@ class WorkerThread(QThread):
                 'lb':self.generateData['lower'],
                 'maxGen':self.generateData['maxGen'],
                 'report':self.generateData['report']}
-            if not self.socket==None:
+            if self.socket!=None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = Firefly(mechanismObj, **APs)
@@ -121,7 +122,7 @@ class WorkerThread(QThread):
                 'lower':self.generateData['lower'],
                 'maxGen':self.generateData['maxGen'],
                 'report':self.generateData['report']}
-            if not self.socket==None:
+            if self.socket!=None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
             self.foo = DiffertialEvolution(mechanismObj, **APs)

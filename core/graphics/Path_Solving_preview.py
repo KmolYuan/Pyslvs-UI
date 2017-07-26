@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
+from .Ui_Path_Solving_preview import Ui_Dialog
 from ..graphics.color import colorlist
 from .canvas_0 import PointOptions
 from time import sleep
@@ -148,24 +149,23 @@ class DynamicCanvas(QWidget):
         self.index = i
         self.update()
 
-class PreviewDialog(QDialog):
+class PreviewDialog(QDialog, Ui_Dialog):
     def __init__(self, mechanism, Paths, parent=None):
         super(PreviewDialog, self).__init__(parent)
+        self.setupUi(self)
         self.setWindowTitle("Preview: {} (max {} generations)".format(mechanism['Algorithm'], mechanism['generateData']['maxGen']))
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
-        self.setSizeGripEnabled(True)
-        self.setModal(True)
-        self.setMinimumSize(QSize(800, 600))
-        layout_main = QHBoxLayout(self)
-        layout_main.setContentsMargins(6, 6, 6, 6)
+        #self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
+        self.splitter.setSizes([700, 100])
         previewWidget = DynamicCanvas(mechanism, Paths, self)
-        layout_main.addWidget(previewWidget)
-        info_groupbox = QGroupBox(self)
-        info_groupbox.setTitle("Hardware information")
-        layout_info = QVBoxLayout(info_groupbox)
-        layout_info.addWidget(QLabel("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in ['os', 'memory', 'cpu', 'network']])))
-        layout_info.addItem(QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding))
-        layout_main.addWidget(info_groupbox)
+        self.left_layout.insertWidget(0, previewWidget)
+        #Basic information
+        self.basic_label.setText("\n".join(["{}: {}".format(tag, mechanism[tag]) for tag in ['Algorithm', 'time']]+
+            ["A: ({}, {})".format(mechanism['Ax'], mechanism['Ay'])]+
+            ["D: ({}, {})".format(mechanism['Dx'], mechanism['Dy'])]))
+        #Hardware information
+        self.hardware_label.setText("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in
+            ['os', 'memory', 'cpu', 'network']]))
+        #playShaft
         self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
         self.playShaft.progress_Signal.connect(previewWidget.change_index)
         self.playShaft.start()
