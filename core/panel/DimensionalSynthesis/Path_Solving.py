@@ -189,7 +189,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     def isGenerate(self):
         self.pointNum.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">"+str(self.Point_list.count())+"</span></p></body></html>")
+            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.Point_list.count()))
         n = self.Point_list.count()>1
         self.pathAdjust.setEnabled(n)
         self.GenerateLocal.setEnabled(n)
@@ -228,7 +228,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         return type_num, mechanismParams, generateData
     
     def setTime(self, time_spand):
-        sec = time_spand%60
+        sec = round(time_spand%60, 2)
         mins = int(time_spand/60)
         self.timeShow.setText("<html><head/><body><p><span style=\"font-size:12pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
     

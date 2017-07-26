@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/graphics/Path_Solving_preview.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\graphics\Path_Solving_preview.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -14,8 +14,8 @@ class Ui_Dialog(object):
         Dialog.resize(800, 600)
         Dialog.setMinimumSize(QtCore.QSize(800, 600))
         Dialog.setSizeGripEnabled(True)
+        Dialog.setModal(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout.setObjectName("verticalLayout")
         self.splitter = QtWidgets.QSplitter(Dialog)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
@@ -57,6 +57,22 @@ class Ui_Dialog(object):
         spacerItem = QtWidgets.QSpacerItem(20, 201, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_4.addItem(spacerItem)
         self.verticalLayout_2.addWidget(self.basic_groupbox)
+        self.algorithm_groupbox = QtWidgets.QGroupBox(self.rightWidget)
+        self.algorithm_groupbox.setObjectName("algorithm_groupbox")
+        self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.algorithm_groupbox)
+        self.verticalLayout_5.setContentsMargins(6, 6, 6, 6)
+        self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.algorithm_label = QtWidgets.QLabel(self.algorithm_groupbox)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.algorithm_label.sizePolicy().hasHeightForWidth())
+        self.algorithm_label.setSizePolicy(sizePolicy)
+        self.algorithm_label.setObjectName("algorithm_label")
+        self.verticalLayout_5.addWidget(self.algorithm_label)
+        spacerItem1 = QtWidgets.QSpacerItem(20, 201, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_5.addItem(spacerItem1)
+        self.verticalLayout_2.addWidget(self.algorithm_groupbox)
         self.hardware_groupbox = QtWidgets.QGroupBox(self.rightWidget)
         self.hardware_groupbox.setObjectName("hardware_groupbox")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.hardware_groupbox)
@@ -70,8 +86,8 @@ class Ui_Dialog(object):
         self.hardware_label.setSizePolicy(sizePolicy)
         self.hardware_label.setObjectName("hardware_label")
         self.verticalLayout_3.addWidget(self.hardware_label)
-        spacerItem1 = QtWidgets.QSpacerItem(20, 201, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 201, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem2)
         self.verticalLayout_2.addWidget(self.hardware_groupbox)
         self.verticalLayout.addWidget(self.splitter)
 
@@ -83,6 +99,8 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.basic_groupbox.setTitle(_translate("Dialog", "Basic information"))
         self.basic_label.setText(_translate("Dialog", "TextLabel"))
+        self.algorithm_groupbox.setTitle(_translate("Dialog", "Algorithm information"))
+        self.algorithm_label.setText(_translate("Dialog", "TextLabel"))
         self.hardware_groupbox.setTitle(_translate("Dialog", "Hardware information"))
         self.hardware_label.setText(_translate("Dialog", "TextLabel"))
 

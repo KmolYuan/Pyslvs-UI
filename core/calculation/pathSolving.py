@@ -58,7 +58,7 @@ class WorkerThread(QThread):
             'hardwareInfo':{
                 'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
                 'memory':"{} GB".format(round(mem.total/(1024.**3), 4)),
-                'cpu':"{} {} core".format(cpu["model name"], cpu["cpu cores"]),
+                'cpu':cpu.get("model name", cpu['ProcessorNameString']),
                 'network':str(self.socket!=None)},
             'TimeAndFitness':TnF}
         for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]

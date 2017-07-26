@@ -154,14 +154,17 @@ class PreviewDialog(QDialog, Ui_Dialog):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle("Preview: {} (max {} generations)".format(mechanism['Algorithm'], mechanism['generateData']['maxGen']))
-        #self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
-        self.splitter.setSizes([700, 100])
+        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
+        self.splitter.setSizes([800, 100])
         previewWidget = DynamicCanvas(mechanism, Paths, self)
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         self.basic_label.setText("\n".join(["{}: {}".format(tag, mechanism[tag]) for tag in ['Algorithm', 'time']]+
             ["A: ({}, {})".format(mechanism['Ax'], mechanism['Ay'])]+
-            ["D: ({}, {})".format(mechanism['Dx'], mechanism['Dy'])]))
+            ["D: ({}, {})".format(mechanism['Dx'], mechanism['Dy'])]+
+            ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['mechanismParams']['Link'].split(',')]))
+        #Algorithm information
+        self.algorithm_label.setText("\n".join(["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()]))
         #Hardware information
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in
             ['os', 'memory', 'cpu', 'network']]))
