@@ -67,16 +67,16 @@
        <number>3</number>
       </property>
       <widget class="QSplitter" name="LaftSplitter">
+       <property name="minimumSize">
+        <size>
+         <width>400</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
        <widget class="QWidget" name="curveArea" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>450</width>
-          <height>0</height>
-         </size>
-        </property>
         <property name="maximumSize">
          <size>
           <width>700</width>
@@ -491,7 +491,7 @@
                            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                           </property>
                          </widget>
@@ -637,12 +637,6 @@ p, li { white-space: pre-wrap; }
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>287</height>
-                </size>
                </property>
                <property name="tabShape">
                 <enum>QTabWidget::Rounded</enum>
@@ -1604,8 +1598,8 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>427</width>
-                         <height>268</height>
+                         <width>548</width>
+                         <height>239</height>
                         </rect>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_22">
@@ -1887,12 +1881,6 @@ p, li { white-space: pre-wrap; }
        </widget>
       </widget>
       <widget class="QSplitter" name="RightSplitter">
-       <property name="minimumSize">
-        <size>
-         <width>500</width>
-         <height>0</height>
-        </size>
-       </property>
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -2392,7 +2380,7 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Minimized">
    <property name="icon">
-    <iconset resource="../icons.qrc">
+    <iconset>
      <normaloff>:/icons/minmized.png</normaloff>:/icons/minmized.png</iconset>
    </property>
    <property name="text">

@@ -501,6 +501,8 @@ class DynamicCanvas(QWidget):
         if QApplication.keyboardModifiers()==Qt.AltModifier: self.setCursor(Qt.CrossCursor)
         else: self.setCursor(Qt.ArrowCursor)
     
+    def resizeEvent(self, event): self.SetIn()
+    
     def SetIn(self):
         width = self.width()
         height = self.height()
