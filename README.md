@@ -18,9 +18,7 @@
 1. [Requirement](#requirement)
 
     + [PyQt](#pyqt)
-
     + [Python-solvespace Kernel](#python-solvespace-kernel)
-
     + [Dimensional Synthesis Kernel](#dimensional-synthesis-kernel)
 
 1. [Compile](#compile)
@@ -32,13 +30,15 @@ Introduction
 
 A GUI-based tool solving 2D linkage subject.
 
-+ **Planar Linkages Simulation**: Kernel from Solvespace Python bundle.
++ **Planar Linkages Simulation**: Kernel from [Solvespace] with Python bundle (SWIG).
 
-+ **Dimensional Synthesis**: Kernel from three Cython algorithm API.
++ **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
 Compatible with Python 3.4, PyQt 5.7 (for PyQtChart) and above.
 
-Cross-platform Development: Ubuntu and Windows OS.
+Cross-platform Development: Ubuntu and Windows OS (64-bit).
+
+**Please note that other platforms may be available but I have not tested before.**
 
 ![main](icons/cover/main.png)
 
@@ -128,7 +128,7 @@ You should install some python module and SDK first.
 
 The Makefile is included at compile steps, so some environment setting also should be set.
 
-**Linux**:
+**Ubuntu**:
 
 ```bash
 sudo pip3 install -r requirements.txt
@@ -153,9 +153,9 @@ Remember it should include QtChart.
 
 Make sure computer is installed Qt5 and PyQt5 in the same version.
 
-**Linux**:
+**Ubuntu**:
 
-Linux user has to add Qt file path in user's `QTDIR`, `LD_LIBRARY_PATH`, and `PATH`.
+Ubuntu user has to add Qt file path in user's `QTDIR`, `LD_LIBRARY_PATH`, and `PATH`.
 
 Just like `/opt/Qt/5.9.1/gcc_64/`.
 
@@ -210,7 +210,7 @@ Make command:
 make -C core/kernel/python_solvespace/solvespace/exposed
 ```
 
-**Linux**:
+**Ubuntu**:
 
 First, install SWIG. This tool kit can make a Python bundle with C/C++ library.
 
@@ -293,9 +293,9 @@ Make command:
 make -C core/kernel/pyslvs_generate
 ```
 
-**Linux**:
+**Ubuntu**:
 
-Linux user can compile kernel by Cython directly.
+Ubuntu user can compile kernel by Cython directly.
 
 **Windows**:
 
@@ -314,7 +314,7 @@ After following operation, the executable file is located at `dist` folder.
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
-**Linux**:
+**Ubuntu**:
 
 Make command:
 
@@ -363,6 +363,7 @@ Here is the **origin kernel** repository:
 * [Dimensional Synthesis of Planar Four-bar Linkages]
 * [Triangle solver]
 
+[Solvespace]: http://solvespace.com
 [PyQt5]: https://www.riverbankcomputing.com/software/pyqt/download5
 [PyQtChart]: https://www.riverbankcomputing.com/software/pyqtchart/download
 [Qt5]: https://www.qt.io/download/
