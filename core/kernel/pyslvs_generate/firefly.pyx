@@ -41,14 +41,14 @@ cdef class Chromosome(object):
 cdef class Firefly(object):
     cdef int D, n, maxGen, rp, gen
     cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE
-    cdef object f
+    cdef object f, progress_fun
     cdef np.ndarray lb, ub
     cdef np.ndarray fireflys
     cdef Chromosome genbest, bestFirefly
     cdef object fitnessTime, fitnessParameter
     
     def __init__(self, object f, int D, int n, double alpha, double betaMin, double beta0, double gamma,
-            object lb, object ub, int maxGen, int report):
+            object lb, object ub, int maxGen, int report, object progress_fun=None):
         # D, the dimension of question
         # and each firefly will random place position in this landscape
         self.D = D
@@ -74,10 +74,10 @@ cdef class Firefly(object):
             self.fireflys[i] = Chromosome(self.D)
         # object function
         self.f = f
-        # maxima generation
+        # maxima generation, report: how many generation report status once
         self.maxGen = maxGen
-        # report, how many generation report status once
         self.rp = report
+        self.progress_fun = progress_fun
         # generation of current
         self.gen = 0
         # best firefly of geneation
@@ -169,6 +169,7 @@ cdef class Firefly(object):
             if self.rp != 0:
                 if self.gen % self.rp == 0:
                     self.report()
+            if self.progress_fun is not None: self.progress_fun(self.gen)
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

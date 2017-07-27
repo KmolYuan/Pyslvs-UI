@@ -43,14 +43,14 @@ cdef class Chromosome(object):
 cdef class Genetic(object):
     cdef int nParm, nPop, maxGen, gen, rpt
     cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE
-    cdef object func
+    cdef object func, progress_fun
     cdef np.ndarray chrom, newChrom, babyChrom
     cdef Chromosome chromElite, chromBest
     cdef np.ndarray maxLimit, minLimit
     cdef object fitnessTime, fitnessParameter
     
     def __cinit__(self, object objFunc, int nParm, int nPop, double pCross, double pMute, double pWin, double bDelta,
-            object upper, object lower, int maxGen, int report):
+            object upper, object lower, int maxGen, int report, object progress_fun=None):
         """
         init(function func)
         """
@@ -66,6 +66,7 @@ cdef class Genetic(object):
         self.bDelta = bDelta
         self.maxGen = maxGen
         self.rpt = report
+        self.progress_fun = progress_fun
         
         self.chrom = np.ndarray((nPop,),dtype=np.object)
         for i in range(nPop):
@@ -213,6 +214,7 @@ cdef class Genetic(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
+            if self.progress_fun is not None: self.progress_fun(self.gen)
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

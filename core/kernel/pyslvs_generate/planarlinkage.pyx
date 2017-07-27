@@ -7,12 +7,10 @@ cimport numpy as np
 
 cdef class build_planar(object):
     cdef int POINTS, count, _tmp, VARS
-    cdef object formula, ExpressionL, ExpressionNameL, coord
+    cdef object formula, ExpressionL, ExpressionNameL, coord, constraint
     cdef object Exp, Link
     cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
     cdef np.ndarray target
-    cdef:
-        object constraint
     
     def __cinit__ (self, object mechanismParams):
         self.VARS = mechanismParams['VARS']
@@ -33,7 +31,7 @@ cdef class build_planar(object):
         self.target = np.ndarray((self.POINTS,),dtype=np.object)
         for i, coord in enumerate(mechanismParams['targetPath']):
             self.target[i] = Coordinate(coord[0], coord[1])
-            #{0:Coordinate(x0, y0)}
+            #[Coordinate(x0, y0), Coordinate(x0, y0), Coordinate(x0, y0), ...]
         # formulaction dictionary Link
         self.formula = dict()
         for f in mechanismParams['formula']:
@@ -102,7 +100,10 @@ cdef class build_planar(object):
         for i in range(self.POINTS):
             tmp_dict['a0'] = v[(self.VARS+i)]*DEGREE
             for e in self.Exp:
-                tmp_dict[e["target"]] = Coordinate(*self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]]))
+                target_coordinate = Coordinate(*self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]]))
+                if legal_triangle(target_coordinate, tmp_dict[e["params"][0]], tmp_dict[e["params"][-1]]):
+                    tmp_dict[e["target"]] = target_coordinate
+                else: return 1987
             if isnan(tmp_dict[self.targetPoint].distance(self.target[i])):
                 return 1987
             path.append(tmp_dict[self.targetPoint])

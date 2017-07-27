@@ -28,6 +28,8 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
+        self.progressBar.setMaximum(generateData['maxGen'])
+        self.work.progress_update.connect(self.progressBar.setValue)
         self.work.done.connect(self.finish)
         if PORT is None:
             self.label.setText("<html><head/><body><p><span style=\"font-size:12pt;\">"+
@@ -53,7 +55,6 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         self.work.start()
         self.Start.setEnabled(False)
         self.buttonBox.setEnabled(False)
-        self.progressBar.setRange(0, 0)
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):

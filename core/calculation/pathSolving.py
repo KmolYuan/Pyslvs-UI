@@ -25,6 +25,7 @@ from ..kernel.pyslvs_generate import tinycadlib
 from ..kernel.pyslvs_generate.planarlinkage import build_planar
 
 class WorkerThread(QThread):
+    progress_update = pyqtSignal(int)
     done = pyqtSignal(dict, int)
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, parent=None):
         super(WorkerThread, self).__init__(parent)
@@ -58,14 +59,13 @@ class WorkerThread(QThread):
             'hardwareInfo':{
                 'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
                 'memory':"{} GB".format(round(mem.total/(1024.**3), 4)),
-                'cpu':cpu.get("model name", cpu['ProcessorNameString']),
+                'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
                 'network':str(self.socket!=None)},
             'TimeAndFitness':TnF}
         for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
         print('total cost time: {} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     
-    #TODO: Put socket into Cython lib.
     def generateProcess(self):
         if self.socket!=None:
             from ..server.rga import Genetic
@@ -92,7 +92,7 @@ class WorkerThread(QThread):
             if self.socket!=None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
-            self.foo = Genetic(mechanismObj, **APs)
+            foo = Genetic
         #Firefly Algorithm
         elif self.type_num==1:
             APs = {
@@ -109,7 +109,7 @@ class WorkerThread(QThread):
             if self.socket!=None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
-            self.foo = Firefly(mechanismObj, **APs)
+            foo = Firefly
         #Differential Evolution
         elif self.type_num==2:
             APs = {
@@ -125,8 +125,9 @@ class WorkerThread(QThread):
             if self.socket!=None:
                 APs['socket_port'] = self.socket
                 APs['targetPath'] = self.mechanismParams['targetPath']
-            self.foo = DiffertialEvolution(mechanismObj, **APs)
-        time_and_fitness, fitnessParameter = self.foo.run()
+            foo = DiffertialEvolution
+        self.fun = foo(mechanismObj, progress_fun=self.progress_update.emit, **APs)
+        time_and_fitness, fitnessParameter = self.fun.run()
         return(tuple(tuple(float(v) for v in e.split(',')) for e in time_and_fitness.split(';')[0:-1]),
             [float(e) for e in fitnessParameter.split(',')])
     

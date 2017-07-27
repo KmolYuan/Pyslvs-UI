@@ -44,12 +44,12 @@ cdef class DiffertialEvolution(object):
     cdef int strategy, D, NP, maxGen, rpt, gen, r1, r2, r3, r4, r5
     cdef double F, CR, timeS, timeE
     cdef np.ndarray lb, ub, pop
-    cdef object f
+    cdef object f, progress_fun
     cdef Chromosome lastgenbest, currentbest
     cdef object fitnessTime, fitnessParameter
     
     def __cinit__(self, object Func, int strategy, int D, int NP, double F, double CR,
-            object lower, object upper, int maxGen, int report):
+            object lower, object upper, int maxGen, int report, object progress_fun=None):
         # strategy 1~10, choice what strategy to generate new member in temporary
         self.strategy = strategy
         # dimesion of quesiton
@@ -67,10 +67,10 @@ cdef class DiffertialEvolution(object):
         self.lb = np.array(lower[:])
         # up bound
         self.ub = np.array(upper[:])
-        # maximum generation
+        # maxima generation, report: how many generation report status once
         self.maxGen = maxGen
-        # how many generation report once
         self.rpt = report
+        self.progress_fun = progress_fun
         # object function, or enviorment
         self.f = Func
         # check parameter is set properly
@@ -328,6 +328,7 @@ cdef class DiffertialEvolution(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
+            if self.progress_fun is not None: self.progress_fun(self.gen)
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()
