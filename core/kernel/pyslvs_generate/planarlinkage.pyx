@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from libc.math cimport isnan
 import tinycadlib
-from tinycadlib import legal_crank, DEGREE, Coordinate, DEGREE
+from tinycadlib import legal_crank, legal_triangle, DEGREE, Coordinate, DEGREE
 import numpy as np
 cimport numpy as np
 
@@ -33,11 +33,12 @@ cdef class build_planar(object):
         self.target = np.ndarray((self.POINTS,),dtype=np.object)
         for i, coord in enumerate(mechanismParams['targetPath']):
             self.target[i] = Coordinate(coord[0], coord[1])
+            #{0:Coordinate(x0, y0)}
         # formulaction dictionary Link
         self.formula = dict()
         for f in mechanismParams['formula']:
             self.formula[f] = getattr(tinycadlib, f)
-        #self.formula = {'PLAP': PLAP, 'PLLP': PLLP}
+            #{'PLAP': PLAP(), 'PLLP': PLLP()}
         
         # Expression A, L0, a0, D, B, B, L1, L2, D, C, B, L3, L4, C, E
         # split Expression to list
@@ -60,8 +61,10 @@ cdef class build_planar(object):
             relate = ExpressN
             params = ExpressionL[count:_tmp]
             target = ExpressionL[_tmp]
-            count = _tmp + 1
+            count = _tmp+1
             self.Exp.append({"relate":relate, 'target':target, 'params':params})
+            #{'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']}
+            #{'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}
     
     def get_Driving(self): return self.Driving
     def get_Follower(self): return self.Follower

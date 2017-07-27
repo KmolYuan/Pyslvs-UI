@@ -68,8 +68,6 @@ class solver:
         try:
             x1 = p1[0] #p1 start point
             y1 = p1[1]
-            x2 = p2[0] #p2 start point2
-            y2 = p2[1]
             len1 = float(line1)
             angle2 = radians(float(angle))
             angle1 = self.m(p1, p2)
@@ -86,8 +84,6 @@ class solver:
         try:
             x1 = p1[0] #p1 start point
             y1 = p1[1]
-            x2 = p2[0] #p2 start point2
-            y2 = p2[1]
             len1 = float(line1)
             len2 = float(line2)
             d = self.diff(p1, p2)
