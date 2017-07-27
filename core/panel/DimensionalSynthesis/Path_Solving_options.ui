@@ -176,9 +176,6 @@
            <property name="singleStep">
             <number>10</number>
            </property>
-           <property name="value">
-            <number>500</number>
-           </property>
           </widget>
          </item>
         </layout>

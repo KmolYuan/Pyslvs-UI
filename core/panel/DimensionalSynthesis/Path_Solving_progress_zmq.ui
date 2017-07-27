@@ -85,7 +85,7 @@ color: rgb(255, 255, 255);</string>
       <bool>true</bool>
      </property>
      <property name="format">
-      <string>%v / %m</string>
+      <string>%v / %m generations (%p%)</string>
      </property>
     </widget>
    </item>

@@ -36,11 +36,10 @@ class Ui_MainWindow(object):
         self.MainSplitter.setHandleWidth(3)
         self.MainSplitter.setObjectName("MainSplitter")
         self.LaftSplitter = QtWidgets.QSplitter(self.MainSplitter)
-        self.LaftSplitter.setMinimumSize(QtCore.QSize(400, 0))
+        self.LaftSplitter.setMinimumSize(QtCore.QSize(450, 0))
         self.LaftSplitter.setOrientation(QtCore.Qt.Vertical)
         self.LaftSplitter.setObjectName("LaftSplitter")
         self.curveArea = QtWidgets.QWidget(self.LaftSplitter)
-        self.curveArea.setMaximumSize(QtCore.QSize(700, 16777215))
         self.curveArea.setObjectName("curveArea")
         self.verticalLayout_31 = QtWidgets.QVBoxLayout(self.curveArea)
         self.verticalLayout_31.setContentsMargins(0, 0, 0, 0)
@@ -270,11 +269,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_30.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_30.setObjectName("verticalLayout_30")
         self.OptionTab = QtWidgets.QTabWidget(self.OptionTabWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.OptionTab.sizePolicy().hasHeightForWidth())
-        self.OptionTab.setSizePolicy(sizePolicy)
         self.OptionTab.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.OptionTab.setMovable(False)
         self.OptionTab.setObjectName("OptionTab")
@@ -670,7 +664,7 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 548, 239))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 525, 268))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_22 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_22.setContentsMargins(6, 6, 6, 6)
@@ -1400,7 +1394,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))

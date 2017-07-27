@@ -33,7 +33,7 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         self.work.done.connect(self.finish)
         if PORT is None:
             self.label.setText("<html><head/><body><p><span style=\"font-size:12pt;\">"+
-                "This action will take some time, depending on the number of path points and your computer performance."+
+                "This action will take some time, depending on the number of path points, advanced settings and your computer performance."+
                 "<br/><br/>Please wait patiently.</p></body></html>")
             self.argumentText.hide()
         else:

@@ -76,7 +76,6 @@ class Ui_Dialog(object):
         self.popSize.setMinimum(10)
         self.popSize.setMaximum(10000)
         self.popSize.setSingleStep(10)
-        self.popSize.setProperty("value", 500)
         self.popSize.setObjectName("popSize")
         self.horizontalLayout_3.addWidget(self.popSize)
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
