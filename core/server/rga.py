@@ -205,10 +205,9 @@ class Genetic(object):
     
     def run(self):
         """
-        // **** Init and run GA for maxGen times
-        // **** mxg : maximum generation
-        // **** rp  : report cycle, 0 for final report or
-        // ****       report each mxg modulo rp
+        Init and run GA for maxGen times
+        mxg : maximum generation
+        rp  : report cycle, 0 for final report or report each mxg modulo rp
         """
         self.randomize()
         self.initialPop()
@@ -227,7 +226,8 @@ class Genetic(object):
             if self.rpt != 0:
                 if self.gen%self.rpt == 0:
                     self.report()
-            if self.progress_fun is not None: self.progress_fun(self.gen)
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen)
         self.getParamValue()
         self.context.term()
         return self.fitnessTime, self.fitnessParameter
@@ -249,7 +249,8 @@ class Genetic(object):
             ]))
         while True:
             socks = dict(self.poll.poll(100))
-            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode('utf-8'))
+            if socks.get(self.socket)==zmq.POLLIN:
+                return float(self.socket.recv().decode('utf-8'))
             else:
                 self.socket.setsockopt(zmq.LINGER, 0)
                 self.socket.close()

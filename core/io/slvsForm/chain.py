@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 def slvsChain(length1, length2, length3, width=8, thickness=5, drilling=6, joint=0, type=0):
-    if type==0: return"""±²³SolveSpaceREVa
+    if type==0:
+        return"""±²³SolveSpaceREVa
 
 
 Group.h.v=00000001
@@ -3287,7 +3288,8 @@ Constraint.other2=0
 Constraint.reference=0
 AddConstraint
 """.format(length1, length2, length3, width, thickness, drilling, joint)
-    elif type==1: return"""±²³SolveSpaceREVa
+    elif type==1:
+        return"""±²³SolveSpaceREVa
 
 
 Group.h.v=00000001

@@ -34,26 +34,31 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.allShafts.clicked.connect(self.isReady)
         self.chooseShafts.clicked.connect(self.isReady)
         for i, e in enumerate(Point):
-            if not e.fix: self.Run_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
+            if not e.fix:
+                self.Run_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
         self.shaftList = list()
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
             shaftCheckBox.setText('Shaft{}'.format(i))
-            if i==0: shaftCheckBox.setChecked(True)
+            if i==0:
+                shaftCheckBox.setChecked(True)
             shaftCheckBox.clicked.connect(self.isReady)
             self.shaftList.append(shaftCheckBox)
-        for checkBox in reversed(self.shaftList): self.scrollAreaWidgetLayout.insertWidget(0, checkBox)
+        for checkBox in reversed(self.shaftList):
+            self.scrollAreaWidgetLayout.insertWidget(0, checkBox)
         self.isReady()
     
     @pyqtSlot()
     def isReady(self):
         self.shaftReadyList = [e.isChecked() for e in self.shaftList]
         n = False
-        for e in self.shaftReadyList: n |= e
+        for e in self.shaftReadyList:
+            n |= e
         self.buttonBox.button(QDialogButtonBox.Apply).setEnabled(n or self.allShafts.isChecked())
     
     @pyqtSlot(bool)
-    def on_chooseShafts_toggled(self, checked): self.shaftsScrollArea.setEnabled(checked)
+    def on_chooseShafts_toggled(self, checked):
+        self.shaftsScrollArea.setEnabled(checked)
     
     def start(self):
         self.work.set(
@@ -68,7 +73,8 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.subPanel.setEnabled(False)
     
     @pyqtSlot(int)
-    def progressbar_change(self, val): self.progressBar.setValue(val)
+    def progressbar_change(self, val):
+        self.progressBar.setValue(val)
     
     @pyqtSlot(list)
     def finish(self, Path):
@@ -77,7 +83,8 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
             route = vpaths.paths[0].path
             resolution = self.Resolution.value()
             fallIndex = sorted([i*resolution for i, dot in enumerate(route) if dot[0]==False])
-            if (not fallIndex) or len(fallIndex)==len(route): continue
+            if (not fallIndex) or len(fallIndex)==len(route):
+                continue
             self.ShaftSuggest.append(list(reversed([fallIndex[0]%360, fallIndex[-1]%360])))
         self.Path_data = Path
         self.accept()

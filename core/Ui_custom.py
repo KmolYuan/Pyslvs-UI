@@ -25,8 +25,8 @@ def init_Widgets(self):
     self.MainSplitter.setStretchFactor(0, 1)
     self.MainSplitter.setStretchFactor(1, 4)
     self.menuBar.setCornerWidget(QLabel("Version {} ({})".format(VERSION[0], VERSION[1])))
-    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
-        self.Shaft, self.Slider, self.Rod]: table.itemClicked.connect(self.tableFocusChange)
+    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod]:
+        table.itemClicked.connect(self.tableFocusChange)
     #DynamicCanvasView Right-click menu
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
@@ -126,14 +126,17 @@ def action_Enabled(self):
     TWO_POINT = len(self.File.Lists.PointList)>1
     THREE_POINT = len(self.File.Lists.PointList)>2
     #Warning
-    for lable in [self.reqLine, self.reqShaft]: lable.setVisible(not TWO_POINT)
-    for lable in [self.reqChain, self.reqSlider, self.reqRod]: lable.setVisible(not THREE_POINT)
+    for lable in [self.reqLine, self.reqShaft]:
+        lable.setVisible(not TWO_POINT)
+    for lable in [self.reqChain, self.reqSlider, self.reqRod]:
+        lable.setVisible(not THREE_POINT)
     #Add
-    for action in [self.action_New_Line, self.action_Set_Shaft, self.action_link_right_click_menu_add,
-        self.action_shaft_right_click_menu_add]: action.setEnabled(TWO_POINT)
+    for action in [self.action_New_Line, self.action_Set_Shaft, self.action_link_right_click_menu_add, self.action_shaft_right_click_menu_add]:
+        action.setEnabled(TWO_POINT)
     for action in [self.action_New_Stay_Chain, self.action_Set_Slider, self.action_Set_Rod,
-        self.action_chain_right_click_menu_add, self.action_slider_right_click_menu_add,
-        self.action_rod_right_click_menu_add]: action.setEnabled(THREE_POINT)
+            self.action_chain_right_click_menu_add, self.action_slider_right_click_menu_add,
+            self.action_rod_right_click_menu_add]:
+        action.setEnabled(THREE_POINT)
     #Edit
     self.action_Edit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.action_Edit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
@@ -161,8 +164,8 @@ def action_Enabled(self):
     self.action_rod_right_click_menu_delete.setEnabled(self.Rod.rowCount()>=1)
     #Path
     self.action_Path_Track.setEnabled(self.Shaft.rowCount()>0)
-    for action in [self.action_Path_coordinate, self.action_Save_path_only,
-        self.action_Path_Clear]: action.setEnabled(bool(self.File.Lists.pathData))
+    for action in [self.action_Path_coordinate, self.action_Save_path_only, self.action_Path_Clear]:
+        action.setEnabled(bool(self.File.Lists.pathData))
     #Panel
     self.Measurement.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.AuxLine.setEnabled(self.Entiteis_Point.rowCount()>1)

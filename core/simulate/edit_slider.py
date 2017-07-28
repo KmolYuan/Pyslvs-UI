@@ -36,8 +36,11 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
             self.Slider.addItem(iconSelf, 'Slider{}'.format(len(Sliders)))
             self.Slider.setEnabled(False)
         else:
-            for i in range(len(Sliders)): self.Slider.insertItem(i, iconSelf, 'Slider{}'.format(i))
+            for i in range(len(Sliders)):
+                self.Slider.insertItem(i, iconSelf, 'Slider{}'.format(i))
             self.Slider.setCurrentIndex(pos)
+        for sign in [self.Slider_Center.currentIndexChanged, self.Start.currentIndexChanged, self.End.currentIndexChanged]:
+            sign.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)
@@ -48,11 +51,6 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
             self.End.setCurrentIndex(self.Sliders[index].end)
     
     @pyqtSlot(int)
-    def on_Slider_Center_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(int)
-    def on_Start_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(int)
-    def on_End_currentIndexChanged(self, index): self.isOk()
     def isOk(self):
         self.slider = self.Slider_Center.currentIndex()
         self.start = self.Start.currentIndex()

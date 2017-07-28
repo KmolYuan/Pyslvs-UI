@@ -26,8 +26,8 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
         super(batchMoving_show, self).__init__(parent)
         self.setupUi(self)
         self.Point = Point
-        for i, e in enumerate(self.Point): self.Point_list.addItem(
-            QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
+        for i, e in enumerate(self.Point):
+            self.Point_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
         self.isReady()
     
     @pyqtSlot()
@@ -36,7 +36,8 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
             item = self.Point_list.currentItem()
             self.Move_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Point_list.takeItem(self.Point_list.currentRow())
-        except: pass
+        except:
+            pass
         self.isReady()
     @pyqtSlot()
     def on_remove_botton_clicked(self):
@@ -44,7 +45,8 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
             item = self.Move_list.currentItem()
             self.Point_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Move_list.takeItem(self.Move_list.currentRow())
-        except: pass
+        except:
+            pass
         self.isReady()
     @pyqtSlot()
     def on_addAll_button_clicked(self):
@@ -60,15 +62,21 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
             self.Point_list.addItem(QListWidgetItem(item.icon(), item.text()))
             self.Move_list.takeItem(0)
         self.isReady()
+    
     @pyqtSlot(QListWidgetItem)
-    def on_Point_list_itemDoubleClicked(self, item): self.on_add_button_clicked()
+    def on_Point_list_itemDoubleClicked(self, item):
+        self.on_add_button_clicked()
     @pyqtSlot(QListWidgetItem)
-    def on_Move_list_itemDoubleClicked(self, item): self.on_remove_botton_clicked()
+    def on_Move_list_itemDoubleClicked(self, item):
+        self.on_remove_botton_clicked()
     
     @pyqtSlot(float)
-    def on_XIncrease_valueChanged(self, p0): self.isReady()
+    def on_XIncrease_valueChanged(self, p0):
+        self.isReady()
     @pyqtSlot(float)
-    def on_YIncrease_valueChanged(self, p0): self.isReady()
+    def on_YIncrease_valueChanged(self, p0):
+        self.isReady()
+    
     @pyqtSlot()
     def isReady(self):
         n = self.XIncrease.value()!=0 or self.YIncrease.value()!=0

@@ -24,14 +24,16 @@ class Path_Solving_path_adjust_show(QDialog, Ui_Dialog):
     def __init__(self, path, parent=None):
         super(Path_Solving_path_adjust_show, self).__init__(parent)
         self.setupUi(self)
-        for e in path: self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
+        for e in path:
+            self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
         self.points_num.setText(str(len(path)))
         self.blurring_num.setMaximum(len(path))
         self.blurring_num.setValue(self.blurring_num.maximum())
         self.path = path
         self.r_path = list()
     
-    def get_path(self): return self.r_path
+    def get_path(self):
+        return self.r_path
     
     @pyqtSlot()
     def on_scalingButton_clicked(self):
@@ -47,11 +49,15 @@ class Path_Solving_path_adjust_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_blurringButton_clicked(self):
-        try: target_num = round(len(self.path)/self.blurring_num.value())
-        except ZeroDivisionError: target_num = len(self.path)
+        try:
+            target_num = round(len(self.path)/self.blurring_num.value())
+        except ZeroDivisionError:
+            target_num = len(self.path)
         self.r_path = [(e['x'], e['y']) for i, e in enumerate(self.path) if i%target_num==0]
         f_p = (self.path[0]['x'], self.path[0]['y'])
         e_p = (self.path[-1]['x'], self.path[-1]['y'])
-        if self.r_path[0]!=f_p: self.r_path.insert(0, f_p)
-        if self.r_path[-1]!=e_p: self.r_path.append(e_p)
+        if self.r_path[0]!=f_p:
+            self.r_path.insert(0, f_p)
+        if self.r_path[-1]!=e_p:
+            self.r_path.append(e_p)
         self.accept()

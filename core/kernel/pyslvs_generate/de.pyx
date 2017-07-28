@@ -328,7 +328,8 @@ cdef class DiffertialEvolution(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
-            if self.progress_fun is not None: self.progress_fun(self.gen)
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen)
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()

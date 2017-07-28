@@ -29,14 +29,21 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
         self.Shafts = Shafts
         for i, p in enumerate(Point):
             name = 'Point{}'.format(i)
-            if p.fix: self.Center.insertItem(i, icon, name)
-            else: self.References.insertItem(i, icon, name)
+            if p.fix:
+                self.Center.insertItem(i, icon, name)
+            else:
+                self.References.insertItem(i, icon, name)
         if pos is False:
             self.Shaft.addItem(iconSelf, 'Shaft{}'.format(len(Shafts)))
             self.Shaft.setEnabled(False)
         else:
-            for i in range(len(Shafts)): self.Shaft.insertItem(i, iconSelf, 'Shaft{}'.format(i))
+            for i in range(len(Shafts)):
+                self.Shaft.insertItem(i, iconSelf, 'Shaft{}'.format(i))
             self.Shaft.setCurrentIndex(pos)
+        for sign in [self.Start_Angle.valueChanged, self.End_Angle.valueChanged,
+                self.Start_Angle.editingFinished, self.End_Angle.editingFinished,
+                self.Center.currentIndexChanged, self.References.currentIndexChanged]:
+            sign.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)
@@ -47,23 +54,18 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
             self.Start_Angle.setValue(self.Shafts[index].start)
             self.End_Angle.setValue(self.Shafts[index].end)
     
-    @pyqtSlot(float)
-    def on_Start_Angle_valueChanged(self, p0): self.isOk()
-    @pyqtSlot(float)
-    def on_End_Angle_valueChanged(self, p0): self.isOk()
     @pyqtSlot()
-    def on_Start_Angle_editingFinished(self): self.isOk()
-    @pyqtSlot()
-    def on_End_Angle_editingFinished(self): self.isOk()
     @pyqtSlot(int)
-    def on_Center_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(int)
-    def on_References_currentIndexChanged(self, index): self.isOk()
+    @pyqtSlot(float)
     def isOk(self):
-        try: self.center = int(self.Center.currentText().replace('Point', ''))
-        except: self.center = None
-        try: self.ref = int(self.References.currentText().replace('Point', ''))
-        except: self.ref = None
+        try:
+            self.center = int(self.Center.currentText().replace('Point', ''))
+        except:
+            self.center = None
+        try:
+            self.ref = int(self.References.currentText().replace('Point', ''))
+        except:
+            self.ref = None
         self.start = self.Start_Angle.text()
         self.end = self.End_Angle.text()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(

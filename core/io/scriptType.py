@@ -46,7 +46,8 @@ Constraint.dragged(Workplane1, Point0)
         classScript += "p{} = Sys.add_param({})\n".format(bx, e.cx)
         classScript += "p{} = Sys.add_param({})\n".format(by, e.cy)
         classScript += "Point{} = Point2d(Workplane1, p{}, p{})\n".format(i+1, bx, by)
-        if e.fix: classScript += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
+        if e.fix:
+            classScript += "Constraint.dragged(Workplane1, Point{})\n".format(i+1)
     for e in Chain:
         classScript += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(e.p1p2, e.p1+1, e.p2+1)
         classScript += "Constraint.distance({}, Workplane1, Point{}, Point{})\n".format(e.p2p3, e.p2+1, e.p3+1)

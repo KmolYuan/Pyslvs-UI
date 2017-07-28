@@ -45,15 +45,18 @@ class WorkerThread(QThread):
         self.Resolution = Resolution
     
     def run(self):
-        with QMutexLocker(self.mutex): self.stoped = False
+        with QMutexLocker(self.mutex):
+            self.stoped = False
         print("Path Tracking...")
         t0 = timeit.default_timer()
         nPath = list()
         Point = [(copy(vpoint.cx), copy(vpoint.cy)) for vpoint in self.Point]
-        for vpoint in self.Point: vpoint.move()
+        for vpoint in self.Point:
+            vpoint.move()
         for i in self.ShaftList:
             if self.stoped:
-                for p, vpoint in enumerate(self.Point): vpoint.move(Point[p][0], Point[p][1])
+                for p, vpoint in enumerate(self.Point):
+                    vpoint.move(Point[p][0], Point[p][1])
                 return
             normal = self.Shaft[i].start<self.Shaft[i].end
             start_angle = (self.Shaft[i].start if normal else self.Shaft[i].start-360)*100
@@ -64,7 +67,8 @@ class WorkerThread(QThread):
             angleSE = sorted([int(start_angle), int(end_angle)])
             for j in range(angleSE[0], angleSE[1]+int(Resolution)*2, int(Resolution)):
                 if self.stoped:
-                    for p, vpoint in enumerate(self.Point): vpoint.move(Point[p][0], Point[p][1])
+                    for p, vpoint in enumerate(self.Point):
+                        vpoint.move(Point[p][0], Point[p][1])
                     return
                 angle = float(j/100)
                 result = slvsProcess(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod,
@@ -79,7 +83,8 @@ class WorkerThread(QThread):
                 path = [(dot[n]['x'], dot[n]['y']) for dot in allPath]
                 paths.append(VPath(n, path))
             nPath.append(VPaths(i, paths))
-        for p, vpoint in enumerate(self.Point): vpoint.move(Point[p][0], Point[p][1])
+        for p, vpoint in enumerate(self.Point):
+            vpoint.move(Point[p][0], Point[p][1])
         t1 = timeit.default_timer()
         time_spand = t1-t0
         print('total cost time: {:.4f} [s]'.format(time_spand))
@@ -88,5 +93,7 @@ class WorkerThread(QThread):
     def progress_going(self):
         self.progress += 1
         self.progress_Signal.emit(self.progress)
+    
     def stop(self):
-        with QMutexLocker(self.mutex): self.stoped = True
+        with QMutexLocker(self.mutex):
+            self.stoped = True

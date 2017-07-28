@@ -254,7 +254,8 @@ class Firefly(object):
             if self.rp != 0:
                 if self.gen % self.rp == 0:
                     self.report()
-            if self.progress_fun is not None: self.progress_fun(self.gen)
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen)
         # finish all process, report final status
         self.report()
         self.getParamValue()
@@ -278,7 +279,8 @@ class Firefly(object):
             ]))
         while True:
             socks = dict(self.poll.poll(100))
-            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode('utf-8'))
+            if socks.get(self.socket)==zmq.POLLIN:
+                return float(self.socket.recv().decode('utf-8'))
             else:
                 self.socket.setsockopt(zmq.LINGER, 0)
                 self.socket.close()

@@ -37,7 +37,8 @@ class edit_chain_show(QDialog, edit_Dialog):
             self.Chain.addItem(iconSelf, 'Chain{}'.format(len(Chains)))
             self.Chain.setEnabled(False)
         else:
-            for i in range(len(Chains)): self.Chain.insertItem(i, iconSelf, 'Chain{}'.format(i))
+            for i in range(len(Chains)):
+                self.Chain.insertItem(i, iconSelf, 'Chain{}'.format(i))
             self.Chain.setCurrentIndex(pos)
         self.p1_p2.setValidator(mask)
         self.p2_p3.setValidator(mask)
@@ -70,11 +71,15 @@ class edit_chain_show(QDialog, edit_Dialog):
         self.demoLen()
         self.isOk()
     @pyqtSlot(str)
-    def on_p1_p2_textEdited(self, p0): self.isOk()
+    def on_p1_p2_textEdited(self, p0):
+        self.isOk()
     @pyqtSlot(str)
-    def on_p2_p3_textEdited(self, p0): self.isOk()
+    def on_p2_p3_textEdited(self, p0):
+        self.isOk()
     @pyqtSlot(str)
-    def on_p1_p3_textEdited(self, p0): self.isOk()
+    def on_p1_p3_textEdited(self, p0):
+        self.isOk()
+    
     def demoLen(self):
         p1 = self.Point[self.Point1.currentIndex()]
         p2 = self.Point[self.Point2.currentIndex()]
@@ -88,6 +93,7 @@ class edit_chain_show(QDialog, edit_Dialog):
         p1p3 = str(round(((p1.cx-p3.cx)**2+(p1.cy-p3.cy)**2)**(1/2), 2))
         self.p1_p3.setText(p1p3)
         self.p1_p3.setPlaceholderText(p1p3)
+    
     def isOk(self):
         self.p1 = self.Point1.currentIndex()
         self.p2 = self.Point2.currentIndex()

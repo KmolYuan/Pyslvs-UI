@@ -46,15 +46,19 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
     @pyqtSlot()
     def on_buttonBox_rejected(self):
         for shaft, vpaths in zip(self.Nodes, self.pathData):
-            for pointNode, vpath in zip(shaft, vpaths.paths): vpath.show = True if pointNode.checkState(0)==Qt.Checked else False
+            for pointNode, vpath in zip(shaft, vpaths.paths):
+                vpath.show = True if pointNode.checkState(0)==Qt.Checked else False
     
     @pyqtSlot()
-    def on_showAll_clicked(self): self.setAllCheckState(True)
+    def on_showAll_clicked(self):
+        self.setAllCheckState(True)
     @pyqtSlot()
-    def on_hideAll_clicked(self): self.setAllCheckState(False)
+    def on_hideAll_clicked(self):
+        self.setAllCheckState(False)
     def setAllCheckState(self, checked):
         for shaft in self.Nodes:
-            for pointNode in shaft: pointNode.setCheckState(0, Qt.Checked if checked else Qt.Unchecked)
+            for pointNode in shaft:
+                pointNode.setCheckState(0, Qt.Checked if checked else Qt.Unchecked)
     
     @pyqtSlot()
     def on_pathTree_itemSelectionChanged(self):
@@ -63,7 +67,8 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
             if currentItem in shaft:
                 shaftIndex = self.Nodes.index(shaft)
                 pointIndex = shaft.index(currentItem)
-                for i in range(self.path_data.rowCount()): self.path_data.removeRow(0)
+                for i in range(self.path_data.rowCount()):
+                    self.path_data.removeRow(0)
                 for i, dot in enumerate(self.pathData[shaftIndex].paths[pointIndex].path):
                     self.path_data.insertRow(i)
                     self.path_data.setItem(i, 0, QTableWidgetItem(str(dot[0])))

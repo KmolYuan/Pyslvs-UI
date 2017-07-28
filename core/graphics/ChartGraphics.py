@@ -77,11 +77,13 @@ class ChartDialog(QDialog):
             if index:
                 Max = int(max([max([e if type(e)==float else e[index] for e in data[2]]) for data in self.DataSet])*100)
                 axisX.setMax(Max)
-                for i in range(0, Max+1, int(Max/10)): axisX.append(str(i/100), i)
+                for i in range(0, Max+1, int(Max/10)):
+                    axisX.append(str(i/100), i)
             else:
                 Max = max([data[1] for data in self.DataSet])
                 axisX.setMax(Max)
-                for i in range(0, Max+1, int(Max/10)): axisX.append(str(i), i)
+                for i in range(0, Max+1, int(Max/10)):
+                    axisX.append(str(i), i)
         chart.addAxis(axisX, Qt.AlignBottom)
         chart.addAxis(axisY, Qt.AlignLeft)
         for data in self.DataSet:

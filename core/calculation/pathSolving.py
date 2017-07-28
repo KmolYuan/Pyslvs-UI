@@ -36,10 +36,13 @@ class WorkerThread(QThread):
         self.generateData = generateData
         self.algorithmPrams = algorithmPrams
         self.socket = None
-    def setSocket(self, socket): self.socket = socket
+    
+    def setSocket(self, socket):
+        self.socket = socket
     
     def run(self):
-        with QMutexLocker(self.mutex): self.stoped = False
+        with QMutexLocker(self.mutex):
+            self.stoped = False
         print("Algorithm: {}".format("Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
         print("Through: {}".format(self.mechanismParams['targetPath']))
         t0 = timeit.default_timer()
@@ -62,7 +65,8 @@ class WorkerThread(QThread):
                 'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
                 'network':str(self.socket!=None)},
             'TimeAndFitness':TnF}
-        for i in range(len(self.mechanismParams['Link'].split(','))): mechanism['L{}'.format(i)] = FP[4+i]
+        for i in range(len(self.mechanismParams['Link'].split(','))):
+            mechanism['L{}'.format(i)] = FP[4+i]
         print('total cost time: {} [s]'.format(time_spand))
         self.done.emit(mechanism, time_spand)
     
@@ -132,4 +136,5 @@ class WorkerThread(QThread):
             [float(e) for e in fitnessParameter.split(',')])
     
     def stop(self):
-        with QMutexLocker(self.mutex): self.stoped = True
+        with QMutexLocker(self.mutex):
+            self.stoped = True

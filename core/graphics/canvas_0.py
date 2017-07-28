@@ -48,17 +48,23 @@ class Selector:
         self._y = 0
         self._isDrag = False
     @property
-    def x(self): return self._x
+    def x(self):
+        return self._x
     @x.setter
-    def x(self, x): self._x = x
+    def x(self, x):
+        self._x = x
     @property
-    def y(self): return self._y
+    def y(self):
+        return self._y
     @y.setter
-    def y(self, y): self._y = y
+    def y(self, y):
+        self._y = y
     @property
-    def isDrag(self): return self._isDrag
+    def isDrag(self):
+        return self._isDrag
     @isDrag.setter
-    def isDrag(self, isDrag): self._isDrag = isDrag
+    def isDrag(self, isDrag):
+        self._isDrag = isDrag
 
 class DynamicCanvas(QWidget):
     mouse_track = pyqtSignal(float, float)
@@ -76,7 +82,8 @@ class DynamicCanvas(QWidget):
         self.re_Color = colorName()
     
     def changePathCurrentShaft(self):
-        if self.Shaft: self.options.Path.demo = self.Shaft[self.options.currentShaft].demo
+        if self.Shaft:
+            self.options.Path.demo = self.Shaft[self.options.currentShaft].demo
     def changeCurrentShaft(self, pos=0):
         self.options.currentShaft = pos
         self.update()
@@ -118,7 +125,8 @@ class DynamicCanvas(QWidget):
         pathShaft = None
         if self.options.Path.path and self.options.Path.drive_mode:
             for vpaths in self.options.Path.path:
-                if vpaths.shaft==self.options.currentShaft: pathShaft = vpaths
+                if vpaths.shaft==self.options.currentShaft:
+                    pathShaft = vpaths
         if not pathShaft==None:
             shaft = self.Shaft[pathShaft.shaft]
             resolution = abs(shaft.end-shaft.start)/(len(pathShaft.paths[0].path)-1)
@@ -141,7 +149,8 @@ class DynamicCanvas(QWidget):
                     painter.setPen(pen)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Chain{}]'.format(i)
-                    if self.options.style['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
+                    if self.options.style['dimension']:
+                        text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
                     mp = QPointF((p1x+p2x+p3x)/3, (p1y+p2y+p3y)/3)
                     painter.drawText(mp, text)
             for i, e in enumerate(self.Line):
@@ -159,7 +168,8 @@ class DynamicCanvas(QWidget):
                     mp = QPointF((p1x+p2x)/2, (p1y+p2y)/2)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Line{}]'.format(i)
-                    if self.options.style['dimension']: text += ':{:.02f}'.format(e.len)
+                    if self.options.style['dimension']:
+                        text += ':{:.02f}'.format(e.len)
                     painter.drawText(mp, text)
             for e in self.Slider:
                 p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*Tp
@@ -204,11 +214,15 @@ class DynamicCanvas(QWidget):
                 for status in ['Max', 'Min']:
                     if self.AuxLine['is'+status]:
                         if status=='Max':
-                            if self.AuxLine['Max']['x']<x: self.AuxLine['Max']['x'] = x
-                            if self.AuxLine['Max']['y']<y: self.AuxLine['Max']['y'] = y
+                            if self.AuxLine['Max']['x']<x:
+                                self.AuxLine['Max']['x'] = x
+                            if self.AuxLine['Max']['y']<y:
+                                self.AuxLine['Max']['y'] = y
                         else:
-                            if self.AuxLine['Min']['x']>x: self.AuxLine['Min']['x'] = x
-                            if self.AuxLine['Min']['y']>y: self.AuxLine['Min']['y'] = y
+                            if self.AuxLine['Min']['x']>x:
+                                self.AuxLine['Min']['x'] = x
+                            if self.AuxLine['Min']['y']>y:
+                                self.AuxLine['Min']['y'] = y
                         L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*Tp*-1)
                         R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*Tp*-1)
                         U_point = QPointF(self.AuxLine[status]['x']*Tp, self.height()*4)
@@ -227,8 +241,10 @@ class DynamicCanvas(QWidget):
                 U_point = QPointF(x*Tp, self.height()*4)
                 D_point = QPointF(x*Tp, self.height()*-4)
                 painter.setPen(pen)
-                if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
-                if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
+                if self.AuxLine['horizontal']:
+                    painter.drawLine(L_point, R_point)
+                if self.AuxLine['vertical']:
+                    painter.drawLine(U_point, D_point)
             for path in pathShaft.paths:
                 x = path.path[resolutionIndex][0]*Tp
                 y = path.path[resolutionIndex][1]*Tp*-1
@@ -246,10 +262,12 @@ class DynamicCanvas(QWidget):
                     painter.setPen(pen)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Point{}]'.format(path.point)
-                    if self.options.style['dimension']: text += ':({:.02f}, {:.02f})'.format(x/Tp, y/Tp*-1)
+                    if self.options.style['dimension']:
+                        text += ':({:.02f}, {:.02f})'.format(x/Tp, y/Tp*-1)
                     painter.drawText(QPointF(x+6, y-6), text)
             for i, e in enumerate(self.Point):
-                if i in Points: continue
+                if i in Points:
+                    continue
                 cx = e.cx*Tp
                 cy = e.cy*Tp*-1
                 pen.setWidth(2)
@@ -266,7 +284,8 @@ class DynamicCanvas(QWidget):
                     painter.setPen(pen)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Point{}]'.format(i)
-                    if self.options.style['dimension']: text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
+                    if self.options.style['dimension']:
+                        text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
                     painter.drawText(QPointF(cx+6, cy-6), text)
         else:
             for i, e in enumerate(self.Chain):
@@ -286,7 +305,8 @@ class DynamicCanvas(QWidget):
                     painter.setPen(pen)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Chain{}]'.format(i)
-                    if self.options.style['dimension']: text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
+                    if self.options.style['dimension']:
+                        text += ':({:.02f}/{:.02f}/{:.02f})'.format(e.p1p2, e.p2p3, e.p1p3)
                     mp = QPointF((p1x+p2x+p3x)/3, (p1y+p2y+p3y)/3)
                     painter.drawText(mp, text)
             for i, e in enumerate(self.Line):
@@ -304,7 +324,8 @@ class DynamicCanvas(QWidget):
                     mp = QPointF((p1x+p2x)/2, (p1y+p2y)/2)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Line{}]'.format(i)
-                    if self.options.style['dimension']: text += ':{:.02f}'.format(e.len)
+                    if self.options.style['dimension']:
+                        text += ':{:.02f}'.format(e.len)
                     painter.drawText(mp, text)
             for e in self.Slider:
                 p1x = self.Point[e.start].cx*Tp
@@ -349,11 +370,15 @@ class DynamicCanvas(QWidget):
                 for status in ['Max', 'Min']:
                     if self.AuxLine['is'+status]:
                         if status=='Max':
-                            if self.AuxLine['Max']['x']<x: self.AuxLine['Max']['x'] = x
-                            if self.AuxLine['Max']['y']<y: self.AuxLine['Max']['y'] = y
+                            if self.AuxLine['Max']['x']<x:
+                                self.AuxLine['Max']['x'] = x
+                            if self.AuxLine['Max']['y']<y:
+                                self.AuxLine['Max']['y'] = y
                         else:
-                            if self.AuxLine['Min']['x']>x: self.AuxLine['Min']['x'] = x
-                            if self.AuxLine['Min']['y']>y: self.AuxLine['Min']['y'] = y
+                            if self.AuxLine['Min']['x']>x:
+                                self.AuxLine['Min']['x'] = x
+                            if self.AuxLine['Min']['y']>y:
+                                self.AuxLine['Min']['y'] = y
                         L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*Tp*-1)
                         R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*Tp*-1)
                         U_point = QPointF(self.AuxLine[status]['x']*Tp, self.height()*4)
@@ -372,8 +397,10 @@ class DynamicCanvas(QWidget):
                 U_point = QPointF(x*Tp, self.height()*4)
                 D_point = QPointF(x*Tp, self.height()*-4)
                 painter.setPen(pen)
-                if self.AuxLine['horizontal']: painter.drawLine(L_point, R_point)
-                if self.AuxLine['vertical']: painter.drawLine(U_point, D_point)
+                if self.AuxLine['horizontal']:
+                    painter.drawLine(L_point, R_point)
+                if self.AuxLine['vertical']:
+                    painter.drawLine(U_point, D_point)
             for i, e in enumerate(self.Point):
                 cx = e.cx*Tp
                 cy = e.cy*Tp*-1
@@ -391,7 +418,8 @@ class DynamicCanvas(QWidget):
                     painter.setPen(pen)
                     painter.setFont(QFont('Arial', self.Font_size))
                     text = '[Point{}]'.format(i)
-                    if self.options.style['dimension']: text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
+                    if self.options.style['dimension']:
+                        text += ':({:.02f}, {:.02f})'.format(e.cx, e.cy)
                     painter.drawText(QPointF(cx+6, cy-6), text)
         if self.options.Path.path and self.options.Path.show:
             for vpaths in self.options.Path.path:
@@ -416,11 +444,13 @@ class DynamicCanvas(QWidget):
                                 if i==0 or error:
                                     pointPath.moveTo(x, y)
                                     error = False
-                                else: pointPath.lineTo(QPointF(x, y))
+                                else:
+                                    pointPath.lineTo(QPointF(x, y))
                             painter.drawPath(pointPath)
                         else:
                             for i, point in enumerate(vpath.path):
-                                if point[0] is None or point[0] is False: continue
+                                if point[0] is None or point[0] is False:
+                                    continue
                                 x = point[0]*Tp
                                 y = point[1]*Tp*-1
                                 painter.drawPoint(QPointF(x, y))
@@ -449,10 +479,13 @@ class DynamicCanvas(QWidget):
                     for i, e in enumerate(pathData):
                         x = e['x']*Tp
                         y = e['y']*Tp*-1
-                        if i==0: pointPath.moveTo(x, y)
-                        else: pointPath.lineTo(QPointF(x, y))
+                        if i==0:
+                            pointPath.moveTo(x, y)
+                        else:
+                            pointPath.lineTo(QPointF(x, y))
                     painter.drawPath(pointPath)
-                elif len(pathData)==1: painter.drawPoint(QPointF(pathData[0]['x']*Tp, pathData[0]['y']*Tp*-1))
+                elif len(pathData)==1:
+                    painter.drawPoint(QPointF(pathData[0]['x']*Tp, pathData[0]['y']*Tp*-1))
             else:
                 for i, e in enumerate(pathData):
                     x = e['x']*Tp
@@ -482,14 +515,19 @@ class DynamicCanvas(QWidget):
             self.Selector.x = 0
             self.Selector.y = 0
             self.Selector.isDrag = True
-    def mouseReleaseEvent(self, event): self.Selector.isDrag = False
+    def mouseReleaseEvent(self, event):
+        self.Selector.isDrag = False
+    
     def mouseDoubleClickEvent(self, event):
         if QApplication.keyboardModifiers()==Qt.ControlModifier:
             self.options.origin['x'] = event.x()
             self.options.origin['y'] = event.y()
             self.update()
-        if event.button()==Qt.MidButton: self.SetIn()
-        if QApplication.keyboardModifiers()==Qt.AltModifier: self.mouse_getClick.emit()
+        if event.button()==Qt.MidButton:
+            self.SetIn()
+        if QApplication.keyboardModifiers()==Qt.AltModifier:
+            self.mouse_getClick.emit()
+    
     def mouseMoveEvent(self, event):
         if self.Selector.isDrag:
             self.options.origin['x'] = event.x()-self.Selector.x
@@ -498,10 +536,13 @@ class DynamicCanvas(QWidget):
         self.mouse_track.emit(
             round((event.x()-self.options.origin['x'])/self.zoom/self.options.rate, 2),
             -round((event.y()-self.options.origin['y'])/self.zoom/self.options.rate, 2))
-        if QApplication.keyboardModifiers()==Qt.AltModifier: self.setCursor(Qt.CrossCursor)
-        else: self.setCursor(Qt.ArrowCursor)
+        if QApplication.keyboardModifiers()==Qt.AltModifier:
+            self.setCursor(Qt.CrossCursor)
+        else:
+            self.setCursor(Qt.ArrowCursor)
     
-    def resizeEvent(self, event): self.SetIn()
+    def resizeEvent(self, event):
+        self.SetIn()
     
     def SetIn(self):
         width = self.width()

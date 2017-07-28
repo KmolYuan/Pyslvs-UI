@@ -86,7 +86,8 @@ class Script_Dialog(QDialog, Ui_Info_Dialog):
     def on_save_clicked(self):
         fileName, _ = QFileDialog.getSaveFileName(self, 'Save file...', self.Environment_variables+'/'+self.fileName+'.py', 'Python3 Script(*.py)')
         if fileName:
-            if QFileInfo(fileName).suffix()!='py': fileName = fileName+'.py'
+            if QFileInfo(fileName).suffix()!='py':
+                fileName = fileName+'.py'
             with open(fileName, 'w', newline="") as f:
                 f.write(self.script.toPlainText())
             print("Successful Saved: [{}]".format(fileName))

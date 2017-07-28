@@ -64,12 +64,18 @@ cdef class build_planar(object):
             #{'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']}
             #{'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}
     
-    def get_Driving(self): return self.Driving
-    def get_Follower(self): return self.Follower
-    def get_Target(self): return self.targetPoint
-    def get_Link(self): return self.Link_str
-    def get_ExpressionName(self): return self.ExpressionName_str
-    def get_Expression(self): return self.Expression_str
+    def get_Driving(self):
+        return self.Driving
+    def get_Follower(self):
+        return self.Follower
+    def get_Target(self):
+        return self.targetPoint
+    def get_Link(self):
+        return self.Link_str
+    def get_ExpressionName(self):
+        return self.ExpressionName_str
+    def get_Expression(self):
+        return self.Expression_str
     
     def __call__(self, v):
         """
@@ -103,7 +109,8 @@ cdef class build_planar(object):
                 target_coordinate = Coordinate(*self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]]))
                 if legal_triangle(target_coordinate, tmp_dict[e["params"][0]], tmp_dict[e["params"][-1]]):
                     tmp_dict[e["target"]] = target_coordinate
-                else: return 1987
+                else:
+                    return 1987
             if isnan(tmp_dict[self.targetPoint].distance(self.target[i])):
                 return 1987
             path.append(tmp_dict[self.targetPoint])

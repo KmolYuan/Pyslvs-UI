@@ -13,20 +13,28 @@ class Direction:
             del Args['Type']
         self.__dict__.update(Args)
     @property
-    def Type(self): return self._type
+    def Type(self):
+        return self._type
     @Type.setter
-    def Type(self, Type): self._type = Type
+    def Type(self, Type):
+        self._type = Type
     
     def set(self, name, value):
-        if name in self.ITEM: self.__dict__.update({name:value})
-    def get(self, name, elseObject=None): return getattr(self, name) if hasattr(self, name) else elseObject
-    def items(self): return {t:getattr(self, t) for t in self.ITEM if hasattr(self, t)}
+        if name in self.ITEM:
+            self.__dict__.update({name:value})
+    def get(self, name, elseObject=None):
+        return getattr(self, name) if hasattr(self, name) else elseObject
+    def items(self):
+        return {t:getattr(self, t) for t in self.ITEM if hasattr(self, t)}
     
-    def __str__(self): return "<{}>".format(self.items())
+    def __str__(self):
+        return "<{}>".format(self.items())
 
 class solver:
-    def __init__(self, Directions=list(), *keywords): self.set(Directions)
-    def set(self, Directions): self.Directions = Directions
+    def __init__(self, Directions=list(), *keywords):
+        self.set(Directions)
+    def set(self, Directions):
+        self.Directions = Directions
     
     def answer(self):
         answer = self.Iterator() if self.Parser() else list()
@@ -36,16 +44,22 @@ class solver:
     def Parser(self):
         for e in self.Directions:
             pos = self.Directions.index(e)
-            if self.getCheck(e, 'p1', 'p2', 'len1', 'angle'): self.Directions[pos].Type = 'PLAP'
-            elif self.getCheck(e, 'p1', 'p2', 'len1', 'len2'): self.Directions[pos].Type = 'PLLP'
-            elif self.getCheck(e, 'p1', 'p2', 'len1', 'p3'): self.Directions[pos].Type = 'PLPP'
-            elif self.getCheck(e, 'p1', 'p2', 'p3'): self.Directions[pos].Type = 'PPP'
-            else: return False
+            if self.getCheck(e, 'p1', 'p2', 'len1', 'angle'):
+                self.Directions[pos].Type = 'PLAP'
+            elif self.getCheck(e, 'p1', 'p2', 'len1', 'len2'):
+                self.Directions[pos].Type = 'PLLP'
+            elif self.getCheck(e, 'p1', 'p2', 'len1', 'p3'):
+                self.Directions[pos].Type = 'PLPP'
+            elif self.getCheck(e, 'p1', 'p2', 'p3'):
+                self.Directions[pos].Type = 'PPP'
+            else:
+                return False
         return bool(self.Directions)
     
     def getCheck(self, e, *args):
         for arg in args:
-            if e.get(arg, False) is False: return False
+            if e.get(arg, False) is False:
+                return False
         return True
     
     def Iterator(self):
@@ -53,15 +67,20 @@ class solver:
         for e in self.Directions:
             p1 = results[e.p1] if type(e.p1)==int else e.p1
             p2 = results[e.p2] if type(e.p2)==int else e.p2
-            if e.Type in ['PLPP', 'PPP']: p3 = results[e.p3] if type(e.p3)==int else e.p3
+            if e.Type in ['PLPP', 'PPP']:
+                p3 = results[e.p3] if type(e.p3)==int else e.p3
             #Direction of the point
             other = e.get('other', False)
             ##True: angle1-angle2
             ##False: angle1+angle2
-            if e.Type=='PLAP': results.append(self.PLAP(p1, e.len1, e.angle, p2, other))
-            elif e.Type=='PLLP': results.append(self.PLLP(p1, e.len1, e.len2, p2, other))
-            elif e.Type=='PLPP': results.append(self.PLPP(p1, e.len1, p3, p2, other))
-            elif e.Type=='PPP': results.append(self.PPP(p1, p2, p3))
+            if e.Type=='PLAP':
+                results.append(self.PLAP(p1, e.len1, e.angle, p2, other))
+            elif e.Type=='PLLP':
+                results.append(self.PLLP(p1, e.len1, e.len2, p2, other))
+            elif e.Type=='PLPP':
+                results.append(self.PLPP(p1, e.len1, p3, p2, other))
+            elif e.Type=='PPP':
+                results.append(self.PPP(p1, p2, p3))
         return results
     
     def PLAP(self, p1, line1, angle, p2, other=False):
@@ -78,7 +97,8 @@ class solver:
                 cx = x1+len1*cos(angle1+angle2)
                 cy = y1+len1*sin(angle1+angle2)
             return cx, cy
-        except Exception as e: return self.ErrorBack(e)
+        except Exception as e:
+            return self.ErrorBack(e)
     
     def PLLP(self, p1, line1, line2, p2, other=False):
         try:
@@ -96,7 +116,8 @@ class solver:
                 cx = x1+len1*cos(angle1+angle2)
                 cy = y1+len1*sin(angle1+angle2)
             return cx, cy
-        except Exception as e: return self.ErrorBack(e)
+        except Exception as e:
+            return self.ErrorBack(e)
     
     def PLPP(self, p1, line1, p2, p3, other=False):
         try:
@@ -114,9 +135,11 @@ class solver:
                 ex = ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))
                 ey = (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(len1**2*x2**2 - 2*len1**2*x2*x3 + len1**2*y2**2 - 2*len1**2*y2*y3 + len1**2*x3**2 + len1**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
             return ex, ey
-        except Exception as e: return self.ErrorBack(e)
+        except Exception as e:
+            return self.ErrorBack(e)
     
-    def PPP(self, p1, p2, p3): return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
+    def PPP(self, p1, p2, p3):
+        return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
     
     def m(self, p1, p2):
         x = p2[0]-p1[0]
@@ -125,15 +148,19 @@ class solver:
         angle = self.CosineTheoremAngle(y, x, d)
         return angle*(-1 if y<0 else 1)
     
-    def diff(self, p1, p2): return sqrt((p2[0]-p1[0])**2+(p2[1]-p1[1])**2)
+    def diff(self, p1, p2):
+        return sqrt((p2[0]-p1[0])**2+(p2[1]-p1[1])**2)
     
     def CosineTheoremAngle(self, a, b, c):
         numerator = float(b**2+c**2-a**2)
         denominator = float(2*b*c)
-        try: return acos(numerator/denominator)
+        try:
+            return acos(numerator/denominator)
         except ZeroDivisionError:
-            if numerator>0: return radians(90.)
-            else: return radians(270.)
+            if numerator>0:
+                return radians(90.)
+            else:
+                return radians(270.)
     
     def ErrorBack(self, e):
         logging.exception("TS Exception.")

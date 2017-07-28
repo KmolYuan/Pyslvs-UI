@@ -214,7 +214,8 @@ cdef class Genetic(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
-            if self.progress_fun is not None: self.progress_fun(self.gen)
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen)
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

@@ -36,7 +36,8 @@ class edit_link_show(QDialog, edit_link_Dialog):
             self.Link.addItem(iconSelf, 'Line{}'.format(len(Lines)))
             self.Link.setEnabled(False)
         else:
-            for i in range(len(Lines)): self.Link.insertItem(i, iconSelf, 'Line{}'.format(i))
+            for i in range(len(Lines)):
+                self.Link.insertItem(i, iconSelf, 'Line{}'.format(i))
             self.Link.setCurrentIndex(pos)
         self.Length.setValidator(mask)
         self.isOk()
@@ -58,13 +59,16 @@ class edit_link_show(QDialog, edit_link_Dialog):
         self.demoLen()
         self.isOk()
     @pyqtSlot(str)
-    def on_Length_textEdited(self, p0): self.isOk()
+    def on_Length_textEdited(self, p0):
+        self.isOk()
+    
     def demoLen(self):
         start = self.Point[self.Start_Point.currentIndex()]
         end = self.Point[self.End_Point.currentIndex()]
         leng = str(round(((start.cx-end.cx)**2+(start.cy-end.cy)**2)**(1/2), 2))
         self.Length.setText(leng)
         self.Length.setPlaceholderText(leng)
+    
     def isOk(self):
         self.len = self.Length.text() if (not 'n' in self.Length.text()) or (self.Length.text()!='') else self.Length.placeholderText()
         n = self.Start_Point.currentIndex()!=self.End_Point.currentIndex() and self.len!=0

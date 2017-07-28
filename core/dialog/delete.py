@@ -25,10 +25,11 @@ class deleteDlg(QDialog, delete_Dialog):
         super(deleteDlg, self).__init__(parent)
         self.setupUi(self)
         self.setWindowIcon(deleteIcon)
-        for i in range(table.rowCount()): self.Entity.insertItem(i, icon, table.item(i, 0).text())
+        for i in range(table.rowCount()):
+            self.Entity.insertItem(i, icon, table.item(i, 0).text())
         self.Entity.setCurrentIndex(pos)
         self.on_Entity_currentIndexChanged(0)
     
     @pyqtSlot(int)
-    def on_Entity_currentIndexChanged(self, index): self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
-        self.Entity.currentIndex()!=-1 and self.Entity.currentText()!='Point0')
+    def on_Entity_currentIndexChanged(self, index):
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.Entity.currentIndex()!=-1 and self.Entity.currentText()!='Point0')

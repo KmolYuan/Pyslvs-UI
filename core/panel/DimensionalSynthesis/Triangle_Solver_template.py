@@ -67,18 +67,21 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
     def on_parameterTable_clicked(self, index):
         self.setPreview(self.template[self.templateType.currentIndex()]['pic'])
     
-    def setPreview(self, pic): self.templateImage.setPixmap(QPixmap(pic).scaledToWidth(500))
+    def setPreview(self, pic):
+        self.templateImage.setPixmap(QPixmap(pic).scaledToWidth(500))
     
     def clearTables(self):
         for table in [self.triangleTable, self.parameterTable]:
-            for i in range(table.rowCount()): table.removeRow(0)
+            for i in range(table.rowCount()):
+                table.removeRow(0)
     
     def paramaTable(self, c):
         for i in range(c):
             self.parameterTable.insertRow(i)
             self.parameterTable.setItem(i, 0, QTableWidgetItem('P{}'.format(i+1)))
             pointBox = QComboBox(self.parameterTable)
-            for k in range(len(self.Point)): pointBox.insertItem(k, 'Point{}'.format(k))
+            for k in range(len(self.Point)):
+                pointBox.insertItem(k, 'Point{}'.format(k))
             pointBox.currentIndexChanged.connect(self.isOk)
             self.parameterTable.setCellWidget(i, 1, pointBox)
         for i in range(c):
@@ -86,7 +89,8 @@ class Triangle_Solver_template_show(QDialog, Ui_Dialog):
     
     def triTable(self, li):
         if self.triangleTable.rowCount()==0:
-            for i in range(len(li)): self.triangleTable.insertRow(i)
+            for i in range(len(li)):
+                self.triangleTable.insertRow(i)
         for e in li:
             row = li.index(e)
             self.triangleTable.setItem(row, 0, QTableWidgetItem('PPP'))

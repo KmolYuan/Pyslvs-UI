@@ -32,17 +32,21 @@ class playShaft(QThread):
         self.mutex = QMutex()
     
     def run(self):
-        with QMutexLocker(self.mutex): self.stoped = False
+        with QMutexLocker(self.mutex):
+            self.stoped = False
         i = 0
         while True:
             i += 1
-            if self.stoped: return
-            if i>=self.limit: i = 0
+            if self.stoped:
+                return
+            if i>=self.limit:
+                i = 0
             sleep(.05)
             self.progress_Signal.emit(i)
     
     def stop(self):
-        with QMutexLocker(self.mutex): self.stoped = True
+        with QMutexLocker(self.mutex):
+            self.stoped = True
 
 class DynamicCanvas(QWidget):
     def __init__(self, mechanism, Paths, parent=None):
@@ -87,10 +91,13 @@ class DynamicCanvas(QWidget):
             for i, exp in enumerate(expression_tag[1:]):
                 p_l = list()
                 for i, k in enumerate([0, 3, -1]):
-                    if exp[k] in self.Paths: p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*Tp, self.Paths[exp[k]][self.index][1]*Tp*-1))
+                    if exp[k] in self.Paths:
+                        p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*Tp, self.Paths[exp[k]][self.index][1]*Tp*-1))
                     else:
-                        if exp[k]=='A': p_l.append(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1))
-                        else: p_l.append(QPointF(self.mechanism['Dx']*Tp, self.mechanism['Dy']*Tp*-1))
+                        if exp[k]=='A':
+                            p_l.append(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1))
+                        else:
+                            p_l.append(QPointF(self.mechanism['Dx']*Tp, self.mechanism['Dy']*Tp*-1))
                 pen.setWidth(self.options.style['penWidth']['pen'])
                 pen.setColor(self.options.style['link'])
                 painter.setPen(pen)
@@ -103,8 +110,10 @@ class DynamicCanvas(QWidget):
                 pointPath = QPainterPath()
                 for j, coordinate in enumerate(self.Paths[tag]):
                     point = QPointF(coordinate[0]*Tp, coordinate[1]*Tp*-1)
-                    if j==0: pointPath.moveTo(point)
-                    else: pointPath.lineTo(point)
+                    if j==0:
+                        pointPath.moveTo(point)
+                    else:
+                        pointPath.lineTo(point)
                 painter.drawPath(pointPath)
             for tag in ['A', 'D']:
                 cx = self.mechanism[tag+'x']*Tp
@@ -133,8 +142,10 @@ class DynamicCanvas(QWidget):
             pointPath = QPainterPath()
             for i, coordinate in enumerate(pathData):
                 point = QPointF(coordinate[0]*Tp, coordinate[1]*Tp*-1)
-                if i==0: pointPath.moveTo(point)
-                else: pointPath.lineTo(point)
+                if i==0:
+                    pointPath.moveTo(point)
+                else:
+                    pointPath.lineTo(point)
             painter.drawPath(pointPath)
         else:
             painter.translate(width/2, height/2)

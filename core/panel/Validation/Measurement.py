@@ -32,7 +32,8 @@ class Measurement_show(QWidget, Measurement_Form):
             self.End.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
     
     @pyqtSlot(float, float)
-    def show_mouse_track(self, x, y): self.Mouse.setPlainText("("+str(x)+", "+str(y)+")")
+    def show_mouse_track(self, x, y):
+        self.Mouse.setPlainText("({}, {})".format(x, y))
     
     @pyqtSlot(int)
     def on_Start_currentIndexChanged(self, index):
@@ -43,7 +44,8 @@ class Measurement_show(QWidget, Measurement_Form):
         self.First_Detection = True
         self.point_change.emit(self.Start.currentIndex(), self.End.currentIndex())
     @pyqtSlot(float)
-    def change_distance(self, val): self.Distance.setPlainText(str(val))
+    def change_distance(self, val):
+        self.Distance.setPlainText(str(val))
     
     @pyqtSlot()
     def Detection_do(self):
@@ -52,6 +54,8 @@ class Measurement_show(QWidget, Measurement_Form):
             self.Max_val.setPlainText(self.Distance.toPlainText())
             self.Min_val.setPlainText(self.Distance.toPlainText())
         else:
-            if float(self.Max_val.toPlainText())<float(self.Distance.toPlainText()): self.Max_val.setPlainText(self.Distance.toPlainText())
-            if float(self.Min_val.toPlainText())>float(self.Distance.toPlainText()): self.Min_val.setPlainText(self.Distance.toPlainText())
+            if float(self.Max_val.toPlainText())<float(self.Distance.toPlainText()):
+                self.Max_val.setPlainText(self.Distance.toPlainText())
+            if float(self.Min_val.toPlainText())>float(self.Distance.toPlainText()):
+                self.Min_val.setPlainText(self.Distance.toPlainText())
         self.point_change.emit(self.Start.currentIndex(), self.End.currentIndex())

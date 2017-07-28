@@ -13,7 +13,8 @@ if __name__=='__main__':
         else:
             from PyQt5.QtWidgets import QApplication
             from core.main import MainWindow
-            if args.fusion: QApplication.setStyle('fusion')
+            if args.fusion:
+                QApplication.setStyle('fusion')
             app = QApplication(list(vars(args).values()))
             splash = Pyslvs_Splash()
             splash.show()

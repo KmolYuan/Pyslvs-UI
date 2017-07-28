@@ -35,7 +35,8 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
         self.FileState = FileState
         self.ReloadTable(Directions)
     
-    def setPoint(self, Point): self.Point = Point
+    def setPoint(self, Point):
+        self.Point = Point
     
     def ReloadTable(self, Directions):
         self.directions = Directions
@@ -45,11 +46,13 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.directionsTable.setItem(row, 0, QTableWidgetItem(direction.Type))
             e = direction.p1
             p1Item = QTableWidgetItem('Result{}'.format(e+1) if type(e)==int else str(e))
-            if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+            if type(e)==tuple:
+                p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
             self.directionsTable.setItem(row, 2, p1Item)
             e = direction.p2
             p2Item = QTableWidgetItem('Result{}'.format(e+1) if type(e)==int else str(e))
-            if type(e)==tuple: p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+            if type(e)==tuple:
+                p1Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
             self.directionsTable.setItem(row, 3, p2Item)
             condition = [
                 "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if direction.Type=='PLPP' else
@@ -59,8 +62,10 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.directionsTable.setItem(row, 4, conditionItem)
     
     def editDirection(self, name, edit=False):
-        if edit is False: dlg = Triangle_Solver_edit_show(self.Point, self.directionsTable.rowCount(), name, parent=self)
-        else: dlg = Triangle_Solver_edit_show(self.Point, edit, parent=self, **self.directions[edit].items())
+        if edit is False:
+            dlg = Triangle_Solver_edit_show(self.Point, self.directionsTable.rowCount(), name, parent=self)
+        else:
+            dlg = Triangle_Solver_edit_show(self.Point, edit, parent=self, **self.directions[edit].items())
         dlg.show()
         if dlg.exec_():
             direction = dlg.condition
@@ -69,13 +74,17 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.FileState.endMacro()
     
     @pyqtSlot()
-    def on_pluse_PLAP_clicked(self): self.editDirection('PLAP')
+    def on_pluse_PLAP_clicked(self):
+        self.editDirection('PLAP')
     @pyqtSlot()
-    def on_pluse_PLLP_clicked(self): self.editDirection('PLLP')
+    def on_pluse_PLLP_clicked(self):
+        self.editDirection('PLLP')
     @pyqtSlot()
-    def on_pluse_PLPP_clicked(self): self.editDirection('PLPP')
+    def on_pluse_PLPP_clicked(self):
+        self.editDirection('PLPP')
     @pyqtSlot()
-    def on_pluse_PPP_clicked(self): self.editDirection('PPP')
+    def on_pluse_PPP_clicked(self):
+        self.editDirection('PPP')
     
     def addTemplate(self, name):
         dlg = Triangle_Solver_template_show(self.Point, self.directionsTable.rowCount(), name, self)
@@ -87,13 +96,16 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
                 self.FileState.endMacro()
     
     @pyqtSlot()
-    def on_Bar4_clicked(self): self.addTemplate('4-bar linkage')
+    def on_Bar4_clicked(self):
+        self.addTemplate('4-bar linkage')
     @pyqtSlot()
-    def on_Bar8_clicked(self): self.addTemplate('8-bar linkage')
+    def on_Bar8_clicked(self):
+        self.addTemplate('8-bar linkage')
     
     @pyqtSlot(int, int)
     def on_directionsTable_cellDoubleClicked(self, row, column):
-        if row>-1: self.editDirection(self.directions[row].Type, row)
+        if row>-1:
+            self.editDirection(self.directions[row].Type, row)
     
     @pyqtSlot()
     def on_remove_botton_clicked(self):
@@ -104,10 +116,12 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
             self.FileState.endMacro()
     @pyqtSlot()
     def on_clear_botton_clicked(self):
-        for i in range(self.directionsTable.rowCount()): self.on_remove_botton_clicked()
+        for i in range(self.directionsTable.rowCount()):
+            self.on_remove_botton_clicked()
     
     @pyqtSlot(QTableWidgetItem)
-    def on_directionsTable_itemChanged(self, item): self.Solve.setEnabled(len(self.directions)>0)
+    def on_directionsTable_itemChanged(self, item):
+        self.Solve.setEnabled(len(self.directions)>0)
     
     @pyqtSlot()
     def on_Solve_clicked(self):
@@ -125,10 +139,12 @@ class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
                     show = ('({})'.format(', '.join(['{:.02f}']*len(e)))).format(*e)
                     result = QTableWidgetItem(show)
                     result.setToolTip(show)
-                else: result = QTableWidgetItem('Failed!')
+                else:
+                    result = QTableWidgetItem('Failed!')
                 self.directionsTable.setItem(answers.index(e), 1, result)
             self.answers = answers
             self.Merge.setEnabled(len(self.answers)>0 and not(False in self.answers))
     
     @pyqtSlot()
-    def on_Merge_clicked(self): self.startMerge.emit()
+    def on_Merge_clicked(self):
+        self.startMerge.emit()

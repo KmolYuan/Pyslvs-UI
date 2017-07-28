@@ -40,7 +40,7 @@ class dxfTypeSettings(QDialog, Ui_Dialog):
             self.filePath = fileName
             self.folderPath.setText(self.filePath)
     
-    def save(self): 
+    def save(self):
         dxfModel(self.filePath, self.Line, self.Chain,
             LinkWidth=self.LinkWidthVal.value(),
             ChainWidth=self.ChainWidthVal.value(),

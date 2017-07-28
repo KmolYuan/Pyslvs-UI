@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 def slvsLink(length, width=8, thickness=5, drilling=6, joint=0, type=0):
-    if type==0: return """±²³SolveSpaceREVa
+    if type==0:
+        return """±²³SolveSpaceREVa
 
 
 Group.h.v=00000001

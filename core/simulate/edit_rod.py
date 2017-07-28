@@ -36,8 +36,12 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
             self.Rod.addItem(iconSelf, 'Rod{}'.format(len(Rods)))
             self.Rod.setEnabled(False)
         else:
-            for i in range(len(Rods)): self.Rod.insertItem(i, iconSelf, 'Rod{}'.format(i))
+            for i in range(len(Rods)):
+                self.Rod.insertItem(i, iconSelf, 'Rod{}'.format(i))
             self.Rod.setCurrentIndex(pos)
+        for sign in [self.Center.currentIndexChanged, self.on_Start.currentIndexChanged, self.End.currentIndexChanged,
+                self.Position.valueChanged, self.Position.editingFinished]:
+            sign.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)
@@ -48,16 +52,9 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
             self.End.setCurrentIndex(self.Rods[index].end)
             self.Position.setValue(self.Rods[index].pos)
     
-    @pyqtSlot(int)
-    def on_Center_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(int)
-    def on_Start_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(int)
-    def on_End_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(float)
-    def on_Position_valueChanged(self, p0): self.isOk()
     @pyqtSlot()
-    def on_Position_editingFinished(self): self.isOk()
+    @pyqtSlot(int)
+    @pyqtSlot(float)
     def isOk(self):
         self.cen = self.Center.currentIndex()
         self.start = self.Start.currentIndex()

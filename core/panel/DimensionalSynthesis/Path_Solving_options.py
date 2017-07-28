@@ -48,12 +48,14 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                 spinbox.setMaximum(360.)
                 spinbox.setValue(0.)
                 self.PLTable.setCellWidget(i+len(Length), 1, spinbox)
-        if self.linkage_type=="4 Bar": writeTable(
-            ["Input linkage maximum (IMax)", "Input linkage minimum (IMin)",
-            "Connected linkage maximum (LMax)", "Connected linkage minimum (LMin)",
-            "Follower linkage maximum (FMax)", "Follower linkage minimum (FMin)"],
-            ["Angle maximum (AMax)", "Angle minimum (AMin)"])
-        for i in range(self.PLTable.rowCount()): self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
+        if self.linkage_type=="4 Bar":
+            writeTable(
+                ["Input linkage maximum (IMax)", "Input linkage minimum (IMin)",
+                "Connected linkage maximum (LMax)", "Connected linkage minimum (LMin)",
+                "Follower linkage maximum (FMax)", "Follower linkage minimum (FMin)"],
+                ["Angle maximum (AMax)", "Angle minimum (AMin)"])
+        for i in range(self.PLTable.rowCount()):
+            self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
         def writeTable(Integers=list(), Floats=list()):
@@ -71,23 +73,30 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                 spinbox.setMaximum(10.)
                 spinbox.setValue(0.)
                 self.APTable.setCellWidget(i+len(Integers), 1, spinbox)
-        if self.algorithm=="Genetic Algorithm": writeTable(Floats=["Crossover Rate", "Mutation Rate", "Winning Rate", "Delta value"])
-        elif self.algorithm=="Firefly Algorithm": writeTable(Floats=["Alpha value", "Minimum Beta value", "Gamma value", "Beta0 value"])
-        elif self.algorithm=="Differential Evolution": writeTable(["Evolutionary strategy (0-9)"], ["Weight factor", "Recombination factor"])
+        if self.algorithm=="Genetic Algorithm":
+            writeTable(Floats=["Crossover Rate", "Mutation Rate", "Winning Rate", "Delta value"])
+        elif self.algorithm=="Firefly Algorithm":
+            writeTable(Floats=["Alpha value", "Minimum Beta value", "Gamma value", "Beta0 value"])
+        elif self.algorithm=="Differential Evolution":
+            writeTable(["Evolutionary strategy (0-9)"], ["Weight factor", "Recombination factor"])
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])
         self.report.setValue(PLnAP['report'])
-        for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']): self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
+        for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']):
+            self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
         if self.algorithm=="Genetic Algorithm":
             self.popSize.setValue(PLnAP['algorithmPrams']['nPop'])
-            for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']): self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
+            for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']):
+                self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
         elif self.algorithm=="Firefly Algorithm":
             self.popSize.setValue(PLnAP['algorithmPrams']['n'])
-            for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']): self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
+            for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']):
+                self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
         elif self.algorithm=="Differential Evolution":
             self.popSize.setValue(PLnAP['algorithmPrams']['NP'])
-            for i, tag in enumerate(['strategy', 'F', 'CR']): self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
+            for i, tag in enumerate(['strategy', 'F', 'CR']):
+                self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
     
     @pyqtSlot(int)
     @pyqtSlot(float)
@@ -95,14 +104,19 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         n = True
         pre = 0
         for i in range(self.PLTable.rowCount()):
-            if i%2==0: pre = self.PLTable.cellWidget(i, 1).value()
-            elif i%2==1: n &= pre>=self.PLTable.cellWidget(i, 1).value()
+            if i%2==0:
+                pre = self.PLTable.cellWidget(i, 1).value()
+            elif i%2==1:
+                n &= pre>=self.PLTable.cellWidget(i, 1).value()
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
     
     @pyqtSlot()
-    def on_setDefault_clicked(self): self.setArgs({'maxGen':1500, 'report':1,
-        'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0., 'IMax':300., 'LMax':300., 'FMax':300., 'AMax':360.,
-        'algorithmPrams':
-            {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
-            {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
-            {'NP':400, 'strategy':1, 'F':0.6, 'CR':0.9}})
+    def on_setDefault_clicked(self):
+        self.setArgs({
+            'maxGen':1500, 'report':1,
+            'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0., 'IMax':300., 'LMax':300., 'FMax':300., 'AMax':360.,
+            'algorithmPrams':
+                {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
+                {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
+                {'NP':400, 'strategy':1, 'F':0.6, 'CR':0.9}
+        })

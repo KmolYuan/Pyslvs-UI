@@ -26,9 +26,11 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         super(Triangle_Solver_edit_show, self).__init__(parent)
         self.setupUi(self)
         for i in range(len(Point)):
-            for e in [self.p1, self.p2, self.p3]: e.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
+            for e in [self.p1, self.p2, self.p3]:
+                e.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
         for i in range(row):
-            for e in [self.r1, self.r2, self.r3]: e.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
+            for e in [self.r1, self.r2, self.r3]:
+                e.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))
         self.p1Result.setEnabled(row>0)
         self.p2Result.setEnabled(row>0)
         self.p3Result.setEnabled(row>0)
@@ -59,8 +61,10 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.len1.setValue(condition['len1'])
                 self.other.setCheckState(Qt.Checked if condition['other'] else Qt.Unchecked)
             self.merge.setCurrentIndex(condition['merge'])
-            if Type=='PLAP': self.angle.setValue(condition['angle'])
-            elif Type=='PLLP': self.len2.setValue(condition['len2'])
+            if Type=='PLAP':
+                self.angle.setValue(condition['angle'])
+            elif Type=='PLLP':
+                self.len2.setValue(condition['len2'])
             elif Type in ['PLPP', 'PPP']:
                 if type(condition['p3'])==tuple:
                     self.p3Customize.setChecked(True)
@@ -72,6 +76,15 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 elif type(condition['p3'])==str:
                     self.p3Exist.setChecked(True)
                     self.p3.setCurrentIndex(int(condition['p3'].replace('Point', '')))
+        for sign in [
+                self.p1Exist.clicked, self.p1Result.clicked, self.p1Customize.clicked,
+                self.p2Exist.clicked, self.p2Result.clicked, self.p2Customize.clicked,
+                self.p3Exist.clicked, self.p3Result.clicked, self.p3Customize.clicked,
+                self.p1.currentIndexChanged, self.r1.currentIndexChanged, self.x1.valueChanged, self.y1.valueChanged,
+                self.p2.currentIndexChanged, self.r2.currentIndexChanged, self.x2.valueChanged, self.y2.valueChanged,
+                self.p3.currentIndexChanged, self.r3.currentIndexChanged, self.x3.valueChanged, self.y3.valueChanged,
+                self.len1.valueChanged, self.len1.valueChanged, self.angle.valueChanged]:
+            sign.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)
@@ -81,14 +94,21 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         self.len2Panel.setEnabled(pos==1)
         self.p3Panel.setEnabled(pos in [2, 3])
         self.other.setEnabled(pos in [0, 1, 2])
-        if pos==0: pic = ":/icons/preview/PLAP.png"
-        elif pos==1: pic = ":/icons/preview/PLLP.png"
-        elif pos==2: pic = ":/icons/preview/PLPP.png"
-        elif pos==3: pic = ":/icons/preview/PPP.png"
+        if pos==0:
+            pic = ":/icons/preview/PLAP.png"
+        elif pos==1:
+            pic = ":/icons/preview/PLLP.png"
+        elif pos==2:
+            pic = ":/icons/preview/PLPP.png"
+        elif pos==3:
+            pic = ":/icons/preview/PPP.png"
         self.triangleImage.setPixmap(QPixmap(pic).scaledToWidth(560))
-        for i in range(self.merge.count()): self.merge.removeItem(0)
-        if pos==2: self.merge.insertItems(0, ["Points only", "Slider"])
-        else: self.merge.insertItems(0, ["Points only", "Linking L0", "Linking R0", "Fixed Chain", "Linking L0 & R0"])
+        for i in range(self.merge.count()):
+            self.merge.removeItem(0)
+        if pos==2:
+            self.merge.insertItems(0, ["Points only", "Slider"])
+        else:
+            self.merge.insertItems(0, ["Points only", "Linking L0", "Linking R0", "Fixed Chain", "Linking L0 & R0"])
         self.merge.setCurrentIndex(0)
         self.isOk()
     
@@ -96,16 +116,26 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def on_merge_currentIndexChanged(self, pos):
         if pos!=-1:
             if self.type.currentIndex() in [0, 1, 3]:
-                if pos==0: pic = ":/icons/preview/TSMergePointsOnly.png"
-                elif pos==1: pic = ":/icons/preview/TSMergeL0.png"
-                elif pos==2: pic = ":/icons/preview/TSMergeR0.png"
-                elif pos==3: pic = ":/icons/preview/TSMergeChain.png"
-                elif pos==4: pic = ":/icons/preview/TSMergeL0R0.png"
+                if pos==0:
+                    pic = ":/icons/preview/TSMergePointsOnly.png"
+                elif pos==1:
+                    pic = ":/icons/preview/TSMergeL0.png"
+                elif pos==2:
+                    pic = ":/icons/preview/TSMergeR0.png"
+                elif pos==3:
+                    pic = ":/icons/preview/TSMergeChain.png"
+                elif pos==4:
+                    pic = ":/icons/preview/TSMergeL0R0.png"
             elif self.type.currentIndex()==2:
-                if pos==0: pic = ":/icons/preview/TSMergeSliderPointsOnly.png"
-                elif pos==1: pic = ":/icons/preview/TSMergeSlider.png"
+                if pos==0:
+                    pic = ":/icons/preview/TSMergeSliderPointsOnly.png"
+                elif pos==1:
+                    pic = ":/icons/preview/TSMergeSlider.png"
             self.mergeImage.setPixmap(QPixmap(pic).scaledToWidth(560))
     
+    @pyqtSlot()
+    @pyqtSlot(int)
+    @pyqtSlot(float)
     def isOk(self):
         condition = {
             'Type':self.type.currentText(),
@@ -142,52 +172,3 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         condition.update(triangle)
         self.condition = Direction(**condition)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
-    
-    @pyqtSlot()
-    def on_p1Exist_clicked(self): self.isOk()
-    @pyqtSlot(int)
-    def on_p1_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot()
-    def on_p1Customize_clicked(self): self.isOk()
-    @pyqtSlot(float)
-    def on_x1_valueChanged(self, p0): self.isOk()
-    @pyqtSlot(float)
-    def on_y1_valueChanged(self, p0): self.isOk()
-    @pyqtSlot()
-    def on_p1Result_clicked(self): self.isOk()
-    @pyqtSlot(int)
-    def on_r1_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot()
-    def on_p2Exist_clicked(self): self.isOk()
-    @pyqtSlot(int)
-    def on_p2_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot()
-    def on_p2Customize_clicked(self): self.isOk()
-    @pyqtSlot(float)
-    def on_x2_valueChanged(self, p0): self.isOk()
-    @pyqtSlot(float)
-    def on_y2_valueChanged(self, p0): self.isOk()
-    @pyqtSlot()
-    def on_p2Result_clicked(self): self.isOk()
-    @pyqtSlot(int)
-    def on_r2_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot()
-    def on_p3Exist_clicked(self): self.isOk()
-    @pyqtSlot(int)
-    def on_p3_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot()
-    def on_p3Customize_clicked(self): self.isOk()
-    @pyqtSlot(float)
-    def on_x3_valueChanged(self, p0): self.isOk()
-    @pyqtSlot(float)
-    def on_y3_valueChanged(self, p0): self.isOk()
-    @pyqtSlot()
-    def on_p3Result_clicked(self): self.isOk()
-    @pyqtSlot(int)
-    def on_r3_currentIndexChanged(self, index): self.isOk()
-    @pyqtSlot(float)
-    def on_len1_valueChanged(self, p0): self.isOk()
-    @pyqtSlot(float)
-    def on_len2_valueChanged(self, p0): self.isOk()
-    @pyqtSlot(float)
-    def on_angle_valueChanged(self, p0): self.isOk()

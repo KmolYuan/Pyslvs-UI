@@ -28,10 +28,13 @@ def writeTable(table, rowPosition, name, Args):
     for i, e in enumerate(Args):
         if type(e) in [str, float, int]:
             content = 'Point{}'.format(e) if type(e)==int else e
-            try: table.setItem(rowPosition, i+1, QTableWidgetItem(str(round(float(content), 4))))
+            try:
+                table.setItem(rowPosition, i+1, QTableWidgetItem(str(round(float(content), 4))))
             except:
-                try: table.setItem(rowPosition, i+1, QTableWidgetItem(colorIcons()[content], content))
-                except KeyError: table.setItem(rowPosition, i+1, QTableWidgetItem(content))
+                try:
+                    table.setItem(rowPosition, i+1, QTableWidgetItem(colorIcons()[content], content))
+                except KeyError:
+                    table.setItem(rowPosition, i+1, QTableWidgetItem(content))
         elif type(e)==bool:
             checkbox = QTableWidgetItem(str())
             checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
@@ -43,7 +46,8 @@ def writeTS(table, row, Direction):
     for i in [2, 3]:
         e = [Direction.p1, Direction.p2][i-2]
         Item = QTableWidgetItem('Result{}'.format(e+1) if type(e)==int else "({:.02f}, {:.02f})".format(e[0], e[1]) if type(e)==tuple else e)
-        if type(e)==tuple: Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
+        if type(e)==tuple:
+            Item.setToolTip("x = {}\ny = {}".format(e[0], e[1]))
         table.setItem(row, i, Item)
     condition = [
         "{}: {}".format(k, (v if k!='merge' else ["Points only", "Slider"][v] if Direction.Type=='PLPP' else
@@ -68,12 +72,15 @@ class editTableCommand(QUndoCommand):
     def redo(self):
         isEdit = not self.edit is False
         rowPosition = self.edit if isEdit else self.table.rowCount()
-        if not isEdit: self.table.insertRow(rowPosition)
+        if not isEdit:
+            self.table.insertRow(rowPosition)
         writeTable(self.table, rowPosition, self.name, self.Args)
     def undo(self):
         isEdit = not self.edit is False
-        if not isEdit: self.table.removeRow(self.table.rowCount()-1)
-        else: writeTable(self.table, self.edit, self.name, self.oldArgs)
+        if not isEdit:
+            self.table.removeRow(self.table.rowCount()-1)
+        else:
+            writeTable(self.table, self.edit, self.name, self.oldArgs)
 
 class deleteTableCommand(QUndoCommand):
     def __init__(self, table, name, index, isRename=True):
@@ -90,12 +97,14 @@ class deleteTableCommand(QUndoCommand):
     def redo(self):
         self.table.removeRow(self.index)
         if self.isRename:
-            for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+            for j in range(self.index, self.table.rowCount()):
+                self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     def undo(self):
         self.table.insertRow(self.index)
         writeTable(self.table, self.index, self.name, self.oldArgs)
         if self.isRename:
-            for j in range(self.index, self.table.rowCount()): self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+            for j in range(self.index, self.table.rowCount()):
+                self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
 
 class changePointNumCommand(QUndoCommand):
     def __init__(self, table, pos, row, column, name='Point'):
@@ -134,8 +143,10 @@ class clearPathCommand(QUndoCommand):
         self.data = data
         self.oldPath = deepcopy(data)
     
-    def redo(self): self.data.clear()
-    def undo(self): self.data += self.oldPath
+    def redo(self):
+        self.data.clear()
+    def undo(self):
+        self.data += self.oldPath
 
 class demoValueCommand(QUndoCommand):
     def __init__(self, table, index, value, column):
@@ -146,8 +157,10 @@ class demoValueCommand(QUndoCommand):
         self.column = column
         self.oldValue = float(table.item(index, self.column).text())
     
-    def redo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.value)))
-    def undo(self): self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.oldValue)))
+    def redo(self):
+        self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.value)))
+    def undo(self):
+        self.table.setItem(self.index, self.column, QTableWidgetItem(str(self.oldValue)))
 
 class TSinitCommand(QUndoCommand):
     def __init__(self, TSDirections, Directions):
@@ -170,7 +183,8 @@ class TSeditCommand(QUndoCommand):
         self.table = table
         self.Direction = copy(Direction)
         self.edit = edit
-        if not self.edit is False: self.oldDirection = copy(TSDirections[edit])
+        if not self.edit is False:
+            self.oldDirection = copy(TSDirections[edit])
     
     def redo(self):
         if self.edit is False:
@@ -178,21 +192,28 @@ class TSeditCommand(QUndoCommand):
             try:
                 row = self.table.rowCount()
                 self.table.insertRow(row)
-            except: pass
+            except:
+                pass
         else:
             self.TSDirections[self.edit] = self.Direction
             row = self.edit
-        try: writeTS(self.table, row, self.Direction)
-        except: pass
+        try:
+            writeTS(self.table, row, self.Direction)
+        except:
+            pass
     def undo(self):
         if self.edit is False:
             self.TSDirections.pop()
-            try: self.table.removeRow(self.table.rowCount()-1)
-            except: pass
+            try:
+                self.table.removeRow(self.table.rowCount()-1)
+            except:
+                pass
         else:
             self.TSDirections[self.edit] = self.oldDirection
-            try: writeTS(self.table, self.edit, self.Direction)
-            except: pass
+            try:
+                writeTS(self.table, self.edit, self.Direction)
+            except:
+                pass
 
 class TSdeleteCommand(QUndoCommand):
     def __init__(self, TSDirections, table):
@@ -203,11 +224,15 @@ class TSdeleteCommand(QUndoCommand):
     
     def redo(self):
         self.TSDirections.pop()
-        try: self.table.removeRow(self.table.rowCount()-1)
-        except: pass
+        try:
+            self.table.removeRow(self.table.rowCount()-1)
+        except:
+            pass
     def undo(self):
         row = self.table.rowCount()
         self.TSDirections.append(self.oldDirection)
         self.table.insertRow(row)
-        try: writeTS(self.table, row, self.oldDirection)
-        except: pass
+        try:
+            writeTS(self.table, row, self.oldDirection)
+        except:
+            pass

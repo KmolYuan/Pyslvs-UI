@@ -27,7 +27,8 @@ class Drive_rod_show(QWidget, Ui_Form):
         self.setupUi(self)
         self.table = table
         self.tablePoint = tablePoint
-        for i in range(len(table)): self.Rod.insertItem(i, QIcon(QPixmap(":/icons/spring.png")), 'Rod{}'.format(i))
+        for i in range(len(table)):
+            self.Rod.insertItem(i, QIcon(QPixmap(":/icons/spring.png")), 'Rod{}'.format(i))
         self.on_Rod_currentIndexChanged(0)
     
     @pyqtSlot(int)
@@ -52,8 +53,11 @@ class Drive_rod_show(QWidget, Ui_Form):
         self.Distance_text.setValue(distance/100)
     
     @pyqtSlot(float)
-    def on_Distance_text_valueChanged(self, p0): self.Position.setMaximum(int(p0*100))
+    def on_Distance_text_valueChanged(self, p0):
+        self.Position.setMaximum(int(p0*100))
     @pyqtSlot(int)
-    def on_Position_valueChanged(self, value): self.Distance.setText(str(value/100))
+    def on_Position_valueChanged(self, value):
+        self.Distance.setText(str(value/100))
     
-    def __del__(self): self.positionChange.emit(self.Distance_text.value(), self.Rod.currentIndex())
+    def __del__(self):
+        self.positionChange.emit(self.Distance_text.value(), self.Rod.currentIndex())

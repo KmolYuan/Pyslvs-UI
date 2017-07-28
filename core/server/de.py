@@ -324,7 +324,8 @@ class DiffertialEvolution(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
-            if self.progress_fun is not None: self.progress_fun(self.gen)
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen)
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()
@@ -348,7 +349,8 @@ class DiffertialEvolution(object):
             ]))
         while True:
             socks = dict(self.poll.poll(100))
-            if socks.get(self.socket)==zmq.POLLIN: return float(self.socket.recv().decode('utf-8'))
+            if socks.get(self.socket)==zmq.POLLIN:
+                return float(self.socket.recv().decode('utf-8'))
             else:
                 self.socket.setsockopt(zmq.LINGER, 0)
                 self.socket.close()

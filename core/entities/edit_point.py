@@ -27,13 +27,15 @@ class edit_point_show(QDialog, edit_point_Dialog):
         self.setupUi(self)
         icon = QIcon(QPixmap(":/icons/point.png"))
         self.Points = Points
-        for i, e in enumerate(colorName()): self.Color.insertItem(i, colorIcons()[e], e)
+        for i, e in enumerate(colorName()):
+            self.Color.insertItem(i, colorIcons()[e], e)
         if pos is False:
             self.Point.addItem(icon, 'Point{}'.format(len(Points)))
             self.Point.setEnabled(False)
             self.Color.setCurrentIndex(self.Color.findText('Green'))
         else:
-            for i in range(1, len(Points)): self.Point.insertItem(i, icon, 'Point{}'.format(i))
+            for i in range(1, len(Points)):
+                self.Point.insertItem(i, icon, 'Point{}'.format(i))
             self.Point.setCurrentIndex(pos-1)
         self.X_coordinate.setValidator(mask)
         self.Y_coordinate.setValidator(mask)
