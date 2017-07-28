@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .Ui_Triangle_Solver_edit import Ui_Dialog
-from ...kernel.pyslvs_triangle_solver.TS import Direction
+from ...kernel.pyslvs_python_solver.TS import Direction
 
 class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
@@ -76,7 +76,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 elif type(condition['p3'])==str:
                     self.p3Exist.setChecked(True)
                     self.p3.setCurrentIndex(int(condition['p3'].replace('Point', '')))
-        for sign in [
+        for signal in [
                 self.p1Exist.clicked, self.p1Result.clicked, self.p1Customize.clicked,
                 self.p2Exist.clicked, self.p2Result.clicked, self.p2Customize.clicked,
                 self.p3Exist.clicked, self.p3Result.clicked, self.p3Customize.clicked,
@@ -84,7 +84,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
                 self.p2.currentIndexChanged, self.r2.currentIndexChanged, self.x2.valueChanged, self.y2.valueChanged,
                 self.p3.currentIndexChanged, self.r3.currentIndexChanged, self.x3.valueChanged, self.y3.valueChanged,
                 self.len1.valueChanged, self.len1.valueChanged, self.angle.valueChanged]:
-            sign.connect(self.isOk)
+            signal.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)

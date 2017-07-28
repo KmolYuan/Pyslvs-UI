@@ -22,7 +22,7 @@ from .Ui_Triangle_Solver import Ui_Form as Triangle_Solver_Form
 from .Triangle_Solver_edit import Triangle_Solver_edit_show
 from .Triangle_Solver_template import Triangle_Solver_template_show
 from ...io.undoRedo import TSeditCommand, TSdeleteCommand
-from ...kernel.pyslvs_triangle_solver.TS import solver
+from ...kernel.pyslvs_python_solver.TS import solver
 from copy import deepcopy
 
 class Triangle_Solver_show(QWidget, Triangle_Solver_Form):

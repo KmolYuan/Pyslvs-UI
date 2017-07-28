@@ -39,8 +39,8 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
             for i in range(len(Sliders)):
                 self.Slider.insertItem(i, iconSelf, 'Slider{}'.format(i))
             self.Slider.setCurrentIndex(pos)
-        for sign in [self.Slider_Center.currentIndexChanged, self.Start.currentIndexChanged, self.End.currentIndexChanged]:
-            sign.connect(self.isOk)
+        for signal in [self.Slider_Center.currentIndexChanged, self.Start.currentIndexChanged, self.End.currentIndexChanged]:
+            signal.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)

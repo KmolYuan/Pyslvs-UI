@@ -27,7 +27,7 @@ import csv, datetime
 def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
-from ..kernel.pyslvs_triangle_solver.TS import Direction
+from ..kernel.pyslvs_python_solver.TS import Direction
 
 class Form:
     def __init__(self):

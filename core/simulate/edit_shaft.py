@@ -40,10 +40,10 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
             for i in range(len(Shafts)):
                 self.Shaft.insertItem(i, iconSelf, 'Shaft{}'.format(i))
             self.Shaft.setCurrentIndex(pos)
-        for sign in [self.Start_Angle.valueChanged, self.End_Angle.valueChanged,
+        for signal in [self.Start_Angle.valueChanged, self.End_Angle.valueChanged,
                 self.Start_Angle.editingFinished, self.End_Angle.editingFinished,
                 self.Center.currentIndexChanged, self.References.currentIndexChanged]:
-            sign.connect(self.isOk)
+            signal.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(int)
