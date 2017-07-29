@@ -11,7 +11,7 @@ VPATH = .. ../win32
 
 OUTDIR = ../..
 
-all: ../../%.so
+all: ../../slvs.py
 
 .PHONY: clean
 clean:
@@ -52,7 +52,7 @@ help:
 
 .SECONDEXPANSION:
 
-../../%.so: solver wrap $(HEADERS)
+../../slvs.py: solver wrap $(HEADERS)
 ifeq ($(OS),Windows_NT)
 	move /y _slvs.pyd ..\..
 	move /y libslvs.so ..\..

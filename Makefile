@@ -2,6 +2,22 @@
 
 all: build run
 
+help:
+	@echo ---Pyslvs Makefile Help---
+	@echo make target:
+	@echo - help: show this help message.
+	@echo - all: build Pyslvs and test binary.
+	@echo - build: build Pyslvs.
+	@echo - build-kernel: build kernel only.
+	@echo - deb (Ubuntu only): build and pack up as debian installer.
+	@echo - clean: clean executable file and PyInstaller items,
+	@echo          will not delete kernel binary files.
+	@echo - clean-kernel: clean up kernel binary files.
+	@echo - clean-all: clean every binary files and executable file.
+	@echo --------------------------
+
+.PHONY: help build build-kernel deb clean clean-kernel clean-all
+
 build-kernel: ./core/kernel/pyslvs_generate/*.pyx
 	@echo ---Pyslvs generate Build---
 ifeq ($(OS),Windows_NT)
@@ -50,8 +66,6 @@ ifeq ($(OS),Windows_NT)
 else
 	@dist/pyslvs -h
 endif
-
-.PHONY: deb clean clean-kernel clean-all
 
 DEBIANCONTROL = dist/temp/DEBIAN/control
 deb: build dist/pyslvs
