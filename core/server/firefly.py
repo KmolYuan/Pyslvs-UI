@@ -56,7 +56,9 @@ class Chromosome(object):
         self.f = obj.f
 
 class Firefly(object):
-    def __init__(self, func, D, n, alpha, betaMin, beta0, gamma, lb, ub, maxGen, report, socket_port, targetPath, progress_fun=None):
+    def __init__(self, func, D, n,
+            alpha, betaMin, beta0, gamma, lb, ub,
+            maxGen, report, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
         # D, the dimension of question
         # and each firefly will random place position in this landscape
         self.D = D
@@ -84,6 +86,7 @@ class Firefly(object):
         self.maxGen = maxGen
         self.rp = report
         self.progress_fun = progress_fun
+        self.interrupt_fun = interrupt_fun
         # generation of current
         self.gen = 0
         # best firefly of geneation
@@ -256,6 +259,9 @@ class Firefly(object):
                     self.report()
             if self.progress_fun is not None:
                 self.progress_fun(self.gen)
+            if self.interrupt_fun is not None:
+                if self.interrupt_fun():
+                    break
         # finish all process, report final status
         self.report()
         self.getParamValue()

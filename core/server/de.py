@@ -44,7 +44,9 @@ class Chromosome(object):
         self.f = obj.f
 
 class DiffertialEvolution(object):
-    def __init__(self, func, strategy, D, NP, F, CR, lower, upper, maxGen, report, socket_port, targetPath, progress_fun=None):
+    def __init__(self, func,
+            strategy, D, NP, F, CR, lower, upper,
+            maxGen, report, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
         # strategy 1~10, choice what strategy to generate new member in temporary
         self.strategy = strategy
         # dimesion of quesiton
@@ -66,6 +68,7 @@ class DiffertialEvolution(object):
         self.maxGen = maxGen
         self.rpt = report
         self.progress_fun = progress_fun
+        self.interrupt_fun = interrupt_fun
         # object function, or enviorment
         self.func = func
         # check parameter is set properly
@@ -326,6 +329,9 @@ class DiffertialEvolution(object):
                     self.report()
             if self.progress_fun is not None:
                 self.progress_fun(self.gen)
+            if self.interrupt_fun is not None:
+                if self.interrupt_fun():
+                    break
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()

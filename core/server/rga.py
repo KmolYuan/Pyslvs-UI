@@ -47,7 +47,9 @@ class Chromosome(object):
             self.cp(obj)
 
 class Genetic(object):
-    def __init__(self, func, nParm, nPop, pCross, pMute, pWin, bDelta, upper, lower, maxGen, report, socket_port, targetPath, progress_fun=None):
+    def __init__(self, func, nParm, nPop,
+            pCross, pMute, pWin, bDelta, upper, lower,
+            maxGen, report, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
         self.func = func
         self.nParm = nParm
         self.nPop = nPop
@@ -67,6 +69,7 @@ class Genetic(object):
         self.maxGen = maxGen
         self.rpt = report
         self.progress_fun = progress_fun
+        self.interrupt_fun = interrupt_fun
         self.gen = 0
         # setup benchmark
         self.timeS = time.time()
@@ -228,6 +231,9 @@ class Genetic(object):
                     self.report()
             if self.progress_fun is not None:
                 self.progress_fun(self.gen)
+            if self.interrupt_fun is not None:
+                if self.interrupt_fun():
+                    break
         self.getParamValue()
         self.context.term()
         return self.fitnessTime, self.fitnessParameter
