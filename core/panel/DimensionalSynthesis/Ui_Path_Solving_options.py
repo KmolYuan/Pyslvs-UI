@@ -115,7 +115,8 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Options"))
-        self.label_16.setText(_translate("Dialog", "Max generation: "))
+        self.label_16.setToolTip(_translate("Dialog", "This parameter determines the time of evolution."))
+        self.label_16.setText(_translate("Dialog", "Max generation: (?)"))
         self.label_17.setText(_translate("Dialog", "Report in every: "))
         self.report.setSuffix(_translate("Dialog", "%"))
         item = self.PLTable.horizontalHeaderItem(0)
@@ -123,7 +124,8 @@ class Ui_Dialog(object):
         item = self.PLTable.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Value"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.planarlinkage), _translate("Dialog", "Planar Linkage"))
-        self.label.setText(_translate("Dialog", "The first generation of the population: "))
+        self.label.setToolTip(_translate("Dialog", "The greater the number will make possibilities more available, but will result in longer selection times."))
+        self.label.setText(_translate("Dialog", "The first generation of the population: (?)"))
         item = self.APTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Parameter"))
         item = self.APTable.horizontalHeaderItem(1)

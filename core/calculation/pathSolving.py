@@ -93,9 +93,6 @@ class WorkerThread(QThread):
                 'lower':self.generateData['lower'],
                 'maxGen':self.generateData['maxGen'],
                 'report':self.generateData['report']}
-            if self.socket!=None:
-                APs['socket_port'] = self.socket
-                APs['targetPath'] = self.mechanismParams['targetPath']
             foo = Genetic
         #Firefly Algorithm
         elif self.type_num==1:
@@ -110,9 +107,6 @@ class WorkerThread(QThread):
                 'lb':self.generateData['lower'],
                 'maxGen':self.generateData['maxGen'],
                 'report':self.generateData['report']}
-            if self.socket!=None:
-                APs['socket_port'] = self.socket
-                APs['targetPath'] = self.mechanismParams['targetPath']
             foo = Firefly
         #Differential Evolution
         elif self.type_num==2:
@@ -126,11 +120,14 @@ class WorkerThread(QThread):
                 'lower':self.generateData['lower'],
                 'maxGen':self.generateData['maxGen'],
                 'report':self.generateData['report']}
-            if self.socket!=None:
-                APs['socket_port'] = self.socket
-                APs['targetPath'] = self.mechanismParams['targetPath']
             foo = DiffertialEvolution
-        self.fun = foo(mechanismObj, progress_fun=self.progress_update.emit, **APs)
+        if self.socket!=None:
+            APs['socket_port'] = self.socket
+            APs['targetPath'] = self.mechanismParams['targetPath']
+        self.fun = foo(mechanismObj,
+            progress_fun=self.progress_update.emit,
+            interrupt_fun=self.isStoped,
+            **APs)
         time_and_fitness, fitnessParameter = self.fun.run()
         return(tuple(tuple(float(v) for v in e.split(',')) for e in time_and_fitness.split(';')[0:-1]),
             [float(e) for e in fitnessParameter.split(',')])
@@ -138,3 +135,6 @@ class WorkerThread(QThread):
     def stop(self):
         with QMutexLocker(self.mutex):
             self.stoped = True
+    
+    def isStoped(self):
+        return self.stoped

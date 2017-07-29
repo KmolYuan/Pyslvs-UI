@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(419, 304)
-        Dialog.setMinimumSize(QtCore.QSize(419, 304))
-        Dialog.setMaximumSize(QtCore.QSize(419, 304))
+        Dialog.resize(433, 343)
+        Dialog.setMinimumSize(QtCore.QSize(433, 343))
+        Dialog.setMaximumSize(QtCore.QSize(433, 343))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -38,6 +38,10 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.argumentText)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
+        self.label_2 = QtWidgets.QLabel(Dialog)
+        self.label_2.setWordWrap(True)
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
         self.progressBar = QtWidgets.QProgressBar(Dialog)
         self.progressBar.setTextVisible(True)
         self.progressBar.setObjectName("progressBar")
@@ -50,6 +54,10 @@ class Ui_Dialog(object):
         self.Start = QtWidgets.QPushButton(Dialog)
         self.Start.setObjectName("Start")
         self.horizontalLayout.addWidget(self.Start)
+        self.Interrupt = QtWidgets.QPushButton(Dialog)
+        self.Interrupt.setEnabled(False)
+        self.Interrupt.setObjectName("Interrupt")
+        self.horizontalLayout.addWidget(self.Interrupt)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -69,8 +77,10 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs will start the algorithm via the ZMQ module.<br/>More servers can save more time.<br/><br/>Start Pyslvs server by following argument:<br/>(for example, localhost)</span></p></body></html>"))
+        self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">※ The interrupt button will stop the process, but you can keep the result.</span></p></body></html>"))
         self.progressBar.setFormat(_translate("Dialog", "%v / %m generations (%p%)"))
         self.Start.setText(_translate("Dialog", "Start"))
+        self.Interrupt.setText(_translate("Dialog", "Interrupt"))
 
 import icons_rc
 

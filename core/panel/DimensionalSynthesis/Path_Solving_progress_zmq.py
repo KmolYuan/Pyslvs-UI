@@ -55,7 +55,7 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
     def on_Start_clicked(self):
         self.work.start()
         self.Start.setEnabled(False)
-        self.buttonBox.setEnabled(False)
+        self.Interrupt.setEnabled(True)
     
     @pyqtSlot(dict, int)
     def finish(self, mechanism, time_spand):
@@ -64,8 +64,13 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         self.accept()
     
     @pyqtSlot()
+    def on_Interrupt_clicked(self):
+        if self.work.isRunning():
+            self.work.stop()
+            print("The thread has been interrupt.")
+    
+    @pyqtSlot()
     def closeWork(self):
         if self.work.isRunning():
-            self.work.exit()
-            self.work.wait()
+            self.work.stop()
             print("The thread has been canceled.")

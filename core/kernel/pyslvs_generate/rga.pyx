@@ -4,6 +4,7 @@ import numpy as np
 cimport numpy as np
 from libc.time cimport time
 from time import time as pytime
+from cpython.exc cimport PyErr_CheckSignals
 
 #https://stackoverflow.com/questions/25974975/cython-c-array-initialization
 from libc.stdlib cimport rand, RAND_MAX, srand
@@ -43,14 +44,15 @@ cdef class Chromosome(object):
 cdef class Genetic(object):
     cdef int nParm, nPop, maxGen, gen, rpt
     cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE
-    cdef object func, progress_fun
+    cdef object func, progress_fun, interrupt_fun
     cdef np.ndarray chrom, newChrom, babyChrom
     cdef Chromosome chromElite, chromBest
     cdef np.ndarray maxLimit, minLimit
     cdef object fitnessTime, fitnessParameter
     
-    def __cinit__(self, object objFunc, int nParm, int nPop, double pCross, double pMute, double pWin, double bDelta,
-            object upper, object lower, int maxGen, int report, object progress_fun=None):
+    def __cinit__(self, object objFunc, int nParm, int nPop,
+            double pCross, double pMute, double pWin, double bDelta, object upper, object lower,
+            int maxGen, int report, object progress_fun=None, object interrupt_fun=None):
         """
         init(function func)
         """
@@ -67,6 +69,7 @@ cdef class Genetic(object):
         self.maxGen = maxGen
         self.rpt = report
         self.progress_fun = progress_fun
+        self.interrupt_fun = interrupt_fun
         
         self.chrom = np.ndarray((nPop,),dtype=np.object)
         for i in range(nPop):
@@ -214,8 +217,14 @@ cdef class Genetic(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
+            #progress
             if self.progress_fun is not None:
                 self.progress_fun(self.gen)
+            #interrupt
+            if self.interrupt_fun is not None:
+                if self.interrupt_fun():
+                    break
+            PyErr_CheckSignals()
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

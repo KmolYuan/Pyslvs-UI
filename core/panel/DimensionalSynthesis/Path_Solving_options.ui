@@ -71,8 +71,11 @@
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
           <widget class="QLabel" name="label_16">
+           <property name="toolTip">
+            <string>This parameter determines the time of evolution.</string>
+           </property>
            <property name="text">
-            <string>Max generation: </string>
+            <string>Max generation: (?)</string>
            </property>
           </widget>
          </item>
@@ -160,8 +163,11 @@
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QLabel" name="label">
+           <property name="toolTip">
+            <string>The greater the number will make possibilities more available, but will result in longer selection times.</string>
+           </property>
            <property name="text">
-            <string>The first generation of the population: </string>
+            <string>The first generation of the population: (?)</string>
            </property>
           </widget>
          </item>

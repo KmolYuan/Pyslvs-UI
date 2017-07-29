@@ -5,6 +5,7 @@ cimport numpy as np
 from libc.stdlib cimport rand, RAND_MAX, srand
 from libc.time cimport time
 from time import time as pytime
+from cpython.exc cimport PyErr_CheckSignals
 
 # make true it is random everytime
 srand(time(NULL))
@@ -44,12 +45,13 @@ cdef class DiffertialEvolution(object):
     cdef int strategy, D, NP, maxGen, rpt, gen, r1, r2, r3, r4, r5
     cdef double F, CR, timeS, timeE
     cdef np.ndarray lb, ub, pop
-    cdef object f, progress_fun
+    cdef object f, progress_fun, interrupt_fun
     cdef Chromosome lastgenbest, currentbest
     cdef object fitnessTime, fitnessParameter
     
-    def __cinit__(self, object Func, int strategy, int D, int NP, double F, double CR,
-            object lower, object upper, int maxGen, int report, object progress_fun=None):
+    def __cinit__(self, object Func,
+            int strategy, int D, int NP, double F, double CR, object lower, object upper,
+            int maxGen, int report, object progress_fun=None, object interrupt_fun=None):
         # strategy 1~10, choice what strategy to generate new member in temporary
         self.strategy = strategy
         # dimesion of quesiton
@@ -71,6 +73,7 @@ cdef class DiffertialEvolution(object):
         self.maxGen = maxGen
         self.rpt = report
         self.progress_fun = progress_fun
+        self.interrupt_fun = interrupt_fun
         # object function, or enviorment
         self.f = Func
         # check parameter is set properly
@@ -328,8 +331,14 @@ cdef class DiffertialEvolution(object):
             if self.rpt != 0:
                 if self.gen % self.rpt == 0:
                     self.report()
+            #progress
             if self.progress_fun is not None:
                 self.progress_fun(self.gen)
+            #interrupt
+            if self.interrupt_fun is not None:
+                if self.interrupt_fun():
+                    break
+            PyErr_CheckSignals()
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()

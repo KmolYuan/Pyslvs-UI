@@ -31,7 +31,8 @@ class Direction:
         return "<{}>".format(self.items())
 
 class solver:
-    def __init__(self, Directions=list(), *keywords):
+    def __init__(self, Directions=list(), showError=False, *keywords):
+        self.showError = showError
         self.set(Directions)
     def set(self, Directions):
         self.Directions = Directions
@@ -163,9 +164,10 @@ class solver:
                 return radians(270.)
     
     def ErrorBack(self, e):
-        logging.exception("TS Exception.")
-        traceback.print_tb(e.__traceback__)
-        print(e)
+        if self.showError:
+            logging.exception("TS Exception.")
+            traceback.print_tb(e.__traceback__)
+            print(e)
         return False
 
 if __name__=='__main__':
