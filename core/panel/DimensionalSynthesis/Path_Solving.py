@@ -257,6 +257,12 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def addResult(self, e):
         keys = sorted(list(e.keys()))
         item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['generateData']['maxGen']))
+        if e['interruptedGeneration']=='False':
+            item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
+        elif e['interruptedGeneration']=='N/A':
+            item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
+        else:
+            item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
         item.setToolTip('\n'.join(["[{}] ({} gen)\n".format(e['Algorithm'], e['generateData']['maxGen'])]+
             ["{}: {}".format(k, e[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
             ["\nClick to apply setting."]+["Double click to see dynamic preview."]))

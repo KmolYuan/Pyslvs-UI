@@ -60,7 +60,7 @@
     <file>icons/hidden-lines.png</file>
     <file>icons/horiz.png</file>
     <file>icons/in3d.png</file>
-    <file>icons/interrupt.png</file>
+    <file>icons/interrupted.png</file>
     <file>icons/konsole.png</file>
     <file>icons/length.png</file>
     <file>icons/line.png</file>
@@ -78,6 +78,7 @@
     <file>icons/point.png</file>
     <file>icons/pointonx.png</file>
     <file>icons/properties.png</file>
+    <file>icons/question-mark.png</file>
     <file>icons/rectangle.png</file>
     <file>icons/redo.png</file>
     <file>icons/ref.png</file>
@@ -92,6 +93,7 @@
     <file>icons/step-translate.png</file>
     <file>icons/symmetric.png</file>
     <file>icons/tangent-arc.png</file>
+    <file>icons/task-completed.png</file>
     <file>icons/TS.png</file>
     <file>icons/text.png</file>
     <file>icons/trim.png</file>
