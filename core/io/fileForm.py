@@ -501,7 +501,10 @@ class File:
                 ET.SubElement(hardwareInfo, tag).text = e
             #algorithm_fitness
             for fitness in result['TimeAndFitness']:
-                ET.SubElement(mechanism, 'fitness').text = '@'.join([str(e) for e in fitness])
+                if type(fitness)==float:
+                    ET.SubElement(mechanism, 'fitness').text = str(fitness)
+                else:
+                    ET.SubElement(mechanism, 'fitness').text = '@'.join([str(e) for e in fitness])
     
     def writeCSV(self, fileName):
         with open(fileName, 'w', newline=str()) as stream:
