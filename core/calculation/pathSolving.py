@@ -26,7 +26,7 @@ from ..kernel.pyslvs_generate.planarlinkage import build_planar
 
 class WorkerThread(QThread):
     progress_update = pyqtSignal(int)
-    done = pyqtSignal(dict, int)
+    done = pyqtSignal(dict, float)
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, parent=None):
         super(WorkerThread, self).__init__(parent)
         self.stoped = False
@@ -56,6 +56,7 @@ class WorkerThread(QThread):
             'time':time_spand,
             'Ax':FP[0], 'Ay':FP[1],
             'Dx':FP[2], 'Dy':FP[3],
+            'interruptedGeneration':str(TnF[-1][0]) if self.isStoped() else 'False',
             'mechanismParams':self.mechanismParams,
             'generateData':self.generateData,
             'algorithmPrams':self.algorithmPrams,
@@ -129,7 +130,7 @@ class WorkerThread(QThread):
             interrupt_fun=self.isStoped,
             **APs)
         time_and_fitness, fitnessParameter = self.fun.run()
-        return(tuple(tuple(float(v) for v in e.split(',')) for e in time_and_fitness.split(';')[0:-1]),
+        return(tuple(tuple([int(e.split(',')[0]), float(e.split(',')[1]), float(e.split(',')[2])]) for e in time_and_fitness.split(';')[0:-1]),
             [float(e) for e in fitnessParameter.split(',')])
     
     def stop(self):

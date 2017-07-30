@@ -205,6 +205,8 @@ class File:
                     result['Algorithm'] = mechanism.find('Algorithm').text
                     for tag in ['time', 'Ax', 'Ay', 'Dx', 'Dy']:
                         result[tag] = round(float(mechanism.find(tag).text), 4)
+                    interruptedGeneration = mechanism.find('interruptedGeneration')
+                    result['interruptedGeneration'] = 'N/A' if interruptedGeneration==None else interruptedGeneration.text
                     for node in mechanism.findall('./'):
                         if 'L' in node.tag:
                             result[node.tag] = round(float(node.text), 4)
@@ -460,6 +462,7 @@ class File:
             mechanism = ET.SubElement(algorithm, 'mechanism')
             for tag in ['Algorithm', 'time', 'Ax', 'Ay', 'Dx', 'Dy']:
                 ET.SubElement(mechanism, tag).text = str(result[tag])
+            ET.SubElement(mechanism, 'interruptedGeneration').text = result['interruptedGeneration']
             for tag in result.keys():
                 if 'L' in tag:
                     ET.SubElement(mechanism, tag).text = str(result[tag])

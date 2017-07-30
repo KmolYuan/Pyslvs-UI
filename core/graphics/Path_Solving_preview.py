@@ -66,7 +66,7 @@ class DynamicCanvas(QWidget):
         width = self.width()
         height = self.height()
         pen = QPen()
-        if not False in self.Paths[list(self.Paths.keys())[0]]:
+        try:
             pathMaxX = max([max(dot[0] for dot in path) for path in self.Paths.values()])
             pathMinX = min([min(dot[0] for dot in path) for path in self.Paths.values()])
             pathMaxY = max([max(dot[1] for dot in path) for path in self.Paths.values()])
@@ -147,7 +147,7 @@ class DynamicCanvas(QWidget):
                 else:
                     pointPath.lineTo(point)
             painter.drawPath(pointPath)
-        else:
+        except:
             painter.translate(width/2, height/2)
             pen.setColor(self.options.style['text'])
             painter.setPen(pen)
@@ -175,6 +175,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
             ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['mechanismParams']['Link'].split(',')]))
         #Algorithm information
         self.algorithm_label.setText("\n".join(["Max generation: {}".format(mechanism['generateData']['maxGen'])]+
+            ["Interrupted generation: {}".format(mechanism['interruptedGeneration'])]+
             ["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()]))
         #Hardware information
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in

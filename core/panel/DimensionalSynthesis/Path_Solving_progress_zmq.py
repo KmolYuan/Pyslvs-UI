@@ -57,7 +57,7 @@ class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
         self.Start.setEnabled(False)
         self.Interrupt.setEnabled(True)
     
-    @pyqtSlot(dict, int)
+    @pyqtSlot(dict, float)
     def finish(self, mechanism, time_spand):
         self.mechanism = mechanism
         self.time_spand = time_spand
