@@ -24,7 +24,7 @@ from ...graphics.Path_Solving_preview import PreviewDialog
 from ...kernel.pyslvs_python_solver.TS import solver, Direction
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
-from .Path_Solving_progress_zmq import Path_Solving_progress_zmq_show
+from .Path_Solving_progress import Path_Solving_progress_show
 from .Path_Solving_series import Path_Solving_series_show
 import csv, openpyxl, re
 
@@ -223,7 +223,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.startAlgorithm(True)
     def startAlgorithm(self, hasPort=False):
         type_num, mechanismParams, generateData = self.getGenerate()
-        dlg = Path_Solving_progress_zmq_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
+        dlg = Path_Solving_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
             PORT=self.portText.text() if hasPort else None, parent=self)
         dlg.show()
         if dlg.exec_():

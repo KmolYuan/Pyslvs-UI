@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-29, 15:41:30 -->
+<!-- Saved: 2017-07-30, 15:57:02 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -87,7 +87,7 @@
     <Source>core/panel/DimensionalSynthesis/Path_Solving.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving_options.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving_path_adjust.py</Source>
-    <Source>core/panel/DimensionalSynthesis/Path_Solving_progress_zmq.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Path_Solving_progress.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving_series.py</Source>
     <Source>core/panel/DimensionalSynthesis/Triangle_Solver.py</Source>
     <Source>core/panel/DimensionalSynthesis/Triangle_Solver_edit.py</Source>
@@ -95,7 +95,7 @@
     <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving.py</Source>
     <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_options.py</Source>
     <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_path_adjust.py</Source>
-    <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_progress_zmq.py</Source>
+    <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_progress.py</Source>
     <Source>core/panel/DimensionalSynthesis/Ui_Path_Solving_series.py</Source>
     <Source>core/panel/DimensionalSynthesis/Ui_Triangle_Solver.py</Source>
     <Source>core/panel/DimensionalSynthesis/Ui_Triangle_Solver_directionItem.py</Source>
@@ -154,7 +154,7 @@
     <Form>core/panel/DimensionalSynthesis/Path_Solving.ui</Form>
     <Form>core/panel/DimensionalSynthesis/Path_Solving_options.ui</Form>
     <Form>core/panel/DimensionalSynthesis/Path_Solving_path_adjust.ui</Form>
-    <Form>core/panel/DimensionalSynthesis/Path_Solving_progress_zmq.ui</Form>
+    <Form>core/panel/DimensionalSynthesis/Path_Solving_progress.ui</Form>
     <Form>core/panel/DimensionalSynthesis/Path_Solving_series.ui</Form>
     <Form>core/panel/DimensionalSynthesis/Triangle_Solver.ui</Form>
     <Form>core/panel/DimensionalSynthesis/Triangle_Solver_edit.ui</Form>

@@ -19,12 +19,12 @@
 
 from ...QtModules import *
 import zmq
-from .Ui_Path_Solving_progress_zmq import Ui_Dialog
+from .Ui_Path_Solving_progress import Ui_Dialog
 from ...calculation.pathSolving import WorkerThread
 
-class Path_Solving_progress_zmq_show(QDialog, Ui_Dialog):
+class Path_Solving_progress_show(QDialog, Ui_Dialog):
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, PORT=None, parent=None):
-        super(Path_Solving_progress_zmq_show, self).__init__(parent)
+        super(Path_Solving_progress_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
