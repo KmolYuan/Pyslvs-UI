@@ -257,15 +257,18 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def addResult(self, e):
         keys = sorted(list(e.keys()))
         item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['generateData']['maxGen']))
-        if e['interruptedGeneration']=='False':
+        interrupt = e['interruptedGeneration']
+        if interrupt=='False':
             item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
-        elif e['interruptedGeneration']=='N/A':
+        elif interrupt=='N/A':
             item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
         else:
             item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
-        item.setToolTip('\n'.join(["[{}] ({} gen)\n".format(e['Algorithm'], e['generateData']['maxGen'])]+
-            ["{}: {}".format(k, e[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
-            ["\nClick to apply setting."]+["Double click to see dynamic preview."]))
+        info = (["{}: {}".format(k, e[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
+            ["\nClick to apply setting."]+["Double click to see dynamic preview."])
+        item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(e['Algorithm'],
+            '' if interrupt=='False' else interrupt+'/', e['generateData']['maxGen'])]+
+            (["※ Completeness is not clear." if interrupt=='N/A' else ''])+info))
         self.Result_list.addItem(item)
     
     @pyqtSlot()
@@ -315,7 +318,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 p1 = (Result['Ax'], Result['Ay']) if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else (Result['Dx'], Result['Dy'])
                 p2 = (Result['Ax'], Result['Ay']) if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else (Result['Dx'], Result['Dy'])
                 Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
-            s = solver(Directions)
+            s = solver(Directions, showError=(a==0))
             s_answer = s.answer()
             answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
             if not False in answerT:
