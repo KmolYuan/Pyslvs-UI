@@ -174,9 +174,14 @@ class PreviewDialog(QDialog, Ui_Dialog):
             ["{}: ({}, {})".format(tag, mechanism[tag+'x'], mechanism[tag+'y']) for tag in ['A', 'D']]+
             ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['mechanismParams']['Link'].split(',')]))
         #Algorithm information
-        self.algorithm_label.setText("\n".join(["Max generation: {}".format(mechanism['generateData']['maxGen'])]+
-            ["Interrupted generation: {}".format(mechanism['interruptedGeneration'])]+
-            ["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()]))
+        interrupt = mechanism['interruptedGeneration']
+        self.algorithm_label.setText("<html><head/><body><p>"+
+            "<br/>".join(["Max generation: {}".format(mechanism['generateData']['maxGen'])]+
+            ["<img src=\"{}\" width=\"15\"/>".format(":/icons/task-completed.png" if interrupt=='False' else
+            ":/icons/question-mark.png" if interrupt=='N/A' else ":/icons/interrupted.png")+
+            "Interrupted at: {}".format(interrupt)]+
+            ["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()])+
+            "</p></body></html>")
         #Hardware information
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in
             ['os', 'memory', 'cpu', 'network']]))
