@@ -72,6 +72,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         for e in mechanism_data:
             self.addResult(e)
         self.Settings = self.defaultSettings
+        self.algorithmPrams_default()
         self.Point_list.setContextMenuPolicy(Qt.CustomContextMenu)
         self.Point_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
         self.popMenu_list = QMenu(self)

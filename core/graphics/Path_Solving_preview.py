@@ -175,8 +175,10 @@ class PreviewDialog(QDialog, Ui_Dialog):
             ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['mechanismParams']['Link'].split(',')]))
         #Algorithm information
         interrupt = mechanism['interruptedGeneration']
+        fitness = mechanism['TimeAndFitness'][-1]
         self.algorithm_label.setText("<html><head/><body><p>"+
             "<br/>".join(["Max generation: {}".format(mechanism['generateData']['maxGen'])]+
+            ["Fitness: {}".format(fitness if type(fitness)==float else fitness[1])]+
             ["<img src=\"{}\" width=\"15\"/>".format(":/icons/task-completed.png" if interrupt=='False' else
             ":/icons/question-mark.png" if interrupt=='N/A' else ":/icons/interrupted.png")+
             "Interrupted at: {}".format(interrupt)]+

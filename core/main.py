@@ -1024,7 +1024,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def closePanel(self, pos):
         panel = self.PointTab.widget(pos)
         self.PointTab.removeTab(pos)
-        panel.close()
         panel.deleteLater()
     
     def tableFocusChange(self, item):
