@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from math import *
+from math import sqrt, sin, cos, radians
 import logging, traceback
 
 ##Directions:
@@ -84,39 +84,32 @@ class solver:
                 results.append(self.PPP(p1, p2, p3))
         return results
     
-    def PLAP(self, p1, line1, angle, p2, other=False):
+    def PLAP(self, A, L0, angle, B, other=False):
         try:
-            x1 = p1[0] #p1 start point
-            y1 = p1[1]
-            len1 = float(line1)
-            angle2 = radians(float(angle))
-            angle1 = self.m(p1, p2)
-            if other:
-                cx = x1+len1*cos(angle1-angle2)
-                cy = y1+len1*sin(angle1-angle2)
-            else:
-                cx = x1+len1*cos(angle1+angle2)
-                cy = y1+len1*sin(angle1+angle2)
-            return cx, cy
+            x0 = A[0]
+            y0 = A[1]
+            x1 = B[0]
+            y1 = B[1]
+            loop = -1 if other else 1
+            a0 = radians(angle)
+            return (
+                -L0*loop*(-y0 + y1)*sin(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + L0*(-x0 + x1)*cos(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + x0,
+                L0*loop*(-x0 + x1)*sin(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + L0*(-y0 + y1)*cos(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + y0
+            )
         except Exception as e:
             return self.ErrorBack(e)
     
-    def PLLP(self, p1, line1, line2, p2, other=False):
+    def PLLP(self, A, L0, R0, B, other=False):
         try:
-            x1 = p1[0] #p1 start point
-            y1 = p1[1]
-            len1 = float(line1)
-            len2 = float(line2)
-            d = self.diff(p1, p2)
-            angle1 = self.m(p1, p2)
-            angle2 = self.CosineTheoremAngle(len2, d, len1)
-            if other:
-                cx = x1+len1*cos(angle1-angle2)
-                cy = y1+len1*sin(angle1-angle2)
-            else:
-                cx = x1+len1*cos(angle1+angle2)
-                cy = y1+len1*sin(angle1+angle2)
-            return cx, cy
+            x0 = A[0]
+            y0 = A[1]
+            x1 = B[0]
+            y1 = B[1]
+            loop = -1 if other else 1
+            return (
+                -loop*sqrt(L0**2 - (L0**2 - R0**2 + (x0 - x1)**2 + (y0 - y1)**2)**2/(4*((x0 - x1)**2 + (y0 - y1)**2)))*(-y0 + y1)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + x0 + (-x0 + x1)*(L0**2 - R0**2 + (x0 - x1)**2 + (y0 - y1)**2)/(2*sqrt((-x0 + x1)**2 + (-y0 + y1)**2)*sqrt((x0 - x1)**2 + (y0 - y1)**2)),
+                loop*sqrt(L0**2 - (L0**2 - R0**2 + (x0 - x1)**2 + (y0 - y1)**2)**2/(4*((x0 - x1)**2 + (y0 - y1)**2)))*(-x0 + x1)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + y0 + (-y0 + y1)*(L0**2 - R0**2 + (x0 - x1)**2 + (y0 - y1)**2)/(2*sqrt((-x0 + x1)**2 + (-y0 + y1)**2)*sqrt((x0 - x1)**2 + (y0 - y1)**2))
+            )
         except Exception as e:
             return self.ErrorBack(e)
     
@@ -142,26 +135,8 @@ class solver:
     def PPP(self, p1, p2, p3):
         return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
     
-    def m(self, p1, p2):
-        x = p2[0]-p1[0]
-        y = p2[1]-p1[1]
-        d = self.diff(p1, p2)
-        angle = self.CosineTheoremAngle(y, x, d)
-        return angle*(-1 if y<0 else 1)
-    
     def diff(self, p1, p2):
         return sqrt((p2[0]-p1[0])**2+(p2[1]-p1[1])**2)
-    
-    def CosineTheoremAngle(self, a, b, c):
-        numerator = float(b**2+c**2-a**2)
-        denominator = float(2*b*c)
-        try:
-            return acos(numerator/denominator)
-        except ZeroDivisionError:
-            if numerator>0:
-                return radians(90.)
-            else:
-                return radians(270.)
     
     def ErrorBack(self, e):
         if self.showError:

@@ -227,6 +227,7 @@ class File:
                     #generateData(Misc)
                     result['generateData'] = dict()
                     generateData = mechanism.find('generateData')
+                    if generateData==None: generateData = mechanism.find('GenerateData')
                     for tag in ['nParm', 'maxGen', 'report']:
                         result['generateData'][tag] = int(generateData.find(tag).text)
                     #generateData-->upper / lower
