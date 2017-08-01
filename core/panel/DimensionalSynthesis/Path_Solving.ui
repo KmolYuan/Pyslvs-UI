@@ -34,7 +34,7 @@
         <x>0</x>
         <y>0</y>
         <width>538</width>
-        <height>434</height>
+        <height>435</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -587,6 +587,13 @@
                 </property>
                 <property name="text">
                  <string>Chart</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
                 </property>
                </widget>
               </item>

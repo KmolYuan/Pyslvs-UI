@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_progress.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving_progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(433, 343)
-        Dialog.setMinimumSize(QtCore.QSize(433, 343))
-        Dialog.setMaximumSize(QtCore.QSize(433, 343))
+        Dialog.resize(486, 343)
+        Dialog.setMinimumSize(QtCore.QSize(486, 343))
+        Dialog.setMaximumSize(QtCore.QSize(486, 343))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
@@ -49,6 +49,12 @@ class Ui_Dialog(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setSpacing(6)
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label_3 = QtWidgets.QLabel(Dialog)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout.addWidget(self.label_3)
+        self.fitness_label = QtWidgets.QLabel(Dialog)
+        self.fitness_label.setObjectName("fitness_label")
+        self.horizontalLayout.addWidget(self.fitness_label)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.Start = QtWidgets.QPushButton(Dialog)
@@ -79,6 +85,8 @@ class Ui_Dialog(object):
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs will start the algorithm via the ZMQ module.<br/>More servers can save more time.<br/><br/>Start Pyslvs server by following argument:<br/>(for example, localhost)</span></p></body></html>"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">※ The interrupt button will stop the process, but you can keep the result.</span></p></body></html>"))
         self.progressBar.setFormat(_translate("Dialog", "%v / %m generations (%p%)"))
+        self.label_3.setText(_translate("Dialog", "Fitness: "))
+        self.fitness_label.setText(_translate("Dialog", "N/A"))
         self.Start.setText(_translate("Dialog", "Start"))
         self.Interrupt.setText(_translate("Dialog", "Interrupt"))
 

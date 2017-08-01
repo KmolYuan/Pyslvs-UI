@@ -145,7 +145,7 @@ cdef class Firefly(object):
     
     cdef void report(self):
         self.timeE = pytime()
-        self.fitnessTime += '%d,%.3f,%.2f;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
+        self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
     
     cdef void calculate_new_alpha(self):
         self.alpha = self.alpha0 * log10(self.genbest.f + 1)
@@ -174,7 +174,7 @@ cdef class Firefly(object):
                     self.report()
             #progress
             if self.progress_fun is not None:
-                self.progress_fun(self.gen)
+                self.progress_fun(self.gen, '%.4f'%self.bestFirefly.f)
             #interrupt
             if self.interrupt_fun is not None:
                 if self.interrupt_fun():

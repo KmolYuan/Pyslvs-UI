@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -19,7 +19,7 @@ class Ui_Form(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 538, 434))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 538, 435))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout_7.setContentsMargins(6, 6, 6, 6)
@@ -225,6 +225,11 @@ class Ui_Form(object):
         self.getTimeAndFitness = QtWidgets.QPushButton(self.verticalGroupBox)
         self.getTimeAndFitness.setObjectName("getTimeAndFitness")
         self.verticalLayout_6.addWidget(self.getTimeAndFitness)
+        self.line_3 = QtWidgets.QFrame(self.verticalGroupBox)
+        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setObjectName("line_3")
+        self.verticalLayout_6.addWidget(self.line_3)
         spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_6.addItem(spacerItem5)
         self.deleteButton = QtWidgets.QPushButton(self.verticalGroupBox)

@@ -25,7 +25,7 @@ from ..kernel.pyslvs_generate import tinycadlib
 from ..kernel.pyslvs_generate.planarlinkage import build_planar
 
 class WorkerThread(QThread):
-    progress_update = pyqtSignal(int)
+    progress_update = pyqtSignal(int, str)
     done = pyqtSignal(dict, float)
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, parent=None):
         super(WorkerThread, self).__init__(parent)

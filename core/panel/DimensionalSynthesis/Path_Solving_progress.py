@@ -29,7 +29,7 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
         self.rejected.connect(self.closeWork)
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
         self.progressBar.setMaximum(generateData['maxGen'])
-        self.work.progress_update.connect(self.progressBar.setValue)
+        self.work.progress_update.connect(self.setProgress)
         self.work.done.connect(self.finish)
         if PORT is None:
             self.label.setText("<html><head/><body><p><span style=\"font-size:12pt;\">"+
@@ -50,6 +50,11 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
                     self.reject()
             self.argumentText.setText("--server tcp://localhost:{}".format(PORT.split(':')[2]))
             self.work.setSocket(PORT)
+    
+    @pyqtSlot(int, str)
+    def setProgress(self, progress, fitness):
+        self.progressBar.setValue(progress)
+        self.fitness_label.setText(fitness)
     
     @pyqtSlot()
     def on_Start_clicked(self):

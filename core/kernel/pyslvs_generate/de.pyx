@@ -268,7 +268,7 @@ cdef class DiffertialEvolution(object):
         report current generation status
         """
         self.timeE = pytime()
-        self.fitnessTime += '%d,%.3f,%.2f;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
+        self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
     
     cdef bool overbound(self, Chromosome member):
         """
@@ -333,7 +333,7 @@ cdef class DiffertialEvolution(object):
                     self.report()
             #progress
             if self.progress_fun is not None:
-                self.progress_fun(self.gen)
+                self.progress_fun(self.gen, '%.4f'%self.lastgenbest.f)
             #interrupt
             if self.interrupt_fun is not None:
                 if self.interrupt_fun():
