@@ -31,7 +31,7 @@ class Direction:
         return "<{}>".format(self.items())
 
 class solver:
-    def __init__(self, Directions=list(), showError=False, *keywords):
+    def __init__(self, Directions=list(), showError=True, *keywords):
         self.showError = showError
         self.set(Directions)
     def set(self, Directions):
