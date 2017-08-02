@@ -59,26 +59,44 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     
     def init_APTable(self):
         def writeTable(Integers=list(), Floats=list()):
-            for i, name in enumerate(Integers):
-                self.APTable.insertRow(i)
-                self.APTable.setItem(i, 0, QTableWidgetItem(name))
-                spinbox = QSpinBox()
-                spinbox.setMaximum(1000)
-                spinbox.setValue(0.)
-                self.APTable.setCellWidget(i, 1, spinbox)
-            for i, name in enumerate(Floats):
-                self.APTable.insertRow(i+len(Integers))
-                self.APTable.setItem(i+len(Integers), 0, QTableWidgetItem(name))
-                spinbox = QDoubleSpinBox()
-                spinbox.setMaximum(10.)
-                spinbox.setValue(0.)
-                self.APTable.setCellWidget(i+len(Integers), 1, spinbox)
+            i = 0
+            for Types, box, max in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [1000, 10]):
+                for name, tooltip in Types:
+                    self.APTable.insertRow(i)
+                    name_cell = QTableWidgetItem(name)
+                    name_cell.setToolTip(tooltip)
+                    self.APTable.setItem(i, 0, name_cell)
+                    spinbox = box()
+                    spinbox.setMaximum(max)
+                    spinbox.setValue(0)
+                    spinbox.setToolTip(tooltip)
+                    self.APTable.setCellWidget(i, 1, spinbox)
+                    i += 1
         if self.algorithm=="Genetic Algorithm":
-            writeTable(Floats=["Crossover Rate", "Mutation Rate", "Winning Rate", "Delta value"])
+            writeTable(
+                Floats=[
+                    ("Crossover Rate", "N/A"),
+                    ("Mutation Rate", "N/A"),
+                    ("Winning Rate", "N/A"),
+                    ("Delta value", "N/A")
+                ])
         elif self.algorithm=="Firefly Algorithm":
-            writeTable(Floats=["Alpha value", "Minimum Beta value", "Gamma value", "Beta0 value"])
+            writeTable(
+                Floats=[
+                    ("Alpha value", "N/A"),
+                    ("Minimum Beta value", "N/A"),
+                    ("Gamma value", "N/A"),
+                    ("Beta0 value", "N/A")
+                ])
         elif self.algorithm=="Differential Evolution":
-            writeTable(["Evolutionary strategy (0-9)"], ["Weight factor", "Recombination factor"])
+            writeTable(
+                Integers=[
+                    ("Evolutionary strategy (0-9)", "N/A")
+                ],
+                Floats=[
+                    ("Weight factor", "N/A"),
+                    ("Recombination factor", "N/A")
+                ])
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])

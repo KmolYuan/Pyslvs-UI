@@ -4,7 +4,9 @@
 #Splash
 from .info.info import Pyslvs_Splash
 #System
-import sys, os, platform
+import sys
+import os
+import platform
 from math import acos
 #Dialog Ports
 from .info.info import version_show

@@ -176,89 +176,71 @@ cdef class DiffertialEvolution(object):
         cdef Chromosome tmp
         cdef int n, L
         tmp = Chromosome(self.D)
-        if self.strategy == 1:
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        tmp.assign(self.pop[i])
+        n = int(randV() * self.D)
+        if self.strategy==1:
             L = 0
             while True:
                 tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
                 n = (n + 1) % self.D
                 L += 1
-                if not ((randV() < self.CR) and (L < self.D)):
+                if not (randV() < self.CR and L < self.D):
                     break
-        elif self.strategy == 2:
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==2:
             L = 0
             while True:
                 tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
                 n = (n + 1) % self.D
                 L += 1
-                if not ((randV() < self.CR) and (L < self.D)):
+                if not (randV() < self.CR and L < self.D):
                     break
-        elif (self.strategy == 3):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==3:
             L = 0
             while True:
                 tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
                 n = (n + 1) % self.D
                 L += 1
-                if not ((randV() < self.CR) and (L < self.D)):
+                if not (randV() < self.CR and L < self.D):
                     break
-        elif (self.strategy == 4):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==4:
             L = 0
             while True:
                 tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
                 n = (n + 1) % self.D
                 L += 1
-                if not ((randV() < self.CR) and (L < self.D)):
+                if not (randV() < self.CR and L < self.D):
                     break
-        elif (self.strategy == 5):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==5:
             L = 0
             while True:
                 tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
                 n = (n + 1) % self.D
                 L += 1
-                if not ((randV() < self.CR) and (L < self.D)):
+                if not (randV() < self.CR and L < self.D):
                     break
-        elif (self.strategy == 6):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==6:
             for L in range(self.D):
-                if ((randV() < self.CR) or L == (self.D - 1)):
+                if (randV() < self.CR or L == self.D-1):
                     tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
                 n = (n + 1) % self.D
-        elif (self.strategy == 7):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==7:
             for L in range(self.D):
-                if ((randV() < self.CR) or L == (self.D - 1)):
+                if ((randV() < self.CR) or L == self.D-1):
                     tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
                 n = (n + 1) % self.D
-        elif (self.strategy == 8):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==8:
             for L in range(self.D):
-                if ((randV() < self.CR) or L == (self.D - 1)):
+                if (randV() < self.CR or L == self.D-1):
                     tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
                 n = (n + 1) % self.D
-        elif (self.strategy == 9):
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
+        elif self.strategy==9:
             for L in range(self.D):
-                if ((randV() < self.CR) or L == (self.D - 1)):
+                if (randV() < self.CR or L == self.D-1):
                     tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
                 n = (n + 1) % self.D
         else:
-            tmp.assign(self.pop[i])
-            n = int(randV() * self.D)
             for L in range(self.D):
-                if ((randV() < self.CR) or L == (self.D - 1)):
+                if (randV() < self.CR or L == self.D-1):
                     tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
                 n = (n + 1) % self.D
         return tmp
