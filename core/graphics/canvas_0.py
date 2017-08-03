@@ -436,7 +436,7 @@ class DynamicCanvas(QWidget):
                             error = False
                             pointPath = QPainterPath()
                             for i, point in enumerate(vpath.path):
-                                if point[0] is None or point[0] is False:
+                                if point is None or point[0] is None or point[0] is False:
                                     error = True
                                     continue
                                 x = point[0]*Tp

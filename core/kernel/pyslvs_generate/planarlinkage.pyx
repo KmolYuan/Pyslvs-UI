@@ -85,7 +85,11 @@ cdef class build_planar(object):
         """
         cdef object tmp_dict, path, e
         cdef int index, i
+        cdef double x
+        cdef double y
         cdef double sum
+        #Large fitness
+        cdef int L_f = 1987
         # all variable
         tmp_dict = dict()
         index = 0
@@ -101,18 +105,22 @@ cdef class build_planar(object):
         fourbar_ground = tmp_dict[self.Driving].distance(tmp_dict[self.Follower])
         for constraint in self.constraint:
             if not legal_crank(tmp_dict[constraint['driver']], tmp_dict[constraint['follower']], tmp_dict[constraint['connect']], fourbar_ground):
-                return 1987
+                return L_f
         # calculate the target point
         for i in range(self.POINTS):
             tmp_dict['a0'] = v[(self.VARS+i)]*DEGREE
             for e in self.Exp:
-                target_coordinate = Coordinate(*self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]]))
+                #self.formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
+                x, y = self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]])
+                if isnan(x) or isnan(y):
+                    return L_f
+                target_coordinate = Coordinate(x, y)
                 if legal_triangle(target_coordinate, tmp_dict[e["params"][0]], tmp_dict[e["params"][-1]]):
                     tmp_dict[e["target"]] = target_coordinate
                 else:
-                    return 1987
+                    return L_f
             if isnan(tmp_dict[self.targetPoint].distance(self.target[i])):
-                return 1987
+                return L_f
             path.append(tmp_dict[self.targetPoint])
         # swap
         for i in range(self.POINTS):
@@ -124,5 +132,5 @@ cdef class build_planar(object):
         for i in range(self.POINTS):
             sum += path[i].distance(self.target[i])
         if isnan(sum):
-            return 1987
+            return L_f
         return sum
