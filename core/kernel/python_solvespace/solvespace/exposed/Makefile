@@ -9,17 +9,15 @@ SRCDIR = ..
 OFILES = $(OBJDIR)/util.obj $(OBJDIR)/entity.obj $(OBJDIR)/expr.obj $(OBJDIR)/constrainteq.obj $(OBJDIR)/system.obj $(OBJDIR)/w32util.obj $(OBJDIR)/lib.obj
 VPATH = .. ../win32
 
-OUTDIR = ../..
-
 all: ../../slvs.py
 
 .PHONY: clean
 clean:
 ifeq ($(OS),Windows_NT)
-	-del "$(OBJDIR)/*.o*"
-	-del "$(OUTDIR)/*.so"
-	-del "$(OUTDIR)/*.pyd"
-	-del "$(OUTDIR)/slvs.py"
+	-del ..\..\*.o*
+	-del ..\..\*.so
+	-del ..\..\*.pyd
+	-del ..\..\slvs.py
 	-del *.so
 	-del slvs.py
 	-del *.def
@@ -27,9 +25,9 @@ ifeq ($(OS),Windows_NT)
 	-del slvs_wrap.cxx
 	-rename slvs_python.hpp slvs_python.hpp.win
 else
-	-rm -f $(OBJDIR)/*.o*
-	-rm -f $(OUTDIR)/*.so
-	-rm -f $(OUTDIR)/slvs.py
+	-rm -f ../../*.o*
+	-rm -f ../../*.so
+	-rm -f ../../slvs.py
 	-rm -f slvs_wrap.cxx
 	-mv slvs_python.hpp slvs_python.hpp.ubuntu
 endif
