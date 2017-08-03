@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from .QtModules import *
-from .info.info import VERSION, Pyslvs_SystemTrayIcon
+from .info.info import VERSION
 tr = QCoreApplication.translate
 
 def init_Widgets(self):
@@ -38,9 +38,6 @@ def init_Widgets(self):
     self.action_painter_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
     self.popMenu_painter.addAction(self.action_painter_right_click_menu_path)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
-    #System Tray Icon Menu
-    trayIcon = Pyslvs_SystemTrayIcon(self)
-    trayIcon.show()
     #Entiteis_Point Right-click menu
     self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
     self.popMenu_point = QMenu(self)

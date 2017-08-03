@@ -22,6 +22,7 @@ from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from ...graphics.Path_Solving_preview import PreviewDialog
 from ...kernel.pyslvs_python_solver.TS import solver, Direction
+from ...info.info import Pyslvs_SystemTrayIcon
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
 from .Path_Solving_progress import Path_Solving_progress_show
@@ -64,6 +65,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def __init__(self, path, mechanism_data, env, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
+        #System Tray Icon Menu
+        self.trayIcon = Pyslvs_SystemTrayIcon(parent)
         self.path = path
         self.mechanism_data = mechanism_data
         self.env = env
@@ -221,8 +224,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.startAlgorithm()
     @pyqtSlot()
     def on_GenerateZMQ_clicked(self):
-        self.startAlgorithm(True)
+        self.startAlgorithm(hasPort=True)
     def startAlgorithm(self, hasPort=False):
+        self.trayIcon.show()
         type_num, mechanismParams, generateData = self.getGenerate()
         dlg = Path_Solving_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
             PORT=self.portText.text() if hasPort else None, parent=self)
@@ -232,6 +236,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.addResult(dlg.mechanism)
             self.setTime(dlg.time_spand)
             print('Finished.')
+        self.trayIcon.hide()
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
