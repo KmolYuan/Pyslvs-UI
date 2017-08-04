@@ -84,7 +84,7 @@ class ChartDialog(QDialog):
             line = QLineSeries()
             scatter = QScatterSeries()
             gen = data[1]
-            points = data[2][:-1]
+            points = data[2][:-1] if data[2][-1]==data[2][-2] else data[2]
             line.setName("{} ({} gen, {} chrom)".format(data[0], gen, data[3]))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
