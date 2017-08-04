@@ -5,6 +5,7 @@ cimport numpy as np
 from libc.time cimport time
 from time import time as pytime
 from cpython.exc cimport PyErr_CheckSignals
+from cpython cimport bool
 
 #https://stackoverflow.com/questions/25974975/cython-c-array-initialization
 from libc.stdlib cimport rand, RAND_MAX, srand
@@ -196,6 +197,21 @@ cdef class Genetic(object):
     cdef void getParamValue(self):
         self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.chromElite.v])
     
+    cdef void generation_process(self):
+        self.select()
+        self.crossOver()
+        self.mutate()
+        self.fitness()
+        if self.rpt != 0:
+            if self.gen % self.rpt == 0:
+                self.report()
+        else:
+            if self.gen % 10 == 0:
+                self.report()
+        #progress
+        if self.progress_fun is not None:
+            self.progress_fun(self.gen, '%.4f'%self.chromElite.f)
+    
     cpdef run(self):
         """
         // **** Init and run GA for maxGen times
@@ -209,22 +225,23 @@ cdef class Genetic(object):
         self.gen = 0
         self.fitness()
         self.report()
-        for self.gen in range(1, self.maxGen + 1):
-            self.select()
-            self.crossOver()
-            self.mutate()
-            self.fitness()
-            if self.rpt != 0:
-                if self.gen % self.rpt == 0:
-                    self.report()
-            #progress
-            if self.progress_fun is not None:
-                self.progress_fun(self.gen, '%.4f'%self.chromElite.f)
-            #interrupt
-            if self.interrupt_fun is not None:
-                if self.interrupt_fun():
-                    break
-            PyErr_CheckSignals()
+        if self.maxGen>0:
+            for self.gen in range(1, self.maxGen+1):
+                self.generation_process()
+                #interrupt
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+                PyErr_CheckSignals()
+        else:
+            while True:
+                self.generation_process()
+                self.gen += 1
+                #interrupt
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+                PyErr_CheckSignals()
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

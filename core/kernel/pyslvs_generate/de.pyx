@@ -112,9 +112,7 @@ cdef class DiffertialEvolution(object):
             raise Exception('NP shoud be integer and larger than 0')
         if self.CR < 0 or self.CR > 1:
             raise Exception('CR should be [0,1]')
-        if self.maxGen <= 0:
-            raise Exception('generation should larger than 0')
-        if self.rpt <= 0 or self.rpt > self.maxGen:
+        if self.rpt > self.maxGen:
             raise Exception('report should be larger than 0 and less than max genration')
         if self.strategy < 1 or self.strategy > 10:
             raise Exception('strategy should be [1,10]')
@@ -265,6 +263,40 @@ cdef class DiffertialEvolution(object):
     cdef void getParamValue(self):
         self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.lastgenbest.v])
     
+    cdef void generation_process(self):
+        for i in range(self.NP):
+            # generate new vector
+            self.generateRandomVector(i)
+            # use the vector recombine the member to temporary
+            tmp = self.recombination(i)
+            # check the one is out of bound?
+            if self.overbound(tmp):
+                # if it is, then abandon it
+                continue
+            # is not out of bound, that mean it's quilify of enviorment
+            # then evalute the one
+            tmp.f = self.evalute(tmp)
+            # if temporary one is better than origin(fitness value is smaller)
+            if tmp.f <= self.pop[i].f:
+                # copy the temporary one to origin member
+                self.pop[i].assign(tmp)
+                # check the temporary one is better than the currentbest
+                if tmp.f < self.currentbest.f:
+                    # copy the temporary one to currentbest
+                    self.currentbest.assign(tmp)
+        # copy the currentbest to lastgenbest
+        self.lastgenbest.assign(self.currentbest)
+        # if report generation is set, report
+        if self.rpt != 0:
+            if self.gen % self.rpt == 0:
+                self.report()
+        else:
+            if self.gen % 10 == 0:
+                self.report()
+        #progress
+        if self.progress_fun is not None:
+            self.progress_fun(self.gen, '%.4f'%self.lastgenbest.f)
+    
     cpdef run(self):
         """
         run the algorithm...
@@ -286,41 +318,23 @@ cdef class DiffertialEvolution(object):
         self.report()
         # end initial step
         # the evolution journey is beggin...
-        for self.gen in range(1, self.maxGen + 1):
-            for i in range(self.NP):
-                # generate new vector
-                self.generateRandomVector(i)
-                # use the vector recombine the member to temporary
-                tmp = self.recombination(i)
-                # check the one is out of bound?
-                if self.overbound(tmp):
-                    # if it is, then abandon it
-                    continue
-                # is not out of bound, that mean it's quilify of enviorment
-                # then evalute the one
-                tmp.f = self.evalute(tmp)
-                # if temporary one is better than origin(fitness value is smaller)
-                if tmp.f <= self.pop[i].f:
-                    # copy the temporary one to origin member
-                    self.pop[i].assign(tmp)
-                    # check the temporary one is better than the currentbest
-                    if tmp.f < self.currentbest.f:
-                        # copy the temporary one to currentbest
-                        self.currentbest.assign(tmp)
-            # copy the currentbest to lastgenbest
-            self.lastgenbest.assign(self.currentbest)
-            # if report generation is set, report
-            if self.rpt != 0:
-                if self.gen % self.rpt == 0:
-                    self.report()
-            #progress
-            if self.progress_fun is not None:
-                self.progress_fun(self.gen, '%.4f'%self.lastgenbest.f)
-            #interrupt
-            if self.interrupt_fun is not None:
-                if self.interrupt_fun():
-                    break
-            PyErr_CheckSignals()
+        if self.maxGen>0:
+            for self.gen in range(1, self.maxGen+1):
+                self.generation_process()
+                #interrupt
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+                PyErr_CheckSignals()
+        else:
+            while True:
+                self.generation_process()
+                self.gen += 1
+                #interrupt
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+                PyErr_CheckSignals()
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()

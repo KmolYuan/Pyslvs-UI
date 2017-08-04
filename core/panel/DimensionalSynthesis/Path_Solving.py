@@ -366,7 +366,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.Dx.setValue((generateData['upper'][2]+generateData['lower'][2])/2)
             self.Dy.setValue((generateData['upper'][3]+generateData['lower'][3])/2)
             self.Dr.setValue(abs(generateData['upper'][2]-self.Dx.value())*2)
-            self.Settings = {'maxGen':generateData['maxGen'], 'report':generateData['maxGen']/generateData['report']/100,
+            self.Settings = {'maxGen':generateData['maxGen'],
+                'report':0 if generateData['report']==0 else generateData['maxGen']/generateData['report']/100,
                 'IMax':generateData['upper'][4], 'IMin':generateData['lower'][4],
                 'LMax':generateData['upper'][5], 'LMin':generateData['lower'][5],
                 'FMax':generateData['upper'][6], 'FMin':generateData['lower'][6],

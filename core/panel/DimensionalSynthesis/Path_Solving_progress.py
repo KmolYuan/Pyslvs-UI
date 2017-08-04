@@ -27,8 +27,8 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
         super(Path_Solving_progress_show, self).__init__(parent)
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
+        self.maxGen = generateData['maxGen']
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
-        self.progressBar.setMaximum(generateData['maxGen'])
         self.work.progress_update.connect(self.setProgress)
         self.work.done.connect(self.finish)
         if PORT is None:
@@ -53,11 +53,14 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
+        if self.maxGen==0:
+            self.progressBar.setMaximum(progress)
         self.progressBar.setValue(progress)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
     def on_Start_clicked(self):
+        self.progressBar.setMaximum(self.maxGen)
         self.work.start()
         self.Start.setEnabled(False)
         self.Interrupt.setEnabled(True)

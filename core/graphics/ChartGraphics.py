@@ -37,14 +37,14 @@ class ChartDialog(QDialog):
         FG_legend = FG_Chart.legend()
         FG_legend.setAlignment(Qt.AlignBottom)
         FG_legend.setFont(QFont(FG_legend.font().family(), 12, QFont.Medium))
-        self.setChart(FG_Chart, 0)
+        self.setChart(FG_Chart, 0, 1)
         #Fitness / Time Chart
         FT_Chart = QChart()
         FT_Chart.setTitle(Title)
         FT_legend = FT_Chart.legend()
         FT_legend.setAlignment(Qt.AlignBottom)
         FT_legend.setFont(QFont(FT_legend.font().family(), 12, QFont.Medium))
-        self.setChart(FT_Chart, 2)
+        self.setChart(FT_Chart, 2, 1)
         #Widgets
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(6, 6, 6, 6)
@@ -67,23 +67,17 @@ class ChartDialog(QDialog):
         FT_layout.addWidget(FT_chartView)
         main_layout.addWidget(tabwidget)
     
-    def setChart(self, chart, index):
+    def setChart(self, chart, posX, posY):
         axisX = QCategoryAxis()
         axisY = QValueAxis()
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
         axisX.setMin(0)
         axisY.setTickCount(11)
         if len(self.DataSet)>0:
-            if index:
-                Max = int(max([max([e if type(e)==float else e[index] for e in data[2]]) for data in self.DataSet])*100)
-                axisX.setMax(Max)
-                for i in range(0, Max+1, int(Max/10)):
-                    axisX.append(str(i/100), i)
-            else:
-                Max = max([data[1] for data in self.DataSet])
-                axisX.setMax(Max)
-                for i in range(0, Max+1, int(Max/10)):
-                    axisX.append(str(i), i)
+            Max = int(max([max([e[posX] for e in data[2]]) for data in self.DataSet])*100)
+            axisX.setMax(Max)
+            for i in range(0, Max+1, int(Max/10)):
+                axisX.append(str(i/100), i)
         chart.addAxis(axisX, Qt.AlignBottom)
         chart.addAxis(axisY, Qt.AlignLeft)
         for data in self.DataSet:
@@ -91,21 +85,14 @@ class ChartDialog(QDialog):
             scatter = QScatterSeries()
             gen = data[1]
             points = data[2][:-1]
-            pnum = len(points)
             line.setName("{} ({} gen, {} chrom)".format(data[0], gen, data[3]))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):
-                y = e if type(e)==float else e[1]
-                if index:
-                    if not type(e)==float:
-                        x = e[index]*100
-                        line.append(QPointF(x, y))
-                        scatter.append(QPointF(x, y))
-                else:
-                    x = round(i*gen/(pnum-1), 0) if type(e)==float else e[index]
-                    line.append(QPointF(x, y))
-                    scatter.append(QPointF(x, y))
+                y = e[posY]
+                x = e[posX]*100
+                line.append(QPointF(x, y))
+                scatter.append(QPointF(x, y))
             for series in [line, scatter]:
                 chart.addSeries(series)
                 series.attachAxis(axisX)

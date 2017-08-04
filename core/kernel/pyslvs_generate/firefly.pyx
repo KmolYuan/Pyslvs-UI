@@ -153,33 +153,49 @@ cdef class Firefly(object):
     cdef void getParamValue(self):
         self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.bestFirefly.v])
     
+    cdef void generation_process(self):
+        self.movefireflies()
+        self.evaluate()
+        # adjust alpha, depend on fitness value
+        # if fitness value is larger, then alpha should larger
+        # if fitness value is small, then alpha should smaller
+        self.genbest.assign(self.findFirefly())
+        if self.bestFirefly.f > self.genbest.f:
+            self.bestFirefly.assign(self.genbest)
+        # self.bestFirefly.assign(gen_best)
+        self.calculate_new_alpha()
+        if self.rp != 0:
+            if self.gen % self.rp == 0:
+                self.report()
+        else:
+            if self.gen % 10 == 0:
+                self.report()
+        #progress
+        if self.progress_fun is not None:
+            self.progress_fun(self.gen, '%.4f'%self.bestFirefly.f)
+    
     cpdef run(self):
         self.init()
         self.evaluate()
         self.bestFirefly.assign(self.fireflys[0])
         self.report()
-        for self.gen in range(1, self.maxGen + 1):
-            self.movefireflies()
-            self.evaluate()
-            # adjust alpha, depend on fitness value
-            # if fitness value is larger, then alpha should larger
-            # if fitness value is small, then alpha should smaller
-            self.genbest.assign(self.findFirefly())
-            if self.bestFirefly.f > self.genbest.f:
-                self.bestFirefly.assign(self.genbest)
-            # self.bestFirefly.assign(gen_best)
-            self.calculate_new_alpha()
-            if self.rp != 0:
-                if self.gen % self.rp == 0:
-                    self.report()
-            #progress
-            if self.progress_fun is not None:
-                self.progress_fun(self.gen, '%.4f'%self.bestFirefly.f)
-            #interrupt
-            if self.interrupt_fun is not None:
-                if self.interrupt_fun():
-                    break
-            PyErr_CheckSignals()
+        if self.maxGen>0:
+            for self.gen in range(1, self.maxGen+1):
+                self.generation_process()
+                #interrupt
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+                PyErr_CheckSignals()
+        else:
+            while True:
+                self.generation_process()
+                self.gen += 1
+                #interrupt
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+                PyErr_CheckSignals()
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

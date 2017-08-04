@@ -67,7 +67,7 @@ cpdef bool legal_crank(double driver, double ground, double connect, double foll
     cdef object fourbar
     fourbar = [driver, ground, connect, follower]
     sorted(fourbar)
-    if fourbar[0] + fourbar[3] <= fourbar[1] + fourbar[2]:
+    if (fourbar[0]+fourbar[3])<(fourbar[1]+fourbar[2]):
         # verify the fourbar is satisfied the crank condition
         return fourbar[0]==tmp_driver or fourbar[0]==tmp_ground
     return False
