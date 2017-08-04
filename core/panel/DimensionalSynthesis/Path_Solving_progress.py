@@ -61,6 +61,8 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_Start_clicked(self):
         self.progressBar.setMaximum(self.maxGen)
+        if self.maxGen==0:
+            self.progressBar.setFormat("%v generations")
         self.work.start()
         self.Start.setEnabled(False)
         self.Interrupt.setEnabled(True)
