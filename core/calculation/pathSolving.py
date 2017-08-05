@@ -18,7 +18,9 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-import timeit, numpy, platform
+import timeit
+import platform
+import numpy
 import numpy.distutils.cpuinfo
 from psutil import virtual_memory
 from ..kernel.pyslvs_generate import tinycadlib

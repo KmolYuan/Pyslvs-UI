@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-07-30, 15:57:02 -->
+<!-- Saved: 2017-08-05, 12:01:39 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -83,7 +83,6 @@
     <Source>core/kernel/pyslvs_python_solver/__init__.py</Source>
     <Source>core/kernel/pyslvs_python_solver/motion.py</Source>
     <Source>core/main.py</Source>
-    <Source>core/main_modules.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving_options.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving_path_adjust.py</Source>

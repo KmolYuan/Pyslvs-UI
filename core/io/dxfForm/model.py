@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from dxfwrite import DXFEngine as dxf
-from math import *
+from math import sin, cos, acos, degrees, radians
 
 CosineTheoremAngle = lambda a, b, c: degrees(acos((b**2+c**2-a**2)/(2*b*c)))
 CosineTheoremSide = lambda alpha, b, c: b**2+c**2-2*b*c*cos(alpha)
@@ -29,7 +29,6 @@ def dxfModel(file_name, Link, Chain, LinkWidth=8, ChainWidth=8, interval=2, dril
         a, b, c = sorted([e.p1p2, e.p2p3, e.p1p3], reverse=True)
         alpha = CosineTheoremAngle(b, a, c)
         beta = CosineTheoremAngle(c, a, b)
-        garma = CosineTheoremAngle(a, b, c)
         p1 = (0, 0)
         p2 = (a, 0)
         p3 = (c*cos(radians(alpha)), c*sin(radians(alpha)))
