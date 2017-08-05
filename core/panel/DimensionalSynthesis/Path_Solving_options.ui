@@ -70,7 +70,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QLabel" name="label_16">
+          <widget class="QLabel" name="generation_label">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This parameter determines the time of evolution.&lt;/p&gt;&lt;p&gt;If the value set to 0, algorithm will stop only when you clicked the interrupt button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -96,7 +96,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="label_17">
+          <widget class="QLabel" name="report_label">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If the value set to 0, algorithm will report in every 10 generations.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>

@@ -138,3 +138,8 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                 {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
                 {'NP':400, 'strategy':1, 'F':0.6, 'CR':0.9}
         })
+    
+    @pyqtSlot(int)
+    def on_maxGen_valueChanged(self, p0):
+        self.report.setEnabled(not p0==0)
+        self.report_label.setEnabled(not p0==0)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_options.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving_options.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -30,9 +30,9 @@ class Ui_Dialog(object):
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.label_16 = QtWidgets.QLabel(self.planarlinkage)
-        self.label_16.setObjectName("label_16")
-        self.horizontalLayout_2.addWidget(self.label_16)
+        self.generation_label = QtWidgets.QLabel(self.planarlinkage)
+        self.generation_label.setObjectName("generation_label")
+        self.horizontalLayout_2.addWidget(self.generation_label)
         self.maxGen = QtWidgets.QSpinBox(self.planarlinkage)
         self.maxGen.setMinimum(0)
         self.maxGen.setMaximum(5000)
@@ -40,9 +40,9 @@ class Ui_Dialog(object):
         self.maxGen.setProperty("value", 1500)
         self.maxGen.setObjectName("maxGen")
         self.horizontalLayout_2.addWidget(self.maxGen)
-        self.label_17 = QtWidgets.QLabel(self.planarlinkage)
-        self.label_17.setObjectName("label_17")
-        self.horizontalLayout_2.addWidget(self.label_17)
+        self.report_label = QtWidgets.QLabel(self.planarlinkage)
+        self.report_label.setObjectName("report_label")
+        self.horizontalLayout_2.addWidget(self.report_label)
         self.report = QtWidgets.QSpinBox(self.planarlinkage)
         self.report.setMaximum(100)
         self.report.setObjectName("report")
@@ -113,10 +113,10 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Options"))
-        self.label_16.setToolTip(_translate("Dialog", "<html><head/><body><p>This parameter determines the time of evolution.</p><p>If the value set to 0, algorithm will stop only when you clicked the interrupt button.</p></body></html>"))
-        self.label_16.setText(_translate("Dialog", "Max generation: (?)"))
-        self.label_17.setToolTip(_translate("Dialog", "<html><head/><body><p>If the value set to 0, algorithm will report in every 10 generations.</p></body></html>"))
-        self.label_17.setText(_translate("Dialog", "Report in every: (?)"))
+        self.generation_label.setToolTip(_translate("Dialog", "<html><head/><body><p>This parameter determines the time of evolution.</p><p>If the value set to 0, algorithm will stop only when you clicked the interrupt button.</p></body></html>"))
+        self.generation_label.setText(_translate("Dialog", "Max generation: (?)"))
+        self.report_label.setToolTip(_translate("Dialog", "<html><head/><body><p>If the value set to 0, algorithm will report in every 10 generations.</p></body></html>"))
+        self.report_label.setText(_translate("Dialog", "Report in every: (?)"))
         self.report.setSuffix(_translate("Dialog", "%"))
         item = self.PLTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Parameter"))
