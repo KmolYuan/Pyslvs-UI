@@ -61,7 +61,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         def writeTable(Integers=list(), Floats=list()):
             i = 0
             for Types, box, max in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [1000, 10]):
-                for name, tooltip in Types:
+                for name, tooltip, vname in Types:
                     self.APTable.insertRow(i)
                     name_cell = QTableWidgetItem(name)
                     name_cell.setToolTip(tooltip)
@@ -69,33 +69,33 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                     spinbox = box()
                     spinbox.setMaximum(max)
                     spinbox.setValue(0)
-                    spinbox.setToolTip(tooltip)
+                    spinbox.setToolTip(vname)
                     self.APTable.setCellWidget(i, 1, spinbox)
                     i += 1
         if self.algorithm=="Genetic Algorithm":
             writeTable(
                 Floats=[
-                    ("Crossover Rate", "N/A"),
-                    ("Mutation Rate", "N/A"),
-                    ("Winning Rate", "N/A"),
-                    ("Delta value", "N/A")
+                    ("Crossover Rate", "N/A", 'pCross'),
+                    ("Mutation Rate", "N/A", 'pMute'),
+                    ("Winning Rate", "N/A", 'pWin'),
+                    ("Delta value", "N/A", 'bDelta')
                 ])
         elif self.algorithm=="Firefly Algorithm":
             writeTable(
                 Floats=[
-                    ("Alpha value", "N/A"),
-                    ("Minimum Beta value", "N/A"),
-                    ("Gamma value", "N/A"),
-                    ("Beta0 value", "N/A")
+                    ("Alpha value", "N/A", 'alpha'),
+                    ("Minimum Beta value", "N/A", 'betaMin'),
+                    ("Gamma value", "N/A", 'gamma'),
+                    ("Beta0 value", "N/A", 'beta0')
                 ])
         elif self.algorithm=="Differential Evolution":
             writeTable(
                 Integers=[
-                    ("Evolutionary strategy (0-9)", "N/A")
+                    ("Evolutionary strategy (0-9)", "N/A", 'strategy')
                 ],
                 Floats=[
-                    ("Weight factor", "N/A"),
-                    ("Recombination factor", "N/A")
+                    ("Weight factor", "N/A", 'F'),
+                    ("Recombination factor", "N/A", 'CR')
                 ])
     
     def setArgs(self, PLnAP):
