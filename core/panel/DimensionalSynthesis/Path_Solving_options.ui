@@ -119,12 +119,6 @@
        </item>
        <item>
         <widget class="QTableWidget" name="PLTable">
-         <attribute name="horizontalHeaderDefaultSectionSize">
-          <number>150</number>
-         </attribute>
-         <attribute name="horizontalHeaderMinimumSectionSize">
-          <number>150</number>
-         </attribute>
          <column>
           <property name="text">
            <string>Parameter</string>

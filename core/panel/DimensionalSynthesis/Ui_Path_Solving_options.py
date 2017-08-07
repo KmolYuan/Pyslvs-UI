@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving_options.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_options.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -56,8 +56,6 @@ class Ui_Dialog(object):
         self.PLTable.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.PLTable.setHorizontalHeaderItem(1, item)
-        self.PLTable.horizontalHeader().setDefaultSectionSize(150)
-        self.PLTable.horizontalHeader().setMinimumSectionSize(150)
         self.verticalLayout_2.addWidget(self.PLTable)
         self.tabWidget.addTab(self.planarlinkage, "")
         self.algorithm = QtWidgets.QWidget()

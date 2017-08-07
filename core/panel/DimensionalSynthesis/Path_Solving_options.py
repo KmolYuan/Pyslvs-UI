@@ -21,11 +21,10 @@ from ...QtModules import *
 from .Ui_Path_Solving_options import Ui_Dialog
 
 class Path_Solving_options_show(QDialog, Ui_Dialog):
-    def __init__(self, linkage_type, algorithm, settings, parent=None):
+    def __init__(self, algorithm, settings, parent=None):
         super(Path_Solving_options_show, self).__init__(parent)
         self.setupUi(self)
         self.tabWidget.setTabText(1, algorithm)
-        self.linkage_type = linkage_type
         self.algorithm = algorithm
         self.init_PLTable()
         self.init_APTable()
@@ -48,20 +47,29 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                 spinbox.setMaximum(360.)
                 spinbox.setValue(0.)
                 self.PLTable.setCellWidget(i+len(Length), 1, spinbox)
-        if self.linkage_type=="4 Bar":
-            writeTable(
-                ["Input linkage maximum (IMax)", "Input linkage minimum (IMin)",
-                "Connected linkage maximum (LMax)", "Connected linkage minimum (LMin)",
-                "Follower linkage maximum (FMax)", "Follower linkage minimum (FMin)"],
-                ["Angle maximum (AMax)", "Angle minimum (AMin)"])
+        writeTable(
+            Length=[
+                "Input linkage maximum (IMax)",
+                "Input linkage minimum (IMin)",
+                "Connected linkage maximum (LMax)",
+                "Connected linkage minimum (LMin)",
+                "Follower linkage maximum (FMax)",
+                "Follower linkage minimum (FMin)"
+            ],
+            Degrees=[
+                "Angle maximum (AMax)",
+                "Angle minimum (AMin)"
+            ])
+        self.PLTable.setColumnWidth(0, 250)
+        self.PLTable.setColumnWidth(1, 80)
         for i in range(self.PLTable.rowCount()):
             self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
         def writeTable(Integers=list(), Floats=list()):
             i = 0
-            for Types, box, max in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [1000, 10]):
-                for name, tooltip, vname in Types:
+            for Types, box, max in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [9, 10.]):
+                for name, vname, tooltip in Types:
                     self.APTable.insertRow(i)
                     name_cell = QTableWidgetItem(name)
                     name_cell.setToolTip(tooltip)
@@ -97,6 +105,8 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
                     ("Weight factor", 'F', "Weight factor is usually between 0.5 and 1 (in rare cases > 1)."),
                     ("Recombination factor", 'CR', "The chance of crossover possible.")
                 ])
+        self.APTable.setColumnWidth(0, 250)
+        self.APTable.setColumnWidth(1, 80)
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])

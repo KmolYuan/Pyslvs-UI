@@ -398,7 +398,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_advanceButton_clicked(self):
         type_num = "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution"
-        dlg = Path_Solving_options_show("4 Bar", type_num, self.Settings)
+        dlg = Path_Solving_options_show(type_num, self.Settings)
         dlg.show()
         if dlg.exec_():
             tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()
