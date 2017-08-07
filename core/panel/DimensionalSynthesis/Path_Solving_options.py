@@ -75,27 +75,27 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         if self.algorithm=="Genetic Algorithm":
             writeTable(
                 Floats=[
-                    ("Crossover Rate", "N/A", 'pCross'),
-                    ("Mutation Rate", "N/A", 'pMute'),
-                    ("Winning Rate", "N/A", 'pWin'),
-                    ("Delta value", "N/A", 'bDelta')
+                    ("Crossover Rate", 'pCross', "The chance of crossover."),
+                    ("Mutation Rate", 'pMute', "The chance of mutation."),
+                    ("Winning Rate", 'pWin', "The chance of winning."),
+                    ("Delta value", 'bDelta', "The power value when matching chromosome.")
                 ])
         elif self.algorithm=="Firefly Algorithm":
             writeTable(
                 Floats=[
-                    ("Alpha value", "N/A", 'alpha'),
-                    ("Minimum Beta value", "N/A", 'betaMin'),
-                    ("Gamma value", "N/A", 'gamma'),
-                    ("Beta0 value", "N/A", 'beta0')
+                    ("Alpha value", 'alpha', "Alpha value is the step size of the firefly."),
+                    ("Minimum Beta value", 'betaMin', "The minimal attraction, must not less than this."),
+                    ("Gamma value", 'gamma', "Beta will multiplied by exponential power value with this weight factor."),
+                    ("Beta0 value", 'beta0', "The attraction of two firefly in 0 distance.")
                 ])
         elif self.algorithm=="Differential Evolution":
             writeTable(
                 Integers=[
-                    ("Evolutionary strategy (0-9)", "N/A", 'strategy')
+                    ("Evolutionary strategy (0-9)", 'strategy', "There are 10 way to evolution.")
                 ],
                 Floats=[
-                    ("Weight factor", "N/A", 'F'),
-                    ("Recombination factor", "N/A", 'CR')
+                    ("Weight factor", 'F', "Weight factor is usually between 0.5 and 1 (in rare cases > 1)."),
+                    ("Recombination factor", 'CR', "The chance of crossover possible.")
                 ])
     
     def setArgs(self, PLnAP):

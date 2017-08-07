@@ -89,7 +89,6 @@ cdef class Genetic(object):
         # up bound
         self.maxLimit = np.array(upper[:])
         # maxgen and gen
-        #self.maxGen = 0
         self.gen = 0
         
         # setup benchmark
