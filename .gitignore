@@ -4,18 +4,15 @@ __pycache__/
 *$py.class
 
 # C extensions
-core/kernel/pyslvs_generate/*.so
-core/kernel/pyslvs_generate/*.pyd
-core/kernel/pyslvs_generate/*.o*
+*.so
+*.pyd
+*.o*
 core/kernel/pyslvs_generate/*.c
-core/kernel/python_solvespace/*.so
-core/kernel/python_solvespace/*.pyd
 core/kernel/python_solvespace/slvs.py
 core/kernel/python_solvespace/obj*
-core/kernel/python_solvespace/solvespace/exposed/slvs_python.hpp
-core/kernel/python_solvespace/solvespace/exposed/slvs_wrap.cxx
-core/kernel/python_solvespace/solvespace/exposed/*.def
-core/kernel/python_solvespace/solvespace/exposed/*.lib
+*.cxx
+*.def
+*.lib
 
 # Distribution / packaging
 .Python
