@@ -19,6 +19,7 @@
 
 from ...QtModules import *
 from .Ui_Path_Solving_options import Ui_Dialog
+from ...info.info import html
 
 class Path_Solving_options_show(QDialog, Ui_Dialog):
     def __init__(self, algorithm, settings, parent=None):
@@ -28,85 +29,82 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
         self.algorithm = algorithm
         self.init_PLTable()
         self.init_APTable()
+        for table in [self.APTable, self.PLTable]:
+            table.setColumnWidth(0, 200)
+            table.setColumnWidth(1, 90)
         self.setArgs(settings)
         self.isOk()
     
     def init_PLTable(self):
         def writeTable(Length, Degrees):
-            for i, name in enumerate(Length):
-                self.PLTable.insertRow(i)
-                self.PLTable.setItem(i, 0, QTableWidgetItem(name))
-                spinbox = QDoubleSpinBox()
-                spinbox.setMaximum(1000.)
-                spinbox.setValue(0.)
-                self.PLTable.setCellWidget(i, 1, spinbox)
-            for i, name in enumerate(Degrees):
-                self.PLTable.insertRow(i+len(Length))
-                self.PLTable.setItem(i+len(Length), 0, QTableWidgetItem(name))
-                spinbox = QDoubleSpinBox()
-                spinbox.setMaximum(360.)
-                spinbox.setValue(0.)
-                self.PLTable.setCellWidget(i+len(Length), 1, spinbox)
+            i = 0
+            for Types, maxV, minV in zip([Length, Degrees], [1000., 360.], [0.1, 0.]):
+                for name, vname, tooltip in Types:
+                    self.PLTable.insertRow(i)
+                    name_cell = QTableWidgetItem(name)
+                    name_cell.setToolTip(tooltip)
+                    self.PLTable.setItem(i, 0, name_cell)
+                    spinbox = QDoubleSpinBox()
+                    spinbox.setMaximum(maxV)
+                    spinbox.setMinimum(minV)
+                    spinbox.setToolTip(vname)
+                    self.PLTable.setCellWidget(i, 1, spinbox)
+                    i += 1
         writeTable(
             Length=[
-                "Input linkage maximum (IMax)",
-                "Input linkage minimum (IMin)",
-                "Connected linkage maximum (LMax)",
-                "Connected linkage minimum (LMin)",
-                "Follower linkage maximum (FMax)",
-                "Follower linkage minimum (FMin)"
+                ("Input linkage maximum", 'IMax', html("This value holds with the maximum random number of input linkage.")),
+                ("Input linkage minimum", 'IMin', html("This value holds with the minimum random number of input linkage.")),
+                ("Connected linkage maximum", 'LMax', html("This value holds with the maximum random number of connected linkage.")),
+                ("Connected linkage minimum", 'LMin', html("This value holds with the minimum random number of connected linkage.")),
+                ("Follower linkage maximum", 'FMax', html("This value holds with the maximum random number of follower linkage.")),
+                ("Follower linkage minimum", 'FMin', html("This value holds with the minimum random number of follower linkage."))
             ],
             Degrees=[
-                "Angle maximum (AMax)",
-                "Angle minimum (AMin)"
+                ("Angle maximum", 'AMax', html("This value holds with the maximum angle of input linkage.")),
+                ("Angle minimum", 'AMin', html("This value holds with the minimum angle of input linkage."))
             ])
-        self.PLTable.setColumnWidth(0, 250)
-        self.PLTable.setColumnWidth(1, 80)
         for i in range(self.PLTable.rowCount()):
             self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
         def writeTable(Integers=list(), Floats=list()):
             i = 0
-            for Types, box, max in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [9, 10.]):
+            for Types, box, maxV in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [9, 10.]):
                 for name, vname, tooltip in Types:
                     self.APTable.insertRow(i)
                     name_cell = QTableWidgetItem(name)
                     name_cell.setToolTip(tooltip)
                     self.APTable.setItem(i, 0, name_cell)
                     spinbox = box()
-                    spinbox.setMaximum(max)
-                    spinbox.setValue(0)
+                    spinbox.setMaximum(maxV)
                     spinbox.setToolTip(vname)
                     self.APTable.setCellWidget(i, 1, spinbox)
                     i += 1
         if self.algorithm=="Genetic Algorithm":
             writeTable(
                 Floats=[
-                    ("Crossover Rate", 'pCross', "The chance of crossover."),
-                    ("Mutation Rate", 'pMute', "The chance of mutation."),
-                    ("Winning Rate", 'pWin', "The chance of winning."),
-                    ("Delta value", 'bDelta', "The power value when matching chromosome.")
+                    ("Crossover Rate", 'pCross', html("The chance of crossover.")),
+                    ("Mutation Rate", 'pMute', html("The chance of mutation.")),
+                    ("Winning Rate", 'pWin', html("The chance of winning.")),
+                    ("Delta value", 'bDelta', html("The power value when matching chromosome."))
                 ])
         elif self.algorithm=="Firefly Algorithm":
             writeTable(
                 Floats=[
-                    ("Alpha value", 'alpha', "Alpha value is the step size of the firefly."),
-                    ("Minimum Beta value", 'betaMin', "The minimal attraction, must not less than this."),
-                    ("Gamma value", 'gamma', "Beta will multiplied by exponential power value with this weight factor."),
-                    ("Beta0 value", 'beta0', "The attraction of two firefly in 0 distance.")
+                    ("Alpha value", 'alpha', html("Alpha value is the step size of the firefly.")),
+                    ("Minimum Beta value", 'betaMin', html("The minimal attraction, must not less than this.")),
+                    ("Gamma value", 'gamma', html("Beta will multiplied by exponential power value with this weight factor.")),
+                    ("Beta0 value", 'beta0', html("The attraction of two firefly in 0 distance."))
                 ])
         elif self.algorithm=="Differential Evolution":
             writeTable(
                 Integers=[
-                    ("Evolutionary strategy (0-9)", 'strategy', "There are 10 way to evolution.")
+                    ("Evolutionary strategy (0-9)", 'strategy', html("There are 10 way to evolution."))
                 ],
                 Floats=[
-                    ("Weight factor", 'F', "Weight factor is usually between 0.5 and 1 (in rare cases > 1)."),
-                    ("Recombination factor", 'CR', "The chance of crossover possible.")
+                    ("Weight factor", 'F', html("Weight factor is usually between 0.5 and 1 (in rare cases > 1).")),
+                    ("Recombination factor", 'CR', html("The chance of crossover possible."))
                 ])
-        self.APTable.setColumnWidth(0, 250)
-        self.APTable.setColumnWidth(1, 80)
     
     def setArgs(self, PLnAP):
         self.maxGen.setValue(PLnAP['maxGen'])

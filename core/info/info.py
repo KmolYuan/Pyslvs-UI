@@ -57,14 +57,10 @@ def show_info():
     return args
 
 ## Turn simple string to html format.
-def html(script):
-    return '<html><head/><body>{}</body></html>'.format(script)
-def title(name, *others):
-    return '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(others)) if others else '')
-def content(*text):
-    return '<p>{}</p>'.format('</p><p>'.join(text))
-def orderList(*List):
-    return '<ul><li>{}</li></ul>'.format('</li><li>'.join(List))
+html = lambda s: "<html><head/><body>{}</body></html>".format(s.replace('\n', '<br/>'))
+title = lambda name, *s: '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(s)) if s else '')
+content = lambda *s: '<p>{}</p>'.format('</p><p>'.join(s))
+orderList = lambda *s: '<ul><li>{}</li></ul>'.format('</li><li>'.join(s))
 
 #Splash
 class Pyslvs_Splash(QSplashScreen):

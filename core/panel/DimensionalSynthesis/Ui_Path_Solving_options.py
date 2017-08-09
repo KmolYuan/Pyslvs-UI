@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_options.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving_options.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -121,7 +121,7 @@ class Ui_Dialog(object):
         item = self.PLTable.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Value"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.planarlinkage), _translate("Dialog", "Planar Linkage"))
-        self.label.setToolTip(_translate("Dialog", "The greater the number will make possibilities more available, but will result in longer selection times."))
+        self.label.setToolTip(_translate("Dialog", "<html><head/><body><p>The greater the number will make possibilities more available, but will result in longer selection times.</p></body></html>"))
         self.label.setText(_translate("Dialog", "The first generation of the population: (?)"))
         item = self.APTable.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Parameter"))

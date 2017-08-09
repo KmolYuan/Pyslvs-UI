@@ -155,7 +155,7 @@
          <item>
           <widget class="QLabel" name="label">
            <property name="toolTip">
-            <string>The greater the number will make possibilities more available, but will result in longer selection times.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The greater the number will make possibilities more available, but will result in longer selection times.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="text">
             <string>The first generation of the population: (?)</string>
