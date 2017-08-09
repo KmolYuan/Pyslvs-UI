@@ -73,7 +73,7 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
         moving = Point2d(Workplane1, x, y)
         Constraint.dragged(Workplane1, moving)
         Line0 = LineSegment2d(Workplane1, Slvs_Points[e.cen], moving)
-        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[e.cen], Slvs_Points[e.ref]), Line0, True)
+        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[e.cen], Slvs_Points[e.ref]), Line0)
     if pathTrackProcess:
         setShaft(Shaft[currentShaft], currentAngle)
     elif staticProcess:

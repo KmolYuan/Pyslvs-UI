@@ -18,19 +18,19 @@ help:
 
 .PHONY: help build build-kernel deb clean clean-kernel clean-all
 
-build-kernel: ./core/kernel/pyslvs_generate/*.pyx
+build-kernel: core/kernel/pyslvs_generate/*.pyx
 	@echo ---Pyslvs generate Build---
 ifeq ($(OS),Windows_NT)
 	$(MAKE) -C .\core\kernel\pyslvs_generate
 else
-	$(MAKE) -C ./core/kernel/pyslvs_generate
+	$(MAKE) -C core/kernel/pyslvs_generate
 endif
 	@echo ---Done---
 	@echo ---Python solvespace Build---
 ifeq ($(OS),Windows_NT)
-	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed
+	$(MAKE) -C .\core\kernel\python_solvespace
 else
-	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed
+	$(MAKE) -C core/kernel/python_solvespace
 endif
 	@echo ---Done---
 
@@ -101,10 +101,10 @@ endif
 clean-kernel:
 ifeq ($(OS),Windows_NT)
 	$(MAKE) -C .\core\kernel\pyslvs_generate clean
-	$(MAKE) -C .\core\kernel\python_solvespace\solvespace\exposed clean
+	$(MAKE) -C .\core\kernel\python_solvespace clean
 else
 	$(MAKE) -C ./core/kernel/pyslvs_generate clean
-	$(MAKE) -C ./core/kernel/python_solvespace/solvespace/exposed clean
+	$(MAKE) -C ./core/kernel/python_solvespace clean
 endif
 
 clean-all: clean-kernel clean
