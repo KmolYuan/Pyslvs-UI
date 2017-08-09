@@ -24,7 +24,7 @@ tr = QCoreApplication.translate
 def init_Widgets(self):
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 5)
-    self.menuBar.setCornerWidget(QLabel("Version {} ({})".format(VERSION[0], VERSION[1])))
+    self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod]:
         table.itemClicked.connect(self.tableFocusChange)
     #DynamicCanvasView Right-click menu

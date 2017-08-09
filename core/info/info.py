@@ -23,12 +23,12 @@ from ..QtModules import *
 tr = QCoreApplication.translate
 from .Ui_info import Ui_About_Dialog
 
-VERSION = ('0.8.0', 'dev')
+VERSION = (0, 8, 0, 'dev')
 from PyQt5.QtCore import qVersion
 from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 from sip import SIP_VERSION_STR as sipVersion
 from PyQt5.Qsci import QSCINTILLA_VERSION_STR as qsciVersion
-INFO = ["Pyslvs {}({})".format(VERSION[0], VERSION[1]),
+INFO = ["Pyslvs {}.{}.{}({})".format(*VERSION),
     "OS Type: {} {} [{}]".format(platform.system(), platform.release(), platform.machine()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
     "Python Compiler: {}".format(platform.python_compiler()),
@@ -40,7 +40,7 @@ INFO = ["Pyslvs {}({})".format(VERSION[0], VERSION[1]),
 parser = argparse.ArgumentParser(
     description="Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.",
     epilog="Power by Python IDE Eric-6, PyQt-5, dxfwrite, Cython, PyZMQ, openpyxl.")
-parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}({})'.format(VERSION[0], VERSION[1]))
+parser.add_argument('-v', '--version', action='version', help="show version infomations and exit", version='{}.{}.{}({})'.format(*VERSION))
 parser.add_argument('r', metavar='FILE PATH', default=False, nargs='?', type=str, help="read workbook from the file path")
 parser.add_argument('-i', metavar='START PATH', default=False, nargs='?', type=str, help="start Pyslvs in the specified path")
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
@@ -70,7 +70,7 @@ def orderList(*List):
 class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):
         super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
-        self.showMessage("Version {}({})".format(VERSION[0], VERSION[1]), (Qt.AlignBottom|Qt.AlignRight))
+        self.showMessage("Version {}.{}.{}({})".format(*VERSION), (Qt.AlignBottom|Qt.AlignRight))
 
 #SystemTrayIcon
 class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
@@ -111,7 +111,7 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
-        self.Title.setText(html(title("Pyslvs")+content("Version {}({}) 2016-2017".format(VERSION[0], VERSION[1]))))
+        self.Title.setText(html(title("Pyslvs")+content("Version {}.{}.{}({}) 2016-2017".format(*VERSION))))
         self.Content.setText(html(content(
             "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
             "It can use in Mechanical Design and Simulation.",
