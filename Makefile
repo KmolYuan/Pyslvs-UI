@@ -20,18 +20,10 @@ help:
 
 build-kernel: core/kernel/pyslvs_generate/*.pyx
 	@echo ---Pyslvs generate Build---
-ifeq ($(OS),Windows_NT)
-	$(MAKE) -C .\core\kernel\pyslvs_generate
-else
 	$(MAKE) -C core/kernel/pyslvs_generate
-endif
 	@echo ---Done---
 	@echo ---Python solvespace Build---
-ifeq ($(OS),Windows_NT)
-	$(MAKE) -C .\core\kernel\python_solvespace
-else
 	$(MAKE) -C core/kernel/python_solvespace
-endif
 	@echo ---Done---
 
 build: launch_pyslvs.py build-kernel
@@ -99,12 +91,7 @@ else
 endif
 
 clean-kernel:
-ifeq ($(OS),Windows_NT)
-	$(MAKE) -C .\core\kernel\pyslvs_generate clean
-	$(MAKE) -C .\core\kernel\python_solvespace clean
-else
-	$(MAKE) -C ./core/kernel/pyslvs_generate clean
-	$(MAKE) -C ./core/kernel/python_solvespace clean
-endif
+	$(MAKE) -C core/kernel/pyslvs_generate clean
+	$(MAKE) -C core/kernel/python_solvespace clean
 
 clean-all: clean-kernel clean

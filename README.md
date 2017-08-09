@@ -207,7 +207,7 @@ Python-solvespace Kernel
 Make command:
 
 ```bash
-make -C core/kernel/python_solvespace/solvespace/exposed
+make -C core/kernel/python_solvespace
 ```
 
 **Ubuntu**:
