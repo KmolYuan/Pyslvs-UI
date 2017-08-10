@@ -406,7 +406,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.setLocate(QFileInfo(fileName).absolutePath())
         if fileName or isFile==False:
             print(say)
-            self.closeAllPanels(True)
+            self.closeAllPanels()
             self.File.reset(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
                 self.Shaft, self.Slider, self.Rod, self.Parameter_list)
             self.DynamicCanvasView.changeCurrentShaft()
@@ -1048,16 +1048,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Close_all_panel_triggered(self):
-        self.closeAllPanels(True)
-    def closeAllPanels(self, closePathSolving=False):
+        self.closeAllPanels()
+    def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
-            if not self.panelWidget.tabText(i)=="Path Solving":
-                self.closePanel(i)
-        for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.Measurement, self.AuxLine]:
+            self.closePanel(i)
+        for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.Measurement, self.AuxLine, self.PathSolving]:
             button.setChecked(False)
-        if closePathSolving:
-            self.PathSolving.setChecked(False)
-            self.DynamicCanvasView.options.slvsPath['show'] = False
+        self.DynamicCanvasView.options.slvsPath['show'] = False
         self.DynamicCanvasView.options.Path.drive_mode = False
         self.DynamicCanvasView.reset_Auxline()
         self.Reload_Canvas()
