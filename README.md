@@ -121,6 +121,8 @@ Contains three algorithms:
 
 Specify a path and options to generate a crank rocker.
 
+This function has a simple TCP ZMQ connecting mode.
+
 Requirement
 ===
 
