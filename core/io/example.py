@@ -49,7 +49,7 @@ def crankRocker():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Crank Rocker</description>
     <lastTime>{}</lastTime>
   </info>
@@ -346,7 +346,7 @@ def DragLink():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Drag-link</description>
     <lastTime>{}</lastTime>
   </info>
@@ -643,7 +643,7 @@ def doubleRocker():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Double Rocker</description>
     <lastTime>{}</lastTime>
   </info>
@@ -736,7 +736,7 @@ def parallelogramLinkage():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Parallelogram Linkage</description>
     <lastTime>{}</lastTime>
   </info>
@@ -793,7 +793,7 @@ def multipleLink():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Mutiple Link</description>
     <lastTime>{}</lastTime>
   </info>
@@ -1362,7 +1362,7 @@ def twoMultipleLink():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Two Pairs Multiple Link</description>
     <lastTime>{}</lastTime>
   </info>
@@ -2372,7 +2372,7 @@ def FourBarFeet():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Four bar linkage</description>
     <lastTime>{}</lastTime>
   </info>
@@ -2850,7 +2850,7 @@ def sliderRod():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Slider and Rod.</description>
     <lastTime>{}</lastTime>
   </info>
@@ -2909,7 +2909,7 @@ def rockSlider():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Rock Slider</description>
     <lastTime>{}</lastTime>
   </info>
@@ -2974,7 +2974,7 @@ def liftTailgate():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Lift Tailgate</description>
     <lastTime>{}</lastTime>
   </info>
@@ -3070,7 +3070,7 @@ def TJLinkage():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Theo Jansen's multiple linkage.
 
 You can use Triangle Solver panel to rebuld them.</description>
@@ -3147,7 +3147,7 @@ def RockSliderDesign():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Yuan</author>
+    <author>Pyslvs</author>
     <description>Example: Rock slider design</description>
     <lastTime>{}</lastTime>
   </info>
@@ -3192,7 +3192,7 @@ def reverseParsingRocker():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Kmol Lee</author>
+    <author>Pyslvs</author>
     <description>Genetic algorithm.</description>
     <lastTime>{}</lastTime>
   </info>
@@ -3498,7 +3498,7 @@ def threeAlgorithmResult():
     return ET.fromstring("""<?xml version="1.0" ?>
 <pyslvs>
   <info>
-    <author>Anonymous</author>
+    <author>Pyslvs</author>
     <description/>
     <lastTime>{}</lastTime>
   </info>

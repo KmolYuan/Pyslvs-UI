@@ -10,6 +10,12 @@ cdef class Coordinate(object):
         self.x = x
         self.y = y
     
+    cpdef double x(self):
+        return self.x
+    
+    cpdef double y(self):
+        return self.y
+    
     cpdef public double distance(self, Coordinate obj):
         return sqrt((self.x-obj.x)**2+(self.y-obj.y)**2)
 
