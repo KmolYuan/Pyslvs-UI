@@ -18,9 +18,9 @@ help:
 
 .PHONY: help build build-kernel deb clean clean-kernel clean-all
 
-build-kernel: core/kernel/pyslvs_generate/*.pyx
+build-kernel: core/kernel/pyslvs_algorithm/*.pyx
 	@echo ---Pyslvs generate Build---
-	$(MAKE) -C core/kernel/pyslvs_generate
+	$(MAKE) -C core/kernel/pyslvs_algorithm
 	@echo ---Done---
 	@echo ---Python solvespace Build---
 	$(MAKE) -C core/kernel/python_solvespace
@@ -37,11 +37,11 @@ ifeq ($(OS),Windows_NT)
 	pyinstaller -F $< -i ./icons/main_big.ico \
 --path="$(PYQTPATH)\Qt\bin" \
 --add-binary="core/kernel/python_solvespace/libslvs.so;." \
---add-binary="core/kernel/pyslvs_generate/de.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/firefly.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/rga.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_generate/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
+--add-binary="core/kernel/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_algorithm/firefly.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_algorithm/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_algorithm/rga.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/kernel/pyslvs_algorithm/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
 	rename .\dist\launch_pyslvs.exe pyslvs.exe
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
@@ -91,7 +91,7 @@ else
 endif
 
 clean-kernel:
-	$(MAKE) -C core/kernel/pyslvs_generate clean
+	$(MAKE) -C core/kernel/pyslvs_algorithm clean
 	$(MAKE) -C core/kernel/python_solvespace clean
 
 clean-all: clean-kernel clean

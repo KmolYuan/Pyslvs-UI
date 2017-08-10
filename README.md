@@ -290,7 +290,7 @@ Dimensional Synthesis Kernel
 Make command:
 
 ```bash
-make -C core/kernel/pyslvs_generate
+make -C core/kernel/pyslvs_algorithm
 ```
 
 **Ubuntu**:

@@ -21,7 +21,7 @@ from ...QtModules import *
 from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from ...graphics.Path_Solving_preview import PreviewDialog
-from ...kernel.pyslvs_python_solver.TS import solver, Direction
+from ...kernel.pyslvs_algorithm.TS import solver, Direction
 from ...info.info import Pyslvs_SystemTrayIcon
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_path_adjust import Path_Solving_path_adjust_show

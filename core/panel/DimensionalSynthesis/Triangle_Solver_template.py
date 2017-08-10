@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from ...kernel.pyslvs_python_solver.TS import Direction
+from ...kernel.pyslvs_algorithm.TS import Direction
 from .Ui_Triangle_Solver_template import Ui_Dialog
 
 class Triangle_Solver_template_show(QDialog, Ui_Dialog):

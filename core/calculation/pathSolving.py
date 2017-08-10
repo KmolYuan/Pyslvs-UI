@@ -23,8 +23,8 @@ import platform
 import numpy
 import numpy.distutils.cpuinfo
 from psutil import virtual_memory
-from ..kernel.pyslvs_generate import tinycadlib
-from ..kernel.pyslvs_generate.planarlinkage import build_planar
+from ..kernel.pyslvs_algorithm import tinycadlib
+from ..kernel.pyslvs_algorithm.planarlinkage import build_planar
 
 class WorkerThread(QThread):
     progress_update = pyqtSignal(int, str)
@@ -79,9 +79,9 @@ class WorkerThread(QThread):
             from ..server.firefly import Firefly
             from ..server.de import DiffertialEvolution
         else:
-            from ..kernel.pyslvs_generate.rga import Genetic
-            from ..kernel.pyslvs_generate.firefly import Firefly
-            from ..kernel.pyslvs_generate.de import DiffertialEvolution
+            from ..kernel.pyslvs_algorithm.rga import Genetic
+            from ..kernel.pyslvs_algorithm.firefly import Firefly
+            from ..kernel.pyslvs_algorithm.de import DiffertialEvolution
         mechanismObj = build_planar(self.mechanismParams)
         #Genetic Algorithm
         if self.type_num==0:

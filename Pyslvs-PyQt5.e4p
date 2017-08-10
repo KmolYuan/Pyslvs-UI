@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-08-10, 01:16:11 -->
+<!-- Saved: 2017-08-10, 12:43:39 -->
 <!-- Copyright (C) 2017 Yuan, daan0014119@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -71,17 +71,8 @@
     <Source>core/io/slvsType.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/kernel/__init__.py</Source>
-    <Source>core/kernel/pyslvs_generate/README.md</Source>
-    <Source>core/kernel/pyslvs_generate/__init__.py</Source>
-    <Source>core/kernel/pyslvs_generate/de.pyx</Source>
-    <Source>core/kernel/pyslvs_generate/firefly.pyx</Source>
-    <Source>core/kernel/pyslvs_generate/planarlinkage.pyx</Source>
-    <Source>core/kernel/pyslvs_generate/rga.pyx</Source>
-    <Source>core/kernel/pyslvs_generate/setup.py</Source>
-    <Source>core/kernel/pyslvs_generate/tinycadlib.pyx</Source>
-    <Source>core/kernel/pyslvs_python_solver/TS.py</Source>
-    <Source>core/kernel/pyslvs_python_solver/__init__.py</Source>
-    <Source>core/kernel/pyslvs_python_solver/motion.py</Source>
+    <Source>core/kernel/pyslvs_algorithm/TS.py</Source>
+    <Source>core/kernel/pyslvs_algorithm/__init__.py</Source>
     <Source>core/main.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving.py</Source>
     <Source>core/panel/DimensionalSynthesis/Path_Solving_options.py</Source>
@@ -177,7 +168,6 @@
   <Others>
     <Other>.travis.yml</Other>
     <Other>Makefile</Other>
-    <Other>core/kernel/pyslvs_generate/Makefile</Other>
     <Other>core/kernel/python_solvespace/Makefile</Other>
   </Others>
   <MainScript>launch_pyslvs.py</MainScript>

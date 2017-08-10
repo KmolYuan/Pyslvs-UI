@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .Ui_Triangle_Solver_edit import Ui_Dialog
-from ...kernel.pyslvs_python_solver.TS import Direction
+from ...kernel.pyslvs_algorithm.TS import Direction
 
 class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
     def __init__(self, Point, row, Type='PLAP', parent=None, **condition):
