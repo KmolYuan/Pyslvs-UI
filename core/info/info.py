@@ -23,7 +23,7 @@ from ..QtModules import *
 tr = QCoreApplication.translate
 from .Ui_info import Ui_About_Dialog
 
-VERSION = (0, 8, 0, 'stable')
+VERSION = (0, 8, 1, 'dev')
 from PyQt5.QtCore import qVersion
 from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 from sip import SIP_VERSION_STR as sipVersion

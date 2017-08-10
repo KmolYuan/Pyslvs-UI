@@ -259,9 +259,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookNoSave()
         else:
             self.workbookSaved()
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Triangle Solver" in tabNameList:
-            self.PointTab.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
+            self.panelWidget.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
         self.Resolve()
     
     #Resolve
@@ -874,7 +874,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         self.DynamicCanvasView.options.slvsPath['show'] = not "Path Solving" in tabNameList
         if "Path Solving" in tabNameList:
             self.closePanel(tabNameList.index("Path Solving"))
@@ -886,12 +886,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             panel.moveupPathPoint.connect(self.PathSolving_moveup)
             panel.movedownPathPoint.connect(self.PathSolving_movedown)
             panel.mergeResult.connect(self.PathSolving_mergeResult)
-            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/bezier.png")), "Path Solving")
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/bezier.png")), "Path Solving")
+            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     def PathSolving_add_rightClick(self, x, y):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        self.PointTab.widget(tabNameList.index("Path Solving")).addPath(x, y)
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
+        self.panelWidget.widget(tabNameList.index("Path Solving")).addPath(x, y)
         self.PathSolving_add(x, y)
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
@@ -923,23 +923,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(bool)
     def on_TriangleSolver_clicked(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Triangle Solver" in tabNameList:
             self.closePanel(tabNameList.index("Triangle Solver"))
         else:
             panel = Triangle_Solver_show(self.File.FileState, self.File.Lists.PointList, self.File.Designs.TSDirections, self)
             panel.startMerge.connect(self.TriangleSolver_merge)
-            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/TS.png")), "Triangle Solver")
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/TS.png")), "Triangle Solver")
+            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
     @pyqtSlot()
     def TriangleSolver_merge(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        self.File.TS_Merge(self.PointTab.widget(tabNameList.index("Triangle Solver")).answers,
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
+        self.File.TS_Merge(self.panelWidget.widget(tabNameList.index("Triangle Solver")).answers,
             self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Slider)
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         self.DynamicCanvasView.options.Path.drive_mode = not "Drive Shaft" in tabNameList
         if "Drive Shaft" in tabNameList:
             self.closePanel(tabNameList.index("Drive Shaft"))
@@ -951,13 +951,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 panel.degreeChange.connect(self.Save_demo_angle)
             self.DynamicCanvasView.changePathCurrentShaft()
             panel.Shaft.currentIndexChanged.connect(self.changeCurrentShaft)
-            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/same-orientation.png")), "Drive Shaft")
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/same-orientation.png")), "Drive Shaft")
+            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     @pyqtSlot(int)
     def Change_demo_angle(self, angle):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        panel = self.PointTab.widget(tabNameList.index("Drive Shaft"))
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
+        panel = self.panelWidget.widget(tabNameList.index("Drive Shaft"))
         self.File.Lists.setDemo('Shaft', row=panel.Shaft.currentIndex(), pos=angle/100)
         self.Resolve()
     @pyqtSlot(int)
@@ -973,19 +973,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_Drive_rod_clicked(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Drive Rod" in tabNameList:
             self.closePanel(tabNameList.index("Drive Rod"))
         else:
             panel = Drive_rod_show(self.File.Lists.RodList, self.File.Lists.PointList, self)
             panel.positionChange.connect(self.Save_position)
             panel.Position.valueChanged.connect(self.Change_position)
-            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/normal.png")), "Drive Rod")
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/normal.png")), "Drive Rod")
+            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
     @pyqtSlot(int)
     def Change_position(self, pos):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
-        panel = self.PointTab.widget(tabNameList.index("Drive Rod"))
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
+        panel = self.panelWidget.widget(tabNameList.index("Drive Rod"))
         self.File.Lists.setDemo('Rod', row=panel.Rod.currentIndex(), pos=pos/100)
         self.Resolve()
         self.workbookNoSave()
@@ -995,7 +995,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_Measurement_clicked(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Measurement" in tabNameList:
             self.closePanel(tabNameList.index("Measurement"))
         else:
@@ -1008,8 +1008,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             panel.point_change.connect(self.distance_solving)
             self.distance_changed.connect(panel.change_distance)
             panel.Mouse.setPlainText("Detecting...")
-            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/ref.png")), "Measurement")
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/ref.png")), "Measurement")
+            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
     distance_changed = pyqtSignal(float)
     @pyqtSlot(int, int)
     def distance_solving(self, start, end):
@@ -1019,7 +1019,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_AuxLine_clicked(self):
-        tabNameList = [self.PointTab.tabText(i) for i in range(self.PointTab.count())]
+        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Auxiliary Line" in tabNameList:
             self.closePanel(tabNameList.index("Auxiliary Line"))
             self.DynamicCanvasView.reset_Auxline()
@@ -1030,8 +1030,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table = self.Entiteis_Point
             panel = AuxLine_show(table, self.DynamicCanvasView.AuxLine['pt'], self.DynamicCanvasView.AuxLine['color'], self.DynamicCanvasView.AuxLine['limit_color'], self)
             panel.Point_change.connect(self.draw_Auxline)
-            self.PointTab.addTab(panel, QIcon(QPixmap(":/icons/auxline.png")), "Auxiliary Line")
-            self.PointTab.setCurrentIndex(self.PointTab.count()-1)
+            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/auxline.png")), "Auxiliary Line")
+            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
     def draw_Auxline(self, pt, color, color_l, axe_H, axe_V, max_l, min_l, pt_change):
@@ -1050,10 +1050,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Close_all_panel_triggered(self):
         self.closeAllPanels(True)
     def closeAllPanels(self, closePathSolving=False):
-        for i in reversed(range(self.PointTab.count())):
-            if not((self.PointTab.tabText(i)=="Path Solving" and not closePathSolving) or i==0 or i==1):
+        for i in reversed(range(self.panelWidget.count())):
+            if not self.panelWidget.tabText(i)=="Path Solving":
                 self.closePanel(i)
-        self.PointTab.setCurrentIndex(0)
         for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.Measurement, self.AuxLine]:
             button.setChecked(False)
         if closePathSolving:
@@ -1063,8 +1062,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.reset_Auxline()
         self.Reload_Canvas()
     def closePanel(self, pos):
-        panel = self.PointTab.widget(pos)
-        self.PointTab.removeTab(pos)
+        panel = self.panelWidget.widget(pos)
+        self.panelWidget.removeTab(pos)
         panel.deleteLater()
     
     def tableFocusChange(self, item):

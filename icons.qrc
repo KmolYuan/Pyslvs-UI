@@ -19,6 +19,10 @@
     <!--Network icons-->
     <file>icons/local.png</file>
     <file>icons/ZeroMQ.png</file>
+    <!--Panel icons-->
+    <file>icons/mechanism.png</file>
+    <file>icons/history.png</file>
+    <file>icons/panel.png</file>
     <!--Dialog icons-->
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>

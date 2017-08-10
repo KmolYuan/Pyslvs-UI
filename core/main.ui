@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>998</width>
-    <height>717</height>
+    <width>1075</width>
+    <height>741</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -42,10 +42,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_27">
-    <property name="spacing">
-     <number>3</number>
-    </property>
+   <layout class="QVBoxLayout" name="verticalLayout_28">
     <property name="leftMargin">
      <number>3</number>
     </property>
@@ -91,41 +88,44 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QSplitter" name="ToolPanelSplitter">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QTabWidget" name="ToolPanel">
+           <property name="tabPosition">
+            <enum>QTabWidget::West</enum>
            </property>
-           <property name="handleWidth">
-            <number>3</number>
+           <property name="currentIndex">
+            <number>0</number>
            </property>
-           <widget class="QWidget" name="PointTabWidget" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_29">
+           <widget class="QWidget" name="mechanism_tab">
+            <attribute name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
+            </attribute>
+            <attribute name="title">
+             <string>Mechanism</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_27">
              <property name="leftMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <property name="topMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <property name="rightMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <property name="bottomMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <item>
-              <widget class="QTabWidget" name="PointTab">
-               <property name="currentIndex">
-                <number>0</number>
+              <widget class="QSplitter" name="ToolPanelSplitter">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-               <widget class="QWidget" name="Coordinate">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/perpendicular.png</normaloff>:/icons/perpendicular.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Point Coordinate</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="handleWidth">
+                <number>3</number>
+               </property>
+               <widget class="QWidget" name="PointTabWidget" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_29">
                  <property name="leftMargin">
                   <number>6</number>
                  </property>
@@ -139,469 +139,1203 @@
                   <number>6</number>
                  </property>
                  <item>
-                  <widget class="QWidget" name="Entiteis_Point_Widget" native="true">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
+                  <widget class="QTabWidget" name="PointTab">
+                   <property name="currentIndex">
+                    <number>0</number>
                    </property>
-                   <property name="contextMenuPolicy">
-                    <enum>Qt::CustomContextMenu</enum>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_25">
-                    <property name="leftMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>0</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>0</number>
-                    </property>
-                    <item>
-                     <widget class="QTableWidget" name="Entiteis_Point">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="minimumSize">
-                       <size>
-                        <width>331</width>
-                        <height>0</height>
-                       </size>
-                      </property>
-                      <property name="toolTipDuration">
-                       <number>-1</number>
-                      </property>
-                      <property name="statusTip">
-                       <string>All Points in this workbook.</string>
-                      </property>
-                      <property name="autoFillBackground">
-                       <bool>true</bool>
-                      </property>
-                      <property name="editTriggers">
-                       <set>QAbstractItemView::NoEditTriggers</set>
-                      </property>
-                      <property name="selectionBehavior">
-                       <enum>QAbstractItemView::SelectRows</enum>
-                      </property>
-                      <property name="verticalScrollMode">
-                       <enum>QAbstractItemView::ScrollPerPixel</enum>
-                      </property>
-                      <property name="horizontalScrollMode">
-                       <enum>QAbstractItemView::ScrollPerPixel</enum>
-                      </property>
-                      <property name="rowCount">
-                       <number>1</number>
-                      </property>
-                      <property name="columnCount">
-                       <number>6</number>
-                      </property>
-                      <attribute name="horizontalHeaderDefaultSectionSize">
-                       <number>75</number>
-                      </attribute>
-                      <attribute name="horizontalHeaderMinimumSectionSize">
-                       <number>75</number>
-                      </attribute>
-                      <row>
-                       <property name="text">
-                        <string>Origin</string>
+                   <widget class="QWidget" name="Coordinate">
+                    <attribute name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/perpendicular.png</normaloff>:/icons/perpendicular.png</iconset>
+                    </attribute>
+                    <attribute name="title">
+                     <string>Point Coordinate</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_9">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <item>
+                      <widget class="QWidget" name="Entiteis_Point_Widget" native="true">
+                       <property name="sizePolicy">
+                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                         <horstretch>0</horstretch>
+                         <verstretch>0</verstretch>
+                        </sizepolicy>
                        </property>
-                      </row>
-                      <column>
-                       <property name="text">
-                        <string>Name</string>
+                       <property name="contextMenuPolicy">
+                        <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <property name="icon">
-                        <iconset resource="../icons.qrc">
-                         <normaloff>:/icons/point.png</normaloff>:/icons/point.png</iconset>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>X</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Y</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Fixed</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Color</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Current</string>
-                       </property>
-                      </column>
-                      <item row="0" column="0">
-                       <property name="text">
-                        <string>Point0</string>
-                       </property>
-                       <property name="flags">
-                        <set>ItemIsSelectable|ItemIsEnabled</set>
-                       </property>
-                      </item>
-                      <item row="0" column="1">
-                       <property name="text">
-                        <string>0.0</string>
-                       </property>
-                      </item>
-                      <item row="0" column="2">
-                       <property name="text">
-                        <string>0.0</string>
-                       </property>
-                      </item>
-                      <item row="0" column="3">
-                       <property name="text">
-                        <string/>
-                       </property>
-                       <property name="checkState">
-                        <enum>Checked</enum>
-                       </property>
-                       <property name="flags">
-                        <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
-                       </property>
-                      </item>
-                      <item row="0" column="4">
-                       <property name="text">
-                        <string>Red</string>
-                       </property>
-                       <property name="icon">
-                        <iconset resource="../icons.qrc">
-                         <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
-                       </property>
-                      </item>
-                      <item row="0" column="5">
-                       <property name="text">
-                        <string>(0.0, 0.0)</string>
-                       </property>
-                      </item>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QWidget" name="widget_3" native="true">
-                   <layout class="QHBoxLayout" name="horizontalLayout">
-                    <property name="spacing">
-                     <number>6</number>
-                    </property>
-                    <property name="leftMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>3</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>3</number>
-                    </property>
-                    <item>
-                     <layout class="QVBoxLayout" name="point_x_layout">
-                      <item>
-                       <widget class="QLabel" name="label">
-                        <property name="text">
-                         <string>x coordinate</string>
+                       <layout class="QVBoxLayout" name="verticalLayout_25">
+                        <property name="leftMargin">
+                         <number>0</number>
                         </property>
-                        <property name="textFormat">
-                         <enum>Qt::RichText</enum>
+                        <property name="topMargin">
+                         <number>0</number>
                         </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
+                        <property name="rightMargin">
+                         <number>0</number>
                         </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLineEdit" name="X_coordinate">
-                        <property name="placeholderText">
-                         <string>0.0</string>
+                        <property name="bottomMargin">
+                         <number>0</number>
                         </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <layout class="QVBoxLayout" name="point_y_layout">
-                      <item>
-                       <widget class="QLabel" name="label_2">
-                        <property name="text">
-                         <string>y coordinate</string>
-                        </property>
-                        <property name="textFormat">
-                         <enum>Qt::RichText</enum>
-                        </property>
-                        <property name="wordWrap">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <widget class="QLineEdit" name="Y_coordinate">
-                        <property name="placeholderText">
-                         <string>0.0</string>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="Point_add_button">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="statusTip">
-                       <string>Quick insert a joint point.</string>
-                      </property>
-                      <property name="text">
-                       <string>Add a Point</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="tab">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/text.png</normaloff>:/icons/text.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Parameter</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_13">
-                 <item>
-                  <widget class="QWidget" name="Parameter_Widget" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_19">
-                    <property name="leftMargin">
-                     <number>6</number>
-                    </property>
-                    <property name="topMargin">
-                     <number>6</number>
-                    </property>
-                    <property name="rightMargin">
-                     <number>6</number>
-                    </property>
-                    <property name="bottomMargin">
-                     <number>6</number>
-                    </property>
-                    <item>
-                     <widget class="QLabel" name="label_9">
-                      <property name="styleSheet">
-                       <string notr="true">color: rgb(255, 0, 0);</string>
-                      </property>
-                      <property name="text">
-                       <string>The number that does not exist will return 0.</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QTableWidget" name="Parameter_list">
-                      <property name="enabled">
-                       <bool>true</bool>
-                      </property>
-                      <property name="statusTip">
-                       <string>List of Parameter.</string>
-                      </property>
-                      <property name="autoFillBackground">
-                       <bool>true</bool>
-                      </property>
-                      <property name="editTriggers">
-                       <set>QAbstractItemView::NoEditTriggers</set>
-                      </property>
-                      <property name="selectionBehavior">
-                       <enum>QAbstractItemView::SelectRows</enum>
-                      </property>
-                      <property name="verticalScrollMode">
-                       <enum>QAbstractItemView::ScrollPerPixel</enum>
-                      </property>
-                      <property name="horizontalScrollMode">
-                       <enum>QAbstractItemView::ScrollPerPixel</enum>
-                      </property>
-                      <column>
-                       <property name="text">
-                        <string>Name</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Parameter</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Comment</string>
-                       </property>
-                      </column>
-                     </widget>
-                    </item>
-                    <item>
-                     <layout class="QHBoxLayout" name="horizontalLayout_4">
-                      <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_18">
                         <item>
-                         <widget class="QTextBrowser" name="Parameter_num">
-                          <property name="enabled">
-                           <bool>false</bool>
+                         <widget class="QTableWidget" name="Entiteis_Point">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
                           </property>
-                          <property name="maximumSize">
+                          <property name="minimumSize">
                            <size>
-                            <width>80</width>
-                            <height>30</height>
+                            <width>331</width>
+                            <height>0</height>
                            </size>
                           </property>
+                          <property name="toolTipDuration">
+                           <number>-1</number>
+                          </property>
                           <property name="statusTip">
-                           <string>Parameter number.</string>
+                           <string>All Points in this workbook.</string>
                           </property>
-                          <property name="verticalScrollBarPolicy">
-                           <enum>Qt::ScrollBarAlwaysOff</enum>
+                          <property name="autoFillBackground">
+                           <bool>true</bool>
                           </property>
-                          <property name="horizontalScrollBarPolicy">
-                           <enum>Qt::ScrollBarAlwaysOff</enum>
+                          <property name="editTriggers">
+                           <set>QAbstractItemView::NoEditTriggers</set>
                           </property>
-                          <property name="html">
-                           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                          <property name="selectionBehavior">
+                           <enum>QAbstractItemView::SelectRows</enum>
                           </property>
+                          <property name="verticalScrollMode">
+                           <enum>QAbstractItemView::ScrollPerPixel</enum>
+                          </property>
+                          <property name="horizontalScrollMode">
+                           <enum>QAbstractItemView::ScrollPerPixel</enum>
+                          </property>
+                          <property name="rowCount">
+                           <number>1</number>
+                          </property>
+                          <property name="columnCount">
+                           <number>6</number>
+                          </property>
+                          <attribute name="horizontalHeaderDefaultSectionSize">
+                           <number>75</number>
+                          </attribute>
+                          <attribute name="horizontalHeaderMinimumSectionSize">
+                           <number>75</number>
+                          </attribute>
+                          <row>
+                           <property name="text">
+                            <string>Origin</string>
+                           </property>
+                          </row>
+                          <column>
+                           <property name="text">
+                            <string>Name</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="../icons.qrc">
+                             <normaloff>:/icons/point.png</normaloff>:/icons/point.png</iconset>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>X</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Y</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Fixed</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Color</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Current</string>
+                           </property>
+                          </column>
+                          <item row="0" column="0">
+                           <property name="text">
+                            <string>Point0</string>
+                           </property>
+                           <property name="flags">
+                            <set>ItemIsSelectable|ItemIsEnabled</set>
+                           </property>
+                          </item>
+                          <item row="0" column="1">
+                           <property name="text">
+                            <string>0.0</string>
+                           </property>
+                          </item>
+                          <item row="0" column="2">
+                           <property name="text">
+                            <string>0.0</string>
+                           </property>
+                          </item>
+                          <item row="0" column="3">
+                           <property name="text">
+                            <string/>
+                           </property>
+                           <property name="checkState">
+                            <enum>Checked</enum>
+                           </property>
+                           <property name="flags">
+                            <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsEnabled</set>
+                           </property>
+                          </item>
+                          <item row="0" column="4">
+                           <property name="text">
+                            <string>Red</string>
+                           </property>
+                           <property name="icon">
+                            <iconset resource="../icons.qrc">
+                             <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+                           </property>
+                          </item>
+                          <item row="0" column="5">
+                           <property name="text">
+                            <string>(0.0, 0.0)</string>
+                           </property>
+                          </item>
                          </widget>
                         </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QWidget" name="widget_3" native="true">
+                       <layout class="QHBoxLayout" name="horizontalLayout">
+                        <property name="spacing">
+                         <number>6</number>
+                        </property>
+                        <property name="leftMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>3</number>
+                        </property>
                         <item>
-                         <widget class="QPushButton" name="Parameter_update">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
+                         <layout class="QVBoxLayout" name="point_x_layout">
+                          <item>
+                           <widget class="QLabel" name="label">
+                            <property name="text">
+                             <string>x coordinate</string>
+                            </property>
+                            <property name="textFormat">
+                             <enum>Qt::RichText</enum>
+                            </property>
+                            <property name="wordWrap">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLineEdit" name="X_coordinate">
+                            <property name="placeholderText">
+                             <string>0.0</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <layout class="QVBoxLayout" name="point_y_layout">
+                          <item>
+                           <widget class="QLabel" name="label_2">
+                            <property name="text">
+                             <string>y coordinate</string>
+                            </property>
+                            <property name="textFormat">
+                             <enum>Qt::RichText</enum>
+                            </property>
+                            <property name="wordWrap">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLineEdit" name="Y_coordinate">
+                            <property name="placeholderText">
+                             <string>0.0</string>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="Point_add_button">
                           <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                             <horstretch>0</horstretch>
                             <verstretch>0</verstretch>
                            </sizepolicy>
                           </property>
                           <property name="statusTip">
-                           <string>Update the data to Parameter List.</string>
+                           <string>Quick insert a joint point.</string>
                           </property>
                           <property name="text">
-                           <string>Update</string>
+                           <string>Add a Point</string>
                           </property>
                          </widget>
                         </item>
                        </layout>
-                      </item>
-                      <item>
-                       <layout class="QVBoxLayout" name="point_x_layout_2">
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="tab">
+                    <attribute name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/text.png</normaloff>:/icons/text.png</iconset>
+                    </attribute>
+                    <attribute name="title">
+                     <string>Parameter</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_13">
+                     <item>
+                      <widget class="QWidget" name="Parameter_Widget" native="true">
+                       <layout class="QVBoxLayout" name="verticalLayout_19">
+                        <property name="leftMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>6</number>
+                        </property>
                         <item>
-                         <widget class="QLabel" name="Parameter_lable">
-                          <property name="enabled">
-                           <bool>false</bool>
+                         <widget class="QLabel" name="label_9">
+                          <property name="styleSheet">
+                           <string notr="true">color: rgb(255, 0, 0);</string>
                           </property>
                           <property name="text">
-                           <string>Parameter</string>
-                          </property>
-                          <property name="textFormat">
-                           <enum>Qt::RichText</enum>
-                          </property>
-                          <property name="wordWrap">
-                           <bool>true</bool>
+                           <string>The number that does not exist will return 0.</string>
                           </property>
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLineEdit" name="Parameter_digital">
+                         <widget class="QTableWidget" name="Parameter_list">
                           <property name="enabled">
-                           <bool>false</bool>
+                           <bool>true</bool>
                           </property>
                           <property name="statusTip">
-                           <string>Enter your parameter.</string>
+                           <string>List of Parameter.</string>
                           </property>
-                          <property name="placeholderText">
-                           <string>0.0</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                      <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_8">
-                        <item>
-                         <widget class="QLabel" name="Comment_lable">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <property name="text">
-                           <string>Comment</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QLineEdit" name="Parameter_comment">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <property name="placeholderText">
-                           <string>No-comment</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </item>
-                      <item>
-                       <widget class="Line" name="Parameter_line">
-                        <property name="enabled">
-                         <bool>true</bool>
-                        </property>
-                        <property name="orientation">
-                         <enum>Qt::Vertical</enum>
-                        </property>
-                       </widget>
-                      </item>
-                      <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_16">
-                        <item>
-                         <widget class="QPushButton" name="Parameter_add">
-                          <property name="enabled">
+                          <property name="autoFillBackground">
                            <bool>true</bool>
                           </property>
-                          <property name="text">
-                           <string>Add</string>
+                          <property name="editTriggers">
+                           <set>QAbstractItemView::NoEditTriggers</set>
                           </property>
+                          <property name="selectionBehavior">
+                           <enum>QAbstractItemView::SelectRows</enum>
+                          </property>
+                          <property name="verticalScrollMode">
+                           <enum>QAbstractItemView::ScrollPerPixel</enum>
+                          </property>
+                          <property name="horizontalScrollMode">
+                           <enum>QAbstractItemView::ScrollPerPixel</enum>
+                          </property>
+                          <column>
+                           <property name="text">
+                            <string>Name</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Parameter</string>
+                           </property>
+                          </column>
+                          <column>
+                           <property name="text">
+                            <string>Comment</string>
+                           </property>
+                          </column>
                          </widget>
                         </item>
                         <item>
-                         <widget class="QPushButton" name="Parameter_delete">
-                          <property name="text">
-                           <string>Delete</string>
-                          </property>
-                         </widget>
+                         <layout class="QHBoxLayout" name="horizontalLayout_4">
+                          <item>
+                           <layout class="QVBoxLayout" name="verticalLayout_18">
+                            <item>
+                             <widget class="QTextBrowser" name="Parameter_num">
+                              <property name="enabled">
+                               <bool>false</bool>
+                              </property>
+                              <property name="maximumSize">
+                               <size>
+                                <width>80</width>
+                                <height>30</height>
+                               </size>
+                              </property>
+                              <property name="statusTip">
+                               <string>Parameter number.</string>
+                              </property>
+                              <property name="verticalScrollBarPolicy">
+                               <enum>Qt::ScrollBarAlwaysOff</enum>
+                              </property>
+                              <property name="horizontalScrollBarPolicy">
+                               <enum>Qt::ScrollBarAlwaysOff</enum>
+                              </property>
+                              <property name="html">
+                               <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QPushButton" name="Parameter_update">
+                              <property name="enabled">
+                               <bool>false</bool>
+                              </property>
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="statusTip">
+                               <string>Update the data to Parameter List.</string>
+                              </property>
+                              <property name="text">
+                               <string>Update</string>
+                              </property>
+                             </widget>
+                            </item>
+                           </layout>
+                          </item>
+                          <item>
+                           <layout class="QVBoxLayout" name="point_x_layout_2">
+                            <item>
+                             <widget class="QLabel" name="Parameter_lable">
+                              <property name="enabled">
+                               <bool>false</bool>
+                              </property>
+                              <property name="text">
+                               <string>Parameter</string>
+                              </property>
+                              <property name="textFormat">
+                               <enum>Qt::RichText</enum>
+                              </property>
+                              <property name="wordWrap">
+                               <bool>true</bool>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QLineEdit" name="Parameter_digital">
+                              <property name="enabled">
+                               <bool>false</bool>
+                              </property>
+                              <property name="statusTip">
+                               <string>Enter your parameter.</string>
+                              </property>
+                              <property name="placeholderText">
+                               <string>0.0</string>
+                              </property>
+                             </widget>
+                            </item>
+                           </layout>
+                          </item>
+                          <item>
+                           <layout class="QVBoxLayout" name="verticalLayout_8">
+                            <item>
+                             <widget class="QLabel" name="Comment_lable">
+                              <property name="enabled">
+                               <bool>false</bool>
+                              </property>
+                              <property name="text">
+                               <string>Comment</string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QLineEdit" name="Parameter_comment">
+                              <property name="enabled">
+                               <bool>false</bool>
+                              </property>
+                              <property name="placeholderText">
+                               <string>No-comment</string>
+                              </property>
+                             </widget>
+                            </item>
+                           </layout>
+                          </item>
+                          <item>
+                           <widget class="Line" name="Parameter_line">
+                            <property name="enabled">
+                             <bool>true</bool>
+                            </property>
+                            <property name="orientation">
+                             <enum>Qt::Vertical</enum>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <layout class="QVBoxLayout" name="verticalLayout_16">
+                            <item>
+                             <widget class="QPushButton" name="Parameter_add">
+                              <property name="enabled">
+                               <bool>true</bool>
+                              </property>
+                              <property name="text">
+                               <string>Add</string>
+                              </property>
+                             </widget>
+                            </item>
+                            <item>
+                             <widget class="QPushButton" name="Parameter_delete">
+                              <property name="text">
+                               <string>Delete</string>
+                              </property>
+                             </widget>
+                            </item>
+                           </layout>
+                          </item>
+                         </layout>
                         </item>
                        </layout>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="OptionTabWidget" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_30">
+                 <property name="leftMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>6</number>
+                 </property>
+                 <item>
+                  <widget class="QTabWidget" name="OptionTab">
+                   <property name="tabShape">
+                    <enum>QTabWidget::Rounded</enum>
+                   </property>
+                   <property name="currentIndex">
+                    <number>0</number>
+                   </property>
+                   <property name="movable">
+                    <bool>false</bool>
+                   </property>
+                   <widget class="QWidget" name="Entites">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <attribute name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/trim.png</normaloff>:/icons/trim.png</iconset>
+                    </attribute>
+                    <attribute name="title">
+                     <string>Entities</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_2">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <item>
+                      <widget class="QTabWidget" name="tabWidget">
+                       <property name="currentIndex">
+                        <number>0</number>
+                       </property>
+                       <widget class="QWidget" name="LinkTab">
+                        <attribute name="title">
+                         <string>Link</string>
+                        </attribute>
+                        <layout class="QVBoxLayout" name="verticalLayout_21">
+                         <property name="leftMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>6</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="reqLine">
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(255, 0, 0);</string>
+                           </property>
+                           <property name="text">
+                            <string>Requirement: 2 Points.</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="Entiteis_Link_Widget" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="contextMenuPolicy">
+                            <enum>Qt::CustomContextMenu</enum>
+                           </property>
+                           <property name="statusTip">
+                            <string>All Links in this workbook. Needs two point.</string>
+                           </property>
+                           <layout class="QVBoxLayout" name="verticalLayout_12">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QTableWidget" name="Entiteis_Link">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="maximumSize">
+                               <size>
+                                <width>16777215</width>
+                                <height>1000</height>
+                               </size>
+                              </property>
+                              <property name="acceptDrops">
+                               <bool>false</bool>
+                              </property>
+                              <property name="statusTip">
+                               <string/>
+                              </property>
+                              <property name="autoFillBackground">
+                               <bool>true</bool>
+                              </property>
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
+                              <property name="verticalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="horizontalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="rowCount">
+                               <number>0</number>
+                              </property>
+                              <property name="columnCount">
+                               <number>4</number>
+                              </property>
+                              <attribute name="horizontalHeaderDefaultSectionSize">
+                               <number>75</number>
+                              </attribute>
+                              <attribute name="horizontalHeaderMinimumSectionSize">
+                               <number>75</number>
+                              </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Name</string>
+                               </property>
+                               <property name="icon">
+                                <iconset resource="../icons.qrc">
+                                 <normaloff>:/icons/line.png</normaloff>:/icons/line.png</iconset>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Start Side</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>End Side</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Length</string>
+                               </property>
+                              </column>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                       <widget class="QWidget" name="ChainTab">
+                        <attribute name="title">
+                         <string>Fixed Chain</string>
+                        </attribute>
+                        <layout class="QVBoxLayout" name="verticalLayout_26">
+                         <property name="leftMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>6</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="reqChain">
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(255, 0, 0);</string>
+                           </property>
+                           <property name="text">
+                            <string>Requirement: 3 Points.</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="Entiteis_Chain_Widget" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="contextMenuPolicy">
+                            <enum>Qt::CustomContextMenu</enum>
+                           </property>
+                           <property name="statusTip">
+                            <string>All Fixed Chains in this workbook. Needs three point.</string>
+                           </property>
+                           <layout class="QVBoxLayout" name="verticalLayout_15">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QTableWidget" name="Entiteis_Chain">
+                              <property name="sizePolicy">
+                               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+                                <horstretch>0</horstretch>
+                                <verstretch>0</verstretch>
+                               </sizepolicy>
+                              </property>
+                              <property name="statusTip">
+                               <string/>
+                              </property>
+                              <property name="autoFillBackground">
+                               <bool>true</bool>
+                              </property>
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
+                              <property name="verticalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="horizontalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="rowCount">
+                               <number>0</number>
+                              </property>
+                              <property name="columnCount">
+                               <number>7</number>
+                              </property>
+                              <attribute name="horizontalHeaderDefaultSectionSize">
+                               <number>70</number>
+                              </attribute>
+                              <attribute name="horizontalHeaderMinimumSectionSize">
+                               <number>70</number>
+                              </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Name</string>
+                               </property>
+                               <property name="icon">
+                                <iconset resource="../icons.qrc">
+                                 <normaloff>:/icons/equal.png</normaloff>:/icons/equal.png</iconset>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Point[1]</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Point[2]</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Point[3]</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>[1]-[2]</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>[2]-[3]</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>[1]-[3]</string>
+                               </property>
+                              </column>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
+                   <widget class="QWidget" name="Simulate">
+                    <attribute name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/arc.png</normaloff>:/icons/arc.png</iconset>
+                    </attribute>
+                    <attribute name="title">
+                     <string>Simulate</string>
+                    </attribute>
+                    <layout class="QVBoxLayout" name="verticalLayout_3">
+                     <property name="leftMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="topMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="rightMargin">
+                      <number>6</number>
+                     </property>
+                     <property name="bottomMargin">
+                      <number>6</number>
+                     </property>
+                     <item>
+                      <widget class="QTabWidget" name="Simulate_tab">
+                       <property name="currentIndex">
+                        <number>0</number>
+                       </property>
+                       <widget class="QWidget" name="Shaft_tab">
+                        <attribute name="title">
+                         <string>Shaft</string>
+                        </attribute>
+                        <layout class="QVBoxLayout" name="verticalLayout_5">
+                         <property name="leftMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>6</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="reqShaft">
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(255, 0, 0);</string>
+                           </property>
+                           <property name="text">
+                            <string>Requirement: 2 Points.</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="Shaft_Widget" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="contextMenuPolicy">
+                            <enum>Qt::CustomContextMenu</enum>
+                           </property>
+                           <property name="statusTip">
+                            <string>All drive shaft will show here. Needs two point.</string>
+                           </property>
+                           <layout class="QVBoxLayout" name="Drive_Shaft_Layout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QTableWidget" name="Shaft">
+                              <property name="statusTip">
+                               <string/>
+                              </property>
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
+                              <property name="verticalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="horizontalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <attribute name="horizontalHeaderDefaultSectionSize">
+                               <number>120</number>
+                              </attribute>
+                              <attribute name="horizontalHeaderMinimumSectionSize">
+                               <number>90</number>
+                              </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Name</string>
+                               </property>
+                               <property name="icon">
+                                <iconset resource="../icons.qrc">
+                                 <normaloff>:/icons/circle.png</normaloff>:/icons/circle.png</iconset>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Shaft Center</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Reference</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Start Angle(deg)</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>End Angle(deg)</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Demo Angle(deg)</string>
+                               </property>
+                              </column>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                       <widget class="QWidget" name="Slider_tab">
+                        <attribute name="title">
+                         <string>Slider</string>
+                        </attribute>
+                        <layout class="QVBoxLayout" name="verticalLayout_6">
+                         <property name="leftMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>6</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="reqSlider">
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(255, 0, 0);</string>
+                           </property>
+                           <property name="text">
+                            <string>Requirement: 3 Points.</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="Slider_Widget" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="contextMenuPolicy">
+                            <enum>Qt::CustomContextMenu</enum>
+                           </property>
+                           <property name="statusTip">
+                            <string>All slider will show here. Needs a point and a link.</string>
+                           </property>
+                           <layout class="QVBoxLayout" name="Slider_Layout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QTableWidget" name="Slider">
+                              <property name="statusTip">
+                               <string/>
+                              </property>
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
+                              <property name="verticalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="horizontalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <attribute name="horizontalHeaderDefaultSectionSize">
+                               <number>90</number>
+                              </attribute>
+                              <attribute name="horizontalHeaderMinimumSectionSize">
+                               <number>90</number>
+                              </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Name</string>
+                               </property>
+                               <property name="icon">
+                                <iconset resource="../icons.qrc">
+                                 <normaloff>:/icons/pointonx.png</normaloff>:/icons/pointonx.png</iconset>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Slider Center</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Start Side</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>End Side</string>
+                               </property>
+                              </column>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                       <widget class="QWidget" name="Rod_tab">
+                        <attribute name="title">
+                         <string>Piston</string>
+                        </attribute>
+                        <layout class="QVBoxLayout" name="verticalLayout_7">
+                         <property name="leftMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>6</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>6</number>
+                         </property>
+                         <item>
+                          <widget class="QLabel" name="reqRod">
+                           <property name="styleSheet">
+                            <string notr="true">color: rgb(255, 0, 0);</string>
+                           </property>
+                           <property name="text">
+                            <string>Requirement: 3 Points.</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QWidget" name="Rod_Widget" native="true">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="contextMenuPolicy">
+                            <enum>Qt::CustomContextMenu</enum>
+                           </property>
+                           <property name="statusTip">
+                            <string>All extendable rod will show here. Needs two point.</string>
+                           </property>
+                           <layout class="QVBoxLayout" name="Rod_Layout">
+                            <property name="leftMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="topMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="rightMargin">
+                             <number>0</number>
+                            </property>
+                            <property name="bottomMargin">
+                             <number>0</number>
+                            </property>
+                            <item>
+                             <widget class="QTableWidget" name="Rod">
+                              <property name="statusTip">
+                               <string/>
+                              </property>
+                              <property name="editTriggers">
+                               <set>QAbstractItemView::NoEditTriggers</set>
+                              </property>
+                              <property name="selectionBehavior">
+                               <enum>QAbstractItemView::SelectRows</enum>
+                              </property>
+                              <property name="verticalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <property name="horizontalScrollMode">
+                               <enum>QAbstractItemView::ScrollPerPixel</enum>
+                              </property>
+                              <attribute name="horizontalHeaderDefaultSectionSize">
+                               <number>80</number>
+                              </attribute>
+                              <attribute name="horizontalHeaderMinimumSectionSize">
+                               <number>70</number>
+                              </attribute>
+                              <column>
+                               <property name="text">
+                                <string>Name</string>
+                               </property>
+                               <property name="icon">
+                                <iconset resource="../icons.qrc">
+                                 <normaloff>:/icons/spring.png</normaloff>:/icons/spring.png</iconset>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Point[0]</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Start side</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>End side</string>
+                               </property>
+                              </column>
+                              <column>
+                               <property name="text">
+                                <string>Position</string>
+                               </property>
+                              </column>
+                             </widget>
+                            </item>
+                           </layout>
+                          </widget>
+                         </item>
+                        </layout>
+                       </widget>
+                      </widget>
+                     </item>
+                    </layout>
+                   </widget>
                   </widget>
                  </item>
                 </layout>
@@ -610,46 +1344,39 @@ p, li { white-space: pre-wrap; }
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="OptionTabWidget" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_30">
+           <widget class="QWidget" name="panels_tab">
+            <attribute name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/icons/panel.png</normaloff>:/icons/panel.png</iconset>
+            </attribute>
+            <attribute name="title">
+             <string>Panels</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_14">
              <property name="leftMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <property name="topMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <property name="rightMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <property name="bottomMargin">
-              <number>6</number>
+              <number>3</number>
              </property>
              <item>
-              <widget class="QTabWidget" name="OptionTab">
-               <property name="tabShape">
-                <enum>QTabWidget::Rounded</enum>
+              <widget class="QSplitter" name="panels_splitter">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <property name="movable">
-                <bool>false</bool>
-               </property>
-               <widget class="QWidget" name="Entites">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
+               <widget class="QTabWidget" name="panelWidget">
+                <property name="currentIndex">
+                 <number>-1</number>
                 </property>
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/trim.png</normaloff>:/icons/trim.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Entities</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_2">
+               </widget>
+               <widget class="QWidget" name="widget_2" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_20">
                  <property name="leftMargin">
                   <number>6</number>
                  </property>
@@ -663,688 +1390,76 @@ p, li { white-space: pre-wrap; }
                   <number>6</number>
                  </property>
                  <item>
-                  <widget class="QTabWidget" name="tabWidget">
-                   <property name="currentIndex">
-                    <number>0</number>
+                  <widget class="QGroupBox" name="groupBox_3">
+                   <property name="title">
+                    <string>Drivers</string>
                    </property>
-                   <widget class="QWidget" name="LinkTab">
-                    <attribute name="title">
-                     <string>Link</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_21">
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="reqLine">
-                       <property name="styleSheet">
-                        <string notr="true">color: rgb(255, 0, 0);</string>
-                       </property>
-                       <property name="text">
-                        <string>Requirement: 2 Points.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="Entiteis_Link_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="contextMenuPolicy">
-                        <enum>Qt::CustomContextMenu</enum>
-                       </property>
-                       <property name="statusTip">
-                        <string>All Links in this workbook. Needs two point.</string>
-                       </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_12">
-                        <property name="leftMargin">
-                         <number>0</number>
+                   <layout class="QVBoxLayout" name="verticalLayout_23">
+                    <item>
+                     <layout class="QGridLayout" name="gridLayout">
+                      <item row="1" column="0">
+                       <widget class="QPushButton" name="Drive_shaft">
+                        <property name="toolTip">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                         </property>
-                        <property name="topMargin">
-                         <number>0</number>
+                        <property name="statusTip">
+                         <string>Drive the selected drive shaft.</string>
                         </property>
-                        <property name="rightMargin">
-                         <number>0</number>
+                        <property name="text">
+                         <string>Drive Shaft</string>
                         </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
+                        <property name="icon">
+                         <iconset resource="../icons.qrc">
+                          <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
                         </property>
-                        <item>
-                         <widget class="QTableWidget" name="Entiteis_Link">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="maximumSize">
-                           <size>
-                            <width>16777215</width>
-                            <height>1000</height>
-                           </size>
-                          </property>
-                          <property name="acceptDrops">
-                           <bool>false</bool>
-                          </property>
-                          <property name="statusTip">
-                           <string/>
-                          </property>
-                          <property name="autoFillBackground">
-                           <bool>true</bool>
-                          </property>
-                          <property name="editTriggers">
-                           <set>QAbstractItemView::NoEditTriggers</set>
-                          </property>
-                          <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
-                          </property>
-                          <property name="verticalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="horizontalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="rowCount">
-                           <number>0</number>
-                          </property>
-                          <property name="columnCount">
-                           <number>4</number>
-                          </property>
-                          <attribute name="horizontalHeaderDefaultSectionSize">
-                           <number>75</number>
-                          </attribute>
-                          <attribute name="horizontalHeaderMinimumSectionSize">
-                           <number>75</number>
-                          </attribute>
-                          <column>
-                           <property name="text">
-                            <string>Name</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/line.png</normaloff>:/icons/line.png</iconset>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Start Side</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>End Side</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Length</string>
-                           </property>
-                          </column>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="ChainTab">
-                    <attribute name="title">
-                     <string>Fixed Chain</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_26">
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="reqChain">
-                       <property name="styleSheet">
-                        <string notr="true">color: rgb(255, 0, 0);</string>
-                       </property>
-                       <property name="text">
-                        <string>Requirement: 3 Points.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="Entiteis_Chain_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="contextMenuPolicy">
-                        <enum>Qt::CustomContextMenu</enum>
-                       </property>
-                       <property name="statusTip">
-                        <string>All Fixed Chains in this workbook. Needs three point.</string>
-                       </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_15">
-                        <property name="leftMargin">
-                         <number>0</number>
+                        <property name="checkable">
+                         <bool>true</bool>
                         </property>
-                        <property name="topMargin">
-                         <number>0</number>
+                       </widget>
+                      </item>
+                      <item row="1" column="1">
+                       <widget class="QPushButton" name="Drive_rod">
+                        <property name="toolTip">
+                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                         </property>
-                        <property name="rightMargin">
-                         <number>0</number>
+                        <property name="statusTip">
+                         <string>Drive the selected piston.</string>
                         </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
+                        <property name="text">
+                         <string>Drive Piston</string>
                         </property>
-                        <item>
-                         <widget class="QTableWidget" name="Entiteis_Chain">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="statusTip">
-                           <string/>
-                          </property>
-                          <property name="autoFillBackground">
-                           <bool>true</bool>
-                          </property>
-                          <property name="editTriggers">
-                           <set>QAbstractItemView::NoEditTriggers</set>
-                          </property>
-                          <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
-                          </property>
-                          <property name="verticalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="horizontalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="rowCount">
-                           <number>0</number>
-                          </property>
-                          <property name="columnCount">
-                           <number>7</number>
-                          </property>
-                          <attribute name="horizontalHeaderDefaultSectionSize">
-                           <number>70</number>
-                          </attribute>
-                          <attribute name="horizontalHeaderMinimumSectionSize">
-                           <number>70</number>
-                          </attribute>
-                          <column>
-                           <property name="text">
-                            <string>Name</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/equal.png</normaloff>:/icons/equal.png</iconset>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Point[1]</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Point[2]</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Point[3]</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>[1]-[2]</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>[2]-[3]</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>[1]-[3]</string>
-                           </property>
-                          </column>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
+                        <property name="icon">
+                         <iconset resource="../icons.qrc">
+                          <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
+                    </item>
+                   </layout>
                   </widget>
                  </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="Simulate">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/arc.png</normaloff>:/icons/arc.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Simulate</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_3">
-                 <property name="leftMargin">
-                  <number>6</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>6</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>6</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>6</number>
-                 </property>
                  <item>
-                  <widget class="QTabWidget" name="Simulate_tab">
-                   <property name="currentIndex">
-                    <number>0</number>
+                  <widget class="QScrollArea" name="scrollArea">
+                   <property name="horizontalScrollBarPolicy">
+                    <enum>Qt::ScrollBarAlwaysOff</enum>
                    </property>
-                   <widget class="QWidget" name="Shaft_tab">
-                    <attribute name="title">
-                     <string>Shaft</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_5">
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="reqShaft">
-                       <property name="styleSheet">
-                        <string notr="true">color: rgb(255, 0, 0);</string>
-                       </property>
-                       <property name="text">
-                        <string>Requirement: 2 Points.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="Shaft_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="contextMenuPolicy">
-                        <enum>Qt::CustomContextMenu</enum>
-                       </property>
-                       <property name="statusTip">
-                        <string>All drive shaft will show here. Needs two point.</string>
-                       </property>
-                       <layout class="QVBoxLayout" name="Drive_Shaft_Layout">
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
-                        </property>
-                        <item>
-                         <widget class="QTableWidget" name="Shaft">
-                          <property name="statusTip">
-                           <string/>
-                          </property>
-                          <property name="editTriggers">
-                           <set>QAbstractItemView::NoEditTriggers</set>
-                          </property>
-                          <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
-                          </property>
-                          <property name="verticalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="horizontalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <attribute name="horizontalHeaderDefaultSectionSize">
-                           <number>120</number>
-                          </attribute>
-                          <attribute name="horizontalHeaderMinimumSectionSize">
-                           <number>90</number>
-                          </attribute>
-                          <column>
-                           <property name="text">
-                            <string>Name</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/circle.png</normaloff>:/icons/circle.png</iconset>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Shaft Center</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Reference</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Start Angle(deg)</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>End Angle(deg)</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Demo Angle(deg)</string>
-                           </property>
-                          </column>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="Slider_tab">
-                    <attribute name="title">
-                     <string>Slider</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_6">
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="reqSlider">
-                       <property name="styleSheet">
-                        <string notr="true">color: rgb(255, 0, 0);</string>
-                       </property>
-                       <property name="text">
-                        <string>Requirement: 3 Points.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="Slider_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="contextMenuPolicy">
-                        <enum>Qt::CustomContextMenu</enum>
-                       </property>
-                       <property name="statusTip">
-                        <string>All slider will show here. Needs a point and a link.</string>
-                       </property>
-                       <layout class="QVBoxLayout" name="Slider_Layout">
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
-                        </property>
-                        <item>
-                         <widget class="QTableWidget" name="Slider">
-                          <property name="statusTip">
-                           <string/>
-                          </property>
-                          <property name="editTriggers">
-                           <set>QAbstractItemView::NoEditTriggers</set>
-                          </property>
-                          <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
-                          </property>
-                          <property name="verticalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="horizontalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <attribute name="horizontalHeaderDefaultSectionSize">
-                           <number>90</number>
-                          </attribute>
-                          <attribute name="horizontalHeaderMinimumSectionSize">
-                           <number>90</number>
-                          </attribute>
-                          <column>
-                           <property name="text">
-                            <string>Name</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/pointonx.png</normaloff>:/icons/pointonx.png</iconset>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Slider Center</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Start Side</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>End Side</string>
-                           </property>
-                          </column>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="Rod_tab">
-                    <attribute name="title">
-                     <string>Piston</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_7">
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QLabel" name="reqRod">
-                       <property name="styleSheet">
-                        <string notr="true">color: rgb(255, 0, 0);</string>
-                       </property>
-                       <property name="text">
-                        <string>Requirement: 3 Points.</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QWidget" name="Rod_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="contextMenuPolicy">
-                        <enum>Qt::CustomContextMenu</enum>
-                       </property>
-                       <property name="statusTip">
-                        <string>All extendable rod will show here. Needs two point.</string>
-                       </property>
-                       <layout class="QVBoxLayout" name="Rod_Layout">
-                        <property name="leftMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>0</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>0</number>
-                        </property>
-                        <item>
-                         <widget class="QTableWidget" name="Rod">
-                          <property name="statusTip">
-                           <string/>
-                          </property>
-                          <property name="editTriggers">
-                           <set>QAbstractItemView::NoEditTriggers</set>
-                          </property>
-                          <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
-                          </property>
-                          <property name="verticalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="horizontalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <attribute name="horizontalHeaderDefaultSectionSize">
-                           <number>80</number>
-                          </attribute>
-                          <attribute name="horizontalHeaderMinimumSectionSize">
-                           <number>70</number>
-                          </attribute>
-                          <column>
-                           <property name="text">
-                            <string>Name</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/spring.png</normaloff>:/icons/spring.png</iconset>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Point[0]</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Start side</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>End side</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Position</string>
-                           </property>
-                          </column>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
-                    </layout>
-                   </widget>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="History">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/step-translate.png</normaloff>:/icons/step-translate.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>History</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout">
-                 <property name="leftMargin">
-                  <number>6</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>6</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>6</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>6</number>
-                 </property>
-                 <item>
-                  <widget class="QTabWidget" name="History_tab">
-                   <property name="currentIndex">
-                    <number>0</number>
+                   <property name="widgetResizable">
+                    <bool>true</bool>
                    </property>
-                   <widget class="QWidget" name="Undo_and_Redo">
-                    <attribute name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/undo.png</normaloff>:/icons/undo.png</iconset>
-                    </attribute>
-                    <attribute name="title">
-                     <string>Undo and Redo</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_17">
+                   <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                    <property name="geometry">
+                     <rect>
+                      <x>0</x>
+                      <y>0</y>
+                      <width>591</width>
+                      <height>563</height>
+                     </rect>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_22">
                      <property name="leftMargin">
                       <number>6</number>
                      </property>
@@ -1358,77 +1473,223 @@ p, li { white-space: pre-wrap; }
                       <number>6</number>
                      </property>
                      <item>
-                      <layout class="QVBoxLayout" name="UndoRedoLayout">
-                       <item>
-                        <widget class="QLabel" name="label_8">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="text">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in &lt;span style=&quot; font-weight:600;&quot;&gt;this edition&lt;/span&gt; will show here.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </item>
-                    </layout>
-                   </widget>
-                   <widget class="QWidget" name="Console">
-                    <attribute name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
-                    </attribute>
-                    <attribute name="title">
-                     <string>Console</string>
-                    </attribute>
-                    <layout class="QVBoxLayout" name="verticalLayout_10">
-                     <property name="spacing">
-                      <number>6</number>
-                     </property>
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QWidget" name="consoleWidget" native="true">
-                       <layout class="QVBoxLayout" name="verticalLayout_11">
-                        <property name="spacing">
-                         <number>6</number>
-                        </property>
-                        <property name="leftMargin">
-                         <number>6</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>6</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>6</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>6</number>
-                        </property>
+                      <widget class="QGroupBox" name="DimensionalSynthesisGroupBox">
+                       <property name="title">
+                        <string>Dimensional synthesis system</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_4">
                         <item>
-                         <layout class="QHBoxLayout" name="horizontalLayout_5">
+                         <layout class="QHBoxLayout" name="horizontalLayout_6">
                           <item>
-                           <widget class="QLabel" name="label_3">
+                           <widget class="QPushButton" name="PathSolving">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="statusTip">
+                             <string>This generator will design a crank rocker to meet this path requirement.</string>
+                            </property>
                             <property name="text">
-                             <string>Pyslvs text-console</string>
+                             <string>Path Solving</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
                             </property>
                            </widget>
                           </item>
                           <item>
-                           <spacer name="horizontalSpacer_2">
+                           <widget class="QPushButton" name="TriangleSolver">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="statusTip">
+                             <string>Use Solver to calculate the reference points of your mechanism.</string>
+                            </property>
+                            <property name="text">
+                             <string>Triangle Solver</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QGroupBox" name="ValidationToolsGroupBox">
+                       <property name="title">
+                        <string>Validation tools</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_24">
+                        <item>
+                         <layout class="QGridLayout" name="gridLayout_2">
+                          <item row="0" column="0">
+                           <widget class="QPushButton" name="AuxLine">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Auxiliary Line&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;See the limitation of the specified point.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/AuxLine.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="statusTip">
+                             <string>See the limitation of the specified point.</string>
+                            </property>
+                            <property name="text">
+                             <string>Auxiliary Line</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/auxline.png</normaloff>:/icons/auxline.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                          <item row="0" column="1">
+                           <widget class="QPushButton" name="Measurement">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Measurement&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Measure the distance between two points.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/Measurement.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="statusTip">
+                             <string>Measure the distance between two points.</string>
+                            </property>
+                            <property name="text">
+                             <string>Measurement</string>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QGroupBox" name="CanvasSettingsGroupBox">
+                       <property name="title">
+                        <string>Canvas settings</string>
+                       </property>
+                       <layout class="QVBoxLayout" name="verticalLayout_32">
+                        <item>
+                         <layout class="QHBoxLayout" name="horizontalLayout_3">
+                          <item>
+                           <widget class="QLabel" name="label_4">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="text">
+                             <string>Line Width</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSpinBox" name="LineWidth">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimum">
+                             <number>1</number>
+                            </property>
+                            <property name="maximum">
+                             <number>10</number>
+                            </property>
+                            <property name="value">
+                             <number>3</number>
+                            </property>
+                            <property name="displayIntegerBase">
+                             <number>10</number>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_7">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="text">
+                             <string>Font size</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSpinBox" name="Font_size">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimum">
+                             <number>1</number>
+                            </property>
+                            <property name="maximum">
+                             <number>30</number>
+                            </property>
+                            <property name="singleStep">
+                             <number>5</number>
+                            </property>
+                            <property name="value">
+                             <number>10</number>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_5">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="text">
+                             <string>Path Width</string>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSpinBox" name="PathWidth">
+                            <property name="sizePolicy">
+                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                              <horstretch>0</horstretch>
+                              <verstretch>0</verstretch>
+                             </sizepolicy>
+                            </property>
+                            <property name="minimum">
+                             <number>1</number>
+                            </property>
+                            <property name="maximum">
+                             <number>5</number>
+                            </property>
+                            <property name="value">
+                             <number>3</number>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <spacer name="horizontalSpacer">
                             <property name="orientation">
                              <enum>Qt::Horizontal</enum>
                             </property>
@@ -1440,55 +1701,23 @@ p, li { white-space: pre-wrap; }
                             </property>
                            </spacer>
                           </item>
-                          <item>
-                           <widget class="QPushButton" name="disconnectButton">
-                            <property name="statusTip">
-                             <string>Disconnect from GUI console.</string>
-                            </property>
-                            <property name="icon">
-                             <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="connectButton">
-                            <property name="enabled">
-                             <bool>false</bool>
-                            </property>
-                            <property name="statusTip">
-                             <string>Connect to GUI console.</string>
-                            </property>
-                            <property name="icon">
-                             <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/connect.png</normaloff>:/icons/connect.png</iconset>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="Line" name="line_2">
-                            <property name="orientation">
-                             <enum>Qt::Vertical</enum>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QPushButton" name="clearConsole">
-                            <property name="statusTip">
-                             <string>Clear GUI console.</string>
-                            </property>
-                            <property name="text">
-                             <string>Clear</string>
-                            </property>
-                           </widget>
-                          </item>
                          </layout>
-                        </item>
-                        <item>
-                         <widget class="QTextBrowser" name="consoleWidgetBrowser"/>
                         </item>
                        </layout>
                       </widget>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>0</width>
+                         <height>1</height>
+                        </size>
+                       </property>
+                      </spacer>
                      </item>
                     </layout>
                    </widget>
@@ -1496,18 +1725,106 @@ p, li { white-space: pre-wrap; }
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="Panels">
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="history_tab">
+            <attribute name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/icons/history.png</normaloff>:/icons/history.png</iconset>
+            </attribute>
+            <attribute name="title">
+             <string>History</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <property name="leftMargin">
+              <number>3</number>
+             </property>
+             <property name="topMargin">
+              <number>3</number>
+             </property>
+             <property name="rightMargin">
+              <number>3</number>
+             </property>
+             <property name="bottomMargin">
+              <number>3</number>
+             </property>
+             <item>
+              <widget class="QTabWidget" name="History_tab">
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <widget class="QWidget" name="Undo_and_Redo">
                 <attribute name="icon">
                  <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+                  <normaloff>:/icons/undo.png</normaloff>:/icons/undo.png</iconset>
                 </attribute>
                 <attribute name="title">
-                 <string>Panels</string>
+                 <string>Undo and Redo</string>
                 </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_14">
+                <layout class="QVBoxLayout" name="verticalLayout_17">
+                 <property name="leftMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>6</number>
+                 </property>
                  <item>
-                  <widget class="QWidget" name="widget_2" native="true">
-                   <layout class="QVBoxLayout" name="verticalLayout_20">
+                  <layout class="QVBoxLayout" name="UndoRedoLayout">
+                   <item>
+                    <widget class="QLabel" name="label_8">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in &lt;span style=&quot; font-weight:600;&quot;&gt;this edition&lt;/span&gt; will show here.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="Console">
+                <attribute name="icon">
+                 <iconset resource="../icons.qrc">
+                  <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
+                </attribute>
+                <attribute name="title">
+                 <string>Console</string>
+                </attribute>
+                <layout class="QVBoxLayout" name="verticalLayout_10">
+                 <property name="spacing">
+                  <number>6</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>6</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>6</number>
+                 </property>
+                 <item>
+                  <widget class="QWidget" name="consoleWidget" native="true">
+                   <layout class="QVBoxLayout" name="verticalLayout_11">
+                    <property name="spacing">
+                     <number>6</number>
+                    </property>
                     <property name="leftMargin">
                      <number>6</number>
                     </property>
@@ -1521,338 +1838,73 @@ p, li { white-space: pre-wrap; }
                      <number>6</number>
                     </property>
                     <item>
-                     <widget class="QGroupBox" name="groupBox_3">
-                      <property name="title">
-                       <string>Drivers</string>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_23">
-                       <item>
-                        <layout class="QGridLayout" name="gridLayout">
-                         <item row="1" column="0">
-                          <widget class="QPushButton" name="Drive_shaft">
-                           <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                           </property>
-                           <property name="statusTip">
-                            <string>Drive the selected drive shaft.</string>
-                           </property>
-                           <property name="text">
-                            <string>Drive Shaft</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
-                           </property>
-                           <property name="checkable">
-                            <bool>true</bool>
-                           </property>
-                          </widget>
-                         </item>
-                         <item row="1" column="1">
-                          <widget class="QPushButton" name="Drive_rod">
-                           <property name="toolTip">
-                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                           </property>
-                           <property name="statusTip">
-                            <string>Drive the selected piston.</string>
-                           </property>
-                           <property name="text">
-                            <string>Drive Piston</string>
-                           </property>
-                           <property name="icon">
-                            <iconset resource="../icons.qrc">
-                             <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
-                           </property>
-                           <property name="checkable">
-                            <bool>true</bool>
-                           </property>
-                          </widget>
-                         </item>
-                        </layout>
-                       </item>
-                      </layout>
-                     </widget>
+                     <layout class="QHBoxLayout" name="horizontalLayout_5">
+                      <item>
+                       <widget class="QLabel" name="label_3">
+                        <property name="text">
+                         <string>Pyslvs text-console</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <spacer name="horizontalSpacer_2">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="disconnectButton">
+                        <property name="statusTip">
+                         <string>Disconnect from GUI console.</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="../icons.qrc">
+                          <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="connectButton">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
+                        <property name="statusTip">
+                         <string>Connect to GUI console.</string>
+                        </property>
+                        <property name="icon">
+                         <iconset resource="../icons.qrc">
+                          <normaloff>:/icons/connect.png</normaloff>:/icons/connect.png</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="Line" name="line_2">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="clearConsole">
+                        <property name="statusTip">
+                         <string>Clear GUI console.</string>
+                        </property>
+                        <property name="text">
+                         <string>Clear</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                     <item>
-                     <widget class="QScrollArea" name="scrollArea">
-                      <property name="horizontalScrollBarPolicy">
-                       <enum>Qt::ScrollBarAlwaysOff</enum>
-                      </property>
-                      <property name="widgetResizable">
-                       <bool>true</bool>
-                      </property>
-                      <widget class="QWidget" name="scrollAreaWidgetContents_2">
-                       <property name="geometry">
-                        <rect>
-                         <x>0</x>
-                         <y>0</y>
-                         <width>388</width>
-                         <height>268</height>
-                        </rect>
-                       </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_22">
-                        <property name="leftMargin">
-                         <number>6</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>6</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>6</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>6</number>
-                        </property>
-                        <item>
-                         <widget class="QGroupBox" name="DimensionalSynthesisGroupBox">
-                          <property name="title">
-                           <string>Dimensional synthesis system</string>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_4">
-                           <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout_6">
-                             <item>
-                              <widget class="QPushButton" name="PathSolving">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>This generator will design a crank rocker to meet this path requirement.</string>
-                               </property>
-                               <property name="text">
-                                <string>Path Solving</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
-                               </property>
-                               <property name="checkable">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QPushButton" name="TriangleSolver">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>Use Solver to calculate the reference points of your mechanism.</string>
-                               </property>
-                               <property name="text">
-                                <string>Triangle Solver</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
-                               </property>
-                               <property name="checkable">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QGroupBox" name="ValidationToolsGroupBox">
-                          <property name="title">
-                           <string>Validation tools</string>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_24">
-                           <item>
-                            <layout class="QGridLayout" name="gridLayout_2">
-                             <item row="0" column="0">
-                              <widget class="QPushButton" name="AuxLine">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Auxiliary Line&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;See the limitation of the specified point.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/AuxLine.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>See the limitation of the specified point.</string>
-                               </property>
-                               <property name="text">
-                                <string>Auxiliary Line</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/auxline.png</normaloff>:/icons/auxline.png</iconset>
-                               </property>
-                               <property name="checkable">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                             <item row="0" column="1">
-                              <widget class="QPushButton" name="Measurement">
-                               <property name="toolTip">
-                                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Measurement&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Measure the distance between two points.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/Measurement.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                               </property>
-                               <property name="statusTip">
-                                <string>Measure the distance between two points.</string>
-                               </property>
-                               <property name="text">
-                                <string>Measurement</string>
-                               </property>
-                               <property name="icon">
-                                <iconset resource="../icons.qrc">
-                                 <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
-                               </property>
-                               <property name="checkable">
-                                <bool>true</bool>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QGroupBox" name="CanvasSettingsGroupBox">
-                          <property name="title">
-                           <string>Canvas settings</string>
-                          </property>
-                          <layout class="QVBoxLayout" name="verticalLayout_32">
-                           <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout_3">
-                             <item>
-                              <widget class="QLabel" name="label_4">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="text">
-                                <string>Line Width</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QSpinBox" name="LineWidth">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="minimum">
-                                <number>1</number>
-                               </property>
-                               <property name="maximum">
-                                <number>10</number>
-                               </property>
-                               <property name="value">
-                                <number>3</number>
-                               </property>
-                               <property name="displayIntegerBase">
-                                <number>10</number>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_7">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="text">
-                                <string>Font size</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QSpinBox" name="Font_size">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="minimum">
-                                <number>1</number>
-                               </property>
-                               <property name="maximum">
-                                <number>30</number>
-                               </property>
-                               <property name="singleStep">
-                                <number>5</number>
-                               </property>
-                               <property name="value">
-                                <number>10</number>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QLabel" name="label_5">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="text">
-                                <string>Path Width</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QSpinBox" name="PathWidth">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
-                               </property>
-                               <property name="minimum">
-                                <number>1</number>
-                               </property>
-                               <property name="maximum">
-                                <number>5</number>
-                               </property>
-                               <property name="value">
-                                <number>3</number>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <spacer name="horizontalSpacer">
-                               <property name="orientation">
-                                <enum>Qt::Horizontal</enum>
-                               </property>
-                               <property name="sizeHint" stdset="0">
-                                <size>
-                                 <width>40</width>
-                                 <height>20</height>
-                                </size>
-                               </property>
-                              </spacer>
-                             </item>
-                            </layout>
-                           </item>
-                          </layout>
-                         </widget>
-                        </item>
-                        <item>
-                         <spacer name="verticalSpacer">
-                          <property name="orientation">
-                           <enum>Qt::Vertical</enum>
-                          </property>
-                          <property name="sizeHint" stdset="0">
-                           <size>
-                            <width>0</width>
-                            <height>1</height>
-                           </size>
-                          </property>
-                         </spacer>
-                        </item>
-                       </layout>
-                      </widget>
-                     </widget>
+                     <widget class="QTextBrowser" name="consoleWidgetBrowser"/>
                     </item>
                    </layout>
                   </widget>
@@ -2069,7 +2121,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>998</width>
+     <width>1075</width>
      <height>26</height>
     </rect>
    </property>
