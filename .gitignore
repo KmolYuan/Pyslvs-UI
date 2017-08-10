@@ -7,7 +7,7 @@ __pycache__/
 *.so
 *.pyd
 *.o*
-core/kernel/pyslvs_generate/*.c
+core/kernel/pyslvs_algorithm/*.c
 core/kernel/python_solvespace/slvs.py
 core/kernel/python_solvespace/obj*
 *.cxx
