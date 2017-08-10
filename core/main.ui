@@ -1586,7 +1586,7 @@ p, li { white-space: pre-wrap; }
                         <rect>
                          <x>0</x>
                          <y>0</y>
-                         <width>525</width>
+                         <width>388</width>
                          <height>268</height>
                         </rect>
                        </property>
@@ -2086,6 +2086,10 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="title">
       <string>Example</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../icons.qrc">
+       <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
      </property>
      <addaction name="GrashofChainMenuTitle"/>
      <addaction name="action_Crank_rocker"/>
