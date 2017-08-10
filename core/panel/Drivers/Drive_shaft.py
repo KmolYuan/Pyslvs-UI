@@ -114,7 +114,6 @@ class Drive_shaft_show(QWidget, Drive_Form):
     def __init__(self, Shaft, currentShaft, isPathDemoMode, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
-        self.destroyed.connect(self.leaved)
         self.pathDemoMode.setVisible(isPathDemoMode)
         self.Degree = QDial()
         self.Degree.valueChanged.connect(self.on_Degree_valueChanged)
@@ -219,8 +218,9 @@ class Drive_shaft_show(QWidget, Drive_Form):
             widget.setEnabled(True)
         self.setAngle(self.Degree_text.value())
     
-    def leaved(self):
+    def closeEvent(self, event):
         self.degreeChange.emit(self.Degree_text.value(), self.Shaft.currentIndex())
+        event.accept()
     
     @pyqtSlot()
     def reverseChanged(self):
