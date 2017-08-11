@@ -1,5 +1,6 @@
+[![Version](https://img.shields.io/badge/version-0.8.0-yellow.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Build Status](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
-[![PYTHON](https://img.shields.io/badge/python-3.4%20--%203.6-blue.svg)](https://travis-ci.org/KmolYuan/Pyslvs-PyQt5)
+[![PYTHON](https://img.shields.io/badge/python-3.4%20--%203.6-blue.svg)](https://www.python.org/)
 [![QT](https://img.shields.io/badge/pyqt-5.7%20--%205.9-orange.svg)](https://riverbankcomputing.com/software/pyqt/intro)
 [![OS](https://img.shields.io/badge/os-Ubuntu%2C%20Windows-blue.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
 [![Downloads](https://img.shields.io/github/downloads/KmolYuan/Pyslvs-PyQt5/total.svg)](https://github.com/KmolYuan/Pyslvs-PyQt5/releases)
