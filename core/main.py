@@ -118,6 +118,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     #Right-click menu event
+    @pyqtSlot(QPoint)
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path.setVisible(self.PathSolving.isChecked())
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
@@ -130,6 +131,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, 'Blue')
         elif action==self.action_painter_right_click_menu_path:
             self.PathSolving_add_rightClick(x, y)
+    @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
         table1 = self.Entiteis_Point
         NOT_ORIGIN = table1.rowCount()>1 and table1.currentRow()!=0
@@ -156,6 +158,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.on_action_Replace_Point_triggered(table_pos_0)
         elif action==self.action_point_right_click_menu_delete:
             self.on_action_Delete_Point_triggered(table_pos)
+    @pyqtSlot(QPoint)
     def on_link_context_menu(self, point):
         action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Link.currentRow()
@@ -174,6 +177,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.link2Shaft(self.Shaft, table_pos)
         elif action==self.action_link_right_click_menu_delete:
             self.on_action_Delete_Linkage_triggered(table_pos)
+    @pyqtSlot(QPoint)
     def on_chain_context_menu(self, point):
         action = self.popMenu_chain.exec_(self.Entiteis_Chain_Widget.mapToGlobal(point))
         table_pos = self.Entiteis_Chain.currentRow()
@@ -185,6 +189,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tableCopy(self.Entiteis_Chain)
         elif action==self.action_chain_right_click_menu_delete:
             self.on_action_Delete_Stay_Chain_triggered(table_pos)
+    @pyqtSlot(QPoint)
     def on_shaft_context_menu(self, point):
         action = self.popMenu_shaft.exec_(self.Shaft_Widget.mapToGlobal(point))
         table_pos = self.Shaft.currentRow()
@@ -196,6 +201,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tableCopy(self.Shaft)
         elif action==self.action_shaft_right_click_menu_delete:
             self.on_action_Delete_Shaft_triggered(table_pos)
+    @pyqtSlot(QPoint)
     def on_slider_context_menu(self, point):
         action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
         table_pos = self.Slider.currentRow()
@@ -207,6 +213,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tableCopy(self.Slider)
         elif action==self.action_slider_right_click_menu_delete:
             self.on_action_Delete_Slider_triggered(table_pos)
+    @pyqtSlot(QPoint)
     def on_rod_context_menu(self, point):
         action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
         table_pos = self.Rod.currentRow()

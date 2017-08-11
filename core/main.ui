@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1075</width>
-    <height>741</height>
+    <width>1015</width>
+    <height>738</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -42,7 +42,7 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout_28">
+   <layout class="QVBoxLayout" name="verticalLayout_22">
     <property name="leftMargin">
      <number>3</number>
     </property>
@@ -121,22 +121,19 @@
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
-               <property name="handleWidth">
-                <number>3</number>
-               </property>
                <widget class="QWidget" name="PointTabWidget" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_29">
                  <property name="leftMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="topMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="rightMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <item>
                   <widget class="QTabWidget" name="PointTab">
@@ -511,7 +508,7 @@
                                <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'ææ³é©å¾®ç±³é»'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Sans Serif'; font-size:9pt;&quot;&gt;N/A&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                               </property>
                              </widget>
@@ -639,16 +636,16 @@ p, li { white-space: pre-wrap; }
                <widget class="QWidget" name="OptionTabWidget" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_30">
                  <property name="leftMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="topMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="rightMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <item>
                   <widget class="QTabWidget" name="OptionTab">
@@ -1378,16 +1375,16 @@ p, li { white-space: pre-wrap; }
                <widget class="QWidget" name="widget_2" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_20">
                  <property name="leftMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="topMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="rightMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <property name="bottomMargin">
-                  <number>6</number>
+                  <number>3</number>
                  </property>
                  <item>
                   <widget class="Line" name="line_4">
@@ -1397,130 +1394,51 @@ p, li { white-space: pre-wrap; }
                   </widget>
                  </item>
                  <item>
-                  <widget class="QGroupBox" name="groupBox_3">
-                   <property name="title">
-                    <string>Drivers</string>
-                   </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_23">
-                    <item>
-                     <layout class="QGridLayout" name="gridLayout">
-                      <item row="1" column="0">
-                       <widget class="QPushButton" name="Drive_shaft">
-                        <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="statusTip">
-                         <string>Drive the selected drive shaft.</string>
-                        </property>
-                        <property name="text">
-                         <string>Drive Shaft</string>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
-                        </property>
-                        <property name="checkable">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="1" column="1">
-                       <widget class="QPushButton" name="Drive_rod">
-                        <property name="toolTip">
-                         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                        </property>
-                        <property name="statusTip">
-                         <string>Drive the selected piston.</string>
-                        </property>
-                        <property name="text">
-                         <string>Drive Piston</string>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
-                        </property>
-                        <property name="checkable">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
-                      </item>
-                     </layout>
-                    </item>
-                   </layout>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QScrollArea" name="scrollArea">
-                   <property name="horizontalScrollBarPolicy">
-                    <enum>Qt::ScrollBarAlwaysOff</enum>
-                   </property>
-                   <property name="widgetResizable">
-                    <bool>true</bool>
-                   </property>
-                   <widget class="QWidget" name="scrollAreaWidgetContents_2">
-                    <property name="geometry">
-                     <rect>
-                      <x>0</x>
-                      <y>0</y>
-                      <width>591</width>
-                      <height>554</height>
-                     </rect>
-                    </property>
-                    <layout class="QVBoxLayout" name="verticalLayout_22">
-                     <property name="leftMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="topMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="rightMargin">
-                      <number>6</number>
-                     </property>
-                     <property name="bottomMargin">
-                      <number>6</number>
-                     </property>
-                     <item>
-                      <widget class="QGroupBox" name="DimensionalSynthesisGroupBox">
+                  <layout class="QVBoxLayout" name="verticalLayout_28">
+                   <item>
+                    <layout class="QGridLayout" name="gridLayout_3">
+                     <item row="0" column="0">
+                      <widget class="QGroupBox" name="groupBox_3">
                        <property name="title">
-                        <string>Dimensional synthesis system</string>
+                        <string>Drivers</string>
                        </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_4">
+                       <layout class="QVBoxLayout" name="verticalLayout_23">
                         <item>
-                         <layout class="QHBoxLayout" name="horizontalLayout_6">
-                          <item>
-                           <widget class="QPushButton" name="PathSolving">
+                         <layout class="QGridLayout" name="gridLayout">
+                          <item row="1" column="0">
+                           <widget class="QPushButton" name="Drive_shaft">
                             <property name="toolTip">
-                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                             </property>
                             <property name="statusTip">
-                             <string>This generator will design a crank rocker to meet this path requirement.</string>
+                             <string>Drive the selected drive shaft.</string>
                             </property>
                             <property name="text">
-                             <string>Path Solving</string>
+                             <string/>
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                              <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
                            </widget>
                           </item>
-                          <item>
-                           <widget class="QPushButton" name="TriangleSolver">
+                          <item row="1" column="1">
+                           <widget class="QPushButton" name="Drive_rod">
                             <property name="toolTip">
-                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Piston&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected piston.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveRod.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem might occurs when the rod is interfering at some position.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                             </property>
                             <property name="statusTip">
-                             <string>Use Solver to calculate the reference points of your mechanism.</string>
+                             <string>Drive the selected piston.</string>
                             </property>
                             <property name="text">
-                             <string>Triangle Solver</string>
+                             <string/>
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
+                              <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -1532,7 +1450,7 @@ p, li { white-space: pre-wrap; }
                        </layout>
                       </widget>
                      </item>
-                     <item>
+                     <item row="1" column="0">
                       <widget class="QGroupBox" name="ValidationToolsGroupBox">
                        <property name="title">
                         <string>Validation tools</string>
@@ -1549,7 +1467,7 @@ p, li { white-space: pre-wrap; }
                              <string>See the limitation of the specified point.</string>
                             </property>
                             <property name="text">
-                             <string>Auxiliary Line</string>
+                             <string/>
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
@@ -1569,7 +1487,7 @@ p, li { white-space: pre-wrap; }
                              <string>Measure the distance between two points.</string>
                             </property>
                             <property name="text">
-                             <string>Measurement</string>
+                             <string/>
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
@@ -1585,150 +1503,203 @@ p, li { white-space: pre-wrap; }
                        </layout>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QGroupBox" name="CanvasSettingsGroupBox">
+                     <item row="0" column="1">
+                      <widget class="QGroupBox" name="DimensionalSynthesisGroupBox">
                        <property name="title">
-                        <string>Canvas settings</string>
+                        <string>Dimensional synthesis</string>
                        </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_32">
+                       <layout class="QVBoxLayout" name="verticalLayout_4">
                         <item>
-                         <layout class="QHBoxLayout" name="horizontalLayout_3">
+                         <layout class="QHBoxLayout" name="horizontalLayout_6">
                           <item>
-                           <widget class="QLabel" name="label_4">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
+                           <widget class="QPushButton" name="PathSolving">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                            </property>
+                            <property name="statusTip">
+                             <string>This generator will design a crank rocker to meet this path requirement.</string>
                             </property>
                             <property name="text">
-                             <string>Line Width</string>
+                             <string/>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
                             </property>
                            </widget>
                           </item>
                           <item>
-                           <widget class="QSpinBox" name="LineWidth">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
+                           <widget class="QPushButton" name="TriangleSolver">
+                            <property name="toolTip">
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                             </property>
-                            <property name="minimum">
-                             <number>1</number>
-                            </property>
-                            <property name="maximum">
-                             <number>10</number>
-                            </property>
-                            <property name="value">
-                             <number>3</number>
-                            </property>
-                            <property name="displayIntegerBase">
-                             <number>10</number>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QLabel" name="label_7">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
+                            <property name="statusTip">
+                             <string>Use Solver to calculate the reference points of your mechanism.</string>
                             </property>
                             <property name="text">
-                             <string>Font size</string>
+                             <string/>
+                            </property>
+                            <property name="icon">
+                             <iconset resource="../icons.qrc">
+                              <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
+                            </property>
+                            <property name="checkable">
+                             <bool>true</bool>
                             </property>
                            </widget>
-                          </item>
-                          <item>
-                           <widget class="QSpinBox" name="Font_size">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimum">
-                             <number>1</number>
-                            </property>
-                            <property name="maximum">
-                             <number>30</number>
-                            </property>
-                            <property name="singleStep">
-                             <number>5</number>
-                            </property>
-                            <property name="value">
-                             <number>10</number>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QLabel" name="label_5">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="text">
-                             <string>Path Width</string>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QSpinBox" name="PathWidth">
-                            <property name="sizePolicy">
-                             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                              <horstretch>0</horstretch>
-                              <verstretch>0</verstretch>
-                             </sizepolicy>
-                            </property>
-                            <property name="minimum">
-                             <number>1</number>
-                            </property>
-                            <property name="maximum">
-                             <number>5</number>
-                            </property>
-                            <property name="value">
-                             <number>3</number>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <spacer name="horizontalSpacer">
-                            <property name="orientation">
-                             <enum>Qt::Horizontal</enum>
-                            </property>
-                            <property name="sizeHint" stdset="0">
-                             <size>
-                              <width>40</width>
-                              <height>20</height>
-                             </size>
-                            </property>
-                           </spacer>
                           </item>
                          </layout>
                         </item>
                        </layout>
                       </widget>
                      </item>
-                     <item>
-                      <spacer name="verticalSpacer">
-                       <property name="orientation">
-                        <enum>Qt::Vertical</enum>
-                       </property>
-                       <property name="sizeHint" stdset="0">
-                        <size>
-                         <width>0</width>
-                         <height>1</height>
-                        </size>
-                       </property>
-                      </spacer>
-                     </item>
                     </layout>
-                   </widget>
-                  </widget>
+                   </item>
+                   <item>
+                    <widget class="QGroupBox" name="CanvasSettingsGroupBox">
+                     <property name="title">
+                      <string>Canvas settings</string>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout_32">
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_3">
+                        <item>
+                         <widget class="QLabel" name="label_4">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Line Width</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QSpinBox" name="LineWidth">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimum">
+                           <number>1</number>
+                          </property>
+                          <property name="maximum">
+                           <number>10</number>
+                          </property>
+                          <property name="value">
+                           <number>3</number>
+                          </property>
+                          <property name="displayIntegerBase">
+                           <number>10</number>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_7">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Font size</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QSpinBox" name="Font_size">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimum">
+                           <number>1</number>
+                          </property>
+                          <property name="maximum">
+                           <number>30</number>
+                          </property>
+                          <property name="singleStep">
+                           <number>5</number>
+                          </property>
+                          <property name="value">
+                           <number>10</number>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="label_5">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Path Width</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QSpinBox" name="PathWidth">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="minimum">
+                           <number>1</number>
+                          </property>
+                          <property name="maximum">
+                           <number>5</number>
+                          </property>
+                          <property name="value">
+                           <number>3</number>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <spacer name="horizontalSpacer">
+                          <property name="orientation">
+                           <enum>Qt::Horizontal</enum>
+                          </property>
+                          <property name="sizeHint" stdset="0">
+                           <size>
+                            <width>40</width>
+                            <height>20</height>
+                           </size>
+                          </property>
+                         </spacer>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>0</width>
+                       <height>1</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -2128,7 +2099,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1075</width>
+     <width>1015</width>
      <height>26</height>
     </rect>
    </property>
