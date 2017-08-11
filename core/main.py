@@ -886,7 +886,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if "Path Solving" in tabNameList:
             self.closePanel(tabNameList.index("Path Solving"))
         else:
-            panel = Path_Solving_show(self.File.Designs.path, self.File.Designs.result, self.Default_Environment_variables, self)
+            panel = Path_Solving_show(
+                self.File.Designs.path,
+                self.File.Designs.result,
+                self.Default_Environment_variables,
+                self.workbookNoSave,
+                self)
             panel.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
             panel.addPathPoint.connect(self.PathSolving_add)
             panel.deletePathPoint.connect(self.PathSolving_delete)

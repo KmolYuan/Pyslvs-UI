@@ -62,7 +62,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         'formula':['PLAP','PLLP']}
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
-    def __init__(self, path, mechanism_data, env, parent=None):
+    def __init__(self, path, mechanism_data, env, unsave_func, parent=None):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         #System Tray Icon Menu
@@ -70,6 +70,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.path = path
         self.mechanism_data = mechanism_data
         self.env = env
+        self.unsave_func = unsave_func
         for e in path:
             self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
         for e in mechanism_data:
@@ -236,6 +237,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.addResult(dlg.mechanism)
             self.setTime(dlg.time_spand)
             print('Finished.')
+            self.unsave_func()
         self.trayIcon.hide()
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
@@ -282,6 +284,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         row = self.Result_list.currentRow()
         del self.mechanism_data[row]
         self.Result_list.takeItem(row)
+        self.unsave_func()
         self.isGetResult()
     
     def isGetResult(self):
