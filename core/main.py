@@ -956,8 +956,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if "Drive Shaft" in tabNameList:
             self.closePanel(tabNameList.index("Drive Shaft"))
         else:
-            isPathDemoMode = bool(self.File.Lists.pathData)
-            panel = Drive_shaft_show(self.File.Lists.ShaftList, self.DynamicCanvasView.options.currentShaft, isPathDemoMode, self)
+            currentShaft = self.DynamicCanvasView.options.currentShaft
+            if self.File.Lists.pathData:
+                isPathDemoMode = not self.File.Lists.getShaftPath(currentShaft).isBroken()
+            else:
+                isPathDemoMode = False
+            panel = Drive_shaft_show(self.File.Lists.ShaftList, currentShaft, isPathDemoMode, self)
             panel.Degree.valueChanged.connect(self.Change_path_demo_angle if isPathDemoMode else self.Change_demo_angle)
             if not isPathDemoMode:
                 panel.degreeChange.connect(self.Save_demo_angle)

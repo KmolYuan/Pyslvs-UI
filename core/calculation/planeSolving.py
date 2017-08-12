@@ -79,8 +79,8 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
     elif staticProcess:
         for e in Shaft:
             setShaft(e, e.demo)
-    Sys.solve()
-    if Sys.result==SLVS_RESULT_OKAY:
+    result = Sys.solve()
+    if result==SLVS_RESULT_OKAY:
         resultList = [{'x':0., 'y':0.}]
         for i in range(2, len(Point)*2, 2):
             resultList.append({'x':round(float(Sys.get_param(i+7).val), 4), 'y':round(float(Sys.get_param(i+8).val), 4)})
@@ -89,19 +89,19 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
         elif staticProcess:
             return resultList, int(Sys.dof)
     else:
-        if Sys.result==SLVS_RESULT_INCONSISTENT:
+        if result==SLVS_RESULT_INCONSISTENT:
             if hasWarning:
                 print("SLVS_RESULT_INCONSISTENT")
-            result = "Inconsistent"
-        elif Sys.result==SLVS_RESULT_DIDNT_CONVERGE:
+            resultSTR = "Inconsistent"
+        elif result==SLVS_RESULT_DIDNT_CONVERGE:
             if hasWarning:
                 print("SLVS_RESULT_DIDNT_CONVERGE")
-            result = "Didn't Converge"
-        elif Sys.result==SLVS_RESULT_TOO_MANY_UNKNOWNS:
+            resultSTR = "Didn't Converge"
+        elif result==SLVS_RESULT_TOO_MANY_UNKNOWNS:
             if hasWarning:
                 print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
-            result = "Too Many Unknowns"
+            resultSTR = "Too Many Unknowns"
         if pathTrackProcess:
             return [{'x':False, 'y':False} for i in range(len(Point))]
         elif staticProcess:
-            return list(), result
+            return list(), resultSTR

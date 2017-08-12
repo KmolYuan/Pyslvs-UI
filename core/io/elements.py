@@ -294,7 +294,14 @@ class VPath:
             for p in points:
                 PointType = type(p)
                 if PointType==tuple or PointType==list or p==None:
+                    #(x, y)
                     self._path.append(p)
+    
+    def isBroken(self):
+        for point in self.path:
+            if point is False or point[0] is False:
+                return True
+        return False
     
     def __str__(self):
         return "<Path point={v.point} path={v.path}>".format(v=self)
@@ -316,6 +323,12 @@ class VPaths:
             for path in paths:
                 if type(path)==VPath:
                     self._paths.append(path)
+    
+    def isBroken(self):
+        for path in self.paths:
+            if path.isBroken():
+                return True
+        return False
     
     def __str__(self):
         return "<Paths shaft={v.shaft} paths={v.paths}>".format(v=self)

@@ -259,6 +259,12 @@ class Lists:
         self.FileState.push(setPathCommand(self.pathData, path))
         self.FileState.endMacro()
     
+    def getShaftPath(self, index):
+        for vpaths in self.pathData:
+            if vpaths.shaft==index:
+                return vpaths
+        return None
+    
     def clearPath(self):
         self.FileState.beginMacro("Clear {Path}")
         self.FileState.push(clearPathCommand(self.pathData))

@@ -127,7 +127,7 @@ class DynamicCanvas(QWidget):
             for vpaths in self.options.Path.path:
                 if vpaths.shaft==self.options.currentShaft:
                     pathShaft = vpaths
-        if not pathShaft==None:
+        if (not pathShaft==None) and (not pathShaft.isBroken()):
             shaft = self.Shaft[pathShaft.shaft]
             resolution = abs(shaft.end-shaft.start)/(len(pathShaft.paths[0].path)-1)
             resolutionIndex = int(round(self.options.Path.demo/resolution))
