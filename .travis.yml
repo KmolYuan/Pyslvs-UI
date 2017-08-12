@@ -8,6 +8,11 @@ python:
 - 3.5
 - 3.6
 
+branches:
+  only:
+    - master
+    - /^dev\d*[.]?\d*$/
+
 before_install:
   #SWIG
   - sudo apt -y install swig
