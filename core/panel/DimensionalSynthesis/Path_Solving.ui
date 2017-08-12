@@ -6,11 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>552</width>
-    <height>487</height>
+    <width>558</width>
+    <height>500</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_12">
    <property name="leftMargin">
     <number>6</number>
    </property>
@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>538</width>
-        <height>435</height>
+        <width>544</width>
+        <height>448</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -157,12 +157,6 @@
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
                     <property name="minimum">
                      <double>-9999.989999999999782</double>
                     </property>
@@ -191,12 +185,6 @@
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
-                    </property>
-                    <property name="maximumSize">
-                     <size>
-                      <width>60</width>
-                      <height>16777215</height>
-                     </size>
                     </property>
                     <property name="minimum">
                      <double>-9999.989999999999782</double>
@@ -232,7 +220,7 @@
                   <string>Generat points by formula.</string>
                  </property>
                  <property name="text">
-                  <string>Formula ...</string>
+                  <string/>
                  </property>
                  <property name="icon">
                   <iconset resource="../../../icons.qrc">
@@ -313,7 +301,11 @@
                <item>
                 <widget class="QPushButton" name="moveUp">
                  <property name="text">
-                  <string>Move up</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../icons.qrc">
+                   <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
                  </property>
                  <property name="autoDefault">
                   <bool>false</bool>
@@ -323,7 +315,11 @@
                <item>
                 <widget class="QPushButton" name="moveDown">
                  <property name="text">
-                  <string>Move down</string>
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../icons.qrc">
+                   <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
                  </property>
                  <property name="autoDefault">
                   <bool>false</bool>
@@ -379,169 +375,132 @@
            </widget>
           </item>
           <item>
-           <layout class="QGridLayout" name="gridLayout">
-            <property name="spacing">
-             <number>3</number>
-            </property>
-            <item row="0" column="4">
-             <widget class="QDoubleSpinBox" name="Ar">
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="prefix">
-               <string>±</string>
-              </property>
-              <property name="maximum">
-               <double>10000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>100.000000000000000</double>
-              </property>
-             </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_8">
+              <item>
+               <widget class="QLabel" name="label_2">
+                <property name="text">
+                 <string>Driver: </string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Driver: </string>
-              </property>
-             </widget>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_9">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_3">
+                <item>
+                 <widget class="QDoubleSpinBox" name="Ax">
+                  <property name="minimum">
+                   <double>-1000000.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1000000.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>10.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="Ay">
+                  <property name="minimum">
+                   <double>-1000000.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1000000.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>10.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="Ar">
+                <property name="prefix">
+                 <string>±</string>
+                </property>
+                <property name="maximum">
+                 <double>10000.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>10.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
-            <item row="0" column="1">
-             <widget class="QDoubleSpinBox" name="Ax">
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <double>-1000000.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-             </widget>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_15">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Follower: </string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
-            <item row="0" column="2">
-             <widget class="QDoubleSpinBox" name="Ay">
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <double>-1000000.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Follower: </string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QDoubleSpinBox" name="Dx">
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <double>-1000000.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="2">
-             <widget class="QDoubleSpinBox" name="Dy">
-              <property name="maximumSize">
-               <size>
-                <width>60</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="minimum">
-               <double>-1000000.000000000000000</double>
-              </property>
-              <property name="maximum">
-               <double>1000000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="4">
-             <widget class="QDoubleSpinBox" name="Dr">
-              <property name="maximumSize">
-               <size>
-                <width>80</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="prefix">
-               <string>±</string>
-              </property>
-              <property name="maximum">
-               <double>10000.000000000000000</double>
-              </property>
-              <property name="singleStep">
-               <double>10.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>100.000000000000000</double>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <spacer name="horizontalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="3">
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_10">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <item>
+                 <widget class="QDoubleSpinBox" name="Dx">
+                  <property name="minimum">
+                   <double>-1000000.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1000000.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>10.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="Dy">
+                  <property name="minimum">
+                   <double>-1000000.000000000000000</double>
+                  </property>
+                  <property name="maximum">
+                   <double>1000000.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>10.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QDoubleSpinBox" name="Dr">
+                <property name="prefix">
+                 <string>±</string>
+                </property>
+                <property name="maximum">
+                 <double>10000.000000000000000</double>
+                </property>
+                <property name="singleStep">
+                 <double>10.000000000000000</double>
+                </property>
+                <property name="value">
+                 <double>100.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>

@@ -26,6 +26,8 @@
     <!--Dialog icons-->
     <file>icons/angle.png</file>
     <file>icons/arc.png</file>
+    <file>icons/arrow_down.png</file>
+    <file>icons/arrow_up.png</file>
     <file>icons/assemble.png</file>
     <file>icons/auxline.png</file>
     <file>icons/bezier.png</file>
