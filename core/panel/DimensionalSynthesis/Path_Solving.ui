@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>558</width>
-    <height>500</height>
+    <width>499</width>
+    <height>514</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_12">
@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>544</width>
-        <height>448</height>
+        <width>485</width>
+        <height>462</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -135,8 +135,62 @@
                 <widget class="QListWidget" name="Point_list"/>
                </item>
                <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_8">
+                 <item>
+                  <widget class="QLabel" name="label_4">
+                   <property name="text">
+                    <string>x: </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="X_coordinate">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimum">
+                    <double>-9999.989999999999782</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.989999999999782</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QLabel" name="label_6">
+                   <property name="text">
+                    <string>y: </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="Y_coordinate">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimum">
+                    <double>-9999.989999999999782</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.989999999999782</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
                 <widget class="QWidget" name="horizontalWidget_2" native="true">
-                 <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <layout class="QVBoxLayout" name="verticalLayout_14">
                   <property name="leftMargin">
                    <number>0</number>
                   </property>
@@ -149,51 +203,6 @@
                   <property name="bottomMargin">
                    <number>0</number>
                   </property>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="X_coordinate">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimum">
-                     <double>-9999.989999999999782</double>
-                    </property>
-                    <property name="maximum">
-                     <double>9999.989999999999782</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="horizontalSpacer_5">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item>
-                   <widget class="QDoubleSpinBox" name="Y_coordinate">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="minimum">
-                     <double>-9999.989999999999782</double>
-                    </property>
-                    <property name="maximum">
-                     <double>9999.989999999999782</double>
-                    </property>
-                   </widget>
-                  </item>
                  </layout>
                 </widget>
                </item>
@@ -215,9 +224,29 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="series">
+                <widget class="QPushButton" name="pathAdjust">
                  <property name="statusTip">
-                  <string>Generat points by formula.</string>
+                  <string>Process path data, such as moving or scaling.</string>
+                 </property>
+                 <property name="text">
+                  <string>Process ...</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="line_5">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="series">
+                 <property name="toolTip">
+                  <string>Formula</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Generat points from formula.</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -235,8 +264,11 @@
                 <layout class="QHBoxLayout" name="horizontalLayout">
                  <item>
                   <widget class="QPushButton" name="importCSV">
+                   <property name="toolTip">
+                    <string>CSV</string>
+                   </property>
                    <property name="statusTip">
-                    <string>Import path by CSV format.</string>
+                    <string>Import path from CSV format.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -255,8 +287,11 @@
                  </item>
                  <item>
                   <widget class="QPushButton" name="importXLSX">
+                   <property name="toolTip">
+                    <string>Microsoft Excel</string>
+                   </property>
                    <property name="statusTip">
-                    <string>Import path by Microsoft Excel format.</string>
+                    <string>Import path from Microsoft Excel format.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -274,16 +309,6 @@
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pathAdjust">
-                 <property name="statusTip">
-                  <string>Process path data, such as moving or scaling.</string>
-                 </property>
-                 <property name="text">
-                  <string>Process ...</string>
-                 </property>
-                </widget>
                </item>
                <item>
                 <spacer name="verticalSpacer_3">
@@ -393,6 +418,12 @@
                <layout class="QHBoxLayout" name="horizontalLayout_3">
                 <item>
                  <widget class="QDoubleSpinBox" name="Ax">
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="minimum">
                    <double>-1000000.000000000000000</double>
                   </property>
@@ -406,6 +437,12 @@
                 </item>
                 <item>
                  <widget class="QDoubleSpinBox" name="Ay">
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="minimum">
                    <double>-1000000.000000000000000</double>
                   </property>
@@ -458,6 +495,12 @@
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
                  <widget class="QDoubleSpinBox" name="Dx">
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="minimum">
                    <double>-1000000.000000000000000</double>
                   </property>
@@ -471,6 +514,12 @@
                 </item>
                 <item>
                  <widget class="QDoubleSpinBox" name="Dy">
+                  <property name="maximumSize">
+                   <size>
+                    <width>70</width>
+                    <height>16777215</height>
+                   </size>
+                  </property>
                   <property name="minimum">
                    <double>-1000000.000000000000000</double>
                   </property>
@@ -620,7 +669,7 @@
             </property>
             <item>
              <widget class="QWidget" name="Bar" native="true">
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
+              <layout class="QVBoxLayout" name="verticalLayout_13">
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -656,19 +705,6 @@
                  </property>
                 </widget>
                </item>
-               <item>
-                <spacer name="horizontalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
               </layout>
              </widget>
             </item>
@@ -696,8 +732,11 @@
                </property>
                <item>
                 <widget class="QRadioButton" name="type0">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Real-valued Genetic Algorithm&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:10pt; color:#222222;&quot;&gt;From Wikipedia:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In a genetic algorithm, apopulation of candidate solutions (called individuals, creatures, or phenotypes) to an optimization problem is evolved toward better solutions. Each candidate solution has a set of properties (its chromosomes or genotype) which can be mutated and altered; traditionally, solutions are represented in binary as strings of 0s and 1s, but other encodings are also possible.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The evolution usually starts from a population of randomly generated individuals, and is aniterative process, with the population in each iteration called a generation. In each generation, the fitness of every individual in the population is evaluated; the fitness is usually the value of the objective function in the optimization problem being solved. The more fit individuals are stochastically selected from the current population, and each individual's genome is modified (recombined and possibly randomly mutated) to form a new generation. The new generation of candidate solutions is then used in the next iteration of the algorithm. Commonly, the algorithm terminates when either a maximum number of generations has been produced, or a satisfactory fitness level has been reached for the population.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="text">
-                  <string>Genetic Algorithm [RGA]</string>
+                  <string>Genetic Algorithm [RGA] (?)</string>
                  </property>
                  <property name="checked">
                   <bool>false</bool>
@@ -706,15 +745,21 @@
                </item>
                <item>
                 <widget class="QRadioButton" name="type1">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Firefly Algorithm&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:10pt; color:#222222;&quot;&gt;From Wikipedia:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The primary purpose for a firefly's flash is to act as a signal system to attract other fireflies. Xin-She Yang formulated this firefly algorithm by assuming:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;All fireflies are unisexual, so that any individual firefly will be attracted to all other fireflies; Attractiveness is proportional to their brightness, and for any two fireflies, the less bright one will be attracted by (and thus move towards) the brighter one; however, the intensity (apparent brightness) decrease as their mutual distance increases; If there are no fireflies brighter than a given firefly, it will move randomly.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The brightness should be associated with the objective function.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="text">
-                  <string>Firefly Algorithm [Firefly]</string>
+                  <string>Firefly Algorithm [Firefly] (?)</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QRadioButton" name="type2">
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:xx-large; font-weight:600;&quot;&gt;Differential Evolution&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-family:'sans-serif'; font-size:10pt; color:#222222;&quot;&gt;From Wikipedia:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In evolutionary computation, differential evolution (DE) is a method that optimizes a problem by iteratively trying to improve a candidate solution with regard to a given measure of quality. Such methods are commonly known as metaheuristics as they make few or no assumptions about the problem being optimized and can search very large spaces of candidate solutions. However, metaheuristics such as DE do not guarantee an optimal solution is ever found.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;DE is used for multidimensional real-valued functions but does not use the gradient of the problem being optimized, which means DE does not require for the optimization problem to be differentiable as is required by classic optimization methods such as gradient descent and quasi-newton methods. DE can therefore also be used on optimization problems that are not even continuous, are noisy, change over time, etc.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;DE optimizes a problem by maintaining a population of candidate solutions and creating new candidate solutions by combining existing ones according to its simple formulae, and then keeping whichever candidate solution has the best score or fitness on the optimization problem at hand. In this way the optimization problem is treated as a black box that merely provides a measure of quality given a candidate solution and the gradient is therefore not needed.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
                  <property name="text">
-                  <string>Differential Evolution [DE]</string>
+                  <string>Differential Evolution [DE] (?)</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
@@ -747,7 +792,7 @@
               <item>
                <widget class="QLabel" name="timeShow">
                 <property name="text">
-                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt&quot;&gt;[No record]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
