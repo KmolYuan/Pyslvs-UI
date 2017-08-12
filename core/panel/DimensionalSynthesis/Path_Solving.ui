@@ -145,12 +145,6 @@
                  </item>
                  <item>
                   <widget class="QDoubleSpinBox" name="X_coordinate">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
                    <property name="minimum">
                     <double>-9999.989999999999782</double>
                    </property>
@@ -172,12 +166,6 @@
                  </item>
                  <item>
                   <widget class="QDoubleSpinBox" name="Y_coordinate">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
                    <property name="minimum">
                     <double>-9999.989999999999782</double>
                    </property>

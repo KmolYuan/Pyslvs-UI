@@ -1167,3 +1167,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
         self.consoleWidgetBrowser.insertPlainText(log)
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
+    
+    @pyqtSlot(int)
+    def on_panelWidget_currentChanged(self, index):
+        if index==-1:
+            self.panelWidget.hide()
+        else:
+            if not self.panelWidget.isVisible():
+                self.panelWidget.show()

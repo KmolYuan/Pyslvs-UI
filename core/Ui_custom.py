@@ -22,6 +22,7 @@ from .info.info import VERSION
 tr = QCoreApplication.translate
 
 def init_Widgets(self):
+    self.panelWidget.hide()
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 5)
     self.panels_splitter.setSizes([300, 100])
