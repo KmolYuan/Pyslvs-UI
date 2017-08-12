@@ -648,6 +648,16 @@ p, li { white-space: pre-wrap; }
                   <number>3</number>
                  </property>
                  <item>
+                  <widget class="Line" name="line_5">
+                   <property name="lineWidth">
+                    <number>3</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QTabWidget" name="OptionTab">
                    <property name="tabShape">
                     <enum>QTabWidget::Rounded</enum>
@@ -1388,6 +1398,9 @@ p, li { white-space: pre-wrap; }
                  </property>
                  <item>
                   <widget class="Line" name="line_4">
+                   <property name="lineWidth">
+                    <number>3</number>
+                   </property>
                    <property name="orientation">
                     <enum>Qt::Horizontal</enum>
                    </property>
