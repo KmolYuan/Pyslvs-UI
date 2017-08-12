@@ -655,14 +655,14 @@ def doubleRocker():
       <color>Green</color>
     </element>
     <element name="Point2">
-      <x>10.5</x>
-      <y>59.25</y>
+      <x>-6.0</x>
+      <y>70.0</y>
       <fix>False</fix>
       <color>Orange</color>
     </element>
     <element name="Point3">
-      <x>63.5</x>
-      <y>60.75</y>
+      <x>32.0</x>
+      <y>59.0</y>
       <fix>False</fix>
       <color>Brick-Red</color>
     </element>
@@ -688,47 +688,11 @@ def doubleRocker():
     <element name="Shaft0">
       <cen>Point0</cen>
       <ref>Point2</ref>
-      <start>41.0</start>
-      <end>100.0</end>
-      <demo>58.4</demo>
+      <start>0.0</start>
+      <end>360.0</end>
+      <demo>63.26</demo>
     </element>
   </table>
-  <path>
-    <shaft name="Shaft0">
-      <point name="Point2">
-        <dot>52.4269@46.3834</dot>
-        <dot>49.0636@49.9275</dot>
-        <dot>44.5255@54.0137</dot>
-        <dot>39.6484@57.6888</dot>
-        <dot>34.4696@60.9249</dot>
-        <dot>29.0285@63.6973</dot>
-        <dot>23.3665@65.9849</dot>
-        <dot>17.5266@67.7703</dot>
-        <dot>11.5533@69.04</dot>
-        <dot>5.4921@69.7842</dot>
-        <dot>-0.6109@69.9973</dot>
-        <dot>-6.7092@69.6777</dot>
-        <dot>-12.7565@68.8278</dot>
-        <dot>False@False</dot>
-      </point>
-      <point name="Point3">
-        <dot>85.9859@68.1502</dot>
-        <dot>84.5001@68.4817</dot>
-        <dot>81.5989@69.0323</dot>
-        <dot>77.8466@69.5588</dot>
-        <dot>73.4463@69.9151</dot>
-        <dot>68.5313@69.9846</dot>
-        <dot>63.1965@69.6686</dot>
-        <dot>57.5113@68.8769</dot>
-        <dot>51.5244@67.5178</dot>
-        <dot>45.2601@65.4824</dot>
-        <dot>38.7017@62.6132</dot>
-        <dot>31.7298@58.6122</dot>
-        <dot>23.798@52.5868</dot>
-        <dot>False@False</dot>
-      </point>
-    </shaft>
-  </path>
 </pyslvs>
 """.format(timeNow()))
 
