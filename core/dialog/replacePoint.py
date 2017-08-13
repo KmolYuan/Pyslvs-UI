@@ -24,6 +24,7 @@ class replacePoint_show(QDialog, replacePoint_Dialog):
     def __init__(self, icon, table, pos, parent=None):
         super(replacePoint_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         for i in range(table.rowCount()):
             self.Prv.insertItem(i, icon, table.item(i, 0).text())
         for i in range(table.rowCount()):

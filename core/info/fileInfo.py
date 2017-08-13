@@ -25,6 +25,7 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
     def __init__(self, name, author, description, lastTime, results, parent=None):
         super(editFileInfo_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("About {} (Edit mode)".format(name))
         self.fileName.setText("File Name: {}".format(name))
         self.authorName_input.setText(author)

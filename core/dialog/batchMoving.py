@@ -25,6 +25,7 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
     def __init__(self, Point, Parameter, parent=None):
         super(batchMoving_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Point = Point
         for i, e in enumerate(self.Point):
             self.Point_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))

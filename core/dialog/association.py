@@ -23,7 +23,9 @@ from .Ui_association import Ui_Dialog as association_Form
 class Association_show(QDialog, association_Form):
     def __init__(self, Point, Line, Chain, Shaft, Slider, Rod, parent=None):
         super(Association_show, self).__init__(parent)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setupUi(self)
+        self.splitter.setSizes([400, 500])
         self.Point = Point
         self.Line = Line
         self.Chain = Chain
