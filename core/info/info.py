@@ -107,6 +107,7 @@ class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
         super(version_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Title.setText(html(title("Pyslvs")+content("Version {}.{}.{}({}) 2016-2017".format(*VERSION))))
         self.Content.setText(html(content(
             "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",

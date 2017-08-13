@@ -25,6 +25,7 @@ class edit_point_show(QDialog, edit_point_Dialog):
     def __init__(self, mask, Points, pos=False, parent=None):
         super(edit_point_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = QIcon(QPixmap(":/icons/point.png"))
         self.Points = Points
         for i, e in enumerate(colorName()):

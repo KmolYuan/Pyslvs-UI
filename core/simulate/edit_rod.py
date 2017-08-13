@@ -24,6 +24,7 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
     def __init__(self, Point, Rods, pos=False, parent=None):
         super(edit_rod_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/spring.png"))
         self.Rods = Rods

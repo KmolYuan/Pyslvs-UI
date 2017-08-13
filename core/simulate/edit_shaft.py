@@ -24,6 +24,7 @@ class edit_shaft_show(QDialog, edit_shaft_Dialog):
     def __init__(self, Point, Shafts, pos=False, parent=None):
         super(edit_shaft_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/circle.png"))
         self.Shafts = Shafts

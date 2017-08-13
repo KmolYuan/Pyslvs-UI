@@ -805,12 +805,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Zoom_to_fit_triggered(self):
         self.DynamicCanvasView.SetIn()
-    @pyqtSlot(int)
-    def setZoomBar(self, val):
-        self.ZoomBar.setValue(val)
+    
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):
         self.DynamicCanvasView.SetIn()
+    @pyqtSlot()
+    def on_CanvasCapture_clicked(self):
+        clipboard = QApplication.clipboard()
+        pixmap = self.DynamicCanvasView.grab()
+        clipboard.setPixmap(pixmap)
+        dlgbox = QMessageBox(self)
+        dlgbox.setWindowTitle("Captured!")
+        dlgbox.setStandardButtons((QMessageBox.Ok))
+        dlgbox.setIconPixmap(pixmap.scaledToWidth(650))
+        if dlgbox.exec_():
+            pass
+    
+    @pyqtSlot(int)
+    def setZoomBar(self, val):
+        self.ZoomBar.setValue(val)
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setText('{}%'.format(value))
@@ -1175,15 +1188,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             if not self.panelWidget.isVisible():
                 self.panelWidget.show()
-    
-    @pyqtSlot()
-    def on_CanvasCapture_clicked(self):
-        clipboard = QApplication.clipboard()
-        pixmap = self.DynamicCanvasView.grab()
-        clipboard.setPixmap(pixmap)
-        dlgbox = QMessageBox(self)
-        dlgbox.setWindowTitle("Captured!")
-        dlgbox.setStandardButtons((QMessageBox.Ok))
-        dlgbox.setIconPixmap(pixmap.scaledToWidth(650))
-        if dlgbox.exec_():
-            pass

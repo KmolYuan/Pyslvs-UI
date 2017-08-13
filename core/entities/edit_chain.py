@@ -24,6 +24,7 @@ class edit_chain_show(QDialog, edit_Dialog):
     def __init__(self, mask, Point, Chains, pos=False, parent=None):
         super(edit_chain_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = QIcon(QPixmap(":/icons/point.png"))
         iconSelf = QIcon(QPixmap(":/icons/line.png"))
         self.Point = Point
