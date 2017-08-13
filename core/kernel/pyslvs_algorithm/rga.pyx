@@ -2,14 +2,14 @@
 from libc.math cimport fmod, pow
 import numpy as np
 cimport numpy as np
-from libc.time cimport time
+#from libc.time cimport time
 from time import time as pytime
 from cpython.exc cimport PyErr_CheckSignals
 from cpython cimport bool
 
 #https://stackoverflow.com/questions/25974975/cython-c-array-initialization
 from libc.stdlib cimport rand, RAND_MAX, srand
-srand(time(NULL))
+srand(int(pytime()))
 
 cdef double randV():
     return rand()/(RAND_MAX*1.01)

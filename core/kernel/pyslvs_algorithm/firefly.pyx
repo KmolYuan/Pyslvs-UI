@@ -5,12 +5,12 @@ from array import array
 import numpy as np
 cimport numpy as np
 from libc.stdlib cimport rand, RAND_MAX, srand
-from libc.time cimport time
+#from libc.time cimport time
 from time import time as pytime
 from cpython.exc cimport PyErr_CheckSignals
 
 # make true it is random everytime
-srand(time(NULL))
+srand(int(pytime()))
 
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
