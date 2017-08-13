@@ -489,7 +489,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             self.File.write(fileName)
             if hasReply:
-                self.replyBox('Workbook', fileName)
+                self.saveReplyBox('Workbook', fileName)
             self.workbookSaved()
     
     @pyqtSlot()
@@ -497,7 +497,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.outputTo("Path-Only Workbook", ["XML File(*.xml)", "CSV File(*.csv)"])
         if fileName:
             self.File.writePathOnly(fileName)
-            self.replyBox('Solvespace Sketch', fileName)
+            self.saveReplyBox('Solvespace Sketch', fileName)
     
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
@@ -505,7 +505,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_():
-            self.replyBox('Solvespace Models', dlg.folderPath.absolutePath())
+            self.saveReplyBox('Solvespace Models', dlg.folderPath.absolutePath())
     @pyqtSlot()
     def on_action_Solvespace_2D_sketch_triggered(self):
         fileName = self.outputTo("Solvespace sketch", ['Solvespace module(*.slvs)'])
@@ -513,20 +513,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             content = slvs2D(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(content)
-            self.replyBox('Solvespace Sketch', fileName)
+            self.saveReplyBox('Solvespace Sketch', fileName)
     @pyqtSlot()
     def on_action_DXF_2D_models_triggered(self):
         dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form.fileName.baseName(),
             self.File.Lists.LineList, self.File.Lists.ChainList)
         dlg.show()
         if dlg.exec_():
-            self.replyBox('DXF 2D Models', dlg.filePath)
+            self.saveReplyBox('DXF 2D Models', dlg.filePath)
     @pyqtSlot()
     def on_action_DXF_2D_sketch_triggered(self):
         fileName = self.outputTo("DXF", ['AutoCAD DXF (*.dxf)'])
         if fileName:
             dxfSketch(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
-            self.replyBox('DXF 2D Sketch', fileName)
+            self.saveReplyBox('DXF 2D Sketch', fileName)
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         fileName = self.outputTo("picture", ["Portable Network Graphics (*.png)", "Joint Photographic Experts Group (*.jpg)", "Bitmap Image file (*.bmp)",
@@ -535,7 +535,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             pixmap = self.DynamicCanvasView.grab()
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
-            self.replyBox('Picture', fileName)
+            self.saveReplyBox('Picture', fileName)
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(self, 'Save file...',
@@ -546,7 +546,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.setLocate(QFileInfo(fileName).absolutePath())
             print("Formate: {}".format(form))
         return fileName
-    def replyBox(self, title, fileName):
+    def saveReplyBox(self, title, fileName):
         dlgbox = QMessageBox(QMessageBox.Information, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), self)
         if dlgbox.exec_():
             print("Successful saved {}.".format(title))
@@ -1175,3 +1175,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             if not self.panelWidget.isVisible():
                 self.panelWidget.show()
+    
+    @pyqtSlot()
+    def on_CanvasCapture_clicked(self):
+        clipboard = QApplication.clipboard()
+        pixmap = self.DynamicCanvasView.grab()
+        clipboard.setPixmap(pixmap)
+        dlgbox = QMessageBox(self)
+        dlgbox.setWindowTitle("Captured!")
+        dlgbox.setStandardButtons((QMessageBox.Ok))
+        dlgbox.setIconPixmap(pixmap.scaledToWidth(650))
+        if dlgbox.exec_():
+            pass
