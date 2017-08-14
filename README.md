@@ -41,7 +41,10 @@ Cross-platform Development: Ubuntu and Windows OS (64-bit).
 
 **Please note that other platforms may be available but I have not tested before.**
 
-![main](icons/cover/main.png)
+Windows main window
+---
+
+![main](icons/cover/main_win.png)
 
 How to startup
 ---
