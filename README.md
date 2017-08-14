@@ -41,8 +41,11 @@ Cross-platform Development: Ubuntu and Windows OS (64-bit).
 
 **Please note that other platforms may be available but I have not tested before.**
 
-Windows main window
----
+Plasma main window:
+
+![main](icons/cover/main_plasma.png)
+
+Windows main window:
 
 ![main](icons/cover/main_win.png)
 
