@@ -29,46 +29,28 @@ class ChartDialog(QDialog):
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
+        self.Title = Title
         self.mechanism_data = mechanism_data
-        #Fitness / Generation Chart
-        FG_Chart = QChart()
-        FG_Chart.setTitle(Title)
-        self.setChart(FG_Chart, 0, 1)
-        #Fitness / Time Chart
-        FT_Chart = QChart()
-        FT_Chart.setTitle(Title)
-        self.setChart(FT_Chart, 2, 1)
         #Widgets
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(6, 6, 6, 6)
-        tabwidget = QTabWidget(self)
-        #Widgets -> Fitness / Generation Chart
-        FG_widget = QWidget()
-        tabwidget.addTab(FG_widget, QIcon(), "Fitness / Generation Chart")
-        FG_layout = QVBoxLayout(FG_widget)
-        FG_layout.setContentsMargins(2, 2, 2, 2)
-        FG_chartView = QChartView(FG_Chart)
-        FG_chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        FG_layout.addWidget(FG_chartView)
-        #Widgets -> Fitness / Time Chart
-        FT_widget = QWidget()
-        tabwidget.addTab(FT_widget, QIcon(), "Fitness / Time Chart")
-        FT_layout = QVBoxLayout(FT_widget)
-        FT_layout.setContentsMargins(2, 2, 2, 2)
-        FT_chartView = QChartView(FT_Chart)
-        FT_chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        FT_layout.addWidget(FT_chartView)
-        main_layout.addWidget(tabwidget)
+        self.tabWidget = QTabWidget(self)
+        self.setChart("Fitness / Generation Chart", 0, 1)
+        self.setChart("Generation / Time Chart", 2, 0)
+        self.setChart("Fitness / Time Chart", 2, 1)
+        main_layout.addWidget(self.tabWidget)
     
-    def setChart(self, chart, posX, posY):
+    def setChart(self, tabName, posX, posY):
+        chart = QChart()
+        chart.setTitle(self.Title)
         chart.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         legend = chart.legend()
         legend.setAlignment(Qt.AlignBottom)
         legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
         if self.mechanism_data:
             '''
-            posX / posY = [0] / [1] / [2]
-            TimeAndFitness = [[(gen, fitness, time), ...], ...]
+            #posX / posY = [0] / [1] / [2]
+            #TimeAndFitness = [[(gen, fitness, time), ...], ...]
             '''
             if type(self.mechanism_data[0]['TimeAndFitness'][0])==float:
                 TimeAndFitness = [
@@ -83,17 +65,28 @@ class ChartDialog(QDialog):
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
         axisX.setMin(0)
         axisY.setTickCount(11)
+        #X maxima
         if self.mechanism_data:
             maximaX = int(max([max([Tnf[posX] for Tnf in data]) for data in TimeAndFitness])*100)
             axisX.setMax(maximaX)
-            if int(maximaX/10):
-                for i in range(0, maximaX+1, int(maximaX/10)):
+            i10 = int(maximaX/10)
+            if i10:
+                for i in range(0, maximaX+1, i10):
                     axisX.append(str(i/100), i)
             else:
                 for i in range(0, 1000, 100):
                     axisX.append(str(i/100), i)
+        #Y maxima
+        if self.mechanism_data:
+            maximaY = max([max([Tnf[posY] for Tnf in data]) for data in TimeAndFitness])+10
+        else:
+            maximaY = 100
+        maximaY -= maximaY%10
+        axisY.setRange(0., maximaY)
+        #Add axis
         chart.addAxis(axisX, Qt.AlignBottom)
         chart.addAxis(axisY, Qt.AlignLeft)
+        #Append datasets
         for data in self.mechanism_data:
             line = QLineSeries()
             scatter = QScatterSeries()
@@ -113,9 +106,11 @@ class ChartDialog(QDialog):
                 series.attachAxis(axisX)
                 series.attachAxis(axisY)
             chart.legend().markers(scatter)[0].setVisible(False)
-        if self.mechanism_data:
-            maximaY = max([max([Tnf[posY] for Tnf in data]) for data in TimeAndFitness])+10
-        else:
-            maximaY = 100
-        maximaY -= maximaY%10
-        axisY.setRange(0., maximaY)
+        #Add chart into tab widget
+        widget = QWidget()
+        self.tabWidget.addTab(widget, QIcon(), tabName)
+        layout = QVBoxLayout(widget)
+        layout.setContentsMargins(2, 2, 2, 2)
+        chartView = QChartView(chart)
+        chartView.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        layout.addWidget(chartView)
