@@ -28,8 +28,11 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.rejected.connect(self.closeWork)
         self.maxGen = generateData['maxGen']
+        self.loopTime.setEnabled(self.maxGen>0)
+        self.mechanisms = list()
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
         self.work.progress_update.connect(self.setProgress)
+        self.work.result.connect(self.getResult)
         self.work.done.connect(self.finish)
         if PORT is None:
             self.label.setText("<html><head/><body><p><span style=\"font-size:12pt;\">"+
@@ -55,22 +58,28 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
     def setProgress(self, progress, fitness):
         if self.maxGen==0:
             self.progressBar.setMaximum(progress)
-        self.progressBar.setValue(progress)
+        self.progressBar.setValue(progress+self.maxGen*self.work.currentLoop)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
     def on_Start_clicked(self):
-        self.progressBar.setMaximum(self.maxGen)
+        loop = self.loopTime.value()
+        self.progressBar.setMaximum(self.maxGen*loop)
         if self.maxGen==0:
             self.progressBar.setFormat("%v generations")
+        self.work.setLoop(loop)
         self.work.start()
         self.Start.setEnabled(False)
+        self.loopTime.setEnabled(False)
         self.Interrupt.setEnabled(True)
     
     @pyqtSlot(dict, float)
-    def finish(self, mechanism, time_spand):
-        self.mechanism = mechanism
+    def getResult(self, mechanism, time_spand):
+        self.mechanisms.append(mechanism)
         self.time_spand = time_spand
+    
+    @pyqtSlot()
+    def finish(self):
         self.accept()
     
     @pyqtSlot()

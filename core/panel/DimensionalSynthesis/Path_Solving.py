@@ -234,8 +234,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.trayIcon.setDialog(dlg)
         dlg.show()
         if dlg.exec_():
-            self.mechanism_data.append(dlg.mechanism)
-            self.addResult(dlg.mechanism)
+            self.mechanism_data += dlg.mechanisms
+            for m in dlg.mechanisms:
+                self.addResult(m)
             self.setTime(dlg.time_spand)
             print('Finished.')
             self.unsave_func()

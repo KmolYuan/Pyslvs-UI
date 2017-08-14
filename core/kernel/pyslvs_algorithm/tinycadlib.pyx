@@ -10,10 +10,10 @@ cdef class Coordinate(object):
         self.x = x
         self.y = y
     
-    cpdef double x(self):
+    cpdef public double x(self):
         return self.x
     
-    cpdef double y(self):
+    cpdef public double y(self):
         return self.y
     
     cpdef public double distance(self, Coordinate obj):

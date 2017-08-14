@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_progress.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\DimensionalSynthesis\Path_Solving_progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -38,6 +38,22 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.argumentText)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem1)
+        self.label_4 = QtWidgets.QLabel(Dialog)
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout_2.addWidget(self.label_4)
+        self.loopTime = QtWidgets.QSpinBox(Dialog)
+        self.loopTime.setMinimum(1)
+        self.loopTime.setMaximum(10)
+        self.loopTime.setObjectName("loopTime")
+        self.horizontalLayout_2.addWidget(self.loopTime)
+        self.label_5 = QtWidgets.QLabel(Dialog)
+        self.label_5.setObjectName("label_5")
+        self.horizontalLayout_2.addWidget(self.label_5)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setWordWrap(True)
         self.label_2.setObjectName("label_2")
@@ -55,8 +71,8 @@ class Ui_Dialog(object):
         self.fitness_label = QtWidgets.QLabel(Dialog)
         self.fitness_label.setObjectName("fitness_label")
         self.horizontalLayout.addWidget(self.fitness_label)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.Start = QtWidgets.QPushButton(Dialog)
         self.Start.setObjectName("Start")
         self.horizontalLayout.addWidget(self.Start)
@@ -83,6 +99,8 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs will start the algorithm via the ZMQ module.<br/>More servers can save more time.<br/><br/>Start Pyslvs server by following argument:<br/>(for example, localhost)</span></p></body></html>"))
+        self.label_4.setText(_translate("Dialog", "Batch execution:"))
+        self.label_5.setText(_translate("Dialog", "times"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">※ The interrupt button will stop the process, but you can keep the result.</span></p></body></html>"))
         self.progressBar.setFormat(_translate("Dialog", "%v / %m generations (%p%)"))
         self.label_3.setText(_translate("Dialog", "Fitness: "))

@@ -28,7 +28,8 @@ from ..kernel.pyslvs_algorithm.planarlinkage import build_planar
 
 class WorkerThread(QThread):
     progress_update = pyqtSignal(int, str)
-    done = pyqtSignal(dict, float)
+    result = pyqtSignal(dict, float)
+    done = pyqtSignal()
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, parent=None):
         super(WorkerThread, self).__init__(parent)
         self.stoped = False
@@ -38,40 +39,52 @@ class WorkerThread(QThread):
         self.generateData = generateData
         self.algorithmPrams = algorithmPrams
         self.socket = None
+        self.loop = 1
+        self.currentLoop = 0
     
     def setSocket(self, socket):
         self.socket = socket
     
+    def setLoop(self, loop):
+        self.loop = loop
+    
     def run(self):
         with QMutexLocker(self.mutex):
             self.stoped = False
-        print("Algorithm: {}".format("Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
-        print("Through: {}".format(self.mechanismParams['targetPath']))
-        t0 = timeit.default_timer()
-        TnF, FP = self.generateProcess()
-        t1 = timeit.default_timer()
-        time_spand = round(t1-t0, 2)
-        mem = virtual_memory()
-        cpu = numpy.distutils.cpuinfo.cpu.info[0]
-        mechanism = {
-            'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
-            'time':time_spand,
-            'Ax':FP[0], 'Ay':FP[1],
-            'Dx':FP[2], 'Dy':FP[3],
-            'interruptedGeneration':str(TnF[-1][0]) if self.isStoped() else 'False',
-            'mechanismParams':self.mechanismParams,
-            'generateData':self.generateData,
-            'algorithmPrams':self.algorithmPrams,
-            'hardwareInfo':{
-                'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
-                'memory':"{} GB".format(round(mem.total/(1024.**3), 4)),
-                'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
-                'network':str(self.socket!=None)},
-            'TimeAndFitness':TnF}
-        for i in range(len(self.mechanismParams['Link'].split(','))):
-            mechanism['L{}'.format(i)] = FP[4+i]
-        print('total cost time: {} [s]'.format(time_spand))
-        self.done.emit(mechanism, time_spand)
+        T0 = timeit.default_timer()
+        for self.currentLoop in range(self.loop):
+            print("Loop {}:".format(self.currentLoop))
+            print("Algorithm: {}".format("Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
+            print("Through: {}".format(self.mechanismParams['targetPath']))
+            t0 = timeit.default_timer()
+            TnF, FP = self.generateProcess()
+            t1 = timeit.default_timer()
+            time_spand = round(t1-t0, 2)
+            mem = virtual_memory()
+            cpu = numpy.distutils.cpuinfo.cpu.info[0]
+            mechanism = {
+                'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
+                'time':time_spand,
+                'Ax':FP[0], 'Ay':FP[1],
+                'Dx':FP[2], 'Dy':FP[3],
+                'interruptedGeneration':str(TnF[-1][0]) if self.isStoped() else 'False',
+                'mechanismParams':self.mechanismParams,
+                'generateData':self.generateData,
+                'algorithmPrams':self.algorithmPrams,
+                'hardwareInfo':{
+                    'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
+                    'memory':"{} GB".format(round(mem.total/(1024.**3), 4)),
+                    'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
+                    'network':str(self.socket!=None)},
+                'TimeAndFitness':TnF}
+            for index in range(len(self.mechanismParams['Link'].split(','))):
+                mechanism['L{}'.format(index)] = FP[4+index]
+            print('cost time: {} [s]'.format(time_spand))
+            self.result.emit(mechanism, time_spand)
+        T1 = timeit.default_timer()
+        totalTime = round(T1-T0, 2)
+        print('total cost time: {} [s]'.format(totalTime))
+        self.done.emit()
     
     def generateProcess(self):
         if self.socket!=None:
