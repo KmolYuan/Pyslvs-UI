@@ -72,36 +72,26 @@ class Pyslvs_Splash(QSplashScreen):
 class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
         QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
-        parent.destroyed.connect(self.hide)
-        self.SystemTrayIconMenu = QMenu(parent)
-        self.setContextMenu(self.SystemTrayIconMenu)
+        self.menu = QMenu(parent)
+        self.setContextMenu(self.menu)
+        self.dlg = None
         if platform.system().lower()=='windows':
             self.setToolTip(tr("Tray icon tool tip", "Pyslvs\nYour solving task will be show here."))
         else:
             self.setToolTip(tr("Tray icon tool tip", html(title('Pyslvs')+content("Your solving task will be show here."))))
-        self.action_SystemTrayIconMenu_minimize = QAction("Minimize", self)
-        self.action_SystemTrayIconMenu_minimize.setIcon(QIcon(QPixmap(":/icons/minimized.png")))
-        self.action_SystemTrayIconMenu_minimize.triggered.connect(parent.showMinimized)
-        self.SystemTrayIconMenu.addAction(self.action_SystemTrayIconMenu_minimize)
-        self.action_SystemTrayIconMenu_full_screen = QAction("Full screen", self)
-        self.action_SystemTrayIconMenu_full_screen.setIcon(QIcon(QPixmap(":/icons/fullscreen.png")))
-        self.action_SystemTrayIconMenu_full_screen.triggered.connect(parent.showFullScreen)
-        self.SystemTrayIconMenu.addAction(self.action_SystemTrayIconMenu_full_screen)
-        self.SystemTrayIconMenu.addSeparator()
-        self.action_SystemTrayIconMenu_exit = QAction("Exit", self)
-        self.action_SystemTrayIconMenu_exit.setIcon(QIcon(QPixmap(":/icons/exit.png")))
-        self.action_SystemTrayIconMenu_exit.triggered.connect(parent.close)
-        self.SystemTrayIconMenu.addAction(self.action_SystemTrayIconMenu_exit)
         self.activated.connect(self.clicked)
+    
+    def setDialog(self, dlg):
+        self.dlg = dlg
     
     @pyqtSlot(QSystemTrayIcon.ActivationReason)
     def clicked(self, ActivationReason):
         if ActivationReason==QSystemTrayIcon.Trigger:
-            parent = self.parent()
-            if parent.isVisible()==True:
-                parent.hide()
+            mainWindow = self.parent()
+            if mainWindow.isVisible():
+                mainWindow.hide()
             else:
-                parent.show()
+                mainWindow.show()
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):

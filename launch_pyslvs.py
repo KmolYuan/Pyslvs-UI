@@ -13,15 +13,15 @@ if __name__=='__main__':
         else:
             from PyQt5.QtWidgets import QApplication
             from core.main import MainWindow
+            QApp = QApplication(list(vars(args).values()))
             if args.fusion:
-                QApplication.setStyle('fusion')
-            app = QApplication(list(vars(args).values()))
+                QApp.setStyle('fusion')
             splash = Pyslvs_Splash()
             splash.show()
             run = MainWindow(args)
             run.show()
             splash.finish(run)
-            exit(app.exec())
+            exit(QApp.exec())
     except Exception as e:
         if e!=SystemExit:
             import logging, traceback
