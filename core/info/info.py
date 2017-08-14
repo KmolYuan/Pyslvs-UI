@@ -76,10 +76,11 @@ class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
         self.setContextMenu(self.menu)
         self.dlg = None
         if platform.system().lower()=='windows':
-            self.setToolTip(tr("Tray icon tool tip", "Pyslvs\nYour solving task will be show here."))
+            self.setToolTip(tr("Tray icon tool tip", "Pyslvs\nClick here to minimize / show Pyslvs."))
         else:
-            self.setToolTip(tr("Tray icon tool tip", html(title('Pyslvs')+content("Your solving task will be show here."))))
+            self.setToolTip(tr("Tray icon tool tip", html(title('Pyslvs')+content("Click here to minimize / show Pyslvs."))))
         self.activated.connect(self.clicked)
+        self.mainState = parent.windowState()
     
     def setDialog(self, dlg):
         self.dlg = dlg
@@ -88,10 +89,11 @@ class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
     def clicked(self, ActivationReason):
         if ActivationReason==QSystemTrayIcon.Trigger:
             mainWindow = self.parent()
-            if mainWindow.isVisible():
-                mainWindow.hide()
+            if mainWindow.windowState()==Qt.WindowMinimized:
+                mainWindow.setWindowState(self.mainState)
             else:
-                mainWindow.show()
+                self.mainState = mainWindow.windowState()
+                mainWindow.showMinimized()
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):

@@ -230,8 +230,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.trayIcon.show()
         type_num, mechanismParams, generateData = self.getGenerate()
         dlg = Path_Solving_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
-            PORT=self.portText.text() if hasPort else None, parent=self)
-        self.trayIcon.setDialog(dlg)
+            PORT=self.portText.text() if hasPort else None, parent=self.parent())
         dlg.show()
         if dlg.exec_():
             self.mechanism_data += dlg.mechanisms

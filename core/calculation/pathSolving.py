@@ -53,8 +53,8 @@ class WorkerThread(QThread):
             self.stoped = False
         T0 = timeit.default_timer()
         for self.currentLoop in range(self.loop):
-            print("Loop {}:".format(self.currentLoop))
-            print("Algorithm: {}".format("Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
+            print("Algorithm [{}]: {}".format(self.currentLoop,
+                "Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
             print("Through: {}".format(self.mechanismParams['targetPath']))
             t0 = timeit.default_timer()
             TnF, FP = self.generateProcess()
