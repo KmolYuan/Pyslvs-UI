@@ -22,28 +22,21 @@ from ..QtModules import *
 from PyQt5.QtChart import *
 
 class ChartDialog(QDialog):
-    def __init__(self, Title, DataSet=list(), parent=None):
+    def __init__(self, Title, mechanism_data=list(), parent=None):
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle('Chart')
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
-        self.DataSet = DataSet
+        self.mechanism_data = mechanism_data
         #Fitness / Generation Chart
         FG_Chart = QChart()
         FG_Chart.setTitle(Title)
-        FG_Chart.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        FG_legend = FG_Chart.legend()
-        FG_legend.setAlignment(Qt.AlignBottom)
-        FG_legend.setFont(QFont(FG_legend.font().family(), 12, QFont.Medium))
         self.setChart(FG_Chart, 0, 1)
         #Fitness / Time Chart
         FT_Chart = QChart()
         FT_Chart.setTitle(Title)
-        FT_legend = FT_Chart.legend()
-        FT_legend.setAlignment(Qt.AlignBottom)
-        FT_legend.setFont(QFont(FT_legend.font().family(), 12, QFont.Medium))
         self.setChart(FT_Chart, 2, 1)
         #Widgets
         main_layout = QVBoxLayout(self)
@@ -68,24 +61,46 @@ class ChartDialog(QDialog):
         main_layout.addWidget(tabwidget)
     
     def setChart(self, chart, posX, posY):
+        chart.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        legend = chart.legend()
+        legend.setAlignment(Qt.AlignBottom)
+        legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
+        if self.mechanism_data:
+            '''
+            posX / posY = [0] / [1] / [2]
+            TimeAndFitness = [[(gen, fitness, time), ...], ...]
+            '''
+            if type(self.mechanism_data[0]['TimeAndFitness'][0])==float:
+                TimeAndFitness = [
+                    [(data['generateData']['maxGen']*i/len(data['TimeAndFitness']), Tnf, 0)
+                    for i, Tnf in enumerate(data['TimeAndFitness'])]
+                    for data in self.mechanism_data]
+            else:
+                #Just copy from mechanism_data
+                TimeAndFitness = [[Tnf for Tnf in data['TimeAndFitness']] for data in self.mechanism_data]
         axisX = QCategoryAxis()
         axisY = QValueAxis()
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
         axisX.setMin(0)
         axisY.setTickCount(11)
-        if len(self.DataSet)>0:
-            Max = int(max([max([e[posX] for e in data[2]]) for data in self.DataSet])*100)
-            axisX.setMax(Max)
-            for i in range(0, Max+1, int(Max/10)):
-                axisX.append(str(i/100), i)
+        if self.mechanism_data:
+            maximaX = int(max([max([Tnf[posX] for Tnf in data]) for data in TimeAndFitness])*100)
+            axisX.setMax(maximaX)
+            if int(maximaX/10):
+                for i in range(0, maximaX+1, int(maximaX/10)):
+                    axisX.append(str(i/100), i)
+            else:
+                for i in range(0, 1000, 100):
+                    axisX.append(str(i/100), i)
         chart.addAxis(axisX, Qt.AlignBottom)
         chart.addAxis(axisY, Qt.AlignLeft)
-        for data in self.DataSet:
+        for data in self.mechanism_data:
             line = QLineSeries()
             scatter = QScatterSeries()
-            gen = data[1]
-            points = data[2][:-1] if data[2][-1]==data[2][-2] else data[2]
-            line.setName("{} ({} gen, {} chrom)".format(data[0], gen, data[3]))
+            gen = data['generateData']['maxGen']
+            Tnf = TimeAndFitness[self.mechanism_data.index(data)]
+            points = Tnf[:-1] if Tnf[-1]==Tnf[-2] else Tnf
+            line.setName("{} ({} gen, {} chrom)".format(data['Algorithm'], gen, data['mechanismParams']['VARS']))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):
@@ -98,6 +113,9 @@ class ChartDialog(QDialog):
                 series.attachAxis(axisX)
                 series.attachAxis(axisY)
             chart.legend().markers(scatter)[0].setVisible(False)
-        maxima = max([max(data[2] if type(data[2])==float else data[2][1]) for data in self.DataSet])+10 if self.DataSet else 100
-        maxima -= maxima%10
-        axisY.setRange(0., maxima if self.DataSet else 100.)
+        if self.mechanism_data:
+            maximaY = max([max([Tnf[posY] for Tnf in data]) for data in TimeAndFitness])+10
+        else:
+            maximaY = 100
+        maximaY -= maximaY%10
+        axisY.setRange(0., maximaY)
