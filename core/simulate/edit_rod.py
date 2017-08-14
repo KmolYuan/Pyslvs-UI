@@ -40,7 +40,7 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
             for i in range(len(Rods)):
                 self.Rod.insertItem(i, iconSelf, 'Rod{}'.format(i))
             self.Rod.setCurrentIndex(pos)
-        for signal in [self.Center.currentIndexChanged, self.on_Start.currentIndexChanged, self.End.currentIndexChanged,
+        for signal in [self.Center.currentIndexChanged, self.Start.currentIndexChanged, self.End.currentIndexChanged,
                 self.Position.valueChanged, self.Position.editingFinished]:
             signal.connect(self.isOk)
         self.isOk()
