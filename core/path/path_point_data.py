@@ -25,6 +25,7 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
     def __init__(self, Environment_variables, pathData, Point, parent=None):
         super(path_point_data_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Environment_variables = Environment_variables
         self.pathData = pathData
         self.Point = Point

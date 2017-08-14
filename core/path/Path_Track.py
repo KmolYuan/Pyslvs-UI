@@ -26,6 +26,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
     def __init__(self, Point, Link, Chain, Shaft, Slider, Rod, warning, parent=None):
         super(Path_Track_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.closeWork)
         self.work = WorkerThread(Point, Link, Chain, Shaft, Slider, Rod, warning, None)
         self.work.done.connect(self.finish)
