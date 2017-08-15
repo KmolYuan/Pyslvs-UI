@@ -1655,7 +1655,7 @@ class Ui_MainWindow(object):
         self.action_DXF_2D_sketch.setStatusTip(_translate("MainWindow", "Output to Drawing Exchange sketch."))
         self.action_DXF_2D_sketch.setShortcut(_translate("MainWindow", "Ctrl+Shift+D"))
         self.action_Property.setText(_translate("MainWindow", "&Properties"))
-        self.action_Property.setStatusTip(_translate("MainWindow", "Property of this workbook."))
+        self.action_Property.setStatusTip(_translate("MainWindow", "Properies of this workbook."))
         self.action_Crank_rocker.setText(_translate("MainWindow", "Crank rocker"))
         self.action_Crank_rocker.setStatusTip(_translate("MainWindow", "Grashof chain #1"))
         self.action_Multiple_Link.setText(_translate("MainWindow", "Multiple linkage"))

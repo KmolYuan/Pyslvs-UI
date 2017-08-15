@@ -2871,7 +2871,7 @@ p, li { white-space: pre-wrap; }
     <string>&amp;Properties</string>
    </property>
    <property name="statusTip">
-    <string>Property of this workbook.</string>
+    <string>Properies of this workbook.</string>
    </property>
   </action>
   <action name="action_Crank_rocker">
