@@ -18,16 +18,50 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+tr = QCoreApplication.translate
 from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from ...graphics.Path_Solving_preview import PreviewDialog
 from ...kernel.pyslvs_algorithm.TS import solver, Direction
-from ...info.info import Pyslvs_SystemTrayIcon
 from .Path_Solving_options import Path_Solving_options_show
 from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
 from .Path_Solving_progress import Path_Solving_progress_show
 from .Path_Solving_series import Path_Solving_series_show
-import csv, openpyxl, re
+import csv
+import openpyxl
+import re
+import platform
+
+#SystemTrayIcon
+class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
+    def __init__(self, parent=None):
+        QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
+        self.menu = QMenu(parent)
+        self.setContextMenu(self.menu)
+        self.dlg = None
+        if platform.system().lower()=='windows':
+            self.setToolTip(tr("Tray icon tool tip", "Pyslvs\nClick here to minimize / show Pyslvs."))
+        else:
+            self.setToolTip(tr("Tray icon tool tip", "<html><head/><body><h2>Pyslvs</h2><p>Click here to minimize / show Pyslvs.</p></body></html>"))
+        self.activated.connect(self.clicked)
+        self.mainState = parent.windowState()
+    
+    def setDialog(self, dlg):
+        self.dlg = dlg
+    
+    @pyqtSlot(QSystemTrayIcon.ActivationReason)
+    def clicked(self, ActivationReason):
+        if ActivationReason==QSystemTrayIcon.Trigger:
+            mainWindow = self.parent()
+            if mainWindow.windowState()==Qt.WindowMinimized:
+                mainWindow.setWindowState(self.mainState)
+                if self.dlg:
+                    self.dlg.setWindowState(self.mainState)
+            else:
+                self.mainState = mainWindow.windowState()
+                mainWindow.showMinimized()
+                if self.dlg:
+                    self.dlg.showMinimized()
 
 class Path_Solving_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
@@ -231,6 +265,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         type_num, mechanismParams, generateData = self.getGenerate()
         dlg = Path_Solving_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
             PORT=self.portText.text() if hasPort else None, parent=self.parent())
+        self.trayIcon.setDialog(dlg)
         dlg.show()
         if dlg.exec_():
             self.mechanism_data += dlg.mechanisms

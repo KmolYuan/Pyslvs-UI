@@ -3305,7 +3305,7 @@ p, li { white-space: pre-wrap; }
      <normaloff>:/icons/konsole.png</normaloff>:/icons/konsole.png</iconset>
    </property>
    <property name="text">
-    <string>Show console</string>
+    <string>Show GUI console</string>
    </property>
   </action>
  </widget>

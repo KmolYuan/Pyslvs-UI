@@ -20,7 +20,6 @@
 from sys import version_info
 import platform, argparse
 from ..QtModules import *
-tr = QCoreApplication.translate
 from .Ui_about import Ui_About_Dialog
 
 VERSION = (0, 8, 1, 'dev')
@@ -67,33 +66,6 @@ class Pyslvs_Splash(QSplashScreen):
     def __init__(self, parent=None):
         super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
         self.showMessage("Version {}.{}.{}({})".format(*VERSION), (Qt.AlignBottom|Qt.AlignRight))
-
-#SystemTrayIcon
-class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
-    def __init__(self, parent=None):
-        QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
-        self.menu = QMenu(parent)
-        self.setContextMenu(self.menu)
-        self.dlg = None
-        if platform.system().lower()=='windows':
-            self.setToolTip(tr("Tray icon tool tip", "Pyslvs\nClick here to minimize / show Pyslvs."))
-        else:
-            self.setToolTip(tr("Tray icon tool tip", html(title('Pyslvs')+content("Click here to minimize / show Pyslvs."))))
-        self.activated.connect(self.clicked)
-        self.mainState = parent.windowState()
-    
-    def setDialog(self, dlg):
-        self.dlg = dlg
-    
-    @pyqtSlot(QSystemTrayIcon.ActivationReason)
-    def clicked(self, ActivationReason):
-        if ActivationReason==QSystemTrayIcon.Trigger:
-            mainWindow = self.parent()
-            if mainWindow.windowState()==Qt.WindowMinimized:
-                mainWindow.setWindowState(self.mainState)
-            else:
-                self.mainState = mainWindow.windowState()
-                mainWindow.showMinimized()
 
 class version_show(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):

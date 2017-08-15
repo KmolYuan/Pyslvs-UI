@@ -1742,7 +1742,7 @@ class Ui_MainWindow(object):
         self.action_Update_all_points.setStatusTip(_translate("MainWindow", "Update base coordinate from current coordinate."))
         self.action_Pyslvs_com.setText(_translate("MainWindow", "&Pyslvs.com"))
         self.action_Pyslvs_com.setStatusTip(_translate("MainWindow", "Goto Pyslvs home page."))
-        self.action_Show_console.setText(_translate("MainWindow", "Show console"))
+        self.action_Show_console.setText(_translate("MainWindow", "Show GUI console"))
 
 import icons_rc
 import preview_rc
