@@ -27,6 +27,11 @@ def init_Widgets(self):
     self.MainSplitter.setStretchFactor(1, 5)
     self.panels_splitter.setSizes([300, 100])
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
+    propertiesButton = QPushButton()
+    propertiesButton.setIcon(QIcon(QPixmap(":/icons/properties.png")))
+    propertiesButton.setStatusTip("Property of this workbook.")
+    propertiesButton.clicked.connect(self.on_action_Property_triggered)
+    self.PointTab.setCornerWidget(propertiesButton)
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod]:
         table.itemClicked.connect(self.tableFocusChange)
     #DynamicCanvasView Right-click menu

@@ -199,12 +199,6 @@
                             <height>0</height>
                            </size>
                           </property>
-                          <property name="toolTipDuration">
-                           <number>-1</number>
-                          </property>
-                          <property name="statusTip">
-                           <string>All Points in this workbook.</string>
-                          </property>
                           <property name="autoFillBackground">
                            <bool>true</bool>
                           </property>
@@ -768,12 +762,6 @@ p, li { white-space: pre-wrap; }
                                 <height>1000</height>
                                </size>
                               </property>
-                              <property name="acceptDrops">
-                               <bool>false</bool>
-                              </property>
-                              <property name="statusTip">
-                               <string/>
-                              </property>
                               <property name="autoFillBackground">
                                <bool>true</bool>
                               </property>
@@ -893,9 +881,6 @@ p, li { white-space: pre-wrap; }
                                 <horstretch>0</horstretch>
                                 <verstretch>0</verstretch>
                                </sizepolicy>
-                              </property>
-                              <property name="statusTip">
-                               <string/>
                               </property>
                               <property name="autoFillBackground">
                                <bool>true</bool>
@@ -1056,9 +1041,6 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <item>
                              <widget class="QTableWidget" name="Shaft">
-                              <property name="statusTip">
-                               <string/>
-                              </property>
                               <property name="editTriggers">
                                <set>QAbstractItemView::NoEditTriggers</set>
                               </property>
@@ -1174,9 +1156,6 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <item>
                              <widget class="QTableWidget" name="Slider">
-                              <property name="statusTip">
-                               <string/>
-                              </property>
                               <property name="editTriggers">
                                <set>QAbstractItemView::NoEditTriggers</set>
                               </property>
@@ -1282,9 +1261,6 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <item>
                              <widget class="QTableWidget" name="Rod">
-                              <property name="statusTip">
-                               <string/>
-                              </property>
                               <property name="editTriggers">
                                <set>QAbstractItemView::NoEditTriggers</set>
                               </property>
