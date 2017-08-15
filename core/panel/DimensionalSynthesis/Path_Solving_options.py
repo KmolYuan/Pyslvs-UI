@@ -25,6 +25,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
     def __init__(self, algorithm, settings, parent=None):
         super(Path_Solving_options_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.tabWidget.setTabText(1, algorithm)
         self.algorithm = algorithm
         self.init_PLTable()

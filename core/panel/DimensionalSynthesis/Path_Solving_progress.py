@@ -26,6 +26,7 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, PORT=None, parent=None):
         super(Path_Solving_progress_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.closeWork)
         self.maxGen = generateData['maxGen']
         self.loopTime.setEnabled(self.maxGen>0)

@@ -27,6 +27,7 @@ class Path_Solving_series_show(QDialog, PathSolvingSeries_Dialog):
     def __init__(self, parent=None):
         super(Path_Solving_series_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
     
     @pyqtSlot()
     def on_generateButton_clicked(self):

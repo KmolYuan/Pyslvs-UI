@@ -24,6 +24,8 @@ tr = QCoreApplication.translate
 def init_Widgets(self):
     #Panel widget will hide when not using.
     self.panelWidget.hide()
+    #Console dock will hide when startup.
+    self.ConsoleDock.hide()
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 5)
