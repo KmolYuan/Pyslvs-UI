@@ -53,6 +53,9 @@ class WorkerThread(QThread):
             self.stoped = False
         T0 = timeit.default_timer()
         for self.currentLoop in range(self.loop):
+            if self.stoped:
+                #Cancel the remaining tasks.
+                break
             print("Algorithm [{}]: {}".format(self.currentLoop,
                 "Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
             print("Through: {}".format(self.mechanismParams['targetPath']))
@@ -67,7 +70,7 @@ class WorkerThread(QThread):
                 'time':time_spand,
                 'Ax':FP[0], 'Ay':FP[1],
                 'Dx':FP[2], 'Dy':FP[3],
-                'interruptedGeneration':str(TnF[-1][0]) if self.isStoped() else 'False',
+                'interruptedGeneration':str(TnF[-1][0]) if self.stoped else 'False',
                 'mechanismParams':self.mechanismParams,
                 'generateData':self.generateData,
                 'algorithmPrams':self.algorithmPrams,

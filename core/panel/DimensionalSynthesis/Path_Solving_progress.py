@@ -86,7 +86,7 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
     def on_Interrupt_clicked(self):
         if self.work.isRunning():
             self.work.stop()
-            print("The thread has been interrupt.")
+            print("The thread has been interrupted.")
     
     @pyqtSlot()
     def closeWork(self):
