@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1010</width>
+    <width>1014</width>
     <height>738</height>
    </rect>
   </property>
@@ -1377,11 +1377,6 @@ p, li { white-space: pre-wrap; }
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
-               <widget class="QTabWidget" name="panelWidget">
-                <property name="currentIndex">
-                 <number>-1</number>
-                </property>
-               </widget>
                <widget class="QWidget" name="widget_2" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_20">
                  <property name="leftMargin">
@@ -1396,29 +1391,6 @@ p, li { white-space: pre-wrap; }
                  <property name="bottomMargin">
                   <number>3</number>
                  </property>
-                 <item>
-                  <widget class="Line" name="line_4">
-                   <property name="lineWidth">
-                    <number>3</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>0</width>
-                     <height>1</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
                  <item>
                   <layout class="QVBoxLayout" name="verticalLayout_28">
                    <item>
@@ -1750,7 +1722,35 @@ p, li { white-space: pre-wrap; }
                    </item>
                   </layout>
                  </item>
+                 <item>
+                  <spacer name="verticalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>0</width>
+                     <height>1</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="Line" name="line_4">
+                   <property name="lineWidth">
+                    <number>3</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
+               </widget>
+               <widget class="QTabWidget" name="panelWidget">
+                <property name="currentIndex">
+                 <number>-1</number>
+                </property>
                </widget>
               </widget>
              </item>
@@ -2171,7 +2171,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1010</width>
+     <width>1014</width>
      <height>26</height>
     </rect>
    </property>
