@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/info/fileInfo.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\info\fileInfo.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -58,7 +58,7 @@ class Ui_Info_Dialog(object):
         self.algorithmResults.setObjectName("algorithmResults")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.algorithmResults)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.Results = QtWidgets.QLabel(self.algorithmResults)
+        self.Results = QtWidgets.QListWidget(self.algorithmResults)
         self.Results.setObjectName("Results")
         self.verticalLayout_2.addWidget(self.Results)
         self.verticalLayout.addWidget(self.algorithmResults)
@@ -98,11 +98,10 @@ class Ui_Info_Dialog(object):
         self.descriptionText.setHtml(_translate("Info_Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:\'Sans Serif\'; font-size:9pt;\"><br /></p></body></html>"))
         self.descriptionText.setPlaceholderText(_translate("Info_Dialog", "No description."))
         self.algorithmResults.setTitle(_translate("Info_Dialog", "Algorithm results"))
-        self.Results.setText(_translate("Info_Dialog", "None"))
         self.fileStatus.setTitle(_translate("Info_Dialog", "File status"))
         self.ErrorTables.setText(_translate("Info_Dialog", "Loaded."))
         self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))

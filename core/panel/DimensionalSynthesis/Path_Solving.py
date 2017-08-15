@@ -263,20 +263,20 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         mins = int(time_spand/60)
         self.timeShow.setText("<html><head/><body><p><span style=\"font-size:12pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
     
-    def addResult(self, e):
-        keys = sorted(list(e.keys()))
-        item = QListWidgetItem("{} ({} gen)".format(e['Algorithm'], e['generateData']['maxGen']))
-        interrupt = e['interruptedGeneration']
+    def addResult(self, result):
+        item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']))
+        interrupt = result['interruptedGeneration']
         if interrupt=='False':
             item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
         elif interrupt=='N/A':
             item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
         else:
             item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
-        info = (["{}: {}".format(k, e[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
+        keys = sorted(list(result.keys()))
+        info = (["{}: {}".format(k, result[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
             ["\nClick to apply setting."]+["Double click to see dynamic preview."])
-        item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(e['Algorithm'],
-            '' if interrupt=='False' else interrupt+'/', e['generateData']['maxGen'])]+
+        item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(result['Algorithm'],
+            '' if interrupt=='False' else interrupt+'-', result['generateData']['maxGen'])]+
             (["※ Completeness is not clear." if interrupt=='N/A' else ''])+info))
         self.Result_list.addItem(item)
     

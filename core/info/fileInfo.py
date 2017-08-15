@@ -32,7 +32,25 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
         self.dateName.setText(lastTime)
         self.descriptionText.setPlainText(description)
         if results:
-            self.Results.setText('\n'.join(["{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']) for result in results]))
+            for result in results:
+                item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']))
+                interrupt = result['interruptedGeneration']
+                if interrupt=='False':
+                    item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
+                elif interrupt=='N/A':
+                    item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
+                else:
+                    item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
+                keys = sorted(list(result.keys()))
+                info = (["{}: {}".format(k, result[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k])
+                item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(result['Algorithm'],
+                    '' if interrupt=='False' else interrupt+'-', result['generateData']['maxGen'])]+
+                    (["※ Completeness is not clear." if interrupt=='N/A' else ''])+info))
+                self.Results.addItem(item)
+        else:
+            item = QListWidgetItem(QIcon(QPixmap(":/icons/task-completed.png")), "No results")
+            item.setToolTip("There is no any algorithm results in this workbook.")
+            self.Results.addItem(item)
 
 class fileInfo_show(editFileInfo_show):
     def __init__(self, name, author, description, lastTime, results, errorInfo, parent=None):

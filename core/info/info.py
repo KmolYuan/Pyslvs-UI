@@ -21,7 +21,7 @@ from sys import version_info
 import platform, argparse
 from ..QtModules import *
 tr = QCoreApplication.translate
-from .Ui_info import Ui_About_Dialog
+from .Ui_about import Ui_About_Dialog
 
 VERSION = (0, 8, 1, 'dev')
 from PyQt5.QtCore import qVersion
