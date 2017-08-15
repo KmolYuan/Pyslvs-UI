@@ -41,11 +41,11 @@ Cross-platform Development: Ubuntu and Windows OS (64-bit).
 
 **Please note that other platforms may be available but I have not tested before.**
 
-Plasma main window:
+Previews in KDE Plasma desktop:
 
 ![main](icons/cover/main_plasma.png)
 
-Windows main window:
+Previews in Windows 8.1 theme:
 
 ![main](icons/cover/main_win.png)
 
