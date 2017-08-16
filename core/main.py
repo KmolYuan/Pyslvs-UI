@@ -71,7 +71,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.args = args
         #Console Widget
         if not self.args.debug_mode:
-            self.on_connectButton_clicked()
+            self.on_connectConsoleButton_clicked()
         #File & Default Setting
         FileState = QUndoStack()
         FileState.indexChanged.connect(self.commandReload)
@@ -1161,18 +1161,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def disconnectConsole(self):
         XStream.back()
     @pyqtSlot()
-    def on_connectButton_clicked(self):
+    def on_connectConsoleButton_clicked(self):
         print("Connect to GUI console.")
         self.connectConsole()
-        self.connectButton.setEnabled(False)
-        self.disconnectButton.setEnabled(True)
+        self.connectConsoleButton.setEnabled(False)
+        self.disconnectConsoleButton.setEnabled(True)
         print("Connect to GUI console.")
     @pyqtSlot()
-    def on_disconnectButton_clicked(self):
+    def on_disconnectConsoleButton_clicked(self):
         print("Disconnect from GUI console.")
         self.disconnectConsole()
-        self.connectButton.setEnabled(True)
-        self.disconnectButton.setEnabled(False)
+        self.connectConsoleButton.setEnabled(True)
+        self.disconnectConsoleButton.setEnabled(False)
         print("Disconnect from GUI console.")
     
     @pyqtSlot(str)
