@@ -547,6 +547,7 @@ class DynamicCanvas(QWidget):
     def SetIn(self):
         width = self.width()
         height = self.height()
+        height = height if not height==0 else 1
         if len(self.Point)==1:
             self.zoom_change.emit(200)
             self.options.origin['x'] = width/2
