@@ -62,7 +62,7 @@ cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     cdef double L0 = A.distance(B)
     cdef double L1 = B.distance(C)
     cdef double L2 = A.distance(C)
-    if isnan(L0) and isnan(L1) and isnan(L2):
+    if isnan(L0) or isnan(L1) or isnan(L2):
         return False
     return L1+L2>L0 and L0+L2>L1 and L0+L1>L2
 

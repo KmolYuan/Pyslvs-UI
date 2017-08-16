@@ -89,7 +89,7 @@ cdef class build_planar(object):
         cdef double y
         cdef double sum
         #Large fitness
-        cdef int L_f = 1987
+        cdef int FAILURE = 1987
         # all variable
         tmp_dict = dict()
         index = 0
@@ -105,33 +105,29 @@ cdef class build_planar(object):
         fourbar_ground = tmp_dict[self.Driving].distance(tmp_dict[self.Follower])
         for constraint in self.constraint:
             if not legal_crank(tmp_dict[constraint['driver']], tmp_dict[constraint['follower']], tmp_dict[constraint['connect']], fourbar_ground):
-                return L_f
-        # calculate the target point
+                return FAILURE
+        # calculate the target point, and sum all error.
+        sum = 0
         for i in range(self.POINTS):
-            #a0 = 
-            tmp_dict['a0'] = v[(self.VARS+i)]*DEGREE
+            #a0: random angle to generate target point.
+            #match to path points.
+            tmp_dict['a0'] = v[self.VARS+i]*DEGREE
             for e in self.Exp:
                 #self.formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
                 x, y = self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]])
                 if isnan(x) or isnan(y):
-                    return L_f
+                    return FAILURE
                 target_coordinate = Coordinate(x, y)
-                if legal_triangle(target_coordinate, tmp_dict[e["params"][0]], tmp_dict[e["params"][-1]]):
-                    tmp_dict[e["target"]] = target_coordinate
-                else:
-                    return L_f
-            if isnan(tmp_dict[self.targetPoint].distance(self.target[i])):
-                return L_f
+                if not legal_triangle(target_coordinate, tmp_dict[e["params"][0]], tmp_dict[e["params"][-1]]):
+                    return FAILURE
+                tmp_dict[e["target"]] = target_coordinate
             path.append(tmp_dict[self.targetPoint])
+            sum += path[i].distance(self.target[i])
         # swap
         for i in range(self.POINTS):
             for j in range(self.POINTS):
                 if path[j].distance(self.target[i])<path[i].distance(self.target[i]):
                     path[i], path[j] = path[j], path[i]
-        # sum all error
-        sum = 0
-        for i in range(self.POINTS):
-            sum += path[i].distance(self.target[i])
         if isnan(sum):
-            return L_f
+            return FAILURE
         return sum
