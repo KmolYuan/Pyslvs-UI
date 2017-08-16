@@ -18,7 +18,6 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-tr = QCoreApplication.translate
 from .Ui_Path_Solving import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from ...graphics.Path_Solving_preview import PreviewDialog
@@ -33,21 +32,28 @@ import re
 import platform
 
 #SystemTrayIcon
-class Pyslvs_SystemTrayIcon(QSystemTrayIcon):
+class progress_systemTrayIcon(QSystemTrayIcon):
     def __init__(self, parent=None):
         QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
         self.menu = QMenu(parent)
         self.setContextMenu(self.menu)
+        self.messageClicked.connect(self.showMainWindow)
         self.dlg = None
         if platform.system().lower()=='windows':
-            self.setToolTip(tr("Tray icon tool tip", "Pyslvs\nClick here to minimize / show Pyslvs."))
+            self.setToolTip("Pyslvs\nClick here to minimize / show Pyslvs.")
         else:
-            self.setToolTip(tr("Tray icon tool tip", "<html><head/><body><h2>Pyslvs</h2><p>Click here to minimize / show Pyslvs.</p></body></html>"))
+            self.setToolTip("<html><head/><body><h2>Pyslvs</h2><p>Click here to minimize / show Pyslvs.</p></body></html>")
         self.activated.connect(self.clicked)
         self.mainState = parent.windowState()
     
     def setDialog(self, dlg):
         self.dlg = dlg
+    
+    @pyqtSlot()
+    def showMainWindow(self):
+        mainWindow = self.parent()
+        mainWindow.setWindowState(self.mainState)
+        mainWindow.activateWindow()
     
     @pyqtSlot(QSystemTrayIcon.ActivationReason)
     def clicked(self, ActivationReason):
@@ -100,7 +106,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         super(Path_Solving_show, self).__init__(parent)
         self.setupUi(self)
         #System Tray Icon Menu
-        self.trayIcon = Pyslvs_SystemTrayIcon(parent)
+        self.trayIcon = progress_systemTrayIcon(parent)
         self.path = path
         self.mechanism_data = mechanism_data
         self.env = env
@@ -272,8 +278,12 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             for m in dlg.mechanisms:
                 self.addResult(m)
             self.setTime(dlg.time_spand)
-            print('Finished.')
             self.unsave_func()
+            if self.trayIcon.supportsMessages():
+                self.trayIcon.showMessage("Algorithm completed!", "You can see the results in Pyslvs.")
+            dlgbox = QMessageBox(QMessageBox.Information, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), self.parent())
+            if dlgbox.exec_():
+                print('Finished.')
         self.trayIcon.hide()
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
