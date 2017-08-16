@@ -206,6 +206,17 @@ class Genetic(object):
     def getParamValue(self):
         self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.chromElite.v])
     
+    def generation_process(self):
+        self.select()
+        self.crossOver()
+        self.mutate()
+        self.fitness()
+        if self.rpt != 0:
+            if self.gen%self.rpt == 0:
+                self.report()
+        if self.progress_fun is not None:
+            self.progress_fun(self.gen)
+    
     def run(self):
         """
         Init and run GA for maxGen times
@@ -215,25 +226,22 @@ class Genetic(object):
         self.randomize()
         self.initialPop()
         self.chrom[0].f = self.socket_fitness(self.chrom[0].v)
-        #self.chrom[0].f = self.func(self.chrom[0].v)
         self.chromElite.assign(self.chrom[0])
-        
         self.gen = 0
         self.fitness()
         self.report()
-        for self.gen in range(1, self.maxGen+1):
-            self.select()
-            self.crossOver()
-            self.mutate()
-            self.fitness()
-            if self.rpt != 0:
-                if self.gen%self.rpt == 0:
-                    self.report()
-            if self.progress_fun is not None:
-                self.progress_fun(self.gen)
-            if self.interrupt_fun is not None:
-                if self.interrupt_fun():
-                    break
+        if self.maxGen>0:
+            for self.gen in range(1, self.maxGen+1):
+                self.generation_process()
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+        else:
+            while True:
+                self.generation_process()
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
         self.getParamValue()
         self.context.term()
         return self.fitnessTime, self.fitnessParameter

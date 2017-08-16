@@ -43,6 +43,7 @@ def startRep(PORT):
                 'formula':['PLAP','PLLP']}
             mechanismParams['VARS'] = len(set(mechanismParams['Expression'].split(',')))-2
             mechanismObj = build_planar(mechanismParams)
+            print([float(e) for e in data[7].split(',')])
             fitness = mechanismObj([float(e) for e in data[7].split(',')])
             socket.send_string(str(fitness))
             print("Fitness: {}".format(fitness), end='\r')

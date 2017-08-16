@@ -231,6 +231,26 @@ class Firefly(object):
     def getParamValue(self):
         self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.bestFirefly.v])
     
+    def generation_process(self):
+        self.movefireflies()
+        self.evaluate()
+        # adjust alpha, depend on fitness value
+        # if fitness value is larger, then alpha should larger
+        # if fitness value is small, then alpha should smaller
+        self.genbest.assign(self.findFirefly())
+        # if the best firefly of this generation is better than
+        # bestFirefly, copy all its
+        if self.bestFirefly.f > self.genbest.f:
+            self.bestFirefly.assign(self.genbest)
+        # generate new alpha
+        self.calculate_new_alpha()
+        # report?
+        if self.rp != 0:
+            if self.gen % self.rp == 0:
+                self.report()
+        if self.progress_fun is not None:
+            self.progress_fun(self.gen, '%.4f'%self.bestFirefly.f)
+    
     def run(self):
         """
         run the algorithm...
@@ -240,28 +260,18 @@ class Firefly(object):
         # get one firefly to bestFirefly
         self.bestFirefly.assign(self.fireflys[0])
         self.report()
-        for self.gen in range(1, self.maxGen + 1):
-            self.movefireflies()
-            self.evaluate()
-            # adjust alpha, depend on fitness value
-            # if fitness value is larger, then alpha should larger
-            # if fitness value is small, then alpha should smaller
-            self.genbest.assign(self.findFirefly())
-            # if the best firefly of this generation is better than
-            # bestFirefly, copy all its
-            if self.bestFirefly.f > self.genbest.f:
-                self.bestFirefly.assign(self.genbest)
-            # generate new alpha
-            self.calculate_new_alpha()
-            # report?
-            if self.rp != 0:
-                if self.gen % self.rp == 0:
-                    self.report()
-            if self.progress_fun is not None:
-                self.progress_fun(self.gen)
-            if self.interrupt_fun is not None:
-                if self.interrupt_fun():
-                    break
+        if self.maxGen>0:
+            for self.gen in range(1, self.maxGen+1):
+                self.generation_process()
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
+        else:
+            while True:
+                self.generation_process()
+                if self.interrupt_fun is not None:
+                    if self.interrupt_fun():
+                        break
         # finish all process, report final status
         self.report()
         self.getParamValue()

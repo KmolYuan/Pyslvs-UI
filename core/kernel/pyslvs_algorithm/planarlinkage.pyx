@@ -77,7 +77,7 @@ cdef class build_planar(object):
     def get_Expression(self):
         return self.Expression_str
     
-    def __call__(self, v):
+    def __call__(self, object v):
         """
         target: a list of target [(1,5), (2,5), (3,5)]
         POINT: length of target
@@ -108,6 +108,7 @@ cdef class build_planar(object):
                 return L_f
         # calculate the target point
         for i in range(self.POINTS):
+            #a0 = 
             tmp_dict['a0'] = v[(self.VARS+i)]*DEGREE
             for e in self.Exp:
                 #self.formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
