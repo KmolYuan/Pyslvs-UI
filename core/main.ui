@@ -1858,6 +1858,9 @@ p, li { white-space: pre-wrap; }
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
+           <property name="handleWidth">
+            <number>3</number>
+           </property>
            <widget class="QWidget" name="BrowserWidget" native="true">
             <property name="maximumSize">
              <size>

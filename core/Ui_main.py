@@ -786,6 +786,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.line)
         self.canvasSplitter = QtWidgets.QSplitter(self.histogramArea)
         self.canvasSplitter.setOrientation(QtCore.Qt.Vertical)
+        self.canvasSplitter.setHandleWidth(3)
         self.canvasSplitter.setObjectName("canvasSplitter")
         self.BrowserWidget = QtWidgets.QWidget(self.canvasSplitter)
         self.BrowserWidget.setMaximumSize(QtCore.QSize(16777215, 50))
