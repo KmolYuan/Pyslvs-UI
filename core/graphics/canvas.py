@@ -455,18 +455,27 @@ class DynamicCanvas(QWidget):
                                 y = point[1]*Tp*-1
                                 painter.drawPoint(QPointF(x, y))
         if self.options.slvsPath['show']:
-            range_color = QColor(231, 178, 244, 30)
-            for i, rect in enumerate(self.options.Path.ranges):
+            for (i, rect), range_color in zip(enumerate(self.options.Path.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
                 pen.setColor(range_color)
                 painter.setBrush(range_color)
                 painter.setPen(pen)
                 cx = rect.x()*Tp
                 cy = rect.y()*-Tp
                 painter.drawRect(QRectF(cx, cy, rect.width()*Tp, rect.height()*Tp))
-                painter.setFont(QFont('Arial', self.Font_size+5))
-                pen.setColor(QColor(231, 178, 244))
+                range_color.setAlpha(100)
+                pen.setColor(range_color)
+                pen.setWidth(2)
                 painter.setPen(pen)
-                painter.drawText(QPointF(cx+6, cy-6), 'Driver' if i==0 else 'Follower')
+                painter.setBrush(Qt.NoBrush)
+                painter.drawRect(QRectF(cx, cy, rect.width()*Tp, rect.height()*Tp))
+                painter.setFont(QFont('Arial', self.Font_size+5))
+                range_color.setAlpha(255)
+                pen.setColor(range_color)
+                painter.setPen(pen)
+                if i==0:
+                    painter.drawText(QPointF(cx-70+rect.width()*Tp, cy-6), 'Driver')
+                else:
+                    painter.drawText(QPointF(cx+6, cy-6), 'Follower')
             painter.setBrush(Qt.NoBrush)
         if self.options.slvsPath['path'] and self.options.slvsPath['show']:
             pathData = self.options.slvsPath['path']
