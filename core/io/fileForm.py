@@ -631,7 +631,7 @@ class File:
             expression = Result['mechanismParams']['Expression'].split(',')
             expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
             expression_result = [exp[-1] for exp in expression_tag]
-            dataAdd = len(self.Lists.PointList)==1 and not False in Paths[list(Paths.keys())[0]]
+            dataAdd = len(self.Lists.PointList)==1
             if not dataAdd:
                 self.Lists.clearPath()
             for i, (x, y) in enumerate(answer):
@@ -646,9 +646,10 @@ class File:
                 self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum+p1), "Point{}".format(Rnum+p3), str(Result[exp[1]]))
                 self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum+p2), "Point{}".format(Rnum+p3), str(Result[exp[2]]))
             self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), startAngle, endAngle, startAngle, False)
-            if dataAdd:
-                path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
-                self.Lists.setPath([VPaths(Shaft.rowCount()-1, path_dots)])
+            path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
+            list_paths = VPaths(Shaft.rowCount()-1, path_dots)
+            if dataAdd and not list_paths.isBroken():
+                self.Lists.setPath([list_paths])
             print("Generate Result Merged. At: {} deg ~ {} deg.".format(startAngle, endAngle))
             return True
         else:

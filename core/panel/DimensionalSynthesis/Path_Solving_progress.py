@@ -30,6 +30,7 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
         self.rejected.connect(self.closeWork)
         self.maxGen = generateData['maxGen']
         self.loopTime.setEnabled(self.maxGen>0)
+        self.maxGen_label.setText(str(self.maxGen) if self.maxGen>0 else '∞')
         self.mechanisms = list()
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
         self.work.progress_update.connect(self.setProgress)

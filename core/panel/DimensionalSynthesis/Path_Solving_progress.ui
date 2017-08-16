@@ -102,6 +102,20 @@ color: rgb(255, 255, 255);</string>
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="maxGen_label">
+       <property name="text">
+        <string>0</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>generation(s) with</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QSpinBox" name="loopTime">
        <property name="minimum">
         <number>1</number>
@@ -114,7 +128,7 @@ color: rgb(255, 255, 255);</string>
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>times</string>
+        <string>time(s)</string>
        </property>
       </widget>
      </item>
