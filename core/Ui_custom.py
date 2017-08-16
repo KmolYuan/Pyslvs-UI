@@ -25,7 +25,10 @@ def init_Widgets(self):
     #Panel widget will hide when not using.
     self.panelWidget.hide()
     #Console dock will hide when startup.
-    self.ConsoleDock.hide()
+    self.ConsoleWidget.hide()
+    #Connect to GUI button switching.
+    self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
+    self.connectConsoleButton.setEnabled(self.args.debug_mode)
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 5)

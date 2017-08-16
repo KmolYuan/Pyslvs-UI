@@ -20,7 +20,7 @@
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
 from ..graphics.color import colorlist
-from .canvas_0 import PointOptions
+from .canvas import PointOptions
 from time import sleep
 
 class playShaft(QThread):

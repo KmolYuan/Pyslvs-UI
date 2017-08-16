@@ -52,7 +52,7 @@ from .panel.Validation.AuxLine import AuxLine_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 #Canvas
-from .graphics.canvas_0 import DynamicCanvas
+from .graphics.canvas import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io import example
@@ -82,7 +82,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView = DynamicCanvas()
         self.DynamicCanvasView.mouse_getClick.connect(self.addPointGroup)
         self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
-        self.mplLayout.insertWidget(0, self.DynamicCanvasView)
+        self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
         self.DynamicCanvasView.show()
         self.Resolve()
         #Solve & DOF & Mask
