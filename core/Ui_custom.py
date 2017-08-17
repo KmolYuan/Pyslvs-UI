@@ -45,6 +45,12 @@ def init_Widgets(self):
     #Focus to all table widgets.
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod]:
         table.itemClicked.connect(self.tableFocusChange)
+    #While value change, update the canvas widget.
+    self.ZoomBar.valueChanged.connect(self.Reload_Canvas)
+    self.LineWidth.valueChanged.connect(self.Reload_Canvas)
+    self.Font_size.valueChanged.connect(self.Reload_Canvas)
+    self.PathWidth.valueChanged.connect(self.Reload_Canvas)
+    self.rotateAngle.valueChanged.connect(self.Reload_Canvas)
     #DynamicCanvasView Right-click menu
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)

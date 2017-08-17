@@ -75,6 +75,7 @@ class DynamicCanvas(QWidget):
         self.options = PointOptions(self.width(), self.height())
         self.linkWidth = 3
         self.pathWidth = 3
+        self.rotateAngle = 0
         self.Selector = Selector()
         self.reset_Auxline()
         self.Color = colorlist()
@@ -91,13 +92,14 @@ class DynamicCanvas(QWidget):
         self.options.slvsPath['path'] = path
         self.update()
     
-    def update_figure(self, linkWidth, pathWidth, Point, Line, Chain, Shaft, Slider, Rod,
+    def update_figure(self, rotateAngle, linkWidth, pathWidth, Point, Line, Chain, Shaft, Slider, Rod,
             zoom_rate, Font_size, showDimension, Point_mark, path):
         self.Font_size = Font_size
         self.showDimension = showDimension
         self.Point_mark = Point_mark
         self.linkWidth = linkWidth
         self.pathWidth = pathWidth
+        self.rotateAngle = rotateAngle
         self.zoom = zoom_rate/100
         self.Point = Point
         self.Line = Line
@@ -119,6 +121,7 @@ class DynamicCanvas(QWidget):
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         self.painter.translate(self.options.origin['x'], self.options.origin['y'])
+        self.painter.rotate(self.rotateAngle)
         Tp = self.zoom*self.options.rate
         pathShaft = None
         if self.options.Path.drive_mode:

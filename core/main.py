@@ -290,12 +290,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.ConflictGuide.setToolTip(DOF)
             self.Reload_Canvas()
+    
     #Reload Canvas
-    def Reload_Canvas(self):
+    @pyqtSlot(int)
+    @pyqtSlot(float)
+    def Reload_Canvas(self, v0=None):
         self.DynamicCanvasView.update_figure(
-            float(self.LineWidth.text()), float(self.PathWidth.text()),
-            self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
-            self.ZoomBar.value(), self.Font_size.value(), self.action_Display_Dimensions.isChecked(), self.action_Display_Point_Mark.isChecked(), self.File.Lists.pathData)
+            self.rotateAngle.value(), self.LineWidth.value(), self.PathWidth.value(),
+            self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
+            self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
+            self.ZoomBar.value(), self.Font_size.value(),
+            self.action_Display_Dimensions.isChecked(), self.action_Display_Point_Mark.isChecked(),
+            self.File.Lists.pathData)
     
     #Workbook Change
     def workbookNoSave(self):
@@ -827,21 +833,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setText('{}%'.format(value))
-        self.Reload_Canvas()
+    
     #Wheel Event
     def wheelEvent(self, event):
         if self.DynamicCanvasView.underMouse():
             self.ZoomBar.setValue(self.ZoomBar.value()+10*(1 if event.angleDelta().y()>0 else -1))
     
-    @pyqtSlot(int)
-    def on_LineWidth_valueChanged(self, p0):
-        self.Reload_Canvas()
-    @pyqtSlot(int)
-    def on_Font_size_valueChanged(self, p0):
-        self.Reload_Canvas()
-    @pyqtSlot(int)
-    def on_PathWidth_valueChanged(self, p0):
-        self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_action_Display_Dimensions_toggled(self, p0):
         if p0:

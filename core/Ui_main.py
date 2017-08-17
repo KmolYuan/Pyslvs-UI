@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -719,6 +719,14 @@ class Ui_MainWindow(object):
         self.PathWidth.setProperty("value", 3)
         self.PathWidth.setObjectName("PathWidth")
         self.horizontalLayout_3.addWidget(self.PathWidth)
+        self.label_6 = QtWidgets.QLabel(self.CanvasSettingsGroupBox)
+        self.label_6.setObjectName("label_6")
+        self.horizontalLayout_3.addWidget(self.label_6)
+        self.rotateAngle = QtWidgets.QDoubleSpinBox(self.CanvasSettingsGroupBox)
+        self.rotateAngle.setMaximum(360.0)
+        self.rotateAngle.setSingleStep(10.0)
+        self.rotateAngle.setObjectName("rotateAngle")
+        self.horizontalLayout_3.addWidget(self.rotateAngle)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem)
         self.verticalLayout_32.addLayout(self.horizontalLayout_3)
@@ -1442,7 +1450,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1543,6 +1551,8 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Line width"))
         self.label_7.setText(_translate("MainWindow", "Font size"))
         self.label_5.setText(_translate("MainWindow", "Path width"))
+        self.label_6.setText(_translate("MainWindow", "Rotate angle"))
+        self.rotateAngle.setSuffix(_translate("MainWindow", "°"))
         self.ToolPanel.setTabText(self.ToolPanel.indexOf(self.panels_tab), _translate("MainWindow", "Panels"))
         self.label_8.setText(_translate("MainWindow", "<html><head/><body><p>All changes in <span style=\" font-weight:600;\">this edition</span> will show here.</p><p>You can backtracking commands by clicking them below.</p></body></html>"))
         self.History_tab.setTabText(self.History_tab.indexOf(self.Undo_and_Redo), _translate("MainWindow", "Undo and Redo"))
