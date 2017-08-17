@@ -421,6 +421,7 @@ class DynamicCanvas(QWidget):
         pen = QPen()
         pen.setWidth(self.linkWidth)
         pen.setColor(Qt.darkGray)
+        self.painter.setPen(pen)
         self.painter.setBrush(QColor(226, 219, 190))
         self.painter.drawPolygon(QPointF(x0, y0), QPointF(x1, y1), QPointF(x2, y2))
         self.painter.setBrush(Qt.NoBrush)
