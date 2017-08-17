@@ -60,9 +60,9 @@ class DynamicCanvas(QWidget):
         self.index = 0
     
     def paintEvent(self, event):
-        painter = QPainter()
-        painter.begin(self)
-        painter.fillRect(event.rect(), QBrush(self.options.style['Background']))
+        self.painter = QPainter()
+        self.painter.begin(self)
+        self.painter.fillRect(event.rect(), QBrush(self.options.style['Background']))
         width = self.width()
         height = self.height()
         pen = QPen()
@@ -80,14 +80,14 @@ class DynamicCanvas(QWidget):
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
             origin_x = width/2-cenx*Tp
             origin_y = height/2+ceny*Tp
-            painter.translate(origin_x, origin_y)
+            self.painter.translate(origin_x, origin_y)
             expression = self.mechanism['mechanismParams']['Expression'].split(',')
             expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
             pen.setWidth(self.options.style['penWidth']['pen']+2)
             pen.setColor(QColor(225, 140, 0))
-            painter.setPen(pen)
+            self.painter.setPen(pen)
             shaft_r = self.Paths[expression_tag[0][-1]][self.index]
-            painter.drawLine(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1), QPointF(shaft_r[0]*Tp, shaft_r[1]*Tp*-1))
+            self.painter.drawLine(QPointF(self.mechanism['Ax']*Tp, self.mechanism['Ay']*Tp*-1), QPointF(shaft_r[0]*Tp, shaft_r[1]*Tp*-1))
             for i, exp in enumerate(expression_tag[1:]):
                 p_l = list()
                 for i, k in enumerate([0, 3, -1]):
@@ -100,13 +100,13 @@ class DynamicCanvas(QWidget):
                             p_l.append(QPointF(self.mechanism['Dx']*Tp, self.mechanism['Dy']*Tp*-1))
                 pen.setWidth(self.options.style['penWidth']['pen'])
                 pen.setColor(self.options.style['link'])
-                painter.setPen(pen)
-                painter.drawLine(p_l[2], p_l[0])
-                painter.drawLine(p_l[2], p_l[1])
+                self.painter.setPen(pen)
+                self.painter.drawLine(p_l[2], p_l[0])
+                self.painter.drawLine(p_l[2], p_l[1])
             for i, tag in enumerate(sorted(list(self.Paths.keys()))):
                 pen.setWidth(self.options.style['penWidth']['path'])
                 pen.setColor(self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red'])
-                painter.setPen(pen)
+                self.painter.setPen(pen)
                 pointPath = QPainterPath()
                 for j, coordinate in enumerate(self.Paths[tag]):
                     point = QPointF(coordinate[0]*Tp, coordinate[1]*Tp*-1)
@@ -114,31 +114,25 @@ class DynamicCanvas(QWidget):
                         pointPath.moveTo(point)
                     else:
                         pointPath.lineTo(point)
-                painter.drawPath(pointPath)
+                self.painter.drawPath(pointPath)
             for tag in ['A', 'D']:
-                cx = self.mechanism[tag+'x']*Tp
-                cy = self.mechanism[tag+'y']*Tp*-1
+                x = self.mechanism[tag+'x']*Tp
+                y = self.mechanism[tag+'y']*Tp*-1
                 pen.setWidth(2)
                 pen.setColor(self.Color['Blue'])
-                painter.setPen(pen)
-                painter.drawEllipse(QPointF(cx, cy), 10., 10.)
-                pen.setWidth(5)
-                painter.setPen(pen)
-                painter.drawPoint(QPointF(cx, cy))
+                self.painter.setPen(pen)
+                self.drawPoint(x, y, True)
             for i, tag in enumerate(sorted(list(self.Paths.keys()))):
-                cx = self.Paths[tag][self.index][0]*Tp
-                cy = self.Paths[tag][self.index][1]*Tp*-1
+                x = self.Paths[tag][self.index][0]*Tp
+                y = self.Paths[tag][self.index][1]*Tp*-1
                 pen.setWidth(2)
                 pen.setColor(self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red'])
-                painter.setPen(pen)
-                painter.drawEllipse(QPointF(cx, cy), 5., 5.)
-                pen.setWidth(5)
-                painter.setPen(pen)
-                painter.drawPoint(QPointF(cx, cy))
+                self.painter.setPen(pen)
+                self.drawPoint(x, y, False)
             pathData = self.mechanism['mechanismParams']['targetPath']
             pen.setWidth(self.options.style['penWidth']['path']+3)
             pen.setColor(QColor(69, 247, 232))
-            painter.setPen(pen)
+            self.painter.setPen(pen)
             pointPath = QPainterPath()
             for i, coordinate in enumerate(pathData):
                 point = QPointF(coordinate[0]*Tp, coordinate[1]*Tp*-1)
@@ -146,14 +140,21 @@ class DynamicCanvas(QWidget):
                     pointPath.moveTo(point)
                 else:
                     pointPath.lineTo(point)
-            painter.drawPath(pointPath)
+            self.painter.drawPath(pointPath)
         except:
-            painter.translate(width/2, height/2)
+            self.painter.translate(width/2, height/2)
             pen.setColor(self.options.style['text'])
-            painter.setPen(pen)
-            painter.setFont(QFont('Arial', 20))
-            painter.drawText(QPoint(0, 0), "Error occurred!\nPlease check dimension data.")
-        painter.end()
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', 20))
+            self.painter.drawText(QPoint(0, 0), "Error occurred!\nPlease check dimension data.")
+        self.painter.end()
+    
+    def drawPoint(self, x, y, fix):
+        if fix:
+            self.painter.drawPolygon(QPointF(x, y), QPointF(x-10, y+20), QPointF(x+10, y+20))
+            self.painter.drawEllipse(QPointF(x, y), 10., 10.)
+        else:
+            self.painter.drawEllipse(QPointF(x, y), 5., 5.)
     
     @pyqtSlot(int)
     def change_index(self, i):
