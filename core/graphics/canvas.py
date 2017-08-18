@@ -71,13 +71,15 @@ class BaseCanvas(QWidget):
         self.linkWidth = 3
         self.pathWidth = 3
         self.Color = colorlist()
+        self.Point_mark = False
+        self.showDimension = False
     
     def paintEvent(self, event):
         self.painter = QPainter()
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
     
-    def drawPoint(self, i, x, y, fix, color, cx, cy):
+    def drawPoint(self, i, x, y, fix, color, cx=0, cy=0):
         pen = QPen()
         pen.setWidth(2)
         pen.setColor(color)
