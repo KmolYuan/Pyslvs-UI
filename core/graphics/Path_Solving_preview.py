@@ -19,8 +19,7 @@
 
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
-from ..graphics.color import colorlist
-from .canvas import PointOptions
+from .canvas import BaseCanvas
 from time import sleep
 
 class playShaft(QThread):
@@ -48,23 +47,16 @@ class playShaft(QThread):
         with QMutexLocker(self.mutex):
             self.stoped = True
 
-class DynamicCanvas(QWidget):
+class DynamicCanvas(BaseCanvas):
     def __init__(self, mechanism, Paths, parent=None):
         super(DynamicCanvas, self).__init__(parent)
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        self.options = PointOptions(self.width(), self.height())
-        self.linkWidth = 3
-        self.pathWidth = 3
-        self.Color = colorlist()
         self.mechanism = mechanism
         self.Paths = Paths
         self.zoom = 5
         self.index = 0
     
     def paintEvent(self, event):
-        self.painter = QPainter()
-        self.painter.begin(self)
-        self.painter.fillRect(event.rect(), QBrush(Qt.white))
+        super(DynamicCanvas, self).paintEvent(event)
         width = self.width()
         height = self.height()
         pen = QPen()
@@ -101,7 +93,7 @@ class DynamicCanvas(QWidget):
                         else:
                             p_l.append(QPointF(self.mechanism['Dx']*Tp, self.mechanism['Dy']*Tp*-1))
                 pen.setWidth(self.linkWidth)
-                pen.setColor(self.linkWidth)
+                pen.setColor(Qt.darkGray)
                 self.painter.setPen(pen)
                 self.painter.drawLine(p_l[2], p_l[0])
                 self.painter.drawLine(p_l[2], p_l[1])
@@ -143,7 +135,7 @@ class DynamicCanvas(QWidget):
                 else:
                     pointPath.lineTo(point)
             self.painter.drawPath(pointPath)
-        except:
+        except Exception as e:
             self.painter.translate(width/2, height/2)
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)

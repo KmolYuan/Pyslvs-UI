@@ -63,7 +63,80 @@ class Selector:
     def isDrag(self, isDrag):
         self._isDrag = isDrag
 
-class DynamicCanvas(QWidget):
+class BaseCanvas(QWidget):
+    def __init__(self, parent=None):
+        super(BaseCanvas, self).__init__(parent)
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
+        self.options = PointOptions(self.width(), self.height())
+        self.linkWidth = 3
+        self.pathWidth = 3
+        self.Color = colorlist()
+    
+    def paintEvent(self, event):
+        self.painter = QPainter()
+        self.painter.begin(self)
+        self.painter.fillRect(event.rect(), QBrush(Qt.white))
+    
+    def drawPoint(self, i, x, y, fix, color, cx, cy):
+        pen = QPen()
+        pen.setWidth(2)
+        pen.setColor(color)
+        self.painter.setPen(pen)
+        if fix:
+            self.painter.drawPolygon(QPointF(x, y), QPointF(x-10, y+20), QPointF(x+10, y+20))
+            self.painter.drawEllipse(QPointF(x, y), 10., 10.)
+        else:
+            self.painter.drawEllipse(QPointF(x, y), 5., 5.)
+        if self.Point_mark:
+            pen.setColor(Qt.darkGray)
+            pen.setWidth(2)
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', self.Font_size))
+            text = '[Point{}]'.format(i)
+            if self.showDimension:
+                text += ':({:.02f}, {:.02f})'.format(cx, cy)
+            self.painter.drawText(QPointF(x+6, y-6), text)
+    
+    def drawLink(self, i, x0, y0, x1, y1, length):
+        pen = QPen()
+        pen.setWidth(self.linkWidth)
+        pen.setColor(Qt.darkGray)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
+        if self.Point_mark:
+            pen.setColor(Qt.darkGray)
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', self.Font_size))
+            text = '[Line{}]'.format(i)
+            if self.showDimension:
+                text += ':{:.02f}'.format(length)
+            self.painter.drawText(QPointF((x0+x1)/2, (y0+y1)/2), text)
+    
+    def drawChain(self, i, x0, y0, x1, y1, x2, y2, p1p2, p2p3, p1p3):
+        pen = QPen()
+        pen.setWidth(self.linkWidth)
+        pen.setColor(Qt.darkGray)
+        self.painter.setPen(pen)
+        self.painter.setBrush(QColor(226, 219, 190))
+        self.painter.drawPolygon(QPointF(x0, y0), QPointF(x1, y1), QPointF(x2, y2))
+        self.painter.setBrush(Qt.NoBrush)
+        if self.Point_mark:
+            pen.setColor(Qt.darkGray)
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', self.Font_size))
+            text = '[Chain{}]'.format(i)
+            if self.showDimension:
+                text += ':({:.02f}/{:.02f}/{:.02f})'.format(p1p2, p2p3, p1p3)
+            self.painter.drawText(QPointF((x0+x1+x2)/3, (y0+y1+y2)/3), text)
+    
+    def drawShaft(self, i, x0, y0, x1, y1):
+        pen = QPen()
+        pen.setWidth(self.linkWidth+2)
+        pen.setColor(QColor(225, 140, 0) if i==self.options.currentShaft else QColor(175, 90, 0))
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
+
+class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
     mouse_getClick = pyqtSignal()
     change_event = pyqtSignal()
@@ -72,13 +145,9 @@ class DynamicCanvas(QWidget):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip(tr("DynamicCanvas", "Use mouse wheel or middle button to look around."))
-        self.options = PointOptions(self.width(), self.height())
-        self.linkWidth = 3
-        self.pathWidth = 3
         self.rotateAngle = 0
         self.Selector = Selector()
         self.reset_Auxline()
-        self.Color = colorlist()
         self.re_Color = colorName()
     
     def changePathCurrentShaft(self):
@@ -117,9 +186,7 @@ class DynamicCanvas(QWidget):
         self.update()
     
     def paintEvent(self, event):
-        self.painter = QPainter()
-        self.painter.begin(self)
-        self.painter.fillRect(event.rect(), QBrush(Qt.white))
+        super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.options.origin['x'], self.options.origin['y'])
         self.painter.rotate(self.rotateAngle)
         Tp = self.zoom*self.options.rate
@@ -381,65 +448,6 @@ class DynamicCanvas(QWidget):
                     self.painter.drawPoint(QPointF(x, y))
         self.painter.end()
         self.change_event.emit()
-    
-    def drawPoint(self, i, x, y, fix, color, cx, cy):
-        pen = QPen()
-        pen.setWidth(2)
-        pen.setColor(color)
-        self.painter.setPen(pen)
-        if fix:
-            self.painter.drawPolygon(QPointF(x, y), QPointF(x-10, y+20), QPointF(x+10, y+20))
-            self.painter.drawEllipse(QPointF(x, y), 10., 10.)
-        else:
-            self.painter.drawEllipse(QPointF(x, y), 5., 5.)
-        if self.Point_mark:
-            pen.setColor(Qt.darkGray)
-            pen.setWidth(2)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[Point{}]'.format(i)
-            if self.showDimension:
-                text += ':({:.02f}, {:.02f})'.format(cx, cy)
-            self.painter.drawText(QPointF(x+6, y-6), text)
-    
-    def drawLink(self, i, x0, y0, x1, y1, length):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkGray)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
-        if self.Point_mark:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[Line{}]'.format(i)
-            if self.showDimension:
-                text += ':{:.02f}'.format(length)
-            self.painter.drawText(QPointF((x0+x1)/2, (y0+y1)/2), text)
-    
-    def drawChain(self, i, x0, y0, x1, y1, x2, y2, p1p2, p2p3, p1p3):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkGray)
-        self.painter.setPen(pen)
-        self.painter.setBrush(QColor(226, 219, 190))
-        self.painter.drawPolygon(QPointF(x0, y0), QPointF(x1, y1), QPointF(x2, y2))
-        self.painter.setBrush(Qt.NoBrush)
-        if self.Point_mark:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[Chain{}]'.format(i)
-            if self.showDimension:
-                text += ':({:.02f}/{:.02f}/{:.02f})'.format(p1p2, p2p3, p1p3)
-            self.painter.drawText(QPointF((x0+x1+x2)/3, (y0+y1+y2)/3), text)
-    
-    def drawShaft(self, i, x0, y0, x1, y1):
-        pen = QPen()
-        pen.setWidth(self.linkWidth+2)
-        pen.setColor(QColor(225, 140, 0) if i==self.options.currentShaft else QColor(175, 90, 0))
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
     
     def drawSlider(self, i, x0, y0, x1, y1, x2, y2):
         pen = QPen()
