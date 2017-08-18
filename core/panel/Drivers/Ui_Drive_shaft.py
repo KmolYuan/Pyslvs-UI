@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/Drivers/Drive_shaft.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\panel\Drivers\Drive_shaft.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -75,41 +75,13 @@ class Ui_Form(object):
         self.verticalLayout_3.addWidget(self.line)
         self.anglePanel = QtWidgets.QHBoxLayout()
         self.anglePanel.setObjectName("anglePanel")
-        self.verticalLayout = QtWidgets.QVBoxLayout()
-        self.verticalLayout.setObjectName("verticalLayout")
-        self.a0 = QtWidgets.QPushButton(Form)
-        self.a0.setObjectName("a0")
-        self.verticalLayout.addWidget(self.a0)
-        self.a90 = QtWidgets.QPushButton(Form)
-        self.a90.setObjectName("a90")
-        self.verticalLayout.addWidget(self.a90)
-        self.a180 = QtWidgets.QPushButton(Form)
-        self.a180.setObjectName("a180")
-        self.verticalLayout.addWidget(self.a180)
-        self.a270 = QtWidgets.QPushButton(Form)
-        self.a270.setObjectName("a270")
-        self.verticalLayout.addWidget(self.a270)
-        self.anglePanel.addLayout(self.verticalLayout)
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.a45 = QtWidgets.QPushButton(Form)
-        self.a45.setObjectName("a45")
-        self.verticalLayout_2.addWidget(self.a45)
-        self.a135 = QtWidgets.QPushButton(Form)
-        self.a135.setObjectName("a135")
-        self.verticalLayout_2.addWidget(self.a135)
-        self.a225 = QtWidgets.QPushButton(Form)
-        self.a225.setObjectName("a225")
-        self.verticalLayout_2.addWidget(self.a225)
-        self.a315 = QtWidgets.QPushButton(Form)
-        self.a315.setObjectName("a315")
-        self.verticalLayout_2.addWidget(self.a315)
-        self.anglePanel.addLayout(self.verticalLayout_2)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.anglePanel.addItem(spacerItem3)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.anglePanel.addItem(spacerItem4)
         self.verticalLayout_3.addLayout(self.anglePanel)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_3.addItem(spacerItem4)
+        spacerItem5 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_3.addItem(spacerItem5)
         self.line.raise_()
 
         self.retranslateUi(Form)
@@ -124,16 +96,8 @@ class Ui_Form(object):
         self.label_2.setText(_translate("Form", " in Angle:"))
         self.Degree_text.setSuffix(_translate("Form", "°"))
         self.playButton.setText(_translate("Form", "Play"))
-        self.noReversed.setText(_translate("Form", "Clockwise"))
-        self.reversed.setText(_translate("Form", "Counterclockwise"))
-        self.a0.setText(_translate("Form", "0/360°"))
-        self.a90.setText(_translate("Form", "90°"))
-        self.a180.setText(_translate("Form", "180°"))
-        self.a270.setText(_translate("Form", "270°"))
-        self.a45.setText(_translate("Form", "45°"))
-        self.a135.setText(_translate("Form", "135°"))
-        self.a225.setText(_translate("Form", "225°"))
-        self.a315.setText(_translate("Form", "315°"))
+        self.noReversed.setText(_translate("Form", "Counterclockwise"))
+        self.reversed.setText(_translate("Form", "Clockwise"))
 
 
 if __name__ == "__main__":

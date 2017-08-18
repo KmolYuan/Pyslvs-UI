@@ -127,7 +127,7 @@
      <item>
       <widget class="QRadioButton" name="noReversed">
        <property name="text">
-        <string>Clockwise</string>
+        <string>Counterclockwise</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -137,7 +137,7 @@
      <item>
       <widget class="QRadioButton" name="reversed">
        <property name="text">
-        <string>Counterclockwise</string>
+        <string>Clockwise</string>
        </property>
       </widget>
      </item>
@@ -166,71 +166,20 @@
    <item>
     <layout class="QHBoxLayout" name="anglePanel">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="a0">
-         <property name="text">
-          <string>0/360°</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="a90">
-         <property name="text">
-          <string>90°</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="a180">
-         <property name="text">
-          <string>180°</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="a270">
-         <property name="text">
-          <string>270°</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
-        <widget class="QPushButton" name="a45">
-         <property name="text">
-          <string>45°</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="a135">
-         <property name="text">
-          <string>135°</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="a225">
-         <property name="text">
-          <string>225°</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="a315">
-         <property name="text">
-          <string>315°</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
