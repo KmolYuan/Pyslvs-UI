@@ -16,9 +16,12 @@
     + [Triangle Solver](#triangle-solver)
     + [Algorithm](#algorithm)
 
-1. [Requirement](#requirement)
+1. [Modules Requirement](#modules-requirement)
 
     + [PyQt](#pyqt)
+
+1. [Kernels Requirement](#kernels-requirement)
+
     + [Python-solvespace Kernel](#python-solvespace-kernel)
     + [Dimensional Synthesis Kernel](#dimensional-synthesis-kernel)
 
@@ -130,7 +133,7 @@ Specify a path and options to generate a crank rocker.
 
 This function has a simple TCP ZMQ connecting mode.
 
-Requirement
+Modules Requirement
 ===
 
 You should install some python module and SDK first.
@@ -209,6 +212,17 @@ Install PyQt5, PyQtChart and QScintilla2 by pip.
 ```bash
 pip install -U pyqt5 qscintilla pyqtchart
 ```
+
+Kernels Requirement
+===
+
+Make command:
+
+```bash
+make build-kernel
+```
+
+This project including 2 kernels should build, please following the steps if you are first time to use.
 
 Python-solvespace Kernel
 ---
