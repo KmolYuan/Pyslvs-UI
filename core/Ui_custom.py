@@ -252,7 +252,6 @@ class BaseTableWidget(QTableWidget):
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
@@ -280,16 +279,60 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(3, 40)
         self.setColumnWidth(4, 90)
         self.setColumnWidth(5, 60)
+        self.draged = False
+    
+    def mousePressEvent(self, event):
+        super(PointTableWidget, self).mousePressEvent(event)
+        if event.button()==Qt.LeftButton:
+            self.draged = True
+    
+    def mouseReleaseEvent(self, event):
+        super(PointTableWidget, self).mouseReleaseEvent(event)
+        self.draged = False
+    
+    def mouseMoveEvent(self, event):
+        if self.draged:
+            drag = QDrag(self)
+            mimeData = QMimeData()
+            a = list()
+            for r in self.selectedRanges():
+                a += [str(i) for i in range(r.topRow(), r.bottomRow()+1)]
+            mimeData.setText(';'.join(set(a)))
+            drag.setMimeData(mimeData)
+            drag.exec_()
 
-class LinkTableWidget(BaseTableWidget):
+class DropTableWidget(BaseTableWidget):
+    def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
+        super(DropTableWidget, self).__init__(RowCount, HorizontalHeaderItems, parent)
+        self.setAcceptDrops(True)
+    
+    def dragMoveEvent(self, event):
+        event.setDropAction(Qt.MoveAction)
+        event.accept()
+
+class LinkTableWidget(DropTableWidget):
     def __init__(self, parent=None):
         super(LinkTableWidget, self).__init__(0, ["Start Side", "End Side", "Length"], parent)
+        self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 70)
         self.setColumnWidth(2, 70)
         self.setColumnWidth(3, 60)
+    
+    def dragEnterEvent(self, event):
+        mimeData = event.mimeData()
+        if mimeData.hasText():
+            if len(mimeData.text().split(';'))==2:
+                event.acceptProposedAction()
+            else:
+                event.ignore()
+    
+    def dropEvent(self, event):
+        index = [int(e) for e in event.mimeData().text().split(';')]
+        print(index)
+        event.acceptProposedAction()
 
-class ChainTableWidget(BaseTableWidget):
+class ChainTableWidget(DropTableWidget):
     def __init__(self, parent=None):
         super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], parent)
         self.setColumnWidth(0, 60)
@@ -299,3 +342,16 @@ class ChainTableWidget(BaseTableWidget):
         self.setColumnWidth(4, 60)
         self.setColumnWidth(5, 60)
         self.setColumnWidth(6, 60)
+    
+    def dragEnterEvent(self, event):
+        mimeData = event.mimeData()
+        if mimeData.hasText():
+            if len(mimeData.text().split(';'))==3:
+                event.acceptProposedAction()
+            else:
+                event.ignore()
+    
+    def dropEvent(self, event):
+        index = [int(e) for e in event.mimeData().text().split(';')]
+        print(index)
+        event.acceptProposedAction()

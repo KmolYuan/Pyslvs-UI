@@ -821,12 +821,6 @@ p, li { white-space: pre-wrap; }
                               <property name="horizontalScrollMode">
                                <enum>QAbstractItemView::ScrollPerPixel</enum>
                               </property>
-                              <attribute name="horizontalHeaderDefaultSectionSize">
-                               <number>120</number>
-                              </attribute>
-                              <attribute name="horizontalHeaderMinimumSectionSize">
-                               <number>90</number>
-                              </attribute>
                               <column>
                                <property name="text">
                                 <string>Name</string>
@@ -936,12 +930,6 @@ p, li { white-space: pre-wrap; }
                               <property name="horizontalScrollMode">
                                <enum>QAbstractItemView::ScrollPerPixel</enum>
                               </property>
-                              <attribute name="horizontalHeaderDefaultSectionSize">
-                               <number>90</number>
-                              </attribute>
-                              <attribute name="horizontalHeaderMinimumSectionSize">
-                               <number>90</number>
-                              </attribute>
                               <column>
                                <property name="text">
                                 <string>Name</string>
@@ -1065,12 +1053,6 @@ p, li { white-space: pre-wrap; }
                               <property name="horizontalScrollMode">
                                <enum>QAbstractItemView::ScrollPerPixel</enum>
                               </property>
-                              <attribute name="horizontalHeaderDefaultSectionSize">
-                               <number>80</number>
-                              </attribute>
-                              <attribute name="horizontalHeaderMinimumSectionSize">
-                               <number>70</number>
-                              </attribute>
                               <column>
                                <property name="text">
                                 <string>Name</string>
