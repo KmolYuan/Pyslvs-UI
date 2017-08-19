@@ -51,8 +51,6 @@ from .panel.Validation.Measurement import Measurement_show
 from .panel.Validation.AuxLine import AuxLine_show
 #Solve
 from .calculation.planeSolving import slvsProcess
-#Canvas
-from .graphics.canvas import DynamicCanvas
 #File & Example
 from .io.fileForm import File
 from .io import example
@@ -72,18 +70,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Console Widget
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        #File & Default Setting
+        #File
         FileState = QUndoStack()
         FileState.indexChanged.connect(self.commandReload)
         showUndoWindow(self, FileState)
         self.File = File(FileState, self.args)
         self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
-        #QPainter Window
-        self.DynamicCanvasView = DynamicCanvas()
-        self.DynamicCanvasView.mouse_getClick.connect(self.addPointGroup)
-        self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
-        self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
-        self.DynamicCanvasView.show()
+        #Initialize custom UI
+        init_Widgets(self)
         self.Resolve()
         #Solve & DOF & Mask
         self.Solvefail = False
@@ -91,7 +85,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FocusTable = None
         self.MaskChange()
         self.Parameter_digital.setValidator(self.Mask)
-        init_Widgets(self)
         action_Enabled(self)
         if self.args.r:
             self.loadWorkbook("Loading by Argument.", fileName=self.args.r)

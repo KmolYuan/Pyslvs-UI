@@ -18,10 +18,39 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from .QtModules import *
+from .graphics.canvas import DynamicCanvas
+from .graphics.color import colorIcons
 from .info.info import VERSION
 tr = QCoreApplication.translate
 
 def init_Widgets(self):
+    #QPainter Window
+    self.DynamicCanvasView = DynamicCanvas()
+    self.DynamicCanvasView.mouse_getClick.connect(self.addPointGroup)
+    self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
+    self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
+    #Entiteis tables
+    self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
+    self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
+    self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
+    self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
+    self.Entiteis_Chain = ChainTableWidget(self.Entiteis_Chain_Widget)
+    self.Entiteis_Chain_Layout.addWidget(self.Entiteis_Chain)
+    self.Shaft.setColumnWidth(0, 60)
+    self.Shaft.setColumnWidth(1, 85)
+    self.Shaft.setColumnWidth(2, 85)
+    self.Shaft.setColumnWidth(3, 110)
+    self.Shaft.setColumnWidth(4, 110)
+    self.Shaft.setColumnWidth(5, 110)
+    self.Slider.setColumnWidth(0, 60)
+    self.Slider.setColumnWidth(1, 90)
+    self.Slider.setColumnWidth(2, 70)
+    self.Slider.setColumnWidth(3, 70)
+    self.Rod.setColumnWidth(0, 60)
+    self.Rod.setColumnWidth(1, 90)
+    self.Rod.setColumnWidth(2, 70)
+    self.Rod.setColumnWidth(3, 70)
+    self.Rod.setColumnWidth(4, 70)
     #Panel widget will hide when not using.
     self.panelWidget.hide()
     #Console dock will hide when startup.
@@ -218,3 +247,55 @@ def showUndoWindow(self, FileState):
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
     self.menu_Edit.insertAction(separator, self.action_Undo)
     self.menu_Edit.insertAction(separator, self.action_Redo)
+
+class BaseTableWidget(QTableWidget):
+    def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
+        super(BaseTableWidget, self).__init__(parent)
+        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.setRowCount(RowCount)
+        self.setColumnCount(len(HorizontalHeaderItems)+1)
+        for i, e in enumerate(['Name']+HorizontalHeaderItems):
+            self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
+
+class PointTableWidget(BaseTableWidget):
+    def __init__(self, parent=None):
+        super(PointTableWidget, self).__init__(1, ['X', 'Y', 'Fixed', 'Color', 'Current'], parent)
+        self.setVerticalHeaderItem(0, QTableWidgetItem('Origin'))
+        for i, e in enumerate(['Point0', '0.0', '0.0', '', 'Red', "(0.0, 0.0)"]):
+            item = QTableWidgetItem(e)
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            if i==3:
+                item.setCheckState(Qt.Checked)
+            if i==4:
+                item.setIcon(colorIcons()['Red'])
+            self.setItem(0, i, item)
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 70)
+        self.setColumnWidth(2, 70)
+        self.setColumnWidth(3, 40)
+        self.setColumnWidth(4, 90)
+        self.setColumnWidth(5, 60)
+
+class LinkTableWidget(BaseTableWidget):
+    def __init__(self, parent=None):
+        super(LinkTableWidget, self).__init__(0, ["Start Side", "End Side", "Length"], parent)
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 70)
+        self.setColumnWidth(2, 70)
+        self.setColumnWidth(3, 60)
+
+class ChainTableWidget(BaseTableWidget):
+    def __init__(self, parent=None):
+        super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], parent)
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 60)
+        self.setColumnWidth(2, 60)
+        self.setColumnWidth(3, 60)
+        self.setColumnWidth(4, 60)
+        self.setColumnWidth(5, 60)
+        self.setColumnWidth(6, 60)
