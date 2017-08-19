@@ -998,6 +998,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.changeCurrentShaft(pos)
     
     @pyqtSlot()
+    def on_Drive_shaft_activated_clicked(self):
+        self.ToolPanel.setCurrentIndex(1)
+        self.on_Drive_shaft_clicked()
+    
+    @pyqtSlot()
     def on_Drive_rod_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Drive Rod" in tabNameList:
@@ -1018,6 +1023,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float, int)
     def Save_position(self, pos, currentRod):
         self.File.Lists.saveDemo(self.Rod, 'Rod', pos, row=currentRod, column=4)
+    
+    @pyqtSlot()
+    def on_Drive_rod_activated_clicked(self):
+        self.ToolPanel.setCurrentIndex(1)
+        self.on_Drive_rod_clicked()
     
     @pyqtSlot()
     def on_Measurement_clicked(self):

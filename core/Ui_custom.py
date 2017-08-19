@@ -191,7 +191,9 @@ def action_Enabled(self):
     self.Measurement.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.AuxLine.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.Drive_shaft.setEnabled(self.Shaft.rowCount()>0)
+    self.Drive_shaft_activated.setEnabled(self.Shaft.rowCount()>0)
     self.Drive_rod.setEnabled(self.Rod.rowCount()>0)
+    self.Drive_rod_activated.setEnabled(self.Rod.rowCount()>0)
     #Others
     self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Chain.rowCount()>0)
     self.action_DXF_2D_models.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Chain.rowCount()>0)

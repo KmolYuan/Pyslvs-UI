@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1022, 778)
+        MainWindow.resize(1014, 763)
         MainWindow.setMinimumSize(QtCore.QSize(1014, 763))
         MainWindow.setMouseTracking(True)
         MainWindow.setAcceptDrops(True)
@@ -418,10 +418,18 @@ class Ui_MainWindow(object):
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.Shaft_tab)
         self.verticalLayout_5.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
+        self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_8.setObjectName("horizontalLayout_8")
         self.reqShaft = QtWidgets.QLabel(self.Shaft_tab)
         self.reqShaft.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqShaft.setObjectName("reqShaft")
-        self.verticalLayout_5.addWidget(self.reqShaft)
+        self.horizontalLayout_8.addWidget(self.reqShaft)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem)
+        self.Drive_shaft_activated = QtWidgets.QPushButton(self.Shaft_tab)
+        self.Drive_shaft_activated.setObjectName("Drive_shaft_activated")
+        self.horizontalLayout_8.addWidget(self.Drive_shaft_activated)
+        self.verticalLayout_5.addLayout(self.horizontalLayout_8)
         self.Shaft_Widget = QtWidgets.QWidget(self.Shaft_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -510,10 +518,18 @@ class Ui_MainWindow(object):
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.Rod_tab)
         self.verticalLayout_7.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.reqRod = QtWidgets.QLabel(self.Rod_tab)
         self.reqRod.setStyleSheet("color: rgb(255, 0, 0);")
         self.reqRod.setObjectName("reqRod")
-        self.verticalLayout_7.addWidget(self.reqRod)
+        self.horizontalLayout_9.addWidget(self.reqRod)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem1)
+        self.Drive_rod_activated = QtWidgets.QPushButton(self.Rod_tab)
+        self.Drive_rod_activated.setObjectName("Drive_rod_activated")
+        self.horizontalLayout_9.addWidget(self.Drive_rod_activated)
+        self.verticalLayout_7.addLayout(self.horizontalLayout_9)
         self.Rod_Widget = QtWidgets.QWidget(self.Rod_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
@@ -727,13 +743,13 @@ class Ui_MainWindow(object):
         self.rotateAngle.setSingleStep(10.0)
         self.rotateAngle.setObjectName("rotateAngle")
         self.horizontalLayout_3.addWidget(self.rotateAngle)
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_3.addItem(spacerItem)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem2)
         self.verticalLayout_32.addLayout(self.horizontalLayout_3)
         self.verticalLayout_28.addWidget(self.CanvasSettingsGroupBox)
         self.verticalLayout_20.addLayout(self.verticalLayout_28)
-        spacerItem1 = QtWidgets.QSpacerItem(0, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_20.addItem(spacerItem1)
+        spacerItem3 = QtWidgets.QSpacerItem(0, 1, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_20.addItem(spacerItem3)
         self.line_4 = QtWidgets.QFrame(self.widget_2)
         self.line_4.setLineWidth(3)
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
@@ -900,8 +916,8 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.widget)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_5.addWidget(self.label_3)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem2)
+        spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem4)
         self.disconnectConsoleButton = QtWidgets.QPushButton(self.widget)
         icon24 = QtGui.QIcon()
         icon24.addPixmap(QtGui.QPixmap(":/icons/disconnect.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -934,7 +950,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1022, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1014, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -1450,7 +1466,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1492,6 +1508,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.ChainTab), _translate("MainWindow", "Fixed Chain"))
         self.OptionTab.setTabText(self.OptionTab.indexOf(self.Entites), _translate("MainWindow", "Entities"))
         self.reqShaft.setText(_translate("MainWindow", "Requirement: 2 Points."))
+        self.Drive_shaft_activated.setText(_translate("MainWindow", "Drive"))
         self.Shaft_Widget.setStatusTip(_translate("MainWindow", "All drive shaft will show here. Needs two point."))
         item = self.Shaft.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
@@ -1518,6 +1535,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "End Side"))
         self.Simulate_tab.setTabText(self.Simulate_tab.indexOf(self.Slider_tab), _translate("MainWindow", "Slider"))
         self.reqRod.setText(_translate("MainWindow", "Requirement: 3 Points."))
+        self.Drive_rod_activated.setText(_translate("MainWindow", "Drive"))
         self.Rod_Widget.setStatusTip(_translate("MainWindow", "All extendable rod will show here. Needs two point."))
         item = self.Rod.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Name"))
