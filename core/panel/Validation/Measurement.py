@@ -28,8 +28,8 @@ class Measurement_show(QWidget, Measurement_Form):
         self.Distance.setPlainText("0.0")
         self.First_Detection = True
         for i in range(table.rowCount()):
-            self.Start.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
-            self.End.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
+            self.Start.insertItem(i, QIcon(QPixmap(":/icons/bearing.png")), table.item(i, 0).text())
+            self.End.insertItem(i, QIcon(QPixmap(":/icons/bearing.png")), table.item(i, 0).text())
     
     @pyqtSlot(float, float)
     def show_mouse_track(self, x, y):

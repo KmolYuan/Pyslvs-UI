@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\simulate\edit_slider.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/simulate/edit_slider.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -20,7 +20,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(406, 223))
         Dialog.setMaximumSize(QtCore.QSize(406, 223))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/editslider.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/slider.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)

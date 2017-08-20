@@ -31,10 +31,13 @@ def init_Widgets(self):
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     #Entiteis tables
     self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
+    self.Entiteis_Point.cellDoubleClicked.connect(self.on_Entiteis_Point_cellDoubleClicked)
     self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
     self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
+    self.Entiteis_Link.cellDoubleClicked.connect(self.on_Entiteis_Link_cellDoubleClicked)
     self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
     self.Entiteis_Chain = ChainTableWidget(self.Entiteis_Chain_Widget)
+    self.Entiteis_Chain.cellDoubleClicked.connect(self.on_Entiteis_Chain_cellDoubleClicked)
     self.Entiteis_Chain_Layout.addWidget(self.Entiteis_Chain)
     self.Shaft.setColumnWidth(0, 60)
     self.Shaft.setColumnWidth(1, 85)
@@ -66,7 +69,7 @@ def init_Widgets(self):
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     #Properties button on the Point tab widget.
     propertiesButton = QPushButton()
-    propertiesButton.setIcon(QIcon(QPixmap(":/icons/properties.png")))
+    propertiesButton.setIcon(self.action_Property.icon())
     propertiesButton.setToolTip("Properties")
     propertiesButton.setStatusTip("Properties of this workbook.")
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
@@ -281,6 +284,12 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(5, 60)
         self.draged = False
     
+    def selectedRows(self):
+        a = list()
+        for r in self.selectedRanges():
+            a += [i for i in range(r.topRow(), r.bottomRow()+1)]
+        return sorted(set(a))
+    
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)
         if event.button()==Qt.LeftButton:
@@ -294,11 +303,9 @@ class PointTableWidget(BaseTableWidget):
         if self.draged:
             drag = QDrag(self)
             mimeData = QMimeData()
-            a = list()
-            for r in self.selectedRanges():
-                a += [str(i) for i in range(r.topRow(), r.bottomRow()+1)]
-            mimeData.setText(';'.join(set(a)))
+            mimeData.setText(';'.join([str(e) for e in self.selectedRows()]))
             drag.setMimeData(mimeData)
+            drag.setPixmap(QPixmap(":/icons/bearing.png").scaledToWidth(20))
             drag.exec_()
 
 class DropTableWidget(BaseTableWidget):

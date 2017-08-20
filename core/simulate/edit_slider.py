@@ -25,8 +25,8 @@ class edit_slider_show(QDialog, edit_slider_Dialog):
         super(edit_slider_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        icon = QIcon(QPixmap(":/icons/point.png"))
-        iconSelf = QIcon(QPixmap(":/icons/pointonx.png"))
+        icon = QIcon(QPixmap(":/icons/bearing.png"))
+        iconSelf = self.windowIcon()
         self.Sliders = Sliders
         for i in range(len(Point)):
             name = 'Point{}'.format(i)

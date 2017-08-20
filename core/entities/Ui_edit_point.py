@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\entities\edit_point.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/entities/edit_point.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -15,7 +15,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(384, 286))
         Dialog.setMaximumSize(QtCore.QSize(384, 286))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/editpoint.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/bearing.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\simulate\edit_rod.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/simulate/edit_rod.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -15,7 +15,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(390, 172))
         Dialog.setMaximumSize(QtCore.QSize(390, 172))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/circle.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/rod.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)

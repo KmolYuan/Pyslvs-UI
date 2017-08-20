@@ -27,7 +27,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/editchain.png</normaloff>:/icons/editchain.png</iconset>
+    <normaloff>:/icons/chain.png</normaloff>:/icons/chain.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>false</bool>

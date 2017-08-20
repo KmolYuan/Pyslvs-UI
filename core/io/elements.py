@@ -252,7 +252,7 @@ class VRod(VSlider):
     
     @property
     def pos(self):
-        return self._pos
+        return self.__pos
     @pos.setter
     def pos(self, pos):
         self.__pos = pos

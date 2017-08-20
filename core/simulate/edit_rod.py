@@ -25,8 +25,8 @@ class edit_rod_show(QDialog, edit_rod_Dialog):
         super(edit_rod_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        icon = QIcon(QPixmap(":/icons/point.png"))
-        iconSelf = QIcon(QPixmap(":/icons/spring.png"))
+        icon = QIcon(QPixmap(":/icons/bearing.png"))
+        iconSelf = self.windowIcon()
         self.Rods = Rods
         for i in range(len(Point)):
             name = 'Point{}'.format(i)

@@ -421,8 +421,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DynamicCanvasView.changeCurrentShaft()
             self.DynamicCanvasView.path_solving()
             self.Resolve()
-            self.X_coordinate.clear()
-            self.Y_coordinate.clear()
             self.setWindowTitle("Pyslvs - [New Workbook]")
             print("Reset workbook.")
             checkdone, data = self.File.check(fileName, data)
@@ -596,19 +594,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.clearPath()
         else:
             self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
-    @pyqtSlot()
-    def on_Point_add_button_clicked(self):
-        table = self.Entiteis_Point
-        x = self.X_coordinate.text() if not self.X_coordinate.text() in [str(), "n", "-"] else self.X_coordinate.placeholderText()
-        y = self.Y_coordinate.text() if not self.Y_coordinate.text() in [str(), "n", "-"] else self.Y_coordinate.placeholderText()
-        self.File.Lists.editTable(table, 'Point', False, x, y, False, 'Green')
-        self.X_coordinate.clear()
-        self.Y_coordinate.clear()
-        self.File.Lists.clearPath()
-    @pyqtSlot(int, int, int, int)
-    def on_Entiteis_Point_currentCellChanged(self, c0, c1, p0, p1):
-        self.X_coordinate.setPlaceholderText(self.Entiteis_Point.item(c0, 1).text())
-        self.Y_coordinate.setPlaceholderText(self.Entiteis_Point.item(c0, 2).text())
     
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
@@ -729,34 +714,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Delete_Point_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Point.currentRow()
-        self.deletePanel(self.Entiteis_Point, 'Point', ":/icons/delete.png", ":/icons/point.png", pos)
+        self.deletePanel(self.Entiteis_Point, 'Point', self.action_New_Point.icon(), pos)
     @pyqtSlot()
     def on_action_Delete_Linkage_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Link.currentRow()
-        self.deletePanel(self.Entiteis_Link, 'Line', ":/icons/deleteline.png", ":/icons/line.png", pos)
+        self.deletePanel(self.Entiteis_Link, 'Line', self.action_New_Line.icon(), pos)
     @pyqtSlot()
     def on_action_Delete_Stay_Chain_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Chain.currentRow()
-        self.deletePanel(self.Entiteis_Chain, 'Chain', ":/icons/deletechain.png", ":/icons/equal.png", pos)
+        self.deletePanel(self.Entiteis_Chain, 'Chain', self.action_New_Stay_Chain.icon(), pos)
     @pyqtSlot()
     def on_action_Delete_Shaft_triggered(self, pos=None):
         if pos==None:
             pos = self.Shaft.currentRow()
-        self.deletePanel(self.Shaft, 'Shaft', ":/icons/deleteshaft.png", ":/icons/circle.png", pos)
+        self.deletePanel(self.Shaft, 'Shaft', self.action_Set_Shaft.icon(), pos)
     @pyqtSlot()
     def on_action_Delete_Slider_triggered(self, pos=None):
         if pos==None:
             pos = self.Slider.currentRow()
-        self.deletePanel(self.Slider, 'Slider', ":/icons/deleteslider.png", ":/icons/pointonx.png", pos)
+        self.deletePanel(self.Slider, 'Slider', self.action_Set_Slider.icon(), pos)
     @pyqtSlot()
     def on_action_Delete_Piston_Spring_triggered(self, pos=None):
         if pos==None:
             pos = self.Rod.currentRow()
-        self.deletePanel(self.Rod, 'Rod', QIcon(QPixmap(":/icons/deleterod.png")), QIcon(QPixmap(":/icons/spring.png")), pos)
-    def deletePanel(self, table, name, icon1, icon2, pos):
-        dlg = deleteDlg(QIcon(QPixmap(icon1)), QIcon(QPixmap(icon2)), table, pos, self)
+        self.deletePanel(self.Rod, 'Rod', self.action_Set_Rod.icon(), pos)
+    def deletePanel(self, table, name, icon, pos):
+        dlg = deleteDlg(icon, table, pos, self)
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
         if dlg.exec_():
@@ -789,7 +774,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Replace_Point_triggered(self, pos=0):
-        dlg = replacePoint_show(QIcon(QPixmap(":/icons/point.png")), self.Entiteis_Point, pos, self)
+        dlg = replacePoint_show(self.action_New_Point.icon(), self.Entiteis_Point, pos, self)
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
         if dlg.exec_():
@@ -904,7 +889,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             panel.moveupPathPoint.connect(self.PathSolving_moveup)
             panel.movedownPathPoint.connect(self.PathSolving_movedown)
             panel.mergeResult.connect(self.PathSolving_mergeResult)
-            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/bezier.png")), "Path Solving")
+            self.panelWidget.addTab(panel, self.PathSolving.icon(), "Path Solving")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     def PathSolving_add_rightClick(self, x, y):
@@ -947,7 +932,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             panel = Triangle_Solver_show(self.File.FileState, self.File.Lists.PointList, self.File.Designs.TSDirections, self)
             panel.startMerge.connect(self.TriangleSolver_merge)
-            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/TS.png")), "Triangle Solver")
+            self.panelWidget.addTab(panel, self.TriangleSolver.icon(), "Triangle Solver")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
     @pyqtSlot()
     def TriangleSolver_merge(self):
@@ -973,7 +958,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 panel.degreeChange.connect(self.Save_demo_angle)
             self.DynamicCanvasView.changePathCurrentShaft()
             panel.Shaft.currentIndexChanged.connect(self.changeCurrentShaft)
-            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/same-orientation.png")), "Drive Shaft")
+            self.panelWidget.addTab(panel, self.Drive_shaft.icon(), "Drive Shaft")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     @pyqtSlot(int)
@@ -1007,7 +992,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             panel = Drive_rod_show(self.File.Lists.RodList, self.File.Lists.PointList, self)
             panel.positionChange.connect(self.Save_position)
             panel.Position.valueChanged.connect(self.Change_position)
-            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/normal.png")), "Drive Rod")
+            self.panelWidget.addTab(panel, self.Drive_rod.icon(), "Drive Rod")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
     @pyqtSlot(int)
     def Change_position(self, pos):
@@ -1040,7 +1025,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             panel.point_change.connect(self.distance_solving)
             self.distance_changed.connect(panel.change_distance)
             panel.Mouse.setPlainText("Detecting...")
-            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/ref.png")), "Measurement")
+            self.panelWidget.addTab(panel, self.Measurement.icon(), "Measurement")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
     distance_changed = pyqtSignal(float)
     @pyqtSlot(int, int)
@@ -1062,7 +1047,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             table = self.Entiteis_Point
             panel = AuxLine_show(table, self.DynamicCanvasView.AuxLine['pt'], self.DynamicCanvasView.AuxLine['color'], self.DynamicCanvasView.AuxLine['limit_color'], self)
             panel.Point_change.connect(self.draw_Auxline)
-            self.panelWidget.addTab(panel, QIcon(QPixmap(":/icons/auxline.png")), "Auxiliary Line")
+            self.panelWidget.addTab(panel, self.AuxLine.icon(), "Auxiliary Line")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
@@ -1123,8 +1108,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ''.join(['[0-{}]'.format(e) for e in Count[1:]]), '|[0-9]{{1,{}}}'.format(len(Count)-1) if len(Count)>1 else str())
         mask = '({}^[-]?(([1-9][0-9]{{0,14}})|[0])?[.][0-9]{{1,15}}$)'.format('^[n]{}$|'.format(param) if int(Count)>-1 else str())
         self.Mask = QRegExpValidator(QRegExp(mask))
-        for textBox in [self.X_coordinate, self.Y_coordinate]:
-            textBox.setValidator(self.Mask)
     
     @pyqtSlot(int, int, int, int)
     def on_Parameter_list_currentCellChanged(self, c0, c1, p0, p1):

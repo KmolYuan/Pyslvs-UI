@@ -27,7 +27,7 @@ class Triangle_Solver_edit_show(QDialog, Ui_Dialog):
         self.setupUi(self)
         for i in range(len(Point)):
             for e in [self.p1, self.p2, self.p3]:
-                e.addItem(QIcon(QPixmap(":/icons/point.png")), 'Point{}'.format(i))
+                e.addItem(QIcon(QPixmap(":/icons/bearing.png")), 'Point{}'.format(i))
         for i in range(row):
             for e in [self.r1, self.r2, self.r3]:
                 e.addItem(QIcon(QPixmap(":/icons/TS.png")), 'Result{}'.format(i+1))

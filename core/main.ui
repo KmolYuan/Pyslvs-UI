@@ -140,13 +140,13 @@
                    <property name="currentIndex">
                     <number>0</number>
                    </property>
-                   <widget class="QWidget" name="Coordinate">
+                   <widget class="QWidget" name="PointsTab">
                     <attribute name="icon">
                      <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/point.png</normaloff>:/icons/point.png</iconset>
+                      <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
                     </attribute>
                     <attribute name="title">
-                     <string>Point Coordinate</string>
+                     <string>Points</string>
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_9">
                      <property name="leftMargin">
@@ -188,100 +188,11 @@
                        </layout>
                       </widget>
                      </item>
-                     <item>
-                      <widget class="QWidget" name="widget_3" native="true">
-                       <layout class="QHBoxLayout" name="horizontalLayout">
-                        <property name="spacing">
-                         <number>6</number>
-                        </property>
-                        <property name="leftMargin">
-                         <number>3</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>3</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>3</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>3</number>
-                        </property>
-                        <item>
-                         <layout class="QVBoxLayout" name="point_x_layout">
-                          <item>
-                           <widget class="QLabel" name="label">
-                            <property name="text">
-                             <string>x coordinate</string>
-                            </property>
-                            <property name="textFormat">
-                             <enum>Qt::RichText</enum>
-                            </property>
-                            <property name="wordWrap">
-                             <bool>true</bool>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QLineEdit" name="X_coordinate">
-                            <property name="placeholderText">
-                             <string>0.0</string>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
-                        <item>
-                         <layout class="QVBoxLayout" name="point_y_layout">
-                          <item>
-                           <widget class="QLabel" name="label_2">
-                            <property name="text">
-                             <string>y coordinate</string>
-                            </property>
-                            <property name="textFormat">
-                             <enum>Qt::RichText</enum>
-                            </property>
-                            <property name="wordWrap">
-                             <bool>true</bool>
-                            </property>
-                           </widget>
-                          </item>
-                          <item>
-                           <widget class="QLineEdit" name="Y_coordinate">
-                            <property name="placeholderText">
-                             <string>0.0</string>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
-                        <item>
-                         <widget class="QPushButton" name="Point_add_button">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="statusTip">
-                           <string>Quick insert a joint point.</string>
-                          </property>
-                          <property name="text">
-                           <string>Add a Point</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
                     </layout>
                    </widget>
-                   <widget class="QWidget" name="tab">
-                    <attribute name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/text.png</normaloff>:/icons/text.png</iconset>
-                    </attribute>
+                   <widget class="QWidget" name="ParametersTab">
                     <attribute name="title">
-                     <string>Parameter</string>
+                     <string>Parameters</string>
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_13">
                      <item>
@@ -537,17 +448,13 @@ p, li { white-space: pre-wrap; }
                    <property name="movable">
                     <bool>false</bool>
                    </property>
-                   <widget class="QWidget" name="Entites">
+                   <widget class="QWidget" name="EntitesTab">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
-                    <attribute name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/trim.png</normaloff>:/icons/trim.png</iconset>
-                    </attribute>
                     <attribute name="title">
                      <string>Entities</string>
                     </attribute>
@@ -572,7 +479,7 @@ p, li { white-space: pre-wrap; }
                        <widget class="QWidget" name="LinkTab">
                         <attribute name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/line.png</normaloff>:/icons/line.png</iconset>
+                          <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
                         </attribute>
                         <attribute name="title">
                          <string>Link</string>
@@ -635,7 +542,7 @@ p, li { white-space: pre-wrap; }
                        <widget class="QWidget" name="ChainTab">
                         <attribute name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/equal.png</normaloff>:/icons/equal.png</iconset>
+                          <normaloff>:/icons/chain.png</normaloff>:/icons/chain.png</iconset>
                         </attribute>
                         <attribute name="title">
                          <string>Fixed Chain</string>
@@ -699,11 +606,7 @@ p, li { white-space: pre-wrap; }
                      </item>
                     </layout>
                    </widget>
-                   <widget class="QWidget" name="Simulate">
-                    <attribute name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/arc.png</normaloff>:/icons/arc.png</iconset>
-                    </attribute>
+                   <widget class="QWidget" name="SimulateTab">
                     <attribute name="title">
                      <string>Simulate</string>
                     </attribute>
@@ -728,7 +631,7 @@ p, li { white-space: pre-wrap; }
                        <widget class="QWidget" name="Shaft_tab">
                         <attribute name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/circle.png</normaloff>:/icons/circle.png</iconset>
+                          <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
                         </attribute>
                         <attribute name="title">
                          <string>Shaft</string>
@@ -861,7 +764,7 @@ p, li { white-space: pre-wrap; }
                        <widget class="QWidget" name="Slider_tab">
                         <attribute name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/pointonx.png</normaloff>:/icons/pointonx.png</iconset>
+                          <normaloff>:/icons/slider.png</normaloff>:/icons/slider.png</iconset>
                         </attribute>
                         <attribute name="title">
                          <string>Slider</string>
@@ -960,7 +863,7 @@ p, li { white-space: pre-wrap; }
                        <widget class="QWidget" name="Rod_tab">
                         <attribute name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/spring.png</normaloff>:/icons/spring.png</iconset>
+                          <normaloff>:/icons/rod.png</normaloff>:/icons/rod.png</iconset>
                         </attribute>
                         <attribute name="title">
                          <string>Piston</string>
@@ -1174,7 +1077,7 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/same-orientation.png</normaloff>:/icons/same-orientation.png</iconset>
+                              <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -1194,7 +1097,7 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/normal.png</normaloff>:/icons/normal.png</iconset>
+                              <normaloff>:/icons/rod.png</normaloff>:/icons/rod.png</iconset>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -1239,7 +1142,7 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
+                              <normaloff>:/icons/PathSolving.png</normaloff>:/icons/PathSolving.png</iconset>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -1324,7 +1227,7 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <property name="icon">
                              <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/ref.png</normaloff>:/icons/ref.png</iconset>
+                              <normaloff>:/icons/measurement.png</normaloff>:/icons/measurement.png</iconset>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -2055,7 +1958,7 @@ p, li { white-space: pre-wrap; }
    </widget>
    <widget class="QMenu" name="menu_Draw">
     <property name="title">
-     <string>&amp;Draw</string>
+     <string>&amp;Entities</string>
     </property>
     <addaction name="action_New_Point"/>
     <addaction name="action_New_Line"/>
@@ -2164,7 +2067,7 @@ p, li { white-space: pre-wrap; }
   <action name="action_New_Point">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/point.png</normaloff>:/icons/point.png</iconset>
+     <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
    </property>
    <property name="text">
     <string>New &amp;Point</string>
@@ -2177,12 +2080,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_New_Line">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/line.png</normaloff>:/icons/line.png</iconset>
+     <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
    </property>
    <property name="text">
     <string>New &amp;Linkage</string>
@@ -2252,12 +2152,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Set_Shaft">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/circle.png</normaloff>:/icons/circle.png</iconset>
+     <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
    </property>
    <property name="text">
     <string>Set &amp;Drive Shaft</string>
@@ -2363,12 +2260,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_New_Stay_Chain">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/equal.png</normaloff>:/icons/equal.png</iconset>
+     <normaloff>:/icons/chain.png</normaloff>:/icons/chain.png</iconset>
    </property>
    <property name="text">
     <string>New Stay &amp;Chain</string>
@@ -2393,13 +2287,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Delete_Point">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-   </property>
    <property name="text">
     <string>Delet a Point</string>
    </property>
@@ -2408,13 +2295,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Delete_Linkage">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/deleteline.png</normaloff>:/icons/deleteline.png</iconset>
-   </property>
    <property name="text">
     <string>Delet a Linkage</string>
    </property>
@@ -2423,13 +2303,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Delete_Stay_Chain">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/deletechain.png</normaloff>:/icons/deletechain.png</iconset>
-   </property>
    <property name="text">
     <string>Delete a Fixed Chain</string>
    </property>
@@ -2438,13 +2311,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Point">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/editpoint.png</normaloff>:/icons/editpoint.png</iconset>
-   </property>
    <property name="text">
     <string>Edit a Point</string>
    </property>
@@ -2453,13 +2319,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Linkage">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/length.png</normaloff>:/icons/length.png</iconset>
-   </property>
    <property name="text">
     <string>Edit a Linkage</string>
    </property>
@@ -2468,13 +2327,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Stay_Chain">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/editchain.png</normaloff>:/icons/editchain.png</iconset>
-   </property>
    <property name="text">
     <string>Edit a Fixed Chain</string>
    </property>
@@ -2483,12 +2335,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Set_Slider">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/pointonx.png</normaloff>:/icons/pointonx.png</iconset>
+     <normaloff>:/icons/slider.png</normaloff>:/icons/slider.png</iconset>
    </property>
    <property name="text">
     <string>Set &amp;Slider</string>
@@ -2501,13 +2350,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Shaft">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/editshaft.png</normaloff>:/icons/editshaft.png</iconset>
-   </property>
    <property name="text">
     <string>Edit Drive Shaft</string>
    </property>
@@ -2516,13 +2358,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Slider">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/editslider.png</normaloff>:/icons/editslider.png</iconset>
-   </property>
    <property name="text">
     <string>Edit Slider</string>
    </property>
@@ -2531,13 +2366,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Delete_Shaft">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/deleteshaft.png</normaloff>:/icons/deleteshaft.png</iconset>
-   </property>
    <property name="text">
     <string>Delete Drive Shaft</string>
    </property>
@@ -2546,13 +2374,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Delete_Slider">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/deleteslider.png</normaloff>:/icons/deleteslider.png</iconset>
-   </property>
    <property name="text">
     <string>Delete Slider</string>
    </property>
@@ -2561,12 +2382,9 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Set_Rod">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/spring.png</normaloff>:/icons/spring.png</iconset>
+     <normaloff>:/icons/rod.png</normaloff>:/icons/rod.png</iconset>
    </property>
    <property name="text">
     <string>Set &amp;Piston</string>
@@ -2579,13 +2397,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Edit_Rod">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/editrod.png</normaloff>:/icons/editrod.png</iconset>
-   </property>
    <property name="text">
     <string>Edit Piston</string>
    </property>
@@ -2594,13 +2405,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Delete_Piston_Spring">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/deleterod.png</normaloff>:/icons/deleterod.png</iconset>
-   </property>
    <property name="text">
     <string>Delete Piston</string>
    </property>
@@ -2611,10 +2415,6 @@ p, li { white-space: pre-wrap; }
   <action name="action_Display_Dimensions">
    <property name="checkable">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/constraint.png</normaloff>:/icons/constraint.png</iconset>
    </property>
    <property name="text">
     <string>Display &amp;dimensions</string>
@@ -2632,10 +2432,6 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="checked">
     <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/char-2-radio-false.png</normaloff>:/icons/char-2-radio-false.png</iconset>
    </property>
    <property name="text">
     <string>Display Point &amp;mark</string>
@@ -3018,10 +2814,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Path_Track">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
-   </property>
    <property name="text">
     <string>Path Track</string>
    </property>
@@ -3139,9 +2931,6 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
- <tabstops>
-  <tabstop>Point_add_button</tabstop>
- </tabstops>
  <resources>
   <include location="../icons.qrc"/>
   <include location="../preview.qrc"/>

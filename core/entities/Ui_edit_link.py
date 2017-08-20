@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\entities\edit_link.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/entities/edit_link.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -15,7 +15,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(377, 230))
         Dialog.setMaximumSize(QtCore.QSize(377, 230))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/line.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/link.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)

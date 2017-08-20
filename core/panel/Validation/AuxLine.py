@@ -28,7 +28,7 @@ class AuxLine_show(QWidget, AuxLine_Form):
         self.setupUi(self)
         re_Color = colorName()
         for i in range(table.rowCount()):
-            self.Point.insertItem(i, QIcon(QPixmap(":/icons/point.png")), table.item(i, 0).text())
+            self.Point.insertItem(i, QIcon(QPixmap(":/icons/bearing.png")), table.item(i, 0).text())
         for i in range(len(re_Color)):
             self.Color.insertItem(i, re_Color[i])
         for i in range(len(re_Color)):

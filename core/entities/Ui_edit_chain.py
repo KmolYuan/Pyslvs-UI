@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\entities\edit_chain.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/entities/edit_chain.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -15,7 +15,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(410, 296))
         Dialog.setMaximumSize(QtCore.QSize(410, 296))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/editchain.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/chain.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setAutoFillBackground(False)
         Dialog.setSizeGripEnabled(False)

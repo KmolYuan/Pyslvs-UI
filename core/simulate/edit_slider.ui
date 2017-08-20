@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/editslider.png</normaloff>:/icons/editslider.png</iconset>
+    <normaloff>:/icons/slider.png</normaloff>:/icons/slider.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>

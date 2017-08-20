@@ -35,6 +35,7 @@
     <file>icons/BrowseGuide.png</file>
     <file>icons/BrowseAim.png</file>
     <file>icons/capture.png</file>
+    <file>icons/chain.png</file>
     <file>icons/char-0-check-false.png</file>
     <file>icons/char-1-check-true.png</file>
     <file>icons/char-2-radio-false.png</file>
@@ -72,16 +73,20 @@
     <file>icons/konsole.png</file>
     <file>icons/length.png</file>
     <file>icons/line.png</file>
+    <file>icons/link.png</file>
     <file>icons/loadfile.png</file>
     <file>icons/maxmized.png</file>
+    <file>icons/measurement.png</file>
     <file>icons/mesh.png</file>
     <file>icons/minimized.png</file>
+    <file>icons/motor.png</file>
     <file>icons/newfile.png</file>
     <file>icons/normal.png</file>
     <file>icons/normalsized.png</file>
     <file>icons/ontoworkplane.png</file>
     <file>icons/other-supp.png</file>
     <file>icons/parallel.png</file>
+    <file>icons/PathSolving.png</file>
     <file>icons/perpendicular.png</file>
     <file>icons/point.png</file>
     <file>icons/pointonx.png</file>
@@ -90,11 +95,13 @@
     <file>icons/rectangle.png</file>
     <file>icons/redo.png</file>
     <file>icons/ref.png</file>
+    <file>icons/rod.png</file>
     <file>icons/same-orientation.png</file>
     <file>icons/savefile.png</file>
     <file>icons/shaded.png</file>
     <file>icons/sketch-in-3d.png</file>
     <file>icons/sketch-in-plane.png</file>
+    <file>icons/slider.png</file>
     <file>icons/spring.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/step-rotate.png</file>
