@@ -301,12 +301,15 @@ class PointTableWidget(BaseTableWidget):
     
     def mouseMoveEvent(self, event):
         if self.draged:
-            drag = QDrag(self)
-            mimeData = QMimeData()
-            mimeData.setText(';'.join([str(e) for e in self.selectedRows()]))
-            drag.setMimeData(mimeData)
-            drag.setPixmap(QPixmap(":/icons/bearing.png").scaledToWidth(20))
-            drag.exec_()
+            selectedRows = self.selectedRows()
+            selectedRowCount = len(selectedRows)
+            if selectedRowCount==2 or selectedRowCount==3:
+                drag = QDrag(self)
+                mimeData = QMimeData()
+                mimeData.setText(';'.join([str(e) for e in selectedRows]))
+                drag.setMimeData(mimeData)
+                drag.setPixmap(QPixmap(":/icons/tooltips/need{}bearings.png".format(selectedRowCount)).scaledToWidth(50))
+                drag.exec_()
 
 class DropTableWidget(BaseTableWidget):
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
