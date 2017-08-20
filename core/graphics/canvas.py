@@ -377,6 +377,7 @@ class DynamicCanvas(BaseCanvas):
                 y = e.cy*Tp*-1
                 self.drawPoint(i, x, y, e.fix, self.Color[e.color], e.cx, e.cy)
         if self.options.slvsPath['path'] and self.options.slvsPath['show']:
+            pen = QPen()
             pathData = self.options.slvsPath['path']
             pen.setWidth(self.pathWidth)
             pen.setColor(QColor(69, 247, 232))
