@@ -100,8 +100,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 FilePath = url.toLocalFile()
                 if QFileInfo(FilePath).suffix() in ['xml', 'csv']:
                     event.acceptProposedAction()
-                else:
-                    event.ignore()
     
     def dropEvent(self, event):
         FilePath = event.mimeData().urls()[-1].toLocalFile()
@@ -598,9 +596,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
         self.editPoint()
+    
     @pyqtSlot()
     def on_action_Edit_Point_triggered(self, pos=1):
         self.editPoint(pos)
+    
     def editPoint(self, pos=False):
         dlg = edit_point_show(self.Mask, self.File.Lists.PointList, pos, self)
         dlg.show()
@@ -611,6 +611,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), 'n', '-'] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()), dlg.Color.currentText())
             self.closeAllPanels()
+    
     @pyqtSlot()
     def on_action_Update_all_points_triggered(self):
         self.File.Lists.coverageCoordinate(self.Entiteis_Point)
@@ -618,36 +619,63 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Line_triggered(self):
         self.editLine()
+    
     @pyqtSlot()
     def on_action_Edit_Linkage_triggered(self, pos=0):
         self.editLine(pos)
-    def editLine(self, pos=False):
+    
+    def editLineDlg(self, pos=False):
         dlg = edit_link_show(self.Mask, self.File.Lists.PointList, self.File.Lists.LineList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.clearPath()
-            if dlg.isReplace.isChecked():
-                self.checkEntitiesConflict(pos, [dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex()])
-            self.File.Lists.editTable(self.Entiteis_Link, 'Line', False if pos is False else dlg.Link.currentIndex(),
-                dlg.Start_Point.currentIndex(), dlg.End_Point.currentIndex(), dlg.len)
-            self.closeAllPanels()
+            self.editLine(dlg.Start_Point.currentIndex(),
+                dlg.End_Point.currentIndex(),
+                dlg.len,
+                False if pos is False else dlg.Link.currentIndex(),
+                dlg.isReplace.isChecked())
+    
+    @pyqtSlot(int, int)
+    def editLine(self, start, end, leng=None, pos=False, check=True):
+        pointList = self.File.Lists.PointList
+        self.File.Lists.clearPath()
+        if check:
+            self.checkEntitiesConflict(pos, [start, end])
+        if leng==None:
+            leng = pointList[start].distance(pointList[end])
+        self.File.Lists.editTable(self.Entiteis_Link, 'Line', pos, start, end, leng)
+        self.closeAllPanels()
     
     @pyqtSlot()
     def on_action_New_Stay_Chain_triggered(self):
-        self.editChain()
+        self.editChainDlg()
+    
     @pyqtSlot()
     def on_action_Edit_Stay_Chain_triggered(self, pos=0):
-        self.editChain(pos)
-    def editChain(self, pos=False):
+        self.editChainDlg(pos)
+    
+    def editChainDlg(self, pos=False):
         dlg = edit_chain_show(self.Mask, self.File.Lists.PointList, self.File.Lists.ChainList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.clearPath()
-            if dlg.isReplace.isChecked():
-                self.checkEntitiesConflict(pos, [dlg.p1, dlg.p2, dlg.p3])
-            self.File.Lists.editTable(self.Entiteis_Chain, 'Chain', False if pos is False else dlg.Chain.currentIndex(),
-                dlg.p1, dlg.p2, dlg.p3, dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val)
-            self.closeAllPanels()
+            self.editChain(dlg.p1, dlg.p2, dlg.p3,
+                dlg.p1_p2Val, dlg.p2_p3Val, dlg.p1_p3Val,
+                False if pos is False else dlg.Chain.currentIndex(),
+                dlg.isReplace.isChecked())
+    
+    @pyqtSlot(int, int, int)
+    def editChain(self, p1, p2, p3, p1p2=None, p2p3=None, p1p3=None, pos=False, check=True):
+        pointList = self.File.Lists.PointList
+        self.File.Lists.clearPath()
+        if check:
+            self.checkEntitiesConflict(pos, [p1, p2, p3])
+        if p1p2==None:
+            p1p2 = pointList[p1].distance(pointList[p2])
+        if p2p3==None:
+            p2p3 = pointList[p2].distance(pointList[p3])
+        if p1p3==None:
+            p1p3 = pointList[p1].distance(pointList[p3])
+        self.File.Lists.editTable(self.Entiteis_Chain, 'Chain', pos, p1, p2, p3, p1p2, p2p3, p1p3)
+        self.closeAllPanels()
     
     def checkEntitiesConflict(self, pos, points):
         d_list = list()
@@ -667,9 +695,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Set_Shaft_triggered(self):
         self.editShaft()
+    
     @pyqtSlot()
     def on_action_Edit_Shaft_triggered(self, pos=0):
         self.editShaft(pos)
+    
     def editShaft(self, pos=False):
         dlg = edit_shaft_show(self.File.Lists.PointList, self.File.Lists.ShaftList, pos, self)
         dlg.show()
@@ -682,9 +712,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Set_Slider_triggered(self):
         self.editSlider()
+    
     @pyqtSlot()
     def on_action_Edit_Slider_triggered(self, pos=0):
         self.editSlider(pos)
+    
     def editSlider(self, pos=False):
         dlg = edit_slider_show(self.File.Lists.PointList, self.File.Lists.SliderList, pos, self)
         dlg.show()
@@ -697,9 +729,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Set_Rod_triggered(self):
         self.editRod()
+    
     @pyqtSlot()
     def on_action_Edit_Rod_triggered(self, pos=0):
         self.editRod(pos)
+    
     def editRod(self, pos=False):
         dlg = edit_rod_show(self.File.Lists.PointList, self.File.Lists.RodList, pos, self)
         dlg.show()
@@ -715,31 +749,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if pos==None:
             pos = self.Entiteis_Point.currentRow()
         self.deletePanel(self.Entiteis_Point, 'Point', self.action_New_Point.icon(), pos)
+    
     @pyqtSlot()
     def on_action_Delete_Linkage_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Link.currentRow()
         self.deletePanel(self.Entiteis_Link, 'Line', self.action_New_Line.icon(), pos)
+    
     @pyqtSlot()
     def on_action_Delete_Stay_Chain_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Chain.currentRow()
         self.deletePanel(self.Entiteis_Chain, 'Chain', self.action_New_Stay_Chain.icon(), pos)
+    
     @pyqtSlot()
     def on_action_Delete_Shaft_triggered(self, pos=None):
         if pos==None:
             pos = self.Shaft.currentRow()
         self.deletePanel(self.Shaft, 'Shaft', self.action_Set_Shaft.icon(), pos)
+    
     @pyqtSlot()
     def on_action_Delete_Slider_triggered(self, pos=None):
         if pos==None:
             pos = self.Slider.currentRow()
         self.deletePanel(self.Slider, 'Slider', self.action_Set_Slider.icon(), pos)
+    
     @pyqtSlot()
     def on_action_Delete_Piston_Spring_triggered(self, pos=None):
         if pos==None:
             pos = self.Rod.currentRow()
         self.deletePanel(self.Rod, 'Rod', self.action_Set_Rod.icon(), pos)
+    
     def deletePanel(self, table, name, icon, pos):
         dlg = deleteDlg(icon, table, pos, self)
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))

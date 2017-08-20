@@ -66,9 +66,9 @@ class edit_link_show(QDialog, edit_link_Dialog):
     def demoLen(self):
         start = self.Point[self.Start_Point.currentIndex()]
         end = self.Point[self.End_Point.currentIndex()]
-        leng = str(round(((start.cx-end.cx)**2+(start.cy-end.cy)**2)**(1/2), 2))
-        self.Length.setText(leng)
-        self.Length.setPlaceholderText(leng)
+        leng = start.distance(end)
+        self.Length.setText(str(leng))
+        self.Length.setPlaceholderText(str(leng))
     
     def isOk(self):
         self.len = self.Length.text() if (not 'n' in self.Length.text()) or (self.Length.text()!='') else self.Length.placeholderText()

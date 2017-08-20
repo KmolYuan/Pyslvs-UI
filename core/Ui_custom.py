@@ -35,9 +35,11 @@ def init_Widgets(self):
     self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
     self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
     self.Entiteis_Link.cellDoubleClicked.connect(self.on_Entiteis_Link_cellDoubleClicked)
+    self.Entiteis_Link.dragIn.connect(self.editLine)
     self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
     self.Entiteis_Chain = ChainTableWidget(self.Entiteis_Chain_Widget)
     self.Entiteis_Chain.cellDoubleClicked.connect(self.on_Entiteis_Chain_cellDoubleClicked)
+    self.Entiteis_Chain.dragIn.connect(self.editChain)
     self.Entiteis_Chain_Layout.addWidget(self.Entiteis_Chain)
     self.Shaft.setColumnWidth(0, 60)
     self.Shaft.setColumnWidth(1, 85)
@@ -321,6 +323,7 @@ class DropTableWidget(BaseTableWidget):
         event.accept()
 
 class LinkTableWidget(DropTableWidget):
+    dragIn = pyqtSignal(int, int)
     def __init__(self, parent=None):
         super(LinkTableWidget, self).__init__(0, ["Start Side", "End Side", "Length"], parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
@@ -334,15 +337,13 @@ class LinkTableWidget(DropTableWidget):
         if mimeData.hasText():
             if len(mimeData.text().split(';'))==2:
                 event.acceptProposedAction()
-            else:
-                event.ignore()
     
     def dropEvent(self, event):
-        index = [int(e) for e in event.mimeData().text().split(';')]
-        print(index)
+        self.dragIn.emit(*[int(e) for e in event.mimeData().text().split(';')])
         event.acceptProposedAction()
 
 class ChainTableWidget(DropTableWidget):
+    dragIn = pyqtSignal(int, int, int)
     def __init__(self, parent=None):
         super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], parent)
         self.setColumnWidth(0, 60)
@@ -358,10 +359,7 @@ class ChainTableWidget(DropTableWidget):
         if mimeData.hasText():
             if len(mimeData.text().split(';'))==3:
                 event.acceptProposedAction()
-            else:
-                event.ignore()
     
     def dropEvent(self, event):
-        index = [int(e) for e in event.mimeData().text().split(';')]
-        print(index)
+        self.dragIn.emit(*[int(e) for e in event.mimeData().text().split(';')])
         event.acceptProposedAction()

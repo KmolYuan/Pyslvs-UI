@@ -17,6 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+from math import sqrt
+
 class VList:
     def __init__(self):
         self.__list = []
@@ -78,6 +80,9 @@ class VPoint:
             y = self.__y
         self.__cx = x
         self.__cy = y
+    
+    def distance(self, p):
+        return round(sqrt((self.cx-p.cx)**2+(self.cy-p.cy)**2), 4)
     
     def reset(self):
         self.__x = self.__cx

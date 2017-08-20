@@ -85,15 +85,15 @@ class edit_chain_show(QDialog, edit_Dialog):
         p1 = self.Point[self.Point1.currentIndex()]
         p2 = self.Point[self.Point2.currentIndex()]
         p3 = self.Point[self.Point3.currentIndex()]
-        p1p2 = str(round(((p1.cx-p2.cx)**2+(p1.cy-p2.cy)**2)**(1/2), 2))
-        self.p1_p2.setText(p1p2)
-        self.p1_p2.setPlaceholderText(p1p2)
-        p2p3 = str(round(((p2.cx-p3.cx)**2+(p2.cy-p3.cy)**2)**(1/2), 2))
-        self.p2_p3.setText(p2p3)
-        self.p2_p3.setPlaceholderText(p2p3)
-        p1p3 = str(round(((p1.cx-p3.cx)**2+(p1.cy-p3.cy)**2)**(1/2), 2))
-        self.p1_p3.setText(p1p3)
-        self.p1_p3.setPlaceholderText(p1p3)
+        p1p2 = p1.distance(p2)
+        self.p1_p2.setText(str(p1p2))
+        self.p1_p2.setPlaceholderText(str(p1p2))
+        p2p3 = p2.distance(p3)
+        self.p2_p3.setText(str(p2p3))
+        self.p2_p3.setPlaceholderText(str(p2p3))
+        p1p3 = p1.distance(p3)
+        self.p1_p3.setText(str(p1p3))
+        self.p1_p3.setPlaceholderText(str(p1p3))
     
     def isOk(self):
         self.p1 = self.Point1.currentIndex()
