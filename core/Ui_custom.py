@@ -32,6 +32,7 @@ def init_Widgets(self):
     #Entiteis tables
     self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
     self.Entiteis_Point.cellDoubleClicked.connect(self.on_Entiteis_Point_cellDoubleClicked)
+    self.Entiteis_Point.itemSelectionChanged.connect(self.pointSelection)
     self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
     self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
     self.Entiteis_Link.cellDoubleClicked.connect(self.on_Entiteis_Link_cellDoubleClicked)
@@ -65,7 +66,7 @@ def init_Widgets(self):
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
-    self.MainSplitter.setStretchFactor(1, 5)
+    self.MainSplitter.setStretchFactor(1, 7)
     self.panels_splitter.setSizes([100, 500])
     #Version text
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
@@ -314,38 +315,40 @@ class PointTableWidget(BaseTableWidget):
                 drag.exec_()
 
 class DropTableWidget(BaseTableWidget):
-    def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
+    dragIn = None
+    def __init__(self, RowCount, HorizontalHeaderItems, bearings, parent=None):
         super(DropTableWidget, self).__init__(RowCount, HorizontalHeaderItems, parent)
         self.setAcceptDrops(True)
-    
-    def dragMoveEvent(self, event):
-        event.setDropAction(Qt.MoveAction)
-        event.accept()
-
-class LinkTableWidget(DropTableWidget):
-    dragIn = pyqtSignal(int, int)
-    def __init__(self, parent=None):
-        super(LinkTableWidget, self).__init__(0, ["Start Side", "End Side", "Length"], parent)
-        self.setDragDropMode(QAbstractItemView.DropOnly)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 60)
+        self.bearings = bearings
     
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasText():
-            if len(mimeData.text().split(';'))==2:
+            if len(mimeData.text().split(';'))==self.bearings:
                 event.acceptProposedAction()
+    
+    def dragMoveEvent(self, event):
+        event.setDropAction(Qt.MoveAction)
+        event.accept()
     
     def dropEvent(self, event):
         self.dragIn.emit(*[int(e) for e in event.mimeData().text().split(';')])
         event.acceptProposedAction()
 
+class LinkTableWidget(DropTableWidget):
+    dragIn = pyqtSignal(int, int)
+    def __init__(self, parent=None):
+        super(LinkTableWidget, self).__init__(0, ["Start Side", "End Side", "Length"], 2, parent)
+        self.setDragDropMode(QAbstractItemView.DropOnly)
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 70)
+        self.setColumnWidth(2, 70)
+        self.setColumnWidth(3, 60)
+
 class ChainTableWidget(DropTableWidget):
     dragIn = pyqtSignal(int, int, int)
     def __init__(self, parent=None):
-        super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], parent)
+        super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], 3, parent)
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 60)
         self.setColumnWidth(2, 60)
@@ -353,13 +356,3 @@ class ChainTableWidget(DropTableWidget):
         self.setColumnWidth(4, 60)
         self.setColumnWidth(5, 60)
         self.setColumnWidth(6, 60)
-    
-    def dragEnterEvent(self, event):
-        mimeData = event.mimeData()
-        if mimeData.hasText():
-            if len(mimeData.text().split(';'))==3:
-                event.acceptProposedAction()
-    
-    def dropEvent(self, event):
-        self.dragIn.emit(*[int(e) for e in event.mimeData().text().split(';')])
-        event.acceptProposedAction()

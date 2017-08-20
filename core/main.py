@@ -1142,6 +1142,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.action_rod_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
             self.FocusTable = item.tableWidget()
     
+    @pyqtSlot()
+    def pointSelection(self):
+        self.DynamicCanvasView.changePointsSelection(self.Entiteis_Point.selectedRows())
+    
     def MaskChange(self):
         Count = str(max(list(self.File.Lists.ParameterList.keys())) if self.File.Lists.ParameterList else -1)
         param = '(({}{}){})'.format('[1-{}]'.format(Count[0]) if int(Count)>9 else '[0-{}]'.format(Count),

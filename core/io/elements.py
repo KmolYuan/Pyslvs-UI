@@ -82,7 +82,7 @@ class VPoint:
         self.__cy = y
     
     def distance(self, p):
-        return round(sqrt((self.cx-p.cx)**2+(self.cy-p.cy)**2), 4)
+        return round(sqrt((self.cx-p.cx)**2+(self.cy-p.cy)**2), 2)
     
     def reset(self):
         self.__x = self.__cx

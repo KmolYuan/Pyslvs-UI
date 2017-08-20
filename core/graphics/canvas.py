@@ -151,6 +151,11 @@ class DynamicCanvas(BaseCanvas):
         self.Selector = Selector()
         self.reset_Auxline()
         self.re_Color = colorName()
+        self.pointsSelection = []
+    
+    def changePointsSelection(self, pointsSelection):
+        self.pointsSelection = pointsSelection
+        self.update()
     
     def changePathCurrentShaft(self):
         if self.Shaft:
@@ -277,6 +282,7 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawLine(L_point, R_point)
                 if self.AuxLine['vertical']:
                     self.painter.drawLine(U_point, D_point)
+            self.drawPath()
             for path in pathShaft.paths:
                 x = path.path[resolutionIndex][0]*Tp
                 y = path.path[resolutionIndex][1]*Tp*-1
@@ -365,10 +371,67 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawLine(L_point, R_point)
                 if self.AuxLine['vertical']:
                     self.painter.drawLine(U_point, D_point)
+            self.drawPath()
             for i, e in enumerate(self.Point):
                 x = e.cx*Tp
                 y = e.cy*Tp*-1
                 self.drawPoint(i, x, y, e.fix, self.Color[e.color], e.cx, e.cy)
+        if self.options.slvsPath['path'] and self.options.slvsPath['show']:
+            pathData = self.options.slvsPath['path']
+            pen.setWidth(self.pathWidth)
+            pen.setColor(QColor(69, 247, 232))
+            self.painter.setPen(pen)
+            if self.options.Path.mode==True:
+                if len(pathData)>1:
+                    pointPath = QPainterPath()
+                    for i, e in enumerate(pathData):
+                        x = e['x']*Tp
+                        y = e['y']*Tp*-1
+                        if i==0:
+                            pointPath.moveTo(x, y)
+                        else:
+                            pointPath.lineTo(QPointF(x, y))
+                    self.painter.drawPath(pointPath)
+                elif len(pathData)==1:
+                    self.painter.drawPoint(QPointF(pathData[0]['x']*Tp, pathData[0]['y']*Tp*-1))
+            else:
+                for i, e in enumerate(pathData):
+                    x = e['x']*Tp
+                    y = e['y']*Tp*-1
+                    self.painter.drawPoint(QPointF(x, y))
+        self.painter.end()
+        self.change_event.emit()
+    
+    def drawPoint(self, i, x, y, fix, color, cx=0, cy=0):
+        super(DynamicCanvas, self).drawPoint(i, x, y, fix, color, cx, cy)
+        if i in self.pointsSelection:
+            pen = QPen()
+            pen.setWidth(3)
+            pen.setColor(QColor(161, 16, 239))
+            self.painter.setPen(pen)
+            self.painter.drawRect(x-12, y-12, 24, 24)
+    
+    def drawSlider(self, i, x0, y0, x1, y1, x2, y2):
+        pen = QPen()
+        pen.setWidth(self.linkWidth)
+        pen.setColor(Qt.darkMagenta)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
+    
+    def drawRod(self, i, x0, y0, x1, y1, x2, y2, pos):
+        pen = QPen()
+        pen.setWidth(self.linkWidth)
+        pen.setColor(Qt.darkRed)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
+        if self.showDimension:
+            pen.setColor(Qt.darkGray)
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', self.Font_size))
+            self.painter.drawText(QPointF(x2+6, y2+6), '{{{}}}'.format(pos))
+    
+    def drawPath(self):
+        Tp = self.zoom*self.options.rate
         if self.options.Path.show:
             for vpaths in self.options.Path.path:
                 for vpath in vpaths.paths:
@@ -425,50 +488,6 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx-70+rect.width()*Tp, cy-6), 'Driver')
                 else:
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
-        if self.options.slvsPath['path'] and self.options.slvsPath['show']:
-            pathData = self.options.slvsPath['path']
-            pen.setWidth(self.pathWidth)
-            pen.setColor(QColor(69, 247, 232))
-            self.painter.setPen(pen)
-            if self.options.Path.mode==True:
-                if len(pathData)>1:
-                    pointPath = QPainterPath()
-                    for i, e in enumerate(pathData):
-                        x = e['x']*Tp
-                        y = e['y']*Tp*-1
-                        if i==0:
-                            pointPath.moveTo(x, y)
-                        else:
-                            pointPath.lineTo(QPointF(x, y))
-                    self.painter.drawPath(pointPath)
-                elif len(pathData)==1:
-                    self.painter.drawPoint(QPointF(pathData[0]['x']*Tp, pathData[0]['y']*Tp*-1))
-            else:
-                for i, e in enumerate(pathData):
-                    x = e['x']*Tp
-                    y = e['y']*Tp*-1
-                    self.painter.drawPoint(QPointF(x, y))
-        self.painter.end()
-        self.change_event.emit()
-    
-    def drawSlider(self, i, x0, y0, x1, y1, x2, y2):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkMagenta)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
-    
-    def drawRod(self, i, x0, y0, x1, y1, x2, y2, pos):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkRed)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
-        if self.showDimension:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
-            self.painter.drawText(QPointF(x2+6, y2+6), '{{{}}}'.format(pos))
     
     def Reset_Aux_limit(self):
         self.AuxLine['Max']['x'] = self.Point[self.AuxLine['pt']].cx
