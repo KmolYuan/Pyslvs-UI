@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1014</width>
-    <height>763</height>
+    <height>780</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>1014</width>
-    <height>763</height>
+    <height>780</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -43,18 +43,6 @@
     </sizepolicy>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_10">
-    <property name="leftMargin">
-     <number>3</number>
-    </property>
-    <property name="topMargin">
-     <number>3</number>
-    </property>
-    <property name="rightMargin">
-     <number>3</number>
-    </property>
-    <property name="bottomMargin">
-     <number>3</number>
-    </property>
     <item>
      <widget class="QSplitter" name="MainSplitter">
       <property name="orientation">
@@ -1079,6 +1067,12 @@ p, li { white-space: pre-wrap; }
                              <iconset resource="../icons.qrc">
                               <normaloff>:/icons/motor.png</normaloff>:/icons/motor.png</iconset>
                             </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
@@ -1098,6 +1092,12 @@ p, li { white-space: pre-wrap; }
                             <property name="icon">
                              <iconset resource="../icons.qrc">
                               <normaloff>:/icons/rod.png</normaloff>:/icons/rod.png</iconset>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -1144,6 +1144,12 @@ p, li { white-space: pre-wrap; }
                              <iconset resource="../icons.qrc">
                               <normaloff>:/icons/PathSolving.png</normaloff>:/icons/PathSolving.png</iconset>
                             </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
@@ -1163,6 +1169,12 @@ p, li { white-space: pre-wrap; }
                             <property name="icon">
                              <iconset resource="../icons.qrc">
                               <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
+                            </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
                             </property>
                             <property name="checkable">
                              <bool>true</bool>
@@ -1209,6 +1221,12 @@ p, li { white-space: pre-wrap; }
                              <iconset resource="../icons.qrc">
                               <normaloff>:/icons/auxline.png</normaloff>:/icons/auxline.png</iconset>
                             </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
@@ -1229,6 +1247,12 @@ p, li { white-space: pre-wrap; }
                              <iconset resource="../icons.qrc">
                               <normaloff>:/icons/measurement.png</normaloff>:/icons/measurement.png</iconset>
                             </property>
+                            <property name="iconSize">
+                             <size>
+                              <width>40</width>
+                              <height>40</height>
+                             </size>
+                            </property>
                             <property name="checkable">
                              <bool>true</bool>
                             </property>
@@ -1239,29 +1263,38 @@ p, li { white-space: pre-wrap; }
                        </layout>
                       </widget>
                      </item>
-                    </layout>
-                   </item>
-                   <item>
-                    <widget class="QGroupBox" name="CanvasSettingsGroupBox">
-                     <property name="title">
-                      <string>Canvas settings</string>
-                     </property>
-                     <layout class="QVBoxLayout" name="verticalLayout_32">
-                      <property name="leftMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="topMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="rightMargin">
-                       <number>3</number>
-                      </property>
-                      <property name="bottomMargin">
-                       <number>3</number>
-                      </property>
-                      <item>
-                       <layout class="QHBoxLayout" name="horizontalLayout_3">
-                        <item>
+                     <item row="1" column="1">
+                      <widget class="QGroupBox" name="CanvasSettingsGroupBox">
+                       <property name="title">
+                        <string>Canvas settings</string>
+                       </property>
+                       <layout class="QGridLayout" name="gridLayout_4">
+                        <property name="leftMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>3</number>
+                        </property>
+                        <property name="bottomMargin">
+                         <number>3</number>
+                        </property>
+                        <item row="0" column="2">
+                         <widget class="QLabel" name="label_5">
+                          <property name="sizePolicy">
+                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                            <horstretch>0</horstretch>
+                            <verstretch>0</verstretch>
+                           </sizepolicy>
+                          </property>
+                          <property name="text">
+                           <string>Path width</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="0" column="0">
                          <widget class="QLabel" name="label_4">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -1274,7 +1307,7 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item>
+                        <item row="0" column="1">
                          <widget class="QSpinBox" name="LineWidth">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1296,20 +1329,7 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item>
-                         <widget class="QLabel" name="label_7">
-                          <property name="sizePolicy">
-                           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                           </sizepolicy>
-                          </property>
-                          <property name="text">
-                           <string>Font size</string>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
+                        <item row="1" column="1">
                          <widget class="QSpinBox" name="Font_size">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1331,8 +1351,8 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item>
-                         <widget class="QLabel" name="label_5">
+                        <item row="1" column="0">
+                         <widget class="QLabel" name="label_7">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                             <horstretch>0</horstretch>
@@ -1340,11 +1360,11 @@ p, li { white-space: pre-wrap; }
                            </sizepolicy>
                           </property>
                           <property name="text">
-                           <string>Path width</string>
+                           <string>Font size</string>
                           </property>
                          </widget>
                         </item>
-                        <item>
+                        <item row="0" column="3">
                          <widget class="QSpinBox" name="PathWidth">
                           <property name="sizePolicy">
                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -1363,14 +1383,14 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item>
+                        <item row="1" column="2">
                          <widget class="QLabel" name="label_6">
                           <property name="text">
                            <string>Rotate</string>
                           </property>
                          </widget>
                         </item>
-                        <item>
+                        <item row="1" column="3">
                          <widget class="QDoubleSpinBox" name="rotateAngle">
                           <property name="suffix">
                            <string>°</string>
@@ -1383,23 +1403,10 @@ p, li { white-space: pre-wrap; }
                           </property>
                          </widget>
                         </item>
-                        <item>
-                         <spacer name="horizontalSpacer">
-                          <property name="orientation">
-                           <enum>Qt::Horizontal</enum>
-                          </property>
-                          <property name="sizeHint" stdset="0">
-                           <size>
-                            <width>40</width>
-                            <height>20</height>
-                           </size>
-                          </property>
-                         </spacer>
-                        </item>
                        </layout>
-                      </item>
-                     </layout>
-                    </widget>
+                      </widget>
+                     </item>
+                    </layout>
                    </item>
                   </layout>
                  </item>
