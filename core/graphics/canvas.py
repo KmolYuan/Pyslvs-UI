@@ -18,12 +18,14 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
+from math import sqrt
 from ..graphics.color import colorlist, colorName
 tr = QCoreApplication.translate
 
 class PointOptions:
     def __init__(self, width, height):
-        self.origin = {'x':width/2, 'y':height/2}
+        self.ox = width/2
+        self.oy = height/2
         self.rate = 2
         self.Path = Path()
         self.slvsPath = {'path':list(), 'show':False}
@@ -41,27 +43,12 @@ class Path:
 
 class Selector:
     def __init__(self):
-        self._x = 0
-        self._y = 0
-        self._isDrag = False
-    @property
-    def x(self):
-        return self._x
-    @x.setter
-    def x(self, x):
-        self._x = x
-    @property
-    def y(self):
-        return self._y
-    @y.setter
-    def y(self, y):
-        self._y = y
-    @property
-    def isDrag(self):
-        return self._isDrag
-    @isDrag.setter
-    def isDrag(self, isDrag):
-        self._isDrag = isDrag
+        self.x = 0
+        self.y = 0
+        self.isDrag = False
+    
+    def distance(self, x, y):
+        return round(sqrt((self.x-x)**2+(self.y-y)**2), 2)
 
 class BaseCanvas(QWidget):
     def __init__(self, parent=None):
@@ -140,7 +127,9 @@ class BaseCanvas(QWidget):
 
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
-    mouse_getClick = pyqtSignal()
+    mouse_getSelection = pyqtSignal(list)
+    mouse_noSelection = pyqtSignal()
+    mouse_getDoubleClick = pyqtSignal()
     change_event = pyqtSignal()
     zoom_change = pyqtSignal(int)
     def __init__(self, parent=None):
@@ -151,7 +140,7 @@ class DynamicCanvas(BaseCanvas):
         self.Selector = Selector()
         self.reset_Auxline()
         self.re_Color = colorName()
-        self.pointsSelection = []
+        self.pointsSelection = list()
     
     def changePointsSelection(self, pointsSelection):
         self.pointsSelection = pointsSelection
@@ -194,7 +183,7 @@ class DynamicCanvas(BaseCanvas):
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
-        self.painter.translate(self.options.origin['x'], self.options.origin['y'])
+        self.painter.translate(self.options.ox, self.options.oy)
         self.painter.rotate(self.rotateAngle)
         Tp = self.zoom*self.options.rate
         pathShaft = None
@@ -267,8 +256,8 @@ class DynamicCanvas(BaseCanvas):
                         self.painter.drawLine(L_point, R_point)
                         self.painter.drawLine(U_point, D_point)
                         if self.showDimension:
-                            text_center_x = QPointF(self.AuxLine[status]['x']*Tp+self.linkWidth, self.options.origin['y']*-1+self.Font_size)
-                            text_center_y = QPointF(self.options.origin['x']*-1, self.AuxLine[status]['y']*Tp*-1-self.linkWidth)
+                            text_center_x = QPointF(self.AuxLine[status]['x']*Tp+self.linkWidth, self.options.oy*-1+self.Font_size)
+                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*Tp*-1-self.linkWidth)
                             self.painter.setFont(QFont('Arial', self.Font_size))
                             self.painter.drawText(text_center_x, '{:.6f}'.format(self.AuxLine[status]['x']))
                             self.painter.drawText(text_center_y, '{:.6f}'.format(self.AuxLine[status]['y']))
@@ -356,8 +345,8 @@ class DynamicCanvas(BaseCanvas):
                         self.painter.drawLine(L_point, R_point)
                         self.painter.drawLine(U_point, D_point)
                         if self.showDimension:
-                            text_center_x = QPointF(self.AuxLine[status]['x']*Tp+self.linkWidth, self.options.origin['y']*-1+self.Font_size)
-                            text_center_y = QPointF(self.options.origin['x']*-1, self.AuxLine[status]['y']*Tp*-1-self.linkWidth)
+                            text_center_x = QPointF(self.AuxLine[status]['x']*Tp+self.linkWidth, self.options.oy*-1+self.Font_size)
+                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*Tp*-1-self.linkWidth)
                             self.painter.setFont(QFont('Arial', self.Font_size))
                             self.painter.drawText(text_center_x, '{:.6f}'.format(self.AuxLine[status]['x']))
                             self.painter.drawText(text_center_y, '{:.6f}'.format(self.AuxLine[status]['y']))
@@ -503,35 +492,40 @@ class DynamicCanvas(BaseCanvas):
             'Max':{'x':0, 'y':0}, 'Min':{'x':0, 'y':0}}
     
     def mousePressEvent(self, event):
+        self.Selector.x = event.x()-self.options.ox
+        self.Selector.y = event.y()-self.options.oy
+        if event.buttons()==Qt.LeftButton:
+            Tp = self.zoom*self.options.rate
+            selection = []
+            for i, e in enumerate(self.Point):
+                x = e.cx*Tp
+                y = e.cy*Tp*-1
+                if self.Selector.distance(x, y)<10:
+                    selection.append(QTableWidgetSelectionRange(i, 0, i, 5))
+            if selection:
+                self.mouse_getSelection.emit(selection)
+            else:
+                self.mouse_noSelection.emit()
         if event.buttons()==Qt.MiddleButton:
-            self.Selector.x = event.x()-self.options.origin['x']
-            self.Selector.y = event.y()-self.options.origin['y']
             self.Selector.isDrag = True
-        elif QApplication.keyboardModifiers()==Qt.ControlModifier:
-            self.Selector.x = 0
-            self.Selector.y = 0
-            self.Selector.isDrag = True
+    
     def mouseReleaseEvent(self, event):
         self.Selector.isDrag = False
     
     def mouseDoubleClickEvent(self, event):
-        if QApplication.keyboardModifiers()==Qt.ControlModifier:
-            self.options.origin['x'] = event.x()
-            self.options.origin['y'] = event.y()
-            self.update()
         if event.button()==Qt.MidButton:
             self.SetIn()
-        if QApplication.keyboardModifiers()==Qt.AltModifier:
-            self.mouse_getClick.emit()
+        if QApplication.keyboardModifiers()==Qt.AltModifier and event.buttons()==Qt.LeftButton:
+            self.mouse_getDoubleClick.emit()
     
     def mouseMoveEvent(self, event):
         if self.Selector.isDrag:
-            self.options.origin['x'] = event.x()-self.Selector.x
-            self.options.origin['y'] = event.y()-self.Selector.y
+            self.options.ox = event.x()-self.Selector.x
+            self.options.oy = event.y()-self.Selector.y
             self.update()
         self.mouse_track.emit(
-            round((event.x()-self.options.origin['x'])/self.zoom/self.options.rate, 2),
-            -round((event.y()-self.options.origin['y'])/self.zoom/self.options.rate, 2))
+            round((event.x()-self.options.ox)/self.zoom/self.options.rate, 2),
+            -round((event.y()-self.options.oy)/self.zoom/self.options.rate, 2))
         if QApplication.keyboardModifiers()==Qt.AltModifier:
             self.setCursor(Qt.CrossCursor)
         else:
@@ -546,8 +540,8 @@ class DynamicCanvas(BaseCanvas):
         height = height if not height==0 else 1
         if len(self.Point)==1:
             self.zoom_change.emit(200)
-            self.options.origin['x'] = width/2
-            self.options.origin['y'] = height/2
+            self.options.ox = width/2
+            self.options.oy = height/2
         else:
             Xs = [e.cx for e in self.Point]
             Ys = [e.cy for e in self.Point]
@@ -569,6 +563,6 @@ class DynamicCanvas(BaseCanvas):
             cdiff = diffX/diffY > width/height
             self.zoom_change.emit(int((width if cdiff else height)/(diffX if cdiff else diffY)*0.95*50))
             Tp = self.zoom*self.options.rate
-            self.options.origin['x'] = (width/2)-cenx*Tp
-            self.options.origin['y'] = (height/2)+ceny*Tp
+            self.options.ox = (width/2)-cenx*Tp
+            self.options.oy = (height/2)+ceny*Tp
         self.update()

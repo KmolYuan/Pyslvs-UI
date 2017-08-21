@@ -24,11 +24,12 @@ from .info.info import VERSION
 tr = QCoreApplication.translate
 
 def init_Widgets(self):
-    #QPainter Window
-    self.DynamicCanvasView = DynamicCanvas()
-    self.DynamicCanvasView.mouse_getClick.connect(self.addPointGroup)
-    self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
-    self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
+    #Splitter stretch factor.
+    self.MainSplitter.setStretchFactor(0, 3)
+    self.MainSplitter.setStretchFactor(1, 10)
+    self.panels_splitter.setSizes([100, 500])
+    #Version text
+    self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     #Entiteis tables
     self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
     self.Entiteis_Point.cellDoubleClicked.connect(self.on_Entiteis_Point_cellDoubleClicked)
@@ -57,6 +58,18 @@ def init_Widgets(self):
     self.Rod.setColumnWidth(2, 70)
     self.Rod.setColumnWidth(3, 70)
     self.Rod.setColumnWidth(4, 70)
+    #QPainter Window
+    self.DynamicCanvasView = DynamicCanvas()
+    self.DynamicCanvasView.mouse_getSelection.connect(self.Entiteis_Point.setSelections)
+    self.DynamicCanvasView.mouse_noSelection.connect(self.Entiteis_Point.clearSelection)
+    cleanAction = QAction("Clean selection", self)
+    cleanAction.triggered.connect(self.Entiteis_Point.clearSelection)
+    cleanAction.setShortcut(Qt.Key_Escape)
+    cleanAction.setShortcutContext(Qt.WindowShortcut)
+    self.addAction(cleanAction)
+    self.DynamicCanvasView.mouse_getDoubleClick.connect(self.addPointGroup)
+    self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
+    self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     #Panel widget will hide when not using.
     self.panelWidget.hide()
     #Console dock will hide when startup.
@@ -64,12 +77,6 @@ def init_Widgets(self):
     #Connect to GUI button switching.
     self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
-    #Splitter stretch factor.
-    self.MainSplitter.setStretchFactor(0, 2)
-    self.MainSplitter.setStretchFactor(1, 7)
-    self.panels_splitter.setSizes([100, 500])
-    #Version text
-    self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     #Properties button on the Point tab widget.
     propertiesButton = QPushButton()
     propertiesButton.setIcon(self.action_Property.icon())
@@ -282,10 +289,15 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 70)
         self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 40)
+        self.setColumnWidth(3, 45)
         self.setColumnWidth(4, 90)
         self.setColumnWidth(5, 60)
         self.draged = False
+    
+    @pyqtSlot(list)
+    def setSelections(self, selections):
+        for selection in selections:
+            self.setRangeSelected(selection, True)
     
     def selectedRows(self):
         a = list()

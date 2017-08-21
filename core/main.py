@@ -1122,24 +1122,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def tableFocusChange(self, item):
         if self.FocusTable!=item.tableWidget():
-            if item.tableWidget()==self.Entiteis_Point:
-                self.action_point_right_click_menu_delete.setShortcut('Del')
-                self.action_point_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
-            elif item.tableWidget()==self.Entiteis_Link:
-                self.action_link_right_click_menu_delete.setShortcut('Del')
-                self.action_link_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
-            elif item.tableWidget()==self.Entiteis_Chain:
-                self.action_chain_right_click_menu_delete.setShortcut('Del')
-                self.action_chain_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
-            elif item.tableWidget()==self.Shaft:
-                self.action_shaft_right_click_menu_delete.setShortcut('Del')
-                self.action_shaft_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
-            elif item.tableWidget()==self.Slider:
-                self.action_slider_right_click_menu_delete.setShortcut('Del')
-                self.action_slider_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
-            elif item.tableWidget()==self.Rod:
-                self.action_rod_right_click_menu_delete.setShortcut('Del')
-                self.action_rod_right_click_menu_copy.setShortcut('Ctrl+Shift+C')
             self.FocusTable = item.tableWidget()
     
     @pyqtSlot()

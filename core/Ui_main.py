@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -1208,7 +1208,7 @@ class Ui_MainWindow(object):
         self.Parameter_num.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"</style></head><body style=\" font-family:\'ææ³é©å¾®ç±³é»\'; font-size:10pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'Sans Serif\'; font-size:9pt;\">N/A</span></p></body></html>"))
         self.Parameter_update.setStatusTip(_translate("MainWindow", "Update the data to Parameter List."))
         self.Parameter_update.setText(_translate("MainWindow", "Update"))
@@ -1450,7 +1450,6 @@ class Ui_MainWindow(object):
         self.action_Rock_Slider.setStatusTip(_translate("MainWindow", "Silder / Rod #2"))
         self.action_Close_all_panel.setText(_translate("MainWindow", "Close all panel"))
         self.action_Close_all_panel.setStatusTip(_translate("MainWindow", "Close all opened panel."))
-        self.action_Close_all_panel.setShortcut(_translate("MainWindow", "Esc"))
         self.action_Lift_Tailgate.setText(_translate("MainWindow", "Lift Tailgate"))
         self.action_Lift_Tailgate.setStatusTip(_translate("MainWindow", "Silder / Rod #3"))
         self.GrashofChainMenuTitle.setText(_translate("MainWindow", "Grashof chain"))

@@ -72,9 +72,7 @@ class DynamicCanvas(BaseCanvas):
             Tp = self.zoom*self.options.rate
             cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
-            origin_x = width/2-cenx*Tp
-            origin_y = height/2+ceny*Tp
-            self.painter.translate(origin_x, origin_y)
+            self.painter.translate(width/2-cenx*Tp, height/2+ceny*Tp)
             expression = self.mechanism['mechanismParams']['Expression'].split(',')
             expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
             shaft_r = self.Paths[expression_tag[0][-1]][self.index]
