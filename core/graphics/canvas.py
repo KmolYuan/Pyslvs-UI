@@ -129,7 +129,8 @@ class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
     mouse_getSelection = pyqtSignal(list)
     mouse_noSelection = pyqtSignal()
-    mouse_getDoubleClick = pyqtSignal()
+    mouse_getDoubleClickAdd = pyqtSignal()
+    mouse_getDoubleClickEdit = pyqtSignal(int)
     change_event = pyqtSignal()
     zoom_change = pyqtSignal(int)
     def __init__(self, parent=None):
@@ -165,7 +166,7 @@ class DynamicCanvas(BaseCanvas):
         self.linkWidth = linkWidth
         self.pathWidth = pathWidth
         self.rotateAngle = rotateAngle
-        self.zoom = zoom_rate/100
+        self.zoom = zoom_rate/100*self.options.rate
         self.Point = Point
         self.Line = Line
         self.Chain = Chain
@@ -185,7 +186,6 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.options.ox, self.options.oy)
         self.painter.rotate(self.rotateAngle)
-        Tp = self.zoom*self.options.rate
         pathShaft = None
         if self.options.Path.drive_mode:
             for vpaths in self.options.Path.path:
@@ -197,38 +197,38 @@ class DynamicCanvas(BaseCanvas):
             resolutionIndex = int(round(self.options.Path.demo/resolution))
             Points = {e.point:e for e in pathShaft.paths}
             for i, e in enumerate(self.Chain):
-                p1x = (self.Point[e.p1].cx if self.Point[e.p1].fix else Points[e.p1].path[resolutionIndex][0])*Tp
-                p1y = (self.Point[e.p1].cy if self.Point[e.p1].fix else Points[e.p1].path[resolutionIndex][1])*Tp*-1
-                p2x = (self.Point[e.p2].cx if self.Point[e.p2].fix else Points[e.p2].path[resolutionIndex][0])*Tp
-                p2y = (self.Point[e.p2].cy if self.Point[e.p2].fix else Points[e.p2].path[resolutionIndex][1])*Tp*-1
-                p3x = (self.Point[e.p3].cx if self.Point[e.p3].fix else Points[e.p3].path[resolutionIndex][0])*Tp
-                p3y = (self.Point[e.p3].cy if self.Point[e.p3].fix else Points[e.p3].path[resolutionIndex][1])*Tp*-1
+                p1x = (self.Point[e.p1].cx if self.Point[e.p1].fix else Points[e.p1].path[resolutionIndex][0])*self.zoom
+                p1y = (self.Point[e.p1].cy if self.Point[e.p1].fix else Points[e.p1].path[resolutionIndex][1])*self.zoom*-1
+                p2x = (self.Point[e.p2].cx if self.Point[e.p2].fix else Points[e.p2].path[resolutionIndex][0])*self.zoom
+                p2y = (self.Point[e.p2].cy if self.Point[e.p2].fix else Points[e.p2].path[resolutionIndex][1])*self.zoom*-1
+                p3x = (self.Point[e.p3].cx if self.Point[e.p3].fix else Points[e.p3].path[resolutionIndex][0])*self.zoom
+                p3y = (self.Point[e.p3].cy if self.Point[e.p3].fix else Points[e.p3].path[resolutionIndex][1])*self.zoom*-1
                 self.drawChain(i, p1x, p1y, p2x, p2y, p3x, p3y, e.p1p2, e.p2p3, e.p1p3)
             for i, e in enumerate(self.Line):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*Tp
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*Tp*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*Tp
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*Tp*-1
+                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*self.zoom
+                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*self.zoom*-1
+                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*self.zoom
+                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*self.zoom*-1
                 self.drawLink(i, p1x, p1y, p2x, p2y, e.len)
             for i, e in enumerate(self.Slider):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*Tp
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*Tp*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*Tp
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*Tp*-1
+                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*self.zoom
+                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*self.zoom*-1
+                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*self.zoom
+                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*self.zoom*-1
                 self.drawSlider(i, p1x, p1y, p2x, p2y, p3x, p3y)
             for i, e in enumerate(self.Rod):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*Tp
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*Tp*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*Tp
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*Tp*-1
-                p3x = (self.Point[e.cen].cx if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][0])*Tp
-                p3y = (self.Point[e.cen].cy if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][1])*Tp*-1
+                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*self.zoom
+                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*self.zoom*-1
+                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*self.zoom
+                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*self.zoom*-1
+                p3x = (self.Point[e.cen].cx if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][0])*self.zoom
+                p3y = (self.Point[e.cen].cy if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][1])*self.zoom*-1
                 self.drawRod(i, p1x, p1y, p2x, p2y, p3x, p3y, e.pos)
             for i, e in enumerate(self.Shaft):
-                p1x = (self.Point[e.cen].cx if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][0])*Tp
-                p1y = (self.Point[e.cen].cy if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][1])*Tp*-1
-                p2x = (self.Point[e.ref].cx if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][0])*Tp
-                p2y = (self.Point[e.ref].cy if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][1])*Tp*-1
+                p1x = (self.Point[e.cen].cx if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][0])*self.zoom
+                p1y = (self.Point[e.cen].cy if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][1])*self.zoom*-1
+                p2x = (self.Point[e.ref].cx if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][0])*self.zoom
+                p2y = (self.Point[e.ref].cy if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][1])*self.zoom*-1
                 self.drawShaft(i, p1x, p1y, p2x, p2y)
             if self.AuxLine['show']:
                 Auxpen = QPen(Qt.DashDotLine)
@@ -249,23 +249,23 @@ class DynamicCanvas(BaseCanvas):
                                 self.AuxLine['Min']['x'] = x
                             if self.AuxLine['Min']['y']>y:
                                 self.AuxLine['Min']['y'] = y
-                        L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*Tp*-1)
-                        R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*Tp*-1)
-                        U_point = QPointF(self.AuxLine[status]['x']*Tp, self.height()*4)
-                        D_point = QPointF(self.AuxLine[status]['x']*Tp, self.height()*-4)
+                        L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*self.zoom*-1)
+                        R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*self.zoom*-1)
+                        U_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*4)
+                        D_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*-4)
                         self.painter.drawLine(L_point, R_point)
                         self.painter.drawLine(U_point, D_point)
                         if self.showDimension:
-                            text_center_x = QPointF(self.AuxLine[status]['x']*Tp+self.linkWidth, self.options.oy*-1+self.Font_size)
-                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*Tp*-1-self.linkWidth)
+                            text_center_x = QPointF(self.AuxLine[status]['x']*self.zoom+self.linkWidth, self.options.oy*-1+self.Font_size)
+                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*self.zoom*-1-self.linkWidth)
                             self.painter.setFont(QFont('Arial', self.Font_size))
                             self.painter.drawText(text_center_x, '{:.6f}'.format(self.AuxLine[status]['x']))
                             self.painter.drawText(text_center_y, '{:.6f}'.format(self.AuxLine[status]['y']))
                 pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
-                L_point = QPointF(self.width()*4, y*Tp*-1)
-                R_point = QPointF(self.width()*-4, y*Tp*-1)
-                U_point = QPointF(x*Tp, self.height()*4)
-                D_point = QPointF(x*Tp, self.height()*-4)
+                L_point = QPointF(self.width()*4, y*self.zoom*-1)
+                R_point = QPointF(self.width()*-4, y*self.zoom*-1)
+                U_point = QPointF(x*self.zoom, self.height()*4)
+                D_point = QPointF(x*self.zoom, self.height()*-4)
                 self.painter.setPen(pen)
                 if self.AuxLine['horizontal']:
                     self.painter.drawLine(L_point, R_point)
@@ -273,51 +273,51 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawLine(U_point, D_point)
             self.drawPath()
             for path in pathShaft.paths:
-                x = path.path[resolutionIndex][0]*Tp
-                y = path.path[resolutionIndex][1]*Tp*-1
-                self.drawPoint(path.point, x, y, self.Point[path.point].fix, self.Color[self.Point[path.point].color], x/Tp, y/Tp*-1)
+                x = path.path[resolutionIndex][0]*self.zoom
+                y = path.path[resolutionIndex][1]*self.zoom*-1
+                self.drawPoint(path.point, x, y, self.Point[path.point].fix, self.Color[self.Point[path.point].color], x/self.zoom, y/self.zoom*-1)
             for i, e in enumerate(self.Point):
                 if i in Points:
                     continue
-                x = e.cx*Tp
-                y = e.cy*Tp*-1
+                x = e.cx*self.zoom
+                y = e.cy*self.zoom*-1
                 self.drawPoint(i, x, y, e.fix, self.Color[e.color], e.cx, e.cy)
         else:
             for i, e in enumerate(self.Chain):
-                p1x = self.Point[e.p1].cx*Tp
-                p1y = self.Point[e.p1].cy*Tp*-1
-                p2x = self.Point[e.p2].cx*Tp
-                p2y = self.Point[e.p2].cy*Tp*-1
-                p3x = self.Point[e.p3].cx*Tp
-                p3y = self.Point[e.p3].cy*Tp*-1
+                p1x = self.Point[e.p1].cx*self.zoom
+                p1y = self.Point[e.p1].cy*self.zoom*-1
+                p2x = self.Point[e.p2].cx*self.zoom
+                p2y = self.Point[e.p2].cy*self.zoom*-1
+                p3x = self.Point[e.p3].cx*self.zoom
+                p3y = self.Point[e.p3].cy*self.zoom*-1
                 self.drawChain(i, p1x, p1y, p2x, p2y, p3x, p3y, e.p1p2, e.p2p3, e.p1p3)
             for i, e in enumerate(self.Line):
-                p1x = self.Point[e.start].cx*Tp
-                p1y = self.Point[e.start].cy*Tp*-1
-                p2x = self.Point[e.end].cx*Tp
-                p2y = self.Point[e.end].cy*Tp*-1
+                p1x = self.Point[e.start].cx*self.zoom
+                p1y = self.Point[e.start].cy*self.zoom*-1
+                p2x = self.Point[e.end].cx*self.zoom
+                p2y = self.Point[e.end].cy*self.zoom*-1
                 self.drawLink(i, p1x, p1y, p2x, p2y, e.len)
             for i, e in enumerate(self.Slider):
-                p1x = self.Point[e.start].cx*Tp
-                p1y = self.Point[e.start].cy*Tp*-1
-                p2x = self.Point[e.end].cx*Tp
-                p2y = self.Point[e.end].cy*Tp*-1
-                p3x = self.Point[e.cen].cx*Tp
-                p3y = self.Point[e.cen].cy*Tp*-1
+                p1x = self.Point[e.start].cx*self.zoom
+                p1y = self.Point[e.start].cy*self.zoom*-1
+                p2x = self.Point[e.end].cx*self.zoom
+                p2y = self.Point[e.end].cy*self.zoom*-1
+                p3x = self.Point[e.cen].cx*self.zoom
+                p3y = self.Point[e.cen].cy*self.zoom*-1
                 self.drawSlider(i, p1x, p1y, p2x, p2y, p3x, p3y)
             for i, e in enumerate(self.Rod):
-                p1x = self.Point[e.start].cx*Tp
-                p1y = self.Point[e.start].cy*Tp*-1
-                p2x = self.Point[e.end].cx*Tp
-                p2y = self.Point[e.end].cy*Tp*-1
-                p3x = self.Point[e.cen].cx*Tp
-                p3y = self.Point[e.cen].cy*Tp*-1
+                p1x = self.Point[e.start].cx*self.zoom
+                p1y = self.Point[e.start].cy*self.zoom*-1
+                p2x = self.Point[e.end].cx*self.zoom
+                p2y = self.Point[e.end].cy*self.zoom*-1
+                p3x = self.Point[e.cen].cx*self.zoom
+                p3y = self.Point[e.cen].cy*self.zoom*-1
                 self.drawRod(i, p1x, p1y, p2x, p2y, p3x, p3y, e.pos)
             for i, e in enumerate(self.Shaft):
-                p1x = self.Point[e.cen].cx*Tp
-                p1y = self.Point[e.cen].cy*Tp*-1
-                p2x = self.Point[e.ref].cx*Tp
-                p2y = self.Point[e.ref].cy*Tp*-1
+                p1x = self.Point[e.cen].cx*self.zoom
+                p1y = self.Point[e.cen].cy*self.zoom*-1
+                p2x = self.Point[e.ref].cx*self.zoom
+                p2y = self.Point[e.ref].cy*self.zoom*-1
                 self.drawShaft(i, p1x, p1y, p2x, p2y)
             if self.AuxLine['show']:
                 Auxpen = QPen(Qt.DashDotLine)
@@ -338,23 +338,23 @@ class DynamicCanvas(BaseCanvas):
                                 self.AuxLine['Min']['x'] = x
                             if self.AuxLine['Min']['y']>y:
                                 self.AuxLine['Min']['y'] = y
-                        L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*Tp*-1)
-                        R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*Tp*-1)
-                        U_point = QPointF(self.AuxLine[status]['x']*Tp, self.height()*4)
-                        D_point = QPointF(self.AuxLine[status]['x']*Tp, self.height()*-4)
+                        L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*self.zoom*-1)
+                        R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*self.zoom*-1)
+                        U_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*4)
+                        D_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*-4)
                         self.painter.drawLine(L_point, R_point)
                         self.painter.drawLine(U_point, D_point)
                         if self.showDimension:
-                            text_center_x = QPointF(self.AuxLine[status]['x']*Tp+self.linkWidth, self.options.oy*-1+self.Font_size)
-                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*Tp*-1-self.linkWidth)
+                            text_center_x = QPointF(self.AuxLine[status]['x']*self.zoom+self.linkWidth, self.options.oy*-1+self.Font_size)
+                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*self.zoom*-1-self.linkWidth)
                             self.painter.setFont(QFont('Arial', self.Font_size))
                             self.painter.drawText(text_center_x, '{:.6f}'.format(self.AuxLine[status]['x']))
                             self.painter.drawText(text_center_y, '{:.6f}'.format(self.AuxLine[status]['y']))
                 pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
-                L_point = QPointF(self.width()*4, y*Tp*-1)
-                R_point = QPointF(self.width()*-4, y*Tp*-1)
-                U_point = QPointF(x*Tp, self.height()*4)
-                D_point = QPointF(x*Tp, self.height()*-4)
+                L_point = QPointF(self.width()*4, y*self.zoom*-1)
+                R_point = QPointF(self.width()*-4, y*self.zoom*-1)
+                U_point = QPointF(x*self.zoom, self.height()*4)
+                D_point = QPointF(x*self.zoom, self.height()*-4)
                 self.painter.setPen(pen)
                 if self.AuxLine['horizontal']:
                     self.painter.drawLine(L_point, R_point)
@@ -362,8 +362,8 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawLine(U_point, D_point)
             self.drawPath()
             for i, e in enumerate(self.Point):
-                x = e.cx*Tp
-                y = e.cy*Tp*-1
+                x = e.cx*self.zoom
+                y = e.cy*self.zoom*-1
                 self.drawPoint(i, x, y, e.fix, self.Color[e.color], e.cx, e.cy)
         if self.options.slvsPath['path'] and self.options.slvsPath['show']:
             pen = QPen()
@@ -375,19 +375,19 @@ class DynamicCanvas(BaseCanvas):
                 if len(pathData)>1:
                     pointPath = QPainterPath()
                     for i, e in enumerate(pathData):
-                        x = e['x']*Tp
-                        y = e['y']*Tp*-1
+                        x = e['x']*self.zoom
+                        y = e['y']*self.zoom*-1
                         if i==0:
                             pointPath.moveTo(x, y)
                         else:
                             pointPath.lineTo(QPointF(x, y))
                     self.painter.drawPath(pointPath)
                 elif len(pathData)==1:
-                    self.painter.drawPoint(QPointF(pathData[0]['x']*Tp, pathData[0]['y']*Tp*-1))
+                    self.painter.drawPoint(QPointF(pathData[0]['x']*self.zoom, pathData[0]['y']*self.zoom*-1))
             else:
                 for i, e in enumerate(pathData):
-                    x = e['x']*Tp
-                    y = e['y']*Tp*-1
+                    x = e['x']*self.zoom
+                    y = e['y']*self.zoom*-1
                     self.painter.drawPoint(QPointF(x, y))
         self.painter.end()
         self.change_event.emit()
@@ -421,7 +421,6 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawText(QPointF(x2+6, y2+6), '{{{}}}'.format(pos))
     
     def drawPath(self):
-        Tp = self.zoom*self.options.rate
         if self.options.Path.show:
             for vpaths in self.options.Path.path:
                 for vpath in vpaths.paths:
@@ -440,8 +439,8 @@ class DynamicCanvas(BaseCanvas):
                                 if point is None or point[0] is None or point[0] is False:
                                     error = True
                                     continue
-                                x = point[0]*Tp
-                                y = point[1]*Tp*-1
+                                x = point[0]*self.zoom
+                                y = point[1]*self.zoom*-1
                                 if i==0 or error:
                                     pointPath.moveTo(x, y)
                                     error = False
@@ -452,8 +451,8 @@ class DynamicCanvas(BaseCanvas):
                             for i, point in enumerate(vpath.path):
                                 if point[0] is None or point[0] is False:
                                     continue
-                                x = point[0]*Tp
-                                y = point[1]*Tp*-1
+                                x = point[0]*self.zoom
+                                y = point[1]*self.zoom*-1
                                 self.painter.drawPoint(QPointF(x, y))
         if self.options.slvsPath['show']:
             for (i, rect), range_color in zip(enumerate(self.options.Path.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
@@ -461,21 +460,21 @@ class DynamicCanvas(BaseCanvas):
                 pen.setColor(range_color)
                 self.painter.setBrush(range_color)
                 self.painter.setPen(pen)
-                cx = rect.x()*Tp
-                cy = rect.y()*-Tp
-                self.painter.drawRect(QRectF(cx, cy, rect.width()*Tp, rect.height()*Tp))
+                cx = rect.x()*self.zoom
+                cy = rect.y()*-self.zoom
+                self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
                 range_color.setAlpha(100)
                 pen.setColor(range_color)
                 pen.setWidth(2)
                 self.painter.setPen(pen)
                 self.painter.setBrush(Qt.NoBrush)
-                self.painter.drawRect(QRectF(cx, cy, rect.width()*Tp, rect.height()*Tp))
+                self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
                 self.painter.setFont(QFont('Arial', self.Font_size+5))
                 range_color.setAlpha(255)
                 pen.setColor(range_color)
                 self.painter.setPen(pen)
                 if i==0:
-                    self.painter.drawText(QPointF(cx-70+rect.width()*Tp, cy-6), 'Driver')
+                    self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), 'Driver')
                 else:
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
     
@@ -495,11 +494,10 @@ class DynamicCanvas(BaseCanvas):
         self.Selector.x = event.x()-self.options.ox
         self.Selector.y = event.y()-self.options.oy
         if event.buttons()==Qt.LeftButton:
-            Tp = self.zoom*self.options.rate
             selection = []
             for i, e in enumerate(self.Point):
-                x = e.cx*Tp
-                y = e.cy*Tp*-1
+                x = e.cx*self.zoom
+                y = e.cy*self.zoom*-1
                 if self.Selector.distance(x, y)<10:
                     selection.append(QTableWidgetSelectionRange(i, 0, i, 5))
             if selection:
@@ -515,8 +513,18 @@ class DynamicCanvas(BaseCanvas):
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
             self.SetIn()
-        if QApplication.keyboardModifiers()==Qt.AltModifier and event.buttons()==Qt.LeftButton:
-            self.mouse_getDoubleClick.emit()
+        if event.buttons()==Qt.LeftButton:
+            if QApplication.keyboardModifiers()==Qt.AltModifier:
+                self.mouse_getDoubleClickAdd.emit()
+            else:
+                self.Selector.x = event.x()-self.options.ox
+                self.Selector.y = event.y()-self.options.oy
+                for i, e in enumerate(self.Point):
+                    x = e.cx*self.zoom
+                    y = e.cy*self.zoom*-1
+                    if self.Selector.distance(x, y)<10:
+                        self.mouse_getDoubleClickEdit.emit(i)
+                        break
     
     def mouseMoveEvent(self, event):
         if self.Selector.isDrag:
@@ -562,7 +570,6 @@ class DynamicCanvas(BaseCanvas):
                 ceny = (min(Ys)+max(Ys))/2
             cdiff = diffX/diffY > width/height
             self.zoom_change.emit(int((width if cdiff else height)/(diffX if cdiff else diffY)*0.95*50))
-            Tp = self.zoom*self.options.rate
-            self.options.ox = (width/2)-cenx*Tp
-            self.options.oy = (height/2)+ceny*Tp
+            self.options.ox = (width/2)-cenx*self.zoom
+            self.options.oy = (height/2)+ceny*self.zoom
         self.update()

@@ -564,24 +564,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
             self.workbookNoSave()
     
+    @pyqtSlot(int)
     @pyqtSlot(int, int)
-    def on_Entiteis_Point_cellDoubleClicked(self, row, column):
+    def on_Entiteis_Point_cellDoubleClicked(self, row, column=0):
         if row>0:
             self.on_action_Edit_Point_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Link_cellDoubleClicked(self, row, column):
+    def on_Entiteis_Link_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Linkage_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Chain_cellDoubleClicked(self, row, column):
+    def on_Entiteis_Chain_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Stay_Chain_triggered(row)
     @pyqtSlot(int, int)
-    def on_Shaft_cellDoubleClicked(self, row, column):
+    def on_Shaft_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Shaft_triggered(row)
     @pyqtSlot(int, int)
-    def on_Slider_cellDoubleClicked(self, row, column):
+    def on_Slider_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Slider_triggered(row)
     @pyqtSlot(int, int)
-    def on_Rod_cellDoubleClicked(self, row, column):
+    def on_Rod_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Rod_triggered(row)
     
     #Entities

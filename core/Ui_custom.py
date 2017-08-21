@@ -67,7 +67,8 @@ def init_Widgets(self):
     cleanAction.setShortcut(Qt.Key_Escape)
     cleanAction.setShortcutContext(Qt.WindowShortcut)
     self.addAction(cleanAction)
-    self.DynamicCanvasView.mouse_getDoubleClick.connect(self.addPointGroup)
+    self.DynamicCanvasView.mouse_getDoubleClickAdd.connect(self.addPointGroup)
+    self.DynamicCanvasView.mouse_getDoubleClickEdit.connect(self.on_Entiteis_Point_cellDoubleClicked)
     self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     #Panel widget will hide when not using.
