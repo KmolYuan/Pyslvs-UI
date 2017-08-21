@@ -589,7 +589,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.PathSolving.isChecked():
             table = self.Entiteis_Point
             self.File.Lists.editTable(table, 'Point', False, str(self.mouse_pos_x), str(self.mouse_pos_y), False, 'Green')
-            self.File.Lists.clearPath()
         else:
             self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
     
@@ -605,7 +604,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_point_show(self.Mask, self.File.Lists.PointList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.clearPath()
             self.File.Lists.editTable(self.Entiteis_Point, 'Point', False if pos is False else dlg.Point.currentIndex()+1,
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), 'n', '-'] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), 'n', '-'] else dlg.Y_coordinate.placeholderText(),
@@ -622,7 +620,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Edit_Linkage_triggered(self, pos=0):
-        self.editLine(pos)
+        self.editLineDlg(pos)
     
     def editLineDlg(self, pos=False):
         dlg = edit_link_show(self.Mask, self.File.Lists.PointList, self.File.Lists.LineList, pos, self)
@@ -637,7 +635,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int)
     def editLine(self, start, end, leng=None, pos=False, check=True):
         pointList = self.File.Lists.PointList
-        self.File.Lists.clearPath()
         if check:
             self.checkEntitiesConflict(pos, [start, end])
         if leng==None:
@@ -665,7 +662,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, int, int)
     def editChain(self, p1, p2, p3, p1p2=None, p2p3=None, p1p3=None, pos=False, check=True):
         pointList = self.File.Lists.PointList
-        self.File.Lists.clearPath()
         if check:
             self.checkEntitiesConflict(pos, [p1, p2, p3])
         if p1p2==None:
@@ -704,7 +700,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_shaft_show(self.File.Lists.PointList, self.File.Lists.ShaftList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.clearPath()
             self.File.Lists.editTable(self.Shaft, 'Shaft', False if pos is False else dlg.Shaft.currentIndex(),
                 dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref))
             self.closeAllPanels()
@@ -721,7 +716,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_slider_show(self.File.Lists.PointList, self.File.Lists.SliderList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.clearPath()
             self.File.Lists.editTable(self.Slider, 'Slider', False if pos is False else dlg.Slider.currentIndex(),
                 dlg.slider, dlg.start, dlg.end)
             self.closeAllPanels()
@@ -738,7 +732,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_rod_show(self.File.Lists.PointList, self.File.Lists.RodList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.clearPath()
             self.File.Lists.editTable(self.Rod, 'Rod', False if pos is False else dlg.Rod.currentIndex(),
                 dlg.cen, dlg.start, dlg.end, dlg.pos)
             self.closeAllPanels()
