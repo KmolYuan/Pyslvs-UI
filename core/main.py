@@ -836,7 +836,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
-                [int(dlg.Move_list.item(e).text().replace('Point', "")) for e in range(dlg.Move_list.count())])
+                [int(dlg.Move_list.item(e).text().replace('Point', '')) for e in range(dlg.Move_list.count())])
     
     @pyqtSlot()
     def on_action_Zoom_to_fit_triggered(self):

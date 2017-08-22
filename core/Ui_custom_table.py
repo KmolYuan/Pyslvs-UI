@@ -21,6 +21,7 @@ from .QtModules import *
 from .graphics.color import colorIcons
 
 class BaseTableWidget(QTableWidget):
+    name = ''
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
@@ -33,27 +34,32 @@ class BaseTableWidget(QTableWidget):
         for i, e in enumerate(['Name']+HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
-    def setRowItems(self, rowPosition, name, Args):
-        name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
+    def setRowItems(self, row, Args):
+        name_set = QTableWidgetItem("{}{}".format(self.name, row))
         name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-        self.setItem(rowPosition, 0, name_set)
+        self.setItem(row, 0, name_set)
         for i, e in enumerate(Args):
             if type(e) in [str, float, int]:
-                content = 'Point{}'.format(e) if type(e)==int else e
+                content = '{}{}'.format(self.name, e) if type(e)==int else e
                 try:
-                    self.setItem(rowPosition, i+1, QTableWidgetItem(str(round(float(content), 4))))
+                    self.setItem(row, i+1, QTableWidgetItem(str(round(float(content), 4))))
                 except:
                     try:
-                        self.setItem(rowPosition, i+1, QTableWidgetItem(colorIcons()[content], content))
+                        self.setItem(row, i+1, QTableWidgetItem(colorIcons()[content], content))
                     except KeyError:
-                        self.setItem(rowPosition, i+1, QTableWidgetItem(content))
+                        self.setItem(row, i+1, QTableWidgetItem(content))
             elif type(e)==bool:
-                checkbox = QTableWidgetItem(str())
+                checkbox = QTableWidgetItem()
                 checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
                 checkbox.setCheckState(Qt.Checked if e else Qt.Unchecked)
-                self.setItem(rowPosition, i+1, checkbox)
+                self.setItem(row, i+1, checkbox)
+    
+    def rename(self, index):
+        for j in range(index, self.rowCount()):
+            self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
 
 class PointTableWidget(BaseTableWidget):
+    name = 'Point'
     def __init__(self, parent=None):
         super(PointTableWidget, self).__init__(1, ['X', 'Y', 'Fixed', 'Color', 'Current'], parent)
         self.setVerticalHeaderItem(0, QTableWidgetItem('Origin'))
@@ -127,6 +133,7 @@ class DropTableWidget(BaseTableWidget):
         event.acceptProposedAction()
 
 class LinkTableWidget(DropTableWidget):
+    name = 'Line'
     dragIn = pyqtSignal(int, int)
     def __init__(self, parent=None):
         super(LinkTableWidget, self).__init__(0, ["Start side", "End side", "Length"], 2, parent)
@@ -137,6 +144,7 @@ class LinkTableWidget(DropTableWidget):
         self.setColumnWidth(3, 60)
 
 class ChainTableWidget(DropTableWidget):
+    name = 'Chain'
     dragIn = pyqtSignal(int, int, int)
     def __init__(self, parent=None):
         super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], 3, parent)
@@ -149,6 +157,7 @@ class ChainTableWidget(DropTableWidget):
         self.setColumnWidth(6, 60)
 
 class ShaftTableWidget(BaseTableWidget):
+    name = 'Shaft'
     def __init__(self, parent=None):
         super(ShaftTableWidget, self).__init__(0, ['Center', 'Reference', "Start angle(deg)", "End angle(deg)", "Demo angle(deg)"], parent)
         self.setColumnWidth(0, 60)
@@ -159,6 +168,7 @@ class ShaftTableWidget(BaseTableWidget):
         self.setColumnWidth(5, 110)
 
 class SliderTableWidget(BaseTableWidget):
+    name = 'Slider'
     def __init__(self, parent=None):
         super(SliderTableWidget, self).__init__(0, ['Center', "Start side", "End side"], parent)
         self.setColumnWidth(0, 60)
@@ -167,6 +177,7 @@ class SliderTableWidget(BaseTableWidget):
         self.setColumnWidth(3, 70)
 
 class RodTableWidget(BaseTableWidget):
+    name = 'Rod'
     def __init__(self, parent=None):
         super(RodTableWidget, self).__init__(0, ['Center', "Start side", "End side", 'Position'], parent)
         self.setColumnWidth(0, 60)
@@ -176,6 +187,7 @@ class RodTableWidget(BaseTableWidget):
         self.setColumnWidth(4, 70)
 
 class ParameterTableWidget(BaseTableWidget):
+    name = 'n'
     def __init__(self, parent=None):
         super(ParameterTableWidget, self).__init__(0, ['Parameter', 'Comment'], parent)
         self.setColumnWidth(0, 60)

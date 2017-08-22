@@ -46,14 +46,14 @@ class Lists:
         isEdit = not edit is False
         rowPosition = edit if isEdit else table.rowCount()
         self.FileState.beginMacro("{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if name=='n' else '', name, rowPosition))
-        self.FileState.push(editTableCommand(table, name, edit, Args))
+        self.FileState.push(editTableCommand(table, edit, Args))
         if not isEdit:
             table.scrollToBottom()
         self.FileState.endMacro()
     
     def deleteTable(self, table, name, index, isRename=True):
         self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
-        self.FileState.push(deleteTableCommand(table, name, index, isRename))
+        self.FileState.push(deleteTableCommand(table, index, isRename))
         self.FileState.endMacro()
     
     def deletePointTable(self, Point, Line, Chain, Shaft, Slider, Rod, pos):
@@ -83,7 +83,7 @@ class Lists:
         #Change Number and Delete Point
         self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
         self.replacePoint(Line, Chain, Shaft, Slider, Rod, pos, lambda x, y: x>y, lambda x: x-1)
-        self.FileState.push(deleteTableCommand(Point, 'Point', pos))
+        self.FileState.push(deleteTableCommand(Point, pos))
         self.FileState.endMacro()
     
     def ChangePoint(self, Line, Chain, Shaft, Slider, Rod, prv, next):
@@ -134,7 +134,7 @@ class Lists:
         self.replaceDigit(Point, pos, 1, 2)
         self.replaceDigit(Line, pos, 3)
         self.replaceDigit(Chain, pos, 4, 5, 6)
-        self.FileState.push(deleteTableCommand(table, 'n', table.currentRow(), False))
+        self.FileState.push(deleteTableCommand(table, table.currentRow(), False))
         self.FileState.endMacro()
     
     def replaceDigit(self, table, pos, *column):
@@ -146,27 +146,27 @@ class Lists:
     def batchMove(self, table, x, y, Points):
         self.FileState.beginMacro("Batch move {{{}}}".format(', '.join(['Point{}'.format(i) for i in Points])))
         for row in Points:
-            self.FileState.push(editTableCommand(table, 'Point', row,
+            self.FileState.push(editTableCommand(table, row,
                 [str(self.PointList[row].x+x), str(self.PointList[row].y+y), self.PointList[row].fix]))
         print("- Moved ({:+.2f}, {:+.2f})".format(x, y))
         self.FileState.endMacro()
     
     def updateAll(self, Point, Line, Chain, Shaft, Slider, Rod, Parameter):
-        self.update(Parameter, 'Parameter')
-        self.update(Point, 'Point')
-        self.update(Line, 'Line')
-        self.update(Chain, 'Chain')
-        self.update(Shaft, 'Shaft')
-        self.update(Slider, 'Slider')
-        self.update(Rod, 'Rod')
+        self.update(Parameter)
+        self.update(Point)
+        self.update(Line)
+        self.update(Chain)
+        self.update(Shaft)
+        self.update(Slider)
+        self.update(Rod)
     
-    def update(self, table, name):
-        lst = list() if name!='Parameter' else defaultdict(lambda: 0., dict())
+    def update(self, table):
+        lst = list() if table.name!='n' else defaultdict(lambda: 0., dict())
         for i in range(table.rowCount()):
-            if name=='Parameter':
+            if table.name=='n':
                 k = {int(table.item(i, 0).text().replace('n', '')):
                     VParameter(float(table.item(i, 1).text()), table.item(i, 2).text())}
-            elif name=='Point':
+            elif table.name=='Point':
                 k = VPoint(self.toFloat(table.item(i, 1).text()),
                     self.toFloat(table.item(i, 2).text()),
                     bool(table.item(i, 3).checkState()),
@@ -176,49 +176,49 @@ class Lists:
                         float(table.item(i, 5).text().replace('(', str()).replace(')', str()).split(', ')[1]))
                 except:
                     pass
-            elif name=='Line':
+            elif table.name=='Line':
                 k = VLine(int(table.item(i, 1).text().replace('Point', str())),
                     int(table.item(i, 2).text().replace('Point', str())),
                     self.toFloat(table.item(i, 3).text()))
-            elif name=='Chain':
+            elif table.name=='Chain':
                 k = VChain(int(table.item(i, 1).text().replace('Point', str())),
                     int(table.item(i, 2).text().replace('Point', str())),
                     int(table.item(i, 3).text().replace('Point', str())),
                     self.toFloat(table.item(i, 4).text()),
                     self.toFloat(table.item(i, 5).text()),
                     self.toFloat(table.item(i, 6).text()))
-            elif name=='Shaft':
+            elif table.name=='Shaft':
                 k = VShaft(int(table.item(i, 1).text().replace('Point', str())),
                     int(table.item(i, 2).text().replace('Point', str())),
                     float(table.item(i, 3).text()),
                     float(table.item(i, 4).text()),
                     float(table.item(i, 5).text()))
-            elif name=='Slider':
+            elif table.name=='Slider':
                 k = VSlider(int(table.item(i, 1).text().replace('Point', str())),
                     int(table.item(i, 2).text().replace('Point', str())),
                     int(table.item(i, 3).text().replace('Point', str())))
-            elif name=='Rod':
+            elif table.name=='Rod':
                 k = VRod(int(table.item(i, 1).text().replace('Point', str())),
                     int(table.item(i, 2).text().replace('Point', str())),
                     int(table.item(i, 3).text().replace('Point', str())),
                     float(table.item(i, 4).text()))
-            if name!='Parameter':
+            if table.name!='n':
                 lst.append(k)
             else:
                 lst.update(k)
-        if name=='Parameter':
+        if table.name=='n':
             self.ParameterList = lst
-        elif name=='Point':
+        elif table.name=='Point':
             self.PointList = lst
-        elif name=='Line':
+        elif table.name=='Line':
             self.LineList = lst
-        elif name=='Chain':
+        elif table.name=='Chain':
             self.ChainList = lst
-        elif name=='Shaft':
+        elif table.name=='Shaft':
             self.ShaftList = lst
-        elif name=='Slider':
+        elif table.name=='Slider':
             self.SliderList = lst
-        elif name=='Rod':
+        elif table.name=='Rod':
             self.RodList = lst
     
     def toFloat(self, p):
@@ -236,7 +236,7 @@ class Lists:
             digit = QTableWidgetItem(name)
             digit.setToolTip(name)
             table.setItem(i, 5, digit)
-        self.update(table, 'Point')
+        self.update(table)
     
     def link2Shaft(self, table, row):
         cen = self.LineList[row].start

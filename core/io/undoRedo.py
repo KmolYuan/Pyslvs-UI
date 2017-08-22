@@ -36,10 +36,9 @@ def writeTS(table, row, Direction):
     table.setItem(row, 4, conditionItem)
 
 class editTableCommand(QUndoCommand):
-    def __init__(self, table, name, edit, Args):
+    def __init__(self, table, edit, Args):
         QUndoCommand.__init__(self)
         self.table = table #Pointer - QTableWidget
-        self.name = name
         self.edit = edit
         self.Args = Args
         if not edit is False:
@@ -53,20 +52,19 @@ class editTableCommand(QUndoCommand):
         rowPosition = self.edit if isEdit else self.table.rowCount()
         if not isEdit:
             self.table.insertRow(rowPosition)
-        self.table.setRowItems(rowPosition, self.name, self.Args)
+        self.table.setRowItems(rowPosition, self.Args)
     
     def undo(self):
         isEdit = not self.edit is False
         if not isEdit:
             self.table.removeRow(self.table.rowCount()-1)
         else:
-            self.table.setRowItems(self.edit, self.name, self.oldArgs)
+            self.table.setRowItems(self.edit, self.oldArgs)
 
 class deleteTableCommand(QUndoCommand):
-    def __init__(self, table, name, index, isRename=True):
+    def __init__(self, table, index, isRename=True):
         QUndoCommand.__init__(self)
         self.table = table
-        self.name = name
         self.index = index
         self.isRename = isRename
         self.oldArgs = list()
@@ -77,15 +75,13 @@ class deleteTableCommand(QUndoCommand):
     def redo(self):
         self.table.removeRow(self.index)
         if self.isRename:
-            for j in range(self.index, self.table.rowCount()):
-                self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+            self.table.rename(self.index)
     
     def undo(self):
         self.table.insertRow(self.index)
-        self.table.setRowItems(self.index, self.name, self.oldArgs)
+        self.table.setRowItems(self.index, self.oldArgs)
         if self.isRename:
-            for j in range(self.index, self.table.rowCount()):
-                self.table.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+            self.table.rename(self.index)
 
 class changePointNumCommand(QUndoCommand):
     def __init__(self, table, pos, row, column, name='Point'):
