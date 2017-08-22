@@ -1973,8 +1973,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Git_hub_Site">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/github-24.png</normaloff>:/icons/github-24.png</iconset>
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
     <string>Git&amp;hub Site</string>

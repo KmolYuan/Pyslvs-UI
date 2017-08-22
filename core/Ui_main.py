@@ -764,7 +764,7 @@ class Ui_MainWindow(object):
         self.action_Get_Help.setObjectName("action_Get_Help")
         self.action_Git_hub_Site = QtWidgets.QAction(MainWindow)
         icon23 = QtGui.QIcon()
-        icon23.addPixmap(QtGui.QPixmap(":/icons/github-24.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon23.addPixmap(QtGui.QPixmap(":/icons/github.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Git_hub_Site.setIcon(icon23)
         self.action_Git_hub_Site.setObjectName("action_Git_hub_Site")
         self.action_About_Pyslvs = QtWidgets.QAction(MainWindow)

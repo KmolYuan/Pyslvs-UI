@@ -290,11 +290,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float)
     def Reload_Canvas(self, v0=None):
         self.DynamicCanvasView.update_figure(
-            self.rotateAngle.value(), self.LineWidth.value(), self.PathWidth.value(),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
             self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList,
-            self.ZoomBar.value(), self.Font_size.value(),
-            self.action_Display_Dimensions.isChecked(), self.action_Display_Point_Mark.isChecked(),
             self.File.Lists.pathData)
     
     #Workbook Change
@@ -858,12 +855,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Display_Dimensions_toggled(self, p0):
         if p0:
             self.action_Display_Point_Mark.setChecked(True)
-        self.Reload_Canvas()
     @pyqtSlot(bool)
     def on_action_Display_Point_Mark_toggled(self, p0):
         if not p0:
             self.action_Display_Dimensions.setChecked(False)
-        self.Reload_Canvas()
     
     @pyqtSlot()
     def on_action_Path_Track_triggered(self):
@@ -871,7 +866,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.on_action_Update_all_points_triggered()
         dlg = Path_Track_show(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
             self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.args.w, self)
-        self.action_Display_Point_Mark.setChecked(True)
         dlg.show()
         if dlg.exec_():
             if dlg.ShaftSuggest:
@@ -991,7 +985,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if not isPathDemoMode:
                 panel.degreeChange.connect(self.Save_demo_angle)
             self.DynamicCanvasView.changePathCurrentShaft()
-            panel.Shaft.currentIndexChanged.connect(self.changeCurrentShaft)
+            panel.Shaft.currentIndexChanged.connect(self.DynamicCanvasView.changeCurrentShaft)
             self.panelWidget.addTab(panel, self.Drive_shaft.icon(), "Drive Shaft")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
@@ -1008,9 +1002,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float, int)
     def Save_demo_angle(self, angle, currentShaft):
         self.File.Lists.saveDemo(self.Simulate_Shaft, 'Shaft', angle, row=currentShaft, column=5)
-    @pyqtSlot(int)
-    def changeCurrentShaft(self, pos):
-        self.DynamicCanvasView.changeCurrentShaft(pos)
     
     @pyqtSlot()
     def on_Drive_shaft_activated_clicked(self):

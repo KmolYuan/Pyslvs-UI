@@ -84,7 +84,7 @@ def init_Widgets(self):
     #Properties button on the Point tab widget.
     propertiesButton = QPushButton()
     propertiesButton.setIcon(self.action_Property.icon())
-    propertiesButton.setToolTip("Properties")
+    propertiesButton.setToolTip('Properties')
     propertiesButton.setStatusTip("Properties of this workbook.")
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.PointTab.setCornerWidget(propertiesButton)
@@ -92,11 +92,13 @@ def init_Widgets(self):
     for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod]:
         table.itemClicked.connect(self.tableFocusChange)
     #While value change, update the canvas widget.
-    self.ZoomBar.valueChanged.connect(self.Reload_Canvas)
-    self.LineWidth.valueChanged.connect(self.Reload_Canvas)
-    self.Font_size.valueChanged.connect(self.Reload_Canvas)
-    self.PathWidth.valueChanged.connect(self.Reload_Canvas)
-    self.rotateAngle.valueChanged.connect(self.Reload_Canvas)
+    self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
+    self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)
+    self.PathWidth.valueChanged.connect(self.DynamicCanvasView.setPathWidth)
+    self.Font_size.valueChanged.connect(self.DynamicCanvasView.setFontSize)
+    self.rotateAngle.valueChanged.connect(self.DynamicCanvasView.setRotateAngle)
+    self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
+    self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
     #DynamicCanvasView Right-click menu
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)

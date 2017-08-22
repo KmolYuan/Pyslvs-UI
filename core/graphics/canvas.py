@@ -142,6 +142,58 @@ class DynamicCanvas(BaseCanvas):
         self.reset_Auxline()
         self.re_Color = colorName()
         self.pointsSelection = list()
+        self.zoom = 2*self.options.rate
+        self.linkWidth = 3
+        self.pathWidth = 3
+        self.rotateAngle = 0.
+        self.Font_size = 10
+        self.Point_mark = True
+        self.showDimension = False
+    
+    def update_figure(self, Point, Line, Chain, Shaft, Slider, Rod, path):
+        self.Point = Point
+        self.Line = Line
+        self.Chain = Chain
+        self.Shaft = Shaft
+        self.Slider = Slider
+        self.Rod = Rod
+        self.options.Path.path = path
+        self.update()
+    
+    @pyqtSlot(int)
+    def setLinkWidth(self, linkWidth):
+        self.linkWidth = linkWidth
+        self.update()
+    
+    @pyqtSlot(int)
+    def setPathWidth(self, pathWidth):
+        self.pathWidth = pathWidth
+        self.update()
+    
+    @pyqtSlot(float)
+    def setRotateAngle(self, rotateAngle):
+        self.rotateAngle = rotateAngle
+        self.update()
+    
+    @pyqtSlot(bool)
+    def setPointMark(self, PointMark):
+        self.Point_mark = PointMark
+        self.update()
+    
+    @pyqtSlot(bool)
+    def setShowDimension(self, showDimension):
+        self.showDimension = showDimension
+        self.update()
+    
+    @pyqtSlot(int)
+    def setFontSize(self, fontSize):
+        self.Font_size = fontSize
+        self.update()
+    
+    @pyqtSlot(int)
+    def setZoom(self, zoom):
+        self.zoom = zoom/100*self.options.rate
+        self.update()
     
     def changePointsSelection(self, pointsSelection):
         self.pointsSelection = pointsSelection
@@ -150,30 +202,14 @@ class DynamicCanvas(BaseCanvas):
     def changePathCurrentShaft(self):
         if self.Shaft:
             self.options.Path.demo = self.Shaft[self.options.currentShaft].demo
+    
+    @pyqtSlot(int)
     def changeCurrentShaft(self, pos=0):
         self.options.currentShaft = pos
         self.update()
     
     def path_solving(self, path=list()):
         self.options.slvsPath['path'] = path
-        self.update()
-    
-    def update_figure(self, rotateAngle, linkWidth, pathWidth, Point, Line, Chain, Shaft, Slider, Rod,
-            zoom_rate, Font_size, showDimension, Point_mark, path):
-        self.Font_size = Font_size
-        self.showDimension = showDimension
-        self.Point_mark = Point_mark
-        self.linkWidth = linkWidth
-        self.pathWidth = pathWidth
-        self.rotateAngle = rotateAngle
-        self.zoom = zoom_rate/100*self.options.rate
-        self.Point = Point
-        self.Line = Line
-        self.Chain = Chain
-        self.Shaft = Shaft
-        self.Slider = Slider
-        self.Rod = Rod
-        self.options.Path.path = path
         self.update()
     
     @pyqtSlot(tuple, float, tuple, float)
