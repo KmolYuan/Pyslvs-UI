@@ -81,8 +81,9 @@ class PointTableWidget(BaseTableWidget):
     
     @pyqtSlot(list)
     def setSelections(self, selections):
-        for selection in selections:
-            self.setRangeSelected(selection, True)
+        selectedRows = self.selectedRows()
+        for row in selections:
+            self.setRangeSelected(QTableWidgetSelectionRange(row, 0, row, 5), not row in selectedRows)
     
     def selectedRows(self):
         a = list()

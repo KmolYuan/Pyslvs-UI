@@ -538,7 +538,7 @@ class DynamicCanvas(BaseCanvas):
                 x = e.cx*self.zoom
                 y = e.cy*self.zoom*-1
                 if self.Selector.distance(x, y)<10:
-                    selection.append(QTableWidgetSelectionRange(i, 0, i, 5))
+                    selection.append(i)
             if selection:
                 self.mouse_getSelection.emit(selection)
             else:
