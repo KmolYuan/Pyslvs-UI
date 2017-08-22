@@ -587,7 +587,7 @@ class Ui_MainWindow(object):
         self.BrowseGuide.setObjectName("BrowseGuide")
         self.horizontalLayout_7.addWidget(self.BrowseGuide)
         self.ZoomBar = QtWidgets.QSlider(self.BrowserWidget)
-        self.ZoomBar.setMinimum(25)
+        self.ZoomBar.setMinimum(10)
         self.ZoomBar.setMaximum(1000)
         self.ZoomBar.setSingleStep(50)
         self.ZoomBar.setPageStep(50)

@@ -307,18 +307,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
         self.OpenURL("http://mde.tw")
+    
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self):
         self.OpenURL("https://pyslvs.com")
+    
     @pyqtSlot()
     def on_action_Git_hub_Site_triggered(self):
         self.OpenURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
+    
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
         self.OpenDlg(version_show(self))
+    
     @pyqtSlot()
     def on_action_About_Qt_triggered(self):
         QMessageBox.aboutQt(self)
+    
     def OpenURL(self, URL):
         print("Open - {{{}}}".format(URL))
         QDesktopServices.openUrl(QUrl(URL))
@@ -389,6 +394,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Three_Algorithm_Result_triggered(self):
         self.checkChange("[Example] Three algorithm result", example.threeAlgorithmResult())
+    
     #Workbook Functions
     def checkChange(self, name='', data=list(), say='Loading Example...', isFile=False):
         if self.File.form.changed:
@@ -402,6 +408,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.loadWorkbook(say, name, data, isFile)
         else:
             self.loadWorkbook(say, name, data, isFile)
+    
     def loadWorkbook(self, say, fileName='', data=list(), isFile=False):
         if isFile:
             data.clear()
@@ -442,6 +449,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Import_From_Workbook_triggered(self):
         self.importWorkbook(say='Import from file...')
+    
     def importWorkbook(self, say, fileName=False, data=list()):
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, "XML File(*.xml);;CSV File(*.csv)")
@@ -463,6 +471,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     self.on_action_Console_triggered()
             else:
                 self.loadWorkbookError(fileName)
+    
     def loadWorkbookError(self, fileName):
         dlgbox = QMessageBox(QMessageBox.Warning, "Loading failed", "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), self)
         if dlgbox.exec_():
@@ -474,9 +483,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.File.form.fileName.absoluteFilePath()
         suffix = QFileInfo(fileName).suffix()
         self.save('' if suffix!='csv' and suffix!='xml' else fileName)
+    
     @pyqtSlot()
     def on_action_Save_as_triggered(self):
         self.save()
+    
     def save(self, fileName=str()):
         hasReply = bool(fileName)==False
         if hasReply:
@@ -501,6 +512,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             self.saveReplyBox('Solvespace Models', dlg.folderPath.absolutePath())
+    
     @pyqtSlot()
     def on_action_Solvespace_2D_sketch_triggered(self):
         fileName = self.outputTo("Solvespace sketch", ['Solvespace module(*.slvs)'])
@@ -509,6 +521,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
                 f.write(content)
             self.saveReplyBox('Solvespace Sketch', fileName)
+    
     @pyqtSlot()
     def on_action_DXF_2D_models_triggered(self):
         dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.form.fileName.baseName(),
@@ -516,12 +529,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             self.saveReplyBox('DXF 2D Models', dlg.filePath)
+    
     @pyqtSlot()
     def on_action_DXF_2D_sketch_triggered(self):
         fileName = self.outputTo("DXF", ['AutoCAD DXF (*.dxf)'])
         if fileName:
             dxfSketch(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
             self.saveReplyBox('DXF 2D Sketch', fileName)
+    
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         fileName = self.outputTo("picture", ["Portable Network Graphics (*.png)", "Joint Photographic Experts Group (*.jpg)", "Bitmap Image file (*.bmp)",
@@ -531,6 +546,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pixmap = self.DynamicCanvasView.grab()
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
             self.saveReplyBox('Picture', fileName)
+    
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(self, 'Save file...',
@@ -541,6 +557,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.setLocate(QFileInfo(fileName).absolutePath())
             print("Formate: {}".format(form))
         return fileName
+    
     def saveReplyBox(self, title, fileName):
         dlgbox = QMessageBox(QMessageBox.Information, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), self)
         if dlgbox.exec_():
@@ -552,6 +569,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             pass
+    
     @pyqtSlot()
     def on_action_Property_triggered(self):
         dlg = editFileInfo_show(self.File.form.fileName.fileName(), self.File.form.author, self.File.form.description,
@@ -567,19 +585,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if row>0:
             self.on_action_Edit_Point_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Link_cellDoubleClicked(self, row, column=0):
+    def on_Entiteis_Link_cellDoubleClicked(self, row, column):
         self.on_action_Edit_Linkage_triggered(row)
     @pyqtSlot(int, int)
-    def on_Entiteis_Chain_cellDoubleClicked(self, row, column=0):
+    def on_Entiteis_Chain_cellDoubleClicked(self, row, column):
         self.on_action_Edit_Stay_Chain_triggered(row)
     @pyqtSlot(int, int)
-    def on_Simulate_Shaft_cellDoubleClicked(self, row, column=0):
+    def on_Simulate_Shaft_cellDoubleClicked(self, row, column):
         self.on_action_Edit_Shaft_triggered(row)
     @pyqtSlot(int, int)
-    def on_Simulate_Slider_cellDoubleClicked(self, row, column=0):
+    def on_Simulate_Slider_cellDoubleClicked(self, row, column):
         self.on_action_Edit_Slider_triggered(row)
     @pyqtSlot(int, int)
-    def on_Simulate_Rod_cellDoubleClicked(self, row, column=0):
+    def on_Simulate_Rod_cellDoubleClicked(self, row, column):
         self.on_action_Edit_Rod_triggered(row)
     
     #Entities
