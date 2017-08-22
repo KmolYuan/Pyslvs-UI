@@ -19,7 +19,10 @@
 
 from .QtModules import *
 from .graphics.canvas import DynamicCanvas
-from .graphics.color import colorIcons
+from .Ui_custom_table import (
+    PointTableWidget, LinkTableWidget, ChainTableWidget,
+    ShaftTableWidget, SliderTableWidget, RodTableWidget,
+    ParameterTableWidget)
 from .info.info import VERSION
 tr = QCoreApplication.translate
 
@@ -27,6 +30,8 @@ def init_Widgets(self):
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 3)
     self.MainSplitter.setStretchFactor(1, 10)
+    self.ToolPanelSplitter.setStretchFactor(0, 4)
+    self.ToolPanelSplitter.setStretchFactor(1, 5)
     self.panels_splitter.setSizes([100, 500])
     #Version text
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
@@ -43,21 +48,19 @@ def init_Widgets(self):
     self.Entiteis_Chain.cellDoubleClicked.connect(self.on_Entiteis_Chain_cellDoubleClicked)
     self.Entiteis_Chain.dragIn.connect(self.editChain)
     self.Entiteis_Chain_Layout.addWidget(self.Entiteis_Chain)
-    self.Shaft.setColumnWidth(0, 60)
-    self.Shaft.setColumnWidth(1, 85)
-    self.Shaft.setColumnWidth(2, 85)
-    self.Shaft.setColumnWidth(3, 110)
-    self.Shaft.setColumnWidth(4, 110)
-    self.Shaft.setColumnWidth(5, 110)
-    self.Slider.setColumnWidth(0, 60)
-    self.Slider.setColumnWidth(1, 90)
-    self.Slider.setColumnWidth(2, 70)
-    self.Slider.setColumnWidth(3, 70)
-    self.Rod.setColumnWidth(0, 60)
-    self.Rod.setColumnWidth(1, 90)
-    self.Rod.setColumnWidth(2, 70)
-    self.Rod.setColumnWidth(3, 70)
-    self.Rod.setColumnWidth(4, 70)
+    #Simulate tables
+    self.Simulate_Shaft = ShaftTableWidget(self.Simulate_Shaft_Widget)
+    self.Simulate_Shaft.cellDoubleClicked.connect(self.on_Simulate_Shaft_cellDoubleClicked)
+    self.Simulate_Shaft_Layout.addWidget(self.Simulate_Shaft)
+    self.Simulate_Slider = SliderTableWidget(self.Simulate_Slider_Widget)
+    self.Simulate_Slider.cellDoubleClicked.connect(self.on_Simulate_Slider_cellDoubleClicked)
+    self.Simulate_Slider_Layout.addWidget(self.Simulate_Slider)
+    self.Simulate_Rod = RodTableWidget(self.Simulate_Rod_Widget)
+    self.Simulate_Rod.cellDoubleClicked.connect(self.on_Simulate_Rod_cellDoubleClicked)
+    self.Simulate_Rod_Layout.addWidget(self.Simulate_Rod)
+    #Parameter table
+    self.Parameter_list = ParameterTableWidget(self.Parameter_Widget)
+    self.Parameter_Layout.insertWidget(1, self.Parameter_list)
     #QPainter Window
     self.DynamicCanvasView = DynamicCanvas()
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entiteis_Point.setSelections)
@@ -86,7 +89,7 @@ def init_Widgets(self):
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.PointTab.setCornerWidget(propertiesButton)
     #Focus to all table widgets.
-    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod]:
+    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod]:
         table.itemClicked.connect(self.tableFocusChange)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.Reload_Canvas)
@@ -150,7 +153,7 @@ def init_Widgets(self):
     self.action_chain_right_click_menu_delete = QAction("&Delete", self)
     self.popMenu_chain.addAction(self.action_chain_right_click_menu_delete) 
     #Shaft Right-click menu
-    self.Shaft_Widget.customContextMenuRequested.connect(self.on_shaft_context_menu)
+    self.Simulate_Shaft_Widget.customContextMenuRequested.connect(self.on_shaft_context_menu)
     self.popMenu_shaft = QMenu(self)
     self.action_shaft_right_click_menu_add = QAction("&Add", self)
     self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_add)
@@ -162,7 +165,7 @@ def init_Widgets(self):
     self.action_shaft_right_click_menu_delete = QAction("&Delete", self)
     self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_delete) 
     #Slider Right-click menu
-    self.Slider_Widget.customContextMenuRequested.connect(self.on_slider_context_menu)
+    self.Simulate_Slider_Widget.customContextMenuRequested.connect(self.on_slider_context_menu)
     self.popMenu_slider = QMenu(self)
     self.action_slider_right_click_menu_add = QAction("&Add", self)
     self.popMenu_slider.addAction(self.action_slider_right_click_menu_add)
@@ -174,7 +177,7 @@ def init_Widgets(self):
     self.action_slider_right_click_menu_delete = QAction("&Delete", self)
     self.popMenu_slider.addAction(self.action_slider_right_click_menu_delete) 
     #Rod Right-click menu
-    self.Rod_Widget.customContextMenuRequested.connect(self.on_rod_context_menu)
+    self.Simulate_Rod_Widget.customContextMenuRequested.connect(self.on_rod_context_menu)
     self.popMenu_rod = QMenu(self)
     self.action_rod_right_click_menu_add = QAction("&Add", self)
     self.popMenu_rod.addAction(self.action_rod_right_click_menu_add)
@@ -205,38 +208,38 @@ def action_Enabled(self):
     self.action_Edit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.action_Edit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_Edit_Stay_Chain.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_Edit_Shaft.setEnabled(self.Shaft.rowCount()>0)
-    self.action_Edit_Slider.setEnabled(self.Slider.rowCount()>0)
-    self.action_Edit_Rod.setEnabled(self.Rod.rowCount()>0)
+    self.action_Edit_Shaft.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.action_Edit_Slider.setEnabled(self.Simulate_Slider.rowCount()>0)
+    self.action_Edit_Rod.setEnabled(self.Simulate_Rod.rowCount()>0)
     self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_shaft_right_click_menu_edit.setEnabled(self.Shaft.rowCount()>0)
-    self.action_slider_right_click_menu_edit.setEnabled(self.Slider.rowCount()>0)
-    self.action_rod_right_click_menu_edit.setEnabled(self.Rod.rowCount()>=1)
+    self.action_shaft_right_click_menu_edit.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.action_slider_right_click_menu_edit.setEnabled(self.Simulate_Slider.rowCount()>0)
+    self.action_rod_right_click_menu_edit.setEnabled(self.Simulate_Rod.rowCount()>=1)
     #Delete
     self.action_Delete_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.action_Delete_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_Delete_Stay_Chain.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_Delete_Shaft.setEnabled(self.Shaft.rowCount()>0)
-    self.action_Delete_Slider.setEnabled(self.Slider.rowCount()>0)
-    self.action_Delete_Piston_Spring.setEnabled(self.Rod.rowCount()>0)
+    self.action_Delete_Shaft.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.action_Delete_Slider.setEnabled(self.Simulate_Slider.rowCount()>0)
+    self.action_Delete_Piston_Spring.setEnabled(self.Simulate_Rod.rowCount()>0)
     self.Parameter_delete.setEnabled(self.Parameter_list.rowCount()>0)
     self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
     self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_shaft_right_click_menu_delete.setEnabled(self.Shaft.rowCount()>0)
-    self.action_slider_right_click_menu_delete.setEnabled(self.Slider.rowCount()>0)
-    self.action_rod_right_click_menu_delete.setEnabled(self.Rod.rowCount()>=1)
+    self.action_shaft_right_click_menu_delete.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.action_slider_right_click_menu_delete.setEnabled(self.Simulate_Slider.rowCount()>0)
+    self.action_rod_right_click_menu_delete.setEnabled(self.Simulate_Rod.rowCount()>=1)
     #Path
-    self.action_Path_Track.setEnabled(self.Shaft.rowCount()>0)
+    self.action_Path_Track.setEnabled(self.Simulate_Shaft.rowCount()>0)
     for action in [self.action_Path_coordinate, self.action_Save_path_only, self.action_Path_Clear]:
         action.setEnabled(bool(self.File.Lists.pathData))
     #Panel
     self.Measurement.setEnabled(self.Entiteis_Point.rowCount()>1)
     self.AuxLine.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.Drive_shaft.setEnabled(self.Shaft.rowCount()>0)
-    self.Drive_shaft_activated.setEnabled(self.Shaft.rowCount()>0)
-    self.Drive_rod.setEnabled(self.Rod.rowCount()>0)
-    self.Drive_rod_activated.setEnabled(self.Rod.rowCount()>0)
+    self.Drive_shaft.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.Drive_shaft_activated.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.Drive_rod.setEnabled(self.Simulate_Rod.rowCount()>0)
+    self.Drive_rod_activated.setEnabled(self.Simulate_Rod.rowCount()>0)
     #Others
     self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Chain.rowCount()>0)
     self.action_DXF_2D_models.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Chain.rowCount()>0)
@@ -261,111 +264,3 @@ def showUndoWindow(self, FileState):
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
     self.menu_Edit.insertAction(separator, self.action_Undo)
     self.menu_Edit.insertAction(separator, self.action_Redo)
-
-class BaseTableWidget(QTableWidget):
-    def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
-        super(BaseTableWidget, self).__init__(parent)
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
-        self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
-        self.setRowCount(RowCount)
-        self.setColumnCount(len(HorizontalHeaderItems)+1)
-        for i, e in enumerate(['Name']+HorizontalHeaderItems):
-            self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
-
-class PointTableWidget(BaseTableWidget):
-    def __init__(self, parent=None):
-        super(PointTableWidget, self).__init__(1, ['X', 'Y', 'Fixed', 'Color', 'Current'], parent)
-        self.setVerticalHeaderItem(0, QTableWidgetItem('Origin'))
-        for i, e in enumerate(['Point0', '0.0', '0.0', '', 'Red', "(0.0, 0.0)"]):
-            item = QTableWidgetItem(e)
-            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            if i==3:
-                item.setCheckState(Qt.Checked)
-            if i==4:
-                item.setIcon(colorIcons()['Red'])
-            self.setItem(0, i, item)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 45)
-        self.setColumnWidth(4, 90)
-        self.setColumnWidth(5, 60)
-        self.draged = False
-    
-    @pyqtSlot(list)
-    def setSelections(self, selections):
-        for selection in selections:
-            self.setRangeSelected(selection, True)
-    
-    def selectedRows(self):
-        a = list()
-        for r in self.selectedRanges():
-            a += [i for i in range(r.topRow(), r.bottomRow()+1)]
-        return sorted(set(a))
-    
-    def mousePressEvent(self, event):
-        super(PointTableWidget, self).mousePressEvent(event)
-        if event.button()==Qt.LeftButton:
-            self.draged = True
-    
-    def mouseReleaseEvent(self, event):
-        super(PointTableWidget, self).mouseReleaseEvent(event)
-        self.draged = False
-    
-    def mouseMoveEvent(self, event):
-        if self.draged:
-            selectedRows = self.selectedRows()
-            selectedRowCount = len(selectedRows)
-            if selectedRowCount==2 or selectedRowCount==3:
-                drag = QDrag(self)
-                mimeData = QMimeData()
-                mimeData.setText(';'.join([str(e) for e in selectedRows]))
-                drag.setMimeData(mimeData)
-                drag.setPixmap(QPixmap(":/icons/tooltips/need{}bearings.png".format(selectedRowCount)).scaledToWidth(50))
-                drag.exec_()
-
-class DropTableWidget(BaseTableWidget):
-    dragIn = None
-    def __init__(self, RowCount, HorizontalHeaderItems, bearings, parent=None):
-        super(DropTableWidget, self).__init__(RowCount, HorizontalHeaderItems, parent)
-        self.setAcceptDrops(True)
-        self.bearings = bearings
-    
-    def dragEnterEvent(self, event):
-        mimeData = event.mimeData()
-        if mimeData.hasText():
-            if len(mimeData.text().split(';'))==self.bearings:
-                event.acceptProposedAction()
-    
-    def dragMoveEvent(self, event):
-        event.setDropAction(Qt.MoveAction)
-        event.accept()
-    
-    def dropEvent(self, event):
-        self.dragIn.emit(*[int(e) for e in event.mimeData().text().split(';')])
-        event.acceptProposedAction()
-
-class LinkTableWidget(DropTableWidget):
-    dragIn = pyqtSignal(int, int)
-    def __init__(self, parent=None):
-        super(LinkTableWidget, self).__init__(0, ["Start Side", "End Side", "Length"], 2, parent)
-        self.setDragDropMode(QAbstractItemView.DropOnly)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 60)
-
-class ChainTableWidget(DropTableWidget):
-    dragIn = pyqtSignal(int, int, int)
-    def __init__(self, parent=None):
-        super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], 3, parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 60)
-        self.setColumnWidth(2, 60)
-        self.setColumnWidth(3, 60)
-        self.setColumnWidth(4, 60)
-        self.setColumnWidth(5, 60)
-        self.setColumnWidth(6, 60)

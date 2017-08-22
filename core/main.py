@@ -168,7 +168,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_link_right_click_menu_copy:
             self.tableCopy(self.Entiteis_Link)
         elif action==self.action_link_right_click_menu_shaft:
-            self.File.Lists.link2Shaft(self.Shaft, table_pos)
+            self.File.Lists.link2Shaft(self.Simulate_Shaft, table_pos)
         elif action==self.action_link_right_click_menu_delete:
             self.on_action_Delete_Linkage_triggered(table_pos)
     @pyqtSlot(QPoint)
@@ -185,38 +185,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.on_action_Delete_Stay_Chain_triggered(table_pos)
     @pyqtSlot(QPoint)
     def on_shaft_context_menu(self, point):
-        action = self.popMenu_shaft.exec_(self.Shaft_Widget.mapToGlobal(point))
-        table_pos = self.Shaft.currentRow()
+        action = self.popMenu_shaft.exec_(self.Simulate_Shaft_Widget.mapToGlobal(point))
+        table_pos = self.Simulate_Shaft.currentRow()
         if action==self.action_shaft_right_click_menu_add:
             self.on_action_Set_Shaft_triggered()
         elif action==self.action_shaft_right_click_menu_edit:
             self.on_action_Edit_Shaft_triggered(table_pos)
         elif action==self.action_shaft_right_click_menu_copy:
-            self.tableCopy(self.Shaft)
+            self.tableCopy(self.Simulate_Shaft)
         elif action==self.action_shaft_right_click_menu_delete:
             self.on_action_Delete_Shaft_triggered(table_pos)
     @pyqtSlot(QPoint)
     def on_slider_context_menu(self, point):
-        action = self.popMenu_slider.exec_(self.Slider_Widget.mapToGlobal(point))
-        table_pos = self.Slider.currentRow()
+        action = self.popMenu_slider.exec_(self.Simulate_Slider_Widget.mapToGlobal(point))
+        table_pos = self.Simulate_Slider.currentRow()
         if action==self.action_slider_right_click_menu_add:
             self.on_action_Set_Slider_triggered()
         elif action==self.action_slider_right_click_menu_edit:
             self.on_action_Edit_Slider_triggered(table_pos)
         elif action==self.action_slider_right_click_menu_copy:
-            self.tableCopy(self.Slider)
+            self.tableCopy(self.Simulate_Slider)
         elif action==self.action_slider_right_click_menu_delete:
             self.on_action_Delete_Slider_triggered(table_pos)
     @pyqtSlot(QPoint)
     def on_rod_context_menu(self, point):
-        action = self.popMenu_rod.exec_(self.Rod_Widget.mapToGlobal(point))
-        table_pos = self.Rod.currentRow()
+        action = self.popMenu_rod.exec_(self.Simulate_Rod_Widget.mapToGlobal(point))
+        table_pos = self.Simulate_Rod.currentRow()
         if action==self.action_rod_right_click_menu_add:
             self.on_action_Set_Rod_triggered()
         elif action==self.action_rod_right_click_menu_edit:
             self.on_action_Edit_Rod_triggered(table_pos)
         elif action==self.action_rod_right_click_menu_copy:
-            self.tableCopy(self.Rod)
+            self.tableCopy(self.Simulate_Rod)
         elif action==self.action_rod_right_click_menu_delete:
             self.on_action_Delete_Piston_Spring_triggered(table_pos)
     
@@ -253,7 +253,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def commandReload(self, index=0):
         self.File.Lists.updateAll(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
-            self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+            self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
         self.action_Undo.setText("Undo {}".format(self.File.FileState.undoText()))
         self.action_Redo.setText("Redo {}".format(self.File.FileState.redoText()))
         if index!=self.File.form.Stack:
@@ -276,7 +276,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Solvefail = False
             self.File.Lists.currentPos(self.Entiteis_Point, result)
             self.DOF = DOF
-            self.DOFview.setText("{} ({})".format(self.DOF-6+self.Shaft.rowCount(), self.DOF-6))
+            self.DOFview.setText("{} ({})".format(self.DOF-6+self.Simulate_Shaft.rowCount(), self.DOF-6))
             self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
@@ -415,7 +415,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print(say)
             self.closeAllPanels()
             self.File.reset(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
-                self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+                self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
             self.DynamicCanvasView.changeCurrentShaft()
             self.DynamicCanvasView.path_solving()
             self.Resolve()
@@ -425,7 +425,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if checkdone:
                 errorInfo = self.File.read(fileName, data,
                     self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
-                    self.Shaft, self.Slider, self.Rod, self.Parameter_list)
+                    self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
                 if errorInfo:
                     print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
                 else:
@@ -456,7 +456,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if checkdone:
                 suffix = QFileInfo(fileName).suffix().lower()
                 tables = [data, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
-                    self.Shaft, self.Slider, self.Rod, self.Parameter_list]
+                    self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list]
                 if suffix=='xml':
                     errorInfo = self.File.readXMLMerge(*tables)
                 elif suffix=='csv':
@@ -576,13 +576,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_Entiteis_Chain_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Stay_Chain_triggered(row)
     @pyqtSlot(int, int)
-    def on_Shaft_cellDoubleClicked(self, row, column=0):
+    def on_Simulate_Shaft_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Shaft_triggered(row)
     @pyqtSlot(int, int)
-    def on_Slider_cellDoubleClicked(self, row, column=0):
+    def on_Simulate_Slider_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Slider_triggered(row)
     @pyqtSlot(int, int)
-    def on_Rod_cellDoubleClicked(self, row, column=0):
+    def on_Simulate_Rod_cellDoubleClicked(self, row, column=0):
         self.on_action_Edit_Rod_triggered(row)
     
     #Entities
@@ -701,7 +701,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_shaft_show(self.File.Lists.PointList, self.File.Lists.ShaftList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Shaft, 'Shaft', False if pos is False else dlg.Shaft.currentIndex(),
+            self.File.Lists.editTable(self.Simulate_Shaft, 'Shaft', False if pos is False else dlg.Shaft.currentIndex(),
                 dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref))
             self.closeAllPanels()
     
@@ -717,7 +717,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_slider_show(self.File.Lists.PointList, self.File.Lists.SliderList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Slider, 'Slider', False if pos is False else dlg.Slider.currentIndex(),
+            self.File.Lists.editTable(self.Simulate_Slider, 'Slider', False if pos is False else dlg.Slider.currentIndex(),
                 dlg.slider, dlg.start, dlg.end)
             self.closeAllPanels()
     
@@ -733,7 +733,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_rod_show(self.File.Lists.PointList, self.File.Lists.RodList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Rod, 'Rod', False if pos is False else dlg.Rod.currentIndex(),
+            self.File.Lists.editTable(self.Simulate_Rod, 'Rod', False if pos is False else dlg.Rod.currentIndex(),
                 dlg.cen, dlg.start, dlg.end, dlg.pos)
             self.closeAllPanels()
     
@@ -759,20 +759,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Delete_Shaft_triggered(self, pos=None):
         if pos==None:
-            pos = self.Shaft.currentRow()
-        self.deletePanel(self.Shaft, 'Shaft', self.action_Set_Shaft.icon(), pos)
+            pos = self.Simulate_Shaft.currentRow()
+        self.deletePanel(self.Simulate_Shaft, 'Shaft', self.action_Set_Shaft.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Slider_triggered(self, pos=None):
         if pos==None:
-            pos = self.Slider.currentRow()
-        self.deletePanel(self.Slider, 'Slider', self.action_Set_Slider.icon(), pos)
+            pos = self.Simulate_Slider.currentRow()
+        self.deletePanel(self.Simulate_Slider, 'Slider', self.action_Set_Slider.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Piston_Spring_triggered(self, pos=None):
         if pos==None:
-            pos = self.Rod.currentRow()
-        self.deletePanel(self.Rod, 'Rod', self.action_Set_Rod.icon(), pos)
+            pos = self.Simulate_Rod.currentRow()
+        self.deletePanel(self.Simulate_Rod, 'Rod', self.action_Set_Rod.icon(), pos)
     
     def deletePanel(self, table, name, icon, pos):
         dlg = deleteDlg(icon, table, pos, self)
@@ -782,7 +782,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.Lists.clearPath()
             if name=='Point':
                 self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Link,
-                    self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod, dlg.Entity.currentIndex())
+                    self.Entiteis_Chain, self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, dlg.Entity.currentIndex())
             else:
                 self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
             self.closeAllPanels()
@@ -812,7 +812,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Chain, self.Shaft, self.Slider, self.Rod,
+            self.File.Lists.ChangePoint(self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod,
                 dlg.Prv.currentIndex(), dlg.Next.currentIndex())
     
     @pyqtSlot()
@@ -882,7 +882,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if reply==QMessageBox.Apply:
                     for i, shaft in enumerate(dlg.ShaftSuggest):
                         o = self.File.Lists.ShaftList[i]
-                        self.File.Lists.editTable(self.Shaft, 'Shaft', i, o.cen, o.ref, shaft[0], shaft[1], o.demo)
+                        self.File.Lists.editTable(self.Simulate_Shaft, 'Shaft', i, o.cen, o.ref, shaft[0], shaft[1], o.demo)
             self.File.Lists.setPath(dlg.Path_data)
     @pyqtSlot()
     def on_action_Path_Clear_triggered(self):
@@ -952,7 +952,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, float, float, list, dict)
     def PathSolving_mergeResult(self, row, startAngle, endAngle, answer, Paths):
         if self.File.Generate_Merge(row, startAngle, endAngle, answer, Paths,
-                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Shaft)==False:
+                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Shaft)==False:
             dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension.", (QMessageBox.Ok), self)
             if dlgbox.exec_():
                 print("Generate Result Error.")
@@ -972,7 +972,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def TriangleSolver_merge(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         self.File.TS_Merge(self.panelWidget.widget(tabNameList.index("Triangle Solver")).answers,
-            self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Slider)
+            self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Slider)
     
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
@@ -1007,7 +1007,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Reload_Canvas()
     @pyqtSlot(float, int)
     def Save_demo_angle(self, angle, currentShaft):
-        self.File.Lists.saveDemo(self.Shaft, 'Shaft', angle, row=currentShaft, column=5)
+        self.File.Lists.saveDemo(self.Simulate_Shaft, 'Shaft', angle, row=currentShaft, column=5)
     @pyqtSlot(int)
     def changeCurrentShaft(self, pos):
         self.DynamicCanvasView.changeCurrentShaft(pos)
@@ -1037,7 +1037,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.workbookNoSave()
     @pyqtSlot(float, int)
     def Save_position(self, pos, currentRod):
-        self.File.Lists.saveDemo(self.Rod, 'Rod', pos, row=currentRod, column=4)
+        self.File.Lists.saveDemo(self.Simulate_Rod, 'Rod', pos, row=currentRod, column=4)
     
     @pyqtSlot()
     def on_Drive_rod_activated_clicked(self):
