@@ -115,8 +115,11 @@ class BaseCanvas(QWidget):
             self.painter.setFont(QFont('Arial', self.Font_size))
             text = '[Chain{}]'.format(i)
             if self.showDimension:
-                text += ':({:.02f}/{:.02f}/{:.02f})'.format(p1p2, p2p3, p1p3)
-            self.painter.drawText(QPointF((x0+x1+x2)/3, (y0+y1+y2)/3), text)
+                self.painter.drawText(QPointF((x0+x1)/2, (y0+y1)/2), text+':{:.02f}'.format(p1p2))
+                self.painter.drawText(QPointF((x1+x2)/2, (y1+y2)/2), text+':{:.02f}'.format(p2p3))
+                self.painter.drawText(QPointF((x0+x2)/2, (y0+y2)/2), text+':{:.02f}'.format(p1p3))
+            else:
+                self.painter.drawText(QPointF((x0+x1+x2)/3, (y0+y1+y2)/3), text)
     
     def drawShaft(self, i, x0, y0, x1, y1):
         pen = QPen()
