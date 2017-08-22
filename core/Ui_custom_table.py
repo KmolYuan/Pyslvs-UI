@@ -32,6 +32,26 @@ class BaseTableWidget(QTableWidget):
         self.setColumnCount(len(HorizontalHeaderItems)+1)
         for i, e in enumerate(['Name']+HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
+    
+    def setRowItems(self, rowPosition, name, Args):
+        name_set = QTableWidgetItem("{}{}".format(name, rowPosition))
+        name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        self.setItem(rowPosition, 0, name_set)
+        for i, e in enumerate(Args):
+            if type(e) in [str, float, int]:
+                content = 'Point{}'.format(e) if type(e)==int else e
+                try:
+                    self.setItem(rowPosition, i+1, QTableWidgetItem(str(round(float(content), 4))))
+                except:
+                    try:
+                        self.setItem(rowPosition, i+1, QTableWidgetItem(colorIcons()[content], content))
+                    except KeyError:
+                        self.setItem(rowPosition, i+1, QTableWidgetItem(content))
+            elif type(e)==bool:
+                checkbox = QTableWidgetItem(str())
+                checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+                checkbox.setCheckState(Qt.Checked if e else Qt.Unchecked)
+                self.setItem(rowPosition, i+1, checkbox)
 
 class PointTableWidget(BaseTableWidget):
     def __init__(self, parent=None):
