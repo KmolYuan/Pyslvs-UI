@@ -89,7 +89,8 @@ def init_Widgets(self):
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.PointTab.setCornerWidget(propertiesButton)
     #Focus to all table widgets.
-    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod]:
+    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
+            self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod]:
         table.itemClicked.connect(self.tableFocusChange)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)

@@ -45,16 +45,32 @@ class Selector:
     def __init__(self):
         self.x = 0
         self.y = 0
-        self.isDrag = False
+        self.MiddleButtonDrag = False
     
     def distance(self, x, y):
         return round(sqrt((self.x-x)**2+(self.y-y)**2), 2)
+
+class AuxLine:
+    def __init__(self):
+        self.show = False
+        self.pt = 0
+        self.horizontal = True
+        self.vertical = True
+        self.isMax = True
+        self.isMin = True
+        self.color = 6
+        self.limit_color = 8
+        self.maxX = 0
+        self.maxY = 0
+        self.minX = 0
+        self.minY = 0
 
 class BaseCanvas(QWidget):
     def __init__(self, parent=None):
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.options = PointOptions(self.width(), self.height())
+        self.AuxLine = AuxLine()
         self.linkWidth = 3
         self.pathWidth = 3
         self.Color = colorlist()
@@ -269,47 +285,10 @@ class DynamicCanvas(BaseCanvas):
                 p2x = (self.Point[e.ref].cx if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][0])*self.zoom
                 p2y = (self.Point[e.ref].cy if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][1])*self.zoom*-1
                 self.drawShaft(i, p1x, p1y, p2x, p2y)
-            if self.AuxLine['show']:
-                Auxpen = QPen(Qt.DashDotLine)
-                Auxpen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
-                Auxpen.setWidth(self.linkWidth)
-                self.painter.setPen(Auxpen)
-                x = (self.Point[self.AuxLine['pt']].cx if self.Point[self.AuxLine['pt']].fix else Points[self.AuxLine['pt']].path[resolutionIndex][0])
-                y = (self.Point[self.AuxLine['pt']].cy if self.Point[self.AuxLine['pt']].fix else Points[self.AuxLine['pt']].path[resolutionIndex][1])
-                for status in ['Max', 'Min']:
-                    if self.AuxLine['is'+status]:
-                        if status=='Max':
-                            if self.AuxLine['Max']['x']<x:
-                                self.AuxLine['Max']['x'] = x
-                            if self.AuxLine['Max']['y']<y:
-                                self.AuxLine['Max']['y'] = y
-                        else:
-                            if self.AuxLine['Min']['x']>x:
-                                self.AuxLine['Min']['x'] = x
-                            if self.AuxLine['Min']['y']>y:
-                                self.AuxLine['Min']['y'] = y
-                        L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*self.zoom*-1)
-                        R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*self.zoom*-1)
-                        U_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*4)
-                        D_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*-4)
-                        self.painter.drawLine(L_point, R_point)
-                        self.painter.drawLine(U_point, D_point)
-                        if self.showDimension:
-                            text_center_x = QPointF(self.AuxLine[status]['x']*self.zoom+self.linkWidth, self.options.oy*-1+self.Font_size)
-                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*self.zoom*-1-self.linkWidth)
-                            self.painter.setFont(QFont('Arial', self.Font_size))
-                            self.painter.drawText(text_center_x, '{:.6f}'.format(self.AuxLine[status]['x']))
-                            self.painter.drawText(text_center_y, '{:.6f}'.format(self.AuxLine[status]['y']))
-                pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
-                L_point = QPointF(self.width()*4, y*self.zoom*-1)
-                R_point = QPointF(self.width()*-4, y*self.zoom*-1)
-                U_point = QPointF(x*self.zoom, self.height()*4)
-                D_point = QPointF(x*self.zoom, self.height()*-4)
-                self.painter.setPen(pen)
-                if self.AuxLine['horizontal']:
-                    self.painter.drawLine(L_point, R_point)
-                if self.AuxLine['vertical']:
-                    self.painter.drawLine(U_point, D_point)
+            if self.AuxLine.show:
+                self.drawAuxLine(
+                    self.Point[self.AuxLine.pt].cx if self.Point[self.AuxLine.pt].fix else Points[self.AuxLine.pt].path[resolutionIndex][0],
+                    self.Point[self.AuxLine.pt].cy if self.Point[self.AuxLine.pt].fix else Points[self.AuxLine.pt].path[resolutionIndex][1])
             self.drawPath()
             for path in pathShaft.paths:
                 x = path.path[resolutionIndex][0]*self.zoom
@@ -358,47 +337,8 @@ class DynamicCanvas(BaseCanvas):
                 p2x = self.Point[e.ref].cx*self.zoom
                 p2y = self.Point[e.ref].cy*self.zoom*-1
                 self.drawShaft(i, p1x, p1y, p2x, p2y)
-            if self.AuxLine['show']:
-                Auxpen = QPen(Qt.DashDotLine)
-                Auxpen.setColor(self.Color[self.re_Color[self.AuxLine['limit_color']]])
-                Auxpen.setWidth(self.linkWidth)
-                self.painter.setPen(Auxpen)
-                x = self.Point[self.AuxLine['pt']].cx
-                y = self.Point[self.AuxLine['pt']].cy
-                for status in ['Max', 'Min']:
-                    if self.AuxLine['is'+status]:
-                        if status=='Max':
-                            if self.AuxLine['Max']['x']<x:
-                                self.AuxLine['Max']['x'] = x
-                            if self.AuxLine['Max']['y']<y:
-                                self.AuxLine['Max']['y'] = y
-                        else:
-                            if self.AuxLine['Min']['x']>x:
-                                self.AuxLine['Min']['x'] = x
-                            if self.AuxLine['Min']['y']>y:
-                                self.AuxLine['Min']['y'] = y
-                        L_point = QPointF(self.width()*4, self.AuxLine[status]['y']*self.zoom*-1)
-                        R_point = QPointF(self.width()*-4, self.AuxLine[status]['y']*self.zoom*-1)
-                        U_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*4)
-                        D_point = QPointF(self.AuxLine[status]['x']*self.zoom, self.height()*-4)
-                        self.painter.drawLine(L_point, R_point)
-                        self.painter.drawLine(U_point, D_point)
-                        if self.showDimension:
-                            text_center_x = QPointF(self.AuxLine[status]['x']*self.zoom+self.linkWidth, self.options.oy*-1+self.Font_size)
-                            text_center_y = QPointF(self.options.ox*-1, self.AuxLine[status]['y']*self.zoom*-1-self.linkWidth)
-                            self.painter.setFont(QFont('Arial', self.Font_size))
-                            self.painter.drawText(text_center_x, '{:.6f}'.format(self.AuxLine[status]['x']))
-                            self.painter.drawText(text_center_y, '{:.6f}'.format(self.AuxLine[status]['y']))
-                pen.setColor(self.Color[self.re_Color[self.AuxLine['color']]])
-                L_point = QPointF(self.width()*4, y*self.zoom*-1)
-                R_point = QPointF(self.width()*-4, y*self.zoom*-1)
-                U_point = QPointF(x*self.zoom, self.height()*4)
-                D_point = QPointF(x*self.zoom, self.height()*-4)
-                self.painter.setPen(pen)
-                if self.AuxLine['horizontal']:
-                    self.painter.drawLine(L_point, R_point)
-                if self.AuxLine['vertical']:
-                    self.painter.drawLine(U_point, D_point)
+            if self.AuxLine.show:
+                self.drawAuxLine(self.Point[self.AuxLine.pt].cx, self.Point[self.AuxLine.pt].cy)
             self.drawPath()
             for i, e in enumerate(self.Point):
                 x = e.cx*self.zoom
@@ -459,6 +399,49 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setFont(QFont('Arial', self.Font_size))
             self.painter.drawText(QPointF(x2+6, y2+6), '{{{}}}'.format(pos))
     
+    def drawAuxLine(self, x, y):
+        pen = QPen(Qt.DashDotLine)
+        pen.setColor(self.Color[self.re_Color[self.AuxLine.limit_color]])
+        pen.setWidth(self.linkWidth)
+        self.painter.setPen(pen)
+        if self.AuxLine.isMax:
+            if self.AuxLine.maxX<x:
+                self.AuxLine.maxX = x
+            if self.AuxLine.maxY<y:
+                self.AuxLine.maxY = y
+        if self.AuxLine.isMin:
+            if self.AuxLine.minX>x:
+                self.AuxLine.minX = x
+            if self.AuxLine.minY>y:
+                self.AuxLine.minY = y
+        for isl, lx, ly in zip(
+                [self.AuxLine.isMax, self.AuxLine.isMin],
+                [self.AuxLine.maxX, self.AuxLine.minX],
+                [self.AuxLine.maxY, self.AuxLine.minY]):
+            if isl:
+                L_point = QPointF(self.width()*4, ly*self.zoom*-1)
+                R_point = QPointF(self.width()*-4, ly*self.zoom*-1)
+                U_point = QPointF(lx*self.zoom, self.height()*4)
+                D_point = QPointF(lx*self.zoom, self.height()*-4)
+                self.painter.drawLine(L_point, R_point)
+                self.painter.drawLine(U_point, D_point)
+                if self.showDimension:
+                    text_center_x = QPointF(lx*self.zoom+self.linkWidth, self.options.oy*-1+self.Font_size)
+                    text_center_y = QPointF(self.options.ox*-1, ly*self.zoom*-1-self.linkWidth)
+                    self.painter.setFont(QFont('Arial', self.Font_size))
+                    self.painter.drawText(text_center_x, '{:.6f}'.format(lx))
+                    self.painter.drawText(text_center_y, '{:.6f}'.format(ly))
+        pen.setColor(self.Color[self.re_Color[self.AuxLine.color]])
+        L_point = QPointF(self.width()*4, y*self.zoom*-1)
+        R_point = QPointF(self.width()*-4, y*self.zoom*-1)
+        U_point = QPointF(x*self.zoom, self.height()*4)
+        D_point = QPointF(x*self.zoom, self.height()*-4)
+        self.painter.setPen(pen)
+        if self.AuxLine.horizontal:
+            self.painter.drawLine(L_point, R_point)
+        if self.AuxLine.vertical:
+            self.painter.drawLine(U_point, D_point)
+    
     def drawPath(self):
         if self.options.Path.show:
             for vpaths in self.options.Path.path:
@@ -518,16 +501,13 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
     
     def Reset_Aux_limit(self):
-        self.AuxLine['Max']['x'] = self.Point[self.AuxLine['pt']].cx
-        self.AuxLine['Max']['y'] = self.Point[self.AuxLine['pt']].cy
-        self.AuxLine['Min']['x'] = self.Point[self.AuxLine['pt']].cx
-        self.AuxLine['Min']['y'] = self.Point[self.AuxLine['pt']].cy
+        self.AuxLine.maxX = self.Point[self.AuxLine.pt].cx
+        self.AuxLine.maxY = self.Point[self.AuxLine.pt].cy
+        self.AuxLine.minX = self.Point[self.AuxLine.pt].cx
+        self.AuxLine.minY = self.Point[self.AuxLine.pt].cy
     
     def reset_Auxline(self):
-        self.AuxLine = {'show':False, 'pt':0,
-            'horizontal':True, 'vertical':True, 'isMax':True, 'isMin':True,
-            'color':6, 'limit_color':8,
-            'Max':{'x':0, 'y':0}, 'Min':{'x':0, 'y':0}}
+        self.AuxLine = AuxLine()
     
     def mousePressEvent(self, event):
         self.Selector.x = event.x()-self.options.ox
@@ -544,10 +524,10 @@ class DynamicCanvas(BaseCanvas):
             else:
                 self.mouse_noSelection.emit()
         if event.buttons()==Qt.MiddleButton:
-            self.Selector.isDrag = True
+            self.Selector.MiddleButtonDrag = True
     
     def mouseReleaseEvent(self, event):
-        self.Selector.isDrag = False
+        self.Selector.MiddleButtonDrag = False
     
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
@@ -566,13 +546,11 @@ class DynamicCanvas(BaseCanvas):
                         break
     
     def mouseMoveEvent(self, event):
-        if self.Selector.isDrag:
+        if self.Selector.MiddleButtonDrag:
             self.options.ox = event.x()-self.Selector.x
             self.options.oy = event.y()-self.Selector.y
             self.update()
-        self.mouse_track.emit(
-            round((event.x()-self.options.ox)/self.zoom/self.options.rate, 2),
-            -round((event.y()-self.options.oy)/self.zoom/self.options.rate, 2))
+        self.mouse_track.emit((event.x()-self.options.ox)/self.zoom, -((event.y()-self.options.oy)/self.zoom))
         if QApplication.keyboardModifiers()==Qt.AltModifier:
             self.setCursor(Qt.CrossCursor)
         else:

@@ -116,13 +116,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path.setVisible(self.PathSolving.isChecked())
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
-        table1 = self.Entiteis_Point
-        x = self.mouse_pos_x
-        y = self.mouse_pos_y
         if action==self.action_painter_right_click_menu_add:
-            self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), False, 'Green')
+            self.addPointGroup()
         elif action==self.action_painter_right_click_menu_fix_add:
-            self.File.Lists.editTable(table1, 'Point', False, str(x), str(y), True, 'Blue')
+            self.addPointGroup(True)
         elif action==self.action_painter_right_click_menu_path:
             self.PathSolving_add_rightClick(x, y)
     @pyqtSlot(QPoint)
@@ -601,10 +598,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.on_action_Edit_Rod_triggered(row)
     
     #Entities
-    def addPointGroup(self):
+    def addPointGroup(self, fixed=False):
         if not self.PathSolving.isChecked():
             table = self.Entiteis_Point
-            self.File.Lists.editTable(table, 'Point', False, str(self.mouse_pos_x), str(self.mouse_pos_y), False, 'Green')
+            self.File.Lists.editTable(table, 'Point', False, self.mouse_pos_x, self.mouse_pos_y, fixed, 'Blue' if fixed else 'Green')
         else:
             self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
     
@@ -1084,26 +1081,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closePanel(tabNameList.index("Auxiliary Line"))
             self.DynamicCanvasView.reset_Auxline()
         else:
-            self.DynamicCanvasView.AuxLine['show'] = True
-            self.DynamicCanvasView.AuxLine['horizontal'] = True
-            self.DynamicCanvasView.AuxLine['vertical'] = True
+            self.DynamicCanvasView.AuxLine.show = True
+            self.DynamicCanvasView.AuxLine.horizontal = True
+            self.DynamicCanvasView.AuxLine.vertical = True
             table = self.Entiteis_Point
-            panel = AuxLine_show(table, self.DynamicCanvasView.AuxLine['pt'], self.DynamicCanvasView.AuxLine['color'], self.DynamicCanvasView.AuxLine['limit_color'], self)
+            panel = AuxLine_show(table,
+                self.DynamicCanvasView.AuxLine.pt,
+                self.DynamicCanvasView.AuxLine.color,
+                self.DynamicCanvasView.AuxLine.limit_color,
+                self)
             panel.Point_change.connect(self.draw_Auxline)
             self.panelWidget.addTab(panel, self.AuxLine.icon(), "Auxiliary Line")
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     @pyqtSlot(int, int, int, bool, bool, bool, bool, bool)
     def draw_Auxline(self, pt, color, color_l, axe_H, axe_V, max_l, min_l, pt_change):
-        self.DynamicCanvasView.AuxLine['pt'] = pt
-        self.DynamicCanvasView.AuxLine['color'] = color
-        self.DynamicCanvasView.AuxLine['limit_color'] = color_l
+        self.DynamicCanvasView.AuxLine.pt = pt
+        self.DynamicCanvasView.AuxLine.color = color
+        self.DynamicCanvasView.AuxLine.limit_color = color_l
         if pt_change:
             self.DynamicCanvasView.Reset_Aux_limit()
-        self.DynamicCanvasView.AuxLine['horizontal'] = axe_H
-        self.DynamicCanvasView.AuxLine['vertical'] = axe_V
-        self.DynamicCanvasView.AuxLine['isMax'] = max_l
-        self.DynamicCanvasView.AuxLine['isMin'] = min_l
+        self.DynamicCanvasView.AuxLine.horizontal = axe_H
+        self.DynamicCanvasView.AuxLine.vertical = axe_V
+        self.DynamicCanvasView.AuxLine.isMax = max_l
+        self.DynamicCanvasView.AuxLine.isMin = min_l
         self.Reload_Canvas()
     
     @pyqtSlot()
