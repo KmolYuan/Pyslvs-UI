@@ -20,7 +20,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(379, 474))
         Dialog.setMaximumSize(QtCore.QSize(379, 474))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/bezier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/PathTrack.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(False)
         Dialog.setModal(True)

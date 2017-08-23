@@ -878,7 +878,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Path_Track_triggered(self):
         self.closeAllPanels()
-        self.on_action_Update_all_points_triggered()
         dlg = Path_Track_show(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
             self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.args.w, self)
         dlg.show()

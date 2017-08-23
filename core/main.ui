@@ -2658,6 +2658,10 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Path_Track">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/PathTrack.png</normaloff>:/icons/PathTrack.png</iconset>
+   </property>
    <property name="text">
     <string>Path Track</string>
    </property>
