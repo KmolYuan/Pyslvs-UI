@@ -253,9 +253,11 @@ You need change a few of Python files to avoid these conflicts.
 
 But you can be assured that the changes won't cause any negative impact.
 
-1. **Python development settings**
+1. Python development settings
 
     If your Python doesn't have development library, like `libpython35.a`, using `gendef` to generate it.
+
+    **In Python 3.6 and above versions, you do not have to do these actions.**
 
     First copy `python3x.dll` to `where_your_python\libs` folder.
 
@@ -289,19 +291,21 @@ But you can be assured that the changes won't cause any negative impact.
 
     Commit `self.dll_libraries = get_msvcr()`.
 
-1. **`math.h` conflict with `pyconfig.h`**
+1. `math.h` conflict with `pyconfig.h`
 
     You will definitely get warning with `_hypot` in `pyconfig.h`, and you should do this step.
 
     In `where_your_python\include\pyconfig.h`, find this:
 
     ```c
+    #define COMPILER "[gcc]"
     #define hypot _hypot
     ```
 
     Edit it to this:
 
     ```c
+    #define COMPILER "[gcc]"
     #ifndef _MATH_H_
     #define hypot _hypot
     #endif
@@ -324,9 +328,12 @@ Ubuntu user can compile kernel by Cython directly.
 
 If you are using 64 bit OS with 64bit Python, unfortunately you **can not** use mingw64 to complete the compilation.
 
-Using Microsoft Visual Studio is the only option, you can get it from [here](https://www.visualstudio.com/downloads/), then startup the Visual Studio Community and install Windows SDK.
+Using Microsoft Visual Studio is the only option, you can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
 
-When installation finished, see the instructions [here](https://github.com/cython/cython/wiki/CythonExtensionsOnWindows#using-windows-sdk-cc-compiler-works-for-all-python-versions) to set up the Windows SDK.
+When installation finished, see the instructions [here][cython-link] to set up the Windows SDK.
+
+[visualstudio-link]: https://www.visualstudio.com/downloads/
+[cython-link]: https://github.com/cython/cython/wiki/CythonExtensionsOnWindows#using-windows-sdk-cc-compiler-works-for-all-python-versions
 
 Compile
 ===
