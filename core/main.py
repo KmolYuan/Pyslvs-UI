@@ -124,27 +124,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolving_add_rightClick(x, y)
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
-        table1 = self.Entiteis_Point
-        NOT_ORIGIN = table1.rowCount()>1 and table1.currentRow()!=0
+        Point = self.Entiteis_Point
+        NOT_ORIGIN = Point.rowCount()>1 and Point.currentRow()!=0
         self.action_point_right_click_menu_delete.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_edit.setEnabled(NOT_ORIGIN)
         self.action_point_right_click_menu_lock.setEnabled(NOT_ORIGIN)
-        self.action_point_right_click_menu_copy.setEnabled(table1.currentColumn()!=3)
+        self.action_point_right_click_menu_copy.setEnabled(Point.currentColumn()!=3)
         action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
-        table_pos = table1.currentRow() if table1.currentRow()>=1 else 1
-        table_pos_0 = table1.currentRow()
+        table_pos = Point.currentRow() if Point.currentRow()>=1 else 1
+        table_pos_0 = Point.currentRow()
         if action==self.action_point_right_click_menu_add:
             self.on_action_New_Point_triggered()
         elif action==self.action_point_right_click_menu_edit:
             self.on_action_Edit_Point_triggered(table_pos)
         elif action==self.action_point_right_click_menu_lock:
-            self.File.Lists.editTable(table1, 'Point', table_pos_0,
+            self.File.Lists.editTable(Point, table_pos_0,
                 str(self.File.Lists.PointList[table_pos_0]['x']), str(self.File.Lists.PointList[table_pos_0]['y']), not(self.File.Lists.PointList[table_pos_0]['fix']), 'Green')
         elif action==self.action_point_right_click_menu_copy:
-            self.tableCopy(table1)
+            self.tableCopy(Point)
         elif action==self.action_point_right_click_menu_copyPoint:
-            self.File.Lists.editTable(table1, 'Point', False,
-                table1.item(table_pos_0, 1).text(), table1.item(table_pos_0, 2).text(), table1.item(table_pos_0, 3).checkState()==Qt.Checked, 'Orange')
+            self.File.Lists.editTable(Point, False,
+                Point.item(table_pos_0, 1).text(), Point.item(table_pos_0, 2).text(), Point.item(table_pos_0, 3).checkState()==Qt.Checked, 'Orange')
         elif action==self.action_point_right_click_menu_replace:
             self.on_action_Replace_Point_triggered(table_pos_0)
         elif action==self.action_point_right_click_menu_delete:
@@ -600,8 +600,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Entities
     def addPointGroup(self, fixed=False):
         if not self.PathSolving.isChecked():
-            table = self.Entiteis_Point
-            self.File.Lists.editTable(table, 'Point', False, self.mouse_pos_x, self.mouse_pos_y, fixed, 'Blue' if fixed else 'Green')
+            self.File.Lists.editTable(self.Entiteis_Point, False, self.mouse_pos_x, self.mouse_pos_y, fixed, 'Blue' if fixed else 'Green')
         else:
             self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
     
@@ -617,7 +616,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_point_show(self.Mask, self.File.Lists.PointList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Entiteis_Point, 'Point', False if pos is False else dlg.Point.currentIndex()+1,
+            self.File.Lists.editTable(self.Entiteis_Point, False if pos is False else dlg.Point.currentIndex()+1,
                 dlg.X_coordinate.text() if not dlg.X_coordinate.text() in [str(), 'n', '-'] else dlg.X_coordinate.placeholderText(),
                 dlg.Y_coordinate.text() if not dlg.Y_coordinate.text() in [str(), 'n', '-'] else dlg.Y_coordinate.placeholderText(),
                 bool(dlg.Fix_Point.checkState()), dlg.Color.currentText())
@@ -652,7 +651,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.checkEntitiesConflict(pos, [start, end])
         if leng==None:
             leng = pointList[start].distance(pointList[end])
-        self.File.Lists.editTable(self.Entiteis_Link, 'Line', pos, start, end, leng)
+        self.File.Lists.editTable(self.Entiteis_Link, pos, start, end, leng)
         self.closeAllPanels()
     
     @pyqtSlot()
@@ -683,7 +682,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             p2p3 = pointList[p2].distance(pointList[p3])
         if p1p3==None:
             p1p3 = pointList[p1].distance(pointList[p3])
-        self.File.Lists.editTable(self.Entiteis_Chain, 'Chain', pos, p1, p2, p3, p1p2, p2p3, p1p3)
+        self.File.Lists.editTable(self.Entiteis_Chain, pos, p1, p2, p3, p1p2, p2p3, p1p3)
         self.closeAllPanels()
     
     def checkEntitiesConflict(self, pos, points):
@@ -692,13 +691,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if len(set(points) & set([e.start, e.end]))>1 and (i!=pos or len(points)!=2):
                 d_list.append(i)
         for i in reversed(d_list):
-            self.File.Lists.deleteTable(self.Entiteis_Link, 'Line', i)
+            self.File.Lists.deleteTable(self.Entiteis_Link, i)
         del d_list[:]
         for i, e in enumerate(self.File.Lists.ChainList):
             if len(set(points) & set([e.p1, e.p2, e.p3]))>1 and (i!=pos or len(points)!=3):
                 d_list.append(i)
         for i in reversed(d_list):
-            self.File.Lists.deleteTable(self.Entiteis_Chain, 'Chain', i)
+            self.File.Lists.deleteTable(self.Entiteis_Chain, i)
     
     #Simulate
     @pyqtSlot()
@@ -713,7 +712,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_shaft_show(self.File.Lists.PointList, self.File.Lists.ShaftList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Simulate_Shaft, 'Shaft', False if pos is False else dlg.Shaft.currentIndex(),
+            self.File.Lists.editTable(self.Simulate_Shaft, False if pos is False else dlg.Shaft.currentIndex(),
                 dlg.center, dlg.ref, dlg.start, dlg.end, self.File.Lists.m(dlg.center, dlg.ref))
             self.closeAllPanels()
     
@@ -729,7 +728,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_slider_show(self.File.Lists.PointList, self.File.Lists.SliderList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Simulate_Slider, 'Slider', False if pos is False else dlg.Slider.currentIndex(),
+            self.File.Lists.editTable(self.Simulate_Slider, False if pos is False else dlg.Slider.currentIndex(),
                 dlg.slider, dlg.start, dlg.end)
             self.closeAllPanels()
     
@@ -745,7 +744,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = edit_rod_show(self.File.Lists.PointList, self.File.Lists.RodList, pos, self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.editTable(self.Simulate_Rod, 'Rod', False if pos is False else dlg.Rod.currentIndex(),
+            self.File.Lists.editTable(self.Simulate_Rod, False if pos is False else dlg.Rod.currentIndex(),
                 dlg.cen, dlg.start, dlg.end, dlg.pos)
             self.closeAllPanels()
     
@@ -754,60 +753,60 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Delete_Point_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Point.currentRow()
-        self.deletePanel(self.Entiteis_Point, 'Point', self.action_New_Point.icon(), pos)
+        self.deleteDlg(self.Entiteis_Point, self.action_New_Point.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Linkage_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Link.currentRow()
-        self.deletePanel(self.Entiteis_Link, 'Line', self.action_New_Line.icon(), pos)
+        self.deleteDlg(self.Entiteis_Link, self.action_New_Line.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Stay_Chain_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Chain.currentRow()
-        self.deletePanel(self.Entiteis_Chain, 'Chain', self.action_New_Stay_Chain.icon(), pos)
+        self.deleteDlg(self.Entiteis_Chain, self.action_New_Stay_Chain.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Shaft_triggered(self, pos=None):
         if pos==None:
             pos = self.Simulate_Shaft.currentRow()
-        self.deletePanel(self.Simulate_Shaft, 'Shaft', self.action_Set_Shaft.icon(), pos)
+        self.deleteDlg(self.Simulate_Shaft, self.action_Set_Shaft.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Slider_triggered(self, pos=None):
         if pos==None:
             pos = self.Simulate_Slider.currentRow()
-        self.deletePanel(self.Simulate_Slider, 'Slider', self.action_Set_Slider.icon(), pos)
+        self.deleteDlg(self.Simulate_Slider, self.action_Set_Slider.icon(), pos)
     
     @pyqtSlot()
     def on_action_Delete_Piston_Spring_triggered(self, pos=None):
         if pos==None:
             pos = self.Simulate_Rod.currentRow()
-        self.deletePanel(self.Simulate_Rod, 'Rod', self.action_Set_Rod.icon(), pos)
+        self.deleteDlg(self.Simulate_Rod, self.action_Set_Rod.icon(), pos)
     
-    def deletePanel(self, table, name, icon, pos):
+    def deleteDlg(self, table, icon, pos):
         dlg = deleteDlg(icon, table, pos, self)
         dlg.move(QCursor.pos()-QPoint(dlg.size().width(), dlg.size().height()))
         dlg.show()
         if dlg.exec_():
             self.File.Lists.clearPath()
-            if name=='Point':
+            if table.name=='Point':
                 self.File.Lists.deletePointTable(self.Entiteis_Point, self.Entiteis_Link,
                     self.Entiteis_Chain, self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, dlg.Entity.currentIndex())
             else:
-                self.File.Lists.deleteTable(table, name, dlg.Entity.currentIndex())
+                self.File.Lists.deleteTable(table, dlg.Entity.currentIndex())
             self.closeAllPanels()
     
     @pyqtSlot()
     def on_Parameter_add_clicked(self):
-        self.File.Lists.editTable(self.Parameter_list, 'n', False, '0.0', 'No-comment')
+        self.File.Lists.editTable(self.Parameter_list, False, 0.0, 'No-comment')
         self.MaskChange()
     @pyqtSlot()
     def on_Parameter_update_clicked(self):
         dtext = self.Parameter_digital.text()
         ctext = self.Parameter_comment.text()
-        self.File.Lists.editTable(self.Parameter_list, 'n', self.Parameter_list.currentRow(),
+        self.File.Lists.editTable(self.Parameter_list, self.Parameter_list.currentRow(),
             dtext if dtext!='' else self.Parameter_digital.placeholderText(),
             ctext if ctext!='' else self.Parameter_comment.placeholderText())
     @pyqtSlot()
@@ -890,7 +889,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if reply==QMessageBox.Apply:
                     for i, shaft in enumerate(dlg.ShaftSuggest):
                         o = self.File.Lists.ShaftList[i]
-                        self.File.Lists.editTable(self.Simulate_Shaft, 'Shaft', i, o.cen, o.ref, shaft[0], shaft[1], o.demo)
+                        self.File.Lists.editTable(self.Simulate_Shaft, i, o.cen, o.ref, shaft[0], shaft[1], o.demo)
             self.File.Lists.setPath(dlg.Path_data)
     @pyqtSlot()
     def on_action_Path_Clear_triggered(self):
@@ -1015,7 +1014,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Reload_Canvas()
     @pyqtSlot(float, int)
     def Save_demo_angle(self, angle, currentShaft):
-        self.File.Lists.saveDemo(self.Simulate_Shaft, 'Shaft', angle, row=currentShaft, column=5)
+        self.File.Lists.saveDemo(self.Simulate_Shaft, angle, row=currentShaft, column=5)
     
     @pyqtSlot()
     def on_Drive_shaft_activated_clicked(self):
@@ -1042,7 +1041,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.workbookNoSave()
     @pyqtSlot(float, int)
     def Save_position(self, pos, currentRod):
-        self.File.Lists.saveDemo(self.Simulate_Rod, 'Rod', pos, row=currentRod, column=4)
+        self.File.Lists.saveDemo(self.Simulate_Rod, pos, row=currentRod, column=4)
     
     @pyqtSlot()
     def on_Drive_rod_activated_clicked(self):

@@ -84,6 +84,7 @@ class PointTableWidget(BaseTableWidget):
         selectedRows = self.selectedRows()
         for row in selections:
             self.setRangeSelected(QTableWidgetSelectionRange(row, 0, row, 5), not row in selectedRows)
+            self.scrollToItem(self.item(row, 0))
     
     def selectedRows(self):
         a = list()

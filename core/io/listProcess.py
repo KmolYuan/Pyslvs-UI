@@ -42,17 +42,18 @@ class Lists:
         self.CosineTheoremAngle = lambda a, b, c: acos(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01))
         self.CosineTheoremAngleE = lambda a, b, c: acos(min(1, max(float(b**2+c**2-a**2)/(float(2*b*c) if float(2*b*c)!=0 else 0.01), -1)))
     
-    def editTable(self, table, name, edit, *Args):
+    def editTable(self, table, edit, *Args):
         isEdit = not edit is False
         rowPosition = edit if isEdit else table.rowCount()
-        self.FileState.beginMacro("{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if name=='n' else '', name, rowPosition))
+        self.FileState.beginMacro(
+            "{}{} {{{}{}}}".format('Add' if not isEdit else 'Edit', ' parameter' if table.name=='n' else '', table.name, rowPosition))
         self.FileState.push(editTableCommand(table, edit, Args))
         if not isEdit:
             table.scrollToBottom()
         self.FileState.endMacro()
     
-    def deleteTable(self, table, name, index, isRename=True):
-        self.FileState.beginMacro("Delete {{{}{}}}".format(name, index))
+    def deleteTable(self, table, index, isRename=True):
+        self.FileState.beginMacro("Delete {{{}{}}}".format(table.name, index))
         self.FileState.push(deleteTableCommand(table, index, isRename))
         self.FileState.endMacro()
     
@@ -67,19 +68,19 @@ class Lists:
             self.clearPath()
         for e in self.LineList:
             if pos in [e.start, e.end]:
-                self.deleteTable(Line, 'Line', self.LineList.index(e))
+                self.deleteTable(Line, self.LineList.index(e))
         for e in self.ChainList:
             if pos in [e.p1, e.p2, e.p3]:
-                self.deleteTable(Chain, 'Chain', self.ChainList.index(e))
+                self.deleteTable(Chain, self.ChainList.index(e))
         for e in self.ShaftList:
             if pos in [e.cen, e.ref]:
-                self.deleteTable(Shaft, 'Shaft', self.ShaftList.index(e))
+                self.deleteTable(Shaft, self.ShaftList.index(e))
         for e in self.SliderList:
             if pos in [e.cen, e.start, e.end]:
-                self.deleteTable(Slider, 'Slider', self.SliderList.index(e))
+                self.deleteTable(Slider, self.SliderList.index(e))
         for e in self.RodList:
             if pos in [e.cen, e.start, e.end]:
-                self.deleteTable(Rod, 'Rod', self.RodList.index(e))
+                self.deleteTable(Rod, self.RodList.index(e))
         #Change Number and Delete Point
         self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
         self.replacePoint(Line, Chain, Shaft, Slider, Rod, pos, lambda x, y: x>y, lambda x: x-1)
@@ -224,34 +225,36 @@ class Lists:
     def toFloat(self, p):
         return float(self.ParameterList[int(p.replace('n', ''))].val if 'n' in p else p)
     
-    def coverageCoordinate(self, table):
+    def coverageCoordinate(self, Point):
         for i, e in enumerate(self.PointList[1:]):
             cx = e.cx if e.fix else float(round(e.cx))
             cy = e.cy if e.fix else float(round(e.cy))
-            self.editTable(table, 'Point', i+1, cx, cy, e.fix)
+            self.editTable(Point, i+1, cx, cy, e.fix)
     
     def currentPos(self, table, result):
         for i in range(table.rowCount()):
-            name = "({}, {})".format(result[i]['x'], result[i]['y'])
-            digit = QTableWidgetItem(name)
-            digit.setToolTip(name)
+            posSTR = "({}, {})".format(result[i]['x'], result[i]['y'])
+            digit = QTableWidgetItem(posSTR)
+            digit.setToolTip(posSTR)
             table.setItem(i, 5, digit)
         self.update(table)
     
-    def link2Shaft(self, table, row):
+    def link2Shaft(self, Shaft, row):
         cen = self.LineList[row].start
         ref = self.LineList[row].end
-        self.editTable(table, 'Shaft', False, cen, ref, 0., 360., self.m(cen, ref), False)
+        self.editTable(Shaft, False, cen, ref, 0., 360., self.m(cen, ref), False)
     
     def setDemo(self, name, row, pos):
         if name=='Shaft':
             self.ShaftList[row].demo = pos
         elif name=='Rod':
             self.RodList[row].pos = pos
-    def saveDemo(self, table, name, pos, row, column):
-        self.FileState.beginMacro("Adjust demo {} {} {{{}{}}}".format('angle' if name=='Shaft' else 'position', pos, name, row))
+    
+    def saveDemo(self, table, pos, row, column):
+        self.FileState.beginMacro(
+            "Adjust demo {} {} {{{}{}}}".format('angle' if table.name=='Shaft' else 'position', pos, table.name, row))
         self.FileState.push(demoValueCommand(table, row, pos, column))
-        print("- Moved to ({})".format(str(pos)+' deg' if name=='Shaft' else pos))
+        print("- Moved to ({})".format(str(pos)+' deg' if table.name=='Shaft' else pos))
         self.FileState.endMacro()
     
     def setPath(self, path):
