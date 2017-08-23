@@ -141,24 +141,24 @@ class File:
                 elements = table.findall('element')
                 for element in elements:
                     try:
-                        self.Lists.editTable(Parameter, tableName, False, element.find('val').text, element.find('commit').text)
+                        self.Lists.editTable(Parameter, False, element.find('val').text, element.find('commit').text)
                     except Exception as e:
                         ReadError(e, 'Parameter')
             elif tableName=='Point' and not 'Parameter' in errorInfo:
                 elements = table.findall('element')
                 for element in elements:
                     try:
-                        self.Lists.editTable(Point, tableName, False, element.find('x').text, element.find('y').text, element.find('fix').text=='True', element.find('color').text)
+                        self.Lists.editTable(Point, False, element.find('x').text, element.find('y').text, element.find('fix').text=='True', element.find('color').text)
                     except Exception as e:
                         ReadError(e, tableName)
             elif not 'Parameter' in errorInfo and not 'Point' in errorInfo:
-                for tableTag, Qtable in zip(['Line', 'Chain', 'Shaft', 'Slider', 'Rod'], [Link, Chain, Shaft, Slider, Rod]):
-                    if tableName==tableTag:
+                for tableWidget in [Link, Chain, Shaft, Slider, Rod]:
+                    if tableName==tableWidget.name:
                         elements = table.findall('element')
                         for element in elements:
                             tableArgs = [self.pNumAdd(arg.text, b) if 'Point' in arg.text else arg.text for arg in element]
                             try:
-                                self.Lists.editTable(Qtable, tableTag, False, *tableArgs)
+                                self.Lists.editTable(tableWidget, False, *tableArgs)
                             except Exception as e:
                                 ReadError(e, tableName)
         #design
@@ -282,7 +282,7 @@ class File:
             li = data[tableIndex[6]:tableIndex[7]]
             if (len(li)-1)%3==0:
                 for i in range(1, len(li), 3):
-                    self.Lists.editTable(Parameter, 'n', False, li[i+1], li[i+2])
+                    self.Lists.editTable(Parameter, False, li[i+1], li[i+2])
             else:
                 raise ValueError
         except Exception as e:
@@ -292,7 +292,7 @@ class File:
                 li = data[tableIndex[0]:tableIndex[1]]
                 if (len(li)-1)%5==0:
                     for i in range(1, len(li), 5):
-                        self.Lists.editTable(Point, 'Point', False, li[i+1], li[i+2], li[i+3]=='True', li[i+4])
+                        self.Lists.editTable(Point, False, li[i+1], li[i+2], li[i+3]=='True', li[i+4])
                 else:
                     raise ValueError
             except Exception as e:
@@ -302,7 +302,7 @@ class File:
                 li = data[tableIndex[1]:tableIndex[2]]
                 if (len(li)-1)%4==0:
                     for i in range(1, len(li), 4):
-                        self.Lists.editTable(Link, 'Line', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3])
+                        self.Lists.editTable(Link, False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3])
                 else:
                     raise ValueError
             except Exception as e:
@@ -311,7 +311,7 @@ class File:
                 li = data[tableIndex[2]:tableIndex[3]]
                 if (len(li)-1)%7==0:
                     for i in range(1, len(li), 7):
-                        self.Lists.editTable(Chain, 'Chain', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4], li[i+5], li[i+6])
+                        self.Lists.editTable(Chain, False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4], li[i+5], li[i+6])
                 else:
                     raise ValueError
             except Exception as e:
@@ -320,7 +320,7 @@ class File:
                 li = data[tableIndex[3]:tableIndex[4]]
                 if (len(li)-1)%6==0:
                     for i in range(1, len(li), 6):
-                        self.Lists.editTable(Shaft, 'Shaft', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3], li[i+4], li[i+5])
+                        self.Lists.editTable(Shaft, False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), li[i+3], li[i+4], li[i+5])
                 else:
                     raise ValueError
             except Exception as e:
@@ -329,7 +329,7 @@ class File:
                 li = data[tableIndex[4]:tableIndex[5]]
                 if (len(li)-1)%4==0:
                     for i in range(1, len(li), 4):
-                        self.Lists.editTable(Slider, 'Slider', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b))
+                        self.Lists.editTable(Slider, False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b))
                 else:
                     raise ValueError
             except Exception as e:
@@ -338,7 +338,7 @@ class File:
                 li = data[tableIndex[5]:tableIndex[6]]
                 if (len(li)-1)%5==0:
                     for i in range(1, len(li), 5):
-                        self.Lists.editTable(Rod, 'Rod', False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4])
+                        self.Lists.editTable(Rod, False, self.pNumAdd(li[i+1], b), self.pNumAdd(li[i+2], b), self.pNumAdd(li[i+3], b), li[i+4])
                 else:
                     raise ValueError
             except Exception as e:
@@ -635,17 +635,17 @@ class File:
             if not dataAdd:
                 self.Lists.clearPath()
             for i, (x, y) in enumerate(answer):
-                self.Lists.editTable(Point, 'Point', False, round(x, 4), round(y, 4), i<2, 'Blue' if i<2 else 'Green' if i<len(answer)-1 else 'Brick-Red')
+                self.Lists.editTable(Point, False, round(x, 4), round(y, 4), i<2, 'Blue' if i<2 else 'Green' if i<len(answer)-1 else 'Brick-Red')
             Rnum = Point.rowCount()-len(expression_result)
-            self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), str(Result['L0']))
+            self.Lists.editTable(Link, False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), str(Result['L0']))
             #exp = ('B', 'L2', 'L1', 'C', 'D')
             for i, exp in enumerate(expression_tag[1:]):
                 p1 = -2 if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else -1
                 p2 = -2 if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else -1
                 p3 = -2 if exp[-1]=='A' else expression_result.index(exp[-1]) if exp[-1] in expression_result else -1
-                self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum+p1), "Point{}".format(Rnum+p3), str(Result[exp[1]]))
-                self.Lists.editTable(Link, 'Line', False, "Point{}".format(Rnum+p2), "Point{}".format(Rnum+p3), str(Result[exp[2]]))
-            self.Lists.editTable(Shaft, 'Shaft', False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), startAngle, endAngle, startAngle, False)
+                self.Lists.editTable(Link, False, "Point{}".format(Rnum+p1), "Point{}".format(Rnum+p3), str(Result[exp[1]]))
+                self.Lists.editTable(Link, False, "Point{}".format(Rnum+p2), "Point{}".format(Rnum+p3), str(Result[exp[2]]))
+            self.Lists.editTable(Shaft, False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), startAngle, endAngle, startAngle, False)
             path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
             list_paths = VPaths(Shaft.rowCount()-1, path_dots)
             if dataAdd and not list_paths.isBroken():
@@ -664,14 +664,13 @@ class File:
             #New Points
             for p in ['p1', 'p2', 'p3']:
                 if type(direction.get(p))==tuple:
-                    self.Lists.editTable(Point, 'Point', False, direction.get(p)[0], direction.get(p)[1], False, 'Green')
+                    self.Lists.editTable(Point, False, direction.get(p)[0], direction.get(p)[1], False, 'Green')
                     pNum[p] = Point.rowCount()-1
             if len(answer)==2:
-                self.Lists.editTable(Point, 'Point', False,
-                str(answer[0]), str(answer[1]), False, 'Green')
+                self.Lists.editTable(Point, False, answer[0], answer[1], False, 'Green')
             elif len(answer)==3:
                 if type(direction.get('p3'))==tuple:
-                    self.Lists.editTable(Point, 'Point', False, direction.p3[0], direction.p3[1], False, 'Green')
+                    self.Lists.editTable(Point, False, direction.p3[0], direction.p3[1], False, 'Green')
             pNum['answer'] = Point.rowCount()-1
             pNums.append(pNum)
             #Number of Points & Length of Sides
@@ -685,30 +684,30 @@ class File:
             table_points = self.Lists.PointList
             if direction.Type in ['PLAP', 'PLLP']:
                 if direction.merge==1:
-                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction.len1))
+                    self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
                 elif direction.merge==2:
-                    self.Lists.editTable(Link, 'Line', False, p2, pA, str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
+                    self.Lists.editTable(Link, False, p2, pA, str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
                 elif direction.merge==3:
-                    self.Lists.editTable(Chain, 'Chain', False, p1, pA, p2,
+                    self.Lists.editTable(Chain, False, p1, pA, p2,
                         str(direction.len1),
                         str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))),
                         str(Pythagorean(table_points[p1], table_points[p2]))
                     )
                 elif direction.merge==4:
-                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction.len1))
-                    self.Lists.editTable(Link, 'Line', False, p2, pA,
+                    self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
+                    self.Lists.editTable(Link, False, p2, pA,
                         str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
             elif direction.Type=='PPP':
                 if direction.merge==1:
-                    self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
+                    self.Lists.editTable(Link, False, p1, p3, answer[2])
                 elif direction.merge==2:
-                    self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
+                    self.Lists.editTable(Link, False, p2, p3, answer[1])
                 elif direction.merge==3:
-                    self.Lists.editTable(Chain, 'Chain', False, p1, p2, p3, answer[0], answer[1], answer[2])
+                    self.Lists.editTable(Chain, False, p1, p2, p3, answer[0], answer[1], answer[2])
                 elif direction.merge==4:
-                    self.Lists.editTable(Link, 'Line', False, p1, p3, answer[2])
-                    self.Lists.editTable(Link, 'Line', False, p2, p3, answer[1])
+                    self.Lists.editTable(Link, False, p1, p3, answer[2])
+                    self.Lists.editTable(Link, False, p2, p3, answer[1])
             elif direction.Type=='PLPP':
                 if direction.merge==1:
-                    self.Lists.editTable(Link, 'Line', False, p1, pA, str(direction.len1))
-                    self.Lists.editTable(Slider, 'Slider', False, pA, p2, p3)
+                    self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
+                    self.Lists.editTable(Slider, False, pA, p2, p3)

@@ -185,7 +185,7 @@
                     <layout class="QVBoxLayout" name="verticalLayout_13">
                      <item>
                       <widget class="QWidget" name="Parameter_Widget" native="true">
-                       <layout class="QVBoxLayout" name="verticalLayout_19">
+                       <layout class="QVBoxLayout" name="Parameter_Layout">
                         <property name="leftMargin">
                          <number>6</number>
                         </property>
@@ -206,46 +206,6 @@
                           <property name="text">
                            <string>The number that does not exist will return 0.</string>
                           </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QTableWidget" name="Parameter_list">
-                          <property name="enabled">
-                           <bool>true</bool>
-                          </property>
-                          <property name="statusTip">
-                           <string>List of Parameter.</string>
-                          </property>
-                          <property name="autoFillBackground">
-                           <bool>true</bool>
-                          </property>
-                          <property name="editTriggers">
-                           <set>QAbstractItemView::NoEditTriggers</set>
-                          </property>
-                          <property name="selectionBehavior">
-                           <enum>QAbstractItemView::SelectRows</enum>
-                          </property>
-                          <property name="verticalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <property name="horizontalScrollMode">
-                           <enum>QAbstractItemView::ScrollPerPixel</enum>
-                          </property>
-                          <column>
-                           <property name="text">
-                            <string>Name</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Parameter</string>
-                           </property>
-                          </column>
-                          <column>
-                           <property name="text">
-                            <string>Comment</string>
-                           </property>
-                          </column>
                          </widget>
                         </item>
                         <item>
@@ -672,7 +632,7 @@ p, li { white-space: pre-wrap; }
                           </layout>
                          </item>
                          <item>
-                          <widget class="QWidget" name="Shaft_Widget" native="true">
+                          <widget class="QWidget" name="Simulate_Shaft_Widget" native="true">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -685,7 +645,7 @@ p, li { white-space: pre-wrap; }
                            <property name="statusTip">
                             <string>All drive shaft will show here. Needs two point.</string>
                            </property>
-                           <layout class="QVBoxLayout" name="Drive_Shaft_Layout">
+                           <layout class="QVBoxLayout" name="Simulate_Shaft_Layout">
                             <property name="leftMargin">
                              <number>0</number>
                             </property>
@@ -698,52 +658,6 @@ p, li { white-space: pre-wrap; }
                             <property name="bottomMargin">
                              <number>0</number>
                             </property>
-                            <item>
-                             <widget class="QTableWidget" name="Shaft">
-                              <property name="editTriggers">
-                               <set>QAbstractItemView::NoEditTriggers</set>
-                              </property>
-                              <property name="selectionBehavior">
-                               <enum>QAbstractItemView::SelectRows</enum>
-                              </property>
-                              <property name="verticalScrollMode">
-                               <enum>QAbstractItemView::ScrollPerPixel</enum>
-                              </property>
-                              <property name="horizontalScrollMode">
-                               <enum>QAbstractItemView::ScrollPerPixel</enum>
-                              </property>
-                              <column>
-                               <property name="text">
-                                <string>Name</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Shaft Center</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Reference</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Start Angle(deg)</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>End Angle(deg)</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Demo Angle(deg)</string>
-                               </property>
-                              </column>
-                             </widget>
-                            </item>
                            </layout>
                           </widget>
                          </item>
@@ -781,7 +695,7 @@ p, li { white-space: pre-wrap; }
                           </widget>
                          </item>
                          <item>
-                          <widget class="QWidget" name="Slider_Widget" native="true">
+                          <widget class="QWidget" name="Simulate_Slider_Widget" native="true">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -794,7 +708,7 @@ p, li { white-space: pre-wrap; }
                            <property name="statusTip">
                             <string>All slider will show here. Needs a point and a link.</string>
                            </property>
-                           <layout class="QVBoxLayout" name="Slider_Layout">
+                           <layout class="QVBoxLayout" name="Simulate_Slider_Layout">
                             <property name="leftMargin">
                              <number>0</number>
                             </property>
@@ -807,42 +721,6 @@ p, li { white-space: pre-wrap; }
                             <property name="bottomMargin">
                              <number>0</number>
                             </property>
-                            <item>
-                             <widget class="QTableWidget" name="Slider">
-                              <property name="editTriggers">
-                               <set>QAbstractItemView::NoEditTriggers</set>
-                              </property>
-                              <property name="selectionBehavior">
-                               <enum>QAbstractItemView::SelectRows</enum>
-                              </property>
-                              <property name="verticalScrollMode">
-                               <enum>QAbstractItemView::ScrollPerPixel</enum>
-                              </property>
-                              <property name="horizontalScrollMode">
-                               <enum>QAbstractItemView::ScrollPerPixel</enum>
-                              </property>
-                              <column>
-                               <property name="text">
-                                <string>Name</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Slider Center</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Start Side</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>End Side</string>
-                               </property>
-                              </column>
-                             </widget>
-                            </item>
                            </layout>
                           </widget>
                          </item>
@@ -904,7 +782,7 @@ p, li { white-space: pre-wrap; }
                           </layout>
                          </item>
                          <item>
-                          <widget class="QWidget" name="Rod_Widget" native="true">
+                          <widget class="QWidget" name="Simulate_Rod_Widget" native="true">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -917,7 +795,7 @@ p, li { white-space: pre-wrap; }
                            <property name="statusTip">
                             <string>All extendable rod will show here. Needs two point.</string>
                            </property>
-                           <layout class="QVBoxLayout" name="Rod_Layout">
+                           <layout class="QVBoxLayout" name="Simulate_Rod_Layout">
                             <property name="leftMargin">
                              <number>0</number>
                             </property>
@@ -930,47 +808,6 @@ p, li { white-space: pre-wrap; }
                             <property name="bottomMargin">
                              <number>0</number>
                             </property>
-                            <item>
-                             <widget class="QTableWidget" name="Rod">
-                              <property name="editTriggers">
-                               <set>QAbstractItemView::NoEditTriggers</set>
-                              </property>
-                              <property name="selectionBehavior">
-                               <enum>QAbstractItemView::SelectRows</enum>
-                              </property>
-                              <property name="verticalScrollMode">
-                               <enum>QAbstractItemView::ScrollPerPixel</enum>
-                              </property>
-                              <property name="horizontalScrollMode">
-                               <enum>QAbstractItemView::ScrollPerPixel</enum>
-                              </property>
-                              <column>
-                               <property name="text">
-                                <string>Name</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Slider Center</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Start side</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>End side</string>
-                               </property>
-                              </column>
-                              <column>
-                               <property name="text">
-                                <string>Position</string>
-                               </property>
-                              </column>
-                             </widget>
-                            </item>
                            </layout>
                           </widget>
                          </item>
@@ -1612,7 +1449,7 @@ p, li { white-space: pre-wrap; }
                 <string>Adjust the slider to change demo size.</string>
                </property>
                <property name="minimum">
-                <number>25</number>
+                <number>10</number>
                </property>
                <property name="maximum">
                 <number>1000</number>
@@ -2136,8 +1973,8 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="action_Git_hub_Site">
    <property name="icon">
-    <iconset>
-     <normaloff>:/icons/github-24.png</normaloff>:/icons/github-24.png</iconset>
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
     <string>Git&amp;hub Site</string>
@@ -2821,6 +2658,10 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
   <action name="action_Path_Track">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/PathTrack.png</normaloff>:/icons/PathTrack.png</iconset>
+   </property>
    <property name="text">
     <string>Path Track</string>
    </property>
