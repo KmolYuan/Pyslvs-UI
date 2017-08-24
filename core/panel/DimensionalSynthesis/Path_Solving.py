@@ -364,6 +364,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         startAngle = False
         endAngle = False
         expression = Result['mechanismParams']['Expression'].split(',')
+        '''
+        expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
+        '''
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         expression_result = [exp[-1] for exp in expression_tag]
         Paths = {tag:list() for tag in expression_result}

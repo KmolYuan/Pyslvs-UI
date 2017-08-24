@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from math import sqrt, sin, cos, radians
-import logging, traceback
+import logging
+import traceback
 
 ##Directions:
 ##[Direction('p1':Point1, 'p2':Point2, 'len1':Line1, ('len2':Line2, 'angle':angle ...)), ...]

@@ -74,15 +74,16 @@ class BaseCanvas(QWidget):
         self.linkWidth = 3
         self.pathWidth = 3
         self.Color = colorlist()
-        self.Point_mark = False
-        self.showDimension = False
+        self.Font_size = 10
+        self.Point_mark = True
+        self.showDimension = True
     
     def paintEvent(self, event):
         self.painter = QPainter()
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
     
-    def drawPoint(self, i, x, y, fix, color, cx=0, cy=0):
+    def drawPoint(self, i, x, y, fix, color, cx, cy):
         pen = QPen()
         pen.setWidth(2)
         pen.setColor(color)
@@ -97,7 +98,7 @@ class BaseCanvas(QWidget):
             pen.setWidth(2)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[Point{}]'.format(i)
+            text = '[{}]'.format(i) if type(i)==str else '[Point{}]'.format(i)
             if self.showDimension:
                 text += ':({:.02f}, {:.02f})'.format(cx, cy)
             self.painter.drawText(QPointF(x+6, y-6), text)
@@ -112,7 +113,7 @@ class BaseCanvas(QWidget):
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[Line{}]'.format(i)
+            text = '[{}]'.format(i) if type(i)==str else '[Line{}]'.format(i)
             if self.showDimension:
                 text += ':{:.02f}'.format(length)
             self.painter.drawText(QPointF((x0+x1)/2, (y0+y1)/2), text)
@@ -165,8 +166,6 @@ class DynamicCanvas(BaseCanvas):
         self.linkWidth = 3
         self.pathWidth = 3
         self.rotateAngle = 0.
-        self.Font_size = 10
-        self.Point_mark = True
         self.showDimension = False
     
     def update_figure(self, Point, Line, Chain, Shaft, Slider, Rod, path):
