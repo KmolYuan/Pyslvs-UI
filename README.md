@@ -414,4 +414,4 @@ Here is the **origin kernel** repository:
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
-[Triangle solver]: https://gist.github.com/KmolYuan/c5.9.14b769bc410524bba66acc5204a8f
+[Triangle solver]: https://gist.github.com/KmolYuan/c5a94b769bc410524bba66acc5204a8f
