@@ -91,7 +91,7 @@ class changePointNumCommand(QUndoCommand):
         self.row = row
         self.column = column
         self.name = name
-        self.oldPos = int(table.item(row, column).text().replace(name, str()))
+        self.oldPos = int(table.item(row, column).text().replace(name, ''))
     
     def redo(self):
         cell = QTableWidgetItem(self.name+str(self.pos) if not self.name=='n' else str(self.pos))

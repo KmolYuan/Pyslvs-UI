@@ -40,7 +40,7 @@ class BaseTableWidget(QTableWidget):
         self.setItem(row, 0, name_set)
         for i, e in enumerate(Args):
             if type(e) in [str, float, int]:
-                content = '{}{}'.format(self.name, e) if type(e)==int else e
+                content = 'Point{}'.format(e) if type(e)==int else e
                 try:
                     self.setItem(row, i+1, QTableWidgetItem(str(round(float(content), 4))))
                 except:

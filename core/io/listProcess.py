@@ -178,30 +178,30 @@ class Lists:
                 except:
                     pass
             elif table.name=='Line':
-                k = VLine(int(table.item(i, 1).text().replace('Point', str())),
+                k = VLine(int(table.item(i, 1).text().replace('Point', '')),
                     int(table.item(i, 2).text().replace('Point', str())),
                     self.toFloat(table.item(i, 3).text()))
             elif table.name=='Chain':
-                k = VChain(int(table.item(i, 1).text().replace('Point', str())),
-                    int(table.item(i, 2).text().replace('Point', str())),
-                    int(table.item(i, 3).text().replace('Point', str())),
+                k = VChain(int(table.item(i, 1).text().replace('Point', '')),
+                    int(table.item(i, 2).text().replace('Point', '')),
+                    int(table.item(i, 3).text().replace('Point', '')),
                     self.toFloat(table.item(i, 4).text()),
                     self.toFloat(table.item(i, 5).text()),
                     self.toFloat(table.item(i, 6).text()))
             elif table.name=='Shaft':
-                k = VShaft(int(table.item(i, 1).text().replace('Point', str())),
-                    int(table.item(i, 2).text().replace('Point', str())),
+                k = VShaft(int(table.item(i, 1).text().replace('Point', '')),
+                    int(table.item(i, 2).text().replace('Point', '')),
                     float(table.item(i, 3).text()),
                     float(table.item(i, 4).text()),
                     float(table.item(i, 5).text()))
             elif table.name=='Slider':
-                k = VSlider(int(table.item(i, 1).text().replace('Point', str())),
-                    int(table.item(i, 2).text().replace('Point', str())),
-                    int(table.item(i, 3).text().replace('Point', str())))
+                k = VSlider(int(table.item(i, 1).text().replace('Point', '')),
+                    int(table.item(i, 2).text().replace('Point', '')),
+                    int(table.item(i, 3).text().replace('Point', '')))
             elif table.name=='Rod':
-                k = VRod(int(table.item(i, 1).text().replace('Point', str())),
-                    int(table.item(i, 2).text().replace('Point', str())),
-                    int(table.item(i, 3).text().replace('Point', str())),
+                k = VRod(int(table.item(i, 1).text().replace('Point', '')),
+                    int(table.item(i, 2).text().replace('Point', '')),
+                    int(table.item(i, 3).text().replace('Point', '')),
                     float(table.item(i, 4).text()))
             if table.name!='n':
                 lst.append(k)
