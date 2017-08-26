@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-08-22, 11:34:28 -->
+<!-- Saved: 2017-08-26, 12:52:41 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -73,6 +73,7 @@
     <Source>core/io/undoRedo.py</Source>
     <Source>core/kernel/__init__.py</Source>
     <Source>core/kernel/pyslvs_algorithm/TS.py</Source>
+    <Source>core/kernel/pyslvs_algorithm/TS2.py</Source>
     <Source>core/kernel/pyslvs_algorithm/__init__.py</Source>
     <Source>core/kernel/pyslvs_algorithm/de.pyx</Source>
     <Source>core/kernel/pyslvs_algorithm/firefly.pyx</Source>

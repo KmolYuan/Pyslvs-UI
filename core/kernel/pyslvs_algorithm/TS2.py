@@ -1,4 +1,4 @@
-from sympy import pi, sqrt, cos, sin, acos, asin, diff, lambdify
+from sympy import pi, sqrt, cos, sin, acos, atan, diff, lambdify
 from sympy.abc import w, t
 
 class Coordinate:
@@ -16,7 +16,7 @@ class Coordinate:
         '''
         Coordinate p
         '''
-        return asin((p.y - self.y)/self.distance(p))
+        return atan((p.y - self.y)/(p.x - self.x))
     
     @property
     def functions(self):
@@ -51,6 +51,7 @@ class pl(FunctionBase):
 
 class pllp(FunctionBase):
     def __init__(self, A, L, R, B, reverse=False):
+        
         alpha = A.m(B)
         base = A.distance(B)
         beta = acos((L**2 + base**2 - R**2)/(2*L*base))
@@ -89,19 +90,19 @@ if __name__=='__main__':
     p1 = Coordinate(-38, -7.8)
     results = solver([
         (p0, 15.), #p2
-        (p1, 41.5, 50., 0, True), #p3
-        (p1, 40.1, 55.8, 1, True), #p4
-        (p1, 39.3, 61.9, 0, True), #p5
-        (2, 39.4, 36.7, 3, True), #p6
-        #(3, 49., 65.7, 4), #p7
+        (p1, 41.5, 50., 0), #p3
+        (p1, 40.1, 55.8, 1), #p4
+        (0, 61.9, 39.3, 1), #p5
+        (3, 36.7, 39.4, 2), #p6
+        (3, 49., 65.7, 4), #p7
     ], progress=True)
     '''
-    p0 = Coordinate(0, 0)
-    p1 = Coordinate(90, 0)
+    p0 = Coordinate(-20.77, -26.65)
+    p1 = Coordinate(44.94, -36.83)
     results = solver([
-        (p0, 35.), #p2
-        (0, 70., 70., p1), #p3
-        (0, 40., 40., 1), #p4
+        (p0, 8.76), #p2
+        (0, 41.16, 50., p1), #p3
+        (1, 50., 50., p0), #p4
     ], progress=True)
     
     print("time: {}".format(time()-t0))
@@ -112,8 +113,10 @@ if __name__=='__main__':
     xfun, yfun = results[2].p.functions
     plot = []
     for T in range(0, 360+1, 5):
-        print("{}\t{}".format(xfun(T, W), yfun(T, W)))
-        plot.append((xfun(T, W), yfun(T, W)))
+        print("{}\t{}".format(float(xfun(T, W)), float(yfun(T, W))))
+        x = xfun(T, W)
+        y = yfun(T, W)
+        plot.append((x, y, sqrt(x**2+y**2)))
     #Pyplot
     import matplotlib.pyplot as plt
     plt.plot(plot)

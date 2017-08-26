@@ -21,6 +21,17 @@ from ..QtModules import *
 """This part using PyQtChart module."""
 from PyQt5.QtChart import *
 
+class dataChart(QChart):
+    def __init__(self, Title, axisX, axisY, parent=None):
+        super(dataChart, self).__init__(parent)
+        self.setTitle(Title)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        legend = self.legend()
+        legend.setAlignment(Qt.AlignBottom)
+        legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
+        self.addAxis(axisX, Qt.AlignBottom)
+        self.addAxis(axisY, Qt.AlignLeft)
+
 class ChartDialog(QDialog):
     def __init__(self, Title, mechanism_data=list(), parent=None):
         super(ChartDialog, self).__init__(parent)
@@ -41,12 +52,6 @@ class ChartDialog(QDialog):
         main_layout.addWidget(self.tabWidget)
     
     def setChart(self, tabName, posX, posY):
-        chart = QChart()
-        chart.setTitle(self.Title)
-        chart.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        legend = chart.legend()
-        legend.setAlignment(Qt.AlignBottom)
-        legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
         if self.mechanism_data:
             '''
             #posX / posY = [0] / [1] / [2]
@@ -83,9 +88,7 @@ class ChartDialog(QDialog):
             maximaY = 100
         maximaY -= maximaY%10
         axisY.setRange(0., maximaY)
-        #Add axis
-        chart.addAxis(axisX, Qt.AlignBottom)
-        chart.addAxis(axisY, Qt.AlignLeft)
+        chart = dataChart(self.Title, axisX, axisY)
         #Append datasets
         for data in self.mechanism_data:
             line = QLineSeries()
