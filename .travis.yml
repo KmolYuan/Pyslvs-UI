@@ -62,7 +62,7 @@ before_install:
   - cd $TRAVIS_BUILD_DIR
 
 install:
-  - pip install -r requirements.txt
+  - sudo pip install -r requirements.txt
   - pip install "https://github.com/pyinstaller/pyinstaller/archive/develop.zip"
 
 script:

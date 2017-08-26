@@ -19,7 +19,7 @@
 
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
-from ..kernel.TS2 import Coordinate, solver
+from ..kernel.pyslvs_algorithm.TS2 import Coordinate, solver, pi
 from .canvas import BaseCanvas
 from time import sleep
 
@@ -83,9 +83,14 @@ class DynamicCanvas(BaseCanvas):
             self.drawShaft(0, self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1)
             for i, exp in enumerate(self.expression_tag[1:]):
                 p_l = list()
-                for k in [0, 3]:
-                    p_l.append(QPointF(self.mechanism[exp[k]+'x']*self.zoom, self.mechanism[exp[k]+'y']*self.zoom*-1))
-                p_l.append(QPointF(self.Paths[exp[-1]][self.index][0]*self.zoom, self.Paths[exp[-1]][self.index][1]*self.zoom*-1))
+                for i, k in enumerate([0, 3, -1]):
+                    if exp[k] in self.Paths:
+                        p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*self.zoom, self.Paths[exp[k]][self.index][1]*self.zoom*-1))
+                    else:
+                        if exp[k]=='A':
+                            p_l.append(QPointF(self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1))
+                        else:
+                            p_l.append(QPointF(self.mechanism['Dx']*self.zoom, self.mechanism['Dy']*self.zoom*-1))
                 self.drawLink(exp[1], p_l[2].x(), p_l[2].y(), p_l[0].x(), p_l[0].y(), self.mechanism[exp[1]])
                 self.drawLink(exp[2], p_l[2].x(), p_l[2].y(), p_l[1].x(), p_l[1].y(), self.mechanism[exp[2]])
             for i, tag in enumerate(sorted(list(self.Paths.keys()))):
