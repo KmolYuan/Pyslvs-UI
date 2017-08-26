@@ -123,6 +123,6 @@ if __name__=='__main__':
         y = yfun(T, W)
         plot.append((x, y, sqrt(x**2+y**2)))
     #Pyplot
-    import matplotlib.pyplot as plt
-    plt.plot(plot)
-    plt.show()
+    #import matplotlib.pyplot as plt
+    #plt.plot(plot)
+    #plt.show()
