@@ -28,6 +28,7 @@ class Ui_MainWindow(object):
         self.centralWidget.setSizePolicy(sizePolicy)
         self.centralWidget.setObjectName("centralWidget")
         self.verticalLayout_10 = QtWidgets.QVBoxLayout(self.centralWidget)
+        self.verticalLayout_10.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_10.setObjectName("verticalLayout_10")
         self.MainSplitter = QtWidgets.QSplitter(self.centralWidget)
         self.MainSplitter.setOrientation(QtCore.Qt.Horizontal)

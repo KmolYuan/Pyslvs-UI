@@ -62,10 +62,13 @@ class pllp(FunctionBase):
             self.pxFunc = A.x+L*cos(alpha+beta)
             self.pyFunc = A.y+L*sin(alpha+beta)
 
-def solver(mechanism, progress=False):
+def solver(mechanism, progress=False, progressFunc=None, stopedFunc=None):
     results = []
     resultCount = len(mechanism)
     for i, e in enumerate(mechanism):
+        if stopedFunc is not None:
+            if stopedFunc():
+               return
         if len(e)==2:
             foo = pl(*e)
             results.append(foo)
@@ -79,6 +82,8 @@ def solver(mechanism, progress=False):
             results.append(foo)
         if progress:
             print("{} / {}".format(i+1, resultCount))
+        if progressFunc is not None:
+            progressFunc(i+1)
     return results
 
 if __name__=='__main__':

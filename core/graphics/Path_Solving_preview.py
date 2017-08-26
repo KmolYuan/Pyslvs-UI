@@ -19,6 +19,7 @@
 
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
+from ..kernel.TS2 import Coordinate, solver
 from .canvas import BaseCanvas
 from time import sleep
 
@@ -54,6 +55,11 @@ class DynamicCanvas(BaseCanvas):
         self.Paths = Paths
         self.zoom = 5
         self.index = 0
+        expression = self.mechanism['mechanismParams']['Expression'].split(',')
+        '''
+        expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
+        '''
+        self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
@@ -72,24 +78,14 @@ class DynamicCanvas(BaseCanvas):
             cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
             self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
-            expression = self.mechanism['mechanismParams']['Expression'].split(',')
-            '''
-            expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
-            '''
-            expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
-            shaft_r = self.Paths[expression_tag[0][-1]][self.index]
+            shaft_r = self.Paths[self.expression_tag[0][-1]][self.index]
             self.drawLink('L0', self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1, self.mechanism['L0'])
             self.drawShaft(0, self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1)
-            for i, exp in enumerate(expression_tag[1:]):
+            for i, exp in enumerate(self.expression_tag[1:]):
                 p_l = list()
-                for i, k in enumerate([0, 3, -1]):
-                    if exp[k] in self.Paths:
-                        p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*self.zoom, self.Paths[exp[k]][self.index][1]*self.zoom*-1))
-                    else:
-                        if exp[k]=='A':
-                            p_l.append(QPointF(self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1))
-                        else:
-                            p_l.append(QPointF(self.mechanism['Dx']*self.zoom, self.mechanism['Dy']*self.zoom*-1))
+                for k in [0, 3]:
+                    p_l.append(QPointF(self.mechanism[exp[k]+'x']*self.zoom, self.mechanism[exp[k]+'y']*self.zoom*-1))
+                p_l.append(QPointF(self.Paths[exp[-1]][self.index][0]*self.zoom, self.Paths[exp[-1]][self.index][1]*self.zoom*-1))
                 self.drawLink(exp[1], p_l[2].x(), p_l[2].y(), p_l[0].x(), p_l[0].y(), self.mechanism[exp[1]])
                 self.drawLink(exp[2], p_l[2].x(), p_l[2].y(), p_l[1].x(), p_l[1].y(), self.mechanism[exp[2]])
             for i, tag in enumerate(sorted(list(self.Paths.keys()))):
@@ -147,30 +143,79 @@ class PreviewDialog(QDialog, Ui_Dialog):
     def __init__(self, mechanism, Paths, parent=None):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle("Preview: {} (max {} generations)".format(mechanism['Algorithm'], mechanism['generateData']['maxGen']))
+        self.mechanism = mechanism
+        expression = self.mechanism['mechanismParams']['Expression'].split(',')
+        '''
+        expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
+        '''
+        self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        self.setWindowTitle("Preview: {} (max {} generations)".format(self.mechanism['Algorithm'], self.mechanism['generateData']['maxGen']))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.splitter.setSizes([800, 100])
-        previewWidget = DynamicCanvas(mechanism, Paths, self)
+        previewWidget = DynamicCanvas(self.mechanism, Paths, self)
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
-        self.basic_label.setText("\n".join(["{}: {}".format(tag, mechanism[tag]) for tag in ['Algorithm', 'time']]+
-            ["{}: ({}, {})".format(tag, mechanism[tag+'x'], mechanism[tag+'y']) for tag in ['A', 'D']]+
-            ["{}: {}".format(tag, mechanism[tag]) for tag in mechanism['mechanismParams']['Link'].split(',')]))
+        self.basic_label.setText("\n".join(["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']]+
+            ["{}: ({}, {})".format(tag, self.mechanism[tag+'x'], self.mechanism[tag+'y']) for tag in ['A', 'D']]+
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in self.mechanism['mechanismParams']['Link'].split(',')]))
         #Algorithm information
-        interrupt = mechanism['interruptedGeneration']
-        fitness = mechanism['TimeAndFitness'][-1]
+        interrupt = self.mechanism['interruptedGeneration']
+        fitness = self.mechanism['TimeAndFitness'][-1]
         self.algorithm_label.setText("<html><head/><body><p>"+
-            "<br/>".join(["Max generation: {}".format(mechanism['generateData']['maxGen'])]+
+            "<br/>".join(["Max generation: {}".format(self.mechanism['generateData']['maxGen'])]+
             ["Fitness: {}".format(fitness if type(fitness)==float else fitness[1])]+
             ["<img src=\"{}\" width=\"15\"/>".format(":/icons/task-completed.png" if interrupt=='False' else
             ":/icons/question-mark.png" if interrupt=='N/A' else ":/icons/interrupted.png")+
             "Interrupted at: {}".format(interrupt)]+
-            ["{}: {}".format(k, v) for k, v in mechanism['algorithmPrams'].items()])+
+            ["{}: {}".format(k, v) for k, v in self.mechanism['algorithmPrams'].items()])+
             "</p></body></html>")
         #Hardware information
-        self.hardware_label.setText("\n".join(["{}: {}".format(tag, mechanism['hardwareInfo'][tag]) for tag in
+        self.hardware_label.setText("\n".join(["{}: {}".format(tag, self.mechanism['hardwareInfo'][tag]) for tag in
             ['os', 'memory', 'cpu', 'network']]))
         #playShaft
         self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
         self.playShaft.progress_Signal.connect(previewWidget.change_index)
         self.playShaft.start()
+    
+    @pyqtSlot()
+    def on_kinematicsSolveButton_clicked(self):
+        progressDlg = QProgressDialog("Kinematics solver progressing...", "Cancel", 0, len(self.expression_tag)*2)
+        progressDlg.setWindowModality(Qt.WindowModal)
+        m = []
+        expression_index = [e[-1] for e in self.expression_tag]
+        for i, e in enumerate(self.expression_tag):
+            k = []
+            if i==0:
+                k.append(Coordinate(self.mechanism[e[0]+'x'], self.mechanism[e[0]+'y']))
+                k.append(self.mechanism[e[1]])
+                m.append(tuple(k))
+            else:
+                if e[0] in expression_index:
+                    k.append(expression_index.index(e[0]))
+                else:
+                    k.append(Coordinate(self.mechanism[e[0]+'x'], self.mechanism[e[0]+'y']))
+                k.append(self.mechanism[e[1]])
+                k.append(self.mechanism[e[2]])
+                if e[3] in expression_index:
+                    k.append(expression_index.index(e[3]))
+                else:
+                    k.append(Coordinate(self.mechanism[e[3]+'x'], self.mechanism[e[3]+'y']))
+                m.append(tuple(k))
+        results = solver(m, progressFunc=progressDlg.setValue, stopedFunc=progressDlg.wasCanceled)
+        if not results:
+            return
+        W = pi/180 #rad/s
+        plot = []
+        functions = []
+        for i, foo in enumerate(results):
+            if progressDlg.wasCanceled():
+                return
+            xfun, yfun = foo.p.functions
+            functions.append((str(xfun), str(yfun)))
+            for T in range(0, 360+1, 10):
+                x = xfun(T, W)
+                y = yfun(T, W)
+                plot.append((x, y))
+            progressDlg.setValue(len(self.expression_tag)+i+1)
+        self.kinematicsSolveButton.setEnabled(False)
+        #TODO: Insert chart here.
