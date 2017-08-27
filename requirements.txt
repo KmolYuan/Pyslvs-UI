@@ -4,4 +4,3 @@ cython
 pyzmq
 openpyxl
 psutil
-sympy

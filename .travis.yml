@@ -62,14 +62,15 @@ before_install:
   - cd $TRAVIS_BUILD_DIR
 
 install:
-  - pip install --user -r requirements.txt
+  - pip install -r requirements.txt
   - pip install "https://github.com/pyinstaller/pyinstaller/archive/develop.zip"
 
 script:
- - make
+  - make
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
-#cache:
-#  directories:
-#    - $HOME/.cache/pip
+
+cache:
+  directories:
+    - $HOME/.cache/pip
