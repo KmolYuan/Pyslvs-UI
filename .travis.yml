@@ -70,6 +70,6 @@ script:
 
 before_cache:
   - rm -rf $HOME/.cache/pip/log
-cache:
-  directories:
-    - $HOME/.cache/pip
+#cache:
+#  directories:
+#    - $HOME/.cache/pip
