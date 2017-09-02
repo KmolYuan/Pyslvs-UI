@@ -599,7 +599,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if pos is False:
                 self.FileState.beginMacro("Add {{Link: {}}}".format(name))
                 self.FileState.push(addTableCommand(self.Entiteis_Link))
-                pos = self.Entiteis_Link.rowCount()
+                pos = self.Entiteis_Link.rowCount()-1
             else:
                 self.FileState.beginMacro("Edit {{Link: {}}}".format(name))
             self.FileState.push(editLinkTableCommand(self.Entiteis_Link, pos, self.Entiteis_Point, Args))

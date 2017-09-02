@@ -125,21 +125,23 @@ class editLinkTableCommand(QUndoCommand):
         self.Args = Args
         self.OldArgs = self.LinkTable.rowTexts(row)
         #Points: Tuple[int]
-        newPoints = set(self.Args[2].split(','))
-        oldPoints = set(self.OldArgs[2].split(','))
+        newPoints = self.Args[2].split(',')
+        oldPoints = self.OldArgs[2].split(',')
+        newPoints = set(int(index.replace('Point', '')) for index in filter(lambda a: a!='', newPoints))
+        oldPoints = set(int(index.replace('Point', '')) for index in filter(lambda a: a!='', oldPoints))
         self.NewPointRows = newPoints - oldPoints
         self.OldPointRows = oldPoints - newPoints
     
     def redo(self):
         self.LinkTable.editArgs(self.row, *self.Args)
-        self.writeRows(self.NewLinkRows, self.OldLinkRows)
+        self.writeRows(self.NewPointRows, self.OldPointRows)
     
     def undo(self):
         self.LinkTable.editArgs(self.row, *self.OldArgs)
-        self.writeRows(self.OldLinkRows, self.NewLinkRows)
+        self.writeRows(self.OldPointRows, self.NewPointRows)
     
     def writeRows(self, rows1, rows2):
-        name = self.LinkTable.item(row, 0).text()
+        name = self.LinkTable.item(self.row, 0).text()
         for row in rows1:
             newLinks = sorted(self.PointTable.item(row, 1).text().split(',')+[name])
             newLinks = list(filter(lambda a: a!='', newLinks))

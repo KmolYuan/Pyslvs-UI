@@ -49,7 +49,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
     def isOk(self, p0=None):
         name = self.name_edit.text()
         names = [vlink.name for i, vlink in enumerate(self.Links) if i!=self.Link.currentIndex()+1]
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(bool(name) and not name in names)
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(name.isidentifier() and not name in names)
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):

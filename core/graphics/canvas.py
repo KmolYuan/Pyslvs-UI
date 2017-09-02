@@ -98,14 +98,15 @@ class BaseCanvas(QWidget):
     
     def drawLink(self,
         name: str,
+        color: QColor,
         points: List['VPoint']
     ):
         pen = QPen()
         pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkGray)
+        pen.setColor(color)
         self.painter.setPen(pen)
         self.painter.setBrush(QColor(226, 219, 190))
-        qpoints = [QPointF(vpoint.cx, vpoint.cy) for vpoint in points]
+        qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*self.zoom*-1) for vpoint in points]
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
@@ -116,7 +117,7 @@ class BaseCanvas(QWidget):
             text = '[{}]'.format(name)
             cenX = sum([vpoint.cx for vpoint in points])/len(points)
             cenY = sum([vpoint.cy for vpoint in points])/len(points)
-            self.painter.drawText(QPointF(cenX, cenY), text)
+            self.painter.drawText(QPointF(cenX*self.zoom, cenY*self.zoom*-1), text)
     
     def drawShaft(self, i, x0, y0, x1, y1):
         pen = QPen()
@@ -240,7 +241,7 @@ class DynamicCanvas(BaseCanvas):
         else:
             for i, vlink in enumerate(self.Link):
                 points = tuple(self.Point[i] for i in vlink.Points)
-                self.drawLink(vlink.name, points)
+                self.drawLink(vlink.name, vlink.color, points)
             self.drawPath()
             for i, vpoint in enumerate(self.Point):
                 fix = 'ground' in vpoint.Links
