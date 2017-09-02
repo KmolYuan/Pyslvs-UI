@@ -49,7 +49,7 @@ class WorkerThread(QThread):
             self.stoped = False
         print("Path Tracking...")
         t0 = timeit.default_timer()
-        nPath = list()
+        nPath = []
         Point = [(copy(vpoint.cx), copy(vpoint.cy)) for vpoint in self.Point]
         for vpoint in self.Point:
             vpoint.move()
@@ -62,8 +62,8 @@ class WorkerThread(QThread):
             start_angle = (self.Shaft[i].start if normal else self.Shaft[i].start-360)*100
             end_angle = (self.Shaft[i].end if normal else self.Shaft[i].end-360)*100
             Resolution = self.Resolution*100
-            paths = list()
-            allPath = list()
+            paths = []
+            allPath = []
             angleSE = sorted([int(start_angle), int(end_angle)])
             for j in range(angleSE[0], angleSE[1]+int(Resolution)*2, int(Resolution)):
                 if self.stoped:
@@ -71,13 +71,12 @@ class WorkerThread(QThread):
                         vpoint.move(Point[p][0], Point[p][1])
                     return
                 angle = float(j/100)
-                result = slvsProcess(self.Point, self.Link, self.Chain, self.Shaft, self.Slider, self.Rod,
-                    currentShaft=i, currentAngle=angle, hasWarning=self.warning)
+                result, dof = slvsProcess(self.Point, self.Link, currentShaft=((i, angle)), hasWarning=self.warning)
                 allPath.append(result)
                 if not False in result:
                     for p, vpoint in enumerate(self.Point):
-                        dot = result[p]
-                        vpoint.move(dot['x'], dot['y'])
+                        x, y = result[p]
+                        vpoint.move(x, y)
                 self.progress_going()
             for n in self.Run_list:
                 path = [(dot[n]['x'], dot[n]['y']) for dot in allPath]

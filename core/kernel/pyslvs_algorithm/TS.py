@@ -32,14 +32,14 @@ class Direction:
         return "<{}>".format(self.items())
 
 class solver:
-    def __init__(self, Directions=list(), showError=True, *keywords):
+    def __init__(self, Directions=[], showError=True, *keywords):
         self.showError = showError
         self.set(Directions)
     def set(self, Directions):
         self.Directions = Directions
     
     def answer(self):
-        answer = self.Iterator() if self.Parser() else list()
+        answer = self.Iterator() if self.Parser() else []
         self.Directions.clear()
         return answer
     
@@ -65,7 +65,7 @@ class solver:
         return True
     
     def Iterator(self):
-        results = list()
+        results = []
         for e in self.Directions:
             p1 = results[e.p1] if type(e.p1)==int else e.p1
             p2 = results[e.p2] if type(e.p2)==int else e.p2

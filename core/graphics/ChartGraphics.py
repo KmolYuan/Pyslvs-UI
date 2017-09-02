@@ -33,7 +33,7 @@ class dataChart(QChart):
         self.addAxis(axisY, Qt.AlignLeft)
 
 class ChartDialog(QDialog):
-    def __init__(self, Title, mechanism_data=list(), parent=None):
+    def __init__(self, Title, mechanism_data=[], parent=None):
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle('Chart')
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)

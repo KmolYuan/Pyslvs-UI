@@ -37,7 +37,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         for i, e in enumerate(Point):
             if not e.fix:
                 self.Run_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
-        self.shaftList = list()
+        self.shaftList = []
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)
             shaftCheckBox.setText('Shaft{}'.format(i))
@@ -79,7 +79,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
     
     @pyqtSlot(list)
     def finish(self, Path):
-        self.ShaftSuggest = list()
+        self.ShaftSuggest = []
         for vpaths in Path:
             route = vpaths.paths[0].path
             resolution = self.Resolution.value()

@@ -19,7 +19,6 @@
 
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
-from ..kernel.pyslvs_algorithm.TS2 import Coordinate, solver, pi
 from .canvas import BaseCanvas
 from time import sleep
 
@@ -82,7 +81,7 @@ class DynamicCanvas(BaseCanvas):
             self.drawLink('L0', self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1, self.mechanism['L0'])
             self.drawShaft(0, self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1)
             for i, exp in enumerate(self.expression_tag[1:]):
-                p_l = list()
+                p_l = []
                 for i, k in enumerate([0, 3, -1]):
                     if exp[k] in self.Paths:
                         p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*self.zoom, self.Paths[exp[k]][self.index][1]*self.zoom*-1))
@@ -181,46 +180,3 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
         self.playShaft.progress_Signal.connect(previewWidget.change_index)
         self.playShaft.start()
-    
-    @pyqtSlot()
-    def on_kinematicsSolveButton_clicked(self):
-        progressDlg = QProgressDialog("Kinematics solver progressing...", "Cancel", 0, len(self.expression_tag)*2)
-        progressDlg.setWindowModality(Qt.WindowModal)
-        m = []
-        expression_index = [e[-1] for e in self.expression_tag]
-        for i, e in enumerate(self.expression_tag):
-            k = []
-            if i==0:
-                k.append(Coordinate(self.mechanism[e[0]+'x'], self.mechanism[e[0]+'y']))
-                k.append(self.mechanism[e[1]])
-                m.append(tuple(k))
-            else:
-                if e[0] in expression_index:
-                    k.append(expression_index.index(e[0]))
-                else:
-                    k.append(Coordinate(self.mechanism[e[0]+'x'], self.mechanism[e[0]+'y']))
-                k.append(self.mechanism[e[1]])
-                k.append(self.mechanism[e[2]])
-                if e[3] in expression_index:
-                    k.append(expression_index.index(e[3]))
-                else:
-                    k.append(Coordinate(self.mechanism[e[3]+'x'], self.mechanism[e[3]+'y']))
-                m.append(tuple(k))
-        results = solver(m, progressFunc=progressDlg.setValue, stopedFunc=progressDlg.wasCanceled)
-        if not results:
-            return
-        W = pi/180 #rad/s
-        plot = []
-        functions = []
-        for i, foo in enumerate(results):
-            if progressDlg.wasCanceled():
-                return
-            xfun, yfun = foo.p.functions
-            functions.append((str(xfun), str(yfun)))
-            for T in range(0, 360+1, 10):
-                x = xfun(T, W)
-                y = yfun(T, W)
-                plot.append((x, y))
-            progressDlg.setValue(len(self.expression_tag)+i+1)
-        self.kinematicsSolveButton.setEnabled(False)
-        #TODO: Insert chart here.

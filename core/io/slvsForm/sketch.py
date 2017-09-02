@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 def slvs2D(Point, Line, Chain):
-    point_num = [list() for i in range(len(Point))] #The number of same points.
-    line_num = [list() for i in range(len(Line))] #The number of same lines.
-    chain_num = [[list(), list(), list()] for i in range(len(Chain))] #The number of same chains.
+    point_num = [[] for i in range(len(Point))] #The number of same points.
+    line_num = [[] for i in range(len(Line))] #The number of same lines.
+    chain_num = [[[], [], []] for i in range(len(Chain))] #The number of same chains.
     script_group = '''±²³SolveSpaceREVa
 
 

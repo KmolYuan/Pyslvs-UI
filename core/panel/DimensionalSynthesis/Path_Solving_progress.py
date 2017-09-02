@@ -31,7 +31,7 @@ class Path_Solving_progress_show(QDialog, Ui_Dialog):
         self.maxGen = generateData['maxGen']
         self.loopTime.setEnabled(self.maxGen>0)
         self.maxGen_label.setText(str(self.maxGen) if self.maxGen>0 else '∞')
-        self.mechanisms = list()
+        self.mechanisms = []
         self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)

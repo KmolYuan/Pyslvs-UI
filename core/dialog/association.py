@@ -38,7 +38,7 @@ class Association_show(QDialog, association_Form):
     
     @pyqtSlot(int, int, int, int)
     def on_tableWidget_currentCellChanged(self, pos, _cc, _pr, _pc):
-        net = list()
+        net = []
         for i, e in enumerate(self.Line):
             check = [e.start, e.end]
             if pos in check:

@@ -68,7 +68,7 @@ class Path_Solving_options_show(QDialog, Ui_Dialog):
             self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
     
     def init_APTable(self):
-        def writeTable(Integers=list(), Floats=list()):
+        def writeTable(Integers=[], Floats=[]):
             i = 0
             for Types, box, maxV in zip([Integers, Floats], [QSpinBox, QDoubleSpinBox], [9, 10.]):
                 for name, vname, tooltip in Types:

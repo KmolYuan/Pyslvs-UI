@@ -18,59 +18,49 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
+from ..graphics.color import colorName, colorIcons
 from .Ui_edit_link import Ui_Dialog as edit_link_Dialog
 
 class edit_link_show(QDialog, edit_link_Dialog):
-    def __init__(self, mask, Point, Lines, pos=False, parent=None):
+    def __init__(self, Points, Links, pos=False, parent=None):
         super(edit_link_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        icon = QIcon(QPixmap(":/icons/bearing.png"))
-        iconSelf = self.windowIcon()
-        self.Point = Point
-        self.Lines = Lines
-        for i in range(len(Point)):
-            name = 'Point{}'.format(i)
-            self.Start_Point.insertItem(i, icon, name)
-            self.End_Point.insertItem(i, icon, name)
+        self.Points = Points
+        self.Links = Links
+        icon = self.windowIcon()
+        self.PointIcon = QIcon(QPixmap(":/icons/bearing.png"))
+        for i, e in enumerate(colorName()):
+            self.Color.insertItem(i, colorIcons()[e], e)
+        for i in range(len(self.Points)):
+            self.noSelected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(i)))
         if pos is False:
-            self.Link.addItem(iconSelf, 'Line{}'.format(len(Lines)))
+            self.Link.addItem(icon, "New link")
             self.Link.setEnabled(False)
+            self.Color.setCurrentIndex(self.Color.findText('Blue'))
         else:
-            for i in range(len(Lines)):
-                self.Link.insertItem(i, iconSelf, 'Line{}'.format(i))
-            self.Link.setCurrentIndex(pos)
-        self.Length.setValidator(mask)
+            for vlink in self.Links[1:]:
+                self.Link.insertItem(i, icon, vlink.name)
+            self.Link.setCurrentIndex(pos-1)
+        self.name_edit.textChanged.connect(self.isOk)
         self.isOk()
+    
+    @pyqtSlot(str)
+    def isOk(self, p0=None):
+        name = self.name_edit.text()
+        names = [vlink.name for i, vlink in enumerate(self.Links) if i!=self.Link.currentIndex()+1]
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(bool(name) and not name in names)
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):
-        if len(self.Lines)>index:
-            self.Start_Point.setCurrentIndex(self.Lines[index].start)
-            self.End_Point.setCurrentIndex(self.Lines[index].end)
-            self.Length.setText(str(self.Lines[index].len))
-            self.Length.setPlaceholderText(str(self.Lines[index].len))
-    
-    @pyqtSlot(int)
-    def on_Start_Point_currentIndexChanged(self, index):
-        self.demoLen()
-        self.isOk()
-    @pyqtSlot(int)
-    def on_End_Point_currentIndexChanged(self, index):
-        self.demoLen()
-        self.isOk()
-    @pyqtSlot(str)
-    def on_Length_textEdited(self, p0):
-        self.isOk()
-    
-    def demoLen(self):
-        start = self.Point[self.Start_Point.currentIndex()]
-        end = self.Point[self.End_Point.currentIndex()]
-        leng = start.distance(end)
-        self.Length.setText(str(leng))
-        self.Length.setPlaceholderText(str(leng))
-    
-    def isOk(self):
-        self.len = self.Length.text() if (not 'n' in self.Length.text()) or (self.Length.text()!='') else self.Length.placeholderText()
-        n = self.Start_Point.currentIndex()!=self.End_Point.currentIndex() and self.len!=0
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(n)
+        index += 1
+        if len(self.Links)>index:
+            vlink = self.Links[index]
+            self.name_edit.setText(vlink.name)
+            self.Color.setCurrentIndex(self.Color.findText(vlink.colorSTR))
+            self.noSelected.clear()
+            self.selected.clear()
+            for pointIndex in vlink.Points:
+                self.selected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))
+            for pointIndex in sorted(set(range(len(self.Points)))-set(vlink.Points)):
+                self.noSelected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))

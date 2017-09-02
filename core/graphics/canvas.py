@@ -19,6 +19,7 @@
 
 from ..QtModules import *
 from math import sqrt
+from typing import List
 from ..graphics.color import colorlist, colorName
 tr = QCoreApplication.translate
 
@@ -28,12 +29,12 @@ class PointOptions:
         self.oy = height/2
         self.rate = 2
         self.Path = Path()
-        self.slvsPath = {'path':list(), 'show':False}
+        self.slvsPath = {'path':[], 'show':False}
         self.currentShaft = 0
 
 class Path:
     def __init__(self):
-        self.path = list()
+        self.path = []
         self.demo = 0.
         self.show = True
         self.mode = True
@@ -50,27 +51,11 @@ class Selector:
     def distance(self, x, y):
         return round(sqrt((self.x-x)**2+(self.y-y)**2), 2)
 
-class AuxLine:
-    def __init__(self):
-        self.show = False
-        self.pt = 0
-        self.horizontal = True
-        self.vertical = True
-        self.isMax = True
-        self.isMin = True
-        self.color = 6
-        self.limit_color = 8
-        self.maxX = 0
-        self.maxY = 0
-        self.minX = 0
-        self.minY = 0
-
 class BaseCanvas(QWidget):
     def __init__(self, parent=None):
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.options = PointOptions(self.width(), self.height())
-        self.AuxLine = AuxLine()
         self.linkWidth = 3
         self.pathWidth = 3
         self.Color = colorlist()
@@ -83,7 +68,15 @@ class BaseCanvas(QWidget):
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
     
-    def drawPoint(self, i, x, y, fix, color, cx, cy):
+    def drawPoint(self,
+        i: int,
+        cx,
+        cy,
+        fix: bool,
+        color: QColor
+    ):
+        x = cx*self.zoom
+        y = cy*self.zoom*-1
         pen = QPen()
         pen.setWidth(2)
         pen.setColor(color)
@@ -103,40 +96,27 @@ class BaseCanvas(QWidget):
                 text += ':({:.02f}, {:.02f})'.format(cx, cy)
             self.painter.drawText(QPointF(x+6, y-6), text)
     
-    def drawLink(self, i, x0, y0, x1, y1, length):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkGray)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
-        if self.Point_mark:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[{}]'.format(i) if type(i)==str else '[Line{}]'.format(i)
-            if self.showDimension:
-                text += ':{:.02f}'.format(length)
-            self.painter.drawText(QPointF((x0+x1)/2, (y0+y1)/2), text)
-    
-    def drawChain(self, i, x0, y0, x1, y1, x2, y2, p1p2, p2p3, p1p3):
+    def drawLink(self,
+        name: str,
+        points: List['VPoint']
+    ):
         pen = QPen()
         pen.setWidth(self.linkWidth)
         pen.setColor(Qt.darkGray)
         self.painter.setPen(pen)
         self.painter.setBrush(QColor(226, 219, 190))
-        self.painter.drawPolygon(QPointF(x0, y0), QPointF(x1, y1), QPointF(x2, y2))
+        qpoints = [QPointF(vpoint.cx, vpoint.cy) for vpoint in points]
+        if qpoints:
+            self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.Point_mark:
+        if self.Point_mark and name!='ground' and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.Font_size))
-            text = '[Chain{}]'.format(i)
-            if self.showDimension:
-                self.painter.drawText(QPointF((x0+x1)/2, (y0+y1)/2), text+':{:.02f}'.format(p1p2))
-                self.painter.drawText(QPointF((x1+x2)/2, (y1+y2)/2), text+':{:.02f}'.format(p2p3))
-                self.painter.drawText(QPointF((x0+x2)/2, (y0+y2)/2), text+':{:.02f}'.format(p1p3))
-            else:
-                self.painter.drawText(QPointF((x0+x1+x2)/3, (y0+y1+y2)/3), text)
+            text = '[{}]'.format(name)
+            cenX = sum([vpoint.cx for vpoint in points])/len(points)
+            cenY = sum([vpoint.cy for vpoint in points])/len(points)
+            self.painter.drawText(QPointF(cenX, cenY), text)
     
     def drawShaft(self, i, x0, y0, x1, y1):
         pen = QPen()
@@ -159,22 +139,17 @@ class DynamicCanvas(BaseCanvas):
         self.setStatusTip(tr("DynamicCanvas", "Use mouse wheel or middle button to look around."))
         self.rotateAngle = 0
         self.Selector = Selector()
-        self.reset_Auxline()
         self.re_Color = colorName()
-        self.pointsSelection = list()
+        self.pointsSelection = []
         self.zoom = 2*self.options.rate
         self.linkWidth = 3
         self.pathWidth = 3
         self.rotateAngle = 0.
         self.showDimension = False
     
-    def update_figure(self, Point, Line, Chain, Shaft, Slider, Rod, path):
+    def update_figure(self, Point, Link, path):
         self.Point = Point
-        self.Line = Line
-        self.Chain = Chain
-        self.Shaft = Shaft
-        self.Slider = Slider
-        self.Rod = Rod
+        self.Link = Link
         self.options.Path.path = path
         self.update()
     
@@ -217,16 +192,12 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = pointsSelection
         self.update()
     
-    def changePathCurrentShaft(self):
-        if self.Shaft:
-            self.options.Path.demo = self.Shaft[self.options.currentShaft].demo
-    
     @pyqtSlot(int)
     def changeCurrentShaft(self, pos=0):
         self.options.currentShaft = pos
         self.update()
     
-    def path_solving(self, path=list()):
+    def path_solving(self, path=[]):
         self.options.slvsPath['path'] = path
         self.update()
     
@@ -249,100 +220,31 @@ class DynamicCanvas(BaseCanvas):
             shaft = self.Shaft[pathShaft.shaft]
             resolution = abs(shaft.end-shaft.start)/(len(pathShaft.paths[0].path)-1)
             resolutionIndex = int(round(self.options.Path.demo/resolution))
-            Points = {e.point:e for e in pathShaft.paths}
-            for i, e in enumerate(self.Chain):
-                p1x = (self.Point[e.p1].cx if self.Point[e.p1].fix else Points[e.p1].path[resolutionIndex][0])*self.zoom
-                p1y = (self.Point[e.p1].cy if self.Point[e.p1].fix else Points[e.p1].path[resolutionIndex][1])*self.zoom*-1
-                p2x = (self.Point[e.p2].cx if self.Point[e.p2].fix else Points[e.p2].path[resolutionIndex][0])*self.zoom
-                p2y = (self.Point[e.p2].cy if self.Point[e.p2].fix else Points[e.p2].path[resolutionIndex][1])*self.zoom*-1
-                p3x = (self.Point[e.p3].cx if self.Point[e.p3].fix else Points[e.p3].path[resolutionIndex][0])*self.zoom
-                p3y = (self.Point[e.p3].cy if self.Point[e.p3].fix else Points[e.p3].path[resolutionIndex][1])*self.zoom*-1
-                self.drawChain(i, p1x, p1y, p2x, p2y, p3x, p3y, e.p1p2, e.p2p3, e.p1p3)
-            for i, e in enumerate(self.Line):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*self.zoom
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*self.zoom*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*self.zoom
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*self.zoom*-1
+            pathPoints = {e.point:e for e in pathShaft.paths}
+            for i, vlink in enumerate(self.Link):
+                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else pathPoints[e.start].path[resolutionIndex][0])*self.zoom
+                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else pathPoints[e.start].path[resolutionIndex][1])*self.zoom*-1
+                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else pathPoints[e.end].path[resolutionIndex][0])*self.zoom
+                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else pathPoints[e.end].path[resolutionIndex][1])*self.zoom*-1
                 self.drawLink(i, p1x, p1y, p2x, p2y, e.len)
-            for i, e in enumerate(self.Slider):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*self.zoom
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*self.zoom*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*self.zoom
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*self.zoom*-1
-                self.drawSlider(i, p1x, p1y, p2x, p2y, p3x, p3y)
-            for i, e in enumerate(self.Rod):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][0])*self.zoom
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else Points[e.start].path[resolutionIndex][1])*self.zoom*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][0])*self.zoom
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else Points[e.end].path[resolutionIndex][1])*self.zoom*-1
-                p3x = (self.Point[e.cen].cx if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][0])*self.zoom
-                p3y = (self.Point[e.cen].cy if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][1])*self.zoom*-1
-                self.drawRod(i, p1x, p1y, p2x, p2y, p3x, p3y, e.pos)
-            for i, e in enumerate(self.Shaft):
-                p1x = (self.Point[e.cen].cx if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][0])*self.zoom
-                p1y = (self.Point[e.cen].cy if self.Point[e.cen].fix else Points[e.cen].path[resolutionIndex][1])*self.zoom*-1
-                p2x = (self.Point[e.ref].cx if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][0])*self.zoom
-                p2y = (self.Point[e.ref].cy if self.Point[e.ref].fix else Points[e.ref].path[resolutionIndex][1])*self.zoom*-1
-                self.drawShaft(i, p1x, p1y, p2x, p2y)
-            if self.AuxLine.show:
-                self.drawAuxLine(
-                    self.Point[self.AuxLine.pt].cx if self.Point[self.AuxLine.pt].fix else Points[self.AuxLine.pt].path[resolutionIndex][0],
-                    self.Point[self.AuxLine.pt].cy if self.Point[self.AuxLine.pt].fix else Points[self.AuxLine.pt].path[resolutionIndex][1])
             self.drawPath()
             for path in pathShaft.paths:
-                x = path.path[resolutionIndex][0]*self.zoom
-                y = path.path[resolutionIndex][1]*self.zoom*-1
-                self.drawPoint(path.point, x, y, self.Point[path.point].fix, self.Color[self.Point[path.point].color], x/self.zoom, y/self.zoom*-1)
-            for i, e in enumerate(self.Point):
-                if i in Points:
+                point = path.path[resolutionIndex]
+                fix = 'ground' in self.Point[path.point].Links
+                self.drawPoint(path.point, point[0], point[1], fix, self.Point[path.point].color)
+            for i, vpoint in enumerate(self.Point):
+                if i in pathPoints:
                     continue
-                x = e.cx*self.zoom
-                y = e.cy*self.zoom*-1
-                self.drawPoint(i, x, y, e.fix, self.Color[e.color], e.cx, e.cy)
+                fix = 'ground' in vpoint.Links
+                self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         else:
-            for i, e in enumerate(self.Chain):
-                p1x = self.Point[e.p1].cx*self.zoom
-                p1y = self.Point[e.p1].cy*self.zoom*-1
-                p2x = self.Point[e.p2].cx*self.zoom
-                p2y = self.Point[e.p2].cy*self.zoom*-1
-                p3x = self.Point[e.p3].cx*self.zoom
-                p3y = self.Point[e.p3].cy*self.zoom*-1
-                self.drawChain(i, p1x, p1y, p2x, p2y, p3x, p3y, e.p1p2, e.p2p3, e.p1p3)
-            for i, e in enumerate(self.Line):
-                p1x = self.Point[e.start].cx*self.zoom
-                p1y = self.Point[e.start].cy*self.zoom*-1
-                p2x = self.Point[e.end].cx*self.zoom
-                p2y = self.Point[e.end].cy*self.zoom*-1
-                self.drawLink(i, p1x, p1y, p2x, p2y, e.len)
-            for i, e in enumerate(self.Slider):
-                p1x = self.Point[e.start].cx*self.zoom
-                p1y = self.Point[e.start].cy*self.zoom*-1
-                p2x = self.Point[e.end].cx*self.zoom
-                p2y = self.Point[e.end].cy*self.zoom*-1
-                p3x = self.Point[e.cen].cx*self.zoom
-                p3y = self.Point[e.cen].cy*self.zoom*-1
-                self.drawSlider(i, p1x, p1y, p2x, p2y, p3x, p3y)
-            for i, e in enumerate(self.Rod):
-                p1x = self.Point[e.start].cx*self.zoom
-                p1y = self.Point[e.start].cy*self.zoom*-1
-                p2x = self.Point[e.end].cx*self.zoom
-                p2y = self.Point[e.end].cy*self.zoom*-1
-                p3x = self.Point[e.cen].cx*self.zoom
-                p3y = self.Point[e.cen].cy*self.zoom*-1
-                self.drawRod(i, p1x, p1y, p2x, p2y, p3x, p3y, e.pos)
-            for i, e in enumerate(self.Shaft):
-                p1x = self.Point[e.cen].cx*self.zoom
-                p1y = self.Point[e.cen].cy*self.zoom*-1
-                p2x = self.Point[e.ref].cx*self.zoom
-                p2y = self.Point[e.ref].cy*self.zoom*-1
-                self.drawShaft(i, p1x, p1y, p2x, p2y)
-            if self.AuxLine.show:
-                self.drawAuxLine(self.Point[self.AuxLine.pt].cx, self.Point[self.AuxLine.pt].cy)
+            for i, vlink in enumerate(self.Link):
+                points = tuple(self.Point[i] for i in vlink.Points)
+                self.drawLink(vlink.name, points)
             self.drawPath()
-            for i, e in enumerate(self.Point):
-                x = e.cx*self.zoom
-                y = e.cy*self.zoom*-1
-                self.drawPoint(i, x, y, e.fix, self.Color[e.color], e.cx, e.cy)
+            for i, vpoint in enumerate(self.Point):
+                fix = 'ground' in vpoint.Links
+                self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         if self.options.slvsPath['path'] and self.options.slvsPath['show']:
             pen = QPen()
             pathData = self.options.slvsPath['path']
@@ -370,76 +272,14 @@ class DynamicCanvas(BaseCanvas):
         self.painter.end()
         self.change_event.emit()
     
-    def drawPoint(self, i, x, y, fix, color, cx=0, cy=0):
-        super(DynamicCanvas, self).drawPoint(i, x, y, fix, color, cx, cy)
+    def drawPoint(self, i, cx, cy, fix, color):
+        super(DynamicCanvas, self).drawPoint(i, cx, cy, fix, color)
         if i in self.pointsSelection:
             pen = QPen()
             pen.setWidth(3)
             pen.setColor(QColor(161, 16, 239))
             self.painter.setPen(pen)
-            self.painter.drawRect(x-12, y-12, 24, 24)
-    
-    def drawSlider(self, i, x0, y0, x1, y1, x2, y2):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkMagenta)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
-    
-    def drawRod(self, i, x0, y0, x1, y1, x2, y2, pos):
-        pen = QPen()
-        pen.setWidth(self.linkWidth)
-        pen.setColor(Qt.darkRed)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
-        if self.showDimension:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
-            self.painter.drawText(QPointF(x2+6, y2+6), '{{{}}}'.format(pos))
-    
-    def drawAuxLine(self, x, y):
-        pen = QPen(Qt.DashDotLine)
-        pen.setColor(self.Color[self.re_Color[self.AuxLine.limit_color]])
-        pen.setWidth(self.linkWidth)
-        self.painter.setPen(pen)
-        if self.AuxLine.isMax:
-            if self.AuxLine.maxX<x:
-                self.AuxLine.maxX = x
-            if self.AuxLine.maxY<y:
-                self.AuxLine.maxY = y
-        if self.AuxLine.isMin:
-            if self.AuxLine.minX>x:
-                self.AuxLine.minX = x
-            if self.AuxLine.minY>y:
-                self.AuxLine.minY = y
-        for isl, lx, ly in zip(
-                [self.AuxLine.isMax, self.AuxLine.isMin],
-                [self.AuxLine.maxX, self.AuxLine.minX],
-                [self.AuxLine.maxY, self.AuxLine.minY]):
-            if isl:
-                L_point = QPointF(self.width()*4, ly*self.zoom*-1)
-                R_point = QPointF(self.width()*-4, ly*self.zoom*-1)
-                U_point = QPointF(lx*self.zoom, self.height()*4)
-                D_point = QPointF(lx*self.zoom, self.height()*-4)
-                self.painter.drawLine(L_point, R_point)
-                self.painter.drawLine(U_point, D_point)
-                if self.showDimension:
-                    text_center_x = QPointF(lx*self.zoom+self.linkWidth, self.options.oy*-1+self.Font_size)
-                    text_center_y = QPointF(self.options.ox*-1, ly*self.zoom*-1-self.linkWidth)
-                    self.painter.setFont(QFont('Arial', self.Font_size))
-                    self.painter.drawText(text_center_x, '{:.6f}'.format(lx))
-                    self.painter.drawText(text_center_y, '{:.6f}'.format(ly))
-        pen.setColor(self.Color[self.re_Color[self.AuxLine.color]])
-        L_point = QPointF(self.width()*4, y*self.zoom*-1)
-        R_point = QPointF(self.width()*-4, y*self.zoom*-1)
-        U_point = QPointF(x*self.zoom, self.height()*4)
-        D_point = QPointF(x*self.zoom, self.height()*-4)
-        self.painter.setPen(pen)
-        if self.AuxLine.horizontal:
-            self.painter.drawLine(L_point, R_point)
-        if self.AuxLine.vertical:
-            self.painter.drawLine(U_point, D_point)
+            self.painter.drawRect(cx*self.zoom-12, cy*self.zoom*(-1)-12, 24, 24)
     
     def drawPath(self):
         if self.options.Path.show:
@@ -498,15 +338,6 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), 'Driver')
                 else:
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
-    
-    def Reset_Aux_limit(self):
-        self.AuxLine.maxX = self.Point[self.AuxLine.pt].cx
-        self.AuxLine.maxY = self.Point[self.AuxLine.pt].cy
-        self.AuxLine.minX = self.Point[self.AuxLine.pt].cx
-        self.AuxLine.minY = self.Point[self.AuxLine.pt].cy
-    
-    def reset_Auxline(self):
-        self.AuxLine = AuxLine()
     
     def mousePressEvent(self, event):
         self.Selector.x = event.x()-self.options.ox

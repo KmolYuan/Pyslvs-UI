@@ -165,7 +165,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def on_importCSV_clicked(self):
         fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.env, "Text File(*.txt);;CSV File(*.csv)")
         if fileName:
-            data = list()
+            data = []
             with open(fileName, newline=str()) as stream:
                 reader = csv.reader(stream, delimiter=' ', quotechar='|')
                 for row in reader:
@@ -186,7 +186,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         if fileName:
             wb = openpyxl.load_workbook(fileName)
             ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
-            data = list()
+            data = []
             i = 1
             while True:
                 x = ws.cell(row=i, column=1).value
@@ -369,7 +369,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         '''
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         expression_result = [exp[-1] for exp in expression_tag]
-        Paths = {tag:list() for tag in expression_result}
+        Paths = {tag:[] for tag in expression_result}
         for a in range(360+1):
             Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
             for exp in expression_tag[1:]:

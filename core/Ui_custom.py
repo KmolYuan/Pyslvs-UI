@@ -19,17 +19,14 @@
 
 from .QtModules import *
 from .graphics.canvas import DynamicCanvas
-from .Ui_custom_table import (
-    PointTableWidget, LinkTableWidget, ChainTableWidget,
-    ShaftTableWidget, SliderTableWidget, RodTableWidget,
-    ParameterTableWidget)
+from .Ui_custom_table import PointTableWidget, LinkTableWidget
 from .info.info import VERSION
 tr = QCoreApplication.translate
 
 def init_Widgets(self):
     #Splitter stretch factor.
-    self.MainSplitter.setStretchFactor(0, 3)
-    self.MainSplitter.setStretchFactor(1, 10)
+    self.MainSplitter.setStretchFactor(0, 2)
+    self.MainSplitter.setStretchFactor(1, 5)
     self.ToolPanelSplitter.setStretchFactor(0, 4)
     self.ToolPanelSplitter.setStretchFactor(1, 5)
     self.panels_splitter.setSizes([100, 500])
@@ -42,25 +39,8 @@ def init_Widgets(self):
     self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
     self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
     self.Entiteis_Link.cellDoubleClicked.connect(self.on_Entiteis_Link_cellDoubleClicked)
-    self.Entiteis_Link.dragIn.connect(self.editLine)
+    self.Entiteis_Link.dragIn.connect(self.addLinkGroup)
     self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
-    self.Entiteis_Chain = ChainTableWidget(self.Entiteis_Chain_Widget)
-    self.Entiteis_Chain.cellDoubleClicked.connect(self.on_Entiteis_Chain_cellDoubleClicked)
-    self.Entiteis_Chain.dragIn.connect(self.editChain)
-    self.Entiteis_Chain_Layout.addWidget(self.Entiteis_Chain)
-    #Simulate tables
-    self.Simulate_Shaft = ShaftTableWidget(self.Simulate_Shaft_Widget)
-    self.Simulate_Shaft.cellDoubleClicked.connect(self.on_Simulate_Shaft_cellDoubleClicked)
-    self.Simulate_Shaft_Layout.addWidget(self.Simulate_Shaft)
-    self.Simulate_Slider = SliderTableWidget(self.Simulate_Slider_Widget)
-    self.Simulate_Slider.cellDoubleClicked.connect(self.on_Simulate_Slider_cellDoubleClicked)
-    self.Simulate_Slider_Layout.addWidget(self.Simulate_Slider)
-    self.Simulate_Rod = RodTableWidget(self.Simulate_Rod_Widget)
-    self.Simulate_Rod.cellDoubleClicked.connect(self.on_Simulate_Rod_cellDoubleClicked)
-    self.Simulate_Rod_Layout.addWidget(self.Simulate_Rod)
-    #Parameter table
-    self.Parameter_list = ParameterTableWidget(self.Parameter_Widget)
-    self.Parameter_Layout.insertWidget(1, self.Parameter_list)
     #QPainter Window
     self.DynamicCanvasView = DynamicCanvas()
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entiteis_Point.setSelections)
@@ -88,10 +68,6 @@ def init_Widgets(self):
     propertiesButton.setStatusTip("Properties of this workbook.")
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.PointTab.setCornerWidget(propertiesButton)
-    #Focus to all table widgets.
-    for table in [self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
-            self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod]:
-        table.itemClicked.connect(self.tableFocusChange)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)
@@ -124,8 +100,6 @@ def init_Widgets(self):
     self.popMenu_point.addAction(self.action_point_right_click_menu_copy)
     self.action_point_right_click_menu_copyPoint = QAction("Copy point", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copyPoint)
-    self.action_point_right_click_menu_replace = QAction("&Replace", self)
-    self.popMenu_point.addAction(self.action_point_right_click_menu_replace)
     self.popMenu_point.addSeparator()
     self.action_point_right_click_menu_delete = QAction("&Delete", self)
     self.popMenu_point.addAction(self.action_point_right_click_menu_delete)
@@ -138,117 +112,37 @@ def init_Widgets(self):
     self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
     self.action_link_right_click_menu_copy = QAction("&Copy table data", self)
     self.popMenu_link.addAction(self.action_link_right_click_menu_copy)
-    self.action_link_right_click_menu_shaft = QAction("Turn to Shaft", self)
-    self.popMenu_link.addAction(self.action_link_right_click_menu_shaft)
     self.popMenu_link.addSeparator()
     self.action_link_right_click_menu_delete = QAction("&Delete", self)
     self.popMenu_link.addAction(self.action_link_right_click_menu_delete) 
-    #Entiteis_Chain Right-click menu
-    self.Entiteis_Chain_Widget.customContextMenuRequested.connect(self.on_chain_context_menu)
-    self.popMenu_chain = QMenu(self)
-    self.action_chain_right_click_menu_add = QAction("&Add", self)
-    self.popMenu_chain.addAction(self.action_chain_right_click_menu_add)
-    self.action_chain_right_click_menu_edit = QAction("&Edit", self)
-    self.popMenu_chain.addAction(self.action_chain_right_click_menu_edit)
-    self.action_chain_right_click_menu_copy = QAction("&Copy table data", self)
-    self.popMenu_chain.addAction(self.action_chain_right_click_menu_copy)
-    self.popMenu_chain.addSeparator()
-    self.action_chain_right_click_menu_delete = QAction("&Delete", self)
-    self.popMenu_chain.addAction(self.action_chain_right_click_menu_delete) 
-    #Shaft Right-click menu
-    self.Simulate_Shaft_Widget.customContextMenuRequested.connect(self.on_shaft_context_menu)
-    self.popMenu_shaft = QMenu(self)
-    self.action_shaft_right_click_menu_add = QAction("&Add", self)
-    self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_add)
-    self.action_shaft_right_click_menu_edit = QAction("&Edit", self)
-    self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_edit)
-    self.action_shaft_right_click_menu_copy = QAction("&Copy table data", self)
-    self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_copy)
-    self.popMenu_shaft.addSeparator()
-    self.action_shaft_right_click_menu_delete = QAction("&Delete", self)
-    self.popMenu_shaft.addAction(self.action_shaft_right_click_menu_delete) 
-    #Slider Right-click menu
-    self.Simulate_Slider_Widget.customContextMenuRequested.connect(self.on_slider_context_menu)
-    self.popMenu_slider = QMenu(self)
-    self.action_slider_right_click_menu_add = QAction("&Add", self)
-    self.popMenu_slider.addAction(self.action_slider_right_click_menu_add)
-    self.action_slider_right_click_menu_edit = QAction("&Edit", self)
-    self.popMenu_slider.addAction(self.action_slider_right_click_menu_edit)
-    self.action_slider_right_click_menu_copy = QAction("&Copy table data", self)
-    self.popMenu_slider.addAction(self.action_slider_right_click_menu_copy)
-    self.popMenu_slider.addSeparator()
-    self.action_slider_right_click_menu_delete = QAction("&Delete", self)
-    self.popMenu_slider.addAction(self.action_slider_right_click_menu_delete) 
-    #Rod Right-click menu
-    self.Simulate_Rod_Widget.customContextMenuRequested.connect(self.on_rod_context_menu)
-    self.popMenu_rod = QMenu(self)
-    self.action_rod_right_click_menu_add = QAction("&Add", self)
-    self.popMenu_rod.addAction(self.action_rod_right_click_menu_add)
-    self.action_rod_right_click_menu_edit = QAction("&Edit", self)
-    self.popMenu_rod.addAction(self.action_rod_right_click_menu_edit)
-    self.action_rod_right_click_menu_copy = QAction("&Copy table data", self)
-    self.popMenu_rod.addAction(self.action_rod_right_click_menu_copy)
-    self.popMenu_rod.addSeparator()
-    self.action_rod_right_click_menu_delete = QAction("&Delete", self)
-    self.popMenu_rod.addAction(self.action_rod_right_click_menu_delete)
 
 def action_Enabled(self):
-    TWO_POINT = len(self.File.Lists.PointList)>1
-    THREE_POINT = len(self.File.Lists.PointList)>2
-    #Warning
-    for lable in [self.reqLine, self.reqShaft]:
-        lable.setVisible(not TWO_POINT)
-    for lable in [self.reqChain, self.reqSlider, self.reqRod]:
-        lable.setVisible(not THREE_POINT)
-    #Add
-    for action in [self.action_New_Line, self.action_Set_Shaft, self.action_link_right_click_menu_add, self.action_shaft_right_click_menu_add]:
-        action.setEnabled(TWO_POINT)
-    for action in [self.action_New_Stay_Chain, self.action_Set_Slider, self.action_Set_Rod,
-            self.action_chain_right_click_menu_add, self.action_slider_right_click_menu_add,
-            self.action_rod_right_click_menu_add]:
-        action.setEnabled(THREE_POINT)
+    ONE_POINT = self.Entiteis_Point.rowCount()>0
+    ONE_LINK = self.Entiteis_Link.rowCount()>1
+    types = [self.Entiteis_Point.item(row, 2).text() for row in range(self.Entiteis_Point.rowCount())]
+    ONE_POINT_R = 'R' in types
+    ONE_POINT_P = 'P' in types
+    ONE_POINT_RP = 'RP' in types
     #Edit
-    self.action_Edit_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.action_Edit_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
-    self.action_Edit_Stay_Chain.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_Edit_Shaft.setEnabled(self.Simulate_Shaft.rowCount()>0)
-    self.action_Edit_Slider.setEnabled(self.Simulate_Slider.rowCount()>0)
-    self.action_Edit_Rod.setEnabled(self.Simulate_Rod.rowCount()>0)
-    self.action_link_right_click_menu_edit.setEnabled(self.Entiteis_Link.rowCount()>0)
-    self.action_chain_right_click_menu_edit.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_shaft_right_click_menu_edit.setEnabled(self.Simulate_Shaft.rowCount()>0)
-    self.action_slider_right_click_menu_edit.setEnabled(self.Simulate_Slider.rowCount()>0)
-    self.action_rod_right_click_menu_edit.setEnabled(self.Simulate_Rod.rowCount()>=1)
+    self.action_Edit_Point.setEnabled(ONE_POINT)
+    self.action_Edit_Linkage.setEnabled(ONE_LINK)
     #Delete
-    self.action_Delete_Point.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.action_Delete_Linkage.setEnabled(self.Entiteis_Link.rowCount()>0)
-    self.action_Delete_Stay_Chain.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_Delete_Shaft.setEnabled(self.Simulate_Shaft.rowCount()>0)
-    self.action_Delete_Slider.setEnabled(self.Simulate_Slider.rowCount()>0)
-    self.action_Delete_Piston_Spring.setEnabled(self.Simulate_Rod.rowCount()>0)
-    self.Parameter_delete.setEnabled(self.Parameter_list.rowCount()>0)
-    self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.rowCount()>0)
-    self.action_chain_right_click_menu_delete.setEnabled(self.Entiteis_Chain.rowCount()>0)
-    self.action_shaft_right_click_menu_delete.setEnabled(self.Simulate_Shaft.rowCount()>0)
-    self.action_slider_right_click_menu_delete.setEnabled(self.Simulate_Slider.rowCount()>0)
-    self.action_rod_right_click_menu_delete.setEnabled(self.Simulate_Rod.rowCount()>=1)
+    self.action_Delete_Point.setEnabled(ONE_POINT)
+    self.action_Delete_Linkage.setEnabled(ONE_LINK)
+    self.action_point_right_click_menu_delete.setEnabled(ONE_POINT)
+    self.action_link_right_click_menu_delete.setEnabled(ONE_LINK)
     #Path
-    self.action_Path_Track.setEnabled(self.Simulate_Shaft.rowCount()>0)
+    self.action_Path_Track.setEnabled(ONE_POINT)
     for action in [self.action_Path_coordinate, self.action_Save_path_only, self.action_Path_Clear]:
-        action.setEnabled(bool(self.File.Lists.pathData))
+        action.setEnabled(bool(self.File.pathData))
     #Panel
-    self.Measurement.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.AuxLine.setEnabled(self.Entiteis_Point.rowCount()>1)
-    self.Drive_shaft.setEnabled(self.Simulate_Shaft.rowCount()>0)
-    self.Drive_shaft_activated.setEnabled(self.Simulate_Shaft.rowCount()>0)
-    self.Drive_rod.setEnabled(self.Simulate_Rod.rowCount()>0)
-    self.Drive_rod_activated.setEnabled(self.Simulate_Rod.rowCount()>0)
+    self.Measurement.setEnabled(ONE_POINT)
+    self.Drive_shaft.setEnabled(ONE_POINT_R)
+    self.Drive_rod.setEnabled(ONE_POINT_P and ONE_POINT_RP)
     #Others
-    self.action_Output_to_Solvespace.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Chain.rowCount()>0)
-    self.action_DXF_2D_models.setEnabled(self.Entiteis_Link.rowCount()>0 or self.Entiteis_Chain.rowCount()>0)
-    self.action_Replace_Point.setEnabled(TWO_POINT)
-    self.action_point_right_click_menu_replace.setEnabled(TWO_POINT)
-    self.action_Batch_moving.setEnabled(TWO_POINT)
+    self.action_Output_to_Solvespace.setEnabled(ONE_LINK)
+    self.action_DXF_2D_models.setEnabled(ONE_LINK)
+    self.action_Batch_moving.setEnabled(ONE_POINT)
 
 def showUndoWindow(self, FileState):
     self.undoView = QUndoView(FileState)

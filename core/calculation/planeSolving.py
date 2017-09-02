@@ -22,11 +22,8 @@ from ..kernel.python_solvespace.slvs import (System, Slvs_MakeQuaternion,
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS)
 
-def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False, Rod=False,
-        currentShaft=0, currentAngle=False, hasWarning=True):
-    pathTrackProcess = not(Point is False) and not currentAngle is False
-    staticProcess = not(Point is False) and currentAngle is False
-    Sys = System(len(Point)*2+len(Shaft)*2+9)
+def slvsProcess(Point=False, Link=False, currentShaft=(), hasWarning=True):
+    Sys = System(len(Point)*2+2+9)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)
     p2 = Sys.add_param(0.)
@@ -41,53 +38,47 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
     p8 = Sys.add_param(0.)
     Point0 = Point2d(Workplane1, p7, p8)
     Constraint.dragged(Workplane1, Point0)
-    Slvs_Points = [Point0]
-    for e in Point[1:]:
-        x = Sys.add_param(e.cx)
-        y = Sys.add_param(e.cy)
+    Slvs_Points = []
+    for vpoint in Point:
+        x = Sys.add_param(vpoint.cx)
+        y = Sys.add_param(vpoint.cy)
         p = Point2d(Workplane1, x, y)
-        if e.fix:
+        if 'ground' in vpoint.Links:
             Constraint.dragged(Workplane1, p)
         Slvs_Points.append(p)
-    for e in Chain:
-        Constraint.distance(e.p1p2, Workplane1, Slvs_Points[e.p1], Slvs_Points[e.p2])
-        Constraint.distance(e.p2p3, Workplane1, Slvs_Points[e.p2], Slvs_Points[e.p3])
-        Constraint.distance(e.p1p3, Workplane1, Slvs_Points[e.p1], Slvs_Points[e.p3])
-    for e in Line:
-        Constraint.distance(e.len, Workplane1, Slvs_Points[e.start], Slvs_Points[e.end])
-    for e in Slider:
-        Constraint.on(Workplane1, Slvs_Points[e.cen], LineSegment2d(Workplane1, Slvs_Points[e.start], Slvs_Points[e.end]))
-    for e in Rod:
-        Constraint.on(Workplane1, Slvs_Points[e.cen], LineSegment2d(Workplane1, Slvs_Points[e.start], Slvs_Points[e.end]))
-        Constraint.distance(e.pos, Workplane1, Slvs_Points[e.start], Slvs_Points[e.cen])
-    def setShaft(e, angle):
-        lines = [e.cen==l.start and e.ref==l.end or e.cen==l.end and e.ref==l.start for l in Line]
-        if True in lines:
-            d0 = Line[lines.index(True)].len
-        else:
-            d0 = ((Point[e.cen].cx-Point[e.ref].cx)**2+(Point[e.cen].cy-Point[e.ref].cy)**2)**(1/2)
-        mx = round(d0*cos(angle*pi/180)+Point[e.cen].cx, 8)
-        my = round(d0*sin(angle*pi/180)+Point[e.cen].cy, 8)
+    for vlink in Link[1:]:
+        for i, p in enumerate(vlink.Points):
+            if i==0:
+                continue
+            d = Point[vlink.Points[0]].distance(Point[p])
+            Constraint.distance(d, Workplane1, Slvs_Points[vlink.Points[0]], Slvs_Points[p])
+            if not i==1:
+                d = Point[p-1].distance(Point[p])
+                Constraint.distance(d, Workplane1, Slvs_Points[p-1], Slvs_Points[p])
+    def setShaft(shaft, angle, link):
+        '''
+        shaft: int
+        angle: float, int (degrees)
+        link: int
+        '''
+        mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
+        my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
         x = Sys.add_param(mx if mx!=0 else 0.)
         y = Sys.add_param(my if my!=0 else 0.)
-        moving = Point2d(Workplane1, x, y)
-        Constraint.dragged(Workplane1, moving)
-        Line0 = LineSegment2d(Workplane1, Slvs_Points[e.cen], moving)
-        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[e.cen], Slvs_Points[e.ref]), Line0)
-    if pathTrackProcess:
-        setShaft(Shaft[currentShaft], currentAngle)
-    elif staticProcess:
-        for e in Shaft:
-            setShaft(e, e.demo)
+        leader = Point2d(Workplane1, x, y)
+        Constraint.dragged(Workplane1, leader)
+        Line0 = LineSegment2d(Workplane1, Slvs_Points[shaft], leader)
+        #Another point on specified link
+        linkRef = list(set(Point[shaft].Links[link])-{link})[0]
+        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[shaft], Slvs_Points[linkRef]), Line0)
+    for shaft in currentShaft:
+        setShaft(*shaft)
     result = Sys.solve()
     if result==SLVS_RESULT_OKAY:
-        resultList = [{'x':0., 'y':0.}]
-        for i in range(2, len(Point)*2, 2):
-            resultList.append({'x':round(float(Sys.get_param(i+7).val), 4), 'y':round(float(Sys.get_param(i+8).val), 4)})
-        if pathTrackProcess:
-            return resultList
-        elif staticProcess:
-            return resultList, int(Sys.dof)
+        resultList = []
+        for i in range(0, len(Point)*2, 2):
+            resultList.append((round(float(Sys.get_param(i+9).val), 4), round(float(Sys.get_param(i+10).val), 4)))
+        return resultList, int(Sys.dof)
     else:
         if result==SLVS_RESULT_INCONSISTENT:
             if hasWarning:
@@ -101,7 +92,4 @@ def slvsProcess(Point=False, Line=False, Chain=False, Shaft=False, Slider=False,
             if hasWarning:
                 print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
             resultSTR = "Too Many Unknowns"
-        if pathTrackProcess:
-            return [{'x':False, 'y':False} for i in range(len(Point))]
-        elif staticProcess:
-            return list(), resultSTR
+        return tuple(), resultSTR

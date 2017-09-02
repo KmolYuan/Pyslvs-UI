@@ -18,7 +18,8 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-def colorlist():
+
+def colorlist() -> dict:
     return {
         'Red':QColor(172, 68, 68),
         'Green':QColor(110, 190, 30),
@@ -42,15 +43,19 @@ def colorlist():
         'Dark-Orange':QColor(225, 140, 0),
         'Dark-Pink':QColor(225, 20, 147),
         }
-def colorName():
+
+def colorName() -> str:
     return sorted(list(colorlist().keys()))
 
-def colorIcons():
+def colorQt(colorName : str) -> QColor:
+    return colorlist()[colorName]
+
+def colorIcons() -> dict:
     colors = colorlist()
     names = colorName()
     blocks = dict()
     for name in names:
-        colorBlock = QPixmap(QSize(*([20]*2)))
+        colorBlock = QPixmap(QSize(20, 20))
         colorBlock.fill(colors[name])
         blocks.update({name:QIcon(colorBlock)})
     return blocks

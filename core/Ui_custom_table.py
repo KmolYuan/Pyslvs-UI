@@ -19,6 +19,9 @@
 
 from .QtModules import *
 from .graphics.color import colorIcons
+from .io.elements import VPoint, VLink
+from typing import TypeVar, Tuple
+VPointType = TypeVar('VPointType', int, str)
 
 class BaseTableWidget(QTableWidget):
     name = ''
@@ -34,50 +37,71 @@ class BaseTableWidget(QTableWidget):
         for i, e in enumerate(['Name']+HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
-    def setRowItems(self, row, Args):
-        name_set = QTableWidgetItem("{}{}".format(self.name, row))
-        name_set.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-        self.setItem(row, 0, name_set)
-        for i, e in enumerate(Args):
-            if type(e) in [str, float, int]:
-                content = 'Point{}'.format(e) if type(e)==int else e
-                try:
-                    self.setItem(row, i+1, QTableWidgetItem(str(round(float(content), 4))))
-                except:
-                    try:
-                        self.setItem(row, i+1, QTableWidgetItem(colorIcons()[content], content))
-                    except KeyError:
-                        self.setItem(row, i+1, QTableWidgetItem(content))
-            elif type(e)==bool:
-                checkbox = QTableWidgetItem()
-                checkbox.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-                checkbox.setCheckState(Qt.Checked if e else Qt.Unchecked)
-                self.setItem(row, i+1, checkbox)
-    
-    def rename(self, index):
-        for j in range(index, self.rowCount()):
-            self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+    def rowTexts(self, row):
+        texts = []
+        for column in range(self.columnCount()):
+            item = self.item(row, column)
+            if item is not None:
+                texts.append(item.text())
+            else:
+                texts.append('')
+        return tuple(texts)
 
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
     def __init__(self, parent=None):
-        super(PointTableWidget, self).__init__(1, ['X', 'Y', 'Fixed', 'Color', 'Current'], parent)
-        self.setVerticalHeaderItem(0, QTableWidgetItem('Origin'))
-        for i, e in enumerate(['Point0', '0.0', '0.0', '', 'Red', "(0.0, 0.0)"]):
-            item = QTableWidgetItem(e)
+        super(PointTableWidget, self).__init__(1, ['Links', 'Type', 'Color', 'X', 'Y', 'Current'], parent)
+        self.editArgs(0, 'ground', 'R', 'Red', '0.0', '0.0')
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 90)
+        self.setColumnWidth(2, 40)
+        self.setColumnWidth(3, 90)
+        self.setColumnWidth(4, 60)
+        self.setColumnWidth(5, 60)
+        self.setColumnWidth(6, 60)
+        self.draged = False
+    
+    def data(self) -> Tuple[VPoint]:
+        data = []
+        for row in range(self.rowCount()):
+            Links = self.item(row, 1).text()
+            if self.item(row, 2).text()=='R':
+                Type = VPoint.R
+            elif self.item(row, 2).text()=='P':
+                Type = VPoint.P
+            elif self.item(row, 2).text()=='RP':
+                Type = VPoint.RP
+            color = self.item(row, 3).text()
+            x = float(self.item(row, 4).text())
+            y = float(self.item(row, 5).text())
+            v = VPoint(Links, Type, color, x, y)
+            c = self.item(row, 6).text().replace('(', '').replace(')', '').split(", ")
+            v.move(float(c[0]), float(c[1]))
+            data.append(v)
+        return tuple(data)
+    
+    def editArgs(self,
+        row: int,
+        Links: str,
+        Type: VPointType,
+        Color: str,
+        X, Y
+    ):
+        Type = 'R' if (Type==0 or Type=='R') else 'P' if (Type==1 or Type=='P') else 'RP'
+        for i, e in enumerate(['Point{}'.format(row), Links, Type, Color, X, Y, "({}, {})".format(X, Y)]):
+            item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i==3:
-                item.setCheckState(Qt.Checked)
-            if i==4:
-                item.setIcon(colorIcons()['Red'])
-            self.setItem(0, i, item)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 45)
-        self.setColumnWidth(4, 90)
-        self.setColumnWidth(5, 60)
-        self.draged = False
+                item.setIcon(colorIcons().get(e, colorIcons()['White']))
+            self.setItem(row, i, item)
+    
+    def rename(self, row):
+        for j in range(row, self.rowCount()):
+            self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+    
+    def updatePosition(self, coordinates):
+        for i, (x, y) in enumerate(coordinates):
+            self.setItem(i, 6, QTableWidgetItem("({}, {})".format(x, y)))
     
     @pyqtSlot(list)
     def setSelections(self, selections):
@@ -87,7 +111,7 @@ class PointTableWidget(BaseTableWidget):
             self.scrollToItem(self.item(row, 0))
     
     def selectedRows(self):
-        a = list()
+        a = []
         for r in self.selectedRanges():
             a += [i for i in range(r.topRow(), r.bottomRow()+1)]
         return sorted(set(a))
@@ -105,25 +129,52 @@ class PointTableWidget(BaseTableWidget):
         if self.draged:
             selectedRows = self.selectedRows()
             selectedRowCount = len(selectedRows)
-            if selectedRowCount==2 or selectedRowCount==3:
+            if selectedRowCount>1:
                 drag = QDrag(self)
                 mimeData = QMimeData()
                 mimeData.setText(';'.join([str(e) for e in selectedRows]))
                 drag.setMimeData(mimeData)
-                drag.setPixmap(QPixmap(":/icons/tooltips/need{}bearings.png".format(selectedRowCount)).scaledToWidth(50))
+                drag.setPixmap(QPixmap(":/icons/tooltips/needbearings.png").scaledToWidth(50))
                 drag.exec_()
 
-class DropTableWidget(BaseTableWidget):
-    dragIn = None
-    def __init__(self, RowCount, HorizontalHeaderItems, bearings, parent=None):
-        super(DropTableWidget, self).__init__(RowCount, HorizontalHeaderItems, parent)
+class LinkTableWidget(BaseTableWidget):
+    name = 'Line'
+    dragIn = pyqtSignal(list)
+    def __init__(self, parent=None):
+        super(LinkTableWidget, self).__init__(1, ['Color', "Points"], parent)
+        self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
-        self.bearings = bearings
+        self.editArgs(0, 'ground', 'White', 'Point0')
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 90)
+        self.setColumnWidth(2, 230)
+    
+    def data(self) -> Tuple[VLink]:
+        data = []
+        for row in range(self.rowCount()):
+            name = self.item(row, 0).text()
+            color = self.item(row, 1).text()
+            Points = self.item(row, 2).text()
+            data.append(VLink(name, color, Points))
+        return tuple(data)
+    
+    def editArgs(self,
+        row: int,
+        name: str,
+        color: str,
+        points: str
+    ):
+        for i, e in enumerate([name, color, points]):
+            item = QTableWidgetItem(e)
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            if i==1:
+                item.setIcon(colorIcons()[e])
+            self.setItem(row, i, item)
     
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasText():
-            if len(mimeData.text().split(';'))==self.bearings:
+            if len(mimeData.text().split(';'))>1:
                 event.acceptProposedAction()
     
     def dragMoveEvent(self, event):
@@ -131,67 +182,5 @@ class DropTableWidget(BaseTableWidget):
         event.accept()
     
     def dropEvent(self, event):
-        self.dragIn.emit(*[int(e) for e in event.mimeData().text().split(';')])
+        self.dragIn.emit([int(e) for e in event.mimeData().text().split(';')])
         event.acceptProposedAction()
-
-class LinkTableWidget(DropTableWidget):
-    name = 'Line'
-    dragIn = pyqtSignal(int, int)
-    def __init__(self, parent=None):
-        super(LinkTableWidget, self).__init__(0, ["Start side", "End side", "Length"], 2, parent)
-        self.setDragDropMode(QAbstractItemView.DropOnly)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 60)
-
-class ChainTableWidget(DropTableWidget):
-    name = 'Chain'
-    dragIn = pyqtSignal(int, int, int)
-    def __init__(self, parent=None):
-        super(ChainTableWidget, self).__init__(0, ['Point[1]', 'Point[2]', 'Point[3]', '[1]-[2]', '[2]-[3]', '[1]-[3]'], 3, parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 60)
-        self.setColumnWidth(2, 60)
-        self.setColumnWidth(3, 60)
-        self.setColumnWidth(4, 60)
-        self.setColumnWidth(5, 60)
-        self.setColumnWidth(6, 60)
-
-class ShaftTableWidget(BaseTableWidget):
-    name = 'Shaft'
-    def __init__(self, parent=None):
-        super(ShaftTableWidget, self).__init__(0, ['Center', 'Reference', "Start angle(deg)", "End angle(deg)", "Demo angle(deg)"], parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 85)
-        self.setColumnWidth(2, 85)
-        self.setColumnWidth(3, 110)
-        self.setColumnWidth(4, 110)
-        self.setColumnWidth(5, 110)
-
-class SliderTableWidget(BaseTableWidget):
-    name = 'Slider'
-    def __init__(self, parent=None):
-        super(SliderTableWidget, self).__init__(0, ['Center', "Start side", "End side"], parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 70)
-
-class RodTableWidget(BaseTableWidget):
-    name = 'Rod'
-    def __init__(self, parent=None):
-        super(RodTableWidget, self).__init__(0, ['Center', "Start side", "End side", 'Position'], parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 90)
-        self.setColumnWidth(2, 70)
-        self.setColumnWidth(3, 70)
-        self.setColumnWidth(4, 70)
-
-class ParameterTableWidget(BaseTableWidget):
-    name = 'n'
-    def __init__(self, parent=None):
-        super(ParameterTableWidget, self).__init__(0, ['Parameter', 'Comment'], parent)
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 70)
-        self.setColumnWidth(2, 80)

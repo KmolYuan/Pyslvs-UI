@@ -27,8 +27,7 @@
     <file>icons/tooltips/DriveRod.png</file>
     <file>icons/tooltips/DriveShaft.png</file>
     <file>icons/tooltips/Measurement.png</file>
-    <file>icons/tooltips/need2bearings.png</file>
-    <file>icons/tooltips/need3bearings.png</file>
+    <file>icons/tooltips/needbearings.png</file>
     <file>icons/tooltips/PathSolving.png</file>
     <file>icons/tooltips/PathTrack.png</file>
     <file>icons/tooltips/TS.png</file>

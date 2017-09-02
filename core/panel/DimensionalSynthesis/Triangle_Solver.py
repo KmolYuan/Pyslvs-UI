@@ -27,10 +27,10 @@ from copy import deepcopy
 
 class Triangle_Solver_show(QWidget, Triangle_Solver_Form):
     startMerge = pyqtSignal()
-    def __init__(self, FileState, Point, Directions=list(), parent=None):
+    def __init__(self, FileState, Point, Directions=[], parent=None):
         super(Triangle_Solver_show, self).__init__(parent)
         self.setupUi(self)
-        self.answers = list()
+        self.answers = []
         self.setPoint(Point)
         self.FileState = FileState
         self.ReloadTable(Directions)

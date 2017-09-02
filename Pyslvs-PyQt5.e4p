@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-08-26, 12:52:41 -->
+<!-- Saved: 2017-09-01, 13:49:22 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -26,17 +26,13 @@
     <Source>core/dialog/Ui_association.py</Source>
     <Source>core/dialog/Ui_batchMoving.py</Source>
     <Source>core/dialog/Ui_delete.py</Source>
-    <Source>core/dialog/Ui_replacePoint.py</Source>
     <Source>core/dialog/__init__.py</Source>
     <Source>core/dialog/association.py</Source>
     <Source>core/dialog/batchMoving.py</Source>
     <Source>core/dialog/delete.py</Source>
-    <Source>core/dialog/replacePoint.py</Source>
-    <Source>core/entities/Ui_edit_chain.py</Source>
     <Source>core/entities/Ui_edit_link.py</Source>
     <Source>core/entities/Ui_edit_point.py</Source>
     <Source>core/entities/__init__.py</Source>
-    <Source>core/entities/edit_chain.py</Source>
     <Source>core/entities/edit_link.py</Source>
     <Source>core/entities/edit_point.py</Source>
     <Source>core/graphics/ChartGraphics.py</Source>
@@ -60,7 +56,6 @@
     <Source>core/io/elements.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/fileForm.py</Source>
-    <Source>core/io/listProcess.py</Source>
     <Source>core/io/loggingHandler.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/scriptType.py</Source>
@@ -104,9 +99,7 @@
     <Source>core/panel/Drivers/Ui_Drive_rod.py</Source>
     <Source>core/panel/Drivers/Ui_Drive_shaft.py</Source>
     <Source>core/panel/Drivers/__init__.py</Source>
-    <Source>core/panel/Validation/AuxLine.py</Source>
     <Source>core/panel/Validation/Measurement.py</Source>
-    <Source>core/panel/Validation/Ui_AuxLine.py</Source>
     <Source>core/panel/Validation/Ui_Measurement.py</Source>
     <Source>core/panel/Validation/__init__.py</Source>
     <Source>core/panel/__init__.py</Source>
@@ -120,13 +113,6 @@
     <Source>core/server/firefly.py</Source>
     <Source>core/server/rga.py</Source>
     <Source>core/server/zmq_rep.py</Source>
-    <Source>core/simulate/Ui_edit_rod.py</Source>
-    <Source>core/simulate/Ui_edit_shaft.py</Source>
-    <Source>core/simulate/Ui_edit_slider.py</Source>
-    <Source>core/simulate/__init__.py</Source>
-    <Source>core/simulate/edit_rod.py</Source>
-    <Source>core/simulate/edit_shaft.py</Source>
-    <Source>core/simulate/edit_slider.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>launch_zmq_server.py</Source>
@@ -137,8 +123,6 @@
     <Form>core/dialog/association.ui</Form>
     <Form>core/dialog/batchMoving.ui</Form>
     <Form>core/dialog/delete.ui</Form>
-    <Form>core/dialog/replacePoint.ui</Form>
-    <Form>core/entities/edit_chain.ui</Form>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
     <Form>core/graphics/Path_Solving_preview.ui</Form>
@@ -158,13 +142,9 @@
     <Form>core/panel/DimensionalSynthesis/Triangle_Solver_template.ui</Form>
     <Form>core/panel/Drivers/Drive_rod.ui</Form>
     <Form>core/panel/Drivers/Drive_shaft.ui</Form>
-    <Form>core/panel/Validation/AuxLine.ui</Form>
     <Form>core/panel/Validation/Measurement.ui</Form>
     <Form>core/path/Path_Track.ui</Form>
     <Form>core/path/path_point_data.ui</Form>
-    <Form>core/simulate/edit_rod.ui</Form>
-    <Form>core/simulate/edit_shaft.ui</Form>
-    <Form>core/simulate/edit_slider.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

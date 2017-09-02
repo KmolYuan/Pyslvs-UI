@@ -30,7 +30,7 @@ class Path_Solving_path_adjust_show(QDialog, Ui_Dialog):
         self.blurring_num.setMaximum(len(path))
         self.blurring_num.setValue(self.blurring_num.maximum())
         self.path = path
-        self.r_path = list()
+        self.r_path = []
     
     def get_path(self):
         return self.r_path

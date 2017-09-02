@@ -29,10 +29,10 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
         self.Environment_variables = Environment_variables
         self.pathData = pathData
         self.Point = Point
-        self.Nodes = list()
+        self.Nodes = []
         for vpaths in self.pathData:
             shaftNode = QTreeWidgetItem(self.pathTree, ['Shaft{}'.format(vpaths.shaft)])
-            shaft = list()
+            shaft = []
             for vpath in vpaths.paths:
                 pointNode = QTreeWidgetItem(['Point{}'.format(vpath.point)])
                 shaftNode.addChild(pointNode)

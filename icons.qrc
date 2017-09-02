@@ -26,7 +26,6 @@
     <!--Dialog icons-->
     <file>icons/arrow_down.png</file>
     <file>icons/arrow_up.png</file>
-    <file>icons/auxline.png</file>
     <file>icons/bearing.png</file>
     <file>icons/BrowseGuide.png</file>
     <file>icons/BrowseAim.png</file>
@@ -41,6 +40,7 @@
     <file>icons/disconnect.png</file>
     <file>icons/exit.png</file>
     <file>icons/fullscreen.png</file>
+    <file>icons/git.png</file>
     <file>icons/interrupted.png</file>
     <file>icons/konsole.png</file>
     <file>icons/link.png</file>
@@ -58,6 +58,7 @@
     <file>icons/redo.png</file>
     <file>icons/rod.png</file>
     <file>icons/savefile.png</file>
+    <file>icons/settings.png</file>
     <file>icons/slider.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>

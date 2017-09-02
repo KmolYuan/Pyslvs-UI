@@ -32,4 +32,4 @@ class deleteDlg(QDialog, delete_Dialog):
     
     @pyqtSlot(int)
     def on_Entity_currentIndexChanged(self, index):
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.Entity.currentIndex()!=-1 and self.Entity.currentText()!='Point0')
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.Entity.currentText()!='ground')
