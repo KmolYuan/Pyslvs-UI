@@ -20,6 +20,7 @@
 from ..QtModules import *
 from math import sqrt
 from typing import List
+from heapq import nsmallest
 from ..graphics.color import colorlist, colorName
 tr = QCoreApplication.translate
 
@@ -106,6 +107,13 @@ class BaseCanvas(QWidget):
         pen.setColor(color)
         self.painter.setPen(pen)
         self.painter.setBrush(QColor(226, 219, 190))
+        #Rearrange: Put the nearest point to the next position.
+        for i in range(len(points)):
+            if i==len(points)-1:
+                break
+            distanceList = [points[i].distance(p) for p in points]
+            j = nsmallest(2, range(len(distanceList)), key=distanceList.__getitem__)[-1]
+            points[i+1], points[j] = points[j], points[i+1]
         qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*self.zoom*-1) for vpoint in points]
         if qpoints:
             self.painter.drawPolygon(*qpoints)
@@ -240,7 +248,7 @@ class DynamicCanvas(BaseCanvas):
                 self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         else:
             for i, vlink in enumerate(self.Link):
-                points = tuple(self.Point[i] for i in vlink.Points)
+                points = [self.Point[i] for i in vlink.Points]
                 self.drawLink(vlink.name, vlink.color, points)
             self.drawPath()
             for i, vpoint in enumerate(self.Point):
