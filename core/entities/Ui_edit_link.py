@@ -32,9 +32,6 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.Link)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.icon_label = QtWidgets.QLabel(Dialog)
-        self.icon_label.setObjectName("icon_label")
-        self.horizontalLayout_2.addWidget(self.icon_label)
         self.name_edit = QtWidgets.QLineEdit(Dialog)
         self.name_edit.setObjectName("name_edit")
         self.horizontalLayout_2.addWidget(self.name_edit)
@@ -93,7 +90,6 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Link"))
         self.name_label.setText(_translate("Dialog", "Name:"))
-        self.icon_label.setText(_translate("Dialog", "<html><head/><body><p><img width=\"30\" src=\":/icons/link.png\"/></p></body></html>"))
         self.color_label.setText(_translate("Dialog", "Color:"))
         self.point_label.setText(_translate("Dialog", "Points:"))
         self.label.setText(_translate("Dialog", ">>"))

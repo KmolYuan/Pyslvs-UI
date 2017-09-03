@@ -38,7 +38,7 @@ class addTableCommand(QUndoCommand):
         self.table.removeRow(self.table.rowCount()-1)
 
 class deleteTableCommand(QUndoCommand):
-    def __init__(self, table, row, isRename=True):
+    def __init__(self, table, row, isRename):
         QUndoCommand.__init__(self)
         self.table = table
         self.row = row
@@ -91,8 +91,8 @@ class editPointTableCommand(QUndoCommand):
         self.writeRows(self.NewLinkRows, self.OldLinkRows)
     
     def undo(self):
-        self.PointTable.editArgs(self.row, *self.OldArgs)
         self.writeRows(self.OldLinkRows, self.NewLinkRows)
+        self.PointTable.editArgs(self.row, *self.OldArgs)
     
     def writeRows(self, rows1, rows2):
         for row in rows1:
@@ -137,8 +137,8 @@ class editLinkTableCommand(QUndoCommand):
         self.writeRows(self.NewPointRows, self.OldPointRows)
     
     def undo(self):
-        self.LinkTable.editArgs(self.row, *self.OldArgs)
         self.writeRows(self.OldPointRows, self.NewPointRows)
+        self.LinkTable.editArgs(self.row, *self.OldArgs)
     
     def writeRows(self, rows1, rows2):
         name = self.LinkTable.item(self.row, 0).text()

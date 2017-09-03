@@ -528,9 +528,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(list)
-    def addLinkGroup(self, Points):
-        #TODO: Creat a link to include exist Points.
-        ...
+    def addLinkGroup(self, points):
+        name = 'link_0'
+        names = [self.Entiteis_Link.item(row, 0).text() for row in range(self.Entiteis_Link.rowCount())]
+        i = 0
+        while name in names:
+            i += 1
+            name = 'link_{}'.format(i)
+        Args = [
+            name,
+            'Blue',
+            ','.join(['Point{}'.format(i) for i in sorted(points)])
+        ]
+        self.FileState.beginMacro("Add {{Link: {}}}".format(name))
+        self.FileState.push(addTableCommand(self.Entiteis_Link))
+        self.FileState.push(editLinkTableCommand(self.Entiteis_Link, self.Entiteis_Link.rowCount()-1, self.Entiteis_Point, Args))
+        self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
@@ -605,14 +618,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(editLinkTableCommand(self.Entiteis_Link, pos, self.Entiteis_Point, Args))
             self.FileState.endMacro()
     
-    def addState(self, table, Args):
-        self.FileState.beginMacro("Add {{{}{}}}".format(table.name, table.rowCount()))
-        self.FileState.push(addTableCommand(table))
-        self.FileState.push(editPointTableCommand(table, Args))
-        self.FileState.endMacro()
-    
     #Delete
     @pyqtSlot()
+    @pyqtSlot(int)
     def on_action_Delete_Point_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Point.currentRow()
@@ -627,10 +635,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ]
             self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
             self.FileState.push(editPointTableCommand(self.Entiteis_Point, pos, self.Entiteis_Link, Args))
-            self.FileState.push(deleteTableCommand(self.Entiteis_Point, pos, True))
+            self.FileState.push(deleteTableCommand(self.Entiteis_Point, pos, isRename=True))
             self.FileState.endMacro()
     
     @pyqtSlot()
+    @pyqtSlot(int)
     def on_action_Delete_Linkage_triggered(self, pos=None):
         if pos==None:
             pos = self.Entiteis_Link.currentRow()
@@ -644,7 +653,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 ]
                 self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entiteis_Link.item(pos, 0).text()))
                 self.FileState.push(editLinkTableCommand(self.Entiteis_Link, pos, self.Entiteis_Point, Args))
-                self.FileState.push(deleteTableCommand(self.Entiteis_Link, pos, True))
+                self.FileState.push(deleteTableCommand(self.Entiteis_Link, pos, isRename=False))
                 self.FileState.endMacro()
     
     def deleteDlg(self, icon, table, pos):

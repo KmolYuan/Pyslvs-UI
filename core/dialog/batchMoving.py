@@ -29,7 +29,7 @@ class batchMoving_show(QDialog, batchMoving_Dialog):
         self.Point = Point
         for i, e in enumerate(self.Point):
             if i!=0:
-                self.Point_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
+                self.Point_list.addItem(QListWidgetItem(colorIcons(e.color), 'Point{}'.format(i)))
         self.isReady()
     
     @pyqtSlot()

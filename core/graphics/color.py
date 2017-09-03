@@ -48,14 +48,9 @@ def colorName() -> str:
     return sorted(list(colorlist().keys()))
 
 def colorQt(colorName : str) -> QColor:
-    return colorlist()[colorName]
+    return colorlist().get(colorName, Qt.white)
 
-def colorIcons() -> dict:
-    colors = colorlist()
-    names = colorName()
-    blocks = dict()
-    for name in names:
-        colorBlock = QPixmap(QSize(20, 20))
-        colorBlock.fill(colors[name])
-        blocks.update({name:QIcon(colorBlock)})
-    return blocks
+def colorIcons(colorName: str, width: int =20) -> QIcon:
+    colorBlock = QPixmap(QSize(width, width))
+    colorBlock.fill(colorQt(colorName))
+    return QIcon(colorBlock)

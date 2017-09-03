@@ -31,7 +31,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
         icon = self.windowIcon()
         self.PointIcon = QIcon(QPixmap(":/icons/bearing.png"))
         for i, e in enumerate(colorName()):
-            self.Color.insertItem(i, colorIcons()[e], e)
+            self.Color.insertItem(i, colorIcons(e), e)
         for i in range(len(self.Points)):
             self.noSelected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(i)))
         if pos is False:

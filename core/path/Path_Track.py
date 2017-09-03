@@ -36,7 +36,7 @@ class Path_Track_show(QDialog, PathTrack_Dialog):
         self.chooseShafts.clicked.connect(self.isReady)
         for i, e in enumerate(Point):
             if not e.fix:
-                self.Run_list.addItem(QListWidgetItem(colorIcons()[e.color], 'Point{}'.format(i)))
+                self.Run_list.addItem(QListWidgetItem(colorIcons(e.color), 'Point{}'.format(i)))
         self.shaftList = []
         for i in range(len(Shaft)):
             shaftCheckBox = QCheckBox(self.scrollAreaWidgetContents)

@@ -36,10 +36,12 @@ def init_Widgets(self):
     self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
     self.Entiteis_Point.cellDoubleClicked.connect(self.on_Entiteis_Point_cellDoubleClicked)
     self.Entiteis_Point.itemSelectionChanged.connect(self.pointSelection)
+    self.Entiteis_Point.deleteRequest.connect(self.on_action_Delete_Point_triggered)
     self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
     self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
     self.Entiteis_Link.cellDoubleClicked.connect(self.on_Entiteis_Link_cellDoubleClicked)
     self.Entiteis_Link.dragIn.connect(self.addLinkGroup)
+    self.Entiteis_Link.deleteRequest.connect(self.on_action_Delete_Linkage_triggered)
     self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
     #QPainter Window
     self.DynamicCanvasView = DynamicCanvas()

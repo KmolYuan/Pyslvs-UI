@@ -31,7 +31,7 @@ class edit_point_show(QDialog, edit_point_Dialog):
         self.Points = Points
         self.Links = Links
         for i, e in enumerate(colorName()):
-            self.Color.insertItem(i, colorIcons()[e], e)
+            self.Color.insertItem(i, colorIcons(e), e)
         for vlink in Links:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
         if pos is False:

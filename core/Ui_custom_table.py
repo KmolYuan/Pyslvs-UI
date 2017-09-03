@@ -25,6 +25,7 @@ VPointType = TypeVar('VPointType', int, str)
 
 class BaseTableWidget(QTableWidget):
     name = ''
+    deleteRequest = pyqtSignal(int)
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
@@ -46,6 +47,10 @@ class BaseTableWidget(QTableWidget):
             else:
                 texts.append('')
         return tuple(texts)
+    
+    def keyPressEvent(self, event):
+        if event.key()==Qt.Key_Delete:
+            self.deleteRequest.emit(self.currentRow())
 
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
@@ -92,7 +97,7 @@ class PointTableWidget(BaseTableWidget):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i==3:
-                item.setIcon(colorIcons().get(e, colorIcons()['White']))
+                item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
     def rename(self, row):
@@ -109,6 +114,7 @@ class PointTableWidget(BaseTableWidget):
         for row in selections:
             self.setRangeSelected(QTableWidgetSelectionRange(row, 0, row, 5), not row in selectedRows)
             self.scrollToItem(self.item(row, 0))
+        self.setFocus()
     
     def selectedRows(self):
         a = []
@@ -168,7 +174,7 @@ class LinkTableWidget(BaseTableWidget):
             item = QTableWidgetItem(e)
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i==1:
-                item.setIcon(colorIcons()[e])
+                item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
     def dragEnterEvent(self, event):

@@ -37,7 +37,7 @@ class path_point_data_show(QDialog, Ui_Info_Dialog):
                 pointNode = QTreeWidgetItem(['Point{}'.format(vpath.point)])
                 shaftNode.addChild(pointNode)
                 pointNode.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsUserCheckable | Qt.ItemNeverHasChildren)
-                pointNode.setIcon(0, colorIcons()[self.Point[vpath.point].color])
+                pointNode.setIcon(0, colorIcons(self.Point[vpath.point].color))
                 pointNode.setCheckState(0, Qt.Checked if vpath.show else Qt.Unchecked)
                 shaft.append(pointNode)
             self.pathTree.addTopLevelItem(shaftNode)

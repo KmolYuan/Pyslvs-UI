@@ -399,8 +399,8 @@ class DynamicCanvas(BaseCanvas):
             self.options.ox = width/2
             self.options.oy = height/2
         else:
-            Xs = [e.cx for e in self.Point]
-            Ys = [e.cy for e in self.Point]
+            Xs = [e.cx for e in self.Point] if self.Point else [0]
+            Ys = [e.cy for e in self.Point] if self.Point else [0]
             if self.options.Path.path:
                 Path = self.options.Path.path
                 pathMaxX = max([max([max([dot[0] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
@@ -416,6 +416,8 @@ class DynamicCanvas(BaseCanvas):
                 diffY = max(Ys)-min(Ys)
                 cenx = (min(Xs)+max(Xs))/2
                 ceny = (min(Ys)+max(Ys))/2
+            diffY = diffY if diffY!=0 else 1
+            height = height if height!=0 else 1
             cdiff = diffX/diffY > width/height
             self.zoom_change.emit(int((width if cdiff else height)/(diffX if cdiff else diffY)*0.95*50))
             self.options.ox = (width/2)-cenx*self.zoom
