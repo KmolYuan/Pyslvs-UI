@@ -39,7 +39,7 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Delete..."))
+        Dialog.setWindowTitle(_translate("Dialog", "Delete"))
 
 import icons_rc
 

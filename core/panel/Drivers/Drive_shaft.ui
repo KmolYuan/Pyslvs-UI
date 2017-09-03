@@ -69,7 +69,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QComboBox" name="Shaft"/>
+      <widget class="QComboBox" name="Point"/>
+     </item>
+     <item>
+      <widget class="QComboBox" name="Link"/>
      </item>
      <item>
       <widget class="QLabel" name="label_2">

@@ -33,8 +33,8 @@ from .io.undoRedo import (
 #Entities
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
+from .entities.delete import deleteDlg
 #Dialog
-from .dialog.delete import deleteDlg
 from .dialog.batchMoving import batchMoving_show
 from .dialog.association import Association_show
 #Path
@@ -92,7 +92,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if mimeData.hasUrls():
             for url in mimeData.urls():
                 FilePath = url.toLocalFile()
-                if QFileInfo(FilePath).suffix() in ['xml', 'csv']:
+                if QFileInfo(FilePath).suffix() in ['pyslvs']:
                     event.acceptProposedAction()
     
     def dropEvent(self, event):
