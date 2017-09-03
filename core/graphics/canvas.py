@@ -112,7 +112,7 @@ class BaseCanvas(QWidget):
             if i==len(points)-1:
                 break
             distanceList = [points[i].distance(p) for p in points]
-            j = nsmallest(2, range(len(distanceList)), key=distanceList.__getitem__)[-1]
+            j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
             points[i+1], points[j] = points[j], points[i+1]
         qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*self.zoom*-1) for vpoint in points]
         if qpoints:
