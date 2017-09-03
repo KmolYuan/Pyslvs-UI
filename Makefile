@@ -9,14 +9,13 @@ help:
 	@echo - all: build Pyslvs and test binary.
 	@echo - build: build Pyslvs.
 	@echo - build-kernel: build kernel only.
-	@echo - deb (Ubuntu only): build and pack up as debian installer.
 	@echo - clean: clean executable file and PyInstaller items,
 	@echo          will not delete kernel binary files.
 	@echo - clean-kernel: clean up kernel binary files.
 	@echo - clean-all: clean every binary files and executable file.
 	@echo --------------------------
 
-.PHONY: help build build-kernel deb clean clean-kernel clean-all
+.PHONY: help build build-kernel clean clean-kernel clean-all
 
 build-kernel: core/kernel/pyslvs_algorithm/*.pyx
 	@echo ---Pyslvs generate Build---
@@ -49,6 +48,7 @@ else
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< --exclude-module="PyQt4"
 	mv dist/launch_pyslvs dist/pyslvs
+	@echo File size: `ls -lah dist/pyslvs | awk '{ print $5}'`
 endif
 	@echo ---Done---
 
@@ -58,26 +58,6 @@ ifeq ($(OS),Windows_NT)
 else
 	@dist/pyslvs -h
 endif
-
-DEBIANCONTROL = dist/temp/DEBIAN/control
-deb: build dist/pyslvs
-ifeq ($(OS),Windows_NT)
-	@echo ---Ubuntu only---
-else
-	mkdir dist/temp dist/temp/DEBIAN dist/temp/usr/ dist/temp/usr/bin dist/temp/usr/share/
-	touch $(DEBIANCONTROL)
-	echo 'Package: pyslvs' >> $(DEBIANCONTROL)
-	$(eval PYSLVS = "Version: $(shell python3 -c "import sys;from core.info.info import VERSION;sys.stdout.write('{}.{}.{}'.format(*VERSION[:-1]))")")
-	echo $(PYSLVS) >> $(DEBIANCONTROL)
-	echo 'Architecture: all' >> $(DEBIANCONTROL)
-	echo 'Description: Dimensional Synthesis of Planar Four-bar Linkages in PyQt5 GUI.' >> $(DEBIANCONTROL)
-	echo 'Maintainer: Yuan Chang <daan0014119@gmail.com>' >> $(DEBIANCONTROL)
-	mv dist/pyslvs dist/temp/usr/share/
-	ln -s /usr/share/pyslvs dist/temp/usr/bin/pyslvs
-	mv dist/temp dist/pyslvs
-	dpkg -b dist/pyslvs
-endif
-	@echo ---Done---
 
 clean:
 ifeq ($(OS),Windows_NT)
