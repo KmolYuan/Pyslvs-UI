@@ -31,7 +31,7 @@ class PointOptions:
         self.rate = 2
         self.Path = Path()
         self.slvsPath = {'path':[], 'show':False}
-        self.currentShaft = 0
+        self.currentShaft = ()
 
 class Path:
     def __init__(self):
@@ -201,9 +201,13 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = pointsSelection
         self.update()
     
-    @pyqtSlot(int)
-    def changeCurrentShaft(self, pos=0):
-        self.options.currentShaft = pos
+    @pyqtSlot(int, float, int)
+    def changeCurrentShaft(self, point=0, angle=0., link=0):
+        self.options.currentShaft = (point, angle, link)
+        self.update()
+    
+    def resetCurrentShaft(self):
+        self.options.currentShaft = ()
         self.update()
     
     def path_solving(self, path=[]):

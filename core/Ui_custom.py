@@ -34,12 +34,12 @@ def init_Widgets(self):
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     #Entiteis tables
     self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
-    self.Entiteis_Point.cellDoubleClicked.connect(self.on_Entiteis_Point_cellDoubleClicked)
+    self.Entiteis_Point.cellDoubleClicked.connect(self.on_action_Edit_Point_triggered)
     self.Entiteis_Point.itemSelectionChanged.connect(self.pointSelection)
     self.Entiteis_Point.deleteRequest.connect(self.on_action_Delete_Point_triggered)
     self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
     self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
-    self.Entiteis_Link.cellDoubleClicked.connect(self.on_Entiteis_Link_cellDoubleClicked)
+    self.Entiteis_Link.cellDoubleClicked.connect(self.on_action_Edit_Linkage_triggered)
     self.Entiteis_Link.dragIn.connect(self.addLinkGroup)
     self.Entiteis_Link.deleteRequest.connect(self.on_action_Delete_Linkage_triggered)
     self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
@@ -53,7 +53,7 @@ def init_Widgets(self):
     cleanAction.setShortcutContext(Qt.WindowShortcut)
     self.addAction(cleanAction)
     self.DynamicCanvasView.mouse_getDoubleClickAdd.connect(self.addPointGroup)
-    self.DynamicCanvasView.mouse_getDoubleClickEdit.connect(self.on_Entiteis_Point_cellDoubleClicked)
+    self.DynamicCanvasView.mouse_getDoubleClickEdit.connect(self.on_action_Edit_Point_triggered)
     self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     #Panel widget will hide when not using.
@@ -78,45 +78,89 @@ def init_Widgets(self):
     self.rotateAngle.valueChanged.connect(self.DynamicCanvasView.setRotateAngle)
     self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
-    #DynamicCanvasView Right-click menu
-    self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
-    self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
-    self.popMenu_painter = QMenu(self)
-    self.action_painter_right_click_menu_add = QAction("Add a Point", self)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
-    self.action_painter_right_click_menu_fix_add = QAction("Add a fixed Point", self)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
-    self.action_painter_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_path)
-    self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
-    #Entiteis_Point Right-click menu
+    '''
+    Entiteis_Point context menu
+    
+    + Add
+    + Edit
+    + Fixed
+    + Copy table data
+    -------
+    + Delete
+    '''
     self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
     self.popMenu_point = QMenu(self)
     self.action_point_right_click_menu_add = QAction("&Add", self)
+    self.action_point_right_click_menu_add.triggered.connect(self.on_action_New_Point_triggered)
     self.popMenu_point.addAction(self.action_point_right_click_menu_add)
     self.action_point_right_click_menu_edit = QAction("&Edit", self)
+    self.action_point_right_click_menu_edit.triggered.connect(self.on_action_Edit_Point_triggered)
     self.popMenu_point.addAction(self.action_point_right_click_menu_edit)
-    self.action_point_right_click_menu_lock = QAction("&Fix / Unfix", self)
+    self.action_point_right_click_menu_lock = QAction("&Fixed", self)
+    self.action_point_right_click_menu_lock.setCheckable(True)
+    self.action_point_right_click_menu_lock.triggered.connect(self.lockPoint)
     self.popMenu_point.addAction(self.action_point_right_click_menu_lock)
-    self.action_point_right_click_menu_copy = QAction("&Copy table data", self)
-    self.popMenu_point.addAction(self.action_point_right_click_menu_copy)
+    self.action_point_right_click_menu_copydata = QAction("&Copy table data", self)
+    self.popMenu_point.addAction(self.action_point_right_click_menu_copydata)
     self.action_point_right_click_menu_copyPoint = QAction("Copy point", self)
+    self.action_point_right_click_menu_copyPoint.triggered.connect(self.copyPoint)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copyPoint)
     self.popMenu_point.addSeparator()
     self.action_point_right_click_menu_delete = QAction("&Delete", self)
+    self.action_point_right_click_menu_delete.triggered.connect(self.on_action_Delete_Point_triggered)
     self.popMenu_point.addAction(self.action_point_right_click_menu_delete)
-    #Entiteis_Link Right-click menu
+    '''
+    Entiteis_Link context menu
+    
+    + Add
+    + Edit
+    + Copy table data
+    -------
+    + Delete
+    '''
     self.Entiteis_Link_Widget.customContextMenuRequested.connect(self.on_link_context_menu)
     self.popMenu_link = QMenu(self)
     self.action_link_right_click_menu_add = QAction("&Add", self)
+    self.action_link_right_click_menu_add.triggered.connect(self.on_action_New_Line_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_add)
     self.action_link_right_click_menu_edit = QAction("&Edit", self)
+    self.action_link_right_click_menu_edit.triggered.connect(self.on_action_Edit_Linkage_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
-    self.action_link_right_click_menu_copy = QAction("&Copy table data", self)
-    self.popMenu_link.addAction(self.action_link_right_click_menu_copy)
+    self.action_link_right_click_menu_copydata = QAction("&Copy table data", self)
+    self.popMenu_link.addAction(self.action_link_right_click_menu_copydata)
     self.popMenu_link.addSeparator()
     self.action_link_right_click_menu_delete = QAction("&Delete", self)
-    self.popMenu_link.addAction(self.action_link_right_click_menu_delete) 
+    self.action_link_right_click_menu_delete.triggered.connect(self.on_action_Delete_Linkage_triggered)
+    self.popMenu_link.addAction(self.action_link_right_click_menu_delete)
+    '''
+    DynamicCanvasView context menu
+    
+    + Add a Path Point [Path Solving]
+    + Add
+    + Add [fixed]
+    -------
+    + Edit
+    + Fixed
+    + Copy point
+    -------
+    + Delete
+    '''
+    self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
+    self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
+    self.popMenu_painter = QMenu(self)
+    self.action_painter_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
+    self.popMenu_painter.addAction(self.action_painter_right_click_menu_path)
+    self.action_painter_right_click_menu_add = QAction("&Add", self)
+    self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
+    self.action_painter_right_click_menu_fix_add = QAction("Add [fixed]", self)
+    self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
+    self.popMenu_painter.addSeparator()
+    self.popMenu_painter.addAction(self.action_point_right_click_menu_edit)
+    self.popMenu_painter.addAction(self.action_point_right_click_menu_lock)
+    self.popMenu_painter.addAction(self.action_point_right_click_menu_copyPoint)
+    self.popMenu_painter.addSeparator()
+    self.popMenu_painter.addAction(self.action_point_right_click_menu_delete)
+    self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
 
 def action_Enabled(self):
     ONE_POINT = self.Entiteis_Point.rowCount()>0

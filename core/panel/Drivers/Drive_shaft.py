@@ -85,7 +85,7 @@ class RotatableView(QGraphicsView):
 
 class Drive_shaft_show(QWidget, Drive_Form):
     degreeChange = pyqtSignal(float, int)
-    def __init__(self, Shaft, currentShaft, isPathDemoMode, parent=None):
+    def __init__(self, Points, currentShaft, isPathDemoMode, parent=None):
         super(Drive_shaft_show, self).__init__(parent)
         self.setupUi(self)
         self.pathDemoMode.setVisible(isPathDemoMode)
@@ -93,13 +93,13 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.Degree.valueChanged.connect(self.on_Degree_valueChanged)
         self.Degree.sliderReleased.connect(self.on_Degree_sliderReleased)
         self.anglePanel.insertWidget(1, RotatableView(self.Degree))
-        self.tableShaft = Shaft
-        for i in range(len(self.tableShaft)):
+        self.Points = Points
+        for i in range(len(self.Points)):
             self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
         self.Shaft.setCurrentIndex(currentShaft)
-        self.startAngle = int(self.tableShaft[currentShaft].start*100)
-        self.endAngle = int(self.tableShaft[currentShaft].end*100)
-        self.demoAngle = int(self.tableShaft[currentShaft].demo*100)
+        self.startAngle = int(self.Points[currentShaft].start*100)
+        self.endAngle = int(self.Points[currentShaft].end*100)
+        self.demoAngle = int(self.Points[currentShaft].demo*100)
         self.playButton.clicked.connect(self.playStart)
         self.Degree.setMinimum(self.startAngle)
         self.Degree.setMaximum(self.endAngle)
@@ -108,15 +108,9 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.noReversed.clicked.connect(self.reverseChanged)
     
     @pyqtSlot(int)
-    def on_Shaft_currentIndexChanged(self, index):
-        self.startAngle = int(self.tableShaft[index].start*100)
-        self.endAngle = int(self.tableShaft[index].end*100)
-        self.demoAngle = int(self.tableShaft[index].demo*100)
-        self.Degree.setValue(self.demoAngle)
-    
-    @pyqtSlot(int)
     def on_Degree_valueChanged(self, val):
         self.Degree_text.setValue(float(val/100))
+    
     @pyqtSlot(float)
     def on_Degree_text_valueChanged(self, val):
         self.Degree.setValue(int(val*100))
@@ -139,9 +133,11 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.Degree.setEnabled(False)
         self.playButton.setText('Stop')
         work.start()
+    
     @pyqtSlot()
     def finish(self):
         self.stopPlay()
+    
     @pyqtSlot(float)
     def goal(self, angle):
         self.stopPlay()

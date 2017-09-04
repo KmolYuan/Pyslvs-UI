@@ -105,10 +105,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def context_menu_mouse_pos(self, x, y):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
-    #Right-click menu event
+    
+    #Entiteis_Point context menu
+    @pyqtSlot(QPoint)
+    def on_point_context_menu(self, point):
+        self.enableEditPoint()
+        action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
+        if action==self.action_point_right_click_menu_copydata:
+            self.tableCopy(self.Entiteis_Point)
+    
+    #Entiteis_Link context menu
+    @pyqtSlot(QPoint)
+    def on_link_context_menu(self, point):
+        self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.currentRow()>0)
+        action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
+        if action==self.action_link_right_click_menu_copydata:
+            self.tableCopy(self.Entiteis_Link)
+    
+    #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path.setVisible(self.PathSolving.isChecked())
+        self.enableEditPoint()
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
         if action==self.action_painter_right_click_menu_add:
             self.addPointGroup()
@@ -116,37 +134,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.addPointGroup(True)
         elif action==self.action_painter_right_click_menu_path:
             self.PathSolving_add_rightClick(x, y)
-    @pyqtSlot(QPoint)
-    def on_point_context_menu(self, point):
-        Point = self.Entiteis_Point
-        action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
-        table_pos = Point.currentRow()
-        if action==self.action_point_right_click_menu_add:
-            self.on_action_New_Point_triggered()
-        elif action==self.action_point_right_click_menu_edit:
-            self.on_action_Edit_Point_triggered(table_pos)
-        elif action==self.action_point_right_click_menu_lock:
-            self.lockPoint(table_pos)
-        elif action==self.action_point_right_click_menu_copy:
-            self.tableCopy(Point)
-        elif action==self.action_point_right_click_menu_copyPoint:
-            self.File.Lists.editTable(Point, False,
-                Point.item(table_pos, 1).text(), Point.item(table_pos, 2).text(), Point.item(table_pos, 3).checkState()==Qt.Checked, 'Orange')
-        elif action==self.action_point_right_click_menu_delete:
-            self.on_action_Delete_Point_triggered(table_pos)
-    @pyqtSlot(QPoint)
-    def on_link_context_menu(self, point):
-        action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
-        table_pos = self.Entiteis_Link.currentRow()
-        self.action_link_right_click_menu_delete.setEnabled(table_pos>0)
-        if action==self.action_link_right_click_menu_add:
-            self.on_action_New_Line_triggered()
-        elif action==self.action_link_right_click_menu_edit:
-            self.on_action_Edit_Linkage_triggered(table_pos)
-        elif action==self.action_link_right_click_menu_copy:
-            self.tableCopy(self.Entiteis_Link)
-        elif action==self.action_link_right_click_menu_delete:
-            self.on_action_Delete_Linkage_triggered(table_pos)
+    
+    def enableEditPoint(self):
+        pos = self.Entiteis_Point.currentRow()
+        if pos>-1:
+            self.action_point_right_click_menu_lock.setChecked(
+                'ground' in self.Entiteis_Point.item(pos, 1).text())
+        for action in [
+            self.action_point_right_click_menu_edit,
+            self.action_point_right_click_menu_lock,
+            self.action_point_right_click_menu_copyPoint,
+            self.action_link_right_click_menu_copydata,
+            self.action_point_right_click_menu_delete
+        ]:
+            action.setEnabled(pos>-1)
     
     def tableCopy(self, table):
         text = table.currentItem().text()
@@ -193,7 +194,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Resolve
     def Resolve(self):
-        result, DOF = slvsProcess(self.Entiteis_Point.data(), self.Entiteis_Link.data(), hasWarning=self.args.w)
+        result, DOF = slvsProcess(
+            self.Entiteis_Point.data(),
+            self.Entiteis_Link.data(),
+            self.DynamicCanvasView.options.currentShaft,
+            hasWarning=self.args.w)
         Failed = type(DOF)!=int
         self.ConflictGuide.setVisible(Failed)
         self.DOFview.setVisible(not Failed)
@@ -213,7 +218,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Reload Canvas
     @pyqtSlot(int)
     @pyqtSlot(float)
-    def Reload_Canvas(self, v0=None):
+    def Reload_Canvas(self, *Args):
         self.DynamicCanvasView.update_figure(self.Entiteis_Point.data(), self.Entiteis_Link.data(), self.File.pathData)
     
     #Workbook Change
@@ -500,15 +505,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
             self.workbookNoSave()
     
-    @pyqtSlot(int)
-    @pyqtSlot(int, int)
-    def on_Entiteis_Point_cellDoubleClicked(self, row, column=0):
-        self.on_action_Edit_Point_triggered(row)
-    @pyqtSlot(int, int)
-    def on_Entiteis_Link_cellDoubleClicked(self, row, column):
-        if row>0:
-            self.on_action_Edit_Linkage_triggered(row)
-    
     #Entities
     def addPointGroup(self, fixed=False):
         if not self.PathSolving.isChecked():
@@ -550,7 +546,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.editPoint()
     
     @pyqtSlot()
-    def on_action_Edit_Point_triggered(self, pos):
+    def on_action_Edit_Point_triggered(self):
+        pos = self.Entiteis_Point.currentRow()
+        pos = pos if pos>-1 else 0
         self.editPoint(pos)
     
     def editPoint(self, pos=False):
@@ -574,7 +572,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(editPointTableCommand(self.Entiteis_Point, pos, self.Entiteis_Link, Args))
             self.FileState.endMacro()
     
-    def lockPoint(self, pos):
+    def lockPoint(self):
+        pos = self.Entiteis_Point.currentRow()
         Links = self.Entiteis_Point.item(pos, 1).text().split(',')
         if 'ground' in Links:
             Links.remove('ground')
@@ -591,12 +590,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.push(editPointTableCommand(self.Entiteis_Point, pos, self.Entiteis_Link, Args))
         self.FileState.endMacro()
     
+    def copyPoint(self):
+        pos = self.Entiteis_Point.currentRow()
+        Args = [
+            self.Entiteis_Point.item(pos, 1).text(),
+            self.Entiteis_Point.item(pos, 2).text(),
+            'Orange',
+            self.Entiteis_Point.item(pos, 4).text(),
+            self.Entiteis_Point.item(pos, 5).text()
+        ]
+        rowCount = self.Entiteis_Point.rowCount()
+        self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+        self.FileState.push(addTableCommand(self.Entiteis_Point))
+        self.FileState.push(editPointTableCommand(self.Entiteis_Point, rowCount, self.Entiteis_Link, Args))
+        self.FileState.endMacro()
+    
     @pyqtSlot()
     def on_action_New_Line_triggered(self):
         self.editLineDlg()
     
     @pyqtSlot()
-    def on_action_Edit_Linkage_triggered(self, pos=1):
+    def on_action_Edit_Linkage_triggered(self):
+        pos = self.Entiteis_Link.currentRow()
+        pos = pos if pos>0 else 1
         self.editLineDlg(pos)
     
     def editLineDlg(self, pos=False):
@@ -618,12 +634,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(editLinkTableCommand(self.Entiteis_Link, pos, self.Entiteis_Point, Args))
             self.FileState.endMacro()
     
-    #Delete
     @pyqtSlot()
-    @pyqtSlot(int)
-    def on_action_Delete_Point_triggered(self, pos=None):
-        if pos==None:
-            pos = self.Entiteis_Point.currentRow()
+    def on_action_Delete_Point_triggered(self):
+        pos = self.Entiteis_Point.currentRow()
         pos = self.deleteDlg(self.action_New_Point.icon(), self.Entiteis_Point, pos if pos>-1 else 0)
         if pos is not None:
             Args = [
@@ -639,10 +652,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.endMacro()
     
     @pyqtSlot()
-    @pyqtSlot(int)
-    def on_action_Delete_Linkage_triggered(self, pos=None):
-        if pos==None:
-            pos = self.Entiteis_Link.currentRow()
+    def on_action_Delete_Linkage_triggered(self):
+        pos = self.Entiteis_Link.currentRow()
         if pos>0:
             pos = self.deleteDlg(self.action_New_Line.icon(), self.Entiteis_Link, pos)
             if pos is not None:
@@ -831,7 +842,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 isPathDemoMode = not self.File.Lists.getShaftPath(currentShaft).isBroken()
             else:
                 isPathDemoMode = False
-            panel = Drive_shaft_show(self.File.Lists.ShaftList, currentShaft, isPathDemoMode, self)
+            panel = Drive_shaft_show(self.Entiteis_Point.data(), currentShaft, isPathDemoMode, self)
             panel.Degree.valueChanged.connect(self.Change_path_demo_angle if isPathDemoMode else self.Change_demo_angle)
             if not isPathDemoMode:
                 panel.degreeChange.connect(self.Save_demo_angle)

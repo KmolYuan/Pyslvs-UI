@@ -18,11 +18,17 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from math import pi, cos, sin
+from typing import List, Tuple
 from ..kernel.python_solvespace.slvs import (System, Slvs_MakeQuaternion,
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS)
 
-def slvsProcess(Point=False, Link=False, currentShaft=(), hasWarning=True):
+def slvsProcess(
+    Point: Tuple['VPoint'] =False,
+    Link: Tuple['VLink'] =False,
+    currentShaft: List[Tuple[int, int, int]] =(),
+    hasWarning: bool =True
+):
     Sys = System(len(Point)*2+2+9)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)

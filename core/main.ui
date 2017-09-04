@@ -1585,7 +1585,7 @@
   </action>
   <action name="action_Delete_Point">
    <property name="text">
-    <string>Delet a Point</string>
+    <string>Delet the Point</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing point.</string>
@@ -1593,7 +1593,7 @@
   </action>
   <action name="action_Delete_Linkage">
    <property name="text">
-    <string>Delet a Linkage</string>
+    <string>Delet the Linkage</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing linkage.</string>
@@ -1601,7 +1601,7 @@
   </action>
   <action name="action_Edit_Point">
    <property name="text">
-    <string>Edit a Point</string>
+    <string>Edit the Point</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing point.</string>
@@ -1609,7 +1609,7 @@
   </action>
   <action name="action_Edit_Linkage">
    <property name="text">
-    <string>Edit a Linkage</string>
+    <string>Edit the Linkage</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing linkage.</string>

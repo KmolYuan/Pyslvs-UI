@@ -25,7 +25,7 @@ VPointType = TypeVar('VPointType', int, str)
 
 class BaseTableWidget(QTableWidget):
     name = ''
-    deleteRequest = pyqtSignal(int)
+    deleteRequest = pyqtSignal()
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
@@ -50,7 +50,7 @@ class BaseTableWidget(QTableWidget):
     
     def keyPressEvent(self, event):
         if event.key()==Qt.Key_Delete:
-            self.deleteRequest.emit(self.currentRow())
+            self.deleteRequest.emit()
 
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
@@ -120,6 +120,7 @@ class PointTableWidget(BaseTableWidget):
                 not row in selectedRows
             )
             self.scrollToItem(self.item(row, 0))
+            self.setCurrentCell(row, 0)
         self.setFocus()
     
     def selectedRows(self):
