@@ -58,7 +58,7 @@ class PointTableWidget(BaseTableWidget):
         super(PointTableWidget, self).__init__(1, ['Links', 'Type', 'Color', 'X', 'Y', 'Current'], parent)
         self.editArgs(0, 'ground', 'R', 'Red', '0.0', '0.0')
         self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 90)
+        self.setColumnWidth(1, 150)
         self.setColumnWidth(2, 40)
         self.setColumnWidth(3, 90)
         self.setColumnWidth(4, 60)
@@ -106,13 +106,19 @@ class PointTableWidget(BaseTableWidget):
     
     def updatePosition(self, coordinates):
         for i, (x, y) in enumerate(coordinates):
-            self.setItem(i, 6, QTableWidgetItem("({}, {})".format(x, y)))
+            text = "({}, {})".format(x, y)
+            item = QTableWidgetItem(text)
+            item.setToolTip(text)
+            self.setItem(i, 6, item)
     
     @pyqtSlot(list)
     def setSelections(self, selections):
         selectedRows = self.selectedRows()
         for row in selections:
-            self.setRangeSelected(QTableWidgetSelectionRange(row, 0, row, 5), not row in selectedRows)
+            self.setRangeSelected(
+                QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
+                not row in selectedRows
+            )
             self.scrollToItem(self.item(row, 0))
         self.setFocus()
     
