@@ -111,23 +111,25 @@ class PointTableWidget(BaseTableWidget):
             item.setToolTip(text)
             self.setItem(i, 6, item)
     
-    @pyqtSlot(list)
-    def setSelections(self, selections):
-        selectedRows = self.selectedRows()
-        for row in selections:
-            self.setRangeSelected(
-                QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
-                not row in selectedRows
-            )
-            self.scrollToItem(self.item(row, 0))
-            self.setCurrentCell(row, 0)
+    @pyqtSlot(tuple)
+    def setSelections(self, selections: Tuple[int]):
         self.setFocus()
+        if QApplication.keyboardModifiers()==Qt.ControlModifier:
+            self.setRangesSelected(selections, QItemSelectionModel.Toggle)
+        else:
+            self.setRangesSelected(selections, QItemSelectionModel.Current)
+    
+    def setRangesSelected(self, selections, flags):
+        for row in selections:
+            self.setSelection(QRect(row, 0, self.columnCount()-1, 0), flags)
+            self.scrollToItem(self.item(row, 0))
+        self.setCurrentCell(selections[-1], 0)
     
     def selectedRows(self):
         a = []
         for r in self.selectedRanges():
             a += [i for i in range(r.topRow(), r.bottomRow()+1)]
-        return sorted(set(a))
+        return tuple(sorted(set(a)))
     
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)

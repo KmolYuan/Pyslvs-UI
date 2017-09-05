@@ -23,7 +23,7 @@ from .Ui_custom_table import PointTableWidget, LinkTableWidget
 from .info.info import VERSION
 tr = QCoreApplication.translate
 
-def init_Widgets(self):
+def initCustomWidgets(self):
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 5)

@@ -136,7 +136,7 @@ class BaseCanvas(QWidget):
 
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
-    mouse_getSelection = pyqtSignal(list)
+    mouse_getSelection = pyqtSignal(tuple)
     mouse_noSelection = pyqtSignal()
     mouse_getDoubleClickAdd = pyqtSignal()
     mouse_getDoubleClickEdit = pyqtSignal(int)
@@ -363,7 +363,7 @@ class DynamicCanvas(BaseCanvas):
                 if self.Selector.distance(x, y)<10:
                     selection.append(i)
             if selection:
-                self.mouse_getSelection.emit(selection)
+                self.mouse_getSelection.emit(tuple(selection))
             else:
                 self.mouse_noSelection.emit()
         if event.buttons()==Qt.MiddleButton:

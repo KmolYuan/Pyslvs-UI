@@ -20,7 +20,7 @@
 from .QtModules import *
 tr = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
-from .Ui_custom import init_Widgets, action_Enabled, showUndoWindow
+from .Ui_custom import initCustomWidgets, action_Enabled, showUndoWindow
 
 #Dialog
 from .info.info import version_show
@@ -74,7 +74,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File = File(self.FileState, self.args)
         self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
         #Initialize custom UI
-        init_Widgets(self)
+        initCustomWidgets(self)
         self.Resolve()
         #Solve & DOF
         self.Solvefail = False
@@ -147,7 +147,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.action_link_right_click_menu_copydata,
             self.action_point_right_click_menu_delete
         ]:
-            action.setEnabled(pos>-1)
+            action.setEnabled(pos>-1 and bool(self.Entiteis_Point.selectedRows()))
     
     def tableCopy(self, table):
         text = table.currentItem().text()
