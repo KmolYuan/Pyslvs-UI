@@ -115,15 +115,21 @@ class PointTableWidget(BaseTableWidget):
     def setSelections(self, selections: Tuple[int]):
         self.setFocus()
         if QApplication.keyboardModifiers()==Qt.ControlModifier:
-            self.setRangesSelected(selections, QItemSelectionModel.Toggle)
+            self.setRangesSelected(selections, continueSelect=True)
         else:
-            self.setRangesSelected(selections, QItemSelectionModel.Current)
+            self.setRangesSelected(selections, continueSelect=False)
     
-    def setRangesSelected(self, selections, flags):
-        for row in selections:
-            self.setSelection(QRect(row, 0, self.columnCount()-1, 0), flags)
-            self.scrollToItem(self.item(row, 0))
+    def setRangesSelected(self, selections, continueSelect):
+        selectedRows = self.selectedRows()
+        if not continueSelect:
+            self.clearSelection()
         self.setCurrentCell(selections[-1], 0)
+        for row in selections:
+            isSelected = not row in selectedRows
+            self.setRangeSelected(
+                QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
+                isSelected)
+            self.scrollToItem(self.item(row, 0))
     
     def selectedRows(self):
         a = []
