@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -384,15 +384,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.BrowserWidget)
         self.horizontalLayout_7.setContentsMargins(3, 3, 3, 3)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.BrowseGuide = QtWidgets.QLabel(self.BrowserWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.BrowseGuide.sizePolicy().hasHeightForWidth())
-        self.BrowseGuide.setSizePolicy(sizePolicy)
-        self.BrowseGuide.setTextFormat(QtCore.Qt.RichText)
-        self.BrowseGuide.setObjectName("BrowseGuide")
-        self.horizontalLayout_7.addWidget(self.BrowseGuide)
         self.ZoomBar = QtWidgets.QSlider(self.BrowserWidget)
         self.ZoomBar.setMinimum(10)
         self.ZoomBar.setMaximum(1000)
@@ -906,9 +897,6 @@ class Ui_MainWindow(object):
         self.label_4.setText(_translate("MainWindow", "Line width"))
         self.rotateAngle.setSuffix(_translate("MainWindow", "°"))
         self.ToolPanel.setTabText(self.ToolPanel.indexOf(self.settings_tab), _translate("MainWindow", "Settings"))
-        self.BrowseGuide.setToolTip(_translate("MainWindow", "<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">Browse Guide</span></p><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600;\">Ctrl</span><span style=\" font-weight:600;\"> + Mouse Double Click:</span> Set origin to mouse position.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600;\">Ctrl</span><span style=\" font-weight:600;\"> + Mouse Press:</span> Set origin to mouse position.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mouse Wheel or Middle button Drag:</span> Plane movement.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Mouse Wheel Scrolling:</span> Zoom the display size.</li><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600;\">Alt</span><span style=\" font-weight:600;\"> + Mouse Double Click:</span> Quickly added a normal point.</li></ul><ul style=\"margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;\"><li style=\" margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-weight:600;\">Middle button Double Click or </span><span style=\" font-family:\'DejaVu Sans Mono\'; font-weight:600;\">Space: </span>Zoom to fit.</li></ul></body></html>"))
-        self.BrowseGuide.setStatusTip(_translate("MainWindow", "Show Browse Guide tool tips."))
-        self.BrowseGuide.setText(_translate("MainWindow", "<html><head/><body><p><img width=\'30\' src=\":/icons/BrowseGuide.png\"/></p></body></html>"))
         self.ZoomBar.setStatusTip(_translate("MainWindow", "Adjust the slider to change demo size."))
         self.ZoomText.setText(_translate("MainWindow", "200%"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Zoom to fit."))

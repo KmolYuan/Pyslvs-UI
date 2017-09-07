@@ -355,38 +355,38 @@ class DynamicCanvas(BaseCanvas):
     def mousePressEvent(self, event):
         self.Selector.x = event.x()-self.options.ox
         self.Selector.y = event.y()-self.options.oy
-        if event.buttons()==Qt.LeftButton:
-            selection = []
-            for i, e in enumerate(self.Point):
-                x = e.cx*self.zoom
-                y = e.cy*self.zoom*-1
-                if self.Selector.distance(x, y)<10:
-                    selection.append(i)
-            if selection:
-                self.mouse_getSelection.emit(tuple(selection))
-            else:
-                self.mouse_noSelection.emit()
         if event.buttons()==Qt.MiddleButton:
             self.Selector.MiddleButtonDrag = True
-    
-    def mouseReleaseEvent(self, event):
-        self.Selector.MiddleButtonDrag = False
+        if event.buttons()==Qt.LeftButton:
+            if QApplication.keyboardModifiers()==Qt.AltModifier:
+                self.mouse_getDoubleClickAdd.emit()
+            else:
+                selection = []
+                for i, e in enumerate(self.Point):
+                    x = e.cx*self.zoom
+                    y = e.cy*self.zoom*-1
+                    if self.Selector.distance(x, y)<10:
+                        selection.append(i)
+                if selection:
+                    self.mouse_getSelection.emit(tuple(selection))
+                elif not QApplication.keyboardModifiers()==Qt.ControlModifier:
+                    self.mouse_noSelection.emit()
     
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
             self.SetIn()
         if event.buttons()==Qt.LeftButton:
-            if QApplication.keyboardModifiers()==Qt.AltModifier:
-                self.mouse_getDoubleClickAdd.emit()
-            else:
-                self.Selector.x = event.x()-self.options.ox
-                self.Selector.y = event.y()-self.options.oy
-                for i, e in enumerate(self.Point):
-                    x = e.cx*self.zoom
-                    y = e.cy*self.zoom*-1
-                    if self.Selector.distance(x, y)<10:
-                        self.mouse_getDoubleClickEdit.emit(i)
-                        break
+            self.Selector.x = event.x()-self.options.ox
+            self.Selector.y = event.y()-self.options.oy
+            for i, e in enumerate(self.Point):
+                x = e.cx*self.zoom
+                y = e.cy*self.zoom*-1
+                if self.Selector.distance(x, y)<10:
+                    self.mouse_getDoubleClickEdit.emit(i)
+                    break
+    
+    def mouseReleaseEvent(self, event):
+        self.Selector.MiddleButtonDrag = False
     
     def mouseMoveEvent(self, event):
         if self.Selector.MiddleButtonDrag:
