@@ -20,6 +20,7 @@
 from .QtModules import *
 from .graphics.color import colorIcons
 from .io.elements import VPoint, VLink
+from math import sqrt
 from typing import TypeVar, Tuple
 VPointType = TypeVar('VPointType', int, str)
 
@@ -53,7 +54,7 @@ class BaseTableWidget(QTableWidget):
 
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
-    rowSelectionChanged = pyqtSignal(tuple)
+    rowSelectionChanged = pyqtSignal(tuple, tuple)
     def __init__(self, parent=None):
         super(PointTableWidget, self).__init__(1, ['Links', 'Type', 'Color', 'X', 'Y', 'Current'], parent)
         self.editArgs(0, 'ground', 'R', 'Red', '0.0', '0.0')
@@ -120,7 +121,18 @@ class PointTableWidget(BaseTableWidget):
             self.setRangesSelected(selections, continueSelect=True)
         else:
             self.setRangesSelected(selections, continueSelect=False)
-        self.rowSelectionChanged.emit(self.selectedRows())
+        distance = []
+        selectedRows = self.selectedRows()
+        if len(selectedRows)>1:
+            for i, row in enumerate(selectedRows):
+                if i==len(selectedRows)-1:
+                    break
+                c0 = self.item(row, 6).text().replace('(', '').replace(')', '').split(", ")
+                cx0, cy0 = float(c0[0]), float(c0[1])
+                c1 = self.item(row+1, 6).text().replace('(', '').replace(')', '').split(", ")
+                cx1, cy1 = float(c1[0]), float(c1[1])
+                distance.append(round(sqrt((cx1-cx0)**2+(cy1-cy0)**2), 4))
+        self.rowSelectionChanged.emit(selectedRows, tuple(distance))
     
     def setRangesSelected(self, selections, continueSelect=True, UnSelect=True):
         selectedRows = self.selectedRows()
@@ -140,9 +152,10 @@ class PointTableWidget(BaseTableWidget):
             a += [i for i in range(r.topRow(), r.bottomRow()+1)]
         return tuple(sorted(set(a)))
     
+    @pyqtSlot()
     def clearSelection(self):
         super(PointTableWidget, self).clearSelection()
-        self.rowSelectionChanged.emit(tuple())
+        self.rowSelectionChanged.emit((), ())
     
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)
@@ -219,9 +232,14 @@ class SelectionLabel(QLabel):
         self.updateSelectPoint()
     
     @pyqtSlot()
-    @pyqtSlot(tuple)
-    def updateSelectPoint(self, points=()):
+    @pyqtSlot(tuple, tuple)
+    def updateSelectPoint(self, points=(), distance=()):
+        text = ""
         if points:
-            self.setText('-'.join('[{}]'.format(p) for p in points))
+            text += "Selected: {}".format('-'.join('[{}]'.format(p) for p in points))
+        if distance:
+            text += " | {}".format('-'.join('({})'.format(d) for d in distance))
+        if text:
+            self.setText(text)
         else:
             self.setText("No selection.")

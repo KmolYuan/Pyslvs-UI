@@ -80,10 +80,10 @@ def initCustomWidgets(self):
     closeAllPanelButton.setToolTip("Close all opened panel.")
     closeAllPanelButton.clicked.connect(self.closeAllPanels)
     self.panelWidget.setCornerWidget(closeAllPanelButton)
-    #Keyboard key button on status bar right side.
-    self.selectLabel = SelectionLabel(self)
-    self.Entiteis_Point.rowSelectionChanged.connect(self.selectLabel.updateSelectPoint)
-    self.statusBar.addPermanentWidget(self.selectLabel)
+    #Selection label on status bar right side.
+    selectionLabel = SelectionLabel(self)
+    self.Entiteis_Point.rowSelectionChanged.connect(selectionLabel.updateSelectPoint)
+    self.statusBar.addPermanentWidget(selectionLabel)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)

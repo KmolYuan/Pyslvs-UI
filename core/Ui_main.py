@@ -864,7 +864,7 @@ class Ui_MainWindow(object):
         self.ZoomText.setText(_translate("MainWindow", "200%"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Zoom to fit."))
         self.CanvasCapture.setStatusTip(_translate("MainWindow", "Make a canvas capture to the clipboard."))
-        self.DOFLable.setText(_translate("MainWindow", "DOF:"))
+        self.DOFLable.setText(_translate("MainWindow", "Space DOF:"))
         self.ConflictGuide.setStatusTip(_translate("MainWindow", "Show Conflict Guide tool tips."))
         self.ConflictGuide.setText(_translate("MainWindow", "<html><head/><body><p><img width=\'30\' src=\":/icons/ConflictGuide.png\"/></p></body></html>"))
         self.label_3.setText(_translate("MainWindow", "<html><head/><body><p><img width=\'30\' src=\":/icons/konsole.png\"/></p></body></html>"))
