@@ -33,7 +33,7 @@ ifeq ($(OS),Windows_NT)
 	$(eval CPPYTHON = cp$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	$(eval PYQTPATH = $(shell python -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
 	@echo --Python Version $(PYTHON)--
-	pyinstaller -F $< -i ./icons/main_big.ico \
+	pyinstaller -F $< -i ./icons/main.ico \
 --path="$(PYQTPATH)\Qt\bin" \
 --add-binary="core/kernel/python_solvespace/libslvs.so;." \
 --add-binary="core/kernel/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
