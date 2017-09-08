@@ -45,7 +45,6 @@ from .panel.DimensionalSynthesis.Path_Solving import Path_Solving_show
 from .panel.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
 from .panel.Drivers.Drive_shaft import Drive_shaft_show
 from .panel.Drivers.Drive_rod import Drive_rod_show
-from .panel.Validation.Measurement import Measurement_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 #File & Example
@@ -887,36 +886,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.Lists.saveDemo(self.Simulate_Rod, pos, row=currentRod, column=4)
     
     @pyqtSlot()
-    def on_Measurement_clicked(self):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        if "Measurement" in tabNameList:
-            self.closePanel(tabNameList.index("Measurement"))
-        else:
-            table = self.Entiteis_Point
-            panel = Measurement_show(table, self)
-            self.DynamicCanvasView.change_event.connect(panel.Detection_do)
-            self.action_Display_Dimensions.setChecked(True)
-            self.action_Display_Point_Mark.setChecked(True)
-            self.DynamicCanvasView.mouse_track.connect(panel.show_mouse_track)
-            panel.point_change.connect(self.distance_solving)
-            self.distance_changed.connect(panel.change_distance)
-            panel.Mouse.setPlainText("Detecting...")
-            self.panelWidget.addTab(panel, self.Measurement.icon(), "Measurement")
-            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
-    distance_changed = pyqtSignal(float)
-    @pyqtSlot(int, int)
-    def distance_solving(self, start, end):
-        x = self.File.Lists.PointList[start].cx-self.File.Lists.PointList[end].cx
-        y = self.File.Lists.PointList[start].cy-self.File.Lists.PointList[end].cy
-        self.distance_changed.emit(round((x**2+y**2)**(1/2), 5))
-    
-    @pyqtSlot()
     def on_action_Close_all_panel_triggered(self):
         self.closeAllPanels()
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
             self.closePanel(i)
-        for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.Measurement, self.PathSolving]:
+        for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.PathSolving]:
             button.setChecked(False)
         self.DynamicCanvasView.options.slvsPath['show'] = False
         self.DynamicCanvasView.options.Path.drive_mode = False

@@ -182,7 +182,6 @@ def action_Enabled(self):
     for action in [self.action_Path_coordinate, self.action_Save_path_only, self.action_Path_Clear]:
         action.setEnabled(bool(self.File.pathData))
     #Panel
-    self.Measurement.setEnabled(ONE_POINT)
     self.Drive_shaft.setEnabled(ONE_POINT_R)
     self.Drive_rod.setEnabled(ONE_POINT_P and ONE_POINT_RP)
     #Others

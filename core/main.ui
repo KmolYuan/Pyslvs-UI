@@ -482,57 +482,6 @@
                        </layout>
                       </widget>
                      </item>
-                     <item row="0" column="2">
-                      <widget class="QGroupBox" name="ValidationToolsGroupBox">
-                       <property name="title">
-                        <string>Validation tools</string>
-                       </property>
-                       <layout class="QVBoxLayout" name="verticalLayout_24">
-                        <property name="leftMargin">
-                         <number>3</number>
-                        </property>
-                        <property name="topMargin">
-                         <number>3</number>
-                        </property>
-                        <property name="rightMargin">
-                         <number>3</number>
-                        </property>
-                        <property name="bottomMargin">
-                         <number>3</number>
-                        </property>
-                        <item>
-                         <layout class="QGridLayout" name="gridLayout_2">
-                          <item row="0" column="0">
-                           <widget class="QPushButton" name="Measurement">
-                            <property name="toolTip">
-                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Measurement&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Measure the distance between two points.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/Measurement.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The maximum and minimum values will get after solved.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                            </property>
-                            <property name="statusTip">
-                             <string>Measure the distance between two points.</string>
-                            </property>
-                            <property name="text">
-                             <string/>
-                            </property>
-                            <property name="icon">
-                             <iconset resource="../icons.qrc">
-                              <normaloff>:/icons/measurement.png</normaloff>:/icons/measurement.png</iconset>
-                            </property>
-                            <property name="iconSize">
-                             <size>
-                              <width>40</width>
-                              <height>40</height>
-                             </size>
-                            </property>
-                            <property name="checkable">
-                             <bool>true</bool>
-                            </property>
-                           </widget>
-                          </item>
-                         </layout>
-                        </item>
-                       </layout>
-                      </widget>
-                     </item>
                     </layout>
                    </item>
                   </layout>
@@ -838,6 +787,19 @@
                    <double>10.000000000000000</double>
                   </property>
                  </widget>
+                </item>
+                <item row="0" column="8">
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
