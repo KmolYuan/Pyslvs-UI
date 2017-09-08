@@ -1268,7 +1268,6 @@
     <addaction name="action_Zoom_to_fit"/>
     <addaction name="action_Display_Point_Mark"/>
     <addaction name="action_Display_Dimensions"/>
-    <addaction name="action_Close_all_panel"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
     <addaction name="action_Property"/>
@@ -1284,14 +1283,6 @@
     <addaction name="action_About_Pyslvs"/>
     <addaction name="action_About_Qt"/>
    </widget>
-   <widget class="QMenu" name="menu_Edit">
-    <property name="title">
-     <string>&amp;Edit</string>
-    </property>
-    <addaction name="action_Search_Points"/>
-    <addaction name="action_Replace_Point"/>
-    <addaction name="action_Batch_moving"/>
-   </widget>
    <widget class="QMenu" name="menu_Path">
     <property name="title">
      <string>&amp;Path</string>
@@ -1304,6 +1295,12 @@
     <addaction name="action_Path_style"/>
     <addaction name="separator"/>
     <addaction name="action_Path_Clear"/>
+   </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="action_Batch_moving"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -1337,7 +1334,7 @@
      <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
    </property>
    <property name="text">
-    <string>New &amp;Point</string>
+    <string>New &amp;point</string>
    </property>
    <property name="statusTip">
     <string>Add a new point representative of a node on a machine.</string>
@@ -1397,7 +1394,7 @@
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>
    </property>
    <property name="text">
-    <string>Git&amp;hub Site</string>
+    <string>Git&amp;hub repository</string>
    </property>
    <property name="statusTip">
     <string>Goto Github storage of Pyslvs.</string>
@@ -1533,7 +1530,7 @@
   </action>
   <action name="action_Delete_Linkage">
    <property name="text">
-    <string>Delet the Linkage</string>
+    <string>Delet the linkage</string>
    </property>
    <property name="statusTip">
     <string>Delete an existing linkage.</string>
@@ -1541,7 +1538,7 @@
   </action>
   <action name="action_Edit_Point">
    <property name="text">
-    <string>Edit the Point</string>
+    <string>Edit the point</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing point.</string>
@@ -1549,7 +1546,7 @@
   </action>
   <action name="action_Edit_Linkage">
    <property name="text">
-    <string>Edit the Linkage</string>
+    <string>Edit the linkage</string>
    </property>
    <property name="statusTip">
     <string>Edit an existing linkage.</string>
@@ -1577,7 +1574,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Display Point &amp;mark</string>
+    <string>Display point &amp;mark</string>
    </property>
    <property name="statusTip">
     <string>Display point mark in canvas.</string>
@@ -1633,6 +1630,9 @@
    <property name="statusTip">
     <string>Properies of this workbook.</string>
    </property>
+   <property name="shortcut">
+    <string>`</string>
+   </property>
   </action>
   <action name="action_Crank_rocker">
    <property name="text">
@@ -1663,20 +1663,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
-  <action name="action_Search_Points">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Point association</string>
-   </property>
-   <property name="statusTip">
-    <string>View the association between points.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F</string>
    </property>
   </action>
   <action name="action_Two_Multiple_Link">
@@ -1717,17 +1703,6 @@
    </property>
    <property name="statusTip">
     <string>Algorithm #1</string>
-   </property>
-  </action>
-  <action name="action_Replace_Point">
-   <property name="text">
-    <string>Replace point</string>
-   </property>
-   <property name="statusTip">
-    <string>Replace a point to another point.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="action_Batch_moving">
@@ -1785,18 +1760,6 @@
    </property>
    <property name="statusTip">
     <string>Silder / Rod #2</string>
-   </property>
-  </action>
-  <action name="action_Close_all_panel">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/close.png</normaloff>:/icons/close.png</iconset>
-   </property>
-   <property name="text">
-    <string>Close all panel</string>
-   </property>
-   <property name="statusTip">
-    <string>Close all opened panel.</string>
    </property>
   </action>
   <action name="action_Lift_Tailgate">
@@ -1903,18 +1866,6 @@
     <string>Show Qt about.</string>
    </property>
   </action>
-  <action name="action_ViewLogFile">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/ConflictGuide.png</normaloff>:/icons/ConflictGuide.png</iconset>
-   </property>
-   <property name="text">
-    <string>View the Log file</string>
-   </property>
-   <property name="statusTip">
-    <string>Find and view the current Log file.</string>
-   </property>
-  </action>
   <action name="action_Four_bar_linkage">
    <property name="text">
     <string>Four bar linkage</string>
@@ -1959,7 +1910,7 @@
      <normaloff>:/icons/PathTrack.png</normaloff>:/icons/PathTrack.png</iconset>
    </property>
    <property name="text">
-    <string>Path Track</string>
+    <string>Path track</string>
    </property>
    <property name="statusTip">
     <string>Update all points, then tracking point with the shaft angle.</string>

@@ -43,8 +43,8 @@ def initCustomWidgets(self):
     self.Entiteis_Link.dragIn.connect(self.addLinkGroup)
     self.Entiteis_Link.deleteRequest.connect(self.on_action_Delete_Linkage_triggered)
     self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
-    #QPainter Window
-    self.DynamicCanvasView = DynamicCanvas()
+    #QPainter canvas window
+    self.DynamicCanvasView = DynamicCanvas(self)
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entiteis_Point.setSelections)
     self.DynamicCanvasView.mouse_noSelection.connect(self.Entiteis_Point.clearSelection)
     cleanAction = QAction("Clean selection", self)
@@ -70,6 +70,12 @@ def initCustomWidgets(self):
     propertiesButton.setStatusTip("Properties of this workbook.")
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.PointTab.setCornerWidget(propertiesButton)
+    #Close all panels button on the panel tab widget.
+    closeAllPanelButton = QPushButton()
+    closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))
+    closeAllPanelButton.setToolTip("Close all opened panel.")
+    closeAllPanelButton.clicked.connect(self.closeAllPanels)
+    self.panelWidget.setCornerWidget(closeAllPanelButton)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)
@@ -195,7 +201,7 @@ def showUndoWindow(self, FileState):
     self.UndoRedoLayout.addWidget(self.undoView)
     separator = QAction(self)
     separator.setSeparator(True)
-    self.menu_Edit.insertAction(self.action_Search_Points, separator)
+    self.menu_Edit.insertAction(self.action_Batch_moving, separator)
     self.action_Redo = FileState.createRedoAction(self, 'Redo')
     self.action_Undo = FileState.createUndoAction(self, 'Undo')
     self.action_Redo.setShortcut("Ctrl+Shift+Z")

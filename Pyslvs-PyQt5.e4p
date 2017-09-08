@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-09-03, 16:51:13 -->
+<!-- Saved: 2017-09-08, 11:19:46 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -23,15 +23,12 @@
     <Source>core/calculation/pathSolving.py</Source>
     <Source>core/calculation/pathTrack.py</Source>
     <Source>core/calculation/planeSolving.py</Source>
-    <Source>core/dialog/Ui_association.py</Source>
-    <Source>core/dialog/Ui_batchMoving.py</Source>
-    <Source>core/dialog/__init__.py</Source>
-    <Source>core/dialog/association.py</Source>
-    <Source>core/dialog/batchMoving.py</Source>
+    <Source>core/entities/Ui_batchMoving.py</Source>
     <Source>core/entities/Ui_delete.py</Source>
     <Source>core/entities/Ui_edit_link.py</Source>
     <Source>core/entities/Ui_edit_point.py</Source>
     <Source>core/entities/__init__.py</Source>
+    <Source>core/entities/batchMoving.py</Source>
     <Source>core/entities/delete.py</Source>
     <Source>core/entities/edit_link.py</Source>
     <Source>core/entities/edit_point.py</Source>
@@ -99,9 +96,6 @@
     <Source>core/panel/Drivers/Ui_Drive_rod.py</Source>
     <Source>core/panel/Drivers/Ui_Drive_shaft.py</Source>
     <Source>core/panel/Drivers/__init__.py</Source>
-    <Source>core/panel/Validation/Measurement.py</Source>
-    <Source>core/panel/Validation/Ui_Measurement.py</Source>
-    <Source>core/panel/Validation/__init__.py</Source>
     <Source>core/panel/__init__.py</Source>
     <Source>core/path/Path_Track.py</Source>
     <Source>core/path/Ui_Path_Track.py</Source>
@@ -120,8 +114,7 @@
     <Source>requirements.txt</Source>
   </Sources>
   <Forms>
-    <Form>core/dialog/association.ui</Form>
-    <Form>core/dialog/batchMoving.ui</Form>
+    <Form>core/entities/batchMoving.ui</Form>
     <Form>core/entities/delete.ui</Form>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
@@ -142,7 +135,6 @@
     <Form>core/panel/DimensionalSynthesis/Triangle_Solver_template.ui</Form>
     <Form>core/panel/Drivers/Drive_rod.ui</Form>
     <Form>core/panel/Drivers/Drive_shaft.ui</Form>
-    <Form>core/panel/Validation/Measurement.ui</Form>
     <Form>core/path/Path_Track.ui</Form>
     <Form>core/path/path_point_data.ui</Form>
   </Forms>

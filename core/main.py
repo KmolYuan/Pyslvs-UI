@@ -34,9 +34,7 @@ from .io.undoRedo import (
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 from .entities.delete import deleteDlg
-#Dialog
-from .dialog.batchMoving import batchMoving_show
-from .dialog.association import Association_show
+from .entities.batchMoving import batchMoving_show
 #Path
 from .path.Path_Track import Path_Track_show
 from .path.path_point_data import path_point_data_show
@@ -885,9 +883,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Save_position(self, pos, currentRod):
         self.File.Lists.saveDemo(self.Simulate_Rod, pos, row=currentRod, column=4)
     
-    @pyqtSlot()
-    def on_action_Close_all_panel_triggered(self):
-        self.closeAllPanels()
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
             self.closePanel(i)
