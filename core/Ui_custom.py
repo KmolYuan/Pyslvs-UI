@@ -19,7 +19,11 @@
 
 from .QtModules import *
 from .graphics.canvas import DynamicCanvas
-from .Ui_custom_table import PointTableWidget, LinkTableWidget
+from .Ui_custom_table import (
+    PointTableWidget,
+    LinkTableWidget,
+    SelectionLabel
+)
 from .info.info import VERSION
 tr = QCoreApplication.translate
 
@@ -76,6 +80,10 @@ def initCustomWidgets(self):
     closeAllPanelButton.setToolTip("Close all opened panel.")
     closeAllPanelButton.clicked.connect(self.closeAllPanels)
     self.panelWidget.setCornerWidget(closeAllPanelButton)
+    #Keyboard key button on status bar right side.
+    self.selectLabel = SelectionLabel(self)
+    self.Entiteis_Point.rowSelectionChanged.connect(self.selectLabel.updateSelectPoint)
+    self.statusBar.addPermanentWidget(self.selectLabel)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)

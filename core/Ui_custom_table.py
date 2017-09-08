@@ -24,7 +24,6 @@ from typing import TypeVar, Tuple
 VPointType = TypeVar('VPointType', int, str)
 
 class BaseTableWidget(QTableWidget):
-    name = ''
     deleteRequest = pyqtSignal()
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
         super(BaseTableWidget, self).__init__(parent)
@@ -54,6 +53,7 @@ class BaseTableWidget(QTableWidget):
 
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
+    rowSelectionChanged = pyqtSignal(tuple)
     def __init__(self, parent=None):
         super(PointTableWidget, self).__init__(1, ['Links', 'Type', 'Color', 'X', 'Y', 'Current'], parent)
         self.editArgs(0, 'ground', 'R', 'Red', '0.0', '0.0')
@@ -120,6 +120,7 @@ class PointTableWidget(BaseTableWidget):
             self.setRangesSelected(selections, continueSelect=True)
         else:
             self.setRangesSelected(selections, continueSelect=False)
+        self.rowSelectionChanged.emit(self.selectedRows())
     
     def setRangesSelected(self, selections, continueSelect=True, UnSelect=True):
         selectedRows = self.selectedRows()
@@ -138,6 +139,10 @@ class PointTableWidget(BaseTableWidget):
         for r in self.selectedRanges():
             a += [i for i in range(r.topRow(), r.bottomRow()+1)]
         return tuple(sorted(set(a)))
+    
+    def clearSelection(self):
+        super(PointTableWidget, self).clearSelection()
+        self.rowSelectionChanged.emit(tuple())
     
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)
@@ -207,3 +212,16 @@ class LinkTableWidget(BaseTableWidget):
     def dropEvent(self, event):
         self.dragIn.emit([int(e) for e in event.mimeData().text().split(';')])
         event.acceptProposedAction()
+
+class SelectionLabel(QLabel):
+    def __init__(self, *Args):
+        super(SelectionLabel, self).__init__(*Args)
+        self.updateSelectPoint()
+    
+    @pyqtSlot()
+    @pyqtSlot(tuple)
+    def updateSelectPoint(self, points=()):
+        if points:
+            self.setText('-'.join('[{}]'.format(p) for p in points))
+        else:
+            self.setText("No selection.")
