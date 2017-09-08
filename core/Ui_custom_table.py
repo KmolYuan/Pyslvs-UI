@@ -104,7 +104,7 @@ class PointTableWidget(BaseTableWidget):
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     
-    def updatePosition(self, coordinates):
+    def updateCurrentPosition(self, coordinates):
         for i, (x, y) in enumerate(coordinates):
             text = "({}, {})".format(x, y)
             item = QTableWidgetItem(text)
@@ -114,12 +114,14 @@ class PointTableWidget(BaseTableWidget):
     @pyqtSlot(tuple)
     def setSelections(self, selections: Tuple[int]):
         self.setFocus()
-        if QApplication.keyboardModifiers()==Qt.ControlModifier:
+        if QApplication.keyboardModifiers()==Qt.ShiftModifier:
+            self.setRangesSelected(selections, continueSelect=True, UnSelect=False)
+        elif QApplication.keyboardModifiers()==Qt.ControlModifier:
             self.setRangesSelected(selections, continueSelect=True)
         else:
             self.setRangesSelected(selections, continueSelect=False)
     
-    def setRangesSelected(self, selections, continueSelect):
+    def setRangesSelected(self, selections, continueSelect=True, UnSelect=True):
         selectedRows = self.selectedRows()
         if not continueSelect:
             self.clearSelection()
@@ -128,7 +130,7 @@ class PointTableWidget(BaseTableWidget):
             isSelected = not row in selectedRows
             self.setRangeSelected(
                 QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
-                isSelected)
+                isSelected if UnSelect else True)
             self.scrollToItem(self.item(row, 0))
     
     def selectedRows(self):

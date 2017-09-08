@@ -369,7 +369,9 @@ class DynamicCanvas(BaseCanvas):
                         selection.append(i)
                 if selection:
                     self.mouse_getSelection.emit(tuple(selection))
-                elif not QApplication.keyboardModifiers()==Qt.ControlModifier:
+                elif not (QApplication.keyboardModifiers()==Qt.ControlModifier or
+                    QApplication.keyboardModifiers()==Qt.ShiftModifier
+                ):
                     self.mouse_noSelection.emit()
     
     def mouseDoubleClickEvent(self, event):
@@ -394,10 +396,6 @@ class DynamicCanvas(BaseCanvas):
             self.options.oy = event.y()-self.Selector.y
             self.update()
         self.mouse_track.emit((event.x()-self.options.ox)/self.zoom, -((event.y()-self.options.oy)/self.zoom))
-        if QApplication.keyboardModifiers()==Qt.AltModifier:
-            self.setCursor(Qt.CrossCursor)
-        else:
-            self.setCursor(Qt.ArrowCursor)
     
     def resizeEvent(self, event):
         self.SetIn()

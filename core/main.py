@@ -204,7 +204,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DOFview.setVisible(not Failed)
         if not Failed:
             self.Solvefail = False
-            self.Entiteis_Point.updatePosition(result)
+            self.Entiteis_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
             self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
