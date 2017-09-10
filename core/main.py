@@ -204,11 +204,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entiteis_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
-            self.DOFLable.setText("<html><head/><body><p><span style=\" color:#000000;\">DOF:</span></p></body></html>")
             self.Reload_Canvas()
         else:
             self.Solvefail = True
-            self.DOFLable.setText("<html><head/><body><p><span style=\" font-weight:600; color:#ff0000;\">DOF:</span></p></body></html>")
             self.ConflictGuide.setToolTip(DOF)
             self.Reload_Canvas()
     
