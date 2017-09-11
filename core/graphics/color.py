@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
+from typing import Tuple
 
 def colorlist() -> dict:
     return {
@@ -44,8 +45,8 @@ def colorlist() -> dict:
         'Dark-Pink':QColor(225, 20, 147),
         }
 
-def colorName() -> str:
-    return sorted(list(colorlist().keys()))
+def colorName() -> Tuple[str]:
+    return tuple(sorted(list(colorlist().keys())))
 
 def colorQt(colorName : str) -> QColor:
     return colorlist().get(colorName, Qt.white)

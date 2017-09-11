@@ -181,8 +181,6 @@ def action_Enabled(self):
     ONE_LINK = self.Entiteis_Link.rowCount()>1
     types = [self.Entiteis_Point.item(row, 2).text() for row in range(self.Entiteis_Point.rowCount())]
     ONE_POINT_R = 'R' in types
-    ONE_POINT_P = 'P' in types
-    ONE_POINT_RP = 'RP' in types
     #Edit
     self.action_Edit_Point.setEnabled(ONE_POINT)
     self.action_Edit_Linkage.setEnabled(ONE_LINK)
@@ -197,7 +195,6 @@ def action_Enabled(self):
         action.setEnabled(bool(self.File.pathData))
     #Panel
     self.Drive_shaft.setEnabled(ONE_POINT_R)
-    self.Drive_rod.setEnabled(ONE_POINT_P and ONE_POINT_RP)
     #Others
     self.action_Output_to_Solvespace.setEnabled(ONE_LINK)
     self.action_DXF_2D_models.setEnabled(ONE_LINK)

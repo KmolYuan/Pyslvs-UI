@@ -81,8 +81,7 @@ class PointTableWidget(BaseTableWidget):
             x = float(self.item(row, 4).text())
             y = float(self.item(row, 5).text())
             v = VPoint(Links, Type, color, x, y)
-            c = self.item(row, 6).text().replace('(', '').replace(')', '').split(", ")
-            v.move(float(c[0]), float(c[1]))
+            v.move(*self.currentPosition(row))
             data.append(v)
         return tuple(data)
     
@@ -105,7 +104,11 @@ class PointTableWidget(BaseTableWidget):
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     
-    def updateCurrentPosition(self, coordinates):
+    def currentPosition(self, row: int) -> Tuple[float, float]:
+        c = self.item(row, 6).text().replace('(', '').replace(')', '').split(", ")
+        return float(c[0]), float(c[1])
+    
+    def updateCurrentPosition(self, coordinates: Tuple[Tuple[float, float]]):
         for i, (x, y) in enumerate(coordinates):
             text = "({}, {})".format(x, y)
             item = QTableWidgetItem(text)
@@ -127,10 +130,8 @@ class PointTableWidget(BaseTableWidget):
             for i, row in enumerate(selectedRows):
                 if i==len(selectedRows)-1:
                     break
-                c0 = self.item(row, 6).text().replace('(', '').replace(')', '').split(", ")
-                cx0, cy0 = float(c0[0]), float(c0[1])
-                c1 = self.item(row+1, 6).text().replace('(', '').replace(')', '').split(", ")
-                cx1, cy1 = float(c1[0]), float(c1[1])
+                cx0, cy0 = self.currentPosition(row)
+                cx1, cy1 = self.currentPosition(row+1)
                 distance.append(round(sqrt((cx1-cx0)**2+(cy1-cy0)**2), 4))
         self.rowSelectionChanged.emit(selectedRows, tuple(distance))
     
@@ -146,16 +147,16 @@ class PointTableWidget(BaseTableWidget):
                 isSelected if UnSelect else True)
             self.scrollToItem(self.item(row, 0))
     
-    def selectedRows(self):
-        a = []
-        for r in self.selectedRanges():
-            a += [i for i in range(r.topRow(), r.bottomRow()+1)]
-        return tuple(sorted(set(a)))
-    
     @pyqtSlot()
     def clearSelection(self):
         super(PointTableWidget, self).clearSelection()
         self.rowSelectionChanged.emit((), ())
+    
+    def selectedRows(self) -> Tuple[int]:
+        a = set()
+        for r in self.selectedRanges():
+            a |= {i for i in range(r.topRow(), r.bottomRow()+1)}
+        return tuple(sorted(a))
     
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)
@@ -238,7 +239,7 @@ class SelectionLabel(QLabel):
         if points:
             text += "Selected: {}".format('-'.join('[{}]'.format(p) for p in points))
         if distance:
-            text += " | {}".format('-'.join('({})'.format(d) for d in distance))
+            text += " | {}".format(", ".join('({})'.format(d) for d in distance))
         if text:
             self.setText(text)
         else:
