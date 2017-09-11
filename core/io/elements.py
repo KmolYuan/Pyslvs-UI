@@ -118,9 +118,9 @@ class VLink:
     @property
     def Points(self) -> Tuple[int]:
         if not '' in self.__Points:
-            return sorted(int(p.replace('Point', '')) for p in self.__Points)
+            return tuple(int(p.replace('Point', '')) for p in self.__Points)
         else:
-            return []
+            return ()
     
     def set(self, name, color, Points):
         self.__name = name

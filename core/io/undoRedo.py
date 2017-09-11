@@ -96,7 +96,7 @@ class editPointTableCommand(QUndoCommand):
     
     def writeRows(self, rows1, rows2):
         for row in rows1:
-            newPoints = sorted(self.LinkTable.item(row, 2).text().split(',')+['Point{}'.format(self.row)])
+            newPoints = self.LinkTable.item(row, 2).text().split(',')+['Point{}'.format(self.row)]
             newPoints = list(filter(lambda a: a!='', newPoints))
             self.LinkTable.editArgs(row,
                 self.LinkTable.item(row, 0).text(),
@@ -143,7 +143,7 @@ class editLinkTableCommand(QUndoCommand):
     def writeRows(self, rows1, rows2):
         name = self.LinkTable.item(self.row, 0).text()
         for row in rows1:
-            newLinks = sorted(self.PointTable.item(row, 1).text().split(',')+[name])
+            newLinks = self.PointTable.item(row, 1).text().split(',')+[name]
             newLinks = list(filter(lambda a: a!='', newLinks))
             self.PointTable.editArgs(row,
                 ','.join(newLinks),

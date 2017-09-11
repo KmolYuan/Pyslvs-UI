@@ -55,5 +55,5 @@ class edit_point_show(QDialog, edit_point_Dialog):
             self.selected.clear()
             for linkName in vpoint.Links:
                 self.selected.addItem(QListWidgetItem(self.LinkIcon, linkName))
-            for linkName in sorted(set([vlink.name for vlink in self.Links])-set(vpoint.Links)):
+            for linkName in tuple(set([vlink.name for vlink in self.Links])-set(vpoint.Links)):
                 self.noSelected.addItem(QListWidgetItem(self.LinkIcon, linkName))

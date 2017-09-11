@@ -147,10 +147,10 @@ class PointTableWidget(BaseTableWidget):
             self.scrollToItem(self.item(row, 0))
     
     def selectedRows(self):
-        a = []
+        a = set()
         for r in self.selectedRanges():
-            a += [i for i in range(r.topRow(), r.bottomRow()+1)]
-        return tuple(sorted(set(a)))
+            a |= {i for i in range(r.topRow(), r.bottomRow()+1)}
+        return tuple(sorted(a))
     
     @pyqtSlot()
     def clearSelection(self):

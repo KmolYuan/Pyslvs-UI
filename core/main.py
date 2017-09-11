@@ -529,7 +529,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Args = [
             name,
             'Blue',
-            ','.join(['Point{}'.format(i) for i in sorted(points)])
+            ','.join(['Point{}'.format(i) for i in points])
         ]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
         self.FileState.push(addTableCommand(self.Entiteis_Link))
@@ -575,7 +575,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             Links.append('ground')
         Args = [
-            ','.join(sorted(filter(lambda a: a!='', Links))),
+            ','.join(filter(lambda a: a!='', Links)),
             self.Entiteis_Point.item(pos, 2).text(),
             self.Entiteis_Point.item(pos, 3).text(),
             self.Entiteis_Point.item(pos, 4).text(),
