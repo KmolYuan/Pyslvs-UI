@@ -38,11 +38,10 @@ from .entities.batchMoving import batchMoving_show
 #Path
 from .path.Path_Track import Path_Track_show
 from .path.path_point_data import path_point_data_show
-#Panel
+#Panels
 from .panel.DimensionalSynthesis.Path_Solving import Path_Solving_show
 from .panel.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
 from .panel.Drivers.Drive_shaft import Drive_shaft_show
-from .panel.Drivers.Drive_rod import Drive_rod_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 #File & Example
@@ -859,32 +858,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def Save_demo_angle(self, angle, currentShaft):
         self.File.Lists.saveDemo(self.Simulate_Shaft, angle, row=currentShaft, column=5)
     
-    @pyqtSlot()
-    def on_Drive_rod_clicked(self):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        if "Drive Rod" in tabNameList:
-            self.closePanel(tabNameList.index("Drive Rod"))
-        else:
-            panel = Drive_rod_show(self.File.Lists.RodList, self.File.Lists.PointList, self)
-            panel.positionChange.connect(self.Save_position)
-            panel.Position.valueChanged.connect(self.Change_position)
-            self.panelWidget.addTab(panel, self.Drive_rod.icon(), "Drive Rod")
-            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
-    @pyqtSlot(int)
-    def Change_position(self, pos):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        panel = self.panelWidget.widget(tabNameList.index("Drive Rod"))
-        self.File.Lists.setDemo('Rod', row=panel.Rod.currentIndex(), pos=pos/100)
-        self.Resolve()
-        self.workbookNoSave()
-    @pyqtSlot(float, int)
-    def Save_position(self, pos, currentRod):
-        self.File.Lists.saveDemo(self.Simulate_Rod, pos, row=currentRod, column=4)
-    
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
             self.closePanel(i)
-        for button in [self.TriangleSolver, self.Drive_shaft, self.Drive_rod, self.PathSolving]:
+        for button in [self.TriangleSolver, self.Drive_shaft, self.PathSolving]:
             button.setChecked(False)
         self.DynamicCanvasView.options.slvsPath['show'] = False
         self.DynamicCanvasView.options.Path.drive_mode = False
