@@ -60,6 +60,7 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.mouse_getDoubleClickEdit.connect(self.on_action_Edit_Point_triggered)
     self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
+    self.canvasSplitter.setSizes([600, 10, 30])
     #Panel widget will hide when not using.
     self.panelWidget.hide()
     #Console dock will hide when startup.
