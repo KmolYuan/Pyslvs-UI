@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
-    <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+    <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>
@@ -123,60 +123,32 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="Point_list">
+         <widget class="QListWidget" name="noSelected">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::DragDrop</enum>
+          </property>
+          <property name="defaultDropAction">
+           <enum>Qt::MoveAction</enum>
+          </property>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QToolButton" name="add_button">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="addAll_button">
-          <property name="text">
-           <string>&gt;&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="removeAll_botton">
-          <property name="text">
-           <string>&lt;&lt;</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QToolButton" name="remove_botton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>&lt;</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>&gt;&gt;</string>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -197,12 +169,21 @@
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="Move_list">
+         <widget class="QListWidget" name="selected">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::DragDrop</enum>
+          </property>
+          <property name="defaultDropAction">
+           <enum>Qt::MoveAction</enum>
           </property>
          </widget>
         </item>

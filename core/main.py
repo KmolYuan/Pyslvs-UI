@@ -671,7 +671,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Batch_moving_triggered(self):
-        dlg = batchMoving_show(self.File.Lists.PointList, self.File.Lists.ParameterList, self)
+        dlg = batchMoving_show(self.Entiteis_Point.data(), self)
         dlg.show()
         if dlg.exec_():
             self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
