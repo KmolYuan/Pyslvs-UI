@@ -29,14 +29,15 @@ class VPoint:
     
     def __init__(self,
         Links: str ='',
-        Type: 'VPoint.Type' =None,
+        Type: int =None,
+        angle: float =0.,
         color: str ='Red',
         x: float =0.,
         y: float =0.
     ):
         if Type==None:
             Type = VPoint.R
-        self.set(Links, Type, color, x, y)
+        self.set(Links, Type, angle, color, x, y)
         self.__cx = self.__x
         self.__cy = self.__y
     
@@ -46,8 +47,12 @@ class VPoint:
         return tuple(filter(lambda a: a!='', Links))
     
     @property
-    def Type(self) -> 'VPoint.Type':
+    def Type(self) -> int:
         return self.__Type
+    
+    @property
+    def angle(self) -> float:
+        return self.__angle
     
     @property
     def color(self) -> 'QColor':
@@ -73,9 +78,10 @@ class VPoint:
     def cy(self) -> float:
         return self.__cy
     
-    def set(self, Links, Type, color, x, y):
+    def set(self, Links, Type, angle, color, x, y):
         self.__Links = Links
         self.__Type = Type
+        self.__angle = angle
         self.__color = color
         self.__x = x
         self.__y = y

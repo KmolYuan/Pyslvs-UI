@@ -71,16 +71,23 @@ class PointTableWidget(BaseTableWidget):
         data = []
         for row in range(self.rowCount()):
             Links = self.item(row, 1).text()
-            if self.item(row, 2).text()=='R':
-                Type = VPoint.R
-            elif self.item(row, 2).text()=='P':
-                Type = VPoint.P
-            elif self.item(row, 2).text()=='RP':
-                Type = VPoint.RP
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
             y = float(self.item(row, 5).text())
-            v = VPoint(Links, Type, color, x, y)
+            '''
+            Type = (type:str, angle:float)
+            '''
+            Type = self.item(row, 2).text().split(':')
+            if Type[0]=='R':
+                Type = VPoint.R
+                angle = 0.
+            else:
+                angle = float(Type[1])
+                if Type[0]=='P':
+                    Type = VPoint.P
+                elif Type[0]=='RP':
+                    Type = VPoint.RP
+            v = VPoint(Links, Type, angle, color, x, y)
             v.move(*self.currentPosition(row))
             data.append(v)
         return tuple(data)

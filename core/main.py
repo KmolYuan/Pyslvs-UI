@@ -154,7 +154,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Close Event
     def closeEvent(self, event):
         if self.File.form.changed:
-            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit?\nAny Changes won't be saved.",
+            reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
                 self.on_action_Save_triggered()
