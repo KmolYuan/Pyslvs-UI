@@ -95,8 +95,8 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.anglePanel.insertWidget(1, RotatableView(self.Degree))
         self.Points = Points
         for i in range(len(self.Points)):
-            self.Shaft.insertItem(i, QIcon(QPixmap(":/icons/circle.png")), 'Shaft{}'.format(i))
-        self.Shaft.setCurrentIndex(currentShaft)
+            self.Point.insertItem(i, QIcon(QPixmap(":/icons/bearing.png")), 'Point{}'.format(i))
+        self.Point.setCurrentIndex(currentShaft)
         self.startAngle = int(self.Points[currentShaft].start*100)
         self.endAngle = int(self.Points[currentShaft].end*100)
         self.demoAngle = int(self.Points[currentShaft].demo*100)
@@ -161,7 +161,7 @@ class Drive_shaft_show(QWidget, Drive_Form):
         self.setAngle(self.Degree_text.value())
     
     def closeEvent(self, event):
-        self.degreeChange.emit(self.Degree_text.value(), self.Shaft.currentIndex())
+        self.degreeChange.emit(self.Degree_text.value(), self.Point.currentIndex())
         event.accept()
     
     @pyqtSlot()

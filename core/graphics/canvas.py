@@ -202,8 +202,8 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     @pyqtSlot(int, float, int)
-    def changeCurrentShaft(self, point=0, angle=0., link=0):
-        self.options.currentShaft = (point, angle, link)
+    def changeCurrentShaft(self, point=0, angle=0.):
+        self.options.currentShaft = (point, angle)
         self.update()
     
     def resetCurrentShaft(self):

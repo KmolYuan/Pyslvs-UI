@@ -26,7 +26,7 @@ from ..kernel.python_solvespace.slvs import (System, Slvs_MakeQuaternion,
 def slvsProcess(
     Point: Tuple['VPoint'] =False,
     Link: Tuple['VLink'] =False,
-    currentShaft: List[Tuple[int, int, int]] =(),
+    currentShaft: List[Tuple[int, float]] =(),
     hasWarning: bool =True
 ):
     Sys = System(len(Point)*2+2+9)
@@ -61,11 +61,11 @@ def slvsProcess(
             if not i==1:
                 d = Point[p-1].distance(Point[p])
                 Constraint.distance(d, Workplane1, Slvs_Points[p-1], Slvs_Points[p])
-    def setShaft(shaft, angle, link):
+    
+    def setShaft(shaft, angle):
         '''
         shaft: int
         angle: float, int (degrees)
-        link: int
         '''
         mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
         my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
@@ -75,8 +75,10 @@ def slvsProcess(
         Constraint.dragged(Workplane1, leader)
         Line0 = LineSegment2d(Workplane1, Slvs_Points[shaft], leader)
         #Another point on specified link
-        linkRef = list(set(Point[shaft].Links[link])-{link})[0]
-        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[shaft], Slvs_Points[linkRef]), Line0)
+        for i in range(len(Point[shaft].Links)):
+            linkRef = list(set(Point[shaft].Links[i])-{i})[0]
+            Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[shaft], Slvs_Points[linkRef]), Line0)
+    
     for shaft in currentShaft:
         setShaft(*shaft)
     result = Sys.solve()
