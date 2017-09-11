@@ -504,7 +504,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.PathSolving.isChecked():
             Args = [
                 'ground' if fixed else '',
-                0,
+                'R',
                 'Blue' if fixed else 'Green',
                 self.mouse_pos_x,
                 self.mouse_pos_y
@@ -550,9 +550,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             rowCount = self.Entiteis_Point.rowCount()
+            Type = dlg.Type.currentText().split(" ")[0]
+            if Type!='R':
+                Type += ":{}".format(dlg.Angle.value())
             Args = [
                 ','.join([dlg.selected.item(row).text() for row in range(dlg.selected.count())]),
-                dlg.Type.currentIndex(),
+                Type,
                 dlg.Color.currentText(),
                 dlg.X_coordinate.value(),
                 dlg.Y_coordinate.value()
@@ -671,11 +674,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Batch_moving_triggered(self):
-        dlg = batchMoving_show(self.Entiteis_Point.data(), self)
+        dlg = batchMoving_show(self.Entiteis_Point.data(), self.Entiteis_Point.selectedRows(), self)
         dlg.show()
         if dlg.exec_():
-            self.File.Lists.batchMove(self.Entiteis_Point, dlg.XIncrease.value(), dlg.YIncrease.value(),
-                [int(dlg.Move_list.item(e).text().replace('Point', '')) for e in range(dlg.Move_list.count())])
+            points = [int(dlg.selected.item(row).text().replace('Point', '')) for row in range(dlg.selected.count())]
+            self.FileState.beginMacro("Batch moving {{Point {}}}".format(points))
+            for row in points:
+                Args = [
+                    self.Entiteis_Point.item(row, 1).text(),
+                    self.Entiteis_Point.item(row, 2).text(),
+                    self.Entiteis_Point.item(row, 3).text(),
+                    float(self.Entiteis_Point.item(row, 4).text())+dlg.XIncrease.value(),
+                    float(self.Entiteis_Point.item(row, 5).text())+dlg.YIncrease.value()
+                ]
+                self.FileState.push(editPointTableCommand(self.Entiteis_Point, row, self.Entiteis_Link, Args))
+            self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Zoom_to_fit_triggered(self):

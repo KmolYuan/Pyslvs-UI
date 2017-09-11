@@ -21,11 +21,13 @@ from ..QtModules import *
 from .Ui_batchMoving import Ui_Dialog as batchMoving_Dialog
 
 class batchMoving_show(QDialog, batchMoving_Dialog):
-    def __init__(self, Points, parent=None):
+    def __init__(self, Points, selectedPoints, parent=None):
         super(batchMoving_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
         self.Points = Points
-        for i in range(len(self.Points)):
+        for i in selectedPoints:
+            self.selected.addItem(QListWidgetItem(icon, 'Point{}'.format(i)))
+        for i in set(range(len(self.Points)))-set(selectedPoints):
             self.noSelected.addItem(QListWidgetItem(icon, 'Point{}'.format(i)))

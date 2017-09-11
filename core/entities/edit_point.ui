@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>314</width>
-    <height>414</height>
+    <height>474</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>314</width>
-    <height>414</height>
+    <height>474</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>314</width>
-    <height>414</height>
+    <height>474</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -135,6 +135,23 @@
          <string>RP (pin in slot)</string>
         </property>
        </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Angle (Slider):</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDoubleSpinBox" name="Angle">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximum">
+        <double>360.000000000000000</double>
+       </property>
       </widget>
      </item>
      <item>

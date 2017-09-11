@@ -57,3 +57,7 @@ class edit_point_show(QDialog, edit_point_Dialog):
                 self.selected.addItem(QListWidgetItem(self.LinkIcon, linkName))
             for linkName in tuple(set([vlink.name for vlink in self.Links])-set(vpoint.Links)):
                 self.noSelected.addItem(QListWidgetItem(self.LinkIcon, linkName))
+    
+    @pyqtSlot(int)
+    def on_Type_currentIndexChanged(self, index):
+        self.Angle.setEnabled(index!=0)

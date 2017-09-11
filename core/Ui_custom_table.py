@@ -95,11 +95,10 @@ class PointTableWidget(BaseTableWidget):
     def editArgs(self,
         row: int,
         Links: str,
-        Type: VPointType,
+        Type: str,
         Color: str,
         X, Y
     ):
-        Type = 'R' if (Type==0 or Type=='R') else 'P' if (Type==1 or Type=='P') else 'RP'
         for i, e in enumerate(['Point{}'.format(row), Links, Type, Color, X, Y, "({}, {})".format(X, Y)]):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
