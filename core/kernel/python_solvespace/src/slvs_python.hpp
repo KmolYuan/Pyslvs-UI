@@ -74,6 +74,8 @@ public:
 //     declaration and implementation) because it is only used for the
 //     Python library.
 
+Slvs_hGroup groupNum(int input) { return (Slvs_hGroup) input; }
+
 class System;
 
 class Param {
@@ -409,14 +411,13 @@ public:
     //Workplane   workplane() { return Workplane(Entity::fromHandle(sys, constraint()->wrkpl)); }
 
 public:
-/*
-This constructor can be used to make arbitrary
-constraints. It has a very ugly name to discourage
-its use. If you need a constraint that the library
-doesn't support, you should implement it.
-*/
-
-//SLVS_C_SOME_OTHER_CONSTRAINT
+    /*
+    This constructor can be used to make arbitrary
+    constraints. It has a very ugly name to discourage
+    its use. If you need a constraint that the library
+    doesn't support, you should implement it.
+    */
+    //SLVS_C_SOME_OTHER_CONSTRAINT
     static Constraint some_other_constraint(
         System* system,
         int type,
@@ -437,7 +438,7 @@ doesn't support, you should implement it.
             entityA.handle(), entityB.handle()
         ));
     }
-//SLVS_C_POINTS_COINCIDENT_3D
+    //SLVS_C_POINTS_COINCIDENT_3D
     static Constraint on(
         Point3d p1,
         Point3d p2,
@@ -452,7 +453,7 @@ doesn't support, you should implement it.
             0, 0
         ));
     }
-//SLVS_C_POINTS_COINCIDENT_2D
+    //SLVS_C_POINTS_COINCIDENT_2D
     static Constraint on(
         Workplane wrkpl,
         Point p1,
@@ -468,7 +469,7 @@ doesn't support, you should implement it.
             0, 0
         ));
     }
-//SLVS_C_PT_PT_DISTANCE_3D
+    //SLVS_C_PT_PT_DISTANCE_3D
     static Constraint distance(
         double value,
         Point3d p1,
@@ -495,7 +496,7 @@ doesn't support, you should implement it.
             ));
         }
     }
-//SLVS_C_PT_PT_DISTANCE_2D
+    //SLVS_C_PT_PT_DISTANCE_2D
     static Constraint distance(
         double value,
         Workplane wrkpl,
@@ -523,7 +524,7 @@ doesn't support, you should implement it.
             ));
         }
     }
-//SLVS_C_PT_PLANE_DISTANCE
+    //SLVS_C_PT_PLANE_DISTANCE
     static Constraint distance(
         double value,
         Workplane wrkpl,
@@ -550,7 +551,7 @@ doesn't support, you should implement it.
             ));
         }
     }
-//SLVS_C_PT_LINE_DISTANCE_2D
+    //SLVS_C_PT_LINE_DISTANCE_2D
     static Constraint distance(
         double value,
         Workplane wrkpl,
@@ -578,7 +579,7 @@ doesn't support, you should implement it.
             ));
         }
     }
-//SLVS_C_PT_LINE_DISTANCE_3D
+    //SLVS_C_PT_LINE_DISTANCE_3D
     static Constraint distance(
         double value,
         Point3d p,
@@ -605,7 +606,7 @@ doesn't support, you should implement it.
             ));
         }
     }
-//SLVS_C_PT_IN_PLANE
+    //SLVS_C_PT_IN_PLANE
     static Constraint on(
         Workplane wrkpl,
         Point3d p,
@@ -620,7 +621,7 @@ doesn't support, you should implement it.
             wrkpl.handle(), 0
         ));
     }
-//SLVS_C_PT_ON_LINE_2D
+    //SLVS_C_PT_ON_LINE_2D
     static Constraint on(
         Workplane wrkpl,
         Point p,
@@ -636,7 +637,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_PT_ON_LINE_3D
+    //SLVS_C_PT_ON_LINE_3D
     static Constraint on(
         Point3d p,
         LineSegment3d line,
@@ -651,7 +652,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_PT_ON_CIRCLE
+    //SLVS_C_PT_ON_CIRCLE
     static Constraint on(
         Workplane wrkpl,
         Point p,
@@ -667,7 +668,7 @@ doesn't support, you should implement it.
             c.handle(), 0
         ));
     }
-// SLVS_C_EQUAL_LENGTH_LINES
+    // SLVS_C_EQUAL_LENGTH_LINES
     static Constraint equal(
         Workplane wrkpl,
         LineSegment2d line1,
@@ -683,7 +684,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-// SLVS_C_LENGTH_RATIO
+    // SLVS_C_LENGTH_RATIO
     static Constraint ratio(
         double value,
         Workplane wrkpl,
@@ -700,7 +701,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-// SLVS_C_EQ_LEN_PT_LINE_D
+    // SLVS_C_EQ_LEN_PT_LINE_D
     static Constraint equal(
         Workplane wrkpl,
         Point2d p,
@@ -717,7 +718,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-// SLVS_C_EQ_PT_LN_DISTANCES
+    // SLVS_C_EQ_PT_LN_DISTANCES
     static Constraint equal_point_line(
         Workplane wrkpl,
         Point2d p1, Point2d p2,
@@ -734,8 +735,8 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-// SLVS_C_EQUAL_ANGLE
-/*
+    // SLVS_C_EQUAL_ANGLE
+    /*
     static Constraint equal_angle(
         Workplane wrkpl,
         LineSegment2d line1,
@@ -753,8 +754,8 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle(), line3.handle(), line4.handle(),
             0, 0));
     }
-*/
-// SLVS_C_EQUAL_LINE_ARC_LEN
+    */
+    // SLVS_C_EQUAL_LINE_ARC_LEN
     static Constraint equal(
         Workplane wrkpl,
         LineSegment2d line,
@@ -770,7 +771,7 @@ doesn't support, you should implement it.
             line.handle(), c.handle()
         ));
     }
-//SLVS_C_SYMMETRIC_3D
+    //SLVS_C_SYMMETRIC_3D
     static Constraint symmetric(
         Workplane wrkpl,
         Point3d p1, Point3d p2,
@@ -785,7 +786,7 @@ doesn't support, you should implement it.
             wrkpl.handle(), 0
         ));
     }
-//SLVS_C_SYMMETRIC_2D
+    //SLVS_C_SYMMETRIC_2D
     static Constraint symmetric(
         Workplane wrkpl,
         Point2d p1,
@@ -801,7 +802,7 @@ doesn't support, you should implement it.
             wrkpl.handle(), 0
         ));
     }
-//SLVS_C_SYMMETRIC_HORIZ
+    //SLVS_C_SYMMETRIC_HORIZ
     static Constraint symmetric_H(
         Workplane wrkpl,
         Point2d p1,
@@ -817,7 +818,7 @@ doesn't support, you should implement it.
             0, 0
         ));
     }
-//SLVS_C_SYMMETRIC_VERT
+    //SLVS_C_SYMMETRIC_VERT
     static Constraint symmetric_V(
         Workplane wrkpl,
         Point2d p1,
@@ -833,7 +834,7 @@ doesn't support, you should implement it.
             0, 0
         ));
     }
-//SLVS_C_SYMMETRIC_LINE
+    //SLVS_C_SYMMETRIC_LINE
     static Constraint symmetric(
         Workplane wrkpl,
         Point2d p1,
@@ -850,7 +851,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_AT_MIDPOINT_3D
+    //SLVS_C_AT_MIDPOINT_3D
     static Constraint midpoint(
         Point3d p,
         LineSegment3d line,
@@ -865,7 +866,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_AT_MIDPOINT_2D
+    //SLVS_C_AT_MIDPOINT_2D
     static Constraint midpoint(
         Workplane wrkpl,
         Point2d p,
@@ -881,7 +882,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_HORIZONTAL
+    //SLVS_C_HORIZONTAL
     static Constraint horizontal(
         Workplane wrkpl,
         LineSegment2d line,
@@ -896,7 +897,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_VERTICAL
+    //SLVS_C_VERTICAL
     static Constraint vertical(
         Workplane wrkpl,
         LineSegment2d line,
@@ -911,7 +912,7 @@ doesn't support, you should implement it.
             line.handle(), 0
         ));
     }
-//SLVS_C_DIAMETER
+    //SLVS_C_DIAMETER
     static Constraint diameter(
         double diameter,
         Workplane wrkpl,
@@ -927,7 +928,7 @@ doesn't support, you should implement it.
             c.handle(), 0
         ));
     }
-//SLVS_C_SAME_ORIENTATION
+    //SLVS_C_SAME_ORIENTATION
     static Constraint orientation(
         Normal3d nrml1,
         Normal3d nrml2,
@@ -942,7 +943,7 @@ doesn't support, you should implement it.
             nrml1.handle(), nrml2.handle()
         ));
     }
-//SLVS_C_ANGLE
+    //SLVS_C_ANGLE
     static Constraint angle(
         Workplane wrkpl,
         double value,
@@ -959,7 +960,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-//SLVS_C_PERPENDICULAR
+    //SLVS_C_PERPENDICULAR
     static Constraint perpendicular(
         Workplane wrkpl,
         LineSegment2d line1,
@@ -975,7 +976,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-//SLVS_C_PARALLEL_3D
+    //SLVS_C_PARALLEL_3D
     static Constraint parallel(
         LineSegment3d line1,
         LineSegment3d line2,
@@ -990,7 +991,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-//SLVS_C_PARALLEL_2D
+    //SLVS_C_PARALLEL_2D
     static Constraint parallel(
         Workplane wrkpl,
         LineSegment2d line1,
@@ -1006,7 +1007,7 @@ doesn't support, you should implement it.
             line1.handle(), line2.handle()
         ));
     }
-//SLVS_C_ARC_LINE_TANGENT
+    //SLVS_C_ARC_LINE_TANGENT
     static Constraint tangent(
         ArcOfCircle arc,
         LineSegment2d line,
@@ -1021,7 +1022,7 @@ doesn't support, you should implement it.
             arc.handle(), line.handle()
         ));
     }
-//SLVS_C_CUBIC_LINE_TANGENT
+    //SLVS_C_CUBIC_LINE_TANGENT
     static Constraint tangent(
         Cubic c,
         LineSegment3d l,
@@ -1036,7 +1037,7 @@ doesn't support, you should implement it.
             c.handle(), l.handle()
         ));
     }
-//SLVS_C_EQUAL_RADIUS
+    //SLVS_C_EQUAL_RADIUS
     static Constraint equal_radius(
         Workplane wrkpl,
         Circular c1,
@@ -1052,7 +1053,7 @@ doesn't support, you should implement it.
             c1.handle(), c2.handle()
         ));
     }
-//SLVS_C_PROJ_PT_DISTANCE
+    //SLVS_C_PROJ_PT_DISTANCE
     static Constraint distance_proj(
         double value,
         Point3d p1,
@@ -1069,7 +1070,7 @@ doesn't support, you should implement it.
             wrkpl.handle(), 0
         ));
     }
-//SLVS_C_WHERE_DRAGGED_2D
+    //SLVS_C_WHERE_DRAGGED_2D
     static Constraint dragged(
         Workplane wrkpl,
         Point2d p,
@@ -1084,7 +1085,7 @@ doesn't support, you should implement it.
             0, 0
         ));
     }
-//SLVS_C_WHERE_DRAGGED_3D
+    //SLVS_C_WHERE_DRAGGED_3D
     static Constraint dragged(
         Point3d p,
         Slvs_hGroup group = USE_DEFAULT_GROUP
@@ -1098,7 +1099,7 @@ doesn't support, you should implement it.
             0, 0
         ));
     }
-//SLVS_C_CURVE_CURVE_TANGENT_ARC_ARC
+    //SLVS_C_CURVE_CURVE_TANGENT_ARC_ARC
     static Constraint tangent(
         Workplane wrkpl,
         ArcOfCircle c1,
@@ -1114,7 +1115,7 @@ doesn't support, you should implement it.
             c1.handle(), c2.handle()
         ));
     }
-//SLVS_C_CURVE_CURVE_TANGENT_CUBIC_CUBIC
+    //SLVS_C_CURVE_CURVE_TANGENT_CUBIC_CUBIC
     static Constraint tangent(
         Cubic c1,
         Cubic c2,
@@ -1129,7 +1130,7 @@ doesn't support, you should implement it.
             c1.handle(), c2.handle()
         ));
     }
-//SLVS_C_CURVE_CURVE_TANGENT_ARC_CUBIC
+    //SLVS_C_CURVE_CURVE_TANGENT_ARC_CUBIC
     static Constraint tangent(
         Workplane wrkpl,
         ArcOfCircle c1,
@@ -1145,7 +1146,7 @@ doesn't support, you should implement it.
             c1.handle(), c2.handle()
         ));
     }
-//SLVS_C_CURVE_CURVE_TANGENT_CUBIC_ARC
+    //SLVS_C_CURVE_CURVE_TANGENT_CUBIC_ARC
     static Constraint tangent(
         Workplane wrkpl,
         Cubic c1,
@@ -1161,10 +1162,10 @@ doesn't support, you should implement it.
             c1.handle(), c2.handle()
         ));
     }
-//SLVS_C_PT_FACE_DISTANCE
-/*No wrapper*/
-//SLVS_C_PT_ON_FACE
-/*No wrapper*/
+    //SLVS_C_PT_FACE_DISTANCE
+    /*No wrapper*/
+    //SLVS_C_PT_ON_FACE
+    /*No wrapper*/
 };
 
 #define ENABLE_SAFETY 1

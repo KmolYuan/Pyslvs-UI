@@ -972,7 +972,7 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Space DOF:</string>
+                <string>DOF:</string>
                </property>
               </widget>
              </item>

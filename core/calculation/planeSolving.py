@@ -19,7 +19,8 @@
 
 from math import pi, cos, sin
 from typing import List, Tuple
-from ..kernel.python_solvespace.slvs import (System, Slvs_MakeQuaternion,
+from ..kernel.python_solvespace.slvs import (
+    System, groupNum, Slvs_MakeQuaternion,
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS)
 
@@ -30,6 +31,7 @@ def slvsProcess(
     hasWarning: bool =True
 ):
     Sys = System(len(Point)*2+2+9)
+    Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)
     p2 = Sys.add_param(0.)
@@ -40,10 +42,7 @@ def slvsProcess(
     p5 = Sys.add_param(qy)
     p6 = Sys.add_param(qz)
     Workplane1 = Workplane(Origin, Normal3d(p3, p4, p5, p6))
-    p7 = Sys.add_param(0.)
-    p8 = Sys.add_param(0.)
-    Point0 = Point2d(Workplane1, p7, p8)
-    Constraint.dragged(Workplane1, Point0)
+    Sys.default_group = groupNum(2)
     Slvs_Points = []
     for vpoint in Point:
         x = Sys.add_param(vpoint.cx)
@@ -85,7 +84,7 @@ def slvsProcess(
     if result==SLVS_RESULT_OKAY:
         resultList = []
         for i in range(0, len(Point)*2, 2):
-            resultList.append((round(float(Sys.get_param(i+9).val), 4), round(float(Sys.get_param(i+10).val), 4)))
+            resultList.append((round(float(Sys.get_param(i+7).val), 4), round(float(Sys.get_param(i+8).val), 4)))
         return resultList, int(Sys.dof)
     else:
         if result==SLVS_RESULT_INCONSISTENT:
