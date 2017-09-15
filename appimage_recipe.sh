@@ -62,7 +62,7 @@ cd ENV/$APP.AppDir/
 
 cat > $LOWERAPP.desktop <<EOF
 [Desktop Entry]
-VERSION=$VERSION
+Version=$VERSION
 Name=$APP
 Exec=$LOWERAPP
 Type=Application
