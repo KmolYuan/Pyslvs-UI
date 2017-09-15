@@ -9,7 +9,6 @@
 
 APP=pyslvs
 LOWERAPP=${APP,,}
-VERSION=$(python3 -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))")
 
 mkdir -p ENV/$APP.AppDir/
 cd ENV/$APP.AppDir/
@@ -56,6 +55,8 @@ cp -r ../../core usr/bin
 ########################################################################
 
 get_apprun
+
+VERSION=$(python3 -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))")
 
 cat > $LOWERAPP.desktop <<EOF
 [Desktop Entry]
