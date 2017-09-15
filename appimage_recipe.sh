@@ -19,7 +19,7 @@ cd ENV/$APP.AppDir/
 ########################################################################
 
 mkdir -p usr
-virtualenv --no-site-packages usr
+virtualenv --no-site-packages --python=python3 usr
 
 source usr/bin/activate
 
