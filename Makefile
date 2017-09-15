@@ -44,19 +44,17 @@ ifeq ($(OS),Windows_NT)
 	rename .\dist\launch_pyslvs.exe pyslvs.exe
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
-	$(eval PYQTPATH = $(shell python3 -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
 	@echo --Python Version $(PYTHON)--
-	pyinstaller -F $< --exclude-module="PyQt4"
-	mv dist/launch_pyslvs dist/pyslvs
-	@echo File size: `ls -lah dist/pyslvs | awk '{ print $5}'`
+	@bash ./appimage_recipe.sh
 endif
 	@echo ---Done---
 
-run: build dist
+run: build
 ifeq ($(OS),Windows_NT)
 	@dist/pyslvs.exe -h
 else
-	@dist/pyslvs -h
+	$(eval APPIMAGE = $(shell ls -1 out))
+	@./out/$(APPIMAGE) -h
 endif
 
 clean:
@@ -64,10 +62,14 @@ ifeq ($(OS),Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
 	-del launch_pyslvs.spec
+	-rd ENV /s /q
+	-rd out /s /q
 else
 	-rm -f -r build
 	-rm -f -r dist
 	-rm -f launch_pyslvs.spec
+	-rm -f -r ENV
+	-rm -f -r out
 endif
 
 clean-kernel:
