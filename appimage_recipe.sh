@@ -63,6 +63,7 @@ cat > $LOWERAPP.desktop <<EOF
 VERSION=$VERSION
 Name=$APP
 Exec=$LOWERAPP
+Type=Application
 Icon=$LOWERAPP
 Comment=Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 EOF
