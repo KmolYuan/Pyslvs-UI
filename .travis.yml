@@ -17,6 +17,7 @@ before_install:
   - sudo apt -y install swig
 
 script:
+  - sudo apt-get -y install desktop-file-utils
   - make
 
 before_cache:
