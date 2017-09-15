@@ -56,7 +56,9 @@ cp -r ../../core usr/bin
 
 get_apprun
 
+cd ../..
 VERSION=$(python3 -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))")
+cd ENV/$APP.AppDir/
 
 cat > $LOWERAPP.desktop <<EOF
 [Desktop Entry]
