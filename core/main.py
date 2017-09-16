@@ -501,17 +501,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Output_to_PMKS_triggered(self):
-        text = (
-            "Copy and past this text to PMKS Web:\n"+
-            "ggg"+ #TODO: PMKS grammar
-            "Or if you have installed Microsoft Sliverlight,\n"+
-            "click \"Open\" button to open it in PMKS web version."
-        )
-        dlg = QMessageBox(QMessageBox.Information, "PMKS format", text, (QMessageBox.Open | QMessageBox.Close), self)
+        url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
+        urlTable = []
+        for row in range(self.Entiteis_Point.rowCount()):
+            TypeAndAngle = self.Entiteis_Point.item(row, 2).text().split(':')
+            pointData = [
+                self.Entiteis_Point.item(row, 1).text(),
+                TypeAndAngle[0],
+                self.Entiteis_Point.item(row, 4).text(),
+                self.Entiteis_Point.item(row, 5).text(),
+            ]
+            if len(TypeAndAngle)==2:
+                pointData.append(TypeAndAngle[1])
+            pointData.append('tfff')
+            urlTable.append(','.join(pointData))
+        url += '|'.join(urlTable)+'|'
+        text = '\n'.join([
+            "Copy and past this link to web browser:\n", url+'\n',
+            "If you have installed Microsoft Silverlight in Internet Explorer as default browser,"+
+            "just click \"Open\" button to open it in PMKS web version."
+        ])
+        dlg = QMessageBox(QMessageBox.Information, "PMKS web server", text, (QMessageBox.Open | QMessageBox.Close), self)
         dlg.setTextInteractionFlags(Qt.TextSelectableByMouse)
         dlg.show()
-        if dlg.exec_():
-            url = "" #TODO: PMKS grammar URL
+        if dlg.exec()==QMessageBox.Open:
             self.OpenURL(url)
     
     #Entities
