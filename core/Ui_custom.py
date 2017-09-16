@@ -33,7 +33,7 @@ def initCustomWidgets(self):
     self.MainSplitter.setStretchFactor(1, 5)
     self.ToolPanelSplitter.setStretchFactor(0, 4)
     self.ToolPanelSplitter.setStretchFactor(1, 5)
-    self.panels_splitter.setSizes([100, 500])
+    self.tools_splitter.setSizes([100, 500])
     #Version text
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     #Entiteis tables
