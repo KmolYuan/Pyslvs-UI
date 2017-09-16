@@ -74,14 +74,9 @@ def initCustomWidgets(self):
     propertiesButton.setToolTip('Properties')
     propertiesButton.setStatusTip("Properties of this workbook.")
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
-    self.LinkTab.setCornerWidget(propertiesButton)
-    #PMKS button on the Point tab widget.
-    PMKSButton = QPushButton()
-    PMKSButton.setIcon(self.action_Output_to_PMKS.icon())
-    PMKSButton.setToolTip('PMKS output')
-    PMKSButton.setStatusTip("Output as PMKS grammar.")
-    PMKSButton.clicked.connect(self.on_action_Output_to_PMKS_triggered)
-    self.PointTab.setCornerWidget(PMKSButton)
+    self.PointTab.setCornerWidget(propertiesButton)
+    #PMKS button on the broswer bar.
+    self.OutputToPMKS.clicked.connect(self.on_action_Output_to_PMKS_triggered)
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()
     closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))
