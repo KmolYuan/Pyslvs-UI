@@ -20,6 +20,7 @@
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
 from .canvas import BaseCanvas
+from ..graphics.color import colorQt
 from time import sleep
 
 class playShaft(QThread):
@@ -73,7 +74,7 @@ class DynamicCanvas(BaseCanvas):
             diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
             diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
             cdiff = diffX/diffY > width/height
-            self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.options.rate
+            self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.rate
             cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
             self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
@@ -94,7 +95,7 @@ class DynamicCanvas(BaseCanvas):
                 self.drawLink(exp[2], p_l[2].x(), p_l[2].y(), p_l[1].x(), p_l[1].y(), self.mechanism[exp[2]])
             for i, tag in enumerate(sorted(list(self.Paths.keys()))):
                 pen.setWidth(self.linkWidth)
-                pen.setColor(self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red'])
+                pen.setColor(colorQt('Green') if i<len(self.Paths)-1 else colorQt('Brick-Red'))
                 self.painter.setPen(pen)
                 pointPath = QPainterPath()
                 for j, coordinate in enumerate(self.Paths[tag]):
@@ -107,14 +108,14 @@ class DynamicCanvas(BaseCanvas):
             for i, tag in enumerate(['A', 'D']):
                 x = self.mechanism[tag+'x']
                 y = self.mechanism[tag+'y']
-                self.drawPoint(tag, x*self.zoom, y*self.zoom*-1, True, self.Color['Blue'], x, y)
-            self.Point_mark = False
+                self.drawPoint(tag, x*self.zoom, y*self.zoom*-1, True, colorQt('Blue'), x, y)
+            self.showPointMark = False
             for i, tag in enumerate(sorted(list(self.Paths.keys()))):
                 x = self.Paths[tag][self.index][0]
                 y = self.Paths[tag][self.index][1]
-                color = self.Color['Green'] if i<len(self.Paths)-1 else self.Color['Brick-Red']
+                color = colorQt('Green') if i<len(self.Paths)-1 else colorQt('Brick-Red')
                 self.drawPoint(0, x*self.zoom, y*self.zoom*-1, False, color, x, y)
-            self.Point_mark = True
+            self.showPointMark = True
             pathData = self.mechanism['mechanismParams']['targetPath']
             pen.setWidth(self.pathWidth+3)
             pen.setColor(QColor(69, 247, 232))

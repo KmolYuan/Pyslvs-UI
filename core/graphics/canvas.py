@@ -21,17 +21,8 @@ from ..QtModules import *
 from math import sqrt
 from typing import List
 from heapq import nsmallest
-from ..graphics.color import colorlist, colorName
+from ..graphics.color import colorQt
 tr = QCoreApplication.translate
-
-class PointOptions:
-    def __init__(self, width, height):
-        self.ox = width/2
-        self.oy = height/2
-        self.rate = 2
-        self.Path = Path()
-        self.slvsPath = {'path':[], 'show':False}
-        self.currentShaft = ()
 
 class Path:
     def __init__(self):
@@ -44,6 +35,7 @@ class Path:
         self.ranges = [defult_range, defult_range]
 
 class Selector:
+    #Use to record mouse clicked point.
     def __init__(self):
         self.x = 0
         self.y = 0
@@ -56,12 +48,20 @@ class BaseCanvas(QWidget):
     def __init__(self, parent=None):
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        self.options = PointOptions(self.width(), self.height())
+        #Origin coordinate
+        self.ox = self.width()/2
+        self.oy = self.height()/2
+        #Canvas zoom rate
+        self.rate = 2
+        #Drive shaft
+        self.currentShaft = ()
+        #Canvas line width
         self.linkWidth = 3
         self.pathWidth = 3
-        self.Color = colorlist()
-        self.Font_size = 10
-        self.Point_mark = True
+        #Font size
+        self.fontSize = 10
+        #Show point mark or dimension
+        self.showPointMark = True
         self.showDimension = True
     
     def paintEvent(self, event):
@@ -87,11 +87,11 @@ class BaseCanvas(QWidget):
             self.painter.drawEllipse(QPointF(x, y), 10., 10.)
         else:
             self.painter.drawEllipse(QPointF(x, y), 5., 5.)
-        if self.Point_mark:
+        if self.showPointMark:
             pen.setColor(Qt.darkGray)
             pen.setWidth(2)
             self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
+            self.painter.setFont(QFont('Arial', self.fontSize))
             text = '[{}]'.format(i) if type(i)==str else '[Point{}]'.format(i)
             if self.showDimension:
                 text += ':({:.02f}, {:.02f})'.format(cx, cy)
@@ -118,10 +118,10 @@ class BaseCanvas(QWidget):
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.Point_mark and name!='ground' and qpoints:
+        if self.showPointMark and name!='ground' and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.Font_size))
+            self.painter.setFont(QFont('Arial', self.fontSize))
             text = '[{}]'.format(name)
             cenX = sum([vpoint.cx for vpoint in points])/len(points)
             cenY = sum([vpoint.cy for vpoint in points])/len(points)
@@ -130,7 +130,7 @@ class BaseCanvas(QWidget):
     def drawShaft(self, i, x0, y0, x1, y1):
         pen = QPen()
         pen.setWidth(self.linkWidth+2)
-        pen.setColor(QColor(225, 140, 0) if i==self.options.currentShaft else QColor(175, 90, 0))
+        pen.setColor(QColor(225, 140, 0) if i==self.currentShaft else QColor(175, 90, 0))
         self.painter.setPen(pen)
         self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
 
@@ -148,18 +148,23 @@ class DynamicCanvas(BaseCanvas):
         self.setStatusTip(tr("DynamicCanvas", "Use mouse wheel or middle button to look around."))
         self.rotateAngle = 0
         self.Selector = Selector()
-        self.re_Color = colorName()
+        #Point selection
         self.pointsSelection = []
-        self.zoom = 2*self.options.rate
-        self.linkWidth = 3
-        self.pathWidth = 3
+        #Rotate angle
         self.rotateAngle = 0.
+        #Path track
+        self.Path = Path()
+        #Path solving
+        self.slvsPath = {'path':[], 'show':False}
+        #Set showDimension to False
         self.showDimension = False
+        #Set zoom to 200
+        self.setZoom(200)
     
     def update_figure(self, Point, Link, path):
         self.Point = Point
         self.Link = Link
-        self.options.Path.path = path
+        self.Path.path = path
         self.update()
     
     @pyqtSlot(int)
@@ -178,8 +183,8 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     @pyqtSlot(bool)
-    def setPointMark(self, PointMark):
-        self.Point_mark = PointMark
+    def setPointMark(self, showPointMark):
+        self.showPointMark = showPointMark
         self.update()
     
     @pyqtSlot(bool)
@@ -189,12 +194,12 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(int)
     def setFontSize(self, fontSize):
-        self.Font_size = fontSize
+        self.fontSize = fontSize
         self.update()
     
     @pyqtSlot(int)
     def setZoom(self, zoom):
-        self.zoom = zoom/100*self.options.rate
+        self.zoom = zoom/100*self.rate
         self.update()
     
     def changePointsSelection(self, pointsSelection):
@@ -203,36 +208,36 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(int, float, int)
     def changeCurrentShaft(self, point=0, angle=0.):
-        self.options.currentShaft = (point, angle)
+        self.currentShaft = (point, angle)
         self.update()
     
     def resetCurrentShaft(self):
-        self.options.currentShaft = ()
+        self.currentShaft = ()
         self.update()
     
     def path_solving(self, path=[]):
-        self.options.slvsPath['path'] = path
+        self.slvsPath['path'] = path
         self.update()
     
     @pyqtSlot(tuple, float, tuple, float)
     def update_ranges(self, point1, range1, point2, range2):
-        self.options.Path.ranges[0] = QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1))
-        self.options.Path.ranges[1] = QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
+        self.Path.ranges[0] = QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1))
+        self.Path.ranges[1] = QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
         self.update()
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
-        self.painter.translate(self.options.ox, self.options.oy)
+        self.painter.translate(self.ox, self.oy)
         self.painter.rotate(self.rotateAngle)
         pathShaft = None
-        if self.options.Path.drive_mode:
-            for vpaths in self.options.Path.path:
-                if vpaths.shaft==self.options.currentShaft:
+        if self.Path.drive_mode:
+            for vpaths in self.Path.path:
+                if vpaths.shaft==self.currentShaft:
                     pathShaft = vpaths
         if (not pathShaft==None) and (not pathShaft.isBroken()):
             shaft = self.Shaft[pathShaft.shaft]
             resolution = abs(shaft.end-shaft.start)/(len(pathShaft.paths[0].path)-1)
-            resolutionIndex = int(round(self.options.Path.demo/resolution))
+            resolutionIndex = int(round(self.Path.demo/resolution))
             pathPoints = {e.point:e for e in pathShaft.paths}
             for i, vlink in enumerate(self.Link):
                 p1x = (self.Point[e.start].cx if self.Point[e.start].fix else pathPoints[e.start].path[resolutionIndex][0])*self.zoom
@@ -258,13 +263,13 @@ class DynamicCanvas(BaseCanvas):
             for i, vpoint in enumerate(self.Point):
                 fix = 'ground' in vpoint.Links
                 self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
-        if self.options.slvsPath['path'] and self.options.slvsPath['show']:
+        if self.slvsPath['path'] and self.slvsPath['show']:
             pen = QPen()
-            pathData = self.options.slvsPath['path']
+            pathData = self.slvsPath['path']
             pen.setWidth(self.pathWidth)
             pen.setColor(QColor(69, 247, 232))
             self.painter.setPen(pen)
-            if self.options.Path.mode==True:
+            if self.Path.mode==True:
                 if len(pathData)>1:
                     pointPath = QPainterPath()
                     for i, e in enumerate(pathData):
@@ -295,18 +300,18 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawRect(cx*self.zoom-12, cy*self.zoom*(-1)-12, 24, 24)
     
     def drawPath(self):
-        if self.options.Path.show:
-            for vpaths in self.options.Path.path:
+        if self.Path.show:
+            for vpaths in self.Path.path:
                 for vpath in vpaths.paths:
                     if vpath.show:
                         pen = QPen()
                         pen.setWidth(self.pathWidth)
-                        if vpaths.shaft==self.options.currentShaft:
-                            pen.setColor(self.Color[self.Point[vpath.point].color])
+                        if vpaths.shaft==self.currentShaft:
+                            pen.setColor(colorQt(self.Point[vpath.point].color))
                         else:
-                            pen.setColor(self.Color['Gray'])
+                            pen.setColor(colorQt('Gray'))
                         self.painter.setPen(pen)
-                        if self.options.Path.mode==True:
+                        if self.Path.mode==True:
                             error = False
                             pointPath = QPainterPath()
                             for i, point in enumerate(vpath.path):
@@ -328,8 +333,8 @@ class DynamicCanvas(BaseCanvas):
                                 x = point[0]*self.zoom
                                 y = point[1]*self.zoom*-1
                                 self.painter.drawPoint(QPointF(x, y))
-        if self.options.slvsPath['show']:
-            for (i, rect), range_color in zip(enumerate(self.options.Path.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
+        if self.slvsPath['show']:
+            for (i, rect), range_color in zip(enumerate(self.Path.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
                 pen = QPen()
                 pen.setColor(range_color)
                 self.painter.setBrush(range_color)
@@ -343,7 +348,7 @@ class DynamicCanvas(BaseCanvas):
                 self.painter.setPen(pen)
                 self.painter.setBrush(Qt.NoBrush)
                 self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
-                self.painter.setFont(QFont('Arial', self.Font_size+5))
+                self.painter.setFont(QFont('Arial', self.fontSize+5))
                 range_color.setAlpha(255)
                 pen.setColor(range_color)
                 self.painter.setPen(pen)
@@ -353,8 +358,8 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
     
     def mousePressEvent(self, event):
-        self.Selector.x = event.x()-self.options.ox
-        self.Selector.y = event.y()-self.options.oy
+        self.Selector.x = event.x()-self.ox
+        self.Selector.y = event.y()-self.oy
         if event.buttons()==Qt.MiddleButton:
             self.Selector.MiddleButtonDrag = True
         if event.buttons()==Qt.LeftButton:
@@ -378,8 +383,8 @@ class DynamicCanvas(BaseCanvas):
         if event.button()==Qt.MidButton:
             self.SetIn()
         if event.buttons()==Qt.LeftButton:
-            self.Selector.x = event.x()-self.options.ox
-            self.Selector.y = event.y()-self.options.oy
+            self.Selector.x = event.x()-self.ox
+            self.Selector.y = event.y()-self.oy
             for i, e in enumerate(self.Point):
                 x = e.cx*self.zoom
                 y = e.cy*self.zoom*-1
@@ -392,10 +397,10 @@ class DynamicCanvas(BaseCanvas):
     
     def mouseMoveEvent(self, event):
         if self.Selector.MiddleButtonDrag:
-            self.options.ox = event.x()-self.Selector.x
-            self.options.oy = event.y()-self.Selector.y
+            self.ox = event.x()-self.Selector.x
+            self.oy = event.y()-self.Selector.y
             self.update()
-        self.mouse_track.emit((event.x()-self.options.ox)/self.zoom, -((event.y()-self.options.oy)/self.zoom))
+        self.mouse_track.emit((event.x()-self.ox)/self.zoom, -((event.y()-self.oy)/self.zoom))
     
     def resizeEvent(self, event):
         self.SetIn()
@@ -406,13 +411,13 @@ class DynamicCanvas(BaseCanvas):
         height = height if not height==0 else 1
         if len(self.Point)==1:
             self.zoom_change.emit(200)
-            self.options.ox = width/2
-            self.options.oy = height/2
+            self.ox = width/2
+            self.oy = height/2
         else:
             Xs = [e.cx for e in self.Point] if self.Point else [0]
             Ys = [e.cy for e in self.Point] if self.Point else [0]
-            if self.options.Path.path:
-                Path = self.options.Path.path
+            if self.Path.path:
+                Path = self.Path.path
                 pathMaxX = max([max([max([dot[0] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
                 pathMinX = min([min([min([dot[0] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
                 pathMaxY = max([max([max([dot[1] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
@@ -430,6 +435,6 @@ class DynamicCanvas(BaseCanvas):
             height = height if height!=0 else 1
             cdiff = diffX/diffY > width/height
             self.zoom_change.emit(int((width if cdiff else height)/(diffX if cdiff else diffY)*0.95*50))
-            self.options.ox = (width/2)-cenx*self.zoom
-            self.options.oy = (height/2)+ceny*self.zoom
+            self.ox = (width/2)-cenx*self.zoom
+            self.oy = (height/2)+ceny*self.zoom
         self.update()

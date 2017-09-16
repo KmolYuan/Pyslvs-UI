@@ -10,12 +10,13 @@
     <file>icons/picture.png</file>
     <!--File format icons-->
     <file>icons/CSV.png</file>
-    <file>icons/XML.png</file>
+    <file>icons/dxf.png</file>
     <file>icons/excel_2013.png</file>
     <file>icons/formula.png</file>
-    <file>icons/dxf.png</file>
     <file>icons/Logo_Qt.png</file>
+    <file>icons/PMKSLogo.png</file>
     <file>icons/script.png</file>
+    <file>icons/XML.png</file>
     <!--Network icons-->
     <file>icons/local.png</file>
     <file>icons/ZeroMQ.png</file>

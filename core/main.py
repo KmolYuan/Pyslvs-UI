@@ -193,7 +193,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result, DOF = slvsProcess(
             self.Entiteis_Point.data(),
             self.Entiteis_Link.data(),
-            self.DynamicCanvasView.options.currentShaft,
+            self.DynamicCanvasView.currentShaft,
             hasWarning=self.args.w)
         Failed = type(DOF)!=int
         self.ConflictGuide.setVisible(Failed)
@@ -499,6 +499,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
             self.workbookNoSave()
     
+    @pyqtSlot()
+    def on_action_Output_to_PMKS_triggered(self):
+        text = (
+            "Copy and past this text to PMKS Web:\n"+
+            "ggg"+ #TODO: PMKS grammar
+            "Or if you have installed Microsoft Sliverlight,\n"+
+            "click \"Open\" button to open it in PMKS web version."
+        )
+        dlg = QMessageBox(QMessageBox.Information, "PMKS format", text, (QMessageBox.Open | QMessageBox.Close), self)
+        dlg.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        dlg.show()
+        if dlg.exec_():
+            url = "" #TODO: PMKS grammar URL
+            self.OpenURL(url)
+    
     #Entities
     def addPointGroup(self, fixed=False):
         if not self.PathSolving.isChecked():
@@ -760,17 +775,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Reload_Canvas()
     @pyqtSlot()
     def on_action_Path_style_triggered(self):
-        self.DynamicCanvasView.options.Path.mode = self.action_Path_style.isChecked()
+        self.DynamicCanvasView.Path.mode = self.action_Path_style.isChecked()
         self.Reload_Canvas()
     @pyqtSlot()
     def on_action_Path_data_show_triggered(self):
-        self.DynamicCanvasView.options.Path.show = self.action_Path_data_show.isChecked()
+        self.DynamicCanvasView.Path.show = self.action_Path_data_show.isChecked()
         self.Reload_Canvas()
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.DynamicCanvasView.options.slvsPath['show'] = not "Path Solving" in tabNameList
+        self.DynamicCanvasView.slvsPath['show'] = not "Path Solving" in tabNameList
         if "Path Solving" in tabNameList:
             self.closePanel(tabNameList.index("Path Solving"))
         else:
@@ -840,11 +855,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_Drive_shaft_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.DynamicCanvasView.options.Path.drive_mode = not "Drive Shaft" in tabNameList
+        self.DynamicCanvasView.Path.drive_mode = not "Drive Shaft" in tabNameList
         if "Drive Shaft" in tabNameList:
             self.closePanel(tabNameList.index("Drive Shaft"))
         else:
-            currentShaft = self.DynamicCanvasView.options.currentShaft
+            currentShaft = self.DynamicCanvasView.currentShaft
             if self.File.pathData:
                 isPathDemoMode = not self.File.Lists.getShaftPath(currentShaft).isBroken()
             else:
@@ -865,7 +880,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
     @pyqtSlot(int)
     def Change_path_demo_angle(self, angle):
-        self.DynamicCanvasView.options.Path.demo = angle/100
+        self.DynamicCanvasView.Path.demo = angle/100
         self.Reload_Canvas()
     @pyqtSlot(float, int)
     def Save_demo_angle(self, angle, currentShaft):
@@ -876,8 +891,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closePanel(i)
         for button in [self.TriangleSolver, self.Drive_shaft, self.PathSolving]:
             button.setChecked(False)
-        self.DynamicCanvasView.options.slvsPath['show'] = False
-        self.DynamicCanvasView.options.Path.drive_mode = False
+        self.DynamicCanvasView.slvsPath['show'] = False
+        self.DynamicCanvasView.Path.drive_mode = False
         self.Reload_Canvas()
     def closePanel(self, pos):
         panel = self.panelWidget.widget(pos)
