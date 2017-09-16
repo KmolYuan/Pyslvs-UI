@@ -17,7 +17,7 @@ before_install:
   - sudo apt -y install swig
 
 script:
-  - sudo apt-get -y install desktop-file-utils
+  - sudo apt -y install desktop-file-utils zenity
   - make
 
 before_cache:
