@@ -518,7 +518,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         url += '|'.join(urlTable)+'|'
         text = '\n'.join([
             "Copy and past this link to web browser:\n", url+'\n',
-            "If you have installed Microsoft Silverlight in Internet Explorer as default browser,"+
+            "If you have installed Microsoft Silverlight in Internet Explorer as default browser, "+
             "just click \"Open\" button to open it in PMKS web version."
         ])
         dlg = QMessageBox(QMessageBox.Information, "PMKS web server", text, (QMessageBox.Open | QMessageBox.Close), self)

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -851,6 +851,7 @@ class Ui_MainWindow(object):
         self.ZoomText.setText(_translate("MainWindow", "200%"))
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Zoom to fit."))
         self.CanvasCapture.setStatusTip(_translate("MainWindow", "Make a canvas capture to the clipboard."))
+        self.OutputToPMKS.setStatusTip(_translate("MainWindow", "Pass your mechanism to PMKS server by generate a URL."))
         self.DOFLable.setText(_translate("MainWindow", "DOF:"))
         self.ConflictGuide.setStatusTip(_translate("MainWindow", "Show Conflict Guide tool tips."))
         self.ConflictGuide.setText(_translate("MainWindow", "<html><head/><body><p><img width=\'30\' src=\":/icons/ConflictGuide.png\"/></p></body></html>"))
@@ -1007,6 +1008,7 @@ class Ui_MainWindow(object):
         self.action_Pyslvs_com.setStatusTip(_translate("MainWindow", "Goto Pyslvs home page."))
         self.action_Show_console.setText(_translate("MainWindow", "Show GUI console"))
         self.action_Output_to_PMKS.setText(_translate("MainWindow", "&PMKS"))
+        self.action_Output_to_PMKS.setStatusTip(_translate("MainWindow", "Pass your mechanism to PMKS server by generate a URL."))
 
 import icons_rc
 import preview_rc

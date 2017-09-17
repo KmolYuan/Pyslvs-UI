@@ -931,6 +931,9 @@
              </item>
              <item>
               <widget class="QPushButton" name="OutputToPMKS">
+               <property name="statusTip">
+                <string>Pass your mechanism to PMKS server by generate a URL.</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -1985,6 +1988,9 @@
    </property>
    <property name="text">
     <string>&amp;PMKS</string>
+   </property>
+   <property name="statusTip">
+    <string>Pass your mechanism to PMKS server by generate a URL.</string>
    </property>
   </action>
  </widget>
