@@ -147,6 +147,7 @@ class VPath:
     @property
     def point(self):
         return self.__point
+    
     @property
     def path(self):
         return self.__path
@@ -174,9 +175,11 @@ class VPaths:
         paths: List[VPath] =[]
     ):
         self.set(shaft, paths)
+    
     @property
     def shaft(self):
         return self.__shaft
+    
     @property
     def paths(self):
         return self.__paths

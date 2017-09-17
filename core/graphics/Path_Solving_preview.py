@@ -80,7 +80,6 @@ class DynamicCanvas(BaseCanvas):
             self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
             shaft_r = self.Paths[self.expression_tag[0][-1]][self.index]
             self.drawLink('L0', self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1, self.mechanism['L0'])
-            self.drawShaft(0, self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1)
             for i, exp in enumerate(self.expression_tag[1:]):
                 p_l = []
                 for i, k in enumerate([0, 3, -1]):

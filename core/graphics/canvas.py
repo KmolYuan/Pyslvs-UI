@@ -31,8 +31,6 @@ class Path:
         self.show = True
         self.mode = True
         self.drive_mode = False
-        defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
-        self.ranges = [defult_range, defult_range]
 
 class Selector:
     #Use to record mouse clicked point.
@@ -126,13 +124,6 @@ class BaseCanvas(QWidget):
             cenX = sum([vpoint.cx for vpoint in points])/len(points)
             cenY = sum([vpoint.cy for vpoint in points])/len(points)
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*self.zoom*-1), text)
-    
-    def drawShaft(self, i, x0, y0, x1, y1):
-        pen = QPen()
-        pen.setWidth(self.linkWidth+2)
-        pen.setColor(QColor(225, 140, 0) if i==self.currentShaft else QColor(175, 90, 0))
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(x0, y0), QPointF(x1, y1))
 
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
@@ -155,7 +146,10 @@ class DynamicCanvas(BaseCanvas):
         #Path track
         self.Path = Path()
         #Path solving
-        self.slvsPath = {'path':[], 'show':False}
+        defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
+        self.ranges = [defult_range, defult_range]
+        self.slvsPath = []
+        self.showSlvsPath = False
         #Set showDimension to False
         self.showDimension = False
         #Set zoom to 200
@@ -216,13 +210,13 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     def path_solving(self, path=[]):
-        self.slvsPath['path'] = path
+        self.slvsPath = path
         self.update()
     
     @pyqtSlot(tuple, float, tuple, float)
     def update_ranges(self, point1, range1, point2, range2):
-        self.Path.ranges[0] = QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1))
-        self.Path.ranges[1] = QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
+        self.ranges[0] = QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1))
+        self.ranges[1] = QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
         self.update()
     
     def paintEvent(self, event):
@@ -263,9 +257,9 @@ class DynamicCanvas(BaseCanvas):
             for i, vpoint in enumerate(self.Point):
                 fix = 'ground' in vpoint.Links
                 self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
-        if self.slvsPath['path'] and self.slvsPath['show']:
+        if self.slvsPath and self.showSlvsPath:
             pen = QPen()
-            pathData = self.slvsPath['path']
+            pathData = self.slvsPath
             pen.setWidth(self.pathWidth)
             pen.setColor(QColor(69, 247, 232))
             self.painter.setPen(pen)
@@ -333,8 +327,8 @@ class DynamicCanvas(BaseCanvas):
                                 x = point[0]*self.zoom
                                 y = point[1]*self.zoom*-1
                                 self.painter.drawPoint(QPointF(x, y))
-        if self.slvsPath['show']:
-            for (i, rect), range_color in zip(enumerate(self.Path.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
+        if self.showSlvsPath:
+            for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
                 pen = QPen()
                 pen.setColor(range_color)
                 self.painter.setBrush(range_color)

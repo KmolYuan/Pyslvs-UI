@@ -798,7 +798,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.DynamicCanvasView.slvsPath['show'] = not "Path Solving" in tabNameList
+        self.DynamicCanvasView.showSlvsPath = not "Path Solving" in tabNameList
         if "Path Solving" in tabNameList:
             self.closePanel(tabNameList.index("Path Solving"))
         else:
@@ -904,9 +904,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closePanel(i)
         for button in [self.TriangleSolver, self.Drive_shaft, self.PathSolving]:
             button.setChecked(False)
-        self.DynamicCanvasView.slvsPath['show'] = False
+        self.DynamicCanvasView.showSlvsPath = False
         self.DynamicCanvasView.Path.drive_mode = False
         self.Reload_Canvas()
+    
     def closePanel(self, pos):
         panel = self.panelWidget.widget(pos)
         self.panelWidget.removeTab(pos)
