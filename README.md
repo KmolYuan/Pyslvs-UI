@@ -46,11 +46,11 @@ Cross-platform Development: Ubuntu and Windows OS (64-bit).
 
 Previews in KDE Plasma desktop:
 
-![main](icons/cover/main_plasma.png)
+![main](images/main_plasma.png)
 
 Previews in Windows 8.1 theme:
 
-![main](icons/cover/main_win.png)
+![main](images/main_win.png)
 
 How to startup
 ---
@@ -70,58 +70,44 @@ python3 launch_pyslvs.py --help
 Symbolic
 ---
 
+Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
+
 1. Point
 
-    ![Point](icons/cover/Point.png)
+    ![Point](images/Point.png)
 
 1. Line (Link)
 
-    ![Line](icons/cover/Line.png)
-
-1. Chain (Fixed Chain)
-
-    ![Chain](icons/cover/Chain.png)
-
-1. Shaft (Drive Shaft)
-
-    ![Shaft](icons/cover/Shaft.png)
-
-1. Slider
-
-    ![Slider](icons/cover/Slider.png)
-
-1. Rod (Piston)
-
-    ![Rod](icons/cover/Rod.png)
+    ![Line](images/Line.png)
 
 Path Track
 ---
 
-![PathTrack](icons/cover/PathTrack.png)
+![PathTrack](images/PathTrack.png)
 
 Calculate the move trajectory of the node.
 
-![PathTrack_all](icons/cover/PathTrack_all.png)
+![PathTrack_all](images/PathTrack_all.png)
 
 And view them in the table or save as text data.
 
-![PathResult](icons/cover/PathResult.png)
+![PathResult](images/PathResult.png)
 
 Triangle Solver
 ---
 
-![TriangleSolver](icons/cover/TriangleSolver.png)
+![TriangleSolver](images/TriangleSolver.png)
 
 Triangle solver find the node position by using three triangular relationship.
 
-![TriangleSolver_merge](icons/cover/TriangleSolver_merge.png)
+![TriangleSolver_merge](images/TriangleSolver_merge.png)
 
 Then merge into canvace as well.
 
 Algorithm
 ---
 
-![Algorithm](icons/cover/Algorithm.png)
+![Algorithm](images/Algorithm.png)
 
 Contains three algorithms:
 

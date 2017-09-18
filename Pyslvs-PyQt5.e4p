@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-09-17, 16:42:07 -->
+<!-- Saved: 2017-09-18, 10:52:23 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -13,7 +13,6 @@
   <Author>Yuan</Author>
   <Email>pyslvs@gmail.com</Email>
   <Sources>
-    <Source>README.md</Source>
     <Source>core/QtModules.py</Source>
     <Source>core/Ui_custom.py</Source>
     <Source>core/Ui_custom_table.py</Source>
@@ -109,7 +108,6 @@
     <Source>launch_pyslvs.py</Source>
     <Source>launch_zmq_server.py</Source>
     <Source>preview_rc.py</Source>
-    <Source>requirements.txt</Source>
   </Sources>
   <Forms>
     <Form>core/entities/batchMoving.ui</Form>
@@ -144,8 +142,10 @@
   <Others>
     <Other>.travis.yml</Other>
     <Other>Makefile</Other>
+    <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
     <Other>core/kernel/python_solvespace/Makefile</Other>
+    <Other>requirements.txt</Other>
   </Others>
   <MainScript>launch_pyslvs.py</MainScript>
   <Vcs>
