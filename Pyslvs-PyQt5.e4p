@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-09-18, 10:52:23 -->
+<!-- Saved: 2017-09-18, 10:59:57 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -144,6 +144,7 @@
     <Other>Makefile</Other>
     <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
+    <Other>core/kernel/pyslvs_algorithm/Makefile</Other>
     <Other>core/kernel/python_solvespace/Makefile</Other>
     <Other>requirements.txt</Other>
   </Others>

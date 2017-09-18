@@ -76,9 +76,9 @@ Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 
     ![Point](images/Point.png)
 
-1. Line (Link)
+1. Link
 
-    ![Line](images/Line.png)
+    ![Link](images/Link.png)
 
 Path Track
 ---
