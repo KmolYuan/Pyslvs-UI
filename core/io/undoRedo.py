@@ -20,6 +20,8 @@
 from ..QtModules import *
 from copy import copy, deepcopy
 
+noNoneString = lambda l: list(filter(lambda a: a!='', l))
+
 '''
 The add and delete command has only add and delete.
 The add command need to edit Points or Links list after it added to table.
@@ -97,7 +99,7 @@ class editPointTableCommand(QUndoCommand):
     def writeRows(self, rows1, rows2):
         for row in rows1:
             newPoints = self.LinkTable.item(row, 2).text().split(',')+['Point{}'.format(self.row)]
-            newPoints = list(filter(lambda a: a!='', newPoints))
+            newPoints = noNoneString(newPoints)
             self.LinkTable.editArgs(row,
                 self.LinkTable.item(row, 0).text(),
                 self.LinkTable.item(row, 1).text(),
@@ -105,7 +107,7 @@ class editPointTableCommand(QUndoCommand):
         for row in rows2:
             newPoints = self.LinkTable.item(row, 2).text().split(',')
             newPoints.remove('Point{}'.format(self.row))
-            newPoints = list(filter(lambda a: a!='', newPoints))
+            newPoints = noNoneString(newPoints)
             self.LinkTable.editArgs(row,
                 self.LinkTable.item(row, 0).text(),
                 self.LinkTable.item(row, 1).text(),
@@ -127,24 +129,35 @@ class editLinkTableCommand(QUndoCommand):
         #Points: Tuple[int]
         newPoints = self.Args[2].split(',')
         oldPoints = self.OldArgs[2].split(',')
-        newPoints = set(int(index.replace('Point', '')) for index in filter(lambda a: a!='', newPoints))
-        oldPoints = set(int(index.replace('Point', '')) for index in filter(lambda a: a!='', oldPoints))
+        newPoints = set(int(index.replace('Point', '')) for index in noNoneString(newPoints))
+        oldPoints = set(int(index.replace('Point', '')) for index in noNoneString(oldPoints))
         self.NewPointRows = newPoints - oldPoints
         self.OldPointRows = oldPoints - newPoints
     
     def redo(self):
         self.LinkTable.editArgs(self.row, *self.Args)
+        self.rename(self.Args, self.OldArgs)
         self.writeRows(self.NewPointRows, self.OldPointRows)
     
     def undo(self):
         self.writeRows(self.OldPointRows, self.NewPointRows)
+        self.rename(self.OldArgs, self.Args)
         self.LinkTable.editArgs(self.row, *self.OldArgs)
+    
+    def rename(self, Args1, Args2):
+        for row in [int(index.replace('Point', '')) for index in noNoneString(Args2[2].split(','))]:
+            self.PointTable.editArgs(row,
+                ','.join([w.replace(Args2[0], Args1[0]) for w in self.PointTable.item(row, 1).text().split(',')]),
+                self.PointTable.item(row, 2).text(),
+                self.PointTable.item(row, 3).text(),
+                self.PointTable.item(row, 4).text(),
+                self.PointTable.item(row, 5).text())
     
     def writeRows(self, rows1, rows2):
         name = self.LinkTable.item(self.row, 0).text()
         for row in rows1:
             newLinks = self.PointTable.item(row, 1).text().split(',')+[name]
-            newLinks = list(filter(lambda a: a!='', newLinks))
+            newLinks = noNoneString(newLinks)
             self.PointTable.editArgs(row,
                 ','.join(newLinks),
                 self.PointTable.item(row, 2).text(),
@@ -154,7 +167,7 @@ class editLinkTableCommand(QUndoCommand):
         for row in rows2:
             newLinks = self.PointTable.item(row, 1).text().split(',')
             newLinks.remove(name)
-            newLinks = list(filter(lambda a: a!='', newLinks))
+            newLinks = noNoneString(newLinks)
             self.PointTable.editArgs(row,
                 ','.join(newLinks),
                 self.PointTable.item(row, 2).text(),
