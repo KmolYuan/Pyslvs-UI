@@ -35,10 +35,9 @@ from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 from .entities.delete import deleteDlg
 from .entities.batchMoving import batchMoving_show
-#Panels
-from .panel.DimensionalSynthesis.Path_Solving import Path_Solving_show
-from .panel.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
-from .panel.Drivers.Drive_shaft import Drive_shaft_show
+#Tools
+from .tools.DimensionalSynthesis.Path_Solving import Path_Solving_show
+from .tools.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 #File & Example
@@ -829,43 +828,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Slider)
     
     @pyqtSlot()
-    def on_Drive_shaft_clicked(self):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.DynamicCanvasView.Path.drive_mode = not "Drive Shaft" in tabNameList
-        if "Drive Shaft" in tabNameList:
-            self.closePanel(tabNameList.index("Drive Shaft"))
-        else:
-            currentShaft = self.DynamicCanvasView.currentShaft
-            if self.File.pathData:
-                isPathDemoMode = not self.File.Lists.getShaftPath(currentShaft).isBroken()
-            else:
-                isPathDemoMode = False
-            panel = Drive_shaft_show(self.Entiteis_Point.data(), currentShaft, isPathDemoMode, self)
-            panel.Degree.valueChanged.connect(self.Change_path_demo_angle if isPathDemoMode else self.Change_demo_angle)
-            if not isPathDemoMode:
-                panel.degreeChange.connect(self.Save_demo_angle)
-            panel.Shaft.currentIndexChanged.connect(self.DynamicCanvasView.changeCurrentShaft)
-            self.panelWidget.addTab(panel, self.Drive_shaft.icon(), "Drive Shaft")
-            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
-        self.Reload_Canvas()
-    @pyqtSlot(int)
-    def Change_demo_angle(self, angle):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        panel = self.panelWidget.widget(tabNameList.index("Drive Shaft"))
-        self.File.Lists.setDemo('Shaft', row=panel.Shaft.currentIndex(), pos=angle/100)
-        self.Resolve()
-    @pyqtSlot(int)
-    def Change_path_demo_angle(self, angle):
-        self.DynamicCanvasView.Path.demo = angle/100
-        self.Reload_Canvas()
-    @pyqtSlot(float, int)
-    def Save_demo_angle(self, angle, currentShaft):
-        self.File.Lists.saveDemo(self.Simulate_Shaft, angle, row=currentShaft, column=5)
+    def on_Inputs_clicked(self):
+        #TODO: Need to add Input UI.
+        """
+        Inputs UI
+        Add a table data by Dof. 
+        """
     
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
             self.closePanel(i)
-        for button in [self.TriangleSolver, self.Drive_shaft, self.PathSolving]:
+        for button in [self.TriangleSolver, self.Inputs, self.PathSolving]:
             button.setChecked(False)
         self.DynamicCanvasView.showSlvsPath = False
         self.DynamicCanvasView.Path.drive_mode = False
