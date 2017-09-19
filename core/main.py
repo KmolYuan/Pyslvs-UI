@@ -189,7 +189,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result, DOF = slvsProcess(
             self.Entiteis_Point.data(),
             self.Entiteis_Link.data(),
-            self.DynamicCanvasView.currentShaft,
             hasWarning=self.args.w)
         Failed = type(DOF)!=int
         self.ConflictGuide.setVisible(Failed)

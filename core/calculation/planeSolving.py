@@ -17,7 +17,6 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from math import pi, cos, sin
 from typing import List, Tuple
 from ..kernel.python_solvespace.slvs import (
     System, groupNum, Slvs_MakeQuaternion,
@@ -60,26 +59,19 @@ def slvsProcess(
             if not i==1:
                 d = Point[p-1].distance(Point[p])
                 Constraint.distance(d, Workplane1, Slvs_Points[p-1], Slvs_Points[p])
-    
-    def setShaft(shaft, angle):
-        '''
-        shaft: int
-        angle: float, int (degrees)
-        '''
-        mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
-        my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
-        x = Sys.add_param(mx if mx!=0 else 0.)
-        y = Sys.add_param(my if my!=0 else 0.)
-        leader = Point2d(Workplane1, x, y)
-        Constraint.dragged(Workplane1, leader)
-        Line0 = LineSegment2d(Workplane1, Slvs_Points[shaft], leader)
-        #Another point on specified link
-        for i in range(len(Point[shaft].Links)):
-            linkRef = list(set(Point[shaft].Links[i])-{i})[0]
-            Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[shaft], Slvs_Points[linkRef]), Line0)
-    
-    for shaft in currentShaft:
-        setShaft(*shaft)
+    '''
+    mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
+    my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
+    x = Sys.add_param(mx if mx!=0 else 0.)
+    y = Sys.add_param(my if my!=0 else 0.)
+    leader = Point2d(Workplane1, x, y)
+    Constraint.dragged(Workplane1, leader)
+    Line0 = LineSegment2d(Workplane1, Slvs_Points[shaft], leader)
+    #Another point on specified link
+    for i in range(len(Point[shaft].Links)):
+        linkRef = list(set(Point[shaft].Links[i])-{i})[0]
+        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[shaft], Slvs_Points[linkRef]), Line0)
+    '''
     result = Sys.solve()
     if result==SLVS_RESULT_OKAY:
         resultList = []
@@ -99,4 +91,4 @@ def slvsProcess(
             if hasWarning:
                 print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
             resultSTR = "Too Many Unknowns"
-        return tuple(), resultSTR
+        return [], resultSTR

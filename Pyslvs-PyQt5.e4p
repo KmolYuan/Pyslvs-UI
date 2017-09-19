@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-09-19, 17:46:08 -->
+<!-- Saved: 2017-09-19, 20:47:14 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -20,7 +20,6 @@
     <Source>core/__init__.py</Source>
     <Source>core/calculation/__init__.py</Source>
     <Source>core/calculation/pathSolving.py</Source>
-    <Source>core/calculation/pathTrack.py</Source>
     <Source>core/calculation/planeSolving.py</Source>
     <Source>core/entities/Ui_batchMoving.py</Source>
     <Source>core/entities/Ui_delete.py</Source>
