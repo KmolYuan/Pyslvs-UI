@@ -331,7 +331,7 @@
                      <item row="0" column="0">
                       <widget class="QGroupBox" name="groupBox_3">
                        <property name="title">
-                        <string>Drivers</string>
+                        <string>Inputs</string>
                        </property>
                        <layout class="QVBoxLayout" name="verticalLayout_23">
                         <property name="leftMargin">
@@ -349,9 +349,9 @@
                         <item>
                          <layout class="QGridLayout" name="gridLayout">
                           <item row="1" column="0">
-                           <widget class="QPushButton" name="Drive_shaft">
+                           <widget class="QPushButton" name="Inputs">
                             <property name="toolTip">
-                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Drive Shaft&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Drive the selected drive shaft.&lt;br/&gt;&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The solving problem occurs when the drive shaft is interfering at some angle.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Inputs&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Set inputs of this mechanism by the degree of freedom.&lt;br/&gt;&lt;img src=&quot;:/icons/tooltips/DriveShaft.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                             </property>
                             <property name="statusTip">
                              <string>Drive the selected drive shaft.</string>
@@ -1236,6 +1236,8 @@
     <addaction name="action_Zoom_to_fit"/>
     <addaction name="action_Display_Point_Mark"/>
     <addaction name="action_Display_Dimensions"/>
+    <addaction name="action_Path_data_show"/>
+    <addaction name="action_Path_style"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
     <addaction name="action_Property"/>
@@ -1251,19 +1253,6 @@
     <addaction name="action_About_Pyslvs"/>
     <addaction name="action_About_Qt"/>
    </widget>
-   <widget class="QMenu" name="menu_Path">
-    <property name="title">
-     <string>&amp;Path</string>
-    </property>
-    <addaction name="action_Path_Track"/>
-    <addaction name="action_Path_coordinate"/>
-    <addaction name="action_Save_path_only"/>
-    <addaction name="separator"/>
-    <addaction name="action_Path_data_show"/>
-    <addaction name="action_Path_style"/>
-    <addaction name="separator"/>
-    <addaction name="action_Path_Clear"/>
-   </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
      <string>&amp;Edit</string>
@@ -1273,7 +1262,6 @@
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
    <addaction name="menu_Draw"/>
-   <addaction name="menu_Path"/>
    <addaction name="menu_Options"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -1872,38 +1860,6 @@
     <string>Space</string>
    </property>
   </action>
-  <action name="action_Path_Track">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/PathTrack.png</normaloff>:/icons/PathTrack.png</iconset>
-   </property>
-   <property name="text">
-    <string>Path track</string>
-   </property>
-   <property name="statusTip">
-    <string>Update all points, then tracking point with the shaft angle.</string>
-   </property>
-  </action>
-  <action name="action_Path_Clear">
-   <property name="text">
-    <string>Clear path</string>
-   </property>
-   <property name="statusTip">
-    <string>Clear current path.</string>
-   </property>
-  </action>
-  <action name="action_Path_coordinate">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
-   </property>
-   <property name="text">
-    <string>View path coordinate</string>
-   </property>
-   <property name="statusTip">
-    <string>View path coordinate.</string>
-   </property>
-  </action>
   <action name="action_Path_data_show">
    <property name="checkable">
     <bool>true</bool>
@@ -1916,18 +1872,6 @@
    </property>
    <property name="statusTip">
     <string>Show path data on canvas.</string>
-   </property>
-  </action>
-  <action name="action_Save_path_only">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save path only</string>
-   </property>
-   <property name="statusTip">
-    <string>Save path for merge to another workbook.</string>
    </property>
   </action>
   <action name="AlgorithmMenuTitle">

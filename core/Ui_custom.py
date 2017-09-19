@@ -192,10 +192,6 @@ def action_Enabled(self):
     self.action_Delete_Linkage.setEnabled(ONE_LINK)
     self.action_point_right_click_menu_delete.setEnabled(ONE_POINT)
     self.action_link_right_click_menu_delete.setEnabled(ONE_LINK)
-    #Path
-    self.action_Path_Track.setEnabled(ONE_POINT)
-    for action in [self.action_Path_coordinate, self.action_Save_path_only, self.action_Path_Clear]:
-        action.setEnabled(bool(self.File.pathData))
     #Panel
     self.Drive_shaft.setEnabled(ONE_POINT_R)
     #Others

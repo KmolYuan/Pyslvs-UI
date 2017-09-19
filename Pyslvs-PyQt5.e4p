@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-09-18, 10:59:57 -->
+<!-- Saved: 2017-09-19, 12:33:15 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -94,11 +94,6 @@
     <Source>core/panel/Drivers/Ui_Drive_shaft.py</Source>
     <Source>core/panel/Drivers/__init__.py</Source>
     <Source>core/panel/__init__.py</Source>
-    <Source>core/path/Path_Track.py</Source>
-    <Source>core/path/Ui_Path_Track.py</Source>
-    <Source>core/path/Ui_path_point_data.py</Source>
-    <Source>core/path/__init__.py</Source>
-    <Source>core/path/path_point_data.py</Source>
     <Source>core/server/__init__.py</Source>
     <Source>core/server/de.py</Source>
     <Source>core/server/firefly.py</Source>
@@ -130,8 +125,6 @@
     <Form>core/panel/DimensionalSynthesis/Triangle_Solver_edit.ui</Form>
     <Form>core/panel/DimensionalSynthesis/Triangle_Solver_template.ui</Form>
     <Form>core/panel/Drivers/Drive_shaft.ui</Form>
-    <Form>core/path/Path_Track.ui</Form>
-    <Form>core/path/path_point_data.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

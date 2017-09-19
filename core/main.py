@@ -35,9 +35,6 @@ from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 from .entities.delete import deleteDlg
 from .entities.batchMoving import batchMoving_show
-#Path
-from .path.Path_Track import Path_Track_show
-from .path.path_point_data import path_point_data_show
 #Panels
 from .panel.DimensionalSynthesis.Path_Solving import Path_Solving_show
 from .panel.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
@@ -419,13 +416,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookSaved()
     
     @pyqtSlot()
-    def on_action_Save_path_only_triggered(self):
-        fileName = self.outputTo("Path-Only Workbook", ["XML File(*.xml)", "CSV File(*.csv)"])
-        if fileName:
-            self.File.writePathOnly(fileName)
-            self.saveReplyBox('Solvespace Sketch', fileName)
-    
-    @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
         dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.form.fileName.baseName(),
             self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
@@ -759,40 +749,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.action_Display_Dimensions.setChecked(False)
     
     @pyqtSlot()
-    def on_action_Path_Track_triggered(self):
-        self.closeAllPanels()
-        dlg = Path_Track_show(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList,
-            self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self.args.w, self)
-        dlg.show()
-        if dlg.exec_():
-            if dlg.ShaftSuggest:
-                reply = QMessageBox.question(self, "Angle check results", "The suggested results are as follows:\n\n"+'\n'.join(
-                    ['Shaft{}\nStart: {}[deg]\nEnd: {}[deg]\n'.format(i, shaft[0], shaft[1]) for i, shaft in enumerate(dlg.ShaftSuggest)])+
-                    "\nSelect \"Apply\" to set the recommended angle.",
-                    (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-                if reply==QMessageBox.Apply:
-                    for i, shaft in enumerate(dlg.ShaftSuggest):
-                        o = self.File.Lists.ShaftList[i]
-                        self.File.Lists.editTable(self.Simulate_Shaft, i, o.cen, o.ref, shaft[0], shaft[1], o.demo)
-            self.File.Lists.setPath(dlg.Path_data)
-    @pyqtSlot()
-    def on_action_Path_Clear_triggered(self):
-        self.File.Lists.clearPath()
-        self.closeAllPanels()
+    def on_action_Path_data_show_triggered(self):
+        self.DynamicCanvasView.Path.show = self.action_Path_data_show.isChecked()
         self.Reload_Canvas()
-    @pyqtSlot()
-    def on_action_Path_coordinate_triggered(self):
-        dlg = path_point_data_show(self.Default_Environment_variables, self.File.pathData, self.File.Lists.PointList)
-        dlg.show()
-        dlg.exec()
-        self.Reload_Canvas()
+    
     @pyqtSlot()
     def on_action_Path_style_triggered(self):
         self.DynamicCanvasView.Path.mode = self.action_Path_style.isChecked()
-        self.Reload_Canvas()
-    @pyqtSlot()
-    def on_action_Path_data_show_triggered(self):
-        self.DynamicCanvasView.Path.show = self.action_Path_data_show.isChecked()
         self.Reload_Canvas()
     
     @pyqtSlot(bool)
