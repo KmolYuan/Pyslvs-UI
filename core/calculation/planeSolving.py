@@ -83,8 +83,8 @@ def slvsProcess(
     result = Sys.solve()
     if result==SLVS_RESULT_OKAY:
         resultList = []
-        for i in range(0, len(Point)*2, 2):
-            resultList.append((round(float(Sys.get_param(i+7).val), 4), round(float(Sys.get_param(i+8).val), 4)))
+        for p in Slvs_Points:
+            resultList.append((round(p.u().value, 4), round(p.v().value, 4)))
         return resultList, int(Sys.dof)
     else:
         if result==SLVS_RESULT_INCONSISTENT:
