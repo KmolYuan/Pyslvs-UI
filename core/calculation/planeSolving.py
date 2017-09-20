@@ -18,10 +18,12 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from typing import List, Tuple
+from math import cos, sin
 from ..kernel.python_solvespace.slvs import (
     System, groupNum, Slvs_MakeQuaternion,
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
-    SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS)
+    SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
+)
 
 def slvsProcess(
     Point: Tuple['VPoint'] =False,
@@ -29,7 +31,7 @@ def slvsProcess(
     currentShaft: List[Tuple[int, float]] =(),
     hasWarning: bool =True
 ):
-    Sys = System(len(Point)*2+2+9)
+    Sys = System(len(Point)*2+15)
     Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)
@@ -41,15 +43,36 @@ def slvsProcess(
     p5 = Sys.add_param(qy)
     p6 = Sys.add_param(qz)
     Workplane1 = Workplane(Origin, Normal3d(p3, p4, p5, p6))
+    p7 = Sys.add_param(0.)
+    p8 = Sys.add_param(0.)
+    Origin2D = Point2d(Workplane1, p7, p8)
+    Constraint.dragged(Workplane1, Origin2D)
+    p9 = Sys.add_param(10.)
+    p10 = Sys.add_param(0.)
+    hp = Point2d(Workplane1, p9, p10)
+    Constraint.dragged(Workplane1, hp)
+    hl = LineSegment2d(Workplane1, Origin2D, hp)
     Sys.default_group = groupNum(2)
     Slvs_Points = []
+    #Append all points.
     for vpoint in Point:
         x = Sys.add_param(vpoint.cx)
         y = Sys.add_param(vpoint.cy)
         p = Point2d(Workplane1, x, y)
         if 'ground' in vpoint.Links:
             Constraint.dragged(Workplane1, p)
+        if vpoint.Type==1:
+            pass
+        elif vpoint.Type==2:
+            p0 = Point2d(Workplane1, x, y)
+            Constraint.dragged(Workplane1, p0)
+            x1 = Sys.add_param(vpoint.cx+cos(vpoint.angle))
+            y1 = Sys.add_param(vpoint.cy+sin(vpoint.angle))
+            p1 = Point2d(Workplane1, x1, y1)
+            l = LineSegment2d(Workplane1, p0, p1)
+            Constraint.angle(vpoint.angle, Workplane1, hl, l)
         Slvs_Points.append(p)
+    #Connect all the points included by link.
     for vlink in Link[1:]:
         for i, p in enumerate(vlink.Points):
             if i==0:
