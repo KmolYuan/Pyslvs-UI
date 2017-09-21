@@ -247,15 +247,15 @@ class DynamicCanvas(BaseCanvas):
             for i, vpoint in enumerate(self.Point):
                 if i in pathPoints:
                     continue
-                fix = 'ground' in vpoint.Links
+                fix = 'ground' in vpoint.links
                 self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         else:
             for i, vlink in enumerate(self.Link):
-                points = [self.Point[i] for i in vlink.Points]
+                points = [self.Point[i] for i in vlink.points]
                 self.drawLink(vlink.name, vlink.color, points)
             self.drawPath()
             for i, vpoint in enumerate(self.Point):
-                fix = 'ground' in vpoint.Links
+                fix = 'ground' in vpoint.links
                 self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         if self.slvsPath and self.showSlvsPath:
             pen = QPen()

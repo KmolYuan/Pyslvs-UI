@@ -22,33 +22,26 @@ from ..graphics.color import colorQt
 from typing import List, Tuple
 
 class VPoint:
-    '''Type'''
-    R = 0
-    P = 1
-    RP = 2
-    
     def __init__(self,
-        Links: str ='',
-        Type: int =None,
+        links: str ='',
+        type: int =0,
         angle: float =0.,
         color: str ='Red',
         x: float =0.,
         y: float =0.
     ):
-        if Type==None:
-            Type = VPoint.R
-        self.set(Links, Type, angle, color, x, y)
+        self.set(links, type, angle, color, x, y)
         self.__cx = self.__x
         self.__cy = self.__y
     
     @property
-    def Links(self):
-        Links = self.__Links.split(',')
-        return tuple(filter(lambda a: a!='', Links))
+    def links(self):
+        links = self.__links.split(',')
+        return tuple(filter(lambda a: a!='', links))
     
     @property
-    def Type(self) -> int:
-        return self.__Type
+    def type(self) -> int:
+        return self.__type
     
     @property
     def angle(self) -> float:
@@ -78,9 +71,9 @@ class VPoint:
     def cy(self) -> float:
         return self.__cy
     
-    def set(self, Links, Type, angle, color, x, y):
-        self.__Links = Links
-        self.__Type = Type
+    def set(self, links, type, angle, color, x, y):
+        self.__links = links
+        self.__type = type
         self.__angle = angle
         self.__color = color
         self.__x = x
@@ -122,19 +115,19 @@ class VLink:
         return self.__color
     
     @property
-    def Points(self) -> Tuple[int]:
-        if not '' in self.__Points:
-            return tuple(int(p.replace('Point', '')) for p in self.__Points)
+    def points(self) -> Tuple[int]:
+        if not '' in self.__points:
+            return tuple(int(p.replace('Point', '')) for p in self.__points)
         else:
             return ()
     
     def set(self, name, color, Points):
         self.__name = name
         self.__color = color
-        self.__Points = Points.split(',')
+        self.__points = Points.split(',')
     
     def __contains__(self, point):
-        return point in self.__Points
+        return point in self.__points
 
 class VPath:
     def __init__(self,

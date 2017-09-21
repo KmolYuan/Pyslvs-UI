@@ -60,7 +60,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
             self.Color.setCurrentIndex(self.Color.findText(vlink.colorSTR))
             self.noSelected.clear()
             self.selected.clear()
-            for pointIndex in vlink.Points:
+            for pointIndex in vlink.points:
                 self.selected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))
-            for pointIndex in tuple(set(range(len(self.Points)))-set(vlink.Points)):
+            for pointIndex in tuple(set(range(len(self.Points)))-set(vlink.points)):
                 self.noSelected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))

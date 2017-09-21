@@ -50,12 +50,12 @@ class edit_point_show(QDialog, edit_point_Dialog):
             self.X_coordinate.setValue(vpoint.x)
             self.Y_coordinate.setValue(vpoint.y)
             self.Color.setCurrentIndex(self.Color.findText(vpoint.colorSTR))
-            self.Type.setCurrentIndex(0 if vpoint.Type==vpoint.R else 1 if vpoint.Type==vpoint.P else 2)
+            self.Type.setCurrentIndex(vpoint.type)
             self.noSelected.clear()
             self.selected.clear()
-            for linkName in vpoint.Links:
+            for linkName in vpoint.links:
                 self.selected.addItem(QListWidgetItem(self.LinkIcon, linkName))
-            for linkName in tuple(set([vlink.name for vlink in self.Links])-set(vpoint.Links)):
+            for linkName in tuple(set([vlink.name for vlink in self.Links])-set(vpoint.links)):
                 self.noSelected.addItem(QListWidgetItem(self.LinkIcon, linkName))
     
     @pyqtSlot(int)

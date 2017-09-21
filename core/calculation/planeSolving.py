@@ -59,11 +59,9 @@ def slvsProcess(
         x = Sys.add_param(vpoint.cx)
         y = Sys.add_param(vpoint.cy)
         p = Point2d(Workplane1, x, y)
-        if 'ground' in vpoint.Links:
+        if 'ground' in vpoint.links:
             Constraint.dragged(Workplane1, p)
-        if vpoint.Type==1:
-            pass
-        elif vpoint.Type==2:
+        if vpoint.type==1 or vpoint.type==2:
             p0 = Point2d(Workplane1, x, y)
             Constraint.dragged(Workplane1, p0)
             x1 = Sys.add_param(vpoint.cx+cos(vpoint.angle))
@@ -71,14 +69,17 @@ def slvsProcess(
             p1 = Point2d(Workplane1, x1, y1)
             l = LineSegment2d(Workplane1, p0, p1)
             Constraint.angle(vpoint.angle, Workplane1, hl, l)
+            if vpoint.type==1:
+                pass
+            Constraint.on(Workplane1, p, l)
         Slvs_Points.append(p)
     #Connect all the points included by link.
     for vlink in Link[1:]:
-        for i, p in enumerate(vlink.Points):
+        for i, p in enumerate(vlink.points):
             if i==0:
                 continue
-            d = Point[vlink.Points[0]].distance(Point[p])
-            Constraint.distance(d, Workplane1, Slvs_Points[vlink.Points[0]], Slvs_Points[p])
+            d = Point[vlink.points[0]].distance(Point[p])
+            Constraint.distance(d, Workplane1, Slvs_Points[vlink.points[0]], Slvs_Points[p])
             if not i==1:
                 d = Point[p-1].distance(Point[p])
                 Constraint.distance(d, Workplane1, Slvs_Points[p-1], Slvs_Points[p])

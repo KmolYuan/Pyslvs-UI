@@ -79,14 +79,14 @@ class PointTableWidget(BaseTableWidget):
             '''
             Type = self.item(row, 2).text().split(':')
             if Type[0]=='R':
-                Type = VPoint.R
+                Type = 0
                 angle = 0.
             else:
                 angle = float(Type[1])
                 if Type[0]=='P':
-                    Type = VPoint.P
+                    Type = 1
                 elif Type[0]=='RP':
-                    Type = VPoint.RP
+                    Type = 2
             v = VPoint(Links, Type, angle, color, x, y)
             v.move(*self.currentPosition(row))
             data.append(v)
