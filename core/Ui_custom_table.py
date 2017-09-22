@@ -111,12 +111,15 @@ class PointTableWidget(BaseTableWidget):
             self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     
     def currentPosition(self, row: int) -> Tuple[float, float]:
-        c = self.item(row, 6).text().replace('(', '').replace(')', '').split(", ")
-        return float(c[0]), float(c[1])
+        return tuple(tuple(float(p) for p in coordinate.split(", "))
+            for coordinate in self.item(row, 6).text().replace('(', '').replace(')', '').split("; "))
     
-    def updateCurrentPosition(self, coordinates: Tuple[Tuple[float, float]]):
+    def updateCurrentPosition(self, coordinates: Tuple[Tuple[Tuple[float, float],],]):
         for i, coordinate in enumerate(coordinates):
-            text = "({}, {})".format(*coordinate)
+            if type(coordinate[0])==float:
+                text = "({}, {})".format(*coordinate)
+            else:
+                text = "; ".join("({}, {})".format(*c) for c in coordinate)
             item = QTableWidgetItem(text)
             item.setToolTip(text)
             self.setItem(i, 6, item)
@@ -136,8 +139,8 @@ class PointTableWidget(BaseTableWidget):
             for i, row in enumerate(selectedRows):
                 if i==len(selectedRows)-1:
                     break
-                cx0, cy0 = self.currentPosition(row)
-                cx1, cy1 = self.currentPosition(row+1)
+                cx0, cy0 = self.currentPosition(row)[0]
+                cx1, cy1 = self.currentPosition(row+1)[0]
                 distance.append(round(sqrt((cx1-cx0)**2+(cy1-cy0)**2), 4))
         self.rowSelectionChanged.emit(selectedRows, tuple(distance))
     

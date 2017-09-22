@@ -81,11 +81,8 @@ class VPoint:
     def round(self, d=8):
         self.__c = tuple(tuple(round(p, d) for p in coordinate) for coordinate in self.__c)
     
-    def move(self, x, y):
-        if self.type==1 or self.type==2:
-            self.__c = tuple((x, y) for i in range(len(self.links)))
-        else:
-            self.__c = ((x, y),)
+    def move(self, *coordinates):
+        self.__c = tuple(coordinates)
     
     def reset(self):
         if self.type==1 or self.type==2:

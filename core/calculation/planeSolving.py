@@ -76,7 +76,7 @@ def slvsProcess(
                 Constraint.dragged(Workplane1, p0)
                 Constraint.angle(vpoint.angle, Workplane1, ground, l)
             else:
-                '''Not ground.'''
+                '''Not at ground.'''
             #P Joint: If the point 'just' has a sliding degree of freedom.
             if vpoint.type==1:
                 pass
