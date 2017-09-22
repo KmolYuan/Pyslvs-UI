@@ -115,8 +115,8 @@ class PointTableWidget(BaseTableWidget):
         return float(c[0]), float(c[1])
     
     def updateCurrentPosition(self, coordinates: Tuple[Tuple[float, float]]):
-        for i, (x, y) in enumerate(coordinates):
-            text = "({}, {})".format(x, y)
+        for i, coordinate in enumerate(coordinates):
+            text = "({}, {})".format(*coordinate)
             item = QTableWidgetItem(text)
             item.setToolTip(text)
             self.setItem(i, 6, item)

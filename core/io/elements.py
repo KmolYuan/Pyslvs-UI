@@ -31,8 +31,7 @@ class VPoint:
         y: float =0.
     ):
         self.set(links, type, angle, color, x, y)
-        self.__cx = self.__x
-        self.__cy = self.__y
+        self.reset()
     
     @property
     def links(self):
@@ -65,11 +64,11 @@ class VPoint:
     
     @property
     def cx(self) -> float:
-        return self.__cx
+        return self.__c[0][0]
     
     @property
     def cy(self) -> float:
-        return self.__cy
+        return self.__c[0][1]
     
     def set(self, links, type, angle, color, x, y):
         self.__links = links
@@ -80,20 +79,19 @@ class VPoint:
         self.__y = y
     
     def round(self, d=8):
-        self.__x = round(self.__x, d)
-        self.__y = round(self.__y, d)
+        self.__c = tuple(tuple(round(p, d) for p in coordinate) for coordinate in self.__c)
     
-    def move(self, x=None, y=None):
-        if x==None:
-            x = self.__x
-        if y==None:
-            y = self.__y
-        self.__cx = x
-        self.__cy = y
+    def move(self, x, y):
+        if self.type==1 or self.type==2:
+            self.__c = tuple((x, y) for i in range(len(self.links)))
+        else:
+            self.__c = ((x, y),)
     
     def reset(self):
-        self.__x = self.__cx
-        self.__y = self.__cy
+        if self.type==1 or self.type==2:
+            self.__c = tuple((self.x, self.y) for i in range(len(self.links)))
+        else:
+            self.__c = ((self.x, self.y),)
     
     def distance(self, p):
         return round(sqrt((self.x-p.x)**2+(self.y-p.y)**2), 4)
