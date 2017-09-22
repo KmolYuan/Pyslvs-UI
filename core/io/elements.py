@@ -105,8 +105,8 @@ class VPoint:
             return 90.
 
 class VLink:
-    def __init__(self, name: str, color: str, Points: str):
-        self.set(name, color, Points)
+    def __init__(self, name: str, color: str, points: Tuple[int]):
+        self.set(name, color, points)
     
     @property
     def name(self) -> str:
@@ -122,18 +122,15 @@ class VLink:
     
     @property
     def points(self) -> Tuple[int]:
-        if not '' in self.__points:
-            return tuple(int(p.replace('Point', '')) for p in self.__points)
-        else:
-            return ()
+        return self.__points
     
-    def set(self, name, color, Points):
+    def set(self, name, color, points):
         self.__name = name
         self.__color = color
-        self.__points = Points.split(',')
+        self.__points = points
     
     def __contains__(self, point):
-        return point in self.__points
+        return point in self.points
 
 class VPath:
     def __init__(self,

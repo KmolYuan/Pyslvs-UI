@@ -826,18 +826,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.TS_Merge(self.panelWidget.widget(tabNameList.index("Triangle Solver")).answers,
             self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Slider)
     
-    @pyqtSlot()
-    def on_Inputs_clicked(self):
-        #TODO: Need to add Input UI.
-        """
-        Inputs UI
-        Add a table data by Dof. 
-        """
-    
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
             self.closePanel(i)
-        for button in [self.TriangleSolver, self.Inputs, self.PathSolving]:
+        for button in [self.TriangleSolver, self.PathSolving]:
             button.setChecked(False)
         self.DynamicCanvasView.showSlvsPath = False
         self.DynamicCanvasView.Path.drive_mode = False

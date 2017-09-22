@@ -202,8 +202,8 @@ class LinkTableWidget(BaseTableWidget):
         for row in range(self.rowCount()):
             name = self.item(row, 0).text()
             color = self.item(row, 1).text()
-            Points = self.item(row, 2).text()
-            data.append(VLink(name, color, Points))
+            points = tuple(int(p.replace('Point', '')) for p in self.item(row, 2).text().split(','))
+            data.append(VLink(name, color, points))
         return tuple(data)
     
     def editArgs(self,
