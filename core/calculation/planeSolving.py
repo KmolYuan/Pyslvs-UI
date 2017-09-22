@@ -51,28 +51,36 @@ def slvsProcess(
     p10 = Sys.add_param(0.)
     hp = Point2d(Workplane1, p9, p10)
     Constraint.dragged(Workplane1, hp)
-    hl = LineSegment2d(Workplane1, Origin2D, hp)
+    ground = LineSegment2d(Workplane1, Origin2D, hp)
     Sys.default_group = groupNum(2)
     Slvs_Points = []
     #Append all points.
     for vpoint in Point:
+        #This is the point recorded in the table.
         x = Sys.add_param(vpoint.cx)
         y = Sys.add_param(vpoint.cy)
         p = Point2d(Workplane1, x, y)
-        if 'ground' in vpoint.links:
+        #If it is link on ground.
+        onTheGround = 'ground' in vpoint.links
+        if onTheGround:
             Constraint.dragged(Workplane1, p)
+        #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
             p0 = Point2d(Workplane1, x, y)
-            Constraint.dragged(Workplane1, p0)
+            if vpoint.links[0]=='ground':
+                Constraint.dragged(Workplane1, p0)
             x1 = Sys.add_param(vpoint.cx+cos(vpoint.angle))
             y1 = Sys.add_param(vpoint.cy+sin(vpoint.angle))
             p1 = Point2d(Workplane1, x1, y1)
             l = LineSegment2d(Workplane1, p0, p1)
-            Constraint.angle(vpoint.angle, Workplane1, hl, l)
+            Constraint.angle(vpoint.angle, Workplane1, ground, l)
+            #P Joint: If the point 'just' has a sliding degree of freedom.
             if vpoint.type==1:
                 pass
             Constraint.on(Workplane1, p, l)
-        Slvs_Points.append(p)
+            Slvs_Points.append(p)
+        else:
+            Slvs_Points.append(p)
     #Connect all the points included by link.
     for vlink in Link[1:]:
         for i, p in enumerate(vlink.points):

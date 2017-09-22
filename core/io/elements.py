@@ -17,7 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from math import sqrt
+from math import sqrt, degrees, atan
 from ..graphics.color import colorQt
 from typing import List, Tuple
 
@@ -91,12 +91,18 @@ class VPoint:
         self.__cx = x
         self.__cy = y
     
-    def distance(self, p):
-        return round(sqrt((self.x-p.x)**2+(self.y-p.y)**2), 4)
-    
     def reset(self):
         self.__x = self.__cx
         self.__y = self.__cy
+    
+    def distance(self, p):
+        return round(sqrt((self.x-p.x)**2+(self.y-p.y)**2), 4)
+    
+    def slopeAngle(self, p):
+        try:
+            return degrees(atan(p.y-self.y/p.x-self.x))
+        except ZeroDivisionError:
+            return 90.
 
 class VLink:
     def __init__(self, name: str, color: str, Points: str):

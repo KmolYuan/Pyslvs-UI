@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/entities/edit_point.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\entities\edit_point.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -70,7 +70,7 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.label_5)
         self.Angle = QtWidgets.QDoubleSpinBox(Dialog)
         self.Angle.setEnabled(False)
-        self.Angle.setMaximum(360.0)
+        self.Angle.setMaximum(180.0)
         self.Angle.setObjectName("Angle")
         self.verticalLayout.addWidget(self.Angle)
         self.label_3 = QtWidgets.QLabel(Dialog)
