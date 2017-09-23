@@ -20,8 +20,11 @@
 from typing import List, Tuple
 from math import cos, sin
 from ..kernel.python_solvespace.slvs import (
+    #System base
     System, groupNum, Slvs_MakeQuaternion,
+    #Entities
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
+    #Results
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
 )
 
@@ -31,7 +34,9 @@ def slvsProcess(
     currentShaft: List[Tuple[int, float]] =(),
     hasWarning: bool =True
 ):
-    Sys = System(len(Point)*2+15)
+    pointCount = len(Point)
+    sliderCount = len(tuple(None for p in Point if p.type==1 or p.type==2))
+    Sys = System(pointCount*2+sliderCount+15)
     Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)
@@ -59,8 +64,12 @@ def slvsProcess(
         #This is the point recorded in the table.
         x = Sys.add_param(vpoint.cx)
         y = Sys.add_param(vpoint.cy)
-        p = Point2d(Workplane1, x, y)
-        Slvs_Points.append(p)
+        if vpoint.type==0:
+            #Has only one pointer
+            Slvs_Points.append(Point2d(Workplane1, x, y))
+        elif vpoint.type==1 or vpoint.type==2:
+            #Has one more pointer
+            Slvs_Points.append(tuple(Point2d(Workplane1, x, y) for i in range(len(vpoint.links))))
     #Topology of PMKS points.
     LinkIndex = [vlink.name for vlink in Link]
     for i, vpoint in enumerate(Point):
@@ -74,11 +83,13 @@ def slvsProcess(
             if relateOrder==0:
                 continue
             #Connect first point of this link.
-            d = Point[relate[0]].distance(vpoint)
+            p = Point[relate[0]]
+            d = p.distance(vpoint)
             Constraint.distance(d, Workplane1, Slvs_Points[relate[0]], Slvs_Points[i])
             #Conect the previous point.
             if relateOrder!=1:
-                d = Point[relate[relateOrder-1]].distance(vpoint)
+                p = Point[relate[relateOrder-1]]
+                d = p.distance(vpoint)
                 Constraint.distance(d, Workplane1, Slvs_Points[relate[relateOrder-1]], Slvs_Points[i])
         #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
