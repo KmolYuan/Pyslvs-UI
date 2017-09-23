@@ -25,6 +25,8 @@ from ..graphics.color import colorQt
 tr = QCoreApplication.translate
 
 class Path:
+    __slots__ = ('path', 'demo', 'show', 'mode', 'drive_mode')
+    
     def __init__(self):
         self.path = []
         self.demo = 0.
@@ -34,6 +36,8 @@ class Path:
 
 class Selector:
     #Use to record mouse clicked point.
+    __slots__ = ('x', 'y', 'MiddleButtonDrag')
+    
     def __init__(self):
         self.x = 0
         self.y = 0

@@ -21,6 +21,10 @@ from ..QtModules import *
 import sys
 import logging
 
+'''
+Following script can output Stdout and Stderr to Qt text browser.
+'''
+
 class QtHandler(logging.Handler):
     def __init__(self):
         logging.Handler.__init__(self)

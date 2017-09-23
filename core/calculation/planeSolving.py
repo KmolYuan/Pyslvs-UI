@@ -108,7 +108,10 @@ def slvsProcess(
     if result==SLVS_RESULT_OKAY:
         resultList = []
         for p in Slvs_Points:
-            resultList.append((round(p.u().value, 4), round(p.v().value, 4)))
+            if type(p)==Point2d:
+                resultList.append((round(p.u().value, 4), round(p.v().value, 4)))
+            else:
+                resultList.append(tuple((round(c.u().value, 4), round(c.v().value, 4)) for c in p))
         return resultList, int(Sys.dof)
     else:
         if result==SLVS_RESULT_INCONSISTENT:

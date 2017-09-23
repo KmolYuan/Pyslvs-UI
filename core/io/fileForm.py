@@ -18,13 +18,14 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from .elements import VPath, VPaths
 import datetime
 def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 
 class Designs():
+    __slots__ = ('path', 'result', 'TSDirections', 'FileState')
+    
     def __init__(self, FileState):
         self.path = []
         self.result = []
@@ -56,15 +57,19 @@ class Designs():
         self.FileState.endMacro()
 
 class Form:
+    __slots__ = ('fileName', 'description', 'author', 'lastTime', 'changed', 'Stack')
+    
     def __init__(self):
         self.fileName = QFileInfo('[New Workbook]')
-        self.description = str()
+        self.description = ""
         self.author = 'Anonymous'
         self.lastTime = timeNow()
         self.changed = False
         self.Stack = 0
 
 class File:
+    __slots__ = ('FileState', 'args', 'pathData', 'Designs', 'Script', 'form')
+    
     def __init__(self, FileState, args):
         self.FileState = FileState
         self.args = args
@@ -73,7 +78,7 @@ class File:
     def resetAllList(self):
         self.pathData = []
         self.Designs = Designs(self.FileState)
-        self.Script = str()
+        self.Script = ""
         self.form = Form()
         self.FileState.clear()
     def updateTime(self):
@@ -81,7 +86,7 @@ class File:
     def updateAuthorDescription(self, author, description):
         self.form.author = author
         self.form.description = description
-    
+    '''
     def Generate_Merge(self, row, startAngle, endAngle, answer, Paths, Point, Link, Chain, Shaft):
         if not (False in answer):
             Result = self.Designs.result[row]
@@ -90,9 +95,6 @@ class File:
             expression = Result['mechanismParams']['Expression'].split(',')
             expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
             expression_result = [exp[-1] for exp in expression_tag]
-            dataAdd = len(self.Lists.PointList)==1
-            if not dataAdd:
-                self.Lists.clearPath()
             for i, (x, y) in enumerate(answer):
                 self.Lists.editTable(Point, False, round(x, 4), round(y, 4), i<2, 'Blue' if i<2 else 'Green' if i<len(answer)-1 else 'Brick-Red')
             Rnum = Point.rowCount()-len(expression_result)
@@ -105,15 +107,12 @@ class File:
                 self.Lists.editTable(Link, False, "Point{}".format(Rnum+p1), "Point{}".format(Rnum+p3), str(Result[exp[1]]))
                 self.Lists.editTable(Link, False, "Point{}".format(Rnum+p2), "Point{}".format(Rnum+p3), str(Result[exp[2]]))
             self.Lists.editTable(Shaft, False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), startAngle, endAngle, startAngle, False)
-            path_dots = [VPath(Point.rowCount()-len(expression_result)+i, Paths[expression_result[i]]) for i in range(len(expression_result))]
-            list_paths = VPaths(Shaft.rowCount()-1, path_dots)
-            if dataAdd and not list_paths.isBroken():
-                self.Lists.setPath([list_paths])
             print("Generate Result Merged. At: {} deg ~ {} deg.".format(startAngle, endAngle))
             return True
         else:
             return False
-    
+    '''
+    '''
     def TS_Merge(self, answers, Point, Link, Chain, Slider):
         Pythagorean = lambda p1, p2: ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**(1/2)
         pNums = []
@@ -170,3 +169,4 @@ class File:
                 if direction.merge==1:
                     self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
                     self.Lists.editTable(Slider, False, pA, p2, p3)
+    '''

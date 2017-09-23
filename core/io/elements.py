@@ -19,9 +19,11 @@
 
 from math import sqrt, degrees, atan
 from ..graphics.color import colorQt
-from typing import List, Tuple
+from typing import Tuple
 
 class VPoint:
+    __slots__ = ('__links','__type', '__angle', '__color', '__x', '__y', '__c')
+    
     def __init__(self,
         links: str ='',
         type: int =0,
@@ -100,6 +102,8 @@ class VPoint:
             return 90.
 
 class VLink:
+    __slots__ = ('__name', '__color', '__points')
+    
     def __init__(self, name: str, color: str, points: Tuple[int]):
         self.set(name, color, points)
     
@@ -126,65 +130,3 @@ class VLink:
     
     def __contains__(self, point):
         return point in self.points
-
-class VPath:
-    def __init__(self,
-        point: int =0,
-        points: List[Tuple[int, int]] =[],
-        show: bool =True
-    ):
-        self.set(point, points, show)
-    
-    @property
-    def point(self):
-        return self.__point
-    
-    @property
-    def path(self):
-        return self.__path
-    
-    def set(self, point=0, points=[], show=True):
-        self.__point = point
-        self.__path = []
-        self.show = show
-        if points:
-            for p in points:
-                PointType = type(p)
-                if PointType==tuple or PointType==list or p==None:
-                    #(x, y)
-                    self.__path.append(p)
-    
-    def isBroken(self):
-        for point in self.path:
-            if point is False or point[0] is False:
-                return True
-        return False
-
-class VPaths:
-    def __init__(self,
-        shaft: int =0,
-        paths: List[VPath] =[]
-    ):
-        self.set(shaft, paths)
-    
-    @property
-    def shaft(self):
-        return self.__shaft
-    
-    @property
-    def paths(self):
-        return self.__paths
-    
-    def set(self, shaft=0, paths=[]):
-        self.__shaft = shaft
-        self.__paths = []
-        if paths:
-            for path in paths:
-                if type(path)==VPath:
-                    self.__paths.append(path)
-    
-    def isBroken(self):
-        for path in self.paths:
-            if path.isBroken():
-                return True
-        return False
