@@ -324,31 +324,33 @@ When installation finished, see the instructions [here][cython-link] to set up t
 Compile
 ===
 
-Use PyInstaller to build.
-
 After following operation, the executable file is located at `dist` folder.
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
 **Ubuntu**:
 
+Use shell command to build as [AppImage](https://github.com/AppImage/AppImages).
+
 Make command:
 
 ```bash
-sudo pip3 install pyinstaller
-make
+$ sudo pip3 install virtualenv
+$ make
 ```
 
 **Windows**:
 
+Use PyInstaller to build.
+
 Make command:
 
 ```bash
-pip install pyinstaller
-make
+> pip install pyinstaller
+> make
 ```
 
-If you installed PyInstaller with problem of coding error, you can try another source:
+If you installed PyInstaller with problem of coding error, or using Python 3.6 or above, you can try another source:
 
 ```bash
 pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
