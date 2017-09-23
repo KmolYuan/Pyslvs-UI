@@ -57,6 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.args = args
         #Console Widget
+        self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
         #File
@@ -189,7 +190,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result, DOF = slvsProcess(
             self.Entiteis_Point.data(),
             self.Entiteis_Link.data(),
-            hasWarning=self.args.w)
+            hasWarning=self.showConsoleError.isChecked())
         Failed = type(DOF)!=int
         self.ConflictGuide.setVisible(Failed)
         self.DOFview.setVisible(not Failed)

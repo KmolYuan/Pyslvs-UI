@@ -23,7 +23,7 @@ def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 
-class Designs():
+class Designs:
     __slots__ = ('path', 'result', 'TSDirections', 'FileState')
     
     def __init__(self, FileState):

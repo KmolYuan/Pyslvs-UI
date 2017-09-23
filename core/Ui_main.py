@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -295,6 +295,14 @@ class Ui_MainWindow(object):
         self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.rotateAngle)
         self.verticalLayout_3.addLayout(self.formLayout_2)
         self.verticalLayout_6.addWidget(self.CanvasSettingsGroupBox)
+        self.groupBox = QtWidgets.QGroupBox(self.settings_tab)
+        self.groupBox.setObjectName("groupBox")
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.groupBox)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.showConsoleError = QtWidgets.QCheckBox(self.groupBox)
+        self.showConsoleError.setObjectName("showConsoleError")
+        self.verticalLayout_7.addWidget(self.showConsoleError)
+        self.verticalLayout_6.addWidget(self.groupBox)
         spacerItem2 = QtWidgets.QSpacerItem(20, 619, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_6.addItem(spacerItem2)
         icon11 = QtGui.QIcon()
@@ -801,6 +809,8 @@ class Ui_MainWindow(object):
         self.label_5.setText(_translate("MainWindow", "Path width"))
         self.label_6.setText(_translate("MainWindow", "Rotate"))
         self.rotateAngle.setSuffix(_translate("MainWindow", "°"))
+        self.groupBox.setTitle(_translate("MainWindow", "Console"))
+        self.showConsoleError.setText(_translate("MainWindow", "Show solvespace error in the console."))
         self.ToolPanel.setTabText(self.ToolPanel.indexOf(self.settings_tab), _translate("MainWindow", "Settings"))
         self.ZoomBar.setStatusTip(_translate("MainWindow", "Adjust the slider to change demo size."))
         self.ZoomText.setText(_translate("MainWindow", "200%"))
