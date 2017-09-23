@@ -54,17 +54,32 @@ def slvsProcess(
     ground = LineSegment2d(Workplane1, Origin2D, hp)
     Sys.default_group = groupNum(2)
     Slvs_Points = []
-    #Append all points.
+    #Append all points first.
     for vpoint in Point:
         #This is the point recorded in the table.
         x = Sys.add_param(vpoint.cx)
         y = Sys.add_param(vpoint.cy)
         p = Point2d(Workplane1, x, y)
-        #If it is link on ground.
-        if 'ground' in vpoint.links:
-            Constraint.dragged(Workplane1, p)
         Slvs_Points.append(p)
-    for vpoint in Point:
+    #Topology of PMKS points.
+    LinkIndex = [vlink.name for vlink in Link]
+    for i, vpoint in enumerate(Point):
+        for linkName in vpoint.links:
+            #If it is link on ground.
+            if linkName=='ground':
+                Constraint.dragged(Workplane1, Slvs_Points[i])
+                continue
+            relate = Link[LinkIndex.index(linkName)].points
+            relateOrder = relate.index(i)
+            if relateOrder==0:
+                continue
+            #Connect first point of this link.
+            d = Point[relate[0]].distance(vpoint)
+            Constraint.distance(d, Workplane1, Slvs_Points[relate[0]], Slvs_Points[i])
+            #Conect the previous point.
+            if relateOrder!=1:
+                d = Point[relate[relateOrder-1]].distance(vpoint)
+                Constraint.distance(d, Workplane1, Slvs_Points[relate[relateOrder-1]], Slvs_Points[i])
         #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
             p0 = Point2d(Workplane1, x, y)
@@ -81,16 +96,6 @@ def slvsProcess(
             if vpoint.type==1:
                 pass
             Constraint.on(Workplane1, p, l)
-    #Connect all the points included by link.
-    for vlink in Link[1:]:
-        for i, p in enumerate(vlink.points):
-            if i==0:
-                continue
-            d = Point[vlink.points[0]].distance(Point[p])
-            Constraint.distance(d, Workplane1, Slvs_Points[vlink.points[0]], Slvs_Points[p])
-            if not i==1:
-                d = Point[p-1].distance(Point[p])
-                Constraint.distance(d, Workplane1, Slvs_Points[p-1], Slvs_Points[p])
     '''
     mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
     my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
