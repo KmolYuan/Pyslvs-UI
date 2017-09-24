@@ -35,7 +35,7 @@ def slvsProcess(
     hasWarning: bool =True
 ):
     pointCount = len(Point)
-    sliderCount = len(tuple(None for p in Point if p.type==1 or p.type==2))
+    sliderCount = sum([len(p.links)-1 for p in Point if p.type==1 or p.type==2])
     Sys = System(pointCount*2+sliderCount+15)
     Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
@@ -73,40 +73,43 @@ def slvsProcess(
     #Topology of PMKS points.
     LinkIndex = [vlink.name for vlink in Link]
     for i, vpoint in enumerate(Point):
-        for linkName in vpoint.links:
-            #If it is link on ground.
+        #P and RP Joint: If the point has a sliding degree of freedom.
+        if vpoint.type==1 or vpoint.type==2:
+            p_base = Slvs_Points[i][0]
+            if vpoint.type==1:
+                pass
+        else:
+            p_base = Slvs_Points[i]
+        #Link to other points on the same link.
+        for linkOrder, linkName in enumerate(vpoint.links):
+            #If the joint is a slider, defined its base.
+            if vpoint.type==1 or vpoint.type==2:
+                p_base = Slvs_Points[i][linkOrder]
+            else:
+                p_base = Slvs_Points[i]
+            #If this link is on the ground.
             if linkName=='ground':
-                Constraint.dragged(Workplane1, Slvs_Points[i])
+                Constraint.dragged(Workplane1, p_base)
                 continue
             relate = Link[LinkIndex.index(linkName)].points
             relateOrder = relate.index(i)
             if relateOrder==0:
                 continue
+            #Connect function:
+            def ConnectTo(index):
+                n = relate[index]
+                p = Point[n]
+                d = p.distance(vpoint)
+                if p.type==1 or p.type==2:
+                    p_contact = Slvs_Points[n][p.links.index(linkName)]
+                else:
+                    p_contact = Slvs_Points[n]
+                Constraint.distance(d, Workplane1, p_contact, p_base)
             #Connect first point of this link.
-            p = Point[relate[0]]
-            d = p.distance(vpoint)
-            Constraint.distance(d, Workplane1, Slvs_Points[relate[0]], Slvs_Points[i])
+            ConnectTo(0)
             #Conect the previous point.
             if relateOrder!=1:
-                p = Point[relate[relateOrder-1]]
-                d = p.distance(vpoint)
-                Constraint.distance(d, Workplane1, Slvs_Points[relate[relateOrder-1]], Slvs_Points[i])
-        #P and RP Joint: If the point has a sliding degree of freedom.
-        if vpoint.type==1 or vpoint.type==2:
-            p0 = Point2d(Workplane1, x, y)
-            x1 = Sys.add_param(vpoint.cx+cos(vpoint.angle))
-            y1 = Sys.add_param(vpoint.cy+sin(vpoint.angle))
-            p1 = Point2d(Workplane1, x1, y1)
-            l = LineSegment2d(Workplane1, p0, p1)
-            if vpoint.links[0]=='ground':
-                Constraint.dragged(Workplane1, p0)
-                Constraint.angle(vpoint.angle, Workplane1, ground, l)
-            else:
-                '''Not at ground.'''
-            #P Joint: If the point 'just' has a sliding degree of freedom.
-            if vpoint.type==1:
-                pass
-            Constraint.on(Workplane1, p, l)
+                ConnectTo(relateOrder-1)
     '''
     mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
     my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
