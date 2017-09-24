@@ -817,6 +817,7 @@ class Ui_MainWindow(object):
         self.ResetCanvas.setStatusTip(_translate("MainWindow", "Zoom to fit."))
         self.CanvasCapture.setStatusTip(_translate("MainWindow", "Make a canvas capture to the clipboard."))
         self.OutputToPMKS.setStatusTip(_translate("MainWindow", "Pass your mechanism to PMKS server by generate a URL."))
+        self.DOFLable.setToolTip(_translate("MainWindow", "Degree of Freedom"))
         self.DOFLable.setText(_translate("MainWindow", "DOF:"))
         self.ConflictGuide.setStatusTip(_translate("MainWindow", "Show Conflict Guide tool tips."))
         self.ConflictGuide.setText(_translate("MainWindow", "<html><head/><body><p><img width=\'30\' src=\":/icons/ConflictGuide.png\"/></p></body></html>"))

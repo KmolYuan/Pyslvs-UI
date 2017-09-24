@@ -76,10 +76,30 @@ def slvsProcess(
         #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
             p_base = Slvs_Points[i][0]
+            x = Sys.add_param(vpoint.cx+10*cos(vpoint.angle))
+            y = Sys.add_param(vpoint.cy+10*sin(vpoint.angle))
+            p_assist = Point2d(Workplane1, x, y)
+            #Make auxiliary line as a slider slot (The length is 10).
+            l_slot = LineSegment2d(Workplane1, p_base, p_assist)
+            Constraint.distance(10, Workplane1, p_base, p_assist)
+            #Angle constraint function:
+            def relateWith(linkName):
+                relate = Link[LinkIndex.index(linkName)].points
+                relateOrder = relate.index(i)
+                p_link_assist = Slvs_Points[i][relateOrder-1]
+                l_link = LineSegment2d(Workplane1, p_base, p_link_assist)
+                angle_base = Point[relateOrder-1].slopeAngle(vpoint)
+                Constraint.angle(angle_base, l_link, l_slot)
+            #The slot has an angle with base link.
+            link_base = vpoint.links[0]
+            if link_base=='ground':
+                Constraint.angle(vpoint.angle, ground, l_slot)
+            else:
+                relateWith(link_base)
+            #P Joint: The point do not have freedom of rotation.
             if vpoint.type==1:
-                pass
-        else:
-            p_base = Slvs_Points[i]
+                for linkName in vpoint.links[1:]:
+                    relateWith(linkName)
         #Link to other points on the same link.
         for linkOrder, linkName in enumerate(vpoint.links):
             #If the joint is a slider, defined its base.

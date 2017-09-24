@@ -930,6 +930,9 @@
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="toolTip">
+                <string>Degree of Freedom</string>
+               </property>
                <property name="text">
                 <string>DOF:</string>
                </property>
