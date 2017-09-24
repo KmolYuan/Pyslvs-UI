@@ -24,16 +24,11 @@ from .Ui_custom_table import (
     LinkTableWidget,
     SelectionLabel
 )
+from .inputs.inputs import RotatableView
 from .info.info import VERSION
 tr = QCoreApplication.translate
 
 def initCustomWidgets(self):
-    #Splitter stretch factor.
-    self.MainSplitter.setStretchFactor(0, 2)
-    self.MainSplitter.setStretchFactor(1, 5)
-    self.ToolPanelSplitter.setStretchFactor(0, 4)
-    self.ToolPanelSplitter.setStretchFactor(1, 5)
-    self.tools_splitter.setSizes([100, 500])
     #Version text
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
     #Entiteis tables
@@ -77,6 +72,9 @@ def initCustomWidgets(self):
     self.PointTab.setCornerWidget(propertiesButton)
     #PMKS button on the broswer bar.
     self.OutputToPMKS.clicked.connect(self.on_action_Output_to_PMKS_triggered)
+    #Add inputs QDial.
+    self.inputs_Degree = QDial()
+    self.inputs_dial_layout.insertWidget(3, RotatableView(self.inputs_Degree))
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()
     closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))
@@ -95,6 +93,12 @@ def initCustomWidgets(self):
     self.rotateAngle.valueChanged.connect(self.DynamicCanvasView.setRotateAngle)
     self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
+    #Splitter stretch factor.
+    self.MainSplitter.setStretchFactor(0, 2)
+    self.MainSplitter.setStretchFactor(1, 15)
+    self.ToolPanelSplitter.setStretchFactor(0, 4)
+    self.ToolPanelSplitter.setStretchFactor(1, 5)
+    self.tools_splitter.setSizes([100, 500])
     '''
     Entiteis_Point context menu
     

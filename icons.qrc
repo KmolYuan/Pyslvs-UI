@@ -53,8 +53,10 @@
     <file>icons/normalsized.png</file>
     <file>icons/PathSolving.png</file>
     <file>icons/PathTrack.png</file>
+    <file>icons/play.png</file>
     <file>icons/properties.png</file>
     <file>icons/question-mark.png</file>
+    <file>icons/record.png</file>
     <file>icons/redo.png</file>
     <file>icons/rod.png</file>
     <file>icons/savefile.png</file>
