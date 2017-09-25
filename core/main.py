@@ -779,6 +779,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     continue
                 self.inputs_driveLinks.addItem(linkName)
     
+    @pyqtSlot(int)
+    def on_inputs_driveLinks_currentRowChanged(self, row):
+        self.input_variable_add.setEnabled(row>-1)
+    
+    @pyqtSlot()
+    def on_input_variable_add_clicked(self):
+        text = "{}{{{}, {}}}".format(
+            self.inputs_points.currentItem().text(),
+            self.inputs_baseLinks.currentItem().text(),
+            self.inputs_driveLinks.currentItem().text()
+        )
+        if self.inputs_variable.count()<self.DOF and not self.inputs_variable.findItems(text, Qt.MatchExactly):
+            self.inputs_variable.addItem(text)
+    
+    @pyqtSlot()
+    def on_input_variable_remove_clicked(self):
+        row = self.inputs_variable.currentRow()
+        if row>-1:
+            self.inputs_variable.takeItem(row)
+    
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
