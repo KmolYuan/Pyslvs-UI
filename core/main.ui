@@ -297,7 +297,13 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QListWidget" name="inputs_points"/>
+                   <widget class="QListWidget" name="inputs_points">
+                    <item>
+                     <property name="text">
+                      <string>Point0</string>
+                     </property>
+                    </item>
+                   </widget>
                   </item>
                  </layout>
                 </item>
@@ -339,7 +345,7 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QListWidget" name="inputs_links"/>
+                   <widget class="QListWidget" name="inputs_driveLinks"/>
                   </item>
                  </layout>
                 </item>

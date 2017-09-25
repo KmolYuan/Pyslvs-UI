@@ -183,6 +183,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Triangle Solver" in tabNameList:
             self.panelWidget.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
+        self.update_inputs_points()
         self.Resolve()
     
     #Resolve
@@ -756,6 +757,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Path_style_triggered(self):
         self.DynamicCanvasView.Path.mode = self.action_Path_style.isChecked()
         self.Reload_Canvas()
+    
+    def update_inputs_points(self):
+        self.inputs_points.clear()
+        for i in range(self.Entiteis_Point.rowCount()):
+            self.inputs_points.addItem('Point{}'.format(i))
+    
+    @pyqtSlot(int)
+    def on_inputs_points_currentRowChanged(self, row):
+        self.inputs_baseLinks.clear()
+        if row>-1:
+            for linkName in self.Entiteis_Point.item(row, 1).text().split(','):
+                self.inputs_baseLinks.addItem(linkName)
+    
+    @pyqtSlot(int)
+    def on_inputs_baseLinks_currentRowChanged(self, row):
+        self.inputs_driveLinks.clear()
+        if row>-1:
+            for linkName in self.Entiteis_Point.item(self.inputs_points.currentRow(), 1).text().split(','):
+                if linkName==self.inputs_baseLinks.currentItem().text():
+                    continue
+                self.inputs_driveLinks.addItem(linkName)
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
