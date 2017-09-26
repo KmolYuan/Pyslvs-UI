@@ -781,23 +781,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_inputs_driveLinks_currentRowChanged(self, row):
-        self.input_variable_add.setEnabled(row>-1)
+        self.inputs_variable_add.setEnabled(row>-1)
     
     @pyqtSlot()
-    def on_input_variable_add_clicked(self):
-        text = "{}{{{}, {}}}".format(
+    def on_inputs_variable_add_clicked(self):
+        text = '->'.join([
             self.inputs_points.currentItem().text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text()
-        )
+        ])
         if self.inputs_variable.count()<self.DOF and not self.inputs_variable.findItems(text, Qt.MatchExactly):
             self.inputs_variable.addItem(text)
     
     @pyqtSlot()
-    def on_input_variable_remove_clicked(self):
+    def on_inputs_variable_remove_clicked(self):
         row = self.inputs_variable.currentRow()
         if row>-1:
             self.inputs_variable.takeItem(row)
+    
+    @pyqtSlot(int)
+    def on_inputs_variable_currentRowChanged(self, row):
+        self.inputs_Degree.setEnabled(row>-1)
+        if row>-1:
+            #TODO: Set the angle of QDial.
+            pass
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):

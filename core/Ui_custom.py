@@ -74,7 +74,8 @@ def initCustomWidgets(self):
     self.OutputToPMKS.clicked.connect(self.on_action_Output_to_PMKS_triggered)
     #Add inputs QDial.
     self.inputs_Degree = QDial()
-    self.inputs_dial_layout.insertWidget(3, RotatableView(self.inputs_Degree))
+    self.inputs_Degree.setEnabled(False)
+    self.inputs_dial_layout.addWidget(RotatableView(self.inputs_Degree))
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()
     closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))

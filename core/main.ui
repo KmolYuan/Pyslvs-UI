@@ -282,7 +282,7 @@
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_8">
              <item>
-              <widget class="QGroupBox" name="groupBox_2">
+              <widget class="QGroupBox" name="inputs_points_groupBox">
                <property name="title">
                 <string>Inputs</string>
                </property>
@@ -290,7 +290,7 @@
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_13">
                   <item>
-                   <widget class="QLabel" name="label_10">
+                   <widget class="QLabel" name="inputs_points_lable">
                     <property name="text">
                      <string>Points</string>
                     </property>
@@ -298,6 +298,9 @@
                   </item>
                   <item>
                    <widget class="QListWidget" name="inputs_points">
+                    <property name="editTriggers">
+                     <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
                     <item>
                      <property name="text">
                       <string>Point0</string>
@@ -308,7 +311,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label">
+                 <widget class="QLabel" name="inputs_label_right1">
                   <property name="text">
                    <string>&gt;&gt;</string>
                   </property>
@@ -317,19 +320,23 @@
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_15">
                   <item>
-                   <widget class="QLabel" name="label_11">
+                   <widget class="QLabel" name="inputs_baseLinks_lable">
                     <property name="text">
                      <string>Base link</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QListWidget" name="inputs_baseLinks"/>
+                   <widget class="QListWidget" name="inputs_baseLinks">
+                    <property name="editTriggers">
+                     <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_2">
+                 <widget class="QLabel" name="inputs_label_right2">
                   <property name="text">
                    <string>&gt;&gt;</string>
                   </property>
@@ -338,17 +345,21 @@
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_16">
                   <item>
-                   <widget class="QLabel" name="label_12">
+                   <widget class="QLabel" name="inputs_driveLinks_lable">
                     <property name="text">
                      <string>Drive link</string>
                     </property>
                    </widget>
                   </item>
                   <item>
-                   <widget class="QListWidget" name="inputs_driveLinks"/>
+                   <widget class="QListWidget" name="inputs_driveLinks">
+                    <property name="editTriggers">
+                     <set>QAbstractItemView::NoEditTriggers</set>
+                    </property>
+                   </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="input_variable_add">
+                   <widget class="QPushButton" name="inputs_variable_add">
                     <property name="enabled">
                      <bool>false</bool>
                     </property>
@@ -365,36 +376,50 @@
              <item>
               <layout class="QHBoxLayout" name="inputs_control_layout">
                <item>
-                <widget class="QGroupBox" name="groupBox_3">
+                <widget class="QGroupBox" name="inputs_variable_groupBox">
                  <property name="title">
                   <string>Variables</string>
                  </property>
                  <layout class="QHBoxLayout" name="inputs_dial_layout">
                   <item>
-                   <widget class="QListWidget" name="inputs_variable"/>
-                  </item>
-                  <item>
                    <layout class="QVBoxLayout" name="verticalLayout_10">
                     <item>
-                     <widget class="QPushButton" name="input_variable_remove">
-                      <property name="icon">
-                       <iconset resource="../icons.qrc">
-                        <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                     <widget class="QListWidget" name="inputs_variable">
+                      <property name="editTriggers">
+                       <set>QAbstractItemView::NoEditTriggers</set>
+                      </property>
+                      <property name="dragDropMode">
+                       <enum>QAbstractItemView::InternalMove</enum>
+                      </property>
+                      <property name="defaultDropAction">
+                       <enum>Qt::MoveAction</enum>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <spacer name="verticalSpacer_5">
-                      <property name="orientation">
-                       <enum>Qt::Vertical</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>20</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                     </spacer>
+                     <layout class="QHBoxLayout" name="horizontalLayout_3">
+                      <item>
+                       <spacer name="horizontalSpacer_3">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="inputs_variable_remove">
+                        <property name="icon">
+                         <iconset resource="../icons.qrc">
+                          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </item>
@@ -405,41 +430,24 @@
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <spacer name="horizontalSpacer">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>92</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
                  </layout>
-                 <zorder>inputs_variable</zorder>
-                 <zorder></zorder>
-                 <zorder>horizontalSpacer</zorder>
-                 <zorder>line_5</zorder>
                 </widget>
                </item>
               </layout>
              </item>
              <item>
-              <widget class="QGroupBox" name="groupBox_4">
+              <widget class="QGroupBox" name="inputs_record_groupBox">
                <property name="title">
                 <string>Records</string>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
-                 <widget class="QListWidget" name="listWidget"/>
+                 <widget class="QListWidget" name="inputs_record"/>
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_2">
                   <item>
-                   <widget class="QPushButton" name="input_record_record">
+                   <widget class="QPushButton" name="inputs_record_record">
                     <property name="icon">
                      <iconset resource="../icons.qrc">
                       <normaloff>:/icons/record.png</normaloff>:/icons/record.png</iconset>
@@ -447,18 +455,10 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="input_record_play">
+                   <widget class="QPushButton" name="inputs_record_play">
                     <property name="icon">
                      <iconset resource="../icons.qrc">
                       <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="input_record_remove">
-                    <property name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -474,6 +474,14 @@
                      </size>
                     </property>
                    </spacer>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="inputs_record_remove">
+                    <property name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>
