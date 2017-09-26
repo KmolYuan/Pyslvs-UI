@@ -75,6 +75,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action_Enabled(self)
         if self.args.r:
             self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
+        else:
+            Args = [
+                'ground',
+                'R',
+                'Red',
+                0.,
+                0.
+            ]
+            rowCount = self.Entiteis_Point.rowCount()
+            self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+            self.FileState.push(addTableCommand(self.Entiteis_Point))
+            self.FileState.push(editPointTableCommand(self.Entiteis_Point, rowCount, self.Entiteis_Link, Args))
+            self.FileState.endMacro()
     
     def setLocate(self, locate):
         self.Default_Environment_variables = locate

@@ -301,11 +301,6 @@
                     <property name="editTriggers">
                      <set>QAbstractItemView::NoEditTriggers</set>
                     </property>
-                    <item>
-                     <property name="text">
-                      <string>Point0</string>
-                     </property>
-                    </item>
                    </widget>
                   </item>
                  </layout>

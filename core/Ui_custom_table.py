@@ -35,7 +35,7 @@ class BaseTableWidget(QTableWidget):
         self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
         self.setRowCount(RowCount)
         self.setColumnCount(len(HorizontalHeaderItems)+1)
-        for i, e in enumerate(['Name']+HorizontalHeaderItems):
+        for i, e in enumerate(('Name',)+HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
     def rowTexts(self, row):
@@ -56,8 +56,7 @@ class PointTableWidget(BaseTableWidget):
     name = 'Point'
     rowSelectionChanged = pyqtSignal(tuple, tuple)
     def __init__(self, parent=None):
-        super(PointTableWidget, self).__init__(1, ['Links', 'Type', 'Color', 'X', 'Y', 'Current'], parent)
-        self.editArgs(0, 'ground', 'R', 'Red', '0.0', '0.0')
+        super(PointTableWidget, self).__init__(0, ('Links', 'Type', 'Color', 'X', 'Y', 'Current'), parent)
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 150)
         self.setColumnWidth(2, 40)
@@ -192,10 +191,10 @@ class LinkTableWidget(BaseTableWidget):
     name = 'Line'
     dragIn = pyqtSignal(list)
     def __init__(self, parent=None):
-        super(LinkTableWidget, self).__init__(1, ['Color', "Points"], parent)
+        super(LinkTableWidget, self).__init__(1, ('Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
-        self.editArgs(0, 'ground', 'White', 'Point0')
+        self.editArgs(0, 'ground', 'White', '')
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 230)
@@ -205,7 +204,10 @@ class LinkTableWidget(BaseTableWidget):
         for row in range(self.rowCount()):
             name = self.item(row, 0).text()
             color = self.item(row, 1).text()
-            points = tuple(int(p.replace('Point', '')) for p in self.item(row, 2).text().split(','))
+            try:
+                points = tuple(int(p.replace('Point', '')) for p in self.item(row, 2).text().split(','))
+            except:
+                points = ()
             data.append(VLink(name, color, points))
         return tuple(data)
     
