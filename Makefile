@@ -41,7 +41,10 @@ ifeq ($(OS),Windows_NT)
 --add-binary="core/kernel/pyslvs_algorithm/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_algorithm/rga.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_algorithm/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
-	rename .\dist\launch_pyslvs.exe pyslvs.exe
+	$(eval PYSLVSVERSION = $(shell python -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))"))
+	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
+	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))
+	rename .\dist\launch_pyslvs.exe pyslvs-$(PYSLVSVERSION).$(COMPILERVERSION)-$(SYSVERSION).exe
 else
 	$(eval PYTHON = py$(shell python3 -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	@echo --Python Version $(PYTHON)--
@@ -51,7 +54,8 @@ endif
 
 run: build
 ifeq ($(OS),Windows_NT)
-	@dist/pyslvs.exe -h
+	$(eval EXE = $(shell dir dist /b))
+	@./dist/$(EXE) -h
 else
 	$(eval APPIMAGE = $(shell ls -1 out))
 	@./out/$(APPIMAGE) -h
@@ -62,12 +66,7 @@ ifeq ($(OS),Windows_NT)
 	-rd build /s /q
 	-rd dist /s /q
 	-del launch_pyslvs.spec
-	-rd ENV /s /q
-	-rd out /s /q
 else
-	-rm -f -r build
-	-rm -f -r dist
-	-rm -f launch_pyslvs.spec
 	-rm -f -r ENV
 	-rm -f -r out
 endif
