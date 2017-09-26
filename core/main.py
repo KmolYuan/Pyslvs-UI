@@ -786,6 +786,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_inputs_points_currentRowChanged(self, row):
+        if not row in self.Entiteis_Point.selectedRows():
+            self.Entiteis_Point.setSelections((row,))
         self.inputs_baseLinks.clear()
         if row>-1:
             for linkName in self.Entiteis_Point.item(row, 1).text().split(','):
