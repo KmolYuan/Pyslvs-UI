@@ -45,7 +45,9 @@ def initCustomWidgets(self):
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entiteis_Point.setSelections)
+    self.DynamicCanvasView.mouse_getSelection.connect(self.inputs_points_setSelection)
     self.DynamicCanvasView.mouse_noSelection.connect(self.Entiteis_Point.clearSelection)
+    self.DynamicCanvasView.mouse_noSelection.connect(self.inputs_points_clearSelection)
     cleanAction = QAction("Clean selection", self)
     cleanAction.triggered.connect(self.Entiteis_Point.clearSelection)
     cleanAction.setShortcut(Qt.Key_Escape)

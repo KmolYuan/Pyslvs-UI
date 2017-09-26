@@ -776,6 +776,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(self.Entiteis_Point.rowCount()):
             self.inputs_points.addItem('Point{}'.format(i))
     
+    @pyqtSlot(tuple)
+    def inputs_points_setSelection(self, selections):
+        self.inputs_points.setCurrentRow(selections[0])
+    
+    @pyqtSlot()
+    def inputs_points_clearSelection(self):
+        self.inputs_points.setCurrentRow(-1)
+    
     @pyqtSlot(int)
     def on_inputs_points_currentRowChanged(self, row):
         self.inputs_baseLinks.clear()
@@ -798,11 +806,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
+        angle = str(0.)
         text = '->'.join([
             self.inputs_points.currentItem().text(),
             self.inputs_baseLinks.currentItem().text(),
-            self.inputs_driveLinks.currentItem().text()
-        ])
+            self.inputs_driveLinks.currentItem().text(),
+            angle])
         if self.inputs_variable.count()<self.DOF and not self.inputs_variable.findItems(text, Qt.MatchExactly):
             self.inputs_variable.addItem(text)
     
