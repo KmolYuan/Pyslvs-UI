@@ -150,7 +150,7 @@
                       <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="Entiteis_Point_Widget" native="true">
+                      <widget class="QWidget" name="Entities_Point_Widget" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -160,7 +160,7 @@
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <layout class="QVBoxLayout" name="Entiteis_Point_Layout">
+                       <layout class="QVBoxLayout" name="Entities_Point_Layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -233,7 +233,7 @@
                       <number>6</number>
                      </property>
                      <item>
-                      <widget class="QWidget" name="Entiteis_Link_Widget" native="true">
+                      <widget class="QWidget" name="Entities_Link_Widget" native="true">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -246,7 +246,7 @@
                        <property name="statusTip">
                         <string>All Links in this workbook. Needs two point.</string>
                        </property>
-                       <layout class="QVBoxLayout" name="Entiteis_Link_Layout">
+                       <layout class="QVBoxLayout" name="Entities_Link_Layout">
                         <property name="leftMargin">
                          <number>0</number>
                         </property>
@@ -1393,13 +1393,13 @@
      <string>&amp;Mechanism</string>
     </property>
     <addaction name="action_New_Point"/>
-    <addaction name="action_New_Line"/>
+    <addaction name="action_New_Link"/>
     <addaction name="separator"/>
     <addaction name="action_Edit_Point"/>
-    <addaction name="action_Edit_Linkage"/>
+    <addaction name="action_Edit_Link"/>
     <addaction name="separator"/>
     <addaction name="action_Delete_Point"/>
-    <addaction name="action_Delete_Linkage"/>
+    <addaction name="action_Delete_Link"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
@@ -1473,7 +1473,7 @@
     <string>F2</string>
    </property>
   </action>
-  <action name="action_New_Line">
+  <action name="action_New_Link">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
@@ -1658,7 +1658,7 @@
     <string>Delete an existing point.</string>
    </property>
   </action>
-  <action name="action_Delete_Linkage">
+  <action name="action_Delete_Link">
    <property name="text">
     <string>Delet the linkage</string>
    </property>
@@ -1674,7 +1674,7 @@
     <string>Edit an existing point.</string>
    </property>
   </action>
-  <action name="action_Edit_Linkage">
+  <action name="action_Edit_Link">
    <property name="text">
     <string>Edit the linkage</string>
    </property>

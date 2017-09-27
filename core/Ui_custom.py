@@ -31,25 +31,25 @@ tr = QCoreApplication.translate
 def initCustomWidgets(self):
     #Version text
     self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
-    #Entiteis tables
-    self.Entiteis_Point = PointTableWidget(self.Entiteis_Point_Widget)
-    self.Entiteis_Point.cellDoubleClicked.connect(self.on_action_Edit_Point_triggered)
-    self.Entiteis_Point.itemSelectionChanged.connect(self.pointSelection)
-    self.Entiteis_Point.deleteRequest.connect(self.on_action_Delete_Point_triggered)
-    self.Entiteis_Point_Layout.addWidget(self.Entiteis_Point)
-    self.Entiteis_Link = LinkTableWidget(self.Entiteis_Link_Widget)
-    self.Entiteis_Link.cellDoubleClicked.connect(self.on_action_Edit_Linkage_triggered)
-    self.Entiteis_Link.dragIn.connect(self.addLinkGroup)
-    self.Entiteis_Link.deleteRequest.connect(self.on_action_Delete_Linkage_triggered)
-    self.Entiteis_Link_Layout.addWidget(self.Entiteis_Link)
+    #Entities tables
+    self.Entities_Point = PointTableWidget(self.Entities_Point_Widget)
+    self.Entities_Point.cellDoubleClicked.connect(self.on_action_Edit_Point_triggered)
+    self.Entities_Point.itemSelectionChanged.connect(self.pointSelection)
+    self.Entities_Point.deleteRequest.connect(self.on_action_Delete_Point_triggered)
+    self.Entities_Point_Layout.addWidget(self.Entities_Point)
+    self.Entities_Link = LinkTableWidget(self.Entities_Link_Widget)
+    self.Entities_Link.cellDoubleClicked.connect(self.on_action_Edit_Link_triggered)
+    self.Entities_Link.dragIn.connect(self.addLinkGroup)
+    self.Entities_Link.deleteRequest.connect(self.on_action_Delete_Link_triggered)
+    self.Entities_Link_Layout.addWidget(self.Entities_Link)
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
-    self.DynamicCanvasView.mouse_getSelection.connect(self.Entiteis_Point.setSelections)
+    self.DynamicCanvasView.mouse_getSelection.connect(self.Entities_Point.setSelections)
     self.DynamicCanvasView.mouse_getSelection.connect(self.inputs_points_setSelection)
-    self.DynamicCanvasView.mouse_noSelection.connect(self.Entiteis_Point.clearSelection)
+    self.DynamicCanvasView.mouse_noSelection.connect(self.Entities_Point.clearSelection)
     self.DynamicCanvasView.mouse_noSelection.connect(self.inputs_points_clearSelection)
     cleanAction = QAction("Clean selection", self)
-    cleanAction.triggered.connect(self.Entiteis_Point.clearSelection)
+    cleanAction.triggered.connect(self.Entities_Point.clearSelection)
     cleanAction.setShortcut(Qt.Key_Escape)
     cleanAction.setShortcutContext(Qt.WindowShortcut)
     self.addAction(cleanAction)
@@ -86,7 +86,7 @@ def initCustomWidgets(self):
     self.panelWidget.setCornerWidget(closeAllPanelButton)
     #Selection label on status bar right side.
     selectionLabel = SelectionLabel(self)
-    self.Entiteis_Point.rowSelectionChanged.connect(selectionLabel.updateSelectPoint)
+    self.Entities_Point.rowSelectionChanged.connect(selectionLabel.updateSelectPoint)
     self.statusBar.addPermanentWidget(selectionLabel)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
@@ -103,7 +103,7 @@ def initCustomWidgets(self):
     self.ToolPanelSplitter.setStretchFactor(1, 5)
     self.tools_splitter.setSizes([100, 500])
     '''
-    Entiteis_Point context menu
+    Entities_Point context menu
     
     + Add
     + Edit
@@ -112,7 +112,7 @@ def initCustomWidgets(self):
     -------
     + Delete
     '''
-    self.Entiteis_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
+    self.Entities_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
     self.popMenu_point = QMenu(self)
     self.action_point_right_click_menu_add = QAction("&Add", self)
     self.action_point_right_click_menu_add.triggered.connect(self.on_action_New_Point_triggered)
@@ -134,7 +134,7 @@ def initCustomWidgets(self):
     self.action_point_right_click_menu_delete.triggered.connect(self.on_action_Delete_Point_triggered)
     self.popMenu_point.addAction(self.action_point_right_click_menu_delete)
     '''
-    Entiteis_Link context menu
+    Entities_Link context menu
     
     + Add
     + Edit
@@ -142,19 +142,19 @@ def initCustomWidgets(self):
     -------
     + Delete
     '''
-    self.Entiteis_Link_Widget.customContextMenuRequested.connect(self.on_link_context_menu)
+    self.Entities_Link_Widget.customContextMenuRequested.connect(self.on_link_context_menu)
     self.popMenu_link = QMenu(self)
     self.action_link_right_click_menu_add = QAction("&Add", self)
-    self.action_link_right_click_menu_add.triggered.connect(self.on_action_New_Line_triggered)
+    self.action_link_right_click_menu_add.triggered.connect(self.on_action_New_Link_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_add)
     self.action_link_right_click_menu_edit = QAction("&Edit", self)
-    self.action_link_right_click_menu_edit.triggered.connect(self.on_action_Edit_Linkage_triggered)
+    self.action_link_right_click_menu_edit.triggered.connect(self.on_action_Edit_Link_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
     self.action_link_right_click_menu_copydata = QAction("&Copy table data", self)
     self.popMenu_link.addAction(self.action_link_right_click_menu_copydata)
     self.popMenu_link.addSeparator()
     self.action_link_right_click_menu_delete = QAction("&Delete", self)
-    self.action_link_right_click_menu_delete.triggered.connect(self.on_action_Delete_Linkage_triggered)
+    self.action_link_right_click_menu_delete.triggered.connect(self.on_action_Delete_Link_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_delete)
     '''
     DynamicCanvasView context menu
@@ -187,14 +187,14 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
 
 def action_Enabled(self):
-    ONE_POINT = self.Entiteis_Point.rowCount()>0
-    ONE_LINK = self.Entiteis_Link.rowCount()>1
+    ONE_POINT = self.Entities_Point.rowCount()>0
+    ONE_LINK = self.Entities_Link.rowCount()>1
     #Edit
     self.action_Edit_Point.setEnabled(ONE_POINT)
-    self.action_Edit_Linkage.setEnabled(ONE_LINK)
+    self.action_Edit_Link.setEnabled(ONE_LINK)
     #Delete
     self.action_Delete_Point.setEnabled(ONE_POINT)
-    self.action_Delete_Linkage.setEnabled(ONE_LINK)
+    self.action_Delete_Link.setEnabled(ONE_LINK)
     self.action_point_right_click_menu_delete.setEnabled(ONE_POINT)
     self.action_link_right_click_menu_delete.setEnabled(ONE_LINK)
     #Others

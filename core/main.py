@@ -83,10 +83,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 0.,
                 0.
             ]
-            rowCount = self.Entiteis_Point.rowCount()
+            rowCount = self.Entities_Point.rowCount()
             self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-            self.FileState.push(addTableCommand(self.Entiteis_Point))
-            self.FileState.push(editPointTableCommand(self.Entiteis_Point, rowCount, self.Entiteis_Link, Args))
+            self.FileState.push(addTableCommand(self.Entities_Point))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
             self.FileState.endMacro()
     
     def setLocate(self, locate):
@@ -112,21 +112,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     
-    #Entiteis_Point context menu
+    #Entities_Point context menu
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
         self.enableEditPoint()
-        action = self.popMenu_point.exec_(self.Entiteis_Point_Widget.mapToGlobal(point))
+        action = self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
         if action==self.action_point_right_click_menu_copydata:
-            self.tableCopy(self.Entiteis_Point)
+            self.tableCopy(self.Entities_Point)
     
-    #Entiteis_Link context menu
+    #Entities_Link context menu
     @pyqtSlot(QPoint)
     def on_link_context_menu(self, point):
-        self.action_link_right_click_menu_delete.setEnabled(self.Entiteis_Link.currentRow()>0)
-        action = self.popMenu_link.exec_(self.Entiteis_Link_Widget.mapToGlobal(point))
+        self.action_link_right_click_menu_delete.setEnabled(self.Entities_Link.currentRow()>0)
+        action = self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
         if action==self.action_link_right_click_menu_copydata:
-            self.tableCopy(self.Entiteis_Link)
+            self.tableCopy(self.Entities_Link)
     
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
@@ -142,10 +142,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.PathSolving_add_rightClick(x, y)
     
     def enableEditPoint(self):
-        pos = self.Entiteis_Point.currentRow()
+        pos = self.Entities_Point.currentRow()
         if pos>-1:
             self.action_point_right_click_menu_lock.setChecked(
-                'ground' in self.Entiteis_Point.item(pos, 1).text())
+                'ground' in self.Entities_Point.item(pos, 1).text())
         for action in [
             self.action_point_right_click_menu_edit,
             self.action_point_right_click_menu_lock,
@@ -153,7 +153,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.action_link_right_click_menu_copydata,
             self.action_point_right_click_menu_delete
         ]:
-            action.setEnabled(pos>-1 and bool(self.Entiteis_Point.selectedRows()))
+            action.setEnabled(pos>-1 and bool(self.Entities_Point.selectedRows()))
     
     def tableCopy(self, table):
         text = table.currentItem().text()
@@ -202,15 +202,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Resolve
     def Resolve(self):
         result, DOF = slvsProcess(
-            self.Entiteis_Point.data(),
-            self.Entiteis_Link.data(),
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
             hasWarning=self.showConsoleError.isChecked())
         Failed = type(DOF)!=int
         self.ConflictGuide.setVisible(Failed)
         self.DOFview.setVisible(not Failed)
         if not Failed:
             self.Solvefail = False
-            self.Entiteis_Point.updateCurrentPosition(result)
+            self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
             self.Reload_Canvas()
@@ -223,7 +223,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     @pyqtSlot(float)
     def Reload_Canvas(self, *Args):
-        self.DynamicCanvasView.update_figure(self.Entiteis_Point.data(), self.Entiteis_Link.data(), self.File.pathData)
+        self.DynamicCanvasView.update_figure(self.Entities_Point.data(), self.Entities_Link.data(), self.File.pathData)
     
     #Workbook Change
     def workbookNoSave(self):
@@ -348,7 +348,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName or isFile==False:
             print(say)
             self.closeAllPanels()
-            self.File.reset(self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
+            self.File.reset(self.Entities_Point, self.Entities_Link, self.Entities_Chain,
                 self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
             self.DynamicCanvasView.changeCurrentShaft()
             self.DynamicCanvasView.path_solving()
@@ -358,7 +358,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             checkdone, data = self.File.check(fileName, data)
             if checkdone:
                 errorInfo = self.File.read(fileName, data,
-                    self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
+                    self.Entities_Point, self.Entities_Link, self.Entities_Chain,
                     self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
                 if errorInfo:
                     print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
@@ -390,7 +390,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             checkdone, data = self.File.check(fileName, data)
             if checkdone:
                 suffix = QFileInfo(fileName).suffix().lower()
-                tables = [data, self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain,
+                tables = [data, self.Entities_Point, self.Entities_Link, self.Entities_Chain,
                     self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list]
                 if suffix=='xml':
                     errorInfo = self.File.readXMLMerge(*tables)
@@ -506,13 +506,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Output_to_PMKS_triggered(self):
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         urlTable = []
-        for row in range(self.Entiteis_Point.rowCount()):
-            TypeAndAngle = self.Entiteis_Point.item(row, 2).text().split(':')
+        for row in range(self.Entities_Point.rowCount()):
+            TypeAndAngle = self.Entities_Point.item(row, 2).text().split(':')
             pointData = [
-                self.Entiteis_Point.item(row, 1).text(),
+                self.Entities_Point.item(row, 1).text(),
                 TypeAndAngle[0],
-                self.Entiteis_Point.item(row, 4).text(),
-                self.Entiteis_Point.item(row, 5).text(),
+                self.Entities_Point.item(row, 4).text(),
+                self.Entities_Point.item(row, 5).text(),
             ]
             if len(TypeAndAngle)==2:
                 pointData.append(TypeAndAngle[1])
@@ -540,10 +540,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.mouse_pos_x,
                 self.mouse_pos_y
             ]
-            rowCount = self.Entiteis_Point.rowCount()
+            rowCount = self.Entities_Point.rowCount()
             self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-            self.FileState.push(addTableCommand(self.Entiteis_Point))
-            self.FileState.push(editPointTableCommand(self.Entiteis_Point, rowCount, self.Entiteis_Link, Args))
+            self.FileState.push(addTableCommand(self.Entities_Point))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
             self.FileState.endMacro()
         else:
             self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
@@ -551,7 +551,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(list)
     def addLinkGroup(self, points):
         name = 'link_0'
-        names = [self.Entiteis_Link.item(row, 0).text() for row in range(self.Entiteis_Link.rowCount())]
+        names = [self.Entities_Link.item(row, 0).text() for row in range(self.Entities_Link.rowCount())]
         i = 0
         while name in names:
             i += 1
@@ -562,8 +562,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ','.join(['Point{}'.format(i) for i in points])
         ]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
-        self.FileState.push(addTableCommand(self.Entiteis_Link))
-        self.FileState.push(editLinkTableCommand(self.Entiteis_Link, self.Entiteis_Link.rowCount()-1, self.Entiteis_Point, Args))
+        self.FileState.push(addTableCommand(self.Entities_Link))
+        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, Args))
         self.FileState.endMacro()
     
     @pyqtSlot()
@@ -572,15 +572,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Edit_Point_triggered(self):
-        pos = self.Entiteis_Point.currentRow()
+        pos = self.Entities_Point.currentRow()
         pos = pos if pos>-1 else 0
         self.editPoint(pos)
     
     def editPoint(self, pos=False):
-        dlg = edit_point_show(self.Entiteis_Point.data(), self.Entiteis_Link.data(), pos, self)
+        dlg = edit_point_show(self.Entities_Point.data(), self.Entities_Link.data(), pos, self)
         dlg.show()
         if dlg.exec_():
-            rowCount = self.Entiteis_Point.rowCount()
+            rowCount = self.Entities_Point.rowCount()
             Type = dlg.Type.currentText().split(" ")[0]
             if Type!='R':
                 Type += ":{}".format(dlg.Angle.value())
@@ -593,58 +593,62 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ]
             if pos is False:
                 self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-                self.FileState.push(addTableCommand(self.Entiteis_Point))
+                self.FileState.push(addTableCommand(self.Entities_Point))
                 pos = rowCount
             else:
                 self.FileState.beginMacro("Edit {{Point{}}}".format(rowCount))
-            self.FileState.push(editPointTableCommand(self.Entiteis_Point, pos, self.Entiteis_Link, Args))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, pos, self.Entities_Link, Args))
             self.FileState.endMacro()
     
     def lockPoint(self):
-        pos = self.Entiteis_Point.currentRow()
-        Links = self.Entiteis_Point.item(pos, 1).text().split(',')
+        pos = self.Entities_Point.currentRow()
+        Links = self.Entities_Point.item(pos, 1).text().split(',')
         if 'ground' in Links:
             Links.remove('ground')
         else:
             Links.append('ground')
         Args = [
             ','.join(filter(lambda a: a!='', Links)),
-            self.Entiteis_Point.item(pos, 2).text(),
-            self.Entiteis_Point.item(pos, 3).text(),
-            self.Entiteis_Point.item(pos, 4).text(),
-            self.Entiteis_Point.item(pos, 5).text()
+            self.Entities_Point.item(pos, 2).text(),
+            self.Entities_Point.item(pos, 3).text(),
+            self.Entities_Point.item(pos, 4).text(),
+            self.Entities_Point.item(pos, 5).text()
         ]
         self.FileState.beginMacro("Edit {{Point{}}}".format(pos))
-        self.FileState.push(editPointTableCommand(self.Entiteis_Point, pos, self.Entiteis_Link, Args))
+        self.FileState.push(editPointTableCommand(self.Entities_Point, pos, self.Entities_Link, Args))
         self.FileState.endMacro()
     
     def copyPoint(self):
-        pos = self.Entiteis_Point.currentRow()
+        pos = self.Entities_Point.currentRow()
         Args = [
-            self.Entiteis_Point.item(pos, 1).text(),
-            self.Entiteis_Point.item(pos, 2).text(),
+            self.Entities_Point.item(pos, 1).text(),
+            self.Entities_Point.item(pos, 2).text(),
             'Orange',
-            self.Entiteis_Point.item(pos, 4).text(),
-            self.Entiteis_Point.item(pos, 5).text()
+            self.Entities_Point.item(pos, 4).text(),
+            self.Entities_Point.item(pos, 5).text()
         ]
-        rowCount = self.Entiteis_Point.rowCount()
+        rowCount = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-        self.FileState.push(addTableCommand(self.Entiteis_Point))
-        self.FileState.push(editPointTableCommand(self.Entiteis_Point, rowCount, self.Entiteis_Link, Args))
+        self.FileState.push(addTableCommand(self.Entities_Point))
+        self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
         self.FileState.endMacro()
     
     @pyqtSlot()
-    def on_action_New_Line_triggered(self):
-        self.editLineDlg()
+    def on_action_New_Link_triggered(self):
+        selectedRows = self.Entities_Point.selectedRows()
+        if len(selectedRows)>1:
+            self.addLinkGroup(selectedRows)
+        else:
+            self.editLineDlg()
     
     @pyqtSlot()
-    def on_action_Edit_Linkage_triggered(self):
-        pos = self.Entiteis_Link.currentRow()
+    def on_action_Edit_Link_triggered(self):
+        pos = self.Entities_Link.currentRow()
         pos = pos if pos>0 else 1
         self.editLineDlg(pos)
     
     def editLineDlg(self, pos=False):
-        dlg = edit_link_show(self.Entiteis_Point.data(), self.Entiteis_Link.data(), pos, self)
+        dlg = edit_link_show(self.Entities_Point.data(), self.Entities_Link.data(), pos, self)
         dlg.show()
         if dlg.exec_():
             name = dlg.name_edit.text()
@@ -655,44 +659,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ]
             if pos is False:
                 self.FileState.beginMacro("Add {{Link: {}}}".format(name))
-                self.FileState.push(addTableCommand(self.Entiteis_Link))
-                pos = self.Entiteis_Link.rowCount()-1
+                self.FileState.push(addTableCommand(self.Entities_Link))
+                pos = self.Entities_Link.rowCount()-1
             else:
                 self.FileState.beginMacro("Edit {{Link: {}}}".format(name))
-            self.FileState.push(editLinkTableCommand(self.Entiteis_Link, pos, self.Entiteis_Point, Args))
+            self.FileState.push(editLinkTableCommand(self.Entities_Link, pos, self.Entities_Point, Args))
             self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self):
-        pos = self.Entiteis_Point.currentRow()
-        pos = self.deleteDlg(self.action_New_Point.icon(), self.Entiteis_Point, pos if pos>-1 else 0)
+        pos = self.Entities_Point.currentRow()
+        pos = self.deleteDlg(self.action_New_Point.icon(), self.Entities_Point, pos if pos>-1 else 0)
         if pos is not None:
             Args = [
                 '',
-                self.Entiteis_Point.item(pos, 2).text(),
-                self.Entiteis_Point.item(pos, 3).text(),
-                self.Entiteis_Point.item(pos, 4).text(),
-                self.Entiteis_Point.item(pos, 5).text()
+                self.Entities_Point.item(pos, 2).text(),
+                self.Entities_Point.item(pos, 3).text(),
+                self.Entities_Point.item(pos, 4).text(),
+                self.Entities_Point.item(pos, 5).text()
             ]
             self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
-            self.FileState.push(editPointTableCommand(self.Entiteis_Point, pos, self.Entiteis_Link, Args))
-            self.FileState.push(deleteTableCommand(self.Entiteis_Point, pos, isRename=True))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, pos, self.Entities_Link, Args))
+            self.FileState.push(deleteTableCommand(self.Entities_Point, pos, isRename=True))
             self.FileState.endMacro()
     
     @pyqtSlot()
-    def on_action_Delete_Linkage_triggered(self):
-        pos = self.Entiteis_Link.currentRow()
+    def on_action_Delete_Link_triggered(self):
+        pos = self.Entities_Link.currentRow()
         if pos>0:
-            pos = self.deleteDlg(self.action_New_Line.icon(), self.Entiteis_Link, pos)
+            pos = self.deleteDlg(self.action_New_Link.icon(), self.Entities_Link, pos)
             if pos is not None:
                 Args = [
-                    self.Entiteis_Link.item(pos, 0).text(),
-                    self.Entiteis_Link.item(pos, 1).text(),
+                    self.Entities_Link.item(pos, 0).text(),
+                    self.Entities_Link.item(pos, 1).text(),
                     ''
                 ]
-                self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entiteis_Link.item(pos, 0).text()))
-                self.FileState.push(editLinkTableCommand(self.Entiteis_Link, pos, self.Entiteis_Point, Args))
-                self.FileState.push(deleteTableCommand(self.Entiteis_Link, pos, isRename=False))
+                self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(pos, 0).text()))
+                self.FileState.push(editLinkTableCommand(self.Entities_Link, pos, self.Entities_Point, Args))
+                self.FileState.push(deleteTableCommand(self.Entities_Link, pos, isRename=False))
                 self.FileState.endMacro()
     
     def deleteDlg(self, icon, table, pos):
@@ -705,20 +709,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Batch_moving_triggered(self):
-        dlg = batchMoving_show(self.Entiteis_Point.data(), self.Entiteis_Point.selectedRows(), self)
+        dlg = batchMoving_show(self.Entities_Point.data(), self.Entities_Point.selectedRows(), self)
         dlg.show()
         if dlg.exec_():
             points = [int(dlg.selected.item(row).text().replace('Point', '')) for row in range(dlg.selected.count())]
             self.FileState.beginMacro("Batch moving {{Point {}}}".format(points))
             for row in points:
                 Args = [
-                    self.Entiteis_Point.item(row, 1).text(),
-                    self.Entiteis_Point.item(row, 2).text(),
-                    self.Entiteis_Point.item(row, 3).text(),
-                    float(self.Entiteis_Point.item(row, 4).text())+dlg.XIncrease.value(),
-                    float(self.Entiteis_Point.item(row, 5).text())+dlg.YIncrease.value()
+                    self.Entities_Point.item(row, 1).text(),
+                    self.Entities_Point.item(row, 2).text(),
+                    self.Entities_Point.item(row, 3).text(),
+                    float(self.Entities_Point.item(row, 4).text())+dlg.XIncrease.value(),
+                    float(self.Entities_Point.item(row, 5).text())+dlg.YIncrease.value()
                 ]
-                self.FileState.push(editPointTableCommand(self.Entiteis_Point, row, self.Entiteis_Link, Args))
+                self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
             self.FileState.endMacro()
     
     @pyqtSlot()
@@ -773,8 +777,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def update_inputs_points(self):
         self.inputs_points.clear()
-        for i in range(self.Entiteis_Point.rowCount()):
-            self.inputs_points.addItem("[{}] Point{}".format(self.Entiteis_Point.item(i, 2).text(), i))
+        for i in range(self.Entities_Point.rowCount()):
+            self.inputs_points.addItem("[{}] Point{}".format(self.Entities_Point.item(i, 2).text(), i))
     
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
@@ -786,18 +790,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_inputs_points_currentRowChanged(self, row):
-        if not row in self.Entiteis_Point.selectedRows():
-            self.Entiteis_Point.setSelections((row,))
+        if not row in self.Entities_Point.selectedRows():
+            self.Entities_Point.setSelections((row,))
         self.inputs_baseLinks.clear()
         if row>-1:
-            for linkName in self.Entiteis_Point.item(row, 1).text().split(','):
+            for linkName in self.Entities_Point.item(row, 1).text().split(','):
                 self.inputs_baseLinks.addItem(linkName)
     
     @pyqtSlot(int)
     def on_inputs_baseLinks_currentRowChanged(self, row):
         self.inputs_driveLinks.clear()
         if row>-1:
-            for linkName in self.Entiteis_Point.item(self.inputs_points.currentRow(), 1).text().split(','):
+            for linkName in self.Entities_Point.item(self.inputs_points.currentRow(), 1).text().split(','):
                 if linkName==self.inputs_baseLinks.currentItem().text():
                     continue
                 self.inputs_driveLinks.addItem(linkName)
@@ -813,14 +817,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
         row = self.inputs_points.currentRow()
-        Point = self.Entiteis_Point.data()
-        Link = self.Entiteis_Link.data()
+        Point = self.Entities_Point.data()
+        Link = self.Entities_Link.data()
         LinkIndex = [vlink.name for vlink in Link]
         relate = Link[LinkIndex.index(self.inputs_driveLinks.currentItem().text())].points
         base = Point[row]
         drive = Point[relate[relate.index(row)-1]]
         text = '->'.join([
-            self.Entiteis_Point.item(self.inputs_baseLinks.currentRow(), 0).text(),
+            self.Entities_Point.item(self.inputs_baseLinks.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
             str(base.slopeAngle(drive))
@@ -888,7 +892,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, float, float, list, dict)
     def PathSolving_mergeResult(self, row, startAngle, endAngle, answer, Paths):
         if self.File.Generate_Merge(row, startAngle, endAngle, answer, Paths,
-                self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Shaft)==False:
+                self.Entities_Point, self.Entities_Link, self.Entities_Chain, self.Simulate_Shaft)==False:
             dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension.", (QMessageBox.Ok), self)
             if dlgbox.exec_():
                 print("Generate Result Error.")
@@ -908,7 +912,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def TriangleSolver_merge(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         self.File.TS_Merge(self.panelWidget.widget(tabNameList.index("Triangle Solver")).answers,
-            self.Entiteis_Point, self.Entiteis_Link, self.Entiteis_Chain, self.Simulate_Slider)
+            self.Entities_Point, self.Entities_Link, self.Entities_Chain, self.Simulate_Slider)
     
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
@@ -926,7 +930,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def pointSelection(self):
-        self.DynamicCanvasView.changePointsSelection(self.Entiteis_Point.selectedRows())
+        self.DynamicCanvasView.changePointsSelection(self.Entities_Point.selectedRows())
     
     @pyqtSlot(int, int, int, int)
     def on_Parameter_list_currentCellChanged(self, c0, c1, p0, p1):
