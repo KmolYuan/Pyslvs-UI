@@ -1,4 +1,4 @@
-from sympy import pi, sqrt, cos, sin, acos, atan, diff, lambdify
+from sympy import pi, sqrt, cos, sin, acos, atan2, diff, lambdify
 from sympy.abc import w, t
 
 class Coordinate:
@@ -16,7 +16,7 @@ class Coordinate:
         '''
         Coordinate p
         '''
-        return atan((p.y - self.y)/(p.x - self.x))
+        return atan2(p.y-self.y, p.x-self.x)
     
     @property
     def functions(self):

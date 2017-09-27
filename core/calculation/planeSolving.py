@@ -71,7 +71,7 @@ def slvsProcess(
             #Has one more pointer
             Slvs_Points.append(tuple(Point2d(Workplane1, x, y) for i in range(len(vpoint.links))))
     #Topology of PMKS points.
-    LinkIndex = [vlink.name for vlink in Link]
+    LinkIndex = lambda l: [vlink.name for vlink in Link].index(l)
     for i, vpoint in enumerate(Point):
         #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
@@ -84,16 +84,16 @@ def slvsProcess(
             Constraint.distance(10, Workplane1, p_base, p_assist)
             #Angle constraint function:
             def relateWith(linkName):
-                relate = Link[LinkIndex.index(linkName)].points
+                relate = Link[LinkIndex(linkName)].points
                 relateOrder = relate.index(i)
                 p_link_assist = Slvs_Points[i][relateOrder-1]
                 l_link = LineSegment2d(Workplane1, p_base, p_link_assist)
                 angle_base = Point[relateOrder-1].slopeAngle(vpoint)
-                Constraint.angle(angle_base, l_link, l_slot)
+                Constraint.angle(Workplane1, angle_base, l_link, l_slot)
             #The slot has an angle with base link.
             link_base = vpoint.links[0]
             if link_base=='ground':
-                Constraint.angle(vpoint.angle, ground, l_slot)
+                Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
             else:
                 relateWith(link_base)
             #P Joint: The point do not have freedom of rotation.
@@ -111,7 +111,7 @@ def slvsProcess(
             if linkName=='ground':
                 Constraint.dragged(Workplane1, p_base)
                 continue
-            relate = Link[LinkIndex.index(linkName)].points
+            relate = Link[LinkIndex(linkName)].points
             relateOrder = relate.index(i)
             if relateOrder==0:
                 continue
@@ -160,9 +160,9 @@ def slvsProcess(
         elif result==SLVS_RESULT_DIDNT_CONVERGE:
             if hasWarning:
                 print("SLVS_RESULT_DIDNT_CONVERGE")
-            resultSTR = "Didn't Converge"
+            resultSTR = "Didn't converge"
         elif result==SLVS_RESULT_TOO_MANY_UNKNOWNS:
             if hasWarning:
                 print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
-            resultSTR = "Too Many Unknowns"
+            resultSTR = "Too many unknowns"
         return [], resultSTR

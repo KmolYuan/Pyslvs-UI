@@ -774,7 +774,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def update_inputs_points(self):
         self.inputs_points.clear()
         for i in range(self.Entiteis_Point.rowCount()):
-            self.inputs_points.addItem('[{}] Point{}'.format(self.Entiteis_Point.item(i, 2).text(), i))
+            self.inputs_points.addItem("[{}] Point{}".format(self.Entiteis_Point.item(i, 2).text(), i))
     
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
@@ -804,16 +804,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_inputs_driveLinks_currentRowChanged(self, row):
-        self.inputs_variable_add.setEnabled(row>-1)
+        if row>-1:
+            typeText = self.inputs_points.currentItem().text().split(" ")[0]
+            self.inputs_variable_add.setEnabled(typeText=='[R]')
+        else:
+            self.inputs_variable_add.setEnabled(False)
     
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
-        angle = str(0.)
+        row = self.inputs_points.currentRow()
+        Point = self.Entiteis_Point.data()
+        Link = self.Entiteis_Link.data()
+        LinkIndex = [vlink.name for vlink in Link]
+        relate = Link[LinkIndex.index(self.inputs_driveLinks.currentItem().text())].points
+        base = Point[row]
+        drive = Point[relate[relate.index(row)-1]]
         text = '->'.join([
             self.Entiteis_Point.item(self.inputs_baseLinks.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
-            angle])
+            str(base.slopeAngle(drive))
+        ])
         if self.inputs_variable.count()<self.DOF and not self.inputs_variable.findItems(text, Qt.MatchExactly):
             self.inputs_variable.addItem(text)
     
@@ -825,10 +836,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row):
-        self.inputs_Degree.setEnabled(row>-1)
-        if row>-1:
-            #TODO: Set the angle of QDial.
-            pass
+        enabled = row>-1
+        self.inputs_Degree.setEnabled(enabled)
+        self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1]) if enabled else 0.)
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):

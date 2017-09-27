@@ -17,7 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from math import sqrt, degrees, atan
+from math import sqrt, degrees, atan2
 from ..graphics.color import colorQt
 from typing import Tuple
 
@@ -96,10 +96,7 @@ class VPoint:
         return round(sqrt((self.x-p.x)**2+(self.y-p.y)**2), 4)
     
     def slopeAngle(self, p):
-        try:
-            return degrees(atan(p.y-self.y/p.x-self.x))
-        except ZeroDivisionError:
-            return 90.
+        return round(degrees(atan2(p.y-self.y, p.x-self.x)), 4)
 
 class VLink:
     __slots__ = ('__name', '__color', '__points')

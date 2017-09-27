@@ -20,7 +20,6 @@
 from .QtModules import *
 from .graphics.color import colorIcons
 from .io.elements import VPoint, VLink
-from math import sqrt
 from typing import TypeVar, Tuple
 VPointType = TypeVar('VPointType', int, str)
 
@@ -135,12 +134,11 @@ class PointTableWidget(BaseTableWidget):
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows)>1:
+            data = self.data()
             for i, row in enumerate(selectedRows):
                 if i==len(selectedRows)-1:
                     break
-                cx0, cy0 = self.currentPosition(row)[0]
-                cx1, cy1 = self.currentPosition(row+1)[0]
-                distance.append(round(sqrt((cx1-cx0)**2+(cy1-cy0)**2), 4))
+                distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
         self.rowSelectionChanged.emit(selectedRows, tuple(distance))
     
     def setRangesSelected(self, selections, continueSelect=True, UnSelect=True):
