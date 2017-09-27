@@ -774,7 +774,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def update_inputs_points(self):
         self.inputs_points.clear()
         for i in range(self.Entiteis_Point.rowCount()):
-            self.inputs_points.addItem('Point{}'.format(i))
+            self.inputs_points.addItem('[{}] Point{}'.format(self.Entiteis_Point.item(i, 2).text(), i))
     
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
@@ -810,7 +810,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_variable_add_clicked(self):
         angle = str(0.)
         text = '->'.join([
-            self.inputs_points.currentItem().text(),
+            self.Entiteis_Point.item(self.inputs_baseLinks.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
             angle])
