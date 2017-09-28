@@ -17,7 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from typing import List, Tuple
+from typing import Tuple
 from math import cos, sin
 from ..kernel.python_solvespace.slvs import (
     #System base
@@ -31,7 +31,7 @@ from ..kernel.python_solvespace.slvs import (
 def slvsProcess(
     Point: Tuple['VPoint'] =False,
     Link: Tuple['VLink'] =False,
-    currentShaft: List[Tuple[int, float]] =(),
+    currentShaft: Tuple[Tuple[int, float]] =(),
     hasWarning: bool =True
 ):
     pointCount = len(Point)

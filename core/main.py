@@ -842,7 +842,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_variable_currentRowChanged(self, row):
         enabled = row>-1
         self.inputs_Degree.setEnabled(enabled)
-        self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1]) if enabled else 0.)
+        self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100 if enabled else 0.)
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
