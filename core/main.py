@@ -360,28 +360,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if ok:
             dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), self)
             if URL:
-                try:
-                    textList = tuple(filter(lambda s: s!='', tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0].replace('mech=', '').split('|')))
-                    for text in textList:
-                        item = text.split(',')[:-1]
-                        hasAngle = item[-1].isdigit() and item[-2].isdigit() and item[-3].isdigit()
-                        links = item[:-4] if hasAngle else item[:-3]
-                        item = item[-4:] if hasAngle else item[-3:]
-                        Args = [
-                            ','.join(links),
-                            '{}:{}'.format(item[-4], item[-1]) if item[0]!='R' else 'R',
-                            'Blue' if 'ground' in links else 'Green',
-                            item[1],
-                            item[2]
-                        ]
-                        rowCount = self.Entities_Point.rowCount()
-                        self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-                        self.FileState.push(addTableCommand(self.Entities_Point))
-                        self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
-                        self.FileState.endMacro()
+                #try:
+                textList = tuple(filter(lambda s: s!='', tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0].replace('mech=', '').split('|')))
+                for text in textList:
+                    item = text.split(',')[:-1]
+                    isfloat = lambda s: s.replace('.','',1).isdigit()
+                    hasAngle = isfloat(item[-1]) and isfloat(item[-2]) and isfloat(item[-3])
+                    links = item[:-4] if hasAngle else item[:-3]
+                    item = item[-4:] if hasAngle else item[-3:]
+                    linkNames = [vlink.name for vlink in self.Entities_Link.data()]
+                    for linkName in links:
+                        if linkName not in linkNames:
+                            linkArgs = [linkName, 'Blue', '']
+                            self.FileState.beginMacro("Add {{Link: {}}}".format(linkName))
+                            self.FileState.push(addTableCommand(self.Entities_Link))
+                            self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
+                            self.FileState.endMacro()
+                    pointArgs = [
+                        ','.join(links),
+                        '{}:{}'.format(item[-4], item[-1]) if item[0]!='R' else 'R',
+                        'Blue' if 'ground' in links else 'Green',
+                        item[1],
+                        item[2]
+                    ]
+                    rowCount = self.Entities_Point.rowCount()
+                    self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+                    self.FileState.push(addTableCommand(self.Entities_Point))
+                    self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
+                    self.FileState.endMacro()
+                '''
                 except:
                     dlg.show()
                     dlg.exec_()
+                '''
             else:
                 dlg.show()
                 dlg.exec_()
@@ -902,10 +913,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Update the value when rotating QDial.
     def variableValueUpdate(self, value):
         item = self.inputs_variable.currentItem()
-        itemText = item.text().split('->')
-        itemText[-1] = str(value/100.)
-        item.setText('->'.join(itemText))
-        self.Resolve()
+        if item:
+            itemText = item.text().split('->')
+            itemText[-1] = str(value/100.)
+            item.setText('->'.join(itemText))
+            self.Resolve()
     
     #Generate constraint symbols.
     def variableConstraints(self):
