@@ -1427,7 +1427,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="action_Pyslvs_com"/>
-    <addaction name="action_Git_hub_Site"/>
+    <addaction name="action_github_repository"/>
     <addaction name="action_Get_Help"/>
     <addaction name="separator"/>
     <addaction name="action_About_Pyslvs"/>
@@ -1527,7 +1527,7 @@
     <string>Goto Kmolab learn about more.</string>
    </property>
   </action>
-  <action name="action_Git_hub_Site">
+  <action name="action_github_repository">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/github.png</normaloff>:/icons/github.png</iconset>

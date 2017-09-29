@@ -56,42 +56,43 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.args = args
-        #Console Widget
+        #Console widget.
         self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        #File
+        #Undo stack.
         self.FileState = QUndoStack()
         self.FileState.indexChanged.connect(self.commandReload)
+        #Undo widget.
         showUndoWindow(self, self.FileState)
+        #Set file informations.
         self.File = File(self.FileState, self.args)
         self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
-        #Initialize custom UI
+        #Initialize custom UI.
         initCustomWidgets(self)
         self.Resolve()
-        #Solve & DOF
+        #Solve & DOF value.
         self.DOF = 0
+        #Enble or disable actions.
         action_Enabled(self)
         if self.args.r:
+            #Load workbook.
             self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
         else:
-            Args = [
-                'ground',
-                'R',
-                'Red',
-                0.,
-                0.
-            ]
+            #Blank workbook.
+            Args = ['ground', 'R', 'Red', 0., 0.]
             rowCount = self.Entities_Point.rowCount()
             self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
             self.FileState.push(addTableCommand(self.Entities_Point))
             self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
             self.FileState.endMacro()
     
+    #Set environment variables
     def setLocate(self, locate):
         self.Default_Environment_variables = locate
         print("~Start at: [{}]".format(self.Default_Environment_variables))
     
+    #Drag file in to our window.
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasUrls():
@@ -100,6 +101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if QFileInfo(FilePath).suffix() in ['pyslvs']:
                     event.acceptProposedAction()
     
+    #Drop file in to our window.
     def dropEvent(self, event):
         FilePath = event.mimeData().urls()[-1].toLocalFile()
         self.checkChange(FilePath, [], "Loaded drag-in file: [{}]".format(FilePath))
@@ -140,6 +142,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         elif action==self.action_painter_right_click_menu_path:
             self.PathSolving_add_rightClick(x, y)
     
+    #What ever we have least one point or not, need to enable / disable QAction.
     def enableEditPoint(self):
         pos = self.Entities_Point.currentRow()
         if pos>-1:
@@ -154,13 +157,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ]:
             action.setEnabled(pos>-1 and bool(self.Entities_Point.selectedRows()))
     
+    #Copy item text to clipboard.
     def tableCopy(self, table):
         text = table.currentItem().text()
         if text:
             clipboard = QApplication.clipboard()
             clipboard.setText(text)
     
-    #Close Event
+    #Close Event: If the user has not saved the change.
     def closeEvent(self, event):
         if self.File.form.changed:
             reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
@@ -183,7 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print('Exit.')
         event.accept()
     
-    #Undo and Redo
+    #The time of withdrawal and redo action.
     @pyqtSlot(int)
     def commandReload(self, index=0):
         self.action_Undo.setText("Undo - {}".format(self.FileState.undoText()))
@@ -199,7 +203,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.inputs_variable_autoremove()
         self.Resolve()
     
-    #Resolve
+    #Resolve: Use Solvespace kernel.
     def Resolve(self):
         result, DOF = slvsProcess(
             self.Entities_Point.data(),
@@ -219,7 +223,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setToolTip(DOF)
             self.Reload_Canvas()
     
-    #Reload Canvas
+    #Reload Canvas, without resolving.
     @pyqtSlot(int)
     @pyqtSlot(float)
     def Reload_Canvas(self, *Args):
@@ -228,7 +232,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Link.data(),
             self.File.pathData)
     
-    #Workbook Change
+    #Workbook Change signal.
     def workbookNoSave(self):
         self.File.form.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', str())+'*')
@@ -238,47 +242,53 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle("Pyslvs - {}".format(self.File.form.fileName.fileName()))
         action_Enabled(self)
     
+    #Open website: http://mde.tw
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
         self.OpenURL("http://mde.tw")
     
+    #Open website: https://pyslvs.com
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self):
         self.OpenURL("https://pyslvs.com")
     
+    #Open website: Github repository.
     @pyqtSlot()
-    def on_action_Git_hub_Site_triggered(self):
+    def on_action_github_repository_triggered(self):
         self.OpenURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
     
+    #Open Pyslvs about.
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
         self.OpenDlg(version_show(self))
     
+    #Open Qt about.
     @pyqtSlot()
     def on_action_About_Qt_triggered(self):
         QMessageBox.aboutQt(self)
     
+    #Use to open link.
     def OpenURL(self, URL):
         print("Open - {{{}}}".format(URL))
         QDesktopServices.openUrl(QUrl(URL))
     
+    #TODO: Output to Python script for Jupyterhub.
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
         self.OpenDlg(Script_Dialog(self.File.form.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))
-    @pyqtSlot()
-    def on_action_Search_Points_triggered(self):
-        self.OpenDlg(Association_show(self.File.Lists.PointList, self.File.Lists.LineList,
-            self.File.Lists.ChainList, self.File.Lists.ShaftList, self.File.Lists.SliderList, self.File.Lists.RodList, self))
+    
+    #Use to open dialog widgets.
     def OpenDlg(self, dlg):
         dlg.show()
         dlg.exec()
     
+    #Open GUI console.
     @pyqtSlot()
     def on_action_Console_triggered(self):
         self.OptionTab.setCurrentIndex(2)
         self.History_tab.setCurrentIndex(1)
     
-    #TODO: Example need to update!
+    #TODO: Examples need to update!
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self):
         self.checkChange("[New Workbook]", example.new_workbook(), 'Generating New Workbook...')
@@ -559,11 +569,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         while name in names:
             i += 1
             name = 'link_{}'.format(i)
-        Args = [
-            name,
-            'Blue',
-            ','.join(['Point{}'.format(i) for i in points])
-        ]
+        Args = [name, 'Blue', ','.join(['Point{}'.format(i) for i in points])]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
         self.FileState.push(addTableCommand(self.Entities_Link))
         self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, Args))
@@ -735,6 +741,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_ResetCanvas_clicked(self):
         self.DynamicCanvasView.SetIn()
+    
     @pyqtSlot()
     def on_CanvasCapture_clicked(self):
         clipboard = QApplication.clipboard()

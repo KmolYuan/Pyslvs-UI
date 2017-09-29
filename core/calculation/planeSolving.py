@@ -76,12 +76,12 @@ def slvsProcess(
         #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
             p_base = Slvs_Points[i][0]
-            x = Sys.add_param(vpoint.cx+10*cos(vpoint.angle))
-            y = Sys.add_param(vpoint.cy+10*sin(vpoint.angle))
+            x = Sys.add_param(vpoint.cx+10.*cos(vpoint.angle))
+            y = Sys.add_param(vpoint.cy+10.*sin(vpoint.angle))
             p_assist = Point2d(Workplane1, x, y)
-            #Make auxiliary line as a slider slot (The length is 10).
+            #Make auxiliary line as a slider slot (The length is 10.0).
             l_slot = LineSegment2d(Workplane1, p_base, p_assist)
-            Constraint.distance(10, Workplane1, p_base, p_assist)
+            Constraint.distance(10., Workplane1, p_base, p_assist)
             #Angle constraint function:
             def relateWith(linkName):
                 relate = Link[LinkIndex(linkName)].points

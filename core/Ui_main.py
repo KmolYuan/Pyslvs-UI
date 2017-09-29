@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -627,11 +627,11 @@ class Ui_MainWindow(object):
         icon23.addPixmap(QtGui.QPixmap(":/icons/kmol.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Get_Help.setIcon(icon23)
         self.action_Get_Help.setObjectName("action_Get_Help")
-        self.action_Git_hub_Site = QtWidgets.QAction(MainWindow)
+        self.action_github_repository = QtWidgets.QAction(MainWindow)
         icon24 = QtGui.QIcon()
         icon24.addPixmap(QtGui.QPixmap(":/icons/github.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.action_Git_hub_Site.setIcon(icon24)
-        self.action_Git_hub_Site.setObjectName("action_Git_hub_Site")
+        self.action_github_repository.setIcon(icon24)
+        self.action_github_repository.setObjectName("action_github_repository")
         self.action_About_Pyslvs = QtWidgets.QAction(MainWindow)
         self.action_About_Pyslvs.setIcon(icon20)
         self.action_About_Pyslvs.setObjectName("action_About_Pyslvs")
@@ -876,7 +876,7 @@ class Ui_MainWindow(object):
         self.menu_Options.addAction(self.action_See_Python_Scripts)
         self.menu_Options.addAction(self.action_Property)
         self.menu_Help.addAction(self.action_Pyslvs_com)
-        self.menu_Help.addAction(self.action_Git_hub_Site)
+        self.menu_Help.addAction(self.action_github_repository)
         self.menu_Help.addAction(self.action_Get_Help)
         self.menu_Help.addSeparator()
         self.menu_Help.addAction(self.action_About_Pyslvs)
@@ -979,8 +979,8 @@ class Ui_MainWindow(object):
         self.action_Exit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
         self.action_Get_Help.setText(_translate("MainWindow", "&MDE.tw"))
         self.action_Get_Help.setStatusTip(_translate("MainWindow", "Goto Kmolab learn about more."))
-        self.action_Git_hub_Site.setText(_translate("MainWindow", "Git&hub repository"))
-        self.action_Git_hub_Site.setStatusTip(_translate("MainWindow", "Goto Github storage of Pyslvs."))
+        self.action_github_repository.setText(_translate("MainWindow", "Git&hub repository"))
+        self.action_github_repository.setStatusTip(_translate("MainWindow", "Goto Github storage of Pyslvs."))
         self.action_About_Pyslvs.setText(_translate("MainWindow", "&About Pyslvs"))
         self.action_About_Pyslvs.setStatusTip(_translate("MainWindow", "Version and introduction of Pyslvs."))
         self.action_About_Pyslvs.setShortcut(_translate("MainWindow", "F1"))
