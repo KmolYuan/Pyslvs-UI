@@ -352,6 +352,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.loadWorkbook(say, name, data, isFile)
     
+    #Load PMKS URL
+    @pyqtSlot()
+    def on_action_From_PMKS_server_triggered(self):
+        URL, ok = QInputDialog.getText(self, "PMKS URL input", "Please input link string:")
+        if ok:
+            dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), self)
+            if URL:
+                try:
+                    textList = tuple(filter(lambda s: s!='', tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0].replace('mech=', '').split('|')))
+                    for text in textList:
+                        item = text.split(',')[:-1]
+                        hasAngle = item[-1].isdigit() and item[-2].isdigit() and item[-3].isdigit()
+                        links = item[:-4] if hasAngle else item[:-3]
+                        item = item[-4:] if hasAngle else item[-3:]
+                        Args = [
+                            ','.join(links),
+                            '{}:{}'.format(item[-4], item[-1]) if item[0]!='R' else 'R',
+                            'Blue' if 'ground' in links else 'Green',
+                            item[1],
+                            item[2]
+                        ]
+                        rowCount = self.Entities_Point.rowCount()
+                        self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+                        self.FileState.push(addTableCommand(self.Entities_Point))
+                        self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
+                        self.FileState.endMacro()
+                except:
+                    dlg.show()
+                    dlg.exec_()
+            else:
+                dlg.show()
+                dlg.exec_()
+    
+    #Load workbook
     def loadWorkbook(self, say, fileName='', data=[], isFile=False):
         if isFile:
             data.clear()

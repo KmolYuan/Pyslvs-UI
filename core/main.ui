@@ -1370,13 +1370,11 @@
      <addaction name="action_Output_to_PMKS"/>
     </widget>
     <widget class="QMenu" name="menuImport">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="title">
       <string>&amp;Import</string>
      </property>
      <addaction name="action_Import_From_Workbook"/>
+     <addaction name="action_From_PMKS_server"/>
     </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
@@ -1997,12 +1995,15 @@
    </property>
   </action>
   <action name="action_Import_From_Workbook">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
    </property>
    <property name="text">
-    <string>From Workbook</string>
+    <string>From workbook</string>
    </property>
    <property name="statusTip">
     <string>Import from workbook.</string>
@@ -2136,6 +2137,15 @@
    </property>
    <property name="statusTip">
     <string>Pass your mechanism to PMKS server by generate a URL.</string>
+   </property>
+  </action>
+  <action name="action_From_PMKS_server">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
+   </property>
+   <property name="text">
+    <string>From PMKS server</string>
    </property>
   </action>
  </widget>
