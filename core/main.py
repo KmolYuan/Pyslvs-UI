@@ -196,6 +196,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if "Triangle Solver" in tabNameList:
             self.panelWidget.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
         self.update_inputs_points()
+        self.inputs_variable_autoremove()
         self.Resolve()
     
     #Resolve
@@ -826,7 +827,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.inputs_driveLinks.currentItem().text(),
             str(base.slopeAngle(drive))
         ])
-        if self.inputs_variable.count()<self.DOF and not self.inputs_variable.findItems(text, Qt.MatchExactly):
+        if self.inputs_variable.count()<self.DOF and not(self.inputs_variable.findItems(text, Qt.MatchExactly)):
             self.inputs_variable.addItem(text)
     
     @pyqtSlot()
@@ -834,6 +835,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.inputs_variable.currentRow()
         if row>-1:
             self.inputs_variable.takeItem(row)
+    
+    def inputs_variable_autoremove(self):
+        for i in range(self.inputs_variable.count()):
+            itemText = self.inputs_variable.item(i).text().split('->')
+            row = int(itemText[0].replace('Point', ''))
+            links = self.Entities_Point.item(row, 1).text()
+            if (itemText[1] in links) and (itemText[2] in links):
+                self.inputs_variable.takeItem(i)
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row):

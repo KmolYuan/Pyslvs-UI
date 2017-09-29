@@ -22,7 +22,6 @@ from math import sqrt
 from typing import List
 from heapq import nsmallest
 from ..graphics.color import colorQt
-tr = QCoreApplication.translate
 
 class Path:
     __slots__ = ('path', 'demo', 'show', 'mode', 'drive_mode')
@@ -140,7 +139,7 @@ class DynamicCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
-        self.setStatusTip(tr("DynamicCanvas", "Use mouse wheel or middle button to look around."))
+        self.setStatusTip("Use mouse wheel or middle button to look around.")
         self.rotateAngle = 0
         self.Selector = Selector()
         #Point selection
