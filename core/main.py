@@ -204,7 +204,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result, DOF = slvsProcess(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            hasWarning=self.showConsoleError.isChecked())
+            self.variableConstraints(),
+            hasWarning=self.showConsoleError.isChecked()
+        )
         Failed = type(DOF)!=int
         self.ConflictGuide.setVisible(Failed)
         self.DOFview.setVisible(not Failed)
@@ -221,7 +223,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     @pyqtSlot(float)
     def Reload_Canvas(self, *Args):
-        self.DynamicCanvasView.update_figure(self.Entities_Point.data(), self.Entities_Link.data(), self.File.pathData)
+        self.DynamicCanvasView.update_figure(
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
+            self.File.pathData)
     
     #Workbook Change
     def workbookNoSave(self):
@@ -848,15 +853,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_variable_currentRowChanged(self, row):
         enabled = row>-1
         self.inputs_Degree.setEnabled(enabled)
-        self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100 if enabled else 0.)
+        self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100. if enabled else 0.)
     
+    #Update the value when rotating QDial.
     def variableValueUpdate(self, value):
-        value /= 100
         item = self.inputs_variable.currentItem()
         itemText = item.text().split('->')
-        itemText[-1] = str(value)
+        itemText[-1] = str(value/100.)
         item.setText('->'.join(itemText))
-        #TODO: Update canvas.
+        self.Resolve()
+    
+    #Generate constraint symbols.
+    def variableConstraints(self):
+        constraints = []
+        for i in range(self.inputs_variable.count()):
+            item = self.inputs_variable.item(i)
+            itemText = item.text().split('->')
+            itemText[0] = int(itemText[0].replace('Point', ''))
+            itemText[-1] = float(value)/100.
+            constraints.append(tuple(itemText))
+        return tuple(constraints)
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
@@ -934,7 +950,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for button in [self.TriangleSolver, self.PathSolving]:
             button.setChecked(False)
         self.DynamicCanvasView.showSlvsPath = False
-        self.DynamicCanvasView.Path.drive_mode = False
         self.Reload_Canvas()
     
     def closePanel(self, pos):

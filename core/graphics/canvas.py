@@ -24,14 +24,13 @@ from heapq import nsmallest
 from ..graphics.color import colorQt
 
 class Path:
-    __slots__ = ('path', 'demo', 'show', 'mode', 'drive_mode')
+    __slots__ = ('path', 'demo', 'show', 'mode')
     
     def __init__(self):
         self.path = []
         self.demo = 0.
         self.show = True
         self.mode = True
-        self.drive_mode = False
 
 class Selector:
     #Use to record mouse clicked point.
@@ -226,40 +225,13 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.ox, self.oy)
         self.painter.rotate(self.rotateAngle)
-        pathShaft = None
-        if self.Path.drive_mode:
-            for vpaths in self.Path.path:
-                if vpaths.shaft==self.currentShaft:
-                    pathShaft = vpaths
-        if (not pathShaft==None) and (not pathShaft.isBroken()):
-            shaft = self.Shaft[pathShaft.shaft]
-            resolution = abs(shaft.end-shaft.start)/(len(pathShaft.paths[0].path)-1)
-            resolutionIndex = int(round(self.Path.demo/resolution))
-            pathPoints = {e.point:e for e in pathShaft.paths}
-            for i, vlink in enumerate(self.Link):
-                p1x = (self.Point[e.start].cx if self.Point[e.start].fix else pathPoints[e.start].path[resolutionIndex][0])*self.zoom
-                p1y = (self.Point[e.start].cy if self.Point[e.start].fix else pathPoints[e.start].path[resolutionIndex][1])*self.zoom*-1
-                p2x = (self.Point[e.end].cx if self.Point[e.end].fix else pathPoints[e.end].path[resolutionIndex][0])*self.zoom
-                p2y = (self.Point[e.end].cy if self.Point[e.end].fix else pathPoints[e.end].path[resolutionIndex][1])*self.zoom*-1
-                self.drawLink(i, p1x, p1y, p2x, p2y, e.len)
-            self.drawPath()
-            for path in pathShaft.paths:
-                point = path.path[resolutionIndex]
-                fix = 'ground' in self.Point[path.point].Links
-                self.drawPoint(path.point, point[0], point[1], fix, self.Point[path.point].color)
-            for i, vpoint in enumerate(self.Point):
-                if i in pathPoints:
-                    continue
-                fix = 'ground' in vpoint.links
-                self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
-        else:
-            for i, vlink in enumerate(self.Link):
-                points = [self.Point[i] for i in vlink.points]
-                self.drawLink(vlink.name, vlink.color, points)
-            self.drawPath()
-            for i, vpoint in enumerate(self.Point):
-                fix = 'ground' in vpoint.links
-                self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
+        for i, vlink in enumerate(self.Link):
+            points = [self.Point[i] for i in vlink.points]
+            self.drawLink(vlink.name, vlink.color, points)
+        self.drawPath()
+        for i, vpoint in enumerate(self.Point):
+            fix = 'ground' in vpoint.links
+            self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         if self.slvsPath and self.showSlvsPath:
             pen = QPen()
             pathData = self.slvsPath

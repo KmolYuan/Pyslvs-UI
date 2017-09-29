@@ -29,9 +29,9 @@ from ..kernel.python_solvespace.slvs import (
 )
 
 def slvsProcess(
-    Point: Tuple['VPoint'] =False,
-    Link: Tuple['VLink'] =False,
-    currentShaft: Tuple[Tuple[int, float]] =(),
+    Point: Tuple['VPoint'],
+    Link: Tuple['VLink'],
+    constraints: Tuple[Tuple[int, "Base link", "Drive link", float]],
     hasWarning: bool =True
 ):
     pointCount = len(Point)
