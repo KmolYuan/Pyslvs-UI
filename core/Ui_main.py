@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -581,6 +581,7 @@ class Ui_MainWindow(object):
         self.menuFile.setStatusTip("")
         self.menuFile.setObjectName("menuFile")
         self.menuExample = QtWidgets.QMenu(self.menuFile)
+        self.menuExample.setEnabled(False)
         icon20 = QtGui.QIcon()
         icon20.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.menuExample.setIcon(icon20)
@@ -588,6 +589,7 @@ class Ui_MainWindow(object):
         self.menuExport = QtWidgets.QMenu(self.menuFile)
         self.menuExport.setObjectName("menuExport")
         self.menuImport = QtWidgets.QMenu(self.menuFile)
+        self.menuImport.setEnabled(False)
         self.menuImport.setObjectName("menuImport")
         self.menu_Draw = QtWidgets.QMenu(self.menuBar)
         self.menu_Draw.setObjectName("menu_Draw")
@@ -602,6 +604,7 @@ class Ui_MainWindow(object):
         self.statusBar.setObjectName("statusBar")
         MainWindow.setStatusBar(self.statusBar)
         self.action_New_Workbook = QtWidgets.QAction(MainWindow)
+        self.action_New_Workbook.setEnabled(False)
         icon21 = QtGui.QIcon()
         icon21.addPixmap(QtGui.QPixmap(":/icons/newfile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_New_Workbook.setIcon(icon21)
@@ -659,6 +662,7 @@ class Ui_MainWindow(object):
         self.action_Output_to_Picture.setIcon(icon29)
         self.action_Output_to_Picture.setObjectName("action_Output_to_Picture")
         self.action_Save = QtWidgets.QAction(MainWindow)
+        self.action_Save.setEnabled(False)
         icon30 = QtGui.QIcon()
         icon30.addPixmap(QtGui.QPixmap(":/icons/savefile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Save.setIcon(icon30)
@@ -691,6 +695,7 @@ class Ui_MainWindow(object):
         self.action_Output_to_Solvespace.setIcon(icon32)
         self.action_Output_to_Solvespace.setObjectName("action_Output_to_Solvespace")
         self.action_DXF_2D_sketch = QtWidgets.QAction(MainWindow)
+        self.action_DXF_2D_sketch.setEnabled(False)
         icon33 = QtGui.QIcon()
         icon33.addPixmap(QtGui.QPixmap(":/icons/dxf.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_DXF_2D_sketch.setIcon(icon33)
@@ -705,6 +710,7 @@ class Ui_MainWindow(object):
         self.action_Multiple_Link = QtWidgets.QAction(MainWindow)
         self.action_Multiple_Link.setObjectName("action_Multiple_Link")
         self.action_Save_as = QtWidgets.QAction(MainWindow)
+        self.action_Save_as.setEnabled(False)
         self.action_Save_as.setIcon(icon30)
         self.action_Save_as.setObjectName("action_Save_as")
         self.action_Two_Multiple_Link = QtWidgets.QAction(MainWindow)
@@ -722,9 +728,11 @@ class Ui_MainWindow(object):
         self.action_Slider_and_Rod = QtWidgets.QAction(MainWindow)
         self.action_Slider_and_Rod.setObjectName("action_Slider_and_Rod")
         self.action_Solvespace_2D_sketch = QtWidgets.QAction(MainWindow)
+        self.action_Solvespace_2D_sketch.setEnabled(False)
         self.action_Solvespace_2D_sketch.setIcon(icon32)
         self.action_Solvespace_2D_sketch.setObjectName("action_Solvespace_2D_sketch")
         self.action_DXF_2D_models = QtWidgets.QAction(MainWindow)
+        self.action_DXF_2D_models.setEnabled(False)
         self.action_DXF_2D_models.setIcon(icon33)
         self.action_DXF_2D_models.setObjectName("action_DXF_2D_models")
         self.action_Rock_Slider = QtWidgets.QAction(MainWindow)
@@ -769,6 +777,7 @@ class Ui_MainWindow(object):
         self.action_Four_bar_linkage = QtWidgets.QAction(MainWindow)
         self.action_Four_bar_linkage.setObjectName("action_Four_bar_linkage")
         self.action_Load_Workbook = QtWidgets.QAction(MainWindow)
+        self.action_Load_Workbook.setEnabled(False)
         self.action_Load_Workbook.setIcon(icon35)
         self.action_Load_Workbook.setObjectName("action_Load_Workbook")
         self.action_Zoom_to_fit = QtWidgets.QAction(MainWindow)

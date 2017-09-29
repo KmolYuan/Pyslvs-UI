@@ -1313,6 +1313,9 @@
      <string>&amp;File</string>
     </property>
     <widget class="QMenu" name="menuExample">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="statusTip">
       <string>Some example of the Linkage mechanism.</string>
      </property>
@@ -1367,6 +1370,9 @@
      <addaction name="action_Output_to_PMKS"/>
     </widget>
     <widget class="QMenu" name="menuImport">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="title">
       <string>&amp;Import</string>
      </property>
@@ -1441,6 +1447,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_New_Workbook">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/newfile.png</normaloff>:/icons/newfile.png</iconset>
@@ -1618,6 +1627,9 @@
    </property>
   </action>
   <action name="action_Save">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
@@ -1735,6 +1747,9 @@
    </property>
   </action>
   <action name="action_DXF_2D_sketch">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
@@ -1781,6 +1796,9 @@
    </property>
   </action>
   <action name="action_Save_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
@@ -1855,6 +1873,9 @@
    </property>
   </action>
   <action name="action_Solvespace_2D_sketch">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
@@ -1870,6 +1891,9 @@
    </property>
   </action>
   <action name="action_DXF_2D_models">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
@@ -2005,6 +2029,9 @@
    </property>
   </action>
   <action name="action_Load_Workbook">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
