@@ -31,12 +31,12 @@ from ..kernel.python_solvespace.slvs import (
 def slvsProcess(
     Point: Tuple['VPoint'],
     Link: Tuple['VLink'],
-    constraints: Tuple[Tuple[int, "Base link", "Drive link", float]],
+    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float]],
     hasWarning: bool =True
 ):
     pointCount = len(Point)
     sliderCount = sum([len(p.links)-1 for p in Point if p.type==1 or p.type==2])
-    Sys = System(pointCount*2+sliderCount+15)
+    Sys = System(pointCount*2 + sliderCount + 15)
     Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)
