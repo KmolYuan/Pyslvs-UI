@@ -28,7 +28,8 @@ from .io.script import Script_Dialog
 #Undo redo
 from .io.undoRedo import (
     addTableCommand, deleteTableCommand,
-    editPointTableCommand, editLinkTableCommand
+    editPointTableCommand, editLinkTableCommand,
+    fixSequenceNumberCommand
 )
 #Entities
 from .entities.edit_point import edit_point_show
@@ -714,7 +715,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         pos = self.Entities_Point.currentRow()
         pos = self.deleteDlg(self.action_New_Point.icon(), self.Entities_Point, pos if pos>-1 else 0)
         if pos is not None:
-            Args = [
+            pointArgs = [
                 '',
                 self.Entities_Point.item(pos, 2).text(),
                 self.Entities_Point.item(pos, 3).text(),
@@ -722,7 +723,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entities_Point.item(pos, 5).text()
             ]
             self.FileState.beginMacro("Delete {{Point{}}}".format(pos))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, pos, self.Entities_Link, Args))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, pos, self.Entities_Link, pointArgs))
+            for i in range(self.Entities_Link.rowCount()):
+                self.FileState.push(fixSequenceNumberCommand(self.Entities_Link, i, pos))
             self.FileState.push(deleteTableCommand(self.Entities_Point, pos, isRename=True))
             self.FileState.endMacro()
     

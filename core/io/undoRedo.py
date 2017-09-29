@@ -56,6 +56,32 @@ class deleteTableCommand(QUndoCommand):
         if self.isRename:
             self.table.rename(self.row)
 
+#Fix sequence number when deleting a point.
+class fixSequenceNumberCommand(QUndoCommand):
+    def __init__(self, table, row, q):
+        QUndoCommand.__init__(self)
+        self.table = table
+        self.row = row
+        self.q = q
+    
+    def redo(self):
+        self.sorting(True)
+    
+    def undo(self):
+        self.sorting(False)
+    
+    #Sorting by bigger than / smaller than q.
+    def sorting(self, bs):
+        item = self.table.item(self.row, 2)
+        if item.text():
+            points = [int(p.replace('Point', '')) for p in item.text().split(',')]
+            if bs:
+                points = [p-1 if p>self.q else p for p in points]
+            else:
+                points = [p+1 if p>=self.q else p for p in points]
+            points = ['Point{}'.format(p) for p in points]
+            item.setText(','.join(points))
+
 '''
 The edit command need to know who is included by the VPoint or VLink.
 '''
