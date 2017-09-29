@@ -17,9 +17,9 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from .QtModules import *
-from .graphics.color import colorIcons
-from .io.elements import VPoint, VLink
+from ..QtModules import *
+from ..graphics.color import colorIcons
+from ..io.elements import VPoint, VLink
 from typing import TypeVar, Tuple
 VPointType = TypeVar('VPointType', int, str)
 

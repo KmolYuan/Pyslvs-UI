@@ -17,16 +17,15 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from .QtModules import *
-from .graphics.canvas import DynamicCanvas
-from .Ui_custom_table import (
+from ..QtModules import *
+from ..info.info import VERSION
+from ..graphics.canvas import DynamicCanvas
+from .table import (
     PointTableWidget,
     LinkTableWidget,
     SelectionLabel
 )
-from .inputs.inputs import RotatableView
-from .info.info import VERSION
-tr = QCoreApplication.translate
+from .rotatable import RotatableView
 
 def initCustomWidgets(self):
     #Version text
@@ -77,6 +76,7 @@ def initCustomWidgets(self):
     #Add inputs QDial.
     self.inputs_Degree = QDial()
     self.inputs_Degree.setEnabled(False)
+    self.inputs_Degree.valueChanged.connect(self.variableValueUpdate)
     self.inputs_dial_layout.addWidget(RotatableView(self.inputs_Degree))
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()

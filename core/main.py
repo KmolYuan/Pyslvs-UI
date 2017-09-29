@@ -20,7 +20,7 @@
 from .QtModules import *
 tr = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
-from .Ui_custom import initCustomWidgets, action_Enabled, showUndoWindow
+from .widgets.custom import initCustomWidgets, action_Enabled, showUndoWindow
 
 #Dialog
 from .info.info import version_show
@@ -849,6 +849,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         enabled = row>-1
         self.inputs_Degree.setEnabled(enabled)
         self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100 if enabled else 0.)
+    
+    def variableValueUpdate(self, value):
+        value /= 100
+        item = self.inputs_variable.currentItem()
+        itemText = item.text().split('->')
+        itemText[-1] = str(value)
+        item.setText('->'.join(itemText))
+        #TODO: Update canvas.
     
     @pyqtSlot(bool)
     def on_PathSolving_clicked(self):
