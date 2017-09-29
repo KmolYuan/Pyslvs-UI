@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from typing import Tuple
-from math import cos, sin
+from math import radians, cos, sin
 from ..kernel.python_solvespace.slvs import (
     #System base
     System, groupNum, Slvs_MakeQuaternion,
@@ -130,6 +130,30 @@ def slvsProcess(
             #Conect the previous point.
             if relateOrder!=1:
                 ConnectTo(relateOrder-1)
+    #The constraints of drive shaft.
+    for shaft, base_link, drive_link, angle in constraints:
+        if Point[shaft].type!=0:
+            p_base = Slvs_Points[shaft][0]
+        else:
+            p_base = Slvs_Points[shaft]
+        #Base link slope angle.
+        if base_link!='ground':
+            relate_base = Link[LinkIndex(base_link)].points
+            newRelateOrder_base = relate_base.index(shaft)-1
+            angle -= Point[shaft].slopeAngle(Point[newRelateOrder_base])
+        x = Sys.add_param(round(Point[shaft].cx + 10.*cos(radians(angle)), 8))
+        y = Sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
+        p_hand = Point2d(Workplane1, x, y)
+        Constraint.dragged(Workplane1, p_hand)
+        leader = LineSegment2d(Workplane1, p_base, p_hand)
+        relate_drive = Link[LinkIndex(base_link)].points
+        newRelateOrder_drive = relate_drive.index(shaft)-1
+        if Point[newRelateOrder_drive].type!=0:
+            p_drive = Slvs_Points[newRelateOrder_drive][0]
+        else:
+            p_drive = Slvs_Points[newRelateOrder_drive]
+        link = LineSegment2d(Workplane1, p_base, p_drive)
+        Constraint.angle(Workplane1, .5, link, leader)
     '''
     mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
     my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)

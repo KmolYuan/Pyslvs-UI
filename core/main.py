@@ -877,7 +877,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             item = self.inputs_variable.item(i)
             itemText = item.text().split('->')
             itemText[0] = int(itemText[0].replace('Point', ''))
-            itemText[-1] = float(value)/100.
+            itemText[-1] = float(itemText[-1])
             constraints.append(tuple(itemText))
         return tuple(constraints)
     
