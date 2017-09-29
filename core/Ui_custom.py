@@ -198,8 +198,6 @@ def action_Enabled(self):
     self.action_point_right_click_menu_delete.setEnabled(ONE_POINT)
     self.action_link_right_click_menu_delete.setEnabled(ONE_LINK)
     #Others
-    self.action_Output_to_Solvespace.setEnabled(ONE_LINK)
-    self.action_DXF_2D_models.setEnabled(ONE_LINK)
     self.action_Batch_moving.setEnabled(ONE_POINT)
 
 def showUndoWindow(self, FileState):

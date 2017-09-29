@@ -70,7 +70,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         initCustomWidgets(self)
         self.Resolve()
         #Solve & DOF
-        self.Solvefail = False
         self.DOF = 0
         action_Enabled(self)
         if self.args.r:
@@ -187,8 +186,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Undo and Redo
     @pyqtSlot(int)
     def commandReload(self, index=0):
-        self.action_Undo.setText("Undo {}".format(self.FileState.undoText()))
-        self.action_Redo.setText("Redo {}".format(self.FileState.redoText()))
+        self.action_Undo.setText("Undo - {}".format(self.FileState.undoText()))
+        self.action_Redo.setText("Redo - {}".format(self.FileState.redoText()))
         if index!=self.File.form.Stack:
             self.workbookNoSave()
         else:
@@ -209,13 +208,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ConflictGuide.setVisible(Failed)
         self.DOFview.setVisible(not Failed)
         if not Failed:
-            self.Solvefail = False
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
             self.Reload_Canvas()
         else:
-            self.Solvefail = True
             self.ConflictGuide.setToolTip(DOF)
             self.Reload_Canvas()
     
