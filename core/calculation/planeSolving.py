@@ -141,6 +141,7 @@ def slvsProcess(
             relate_base = Link[LinkIndex(base_link)].points
             newRelateOrder_base = relate_base.index(shaft)-1
             angle -= Point[shaft].slopeAngle(Point[newRelateOrder_base])
+            angle %= 360.
         x = Sys.add_param(round(Point[shaft].cx + 10.*cos(radians(angle)), 8))
         y = Sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
         p_hand = Point2d(Workplane1, x, y)
@@ -154,19 +155,7 @@ def slvsProcess(
             p_drive = Slvs_Points[newRelateOrder_drive]
         link = LineSegment2d(Workplane1, p_base, p_drive)
         Constraint.angle(Workplane1, .5, link, leader)
-    '''
-    mx = round(Point[shaft].cx+10*cos(angle*pi/180), 8)
-    my = round(Point[shaft].cy+10*sin(angle*pi/180), 8)
-    x = Sys.add_param(mx if mx!=0 else 0.)
-    y = Sys.add_param(my if my!=0 else 0.)
-    leader = Point2d(Workplane1, x, y)
-    Constraint.dragged(Workplane1, leader)
-    Line0 = LineSegment2d(Workplane1, Slvs_Points[shaft], leader)
-    #Another point on specified link
-    for i in range(len(Point[shaft].Links)):
-        linkRef = list(set(Point[shaft].Links[i])-{i})[0]
-        Constraint.angle(Workplane1, .5, LineSegment2d(Workplane1, Slvs_Points[shaft], Slvs_Points[linkRef]), Line0)
-    '''
+    #Solve
     result = Sys.solve()
     if result==SLVS_RESULT_OKAY:
         resultList = []
