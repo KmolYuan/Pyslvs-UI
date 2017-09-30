@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-09-29, 13:35:00 -->
+<!-- Saved: 2017-09-30, 22:14:06 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -79,22 +79,12 @@
     <Source>core/tools/DimensionalSynthesis/Path_Solving_path_adjust.py</Source>
     <Source>core/tools/DimensionalSynthesis/Path_Solving_progress.py</Source>
     <Source>core/tools/DimensionalSynthesis/Path_Solving_series.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Triangle_Solver.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Triangle_Solver_edit.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Triangle_Solver_template.py</Source>
     <Source>core/tools/DimensionalSynthesis/Ui_Path_Solving.py</Source>
     <Source>core/tools/DimensionalSynthesis/Ui_Path_Solving_options.py</Source>
     <Source>core/tools/DimensionalSynthesis/Ui_Path_Solving_path_adjust.py</Source>
     <Source>core/tools/DimensionalSynthesis/Ui_Path_Solving_progress.py</Source>
     <Source>core/tools/DimensionalSynthesis/Ui_Path_Solving_series.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Ui_Triangle_Solver.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Ui_Triangle_Solver_directionItem.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Ui_Triangle_Solver_edit.py</Source>
-    <Source>core/tools/DimensionalSynthesis/Ui_Triangle_Solver_template.py</Source>
     <Source>core/tools/DimensionalSynthesis/__init__.py</Source>
-    <Source>core/tools/Inputs/Drive_shaft.py</Source>
-    <Source>core/tools/Inputs/Ui_Drive_shaft.py</Source>
-    <Source>core/tools/Inputs/__init__.py</Source>
     <Source>core/tools/__init__.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
@@ -117,6 +107,11 @@
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
+    <Form>core/tools/DimensionalSynthesis/Path_Solving.ui</Form>
+    <Form>core/tools/DimensionalSynthesis/Path_Solving_options.ui</Form>
+    <Form>core/tools/DimensionalSynthesis/Path_Solving_path_adjust.ui</Form>
+    <Form>core/tools/DimensionalSynthesis/Path_Solving_progress.ui</Form>
+    <Form>core/tools/DimensionalSynthesis/Path_Solving_series.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

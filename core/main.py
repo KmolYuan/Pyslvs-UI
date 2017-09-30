@@ -38,7 +38,6 @@ from .entities.delete import deleteDlg
 from .entities.batchMoving import batchMoving_show
 #Tools
 from .tools.DimensionalSynthesis.Path_Solving import Path_Solving_show
-from .tools.DimensionalSynthesis.Triangle_Solver import Triangle_Solver_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 #File & Example
@@ -983,22 +982,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if dlgbox.exec_():
                 print("Generate Result Error.")
                 self.on_action_Console_triggered()
-    
-    @pyqtSlot(bool)
-    def on_TriangleSolver_clicked(self):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        if "Triangle Solver" in tabNameList:
-            self.closePanel(tabNameList.index("Triangle Solver"))
-        else:
-            panel = Triangle_Solver_show(self.FileState, self.File.Lists.PointList, self.File.Designs.TSDirections, self)
-            panel.startMerge.connect(self.TriangleSolver_merge)
-            self.panelWidget.addTab(panel, self.TriangleSolver.icon(), "Triangle Solver")
-            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
-    @pyqtSlot()
-    def TriangleSolver_merge(self):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.File.TS_Merge(self.panelWidget.widget(tabNameList.index("Triangle Solver")).answers,
-            self.Entities_Point, self.Entities_Link, self.Entities_Chain, self.Simulate_Slider)
     
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):

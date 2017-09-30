@@ -582,32 +582,6 @@
                       </property>
                      </widget>
                     </item>
-                    <item>
-                     <widget class="QPushButton" name="TriangleSolver">
-                      <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Triangle Solver&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use Solver to calculate the reference points of your mechanism.&lt;/span&gt;&lt;img src=&quot;:/icons/tooltips/TS.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;You must manually adjust the stacking method.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                      </property>
-                      <property name="statusTip">
-                       <string>Use Solver to calculate the reference points of your mechanism.</string>
-                      </property>
-                      <property name="text">
-                       <string/>
-                      </property>
-                      <property name="icon">
-                       <iconset resource="../icons.qrc">
-                        <normaloff>:/icons/TS.png</normaloff>:/icons/TS.png</iconset>
-                      </property>
-                      <property name="iconSize">
-                       <size>
-                        <width>40</width>
-                        <height>40</height>
-                       </size>
-                      </property>
-                      <property name="checkable">
-                       <bool>true</bool>
-                      </property>
-                     </widget>
-                    </item>
                    </layout>
                   </widget>
                  </item>
