@@ -200,15 +200,19 @@ def action_Enabled(self):
     #Others
     self.action_Batch_moving.setEnabled(ONE_POINT)
 
-def showUndoWindow(self, FileState):
-    self.undoView = QUndoView(FileState)
+def showUndoWindow(self):
+    self.FileState = QUndoStack()
+    self.FileState.setUndoLimit(16)
+    self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)
+    self.FileState.indexChanged.connect(self.commandReload)
+    self.undoView = QUndoView(self.FileState)
     self.undoView.setEmptyLabel("~ Start Pyslvs")
     self.UndoRedoLayout.addWidget(self.undoView)
     separator = QAction(self)
     separator.setSeparator(True)
     self.menu_Edit.insertAction(self.action_Batch_moving, separator)
-    self.action_Redo = FileState.createRedoAction(self, 'Redo')
-    self.action_Undo = FileState.createUndoAction(self, 'Undo')
+    self.action_Redo = self.FileState.createRedoAction(self, 'Redo')
+    self.action_Undo = self.FileState.createUndoAction(self, 'Undo')
     self.action_Redo.setShortcut("Ctrl+Shift+Z")
     self.action_Redo.setStatusTip("Backtracking undo action.")
     self.action_Redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))

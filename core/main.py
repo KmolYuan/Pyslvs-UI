@@ -61,11 +61,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        #Undo stack.
-        self.FileState = QUndoStack()
-        self.FileState.indexChanged.connect(self.commandReload)
-        #Undo widget.
-        showUndoWindow(self, self.FileState)
+        #Undo stack and undo list widget.
+        showUndoWindow(self)
         #Set file informations.
         self.File = File(self.FileState, self.args)
         self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
