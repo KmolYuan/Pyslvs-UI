@@ -15,7 +15,7 @@ class Ui_Dialog(object):
         Dialog.setMinimumSize(QtCore.QSize(340, 309))
         Dialog.setMaximumSize(QtCore.QSize(340, 309))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/PathSolving.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
         Dialog.setModal(True)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(Dialog)

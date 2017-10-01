@@ -76,7 +76,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QTabWidget" name="ToolPanel">
+          <widget class="QTabWidget" name="SynthesisPanel">
            <property name="tabPosition">
             <enum>QTabWidget::West</enum>
            </property>
@@ -105,7 +105,7 @@
               <number>3</number>
              </property>
              <item>
-              <widget class="QSplitter" name="ToolPanelSplitter">
+              <widget class="QSplitter" name="MechanismPanelSplitter">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -197,7 +197,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="Line" name="ToolPanelSplitterLine">
+                  <widget class="Line" name="MechanismPanelSplitterLine">
                    <property name="lineWidth">
                     <number>3</number>
                    </property>
@@ -498,13 +498,13 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="tools_tab">
+           <widget class="QWidget" name="synthesis_tab">
             <attribute name="icon">
              <iconset resource="../icons.qrc">
-              <normaloff>:/icons/tools.png</normaloff>:/icons/tools.png</iconset>
+              <normaloff>:/icons/synthesis.png</normaloff>:/icons/synthesis.png</iconset>
             </attribute>
             <attribute name="title">
-             <string>Tools</string>
+             <string>Synthesis</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_14">
              <property name="leftMargin">
@@ -520,7 +520,7 @@
               <number>3</number>
              </property>
              <item>
-              <widget class="QSplitter" name="tools_splitter">
+              <widget class="QSplitter" name="synthesis_splitter">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -557,9 +557,9 @@
                      <number>3</number>
                     </property>
                     <item>
-                     <widget class="QPushButton" name="PathSolving">
+                     <widget class="QPushButton" name="DimensionalSynthesis">
                       <property name="toolTip">
-                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/PathSolving.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Path Solving&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;This generator will design a crank rocker to meet this path requirement.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/icons/tooltips/DimensionalSynthesis.png&quot;/&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There may be some interference problems in the solution of faster convergence.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                       </property>
                       <property name="statusTip">
                        <string>This generator will design a crank rocker to meet this path requirement.</string>
@@ -569,7 +569,7 @@
                       </property>
                       <property name="icon">
                        <iconset resource="../icons.qrc">
-                        <normaloff>:/icons/PathSolving.png</normaloff>:/icons/PathSolving.png</iconset>
+                        <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
                       </property>
                       <property name="iconSize">
                        <size>

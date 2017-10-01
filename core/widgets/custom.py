@@ -99,9 +99,9 @@ def initCustomWidgets(self):
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 15)
-    self.ToolPanelSplitter.setStretchFactor(0, 4)
-    self.ToolPanelSplitter.setStretchFactor(1, 5)
-    self.tools_splitter.setSizes([100, 500])
+    self.MechanismPanelSplitter.setStretchFactor(0, 4)
+    self.MechanismPanelSplitter.setStretchFactor(1, 5)
+    self.synthesis_splitter.setSizes([100, 500])
     '''
     Entities_Point context menu
     
@@ -202,7 +202,7 @@ def action_Enabled(self):
 
 def showUndoWindow(self):
     self.FileState = QUndoStack()
-    self.FileState.setUndoLimit(16)
+    self.FileState.setUndoLimit(self.UndoLimit.value())
     self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)
     self.FileState.indexChanged.connect(self.commandReload)
     self.undoView = QUndoView(self.FileState)

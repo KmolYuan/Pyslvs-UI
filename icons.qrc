@@ -23,7 +23,7 @@
     <!--Panel icons-->
     <file>icons/mechanism.png</file>
     <file>icons/history.png</file>
-    <file>icons/tools.png</file>
+    <file>icons/synthesis.png</file>
     <!--Dialog icons-->
     <file>icons/arrow_down.png</file>
     <file>icons/arrow_up.png</file>
@@ -37,6 +37,7 @@
     <file>icons/data.png</file>
     <file>icons/dataupdate.png</file>
     <file>icons/delete.png</file>
+    <file>icons/DimensionalSynthesis.png</file>
     <file>icons/disconnect.png</file>
     <file>icons/exit.png</file>
     <file>icons/fullscreen.png</file>
@@ -51,7 +52,6 @@
     <file>icons/motor.png</file>
     <file>icons/newfile.png</file>
     <file>icons/normalsized.png</file>
-    <file>icons/PathSolving.png</file>
     <file>icons/PathTrack.png</file>
     <file>icons/play.png</file>
     <file>icons/properties.png</file>
@@ -61,7 +61,6 @@
     <file>icons/rod.png</file>
     <file>icons/savefile.png</file>
     <file>icons/settings.png</file>
-    <file>icons/slider.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>
     <file>icons/TS.png</file>

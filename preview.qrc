@@ -15,21 +15,9 @@
     <file>icons/preview/PLLP.png</file>
     <file>icons/preview/PLPP.png</file>
     <file>icons/preview/PPP.png</file>
-    <file>icons/preview/TSMergeChain.png</file>
-    <file>icons/preview/TSMergeL0.png</file>
-    <file>icons/preview/TSMergeL0R0.png</file>
-    <file>icons/preview/TSMergePointsOnly.png</file>
-    <file>icons/preview/TSMergeR0.png</file>
-    <file>icons/preview/TSMergeSlider.png</file>
-    <file>icons/preview/TSMergeSliderPointsOnly.png</file>
     <!--Tool tip preview pictures-->
-    <file>icons/tooltips/AuxLine.png</file>
-    <file>icons/tooltips/DriveRod.png</file>
+    <file>icons/tooltips/DimensionalSynthesis.png</file>
     <file>icons/tooltips/DriveShaft.png</file>
-    <file>icons/tooltips/Measurement.png</file>
     <file>icons/tooltips/needbearings.png</file>
-    <file>icons/tooltips/PathSolving.png</file>
-    <file>icons/tooltips/PathTrack.png</file>
-    <file>icons/tooltips/TS.png</file>
     </qresource>
 </RCC>

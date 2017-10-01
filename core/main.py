@@ -37,7 +37,7 @@ from .entities.edit_link import edit_link_show
 from .entities.delete import deleteDlg
 from .entities.batchMoving import batchMoving_show
 #Tools
-from .tools.DimensionalSynthesis.Path_Solving import Path_Solving_show
+from .synthesis.DimensionalSynthesis.Path_Solving import Path_Solving_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 #File & Example
@@ -129,7 +129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_painter_context_menu(self, point):
-        self.action_painter_right_click_menu_path.setVisible(self.PathSolving.isChecked())
+        self.action_painter_right_click_menu_path.setVisible(self.DimensionalSynthesis.isChecked())
         self.enableEditPoint()
         action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
         if action==self.action_painter_right_click_menu_add:
@@ -232,7 +232,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook Change signal.
     def workbookNoSave(self):
         self.File.form.changed = True
-        self.setWindowTitle(self.windowTitle().replace('*', str())+'*')
+        self.setWindowTitle(self.windowTitle().replace('*', '')+'*')
         action_Enabled(self)
     def workbookSaved(self):
         self.File.form.changed = False
@@ -434,10 +434,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 self.loadWorkbookError(fileName)
     
+    #Import from workbook option
     @pyqtSlot()
     def on_action_Import_From_Workbook_triggered(self):
         self.importWorkbook(say='Import from file...')
     
+    #Import to workbook
     def importWorkbook(self, say, fileName=False, data=[]):
         if fileName==False:
             fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, "XML File(*.xml);;CSV File(*.csv)")
@@ -460,6 +462,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 self.loadWorkbookError(fileName)
     
+    #Error message when load workbook failed.
     def loadWorkbookError(self, fileName):
         dlgbox = QMessageBox(QMessageBox.Warning, "Loading failed", "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), self)
         if dlgbox.exec_():
@@ -472,11 +475,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         suffix = QFileInfo(fileName).suffix()
         self.save('' if suffix!='csv' and suffix!='xml' else fileName)
     
+    #Save as function
     @pyqtSlot()
     def on_action_Save_as_triggered(self):
         self.save()
     
-    def save(self, fileName=str()):
+    #Save function
+    def save(self, fileName=""):
         hasReply = bool(fileName)==False
         if hasReply:
             fileName = self.outputTo("Workbook", ["XML File(*.xml)", "CSV File(*.csv)"])
@@ -590,7 +595,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Entities
     def addPointGroup(self, fixed=False):
-        if not self.PathSolving.isChecked():
+        if not self.DimensionalSynthesis.isChecked():
             Args = [
                 'ground' if fixed else '',
                 'R',
@@ -798,8 +803,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlgbox.setWindowTitle("Captured!")
         dlgbox.setStandardButtons((QMessageBox.Ok))
         dlgbox.setIconPixmap(pixmap.scaledToWidth(650))
-        if dlgbox.exec_():
-            pass
+        dlgbox.exec_()
     
     @pyqtSlot(int)
     def setZoomBar(self, val):
@@ -811,7 +815,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Wheel Event
     def wheelEvent(self, event):
         if self.DynamicCanvasView.underMouse():
-            self.ZoomBar.setValue(self.ZoomBar.value()+10*(1 if event.angleDelta().y()>0 else -1))
+            self.ZoomBar.setValue(self.ZoomBar.value() + (10 if event.angleDelta().y()>0 else -10))
     
     @pyqtSlot(bool)
     def on_action_Display_Dimensions_toggled(self, p0):
@@ -929,12 +933,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             constraints.append(tuple(itemText))
         return tuple(constraints)
     
-    @pyqtSlot(bool)
-    def on_PathSolving_clicked(self):
+    @pyqtSlot()
+    def on_DimensionalSynthesis_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.DynamicCanvasView.showSlvsPath = not "Path Solving" in tabNameList
-        if "Path Solving" in tabNameList:
-            self.closePanel(tabNameList.index("Path Solving"))
+        self.DynamicCanvasView.showSlvsPath = not self.DimensionalSynthesisGroupBox.title() in tabNameList
+        if self.DimensionalSynthesisGroupBox.title() in tabNameList:
+            self.closePanel(tabNameList.index(self.DimensionalSynthesisGroupBox.title()))
         else:
             panel = Path_Solving_show(
                 self.File.Designs.path,
@@ -948,12 +952,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             panel.moveupPathPoint.connect(self.PathSolving_moveup)
             panel.movedownPathPoint.connect(self.PathSolving_movedown)
             panel.mergeResult.connect(self.PathSolving_mergeResult)
-            self.panelWidget.addTab(panel, self.PathSolving.icon(), "Path Solving")
+            self.panelWidget.addTab(panel, self.DimensionalSynthesis.icon(), self.DimensionalSynthesisGroupBox.title())
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
     def PathSolving_add_rightClick(self, x, y):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.panelWidget.widget(tabNameList.index("Path Solving")).addPath(x, y)
+        self.panelWidget.widget(tabNameList.index(self.DimensionalSynthesisGroupBox.title())).addPath(x, y)
         self.PathSolving_add(x, y)
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
@@ -980,13 +984,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entities_Point, self.Entities_Link, self.Entities_Chain, self.Simulate_Shaft)==False:
             dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension.", (QMessageBox.Ok), self)
             if dlgbox.exec_():
-                print("Generate Result Error.")
+                print("Generate result error.")
                 self.on_action_Console_triggered()
     
     def closeAllPanels(self):
         for i in reversed(range(self.panelWidget.count())):
             self.closePanel(i)
-        for button in [self.TriangleSolver, self.PathSolving]:
+        for button in [self.DimensionalSynthesis]:
             button.setChecked(False)
         self.DynamicCanvasView.showSlvsPath = False
         self.Reload_Canvas()
