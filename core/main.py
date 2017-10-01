@@ -815,7 +815,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Wheel Event
     def wheelEvent(self, event):
         if self.DynamicCanvasView.underMouse():
-            self.ZoomBar.setValue(self.ZoomBar.value() + (10 if event.angleDelta().y()>0 else -10))
+            a = event.angleDelta().y()
+            self.ZoomBar.setValue(self.ZoomBar.value() + self.ScaleFactor.value()*a/abs(a))
     
     @pyqtSlot(bool)
     def on_action_Display_Dimensions_toggled(self, p0):
