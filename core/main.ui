@@ -539,6 +539,32 @@
                   <number>3</number>
                  </property>
                  <item>
+                  <widget class="QGroupBox" name="groupBox_3">
+                   <property name="title">
+                    <string>Number and Type synthesis</string>
+                   </property>
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <widget class="QPushButton" name="NumberAndTypeSynthesis">
+                      <property name="enabled">
+                       <bool>false</bool>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="../icons.qrc">
+                        <normaloff>:/icons/NumberAndTypeSynthesis.png</normaloff>:/icons/NumberAndTypeSynthesis.png</iconset>
+                      </property>
+                      <property name="iconSize">
+                       <size>
+                        <width>40</width>
+                        <height>40</height>
+                       </size>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
                   <widget class="QGroupBox" name="DimensionalSynthesisGroupBox">
                    <property name="title">
                     <string>Dimensional synthesis</string>
@@ -680,7 +706,7 @@
                       </sizepolicy>
                      </property>
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;All changes in &lt;span style=&quot; font-weight:600;&quot;&gt;this edition&lt;/span&gt; will show here.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This action list will build your mechanism from data base.&lt;/p&gt;&lt;p&gt;If you want to view the workbook history, please switch to the version control tab.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="wordWrap">
                       <bool>true</bool>

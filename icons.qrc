@@ -52,6 +52,7 @@
     <file>icons/motor.png</file>
     <file>icons/newfile.png</file>
     <file>icons/normalsized.png</file>
+    <file>icons/NumberAndTypeSynthesis.png</file>
     <file>icons/PathTrack.png</file>
     <file>icons/play.png</file>
     <file>icons/properties.png</file>
@@ -63,7 +64,6 @@
     <file>icons/settings.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>
-    <file>icons/TS.png</file>
     <file>icons/undo.png</file>
   </qresource>
 </RCC>

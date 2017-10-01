@@ -981,17 +981,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.Designs.removeResult(row)
     @pyqtSlot(int, float, float, list, dict)
     def PathSolving_mergeResult(self, row, startAngle, endAngle, answer, Paths):
-        if self.File.Generate_Merge(row, startAngle, endAngle, answer, Paths,
-                self.Entities_Point, self.Entities_Link, self.Entities_Chain, self.Simulate_Shaft)==False:
-            dlgbox = QMessageBox(QMessageBox.Warning, "Error when merge...", "Please check dimension.", (QMessageBox.Ok), self)
-            if dlgbox.exec_():
-                print("Generate result error.")
-                self.on_action_Console_triggered()
+        #TODO: Dimensional synthesis merge function.
+        pass
     
     def closeAllPanels(self):
-        for i in reversed(range(self.panelWidget.count())):
-            self.closePanel(i)
-        for button in [self.DimensionalSynthesis]:
+        for i in range(self.panelWidget.count()):
+            self.closePanel(0)
+        for button in [self.NumberAndTypeSynthesis, self.DimensionalSynthesis]:
             button.setChecked(False)
         self.DynamicCanvasView.showSlvsPath = False
         self.Reload_Canvas()

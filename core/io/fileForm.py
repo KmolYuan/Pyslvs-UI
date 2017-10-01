@@ -81,11 +81,14 @@ class File:
         self.Script = ""
         self.form = Form()
         self.FileState.clear()
+    
     def updateTime(self):
         self.form.lastTime = timeNow()
+    
     def updateAuthorDescription(self, author, description):
         self.form.author = author
         self.form.description = description
+    
     '''
     def Generate_Merge(self, row, startAngle, endAngle, answer, Paths, Point, Link, Chain, Shaft):
         if not (False in answer):
@@ -111,62 +114,4 @@ class File:
             return True
         else:
             return False
-    '''
-    '''
-    def TS_Merge(self, answers, Point, Link, Chain, Slider):
-        Pythagorean = lambda p1, p2: ((p1.x-p2.x)**2+(p1.y-p2.y)**2)**(1/2)
-        pNums = []
-        for i, answer in enumerate(answers):
-            pNum = dict()
-            direction = self.Designs.TSDirections[i]
-            #New Points
-            for p in ['p1', 'p2', 'p3']:
-                if type(direction.get(p))==tuple:
-                    self.Lists.editTable(Point, False, direction.get(p)[0], direction.get(p)[1], False, 'Green')
-                    pNum[p] = Point.rowCount()-1
-            if len(answer)==2:
-                self.Lists.editTable(Point, False, answer[0], answer[1], False, 'Green')
-            elif len(answer)==3:
-                if type(direction.get('p3'))==tuple:
-                    self.Lists.editTable(Point, False, direction.p3[0], direction.p3[1], False, 'Green')
-            pNum['answer'] = Point.rowCount()-1
-            pNums.append(pNum)
-            #Number of Points & Length of Sides
-            p1 = int(direction.p1.replace('Point', '')) if type(direction.p1)==str else pNums[direction.p1]['answer'] if type(direction.p1)==int else pNum['p1']
-            p2 = int(direction.p2.replace('Point', '')) if type(direction.p2)==str else pNums[direction.p2]['answer'] if type(direction.p2)==int else pNum['p2']
-            if direction.Type in ['PLPP', 'PPP']:
-                p3 = int(direction.p3.replace('Point', '')) if type(direction.p3)==str else pNums[direction.p3]['answer'] if type(direction.p3)==int else pNum['p3']
-            if direction.Type in ['PLAP', 'PLLP', 'PLPP']:
-                pA = pNum['answer']
-            #Merge options
-            table_points = self.Lists.PointList
-            if direction.Type in ['PLAP', 'PLLP']:
-                if direction.merge==1:
-                    self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
-                elif direction.merge==2:
-                    self.Lists.editTable(Link, False, p2, pA, str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
-                elif direction.merge==3:
-                    self.Lists.editTable(Chain, False, p1, pA, p2,
-                        str(direction.len1),
-                        str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))),
-                        str(Pythagorean(table_points[p1], table_points[p2]))
-                    )
-                elif direction.merge==4:
-                    self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
-                    self.Lists.editTable(Link, False, p2, pA,
-                        str(direction.get('len2', Pythagorean(table_points[p2], table_points[pA]))))
-            elif direction.Type=='PPP':
-                if direction.merge==1:
-                    self.Lists.editTable(Link, False, p1, p3, answer[2])
-                elif direction.merge==2:
-                    self.Lists.editTable(Link, False, p2, p3, answer[1])
-                elif direction.merge==3:
-                    self.Lists.editTable(Chain, False, p1, p2, p3, answer[0], answer[1], answer[2])
-                elif direction.merge==4:
-                    self.Lists.editTable(Link, False, p1, p3, answer[2])
-                    self.Lists.editTable(Link, False, p2, p3, answer[1])
-            elif direction.Type=='PLPP':
-                if direction.merge==1:
-                    self.Lists.editTable(Link, False, p1, pA, str(direction.len1))
-                    self.Lists.editTable(Slider, False, pA, p2, p3)
     '''
