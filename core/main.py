@@ -74,15 +74,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         action_Enabled(self)
         if self.args.r:
             #Load workbook.
-            self.loadWorkbook("Loading by Argument.", fileName=self.args.r)
+            self.loadWorkbook("Loading exist workbook.", fileName=self.args.r)
         else:
             #Blank workbook.
-            Args = ['ground', 'R', 'Red', 0., 0.]
-            rowCount = self.Entities_Point.rowCount()
-            self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-            self.FileState.push(addTableCommand(self.Entities_Point))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
-            self.FileState.endMacro()
+            self.addPoint(0., 0., True, 'Red')
     
     #Set environment variables
     def setLocate(self, locate):
@@ -604,8 +599,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
     
     #Add an ordinary point.
-    def addPoint(self, x, y, fixed=False):
-        Args = ['ground' if fixed else '', 'R', 'Blue' if fixed else 'Green', x, y]
+    def addPoint(self, x, y, fixed=False, color=''):
+        Args = ['ground' if fixed else '', 'R', color if color else ('Blue' if fixed else 'Green'), x, y]
         rowCount = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
         self.FileState.push(addTableCommand(self.Entities_Point))
