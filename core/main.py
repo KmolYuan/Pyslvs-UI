@@ -131,13 +131,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_painter_context_menu(self, point):
         self.action_painter_right_click_menu_path.setVisible(self.DimensionalSynthesis.isChecked())
         self.enableEditPoint()
-        action = self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
-        if action==self.action_painter_right_click_menu_add:
-            self.addPointGroup()
-        elif action==self.action_painter_right_click_menu_fix_add:
-            self.addPointGroup(True)
-        elif action==self.action_painter_right_click_menu_path:
-            self.PathSolving_add_rightClick(x, y)
+        self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
     
     #What ever we have least one point or not, need to enable / disable QAction.
     def enableEditPoint(self):
@@ -593,23 +587,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec()==QMessageBox.Open:
             self.OpenURL(url)
     
-    #Entities
-    def addPointGroup(self, fixed=False):
+    '''Entities'''
+    #Add point group using alt key.
+    def qAddPointGroup(self, fixed=False):
         if not self.DimensionalSynthesis.isChecked():
-            Args = [
-                'ground' if fixed else '',
-                'R',
-                'Blue' if fixed else 'Green',
-                self.mouse_pos_x,
-                self.mouse_pos_y
-            ]
-            rowCount = self.Entities_Point.rowCount()
-            self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-            self.FileState.push(addTableCommand(self.Entities_Point))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
-            self.FileState.endMacro()
+            self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
         else:
-            self.PathSolving_add_rightClick(self.mouse_pos_x, self.mouse_pos_y)
+            self.PathSolving_add_rightClick()
+    
+    #Add a point group (not fixed).
+    def addPointGroup(self):
+        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
+    
+    #Add a point group (fixed).
+    def addPointGroup_fixed(self):
+        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
+    
+    #Add an ordinary point.
+    def addPoint(self, x, y, fixed=False):
+        Args = ['ground' if fixed else '', 'R', 'Blue' if fixed else 'Green', x, y]
+        rowCount = self.Entities_Point.rowCount()
+        self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+        self.FileState.push(addTableCommand(self.Entities_Point))
+        self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
+        self.FileState.endMacro()
+        return rowCount
     
     @pyqtSlot(list)
     def addLinkGroup(self, points):
@@ -956,7 +958,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.panelWidget.addTab(panel, self.DimensionalSynthesis.icon(), self.DimensionalSynthesisGroupBox.title())
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
-    def PathSolving_add_rightClick(self, x, y):
+    def PathSolving_add_rightClick(self):
+        x = self.mouse_pos_x
+        y = self.mouse_pos_y
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         self.panelWidget.widget(tabNameList.index(self.DimensionalSynthesisGroupBox.title())).addPath(x, y)
         self.PathSolving_add(x, y)
@@ -979,10 +983,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def PathSolving_deleteResult(self, row):
         self.File.Designs.removeResult(row)
-    @pyqtSlot(int, float, float, list, dict)
-    def PathSolving_mergeResult(self, row, startAngle, endAngle, answer, Paths):
-        #TODO: Dimensional synthesis merge function.
-        pass
+    @pyqtSlot(tuple, dict)
+    def PathSolving_mergeResult(self, answer, Paths):
+        pointNum = []
+        for i, (x, y) in enumerate(answer):
+            pointNum.append(self.addPoint(x, y, i<2))
+        for p in pointNum:
+            #TODO: Dimensional synthesis link merge function.
+            '''
+            self.addLinkGroup([])
+            '''
     
     def closeAllPanels(self):
         for i in range(self.panelWidget.count()):

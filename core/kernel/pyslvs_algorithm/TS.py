@@ -101,12 +101,6 @@ class solver:
                 L0*loop*(-x0 + x1)*sin(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + L0*(-y0 + y1)*cos(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + y0
             )
         except Exception as e:
-            print("x0 = {}".format(x0))
-            print("y0 = {}".format(y0))
-            print("x1 = {}".format(x1))
-            print("y1 = {}".format(y1))
-            print("L0 = {}".format(L0))
-            print("a0 = {}".format(a0))
             return self.ErrorBack(e)
     
     def PLLP(self, A, L0, R0, B, other=False):

@@ -225,7 +225,7 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.ox, self.oy)
         self.painter.rotate(self.rotateAngle)
-        for i, vlink in enumerate(self.Link):
+        for i, vlink in enumerate(self.Link[1:]):
             points = [self.Point[i] for i in vlink.points]
             self.drawLink(vlink.name, vlink.color, points)
         self.drawPath()

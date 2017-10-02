@@ -75,7 +75,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    mergeResult = pyqtSignal(int, float, float, list, dict)
+    mergeResult = pyqtSignal(tuple, dict)
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
@@ -342,7 +342,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         row = self.Result_list.currentRow()
         if row!=-1:
             mechanism = self.mechanism_data[row]
-            _, _, _, _, Paths = self.legal_crank(row)
+            _, Paths = self.legal_crank(row)
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
             if dlg.exec_():
@@ -361,11 +361,22 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         answer = [False]
-        startAngle = False
-        endAngle = False
         expression = Result['mechanismParams']['Expression'].split(',')
         '''
-        expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
+        expression_tag
+        four_bar = (
+            ('A', 'L0', 'a0', 'D', 'B'),
+            ('B', 'L1', 'L2', 'D', 'C'),
+            ('B', 'L3', 'L4', 'C', 'E')
+        )
+        eight_bar = (
+            ('A', 'L0', 'a0', 'B', 'C'),
+            ('B', 'L1', 'L2', 'C', 'D'),
+            ('B', 'L3', 'L4', 'D', 'E'),
+            ('C', 'L5', 'L6', 'B', 'F'),
+            ('F', 'L7', 'L8', 'E', 'G'),
+            ('F', 'L9', 'L10', 'G', 'H')
+        )
         '''
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         expression_result = [exp[-1] for exp in expression_tag]
@@ -378,15 +389,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
             s = solver(Directions)
             s_answer = s.answer()
-            answerT = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
-            if not False in answerT:
-                if startAngle is False:
-                    startAngle = float(a)
-                    answer = answerT
-                endAngle = float(a)
+            if False not in s_answer:
+                answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
             for i, a in enumerate(s_answer):
                 Paths[expression_result[i]].append(a)
-        return row, startAngle, endAngle, answer, Paths
+        return tuple(answer), Paths
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
