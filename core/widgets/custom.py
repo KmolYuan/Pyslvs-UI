@@ -71,8 +71,6 @@ def initCustomWidgets(self):
     propertiesButton.setStatusTip("Properties of this workbook.")
     propertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.PointTab.setCornerWidget(propertiesButton)
-    #PMKS button on the broswer bar.
-    self.OutputToPMKS.clicked.connect(self.on_action_Output_to_PMKS_triggered)
     #Add inputs QDial.
     self.inputs_Degree = QDial()
     self.inputs_Degree.setEnabled(False)

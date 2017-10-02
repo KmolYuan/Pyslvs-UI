@@ -542,8 +542,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg = fileInfo_show(self.File.form.fileName.fileName(), self.File.form.author, self.File.form.description,
             self.File.form.lastTime, self.File.Designs.result, errorInfo, self)
         dlg.show()
-        if dlg.exec_():
-            pass
+        dlg.exec_()
     
     @pyqtSlot()
     def on_action_Property_triggered(self):
@@ -1052,8 +1051,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_panelWidget_currentChanged(self, index):
-        if index==-1:
-            self.panelWidget.hide()
+        if index>-1 and not self.panelWidget.isVisible():
+            self.panelWidget.show()
         else:
-            if not self.panelWidget.isVisible():
-                self.panelWidget.show()
+            self.panelWidget.hide()
