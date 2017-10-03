@@ -159,7 +159,7 @@ def initCustomWidgets(self):
     self.action_link_right_click_menu_release = QAction("&Release", self)
     self.action_link_right_click_menu_release.triggered.connect(self.releaseGround)
     self.popMenu_link.addAction(self.action_link_right_click_menu_release)
-    self.action_link_right_click_menu_constrain = QAction("&Constrain", self)
+    self.action_link_right_click_menu_constrain = QAction("C&onstrain", self)
     self.action_link_right_click_menu_constrain.triggered.connect(self.constrainLink)
     self.popMenu_link.addAction(self.action_link_right_click_menu_constrain)
     self.popMenu_link.addSeparator()

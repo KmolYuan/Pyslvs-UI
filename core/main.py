@@ -770,11 +770,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         linkArgs = [self.Entities_Link.item(row, 0).text(), self.Entities_Link.item(row, 1).text(), '']
         groundArgs = ['ground', 'White', self.Entities_Link.item(row, 2).text()]
         self.FileState.beginMacro("Constrain {{Link: {}}} to ground".format(name))
+        #Turn to ground.
+        self.FileState.push(editLinkTableCommand(self.Entities_Link, 0, self.Entities_Point, groundArgs))
         #Free all points and delete the link.
         self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, linkArgs))
         self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
-        #Turn to ground.
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, 0, self.Entities_Point, groundArgs))
         self.FileState.endMacro()
     
     @pyqtSlot()
@@ -814,7 +814,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def deleteDlg(self, icon, table, row):
         dlg = deleteDlg(icon, table, row, self)
-        dlg.move(QCursor.row()-QPoint(dlg.size().width()/2, dlg.size().height()/2))
+        dlg.move(QCursor.pos()-QPoint(dlg.size().width()/2, dlg.size().height()/2))
         dlg.show()
         if dlg.exec_():
             self.closeAllPanels()
