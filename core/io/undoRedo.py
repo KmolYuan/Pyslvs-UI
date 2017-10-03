@@ -70,7 +70,7 @@ class fixSequenceNumberCommand(QUndoCommand):
     def undo(self):
         self.sorting(False)
     
-    #Sorting by bigger than / smaller than q.
+    #Sorting point number by q.
     def sorting(self, bs):
         item = self.table.item(self.row, 2)
         if item.text():
@@ -98,7 +98,7 @@ class editPointTableCommand(QUndoCommand):
         Color: str,
         X, Y
         '''
-        self.Args = Args
+        self.Args = tuple(Args)
         self.OldArgs = self.PointTable.rowTexts(row)[1:-1]
         #Links: Tuple[str] -> Set[str]
         newLinks = set(self.Args[0].split(','))
@@ -150,7 +150,7 @@ class editLinkTableCommand(QUndoCommand):
         color: str,
         points: str
         '''
-        self.Args = Args
+        self.Args = tuple(Args)
         self.OldArgs = self.LinkTable.rowTexts(row)
         #Points: Tuple[int]
         newPoints = self.Args[2].split(',')

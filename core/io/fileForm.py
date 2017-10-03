@@ -24,51 +24,44 @@ def timeNow():
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 
 class Designs:
-    __slots__ = ('path', 'result', 'TSDirections', 'FileState')
+    __slots__ = ('path', 'result', 'TSDirections')
     
-    def __init__(self, FileState):
+    def __init__(self):
         self.path = []
         self.result = []
         self.TSDirections = []
-        self.FileState = FileState
     
     def setPath(self, path):
         self.path = path
+    
     def addResult(self, result):
         self.result = result
+    
     def add(self, x, y):
-        self.path.append({'x':x, 'y':y})
+        self.path.append((x, y))
+    
     def remove(self, pos):
         del self.path[pos]
+    
     def removeResult(self, pos):
         del self.result[pos]
+    
     def moveUP(self, row):
         if row>0 and len(self.path)>1:
-            self.path.insert(row-1, {'x':self.path[row]['x'], 'y':self.path[row]['y']})
+            self.path.insert(row-1, (self.path[row]['x'], self.path[row]['y']))
             del self.path[row+1]
+    
     def moveDown(self, row):
         if row<len(self.path)-1 and len(self.path)>1:
-            self.path.insert(row+2, {'x':self.path[row]['x'], 'y':self.path[row]['y']})
+            self.path.insert(row+2, (self.path[row]['x'], self.path[row]['y']))
             del self.path[row]
-    
-    def setDirections(self, direction):
-        self.FileState.beginMacro("Input {TS Direction}")
-        self.FileState.push(TSinitCommand(self.TSDirections, direction))
-        self.FileState.endMacro()
 
-class Form:
-    __slots__ = ('fileName', 'description', 'author', 'lastTime', 'changed', 'Stack')
-    
-    def __init__(self):
-        self.fileName = QFileInfo('[New Workbook]')
-        self.description = ""
-        self.author = 'Anonymous'
-        self.lastTime = timeNow()
-        self.changed = False
-        self.Stack = 0
-
+#Use to record file main informations.
 class File:
-    __slots__ = ('FileState', 'args', 'pathData', 'Designs', 'Script', 'form')
+    __slots__ = (
+        'FileState', 'args', 'pathData', 'Designs', 'Script',
+        'fileName', 'description', 'author', 'lastTime', 'changed', 'Stack'
+    )
     
     def __init__(self, FileState, args):
         self.FileState = FileState
@@ -77,17 +70,22 @@ class File:
     
     def resetAllList(self):
         self.pathData = []
-        self.Designs = Designs(self.FileState)
+        self.Designs = Designs()
         self.Script = ""
-        self.form = Form()
+        self.fileName = QFileInfo('[New Workbook]')
+        self.description = ""
+        self.author = 'Anonymous'
+        self.lastTime = timeNow()
+        self.changed = False
+        self.Stack = 0
         self.FileState.clear()
     
     def updateTime(self):
-        self.form.lastTime = timeNow()
+        self.lastTime = timeNow()
     
     def updateAuthorDescription(self, author, description):
-        self.form.author = author
-        self.form.description = description
+        self.author = author
+        self.description = description
     
     '''
     def Generate_Merge(self, row, startAngle, endAngle, answer, Paths, Point, Link, Chain, Shaft):
