@@ -938,7 +938,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         base = Point[row]
         drive = Point[relate[relate.index(row)-1]]
         text = '->'.join([
-            self.Entities_Point.item(self.inputs_baseLinks.currentRow(), 0).text(),
+            self.Entities_Point.item(self.inputs_points.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
             str(base.slopeAngle(drive))
