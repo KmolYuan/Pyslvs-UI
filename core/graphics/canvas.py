@@ -77,7 +77,7 @@ class BaseCanvas(QWidget):
         color: QColor
     ):
         x = cx*self.zoom
-        y = cy*self.zoom*-1
+        y = cy*-self.zoom
         pen = QPen()
         pen.setWidth(2)
         pen.setColor(color)
@@ -114,7 +114,7 @@ class BaseCanvas(QWidget):
             distanceList = [points[i].distance(p) for p in points]
             j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
             points[i+1], points[j] = points[j], points[i+1]
-        qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*self.zoom*-1) for vpoint in points]
+        qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*-self.zoom) for vpoint in points]
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
@@ -125,7 +125,7 @@ class BaseCanvas(QWidget):
             text = '[{}]'.format(name)
             cenX = sum([vpoint.cx for vpoint in points])/len(points)
             cenY = sum([vpoint.cy for vpoint in points])/len(points)
-            self.painter.drawText(QPointF(cenX*self.zoom, cenY*self.zoom*-1), text)
+            self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
 
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
@@ -234,27 +234,26 @@ class DynamicCanvas(BaseCanvas):
             self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         if self.slvsPath and self.showSlvsPath:
             pen = QPen()
-            pathData = self.slvsPath
             pen.setWidth(self.pathWidth)
             pen.setColor(QColor(69, 247, 232))
             self.painter.setPen(pen)
             if self.Path.mode==True:
-                if len(pathData)>1:
+                if len(self.slvsPath)>1:
                     pointPath = QPainterPath()
-                    for i, e in enumerate(pathData):
-                        x = e['x']*self.zoom
-                        y = e['y']*self.zoom*-1
+                    for i, (x, y) in enumerate(self.slvsPath):
+                        x *= self.zoom
+                        y *= -self.zoom
                         if i==0:
                             pointPath.moveTo(x, y)
                         else:
                             pointPath.lineTo(QPointF(x, y))
                     self.painter.drawPath(pointPath)
-                elif len(pathData)==1:
-                    self.painter.drawPoint(QPointF(pathData[0]['x']*self.zoom, pathData[0]['y']*self.zoom*-1))
+                elif len(self.slvsPath)==1:
+                    self.painter.drawPoint(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom))
             else:
-                for i, e in enumerate(pathData):
-                    x = e['x']*self.zoom
-                    y = e['y']*self.zoom*-1
+                for x, y in self.slvsPath:
+                    x *= self.zoom
+                    y *= -self.zoom
                     self.painter.drawPoint(QPointF(x, y))
         self.painter.end()
         self.change_event.emit()
@@ -288,7 +287,7 @@ class DynamicCanvas(BaseCanvas):
                                     error = True
                                     continue
                                 x = point[0]*self.zoom
-                                y = point[1]*self.zoom*-1
+                                y = point[1]*-self.zoom
                                 if i==0 or error:
                                     pointPath.moveTo(x, y)
                                     error = False
@@ -300,7 +299,7 @@ class DynamicCanvas(BaseCanvas):
                                 if point[0] is None or point[0] is False:
                                     continue
                                 x = point[0]*self.zoom
-                                y = point[1]*self.zoom*-1
+                                y = point[1]*-self.zoom
                                 self.painter.drawPoint(QPointF(x, y))
         if self.showSlvsPath:
             for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
@@ -338,7 +337,7 @@ class DynamicCanvas(BaseCanvas):
                 selection = []
                 for i, e in enumerate(self.Point):
                     x = e.cx*self.zoom
-                    y = e.cy*self.zoom*-1
+                    y = e.cy*-self.zoom
                     if self.Selector.distance(x, y)<10:
                         selection.append(i)
                 if selection:
@@ -356,7 +355,7 @@ class DynamicCanvas(BaseCanvas):
             self.Selector.y = event.y()-self.oy
             for i, e in enumerate(self.Point):
                 x = e.cx*self.zoom
-                y = e.cy*self.zoom*-1
+                y = e.cy*-self.zoom
                 if self.Selector.distance(x, y)<10:
                     self.mouse_getDoubleClickEdit.emit(i)
                     break

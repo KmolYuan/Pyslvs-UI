@@ -107,6 +107,7 @@ def initCustomWidgets(self):
     + Edit
     + Fixed
     + Copy table data
+    + Clone
     -------
     + Delete
     '''
@@ -123,9 +124,10 @@ def initCustomWidgets(self):
     self.action_point_right_click_menu_lock.triggered.connect(self.lockPoint)
     self.popMenu_point.addAction(self.action_point_right_click_menu_lock)
     self.action_point_right_click_menu_copydata = QAction("&Copy table data", self)
+    self.action_point_right_click_menu_copydata.triggered.connect(self.tableCopy_Points)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copydata)
-    self.action_point_right_click_menu_copyPoint = QAction("Copy point", self)
-    self.action_point_right_click_menu_copyPoint.triggered.connect(self.copyPoint)
+    self.action_point_right_click_menu_copyPoint = QAction("C&lone", self)
+    self.action_point_right_click_menu_copyPoint.triggered.connect(self.clonePoint)
     self.popMenu_point.addAction(self.action_point_right_click_menu_copyPoint)
     self.popMenu_point.addSeparator()
     self.action_point_right_click_menu_delete = QAction("&Delete", self)
@@ -137,6 +139,7 @@ def initCustomWidgets(self):
     + Add
     + Edit
     + Copy table data
+    + Release / Constrain
     -------
     + Delete
     '''
@@ -149,7 +152,14 @@ def initCustomWidgets(self):
     self.action_link_right_click_menu_edit.triggered.connect(self.on_action_Edit_Link_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_edit)
     self.action_link_right_click_menu_copydata = QAction("&Copy table data", self)
+    self.action_link_right_click_menu_copydata.triggered.connect(self.tableCopy_Links)
     self.popMenu_link.addAction(self.action_link_right_click_menu_copydata)
+    self.action_link_right_click_menu_release = QAction("&Release", self)
+    self.action_link_right_click_menu_release.triggered.connect(self.releaseGround)
+    self.popMenu_link.addAction(self.action_link_right_click_menu_release)
+    self.action_link_right_click_menu_constrain = QAction("C&onstrain", self)
+    self.action_link_right_click_menu_constrain.triggered.connect(self.constrainLink)
+    self.popMenu_link.addAction(self.action_link_right_click_menu_constrain)
     self.popMenu_link.addSeparator()
     self.action_link_right_click_menu_delete = QAction("&Delete", self)
     self.action_link_right_click_menu_delete.triggered.connect(self.on_action_Delete_Link_triggered)

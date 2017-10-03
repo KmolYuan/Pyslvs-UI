@@ -20,7 +20,7 @@
 from ..QtModules import *
 from copy import copy, deepcopy
 
-noNoneString = lambda l: list(filter(lambda a: a!='', l))
+noNoneString = lambda l: [e for e in l if e]
 
 '''
 The add and delete command has only add and delete.
@@ -34,7 +34,10 @@ class addTableCommand(QUndoCommand):
         self.table = table
     
     def redo(self):
-        self.table.insertRow(self.table.rowCount())
+        row = self.table.rowCount()
+        self.table.insertRow(row)
+        for column in range(row):
+            self.table.setItem(row, column, QTableWidgetItem(''))
     
     def undo(self):
         self.table.removeRow(self.table.rowCount()-1)
@@ -52,9 +55,11 @@ class deleteTableCommand(QUndoCommand):
             self.table.rename(self.row)
     
     def undo(self):
-        self.table.insertRow(self.row)
         if self.isRename:
             self.table.rename(self.row)
+        self.table.insertRow(self.row)
+        for column in range(self.table.columnCount()):
+            self.table.setItem(self.row, column, QTableWidgetItem(''))
 
 #Fix sequence number when deleting a point.
 class fixSequenceNumberCommand(QUndoCommand):
@@ -70,7 +75,7 @@ class fixSequenceNumberCommand(QUndoCommand):
     def undo(self):
         self.sorting(False)
     
-    #Sorting by bigger than / smaller than q.
+    #Sorting point number by q.
     def sorting(self, bs):
         item = self.table.item(self.row, 2)
         if item.text():
@@ -98,7 +103,7 @@ class editPointTableCommand(QUndoCommand):
         Color: str,
         X, Y
         '''
-        self.Args = Args
+        self.Args = tuple(Args)
         self.OldArgs = self.PointTable.rowTexts(row)[1:-1]
         #Links: Tuple[str] -> Set[str]
         newLinks = set(self.Args[0].split(','))
@@ -123,21 +128,19 @@ class editPointTableCommand(QUndoCommand):
         self.PointTable.editArgs(self.row, *self.OldArgs)
     
     def writeRows(self, rows1, rows2):
+        #Append the point that relate with these links.
         for row in rows1:
             newPoints = self.LinkTable.item(row, 2).text().split(',')+['Point{}'.format(self.row)]
-            newPoints = noNoneString(newPoints)
-            self.LinkTable.editArgs(row,
-                self.LinkTable.item(row, 0).text(),
-                self.LinkTable.item(row, 1).text(),
-                ','.join(newPoints))
+            item = QTableWidgetItem(','.join(noNoneString(newPoints)))
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.LinkTable.setItem(row, 2, item)
+        #Remove the point that irrelevant with these links.
         for row in rows2:
             newPoints = self.LinkTable.item(row, 2).text().split(',')
             newPoints.remove('Point{}'.format(self.row))
-            newPoints = noNoneString(newPoints)
-            self.LinkTable.editArgs(row,
-                self.LinkTable.item(row, 0).text(),
-                self.LinkTable.item(row, 1).text(),
-                ','.join(newPoints))
+            item = QTableWidgetItem(','.join(noNoneString(newPoints)))
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.LinkTable.setItem(row, 2, item)
 
 class editLinkTableCommand(QUndoCommand):
     def __init__(self, LinkTable, row, PointTable, Args):
@@ -150,56 +153,48 @@ class editLinkTableCommand(QUndoCommand):
         color: str,
         points: str
         '''
-        self.Args = Args
+        self.Args = tuple(Args)
         self.OldArgs = self.LinkTable.rowTexts(row)
         #Points: Tuple[int]
         newPoints = self.Args[2].split(',')
         oldPoints = self.OldArgs[2].split(',')
         newPoints = set(int(index.replace('Point', '')) for index in noNoneString(newPoints))
         oldPoints = set(int(index.replace('Point', '')) for index in noNoneString(oldPoints))
-        self.NewPointRows = newPoints - oldPoints
-        self.OldPointRows = oldPoints - newPoints
+        self.NewPointRows = tuple(newPoints - oldPoints)
+        self.OldPointRows = tuple(oldPoints - newPoints)
     
     def redo(self):
         self.LinkTable.editArgs(self.row, *self.Args)
         self.rename(self.Args, self.OldArgs)
-        self.writeRows(self.NewPointRows, self.OldPointRows)
+        self.writeRows(self.Args[0], self.NewPointRows, self.OldPointRows)
     
     def undo(self):
-        self.writeRows(self.OldPointRows, self.NewPointRows)
+        self.writeRows(self.OldArgs[0], self.OldPointRows, self.NewPointRows)
         self.rename(self.OldArgs, self.Args)
         self.LinkTable.editArgs(self.row, *self.OldArgs)
     
     def rename(self, Args1, Args2):
         for row in [int(index.replace('Point', '')) for index in noNoneString(Args2[2].split(','))]:
-            self.PointTable.editArgs(row,
-                ','.join([w.replace(Args2[0], Args1[0]) for w in self.PointTable.item(row, 1).text().split(',')]),
-                self.PointTable.item(row, 2).text(),
-                self.PointTable.item(row, 3).text(),
-                self.PointTable.item(row, 4).text(),
-                self.PointTable.item(row, 5).text())
+            newLinks = self.PointTable.item(row, 1).text().split(',')
+            item = QTableWidgetItem(','.join(noNoneString([w.replace(Args2[0], Args1[0]) for w in newLinks])))
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.PointTable.setItem(row, 1, item)
     
-    def writeRows(self, rows1, rows2):
-        name = self.LinkTable.item(self.row, 0).text()
+    def writeRows(self, name, rows1, rows2):
+        #Append the link that relate with these points.
         for row in rows1:
             newLinks = self.PointTable.item(row, 1).text().split(',')+[name]
-            newLinks = noNoneString(newLinks)
-            self.PointTable.editArgs(row,
-                ','.join(newLinks),
-                self.PointTable.item(row, 2).text(),
-                self.PointTable.item(row, 3).text(),
-                self.PointTable.item(row, 4).text(),
-                self.PointTable.item(row, 5).text())
+            item = QTableWidgetItem(','.join(noNoneString(newLinks)))
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.PointTable.setItem(row, 1, item)
+        #Remove the link that irrelevant with these points.
         for row in rows2:
             newLinks = self.PointTable.item(row, 1).text().split(',')
-            newLinks.remove(name)
-            newLinks = noNoneString(newLinks)
-            self.PointTable.editArgs(row,
-                ','.join(newLinks),
-                self.PointTable.item(row, 2).text(),
-                self.PointTable.item(row, 3).text(),
-                self.PointTable.item(row, 4).text(),
-                self.PointTable.item(row, 5).text())
+            if name:
+                newLinks.remove(name)
+            item = QTableWidgetItem(','.join(noNoneString(newLinks)))
+            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+            self.PointTable.setItem(row, 1, item)
 
 class setPathCommand(QUndoCommand):
     def __init__(self, data, path):

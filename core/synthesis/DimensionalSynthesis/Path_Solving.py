@@ -75,7 +75,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    mergeResult = pyqtSignal(tuple, dict)
+    mergeResult = pyqtSignal(int, tuple, dict)
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
@@ -111,8 +111,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.mechanism_data = mechanism_data
         self.env = env
         self.unsave_func = unsave_func
-        for e in path:
-            self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
+        for x, y in path:
+            self.Point_list.addItem("({}, {})".format(x, y))
         for e in mechanism_data:
             self.addResult(e)
         self.Settings = self.defaultSettings
@@ -293,7 +293,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
         lower = [self.Ax.value()-self.Ar.value()/2, self.Ay.value()-self.Ar.value()/2, self.Dx.value()-self.Dr.value()/2, self.Dy.value()-self.Dr.value()/2,
             self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
-        mechanismParams['targetPath'] = tuple((e['x'], e['y']) for e in self.path)
+        mechanismParams['targetPath'] = tuple(self.path)
         p = len(self.path)
         generateData = {
             'nParm':p+mechanismParams['VARS'],
@@ -342,7 +342,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         row = self.Result_list.currentRow()
         if row!=-1:
             mechanism = self.mechanism_data[row]
-            _, Paths = self.legal_crank(row)
+            _, Paths = self.legal_crank()
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
             if dlg.exec_():
@@ -353,9 +353,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?",
             (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
         if reply==QMessageBox.Apply:
-            self.mergeResult.emit(*self.legal_crank(self.Result_list.currentRow()))
+            self.mergeResult.emit(self.Result_list.currentRow(), *self.legal_crank())
     
-    def legal_crank(self, row):
+    def legal_crank(self):
+        row = self.Result_list.currentRow()
         Result = self.mechanism_data[row]
         path = Result['mechanismParams']['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
