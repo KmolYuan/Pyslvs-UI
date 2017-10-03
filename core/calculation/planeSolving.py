@@ -132,6 +132,7 @@ def slvsProcess(
                 ConnectTo(relateOrder-1)
     #The constraints of drive shaft.
     for shaft, base_link, drive_link, angle in constraints:
+        #Base point as shaft center.
         if Point[shaft].type!=0:
             p_base = Slvs_Points[shaft][0]
         else:
@@ -146,9 +147,11 @@ def slvsProcess(
         y = Sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
         p_hand = Point2d(Workplane1, x, y)
         Constraint.dragged(Workplane1, p_hand)
+        #The virtual link that dragged by "hand".
         leader = LineSegment2d(Workplane1, p_base, p_hand)
-        relate_drive = Link[LinkIndex(base_link)].points
-        newRelateOrder_drive = relate_drive.index(shaft)-1
+        #Make another virtual link that should follow "hand".
+        relate_drive = Link[LinkIndex(drive_link)].points
+        newRelateOrder_drive = relate_drive[relate_drive.index(shaft)-1]
         if Point[newRelateOrder_drive].type!=0:
             p_drive = Slvs_Points[newRelateOrder_drive][0]
         else:
