@@ -768,7 +768,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.Entities_Link.currentRow()
         name = self.Entities_Link.item(row, 0).text()
         linkArgs = [self.Entities_Link.item(row, 0).text(), self.Entities_Link.item(row, 1).text(), '']
-        groundArgs = ['ground', 'White', self.Entities_Link.item(row, 2).text()]
+        newPoints = sorted(set(self.Entities_Link.item(0, 2).text().split(','))|set(self.Entities_Link.item(row, 2).text().split(',')))
+        groundArgs = ['ground', 'White', ','.join([e for e in newPoints if e])]
         self.FileState.beginMacro("Constrain {{Link: {}}} to ground".format(name))
         #Turn to ground.
         self.FileState.push(editLinkTableCommand(self.Entities_Link, 0, self.Entities_Point, groundArgs))

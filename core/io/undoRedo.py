@@ -34,7 +34,10 @@ class addTableCommand(QUndoCommand):
         self.table = table
     
     def redo(self):
-        self.table.insertRow(self.table.rowCount())
+        row = self.table.rowCount()
+        self.table.insertRow(row)
+        for column in range(row):
+            self.table.setItem(row, column, QTableWidgetItem(''))
     
     def undo(self):
         self.table.removeRow(self.table.rowCount()-1)
