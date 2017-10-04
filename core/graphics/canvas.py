@@ -34,12 +34,13 @@ class Path:
 
 class Selector:
     #Use to record mouse clicked point.
-    __slots__ = ('x', 'y', 'MiddleButtonDrag')
+    __slots__ = ('x', 'y', 'MiddleButtonDrag', 'LeftButtonDrag')
     
     def __init__(self):
         self.x = 0
         self.y = 0
         self.MiddleButtonDrag = False
+        self.LeftButtonDrag = False
     
     def distance(self, x, y):
         return round(sqrt((self.x-x)**2+(self.y-y)**2), 2)
@@ -68,6 +69,24 @@ class BaseCanvas(QWidget):
         self.painter = QPainter()
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
+        self.painter.translate(self.ox, self.oy)
+        #Draw origin lines.
+        pen = QPen(Qt.gray)
+        pen.setWidth(1)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(-self.ox, 0), QPointF(self.width()-self.ox, 0))
+        self.painter.drawLine(QPointF(0, -self.oy), QPointF(0, self.height()-self.oy))
+    
+    def drawFrame(self, pen):
+        positive_x = self.width()-self.ox
+        positive_y = -self.oy
+        negative_x = -self.ox
+        negative_y = self.height()-self.oy
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(negative_x, positive_y), QPointF(positive_x, positive_y))
+        self.painter.drawLine(QPointF(negative_x, negative_y), QPointF(positive_x, negative_y))
+        self.painter.drawLine(QPointF(negative_x, positive_y), QPointF(negative_x, negative_y))
+        self.painter.drawLine(QPointF(positive_x, positive_y), QPointF(positive_x, negative_y))
     
     def drawPoint(self,
         i: int,
@@ -230,26 +249,12 @@ class DynamicCanvas(BaseCanvas):
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
-        self.painter.translate(self.ox, self.oy)
-        positive_x = self.width()-self.ox
-        positive_y = -self.oy
-        negative_x = -self.ox
-        negative_y = self.height()-self.oy
-        #Draw origin lines.
-        pen = QPen(Qt.gray)
-        pen.setWidth(1)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(negative_x, 0), QPointF(positive_x, 0))
-        self.painter.drawLine(QPointF(0, positive_y), QPointF(0, negative_y))
         if self.freemove:
             #Draw a colored frame for free move mode.
-            pen.setColor(QColor(161, 105, 229))
+            pen = QPen(QColor(161, 105, 229))
             pen.setWidth(8)
             self.painter.setPen(pen)
-            self.painter.drawLine(QPointF(negative_x, positive_y), QPointF(positive_x, positive_y))
-            self.painter.drawLine(QPointF(negative_x, negative_y), QPointF(positive_x, negative_y))
-            self.painter.drawLine(QPointF(negative_x, positive_y), QPointF(negative_x, negative_y))
-            self.painter.drawLine(QPointF(positive_x, positive_y), QPointF(positive_x, negative_y))
+            self.drawFrame(pen)
         #Set rotation.
         self.painter.rotate(self.rotateAngle)
         for i, vlink in enumerate(self.Link[1:]):
@@ -358,21 +363,7 @@ class DynamicCanvas(BaseCanvas):
         if event.buttons()==Qt.MiddleButton:
             self.Selector.MiddleButtonDrag = True
         if event.buttons()==Qt.LeftButton:
-            if QApplication.keyboardModifiers()==Qt.AltModifier:
-                self.mouse_getDoubleClickAdd.emit()
-            else:
-                selection = []
-                for i, e in enumerate(self.Point):
-                    x = e.cx*self.zoom
-                    y = e.cy*-self.zoom
-                    if self.Selector.distance(x, y)<10:
-                        selection.append(i)
-                if selection:
-                    self.mouse_getSelection.emit(tuple(selection))
-                elif not (QApplication.keyboardModifiers()==Qt.ControlModifier or
-                    QApplication.keyboardModifiers()==Qt.ShiftModifier
-                ):
-                    self.mouse_noSelection.emit()
+            self.Selector.LeftButtonDrag = True
     
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
@@ -388,12 +379,37 @@ class DynamicCanvas(BaseCanvas):
                     break
     
     def mouseReleaseEvent(self, event):
+        #Only one clicked.
+        if self.Selector.LeftButtonDrag:
+            if QApplication.keyboardModifiers()==Qt.AltModifier:
+                self.mouse_getDoubleClickAdd.emit()
+            elif (
+                (self.Selector.x==event.x()-self.ox) and
+                (self.Selector.y==event.y()-self.oy)
+            ):
+                selection = []
+                for i, e in enumerate(self.Point):
+                    x = e.cx*self.zoom
+                    y = e.cy*-self.zoom
+                    if self.Selector.distance(x, y)<10:
+                        selection.append(i)
+                if selection:
+                    self.mouse_getSelection.emit(tuple(selection))
+                elif (
+                    (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
+                    (QApplication.keyboardModifiers()!=Qt.ShiftModifier)
+                ):
+                    self.mouse_noSelection.emit()
         self.Selector.MiddleButtonDrag = False
+        self.Selector.LeftButtonDrag = False
     
     def mouseMoveEvent(self, event):
         if self.Selector.MiddleButtonDrag:
             self.ox = event.x()-self.Selector.x
             self.oy = event.y()-self.Selector.y
+            self.update()
+        if self.Selector.LeftButtonDrag and self.freemove:
+            #TODO: Move the point.
             self.update()
         self.mouse_track.emit((event.x()-self.ox)/self.zoom, -((event.y()-self.oy)/self.zoom))
     
