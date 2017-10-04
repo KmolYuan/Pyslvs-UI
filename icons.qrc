@@ -40,6 +40,8 @@
     <file>icons/DimensionalSynthesis.png</file>
     <file>icons/disconnect.png</file>
     <file>icons/exit.png</file>
+    <file>icons/freemove_off.png</file>
+    <file>icons/freemove_on.png</file>
     <file>icons/fullscreen.png</file>
     <file>icons/git.png</file>
     <file>icons/interrupted.png</file>

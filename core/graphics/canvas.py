@@ -156,6 +156,8 @@ class DynamicCanvas(BaseCanvas):
         self.showDimension = False
         #Set zoom to 200
         self.setZoom(200)
+        #Free move mode
+        self.freemove = False
     
     def update_figure(self, Point, Link, path):
         self.Point = Point
@@ -198,6 +200,11 @@ class DynamicCanvas(BaseCanvas):
         self.zoom = zoom/100*self.rate
         self.update()
     
+    @pyqtSlot(bool)
+    def setFreeMove(self, freemove):
+        self.freemove = freemove
+        self.update()
+    
     def changePointsSelection(self, pointsSelection):
         self.pointsSelection = pointsSelection
         self.update()
@@ -224,17 +231,26 @@ class DynamicCanvas(BaseCanvas):
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.ox, self.oy)
+        positive_x = self.width()-self.ox
+        positive_y = -self.oy
+        negative_x = -self.ox
+        negative_y = self.height()-self.oy
+        #Draw origin lines.
         pen = QPen(Qt.gray)
         pen.setWidth(1)
         self.painter.setPen(pen)
-        self.painter.drawLine(
-            QPointF(-self.ox, 0),
-            QPointF(self.width()-self.ox, 0)
-        )
-        self.painter.drawLine(
-            QPointF(0, -self.oy),
-            QPointF(0, self.height()-self.oy)
-        )
+        self.painter.drawLine(QPointF(negative_x, 0), QPointF(positive_x, 0))
+        self.painter.drawLine(QPointF(0, positive_y), QPointF(0, negative_y))
+        if self.freemove:
+            #Draw a colored frame for free move mode.
+            pen.setColor(QColor(161, 105, 229))
+            pen.setWidth(8)
+            self.painter.setPen(pen)
+            self.painter.drawLine(QPointF(negative_x, positive_y), QPointF(positive_x, positive_y))
+            self.painter.drawLine(QPointF(negative_x, negative_y), QPointF(positive_x, negative_y))
+            self.painter.drawLine(QPointF(negative_x, positive_y), QPointF(negative_x, negative_y))
+            self.painter.drawLine(QPointF(positive_x, positive_y), QPointF(positive_x, negative_y))
+        #Set rotation.
         self.painter.rotate(self.rotateAngle)
         for i, vlink in enumerate(self.Link[1:]):
             points = [self.Point[i] for i in vlink.points]

@@ -43,6 +43,7 @@ def initCustomWidgets(self):
     self.Entities_Link_Layout.addWidget(self.Entities_Link)
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
+    self.FreeMoveMode.toggled.connect(self.DynamicCanvasView.setFreeMove)
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entities_Point.setSelections)
     self.DynamicCanvasView.mouse_getSelection.connect(self.inputs_points_setSelection)
     self.DynamicCanvasView.mouse_noSelection.connect(self.Entities_Point.clearSelection)
@@ -100,8 +101,28 @@ def initCustomWidgets(self):
     self.MechanismPanelSplitter.setStretchFactor(0, 4)
     self.MechanismPanelSplitter.setStretchFactor(1, 5)
     self.synthesis_splitter.setSizes([100, 500])
-    #Enable menu actions.
+    #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMenu)
+    #Undo list settings.
+    self.FileState.setUndoLimit(self.UndoLimit.value())
+    self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)
+    self.FileState.indexChanged.connect(self.commandReload)
+    self.undoView = QUndoView(self.FileState)
+    self.undoView.setEmptyLabel("~ Start Pyslvs")
+    self.UndoRedoLayout.addWidget(self.undoView)
+    separator = QAction(self)
+    separator.setSeparator(True)
+    self.menu_Edit.insertAction(self.action_Batch_moving, separator)
+    self.action_Redo = self.FileState.createRedoAction(self, 'Redo')
+    self.action_Undo = self.FileState.createUndoAction(self, 'Undo')
+    self.action_Redo.setShortcut("Ctrl+Shift+Z")
+    self.action_Redo.setStatusTip("Backtracking undo action.")
+    self.action_Redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
+    self.action_Undo.setShortcut("Ctrl+Z")
+    self.action_Undo.setStatusTip("Recover last action.")
+    self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
+    self.menu_Edit.insertAction(separator, self.action_Undo)
+    self.menu_Edit.insertAction(separator, self.action_Redo)
     '''
     Entities_Point context menu
     
@@ -201,25 +222,3 @@ def initCustomWidgets(self):
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_delete)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
-
-def showUndoWindow(self):
-    self.FileState = QUndoStack()
-    self.FileState.setUndoLimit(self.UndoLimit.value())
-    self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)
-    self.FileState.indexChanged.connect(self.commandReload)
-    self.undoView = QUndoView(self.FileState)
-    self.undoView.setEmptyLabel("~ Start Pyslvs")
-    self.UndoRedoLayout.addWidget(self.undoView)
-    separator = QAction(self)
-    separator.setSeparator(True)
-    self.menu_Edit.insertAction(self.action_Batch_moving, separator)
-    self.action_Redo = self.FileState.createRedoAction(self, 'Redo')
-    self.action_Undo = self.FileState.createUndoAction(self, 'Undo')
-    self.action_Redo.setShortcut("Ctrl+Shift+Z")
-    self.action_Redo.setStatusTip("Backtracking undo action.")
-    self.action_Redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
-    self.action_Undo.setShortcut("Ctrl+Z")
-    self.action_Undo.setStatusTip("Recover last action.")
-    self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
-    self.menu_Edit.insertAction(separator, self.action_Undo)
-    self.menu_Edit.insertAction(separator, self.action_Redo)

@@ -1136,6 +1136,27 @@
               </widget>
              </item>
              <item>
+              <widget class="QPushButton" name="FreeMoveMode">
+               <property name="statusTip">
+                <string>This mode allows all point coordinates to be edited by drag and drop.</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../icons.qrc">
+                 <normaloff>:/icons/freemove_off.png</normaloff>
+                 <activeon>:/icons/freemove_on.png</activeon>:/icons/freemove_off.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>32</width>
+                 <height>32</height>
+                </size>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="Line" name="line_3">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>

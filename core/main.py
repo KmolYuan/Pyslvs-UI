@@ -20,7 +20,7 @@
 from .QtModules import *
 tr = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
-from .widgets.custom import initCustomWidgets, showUndoWindow
+from .widgets.custom import initCustomWidgets
 
 #Dialog
 from .info.info import version_show
@@ -59,9 +59,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        #Undo stack and undo list widget.
-        showUndoWindow(self)
         #Set file informations.
+        self.FileState = QUndoStack()
         self.File = File(self.FileState, self.args)
         self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
         #Initialize custom UI.
