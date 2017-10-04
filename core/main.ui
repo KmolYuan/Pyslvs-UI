@@ -1513,7 +1513,7 @@
     <string>Add a new point representative of a node on a machine.</string>
    </property>
    <property name="shortcut">
-    <string>F2</string>
+    <string>P</string>
    </property>
   </action>
   <action name="action_New_Link">
@@ -1528,7 +1528,7 @@
     <string>Add  a link between two points.</string>
    </property>
    <property name="shortcut">
-    <string>F3</string>
+    <string>L</string>
    </property>
   </action>
   <action name="action_Exit">

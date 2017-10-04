@@ -34,7 +34,6 @@ from .io.undoRedo import (
 #Entities
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
-from .entities.batchMoving import batchMoving_show
 #Tools
 from .synthesis.DimensionalSynthesis.Path_Solving import Path_Solving_show
 #Solve
@@ -133,11 +132,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ):
             action.setVisible(selectionCount<=0)
         self.action_point_right_click_menu_lock.setVisible(row>-1)
+        self.action_point_right_click_menu_delete.setVisible(row>-1)
         for action in (
             self.action_point_right_click_menu_edit,
             self.action_point_right_click_menu_copyPoint,
-            self.action_point_right_click_menu_copydata,
-            self.action_point_right_click_menu_delete
+            self.action_point_right_click_menu_copydata
         ):
             action.setVisible(row>-1)
             action.setEnabled(selectionCount==1)
@@ -851,32 +850,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.FileState.endMacro()
     
     @pyqtSlot()
-    def on_action_Batch_moving_triggered(self):
-        dlg = batchMoving_show(self.Entities_Point.data(), self.Entities_Point.selectedRows(), self)
-        dlg.show()
-        if dlg.exec_():
-            points = [int(dlg.selected.item(row).text().replace('Point', '')) for row in range(dlg.selected.count())]
-            self.FileState.beginMacro("Batch moving {{Point {}}}".format(points))
-            for row in points:
-                Args = [
-                    self.Entities_Point.item(row, 1).text(),
-                    self.Entities_Point.item(row, 2).text(),
-                    self.Entities_Point.item(row, 3).text(),
-                    float(self.Entities_Point.item(row, 4).text())+dlg.XIncrease.value(),
-                    float(self.Entities_Point.item(row, 5).text())+dlg.YIncrease.value()
-                ]
-                self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
-            self.FileState.endMacro()
-    
-    @pyqtSlot()
-    def on_action_Zoom_to_fit_triggered(self):
-        self.DynamicCanvasView.SetIn()
-    
-    @pyqtSlot()
-    def on_ResetCanvas_clicked(self):
-        self.DynamicCanvasView.SetIn()
-    
-    @pyqtSlot()
     def on_CanvasCapture_clicked(self):
         clipboard = QApplication.clipboard()
         pixmap = self.DynamicCanvasView.grab()
@@ -887,9 +860,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlgbox.setIconPixmap(pixmap.scaledToWidth(650))
         dlgbox.exec_()
     
-    @pyqtSlot(int)
-    def setZoomBar(self, val):
-        self.ZoomBar.setValue(val)
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setText('{}%'.format(value))
@@ -1106,6 +1076,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         XStream.stderr().messageWritten.connect(self.appendToConsole)
     def disconnectConsole(self):
         XStream.back()
+    
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):
         print("Connect to GUI console.")
@@ -1113,6 +1084,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.connectConsoleButton.setEnabled(False)
         self.disconnectConsoleButton.setEnabled(True)
         print("Connect to GUI console.")
+    
     @pyqtSlot()
     def on_disconnectConsoleButton_clicked(self):
         print("Disconnect from GUI console.")

@@ -56,7 +56,7 @@ def initCustomWidgets(self):
     self.addAction(cleanAction)
     self.DynamicCanvasView.mouse_getDoubleClickAdd.connect(self.qAddPointGroup)
     self.DynamicCanvasView.mouse_getDoubleClickEdit.connect(self.on_action_Edit_Point_triggered)
-    self.DynamicCanvasView.zoom_change.connect(self.setZoomBar)
+    self.DynamicCanvasView.zoom_change.connect(self.ZoomBar.setValue)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
     #Panel widget will hide when not using.
@@ -104,6 +104,9 @@ def initCustomWidgets(self):
     self.synthesis_splitter.setSizes([100, 500])
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMenu)
+    #SetIn function connections.
+    self.action_Zoom_to_fit.triggered.connect(self.DynamicCanvasView.SetIn)
+    self.ResetCanvas.clicked.connect(self.DynamicCanvasView.SetIn)
     #Undo list settings.
     self.FileState.setUndoLimit(self.UndoLimit.value())
     self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)

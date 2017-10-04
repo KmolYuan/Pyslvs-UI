@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -1001,10 +1001,10 @@ class Ui_MainWindow(object):
         self.action_New_Workbook.setShortcut(_translate("MainWindow", "Ctrl+N"))
         self.action_New_Point.setText(_translate("MainWindow", "New &point"))
         self.action_New_Point.setStatusTip(_translate("MainWindow", "Add a new point representative of a node on a machine."))
-        self.action_New_Point.setShortcut(_translate("MainWindow", "F2"))
+        self.action_New_Point.setShortcut(_translate("MainWindow", "P"))
         self.action_New_Link.setText(_translate("MainWindow", "New &Linkage"))
         self.action_New_Link.setStatusTip(_translate("MainWindow", "Add  a link between two points."))
-        self.action_New_Link.setShortcut(_translate("MainWindow", "F3"))
+        self.action_New_Link.setShortcut(_translate("MainWindow", "L"))
         self.action_Exit.setText(_translate("MainWindow", "&Quit"))
         self.action_Exit.setStatusTip(_translate("MainWindow", "Exit Pyslvs."))
         self.action_Exit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
