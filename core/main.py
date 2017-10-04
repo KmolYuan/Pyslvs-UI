@@ -158,10 +158,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def enableMenu(self):
         pointSelection = self.Entities_Point.selectedRows()
         linkSelection = self.Entities_Link.selectedRows()
-        POINT_SELECTED = bool(pointSelection)
-        LINK_SELECTED = bool(linkSelection)
         ONE_POINT = len(pointSelection)==1
         ONE_LINK = len(linkSelection)==1
+        POINT_SELECTED = bool(pointSelection)
+        LINK_SELECTED = bool(linkSelection) and not (ONE_LINK and 0 in linkSelection)
         #Edit
         self.action_Edit_Point.setEnabled(ONE_POINT)
         self.action_Edit_Link.setEnabled(ONE_LINK)
@@ -802,7 +802,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self):
         selections = self.Entities_Point.selectedRows()
-        selections = [p-i if p>selections[i-1] else p for i, p in enumerate(selections)]
+        selections = tuple(p-i if p>selections[i-1] else p for i, p in enumerate(selections))
         for row in selections:
             Args = [
                 '',
@@ -821,17 +821,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Delete_Link_triggered(self):
         selections = self.Entities_Link.selectedRows()
-        selections = [p-i if p>selections[i-1] else p for i, p in enumerate(selections)]
+        selections = tuple(
+            p - i + int(0 in selections) if p>selections[i-1] else p
+            for i, p in enumerate(selections)
+        )
         for row in selections:
-            Args = [
-                self.Entities_Link.item(row, 0).text(),
-                self.Entities_Link.item(row, 1).text(),
-                ''
-            ]
-            self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
-            self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
-            self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
-            self.FileState.endMacro()
+            if row!=0:
+                Args = [
+                    self.Entities_Link.item(row, 0).text(),
+                    self.Entities_Link.item(row, 1).text(),
+                    ''
+                ]
+                self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
+                self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
+                self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
+                self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Batch_moving_triggered(self):
