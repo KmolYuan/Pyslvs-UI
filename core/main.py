@@ -968,6 +968,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.inputs_variable.currentRow()
         if row>-1:
             self.inputs_variable.takeItem(row)
+            self.Entities_Point.getBackOrigin()
+            self.Resolve()
     
     def inputs_variable_autoremove(self):
         for i in range(self.inputs_variable.count()):
@@ -976,6 +978,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             links = self.Entities_Point.item(row, 1).text()
             if (itemText[1] in links) and (itemText[2] in links):
                 self.inputs_variable.takeItem(i)
+        self.Entities_Point.getBackOrigin()
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row):

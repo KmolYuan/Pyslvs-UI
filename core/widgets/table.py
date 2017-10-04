@@ -25,6 +25,7 @@ VPointType = TypeVar('VPointType', int, str)
 
 class BaseTableWidget(QTableWidget):
     deleteRequest = pyqtSignal()
+    
     def __init__(self, RowCount, HorizontalHeaderItems, parent=None):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
@@ -37,6 +38,7 @@ class BaseTableWidget(QTableWidget):
         for i, e in enumerate(('Name',)+HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
+    #Get the whole row of texts.
     def rowTexts(self, row):
         texts = []
         for column in range(self.columnCount()):
@@ -47,12 +49,14 @@ class BaseTableWidget(QTableWidget):
                 texts.append('')
         return tuple(texts)
     
+    #Get what row is been selected.
     def selectedRows(self) -> Tuple[int]:
         a = set()
         for r in self.selectedRanges():
             a |= {i for i in range(r.topRow(), r.bottomRow()+1)}
         return tuple(sorted(a))
     
+    #Hit the delete key, will emit delete signal from this table.
     def keyPressEvent(self, event):
         if event.key()==Qt.Key_Delete:
             self.deleteRequest.emit()
@@ -60,6 +64,7 @@ class BaseTableWidget(QTableWidget):
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
     rowSelectionChanged = pyqtSignal(tuple, tuple)
+    
     def __init__(self, parent=None):
         super(PointTableWidget, self).__init__(0, ('Links', 'Type', 'Color', 'X', 'Y', 'Current'), parent)
         self.setColumnWidth(0, 60)
@@ -71,6 +76,7 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(6, 60)
         self.draged = False
     
+    #Get the digitization of all table data.
     def data(self) -> Tuple[VPoint]:
         data = []
         for row in range(self.rowCount()):
@@ -96,6 +102,7 @@ class PointTableWidget(BaseTableWidget):
             data.append(v)
         return tuple(data)
     
+    #Edite a point.
     def editArgs(self,
         row: int,
         Links: str,
@@ -110,14 +117,17 @@ class PointTableWidget(BaseTableWidget):
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
+    #When index changed, the points need to rename.
     def rename(self, row):
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     
+    #Get the current coordinate from a point.
     def currentPosition(self, row: int) -> Tuple[float, float]:
         return tuple(tuple(float(p) for p in coordinate.split(", "))
             for coordinate in self.item(row, 6).text().replace('(', '').replace(')', '').split("; "))
     
+    #Update the current coordinate for a point.
     def updateCurrentPosition(self, coordinates: Tuple[Tuple[Tuple[float, float],],]):
         for i, coordinate in enumerate(coordinates):
             if type(coordinate[0])==float:
@@ -128,6 +138,14 @@ class PointTableWidget(BaseTableWidget):
             item.setToolTip(text)
             self.setItem(i, 6, item)
     
+    #Let all points go back to the origin coordinate.
+    def getBackOrigin(self):
+        self.updateCurrentPosition(tuple(
+            (float(self.item(row, 4).text()), float(self.item(row, 5).text()))
+            for row in range(self.rowCount())
+        ))
+    
+    #Auto select function, get the signal from canvas.
     @pyqtSlot(tuple)
     def setSelections(self, selections: Tuple[int]):
         self.setFocus()
@@ -147,6 +165,7 @@ class PointTableWidget(BaseTableWidget):
                 distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
         self.rowSelectionChanged.emit(selectedRows, tuple(distance))
     
+    #Different mode of select function.
     def setRangesSelected(self, selections, continueSelect=True, UnSelect=True):
         selectedRows = self.selectedRows()
         if not continueSelect:
@@ -159,11 +178,13 @@ class PointTableWidget(BaseTableWidget):
                 isSelected if UnSelect else True)
             self.scrollToItem(self.item(row, 0))
     
+    #Overwrite "clearSelection" slot, so it will emit "rowSelectionChanged" signal.
     @pyqtSlot()
     def clearSelection(self):
         super(PointTableWidget, self).clearSelection()
         self.rowSelectionChanged.emit((), ())
     
+    #Drag-out functions.
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)
         if event.button()==Qt.LeftButton:
@@ -188,6 +209,7 @@ class PointTableWidget(BaseTableWidget):
 class LinkTableWidget(BaseTableWidget):
     name = 'Line'
     dragIn = pyqtSignal(list)
+    
     def __init__(self, parent=None):
         super(LinkTableWidget, self).__init__(1, ('Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
@@ -197,6 +219,7 @@ class LinkTableWidget(BaseTableWidget):
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 230)
     
+    #Get the digitization of all table data.
     def data(self) -> Tuple[VLink]:
         data = []
         for row in range(self.rowCount()):
@@ -209,6 +232,7 @@ class LinkTableWidget(BaseTableWidget):
             data.append(VLink(name, color, points))
         return tuple(data)
     
+    #Edite a link.
     def editArgs(self,
         row: int,
         name: str,
@@ -222,6 +246,7 @@ class LinkTableWidget(BaseTableWidget):
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
+    #Drag-in functions.
     def dragEnterEvent(self, event):
         mimeData = event.mimeData()
         if mimeData.hasText():
@@ -241,6 +266,7 @@ class SelectionLabel(QLabel):
         super(SelectionLabel, self).__init__(*Args)
         self.updateSelectPoint()
     
+    #This QLabel can show distance in status bar.
     @pyqtSlot()
     @pyqtSlot(tuple, tuple)
     def updateSelectPoint(self, points=(), distance=()):
