@@ -105,7 +105,7 @@ def initCustomWidgets(self):
     
     + Add
     + Edit
-    + Fixed
+    + Fixed [v]
     + Copy table data
     + Clone
     -------
@@ -178,23 +178,23 @@ def initCustomWidgets(self):
     + Delete
     '''
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
-    self.DynamicCanvasView.customContextMenuRequested.connect(self.on_painter_context_menu)
-    self.popMenu_painter = QMenu(self)
-    self.action_painter_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
-    self.action_painter_right_click_menu_path.triggered.connect(self.PathSolving_add_rightClick)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_path)
-    self.action_painter_right_click_menu_add = QAction("&Add", self)
-    self.action_painter_right_click_menu_add.triggered.connect(self.addPointGroup)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_add)
-    self.action_painter_right_click_menu_fix_add = QAction("Add [fixed]", self)
-    self.action_painter_right_click_menu_fix_add.triggered.connect(self.addPointGroup_fixed)
-    self.popMenu_painter.addAction(self.action_painter_right_click_menu_fix_add)
-    self.popMenu_painter.addSeparator()
-    self.popMenu_painter.addAction(self.action_point_right_click_menu_edit)
-    self.popMenu_painter.addAction(self.action_point_right_click_menu_lock)
-    self.popMenu_painter.addAction(self.action_point_right_click_menu_copyPoint)
-    self.popMenu_painter.addSeparator()
-    self.popMenu_painter.addAction(self.action_point_right_click_menu_delete)
+    self.DynamicCanvasView.customContextMenuRequested.connect(self.on_canvas_context_menu)
+    self.popMenu_canvas = QMenu(self)
+    self.action_canvas_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
+    self.action_canvas_right_click_menu_path.triggered.connect(self.PathSolving_add_rightClick)
+    self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_path)
+    self.action_canvas_right_click_menu_add = QAction("&Add", self)
+    self.action_canvas_right_click_menu_add.triggered.connect(self.addPointGroup)
+    self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_add)
+    self.action_canvas_right_click_menu_fix_add = QAction("Add [fixed]", self)
+    self.action_canvas_right_click_menu_fix_add.triggered.connect(self.addPointGroup_fixed)
+    self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_fix_add)
+    self.popMenu_canvas.addSeparator()
+    self.popMenu_canvas.addAction(self.action_point_right_click_menu_edit)
+    self.popMenu_canvas.addAction(self.action_point_right_click_menu_lock)
+    self.popMenu_canvas.addAction(self.action_point_right_click_menu_copyPoint)
+    self.popMenu_canvas.addSeparator()
+    self.popMenu_canvas.addAction(self.action_point_right_click_menu_delete)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
 
 def action_Enabled(self):

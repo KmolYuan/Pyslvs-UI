@@ -116,35 +116,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
-    def on_painter_context_menu(self, point):
-        self.action_painter_right_click_menu_path.setVisible(self.DimensionalSynthesis.isChecked())
+    def on_canvas_context_menu(self, point):
+        self.action_canvas_right_click_menu_path.setVisible(self.DimensionalSynthesis.isChecked())
         self.enableEditPoint()
-        self.popMenu_painter.exec_(self.DynamicCanvasView.mapToGlobal(point))
+        self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
     
     #What ever we have least one point or not, need to enable / disable QAction.
     def enableEditPoint(self):
+        selectionCount = len(self.Entities_Point.selectedRows())
         row = self.Entities_Point.currentRow()
-        if row>-1:
-            self.action_point_right_click_menu_lock.setChecked(
-                'ground' in self.Entities_Point.item(row, 1).text())
+        #If connecting with the ground.
+        if selectionCount:
+            fixed = all('ground' in self.Entities_Point.item(r, 1).text() for r in self.Entities_Point.selectedRows())
+            self.action_point_right_click_menu_lock.setChecked(fixed)
         #If the point selected.
+        self.action_point_right_click_menu_add.setVisible(selectionCount<=0)
+        self.action_canvas_right_click_menu_add.setVisible(selectionCount<=0)
+        self.action_canvas_right_click_menu_fix_add.setVisible(selectionCount<=0)
+        self.action_point_right_click_menu_lock.setEnabled(row>-1)
         for action in [
             self.action_point_right_click_menu_edit,
-            self.action_point_right_click_menu_lock,
             self.action_point_right_click_menu_copyPoint,
             self.action_point_right_click_menu_copydata,
             self.action_point_right_click_menu_delete
         ]:
-            action.setEnabled(row>-1 and bool(self.Entities_Point.selectedRows()))
+            action.setEnabled(row>-1 and selectionCount==1)
     
     #Enable / disable link's QAction, same as point table.
     def enableEditLink(self):
+        selectionCount = len(self.Entities_Link.selectedRows())
         row = self.Entities_Link.currentRow()
-        self.action_link_right_click_menu_edit.setEnabled(row>-1)
-        self.action_link_right_click_menu_delete.setEnabled(row>0)
-        self.action_link_right_click_menu_copydata.setEnabled(row>-1)
-        self.action_link_right_click_menu_release.setVisible(row==0)
-        self.action_link_right_click_menu_constrain.setVisible(row>0)
+        self.action_link_right_click_menu_add.setVisible(selectionCount<=0)
+        self.action_link_right_click_menu_edit.setEnabled(row>-1 and selectionCount==1)
+        self.action_link_right_click_menu_delete.setEnabled(row>0 and selectionCount==1)
+        self.action_link_right_click_menu_copydata.setEnabled(row>-1 and selectionCount==1)
+        self.action_link_right_click_menu_release.setVisible(row==0 and selectionCount==1)
+        self.action_link_right_click_menu_constrain.setVisible(row>0 and selectionCount==1)
     
     #Copy text from point table.
     @pyqtSlot()
@@ -675,24 +682,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
             self.FileState.endMacro()
     
-    #Turn a point to fixed on ground or not.
+    #Turn a group of points to fixed on ground or not.
     def lockPoint(self):
-        row = self.Entities_Point.currentRow()
-        Links = self.Entities_Point.item(row, 1).text().split(',')
-        if 'ground' in Links:
-            Links.remove('ground')
-        else:
-            Links.append('ground')
-        Args = [
-            ','.join(filter(lambda a: a!='', Links)),
-            self.Entities_Point.item(row, 2).text(),
-            self.Entities_Point.item(row, 3).text(),
-            self.Entities_Point.item(row, 4).text(),
-            self.Entities_Point.item(row, 5).text()
-        ]
-        self.FileState.beginMacro("Edit {{Point{}}}".format(row))
-        self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
-        self.FileState.endMacro()
+        toFixed = self.action_point_right_click_menu_lock.isChecked()
+        for row in self.Entities_Point.selectedRows():
+            newLinks = self.Entities_Point.item(row, 1).text().split(',')
+            if toFixed:
+                if 'ground' not in newLinks:
+                    newLinks.append('ground')
+            else:
+                if 'ground' in newLinks:
+                    newLinks.remove('ground')
+            Args = [
+                ','.join(filter(lambda a: a!='', newLinks)),
+                self.Entities_Point.item(row, 2).text(),
+                self.Entities_Point.item(row, 3).text(),
+                self.Entities_Point.item(row, 4).text(),
+                self.Entities_Point.item(row, 5).text()
+            ]
+            self.FileState.beginMacro("Edit {{Point{}}}".format(row))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+            self.FileState.endMacro()
     
     #Clone a point (with orange color).
     def clonePoint(self):
