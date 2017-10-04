@@ -224,17 +224,16 @@ class DynamicCanvas(BaseCanvas):
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.ox, self.oy)
-        pen = QPen()
+        pen = QPen(Qt.gray)
         pen.setWidth(1)
-        pen.setColor(Qt.gray)
         self.painter.setPen(pen)
         self.painter.drawLine(
-            QPointF(-self.width(), 0),
-            QPointF(self.width(), 0)
+            QPointF(-self.ox, 0),
+            QPointF(self.width()-self.ox, 0)
         )
         self.painter.drawLine(
-            QPointF(0, -self.height()),
-            QPointF(0, self.height())
+            QPointF(0, -self.oy),
+            QPointF(0, self.height()-self.oy)
         )
         self.painter.rotate(self.rotateAngle)
         for i, vlink in enumerate(self.Link[1:]):

@@ -1031,17 +1031,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.File.Designs.removeResult(row)
     @pyqtSlot(int, tuple, dict)
     def PathSolving_mergeResult(self, row, answer, Paths):
-        pointNum = []
-        for i, (x, y) in enumerate(answer):
-            pointNum.append(self.addPoint(x, y, i<2))
+        pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
         expression = self.File.Designs.result[row]['mechanismParams']['Expression'].split(',')
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
-        for exp in expression_tag:
-            #TODO: Dimensional synthesis link merge function.
-            '''
-            self.addLinkGroup([])
-            '''
+        exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        #('A', 'D', 'B', 'C', 'E')
+        for i, exp in enumerate(expression_tag):
+            #Dimensional synthesis link merge function.
+            if i%3==0:
+                g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, -1))
+            elif i%3==1:
+                g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (3, -1))
+            else:
+                g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, -1))
+            self.addLinkGroup(g)
     
     def closeAllPanels(self):
         for i in range(self.panelWidget.count()):
