@@ -34,11 +34,12 @@ class Path:
 
 class Selector:
     #Use to record mouse clicked point.
-    __slots__ = ('x', 'y', 'MiddleButtonDrag', 'LeftButtonDrag')
+    __slots__ = ('x', 'y', 'selection', 'MiddleButtonDrag', 'LeftButtonDrag')
     
     def __init__(self):
         self.x = 0
         self.y = 0
+        self.selection = []
         self.MiddleButtonDrag = False
         self.LeftButtonDrag = False
     
@@ -364,6 +365,14 @@ class DynamicCanvas(BaseCanvas):
             self.Selector.MiddleButtonDrag = True
         if event.buttons()==Qt.LeftButton:
             self.Selector.LeftButtonDrag = True
+            self.Selector.selection.clear()
+            for i, e in enumerate(self.Point):
+                x = e.cx*self.zoom
+                y = e.cy*-self.zoom
+                if self.Selector.distance(x, y)<10:
+                    self.Selector.selection.append(i)
+            if self.Selector.selection:
+                self.mouse_getSelection.emit(tuple(self.Selector.selection))
     
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
@@ -387,15 +396,8 @@ class DynamicCanvas(BaseCanvas):
                 (self.Selector.x==event.x()-self.ox) and
                 (self.Selector.y==event.y()-self.oy)
             ):
-                selection = []
-                for i, e in enumerate(self.Point):
-                    x = e.cx*self.zoom
-                    y = e.cy*-self.zoom
-                    if self.Selector.distance(x, y)<10:
-                        selection.append(i)
-                if selection:
-                    self.mouse_getSelection.emit(tuple(selection))
-                elif (
+                if (
+                    not self.Selector.selection and
                     (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
                     (QApplication.keyboardModifiers()!=Qt.ShiftModifier)
                 ):
