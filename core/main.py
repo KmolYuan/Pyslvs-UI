@@ -735,6 +735,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
         self.FileState.endMacro()
     
+    #Free move function.
+    @pyqtSlot(int, tuple)
+    def freemove_setCoordinate(self, row, coordinate):
+        Args = [
+            self.Entities_Point.item(row, 1).text(),
+            self.Entities_Point.item(row, 2).text(),
+            self.Entities_Point.item(row, 3).text(),
+            coordinate[0],
+            coordinate[1]
+        ]
+        self.FileState.beginMacro("Edit {{Point{}}}".format(row))
+        self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+        self.FileState.endMacro()
+    
     #Create a link with arguments.
     @pyqtSlot()
     def on_action_New_Link_triggered(self):

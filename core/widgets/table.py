@@ -154,7 +154,7 @@ class PointTableWidget(BaseTableWidget):
         elif QApplication.keyboardModifiers()==Qt.ControlModifier:
             self.setRangesSelected(selections, continueSelect=True)
         else:
-            self.setRangesSelected(selections, continueSelect=False)
+            self.setRangesSelected(selections, continueSelect=False, UnSelect=False)
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows)>1:

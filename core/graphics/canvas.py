@@ -150,11 +150,13 @@ class BaseCanvas(QWidget):
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
     mouse_getSelection = pyqtSignal(tuple)
+    mouse_freemoveSelection = pyqtSignal(int, tuple)
     mouse_noSelection = pyqtSignal()
     mouse_getDoubleClickAdd = pyqtSignal()
     mouse_getDoubleClickEdit = pyqtSignal(int)
     change_event = pyqtSignal()
     zoom_change = pyqtSignal(int)
+    
     def __init__(self, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
@@ -396,12 +398,14 @@ class DynamicCanvas(BaseCanvas):
                 (self.Selector.x==event.x()-self.ox) and
                 (self.Selector.y==event.y()-self.oy)
             ):
-                if (
-                    not self.Selector.selection and
+                if (not self.Selector.selection and
                     (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
                     (QApplication.keyboardModifiers()!=Qt.ShiftModifier)
                 ):
                     self.mouse_noSelection.emit()
+            elif self.freemove:
+                for row in self.pointsSelection[:1]:
+                    self.mouse_freemoveSelection.emit(row, (self.Point[row].cx, self.Point[row].cy))
         self.Selector.MiddleButtonDrag = False
         self.Selector.LeftButtonDrag = False
     
@@ -410,8 +414,10 @@ class DynamicCanvas(BaseCanvas):
             self.ox = event.x()-self.Selector.x
             self.oy = event.y()-self.Selector.y
             self.update()
-        if self.Selector.LeftButtonDrag and self.freemove:
-            #TODO: Move the point.
+        elif self.Selector.LeftButtonDrag and self.freemove:
+            #Free move function.
+            for row in self.pointsSelection[:1]:
+                self.Point[row].move(((event.x()-self.ox)/self.zoom, -((event.y()-self.oy)/self.zoom)))
             self.update()
         self.mouse_track.emit((event.x()-self.ox)/self.zoom, -((event.y()-self.oy)/self.zoom))
     

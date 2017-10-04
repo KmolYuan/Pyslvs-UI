@@ -46,6 +46,7 @@ def initCustomWidgets(self):
     self.FreeMoveMode.toggled.connect(self.DynamicCanvasView.setFreeMove)
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entities_Point.setSelections)
     self.DynamicCanvasView.mouse_getSelection.connect(self.inputs_points_setSelection)
+    self.DynamicCanvasView.mouse_freemoveSelection.connect(self.freemove_setCoordinate)
     self.DynamicCanvasView.mouse_noSelection.connect(self.Entities_Point.clearSelection)
     self.DynamicCanvasView.mouse_noSelection.connect(self.inputs_points_clearSelection)
     cleanAction = QAction("Clean selection", self)
