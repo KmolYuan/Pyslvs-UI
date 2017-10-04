@@ -100,6 +100,8 @@ def initCustomWidgets(self):
     self.MechanismPanelSplitter.setStretchFactor(0, 4)
     self.MechanismPanelSplitter.setStretchFactor(1, 5)
     self.synthesis_splitter.setSizes([100, 500])
+    #Enable menu actions.
+    self.menu_Mechanism.aboutToShow.connect(self.enableMenu)
     '''
     Entities_Point context menu
     
@@ -113,6 +115,7 @@ def initCustomWidgets(self):
     '''
     self.Entities_Point_Widget.customContextMenuRequested.connect(self.on_point_context_menu)
     self.popMenu_point = QMenu(self)
+    self.popMenu_point.setSeparatorsCollapsible(True)
     self.action_point_right_click_menu_add = QAction("&Add", self)
     self.action_point_right_click_menu_add.triggered.connect(self.on_action_New_Point_triggered)
     self.popMenu_point.addAction(self.action_point_right_click_menu_add)
@@ -145,6 +148,7 @@ def initCustomWidgets(self):
     '''
     self.Entities_Link_Widget.customContextMenuRequested.connect(self.on_link_context_menu)
     self.popMenu_link = QMenu(self)
+    self.popMenu_link.setSeparatorsCollapsible(True)
     self.action_link_right_click_menu_add = QAction("&Add", self)
     self.action_link_right_click_menu_add.triggered.connect(self.on_action_New_Link_triggered)
     self.popMenu_link.addAction(self.action_link_right_click_menu_add)
@@ -180,6 +184,7 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.setContextMenuPolicy(Qt.CustomContextMenu)
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_canvas_context_menu)
     self.popMenu_canvas = QMenu(self)
+    self.popMenu_canvas.setSeparatorsCollapsible(True)
     self.action_canvas_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
     self.action_canvas_right_click_menu_path.triggered.connect(self.PathSolving_add_rightClick)
     self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_path)
@@ -196,20 +201,6 @@ def initCustomWidgets(self):
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_delete)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
-
-def action_Enabled(self):
-    ONE_POINT = self.Entities_Point.rowCount()>0
-    ONE_LINK = self.Entities_Link.rowCount()>1
-    #Edit
-    self.action_Edit_Point.setEnabled(ONE_POINT)
-    self.action_Edit_Link.setEnabled(ONE_LINK)
-    #Delete
-    self.action_Delete_Point.setEnabled(ONE_POINT)
-    self.action_Delete_Link.setEnabled(ONE_LINK)
-    self.action_point_right_click_menu_delete.setEnabled(ONE_POINT)
-    self.action_link_right_click_menu_delete.setEnabled(ONE_LINK)
-    #Others
-    self.action_Batch_moving.setEnabled(ONE_POINT)
 
 def showUndoWindow(self):
     self.FileState = QUndoStack()

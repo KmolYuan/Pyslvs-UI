@@ -20,7 +20,7 @@
 from .QtModules import *
 tr = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
-from .widgets.custom import initCustomWidgets, action_Enabled, showUndoWindow
+from .widgets.custom import initCustomWidgets, showUndoWindow
 
 #Dialog
 from .info.info import version_show
@@ -34,7 +34,6 @@ from .io.undoRedo import (
 #Entities
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
-from .entities.delete import deleteDlg
 from .entities.batchMoving import batchMoving_show
 #Tools
 from .synthesis.DimensionalSynthesis.Path_Solving import Path_Solving_show
@@ -70,8 +69,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         #Solve & DOF value.
         self.DOF = 0
-        #Enble or disable actions.
-        action_Enabled(self)
         if self.args.r:
             #Load workbook.
             self.loadWorkbook("Loading exist workbook.", fileName=self.args.r)
@@ -105,24 +102,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Entities_Point context menu
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
-        self.enableEditPoint()
+        self.enablePointContext()
         self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
     
     #Entities_Link context menu
     @pyqtSlot(QPoint)
     def on_link_context_menu(self, point):
-        self.enableEditLink()
+        self.enableLinkContext()
         self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
     
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
         self.action_canvas_right_click_menu_path.setVisible(self.DimensionalSynthesis.isChecked())
-        self.enableEditPoint()
+        self.enablePointContext()
         self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
     
     #What ever we have least one point or not, need to enable / disable QAction.
-    def enableEditPoint(self):
+    def enablePointContext(self):
         selectionCount = len(self.Entities_Point.selectedRows())
         row = self.Entities_Point.currentRow()
         #If connecting with the ground.
@@ -130,20 +127,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fixed = all('ground' in self.Entities_Point.item(r, 1).text() for r in self.Entities_Point.selectedRows())
             self.action_point_right_click_menu_lock.setChecked(fixed)
         #If the point selected.
-        self.action_point_right_click_menu_add.setVisible(selectionCount<=0)
-        self.action_canvas_right_click_menu_add.setVisible(selectionCount<=0)
-        self.action_canvas_right_click_menu_fix_add.setVisible(selectionCount<=0)
-        self.action_point_right_click_menu_lock.setEnabled(row>-1)
-        for action in [
+        for action in (
+            self.action_point_right_click_menu_add,
+            self.action_canvas_right_click_menu_add,
+            self.action_canvas_right_click_menu_fix_add
+        ):
+            action.setVisible(selectionCount<=0)
+        self.action_point_right_click_menu_lock.setVisible(row>-1)
+        for action in (
             self.action_point_right_click_menu_edit,
             self.action_point_right_click_menu_copyPoint,
             self.action_point_right_click_menu_copydata,
             self.action_point_right_click_menu_delete
-        ]:
-            action.setEnabled(row>-1 and selectionCount==1)
+        ):
+            action.setVisible(row>-1)
+            action.setEnabled(selectionCount==1)
     
     #Enable / disable link's QAction, same as point table.
-    def enableEditLink(self):
+    def enableLinkContext(self):
         selectionCount = len(self.Entities_Link.selectedRows())
         row = self.Entities_Link.currentRow()
         self.action_link_right_click_menu_add.setVisible(selectionCount<=0)
@@ -152,6 +153,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_link_right_click_menu_copydata.setEnabled(row>-1 and selectionCount==1)
         self.action_link_right_click_menu_release.setVisible(row==0 and selectionCount==1)
         self.action_link_right_click_menu_constrain.setVisible(row>0 and selectionCount==1)
+    
+    @pyqtSlot()
+    def enableMenu(self):
+        pointSelection = self.Entities_Point.selectedRows()
+        linkSelection = self.Entities_Link.selectedRows()
+        POINT_SELECTED = bool(pointSelection)
+        LINK_SELECTED = bool(linkSelection)
+        ONE_POINT = len(pointSelection)==1
+        ONE_LINK = len(linkSelection)==1
+        #Edit
+        self.action_Edit_Point.setEnabled(ONE_POINT)
+        self.action_Edit_Link.setEnabled(ONE_LINK)
+        #Delete
+        self.action_Delete_Point.setEnabled(POINT_SELECTED)
+        self.action_Delete_Link.setEnabled(LINK_SELECTED)
+        #Others
+        self.action_Batch_moving.setEnabled(ONE_POINT)
     
     #Copy text from point table.
     @pyqtSlot()
@@ -242,11 +260,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def workbookNoSave(self):
         self.File.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', '')+'*')
-        action_Enabled(self)
     def workbookSaved(self):
         self.File.changed = False
         self.setWindowTitle("Pyslvs - {}".format(self.File.fileName.fileName()))
-        action_Enabled(self)
     
     #Open website: http://mde.tw
     @pyqtSlot()
@@ -785,10 +801,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self):
-        row = self.Entities_Point.currentRow()
-        row = self.deleteDlg(self.action_New_Point.icon(), self.Entities_Point, row if row>-1 else 0)
-        if row is not None:
-            pointArgs = [
+        selections = self.Entities_Point.selectedRows()
+        selections = [p-i if p>selections[i-1] else p for i, p in enumerate(selections)]
+        for row in selections:
+            Args = [
                 '',
                 self.Entities_Point.item(row, 2).text(),
                 self.Entities_Point.item(row, 3).text(),
@@ -796,7 +812,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entities_Point.item(row, 5).text()
             ]
             self.FileState.beginMacro("Delete {{Point{}}}".format(row))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, pointArgs))
+            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
             for i in range(self.Entities_Link.rowCount()):
                 self.FileState.push(fixSequenceNumberCommand(self.Entities_Link, i, row))
             self.FileState.push(deleteTableCommand(self.Entities_Point, row, isRename=True))
@@ -804,27 +820,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Delete_Link_triggered(self):
-        row = self.Entities_Link.currentRow()
-        if row>0:
-            row = self.deleteDlg(self.action_New_Link.icon(), self.Entities_Link, row)
-            if row is not None:
-                Args = [
-                    self.Entities_Link.item(row, 0).text(),
-                    self.Entities_Link.item(row, 1).text(),
-                    ''
-                ]
-                self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
-                self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
-                self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
-                self.FileState.endMacro()
-    
-    def deleteDlg(self, icon, table, row):
-        dlg = deleteDlg(icon, table, row, self)
-        dlg.move(QCursor.pos()-QPoint(dlg.size().width()/2, dlg.size().height()/2))
-        dlg.show()
-        if dlg.exec_():
-            self.closeAllPanels()
-            return dlg.Entity.currentIndex()
+        selections = self.Entities_Link.selectedRows()
+        selections = [p-i if p>selections[i-1] else p for i, p in enumerate(selections)]
+        for row in selections:
+            Args = [
+                self.Entities_Link.item(row, 0).text(),
+                self.Entities_Link.item(row, 1).text(),
+                ''
+            ]
+            self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
+            self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
+            self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
+            self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Batch_moving_triggered(self):
@@ -1073,24 +1080,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def pointSelection(self):
         self.DynamicCanvasView.changePointsSelection(self.Entities_Point.selectedRows())
-    
-    @pyqtSlot(int, int, int, int)
-    def on_Parameter_list_currentCellChanged(self, c0, c1, p0, p1):
-        try:
-            self.Parameter_num.setPlainText('n{}'.format(c0))
-            self.Parameter_digital.setPlaceholderText(str(self.Parameter_list.item(c0, 1).text()))
-            self.Parameter_comment.setPlaceholderText(str(self.Parameter_list.item(c0, 2).text()))
-            self.Parameter_comment.setText(str(self.Parameter_list.item(c0, 2).text()))
-        except:
-            self.Parameter_num.setPlainText('N/A')
-            self.Parameter_digital.setPlaceholderText('0.0')
-            self.Parameter_comment.setPlaceholderText('No-comment')
-        self.Parameter_digital.clear()
-        self.Parameter_comment.clear()
-        enabled = self.Parameter_list.rowCount()>0 and c0>-1
-        for widget in [self.Parameter_num, self.Parameter_digital, self.Parameter_comment, self.Parameter_lable,
-            self.Comment_lable, self.Parameter_update]:
-                widget.setEnabled(enabled)
     
     def connectConsole(self):
         XStream.stdout().messageWritten.connect(self.appendToConsole)

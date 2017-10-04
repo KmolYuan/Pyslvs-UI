@@ -1407,7 +1407,7 @@
     <addaction name="separator"/>
     <addaction name="action_Exit"/>
    </widget>
-   <widget class="QMenu" name="menu_Draw">
+   <widget class="QMenu" name="menu_Mechanism">
     <property name="title">
      <string>&amp;Mechanism</string>
     </property>
@@ -1454,7 +1454,7 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
-   <addaction name="menu_Draw"/>
+   <addaction name="menu_Mechanism"/>
    <addaction name="menu_Options"/>
    <addaction name="menu_Help"/>
   </widget>
