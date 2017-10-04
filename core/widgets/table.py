@@ -47,6 +47,12 @@ class BaseTableWidget(QTableWidget):
                 texts.append('')
         return tuple(texts)
     
+    def selectedRows(self) -> Tuple[int]:
+        a = set()
+        for r in self.selectedRanges():
+            a |= {i for i in range(r.topRow(), r.bottomRow()+1)}
+        return tuple(sorted(a))
+    
     def keyPressEvent(self, event):
         if event.key()==Qt.Key_Delete:
             self.deleteRequest.emit()
@@ -157,12 +163,6 @@ class PointTableWidget(BaseTableWidget):
     def clearSelection(self):
         super(PointTableWidget, self).clearSelection()
         self.rowSelectionChanged.emit((), ())
-    
-    def selectedRows(self) -> Tuple[int]:
-        a = set()
-        for r in self.selectedRanges():
-            a |= {i for i in range(r.topRow(), r.bottomRow()+1)}
-        return tuple(sorted(a))
     
     def mousePressEvent(self, event):
         super(PointTableWidget, self).mousePressEvent(event)

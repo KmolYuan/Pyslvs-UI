@@ -39,21 +39,20 @@ class edit_link_show(QDialog, edit_link_Dialog):
             self.Link.setEnabled(False)
             self.Color.setCurrentIndex(self.Color.findText('Blue'))
         else:
-            for vlink in self.Links[1:]:
+            for vlink in self.Links:
                 self.Link.insertItem(i, icon, vlink.name)
-            self.Link.setCurrentIndex(pos-1)
+            self.Link.setCurrentIndex(pos)
         self.name_edit.textChanged.connect(self.isOk)
         self.isOk()
     
     @pyqtSlot(str)
     def isOk(self, p0=None):
         name = self.name_edit.text()
-        names = [vlink.name for i, vlink in enumerate(self.Links) if i!=self.Link.currentIndex()+1]
+        names = [vlink.name for i, vlink in enumerate(self.Links) if i!=self.Link.currentIndex()]
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(name.isidentifier() and not name in names)
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):
-        index += 1
         if len(self.Links)>index:
             vlink = self.Links[index]
             self.name_edit.setText(vlink.name)
@@ -64,3 +63,5 @@ class edit_link_show(QDialog, edit_link_Dialog):
                 self.selected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))
             for pointIndex in tuple(set(range(len(self.Points)))-set(vlink.points)):
                 self.noSelected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))
+        self.name_edit.setEnabled(index!=0)
+        self.Color.setEnabled(index!=0)

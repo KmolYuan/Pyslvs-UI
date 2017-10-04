@@ -224,6 +224,18 @@ class DynamicCanvas(BaseCanvas):
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.translate(self.ox, self.oy)
+        pen = QPen()
+        pen.setWidth(1)
+        pen.setColor(Qt.gray)
+        self.painter.setPen(pen)
+        self.painter.drawLine(
+            QPointF(-self.width(), 0),
+            QPointF(self.width(), 0)
+        )
+        self.painter.drawLine(
+            QPointF(0, -self.height()),
+            QPointF(0, self.height())
+        )
         self.painter.rotate(self.rotateAngle)
         for i, vlink in enumerate(self.Link[1:]):
             points = [self.Point[i] for i in vlink.points]
@@ -377,7 +389,7 @@ class DynamicCanvas(BaseCanvas):
         width = self.width()
         height = self.height()
         height = height if not height==0 else 1
-        if len(self.Point)==1:
+        if len(self.Point)<=1:
             self.zoom_change.emit(200)
             self.ox = width/2
             self.oy = height/2

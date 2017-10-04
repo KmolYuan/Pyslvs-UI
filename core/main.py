@@ -75,9 +75,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.args.r:
             #Load workbook.
             self.loadWorkbook("Loading exist workbook.", fileName=self.args.r)
-        else:
-            #Blank workbook.
-            self.addPoint(0., 0., True, 'Red')
     
     #Set environment variables
     def setLocate(self, locate):
@@ -90,7 +87,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if mimeData.hasUrls():
             for url in mimeData.urls():
                 FilePath = url.toLocalFile()
-                if QFileInfo(FilePath).suffix() in ['pyslvs']:
+                if QFileInfo(FilePath).suffix() in ('pyslvs',):
                     event.acceptProposedAction()
     
     #Drop file in to our window.
@@ -143,7 +140,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Enable / disable link's QAction, same as point table.
     def enableEditLink(self):
         row = self.Entities_Link.currentRow()
-        self.action_link_right_click_menu_edit.setEnabled(row>0)
+        self.action_link_right_click_menu_edit.setEnabled(row>-1)
         self.action_link_right_click_menu_delete.setEnabled(row>0)
         self.action_link_right_click_menu_copydata.setEnabled(row>-1)
         self.action_link_right_click_menu_release.setVisible(row==0)
@@ -725,8 +722,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Edit a link with arguments.
     @pyqtSlot()
     def on_action_Edit_Link_triggered(self):
-        row = self.Entities_Link.currentRow()
-        self.editLink(row if row>0 else 1)
+        self.editLink(self.Entities_Link.currentRow())
     
     #Edit link function.
     def editLink(self, row=False):
@@ -737,7 +733,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Args = [
                 name,
                 dlg.Color.currentText(),
-                ','.join([dlg.selected.item(row).text() for row in range(dlg.selected.count())])
+                ','.join([dlg.selected.item(p).text() for p in range(dlg.selected.count())])
             ]
             if row is False:
                 self.FileState.beginMacro("Add {{Link: {}}}".format(name))
