@@ -1105,3 +1105,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.panelWidget.show()
         else:
             self.panelWidget.hide()
+    
+    @pyqtSlot(bool)
+    def on_action_Full_Screen_toggled(self, fullscreen):
+        if fullscreen:
+            self.showFullScreen()
+        else:
+            self.showMaximized()
