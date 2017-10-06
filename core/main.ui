@@ -383,16 +383,18 @@
                       <property name="editTriggers">
                        <set>QAbstractItemView::NoEditTriggers</set>
                       </property>
-                      <property name="dragDropMode">
-                       <enum>QAbstractItemView::InternalMove</enum>
-                      </property>
-                      <property name="defaultDropAction">
-                       <enum>Qt::MoveAction</enum>
-                      </property>
                      </widget>
                     </item>
                     <item>
                      <layout class="QHBoxLayout" name="horizontalLayout_3">
+                      <item>
+                       <widget class="QPushButton" name="inputs_variable_remove">
+                        <property name="icon">
+                         <iconset resource="../icons.qrc">
+                          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                        </property>
+                       </widget>
+                      </item>
                       <item>
                        <spacer name="horizontalSpacer_3">
                         <property name="orientation">
@@ -407,10 +409,10 @@
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="inputs_variable_remove">
+                       <widget class="QPushButton" name="inputs_variable_play">
                         <property name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                          <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
                         </property>
                        </widget>
                       </item>
@@ -460,14 +462,6 @@
                     </property>
                     <property name="checkable">
                      <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="inputs_record_play">
-                    <property name="icon">
-                     <iconset resource="../icons.qrc">
-                      <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
                     </property>
                    </widget>
                   </item>

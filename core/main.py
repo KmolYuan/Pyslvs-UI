@@ -246,13 +246,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Reload_Canvas()
     
     #Reload Canvas, without resolving.
-    @pyqtSlot(int)
-    @pyqtSlot(float)
     def Reload_Canvas(self, *Args):
+        pathIndex = self.inputs_record.currentRow()
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.File.pathData)
+            self.File.pathData[pathIndex] if pathIndex>-1 else ())
     
     #Workbook Change signal.
     def workbookNoSave(self):
@@ -987,8 +986,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             item.setText('->'.join(itemText))
             self.Resolve()
         if self.inputs_record_record.isChecked():
-            #TODO: Recording path.
-            print("Recording...")
+            self.DynamicCanvasView.recordPath()
     
     def variableValueReset(self):
         self.Entities_Point.getBackOrigin()
@@ -1015,6 +1013,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             itemText[3] = float(itemText[-1])
             constraints.append(tuple(itemText))
         return tuple(constraints)
+    
+    #Save to file path data.
+    @pyqtSlot(bool)
+    def on_inputs_record_record_toggled(self, toggled):
+        if toggled:
+            self.DynamicCanvasView.recordStart()
+        else:
+            path = self.DynamicCanvasView.getRecordPath()
+            self.File.pathData.append(path)
+            name, ok = QInputDialog.getText(self, "Recording completed!", "Please input name tag:")
+            if ok and name:
+                self.inputs_record.addItem(name)
+            else:
+                nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
+                i = 0
+                name = "Record_{}".format(i)
+                while name in nameList:
+                    i += 1
+                    name = "Record_{}".format(i)
+                self.inputs_record.addItem(name)
+            self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+    
+    #Remove path data.
+    @pyqtSlot()
+    def on_inputs_record_remove_clicked(self):
+        row = self.inputs_record.currentRow()
+        if row>-1:
+            del self.File.pathData[row]
+            self.inputs_record.takeItem(row)
+            self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+            self.Reload_Canvas()
     
     @pyqtSlot()
     def on_DimensionalSynthesis_clicked(self):

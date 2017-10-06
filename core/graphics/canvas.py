@@ -95,9 +95,8 @@ class BaseCanvas(QWidget):
     ):
         x = cx*self.zoom
         y = cy*-self.zoom
-        pen = QPen()
+        pen = QPen(color)
         pen.setWidth(2)
-        pen.setColor(color)
         self.painter.setPen(pen)
         if fix:
             self.painter.drawPolygon(QPointF(x, y), QPointF(x-10, y+20), QPointF(x+10, y+20))
@@ -119,9 +118,8 @@ class BaseCanvas(QWidget):
         color: QColor,
         points: List['VPoint']
     ):
-        pen = QPen()
+        pen = QPen(color)
         pen.setWidth(self.linkWidth)
-        pen.setColor(color)
         self.painter.setPen(pen)
         self.painter.setBrush(QColor(226, 219, 190))
         #Rearrange: Put the nearest point to the next position.
@@ -256,11 +254,10 @@ class DynamicCanvas(BaseCanvas):
             fix = 'ground' in vpoint.links
             self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
         if self.slvsPath and self.showSlvsPath:
-            pen = QPen()
+            pen = QPen(QColor(69, 247, 232))
             pen.setWidth(self.pathWidth)
-            pen.setColor(QColor(69, 247, 232))
             self.painter.setPen(pen)
-            if self.Path.mode==True:
+            if self.Path.mode:
                 if len(self.slvsPath)>1:
                     pointPath = QPainterPath()
                     for i, (x, y) in enumerate(self.slvsPath):
@@ -284,20 +281,43 @@ class DynamicCanvas(BaseCanvas):
     def drawPoint(self, i, cx, cy, fix, color):
         super(DynamicCanvas, self).drawPoint(i, cx, cy, fix, color)
         if i in self.pointsSelection:
-            pen = QPen()
+            pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
-            pen.setColor(QColor(161, 16, 239))
             self.painter.setPen(pen)
-            self.painter.drawRect(cx*self.zoom-12, cy*self.zoom*(-1)-12, 24, 24)
+            self.painter.drawRect(cx*self.zoom - 12, cy*-self.zoom - 12, 24, 24)
     
     def drawPath(self):
         if self.Path.show:
-            #TODO: draw paths.
-            pass
+            #draw paths.
+            def drawPath(path):
+                pointPath = QPainterPath()
+                for i, (x, y) in enumerate(path):
+                    x *= self.zoom
+                    y *= -self.zoom
+                    if i==0:
+                        pointPath.moveTo(x, y)
+                    else:
+                        pointPath.lineTo(QPointF(x, y))
+                self.painter.drawPath(pointPath)
+            def drawDot(path):
+                for x, y in path:
+                    x *= self.zoom
+                    y *= -self.zoom
+                    self.painter.drawPoint(QPointF(x, y))
+            draw = drawPath if self.Path.mode else drawDot
+            if hasattr(self, 'PathRecord'):
+                Path = self.PathRecord
+            else:
+                Path = self.Path.path
+            for i, path in enumerate(Path):
+                if len(set(path))>1:
+                    pen = QPen(self.Point[i].color)
+                    pen.setWidth(self.pathWidth)
+                    self.painter.setPen(pen)
+                    draw(path)
         if self.showSlvsPath:
             for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
-                pen = QPen()
-                pen.setColor(range_color)
+                pen = QPen(range_color)
                 self.painter.setBrush(range_color)
                 self.painter.setPen(pen)
                 cx = rect.x()*self.zoom
@@ -317,6 +337,20 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), 'Driver')
                 else:
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
+    
+    def recordStart(self):
+        self.PathRecord = [[] for i in range(len(self.Point))]
+    
+    #Recording path.
+    def recordPath(self):
+        for i, vpoint in enumerate(self.Point):
+            self.PathRecord[i].append((vpoint.cx, vpoint.cy))
+    
+    #Return paths.
+    def getRecordPath(self):
+        path = tuple(tuple(path) for path in self.PathRecord)
+        del self.PathRecord
+        return path
     
     def mousePressEvent(self, event):
         self.Selector.x = event.x()-self.ox
@@ -395,10 +429,10 @@ class DynamicCanvas(BaseCanvas):
             Ys = [e.cy for e in self.Point] if self.Point else [0]
             if self.Path.path:
                 Path = self.Path.path
-                pathMaxX = max([max([max([dot[0] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
-                pathMinX = min([min([min([dot[0] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
-                pathMaxY = max([max([max([dot[1] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
-                pathMinY = min([min([min([dot[1] for dot in vpath.path]) for vpath in vpaths.paths]) for vpaths in Path])
+                pathMaxX = max(max(path[0] for path in point) for point in Path)
+                pathMinX = min(min(path[0] for path in point) for point in Path)
+                pathMaxY = max(max(path[1] for path in point) for point in Path)
+                pathMinY = min(min(path[1] for path in point) for point in Path)
                 diffX = max(max(Xs), pathMaxX)-min(min(Xs), pathMinX)
                 diffY = max(max(Ys), pathMaxY)-min(min(Ys), pathMinY)
                 cenx = (min(min(Xs), pathMinX)+max(max(Xs), pathMaxX))/2

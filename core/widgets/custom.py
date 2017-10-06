@@ -97,6 +97,7 @@ def initCustomWidgets(self):
     self.rotateAngle.valueChanged.connect(self.DynamicCanvasView.setRotateAngle)
     self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
+    self.inputs_record.currentRowChanged.connect(self.Reload_Canvas)
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 15)
