@@ -431,7 +431,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closeAllPanels()
             self.File.reset(self.Entities_Point, self.Entities_Link, self.Entities_Chain,
                 self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
-            self.DynamicCanvasView.changeCurrentShaft()
             self.DynamicCanvasView.path_solving()
             self.Resolve()
             self.setWindowTitle("Pyslvs - [New Workbook]")
@@ -892,11 +891,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def update_inputs_points(self):
         self.inputs_points.clear()
         for i in range(self.Entities_Point.rowCount()):
-            self.inputs_points.addItem("[{}] Point{}".format(self.Entities_Point.item(i, 2).text(), i))
+            text = "[{}] Point{}".format(self.Entities_Point.item(i, 2).text(), i)
+            self.inputs_points.addItem(text)
     
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
-        self.inputs_points.setCurrentRow(selections[0])
+        self.inputs_points.setCurrentRow(
+            selections[0]
+            if selections[0] in self.Entities_Point.selectedRows()
+            else -1
+        )
     
     @pyqtSlot()
     def inputs_points_clearSelection(self):
@@ -904,11 +908,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_inputs_points_currentRowChanged(self, row):
-        if not row in self.Entities_Point.selectedRows():
-            self.Entities_Point.setSelections((row,))
         self.inputs_baseLinks.clear()
         if row>-1:
-            for linkName in self.Entities_Point.item(row, 1).text().split(','):
+            if row not in self.Entities_Point.selectedRows():
+                self.Entities_Point.setSelections((row,))
+            for linkName in filter(lambda x: x!='', self.Entities_Point.item(row, 1).text().split(',')):
                 self.inputs_baseLinks.addItem(linkName)
     
     @pyqtSlot(int)
@@ -937,7 +941,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.inputs_driveLinks.currentItem().text(),
             str(self.getLinkAngle(row, self.inputs_driveLinks.currentItem().text()))
         ])
-        if self.inputs_variable.count()<self.DOF and not(self.inputs_variable.findItems(text, Qt.MatchExactly)):
+        if (self.inputs_variable.count()<self.DOF) and (not self.inputs_variable.findItems(text, Qt.MatchExactly)):
             self.inputs_variable.addItem(text)
     
     def getLinkAngle(self, row, link):
@@ -976,11 +980,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Update the value when rotating QDial.
     def variableValueUpdate(self, value):
         item = self.inputs_variable.currentItem()
+        value /= 100.
         if item:
             itemText = item.text().split('->')
-            itemText[-1] = str(value/100.)
+            itemText[-1] = str(value)
             item.setText('->'.join(itemText))
             self.Resolve()
+        if self.inputs_record_record.isChecked():
+            #TODO: Recording path.
+            print("Recording...")
     
     def variableValueReset(self):
         self.Entities_Point.getBackOrigin()
@@ -1004,17 +1012,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             item = self.inputs_variable.item(i)
             itemText = item.text().split('->')
             itemText[0] = int(itemText[0].replace('Point', ''))
-            itemText[-1] = float(itemText[-1])
+            itemText[3] = float(itemText[-1])
             constraints.append(tuple(itemText))
         return tuple(constraints)
-    
-    @pyqtSlot(bool)
-    def on_inputs_record_record_toggled(self, started):
-        #TODO: record path.
-        if started:
-            print("recording.")
-        else:
-            print("stoped.")
     
     @pyqtSlot()
     def on_DimensionalSynthesis_clicked(self):

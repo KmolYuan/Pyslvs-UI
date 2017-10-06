@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -205,9 +205,15 @@ class Ui_MainWindow(object):
         self.inputs_record_groupBox.setObjectName("inputs_record_groupBox")
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout(self.inputs_record_groupBox)
         self.horizontalLayout_8.setObjectName("horizontalLayout_8")
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_4.setObjectName("verticalLayout_4")
+        self.label_4 = QtWidgets.QLabel(self.inputs_record_groupBox)
+        self.label_4.setObjectName("label_4")
+        self.verticalLayout_4.addWidget(self.label_4)
         self.inputs_record = QtWidgets.QListWidget(self.inputs_record_groupBox)
         self.inputs_record.setObjectName("inputs_record")
-        self.horizontalLayout_8.addWidget(self.inputs_record)
+        self.verticalLayout_4.addWidget(self.inputs_record)
+        self.horizontalLayout_8.addLayout(self.verticalLayout_4)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.inputs_record_record = QtWidgets.QPushButton(self.inputs_record_groupBox)
@@ -925,6 +931,7 @@ class Ui_MainWindow(object):
         self.inputs_variable_add.setText(_translate("MainWindow", "Add to variable list"))
         self.inputs_variable_groupBox.setTitle(_translate("MainWindow", "Variables"))
         self.inputs_record_groupBox.setTitle(_translate("MainWindow", "Records"))
+        self.label_4.setText(_translate("MainWindow", "Path"))
         self.SynthesisPanel.setTabText(self.SynthesisPanel.indexOf(self.inputs_tab), _translate("MainWindow", "Inputs"))
         self.groupBox_3.setTitle(_translate("MainWindow", "Number and Type synthesis"))
         self.DimensionalSynthesisGroupBox.setTitle(_translate("MainWindow", "Dimensional synthesis"))

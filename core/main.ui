@@ -437,7 +437,18 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_8">
                 <item>
-                 <widget class="QListWidget" name="inputs_record"/>
+                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="text">
+                     <string>Path</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QListWidget" name="inputs_record"/>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_2">

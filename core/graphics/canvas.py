@@ -21,7 +21,6 @@ from ..QtModules import *
 from math import sqrt
 from typing import List
 from heapq import nsmallest
-from ..graphics.color import colorQt
 
 class Path:
     __slots__ = ('path', 'demo', 'show', 'mode')
@@ -55,8 +54,6 @@ class BaseCanvas(QWidget):
         self.oy = self.height()/2
         #Canvas zoom rate
         self.rate = 2
-        #Drive shaft
-        self.currentShaft = ()
         #Canvas line width
         self.linkWidth = 3
         self.pathWidth = 3
@@ -231,17 +228,8 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = pointsSelection
         self.update()
     
-    @pyqtSlot(int, float, int)
-    def changeCurrentShaft(self, point=0, angle=0.):
-        self.currentShaft = (point, angle)
-        self.update()
-    
-    def resetCurrentShaft(self):
-        self.currentShaft = ()
-        self.update()
-    
-    def path_solving(self, path=[]):
-        self.slvsPath = path
+    def path_solving(self, slvsPath):
+        self.slvsPath = slvsPath
         self.update()
     
     @pyqtSlot(tuple, float, tuple, float)
@@ -304,38 +292,8 @@ class DynamicCanvas(BaseCanvas):
     
     def drawPath(self):
         if self.Path.show:
-            for vpaths in self.Path.path:
-                for vpath in vpaths.paths:
-                    if vpath.show:
-                        pen = QPen()
-                        pen.setWidth(self.pathWidth)
-                        if vpaths.shaft==self.currentShaft:
-                            pen.setColor(colorQt(self.Point[vpath.point].color))
-                        else:
-                            pen.setColor(colorQt('Gray'))
-                        self.painter.setPen(pen)
-                        if self.Path.mode==True:
-                            error = False
-                            pointPath = QPainterPath()
-                            for i, point in enumerate(vpath.path):
-                                if point is None or point[0] is None or point[0] is False:
-                                    error = True
-                                    continue
-                                x = point[0]*self.zoom
-                                y = point[1]*-self.zoom
-                                if i==0 or error:
-                                    pointPath.moveTo(x, y)
-                                    error = False
-                                else:
-                                    pointPath.lineTo(QPointF(x, y))
-                            self.painter.drawPath(pointPath)
-                        else:
-                            for i, point in enumerate(vpath.path):
-                                if point[0] is None or point[0] is False:
-                                    continue
-                                x = point[0]*self.zoom
-                                y = point[1]*-self.zoom
-                                self.painter.drawPoint(QPointF(x, y))
+            #TODO: draw paths.
+            pass
         if self.showSlvsPath:
             for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
                 pen = QPen()
