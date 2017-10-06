@@ -230,7 +230,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         result, DOF = slvsProcess(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.variableConstraints(),
+            self.variableConstraints() if not self.FreeMoveMode.isChecked() else (),
             hasWarning=self.showConsoleError.isChecked()
         )
         Failed = type(DOF)!=int
@@ -931,20 +931,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
         row = self.inputs_points.currentRow()
-        Point = self.Entities_Point.data()
-        Link = self.Entities_Link.data()
-        LinkIndex = [vlink.name for vlink in Link]
-        relate = Link[LinkIndex.index(self.inputs_driveLinks.currentItem().text())].points
-        base = Point[row]
-        drive = Point[relate[relate.index(row)-1]]
         text = '->'.join([
             self.Entities_Point.item(self.inputs_points.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
-            str(base.slopeAngle(drive))
+            str(self.getLinkAngle(row, self.inputs_driveLinks.currentItem().text()))
         ])
         if self.inputs_variable.count()<self.DOF and not(self.inputs_variable.findItems(text, Qt.MatchExactly)):
             self.inputs_variable.addItem(text)
+    
+    def getLinkAngle(self, row, link):
+        Point = self.Entities_Point.data()
+        Link = self.Entities_Link.data()
+        LinkIndex = [vlink.name for vlink in Link]
+        relate = Link[LinkIndex.index(link)].points
+        base = Point[row]
+        drive = Point[relate[relate.index(row)-1]]
+        return base.slopeAngle(drive)
     
     @pyqtSlot()
     def on_inputs_variable_remove_clicked(self):
@@ -959,14 +962,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             itemText = self.inputs_variable.item(i).text().split('->')
             row = int(itemText[0].replace('Point', ''))
             links = self.Entities_Point.item(row, 1).text()
-            if (itemText[1] in links) and (itemText[2] in links):
+            #If this is not origin point any more.
+            if (itemText[1] not in links) or (itemText[2] not in links):
                 self.inputs_variable.takeItem(i)
         self.Entities_Point.getBackOrigin()
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row):
         enabled = row>-1
-        self.inputs_Degree.setEnabled(enabled)
+        self.inputs_Degree.setEnabled(enabled and not self.FreeMoveMode.isChecked())
         self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100. if enabled else 0.)
     
     #Update the value when rotating QDial.
@@ -978,6 +982,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             item.setText('->'.join(itemText))
             self.Resolve()
     
+    def variableValueReset(self):
+        self.Entities_Point.getBackOrigin()
+        for i in range(self.inputs_variable.count()):
+            itemText = self.inputs_variable.item(i).text().split('->')
+            row = int(itemText[0].replace('Point', ''))
+            text = '->'.join([
+                itemText[0],
+                itemText[1],
+                itemText[2],
+                str(self.getLinkAngle(row, itemText[2]))
+            ])
+            self.inputs_variable.item(i).setText(text)
+        self.on_inputs_variable_currentRowChanged(self.inputs_variable.currentRow())
+        self.Resolve()
+    
     #Generate constraint symbols.
     def variableConstraints(self):
         constraints = []
@@ -988,6 +1007,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             itemText[-1] = float(itemText[-1])
             constraints.append(tuple(itemText))
         return tuple(constraints)
+    
+    @pyqtSlot(bool)
+    def on_inputs_record_record_toggled(self, started):
+        #TODO: record path.
+        if started:
+            print("recording.")
+        else:
+            print("stoped.")
     
     @pyqtSlot()
     def on_DimensionalSynthesis_clicked(self):

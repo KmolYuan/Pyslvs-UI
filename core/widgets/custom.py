@@ -44,6 +44,7 @@ def initCustomWidgets(self):
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
     self.FreeMoveMode.toggled.connect(self.DynamicCanvasView.setFreeMove)
+    self.FreeMoveMode.toggled.connect(self.variableValueReset)
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entities_Point.setSelections)
     self.DynamicCanvasView.mouse_getSelection.connect(self.inputs_points_setSelection)
     self.DynamicCanvasView.mouse_freemoveSelection.connect(self.freemove_setCoordinate)

@@ -43,7 +43,6 @@ parser.add_argument('-i', metavar='START PATH', default=False, nargs='?', type=s
 parser.add_argument('-w', action='store_true', help="show rebuild warning of canvas")
 parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in Fusion style")
 parser.add_argument('--full-screen', action='store_true', help="start Pyslvs with full-screen mode")
-parser.add_argument('--file-data', action='store_true', help="display the file data in command-line when opening")
 parser.add_argument('--server', metavar='PORT', default=False, nargs='?', type=str, help="start ZMQ server")
 parser.add_argument('-d', '--debug-mode', action='store_true', help="do not connect to GUI console when opening")
 args = parser.parse_args()
