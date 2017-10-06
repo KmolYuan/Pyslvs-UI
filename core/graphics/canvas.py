@@ -429,10 +429,10 @@ class DynamicCanvas(BaseCanvas):
             Ys = [e.cy for e in self.Point] if self.Point else [0]
             if self.Path.path:
                 Path = self.Path.path
-                pathMaxX = max(max(path[0] for path in point) for point in Path)
-                pathMinX = min(min(path[0] for path in point) for point in Path)
-                pathMaxY = max(max(path[1] for path in point) for point in Path)
-                pathMinY = min(min(path[1] for path in point) for point in Path)
+                pathMaxX = max(max(path[0] for path in point) if point else 0 for point in Path)
+                pathMinX = min(min(path[0] for path in point) if point else 0 for point in Path)
+                pathMaxY = max(max(path[1] for path in point) if point else 0 for point in Path)
+                pathMinY = min(min(path[1] for path in point) if point else 0 for point in Path)
                 diffX = max(max(Xs), pathMaxX)-min(min(Xs), pathMinX)
                 diffY = max(max(Ys), pathMaxY)-min(min(Ys), pathMinY)
                 cenx = (min(min(Xs), pathMinX)+max(max(Xs), pathMaxX))/2

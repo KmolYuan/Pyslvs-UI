@@ -1092,7 +1092,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def PathSolving_deleteResult(self, row):
         self.File.Designs.removeResult(row)
-    @pyqtSlot(int, tuple, dict)
+    @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, Paths):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
         expression = self.File.Designs.result[row]['mechanismParams']['Expression'].split(',')
@@ -1109,6 +1109,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, -1))
             self.addLinkGroup(g)
+        self.File.pathData.append(Paths)
+        nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
+        i = 0
+        name = "Algorithm_{}".format(i)
+        while name in nameList:
+            i += 1
+            name = "Algorithm_{}".format(i)
+        self.inputs_record.addItem(name)
+        self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     
     def closeAllPanels(self):
         for i in range(self.panelWidget.count()):

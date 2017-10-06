@@ -75,7 +75,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     deletePathPoint = pyqtSignal(int)
     moveupPathPoint = pyqtSignal(int)
     movedownPathPoint = pyqtSignal(int)
-    mergeResult = pyqtSignal(int, tuple, dict)
+    mergeResult = pyqtSignal(int, tuple, tuple)
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
@@ -381,7 +381,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         '''
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         expression_result = [exp[-1] for exp in expression_tag]
-        Paths = {tag:[] for tag in expression_result}
+        exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        '''
+        ('A', 'D', 'B', 'C', 'E')
+        '''
+        Paths = tuple([] for tag in exp_symbol)
         for a in range(360+1):
             Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
             for exp in expression_tag[1:]:
@@ -393,8 +397,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             if False not in s_answer:
                 answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
             for i, a in enumerate(s_answer):
-                Paths[expression_result[i]].append(a)
-        return tuple(answer), Paths
+                Paths[exp_symbol.index(expression_result[i])].append(a)
+        return tuple(answer), tuple(tuple(path) if (len(set(path))>1 or (False in path)) else () for path in Paths)
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
