@@ -348,7 +348,7 @@ class DynamicCanvas(BaseCanvas):
     
     #Return paths.
     def getRecordPath(self):
-        path = tuple(tuple(path) for path in self.PathRecord)
+        path = tuple(tuple(path) if len(set(path))>1 else () for path in self.PathRecord)
         del self.PathRecord
         return path
     
