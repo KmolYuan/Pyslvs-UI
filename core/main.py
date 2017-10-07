@@ -48,6 +48,8 @@ from .io.slvsForm.sketch import slvs2D
 from .info.fileInfo import fileInfo_show, editFileInfo_show
 #Logging
 from .io.loggingHandler import XStream
+#Timer
+from time import sleep
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
@@ -204,6 +206,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.Exit(event)
     def Exit(self, event):
+        if self.inputs_playShaft.isRunning():
+            self.inputs_playShaft.stop()
         self.disconnectConsole()
         self.setAttribute(Qt.WA_DeleteOnClose)
         print('Exit.')
@@ -848,15 +852,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.FileState.endMacro()
     
     @pyqtSlot()
-    def on_CanvasCapture_clicked(self):
+    def canvasCapture(self):
         clipboard = QApplication.clipboard()
         pixmap = self.DynamicCanvasView.grab()
         clipboard.setPixmap(pixmap)
-        dlgbox = QMessageBox(self)
-        dlgbox.setWindowTitle("Captured!")
-        dlgbox.setStandardButtons((QMessageBox.Ok))
-        dlgbox.setIconPixmap(pixmap.scaledToWidth(650))
-        dlgbox.exec_()
+        dlg = QMessageBox(QMessageBox.Information, "Captured!", "Canvas widget picture is copy to clipboard.", QMessageBox.Ok, self)
+        dlg.show()
+        dlg.exec_()
     
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
@@ -973,7 +975,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row):
         enabled = row>-1
-        self.inputs_Degree.setEnabled(enabled and not self.FreeMoveMode.isChecked())
+        rotatable = enabled and not self.FreeMoveMode.isChecked()
+        self.inputs_Degree.setEnabled(rotatable)
+        self.inputs_variable_play.setEnabled(rotatable)
+        self.inputs_variable_CCW.setEnabled(rotatable)
+        self.inputs_variable_CW.setEnabled(rotatable)
         self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100. if enabled else 0.)
     
     #Update the value when rotating QDial.
@@ -989,6 +995,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DynamicCanvasView.recordPath()
     
     def variableValueReset(self):
+        if self.inputs_playShaft.isRunning():
+            self.inputs_variable_play.click()
+            
+            sleep(.05)
         self.Entities_Point.getBackOrigin()
         for i in range(self.inputs_variable.count()):
             itemText = self.inputs_variable.item(i).text().split('->')
@@ -1013,6 +1023,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             itemText[3] = float(itemText[-1])
             constraints.append(tuple(itemText))
         return tuple(constraints)
+    
+    #Triggered when play button was changed.
+    @pyqtSlot(bool)
+    def on_inputs_variable_play_toggled(self, toggled):
+        if toggled:
+            self.inputs_playShaft.setStartAngle(self.inputs_Degree.value())
+            self.inputs_playShaft.rotate.connect(self.inputs_Degree.setValue)
+            self.inputs_playShaft.start()
+        else:
+            self.inputs_playShaft.stop()
+            self.inputs_playShaft.rotate.disconnect()
+    
+    #Triggered when reverse option was changed.
+    @pyqtSlot()
+    def inputs_playShaft_setReversed(self):
+        self.inputs_playShaft.setReversed(self.inputs_variable_CW.isChecked())
+        if self.inputs_playShaft.isRunning():
+            self.inputs_variable_play.click()
+            sleep(.05)
+            self.inputs_variable_play.click()
     
     #Save to file path data.
     @pyqtSlot(bool)

@@ -409,10 +409,54 @@
                        </spacer>
                       </item>
                       <item>
+                       <widget class="Line" name="line_7">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QVBoxLayout" name="verticalLayout_18">
+                        <property name="spacing">
+                         <number>0</number>
+                        </property>
+                        <item>
+                         <widget class="QRadioButton" name="inputs_variable_CCW">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <property name="text">
+                           <string>Counterclockwise</string>
+                          </property>
+                          <property name="checked">
+                           <bool>true</bool>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QRadioButton" name="inputs_variable_CW">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <property name="text">
+                           <string>Clockwise</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
                        <widget class="QPushButton" name="inputs_variable_play">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="icon">
                          <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/play.png</normaloff>:/icons/play.png</iconset>
+                          <normaloff>:/icons/play.png</normaloff>
+                          <activeon>:/icons/pause.png</activeon>:/icons/play.png</iconset>
+                        </property>
+                        <property name="checkable">
+                         <bool>true</bool>
                         </property>
                        </widget>
                       </item>
@@ -1111,29 +1155,6 @@
                <property name="icon">
                 <iconset resource="../icons.qrc">
                  <normaloff>:/icons/BrowseAim.png</normaloff>:/icons/BrowseAim.png</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>32</width>
-                 <height>32</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="CanvasCapture">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="statusTip">
-                <string>Make a canvas capture to the clipboard.</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../icons.qrc">
-                 <normaloff>:/icons/capture.png</normaloff>:/icons/capture.png</iconset>
                </property>
                <property name="iconSize">
                 <size>

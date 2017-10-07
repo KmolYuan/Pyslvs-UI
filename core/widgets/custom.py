@@ -25,7 +25,7 @@ from .table import (
     LinkTableWidget,
     SelectionLabel
 )
-from .rotatable import RotatableView
+from .rotatable import RotatableView, playShaft
 
 def initCustomWidgets(self):
     #Version text
@@ -67,18 +67,27 @@ def initCustomWidgets(self):
     #Connect to GUI button switching.
     self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
-    #Properties button on the Point tab widget.
-    propertiesButton = QPushButton()
-    propertiesButton.setIcon(self.action_Property.icon())
-    propertiesButton.setToolTip('Properties')
-    propertiesButton.setStatusTip("Properties of this workbook.")
-    propertiesButton.clicked.connect(self.on_action_Property_triggered)
-    self.PointTab.setCornerWidget(propertiesButton)
+    #Properties and canvas capture button on the Point and Link tab as corner widget.
+    CanvasCaptureButton = QPushButton()
+    CanvasCaptureButton.setIcon(QIcon(QPixmap(":/icons/capture.png")))
+    CanvasCaptureButton.setToolTip('Capture')
+    CanvasCaptureButton.setStatusTip("Make a canvas capture to the clipboard.")
+    CanvasCaptureButton.clicked.connect(self.canvasCapture)
+    self.PointTab.setCornerWidget(CanvasCaptureButton)
+    PropertiesButton = QPushButton()
+    PropertiesButton.setIcon(self.action_Property.icon())
+    PropertiesButton.setToolTip('Properties')
+    PropertiesButton.setStatusTip("Properties of this workbook.")
+    PropertiesButton.clicked.connect(self.on_action_Property_triggered)
+    self.LinkTab.setCornerWidget(PropertiesButton)
     #Add inputs QDial.
     self.inputs_Degree = QDial()
     self.inputs_Degree.setEnabled(False)
     self.inputs_Degree.valueChanged.connect(self.variableValueUpdate)
     self.inputs_dial_layout.addWidget(RotatableView(self.inputs_Degree))
+    self.inputs_playShaft = playShaft(self)
+    self.inputs_variable_CCW.clicked.connect(self.inputs_playShaft_setReversed)
+    self.inputs_variable_CW.clicked.connect(self.inputs_playShaft_setReversed)
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()
     closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))
