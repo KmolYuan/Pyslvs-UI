@@ -92,7 +92,6 @@ class version_show(QDialog, Ui_About_Dialog):
             "Start Path: {}".format(args.i),
             "Enable solving warning: {}".format(args.w),
             "Fusion style: {}".format(args.fusion),
-            "Show file data in console: {}".format(args.file_data),
             "Debug mode: {}".format(args.debug_mode))+content(
             "Using the \"-h\" argument to view help."))
         )

@@ -387,8 +387,8 @@ class DynamicCanvas(BaseCanvas):
             if QApplication.keyboardModifiers()==Qt.AltModifier:
                 self.mouse_getDoubleClickAdd.emit()
             elif (
-                (abs((event.x()-self.ox)-self.Selector.x)<3) and
-                (abs((event.y()-self.oy)-self.Selector.y)<3)
+                (abs(event.x()-self.ox-self.Selector.x)<3) and
+                (abs(event.y()-self.oy-self.Selector.y)<3)
             ):
                 if (not self.Selector.selection and
                     (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
@@ -409,8 +409,8 @@ class DynamicCanvas(BaseCanvas):
             self.update()
         elif self.Selector.LeftButtonDrag and self.freemove:
             #Free move function.
-            mouse_x = ((event.x()-self.ox)-self.Selector.x)/self.zoom
-            mouse_y = -((event.y()-self.oy)-self.Selector.y)/self.zoom
+            mouse_x = (event.x()-self.ox-self.Selector.x)/self.zoom
+            mouse_y = -(event.y()-self.oy-self.Selector.y)/self.zoom
             for row in self.pointsSelection:
                 vpoint = self.Point[row]
                 vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))

@@ -225,8 +225,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         if "Triangle Solver" in tabNameList:
             self.panelWidget.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
-        self.update_inputs_points()
-        self.inputs_variable_autoremove()
+        self.inputs_variable_autocheck()
         self.Resolve()
     
     #Resolve: Use Solvespace kernel.
@@ -739,6 +738,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Free move function.
     @pyqtSlot(tuple)
     def freemove_setCoordinate(self, coordinates):
+        self.FileState.beginMacro("Moved {{{}}}".format(", ".join('Point{}'.format(c[0]) for c in coordinates)))
         for row, (x, y) in coordinates:
             Args = [
                 self.Entities_Point.item(row, 1).text(),
@@ -747,9 +747,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 x,
                 y
             ]
-            self.FileState.beginMacro("Edit {{Point{}}}".format(row))
             self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
-            self.FileState.endMacro()
+        self.FileState.endMacro()
     
     #Create a link with arguments.
     @pyqtSlot()
@@ -890,12 +889,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.Path.mode = self.action_Path_style.isChecked()
         self.Reload_Canvas()
     
-    def update_inputs_points(self):
-        self.inputs_points.clear()
-        for i in range(self.Entities_Point.rowCount()):
-            text = "[{}] Point{}".format(self.Entities_Point.item(i, 2).text(), i)
-            self.inputs_points.addItem(text)
-    
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
         self.inputs_points.setCurrentRow(
@@ -963,7 +956,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Point.getBackOrigin()
             self.Resolve()
     
-    def inputs_variable_autoremove(self):
+    def inputs_variable_autocheck(self):
+        self.inputs_points.clear()
+        for i in range(self.Entities_Point.rowCount()):
+            text = "[{}] Point{}".format(self.Entities_Point.item(i, 2).text(), i)
+            self.inputs_points.addItem(text)
         for i in range(self.inputs_variable.count()):
             itemText = self.inputs_variable.item(i).text().split('->')
             row = int(itemText[0].replace('Point', ''))
@@ -971,7 +968,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #If this is not origin point any more.
             if (itemText[1] not in links) or (itemText[2] not in links):
                 self.inputs_variable.takeItem(i)
-        self.Entities_Point.getBackOrigin()
+        self.variableValueReset()
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row):
@@ -997,9 +994,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def variableValueReset(self):
         if self.inputs_playShaft.isRunning():
-            self.inputs_variable_play.click()
-            
-            sleep(.05)
+            self.inputs_variable_play.setChecked(False)
+            self.inputs_playShaft.stop()
         self.Entities_Point.getBackOrigin()
         for i in range(self.inputs_variable.count()):
             itemText = self.inputs_variable.item(i).text().split('->')

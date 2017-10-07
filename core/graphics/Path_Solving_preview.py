@@ -22,6 +22,7 @@ from .Ui_Path_Solving_preview import Ui_Dialog
 from .canvas import BaseCanvas
 from ..graphics.color import colorQt
 from time import sleep
+import traceback
 
 class playShaft(QThread):
     progress_Signal = pyqtSignal(int)
@@ -128,7 +129,6 @@ class DynamicCanvas(BaseCanvas):
                     pointPath.lineTo(point)
             self.painter.drawPath(pointPath)
         except Exception as e:
-            import traceback
             traceback.print_tb(e.__traceback__)
             print(e)
             self.painter.translate(width/2, height/2)
@@ -148,11 +148,6 @@ class PreviewDialog(QDialog, Ui_Dialog):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.mechanism = mechanism
-        expression = self.mechanism['mechanismParams']['Expression'].split(',')
-        '''
-        expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
-        '''
-        self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         self.setWindowTitle("Preview: {} (max {} generations)".format(self.mechanism['Algorithm'], self.mechanism['generateData']['maxGen']))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.splitter.setSizes([800, 100])
@@ -180,3 +175,4 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
         self.playShaft.progress_Signal.connect(previewWidget.change_index)
         self.playShaft.start()
+        self.rejected.connect(self.playShaft.stop)

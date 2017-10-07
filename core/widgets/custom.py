@@ -88,6 +88,7 @@ def initCustomWidgets(self):
     self.inputs_playShaft = playShaft(self)
     self.inputs_variable_CCW.clicked.connect(self.inputs_playShaft_setReversed)
     self.inputs_variable_CW.clicked.connect(self.inputs_playShaft_setReversed)
+    self.inputs_variable_stop.clicked.connect(self.variableValueReset)
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()
     closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))

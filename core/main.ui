@@ -446,19 +446,31 @@
                        </layout>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="inputs_variable_play">
-                        <property name="enabled">
-                         <bool>false</bool>
-                        </property>
-                        <property name="icon">
-                         <iconset resource="../icons.qrc">
-                          <normaloff>:/icons/play.png</normaloff>
-                          <activeon>:/icons/pause.png</activeon>:/icons/play.png</iconset>
-                        </property>
-                        <property name="checkable">
-                         <bool>true</bool>
-                        </property>
-                       </widget>
+                       <layout class="QVBoxLayout" name="verticalLayout_3">
+                        <item>
+                         <widget class="QPushButton" name="inputs_variable_play">
+                          <property name="enabled">
+                           <bool>false</bool>
+                          </property>
+                          <property name="icon">
+                           <iconset resource="../icons.qrc">
+                            <normaloff>:/icons/play.png</normaloff>
+                            <activeon>:/icons/pause.png</activeon>:/icons/play.png</iconset>
+                          </property>
+                          <property name="checkable">
+                           <bool>true</bool>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QPushButton" name="inputs_variable_stop">
+                          <property name="icon">
+                           <iconset resource="../icons.qrc">
+                            <normaloff>:/icons/interrupted.png</normaloff>:/icons/interrupted.png</iconset>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
                       </item>
                      </layout>
                     </item>
