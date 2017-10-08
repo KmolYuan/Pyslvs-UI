@@ -263,9 +263,11 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_GenerateLocal_clicked(self):
         self.startAlgorithm()
+    
     @pyqtSlot()
     def on_GenerateZMQ_clicked(self):
         self.startAlgorithm(hasPort=True)
+    
     def startAlgorithm(self, hasPort=False):
         self.trayIcon.show()
         type_num, mechanismParams, generateData = self.getGenerate()
@@ -285,6 +287,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             if dlgbox.exec_():
                 print('Finished.')
         self.trayIcon.hide()
+    
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar

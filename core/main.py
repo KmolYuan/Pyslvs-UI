@@ -433,7 +433,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closeAllPanels()
             self.File.reset(self.Entities_Point, self.Entities_Link, self.Entities_Chain,
                 self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
-            self.DynamicCanvasView.path_solving()
+            self.DynamicCanvasView.path_solving(())
             self.Resolve()
             self.setWindowTitle("Pyslvs - [New Workbook]")
             print("Reset workbook.")
@@ -1103,19 +1103,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
         self.File.Designs.add(x, y)
-        self.DynamicCanvasView.path_solving(self.File.Designs.path)
+        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
         self.File.Designs.remove(row)
-        self.DynamicCanvasView.path_solving(self.File.Designs.path)
+        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
     @pyqtSlot(int)
     def PathSolving_moveup(self, row):
         self.File.Designs.moveUP(row)
-        self.DynamicCanvasView.path_solving(self.File.Designs.path)
+        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
     @pyqtSlot(int)
     def PathSolving_movedown(self, row):
         self.File.Designs.moveDown(row)
-        self.DynamicCanvasView.path_solving(self.File.Designs.path)
+        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
     @pyqtSlot(int)
     def PathSolving_deleteResult(self, row):
         self.File.Designs.removeResult(row)
@@ -1136,6 +1136,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, -1))
             self.addLinkGroup(g)
+        #Add the path.
         self.File.pathData.append(Paths)
         nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
         i = 0

@@ -50,10 +50,10 @@ class playShaft(QThread):
             self.stoped = True
 
 class DynamicCanvas(BaseCanvas):
-    def __init__(self, mechanism, Paths, parent=None):
+    def __init__(self, mechanism, Path, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
-        self.Paths = Paths
+        self.Path = Path
         self.zoom = 5
         self.index = 0
         expression = self.mechanism['mechanismParams']['Expression'].split(',')
@@ -68,10 +68,11 @@ class DynamicCanvas(BaseCanvas):
         height = self.height()
         pen = QPen()
         try:
-            pathMaxX = max([max(dot[0] for dot in path) for path in self.Paths.values()])
-            pathMinX = min([min(dot[0] for dot in path) for path in self.Paths.values()])
-            pathMaxY = max([max(dot[1] for dot in path) for path in self.Paths.values()])
-            pathMinY = min([min(dot[1] for dot in path) for path in self.Paths.values()])
+            Comparator = lambda fun, i: fun(fun(path[i] for path in point) if point else 0 for point in self.Path)
+            pathMaxX = Comparator(max, 0)
+            pathMinX = Comparator(min, 0)
+            pathMaxY = Comparator(max, 1)
+            pathMinY = Comparator(min, 1)
             diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
             diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
             cdiff = diffX/diffY > width/height
@@ -79,13 +80,13 @@ class DynamicCanvas(BaseCanvas):
             cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
             self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
-            shaft_r = self.Paths[self.expression_tag[0][-1]][self.index]
-            self.drawLink('L0', self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1, self.mechanism['L0'])
+            shaft_r = self.Path[2][self.index]
+            self.drawLink('L0', 'blue', self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1, self.mechanism['L0'])
             for i, exp in enumerate(self.expression_tag[1:]):
                 p_l = []
                 for i, k in enumerate([0, 3, -1]):
-                    if exp[k] in self.Paths:
-                        p_l.append(QPointF(self.Paths[exp[k]][self.index][0]*self.zoom, self.Paths[exp[k]][self.index][1]*self.zoom*-1))
+                    if exp[k] in self.Path:
+                        p_l.append(QPointF(self.Path[exp[k]][self.index][0]*self.zoom, self.Path[exp[k]][self.index][1]*self.zoom*-1))
                     else:
                         if exp[k]=='A':
                             p_l.append(QPointF(self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1))
@@ -93,12 +94,12 @@ class DynamicCanvas(BaseCanvas):
                             p_l.append(QPointF(self.mechanism['Dx']*self.zoom, self.mechanism['Dy']*self.zoom*-1))
                 self.drawLink(exp[1], p_l[2].x(), p_l[2].y(), p_l[0].x(), p_l[0].y(), self.mechanism[exp[1]])
                 self.drawLink(exp[2], p_l[2].x(), p_l[2].y(), p_l[1].x(), p_l[1].y(), self.mechanism[exp[2]])
-            for i, tag in enumerate(sorted(list(self.Paths.keys()))):
+            for i, tag in enumerate(sorted(list(self.Path.keys()))):
                 pen.setWidth(self.linkWidth)
-                pen.setColor(colorQt('Green') if i<len(self.Paths)-1 else colorQt('Brick-Red'))
+                pen.setColor(colorQt('Green') if i<len(self.Path)-1 else colorQt('Brick-Red'))
                 self.painter.setPen(pen)
                 pointPath = QPainterPath()
-                for j, coordinate in enumerate(self.Paths[tag]):
+                for j, coordinate in enumerate(self.Path[tag]):
                     point = QPointF(coordinate[0]*self.zoom, coordinate[1]*self.zoom*-1)
                     if j==0:
                         pointPath.moveTo(point)
@@ -110,10 +111,10 @@ class DynamicCanvas(BaseCanvas):
                 y = self.mechanism[tag+'y']
                 self.drawPoint(tag, x*self.zoom, y*self.zoom*-1, True, colorQt('Blue'), x, y)
             self.showPointMark = False
-            for i, tag in enumerate(sorted(list(self.Paths.keys()))):
-                x = self.Paths[tag][self.index][0]
-                y = self.Paths[tag][self.index][1]
-                color = colorQt('Green') if i<len(self.Paths)-1 else colorQt('Brick-Red')
+            for i, tag in enumerate(sorted(list(self.Path.keys()))):
+                x = self.Path[tag][self.index][0]
+                y = self.Path[tag][self.index][1]
+                color = colorQt('Green') if i<len(self.Path)-1 else colorQt('Brick-Red')
                 self.drawPoint(0, x*self.zoom, y*self.zoom*-1, False, color, x, y)
             self.showPointMark = True
             pathData = self.mechanism['mechanismParams']['targetPath']
@@ -144,14 +145,14 @@ class DynamicCanvas(BaseCanvas):
         self.update()
 
 class PreviewDialog(QDialog, Ui_Dialog):
-    def __init__(self, mechanism, Paths, parent=None):
+    def __init__(self, mechanism, Path, parent=None):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.mechanism = mechanism
         self.setWindowTitle("Preview: {} (max {} generations)".format(self.mechanism['Algorithm'], self.mechanism['generateData']['maxGen']))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.splitter.setSizes([800, 100])
-        previewWidget = DynamicCanvas(self.mechanism, Paths, self)
+        previewWidget = DynamicCanvas(self.mechanism, Path, self)
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         self.basic_label.setText("\n".join(["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']]+
@@ -172,7 +173,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, self.mechanism['hardwareInfo'][tag]) for tag in
             ['os', 'memory', 'cpu', 'network']]))
         #playShaft
-        self.playShaft = playShaft(len(Paths[list(Paths.keys())[0]])-1)
+        self.playShaft = playShaft(max(len(path) for path in Path)-1)
         self.playShaft.progress_Signal.connect(previewWidget.change_index)
         self.playShaft.start()
         self.rejected.connect(self.playShaft.stop)

@@ -23,11 +23,10 @@ from typing import List
 from heapq import nsmallest
 
 class Path:
-    __slots__ = ('path', 'demo', 'show', 'mode')
+    __slots__ = ('path', 'show', 'mode')
     
     def __init__(self):
         self.path = []
-        self.demo = 0.
         self.show = True
         self.mode = True
 
@@ -54,6 +53,7 @@ class BaseCanvas(QWidget):
         self.oy = self.height()/2
         #Canvas zoom rate
         self.rate = 2
+        self.zoom = 2*self.rate
         #Canvas line width
         self.linkWidth = 3
         self.pathWidth = 3
@@ -62,6 +62,11 @@ class BaseCanvas(QWidget):
         #Show point mark or dimension
         self.showPointMark = True
         self.showDimension = True
+        #Path track
+        self.Path = Path()
+        #Path solving
+        self.slvsPath = ()
+        self.showSlvsPath = False
     
     def paintEvent(self, event):
         self.painter = QPainter()
@@ -162,17 +167,11 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = []
         #Rotate angle
         self.rotateAngle = 0.
-        #Path track
-        self.Path = Path()
-        #Path solving
+        #Path solving range
         defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
-        self.ranges = [defult_range, defult_range]
-        self.slvsPath = []
-        self.showSlvsPath = False
+        self.ranges = (defult_range, defult_range)
         #Set showDimension to False
         self.showDimension = False
-        #Set zoom to 200
-        self.setZoom(200)
         #Free move mode
         self.freemove = False
     
@@ -232,8 +231,10 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(tuple, float, tuple, float)
     def update_ranges(self, point1, range1, point2, range2):
-        self.ranges[0] = QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1))
-        self.ranges[1] = QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
+        self.ranges = (
+            QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1)),
+            QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
+        )
         self.update()
     
     def paintEvent(self, event):
