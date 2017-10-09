@@ -20,8 +20,9 @@
 from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
 from .canvas import BaseCanvas
-from ..graphics.color import colorQt
+from .color import colorQt
 from time import sleep
+from typing import List
 import traceback
 
 class playShaft(QThread):
@@ -53,14 +54,16 @@ class DynamicCanvas(BaseCanvas):
     def __init__(self, mechanism, Path, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
-        self.Path = Path
-        self.zoom = 5
+        self.Path.path = Path
+        print(self.mechanism)
+        print(self.Path.path)
+        #TODO: Data processing.
         self.index = 0
         expression = self.mechanism['mechanismParams']['Expression'].split(',')
-        '''
-        expression_tag = (('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
-        '''
-        self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
+        self.exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        #('A', 'D', 'B', 'C', 'E')
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
@@ -80,55 +83,10 @@ class DynamicCanvas(BaseCanvas):
             cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
             ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
             self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
-            shaft_r = self.Path[2][self.index]
-            self.drawLink('L0', 'blue', self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1, shaft_r[0]*self.zoom, shaft_r[1]*self.zoom*-1, self.mechanism['L0'])
-            for i, exp in enumerate(self.expression_tag[1:]):
-                p_l = []
-                for i, k in enumerate([0, 3, -1]):
-                    if exp[k] in self.Path:
-                        p_l.append(QPointF(self.Path[exp[k]][self.index][0]*self.zoom, self.Path[exp[k]][self.index][1]*self.zoom*-1))
-                    else:
-                        if exp[k]=='A':
-                            p_l.append(QPointF(self.mechanism['Ax']*self.zoom, self.mechanism['Ay']*self.zoom*-1))
-                        else:
-                            p_l.append(QPointF(self.mechanism['Dx']*self.zoom, self.mechanism['Dy']*self.zoom*-1))
-                self.drawLink(exp[1], p_l[2].x(), p_l[2].y(), p_l[0].x(), p_l[0].y(), self.mechanism[exp[1]])
-                self.drawLink(exp[2], p_l[2].x(), p_l[2].y(), p_l[1].x(), p_l[1].y(), self.mechanism[exp[2]])
-            for i, tag in enumerate(sorted(list(self.Path.keys()))):
-                pen.setWidth(self.linkWidth)
-                pen.setColor(colorQt('Green') if i<len(self.Path)-1 else colorQt('Brick-Red'))
-                self.painter.setPen(pen)
-                pointPath = QPainterPath()
-                for j, coordinate in enumerate(self.Path[tag]):
-                    point = QPointF(coordinate[0]*self.zoom, coordinate[1]*self.zoom*-1)
-                    if j==0:
-                        pointPath.moveTo(point)
-                    else:
-                        pointPath.lineTo(point)
-                self.painter.drawPath(pointPath)
-            for i, tag in enumerate(['A', 'D']):
-                x = self.mechanism[tag+'x']
-                y = self.mechanism[tag+'y']
-                self.drawPoint(tag, x*self.zoom, y*self.zoom*-1, True, colorQt('Blue'), x, y)
-            self.showPointMark = False
-            for i, tag in enumerate(sorted(list(self.Path.keys()))):
-                x = self.Path[tag][self.index][0]
-                y = self.Path[tag][self.index][1]
-                color = colorQt('Green') if i<len(self.Path)-1 else colorQt('Brick-Red')
-                self.drawPoint(0, x*self.zoom, y*self.zoom*-1, False, color, x, y)
-            self.showPointMark = True
-            pathData = self.mechanism['mechanismParams']['targetPath']
-            pen.setWidth(self.pathWidth+3)
-            pen.setColor(QColor(69, 247, 232))
-            self.painter.setPen(pen)
-            pointPath = QPainterPath()
-            for i, coordinate in enumerate(pathData):
-                point = QPointF(coordinate[0]*self.zoom, coordinate[1]*self.zoom*-1)
-                if i==0:
-                    pointPath.moveTo(point)
-                else:
-                    pointPath.lineTo(point)
-            self.painter.drawPath(pointPath)
+            #TODO: Draw links.
+            #Draw path.
+            self.drawPath()
+            #TODO: Draw points.
         except Exception as e:
             traceback.print_tb(e.__traceback__)
             print(e)
@@ -138,6 +96,13 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setFont(QFont('Arial', 20))
             self.painter.drawText(QPoint(0, 0), "Error occurred!\nPlease check dimension data.")
         self.painter.end()
+    
+    def drawLink(self,
+        name: str,
+        points: List['VPoint']
+    ):
+        #TODO: Draw link function.
+        color = colorQt['blue']
     
     @pyqtSlot(int)
     def change_index(self, i):

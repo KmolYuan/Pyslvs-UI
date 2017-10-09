@@ -28,6 +28,7 @@ class Path:
     def __init__(self):
         self.path = []
         self.show = True
+        #Display mode: The path will be the curve, otherwise the points.
         self.mode = True
 
 class Selector:
@@ -117,35 +118,6 @@ class BaseCanvas(QWidget):
             if self.showDimension:
                 text += ':({:.02f}, {:.02f})'.format(cx, cy)
             self.painter.drawText(QPointF(x+6, y-6), text)
-    
-    def drawLink(self,
-        name: str,
-        color: QColor,
-        points: List['VPoint']
-    ):
-        pen = QPen(color)
-        pen.setWidth(self.linkWidth)
-        self.painter.setPen(pen)
-        self.painter.setBrush(QColor(226, 219, 190))
-        #Rearrange: Put the nearest point to the next position.
-        for i in range(len(points)):
-            if i==len(points)-1:
-                break
-            distanceList = [points[i].distance(p) for p in points]
-            j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
-            points[i+1], points[j] = points[j], points[i+1]
-        qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*-self.zoom) for vpoint in points]
-        if qpoints:
-            self.painter.drawPolygon(*qpoints)
-        self.painter.setBrush(Qt.NoBrush)
-        if self.showPointMark and name!='ground' and qpoints:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.fontSize))
-            text = '[{}]'.format(name)
-            cenX = sum([vpoint.cx for vpoint in points])/len(points)
-            cenY = sum([vpoint.cy for vpoint in points])/len(points)
-            self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
 
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
@@ -247,45 +219,56 @@ class DynamicCanvas(BaseCanvas):
             self.drawFrame(pen)
         #Set rotation.
         self.painter.rotate(self.rotateAngle)
+        #Draw links.
         for i, vlink in enumerate(self.Link[1:]):
             points = [self.Point[i] for i in vlink.points]
             self.drawLink(vlink.name, vlink.color, points)
+        #Draw path.
         self.drawPath()
+        #Draw points.
         for i, vpoint in enumerate(self.Point):
             fix = 'ground' in vpoint.links
             self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
-        if self.slvsPath and self.showSlvsPath:
-            pen = QPen(QColor(69, 247, 232))
-            pen.setWidth(self.pathWidth)
-            self.painter.setPen(pen)
-            if self.Path.mode:
-                if len(self.slvsPath)>1:
-                    pointPath = QPainterPath()
-                    for i, (x, y) in enumerate(self.slvsPath):
-                        x *= self.zoom
-                        y *= -self.zoom
-                        if i==0:
-                            pointPath.moveTo(x, y)
-                        else:
-                            pointPath.lineTo(QPointF(x, y))
-                    self.painter.drawPath(pointPath)
-                elif len(self.slvsPath)==1:
-                    self.painter.drawPoint(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom))
-            else:
-                for x, y in self.slvsPath:
-                    x *= self.zoom
-                    y *= -self.zoom
-                    self.painter.drawPoint(QPointF(x, y))
         self.painter.end()
         self.change_event.emit()
     
     def drawPoint(self, i, cx, cy, fix, color):
         super(DynamicCanvas, self).drawPoint(i, cx, cy, fix, color)
+        #For selects function.
         if i in self.pointsSelection:
             pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
             self.painter.setPen(pen)
             self.painter.drawRect(cx*self.zoom - 12, cy*-self.zoom - 12, 24, 24)
+    
+    def drawLink(self,
+        name: str,
+        color: QColor,
+        points: List['VPoint']
+    ):
+        pen = QPen(color)
+        pen.setWidth(self.linkWidth)
+        self.painter.setPen(pen)
+        self.painter.setBrush(QColor(226, 219, 190))
+        #Rearrange: Put the nearest point to the next position.
+        for i in range(len(points)):
+            if i==len(points)-1:
+                break
+            distanceList = [points[i].distance(p) for p in points]
+            j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
+            points[i+1], points[j] = points[j], points[i+1]
+        qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*-self.zoom) for vpoint in points]
+        if qpoints:
+            self.painter.drawPolygon(*qpoints)
+        self.painter.setBrush(Qt.NoBrush)
+        if self.showPointMark and name!='ground' and qpoints:
+            pen.setColor(Qt.darkGray)
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', self.fontSize))
+            text = '[{}]'.format(name)
+            cenX = sum([vpoint.cx for vpoint in points])/len(points)
+            cenY = sum([vpoint.cy for vpoint in points])/len(points)
+            self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
     
     def drawPath(self):
         if self.Path.show:
@@ -317,6 +300,7 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.setPen(pen)
                     draw(path)
         if self.showSlvsPath:
+            #Draw solving range.
             for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
                 pen = QPen(range_color)
                 self.painter.setBrush(range_color)
@@ -338,6 +322,29 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), 'Driver')
                 else:
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
+            #Draw solving path.
+            if self.slvsPath:
+                pen = QPen(QColor(69, 247, 232))
+                pen.setWidth(self.pathWidth)
+                self.painter.setPen(pen)
+                if self.Path.mode:
+                    if len(self.slvsPath)>1:
+                        pointPath = QPainterPath()
+                        for i, (x, y) in enumerate(self.slvsPath):
+                            x *= self.zoom
+                            y *= -self.zoom
+                            if i==0:
+                                pointPath.moveTo(x, y)
+                            else:
+                                pointPath.lineTo(QPointF(x, y))
+                        self.painter.drawPath(pointPath)
+                    elif len(self.slvsPath)==1:
+                        self.painter.drawPoint(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom))
+                else:
+                    for x, y in self.slvsPath:
+                        x *= self.zoom
+                        y *= -self.zoom
+                        self.painter.drawPoint(QPointF(x, y))
     
     def recordStart(self):
         self.PathRecord = [[] for i in range(len(self.Point))]

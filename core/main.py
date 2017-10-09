@@ -28,8 +28,9 @@ from .io.script import Script_Dialog
 #Undo redo
 from .io.undoRedo import (
     addTableCommand, deleteTableCommand,
+    fixSequenceNumberCommand,
     editPointTableCommand, editLinkTableCommand,
-    fixSequenceNumberCommand
+    addPathCommand, deletePathCommand
 )
 #Entities
 from .entities.edit_point import edit_point_show
@@ -1048,18 +1049,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DynamicCanvasView.recordStart()
         else:
             path = self.DynamicCanvasView.getRecordPath()
-            self.File.pathData.append(path)
             name, ok = QInputDialog.getText(self, "Recording completed!", "Please input name tag:")
-            if ok and name:
-                self.inputs_record.addItem(name)
-            else:
+            if not name:
                 nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
                 i = 0
                 name = "Record_{}".format(i)
                 while name in nameList:
                     i += 1
                     name = "Record_{}".format(i)
-                self.inputs_record.addItem(name)
+            self.FileState.beginMacro("Add {{Path: {}}}".format(name))
+            self.FileState.push(addPathCommand(self.inputs_record, name, self.File.pathData, path))
+            self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     
     #Remove path data.
@@ -1067,8 +1067,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_record_remove_clicked(self):
         row = self.inputs_record.currentRow()
         if row>-1:
-            del self.File.pathData[row]
-            self.inputs_record.takeItem(row)
+            self.FileState.beginMacro("Delete {{Path: {}}}".format(self.inputs_record.item(row).text()))
+            self.FileState.push(deletePathCommand(row, self.inputs_record, self.File.pathData))
+            self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
             self.Reload_Canvas()
     
@@ -1120,7 +1121,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_deleteResult(self, row):
         self.File.Designs.removeResult(row)
     @pyqtSlot(int, tuple, tuple)
-    def PathSolving_mergeResult(self, row, answer, Paths):
+    def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
         expression = self.File.Designs.result[row]['mechanismParams']['Expression'].split(',')
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
@@ -1137,14 +1138,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, -1))
             self.addLinkGroup(g)
         #Add the path.
-        self.File.pathData.append(Paths)
         nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
         i = 0
         name = "Algorithm_{}".format(i)
         while name in nameList:
             i += 1
             name = "Algorithm_{}".format(i)
-        self.inputs_record.addItem(name)
+        self.FileState.beginMacro("Add {{Path: {}}}".format(name))
+        self.FileState.push(addPathCommand(self.inputs_record, name, self.File.pathData, Path))
+        self.FileState.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     
     def closeAllPanels(self):
