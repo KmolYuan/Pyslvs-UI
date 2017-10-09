@@ -74,6 +74,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #Load workbook.
             self.loadWorkbook("Loading exist workbook.", fileName=self.args.r)
     
+    #Adjust the canvas size after display.
+    def show(self):
+        super(MainWindow, self).show()
+        self.DynamicCanvasView.SetIn()
+    
     #Set environment variables
     def setLocate(self, locate):
         self.Default_Environment_variables = locate

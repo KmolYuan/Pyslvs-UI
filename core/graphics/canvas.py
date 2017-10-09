@@ -135,6 +135,9 @@ class DynamicCanvas(BaseCanvas):
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         self.rotateAngle = 0
         self.Selector = Selector()
+        #Entities
+        self.Point = ()
+        self.Link = ()
         #Point selection
         self.pointsSelection = []
         #Rotate angle
@@ -425,9 +428,6 @@ class DynamicCanvas(BaseCanvas):
                 vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             self.update()
         self.mouse_track.emit((event.x()-self.ox)/self.zoom, -((event.y()-self.oy)/self.zoom))
-    
-    def resizeEvent(self, event):
-        self.SetIn()
     
     def SetIn(self):
         width = self.width()
