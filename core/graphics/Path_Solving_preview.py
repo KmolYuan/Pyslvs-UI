@@ -66,22 +66,30 @@ class DynamicCanvas(BaseCanvas):
         width = self.width()
         height = self.height()
         Comparator = lambda fun, i: fun(fun(path[i] for path in point if path) for point in self.Path.path if point)
-        pathMaxX = Comparator(max, 0)
-        pathMinX = Comparator(min, 0)
-        pathMaxY = Comparator(max, 1)
-        pathMinY = Comparator(min, 1)
-        diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
-        diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
+        pathMaxX = max(Comparator(max, 0), self.mechanism['Ax'], self.mechanism['Dx'])
+        pathMinX = min(Comparator(min, 0), self.mechanism['Ax'], self.mechanism['Dx'])
+        pathMaxY = max(Comparator(max, 1), self.mechanism['Ay'], self.mechanism['Dy'])
+        pathMinY = min(Comparator(min, 1), self.mechanism['Ay'], self.mechanism['Dy'])
+        diffX = pathMaxX - pathMinX
+        diffY = pathMaxY - pathMinY
         cdiff = diffX/diffY > width/height
         self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.rate
         cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
         ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
+        ox = width/2-cenx*self.zoom
+        oy = height/2+ceny*self.zoom
         self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
+        #Draw origin lines.
+        pen = QPen(Qt.gray)
+        pen.setWidth(1)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(-ox, 0), QPointF(self.width()-ox, 0))
+        self.painter.drawLine(QPointF(0, -oy), QPointF(0, self.height()-oy))
         #Points
         self.Point = (
             (self.mechanism['Ax'], self.mechanism['Ay']),
             (self.mechanism['Dx'], self.mechanism['Dy'])
-        ) + tuple((c[self.index][0], c[self.index][1]) if c else False for c in self.Path.path[2:])
+        ) + tuple((c[self.index][0], c[self.index][1]) if c[self.index] else False for c in self.Path.path[2:])
         #Draw links.
         for i, exp in enumerate(self.expression_tag):
             if i%3==0:
@@ -96,8 +104,9 @@ class DynamicCanvas(BaseCanvas):
         #Draw points.
         for i, name in enumerate(self.exp_symbol):
             coordinate = self.Point[i]
-            fixed = i<2
-            self.drawPoint(i, coordinate[0], coordinate[1], fixed, colorQt('Blue') if fixed else colorQt('Green'))
+            if coordinate:
+                fixed = i<2
+                self.drawPoint(i, coordinate[0], coordinate[1], fixed, colorQt('Blue') if fixed else colorQt('Green'))
         self.painter.end()
     
     def drawLink(self,
@@ -112,7 +121,7 @@ class DynamicCanvas(BaseCanvas):
         self.painter.setBrush(QColor(226, 219, 190))
         qpoints = tuple(
             QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
-            for i in points
+            for i in points if self.Point[i]
         )
         self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
@@ -121,8 +130,8 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.fontSize))
             text = '[{}]'.format(name)
-            cenX = sum(self.Point[i][0] for i in points)/len(points)
-            cenY = sum(self.Point[i][1] for i in points)/len(points)
+            cenX = sum(self.Point[i][0] for i in points if self.Point[i])/len(points)
+            cenY = sum(self.Point[i][1] for i in points if self.Point[i])/len(points)
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
     
     def drawPath(self):

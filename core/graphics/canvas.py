@@ -26,7 +26,7 @@ class Path:
     __slots__ = ('path', 'show', 'mode')
     
     def __init__(self):
-        self.path = []
+        self.path = ()
         self.show = True
         #Display mode: The path will be the curve, otherwise the points.
         self.mode = True
@@ -74,12 +74,6 @@ class BaseCanvas(QWidget):
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         self.painter.translate(self.ox, self.oy)
-        #Draw origin lines.
-        pen = QPen(Qt.gray)
-        pen.setWidth(1)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(-self.ox, 0), QPointF(self.width()-self.ox, 0))
-        self.painter.drawLine(QPointF(0, -self.oy), QPointF(0, self.height()-self.oy))
     
     def drawFrame(self, pen):
         positive_x = self.width()-self.ox
@@ -214,6 +208,12 @@ class DynamicCanvas(BaseCanvas):
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
+        #Draw origin lines.
+        pen = QPen(Qt.gray)
+        pen.setWidth(1)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(-self.ox, 0), QPointF(self.width()-self.ox, 0))
+        self.painter.drawLine(QPointF(0, -self.oy), QPointF(0, self.height()-self.oy))
         if self.freemove:
             #Draw a colored frame for free move mode.
             pen = QPen(QColor(161, 105, 229))
@@ -438,8 +438,8 @@ class DynamicCanvas(BaseCanvas):
             self.ox = width/2
             self.oy = height/2
         else:
-            Xs = [e.cx for e in self.Point] if self.Point else [0]
-            Ys = [e.cy for e in self.Point] if self.Point else [0]
+            Xs = (e.cx for e in self.Point) if self.Point else (0,)
+            Ys = (e.cy for e in self.Point) if self.Point else (0,)
             if self.Path.path:
                 Path = self.Path.path
                 Comparator = lambda fun, i: fun(fun(path[i] for path in point if point) for point in Path if point)
