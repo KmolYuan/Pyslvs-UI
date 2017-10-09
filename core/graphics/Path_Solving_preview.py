@@ -23,7 +23,6 @@ from .canvas import BaseCanvas
 from .color import colorQt
 from time import sleep
 from typing import List
-import traceback
 
 class playShaft(QThread):
     progress_Signal = pyqtSignal(int)
@@ -55,54 +54,102 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
-        print(self.mechanism)
-        print(self.Path.path)
-        #TODO: Data processing.
         self.index = 0
         expression = self.mechanism['mechanismParams']['Expression'].split(',')
-        expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
-        self.exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        self.exp_symbol = (self.expression_tag[0][0], self.expression_tag[0][3])+tuple(exp[-1] for exp in self.expression_tag)
         #('A', 'D', 'B', 'C', 'E')
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
         width = self.width()
         height = self.height()
-        pen = QPen()
-        try:
-            Comparator = lambda fun, i: fun(fun(path[i] for path in point) if point else 0 for point in self.Path)
-            pathMaxX = Comparator(max, 0)
-            pathMinX = Comparator(min, 0)
-            pathMaxY = Comparator(max, 1)
-            pathMinY = Comparator(min, 1)
-            diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
-            diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
-            cdiff = diffX/diffY > width/height
-            self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.rate
-            cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
-            ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
-            self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
-            #TODO: Draw links.
-            #Draw path.
-            self.drawPath()
-            #TODO: Draw points.
-        except Exception as e:
-            traceback.print_tb(e.__traceback__)
-            print(e)
-            self.painter.translate(width/2, height/2)
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', 20))
-            self.painter.drawText(QPoint(0, 0), "Error occurred!\nPlease check dimension data.")
+        Comparator = lambda fun, i: fun(fun(path[i] for path in point if path) for point in self.Path.path if point)
+        pathMaxX = Comparator(max, 0)
+        pathMinX = Comparator(min, 0)
+        pathMaxY = Comparator(max, 1)
+        pathMinY = Comparator(min, 1)
+        diffX = max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX)-min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)
+        diffY = max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY)-min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)
+        cdiff = diffX/diffY > width/height
+        self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.rate
+        cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
+        ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
+        self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
+        #Points
+        self.Point = (
+            (self.mechanism['Ax'], self.mechanism['Ay']),
+            (self.mechanism['Dx'], self.mechanism['Dy'])
+        ) + tuple((c[self.index][0], c[self.index][1]) if c else False for c in self.Path.path[2:])
+        #Draw links.
+        for i, exp in enumerate(self.expression_tag):
+            if i%3==0:
+                g = tuple(self.exp_symbol.index(exp[n]) for n in (0, -1))
+            elif i%3==1:
+                g = tuple(self.exp_symbol.index(exp[n]) for n in (3, -1))
+            else:
+                g = tuple(self.exp_symbol.index(exp[n]) for n in (0, 3, -1))
+            self.drawLink('link_{}'.format(i), g)
+        #Draw path.
+        self.drawPath()
+        #Draw points.
+        for i, name in enumerate(self.exp_symbol):
+            coordinate = self.Point[i]
+            fixed = i<2
+            self.drawPoint(i, coordinate[0], coordinate[1], fixed, colorQt('Blue') if fixed else colorQt('Green'))
         self.painter.end()
     
     def drawLink(self,
         name: str,
-        points: List['VPoint']
+        points: List[int]
     ):
-        #TODO: Draw link function.
-        color = colorQt['blue']
+        #Draw link function.
+        color = colorQt('Blue')
+        pen = QPen(color)
+        pen.setWidth(self.linkWidth)
+        self.painter.setPen(pen)
+        self.painter.setBrush(QColor(226, 219, 190))
+        qpoints = tuple(
+            QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
+            for i in points
+        )
+        self.painter.drawPolygon(*qpoints)
+        self.painter.setBrush(Qt.NoBrush)
+        if self.showPointMark and name!='ground' and qpoints:
+            pen.setColor(Qt.darkGray)
+            self.painter.setPen(pen)
+            self.painter.setFont(QFont('Arial', self.fontSize))
+            text = '[{}]'.format(name)
+            cenX = sum(self.Point[i][0] for i in points)/len(points)
+            cenY = sum(self.Point[i][1] for i in points)/len(points)
+            self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
+    
+    def drawPath(self):
+        def drawPath(path):
+            pointPath = QPainterPath()
+            for i, coordinate in enumerate(path):
+                if coordinate:
+                    x = coordinate[0]*self.zoom
+                    y = coordinate[1]*-self.zoom
+                    if i==0:
+                        pointPath.moveTo(x, y)
+                    else:
+                        pointPath.lineTo(QPointF(x, y))
+            self.painter.drawPath(pointPath)
+        def drawDot(path):
+            for coordinate in path:
+                if coordinate:
+                    x = coordinate[0]*self.zoom
+                    y = coordinate[1]*-self.zoom
+                    self.painter.drawPoint(QPointF(x, y))
+        draw = drawPath if self.Path.mode else drawDot
+        Path = self.Path.path
+        for i, path in enumerate(Path):
+            pen = QPen(colorQt('Green'))
+            pen.setWidth(self.pathWidth)
+            self.painter.setPen(pen)
+            draw(path)
     
     @pyqtSlot(int)
     def change_index(self, i):

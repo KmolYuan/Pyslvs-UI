@@ -378,8 +378,9 @@ class DynamicCanvas(BaseCanvas):
             self.Selector.x = event.x()-self.ox
             self.Selector.y = event.y()-self.oy
             self.mouseGetPoint()
-            self.mouse_getSelection.emit((self.Selector.selection[0],))
-            self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
+            if self.Selector.selection:
+                self.mouse_getSelection.emit((self.Selector.selection[0],))
+                self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
     
     def mouseGetPoint(self):
         self.Selector.selection.clear()
@@ -441,7 +442,7 @@ class DynamicCanvas(BaseCanvas):
             Ys = [e.cy for e in self.Point] if self.Point else [0]
             if self.Path.path:
                 Path = self.Path.path
-                Comparator = lambda fun, i: fun(fun(path[i] for path in point) if point else 0 for point in Path)
+                Comparator = lambda fun, i: fun(fun(path[i] for path in point if point) for point in Path if point)
                 pathMaxX = Comparator(max, 0)
                 pathMinX = Comparator(min, 0)
                 pathMaxY = Comparator(max, 1)

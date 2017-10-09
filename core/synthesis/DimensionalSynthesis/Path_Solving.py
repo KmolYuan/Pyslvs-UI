@@ -128,6 +128,9 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         self.Dr.valueChanged.connect(self.updateRange)
         self.Dx.valueChanged.connect(self.updateRange)
         self.Dy.valueChanged.connect(self.updateRange)
+        self.type0.clicked.connect(self.algorithmPrams_default)
+        self.type1.clicked.connect(self.algorithmPrams_default)
+        self.type2.clicked.connect(self.algorithmPrams_default)
         self.isGenerate()
         self.isGetResult()
     
@@ -401,7 +404,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
             for i, a in enumerate(s_answer):
                 Paths[exp_symbol.index(expression_result[i])].append(a)
-        return tuple(answer), tuple(tuple(path) if (len(set(path))>1 or (False in path)) else () for path in Paths)
+        return tuple(answer), tuple(tuple(path) if (path==False or len(set(path))>1 or (False in path)) else () for path in Paths)
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
@@ -451,15 +454,6 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             self.Settings['algorithmPrams'] = self.FireflyPrams
         elif type_num==2:
             self.Settings['algorithmPrams'] = self.DifferentialPrams
-    @pyqtSlot(bool)
-    def on_type0_toggled(self, checked):
-        self.algorithmPrams_default()
-    @pyqtSlot(bool)
-    def on_type1_toggled(self, checked):
-        self.algorithmPrams_default()
-    @pyqtSlot(bool)
-    def on_type2_toggled(self, checked):
-        self.algorithmPrams_default()
     
     @pyqtSlot()
     def on_advanceButton_clicked(self):
