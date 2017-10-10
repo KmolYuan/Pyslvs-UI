@@ -79,8 +79,10 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
-    defaultSettings = {'maxGen':1500, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-        'IMax':300., 'LMax':300., 'FMax':300., 'AMax':360., 'algorithmPrams':DifferentialPrams}
+    defaultSettings = {
+        'maxGen':1500, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
+        'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
+    }
     mechanismParams_4Bar = { #No 'targetPath'
         'Driving':'A',
         'Follower':'D',
@@ -89,7 +91,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         'ExpressionName':'PLAP,PLLP,PLLP',
         'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-        'formula':['PLAP','PLLP']}
+        'formula':['PLAP','PLLP']
+    }
     mechanismParams_4Bar['VARS'] = len(set(mechanismParams_4Bar['Expression'].split(',')))-2
     mechanismParams_8Bar = { #No 'targetPath'
         'Driving':'A',
@@ -99,7 +102,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         'ExpressionName':'PLAP,PLLP,PLLP,PLLP,PLLP,PLLP',
         'Expression':'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H',
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-        'formula':['PLAP','PLLP']}
+        'formula':['PLAP','PLLP']
+    }
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
     def __init__(self, path, mechanism_data, env, unsave_func, parent=None):

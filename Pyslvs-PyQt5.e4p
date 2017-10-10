@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-10-04, 23:50:35 -->
+<!-- Saved: 2017-10-10, 12:35:14 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -101,6 +101,11 @@
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Path_Solving.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_options.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_path_adjust.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_progress.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_series.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

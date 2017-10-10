@@ -85,7 +85,7 @@ class DynamicCanvas(BaseCanvas):
         self.painter.setPen(pen)
         self.painter.drawLine(QPointF(-ox, 0), QPointF(self.width()-ox, 0))
         self.painter.drawLine(QPointF(0, -oy), QPointF(0, self.height()-oy))
-        #Points
+        #Points that in the current angle section.
         self.Point = (
             (self.mechanism['Ax'], self.mechanism['Ay']),
             (self.mechanism['Dx'], self.mechanism['Dy'])
@@ -113,7 +113,6 @@ class DynamicCanvas(BaseCanvas):
         name: str,
         points: List[int]
     ):
-        #Draw link function.
         color = colorQt('Blue')
         pen = QPen(color)
         pen.setWidth(self.linkWidth)
