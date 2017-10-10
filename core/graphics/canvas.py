@@ -127,15 +127,12 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
-        self.rotateAngle = 0
         self.Selector = Selector()
         #Entities
         self.Point = ()
         self.Link = ()
         #Point selection
         self.pointsSelection = []
-        #Rotate angle
-        self.rotateAngle = 0.
         #Path solving range
         defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
         self.ranges = (defult_range, defult_range)
@@ -158,11 +155,6 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(int)
     def setPathWidth(self, pathWidth):
         self.pathWidth = pathWidth
-        self.update()
-    
-    @pyqtSlot(float)
-    def setRotateAngle(self, rotateAngle):
-        self.rotateAngle = rotateAngle
         self.update()
     
     @pyqtSlot(bool)
@@ -220,8 +212,6 @@ class DynamicCanvas(BaseCanvas):
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.drawFrame(pen)
-        #Set rotation.
-        self.painter.rotate(self.rotateAngle)
         #Draw links.
         for i, vlink in enumerate(self.Link[1:]):
             points = [self.Point[i] for i in vlink.points]

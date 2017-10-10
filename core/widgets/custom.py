@@ -104,7 +104,6 @@ def initCustomWidgets(self):
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)
     self.PathWidth.valueChanged.connect(self.DynamicCanvasView.setPathWidth)
     self.Font_size.valueChanged.connect(self.DynamicCanvasView.setFontSize)
-    self.rotateAngle.valueChanged.connect(self.DynamicCanvasView.setRotateAngle)
     self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
     self.inputs_record.currentRowChanged.connect(self.Reload_Canvas)
