@@ -39,6 +39,7 @@
     <file>icons/delete.png</file>
     <file>icons/DimensionalSynthesis.png</file>
     <file>icons/disconnect.png</file>
+    <file>icons/example.png</file>
     <file>icons/exit.png</file>
     <file>icons/freemove_off.png</file>
     <file>icons/freemove_on.png</file>
@@ -49,7 +50,6 @@
     <file>icons/link.png</file>
     <file>icons/loadfile.png</file>
     <file>icons/maxmized.png</file>
-    <file>icons/measurement.png</file>
     <file>icons/minimized.png</file>
     <file>icons/motor.png</file>
     <file>icons/newfile.png</file>

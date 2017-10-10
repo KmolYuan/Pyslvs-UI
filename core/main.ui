@@ -1389,44 +1389,6 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <widget class="QMenu" name="menuExample">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="statusTip">
-      <string>Some example of the Linkage mechanism.</string>
-     </property>
-     <property name="title">
-      <string>Example</string>
-     </property>
-     <property name="icon">
-      <iconset resource="../icons.qrc">
-       <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
-     </property>
-     <addaction name="GrashofChainMenuTitle"/>
-     <addaction name="action_Crank_rocker"/>
-     <addaction name="action_Drag_link"/>
-     <addaction name="action_Double_rocker"/>
-     <addaction name="action_Parallelogram_linkage"/>
-     <addaction name="separator"/>
-     <addaction name="LinkagesMenuTitle"/>
-     <addaction name="action_Multiple_Link"/>
-     <addaction name="action_Two_Multiple_Link"/>
-     <addaction name="action_Four_bar_linkage"/>
-     <addaction name="separator"/>
-     <addaction name="SlidersMenuTitle"/>
-     <addaction name="action_Slider_and_Rod"/>
-     <addaction name="action_Rock_Slider"/>
-     <addaction name="action_Lift_Tailgate"/>
-     <addaction name="separator"/>
-     <addaction name="DesignsMenuTitle"/>
-     <addaction name="action_Theo_Jansen_s_multi_linkage"/>
-     <addaction name="action_Rock_Slider_Design"/>
-     <addaction name="separator"/>
-     <addaction name="AlgorithmMenuTitle"/>
-     <addaction name="action_Reverse_Parsing_Rocker"/>
-     <addaction name="action_Three_Algorithm_Result"/>
-    </widget>
     <widget class="QMenu" name="menuExport">
      <property name="statusTip">
       <string>Export to other format.</string>
@@ -1455,7 +1417,7 @@
     </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
-    <addaction name="menuExample"/>
+    <addaction name="action_Example"/>
     <addaction name="menuImport"/>
     <addaction name="separator"/>
     <addaction name="action_Save"/>
@@ -1683,6 +1645,9 @@
    </property>
   </action>
   <action name="action_See_Python_Scripts">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>
@@ -1811,22 +1776,6 @@
     <string>`</string>
    </property>
   </action>
-  <action name="action_Crank_rocker">
-   <property name="text">
-    <string>Crank rocker</string>
-   </property>
-   <property name="statusTip">
-    <string>Grashof chain #1</string>
-   </property>
-  </action>
-  <action name="action_Multiple_Link">
-   <property name="text">
-    <string>Multiple linkage</string>
-   </property>
-   <property name="statusTip">
-    <string>Linkage #1</string>
-   </property>
-  </action>
   <action name="action_Save_as">
    <property name="enabled">
     <bool>false</bool>
@@ -1845,46 +1794,6 @@
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="action_Two_Multiple_Link">
-   <property name="text">
-    <string>Two pairs multiple linkage</string>
-   </property>
-   <property name="statusTip">
-    <string>Linkage #2</string>
-   </property>
-  </action>
-  <action name="action_Drag_link">
-   <property name="text">
-    <string>Drag-link</string>
-   </property>
-   <property name="statusTip">
-    <string>Grashof chain #2</string>
-   </property>
-  </action>
-  <action name="action_Double_rocker">
-   <property name="text">
-    <string>Double rocker</string>
-   </property>
-   <property name="statusTip">
-    <string>Grashof chain #3</string>
-   </property>
-  </action>
-  <action name="action_Parallelogram_linkage">
-   <property name="text">
-    <string>Parallelogram linkage</string>
-   </property>
-   <property name="statusTip">
-    <string>Grashof chain #4</string>
-   </property>
-  </action>
-  <action name="action_Reverse_Parsing_Rocker">
-   <property name="text">
-    <string>Reverse Parsing Rocker</string>
-   </property>
-   <property name="statusTip">
-    <string>Algorithm #1</string>
-   </property>
-  </action>
   <action name="action_Batch_moving">
    <property name="text">
     <string>Batch moving</string>
@@ -1894,14 +1803,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
-   </property>
-  </action>
-  <action name="action_Slider_and_Rod">
-   <property name="text">
-    <string>Slider and Rod</string>
-   </property>
-   <property name="statusTip">
-    <string>Silder / Rod #1</string>
    </property>
   </action>
   <action name="action_Solvespace_2D_sketch">
@@ -1940,62 +1841,6 @@
     <string>Ctrl+D</string>
    </property>
   </action>
-  <action name="action_Rock_Slider">
-   <property name="text">
-    <string>Rock Slider</string>
-   </property>
-   <property name="statusTip">
-    <string>Silder / Rod #2</string>
-   </property>
-  </action>
-  <action name="action_Lift_Tailgate">
-   <property name="text">
-    <string>Lift Tailgate</string>
-   </property>
-   <property name="statusTip">
-    <string>Silder / Rod #3</string>
-   </property>
-  </action>
-  <action name="GrashofChainMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Grashof chain</string>
-   </property>
-  </action>
-  <action name="LinkagesMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Linkages</string>
-   </property>
-  </action>
-  <action name="SlidersMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Sliders</string>
-   </property>
-  </action>
-  <action name="DesignsMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Design</string>
-   </property>
-  </action>
-  <action name="action_Theo_Jansen_s_multi_linkage">
-   <property name="text">
-    <string>Theo Jansen's multi linkage</string>
-   </property>
-   <property name="statusTip">
-    <string>Design #1</string>
-   </property>
-  </action>
   <action name="SolvespaceMenuTitle">
    <property name="enabled">
     <bool>false</bool>
@@ -2018,14 +1863,6 @@
    </property>
    <property name="text">
     <string>Other Format</string>
-   </property>
-  </action>
-  <action name="action_Rock_Slider_Design">
-   <property name="text">
-    <string>Rock Slider Design</string>
-   </property>
-   <property name="statusTip">
-    <string>Design #2</string>
    </property>
   </action>
   <action name="action_Import_From_Workbook">
@@ -2053,14 +1890,6 @@
    </property>
    <property name="statusTip">
     <string>Show Qt about.</string>
-   </property>
-  </action>
-  <action name="action_Four_bar_linkage">
-   <property name="text">
-    <string>Four bar linkage</string>
-   </property>
-   <property name="statusTip">
-    <string>Linkage #3</string>
    </property>
   </action>
   <action name="action_Load_Workbook">
@@ -2108,22 +1937,6 @@
    </property>
    <property name="statusTip">
     <string>Show path data on canvas.</string>
-   </property>
-  </action>
-  <action name="AlgorithmMenuTitle">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Algorithm</string>
-   </property>
-  </action>
-  <action name="action_Three_Algorithm_Result">
-   <property name="text">
-    <string>Three Algorithm Result</string>
-   </property>
-   <property name="statusTip">
-    <string>Algorithm #2</string>
    </property>
   </action>
   <action name="action_Path_style">
@@ -2180,6 +1993,18 @@
    </property>
    <property name="text">
     <string>From PMKS server</string>
+   </property>
+  </action>
+  <action name="action_Example">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
+   </property>
+   <property name="text">
+    <string>Example</string>
    </property>
   </action>
  </widget>

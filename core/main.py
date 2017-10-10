@@ -42,10 +42,12 @@ from .calculation.planeSolving import slvsProcess
 #File & Example
 from .io.fileForm import File
 from .io import example
+'''
 from .io.dxfType import dxfTypeSettings
 from .io.dxfForm.sketch import dxfSketch
 from .io.slvsType import slvsTypeSettings
 from .io.slvsForm.sketch import slvs2D
+'''
 from .info.fileInfo import fileInfo_show, editFileInfo_show
 #Logging
 from .io.loggingHandler import XStream
@@ -71,8 +73,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Solve & DOF value.
         self.DOF = 0
         if self.args.r:
-            #Load workbook.
-            self.loadWorkbook("Loading exist workbook.", fileName=self.args.r)
+            #TODO: Load workbook.
+            pass
     
     #Adjust the canvas size after display.
     def show(self):
@@ -196,28 +198,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Close Event: If the user has not saved the change.
     def closeEvent(self, event):
+        if self.checkFileChanged():
+            event.ignore()
+        else:
+            if self.inputs_playShaft.isRunning():
+                self.inputs_playShaft.stop()
+            self.disconnectConsole()
+            self.setAttribute(Qt.WA_DeleteOnClose)
+            print('Exit.')
+            event.accept()
+    
+    def checkFileChanged(self):
         if self.File.changed:
             reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
                 self.on_action_Save_triggered()
                 if self.File.changed:
-                    event.ignore()
+                    return True
                 else:
-                    self.Exit(event)
+                    return False
             elif reply==QMessageBox.Discard:
-                self.Exit(event)
-            else:
-                event.ignore()
-        else:
-            self.Exit(event)
-    def Exit(self, event):
-        if self.inputs_playShaft.isRunning():
-            self.inputs_playShaft.stop()
-        self.disconnectConsole()
-        self.setAttribute(Qt.WA_DeleteOnClose)
-        print('Exit.')
-        event.accept()
+                return False
+            return True
+        return False
     
     #The time of withdrawal and redo action.
     @pyqtSlot(int)
@@ -300,11 +304,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Open - {{{}}}".format(URL))
         QDesktopServices.openUrl(QUrl(URL))
     
-    #TODO: Output to Python script for Jupyterhub.
-    @pyqtSlot()
-    def on_action_See_Python_Scripts_triggered(self):
-        self.OpenDlg(Script_Dialog(self.File.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))
-    
     #Use to open dialog widgets.
     def OpenDlg(self, dlg):
         dlg.show()
@@ -317,68 +316,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.History_tab.setCurrentIndex(1)
     
     #TODO: Examples need to update!
-    @pyqtSlot()
-    def on_action_New_Workbook_triggered(self):
-        self.checkChange("[New Workbook]", example.new_workbook(), 'Generating New Workbook...')
-    @pyqtSlot()
-    def on_action_Load_Workbook_triggered(self):
-        self.checkChange(say='Open file...', isFile=True)
-    @pyqtSlot()
-    def on_action_Crank_rocker_triggered(self):
-        self.checkChange("[Example] Crank Rocker", example.crankRocker())
-    @pyqtSlot()
-    def on_action_Drag_link_triggered(self):
-        self.checkChange("[Example] Drag-link", example.DragLink())
-    @pyqtSlot()
-    def on_action_Double_rocker_triggered(self):
-        self.checkChange("[Example] Double Rocker", example.doubleRocker())
-    @pyqtSlot()
-    def on_action_Parallelogram_linkage_triggered(self):
-        self.checkChange("[Example] Parallelogram Linkage", example.parallelogramLinkage())
-    @pyqtSlot()
-    def on_action_Multiple_Link_triggered(self):
-        self.checkChange("[Example] Multiple Link", example.multipleLink())
-    @pyqtSlot()
-    def on_action_Two_Multiple_Link_triggered(self):
-        self.checkChange("[Example] Two Pairs Multiple Link", example.twoMultipleLink())
-    @pyqtSlot()
-    def on_action_Four_bar_linkage_triggered(self):
-        self.checkChange("[Example] Four bar linkage", example.FourBarFeet())
-    @pyqtSlot()
-    def on_action_Slider_and_Rod_triggered(self):
-        self.checkChange("[Example] Slider and Rod", example.sliderRod())
-    @pyqtSlot()
-    def on_action_Rock_Slider_triggered(self):
-        self.checkChange("[Example] Rock Slider", example.rockSlider())
-    @pyqtSlot()
-    def on_action_Lift_Tailgate_triggered(self):
-        self.checkChange("[Example] Lift Tailgate", example.liftTailgate())
-    @pyqtSlot()
-    def on_action_Theo_Jansen_s_multi_linkage_triggered(self):
-        self.checkChange("[Example] Theo Jansen\'s multiple linkage", example.TJLinkage())
-    @pyqtSlot()
-    def on_action_Rock_Slider_Design_triggered(self):
-        self.checkChange("[Example] Rock slider design", example.RockSliderDesign())
-    @pyqtSlot()
-    def on_action_Reverse_Parsing_Rocker_triggered(self):
-        self.checkChange("[Example] Reverse Parsing Rocker", example.reverseParsingRocker())
-    @pyqtSlot()
-    def on_action_Three_Algorithm_Result_triggered(self):
-        self.checkChange("[Example] Three algorithm result", example.threeAlgorithmResult())
-    
-    #Workbook Functions
-    def checkChange(self, name='', data=[], say='Loading Example...', isFile=False):
-        if self.File.changed:
-            reply = QMessageBox.question(self, 'Saving Message', "Are you sure to quit this file?\nAny Changes won't be saved.",
-                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
-            if reply==QMessageBox.Save:
-                self.on_action_Save_triggered()
-                if not self.File.changed:
-                    self.loadWorkbook(say, name, data, isFile)
-            elif reply==QMessageBox.Discard:
-                self.loadWorkbook(say, name, data, isFile)
-        else:
-            self.loadWorkbook(say, name, data, isFile)
     
     #Load PMKS URL
     @pyqtSlot()
@@ -427,132 +364,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
             self.FileState.endMacro()
     
-    #Load workbook
-    def loadWorkbook(self, say, fileName='', data=[], isFile=False):
-        if isFile:
-            data.clear()
-            fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, "XML File(*.xml);;CSV File(*.csv)")
-            if fileName:
-                self.setLocate(QFileInfo(fileName).absolutePath())
-        if fileName or isFile==False:
-            print(say)
-            self.closeAllPanels()
-            self.File.reset(self.Entities_Point, self.Entities_Link, self.Entities_Chain,
-                self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
-            self.DynamicCanvasView.path_solving(())
-            self.Resolve()
-            self.setWindowTitle("Pyslvs - [New Workbook]")
-            print("Reset workbook.")
-            checkdone, data = self.File.check(fileName, data)
-            if checkdone:
-                errorInfo = self.File.read(fileName, data,
-                    self.Entities_Point, self.Entities_Link, self.Entities_Chain,
-                    self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list)
-                if errorInfo:
-                    print("The following content(s) contain errors:\n+ {{{}}}".format(', '.join(errorInfo)))
-                else:
-                    print("Successful loaded contents of the file.")
-                self.workbookSaved()
-                self.DynamicCanvasView.SetIn()
-                print("Loaded the workbook.")
-                if '[New Workbook]' in fileName and isFile==False:
-                    self.on_action_Property_triggered()
-                else:
-                    self.show_Property(errorInfo)
-                    if errorInfo:
-                        self.on_action_Console_triggered()
-            else:
-                self.loadWorkbookError(fileName)
+    #TODO: Load workbook.
     
-    #Import from workbook option
-    @pyqtSlot()
-    def on_action_Import_From_Workbook_triggered(self):
-        self.importWorkbook(say='Import from file...')
-    
-    #Import to workbook
-    def importWorkbook(self, say, fileName=False, data=[]):
-        if fileName==False:
-            fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.Default_Environment_variables, "XML File(*.xml);;CSV File(*.csv)")
-            if fileName:
-                self.setLocate(QFileInfo(fileName).absolutePath())
-        if fileName:
-            print(say)
-            checkdone, data = self.File.check(fileName, data)
-            if checkdone:
-                suffix = QFileInfo(fileName).suffix().lower()
-                tables = [data, self.Entities_Point, self.Entities_Link, self.Entities_Chain,
-                    self.Simulate_Shaft, self.Simulate_Slider, self.Simulate_Rod, self.Parameter_list]
-                if suffix=='xml':
-                    errorInfo = self.File.readXMLMerge(*tables)
-                elif suffix=='csv':
-                    errorInfo = self.File.readCSVMerge(*tables)
-                self.show_Property(errorInfo)
-                if errorInfo:
-                    self.on_action_Console_triggered()
-            else:
-                self.loadWorkbookError(fileName)
-    
-    #Error message when load workbook failed.
-    def loadWorkbookError(self, fileName):
-        dlgbox = QMessageBox(QMessageBox.Warning, "Loading failed", "File:\n{}\n\nYour data sheet is an incorrect format.".format(fileName), (QMessageBox.Ok), self)
-        if dlgbox.exec_():
-            print("Error: Incorrect format.")
-    
-    #TODO: Save format need to update!
+    #TODO: Save format.
     @pyqtSlot()
     def on_action_Save_triggered(self):
         fileName = self.File.fileName.absoluteFilePath()
         suffix = QFileInfo(fileName).suffix()
-        self.save('' if suffix!='csv' and suffix!='xml' else fileName)
+        '''self.save('' if suffix!='csv' and suffix!='xml' else fileName)'''
     
-    #Save as function
+    #TODO: Save as function.
     @pyqtSlot()
     def on_action_Save_as_triggered(self):
-        self.save()
+        '''self.save()'''
     
-    #Save function
-    def save(self, fileName=""):
-        hasReply = bool(fileName)==False
-        if hasReply:
-            fileName = self.outputTo("Workbook", ["XML File(*.xml)", "CSV File(*.csv)"])
-        if fileName:
-            self.File.write(fileName)
-            if hasReply:
-                self.saveReplyBox('Workbook', fileName)
-            self.workbookSaved()
+    #TODO: Save function.
     
-    @pyqtSlot()
-    def on_action_Output_to_Solvespace_triggered(self):
-        dlg = slvsTypeSettings(self.Default_Environment_variables, self.File.fileName.baseName(),
-            self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
-        dlg.show()
-        if dlg.exec_():
-            self.saveReplyBox('Solvespace Models', dlg.folderPath.absolutePath())
+    #TODO: Solvespace 2d save function.
     
-    @pyqtSlot()
-    def on_action_Solvespace_2D_sketch_triggered(self):
-        fileName = self.outputTo("Solvespace sketch", ['Solvespace module(*.slvs)'])
-        if fileName:
-            content = slvs2D(self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
-            with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
-                f.write(content)
-            self.saveReplyBox('Solvespace Sketch', fileName)
+    #TODO: DXF 2d save function.
     
-    @pyqtSlot()
-    def on_action_DXF_2D_models_triggered(self):
-        dlg = dxfTypeSettings(self.Default_Environment_variables, self.File.fileName.baseName(),
-            self.File.Lists.LineList, self.File.Lists.ChainList)
-        dlg.show()
-        if dlg.exec_():
-            self.saveReplyBox('DXF 2D Models', dlg.filePath)
-    
-    @pyqtSlot()
-    def on_action_DXF_2D_sketch_triggered(self):
-        fileName = self.outputTo("DXF", ['AutoCAD DXF (*.dxf)'])
-        if fileName:
-            dxfSketch(fileName, self.File.Lists.PointList, self.File.Lists.LineList, self.File.Lists.ChainList)
-            self.saveReplyBox('DXF 2D Sketch', fileName)
-    
+    #Picture save function.
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         fileName = self.outputTo("picture", ["Portable Network Graphics (*.png)", "Joint Photographic Experts Group (*.jpg)", "Bitmap Image file (*.bmp)",
@@ -563,6 +395,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pixmap.save(fileName, format = QFileInfo(fileName).suffix())
             self.saveReplyBox('Picture', fileName)
     
+    #Simple to support mutiple format.
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(self, 'Save file...',
@@ -574,26 +407,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Formate: {}".format(form))
         return fileName
     
+    #Show message when successfully saved.
     def saveReplyBox(self, title, fileName):
         dlgbox = QMessageBox(QMessageBox.Information, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), self)
         if dlgbox.exec_():
             print("Successful saved {}.".format(title))
     
-    def show_Property(self, errorInfo):
-        dlg = fileInfo_show(self.File.fileName.fileName(), self.File.author, self.File.description,
-            self.File.lastTime, self.File.Designs.result, errorInfo, self)
-        dlg.show()
-        dlg.exec_()
-    
-    @pyqtSlot()
-    def on_action_Property_triggered(self):
-        dlg = editFileInfo_show(self.File.fileName.fileName(), self.File.author, self.File.description,
-            self.File.lastTime, self.File.Designs.result, self)
-        dlg.show()
-        if dlg.exec_():
-            self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
-            self.workbookNoSave()
-    
+    #Output to PMKS as URL.
     @pyqtSlot()
     def on_action_Output_to_PMKS_triggered(self):
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
@@ -622,7 +442,28 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if dlg.exec()==QMessageBox.Open:
             self.OpenURL(url)
     
-    '''Entities'''
+    #TODO: Output to Python script for Jupyterhub.
+    @pyqtSlot()
+    def on_action_See_Python_Scripts_triggered(self):
+        '''self.OpenDlg(Script_Dialog(self.File.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
+    
+    #Show property when workbook loaded.
+    def showProperty(self, errorInfo):
+        dlg = fileInfo_show(self.File.fileName.fileName(), self.File.author, self.File.description,
+            self.File.lastTime, self.File.Designs.result, errorInfo, self)
+        dlg.show()
+        dlg.exec_()
+    
+    #Show property.
+    @pyqtSlot()
+    def on_action_Property_triggered(self):
+        dlg = editFileInfo_show(self.File.fileName.fileName(), self.File.author, self.File.description,
+            self.File.lastTime, self.File.Designs.result, self)
+        dlg.show()
+        if dlg.exec_():
+            self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
+            self.workbookNoSave()
+    
     #Add point group using alt key.
     def qAddPointGroup(self, fixed=False):
         if not self.DimensionalSynthesis.isChecked():
