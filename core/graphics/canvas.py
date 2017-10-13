@@ -428,8 +428,8 @@ class DynamicCanvas(BaseCanvas):
             self.ox = width/2
             self.oy = height/2
         else:
-            Xs = (e.cx for e in self.Point) if self.Point else (0,)
-            Ys = (e.cy for e in self.Point) if self.Point else (0,)
+            Xs = tuple(e.cx for e in self.Point) if self.Point else (0,)
+            Ys = tuple(e.cy for e in self.Point) if self.Point else (0,)
             if self.Path.path:
                 Path = self.Path.path
                 Comparator = lambda fun, i: fun(fun(path[i] for path in point if point) for point in Path if point)
@@ -442,6 +442,7 @@ class DynamicCanvas(BaseCanvas):
                 cenx = (min(min(Xs), pathMinX)+max(max(Xs), pathMaxX))/2
                 ceny = (min(min(Ys), pathMinY)+max(max(Ys), pathMaxY))/2
             else:
+                print(Xs)
                 diffX = max(Xs)-min(Xs)
                 diffY = max(Ys)-min(Ys)
                 cenx = (min(Xs)+max(Xs))/2

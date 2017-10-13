@@ -44,13 +44,11 @@ colorlist = {
     'Dark-Pink':QColor(225, 20, 147),
 }
 
-colorlist.setdefault(Qt.white)
-
 def colorName() -> Tuple[str]:
-    return tuple(sorted(list(colorlist.keys())))
+    return tuple(sorted(colorlist.keys()))
 
 def colorQt(colorName: str) -> QColor:
-    return colorlist[colorName]
+    return colorlist.get(colorName, colorlist['Blue'])
 
 def colorIcons(colorName: str, width: int =20) -> QIcon:
     colorBlock = QPixmap(QSize(width, width))
