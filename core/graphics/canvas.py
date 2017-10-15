@@ -442,7 +442,6 @@ class DynamicCanvas(BaseCanvas):
                 cenx = (min(min(Xs), pathMinX)+max(max(Xs), pathMaxX))/2
                 ceny = (min(min(Ys), pathMinY)+max(max(Ys), pathMaxY))/2
             else:
-                print(Xs)
                 diffX = max(Xs)-min(Xs)
                 diffY = max(Ys)-min(Ys)
                 cenx = (min(Xs)+max(Xs))/2

@@ -83,11 +83,11 @@ class WorkerThread(QThread):
                 'TimeAndFitness':TnF}
             for index in range(len(self.mechanismParams['Link'].split(','))):
                 mechanism['L{}'.format(index)] = FP[4+index]
-            print('cost time: {} [s]'.format(time_spand))
+            print("cost time: {} [s]".format(time_spand))
             self.result.emit(mechanism, time_spand)
         T1 = timeit.default_timer()
         totalTime = round(T1-T0, 2)
-        print('total cost time: {} [s]'.format(totalTime))
+        print("total cost time: {} [s]".format(totalTime))
         self.done.emit()
     
     def generateProcess(self):

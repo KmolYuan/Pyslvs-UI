@@ -205,7 +205,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.inputs_playShaft.stop()
             self.disconnectConsole()
             self.setAttribute(Qt.WA_DeleteOnClose)
-            print('Exit.')
+            print("Exit.")
             event.accept()
     
     def checkFileChanged(self):

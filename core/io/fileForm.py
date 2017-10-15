@@ -89,30 +89,3 @@ class File:
     def updateAuthorDescription(self, author, description):
         self.author = author
         self.description = description
-    
-    '''
-    def Generate_Merge(self, row, startAngle, endAngle, answer, Paths, Point, Link, Chain, Shaft):
-        if not (False in answer):
-            Result = self.Designs.result[row]
-            links_tag = Result['mechanismParams']['Link'].split(',')
-            print('Mechanism:\n'+'\n'.join(["{}: {}".format(tag, Result[tag]) for tag in (['Ax', 'Ay', 'Dx', 'Dy']+links_tag)]))
-            expression = Result['mechanismParams']['Expression'].split(',')
-            expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
-            expression_result = [exp[-1] for exp in expression_tag]
-            for i, (x, y) in enumerate(answer):
-                self.Lists.editTable(Point, False, round(x, 4), round(y, 4), i<2, 'Blue' if i<2 else 'Green' if i<len(answer)-1 else 'Brick-Red')
-            Rnum = Point.rowCount()-len(expression_result)
-            self.Lists.editTable(Link, False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), str(Result['L0']))
-            #exp = ('B', 'L2', 'L1', 'C', 'D')
-            for i, exp in enumerate(expression_tag[1:]):
-                p1 = -2 if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else -1
-                p2 = -2 if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else -1
-                p3 = -2 if exp[-1]=='A' else expression_result.index(exp[-1]) if exp[-1] in expression_result else -1
-                self.Lists.editTable(Link, False, "Point{}".format(Rnum+p1), "Point{}".format(Rnum+p3), str(Result[exp[1]]))
-                self.Lists.editTable(Link, False, "Point{}".format(Rnum+p2), "Point{}".format(Rnum+p3), str(Result[exp[2]]))
-            self.Lists.editTable(Shaft, False, "Point{}".format(Rnum-2), "Point{}".format(Rnum), startAngle, endAngle, startAngle, False)
-            print("Generate Result Merged. At: {} deg ~ {} deg.".format(startAngle, endAngle))
-            return True
-        else:
-            return False
-    '''

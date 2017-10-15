@@ -286,7 +286,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                 self.trayIcon.showMessage("Algorithm completed!", "You can see the results in Pyslvs.")
             dlgbox = QMessageBox(QMessageBox.Information, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), self.parent())
             if dlgbox.exec_():
-                print('Finished.')
+                print("Finished.")
         self.trayIcon.hide()
     
     def getGenerate(self):
