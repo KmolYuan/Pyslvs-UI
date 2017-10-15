@@ -424,6 +424,9 @@
                       </item>
                       <item>
                        <widget class="QSpinBox" name="inputs_variable_speed">
+                        <property name="enabled">
+                         <bool>false</bool>
+                        </property>
                         <property name="suffix">
                          <string> rpm</string>
                         </property>

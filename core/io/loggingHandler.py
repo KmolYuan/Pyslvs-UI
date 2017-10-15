@@ -45,10 +45,13 @@ class XStream(QObject):
     _stdout = None
     _stderr = None
     messageWritten = pyqtSignal(str)
+    
     def flush(self):
         pass
+    
     def fileno(self):
         return -1
+    
     def write(self, msg):
         if not self.signalsBlocked():
             self.messageWritten.emit(msg)

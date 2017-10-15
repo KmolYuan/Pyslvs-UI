@@ -51,6 +51,8 @@ from .io.slvsForm.sketch import slvs2D
 from .info.fileInfo import fileInfo_show, editFileInfo_show
 #Logging
 from .io.loggingHandler import XStream
+#Write CSV
+import csv
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
@@ -396,7 +398,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Simple to support mutiple format.
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
-        fileName, form = QFileDialog.getSaveFileName(self, 'Save file...',
+        fileName, form = QFileDialog.getSaveFileName(self, "Save {}...".format(formatName),
             self.Default_Environment_variables+'/'+self.File.fileName.baseName()+suffix0, ';;'.join(formatChoose))
         if fileName:
             if QFileInfo(fileName).suffix()!=suffix0[1:]:
@@ -869,9 +871,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(bool)
     def on_inputs_variable_play_toggled(self, toggled):
         if toggled:
+            self.inputs_Degree.setEnabled(False)
             self.inputs_playShaft.start()
         else:
             self.inputs_playShaft.stop()
+            self.inputs_Degree.setEnabled(True)
     
     #QTimer change index.
     @pyqtSlot()
@@ -912,6 +916,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
             self.Reload_Canvas()
+    
+    #View path data.
+    @pyqtSlot(QListWidgetItem)
+    def on_inputs_record_itemDoubleClicked(self, item):
+        data = self.File.pathData[self.inputs_record.row(item)]
+        reply = QMessageBox.question(self, "Path data",
+            "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
+            (QMessageBox.Save | QMessageBox.Close), QMessageBox.Close)
+        if reply==QMessageBox.Save:
+            fileName = self.outputTo("path data", ["Comma-Separated Values (*.csv)", "Text file (*.txt)"])
+            if fileName:
+                with open(fileName, 'w', newline='') as stream:
+                    writer = csv.writer(stream)
+                    for point in data:
+                        for coordinate in point:
+                            writer.writerow(coordinate)
+                        writer.writerow(())
+                print("Output path data: {}".format(fileName))
     
     @pyqtSlot()
     def on_DimensionalSynthesis_clicked(self):

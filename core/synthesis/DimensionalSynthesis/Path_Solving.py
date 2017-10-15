@@ -158,15 +158,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         if action==self.action_paste_from_clipboard:
             data = QApplication.clipboard().text()
             data = re.split(',\t|\n', data)
-            try:
-                data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
-                for e in data:
-                    self.on_add_clicked(e[0], e[1])
-            except:
-                dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:"+
-                    "\n0.0,[\\tab]0.0[\\n]"*3, (QMessageBox.Ok), self)
-                if dlgbox.exec_():
-                    pass
+            self.readPathFromCSV(data)
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
@@ -176,16 +168,18 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             with open(fileName, newline=str()) as stream:
                 reader = csv.reader(stream, delimiter=' ', quotechar='|')
                 for row in reader:
-                    data += ' '.join(row).split(',\t')
-            try:
-                data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
-                for e in data:
-                    self.on_add_clicked(e[0], e[1])
-            except:
-                dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:"+
-                    "\n0.0,[\\tab]0.0[\\n]"*3, (QMessageBox.Ok), self)
-                if dlgbox.exec_():
-                    pass
+                    data += ' '.join(row).split(',')
+            self.readPathFromCSV(data)
+    
+    def readPathFromCSV(self, data):
+        try:
+            data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
+            for e in data:
+                self.on_add_clicked(e[0], e[1])
+        except:
+            dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:"+
+                "\n0.0,0.0[\\n]"*3, (QMessageBox.Ok), self)
+            dlgbox.exec_()
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
@@ -204,8 +198,8 @@ class Path_Solving_show(QWidget, PathSolving_Form):
                     data.append((round(float(x), 4), round(float(y), 4)))
                 except:
                     dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nThe datasheet seems to including non-digital cell.", (QMessageBox.Ok), self)
-                    if dlgbox.exec_():
-                        break
+                    dlgbox.exec_()
+                    break
                 i += 1
             for e in data:
                 self.on_add_clicked(e[0], e[1])
@@ -355,8 +349,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
             _, Paths = self.legal_crank()
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
-            if dlg.exec_():
-                pass
+            dlg.exec_()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
