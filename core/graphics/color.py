@@ -20,6 +20,7 @@
 from ..QtModules import *
 from typing import Tuple
 
+#Color dictionary.
 colorlist = {
     'Red':QColor(172, 68, 68),
     'Green':QColor(110, 190, 30),
@@ -44,13 +45,16 @@ colorlist = {
     'Dark-Pink':QColor(225, 20, 147),
 }
 
+#Get color names.
 def colorName() -> Tuple[str]:
     return tuple(sorted(colorlist.keys()))
 
+#Get color by name.
 def colorQt(colorName: str) -> QColor:
     return colorlist.get(colorName, colorlist['Blue'])
 
-def colorIcons(colorName: str, width: int =20) -> QIcon:
-    colorBlock = QPixmap(QSize(width, width))
+#Get color block as QIcon by name.
+def colorIcons(colorName: str, size: int =20) -> QIcon:
+    colorBlock = QPixmap(QSize(size, size))
     colorBlock.fill(colorQt(colorName))
     return QIcon(colorBlock)

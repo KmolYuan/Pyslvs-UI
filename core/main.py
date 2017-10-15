@@ -811,7 +811,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i in range(self.inputs_variable.count()):
             itemText = self.inputs_variable.item(i).text().split('->')
             row = int(itemText[0].replace('Point', ''))
-            links = self.Entities_Point.item(row, 1).text()
+            try:
+                links = self.Entities_Point.item(row, 1).text()
+            except:
+                links = ''
             #If this is not origin point any more.
             if (itemText[1] not in links) or (itemText[2] not in links):
                 self.inputs_variable.takeItem(i)
@@ -944,6 +947,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         copyIndex = int(action.text().replace("Copy data from Point", ''))
         clipboard = QApplication.clipboard()
         clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[copyIndex]))
+        self.popMenu_inputs_record.clear()
     
     @pyqtSlot()
     def on_DimensionalSynthesis_clicked(self):

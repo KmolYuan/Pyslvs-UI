@@ -21,6 +21,7 @@ from ..QtModules import *
 from math import sqrt
 from typing import List
 from heapq import nsmallest
+from .color import colorQt
 
 class Path:
     __slots__ = ('path', 'show', 'mode')
@@ -288,7 +289,11 @@ class DynamicCanvas(BaseCanvas):
                 Path = self.Path.path
             for i, path in enumerate(Path):
                 if len(set(path))>1:
-                    pen = QPen(self.Point[i].color)
+                    try:
+                        color = self.Point[i].color
+                    except:
+                        color = colorQt('Green')
+                    pen = QPen(color)
                     pen.setWidth(self.pathWidth)
                     self.painter.setPen(pen)
                     draw(path)
