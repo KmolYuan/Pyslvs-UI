@@ -237,3 +237,11 @@ def initCustomWidgets(self):
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_delete)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
+    '''
+    Inputs record context menu
+    
+    + Copy data from Point{}
+    + ...
+    '''
+    self.inputs_record.customContextMenuRequested.connect(self.on_inputs_record_context_menu)
+    self.popMenu_inputs_record = QMenu(self)

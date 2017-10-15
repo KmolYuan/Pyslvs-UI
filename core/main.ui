@@ -500,7 +500,11 @@
                    </widget>
                   </item>
                   <item>
-                   <widget class="QListWidget" name="inputs_record"/>
+                   <widget class="QListWidget" name="inputs_record">
+                    <property name="contextMenuPolicy">
+                     <enum>Qt::CustomContextMenu</enum>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </item>

@@ -157,12 +157,12 @@ class Path_Solving_show(QWidget, PathSolving_Form):
         action = self.popMenu_list.exec_(self.Point_list.mapToGlobal(point))
         if action==self.action_paste_from_clipboard:
             data = QApplication.clipboard().text()
-            data = re.split(',\t|\n', data)
+            data = re.split(",|\n", data)
             self.readPathFromCSV(data)
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.env, "Text File(*.txt);;CSV File(*.csv)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env, "Text File (*.txt);;CSV File (*.csv)")
         if fileName:
             data = []
             with open(fileName, newline=str()) as stream:
@@ -183,7 +183,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, 'Open file...', self.env, "Microsoft Office Excel(*.xlsx *.xlsm *.xltx *.xltm)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env, "Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)")
         if fileName:
             wb = openpyxl.load_workbook(fileName)
             ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])

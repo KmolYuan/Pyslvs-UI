@@ -935,6 +935,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         writer.writerow(())
                 print("Output path data: {}".format(fileName))
     
+    @pyqtSlot(QPoint)
+    def on_inputs_record_context_menu(self, point):
+        data = self.File.pathData[self.inputs_record.currentRow()]
+        for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
+            self.popMenu_inputs_record.addAction(actionName)
+        action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
+        copyIndex = int(action.text().replace("Copy data from Point", ''))
+        clipboard = QApplication.clipboard()
+        clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[copyIndex]))
+    
     @pyqtSlot()
     def on_DimensionalSynthesis_clicked(self):
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
