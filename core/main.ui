@@ -416,34 +416,27 @@
                        </widget>
                       </item>
                       <item>
-                       <layout class="QVBoxLayout" name="verticalLayout_18">
-                        <property name="spacing">
-                         <number>0</number>
+                       <widget class="QLabel" name="inputs_variable_speed_label">
+                        <property name="text">
+                         <string>Speed:</string>
                         </property>
-                        <item>
-                         <widget class="QRadioButton" name="inputs_variable_CCW">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <property name="text">
-                           <string>Counterclockwise</string>
-                          </property>
-                          <property name="checked">
-                           <bool>true</bool>
-                          </property>
-                         </widget>
-                        </item>
-                        <item>
-                         <widget class="QRadioButton" name="inputs_variable_CW">
-                          <property name="enabled">
-                           <bool>false</bool>
-                          </property>
-                          <property name="text">
-                           <string>Clockwise</string>
-                          </property>
-                         </widget>
-                        </item>
-                       </layout>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QSpinBox" name="inputs_variable_speed">
+                        <property name="suffix">
+                         <string> rpm</string>
+                        </property>
+                        <property name="minimum">
+                         <number>-100</number>
+                        </property>
+                        <property name="maximum">
+                         <number>100</number>
+                        </property>
+                        <property name="value">
+                         <number>-10</number>
+                        </property>
+                       </widget>
                       </item>
                       <item>
                        <layout class="QVBoxLayout" name="verticalLayout_3">

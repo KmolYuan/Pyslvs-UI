@@ -21,33 +21,7 @@ from ..QtModules import *
 from .Ui_Path_Solving_preview import Ui_Dialog
 from .canvas import BaseCanvas
 from .color import colorQt
-from time import sleep
-from typing import List
-
-class playShaft(QThread):
-    progress_Signal = pyqtSignal(int)
-    def __init__(self, limit, parent=None):
-        super(playShaft, self).__init__(parent)
-        self.limit = limit
-        self.stoped = False
-        self.mutex = QMutex()
-    
-    def run(self):
-        with QMutexLocker(self.mutex):
-            self.stoped = False
-        i = 0
-        while True:
-            i += 1
-            if self.stoped:
-                return
-            if i>=self.limit:
-                i = 0
-            sleep(.05)
-            self.progress_Signal.emit(i)
-    
-    def stop(self):
-        with QMutexLocker(self.mutex):
-            self.stoped = True
+from typing import Tuple
 
 class DynamicCanvas(BaseCanvas):
     def __init__(self, mechanism, Path, parent=None):
@@ -60,6 +34,11 @@ class DynamicCanvas(BaseCanvas):
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         self.exp_symbol = (self.expression_tag[0][0], self.expression_tag[0][3])+tuple(exp[-1] for exp in self.expression_tag)
         #('A', 'D', 'B', 'C', 'E')
+        #Timer start.
+        timer = QTimer(self)
+        timer.setInterval(10)
+        timer.timeout.connect(self.change_index)
+        timer.start()
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
@@ -76,9 +55,9 @@ class DynamicCanvas(BaseCanvas):
         self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.rate
         cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
         ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
-        ox = width/2-cenx*self.zoom
-        oy = height/2+ceny*self.zoom
-        self.painter.translate(width/2-cenx*self.zoom, height/2+ceny*self.zoom)
+        ox = self.width()/2-cenx*self.zoom
+        oy = self.height()/2+ceny*self.zoom
+        self.painter.translate(self.width()/2-cenx*self.zoom, self.height()/2+ceny*self.zoom)
         #Draw origin lines.
         pen = QPen(Qt.gray)
         pen.setWidth(1)
@@ -90,15 +69,21 @@ class DynamicCanvas(BaseCanvas):
             (self.mechanism['Ax'], self.mechanism['Ay']),
             (self.mechanism['Dx'], self.mechanism['Dy'])
         ) + tuple((c[self.index][0], c[self.index][1]) if c[self.index] else False for c in self.Path.path[2:])
+        if False in self.Point:
+            self.index += 1
+            return
         #Draw links.
         for i, exp in enumerate(self.expression_tag):
-            if i%3==0:
-                g = tuple(self.exp_symbol.index(exp[n]) for n in (0, -1))
+            name = 'link_{}'.format(i)
+            if i==0:
+                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 4)))
+            elif i%3==0:
+                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 4)))
+                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (3, 4)))
             elif i%3==1:
-                g = tuple(self.exp_symbol.index(exp[n]) for n in (3, -1))
+                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (3, 4)))
             else:
-                g = tuple(self.exp_symbol.index(exp[n]) for n in (0, 3, -1))
-            self.drawLink('link_{}'.format(i), g)
+                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 3, 4)))
         #Draw path.
         self.drawPath()
         #Draw points.
@@ -111,7 +96,7 @@ class DynamicCanvas(BaseCanvas):
     
     def drawLink(self,
         name: str,
-        points: List[int]
+        points: Tuple[int]
     ):
         color = colorQt('Blue')
         pen = QPen(color)
@@ -122,7 +107,8 @@ class DynamicCanvas(BaseCanvas):
             QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
             for i in points if self.Point[i]
         )
-        self.painter.drawPolygon(*qpoints)
+        if qpoints:
+            self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
         if self.showPointMark and name!='ground' and qpoints:
             pen.setColor(Qt.darkGray)
@@ -159,9 +145,10 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             draw(path)
     
-    @pyqtSlot(int)
-    def change_index(self, i):
-        self.index = i
+    @pyqtSlot()
+    def change_index(self):
+        self.index += 1
+        self.index %= 360
         self.update()
 
 class PreviewDialog(QDialog, Ui_Dialog):
@@ -192,8 +179,3 @@ class PreviewDialog(QDialog, Ui_Dialog):
         #Hardware information
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, self.mechanism['hardwareInfo'][tag]) for tag in
             ['os', 'memory', 'cpu', 'network']]))
-        #playShaft
-        self.playShaft = playShaft(max(len(path) for path in Path)-1)
-        self.playShaft.progress_Signal.connect(previewWidget.change_index)
-        self.playShaft.start()
-        self.rejected.connect(self.playShaft.stop)

@@ -72,6 +72,11 @@ class VPoint:
     def cy(self) -> float:
         return self.__c[0][1]
     
+    #Get the coordinates of all pin.
+    @property
+    def c(self) -> Tuple[Tuple[float, float]]:
+        return self.__c
+    
     def set(self, links, type, angle, color, x, y):
         self.__links = links
         self.__type = type

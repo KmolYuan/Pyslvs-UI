@@ -80,6 +80,9 @@ class File:
         self.Stack = 0
         self.FileState.clear()
     
+    def setFileName(self, fileName):
+        self.fileName = QFileInfo(fileName)
+    
     def updateTime(self):
         self.lastTime = timeNow()
     

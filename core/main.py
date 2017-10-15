@@ -51,8 +51,6 @@ from .io.slvsForm.sketch import slvs2D
 from .info.fileInfo import fileInfo_show, editFileInfo_show
 #Logging
 from .io.loggingHandler import XStream
-#Timer
-from time import sleep
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
@@ -201,7 +199,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.checkFileChanged():
             event.ignore()
         else:
-            if self.inputs_playShaft.isRunning():
+            if self.inputs_playShaft.isActive():
                 self.inputs_playShaft.stop()
             self.disconnectConsole()
             self.setAttribute(Qt.WA_DeleteOnClose)
@@ -823,8 +821,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         rotatable = enabled and not self.FreeMoveMode.isChecked()
         self.inputs_Degree.setEnabled(rotatable)
         self.inputs_variable_play.setEnabled(rotatable)
-        self.inputs_variable_CCW.setEnabled(rotatable)
-        self.inputs_variable_CW.setEnabled(rotatable)
+        self.inputs_variable_speed.setEnabled(rotatable)
         self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100. if enabled else 0.)
     
     #Update the value when rotating QDial.
@@ -840,7 +837,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DynamicCanvasView.recordPath()
     
     def variableValueReset(self):
-        if self.inputs_playShaft.isRunning():
+        if self.inputs_playShaft.isActive():
             self.inputs_variable_play.setChecked(False)
             self.inputs_playShaft.stop()
         self.Entities_Point.getBackOrigin()
@@ -872,21 +869,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(bool)
     def on_inputs_variable_play_toggled(self, toggled):
         if toggled:
-            self.inputs_playShaft.setStartAngle(self.inputs_Degree.value())
-            self.inputs_playShaft.rotate.connect(self.inputs_Degree.setValue)
             self.inputs_playShaft.start()
         else:
             self.inputs_playShaft.stop()
-            self.inputs_playShaft.rotate.disconnect()
     
-    #Triggered when reverse option was changed.
+    #QTimer change index.
     @pyqtSlot()
-    def inputs_playShaft_setReversed(self):
-        self.inputs_playShaft.setReversed(self.inputs_variable_CW.isChecked())
-        if self.inputs_playShaft.isRunning():
-            self.inputs_variable_play.click()
-            sleep(.05)
-            self.inputs_variable_play.click()
+    def inputs_change_index(self):
+        index = self.inputs_Degree.value()
+        speed = int(self.inputs_variable_speed.value()*6)
+        index += speed
+        index %= self.inputs_Degree.maximum()
+        self.inputs_Degree.setValue(index)
     
     #Save to file path data.
     @pyqtSlot(bool)
@@ -976,13 +970,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #('A', 'D', 'B', 'C', 'E')
         for i, exp in enumerate(expression_tag):
             #Dimensional synthesis link merge function.
-            if i%3==0:
-                g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, -1))
+            if i==0:
+                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 4))
+            elif i%3==0:
+                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 4))
+                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (3, 4))
             elif i%3==1:
-                g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (3, -1))
+                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (3, 4))
             else:
-                g = tuple(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, -1))
-            self.addLinkGroup(g)
+                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, 4))
         #Add the path.
         nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
         i = 0

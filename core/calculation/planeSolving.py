@@ -62,14 +62,16 @@ def slvsProcess(
     #Append all points first.
     for vpoint in Point:
         #This is the point recorded in the table.
-        x = Sys.add_param(vpoint.cx)
-        y = Sys.add_param(vpoint.cy)
         if vpoint.type==0:
             #Has only one pointer
+            x = Sys.add_param(vpoint.cx)
+            y = Sys.add_param(vpoint.cy)
             Slvs_Points.append(Point2d(Workplane1, x, y))
         elif vpoint.type==1 or vpoint.type==2:
             #Has one more pointer
-            Slvs_Points.append(tuple(Point2d(Workplane1, x, y) for i in range(len(vpoint.links))))
+            Slvs_Points.append(
+                tuple(Point2d(Workplane1, Sys.add_param(x), Sys.add_param(y)) for x, y in vpoint.c)
+            )
     #Topology of PMKS points.
     LinkIndex = lambda l: [vlink.name for vlink in Link].index(l)
     for i, vpoint in enumerate(Point):

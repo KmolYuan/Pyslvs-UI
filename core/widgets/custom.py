@@ -25,7 +25,7 @@ from .table import (
     LinkTableWidget,
     SelectionLabel
 )
-from .rotatable import RotatableView, playShaft
+from .rotatable import RotatableView
 
 def initCustomWidgets(self):
     #Version text
@@ -85,9 +85,9 @@ def initCustomWidgets(self):
     self.inputs_Degree.setEnabled(False)
     self.inputs_Degree.valueChanged.connect(self.variableValueUpdate)
     self.inputs_dial_layout.addWidget(RotatableView(self.inputs_Degree))
-    self.inputs_playShaft = playShaft(self)
-    self.inputs_variable_CCW.clicked.connect(self.inputs_playShaft_setReversed)
-    self.inputs_variable_CW.clicked.connect(self.inputs_playShaft_setReversed)
+    self.inputs_playShaft = QTimer(self)
+    self.inputs_playShaft.setInterval(10)
+    self.inputs_playShaft.timeout.connect(self.inputs_change_index)
     self.inputs_variable_stop.clicked.connect(self.variableValueReset)
     #Close all panels button on the panel tab widget.
     closeAllPanelButton = QPushButton()
