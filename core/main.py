@@ -944,9 +944,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
             self.popMenu_inputs_record.addAction(actionName)
         action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
-        copyIndex = int(action.text().replace("Copy data from Point", ''))
-        clipboard = QApplication.clipboard()
-        clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[copyIndex]))
+        if action:
+            copyIndex = int(action.text().replace("Copy data from Point", ''))
+            clipboard = QApplication.clipboard()
+            clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[copyIndex]))
         self.popMenu_inputs_record.clear()
     
     @pyqtSlot()
