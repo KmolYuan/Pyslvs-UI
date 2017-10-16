@@ -100,7 +100,9 @@ class BaseCanvas(QWidget):
         pen.setWidth(2)
         self.painter.setPen(pen)
         if fix:
-            self.painter.drawPolygon(QPointF(x, y), QPointF(x-10, y+20), QPointF(x+10, y+20))
+            bottom = y + 20
+            width = bottom / 2
+            self.painter.drawPolygon(QPointF(x, y), QPointF(x - width, bottom), QPointF(x + width, bottom))
             self.painter.drawEllipse(QPointF(x, y), 10., 10.)
         else:
             self.painter.drawEllipse(QPointF(x, y), 5., 5.)
@@ -116,6 +118,7 @@ class BaseCanvas(QWidget):
 
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
+    mouse_browse_track = pyqtSignal(float, float)
     mouse_getSelection = pyqtSignal(tuple)
     mouse_freemoveSelection = pyqtSignal(tuple)
     mouse_noSelection = pyqtSignal()
@@ -133,6 +136,7 @@ class DynamicCanvas(BaseCanvas):
         self.Point = ()
         self.Link = ()
         #Point selection
+        self.selectionRange = 10
         self.pointsSelection = []
         #Path solving range
         defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
@@ -359,13 +363,16 @@ class DynamicCanvas(BaseCanvas):
         return path
     
     def mousePressEvent(self, event):
-        self.Selector.x = event.x()-self.ox
-        self.Selector.y = event.y()-self.oy
+        self.Selector.x = event.x() - self.ox
+        self.Selector.y = event.y() - self.oy
         if event.buttons()==Qt.MiddleButton:
             self.Selector.MiddleButtonDrag = True
+            x = self.Selector.x / self.zoom
+            y = self.Selector.y / -self.zoom
+            self.mouse_browse_track.emit(x, y)
         if event.buttons()==Qt.LeftButton:
             self.Selector.LeftButtonDrag = True
-            self.mouseGetPoint()
+            self.mouseSelectedPoint()
             if self.Selector.selection:
                 self.mouse_getSelection.emit(tuple(self.Selector.selection))
     
@@ -373,19 +380,19 @@ class DynamicCanvas(BaseCanvas):
         if event.button()==Qt.MidButton:
             self.SetIn()
         if event.buttons()==Qt.LeftButton:
-            self.Selector.x = event.x()-self.ox
-            self.Selector.y = event.y()-self.oy
-            self.mouseGetPoint()
+            self.Selector.x = event.x() - self.ox
+            self.Selector.y = event.y() - self.oy
+            self.mouseSelectedPoint()
             if self.Selector.selection:
                 self.mouse_getSelection.emit((self.Selector.selection[0],))
                 self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
     
-    def mouseGetPoint(self):
+    def mouseSelectedPoint(self):
         self.Selector.selection.clear()
         for i, e in enumerate(self.Point):
-            x = e.cx*self.zoom
-            y = e.cy*-self.zoom
-            if self.Selector.distance(x, y)<10:
+            x = e.cx * self.zoom
+            y = e.cy * -self.zoom
+            if self.Selector.distance(x, y) < self.selectionRange:
                 self.Selector.selection.append(i)
     
     def mouseReleaseEvent(self, event):
@@ -394,8 +401,8 @@ class DynamicCanvas(BaseCanvas):
             if QApplication.keyboardModifiers()==Qt.AltModifier:
                 self.mouse_getDoubleClickAdd.emit()
             elif (
-                (abs(event.x()-self.ox-self.Selector.x)<3) and
-                (abs(event.y()-self.oy-self.Selector.y)<3)
+                (abs(event.x() - self.ox - self.Selector.x) < self.selectionRange/2) and
+                (abs(event.y() - self.oy - self.Selector.y) < self.selectionRange/2)
             ):
                 if (not self.Selector.selection and
                     (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
@@ -410,19 +417,21 @@ class DynamicCanvas(BaseCanvas):
         self.Selector.LeftButtonDrag = False
     
     def mouseMoveEvent(self, event):
+        x = (event.x() - self.ox)/self.zoom
+        y = (event.y() - self.oy)/-self.zoom
         if self.Selector.MiddleButtonDrag:
-            self.ox = event.x()-self.Selector.x
-            self.oy = event.y()-self.Selector.y
+            self.ox = event.x() - self.Selector.x
+            self.oy = event.y() - self.Selector.y
             self.update()
         elif self.Selector.LeftButtonDrag and self.freemove:
             #Free move function.
-            mouse_x = (event.x()-self.ox-self.Selector.x)/self.zoom
-            mouse_y = -(event.y()-self.oy-self.Selector.y)/self.zoom
+            mouse_x = x - self.Selector.x/self.zoom
+            mouse_y = y - self.Selector.y/-self.zoom
             for row in self.pointsSelection:
                 vpoint = self.Point[row]
                 vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             self.update()
-        self.mouse_track.emit((event.x()-self.ox)/self.zoom, -((event.y()-self.oy)/self.zoom))
+        self.mouse_track.emit(x, y)
     
     def SetIn(self):
         width = self.width()
@@ -442,19 +451,19 @@ class DynamicCanvas(BaseCanvas):
                 pathMinX = Comparator(min, 0)
                 pathMaxY = Comparator(max, 1)
                 pathMinY = Comparator(min, 1)
-                diffX = max(max(Xs), pathMaxX)-min(min(Xs), pathMinX)
-                diffY = max(max(Ys), pathMaxY)-min(min(Ys), pathMinY)
-                cenx = (min(min(Xs), pathMinX)+max(max(Xs), pathMaxX))/2
-                ceny = (min(min(Ys), pathMinY)+max(max(Ys), pathMaxY))/2
+                diffX = max(max(Xs), pathMaxX) - min(min(Xs), pathMinX)
+                diffY = max(max(Ys), pathMaxY) - min(min(Ys), pathMinY)
+                cenx = (min(min(Xs), pathMinX) + max(max(Xs), pathMaxX))/2
+                ceny = (min(min(Ys), pathMinY) + max(max(Ys), pathMaxY))/2
             else:
-                diffX = max(Xs)-min(Xs)
-                diffY = max(Ys)-min(Ys)
-                cenx = (min(Xs)+max(Xs))/2
-                ceny = (min(Ys)+max(Ys))/2
+                diffX = max(Xs) - min(Xs)
+                diffY = max(Ys) - min(Ys)
+                cenx = (min(Xs) + max(Xs))/2
+                ceny = (min(Ys) + max(Ys))/2
             diffY = diffY if diffY!=0 else 1
             height = height if height!=0 else 1
             cdiff = diffX/diffY > width/height
             self.zoom_change.emit(int((width if cdiff else height)/(diffX if cdiff else diffY)*0.95*50))
-            self.ox = (width/2)-cenx*self.zoom
-            self.oy = (height/2)+ceny*self.zoom
+            self.ox = width/2 - cenx*self.zoom
+            self.oy = height/2 + ceny*self.zoom
         self.update()

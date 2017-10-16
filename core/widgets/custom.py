@@ -237,6 +237,7 @@ def initCustomWidgets(self):
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_delete)
     self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
+    self.DynamicCanvasView.mouse_browse_track.connect(selectionLabel.updateMousePosition)
     '''
     Inputs record context menu
     

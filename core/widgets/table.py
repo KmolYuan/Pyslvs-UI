@@ -279,3 +279,7 @@ class SelectionLabel(QLabel):
             self.setText(text)
         else:
             self.setText("No selection.")
+    
+    @pyqtSlot(float, float)
+    def updateMousePosition(self, x, y):
+        self.setText("Mouse at: ({}, {})".format(x, y))
