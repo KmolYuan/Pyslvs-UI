@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -436,6 +436,15 @@ class Ui_MainWindow(object):
         self.ScaleFactor.setProperty("value", 10)
         self.ScaleFactor.setObjectName("ScaleFactor")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.ScaleFactor)
+        self.label = QtWidgets.QLabel(self.CanvasSettingsGroupBox)
+        self.label.setObjectName("label")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label)
+        self.SelectionRadius = QtWidgets.QSpinBox(self.CanvasSettingsGroupBox)
+        self.SelectionRadius.setMinimum(3)
+        self.SelectionRadius.setMaximum(10)
+        self.SelectionRadius.setProperty("value", 10)
+        self.SelectionRadius.setObjectName("SelectionRadius")
+        self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.SelectionRadius)
         self.verticalLayout_6.addWidget(self.CanvasSettingsGroupBox)
         self.groupBox = QtWidgets.QGroupBox(self.settings_tab)
         self.groupBox.setObjectName("groupBox")
@@ -893,6 +902,7 @@ class Ui_MainWindow(object):
         self.Font_size_label.setText(_translate("MainWindow", "Font size"))
         self.PathWidth_label.setText(_translate("MainWindow", "Path width"))
         self.ScaleFactor_label.setText(_translate("MainWindow", "Scale factor"))
+        self.label.setText(_translate("MainWindow", "Selection radius"))
         self.groupBox.setTitle(_translate("MainWindow", "Console"))
         self.showConsoleError.setText(_translate("MainWindow", "Show solvespace error in the console."))
         self.groupBox_2.setTitle(_translate("MainWindow", "History"))

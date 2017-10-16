@@ -41,6 +41,10 @@ def initCustomWidgets(self):
     self.Entities_Link.dragIn.connect(self.addLinkGroup)
     self.Entities_Link.deleteRequest.connect(self.on_action_Delete_Link_triggered)
     self.Entities_Link_Layout.addWidget(self.Entities_Link)
+    #Selection label on status bar right side.
+    selectionLabel = SelectionLabel(self)
+    self.Entities_Point.rowSelectionChanged.connect(selectionLabel.updateSelectPoint)
+    self.statusBar.addPermanentWidget(selectionLabel)
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
     self.FreeMoveMode.toggled.connect(self.DynamicCanvasView.setFreeMove)
@@ -58,6 +62,8 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.mouse_getDoubleClickAdd.connect(self.qAddPointGroup)
     self.DynamicCanvasView.mouse_getDoubleClickEdit.connect(self.on_action_Edit_Point_triggered)
     self.DynamicCanvasView.zoom_change.connect(self.ZoomBar.setValue)
+    self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
+    self.DynamicCanvasView.mouse_browse_track.connect(selectionLabel.updateMousePosition)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
     #Panel widget will hide when not using.
@@ -95,10 +101,6 @@ def initCustomWidgets(self):
     closeAllPanelButton.setToolTip("Close all opened panel.")
     closeAllPanelButton.clicked.connect(self.closeAllPanels)
     self.panelWidget.setCornerWidget(closeAllPanelButton)
-    #Selection label on status bar right side.
-    selectionLabel = SelectionLabel(self)
-    self.Entities_Point.rowSelectionChanged.connect(selectionLabel.updateSelectPoint)
-    self.statusBar.addPermanentWidget(selectionLabel)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)
@@ -107,6 +109,7 @@ def initCustomWidgets(self):
     self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
     self.inputs_record.currentRowChanged.connect(self.Reload_Canvas)
+    self.SelectionRadius.valueChanged.connect(self.DynamicCanvasView.setSelectionRadius)
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 15)
@@ -236,8 +239,6 @@ def initCustomWidgets(self):
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_copyPoint)
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_delete)
-    self.DynamicCanvasView.mouse_track.connect(self.context_menu_mouse_pos)
-    self.DynamicCanvasView.mouse_browse_track.connect(selectionLabel.updateMousePosition)
     '''
     Inputs record context menu
     

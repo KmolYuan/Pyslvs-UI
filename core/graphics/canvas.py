@@ -136,7 +136,7 @@ class DynamicCanvas(BaseCanvas):
         self.Point = ()
         self.Link = ()
         #Point selection
-        self.selectionRange = 10
+        self.selectionRadius = 10
         self.pointsSelection = []
         #Path solving range
         defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
@@ -186,6 +186,10 @@ class DynamicCanvas(BaseCanvas):
     def setFreeMove(self, freemove):
         self.freemove = freemove
         self.update()
+    
+    @pyqtSlot(int)
+    def setSelectionRadius(self, selectionRadius):
+        self.selectionRadius = selectionRadius
     
     def changePointsSelection(self, pointsSelection):
         self.pointsSelection = pointsSelection
@@ -392,7 +396,7 @@ class DynamicCanvas(BaseCanvas):
         for i, e in enumerate(self.Point):
             x = e.cx * self.zoom
             y = e.cy * -self.zoom
-            if self.Selector.distance(x, y) < self.selectionRange:
+            if self.Selector.distance(x, y) < self.selectionRadius:
                 self.Selector.selection.append(i)
     
     def mouseReleaseEvent(self, event):
@@ -401,8 +405,8 @@ class DynamicCanvas(BaseCanvas):
             if QApplication.keyboardModifiers()==Qt.AltModifier:
                 self.mouse_getDoubleClickAdd.emit()
             elif (
-                (abs(event.x() - self.ox - self.Selector.x) < self.selectionRange/2) and
-                (abs(event.y() - self.oy - self.Selector.y) < self.selectionRange/2)
+                (abs(event.x() - self.ox - self.Selector.x) < self.selectionRadius/2) and
+                (abs(event.y() - self.oy - self.Selector.y) < self.selectionRadius/2)
             ):
                 if (not self.Selector.selection and
                     (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
