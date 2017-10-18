@@ -18,13 +18,12 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from .QtModules import *
-tr = QCoreApplication.translate
 from .Ui_main import Ui_MainWindow
 from .widgets.custom import initCustomWidgets
 
 #Dialog
 from .info.info import version_show
-from .io.script import Script_Dialog
+'''from .io.script import Script_Dialog'''
 #Undo redo
 from .io.undoRedo import (
     addTableCommand, deleteTableCommand,
@@ -39,10 +38,10 @@ from .entities.edit_link import edit_link_show
 from .synthesis.DimensionalSynthesis.Path_Solving import Path_Solving_show
 #Solve
 from .calculation.planeSolving import slvsProcess
-#File & Example
+#File informations
 from .io.fileForm import File
-from .io import example
 '''
+from .io import example
 from .io.dxfType import dxfTypeSettings
 from .io.dxfForm.sketch import dxfSketch
 from .io.slvsType import slvsTypeSettings
@@ -73,7 +72,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Solve & DOF value.
         self.DOF = 0
         if self.args.r:
-            #TODO: Load workbook.
+            #TODO: Load blank workbook.
             pass
     
     #Adjust the canvas size after display.
@@ -232,9 +231,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookNoSave()
         else:
             self.workbookSaved()
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        if "Triangle Solver" in tabNameList:
-            self.panelWidget.widget(tabNameList.index("Triangle Solver")).setPoint(self.File.Lists.PointList)
         self.inputs_variable_autocheck()
         self.Resolve()
     
@@ -365,20 +361,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.endMacro()
     
     #TODO: Load workbook.
+    @pyqtSlot()
+    def on_action_Load_Workbook_triggered(self):
+        '''Read SQL data base.'''
     
-    #TODO: Save format.
+    #Save action.
     @pyqtSlot()
     def on_action_Save_triggered(self):
         fileName = self.File.fileName.absoluteFilePath()
-        suffix = QFileInfo(fileName).suffix()
-        '''self.save('' if suffix!='csv' and suffix!='xml' else fileName)'''
+        suffix = self.File.fileName.suffix()
+        if suffix=='pyslvs':
+            self.FileTable.save(fileName)
+        else:
+            self.on_action_Save_as_triggered()
     
-    #TODO: Save as function.
+    #Save as action.
     @pyqtSlot()
     def on_action_Save_as_triggered(self):
-        '''self.save()'''
-    
-    #TODO: Save function.
+        fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
+        if fileName:
+            self.FileTable.save(fileName)
     
     #TODO: Solvespace 2d save function.
     

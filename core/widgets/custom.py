@@ -26,6 +26,7 @@ from .table import (
     SelectionLabel
 )
 from .rotatable import RotatableView
+from .sqltable import FileTable
 
 def initCustomWidgets(self):
     #Version text
@@ -141,6 +142,9 @@ def initCustomWidgets(self):
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
     self.menu_Edit.insertAction(separator, self.action_Undo)
     self.menu_Edit.insertAction(separator, self.action_Redo)
+    #File table settings.
+    self.FileTable = FileTable(self)
+    self.SCMLayout.addWidget(self.FileTable)
     '''
     Entities_Point context menu
     

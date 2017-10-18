@@ -789,38 +789,29 @@
                 <attribute name="title">
                  <string>Version Control</string>
                 </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_5">
+                <layout class="QVBoxLayout" name="verticalLayout_18">
                  <item>
-                  <widget class="QLabel" name="label_9">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                     <horstretch>0</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="text">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Welcome to the &lt;span style=&quot; font-weight:600;&quot;&gt;Git version manager&lt;/span&gt;, where you can save your changes every time.&lt;/p&gt;&lt;p&gt;You can pull out the branch from the selected annotation, tag it, or go back to the edit history.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Git&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;What is Git?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="wordWrap">
-                    <bool>true</bool>
-                   </property>
-                   <property name="openExternalLinks">
-                    <bool>true</bool>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="verticalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Vertical</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>20</width>
-                     <height>650</height>
-                    </size>
-                   </property>
-                  </spacer>
+                  <layout class="QVBoxLayout" name="SCMLayout">
+                   <item>
+                    <widget class="QLabel" name="label_9">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Welcome to the &lt;span style=&quot; font-weight:600;&quot;&gt;Version configuration manager&lt;/span&gt;, where you can save your changes every time.&lt;/p&gt;&lt;p&gt;You can pull out the branch from the selected annotation, tag it, or go back to the edit history.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Git&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;What is Git?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="wordWrap">
+                      <bool>true</bool>
+                     </property>
+                     <property name="openExternalLinks">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </widget>
@@ -1397,11 +1388,9 @@
       <string>E&amp;xport</string>
      </property>
      <addaction name="SolvespaceMenuTitle"/>
-     <addaction name="action_Output_to_Solvespace"/>
      <addaction name="action_Solvespace_2D_sketch"/>
      <addaction name="separator"/>
      <addaction name="DXFMenuTitle"/>
-     <addaction name="action_DXF_2D_models"/>
      <addaction name="action_DXF_2D_sketch"/>
      <addaction name="separator"/>
      <addaction name="OtherFormatMenuTitle"/>
@@ -1480,9 +1469,6 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="action_New_Workbook">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/newfile.png</normaloff>:/icons/newfile.png</iconset>
@@ -1621,9 +1607,6 @@
    </property>
   </action>
   <action name="action_Save">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
@@ -1722,27 +1705,6 @@
     <string>F10</string>
    </property>
   </action>
-  <action name="action_Output_to_Solvespace">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;3D models</string>
-   </property>
-   <property name="toolTip">
-    <string>Solvespace 3D models</string>
-   </property>
-   <property name="statusTip">
-    <string>Output to Solvespace 3D models.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+3</string>
-   </property>
-  </action>
   <action name="action_DXF_2D_sketch">
    <property name="enabled">
     <bool>false</bool>
@@ -1777,9 +1739,6 @@
    </property>
   </action>
   <action name="action_Save_as">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
@@ -1821,24 +1780,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+2</string>
-   </property>
-  </action>
-  <action name="action_DXF_2D_models">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
-   </property>
-   <property name="text">
-    <string>2D models</string>
-   </property>
-   <property name="statusTip">
-    <string>Output to Drawing Exchange models.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="SolvespaceMenuTitle">
@@ -1893,9 +1834,6 @@
    </property>
   </action>
   <action name="action_Load_Workbook">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>

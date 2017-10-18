@@ -18,8 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-"""This part using PyQtChart module."""
-from PyQt5.QtChart import *
+"""This part is using PyQtChart module."""
 
 class dataChart(QChart):
     def __init__(self, Title, axisX, axisY, parent=None):
