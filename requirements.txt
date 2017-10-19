@@ -4,3 +4,4 @@ cython
 pyzmq
 openpyxl
 psutil
+peewee

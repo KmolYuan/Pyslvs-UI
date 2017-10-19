@@ -360,10 +360,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
             self.FileState.endMacro()
     
-    #TODO: Load workbook.
+    #Load workbook.
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
-        '''Read SQL data base.'''
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+        if fileName:
+            self.FileTable.read(fileName)
     
     #Save action.
     @pyqtSlot()
