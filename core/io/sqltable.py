@@ -22,7 +22,6 @@ import datetime
 from peewee import (
     SqliteDatabase,
     Model,
-    CharField,
     TextField,
     DateTimeField,
     ForeignKeyField
@@ -61,14 +60,27 @@ class Designs:
             self.path.insert(row+2, (self.path[row]['x'], self.path[row]['y']))
             del self.path[row]
 
-class WorkbookBase(Model):
-    #Field here.
-    author = CharField(unique=True)
-    description = TextField()
-    date = DateTimeField()
+def db_class(class_name, db):
+    class wrapper_class(class_name):
+        class Meta:
+            database = db
+    return wrapper_class
 
+#Workbook information
+class WorkbookBase(Model):
+    author = TextField()
+    description = TextField()
+    pathdata = TextField()
+    commit = ForeignKeyField(WorkbookBase, related_name='workbook')
+
+#Commit information
 class CommitBase(Model):
-    workbook = ForeignKeyField(WorkbookBase, related_name='commit')
+    #Hash ID
+    id = TextField(unique=True)
+    #Commit date
+    date = DateTimeField()
+    #Use diff parser
+    diff = TextField()
 
 class FileTable(QTableWidget):
     def __init__(self, parent):
@@ -97,12 +109,9 @@ class FileTable(QTableWidget):
         self.description = description
     
     def save(self, fileName):
-        '''
         db = SqliteDatabase(fileName)
-        class Workbook(WorkbookBase):
-            class Meta:
-                database = db
         db.connect()
+        Workbook = db_class(WorkbookBase, db)
         db.create_tables([Workbook], safe=True)
         with db.atomic():
             try:
@@ -110,16 +119,11 @@ class FileTable(QTableWidget):
             except:
                 db.rollback()
         db.close()
-        '''
     
     def read(self, fileName):
-        '''
         db = SqliteDatabase(fileName)
-        class Workbook(WorkbookBase):
-            class Meta:
-                database = db
         db.connect()
+        Workbook = db_class(WorkbookBase, db)
         db.create_tables([Workbook], safe=True)
         db.close()
         return
-        '''
