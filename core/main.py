@@ -38,8 +38,6 @@ from .entities.edit_link import edit_link_show
 from .synthesis.DimensionalSynthesis.Path_Solving import Path_Solving_show
 #Solve
 from .calculation.planeSolving import slvsProcess
-#File informations
-from .io.fileForm import File
 '''
 from .io import example
 from .io.dxfType import dxfTypeSettings
@@ -62,9 +60,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
-        #Set file informations.
+        #Undo Stack
         self.FileState = QUndoStack()
-        self.File = File(self.FileState, self.args)
         self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
         #Initialize custom UI.
         initCustomWidgets(self)
@@ -208,12 +205,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             event.accept()
     
     def checkFileChanged(self):
-        if self.File.changed:
+        if self.FileTable.changed:
             reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
                 self.on_action_Save_triggered()
-                if self.File.changed:
+                if self.FileTable.changed:
                     return True
                 else:
                     return False
@@ -227,7 +224,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def commandReload(self, index=0):
         self.action_Undo.setText("Undo - {}".format(self.FileState.undoText()))
         self.action_Redo.setText("Redo - {}".format(self.FileState.redoText()))
-        if index!=self.File.Stack:
+        if index!=self.FileTable.Stack:
             self.workbookNoSave()
         else:
             self.workbookSaved()
@@ -260,15 +257,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.File.pathData[pathIndex] if pathIndex>-1 else ())
+            self.FileTable.pathData[pathIndex] if pathIndex>-1 else ())
     
     #Workbook Change signal.
     def workbookNoSave(self):
-        self.File.changed = True
+        self.FileTable.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', '')+'*')
     def workbookSaved(self):
-        self.File.changed = False
-        self.setWindowTitle("Pyslvs - {}".format(self.File.fileName.fileName()))
+        self.FileTable.changed = False
+        self.setWindowTitle("Pyslvs - {}".format(self.FileTable.fileName.fileName()))
     
     #Open website: http://mde.tw
     @pyqtSlot()
@@ -370,8 +367,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Save action.
     @pyqtSlot()
     def on_action_Save_triggered(self):
-        fileName = self.File.fileName.absoluteFilePath()
-        suffix = self.File.fileName.suffix()
+        fileName = self.FileTable.fileName.absoluteFilePath()
+        suffix = self.FileTable.fileName.suffix()
         if suffix=='pyslvs':
             self.FileTable.save(fileName)
         else:
@@ -403,7 +400,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(self, "Save {}...".format(formatName),
-            self.Default_Environment_variables+'/'+self.File.fileName.baseName()+suffix0, ';;'.join(formatChoose))
+            self.Default_Environment_variables+'/'+self.FileTable.fileName.baseName()+suffix0, ';;'.join(formatChoose))
         if fileName:
             if QFileInfo(fileName).suffix()!=suffix0[1:]:
                 fileName = fileName+suffix0
@@ -449,23 +446,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #TODO: Output to Python script for Jupyterhub.
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
-        '''self.OpenDlg(Script_Dialog(self.File.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
+        '''self.OpenDlg(Script_Dialog(self.FileTable.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
     
     #Show property when workbook loaded.
     def showProperty(self, errorInfo):
-        dlg = fileInfo_show(self.File.fileName.fileName(), self.File.author, self.File.description,
-            self.File.lastTime, self.File.Designs.result, errorInfo, self)
+        dlg = fileInfo_show(self.FileTable.fileName.fileName(), self.FileTable.author, self.FileTable.description,
+            self.FileTable.lastTime, self.FileTable.Designs.result, errorInfo, self)
         dlg.show()
         dlg.exec_()
     
     #Show property.
     @pyqtSlot()
     def on_action_Property_triggered(self):
-        dlg = editFileInfo_show(self.File.fileName.fileName(), self.File.author, self.File.description,
-            self.File.lastTime, self.File.Designs.result, self)
+        dlg = editFileInfo_show(self.FileTable.fileName.fileName(), self.FileTable.author, self.FileTable.description,
+            self.FileTable.lastTime, self.FileTable.Designs.result, self)
         dlg.show()
         if dlg.exec_():
-            self.File.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
+            self.FileTable.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
             self.workbookNoSave()
     
     #Add point group using alt key.
@@ -909,7 +906,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     i += 1
                     name = "Record_{}".format(i)
             self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-            self.FileState.push(addPathCommand(self.inputs_record, name, self.File.pathData, path))
+            self.FileState.push(addPathCommand(self.inputs_record, name, self.FileTable.pathData, path))
             self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     
@@ -919,7 +916,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.inputs_record.currentRow()
         if row>-1:
             self.FileState.beginMacro("Delete {{Path: {}}}".format(self.inputs_record.item(row).text()))
-            self.FileState.push(deletePathCommand(row, self.inputs_record, self.File.pathData))
+            self.FileState.push(deletePathCommand(row, self.inputs_record, self.FileTable.pathData))
             self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
             self.Reload_Canvas()
@@ -927,7 +924,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #View path data.
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
-        data = self.File.pathData[self.inputs_record.row(item)]
+        data = self.FileTable.pathData[self.inputs_record.row(item)]
         reply = QMessageBox.question(self, "Path data",
             "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
             (QMessageBox.Save | QMessageBox.Close), QMessageBox.Close)
@@ -944,7 +941,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(QPoint)
     def on_inputs_record_context_menu(self, point):
-        data = self.File.pathData[self.inputs_record.currentRow()]
+        data = self.FileTable.pathData[self.inputs_record.currentRow()]
         for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
             self.popMenu_inputs_record.addAction(actionName)
         action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
@@ -962,8 +959,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.closePanel(tabNameList.index(self.DimensionalSynthesisGroupBox.title()))
         else:
             panel = Path_Solving_show(
-                self.File.Designs.path,
-                self.File.Designs.result,
+                self.FileTable.Designs.path,
+                self.FileTable.Designs.result,
                 self.Default_Environment_variables,
                 self.workbookNoSave,
                 self)
@@ -984,27 +981,27 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.PathSolving_add(x, y)
     @pyqtSlot(float, float)
     def PathSolving_add(self, x=0, y=0):
-        self.File.Designs.add(x, y)
-        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
+        self.FileTable.Designs.add(x, y)
+        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
     @pyqtSlot(int)
     def PathSolving_delete(self, row):
-        self.File.Designs.remove(row)
-        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
+        self.FileTable.Designs.remove(row)
+        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
     @pyqtSlot(int)
     def PathSolving_moveup(self, row):
-        self.File.Designs.moveUP(row)
-        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
+        self.FileTable.Designs.moveUP(row)
+        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
     @pyqtSlot(int)
     def PathSolving_movedown(self, row):
-        self.File.Designs.moveDown(row)
-        self.DynamicCanvasView.path_solving(tuple(self.File.Designs.path))
+        self.FileTable.Designs.moveDown(row)
+        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
     @pyqtSlot(int)
     def PathSolving_deleteResult(self, row):
-        self.File.Designs.removeResult(row)
+        self.FileTable.Designs.removeResult(row)
     @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
-        expression = self.File.Designs.result[row]['mechanismParams']['Expression'].split(',')
+        expression = self.FileTable.Designs.result[row]['mechanismParams']['Expression'].split(',')
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
@@ -1028,7 +1025,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             i += 1
             name = "Algorithm_{}".format(i)
         self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-        self.FileState.push(addPathCommand(self.inputs_record, name, self.File.pathData, Path))
+        self.FileState.push(addPathCommand(self.inputs_record, name, self.FileTable.pathData, Path))
         self.FileState.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     

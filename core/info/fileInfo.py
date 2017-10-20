@@ -29,7 +29,7 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
         self.setWindowTitle("About {} (Edit mode)".format(name))
         self.fileName.setText("File Name: {}".format(name))
         self.authorName_input.setText(author)
-        self.dateName.setText(lastTime)
+        self.dateName.setText("{t.year}/{t.month:02d}/{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=lastTime))
         self.descriptionText.setPlainText(description)
         if results:
             for result in results:

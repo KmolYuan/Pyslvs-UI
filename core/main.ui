@@ -76,7 +76,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QTabWidget" name="SynthesisPanel">
+          <widget class="QTabWidget" name="Panel">
            <property name="tabPosition">
             <enum>QTabWidget::West</enum>
            </property>
@@ -721,101 +721,59 @@
              <string>History</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout">
-             <property name="leftMargin">
-              <number>3</number>
-             </property>
-             <property name="topMargin">
-              <number>3</number>
-             </property>
-             <property name="rightMargin">
-              <number>3</number>
-             </property>
-             <property name="bottomMargin">
-              <number>3</number>
-             </property>
              <item>
-              <widget class="QTabWidget" name="History_tab">
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <widget class="QWidget" name="undo_and_redo_tab">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/undo.png</normaloff>:/icons/undo.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Undo and Redo</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_17">
-                 <property name="leftMargin">
-                  <number>6</number>
+              <layout class="QVBoxLayout" name="UndoRedoLayout">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
-                 <property name="topMargin">
-                  <number>6</number>
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This action list will build your mechanism from data base.&lt;/p&gt;&lt;p&gt;If you want to view the workbook history, please switch to the version control tab.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
-                 <property name="rightMargin">
-                  <number>6</number>
+                 <property name="wordWrap">
+                  <bool>true</bool>
                  </property>
-                 <property name="bottomMargin">
-                  <number>6</number>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="version_control_tab">
+            <attribute name="icon">
+             <iconset resource="../icons.qrc">
+              <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
+            </attribute>
+            <attribute name="title">
+             <string>Version Control</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <layout class="QVBoxLayout" name="SCMLayout">
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
-                 <item>
-                  <layout class="QVBoxLayout" name="UndoRedoLayout">
-                   <item>
-                    <widget class="QLabel" name="label_8">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This action list will build your mechanism from data base.&lt;/p&gt;&lt;p&gt;If you want to view the workbook history, please switch to the version control tab.&lt;/p&gt;&lt;p&gt;You can backtracking commands by clicking them below.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="version_control_tab">
-                <attribute name="icon">
-                 <iconset resource="../icons.qrc">
-                  <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
-                </attribute>
-                <attribute name="title">
-                 <string>Version Control</string>
-                </attribute>
-                <layout class="QVBoxLayout" name="verticalLayout_18">
-                 <item>
-                  <layout class="QVBoxLayout" name="SCMLayout">
-                   <item>
-                    <widget class="QLabel" name="label_9">
-                     <property name="sizePolicy">
-                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                       <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
-                      </sizepolicy>
-                     </property>
-                     <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Welcome to the &lt;span style=&quot; font-weight:600;&quot;&gt;Version configuration manager&lt;/span&gt;, where you can save your changes every time.&lt;/p&gt;&lt;p&gt;You can pull out the branch from the selected annotation, tag it, or go back to the edit history.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Git&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;What is Git?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                     </property>
-                     <property name="wordWrap">
-                      <bool>true</bool>
-                     </property>
-                     <property name="openExternalLinks">
-                      <bool>true</bool>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                </layout>
-               </widget>
-              </widget>
+                 <property name="text">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Welcome to the &lt;span style=&quot; font-weight:600;&quot;&gt;Version configuration manager&lt;/span&gt;, where you can save your changes every time.&lt;/p&gt;&lt;p&gt;You can pull out the branch from the selected annotation, tag it, or go back to the edit history.&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;https://en.wikipedia.org/wiki/Git&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#2980b9;&quot;&gt;What is Git?&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="wordWrap">
+                  <bool>true</bool>
+                 </property>
+                 <property name="openExternalLinks">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -1609,10 +1567,10 @@
   <action name="action_Save">
    <property name="icon">
     <iconset resource="../icons.qrc">
-     <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
    </property>
    <property name="text">
-    <string>&amp;Save</string>
+    <string>Commit and &amp;Save</string>
    </property>
    <property name="toolTip">
     <string>Save</string>

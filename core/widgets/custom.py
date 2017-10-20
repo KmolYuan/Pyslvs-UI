@@ -26,7 +26,7 @@ from .table import (
     SelectionLabel
 )
 from .rotatable import RotatableView
-from .sqltable import FileTable
+from ..io.sqltable import FileTable
 
 def initCustomWidgets(self):
     #Version text
