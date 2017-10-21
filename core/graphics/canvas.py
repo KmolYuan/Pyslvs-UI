@@ -101,9 +101,9 @@ class BaseCanvas(QWidget):
         self.painter.setPen(pen)
         if fix:
             bottom = y + 20
-            width = bottom / 2
+            width = 10
             self.painter.drawPolygon(QPointF(x, y), QPointF(x - width, bottom), QPointF(x + width, bottom))
-            self.painter.drawEllipse(QPointF(x, y), 10., 10.)
+            self.painter.drawEllipse(QPointF(x, y), width, width)
         else:
             self.painter.drawEllipse(QPointF(x, y), 5., 5.)
         if self.showPointMark:
