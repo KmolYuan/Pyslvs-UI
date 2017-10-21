@@ -203,7 +203,7 @@ class PointTableWidget(BaseTableWidget):
                 mimeData = QMimeData()
                 mimeData.setText(';'.join([str(e) for e in selectedRows]))
                 drag.setMimeData(mimeData)
-                drag.setPixmap(QPixmap(":/icons/tooltips/needbearings.png").scaledToWidth(50))
+                drag.setPixmap(QPixmap(":/icons/bearing.png").scaledToWidth(30))
                 drag.exec_()
 
 class LinkTableWidget(BaseTableWidget):

@@ -18,6 +18,5 @@
     <!--Tool tip preview pictures-->
     <file>icons/tooltips/DimensionalSynthesis.png</file>
     <file>icons/tooltips/DriveShaft.png</file>
-    <file>icons/tooltips/needbearings.png</file>
     </qresource>
 </RCC>
