@@ -51,13 +51,10 @@ class CommitBase(Model):
     date = DateTimeField()
     #Use Lark parser
     mechanism = TextField()
-
-#Workbook information
-class WorkbookBase(Model):
+    #Workbook information
     author = TextField()
     description = TextField()
     pathdata = TextField()
-    commit = ForeignKeyField(CommitBase, related_name='workbook')
 
 #Algorithm results. This section does NOT support version management.
 class AlgorithmBase(Model):
@@ -127,8 +124,8 @@ class FileTable(QTableWidget):
     def save(self, fileName):
         db = SqliteDatabase(fileName)
         db.connect()
-        Workbook = db_class(WorkbookBase, db)
-        db.create_tables([Workbook], safe=True)
+        Commit = db_class(CommitBase, db)
+        db.create_tables([Commit], safe=True)
         with db.atomic():
             try:
                 db.save()
@@ -139,7 +136,7 @@ class FileTable(QTableWidget):
     def read(self, fileName):
         db = SqliteDatabase(fileName)
         db.connect()
-        Workbook = db_class(WorkbookBase, db)
-        db.create_tables([Workbook], safe=True)
+        Commit = db_class(CommitBase, db)
+        db.create_tables([Commit], safe=True)
         db.close()
         return
