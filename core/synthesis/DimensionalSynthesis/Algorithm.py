@@ -18,14 +18,14 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from .Ui_Path_Solving import Ui_Form as PathSolving_Form
+from .Ui_Algorithm import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
-from ...graphics.Path_Solving_preview import PreviewDialog
+from ...graphics.Algorithm_preview import PreviewDialog
 from ...kernel.pyslvs_algorithm.TS import solver, Direction
-from .Path_Solving_options import Path_Solving_options_show
-from .Path_Solving_path_adjust import Path_Solving_path_adjust_show
-from .Path_Solving_progress import Path_Solving_progress_show
-from .Path_Solving_series import Path_Solving_series_show
+from .Algorithm_options import Algorithm_options_show
+from .Algorithm_path_adjust import Algorithm_path_adjust_show
+from .Algorithm_progress import Algorithm_progress_show
+from .Algorithm_series import Algorithm_series_show
 import csv
 import openpyxl
 import re
@@ -69,7 +69,7 @@ class progress_systemTrayIcon(QSystemTrayIcon):
                 if self.dlg:
                     self.dlg.showMinimized()
 
-class Path_Solving_show(QWidget, PathSolving_Form):
+class Algorithm_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
     addPathPoint = pyqtSignal(float, float)
     deletePathPoint = pyqtSignal(int)
@@ -107,7 +107,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
     def __init__(self, path, mechanism_data, env, unsave_func, parent=None):
-        super(Path_Solving_show, self).__init__(parent)
+        super(Algorithm_show, self).__init__(parent)
         self.setupUi(self)
         #System Tray Icon Menu
         self.trayIcon = progress_systemTrayIcon(parent)
@@ -147,7 +147,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_series_clicked(self):
-        dlg = Path_Solving_series_show(self)
+        dlg = Algorithm_series_show(self)
         dlg.show()
         if dlg.exec_():
             for e in dlg.path:
@@ -206,7 +206,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_pathAdjust_clicked(self):
-        dlg = Path_Solving_path_adjust_show(self.path)
+        dlg = Algorithm_path_adjust_show(self.path)
         dlg.show()
         if dlg.exec_():
             self.on_clearAll_clicked()
@@ -272,7 +272,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     def startAlgorithm(self, hasPort=False):
         self.trayIcon.show()
         type_num, mechanismParams, generateData = self.getGenerate()
-        dlg = Path_Solving_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
+        dlg = Algorithm_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
             PORT=self.portText.text() if hasPort else None, parent=self.parent())
         self.trayIcon.setDialog(dlg)
         dlg.show()
@@ -455,7 +455,7 @@ class Path_Solving_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_advanceButton_clicked(self):
         type_num = "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution"
-        dlg = Path_Solving_options_show(type_num, self.Settings)
+        dlg = Algorithm_options_show(type_num, self.Settings)
         dlg.show()
         if dlg.exec_():
             tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-10-20, 13:06:23 -->
+<!-- Saved: 2017-10-21, 13:29:44 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -24,9 +24,9 @@
     <Source>core/entities/__init__.py</Source>
     <Source>core/entities/edit_link.py</Source>
     <Source>core/entities/edit_point.py</Source>
+    <Source>core/graphics/Algorithm_preview.py</Source>
     <Source>core/graphics/ChartGraphics.py</Source>
-    <Source>core/graphics/Path_Solving_preview.py</Source>
-    <Source>core/graphics/Ui_Path_Solving_preview.py</Source>
+    <Source>core/graphics/Ui_Algorithm_preview.py</Source>
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas.py</Source>
     <Source>core/graphics/color.py</Source>
@@ -39,19 +39,12 @@
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/Ui_slvsType.py</Source>
     <Source>core/io/__init__.py</Source>
-    <Source>core/io/dxfForm/model.py</Source>
-    <Source>core/io/dxfForm/sketch.py</Source>
     <Source>core/io/dxfType.py</Source>
     <Source>core/io/elements.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/loggingHandler.py</Source>
     <Source>core/io/script.py</Source>
     <Source>core/io/scriptType.py</Source>
-    <Source>core/io/slvsForm/__init__.py</Source>
-    <Source>core/io/slvsForm/assembly.py</Source>
-    <Source>core/io/slvsForm/chain.py</Source>
-    <Source>core/io/slvsForm/link.py</Source>
-    <Source>core/io/slvsForm/sketch.py</Source>
     <Source>core/io/slvsType.py</Source>
     <Source>core/io/sqltable.py</Source>
     <Source>core/io/undoRedo.py</Source>
@@ -70,16 +63,16 @@
     <Source>core/server/firefly.py</Source>
     <Source>core/server/rga.py</Source>
     <Source>core/server/zmq_rep.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Path_Solving.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Path_Solving_options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Path_Solving_path_adjust.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Path_Solving_progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Path_Solving_series.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_Path_Solving.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_Path_Solving_options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_Path_Solving_path_adjust.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_Path_Solving_progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_Path_Solving_series.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm_options.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm_path_adjust.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm_progress.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm_series.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_options.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_path_adjust.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_progress.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/__init__.py</Source>
@@ -94,18 +87,18 @@
   <Forms>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
-    <Form>core/graphics/Path_Solving_preview.ui</Form>
+    <Form>core/graphics/Algorithm_preview.ui</Form>
     <Form>core/info/about.ui</Form>
     <Form>core/info/fileInfo.ui</Form>
     <Form>core/io/dxfType.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
     <Form>core/main.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/Path_Solving.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_options.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_path_adjust.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_progress.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/Path_Solving_series.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Algorithm_options.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Algorithm_path_adjust.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Algorithm_progress.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Algorithm_series.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

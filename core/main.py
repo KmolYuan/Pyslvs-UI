@@ -35,13 +35,12 @@ from .io.undoRedo import (
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 #Tools
-from .synthesis.DimensionalSynthesis.Path_Solving import Path_Solving_show
+from .synthesis.DimensionalSynthesis.Algorithm import Algorithm_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 '''
 from .io import example
 from .io.dxfType import dxfTypeSettings
-from .io.dxfForm.sketch import dxfSketch
 from .io.slvsType import slvsTypeSettings
 from .io.slvsForm.sketch import slvs2D
 '''
@@ -958,7 +957,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.DimensionalSynthesisGroupBox.title() in tabNameList:
             self.closePanel(tabNameList.index(self.DimensionalSynthesisGroupBox.title()))
         else:
-            panel = Path_Solving_show(
+            panel = Algorithm_show(
                 self.FileTable.Designs.path,
                 self.FileTable.Designs.result,
                 self.Default_Environment_variables,

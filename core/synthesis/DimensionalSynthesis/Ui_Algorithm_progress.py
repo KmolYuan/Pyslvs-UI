@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Path_Solving_progress.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/panel/DimensionalSynthesis/Algorithm_progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #

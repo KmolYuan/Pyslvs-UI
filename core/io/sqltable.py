@@ -66,22 +66,27 @@ def db_class(class_name, db):
             database = db
     return wrapper_class
 
-#Workbook information
-class WorkbookBase(Model):
-    author = TextField()
-    description = TextField()
-    pathdata = TextField()
-    commit = ForeignKeyField(WorkbookBase, related_name='workbook')
-
 #Commit information
 class CommitBase(Model):
     #Hash ID
     id = TextField(unique=True)
     #Commit date
     date = DateTimeField()
-    #Use diff parser
-    diff = TextField()
+    #Use Lark parser
+    mechanism = TextField()
 
+#Workbook information
+class WorkbookBase(Model):
+    author = TextField()
+    description = TextField()
+    pathdata = TextField()
+    commit = ForeignKeyField(CommitBase, related_name='workbook')
+
+#Algorithm results. This section does not support version management.
+class AlgorithmBase(Model):
+    pass
+
+#The table that stored workbook data, including IO functions.
 class FileTable(QTableWidget):
     def __init__(self, parent):
         super(FileTable, self).__init__(parent)

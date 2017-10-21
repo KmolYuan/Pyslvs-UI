@@ -19,13 +19,13 @@
 
 from ...QtModules import *
 from math import sin, cos, pi
-from .Ui_Path_Solving_series import Ui_Dialog as PathSolvingSeries_Dialog
+from .Ui_Algorithm_series import Ui_Dialog as PathSolvingSeries_Dialog
 
-class Path_Solving_series_show(QDialog, PathSolvingSeries_Dialog):
+class Algorithm_series_show(QDialog, PathSolvingSeries_Dialog):
     FORMULA = [lambda x, k, c: k*x+c, lambda x, k, c: k*x**2+c,
         lambda x, k, c: k*cos(x/180*pi)+c, lambda x, k, c: k*sin(x/180*pi)+c]
     def __init__(self, parent=None):
-        super(Path_Solving_series_show, self).__init__(parent)
+        super(Algorithm_series_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
     

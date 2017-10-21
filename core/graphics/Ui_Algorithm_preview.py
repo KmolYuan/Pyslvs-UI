@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/graphics/Path_Solving_preview.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/graphics/Algorithm_preview.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #

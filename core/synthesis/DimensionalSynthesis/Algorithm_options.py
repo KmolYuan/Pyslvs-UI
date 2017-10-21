@@ -18,12 +18,12 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from .Ui_Path_Solving_options import Ui_Dialog
+from .Ui_Algorithm_options import Ui_Dialog
 from ...info.info import html
 
-class Path_Solving_options_show(QDialog, Ui_Dialog):
+class Algorithm_options_show(QDialog, Ui_Dialog):
     def __init__(self, algorithm, settings, parent=None):
-        super(Path_Solving_options_show, self).__init__(parent)
+        super(Algorithm_options_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.tabWidget.setTabText(1, algorithm)
