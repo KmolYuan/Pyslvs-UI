@@ -28,37 +28,11 @@ from peewee import (
 )
 
 class Designs:
-    __slots__ = ('path', 'result', 'TSDirections')
+    __slots__ = ('path', 'result')
     
     def __init__(self):
         self.path = []
         self.result = []
-        self.TSDirections = []
-    
-    def setPath(self, path):
-        self.path = path
-    
-    def addResult(self, result):
-        self.result = result
-    
-    def add(self, x, y):
-        self.path.append((x, y))
-    
-    def remove(self, pos):
-        del self.path[pos]
-    
-    def removeResult(self, pos):
-        del self.result[pos]
-    
-    def moveUP(self, row):
-        if row>0 and len(self.path)>1:
-            self.path.insert(row-1, (self.path[row]['x'], self.path[row]['y']))
-            del self.path[row+1]
-    
-    def moveDown(self, row):
-        if row<len(self.path)-1 and len(self.path)>1:
-            self.path.insert(row+2, (self.path[row]['x'], self.path[row]['y']))
-            del self.path[row]
 
 def db_class(class_name, db):
     class wrapper_class(class_name):

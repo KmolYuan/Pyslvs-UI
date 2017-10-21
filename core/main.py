@@ -964,39 +964,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.workbookNoSave,
                 self)
             panel.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
-            panel.addPathPoint.connect(self.PathSolving_add)
-            panel.deletePathPoint.connect(self.PathSolving_delete)
-            panel.moveupPathPoint.connect(self.PathSolving_moveup)
-            panel.movedownPathPoint.connect(self.PathSolving_movedown)
+            panel.pathChanged.connect(self.DynamicCanvasView.path_solving)
             panel.mergeResult.connect(self.PathSolving_mergeResult)
             self.panelWidget.addTab(panel, self.DimensionalSynthesis.icon(), self.DimensionalSynthesisGroupBox.title())
             self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
         self.Reload_Canvas()
+    
     def PathSolving_add_rightClick(self):
         x = self.mouse_pos_x
         y = self.mouse_pos_y
         tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
         self.panelWidget.widget(tabNameList.index(self.DimensionalSynthesisGroupBox.title())).addPath(x, y)
-        self.PathSolving_add(x, y)
-    @pyqtSlot(float, float)
-    def PathSolving_add(self, x=0, y=0):
-        self.FileTable.Designs.add(x, y)
-        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
-    @pyqtSlot(int)
-    def PathSolving_delete(self, row):
-        self.FileTable.Designs.remove(row)
-        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
-    @pyqtSlot(int)
-    def PathSolving_moveup(self, row):
-        self.FileTable.Designs.moveUP(row)
-        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
-    @pyqtSlot(int)
-    def PathSolving_movedown(self, row):
-        self.FileTable.Designs.moveDown(row)
-        self.DynamicCanvasView.path_solving(tuple(self.FileTable.Designs.path))
-    @pyqtSlot(int)
-    def PathSolving_deleteResult(self, row):
-        self.FileTable.Designs.removeResult(row)
+        self.FileTable.Designs.path.append((x, y))
+        self.DynamicCanvasView.path_solving
+    
     @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))

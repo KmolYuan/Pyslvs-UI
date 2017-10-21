@@ -28,7 +28,7 @@ from .Algorithm_progress import Algorithm_progress_show
 from .Algorithm_series import Algorithm_series_show
 import csv
 import openpyxl
-import re
+from re import split as charSplit
 import platform
 
 #SystemTrayIcon
@@ -71,10 +71,7 @@ class progress_systemTrayIcon(QSystemTrayIcon):
 
 class Algorithm_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
-    addPathPoint = pyqtSignal(float, float)
-    deletePathPoint = pyqtSignal(int)
-    moveupPathPoint = pyqtSignal(int)
-    movedownPathPoint = pyqtSignal(int)
+    pathChanged = pyqtSignal(tuple)
     mergeResult = pyqtSignal(int, tuple, tuple)
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
@@ -157,7 +154,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         action = self.popMenu_list.exec_(self.Point_list.mapToGlobal(point))
         if action==self.action_paste_from_clipboard:
             data = QApplication.clipboard().text()
-            data = re.split(",|\n", data)
+            data = charSplit(",|\n", data)
             self.readPathFromCSV(data)
     
     @pyqtSlot()
@@ -188,6 +185,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
             wb = openpyxl.load_workbook(fileName)
             ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
             data = []
+            #Keep finding until there is no value.
             i = 1
             while True:
                 x = ws.cell(row=i, column=1).value
@@ -215,41 +213,47 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
-        n = self.Point_list.currentRow()
-        if n>0 and self.Point_list.count()>1:
-            self.moveupPathPoint.emit(n)
-            x = self.Point_list.currentItem().text()[1:-1].split(', ')[0]
-            y = self.Point_list.currentItem().text()[1:-1].split(', ')[1]
-            self.Point_list.insertItem(n-1, '({}, {})'.format(x, y))
-            self.Point_list.takeItem(n+1)
-            self.Point_list.setCurrentRow(n-1)
+        row = self.Point_list.currentRow()
+        if row > 0 and self.Point_list.count() > 1:
+            self.path.insert(row-1, (self.path[row][0], self.path[row][1]))
+            del self.path[row+1]
+            self.pathChanged.emit(tuple(self.path))
+            x = self.Point_list.currentItem().text()[1:-1].split(", ")[0]
+            y = self.Point_list.currentItem().text()[1:-1].split(", ")[1]
+            self.Point_list.insertItem(row-1, "({}, {})".format(x, y))
+            self.Point_list.takeItem(row+1)
+            self.Point_list.setCurrentRow(row-1)
     
     @pyqtSlot()
     def on_moveDown_clicked(self):
-        n = self.Point_list.currentRow()
-        if n<self.Point_list.count()-1 and self.Point_list.count()>1:
-            self.movedownPathPoint.emit(n)
-            c = self.Point_list.currentItem().text()[1:-1].split(', ')
-            self.Point_list.insertItem(n+2, "({}, {})".format(c[0], c[1]))
-            self.Point_list.takeItem(n)
-            self.Point_list.setCurrentRow(n+1)
+        row = self.Point_list.currentRow()
+        if row < self.Point_list.count()-1 and self.Point_list.count() > 1:
+            self.path.insert(row+2, (self.path[row][0], self.path[row][1]))
+            del self.path[row]
+            self.pathChanged.emit(tuple(self.path))
+            c = self.Point_list.currentItem().text()[1:-1].split(", ")
+            self.Point_list.insertItem(row+2, "({}, {})".format(c[0], c[1]))
+            self.Point_list.takeItem(row)
+            self.Point_list.setCurrentRow(row+1)
     
     def addPath(self, x, y):
         self.Point_list.addItem('({}, {})'.format(x, y))
         self.isGenerate()
     
     @pyqtSlot()
-    def on_add_clicked(self, x=False, y=False):
-        if x is False:
+    def on_add_clicked(self, x=None, y=None):
+        if x is None:
             x = self.X_coordinate.value()
             y = self.Y_coordinate.value()
-        self.addPathPoint.emit(x, y)
+        self.path.append((x, y))
+        self.pathChanged.emit(tuple(self.path))
         self.Point_list.addItem("({}, {})".format(x, y))
         self.isGenerate()
     @pyqtSlot()
     def on_remove_clicked(self):
         if self.Point_list.currentRow()>-1:
-            self.deletePathPoint.emit(self.Point_list.currentRow())
+            del self.path[self.Point_list.currentRow()]
+            self.pathChanged.emit(tuple(self.path))
             self.Point_list.takeItem(self.Point_list.currentRow())
             self.isGenerate()
     

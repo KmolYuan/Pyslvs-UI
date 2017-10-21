@@ -19,7 +19,7 @@
 
 from ..QtModules import *
 from math import sqrt
-from typing import List
+from typing import List, Tuple
 from heapq import nsmallest
 from .color import colorQt
 
@@ -195,7 +195,7 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = pointsSelection
         self.update()
     
-    def path_solving(self, slvsPath):
+    def path_solving(self, slvsPath: Tuple[Tuple[float, float]]):
         self.slvsPath = slvsPath
         self.update()
     
