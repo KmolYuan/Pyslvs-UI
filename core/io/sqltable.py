@@ -23,6 +23,9 @@ from peewee import (
     SqliteDatabase,
     Model,
     TextField,
+    BooleanField,
+    IntegerField,
+    FloatField,
     DateTimeField,
     ForeignKeyField
 )
@@ -40,7 +43,7 @@ def db_class(class_name, db):
             database = db
     return wrapper_class
 
-#Commit information
+#Commit data: Mechanism and Workbook information.
 class CommitBase(Model):
     #Hash ID
     id = TextField(unique=True)
@@ -56,9 +59,33 @@ class WorkbookBase(Model):
     pathdata = TextField()
     commit = ForeignKeyField(CommitBase, related_name='workbook')
 
-#Algorithm results. This section does not support version management.
+#Algorithm results. This section does NOT support version management.
 class AlgorithmBase(Model):
-    pass
+    #Hardware information
+    network = BooleanField()
+    cpu = TextField()
+    os = TextField()
+    memory = TextField()
+    #Results: Links = "8.5607,5.7183,..."(L0,L1,...)
+    Algorithm = TextField()
+    type = TextField() #8Bar / 4Bar
+    time = FloatField()
+    interrupted = BooleanField()
+    Ax = FloatField()
+    Ay = FloatField()
+    Dx = FloatField()
+    Dy = FloatField()
+    Links = TextField()
+    #TimeAndFitness: "generation,fitness,time;..."
+    TimeAndFitness = TextField()
+    #generateData: upper/lower = "50.0,50.0,..."
+    upper = TextField()
+    lower = TextField()
+    nParm = IntegerField()
+    maxGen = IntegerField()
+    report = IntegerField()
+    #algorithmPrams: "CR:0.9,NP:400,..."
+    algorithmPrams = TextField()
 
 #The table that stored workbook data, including IO functions.
 class FileTable(QTableWidget):

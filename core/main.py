@@ -981,7 +981,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
-        print(self.FileTable.Designs.result[row])
         expression = self.FileTable.Designs.result[row]['mechanismParams']['Expression'].split(',')
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
