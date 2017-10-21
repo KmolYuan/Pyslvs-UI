@@ -40,13 +40,22 @@ class VPoint:
         links = self.__links.split(',')
         return tuple(filter(lambda a: a!='', links))
     
+    def setLinks(self, links: str):
+        self.__links = links
+    
     @property
     def type(self) -> int:
         return self.__type
     
+    def setType(self, type: int):
+        self.__type = type
+    
     @property
     def angle(self) -> float:
         return self.__angle
+    
+    def setAngle(self, angle: float):
+        self.__angle = angle
     
     @property
     def color(self) -> 'QColor':
@@ -56,6 +65,9 @@ class VPoint:
     def colorSTR(self) -> str:
         return self.__color
     
+    def setColor(self, color: str):
+        self.__color = color
+    
     @property
     def x(self) -> float:
         return self.__x
@@ -63,6 +75,10 @@ class VPoint:
     @property
     def y(self) -> float:
         return self.__y
+    
+    def setCoordinate(self, x: float, y: float):
+        self.__x = x
+        self.__y = y
     
     @property
     def cx(self) -> float:
@@ -113,6 +129,9 @@ class VLink:
     def name(self) -> str:
         return self.__name
     
+    def setName(self, name: str):
+        self.__name = name
+    
     @property
     def color(self) -> 'QColor':
         return colorQt(self.__color)
@@ -121,9 +140,15 @@ class VLink:
     def colorSTR(self) -> str:
         return self.__color
     
+    def setColor(self, color: str):
+        self.__color = color
+    
     @property
     def points(self) -> Tuple[int]:
         return self.__points
+    
+    def setPoints(self, points: Tuple[int]):
+        self.__points = points
     
     def set(self, name, color, points):
         self.__name = name

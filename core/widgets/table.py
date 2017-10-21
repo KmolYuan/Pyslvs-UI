@@ -77,9 +77,8 @@ class PointTableWidget(BaseTableWidget):
         self.draged = False
     
     #Get the digitization of all table data.
-    def data(self) -> Tuple[VPoint]:
-        data = []
-        for row in range(self.rowCount()):
+    def data(self, index=-1) -> Tuple[VPoint]:
+        def get(row):
             Links = self.item(row, 1).text()
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
@@ -99,8 +98,14 @@ class PointTableWidget(BaseTableWidget):
                     Type = 2
             v = VPoint(Links, Type, angle, color, x, y)
             v.move(*self.currentPosition(row))
-            data.append(v)
-        return tuple(data)
+            return v
+        if index==-1:
+            data = []
+            for row in range(self.rowCount()):
+                data.append(get(row))
+            return tuple(data)
+        else:
+            return get(index)
     
     #Edite a point.
     def editArgs(self,
