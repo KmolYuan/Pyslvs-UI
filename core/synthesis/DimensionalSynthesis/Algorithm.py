@@ -318,7 +318,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     def addResult(self, result):
         item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']))
-        interrupt = result['interruptedGeneration']
+        interrupt = result['interrupted']
         if interrupt=='False':
             item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
         elif interrupt=='N/A':
@@ -365,11 +365,11 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def legal_crank(self):
         row = self.Result_list.currentRow()
         Result = self.mechanism_data[row]
-        path = Result['mechanismParams']['targetPath']
+        path = Result['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         answer = [False]
-        expression = Result['mechanismParams']['Expression'].split(',')
+        expression = (self.mechanismParams_8Bar if Result['type']=='8Bar' else self.mechanismParams_4Bar)['Expression'].split(',')
         '''
         expression_tag
         four_bar = (
@@ -424,7 +424,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 self.type1.setChecked(True)
             elif keys==set(self.DifferentialPrams.keys()):
                 self.type2.setChecked(True)
-            if args['mechanismParams']['Link']=='L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10':
+            if args['type']=='8Bar':
                 self.EightBar.setChecked(True)
             else:
                 self.FourBar.setChecked(True)
@@ -444,7 +444,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 'AMax':generateData['upper'][-1], 'AMin':generateData['lower'][-1]}
             self.Settings['algorithmPrams'] = args['algorithmPrams']
             self.on_clearAll_clicked()
-            for e in args['mechanismParams']['targetPath']:
+            for e in args['targetPath']:
                 self.on_add_clicked(e[0], e[1])
     
     def algorithmPrams_default(self):

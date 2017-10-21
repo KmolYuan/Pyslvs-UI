@@ -71,8 +71,9 @@ class WorkerThread(QThread):
                 'time':time_spand,
                 'Ax':FP[0], 'Ay':FP[1],
                 'Dx':FP[2], 'Dy':FP[3],
-                'interruptedGeneration':str(TnF[-1][0]) if self.stoped else 'False',
-                'mechanismParams':self.mechanismParams,
+                'targetPath':self.mechanismParams['targetPath'],
+                'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
+                'type':'8Bar' if self.mechanismParams['Link']=='L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10' else '4Bar',
                 'generateData':self.generateData,
                 'algorithmPrams':self.algorithmPrams,
                 'hardwareInfo':{

@@ -34,7 +34,7 @@ class editFileInfo_show(QDialog, Ui_Info_Dialog):
         if results:
             for result in results:
                 item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']))
-                interrupt = result['interruptedGeneration']
+                interrupt = result['interrupted']
                 if interrupt=='False':
                     item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
                 elif interrupt=='N/A':

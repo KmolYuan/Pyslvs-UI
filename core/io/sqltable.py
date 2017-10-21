@@ -66,7 +66,11 @@ class AlgorithmBase(Model):
     cpu = TextField()
     os = TextField()
     memory = TextField()
-    #Results: Links = "8.5607,5.7183,..."(L0,L1,...)
+    '''
+    Results
+    
+    Links = "8.5607,5.7183,..."(L0,L1,...)
+    '''
     Algorithm = TextField()
     type = TextField() #8Bar / 4Bar
     time = FloatField()
@@ -76,15 +80,21 @@ class AlgorithmBase(Model):
     Dx = FloatField()
     Dy = FloatField()
     Links = TextField()
-    #TimeAndFitness: "generation,fitness,time;..."
+    #TimeAndFitness = "generation,fitness,time;..."
     TimeAndFitness = TextField()
-    #generateData: upper/lower = "50.0,50.0,..."
+    '''
+    generateData
+    
+    targetPath = "0.0,0.0;1.0,1.0;..."
+    upper/lower = "50.0,50.0,..."
+    '''
+    targetPath = TextField()
     upper = TextField()
     lower = TextField()
     nParm = IntegerField()
     maxGen = IntegerField()
     report = IntegerField()
-    #algorithmPrams: "CR:0.9,NP:400,..."
+    #algorithmPrams = "CR:0.9,NP:400,..."
     algorithmPrams = TextField()
 
 #The table that stored workbook data, including IO functions.
