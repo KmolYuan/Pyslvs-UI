@@ -196,7 +196,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             if self.inputs_playShaft.isActive():
                 self.inputs_playShaft.stop()
-            self.disconnectConsole()
+            XStream.back()
             self.setAttribute(Qt.WA_DeleteOnClose)
             print("Exit.")
             event.accept()
@@ -991,16 +991,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def pointSelection(self):
         self.DynamicCanvasView.changePointsSelection(self.Entities_Point.selectedRows())
     
-    def connectConsole(self):
-        XStream.stdout().messageWritten.connect(self.appendToConsole)
-        XStream.stderr().messageWritten.connect(self.appendToConsole)
-    def disconnectConsole(self):
-        XStream.back()
-    
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):
         print("Connect to GUI console.")
-        self.connectConsole()
+        XStream.stdout().messageWritten.connect(self.appendToConsole)
+        XStream.stderr().messageWritten.connect(self.appendToConsole)
         self.connectConsoleButton.setEnabled(False)
         self.disconnectConsoleButton.setEnabled(True)
         print("Connect to GUI console.")
@@ -1008,7 +1003,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_disconnectConsoleButton_clicked(self):
         print("Disconnect from GUI console.")
-        self.disconnectConsole()
+        XStream.back()
         self.connectConsoleButton.setEnabled(True)
         self.disconnectConsoleButton.setEnabled(False)
         print("Disconnect from GUI console.")

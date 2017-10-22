@@ -44,29 +44,20 @@ class DynamicCanvas(BaseCanvas):
         timer.start()
     
     def paintEvent(self, event):
-        super(DynamicCanvas, self).paintEvent(event)
         width = self.width()
         height = self.height()
         Comparator = lambda fun, i: fun(fun(path[i] for path in point if path) for point in self.Path.path if point)
-        pathMaxX = max(Comparator(max, 0), self.mechanism['Ax'], self.mechanism['Dx'])
-        pathMinX = min(Comparator(min, 0), self.mechanism['Ax'], self.mechanism['Dx'])
-        pathMaxY = max(Comparator(max, 1), self.mechanism['Ay'], self.mechanism['Dy'])
-        pathMinY = min(Comparator(min, 1), self.mechanism['Ay'], self.mechanism['Dy'])
-        diffX = pathMaxX - pathMinX
-        diffY = pathMaxY - pathMinY
-        cdiff = diffX/diffY > width/height
-        self.zoom = (width if cdiff else height)/(diffX if cdiff else diffY)*0.47*self.rate
-        cenx = (min(min(self.mechanism['Ax'], self.mechanism['Dx']), pathMinX)+max(max(self.mechanism['Ax'], self.mechanism['Dx']), pathMaxX))/2
-        ceny = (min(min(self.mechanism['Ay'], self.mechanism['Dy']), pathMinY)+max(max(self.mechanism['Ay'], self.mechanism['Dy']), pathMaxY))/2
-        ox = self.width()/2-cenx*self.zoom
-        oy = self.height()/2+ceny*self.zoom
-        self.painter.translate(self.width()/2-cenx*self.zoom, self.height()/2+ceny*self.zoom)
-        #Draw origin lines.
-        pen = QPen(Qt.gray)
-        pen.setWidth(1)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(-ox, 0), QPointF(self.width()-ox, 0))
-        self.painter.drawLine(QPointF(0, -oy), QPointF(0, self.height()-oy))
+        maxX = max(Comparator(max, 0), self.mechanism['Ax'], self.mechanism['Dx'])
+        minX = min(Comparator(min, 0), self.mechanism['Ax'], self.mechanism['Dx'])
+        maxY = max(Comparator(max, 1), self.mechanism['Ay'], self.mechanism['Dy'])
+        minY = min(Comparator(min, 1), self.mechanism['Ay'], self.mechanism['Dy'])
+        diffX = maxX - minX
+        diffY = maxY - minY
+        diff = diffX/diffY > width/height
+        self.zoom = (width if diff else height)/(diffX if diff else diffY)*0.95
+        self.ox = width/2 - (minX + maxX)/2*self.zoom
+        self.oy = height/2 + (minY + maxY)/2*self.zoom
+        super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
         self.Point = (
             (self.mechanism['Ax'], self.mechanism['Ay']),

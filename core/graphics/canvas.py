@@ -75,6 +75,12 @@ class BaseCanvas(QWidget):
         self.painter.begin(self)
         self.painter.fillRect(event.rect(), QBrush(Qt.white))
         self.painter.translate(self.ox, self.oy)
+        #Draw origin lines.
+        pen = QPen(Qt.gray)
+        pen.setWidth(1)
+        self.painter.setPen(pen)
+        self.painter.drawLine(QPointF(-self.ox, 0), QPointF(self.width()-self.ox, 0))
+        self.painter.drawLine(QPointF(0, -self.oy), QPointF(0, self.height()-self.oy))
     
     def drawFrame(self, pen):
         positive_x = self.width()-self.ox
@@ -213,12 +219,6 @@ class DynamicCanvas(BaseCanvas):
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
-        #Draw origin lines.
-        pen = QPen(Qt.gray)
-        pen.setWidth(1)
-        self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(-self.ox, 0), QPointF(self.width()-self.ox, 0))
-        self.painter.drawLine(QPointF(0, -self.oy), QPointF(0, self.height()-self.oy))
         if self.freemove:
             #Draw a colored frame for free move mode.
             pen = QPen(QColor(161, 105, 229))
@@ -454,15 +454,15 @@ class DynamicCanvas(BaseCanvas):
             Ys = tuple(e.cy for e in self.Point) if self.Point else (0,)
             if self.Path.path:
                 Path = self.Path.path
-                Comparator = lambda fun, i: fun(fun(path[i] for path in point if point) for point in Path if point)
-                pathMaxX = Comparator(max, 0)
-                pathMinX = Comparator(min, 0)
-                pathMaxY = Comparator(max, 1)
-                pathMinY = Comparator(min, 1)
-                diffX = max(max(Xs), pathMaxX) - min(min(Xs), pathMinX)
-                diffY = max(max(Ys), pathMaxY) - min(min(Ys), pathMinY)
-                cenx = (min(min(Xs), pathMinX) + max(max(Xs), pathMaxX))/2
-                ceny = (min(min(Ys), pathMinY) + max(max(Ys), pathMaxY))/2
+                Comparator = lambda fun, i, d: fun(fun(fun(path[i] for path in point if point) for point in Path if point), fun(d))
+                pathMaxX = Comparator(max, 0, Xs)
+                pathMinX = Comparator(min, 0, Xs)
+                pathMaxY = Comparator(max, 1, Ys)
+                pathMinY = Comparator(min, 1, Ys)
+                diffX = pathMaxX - pathMinX
+                diffY = pathMaxY - pathMinY
+                cenx = (pathMinX + pathMaxX)/2
+                ceny = (pathMinY + pathMaxY)/2
             else:
                 diffX = max(Xs) - min(Xs)
                 diffY = max(Ys) - min(Ys)
@@ -470,8 +470,8 @@ class DynamicCanvas(BaseCanvas):
                 ceny = (min(Ys) + max(Ys))/2
             diffY = diffY if diffY!=0 else 1
             height = height if height!=0 else 1
-            cdiff = diffX/diffY > width/height
-            self.zoom_change.emit(int((width if cdiff else height)/(diffX if cdiff else diffY)*0.95*50))
+            diff = diffX/diffY > width/height
+            self.zoom_change.emit(int((width if diff else height)/(diffX if diff else diffY)*0.95*50))
             self.ox = width/2 - cenx*self.zoom
             self.oy = height/2 + ceny*self.zoom
         self.update()
