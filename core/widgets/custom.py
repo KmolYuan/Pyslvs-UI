@@ -27,6 +27,7 @@ from .table import (
 )
 from .rotatable import RotatableView
 from ..io.sqltable import FileTable
+from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
     #Version text
@@ -67,8 +68,21 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.mouse_browse_track.connect(selectionLabel.updateMousePosition)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
-    #Panel widget will hide when not using.
-    self.panelWidget.hide()
+    #File table settings.
+    self.FileTable = FileTable(self)
+    self.SCMLayout.addWidget(self.FileTable)
+    #Dimensional sythesis
+    self.DimensionalSynthesis = DimensionalSynthesis(
+        self.FileTable.Designs.path,
+        self.FileTable.Designs.result,
+        self.Default_Environment_variables,
+        self.workbookNoSave,
+        self
+    )
+    self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
+    self.DimensionalSynthesis.pathChanged.connect(self.DynamicCanvasView.path_solving)
+    self.DimensionalSynthesis.mergeResult.connect(self.PathSolving_mergeResult)
+    self.panelWidget.addTab(self.DimensionalSynthesis, self.DimensionalSynthesis.windowIcon(), "Dimensional")
     #Console dock will hide when startup.
     self.ConsoleWidget.hide()
     #Connect to GUI button switching.
@@ -96,12 +110,6 @@ def initCustomWidgets(self):
     self.inputs_playShaft.setInterval(10)
     self.inputs_playShaft.timeout.connect(self.inputs_change_index)
     self.inputs_variable_stop.clicked.connect(self.variableValueReset)
-    #Close all panels button on the panel tab widget.
-    closeAllPanelButton = QPushButton()
-    closeAllPanelButton.setIcon(QIcon(QPixmap(":/icons/close.png")))
-    closeAllPanelButton.setToolTip("Close all opened panel.")
-    closeAllPanelButton.clicked.connect(self.closeAllPanels)
-    self.panelWidget.setCornerWidget(closeAllPanelButton)
     #While value change, update the canvas widget.
     self.ZoomBar.valueChanged.connect(self.DynamicCanvasView.setZoom)
     self.LineWidth.valueChanged.connect(self.DynamicCanvasView.setLinkWidth)
@@ -142,9 +150,6 @@ def initCustomWidgets(self):
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
     self.menu_Edit.insertAction(separator, self.action_Undo)
     self.menu_Edit.insertAction(separator, self.action_Redo)
-    #File table settings.
-    self.FileTable = FileTable(self)
-    self.SCMLayout.addWidget(self.FileTable)
     '''
     Entities_Point context menu
     
@@ -214,10 +219,10 @@ def initCustomWidgets(self):
     '''
     DynamicCanvasView context menu
     
-    + Add a Path Point [Path Solving]
     + Add
     + Add [fixed]
-    -------
+    + Add [target path]
+    ///////
     + Edit
     + Fixed
     + Copy point
@@ -228,16 +233,16 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.customContextMenuRequested.connect(self.on_canvas_context_menu)
     self.popMenu_canvas = QMenu(self)
     self.popMenu_canvas.setSeparatorsCollapsible(True)
-    self.action_canvas_right_click_menu_path = QAction("Add a Path Point [Path Solving]", self)
-    self.action_canvas_right_click_menu_path.triggered.connect(self.PathSolving_add_rightClick)
-    self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_path)
     self.action_canvas_right_click_menu_add = QAction("&Add", self)
     self.action_canvas_right_click_menu_add.triggered.connect(self.addPointGroup)
     self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_add)
     self.action_canvas_right_click_menu_fix_add = QAction("Add [fixed]", self)
     self.action_canvas_right_click_menu_fix_add.triggered.connect(self.addPointGroup_fixed)
     self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_fix_add)
-    self.popMenu_canvas.addSeparator()
+    self.action_canvas_right_click_menu_path = QAction("Add [target path]", self)
+    self.action_canvas_right_click_menu_path.triggered.connect(self.PathSolving_add_rightClick)
+    self.popMenu_canvas.addAction(self.action_canvas_right_click_menu_path)
+    #The following actions will be shown when points selected.
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_edit)
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_lock)
     self.popMenu_canvas.addAction(self.action_point_right_click_menu_copyPoint)

@@ -26,8 +26,7 @@ from peewee import (
     BooleanField,
     IntegerField,
     FloatField,
-    DateTimeField,
-    ForeignKeyField
+    DateTimeField
 )
 
 class Designs:
@@ -54,6 +53,11 @@ class CommitBase(Model):
     #Workbook information
     author = TextField()
     description = TextField()
+    #Hash ID, index from PathBase table.
+    pathdata = TextField()
+
+class PathBase(Model):
+    #pathdata = "0.0,0.0;1.0,1.0;..."
     pathdata = TextField()
 
 #Algorithm results. This section does NOT support version management.

@@ -182,6 +182,10 @@ class DynamicCanvas(BaseCanvas):
         self.zoom = zoom/100*self.rate
         self.update()
     
+    def setShowSlvsPath(self, showSlvsPath):
+        self.showSlvsPath = showSlvsPath
+        self.update()
+    
     @pyqtSlot(bool)
     def setFreeMove(self, freemove):
         self.freemove = freemove

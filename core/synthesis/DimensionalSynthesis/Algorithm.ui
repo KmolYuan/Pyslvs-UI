@@ -10,6 +10,10 @@
     <height>518</height>
    </rect>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../../icons.qrc">
+    <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_12">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_16">

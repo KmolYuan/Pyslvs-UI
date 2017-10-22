@@ -34,8 +34,6 @@ from .io.undoRedo import (
 #Entities
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
-#Tools
-from .synthesis.DimensionalSynthesis.Algorithm import Algorithm_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 '''
@@ -117,7 +115,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
-        self.action_canvas_right_click_menu_path.setVisible(self.DimensionalSynthesis.isChecked())
+        self.action_canvas_right_click_menu_path.setVisible(self.panelWidget.currentIndex()==1)
         self.enablePointContext()
         self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
     
@@ -465,11 +463,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookNoSave()
     
     #Add point group using alt key.
-    def qAddPointGroup(self, fixed=False):
-        if not self.DimensionalSynthesis.isChecked():
-            self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
-        else:
-            self.PathSolving_add_rightClick()
+    @pyqtSlot()
+    def qAddPointGroup(self):
+        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
     
     #Add a point (not fixed).
     def addPointGroup(self):
@@ -950,38 +946,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[copyIndex]))
         self.popMenu_inputs_record.clear()
     
-    @pyqtSlot()
-    def on_DimensionalSynthesis_clicked(self):
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.DynamicCanvasView.showSlvsPath = not self.DimensionalSynthesisGroupBox.title() in tabNameList
-        if self.DimensionalSynthesisGroupBox.title() in tabNameList:
-            self.closePanel(tabNameList.index(self.DimensionalSynthesisGroupBox.title()))
-        else:
-            panel = Algorithm_show(
-                self.FileTable.Designs.path,
-                self.FileTable.Designs.result,
-                self.Default_Environment_variables,
-                self.workbookNoSave,
-                self)
-            panel.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
-            panel.pathChanged.connect(self.DynamicCanvasView.path_solving)
-            panel.mergeResult.connect(self.PathSolving_mergeResult)
-            self.panelWidget.addTab(panel, self.DimensionalSynthesis.icon(), self.DimensionalSynthesisGroupBox.title())
-            self.panelWidget.setCurrentIndex(self.panelWidget.count()-1)
-        self.Reload_Canvas()
+    @pyqtSlot(int)
+    def on_panelWidget_currentChanged(self, index):
+        self.DynamicCanvasView.setShowSlvsPath(index==1)
     
     def PathSolving_add_rightClick(self):
-        x = self.mouse_pos_x
-        y = self.mouse_pos_y
-        tabNameList = [self.panelWidget.tabText(i) for i in range(self.panelWidget.count())]
-        self.panelWidget.widget(tabNameList.index(self.DimensionalSynthesisGroupBox.title())).addPath(x, y)
-        self.FileTable.Designs.path.append((x, y))
-        self.DynamicCanvasView.path_solving
+        self.DimensionalSynthesis.on_add_clicked(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
-        print(self.FileTable.Designs.result[row])
         if self.FileTable.Designs.result[row]['type']=='8Bar':
             expression = Algorithm_show.mechanismParams_8Bar['Expression'].split(',')
         else:
@@ -1012,19 +986,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.push(addPathCommand(self.inputs_record, name, self.FileTable.pathData, Path))
         self.FileState.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
-    
-    def closeAllPanels(self):
-        for i in range(self.panelWidget.count()):
-            self.closePanel(0)
-        for button in [self.NumberAndTypeSynthesis, self.DimensionalSynthesis]:
-            button.setChecked(False)
-        self.DynamicCanvasView.showSlvsPath = False
-        self.Reload_Canvas()
-    
-    def closePanel(self, row):
-        panel = self.panelWidget.widget(row)
-        self.panelWidget.removeTab(row)
-        panel.deleteLater()
     
     @pyqtSlot()
     def pointSelection(self):
@@ -1057,13 +1018,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
         self.consoleWidgetBrowser.insertPlainText(log)
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
-    
-    @pyqtSlot(int)
-    def on_panelWidget_currentChanged(self, index):
-        if index>-1 and not self.panelWidget.isVisible():
-            self.panelWidget.show()
-        else:
-            self.panelWidget.hide()
     
     @pyqtSlot(bool)
     def on_action_Full_Screen_toggled(self, fullscreen):
