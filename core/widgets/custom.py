@@ -128,6 +128,7 @@ def initCustomWidgets(self):
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
     self.inputs_record.currentRowChanged.connect(self.Reload_Canvas)
     self.SelectionRadius.valueChanged.connect(self.DynamicCanvasView.setSelectionRadius)
+    self.LinkageTransparency.valueChanged.connect(self.DynamicCanvasView.setTransparency)
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 15)

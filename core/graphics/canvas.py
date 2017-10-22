@@ -144,6 +144,8 @@ class DynamicCanvas(BaseCanvas):
         #Point selection
         self.selectionRadius = 10
         self.pointsSelection = []
+        #Linkage transparency
+        self.transparency = 1.
         #Path solving range
         defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
         self.ranges = (defult_range, defult_range)
@@ -201,6 +203,11 @@ class DynamicCanvas(BaseCanvas):
     def setSelectionRadius(self, selectionRadius):
         self.selectionRadius = selectionRadius
     
+    @pyqtSlot(int)
+    def setTransparency(self, transparency):
+        self.transparency = (100 - transparency)/100
+        self.update()
+    
     def changePointsSelection(self, pointsSelection):
         self.pointsSelection = pointsSelection
         self.update()
@@ -255,7 +262,9 @@ class DynamicCanvas(BaseCanvas):
         pen = QPen(color)
         pen.setWidth(self.linkWidth)
         self.painter.setPen(pen)
-        self.painter.setBrush(QColor(226, 219, 190))
+        brush = QColor(226, 219, 190)
+        brush.setAlphaF(self.transparency)
+        self.painter.setBrush(brush)
         #Rearrange: Put the nearest point to the next position.
         for i in range(len(points)):
             if i==len(points)-1:

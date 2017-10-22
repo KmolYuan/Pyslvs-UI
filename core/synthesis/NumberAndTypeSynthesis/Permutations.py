@@ -23,6 +23,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.Representation_tree.clear()
         #Show mechanism system.
         root = QTreeWidgetItem(["Mechanism root"])
+        root.setIcon(0, self.windowIcon())
         self.Representation_tree.addTopLevelItem(root)
         root.addChildren([
             QTreeWidgetItem(["Degree of freedom", str(dof)]),
@@ -31,12 +32,19 @@ class Permutations_show(QWidget, Ui_Form):
         ])
         for vlink in linkData:
             node = QTreeWidgetItem([vlink.name])
+            node.setIcon(0, QIcon(QPixmap(":/icons/link.png")))
             root.addChild(node)
             node.addChild(QTreeWidgetItem(["Number of joints", str(sum(len(jointData[i].links)-1 for i in vlink.points))]))
-            node.addChildren([
-                QTreeWidgetItem(["Point{}".format(i), ", ".join(link for link in jointData[i].links if link!=vlink.name)])
-                for i in vlink.points
-            ])
+            for i in vlink.points:
+                vpoint = jointData[i]
+                p = QTreeWidgetItem(["Point{}".format(i)])
+                p.setIcon(0, QIcon(QPixmap(":/icons/bearing.png")))
+                p.addChild(QTreeWidgetItem(["Joint type", vpoint.typeSTR]))
+                for link in vpoint.links:
+                    if link!=vlink.name:
+                        p.addChild(QTreeWidgetItem(["Connect to Link", link]))
+                node.addChild(p)
+                self.Representation_tree.expandItem(p)
             self.Representation_tree.expandItem(node)
         self.Representation_tree.expandItem(root)
     

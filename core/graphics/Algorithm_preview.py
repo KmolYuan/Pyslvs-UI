@@ -96,7 +96,9 @@ class DynamicCanvas(BaseCanvas):
         pen = QPen(color)
         pen.setWidth(self.linkWidth)
         self.painter.setPen(pen)
-        self.painter.setBrush(QColor(226, 219, 190))
+        brush = QColor(226, 219, 190)
+        brush.setAlphaF(0.75)
+        self.painter.setBrush(brush)
         qpoints = tuple(
             QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
             for i in points if self.Point[i]
