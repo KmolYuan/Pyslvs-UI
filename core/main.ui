@@ -590,20 +590,8 @@
                </property>
                <widget class="QTabWidget" name="panelWidget">
                 <property name="currentIndex">
-                 <number>0</number>
+                 <number>-1</number>
                 </property>
-                <property name="movable">
-                 <bool>true</bool>
-                </property>
-                <widget class="QWidget" name="tab">
-                 <attribute name="icon">
-                  <iconset resource="../icons.qrc">
-                   <normaloff>:/icons/NumberAndTypeSynthesis.png</normaloff>:/icons/NumberAndTypeSynthesis.png</iconset>
-                 </attribute>
-                 <attribute name="title">
-                  <string>Number and Type</string>
-                 </attribute>
-                </widget>
                </widget>
               </widget>
              </item>

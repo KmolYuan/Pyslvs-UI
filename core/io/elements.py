@@ -23,6 +23,7 @@ from typing import Tuple
 
 class VPoint:
     __slots__ = ('__links','__type', '__angle', '__color', '__x', '__y', '__c')
+    Jtype = ('R', 'P', 'RP')
     
     def __init__(self,
         links: str ='',
@@ -46,6 +47,10 @@ class VPoint:
     @property
     def type(self) -> int:
         return self.__type
+    
+    @property
+    def typeSTR(self) -> str:
+        return self.Jtype[self.type]
     
     def setType(self, type: int):
         self.__type = type
@@ -118,6 +123,9 @@ class VPoint:
     
     def slopeAngle(self, p):
         return round(degrees(atan2(p.y-self.y, p.x-self.x)), 4)
+    
+    def __repr__(self):
+        return "J[{}, L[{}]]".format(self.typeSTR, ", ".join(l for l in self.links))
 
 class VLink:
     __slots__ = ('__name', '__color', '__points')
@@ -157,3 +165,6 @@ class VLink:
     
     def __contains__(self, point):
         return point in self.points
+    
+    def __repr__(self):
+        return "L[{}, P[{}]]".format(self.name, ", ".join(str(p) for p in self.points))

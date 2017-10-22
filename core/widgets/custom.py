@@ -27,6 +27,7 @@ from .table import (
 )
 from .rotatable import RotatableView
 from ..io.sqltable import FileTable
+from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as NumberAndTypeSynthesis
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
@@ -71,7 +72,10 @@ def initCustomWidgets(self):
     #File table settings.
     self.FileTable = FileTable(self)
     self.SCMLayout.addWidget(self.FileTable)
-    #Dimensional sythesis
+    #Number and type synthesis
+    self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self.Entities_Point.data, self.Entities_Link.data, self)
+    self.panelWidget.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
+    #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(
         self.FileTable.Designs.path,
         self.FileTable.Designs.result,
@@ -91,13 +95,13 @@ def initCustomWidgets(self):
     #Properties and canvas capture button on the Point and Link tab as corner widget.
     CanvasCaptureButton = QPushButton()
     CanvasCaptureButton.setIcon(QIcon(QPixmap(":/icons/capture.png")))
-    CanvasCaptureButton.setToolTip('Capture')
+    CanvasCaptureButton.setToolTip("Canvas capture")
     CanvasCaptureButton.setStatusTip("Make a canvas capture to the clipboard.")
     CanvasCaptureButton.clicked.connect(self.canvasCapture)
     self.PointTab.setCornerWidget(CanvasCaptureButton)
     PropertiesButton = QPushButton()
     PropertiesButton.setIcon(self.action_Property.icon())
-    PropertiesButton.setToolTip('Properties')
+    PropertiesButton.setToolTip("Edit properties")
     PropertiesButton.setStatusTip("Properties of this workbook.")
     PropertiesButton.clicked.connect(self.on_action_Property_triggered)
     self.LinkTab.setCornerWidget(PropertiesButton)

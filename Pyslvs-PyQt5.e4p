@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-10-21, 13:29:44 -->
+<!-- Saved: 2017-10-22, 15:25:21 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -74,6 +74,8 @@
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
+    <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
+    <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
@@ -99,6 +101,7 @@
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_path_adjust.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_progress.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_series.ui</Form>
+    <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
   <Translations/>
   <Resources>

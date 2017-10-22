@@ -84,14 +84,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         mimeData = event.mimeData()
         if mimeData.hasUrls():
             for url in mimeData.urls():
-                FilePath = url.toLocalFile()
-                if QFileInfo(FilePath).suffix() in ('pyslvs',):
+                fileName = url.toLocalFile()
+                if QFileInfo(fileName).suffix() in ('pyslvs',):
                     event.acceptProposedAction()
     
     #Drop file in to our window.
     def dropEvent(self, event):
-        FilePath = event.mimeData().urls()[-1].toLocalFile()
-        self.checkChange(FilePath, [], "Loaded drag-in file: [{}]".format(FilePath))
+        fileName = event.mimeData().urls()[-1].toLocalFile()
+        self.FileTable.read(fileName)
         event.acceptProposedAction()
     
     #Mouse position on canvace
