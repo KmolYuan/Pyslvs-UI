@@ -73,7 +73,12 @@ def initCustomWidgets(self):
     self.FileTable = FileTable(self)
     self.SCMLayout.addWidget(self.FileTable)
     #Number and type synthesis
-    self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self.Entities_Point.data, self.Entities_Link.data, self)
+    self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(
+        self.Entities_Point.data,
+        self.Entities_Link.data,
+        lambda: self.DOF,
+        self
+    )
     self.panelWidget.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(
