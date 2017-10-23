@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -210,8 +210,8 @@ class Ui_MainWindow(object):
         self.inputs_variable_play = QtWidgets.QPushButton(self.inputs_variable_groupBox)
         self.inputs_variable_play.setEnabled(False)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         icon5.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon5.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         self.inputs_variable_play.setIcon(icon5)
         self.inputs_variable_play.setCheckable(True)
         self.inputs_variable_play.setObjectName("inputs_variable_play")
@@ -307,16 +307,6 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.SCMLayout = QtWidgets.QVBoxLayout()
         self.SCMLayout.setObjectName("SCMLayout")
-        self.label_9 = QtWidgets.QLabel(self.version_control_tab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.label_9.sizePolicy().hasHeightForWidth())
-        self.label_9.setSizePolicy(sizePolicy)
-        self.label_9.setWordWrap(True)
-        self.label_9.setOpenExternalLinks(True)
-        self.label_9.setObjectName("label_9")
-        self.SCMLayout.addWidget(self.label_9)
         self.verticalLayout_5.addLayout(self.SCMLayout)
         icon11 = QtGui.QIcon()
         icon11.addPixmap(QtGui.QPixmap(":/icons/git.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -489,8 +479,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.ResetCanvas)
         self.FreeMoveMode = QtWidgets.QPushButton(self.BrowserWidget)
         icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(":/icons/freemove_on.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         icon14.addPixmap(QtGui.QPixmap(":/icons/freemove_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon14.addPixmap(QtGui.QPixmap(":/icons/freemove_on.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         self.FreeMoveMode.setIcon(icon14)
         self.FreeMoveMode.setIconSize(QtCore.QSize(32, 32))
         self.FreeMoveMode.setCheckable(True)
@@ -830,7 +820,6 @@ class Ui_MainWindow(object):
         self.Panel.setTabText(self.Panel.indexOf(self.synthesis_tab), _translate("MainWindow", "Synthesis"))
         self.label_8.setText(_translate("MainWindow", "<html><head/><body><p>This action list will build your mechanism from data base.</p><p>If you want to view the workbook history, please switch to the version control tab.</p><p>You can backtracking commands by clicking them below.</p></body></html>"))
         self.Panel.setTabText(self.Panel.indexOf(self.history_tab), _translate("MainWindow", "History"))
-        self.label_9.setText(_translate("MainWindow", "<html><head/><body><p>Welcome to the <span style=\" font-weight:600;\">Version configuration manager</span>, where you can save your changes every time.</p><p>You can pull out the branch from the selected annotation, tag it, or go back to the edit history.</p><p><a href=\"https://en.wikipedia.org/wiki/Git\"><span style=\" text-decoration: underline; color:#2980b9;\">What is Git?</span></a></p></body></html>"))
         self.Panel.setTabText(self.Panel.indexOf(self.version_control_tab), _translate("MainWindow", "Version Control"))
         self.CanvasSettingsGroupBox.setTitle(_translate("MainWindow", "Canvas settings"))
         self.LineWidth_label.setText(_translate("MainWindow", "Line width"))

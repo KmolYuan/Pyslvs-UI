@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -36,6 +36,11 @@ class Ui_Form(object):
         self.Representation_link.setObjectName("Representation_link")
         self.verticalLayout.addWidget(self.Representation_link)
         self.horizontalLayout.addLayout(self.verticalLayout)
+        self.line = QtWidgets.QFrame(Form)
+        self.line.setFrameShape(QtWidgets.QFrame.VLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.horizontalLayout.addWidget(self.line)
         self.ReloadMechanism = QtWidgets.QPushButton(Form)
         self.ReloadMechanism.setObjectName("ReloadMechanism")
         self.horizontalLayout.addWidget(self.ReloadMechanism)

@@ -83,7 +83,7 @@ class Permutations_show(QWidget, Ui_Form):
             QTreeWidgetItem(["Number of joints", str(NJ)]),
             QTreeWidgetItem(["Distant relatives", (
                 NS_result if type(NS_result)==str else
-                ", ".join("; ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))) for result in NS_result)
+                "; ".join(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))) for result in NS_result)
             )]),
         ])
         '''
