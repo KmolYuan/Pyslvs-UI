@@ -936,9 +936,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(QPoint)
     def on_inputs_record_context_menu(self, point):
-        data = self.FileTable.pathData[self.inputs_record.currentRow()]
-        for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
-            self.popMenu_inputs_record.addAction(actionName)
+        row = self.inputs_record.currentRow()
+        if row>-1:
+            data = self.FileTable.pathData[row]
+            for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
+                self.popMenu_inputs_record.addAction(actionName)
+        else:
+            a = self.popMenu_inputs_record.addAction("No any path")
+            a.setEnabled(False)
         action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
         if action:
             copyIndex = int(action.text().replace("Copy data from Point", ''))
