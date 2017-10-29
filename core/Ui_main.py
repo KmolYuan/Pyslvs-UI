@@ -304,6 +304,7 @@ class Ui_MainWindow(object):
         self.version_control_tab = QtWidgets.QWidget()
         self.version_control_tab.setObjectName("version_control_tab")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.version_control_tab)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.SCMLayout = QtWidgets.QVBoxLayout()
         self.SCMLayout.setObjectName("SCMLayout")

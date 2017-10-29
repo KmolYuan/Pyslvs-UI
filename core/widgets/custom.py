@@ -26,7 +26,7 @@ from .table import (
     SelectionLabel
 )
 from .rotatable import RotatableView
-from ..io.sqltable import FileTable
+from ..io.sqltable import FileWidget
 from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as NumberAndTypeSynthesis
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
@@ -70,11 +70,11 @@ def initCustomWidgets(self):
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
     #File table settings.
-    self.FileTable = FileTable(
+    self.FileWidget = FileWidget(
         self.Entities_Point.data,
         self
     )
-    self.SCMLayout.addWidget(self.FileTable)
+    self.SCMLayout.addWidget(self.FileWidget)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(
         self.Entities_Point.data,
@@ -85,8 +85,8 @@ def initCustomWidgets(self):
     self.panelWidget.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(
-        self.FileTable.Designs.path,
-        self.FileTable.Designs.result,
+        self.FileWidget.Designs.path,
+        self.FileWidget.Designs.result,
         self.Default_Environment_variables,
         self.workbookNoSave,
         self

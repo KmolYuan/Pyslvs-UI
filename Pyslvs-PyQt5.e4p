@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-10-29, 15:59:31 -->
+<!-- Saved: 2017-10-29, 21:35:11 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -36,6 +36,7 @@
     <Source>core/io/Ui_dxfType.py</Source>
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/Ui_slvsType.py</Source>
+    <Source>core/io/Ui_sqltable.py</Source>
     <Source>core/io/__init__.py</Source>
     <Source>core/io/dxfType.py</Source>
     <Source>core/io/elements.py</Source>
@@ -92,6 +93,7 @@
     <Form>core/io/dxfType.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
+    <Form>core/io/sqltable.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_options.ui</Form>

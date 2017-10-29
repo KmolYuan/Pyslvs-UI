@@ -66,7 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DOF = 0
         #Load workbook from argument.
         if self.args.r:
-            self.FileTable.read(self.args.r)
+            self.FileWidget.read(self.args.r)
     
     #Adjust the canvas size after display.
     def show(self):
@@ -90,7 +90,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Drop file in to our window.
     def dropEvent(self, event):
         fileName = event.mimeData().urls()[-1].toLocalFile()
-        self.FileTable.read(fileName)
+        self.FileWidget.read(fileName)
         event.acceptProposedAction()
     
     #Mouse position on canvace
@@ -201,12 +201,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             event.accept()
     
     def checkFileChanged(self):
-        if self.FileTable.changed:
+        if self.FileWidget.changed:
             reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
             if reply==QMessageBox.Save:
                 self.on_action_Save_triggered()
-                if self.FileTable.changed:
+                if self.FileWidget.changed:
                     return True
                 else:
                     return False
@@ -220,7 +220,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def commandReload(self, index=0):
         self.action_Undo.setText("Undo - {}".format(self.FileState.undoText()))
         self.action_Redo.setText("Redo - {}".format(self.FileState.redoText()))
-        if index!=self.FileTable.Stack:
+        if index!=self.FileWidget.Stack:
             self.workbookNoSave()
         else:
             self.workbookSaved()
@@ -253,15 +253,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.FileTable.pathData[pathIndex] if pathIndex>-1 else ())
+            self.FileWidget.pathData[pathIndex] if pathIndex>-1 else ())
     
     #Workbook Change signal.
     def workbookNoSave(self):
-        self.FileTable.changed = True
+        self.FileWidget.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', '')+'*')
     def workbookSaved(self):
-        self.FileTable.changed = False
-        self.setWindowTitle("Pyslvs - {}".format(self.FileTable.fileName.fileName()))
+        self.FileWidget.changed = False
+        self.setWindowTitle("Pyslvs - {}".format(self.FileWidget.fileName.fileName()))
     
     #Open website: http://mde.tw
     @pyqtSlot()
@@ -358,15 +358,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Load_Workbook_triggered(self):
         fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
         if fileName:
-            self.FileTable.read(fileName)
+            self.FileWidget.read(fileName)
     
     #Save action.
     @pyqtSlot()
     def on_action_Save_triggered(self):
-        fileName = self.FileTable.fileName.absoluteFilePath()
-        suffix = self.FileTable.fileName.suffix()
+        fileName = self.FileWidget.fileName.absoluteFilePath()
+        suffix = self.FileWidget.fileName.suffix()
         if suffix=='pyslvs':
-            self.FileTable.save(fileName)
+            self.FileWidget.save(fileName)
         else:
             self.on_action_Save_as_triggered()
     
@@ -375,7 +375,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Save_as_triggered(self):
         fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if fileName:
-            self.FileTable.save(fileName)
+            self.FileWidget.save(fileName)
     
     #TODO: Solvespace 2d save function.
     
@@ -396,7 +396,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(self, "Save {}...".format(formatName),
-            self.Default_Environment_variables+'/'+self.FileTable.fileName.baseName()+suffix0, ';;'.join(formatChoose))
+            self.Default_Environment_variables+'/'+self.FileWidget.fileName.baseName()+suffix0, ';;'.join(formatChoose))
         if fileName:
             if QFileInfo(fileName).suffix()!=suffix0[1:]:
                 fileName = fileName+suffix0
@@ -442,7 +442,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #TODO: Output to Python script for Jupyterhub.
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
-        '''self.OpenDlg(Script_Dialog(self.FileTable.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
+        '''self.OpenDlg(Script_Dialog(self.FileWidget.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
     
     #Add point group using alt key.
     @pyqtSlot()
@@ -883,7 +883,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     i += 1
                     name = "Record_{}".format(i)
             self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-            self.FileState.push(addPathCommand(self.inputs_record, name, self.FileTable.pathData, path))
+            self.FileState.push(addPathCommand(self.inputs_record, name, self.FileWidget.pathData, path))
             self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     
@@ -893,7 +893,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.inputs_record.currentRow()
         if row>-1:
             self.FileState.beginMacro("Delete {{Path: {}}}".format(self.inputs_record.item(row).text()))
-            self.FileState.push(deletePathCommand(row, self.inputs_record, self.FileTable.pathData))
+            self.FileState.push(deletePathCommand(row, self.inputs_record, self.FileWidget.pathData))
             self.FileState.endMacro()
             self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
             self.Reload_Canvas()
@@ -901,7 +901,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #View path data.
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
-        data = self.FileTable.pathData[self.inputs_record.row(item)]
+        data = self.FileWidget.pathData[self.inputs_record.row(item)]
         reply = QMessageBox.question(self, "Path data",
             "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
             (QMessageBox.Save | QMessageBox.Close), QMessageBox.Close)
@@ -920,7 +920,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_record_context_menu(self, point):
         row = self.inputs_record.currentRow()
         if row>-1:
-            data = self.FileTable.pathData[row]
+            data = self.FileWidget.pathData[row]
             for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
                 self.popMenu_inputs_record.addAction(actionName)
         else:
@@ -943,7 +943,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
-        if self.FileTable.Designs.result[row]['type']=='8Bar':
+        if self.FileWidget.Designs.result[row]['type']=='8Bar':
             expression = Algorithm_show.mechanismParams_8Bar['Expression'].split(',')
         else:
             expression = Algorithm_show.mechanismParams_4Bar['Expression'].split(',')
@@ -970,7 +970,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             i += 1
             name = "Algorithm_{}".format(i)
         self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-        self.FileState.push(addPathCommand(self.inputs_record, name, self.FileTable.pathData, Path))
+        self.FileState.push(addPathCommand(self.inputs_record, name, self.FileWidget.pathData, Path))
         self.FileState.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     

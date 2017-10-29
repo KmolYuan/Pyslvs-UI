@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
+from .Ui_sqltable import Ui_Form
 import datetime
 from peewee import (
     SqliteDatabase,
@@ -104,26 +105,17 @@ class AlgorithmModel(Model):
         database = db
 
 #The table that stored workbook data, including IO functions.
-class FileTable(QTableWidget):
+class FileWidget(QWidget, Ui_Form):
     def __init__(self, pointDataFunc, parent):
-        super(FileTable, self).__init__(parent)
+        super(FileWidget, self).__init__(parent)
+        self.setupUi(self)
         #UI part
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
-        self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
-        HorizontalHeaderItems = ("ID", "Date", "Description", "Author", "Previous", "Branch from")
-        self.setColumnCount(len(HorizontalHeaderItems)+1)
-        for i, e in enumerate(HorizontalHeaderItems):
-            self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
-        self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 60)
-        self.setColumnWidth(2, 130)
-        self.setColumnWidth(3, 60)
-        self.setColumnWidth(4, 60)
-        self.setColumnWidth(5, 60)
+        self.FileTable.setColumnWidth(0, 30)
+        self.FileTable.setColumnWidth(1, 70)
+        self.FileTable.setColumnWidth(2, 130)
+        self.FileTable.setColumnWidth(3, 70)
+        self.FileTable.setColumnWidth(4, 70)
+        self.FileTable.setColumnWidth(5, 70)
         #The function used to get the data.
         self.pointDataFunc = pointDataFunc
         #Undo Stack
