@@ -22,12 +22,16 @@ import datetime
 from peewee import (
     SqliteDatabase,
     Model,
+    CharField,
     TextField,
     BooleanField,
     IntegerField,
     FloatField,
+    ForeignKeyField,
     DateTimeField
 )
+
+db = SqliteDatabase(None)
 
 class Designs:
     __slots__ = ('path', 'result')
@@ -36,32 +40,31 @@ class Designs:
         self.path = []
         self.result = []
 
-def db_class(class_name, db):
-    class wrapper_class(class_name):
-        class Meta:
-            database = db
-    return wrapper_class
+#Show who commited the workbook.
+class User(Model):
+    username = CharField(max_length=255, unique=True)
+    class Meta:
+        database = db
 
 #Commit data: Mechanism and Workbook information.
-class CommitBase(Model):
-    #Hash ID
-    id = TextField(unique=True)
-    #Commit date
-    date = DateTimeField()
+class CommitModel(Model):
+    #Previous and branch commit
+    previous = ForeignKeyField('self', related_name='next', null=True)
+    pre_branch = ForeignKeyField('self', related_name='next_branch', null=True)
+    #Commit time
+    date = DateTimeField(default=datetime.datetime.now)
+    #Workbook information
+    author = ForeignKeyField(User)
+    description = TextField()
     #Use Lark parser
     mechanism = TextField()
-    #Workbook information
-    author = TextField()
-    description = TextField()
-    #Hash ID, index from PathBase table.
-    pathdata = TextField()
-
-class PathBase(Model):
     #pathdata = "0.0,0.0;1.0,1.0;..."
     pathdata = TextField()
+    class Meta:
+        database = db
 
 #Algorithm results. This section does NOT support version management.
-class AlgorithmBase(Model):
+class AlgorithmModel(Model):
     #Hardware information
     network = BooleanField()
     cpu = TextField()
@@ -97,6 +100,8 @@ class AlgorithmBase(Model):
     report = IntegerField()
     #algorithmPrams = "CR:0.9,NP:400,..."
     algorithmPrams = TextField()
+    class Meta:
+        database = db
 
 #The table that stored workbook data, including IO functions.
 class FileTable(QTableWidget):
@@ -113,9 +118,9 @@ class FileTable(QTableWidget):
         self.pathData = []
         self.Designs = Designs()
         self.Script = ""
-        self.fileName = QFileInfo('[New Workbook]')
+        self.fileName = QFileInfo("[New Workbook]")
         self.description = ""
-        self.author = 'Anonymous'
+        self.author = "Anonymous"
         self.lastTime = datetime.datetime.now()
         self.changed = False
         self.Stack = 0
@@ -126,21 +131,22 @@ class FileTable(QTableWidget):
         self.description = description
     
     def save(self, fileName):
-        db = SqliteDatabase(fileName)
+        self.fileName = QFileInfo(fileName)
+        db.init(fileName)
         db.connect()
-        Commit = db_class(CommitBase, db)
-        db.create_tables([Commit], safe=True)
+        db.create_tables([CommitModel, AlgorithmModel], safe=True)
         with db.atomic():
             try:
-                db.save()
+                '''Save the table rows.'''
             except:
                 db.rollback()
         db.close()
     
     def read(self, fileName):
-        db = SqliteDatabase(fileName)
+        self.fileName = QFileInfo(fileName)
+        db.init(fileName)
         db.connect()
-        Commit = db_class(CommitBase, db)
-        db.create_tables([Commit], safe=True)
+        db.create_tables([CommitModel, AlgorithmModel], safe=True)
+        '''Read the table rows.'''
         db.close()
         return

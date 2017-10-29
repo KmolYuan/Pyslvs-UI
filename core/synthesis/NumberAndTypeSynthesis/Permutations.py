@@ -73,7 +73,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.NJ_input.setValue(NJ)
         self.DOF_input.setValue(dof)
         self.on_Combine_number_clicked()
-        #TODO: Topologic
+        self.on_Combine_type_clicked()
     
     #Show number of links with different number of joints.
     @pyqtSlot()
@@ -88,3 +88,7 @@ class Permutations_show(QWidget, Ui_Form):
             for result in NS_result:
                 self.Representation_number.addItem(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))))
         self.Representation_number.setCurrentRow(0)
+    
+    @pyqtSlot()
+    def on_Combine_type_clicked(self):
+        '''TODO: Topologic'''
