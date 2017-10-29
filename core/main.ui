@@ -1285,7 +1285,6 @@
     <addaction name="action_Path_style"/>
     <addaction name="separator"/>
     <addaction name="action_See_Python_Scripts"/>
-    <addaction name="action_Property"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -1564,21 +1563,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+D</string>
-   </property>
-  </action>
-  <action name="action_Property">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Properties</string>
-   </property>
-   <property name="statusTip">
-    <string>Properies of this workbook.</string>
-   </property>
-   <property name="shortcut">
-    <string>`</string>
    </property>
   </action>
   <action name="action_Save_as">

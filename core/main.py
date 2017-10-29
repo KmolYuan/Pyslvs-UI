@@ -64,9 +64,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.Resolve()
         #Solve & DOF value.
         self.DOF = 0
+        #Load workbook from argument.
         if self.args.r:
-            #TODO: Load blank workbook.
-            pass
+            self.FileTable.read(self.args.r)
     
     #Adjust the canvas size after display.
     def show(self):
@@ -443,11 +443,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
         '''self.OpenDlg(Script_Dialog(self.FileTable.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
-    
-    #Show property.
-    @pyqtSlot()
-    def on_action_Property_triggered(self):
-        self.Panel.setCurrentIndex(4)
     
     #Add point group using alt key.
     @pyqtSlot()

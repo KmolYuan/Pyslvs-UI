@@ -70,7 +70,10 @@ def initCustomWidgets(self):
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
     #File table settings.
-    self.FileTable = FileTable(self)
+    self.FileTable = FileTable(
+        self.Entities_Point.data,
+        self
+    )
     self.SCMLayout.addWidget(self.FileTable)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(
@@ -104,12 +107,6 @@ def initCustomWidgets(self):
     CanvasCaptureButton.setStatusTip("Make a canvas capture to the clipboard.")
     CanvasCaptureButton.clicked.connect(self.canvasCapture)
     self.PointTab.setCornerWidget(CanvasCaptureButton)
-    PropertiesButton = QPushButton()
-    PropertiesButton.setIcon(self.action_Property.icon())
-    PropertiesButton.setToolTip("Edit properties")
-    PropertiesButton.setStatusTip("Properties of this workbook.")
-    PropertiesButton.clicked.connect(self.on_action_Property_triggered)
-    self.LinkTab.setCornerWidget(PropertiesButton)
     #Add inputs QDial.
     self.inputs_Degree = QDial()
     self.inputs_Degree.setEnabled(False)

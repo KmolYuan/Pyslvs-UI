@@ -68,7 +68,7 @@ class PointTableWidget(BaseTableWidget):
     def __init__(self, parent=None):
         super(PointTableWidget, self).__init__(0, ('Links', 'Type', 'Color', 'X', 'Y', 'Current'), parent)
         self.setColumnWidth(0, 60)
-        self.setColumnWidth(1, 150)
+        self.setColumnWidth(1, 130)
         self.setColumnWidth(2, 40)
         self.setColumnWidth(3, 90)
         self.setColumnWidth(4, 60)
@@ -222,7 +222,7 @@ class LinkTableWidget(BaseTableWidget):
         self.editArgs(0, 'ground', 'White', '')
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 90)
-        self.setColumnWidth(2, 230)
+        self.setColumnWidth(2, 130)
     
     #Get the digitization of all table data.
     def data(self) -> Tuple[VLink]:

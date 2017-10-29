@@ -105,10 +105,27 @@ class AlgorithmModel(Model):
 
 #The table that stored workbook data, including IO functions.
 class FileTable(QTableWidget):
-    def __init__(self, parent):
+    def __init__(self, pointDataFunc, parent):
         super(FileTable, self).__init__(parent)
+        #UI part
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+        self.setHorizontalScrollMode(QAbstractItemView.ScrollPerPixel)
+        HorizontalHeaderItems = ("ID", "Date", "Description", "Author", "Previous", "Branch from")
+        self.setColumnCount(len(HorizontalHeaderItems)+1)
+        for i, e in enumerate(HorizontalHeaderItems):
+            self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
+        self.setColumnWidth(0, 60)
+        self.setColumnWidth(1, 60)
+        self.setColumnWidth(2, 130)
+        self.setColumnWidth(3, 60)
+        self.setColumnWidth(4, 60)
+        self.setColumnWidth(5, 60)
+        #The function used to get the data.
+        self.pointDataFunc = pointDataFunc
         #Undo Stack
         self.FileState = parent.FileState
         #Reset
@@ -136,8 +153,17 @@ class FileTable(QTableWidget):
         db.connect()
         db.create_tables([CommitModel, AlgorithmModel], safe=True)
         with db.atomic():
+            pointData = self.pointDataFunc()
+            commit = CommitModel(
+                previous=None,
+                pre_branch=None,
+                author=None,
+                description=None,
+                mechanism="M[{}]".format(", ".join(str(vpoint) for vpoint in pointData)),
+                pathdata=None,
+            )
             try:
-                '''Save the table rows.'''
+                commit.save()
             except:
                 db.rollback()
         db.close()
