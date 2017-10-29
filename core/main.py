@@ -42,7 +42,6 @@ from .io.dxfType import dxfTypeSettings
 from .io.slvsType import slvsTypeSettings
 from .io.slvsForm.sketch import slvs2D
 '''
-from .info.fileInfo import fileInfo_show, editFileInfo_show
 #Logging
 from .io.loggingHandler import XStream
 #Write CSV
@@ -445,22 +444,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_See_Python_Scripts_triggered(self):
         '''self.OpenDlg(Script_Dialog(self.FileTable.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
     
-    #Show property when workbook loaded.
-    def showProperty(self, errorInfo):
-        dlg = fileInfo_show(self.FileTable.fileName.fileName(), self.FileTable.author, self.FileTable.description,
-            self.FileTable.lastTime, self.FileTable.Designs.result, errorInfo, self)
-        dlg.show()
-        dlg.exec_()
-    
     #Show property.
     @pyqtSlot()
     def on_action_Property_triggered(self):
-        dlg = editFileInfo_show(self.FileTable.fileName.fileName(), self.FileTable.author, self.FileTable.description,
-            self.FileTable.lastTime, self.FileTable.Designs.result, self)
-        dlg.show()
-        if dlg.exec_():
-            self.FileTable.updateAuthorDescription(dlg.authorName_input.text(), dlg.descriptionText.toPlainText())
-            self.workbookNoSave()
+        self.Panel.setCurrentIndex(4)
     
     #Add point group using alt key.
     @pyqtSlot()

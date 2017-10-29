@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-10-22, 15:25:21 -->
+<!-- Saved: 2017-10-29, 15:59:31 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -31,9 +31,7 @@
     <Source>core/graphics/canvas.py</Source>
     <Source>core/graphics/color.py</Source>
     <Source>core/info/Ui_about.py</Source>
-    <Source>core/info/Ui_fileInfo.py</Source>
     <Source>core/info/__init__.py</Source>
-    <Source>core/info/fileInfo.py</Source>
     <Source>core/info/info.py</Source>
     <Source>core/io/Ui_dxfType.py</Source>
     <Source>core/io/Ui_script.py</Source>
@@ -91,7 +89,6 @@
     <Form>core/entities/edit_point.ui</Form>
     <Form>core/graphics/Algorithm_preview.ui</Form>
     <Form>core/info/about.ui</Form>
-    <Form>core/info/fileInfo.ui</Form>
     <Form>core/io/dxfType.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
