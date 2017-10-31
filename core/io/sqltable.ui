@@ -94,7 +94,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="FileAuthor"/>
+      <widget class="QLineEdit" name="FileAuthor">
+       <property name="placeholderText">
+        <string>Anonymous</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
@@ -106,7 +110,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QLineEdit" name="FileDescription"/>
+    <widget class="QLineEdit" name="FileDescription">
+     <property name="placeholderText">
+      <string>Explain what you have done here.</string>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">

@@ -108,7 +108,7 @@
    <item>
     <widget class="QPushButton" name="Combine_number">
      <property name="text">
-      <string>Combine Number</string>
+      <string>Number Combine</string>
      </property>
      <property name="autoDefault">
       <bool>true</bool>
@@ -121,7 +121,7 @@
    <item>
     <widget class="QPushButton" name="Combine_type">
      <property name="text">
-      <string>Combine Type</string>
+      <string>Type Combine</string>
      </property>
      <property name="autoDefault">
       <bool>true</bool>

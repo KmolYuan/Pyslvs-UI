@@ -730,6 +730,9 @@ class Ui_MainWindow(object):
         icon32.addPixmap(QtGui.QPixmap(":/icons/example.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Example.setIcon(icon32)
         self.action_Example.setObjectName("action_Example")
+        self.action_Save_branch = QtWidgets.QAction(MainWindow)
+        self.action_Save_branch.setIcon(icon11)
+        self.action_Save_branch.setObjectName("action_Save_branch")
         self.menuExport.addAction(self.SolvespaceMenuTitle)
         self.menuExport.addAction(self.action_Solvespace_2D_sketch)
         self.menuExport.addSeparator()
@@ -747,6 +750,7 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.menuImport.menuAction())
         self.menuFile.addSeparator()
         self.menuFile.addAction(self.action_Save)
+        self.menuFile.addAction(self.action_Save_branch)
         self.menuFile.addAction(self.action_Save_as)
         self.menuFile.addAction(self.menuExport.menuAction())
         self.menuFile.addSeparator()
@@ -933,6 +937,7 @@ class Ui_MainWindow(object):
         self.action_Output_to_PMKS.setStatusTip(_translate("MainWindow", "Pass your mechanism to PMKS server by generate a URL."))
         self.action_From_PMKS_server.setText(_translate("MainWindow", "From PMKS server"))
         self.action_Example.setText(_translate("MainWindow", "Example"))
+        self.action_Save_branch.setText(_translate("MainWindow", "Save as new &branch"))
 
 import icons_rc
 import preview_rc

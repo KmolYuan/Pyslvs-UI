@@ -1265,6 +1265,7 @@
     <addaction name="menuImport"/>
     <addaction name="separator"/>
     <addaction name="action_Save"/>
+    <addaction name="action_Save_branch"/>
     <addaction name="action_Save_as"/>
     <addaction name="menuExport"/>
     <addaction name="separator"/>
@@ -1782,6 +1783,15 @@
    </property>
    <property name="text">
     <string>Example</string>
+   </property>
+  </action>
+  <action name="action_Save_branch">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save as new &amp;branch</string>
    </property>
   </action>
  </widget>

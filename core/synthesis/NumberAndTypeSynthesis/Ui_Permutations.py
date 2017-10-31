@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -91,8 +91,8 @@ class Ui_Form(object):
         self.NL_input.setToolTip(_translate("Form", "≥3"))
         self.NJ_input.setToolTip(_translate("Form", "8~18"))
         self.label_5.setText(_translate("Form", "Degree of freedom:"))
-        self.Combine_number.setText(_translate("Form", "Combine Number"))
-        self.Combine_type.setText(_translate("Form", "Combine Type"))
+        self.Combine_number.setText(_translate("Form", "Number Combine"))
+        self.Combine_type.setText(_translate("Form", "Type Combine"))
 
 import icons_rc
 

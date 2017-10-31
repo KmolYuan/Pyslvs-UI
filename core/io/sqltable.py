@@ -186,8 +186,3 @@ class FileWidget(QWidget, Ui_Form):
             #TODO: Load the commit.
         except CommitModel.DoesNotExist:
             return None
-    
-    @pyqtSlot(int)
-    def on_AuthorList_currentRowChanged(self, row):
-        if row>-1:
-            self.FileAuthor.setText(self.AuthorList.item(row).text())

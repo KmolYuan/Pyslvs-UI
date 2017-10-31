@@ -362,20 +362,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Save action.
     @pyqtSlot()
-    def on_action_Save_triggered(self):
+    def on_action_Save_triggered(self, branch=False):
         fileName = self.FileWidget.fileName.absoluteFilePath()
         suffix = self.FileWidget.fileName.suffix()
         if suffix=='pyslvs':
-            self.FileWidget.save(fileName)
+            self.FileWidget.save(fileName, branch=False)
         else:
-            self.on_action_Save_as_triggered()
+            self.on_action_Save_as_triggered(branch)
     
     #Save as action.
     @pyqtSlot()
-    def on_action_Save_as_triggered(self):
+    def on_action_Save_as_triggered(self, branch=False):
         fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if fileName:
-            self.FileWidget.save(fileName)
+            self.FileWidget.save(fileName, branch=False)
+    
+    @pyqtSlot()
+    def on_action_Save_branch_triggered(self):
+        self.on_action_Save_triggered(True)
     
     #TODO: Solvespace 2d save function.
     
