@@ -19,15 +19,16 @@
 
 from ..QtModules import *
 from .Ui_sqltable import Ui_Form
+from sys import getsizeof
+import zlib
+compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
+decompress = lambda obj: eval(zlib.decompress(obj).decode())
 import datetime
 from peewee import (
     SqliteDatabase,
     Model,
     CharField,
     TextField,
-    BooleanField,
-    IntegerField,
-    FloatField,
     ForeignKeyField,
     DateTimeField
 )
@@ -59,48 +60,10 @@ class CommitModel(Model):
     description = TextField()
     #Use Lark parser
     mechanism = TextField()
-    #pathdata = "0.0,0.0;1.0,1.0;..."
-    pathdata = TextField()
-    class Meta:
-        database = db
-
-#Algorithm results. This section does NOT support version management.
-class AlgorithmModel(Model):
-    #Hardware information
-    network = BooleanField()
-    cpu = TextField()
-    os = TextField()
-    memory = TextField()
-    '''
-    Results
-    
-    Links = "8.5607,5.7183,..."(L0,L1,...)
-    '''
-    Algorithm = TextField()
-    type = TextField() #8Bar / 4Bar
-    time = FloatField()
-    interrupted = BooleanField()
-    Ax = FloatField()
-    Ay = FloatField()
-    Dx = FloatField()
-    Dy = FloatField()
-    Links = TextField()
-    #TimeAndFitness = "generation,fitness,time;..."
-    TimeAndFitness = TextField()
-    '''
-    generateData
-    
-    targetPath = "0.0,0.0;1.0,1.0;..."
-    upper/lower = "50.0,50.0,..."
-    '''
-    targetPath = TextField()
-    upper = TextField()
-    lower = TextField()
-    nParm = IntegerField()
-    maxGen = IntegerField()
-    report = IntegerField()
-    #algorithmPrams = "CR:0.9,NP:400,..."
-    algorithmPrams = TextField()
+    #Path data
+    pathdata = CharField()
+    #Algorithm data
+    algorithmdata = CharField()
     class Meta:
         database = db
 
@@ -110,12 +73,12 @@ class FileWidget(QWidget, Ui_Form):
         super(FileWidget, self).__init__(parent)
         self.setupUi(self)
         #UI part
-        self.FileTable.setColumnWidth(0, 30)
-        self.FileTable.setColumnWidth(1, 70)
-        self.FileTable.setColumnWidth(2, 130)
-        self.FileTable.setColumnWidth(3, 70)
-        self.FileTable.setColumnWidth(4, 70)
-        self.FileTable.setColumnWidth(5, 70)
+        self.CommitTable.setColumnWidth(0, 30)
+        self.CommitTable.setColumnWidth(1, 70)
+        self.CommitTable.setColumnWidth(2, 130)
+        self.CommitTable.setColumnWidth(3, 70)
+        self.CommitTable.setColumnWidth(4, 70)
+        self.CommitTable.setColumnWidth(5, 70)
         #The function used to get the data.
         self.pointDataFunc = pointDataFunc
         #Undo Stack
@@ -141,9 +104,14 @@ class FileWidget(QWidget, Ui_Form):
     
     def save(self, fileName):
         self.fileName = QFileInfo(fileName)
+        for result in self.Designs.result:
+            print(getsizeof(result))
+        for path in self.pathData:
+            print(getsizeof(path))
+        '''
         db.init(fileName)
         db.connect()
-        db.create_tables([CommitModel, AlgorithmModel], safe=True)
+        db.create_tables([CommitModel], safe=True)
         with db.atomic():
             pointData = self.pointDataFunc()
             commit = CommitModel(
@@ -159,12 +127,13 @@ class FileWidget(QWidget, Ui_Form):
             except:
                 db.rollback()
         db.close()
+        '''
     
     def read(self, fileName):
         self.fileName = QFileInfo(fileName)
         db.init(fileName)
         db.connect()
-        db.create_tables([CommitModel, AlgorithmModel], safe=True)
+        db.create_tables([CommitModel], safe=True)
         '''Read the table rows.'''
         db.close()
         return
