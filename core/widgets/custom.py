@@ -72,6 +72,7 @@ def initCustomWidgets(self):
     #File table settings.
     self.FileWidget = FileWidget(
         self.Entities_Point.data,
+        self.workbookSaved,
         self
     )
     self.SCMLayout.addWidget(self.FileWidget)
