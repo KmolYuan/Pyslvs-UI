@@ -109,7 +109,7 @@ class Ui_Form(object):
         self.FileAuthor_text.setText(_translate("Form", "Author:"))
         self.FileAuthor.setPlaceholderText(_translate("Form", "Anonymous"))
         self.FileDescription_text.setText(_translate("Form", "Description:"))
-        self.FileDescription.setPlaceholderText(_translate("Form", "Explain what you have done here."))
+        self.FileDescription.setPlaceholderText(_translate("Form", "Explain what you have done here (required)."))
         self.commit_button.setText(_translate("Form", "Commit"))
         self.branch_button.setText(_translate("Form", "Branch"))
         self.stash_button.setText(_translate("Form", "Stash"))

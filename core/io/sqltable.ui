@@ -112,7 +112,7 @@
    <item>
     <widget class="QLineEdit" name="FileDescription">
      <property name="placeholderText">
-      <string>Explain what you have done here.</string>
+      <string>Explain what you have done here (required).</string>
      </property>
     </widget>
    </item>

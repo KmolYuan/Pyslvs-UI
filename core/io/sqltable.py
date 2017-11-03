@@ -70,7 +70,8 @@ class LoadCommitButton(QPushButton):
     loaded = pyqtSignal(int)
     
     def __init__(self, id, parent=None):
-        super(LoadCommitButton, self).__init__("Load #{}".format(id), parent)
+        super(LoadCommitButton, self).__init__(QIcon(QPixmap(":icons/dataupdate.png")), " #{}".format(id), parent)
+        self.setToolTip("Reset to commit #{}.".format(id))
         self.id = id
     
     def mouseReleaseEvent(self, event):
