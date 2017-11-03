@@ -83,12 +83,12 @@ class FileWidget(QWidget, Ui_Form):
         super(FileWidget, self).__init__(parent)
         self.setupUi(self)
         #UI part
-        self.CommitTable.setColumnWidth(0, 70)
-        self.CommitTable.setColumnWidth(1, 70)
-        self.CommitTable.setColumnWidth(2, 130)
-        self.CommitTable.setColumnWidth(3, 70)
-        self.CommitTable.setColumnWidth(4, 70)
-        self.CommitTable.setColumnWidth(5, 70)
+        self.CommitTable.setColumnWidth(0, 70) #ID
+        self.CommitTable.setColumnWidth(1, 70) #Date
+        self.CommitTable.setColumnWidth(2, 130) #Description
+        self.CommitTable.setColumnWidth(3, 70) #Author
+        self.CommitTable.setColumnWidth(4, 70) #Previous
+        self.CommitTable.setColumnWidth(5, 70) #Branch
         #The function used to get the data.
         self.pointDataFunc = pointDataFunc
         self.isSavedFunc = isSavedFunc
@@ -151,6 +151,8 @@ class FileWidget(QWidget, Ui_Form):
                 print("Saving successful.")
                 author_model.save()
                 commit.save()
+                self.addCommit(commit)
+                self.history_commit = CommitModel.select().order_by(CommitModel.id)
                 self.isSavedFunc()
             except Exception as e:
                 print(str(e))
@@ -165,45 +167,58 @@ class FileWidget(QWidget, Ui_Form):
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel], safe=True)
-        #Read the table rows.
+        #Read and load the table rows to commit table widget.
         self.AuthorList.clear()
         self.history_commit = CommitModel.select().order_by(CommitModel.id)
         for commit in self.history_commit:
-            author = commit.author.name
-            #AuthorList
-            if author not in (self.AuthorList.item(row).text() for row in range(self.AuthorList.count())):
-                self.AuthorList.addItem(author)
-            #CommitTable
-            row = self.CommitTable.rowCount()
-            self.CommitTable.insertRow(row)
-            button = LoadCommitButton(commit.id, self)
-            button.loaded.connect(self.loadCommitState)
-            self.CommitTable.setCellWidget(row, 0, button)
-            self.CommitTable.setItem(row, 1, QTableWidgetItem(
-                "{t.year:02d}-{t.month:02d}-{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
-            ))
-            self.CommitTable.setItem(row, 2, QTableWidgetItem(commit.description))
-            self.CommitTable.setItem(row, 3, QTableWidgetItem(commit.author.name))
-            if commit.previous:
-                self.CommitTable.setItem(row, 4, QTableWidgetItem(str(commit.previous.id)))
-            else:
-                self.CommitTable.setItem(row, 4, QTableWidgetItem("None"))
-            if commit.pre_branch:
-                self.CommitTable.setItem(row, 5, QTableWidgetItem(str(commit.pre_branch.id)))
-            else:
-                self.CommitTable.setItem(row, 5, QTableWidgetItem("None"))
-            #Other data
-            self.pathData = decompress(commit.pathdata)
-            self.Designs.result = decompress(commit.algorithmdata)
-        self.loadCommitState(self.history_commit[-1].id)
+            self.addCommit(commit)
         db.close()
+        #Load the last commit.
+        self.loadCommit(self.history_commit[-1])
         self.isSavedFunc()
     
-    def loadCommitState(self, id):
+    def addCommit(self, commit):
+        author = commit.author.name
+        #AuthorList
+        if author not in (self.AuthorList.item(row).text() for row in range(self.AuthorList.count())):
+            self.AuthorList.addItem(author)
+        #CommitTable
+        row = self.CommitTable.rowCount()
+        self.CommitTable.insertRow(row)
+        button = LoadCommitButton(commit.id, self)
+        button.loaded.connect(self.loadCommitID)
+        self.CommitTable.setCellWidget(row, 0, button)
+        self.CommitTable.setItem(row, 1, QTableWidgetItem(
+            "{t.year:02d}-{t.month:02d}-{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
+        ))
+        self.CommitTable.setItem(row, 2, QTableWidgetItem(commit.description))
+        self.CommitTable.setItem(row, 3, QTableWidgetItem(commit.author.name))
+        if commit.previous:
+            self.CommitTable.setItem(row, 4, QTableWidgetItem(str(commit.previous.id)))
+        else:
+            self.CommitTable.setItem(row, 4, QTableWidgetItem("None"))
+        if commit.pre_branch:
+            self.CommitTable.setItem(row, 5, QTableWidgetItem(str(commit.pre_branch.id)))
+        else:
+            self.CommitTable.setItem(row, 5, QTableWidgetItem("None"))
+    
+    #Check the id is correct.
+    def loadCommitID(self, id: int):
         print("Load commit #{}".format(id))
         try:
             commit = self.history_commit.where(CommitModel.id==id).get()
         except CommitModel.DoesNotExist:
-            return None
+            QMessageBox.warning(self, "Warning", "Commit ID is not exist.")
         else:
-            '''TODO: Load the commit to widget.'''
+            if self.changed:
+                reply = QMessageBox.question(self, "Message", "Are you sure to load?\nAny changes won't be saved.",
+                    (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok)
+                if reply==QMessageBox.Ok:
+                    self.loadCommit(commit)
+            else:
+                self.loadCommit(commit)
+    
+    #Load the commit pointer.
+    def loadCommit(self, commit: CommitModel):
+        #TODO: Load the commit to widget.
+        print("The specified phase has been loaded.")

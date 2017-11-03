@@ -23,4 +23,4 @@ def timeNow():
     now = datetime.datetime.now()
     return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
 
-#TODO: Add example as PMKS URL.
+#TODO: Add examples as PMKS reputation.

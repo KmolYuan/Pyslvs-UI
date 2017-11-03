@@ -255,10 +255,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Link.data(),
             self.FileWidget.pathData[pathIndex] if pathIndex>-1 else ())
     
-    #Workbook Change signal.
+    #Workbook not saved signal.
     def workbookNoSave(self):
         self.FileWidget.changed = True
         self.setWindowTitle(self.windowTitle().replace('*', '')+'*')
+    
+    #Workbook saved signal.
     def workbookSaved(self):
         self.FileWidget.changed = False
         self.setWindowTitle("Pyslvs - {}".format(self.FileWidget.fileName.fileName()))
