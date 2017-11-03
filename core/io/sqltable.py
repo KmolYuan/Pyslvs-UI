@@ -66,13 +66,24 @@ class CommitModel(Model):
     class Meta:
         database = db
 
+class LoadCommitButton(QPushButton):
+    loaded = pyqtSignal(int)
+    
+    def __init__(self, id, parent=None):
+        super(LoadCommitButton, self).__init__("Load #{}".format(id), parent)
+        self.id = id
+    
+    def mouseReleaseEvent(self, event):
+        super(LoadCommitButton, self).mouseReleaseEvent(event)
+        self.loaded.emit(self.id)
+
 #The table that stored workbook data, including IO functions.
 class FileWidget(QWidget, Ui_Form):
     def __init__(self, pointDataFunc, isSavedFunc, parent):
         super(FileWidget, self).__init__(parent)
         self.setupUi(self)
         #UI part
-        self.CommitTable.setColumnWidth(0, 30)
+        self.CommitTable.setColumnWidth(0, 70)
         self.CommitTable.setColumnWidth(1, 70)
         self.CommitTable.setColumnWidth(2, 130)
         self.CommitTable.setColumnWidth(3, 70)
@@ -104,6 +115,11 @@ class FileWidget(QWidget, Ui_Form):
         db.connect()
         db.create_tables([CommitModel, UserModel], safe=True)
         authors = tuple(user.name for user in UserModel.select())
+        commit_text = self.FileDescription.text()
+        while not commit_text:
+            commit_text, ok = QInputDialog.getText(self, "Commit", "Please add comments:")
+            if not ok:
+                return
         with db.atomic():
             author = self.FileAuthor.text() if self.FileAuthor.text() else "Anonymous"
             if author in authors:
@@ -113,7 +129,7 @@ class FileWidget(QWidget, Ui_Form):
             pointData = self.pointDataFunc()
             args = {
                 'author':author_model,
-                'description':self.FileDescription.text(),
+                'description':commit_text,
                 'mechanism':compress("M[{}]".format(", ".join(str(vpoint) for vpoint in pointData))),
                 'pathdata':compress(self.pathData),
                 'algorithmdata':compress(self.Designs.result)
@@ -144,13 +160,13 @@ class FileWidget(QWidget, Ui_Form):
     def read(self, fileName):
         self.resetAllList()
         self.fileName = QFileInfo(fileName)
-        self.AuthorList.clear()
         for row in range(self.CommitTable.rowCount()):
             self.CommitTable.removeRow(row)
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel], safe=True)
         #Read the table rows.
+        self.AuthorList.clear()
         self.history_commit = CommitModel.select().order_by(CommitModel.id)
         for commit in self.history_commit:
             author = commit.author.name
@@ -160,29 +176,34 @@ class FileWidget(QWidget, Ui_Form):
             #CommitTable
             row = self.CommitTable.rowCount()
             self.CommitTable.insertRow(row)
-            self.CommitTable.setItem(row, 0, QTableWidgetItem(str(commit.id)))
+            button = LoadCommitButton(commit.id, self)
+            button.loaded.connect(self.loadCommitState)
+            self.CommitTable.setCellWidget(row, 0, button)
             self.CommitTable.setItem(row, 1, QTableWidgetItem(
                 "{t.year:02d}-{t.month:02d}-{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
             ))
             self.CommitTable.setItem(row, 2, QTableWidgetItem(commit.description))
             self.CommitTable.setItem(row, 3, QTableWidgetItem(commit.author.name))
             if commit.previous:
-                self.CommitTable.setItem(row, 4, QTableWidgetItem(commit.previous.id))
+                self.CommitTable.setItem(row, 4, QTableWidgetItem(str(commit.previous.id)))
             else:
                 self.CommitTable.setItem(row, 4, QTableWidgetItem("None"))
             if commit.pre_branch:
-                self.CommitTable.setItem(row, 5, QTableWidgetItem(commit.pre_branch.id))
+                self.CommitTable.setItem(row, 5, QTableWidgetItem(str(commit.pre_branch.id)))
             else:
                 self.CommitTable.setItem(row, 5, QTableWidgetItem("None"))
             #Other data
             self.pathData = decompress(commit.pathdata)
             self.Designs.result = decompress(commit.algorithmdata)
+        self.loadCommitState(self.history_commit[-1].id)
         db.close()
         self.isSavedFunc()
     
-    def getCommitState(self, id):
+    def loadCommitState(self, id):
+        print("Load commit #{}".format(id))
         try:
             commit = self.history_commit.where(CommitModel.id==id).get()
-            #TODO: Load the commit.
         except CommitModel.DoesNotExist:
             return None
+        else:
+            '''TODO: Load the commit to widget.'''
