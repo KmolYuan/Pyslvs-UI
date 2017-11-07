@@ -26,7 +26,7 @@ from .table import (
     SelectionLabel
 )
 from .rotatable import RotatableView
-from ..io.sqltable import FileWidget
+from ..io.peeweeIO import FileWidget
 from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as NumberAndTypeSynthesis
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 

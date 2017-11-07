@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from .Ui_sqltable import Ui_Form
+from .Ui_peeweeIO import Ui_Form
 import zlib
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
