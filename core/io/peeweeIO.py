@@ -47,11 +47,17 @@ class UserModel(Model):
     class Meta:
         database = db
 
+#The branch in this workbook.
+class BranchModel(Model):
+    name = CharField(unique=True)
+    class Meta:
+        database = db
+
 #Commit data: Mechanism and Workbook information.
 class CommitModel(Model):
     #Previous and branch commit
     previous = ForeignKeyField('self', related_name='next', null=True)
-    pre_branch = ForeignKeyField('self', related_name='next_branch', null=True)
+    branch = ForeignKeyField(BranchModel, null=True)
     #Commit time
     date = DateTimeField(default=datetime.datetime.now)
     #Workbook information
@@ -114,11 +120,16 @@ class FileWidget(QWidget, Ui_Form):
         self.fileName = QFileInfo(fileName)
         db.init(fileName)
         db.connect()
-        db.create_tables([CommitModel, UserModel], safe=True)
+        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
         authors = tuple(user.name for user in UserModel.select())
         commit_text = self.FileDescription.text()
+        branch_name = '' if branch else self.BranchList.currentItem().text()
+        while not branch_name:
+            branch_name, ok = QInputDialog.getText(self, "Branch", "Please enter the branch name:")
+            if not ok:
+                return
         while not commit_text:
-            commit_text, ok = QInputDialog.getText(self, "Commit", "Please add comments:")
+            commit_text, ok = QInputDialog.getText(self, "Commit", "Please add a comment:")
             if not ok:
                 return
         with db.atomic():
@@ -135,18 +146,13 @@ class FileWidget(QWidget, Ui_Form):
                 'pathdata':compress(self.pathData),
                 'algorithmdata':compress(self.Designs.result)
             }
-            if not branch:
-                #Last commit
-                try:
-                    args['previous'] = CommitModel.select().order_by(CommitModel.id).get()
-                except CommitModel.DoesNotExist:
-                    args['previous'] = None
-            else:
-                #Branch from
-                try:
-                    args['pre_branch'] = CommitModel.select().where(CommitModel.id==self.CommitTable.currentRow()+1).get()
-                except CommitModel.DoesNotExist:
-                    args['pre_branch'] = None
+            #Last commit
+            try:
+                args['previous'] = CommitModel.select().order_by(CommitModel.id).get()
+            except CommitModel.DoesNotExist:
+                args['previous'] = None
+            #TODO: Branch
+            args['branch'] = CommitModel.select().where(CommitModel.id==self.CommitTable.currentRow()+1).get()
             commit = CommitModel(**args)
             try:
                 print("Saving successful.")
@@ -167,7 +173,7 @@ class FileWidget(QWidget, Ui_Form):
             self.CommitTable.removeRow(row)
         db.init(fileName)
         db.connect()
-        db.create_tables([CommitModel, UserModel], safe=True)
+        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
         #Read and load the table rows to commit table widget.
         self.AuthorList.clear()
         self.history_commit = CommitModel.select().order_by(CommitModel.id)
@@ -198,10 +204,7 @@ class FileWidget(QWidget, Ui_Form):
             self.CommitTable.setItem(row, 4, QTableWidgetItem(str(commit.previous.id)))
         else:
             self.CommitTable.setItem(row, 4, QTableWidgetItem("None"))
-        if commit.pre_branch:
-            self.CommitTable.setItem(row, 5, QTableWidgetItem(str(commit.pre_branch.id)))
-        else:
-            self.CommitTable.setItem(row, 5, QTableWidgetItem("None"))
+        self.CommitTable.setItem(row, 5, QTableWidgetItem(str(commit.branch.name)))
     
     #Check the id is correct.
     def loadCommitID(self, id: int):
