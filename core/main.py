@@ -313,11 +313,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self):
         if not self.checkFileChanged():
-            self.FileWidget.reset()
             self.inputs_record.clear()
-            self.inputs_variable.clear()
+            self.DimensionalSynthesis.clear()
             self.Entities_Point.clear()
             self.Entities_Link.clear()
+            self.FileWidget.reset()
             self.Resolve()
             print("Created a new workbook.")
     
@@ -972,9 +972,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
         if self.FileWidget.Designs.result[row]['type']=='8Bar':
-            expression = Algorithm_show.mechanismParams_8Bar['Expression'].split(',')
+            expression = self.DimensionalSynthesis.mechanismParams_8Bar['Expression'].split(',')
         else:
-            expression = Algorithm_show.mechanismParams_4Bar['Expression'].split(',')
+            expression = self.DimensionalSynthesis.mechanismParams_4Bar['Expression'].split(',')
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
