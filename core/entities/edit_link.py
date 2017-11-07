@@ -65,3 +65,13 @@ class edit_link_show(QDialog, edit_link_Dialog):
                 self.noSelected.addItem(QListWidgetItem(self.PointIcon, 'Point{}'.format(pointIndex)))
         self.name_edit.setEnabled(index!=0)
         self.Color.setEnabled(index!=0)
+    
+    @pyqtSlot(QListWidgetItem)
+    def on_noSelected_itemDoubleClicked(self, item):
+        item = self.noSelected.takeItem(self.noSelected.row(item))
+        self.selected.addItem(item)
+    
+    @pyqtSlot(QListWidgetItem)
+    def on_selected_itemDoubleClicked(self, item):
+        item = self.selected.takeItem(self.selected.row(item))
+        self.noSelected.addItem(item)

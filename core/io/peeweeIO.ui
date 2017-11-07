@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>595</width>
-    <height>636</height>
+    <height>653</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QLabel" name="CommitTable_text">
      <property name="text">
@@ -68,6 +68,65 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Branch list:</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QListView" name="BranchList"/>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QPushButton" name="branch_checkout">
+         <property name="statusTip">
+          <string>Switch and load the latest commit of this branch.</string>
+         </property>
+         <property name="text">
+          <string>Checkout</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../icons.qrc">
+           <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="branch_delete">
+         <property name="statusTip">
+          <string>Remove all the commits on this branch.</string>
+         </property>
+         <property name="text">
+          <string>Delete the branch</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../icons.qrc">
+           <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QLabel" name="AuthorList_text">
      <property name="text">
       <string>Author list:</string>
@@ -119,7 +178,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="commit_button">
+      <widget class="QPushButton" name="commit_add">
+       <property name="statusTip">
+        <string>Save the changes for this phase and provide backtracking points for this phase.</string>
+       </property>
        <property name="text">
         <string>Commit</string>
        </property>
@@ -130,9 +192,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="branch_button">
+      <widget class="QPushButton" name="branch_add">
+       <property name="statusTip">
+        <string>Creat a new branch then save the commit to this branch.</string>
+       </property>
        <property name="text">
-        <string>Branch</string>
+        <string>New Branch</string>
        </property>
        <property name="icon">
         <iconset resource="../../icons.qrc">
@@ -154,7 +219,10 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="stash_button">
+      <widget class="QPushButton" name="commit_stash">
+       <property name="statusTip">
+        <string>Abandon all changes of this time, and return to the latest commit.</string>
+       </property>
        <property name="text">
         <string>Stash</string>
        </property>
