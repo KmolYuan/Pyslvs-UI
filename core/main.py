@@ -376,10 +376,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if fileName:
                 self.FileWidget.read(fileName)
     
-    #TODO: Import workbook.
+    #Import workbook.
     @pyqtSlot()
     def on_action_Import_From_Workbook_triggered(self):
-        """Import workbook."""
+        if not self.checkFileChanged():
+            fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+            if fileName:
+                self.FileWidget.merge(fileName)
     
     #Save action.
     @pyqtSlot()

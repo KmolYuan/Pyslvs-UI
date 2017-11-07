@@ -684,7 +684,6 @@ class Ui_MainWindow(object):
         self.OtherFormatMenuTitle.setEnabled(False)
         self.OtherFormatMenuTitle.setObjectName("OtherFormatMenuTitle")
         self.action_Import_From_Workbook = QtWidgets.QAction(MainWindow)
-        self.action_Import_From_Workbook.setEnabled(False)
         icon28 = QtGui.QIcon()
         icon28.addPixmap(QtGui.QPixmap(":/icons/loadfile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.action_Import_From_Workbook.setIcon(icon28)

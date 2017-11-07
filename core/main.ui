@@ -1647,9 +1647,6 @@
    </property>
   </action>
   <action name="action_Import_From_Workbook">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>

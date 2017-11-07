@@ -181,7 +181,7 @@ class FileWidget(QWidget, Ui_Form):
         self.reset()
         self.fileName = QFileInfo(fileName)
         for row in range(self.CommitTable.rowCount()):
-            self.CommitTable.removeRow(row)
+            self.CommitTable.removeRow(0)
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
@@ -193,8 +193,29 @@ class FileWidget(QWidget, Ui_Form):
         db.close()
         #Load the last commit.
         print("Added {} commits.".format(len(self.history_commit)))
-        self.loadCommit(self.history_commit[-1])
+        try:
+            self.loadCommit(self.history_commit.get())
+        except CommitModel.DoesNotExist:
+            QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
+            return
         self.isSavedFunc()
+    
+    def merge(self, fileName):
+        db.init(fileName)
+        db.connect()
+        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+        commit_all = CommitModel.select().join(BranchModel)
+        branch_all = BranchModel.select().order_by(BranchModel.name)
+        db.close()
+        branch_name, ok = QInputDialog.getItem(self, "Branch", "Select the latest commit in the branch to load.",
+            [branch.name for branch in branch_all], 0, False)
+        if ok:
+            try:
+                commit = commit_all.where(BranchModel.name==branch_name).order_by(CommitModel.date).get()
+            except CommitModel.DoesNotExist:
+                QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
+            else:
+                self.mergeCommit(commit)
     
     def addCommit(self, commit):
         row = self.CommitTable.rowCount()
@@ -250,6 +271,10 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
         print("The specified phase has been loaded.")
+    
+    def mergeCommit(self, commit: CommitModel):
+        #TODO: Import workbook.
+        print("The specified phase has been merged.")
     
     @pyqtSlot()
     def on_commit_stash_clicked(self):
