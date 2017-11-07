@@ -76,7 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Set environment variables
     def setLocate(self, locate):
         self.Default_Environment_variables = locate
-        print("~Start at: [{}]".format(self.Default_Environment_variables))
+        print("~Start at: [\"{}\"]".format(self.Default_Environment_variables))
     
     #Drag file in to our window.
     def dragEnterEvent(self, event):
@@ -188,7 +188,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard = QApplication.clipboard()
             clipboard.setText(text)
     
-    #Close Event: If the user has not saved the change.
+    #Close Event
     def closeEvent(self, event):
         if self.checkFileChanged():
             event.ignore()
@@ -200,6 +200,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Exit.")
             event.accept()
     
+    #If the user has not saved the change. Return True if user want to Discard the operation.
     def checkFileChanged(self):
         if self.FileWidget.changed:
             reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
@@ -308,6 +309,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Examples need to update!
     
+    #Create (Clean) a new workbook
+    @pyqtSlot()
+    def on_action_New_Workbook_triggered(self):
+        if not self.checkFileChanged():
+            self.FileWidget.reset()
+            self.inputs_record.clear()
+            self.inputs_variable.clear()
+            self.Entities_Point.clear()
+            self.Entities_Link.clear()
+            self.Resolve()
+            print("Created a new workbook.")
+    
     #Load PMKS URL
     @pyqtSlot()
     def on_action_From_PMKS_server_triggered(self):
@@ -358,9 +371,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Load workbook.
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
-        if fileName:
-            self.FileWidget.read(fileName)
+        if not self.checkFileChanged():
+            fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+            if fileName:
+                self.FileWidget.read(fileName)
+    
+    #TODO: Import workbook.
+    @pyqtSlot()
+    def on_action_Import_From_Workbook_triggered(self):
+        """Import workbook."""
     
     #Save action.
     @pyqtSlot()

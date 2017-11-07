@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>595</width>
+    <width>497</width>
     <height>653</height>
    </rect>
   </property>
@@ -20,6 +20,34 @@
       <string>Commits:</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QSpinBox" name="commit_current_id">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="prefix">
+        <string>#</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="commit_search_text">
+       <property name="placeholderText">
+        <string>Enter a keyword about the commit description.</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="commit_search">
+       <property name="text">
+        <string>Search</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QTableWidget" name="CommitTable">
@@ -77,10 +105,29 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QListView" name="BranchList"/>
+      <widget class="QListWidget" name="BranchList"/>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLineEdit" name="branch_current">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>93</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QPushButton" name="branch_checkout">
          <property name="statusTip">
@@ -114,7 +161,7 @@
           <string>Remove all the commits on this branch.</string>
          </property>
          <property name="text">
-          <string>Delete the branch</string>
+          <string>Delete</string>
          </property>
          <property name="icon">
           <iconset resource="../../icons.qrc">

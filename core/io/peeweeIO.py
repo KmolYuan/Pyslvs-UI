@@ -102,64 +102,75 @@ class FileWidget(QWidget, Ui_Form):
         #Undo Stack
         self.FileState = parent.FileState
         #Reset
-        self.resetAllList()
+        self.reset()
     
-    def resetAllList(self):
+    def reset(self):
         self.history_commit = []
         self.pathData = []
         self.Designs = Designs()
         self.Script = ""
         self.fileName = QFileInfo("[New Workbook]")
-        self.description = ""
         self.lastTime = datetime.datetime.now()
         self.changed = False
         self.Stack = 0
         self.FileState.clear()
+        self.BranchList.clear()
+        self.AuthorList.clear()
+        self.FileAuthor.clear()
+        self.FileDescription.clear()
+        self.branch_current.clear()
+        self.commit_search_text.clear()
+        self.commit_current_id.setValue(0)
     
-    def save(self, fileName, branch=False):
+    def save(self, fileName, isBranch=False):
         self.fileName = QFileInfo(fileName)
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
-        authors = tuple(user.name for user in UserModel.select())
+        authors = (user.name for user in UserModel.select())
+        branches = (branch.name for branch in BranchModel.select())
         commit_text = self.FileDescription.text()
-        branch_name = '' if branch else self.BranchList.currentItem().text()
+        branch_name = '' if isBranch else self.branch_current.text()
         while not branch_name:
-            branch_name, ok = QInputDialog.getText(self, "Branch", "Please enter the branch name:")
+            branch_name, ok = QInputDialog.getText(self, "Branch", "Please enter a branch name:", QLineEdit.Normal, "master")
             if not ok:
                 return
         while not commit_text:
-            commit_text, ok = QInputDialog.getText(self, "Commit", "Please add a comment:")
+            commit_text, ok = QInputDialog.getText(self, "Commit", "Please add a comment:", QLineEdit.Normal, "Update mechanism.")
             if not ok:
                 return
         with db.atomic():
-            author = self.FileAuthor.text() if self.FileAuthor.text() else "Anonymous"
-            if author in authors:
-                author_model = UserModel.select().where(UserModel.name==author).get()
+            author_name = self.FileAuthor.text() if self.FileAuthor.text() else "Anonymous"
+            if author_name in authors:
+                author_model = UserModel.select().where(UserModel.name==author_name).get()
             else:
-                author_model = UserModel(name=author)
+                author_model = UserModel(name=author_name)
+            if branch_name in branches:
+                branch_model = BranchModel.select().where(BranchModel.name==branch_name).get()
+            else:
+                branch_model = BranchModel(name=branch_name)
             pointData = self.pointDataFunc()
             args = {
                 'author':author_model,
                 'description':commit_text,
                 'mechanism':compress("M[{}]".format(", ".join(str(vpoint) for vpoint in pointData))),
                 'pathdata':compress(self.pathData),
-                'algorithmdata':compress(self.Designs.result)
+                'algorithmdata':compress(self.Designs.result),
+                'branch':branch_model
             }
             #Last commit
             try:
-                args['previous'] = CommitModel.select().order_by(CommitModel.id).get()
+                args['previous'] = CommitModel.select().where(CommitModel.id==self.commit_current_id.value()).get()
             except CommitModel.DoesNotExist:
                 args['previous'] = None
-            #TODO: Branch
-            args['branch'] = CommitModel.select().where(CommitModel.id==self.CommitTable.currentRow()+1).get()
             commit = CommitModel(**args)
             try:
-                print("Saving successful.")
                 author_model.save()
+                branch_model.save()
                 commit.save()
                 self.addCommit(commit)
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
+                print("Saving {} successful.".format(fileName))
                 self.isSavedFunc()
             except Exception as e:
                 print(str(e))
@@ -167,7 +178,7 @@ class FileWidget(QWidget, Ui_Form):
         db.close()
     
     def read(self, fileName):
-        self.resetAllList()
+        self.reset()
         self.fileName = QFileInfo(fileName)
         for row in range(self.CommitTable.rowCount()):
             self.CommitTable.removeRow(row)
@@ -181,30 +192,41 @@ class FileWidget(QWidget, Ui_Form):
             self.addCommit(commit)
         db.close()
         #Load the last commit.
+        print("Added {} commits.".format(len(self.history_commit)))
         self.loadCommit(self.history_commit[-1])
         self.isSavedFunc()
     
     def addCommit(self, commit):
-        author = commit.author.name
-        #AuthorList
-        if author not in (self.AuthorList.item(row).text() for row in range(self.AuthorList.count())):
-            self.AuthorList.addItem(author)
-        #CommitTable
         row = self.CommitTable.rowCount()
         self.CommitTable.insertRow(row)
+        #Commit ID
+        self.commit_current_id.setValue(commit.id)
         button = LoadCommitButton(commit.id, self)
         button.loaded.connect(self.loadCommitID)
         self.CommitTable.setCellWidget(row, 0, button)
-        self.CommitTable.setItem(row, 1, QTableWidgetItem(
-            "{t.year:02d}-{t.month:02d}-{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
-        ))
+        #Date
+        date = "{t.year:02d}-{t.month:02d}-{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
+        #Description
         self.CommitTable.setItem(row, 2, QTableWidgetItem(commit.description))
-        self.CommitTable.setItem(row, 3, QTableWidgetItem(commit.author.name))
+        #Author
+        author_name = commit.author.name
+        if author_name not in (self.AuthorList.item(row).text() for row in range(self.AuthorList.count())):
+            self.AuthorList.addItem(author_name)
+        #Previous commit
         if commit.previous:
-            self.CommitTable.setItem(row, 4, QTableWidgetItem(str(commit.previous.id)))
+            previous_id = str(commit.previous.id)
         else:
-            self.CommitTable.setItem(row, 4, QTableWidgetItem("None"))
-        self.CommitTable.setItem(row, 5, QTableWidgetItem(str(commit.branch.name)))
+            previous_id = "None"
+        #Branch
+        branch_name = commit.branch.name
+        if branch_name not in (self.BranchList.item(row).text() for row in range(self.BranchList.count())):
+            self.BranchList.addItem(branch_name)
+        self.branch_current.setText(branch_name)
+        #Add to table widget.
+        for i, text in enumerate((date, commit.description, author_name, previous_id, branch_name)):
+            item = QTableWidgetItem(date)
+            item.setToolTip(date)
+            self.CommitTable.setItem(row, i+1, item)
     
     #Check the id is correct.
     def loadCommitID(self, id: int):
@@ -225,4 +247,10 @@ class FileWidget(QWidget, Ui_Form):
     #Load the commit pointer.
     def loadCommit(self, commit: CommitModel):
         #TODO: Load the commit to widget.
+        self.commit_current_id.setValue(commit.id)
+        self.branch_current.setText(commit.branch.name)
         print("The specified phase has been loaded.")
+    
+    @pyqtSlot()
+    def on_commit_stash_clicked(self):
+        self.loadCommitID(self.commit_current_id.value())
