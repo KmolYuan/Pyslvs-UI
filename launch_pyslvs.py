@@ -9,7 +9,13 @@ if __name__=='__main__':
     if args.server:
         from core.server.zmq_rep import startRep
         startRep(args.server)
-        exit()
+        exit(0)
+    elif args.test:
+        from PyQt5.QtWidgets import QApplication
+        from core.main import MainWindow
+        QApp = QApplication([])
+        del QApp
+        exit(0)
     else:
         from PyQt5.QtWidgets import QApplication
         from core.main import MainWindow
@@ -21,7 +27,4 @@ if __name__=='__main__':
         run = MainWindow(args)
         run.show()
         splash.finish(run)
-        if args.test:
-            print("modules test.")
-            run.close()
         exit(QApp.exec())
