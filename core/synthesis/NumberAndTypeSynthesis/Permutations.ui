@@ -42,7 +42,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="Representation_joint"/>
+      <widget class="QLineEdit" name="Expression_joint"/>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
@@ -52,7 +52,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="Representation_link"/>
+      <widget class="QLineEdit" name="Expression_link"/>
      </item>
     </layout>
    </item>
@@ -116,7 +116,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QListWidget" name="Representation_number"/>
+    <widget class="QListWidget" name="Expression_number"/>
    </item>
    <item>
     <widget class="QPushButton" name="Combine_type">

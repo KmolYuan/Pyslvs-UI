@@ -323,7 +323,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Resolve()
             print("Created a new workbook.")
     
-    #Load PMKS URL and turn it to representation.
+    #Load PMKS URL and turn it to expression.
     @pyqtSlot()
     def on_action_From_PMKS_server_triggered(self):
         URL, ok = QInputDialog.getText(self, "PMKS URL input", "Please input link string:")
@@ -351,25 +351,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     dlg.show()
                     dlg.exec_()
                 else:
-                    self.parseRepresentation(textList)
+                    self.parseExpression(textList)
             else:
                 dlg.show()
                 dlg.exec_()
     
     @pyqtSlot()
-    def on_action_From_Representation_triggered(self):
-        expr, ok = QInputDialog.getText(self, "Representation input", "Please input representation string:")
+    def on_action_From_Expression_triggered(self):
+        expr, ok = QInputDialog.getText(self, "Expression input", "Please input expression string:")
         if ok:
-            self.parseRepresentation(expr)
+            self.parseExpression(expr)
     
-    #Parse representation.
-    def parseRepresentation(self, expr):
+    #Parse expression.
+    def parseExpression(self, expr):
         try:
             tree = parser.parse(expr)
             pointsArgs = ArgsTransformer().transform(tree)
         except Exception as e:
             print(str(e))
-            dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your representation is in an incorrect format.", (QMessageBox.Ok), self)
+            dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), self)
             dlg.show()
             dlg.exec_()
         else:
@@ -492,13 +492,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard = QApplication.clipboard()
             clipboard.setText(url)
     
-    #Output as representation.
+    #Output as expression.
     @pyqtSlot()
-    def on_action_Output_to_Representation_triggered(self):
+    def on_action_Output_to_Expression_triggered(self):
         data = self.Entities_Point.data()
         expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in data))
-        text = "You can copy the representation and import to another workbook:\n\n{}\n\nClick the save button to copy it.".format(expr)
-        dlg = QMessageBox(QMessageBox.Information, "Pyslvs Representation", text, (QMessageBox.Save | QMessageBox.Close), self)
+        text = "You can copy the expression and import to another workbook:\n\n{}\n\nClick the save button to copy it.".format(expr)
+        dlg = QMessageBox(QMessageBox.Information, "Pyslvs Expression", text, (QMessageBox.Save | QMessageBox.Close), self)
         dlg.show()
         action = dlg.exec()
         if action==QMessageBox.Save:

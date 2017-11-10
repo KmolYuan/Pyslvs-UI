@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-11-10, 13:29:03 -->
+<!-- Saved: 2017-11-10, 15:11:16 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -92,9 +92,9 @@
     <Form>core/graphics/Algorithm_preview.ui</Form>
     <Form>core/info/about.ui</Form>
     <Form>core/io/dxfType.ui</Form>
+    <Form>core/io/peeweeIO.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/io/slvsType.ui</Form>
-    <Form>core/io/sqltable.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_options.ui</Form>

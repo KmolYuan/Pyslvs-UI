@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -30,15 +30,15 @@ class Ui_Form(object):
         self.label = QtWidgets.QLabel(Form)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.Representation_joint = QtWidgets.QLineEdit(Form)
-        self.Representation_joint.setObjectName("Representation_joint")
-        self.verticalLayout.addWidget(self.Representation_joint)
+        self.Expression_joint = QtWidgets.QLineEdit(Form)
+        self.Expression_joint.setObjectName("Expression_joint")
+        self.verticalLayout.addWidget(self.Expression_joint)
         self.label_2 = QtWidgets.QLabel(Form)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
-        self.Representation_link = QtWidgets.QLineEdit(Form)
-        self.Representation_link.setObjectName("Representation_link")
-        self.verticalLayout.addWidget(self.Representation_link)
+        self.Expression_link = QtWidgets.QLineEdit(Form)
+        self.Expression_link.setObjectName("Expression_link")
+        self.verticalLayout.addWidget(self.Expression_link)
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
@@ -67,9 +67,9 @@ class Ui_Form(object):
         self.Combine_number.setAutoDefault(True)
         self.Combine_number.setObjectName("Combine_number")
         self.verticalLayout_2.addWidget(self.Combine_number)
-        self.Representation_number = QtWidgets.QListWidget(Form)
-        self.Representation_number.setObjectName("Representation_number")
-        self.verticalLayout_2.addWidget(self.Representation_number)
+        self.Expression_number = QtWidgets.QListWidget(Form)
+        self.Expression_number.setObjectName("Expression_number")
+        self.verticalLayout_2.addWidget(self.Expression_number)
         self.Combine_type = QtWidgets.QPushButton(Form)
         self.Combine_type.setAutoDefault(True)
         self.Combine_type.setObjectName("Combine_type")

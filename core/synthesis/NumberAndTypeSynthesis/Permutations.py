@@ -65,8 +65,8 @@ class Permutations_show(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         dof = self.dofFunc()
-        self.Representation_joint.setText("M[{}]".format(", ".join(str(vpoint) for vpoint in jointData)))
-        self.Representation_link.setText("M[{}]".format(", ".join(str(vlink) for vlink in linkData)))
+        self.Expression_joint.setText("M[{}]".format(", ".join(str(vpoint) for vpoint in jointData)))
+        self.Expression_link.setText("M[{}]".format(", ".join(str(vlink) for vlink in linkData)))
         NL = len(tuple(None for vlink in linkData if len(vlink.points)>1))
         NJ = len(tuple(None for vpoint in jointData if len(vpoint.links)>1))
         self.NL_input.setValue(NL)
@@ -79,15 +79,15 @@ class Permutations_show(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Combine_number_clicked(self):
         NS = NumberSynthesis(self.NL_input.value(), self.NJ_input.value())
-        self.Representation_number.clear()
+        self.Expression_number.clear()
         try:
             NS_result = NS.NLm
         except ValueError as e:
-            self.Representation_number.addItem(str(e))
+            self.Expression_number.addItem(str(e))
         else:
             for result in NS_result:
-                self.Representation_number.addItem(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))))
-        self.Representation_number.setCurrentRow(0)
+                self.Expression_number.addItem(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))))
+        self.Expression_number.setCurrentRow(0)
     
     @pyqtSlot()
     def on_Combine_type_clicked(self):
