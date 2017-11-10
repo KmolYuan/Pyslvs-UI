@@ -11,10 +11,7 @@ if __name__=='__main__':
         startRep(args.server)
         exit(0)
     elif args.test:
-        from PyQt5.QtWidgets import QApplication
         from core.main import MainWindow
-        QApp = QApplication([])
-        del QApp
         exit(0)
     else:
         from PyQt5.QtWidgets import QApplication

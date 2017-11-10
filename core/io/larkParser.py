@@ -19,7 +19,28 @@
 
 from lark import Lark, Transformer
 
+#Common grammar
+common_NUMBER = '''
+    DIGIT: "0".."9"
+    INT: DIGIT+
+    SIGNED_INT: ["+"|"-"] INT
+    DECIMAL: INT "." INT? | "." INT
+    _EXP: ("e"|"E") SIGNED_INT
+    FLOAT: INT _EXP | DECIMAL _EXP?
+    NUMBER: FLOAT | INT
+'''
+common_CNAME = '''
+    LCASE_LETTER: "a".."z"
+    UCASE_LETTER: "A".."Z"
+    LETTER: UCASE_LETTER | LCASE_LETTER
+    CNAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
+'''
+common_WS = '''
+    WS: /[ \\t\\f\\r\\n]/+
+'''
+
 parser = Lark(
+    common_NUMBER + common_CNAME + common_WS +
     '''
     type: JOINTTYPE+
     name: CNAME
@@ -34,9 +55,6 @@ parser = Lark(
     
     JOINTTYPE: "RP" | "R" | "P"
     
-    %import common.NUMBER
-    %import common.CNAME
-    %import common.WS
     %ignore WS
     ''', start='mechanism'
 )
