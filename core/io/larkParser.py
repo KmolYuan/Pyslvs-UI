@@ -22,7 +22,7 @@ from lark import Lark, Transformer
 parser = Lark(
     '''
     type: JOINTTYPE+
-    name: WORD
+    name: CNAME
     num : NUMBER  -> number
         | "-" num -> neg
     
@@ -35,7 +35,7 @@ parser = Lark(
     JOINTTYPE: "RP" | "R" | "P"
     
     %import common.NUMBER
-    %import common.WORD
+    %import common.CNAME
     %import common.WS
     %ignore WS
     ''', start='mechanism'
@@ -52,7 +52,7 @@ class ArgsTransformer(Transformer):
     #Sort the argument list.
     def joint(self, args):
         pointArgs = [
-            args[-1],
+            ','.join(args[-1]),
             '{}:{}'.format(args[0], args[1]) if args[0]!='R' else 'R',
             'Blue' if 'ground' in args[-1] else 'Green',
             args[-2][0],
@@ -64,7 +64,7 @@ class ArgsTransformer(Transformer):
     mechanism = lambda self, j: j
 
 if __name__=='__main__':
-    expr = "M[J[RP, A[45.0], P[-10.,0.], L[ground, i]]]"
+    expr = "M[J[R, P[-10.,0.], L[ground, i]], J[R, P[-10.,0.], L[ground, link_0]]]"
     tree = parser.parse(expr)
     print(tree.pretty())
     print(ArgsTransformer().transform(tree))

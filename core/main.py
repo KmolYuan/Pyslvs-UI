@@ -46,6 +46,8 @@ from .io.slvsForm.sketch import slvs2D
 from .io.loggingHandler import XStream
 #Write CSV
 import csv
+#Parser
+from .io.larkParser import parser, ArgsTransformer
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
@@ -355,33 +357,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.exec_()
     
     #Parse symbolism.
-    def parseSymbolism(self, symbolism):
-        print(symbolism)
-        '''
-        for text in textList:
-            linkNames = tuple(vlink.name for vlink in self.Entities_Link.data())
-            links = 
-            for linkName in links:
-                #If link name not exist.
-                if linkName not in linkNames:
-                    linkArgs = [linkName, 'Blue', '']
-                    self.FileState.beginMacro("Add {{Link: {}}}".format(linkName))
-                    self.FileState.push(addTableCommand(self.Entities_Link))
-                    self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
-                    self.FileState.endMacro()
-            pointArgs = [
-                ','.join(links),
-                '{}:{}'.format(item[-4], item[-1]) if item[0]!='R' else 'R',
-                'Blue' if 'ground' in links else 'Green',
-                item[1],
-                item[2]
-            ]
-            rowCount = self.Entities_Point.rowCount()
-            self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-            self.FileState.push(addTableCommand(self.Entities_Point))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
-            self.FileState.endMacro()
-        '''
+    def parseSymbolism(self, expr):
+        try:
+            tree = parser.parse(expr)
+            pointsArgs = ArgsTransformer().transform(tree)
+        except Exception as e:
+            print(str(e))
+            dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your symbolism is in an incorrect format.", (QMessageBox.Ok), self)
+            dlg.show()
+            dlg.exec_()
+        else:
+            for pointArgs in pointsArgs:
+                linkNames = tuple(vlink.name for vlink in self.Entities_Link.data())
+                links = pointArgs[0].split(',')
+                for linkName in links:
+                    #If link name not exist.
+                    if linkName not in linkNames:
+                        linkArgs = [linkName, 'Blue', '']
+                        self.FileState.beginMacro("Add {{Link: {}}}".format(linkName))
+                        self.FileState.push(addTableCommand(self.Entities_Link))
+                        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
+                        self.FileState.endMacro()
+                rowCount = self.Entities_Point.rowCount()
+                self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+                self.FileState.push(addTableCommand(self.Entities_Point))
+                self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
+                self.FileState.endMacro()
     
     #Load workbook.
     @pyqtSlot()
