@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -210,8 +210,8 @@ class Ui_MainWindow(object):
         self.inputs_variable_play = QtWidgets.QPushButton(self.inputs_variable_groupBox)
         self.inputs_variable_play.setEnabled(False)
         icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon5.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
+        icon5.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.inputs_variable_play.setIcon(icon5)
         self.inputs_variable_play.setCheckable(True)
         self.inputs_variable_play.setObjectName("inputs_variable_play")
@@ -480,8 +480,8 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.ResetCanvas)
         self.FreeMoveMode = QtWidgets.QPushButton(self.BrowserWidget)
         icon14 = QtGui.QIcon()
-        icon14.addPixmap(QtGui.QPixmap(":/icons/freemove_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         icon14.addPixmap(QtGui.QPixmap(":/icons/freemove_on.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
+        icon14.addPixmap(QtGui.QPixmap(":/icons/freemove_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.FreeMoveMode.setIcon(icon14)
         self.FreeMoveMode.setIconSize(QtCore.QSize(32, 32))
         self.FreeMoveMode.setCheckable(True)
@@ -732,6 +732,12 @@ class Ui_MainWindow(object):
         self.action_Save_branch = QtWidgets.QAction(MainWindow)
         self.action_Save_branch.setIcon(icon11)
         self.action_Save_branch.setObjectName("action_Save_branch")
+        self.action_From_Representation = QtWidgets.QAction(MainWindow)
+        self.action_From_Representation.setIcon(icon21)
+        self.action_From_Representation.setObjectName("action_From_Representation")
+        self.action_Output_to_Representation = QtWidgets.QAction(MainWindow)
+        self.action_Output_to_Representation.setIcon(icon21)
+        self.action_Output_to_Representation.setObjectName("action_Output_to_Representation")
         self.menuExport.addAction(self.SolvespaceMenuTitle)
         self.menuExport.addAction(self.action_Solvespace_2D_sketch)
         self.menuExport.addSeparator()
@@ -739,9 +745,11 @@ class Ui_MainWindow(object):
         self.menuExport.addAction(self.action_DXF_2D_sketch)
         self.menuExport.addSeparator()
         self.menuExport.addAction(self.OtherFormatMenuTitle)
+        self.menuExport.addAction(self.action_Output_to_Representation)
         self.menuExport.addAction(self.action_Output_to_Picture)
         self.menuExport.addAction(self.action_Output_to_PMKS)
         self.menuImport.addAction(self.action_Import_From_Workbook)
+        self.menuImport.addAction(self.action_From_Representation)
         self.menuImport.addAction(self.action_From_PMKS_server)
         self.menuFile.addAction(self.action_New_Workbook)
         self.menuFile.addAction(self.action_Load_Workbook)
@@ -937,6 +945,8 @@ class Ui_MainWindow(object):
         self.action_From_PMKS_server.setText(_translate("MainWindow", "From PMKS server"))
         self.action_Example.setText(_translate("MainWindow", "Example"))
         self.action_Save_branch.setText(_translate("MainWindow", "Save as new &branch"))
+        self.action_From_Representation.setText(_translate("MainWindow", "From representation"))
+        self.action_Output_to_Representation.setText(_translate("MainWindow", "Get representation"))
 
 import icons_rc
 import preview_rc

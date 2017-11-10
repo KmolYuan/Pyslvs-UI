@@ -1249,6 +1249,7 @@
      <addaction name="action_DXF_2D_sketch"/>
      <addaction name="separator"/>
      <addaction name="OtherFormatMenuTitle"/>
+     <addaction name="action_Output_to_Representation"/>
      <addaction name="action_Output_to_Picture"/>
      <addaction name="action_Output_to_PMKS"/>
     </widget>
@@ -1257,6 +1258,7 @@
       <string>&amp;Import</string>
      </property>
      <addaction name="action_Import_From_Workbook"/>
+     <addaction name="action_From_Representation"/>
      <addaction name="action_From_PMKS_server"/>
     </widget>
     <addaction name="action_New_Workbook"/>
@@ -1789,6 +1791,24 @@
    </property>
    <property name="text">
     <string>Save as new &amp;branch</string>
+   </property>
+  </action>
+  <action name="action_From_Representation">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+   </property>
+   <property name="text">
+    <string>From representation</string>
+   </property>
+  </action>
+  <action name="action_Output_to_Representation">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+   </property>
+   <property name="text">
+    <string>Get representation</string>
    </property>
   </action>
  </widget>
