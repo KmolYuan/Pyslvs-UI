@@ -5,3 +5,4 @@ pyzmq
 openpyxl
 psutil
 peewee
+lark-parser

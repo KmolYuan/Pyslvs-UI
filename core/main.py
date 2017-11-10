@@ -308,7 +308,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Examples need to update!
     
-    #Load PMKS URL
+    #Load PMKS URL and turn it to symbolism.
     @pyqtSlot()
     def on_action_From_PMKS_server_triggered(self):
         URL, ok = QInputDialog.getText(self, "PMKS URL input", "Please input link string:")
@@ -316,24 +316,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), self)
             if URL:
                 try:
-                    self.URLParser(tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0].replace('mech=', ''))
-                except:
+                    textList = list(filter(lambda s: s not in ('', " ", '\n'),
+                        tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0]
+                        .replace('mech=', '').split('|')
+                    ))
+                    for i in range(len(textList)):
+                        item = textList[i].split(',')[:-1]
+                        isfloat = lambda s: s.replace('.','',1).isdigit()
+                        hasAngle = isfloat(item[-1]) and isfloat(item[-2]) and isfloat(item[-3])
+                        links = item[:-4] if hasAngle else item[:-3]
+                        item = item[-4:] if hasAngle else item[-3:]
+                        textList[i] = "J[{}, P[{}], L[{}]]".format(
+                            "{}:{}".format(item[-4], item[-1]) if item[0]!='R' else 'R',
+                            ", ".join((item[1], item[2])),
+                            ", ".join(links)
+                        )
+                    textList = "M[{}]".format(", ".join(textList))
+                except Exception as e:
                     dlg.show()
                     dlg.exec_()
+                else:
+                    self.parseSymbolism(textList)
             else:
                 dlg.show()
                 dlg.exec_()
     
-    #Parse URL from PMKS symbolic.
-    def URLParser(self, URL):
-        textList = tuple(filter(lambda s: s!='', URL.split('|')))
+    #Parse symbolism.
+    def parseSymbolism(self, symbolism):
+        print(symbolism)
+        '''
         for text in textList:
-            item = text.split(',')[:-1]
-            isfloat = lambda s: s.replace('.','',1).isdigit()
-            hasAngle = isfloat(item[-1]) and isfloat(item[-2]) and isfloat(item[-3])
-            links = item[:-4] if hasAngle else item[:-3]
-            item = item[-4:] if hasAngle else item[-3:]
-            linkNames = [vlink.name for vlink in self.Entities_Link.data()]
+            linkNames = tuple(vlink.name for vlink in self.Entities_Link.data())
+            links = 
             for linkName in links:
                 #If link name not exist.
                 if linkName not in linkNames:
@@ -354,6 +368,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(addTableCommand(self.Entities_Point))
             self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
             self.FileState.endMacro()
+        '''
     
     #Load workbook.
     @pyqtSlot()
@@ -437,13 +452,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         text = '\n'.join([
             "Copy and past this link to web browser:\n", url+'\n',
             "If you have installed Microsoft Silverlight in Internet Explorer as default browser, "+
-            "just click \"Open\" button to open it in PMKS web version."
+            "just click \"Open\" button to open it in PMKS website."
         ])
-        dlg = QMessageBox(QMessageBox.Information, "PMKS web server", text, (QMessageBox.Open | QMessageBox.Close), self)
-        dlg.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        dlg = QMessageBox(QMessageBox.Information, "PMKS web server", text, (QMessageBox.Save | QMessageBox.Open | QMessageBox.Close), self)
         dlg.show()
-        if dlg.exec()==QMessageBox.Open:
+        action = dlg.exec()
+        if action==QMessageBox.Open:
             self.OpenURL(url)
+        elif action==QMessageBox.Save:
+            clipboard = QApplication.clipboard()
+            clipboard.setText(url)
     
     #TODO: Output to Python script for Jupyterhub.
     @pyqtSlot()
