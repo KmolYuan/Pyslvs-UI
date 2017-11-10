@@ -32,9 +32,13 @@ ifeq ($(OS),Windows_NT)
 	$(eval PYTHON = py$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)")w)
 	$(eval CPPYTHON = cp$(shell python -c "import sys;t='{v[0]}{v[1]}'.format(v=list(sys.version_info[:2]));sys.stdout.write(t)"))
 	$(eval PYQTPATH = $(shell python -c "import PyQt5, os, sys;sys.stdout.write(os.path.dirname(PyQt5.__file__))"))
+	$(eval LARKPATH = $(shell python -c "import lark, os, sys;sys.stdout.write(os.path.dirname(lark.__file__))"))
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main.ico \
 --path="$(PYQTPATH)\Qt\bin" \
+--add-data="$(LARKPATH)\grammars\common.g;site-packages\lark\grammars" \
+--add-data="$(LARKPATH)\grammars\numbers.g;site-packages\lark\grammars" \
+--add-data="$(LARKPATH)\grammars\variables.g;site-packages\lark\grammars" \
 --add-binary="core/kernel/python_solvespace/libslvs.so;." \
 --add-binary="core/kernel/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_algorithm/firefly.$(CPPYTHON)-win_amd64.pyd;." \
@@ -55,10 +59,10 @@ endif
 run: build
 ifeq ($(OS),Windows_NT)
 	$(eval EXE = $(shell dir dist /b))
-	@./dist/$(EXE) -h
+	@./dist/$(EXE) --test
 else
 	$(eval APPIMAGE = $(shell ls -1 out))
-	@./out/$(APPIMAGE) -h
+	@./out/$(APPIMAGE) --test
 endif
 
 clean:

@@ -21,4 +21,7 @@ if __name__=='__main__':
         run = MainWindow(args)
         run.show()
         splash.finish(run)
+        if args.test:
+            print("modules test.")
+            run.close()
         exit(QApp.exec())
