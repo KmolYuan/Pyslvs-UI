@@ -12,8 +12,6 @@
 
     + [How to startup](#how-to-startup)
     + [Symbolic](#symbolic)
-    + [Path Track](#path-track)
-    + [Triangle Solver](#triangle-solver)
     + [Algorithm](#algorithm)
 
 1. [Modules Requirement](#modules-requirement)
@@ -79,17 +77,6 @@ Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 1. Link
 
     ![Link](images/Link.png)
-
-Triangle Solver
----
-
-![TriangleSolver](images/TriangleSolver.png)
-
-Triangle solver find the node position by using three triangular relationship.
-
-![TriangleSolver_merge](images/TriangleSolver_merge.png)
-
-Then merge into canvace as well.
 
 Algorithm
 ---
