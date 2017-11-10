@@ -33,7 +33,7 @@ python --version
 pip --version
 
 # Install python dependencies into the virtualenv
-pip install pyqt5 qscintilla pyqtchart
+pip install pyqt5 pyqtchart
 pip install -r ../../requirements.txt
 
 deactivate
