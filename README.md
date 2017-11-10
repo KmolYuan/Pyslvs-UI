@@ -367,6 +367,8 @@ Including Python modules:
 * [PyZMQ] (New BSD 3-Clause, LGPL, Apache)
 * [openpyxl] (MIT)
 * [psutil] (BSD)
+* [peewee] (MIT)
+* [lark-parser] (MIT)
 
 Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
 
@@ -394,6 +396,8 @@ Here is the **origin kernel** repository:
 [PyZMQ]: http://zeromq.org/bindings:python
 [openpyxl]: http://openpyxl.readthedocs.io/
 [psutil]: https://github.com/giampaolo/psutil
+[peewee]: http://docs.peewee-orm.com/en/latest/
+[lark-parser]: https://github.com/erezsh/lark
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
