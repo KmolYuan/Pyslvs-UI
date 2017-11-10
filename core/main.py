@@ -76,7 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Set environment variables
     def setLocate(self, locate):
         self.Default_Environment_variables = locate
-        print("~Start at: [{}]".format(self.Default_Environment_variables))
+        print("~Start at: [\"{}\"]".format(self.Default_Environment_variables))
     
     #Drag file in to our window.
     def dragEnterEvent(self, event):
@@ -188,7 +188,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard = QApplication.clipboard()
             clipboard.setText(text)
     
-    #Close Event: If the user has not saved the change.
+    #Close Event
     def closeEvent(self, event):
         if self.checkFileChanged():
             event.ignore()
@@ -200,6 +200,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Exit.")
             event.accept()
     
+    #If the user has not saved the change. Return True if user want to Discard the operation.
     def checkFileChanged(self):
         if self.FileWidget.changed:
             reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
@@ -308,6 +309,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #TODO: Examples need to update!
     
+    #Create (Clean) a new workbook
+    @pyqtSlot()
+    def on_action_New_Workbook_triggered(self):
+        if not self.checkFileChanged():
+            self.inputs_record.clear()
+            self.DimensionalSynthesis.clear()
+            self.Entities_Point.clear()
+            self.Entities_Link.clear()
+            self.FileWidget.reset()
+            self.Resolve()
+            print("Created a new workbook.")
+    
     #Load PMKS URL and turn it to symbolism.
     @pyqtSlot()
     def on_action_From_PMKS_server_triggered(self):
@@ -373,9 +386,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Load workbook.
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
-        if fileName:
-            self.FileWidget.read(fileName)
+        if not self.checkFileChanged():
+            fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+            if fileName:
+                self.FileWidget.read(fileName)
+    
+    #Import workbook.
+    @pyqtSlot()
+    def on_action_Import_From_Workbook_triggered(self):
+        if not self.checkFileChanged():
+            fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+            if fileName:
+                self.FileWidget.merge(fileName)
     
     #Save action.
     @pyqtSlot()
@@ -968,9 +990,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_mergeResult(self, row, answer, Path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
         if self.FileWidget.Designs.result[row]['type']=='8Bar':
-            expression = Algorithm_show.mechanismParams_8Bar['Expression'].split(',')
+            expression = self.DimensionalSynthesis.mechanismParams_8Bar['Expression'].split(',')
         else:
-            expression = Algorithm_show.mechanismParams_4Bar['Expression'].split(',')
+            expression = self.DimensionalSynthesis.mechanismParams_4Bar['Expression'].split(',')
         expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)

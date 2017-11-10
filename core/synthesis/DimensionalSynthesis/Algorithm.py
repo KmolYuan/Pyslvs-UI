@@ -413,10 +413,10 @@ class Algorithm_show(QWidget, PathSolving_Form):
         dlg.show()
     
     @pyqtSlot(int)
-    def on_Result_list_currentRowChanged(self, cr):
+    def on_Result_list_currentRowChanged(self, row):
         self.isGetResult()
-        if cr>-1 and cr!=len(self.mechanism_data):
-            args = self.mechanism_data[cr]
+        if row>-1 and row!=len(self.mechanism_data):
+            args = self.mechanism_data[row]
             keys = set(args['algorithmPrams'].keys())
             if keys==set(self.GeneticPrams.keys()):
                 self.type0.setChecked(True)
@@ -480,3 +480,16 @@ class Algorithm_show(QWidget, PathSolving_Form):
     @pyqtSlot(float)
     def updateRange(self, p0=None):
         self.fixPointRange.emit((self.Ax.value(), self.Ay.value()), self.Ar.value(), (self.Dx.value(), self.Dy.value()), self.Dr.value())
+    
+    def clear(self):
+        self.Point_list.clear()
+        self.Result_list.clear()
+        self.Settings = self.defaultSettings
+        self.X_coordinate.setValue(0)
+        self.Y_coordinate.setValue(0)
+        self.Ax.setValue(0)
+        self.Ay.setValue(0)
+        self.Ar.setValue(100)
+        self.Dx.setValue(0)
+        self.Dy.setValue(0)
+        self.Dr.setValue(100)

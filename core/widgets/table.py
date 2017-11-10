@@ -60,6 +60,11 @@ class BaseTableWidget(QTableWidget):
     def keyPressEvent(self, event):
         if event.key()==Qt.Key_Delete:
             self.deleteRequest.emit()
+    
+    #Overload clear function, just removed all items.
+    def clear(self):
+        for row in range(self.rowCount()):
+            self.removeRow(0)
 
 class PointTableWidget(BaseTableWidget):
     name = 'Point'
@@ -265,6 +270,11 @@ class LinkTableWidget(BaseTableWidget):
     def dropEvent(self, event):
         self.dragIn.emit([int(e) for e in event.mimeData().text().split(';')])
         event.acceptProposedAction()
+    
+    def clear(self):
+        super(LinkTableWidget, self).clear()
+        self.setRowCount(1)
+        self.editArgs(0, 'ground', 'White', '')
 
 class SelectionLabel(QLabel):
     def __init__(self, *Args):

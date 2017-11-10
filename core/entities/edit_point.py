@@ -61,3 +61,13 @@ class edit_point_show(QDialog, edit_point_Dialog):
     @pyqtSlot(int)
     def on_Type_currentIndexChanged(self, index):
         self.Angle.setEnabled(index!=0)
+    
+    @pyqtSlot(QListWidgetItem)
+    def on_noSelected_itemDoubleClicked(self, item):
+        item = self.noSelected.takeItem(self.noSelected.row(item))
+        self.selected.addItem(item)
+    
+    @pyqtSlot(QListWidgetItem)
+    def on_selected_itemDoubleClicked(self, item):
+        item = self.selected.takeItem(self.selected.row(item))
+        self.noSelected.addItem(item)

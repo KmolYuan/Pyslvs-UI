@@ -26,7 +26,7 @@ from .table import (
     SelectionLabel
 )
 from .rotatable import RotatableView
-from ..io.sqltable import FileWidget
+from ..io.peeweeIO import FileWidget
 from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as NumberAndTypeSynthesis
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
@@ -76,8 +76,8 @@ def initCustomWidgets(self):
         self
     )
     self.SCMLayout.addWidget(self.FileWidget)
-    self.FileWidget.commit_button.clicked.connect(self.on_action_Save_triggered)
-    self.FileWidget.branch_button.clicked.connect(self.on_action_Save_branch_triggered)
+    self.FileWidget.commit_add.clicked.connect(self.on_action_Save_triggered)
+    self.FileWidget.branch_add.clicked.connect(self.on_action_Save_branch_triggered)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(
         self.Entities_Point.data,
