@@ -36,9 +36,6 @@ ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main.ico \
 --path="$(PYQTPATH)\Qt\bin" \
---add-data="$(LARKPATH)\grammars\common.g;site-packages\lark\grammars" \
---add-data="$(LARKPATH)\grammars\numbers.g;site-packages\lark\grammars" \
---add-data="$(LARKPATH)\grammars\variables.g;site-packages\lark\grammars" \
 --add-binary="core/kernel/python_solvespace/libslvs.so;." \
 --add-binary="core/kernel/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/kernel/pyslvs_algorithm/firefly.$(CPPYTHON)-win_amd64.pyd;." \
