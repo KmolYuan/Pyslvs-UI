@@ -83,10 +83,15 @@ class LoadCommitButton(QPushButton):
     def mouseReleaseEvent(self, event):
         super(LoadCommitButton, self).mouseReleaseEvent(event)
         self.loaded.emit(self.id)
+    
+    def isLoaded(self, id: int):
+        self.setEnabled(id!=self.id)
 
 #The table that stored workbook data, including IO functions.
 class FileWidget(QWidget, Ui_Form):
-    def __init__(self, pointDataFunc, isSavedFunc, parent):
+    load_id = pyqtSignal(int)
+    
+    def __init__(self, parent):
         super(FileWidget, self).__init__(parent)
         self.setupUi(self)
         #UI part
@@ -96,16 +101,18 @@ class FileWidget(QWidget, Ui_Form):
         self.CommitTable.setColumnWidth(3, 70) #Author
         self.CommitTable.setColumnWidth(4, 70) #Previous
         self.CommitTable.setColumnWidth(5, 70) #Branch
-        #The function used to get the data.
-        self.pointDataFunc = pointDataFunc
-        self.isSavedFunc = isSavedFunc
+        #The main window functions.
+        self.pointDataFunc = parent.Entities_Point.data #Get current Point data.
+        self.isSavedFunc = parent.workbookSaved #Call it to get main window be shown as saved.
+        self.parseFunc = parent.parseExpression #Main window will load the entered expression.
+        self.clearFunc = parent.clear #Reset the main window.
         #Undo Stack
         self.FileState = parent.FileState
         #Reset
         self.reset()
     
     def reset(self):
-        self.history_commit = []
+        self.history_commit = None #peewee Quary type
         self.pathData = []
         self.Designs = Designs()
         self.Script = ""
@@ -114,6 +121,8 @@ class FileWidget(QWidget, Ui_Form):
         self.changed = False
         self.Stack = 0
         self.FileState.clear()
+        for row in range(self.CommitTable.rowCount()):
+            self.CommitTable.removeRow(0)
         self.BranchList.clear()
         self.AuthorList.clear()
         self.FileAuthor.clear()
@@ -224,6 +233,7 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(commit.id)
         button = LoadCommitButton(commit.id, self)
         button.loaded.connect(self.loadCommitID)
+        self.load_id.connect(button.isLoaded)
         self.CommitTable.setCellWidget(row, 0, button)
         #Date
         date = "{t.year:02d}-{t.month:02d}-{t.day:02d} {t.hour:02d}:{t.minute:02d}:{t.second:02d}".format(t=commit.date)
@@ -256,6 +266,8 @@ class FileWidget(QWidget, Ui_Form):
             commit = self.history_commit.where(CommitModel.id==id).get()
         except CommitModel.DoesNotExist:
             QMessageBox.warning(self, "Warning", "Commit ID is not exist.")
+        except AttributeError:
+            QMessageBox.warning(self, "Warning", "Nothing submitted.")
         else:
             if self.changed:
                 reply = QMessageBox.question(self, "Message", "Are you sure to load?\nAny changes won't be saved.",
@@ -267,13 +279,25 @@ class FileWidget(QWidget, Ui_Form):
     
     #Load the commit pointer.
     def loadCommit(self, commit: CommitModel):
-        #TODO: Load the commit to widget.
+        #Load the commit to widget.
+        self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
+        #Reset the main window status.
+        self.clearFunc()
+        #Load the expression.
+        self.parseFunc(decompress(commit.mechanism))
+        #TODO: Load pathdata.
+        self.pathData = decompress(commit.pathdata)
+        #TODO: Load algorithmdata.
+        self.Designs.result = decompress(commit.algorithmdata)
+        #Workbook loaded.
+        self.isSavedFunc()
         print("The specified phase has been loaded.")
     
     def mergeCommit(self, commit: CommitModel):
-        #TODO: Import workbook.
+        #Load the expression.
+        self.parseFunc(decompress(commit.mechanism))
         print("The specified phase has been merged.")
     
     @pyqtSlot()

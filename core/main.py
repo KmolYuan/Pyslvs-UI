@@ -315,13 +315,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self):
         if not self.checkFileChanged():
-            self.inputs_record.clear()
-            self.DimensionalSynthesis.clear()
-            self.Entities_Point.clear()
-            self.Entities_Link.clear()
+            self.clear()
             self.FileWidget.reset()
-            self.Resolve()
             print("Created a new workbook.")
+    
+    def clear(self):
+        self.inputs_record.clear()
+        self.DimensionalSynthesis.clear()
+        self.Entities_Point.clear()
+        self.Entities_Link.clear()
+        self.Resolve()
     
     #Load PMKS URL and turn it to expression.
     @pyqtSlot()
@@ -408,20 +411,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Save action.
     @pyqtSlot()
-    def on_action_Save_triggered(self, branch=False):
+    def on_action_Save_triggered(self, isBranch=False):
         fileName = self.FileWidget.fileName.absoluteFilePath()
         suffix = self.FileWidget.fileName.suffix()
         if suffix=='pyslvs':
-            self.FileWidget.save(fileName, branch=False)
+            self.FileWidget.save(fileName, isBranch=False)
         else:
-            self.on_action_Save_as_triggered(branch)
+            self.on_action_Save_as_triggered(isBranch)
     
     #Save as action.
     @pyqtSlot()
-    def on_action_Save_as_triggered(self, branch=False):
+    def on_action_Save_as_triggered(self, isBranch=False):
         fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if fileName:
-            self.FileWidget.save(fileName, branch=False)
+            self.FileWidget.save(fileName, isBranch=False)
     
     @pyqtSlot()
     def on_action_Save_branch_triggered(self):

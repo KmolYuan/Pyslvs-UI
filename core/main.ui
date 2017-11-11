@@ -1269,6 +1269,7 @@
     <addaction name="action_Save"/>
     <addaction name="action_Save_branch"/>
     <addaction name="action_Save_as"/>
+    <addaction name="action_Stash"/>
     <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="action_Full_Screen"/>
@@ -1784,15 +1785,6 @@
     <string>Example</string>
    </property>
   </action>
-  <action name="action_Save_branch">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
-   </property>
-   <property name="text">
-    <string>Save as new &amp;branch</string>
-   </property>
-  </action>
   <action name="action_From_Expression">
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -1809,6 +1801,30 @@
    </property>
    <property name="text">
     <string>Get expression</string>
+   </property>
+  </action>
+  <action name="action_Save_branch">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/git.png</normaloff>:/icons/git.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save to new branch</string>
+   </property>
+   <property name="statusTip">
+    <string>Creat a new branch then save the commit to this branch.</string>
+   </property>
+  </action>
+  <action name="action_Stash">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stash</string>
+   </property>
+   <property name="statusTip">
+    <string>Abandon all changes of this time, and return to the latest commit.</string>
    </property>
   </action>
  </widget>

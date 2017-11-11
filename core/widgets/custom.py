@@ -70,14 +70,11 @@ def initCustomWidgets(self):
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
     #File table settings.
-    self.FileWidget = FileWidget(
-        self.Entities_Point.data,
-        self.workbookSaved,
-        self
-    )
+    self.FileWidget = FileWidget(self)
     self.SCMLayout.addWidget(self.FileWidget)
     self.FileWidget.commit_add.clicked.connect(self.on_action_Save_triggered)
     self.FileWidget.branch_add.clicked.connect(self.on_action_Save_branch_triggered)
+    self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(
         self.Entities_Point.data,
