@@ -137,14 +137,6 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
     
     def save(self, fileName, isBranch=False):
-        if fileName!=self.fileName.absoluteFilePath() and os.path.isfile(fileName):
-            os.remove(fileName)
-            print("The original file has been overwritten.")
-        db.init(fileName)
-        db.connect()
-        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
-        authors = (user.name for user in UserModel.select())
-        branches = (branch.name for branch in BranchModel.select())
         commit_text = self.FileDescription.text()
         branch_name = '' if isBranch else self.branch_current.text()
         while not branch_name:
@@ -155,6 +147,14 @@ class FileWidget(QWidget, Ui_Form):
             commit_text, ok = QInputDialog.getText(self, "Commit", "Please add a comment:", QLineEdit.Normal, "Update mechanism.")
             if not ok:
                 return
+        if fileName!=self.fileName.absoluteFilePath() and os.path.isfile(fileName):
+            os.remove(fileName)
+            print("The original file has been overwritten.")
+        db.init(fileName)
+        db.connect()
+        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+        authors = (user.name for user in UserModel.select())
+        branches = (branch.name for branch in BranchModel.select())
         with db.atomic():
             author_name = self.FileAuthor.text() if self.FileAuthor.text() else "Anonymous"
             if author_name in authors:
