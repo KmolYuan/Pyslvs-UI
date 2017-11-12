@@ -12,6 +12,7 @@ if __name__=='__main__':
         exit(0)
     elif args.test:
         from core.main import MainWindow
+        print("All modules are loaded.")
         exit(0)
     else:
         from PyQt5.QtWidgets import QApplication
