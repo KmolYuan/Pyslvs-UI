@@ -125,8 +125,9 @@ class VPoint:
         return round(degrees(atan2(p.y-self.y, p.x-self.x)), 4)
     
     def __repr__(self):
-        return "J[{}, P[{}], L[{}]]".format(
+        return "J[{}, color[{}], P[{}], L[{}]]".format(
             "{}, A[{}]".format(self.typeSTR, self.angle) if self.typeSTR!='R' else 'R',
+            self.colorSTR,
             "{}, {}".format(self.x, self.y),
             ", ".join(l for l in self.links)
         )

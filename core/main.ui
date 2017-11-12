@@ -1751,6 +1751,9 @@
    <property name="text">
     <string>Show GUI console</string>
    </property>
+   <property name="shortcut">
+    <string>F12</string>
+   </property>
   </action>
   <action name="action_Output_to_PMKS">
    <property name="icon">

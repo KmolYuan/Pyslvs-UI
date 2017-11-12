@@ -22,6 +22,7 @@ from .Ui_peeweeIO import Ui_Form
 import zlib
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
+import os
 import datetime
 from peewee import (
     SqliteDatabase,
@@ -32,6 +33,7 @@ from peewee import (
     DateTimeField
 )
 
+#Create a empty Sqlite database object.
 db = SqliteDatabase(None)
 
 class Designs:
@@ -132,7 +134,9 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
     
     def save(self, fileName, isBranch=False):
-        self.fileName = QFileInfo(fileName)
+        if fileName!=self.fileName:
+            os.remove(fileName)
+            print("The original file has been overwritten.")
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
@@ -178,12 +182,15 @@ class FileWidget(QWidget, Ui_Form):
                 branch_model.save()
                 commit.save()
                 self.addCommit(commit)
-                self.history_commit = CommitModel.select().order_by(CommitModel.id)
-                print("Saving {} successful.".format(fileName))
-                self.isSavedFunc()
             except Exception as e:
                 print(str(e))
                 db.rollback()
+            else:
+                self.history_commit = CommitModel.select().order_by(CommitModel.id)
+                self.loadCommit(self.history_commit.get())
+                print("Saving {} successful.".format(fileName))
+                self.isSavedFunc()
+        self.fileName = QFileInfo(fileName)
         db.close()
     
     def read(self, fileName):

@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from lark import Lark, Transformer
+from ..graphics.color import colorName
 
 #Common grammar
 common_NUMBER = '''
@@ -39,6 +40,8 @@ common_WS = '''
     WS: /[ \\t\\f\\r\\n]/+
 '''
 
+COLOR_LIST = " | ".join("\"{}\"".format(color) for color in reversed(colorName()))
+
 parser = Lark(
     common_NUMBER + common_CNAME + common_WS +
     '''
@@ -47,13 +50,15 @@ parser = Lark(
     num : NUMBER  -> number
         | "-" num -> neg
     
-    joint    : "J[" [type ("," angle)? "," point "," link ("," num)?] "]"
+    joint    : "J[" [type ("," angle)? ("," color)? "," point "," link] "]"
     link     : "L[" [name ("," name)*] "]"
     point    : "P[" [num  "," num] "]"
     angle    : "A[" num "]"
+    color    : "color[" COLOR+ "]"
     mechanism: "M[" [joint ("," joint)*] "]"
     
     JOINTTYPE: "RP" | "R" | "P"
+    COLOR    : '''+COLOR_LIST+'''
     
     %ignore WS
     ''', start='mechanism'
@@ -62,6 +67,7 @@ parser = Lark(
 class ArgsTransformer(Transformer):
     type = lambda self, n: str(n[0])
     name = type
+    color = type
     neg = lambda self, n: -n[0]
     number = lambda self, n: float(n[0])
     point = lambda self, c: tuple(c)
@@ -69,10 +75,19 @@ class ArgsTransformer(Transformer):
     
     #Sort the argument list.
     def joint(self, args):
+        '''
+        [0]: type
+        [1]: angle
+        [1]/[2]: color
+        [-2]: point
+        [-1]: link
+        '''
+        hasAngle = args[0]!='R'
+        color = args[2] if hasAngle else args[1]
         pointArgs = [
             ','.join(args[-1]),
-            '{}:{}'.format(args[0], args[1]) if args[0]!='R' else 'R',
-            'Blue' if 'ground' in args[-1] else 'Green',
+            '{}:{}'.format(args[0], args[1]) if hasAngle else 'R',
+            color if color in colorName() else 'Blue' if 'ground' in args[-1] else 'Green',
             args[-2][0],
             args[-2][1]
         ]
@@ -80,9 +95,3 @@ class ArgsTransformer(Transformer):
     
     link = lambda self, a: tuple(a)
     mechanism = lambda self, j: j
-
-if __name__=='__main__':
-    expr = "M[J[R, P[-10.,0.], L[ground, i]], J[R, P[-10.,0.], L[ground, link_0]]]"
-    tree = parser.parse(expr)
-    print(tree.pretty())
-    print(ArgsTransformer().transform(tree))
