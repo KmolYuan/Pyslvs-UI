@@ -255,7 +255,7 @@ class FileWidget(QWidget, Ui_Form):
             self.AuthorList.addItem(author_name)
         #Previous commit
         if commit.previous:
-            previous_id = str(commit.previous.id)
+            previous_id = "#{}".format(commit.previous.id)
         else:
             previous_id = "None"
         #Branch
@@ -328,7 +328,10 @@ class FileWidget(QWidget, Ui_Form):
     def on_commit_search_text_textEdited(self, text):
         if text:
             for row in range(self.CommitTable.rowCount()):
-                self.CommitTable.setRowHidden(row, text not in self.CommitTable.item(row, 2).text())
+                self.CommitTable.setRowHidden(row,
+                    (text not in self.CommitTable.item(row, 2).text()) or
+                    (text not in self.CommitTable.item(row, 3).text())
+                )
         else:
             for row in range(self.CommitTable.rowCount()):
                 self.CommitTable.setRowHidden(row, False)
