@@ -19,6 +19,7 @@
 
 from ..QtModules import *
 from .Ui_peeweeIO import Ui_Form
+from .example import *
 import zlib
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
@@ -108,6 +109,8 @@ class FileWidget(QWidget, Ui_Form):
         self.isSavedFunc = parent.workbookSaved #Call it to get main window be shown as saved.
         self.parseFunc = parent.parseExpression #Main window will load the entered expression.
         self.clearFunc = parent.clear #Reset the main window.
+        self.loadPathFunc = parent.loadPaths #Call after loaded paths.
+        '''self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults''' #Call after loaded algorithm results.
         #Undo Stack
         self.FileState = parent.FileState
         #Reset
@@ -115,10 +118,10 @@ class FileWidget(QWidget, Ui_Form):
     
     def reset(self):
         self.history_commit = None #peewee Quary type
-        self.pathData = []
+        self.pathData = {}
         self.Designs = Designs()
         self.Script = ""
-        self.fileName = QFileInfo("[New Workbook]")
+        self.fileName = QFileInfo("Untitled")
         self.lastTime = datetime.datetime.now()
         self.changed = False
         self.Stack = 0
@@ -134,7 +137,7 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
     
     def save(self, fileName, isBranch=False):
-        if fileName!=self.fileName:
+        if fileName!=self.fileName and os.path.isfile(fileName):
             os.remove(fileName)
             print("The original file has been overwritten.")
         db.init(fileName)
@@ -216,7 +219,7 @@ class FileWidget(QWidget, Ui_Form):
             return
         self.isSavedFunc()
     
-    def merge(self, fileName):
+    def importMechanism(self, fileName):
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
@@ -231,7 +234,7 @@ class FileWidget(QWidget, Ui_Form):
             except CommitModel.DoesNotExist:
                 QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
             else:
-                self.mergeCommit(commit)
+                self.importCommit(commit)
     
     def addCommit(self, commit):
         row = self.CommitTable.rowCount()
@@ -286,23 +289,25 @@ class FileWidget(QWidget, Ui_Form):
     
     #Load the commit pointer.
     def loadCommit(self, commit: CommitModel):
+        #Reset the main window status.
+        self.clearFunc()
         #Load the commit to widget.
         self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
-        #Reset the main window status.
-        self.clearFunc()
         #Load the expression.
         self.parseFunc(decompress(commit.mechanism))
-        #TODO: Load pathdata.
+        #Load pathdata.
         self.pathData = decompress(commit.pathdata)
-        #TODO: Load algorithmdata.
+        self.loadPathFunc()
+        #Load algorithmdata.
         self.Designs.result = decompress(commit.algorithmdata)
+        self.loadAlgorithmFunc()
         #Workbook loaded.
         self.isSavedFunc()
         print("The specified phase has been loaded.")
     
-    def mergeCommit(self, commit: CommitModel):
+    def importCommit(self, commit: CommitModel):
         #Load the expression.
         self.parseFunc(decompress(commit.mechanism))
         print("The specified phase has been merged.")
@@ -310,3 +315,6 @@ class FileWidget(QWidget, Ui_Form):
     @pyqtSlot()
     def on_commit_stash_clicked(self):
         self.loadCommitID(self.commit_current_id.value())
+    
+    def loadExample(self, example_id: int):
+        '''TODO: load example by id.'''

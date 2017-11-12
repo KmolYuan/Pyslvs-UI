@@ -809,7 +809,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Pyslvs - [New Workbook]"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Pyslvs - Untitled"))
         self.PointTab.setTabText(self.PointTab.indexOf(self.PointsTab), _translate("MainWindow", "Points"))
         self.Entities_Link_Widget.setStatusTip(_translate("MainWindow", "All Links in this workbook. Needs two point."))
         self.LinkTab.setTabText(self.LinkTab.indexOf(self.LinksTab), _translate("MainWindow", "Link"))

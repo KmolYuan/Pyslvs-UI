@@ -37,7 +37,6 @@ from .entities.edit_link import edit_link_show
 #Solve
 from .calculation.planeSolving import slvsProcess
 '''
-from .io import example
 from .io.dxfType import dxfTypeSettings
 from .io.slvsType import slvsTypeSettings
 from .io.slvsForm.sketch import slvs2D
@@ -266,7 +265,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.FileWidget.pathData[pathIndex] if pathIndex>-1 else ())
+            self.FileWidget.pathData[self.inputs_record.item(pathIndex).text()] if pathIndex>-1 else ())
     
     #Workbook not saved signal.
     def workbookNoSave(self):
@@ -331,6 +330,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def clear(self):
         self.inputs_record.clear()
+        self.inputs_variable.clear()
         self.DimensionalSynthesis.clear()
         self.Entities_Point.clear()
         self.Entities_Link.clear()
@@ -417,7 +417,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.checkFileChanged():
             fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
             if fileName:
-                self.FileWidget.merge(fileName)
+                self.FileWidget.importMechanism(fileName)
     
     #Save action.
     @pyqtSlot()
@@ -961,10 +961,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 while name in nameList:
                     i += 1
                     name = "Record_{}".format(i)
-            self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-            self.FileState.push(addPathCommand(self.inputs_record, name, self.FileWidget.pathData, path))
-            self.FileState.endMacro()
-            self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+            self.addPath(name, path)
+    
+    def addPath(self, name, path):
+        self.FileState.beginMacro("Add {{Path: {}}}".format(name))
+        self.FileState.push(addPathCommand(self.inputs_record, name, self.FileWidget.pathData, path))
+        self.FileState.endMacro()
+        self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+    
+    def loadPaths(self):
+        for name in self.FileWidget.pathData:
+            self.inputs_record.addItem(name)
     
     #Remove path data.
     @pyqtSlot()
@@ -980,7 +987,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #View path data.
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
-        data = self.FileWidget.pathData[self.inputs_record.row(item)]
+        data = self.FileWidget.pathData[item.text()]
         reply = QMessageBox.question(self, "Path data",
             "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
             (QMessageBox.Save | QMessageBox.Close), QMessageBox.Close)
@@ -999,7 +1006,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_record_context_menu(self, point):
         row = self.inputs_record.currentRow()
         if row>-1:
-            data = self.FileWidget.pathData[row]
+            data = self.FileWidget.pathData[self.inputs_record.item(row).text()]
             for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
                 self.popMenu_inputs_record.addAction(actionName)
         else:

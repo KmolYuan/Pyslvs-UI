@@ -205,12 +205,12 @@ class addPathCommand(QUndoCommand):
         self.path = deepcopy(path)
     
     def redo(self):
-        self.data.append(self.path)
+        self.data[self.name] = self.path
         self.widget.addItem(self.name)
     
     def undo(self):
         self.widget.takeItem(self.widget.count()-1)
-        self.data.pop()
+        del self.data[self.name]
 
 class deletePathCommand(QUndoCommand):
     def __init__(self, row, widget, data):
@@ -220,9 +220,10 @@ class deletePathCommand(QUndoCommand):
         self.data = data
     
     def redo(self):
-        self.oldPath = self.data.pop(self.row)
         self.oldItem = self.widget.takeItem(self.row)
+        self.oldPath = self.data[self.oldItem.text()]
+        del self.data[self.oldItem.text()]
     
     def undo(self):
-        self.data.append(self.oldPath)
+        self.data[self.oldItem.text()] = self.oldPath
         self.widget.addItem(self.oldItem)

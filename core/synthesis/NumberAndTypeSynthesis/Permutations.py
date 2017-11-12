@@ -52,12 +52,12 @@ class NumberSynthesis:
         return tuple(result)
 
 class Permutations_show(QWidget, Ui_Form):
-    def __init__(self, jointDataFunc, linkDataFunc, dofFunc, parent=None):
+    def __init__(self, parent):
         super(Permutations_show, self).__init__(parent)
         self.setupUi(self)
-        self.jointDataFunc = jointDataFunc
-        self.linkDataFunc = linkDataFunc
-        self.dofFunc = dofFunc
+        self.jointDataFunc = parent.Entities_Point.data
+        self.linkDataFunc = parent.Entities_Link.data
+        self.dofFunc = lambda: parent.DOF
     
     #Reload button: Auto-combine the mechanism from the workbook.
     @pyqtSlot()

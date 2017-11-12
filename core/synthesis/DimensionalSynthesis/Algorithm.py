@@ -103,19 +103,17 @@ class Algorithm_show(QWidget, PathSolving_Form):
     }
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
-    def __init__(self, path, mechanism_data, env, unsave_func, parent=None):
+    def __init__(self, parent):
         super(Algorithm_show, self).__init__(parent)
         self.setupUi(self)
         #System Tray Icon Menu
         self.trayIcon = progress_systemTrayIcon(parent)
-        self.path = path
-        self.mechanism_data = mechanism_data
-        self.env = env
-        self.unsave_func = unsave_func
-        for x, y in path:
-            self.Point_list.addItem("({}, {})".format(x, y))
-        for e in mechanism_data:
-            self.addResult(e)
+        self.path = parent.FileWidget.Designs.path
+        self.mechanism_data = lambda: parent.FileWidget.Designs.result
+        self.mechanism_data_add = parent.FileWidget.Designs.result.__iadd__
+        self.mechanism_data_del = parent.FileWidget.Designs.result.pop
+        self.env = lambda: parent.Default_Environment_variables
+        self.unsaveFunc = parent.workbookNoSave
         self.Settings = self.defaultSettings
         self.algorithmPrams_default()
         self.Point_list.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -134,6 +132,10 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.type2.clicked.connect(self.algorithmPrams_default)
         self.isGenerate()
         self.isGetResult()
+    
+    def loadResults(self):
+        for e in self.mechanism_data():
+            self.addResult(e)
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
@@ -159,7 +161,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env, "Text File (*.txt);;CSV File (*.csv)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env(), "Text File (*.txt);;CSV File (*.csv)")
         if fileName:
             data = []
             with open(fileName, newline=str()) as stream:
@@ -180,7 +182,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env, "Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)")
+        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env(), "Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)")
         if fileName:
             wb = openpyxl.load_workbook(fileName)
             ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
@@ -281,11 +283,11 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.trayIcon.setDialog(dlg)
         dlg.show()
         if dlg.exec_():
-            self.mechanism_data += dlg.mechanisms
+            self.mechanism_data_add(dlg.mechanisms)
             for m in dlg.mechanisms:
                 self.addResult(m)
             self.setTime(dlg.time_spand)
-            self.unsave_func()
+            self.unsaveFunc()
             if self.trayIcon.supportsMessages():
                 self.trayIcon.showMessage("Algorithm completed!", "You can see the results in Pyslvs.")
             dlgbox = QMessageBox(QMessageBox.Information, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), self.parent())
@@ -316,6 +318,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         mins = int(time_spand/60)
         self.timeShow.setText("<html><head/><body><p><span style=\"font-size:12pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
     
+    #Add result items, except add to the list.
     def addResult(self, result):
         item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']))
         interrupt = result['interrupted']
@@ -336,9 +339,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
-        del self.mechanism_data[row]
+        self.mechanism_data_del(row)
         self.Result_list.takeItem(row)
-        self.unsave_func()
+        self.unsaveFunc()
         self.isGetResult()
     
     def isGetResult(self):
@@ -348,8 +351,8 @@ class Algorithm_show(QWidget, PathSolving_Form):
     @pyqtSlot(QModelIndex)
     def on_Result_list_doubleClicked(self, index):
         row = self.Result_list.currentRow()
-        if row!=-1:
-            mechanism = self.mechanism_data[row]
+        if row>-1:
+            mechanism = self.mechanism_data()[row]
             _, Paths = self.legal_crank()
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
@@ -364,7 +367,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     def legal_crank(self):
         row = self.Result_list.currentRow()
-        Result = self.mechanism_data[row]
+        Result = self.mechanism_data()[row]
         path = Result['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
@@ -409,14 +412,14 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
-        dlg = ChartDialog("Convergence Value", self.mechanism_data, self)
+        dlg = ChartDialog("Convergence Value", self.mechanism_data(), self)
         dlg.show()
     
     @pyqtSlot(int)
     def on_Result_list_currentRowChanged(self, row):
         self.isGetResult()
-        if row>-1 and row!=len(self.mechanism_data):
-            args = self.mechanism_data[row]
+        if row>-1 and row!=len(self.mechanism_data()):
+            args = self.mechanism_data()[row]
             keys = set(args['algorithmPrams'].keys())
             if keys==set(self.GeneticPrams.keys()):
                 self.type0.setChecked(True)
