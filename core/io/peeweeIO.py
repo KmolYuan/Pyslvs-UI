@@ -332,3 +332,17 @@ class FileWidget(QWidget, Ui_Form):
         else:
             for row in range(self.CommitTable.rowCount()):
                 self.CommitTable.setRowHidden(row, False)
+    
+    @pyqtSlot()
+    def on_branch_checkout_clicked(self):
+        #TODO: Switch to the last commit of branch.
+        branch_name = self.BranchList.currentItem().text()
+        if branch_name!=self.branch_current.text():
+            print(branch_name)
+    
+    @pyqtSlot()
+    def on_branch_delete_clicked(self):
+        #TODO: Delete all commits in the branch.
+        branch_name = self.BranchList.currentItem().text()
+        if branch_name!=self.branch_current.text():
+            print(branch_name)
