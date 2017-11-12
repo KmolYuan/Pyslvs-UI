@@ -17,10 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-import datetime
+#TODO: Add examples as expression.
 
-def timeNow():
-    now = datetime.datetime.now()
-    return "{:d}/{:d}/{:d} {:d}:{:d}".format(now.year, now.month, now.day, now.hour, now.minute)
-
-#TODO: Add examples as PMKS reputation.
+example_list = {
+    "":""
+}

@@ -19,7 +19,7 @@
 
 from ..QtModules import *
 from .Ui_peeweeIO import Ui_Form
-from .example import *
+from .example import example_list
 import zlib
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
@@ -291,7 +291,7 @@ class FileWidget(QWidget, Ui_Form):
     def loadCommit(self, commit: CommitModel):
         #Reset the main window status.
         self.clearFunc()
-        #Load the commit to widget.
+        #Load the commit to widgets.
         self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
@@ -316,5 +316,10 @@ class FileWidget(QWidget, Ui_Form):
     def on_commit_stash_clicked(self):
         self.loadCommitID(self.commit_current_id.value())
     
-    def loadExample(self, example_id: int):
-        '''TODO: load example by id.'''
+    def loadExample(self):
+        #load example by expression.
+        example_name, ok = QInputDialog.getItem(self,
+            "Examples", "Select a example to load:", [k for k in example_list], 0, False)
+        if ok:
+            self.parseFunc(example_list[example_name])
+            print("Example {} has been loaded.".format(example_name))

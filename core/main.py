@@ -318,7 +318,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.OptionTab.setCurrentIndex(2)
         self.History_tab.setCurrentIndex(1)
     
-    #TODO: Examples need to update!
+    #Examples need to update!
+    @pyqtSlot()
+    def on_action_Example_triggered(self):
+        self.FileWidget.loadExample()
     
     #Create (Clean) a new workbook
     @pyqtSlot()

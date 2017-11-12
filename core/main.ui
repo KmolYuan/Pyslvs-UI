@@ -1777,15 +1777,12 @@
    </property>
   </action>
   <action name="action_Example">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
    </property>
    <property name="text">
-    <string>Example</string>
+    <string>Example...</string>
    </property>
   </action>
   <action name="action_From_Expression">
