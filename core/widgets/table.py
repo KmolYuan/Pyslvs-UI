@@ -193,28 +193,6 @@ class PointTableWidget(BaseTableWidget):
     def clearSelection(self):
         super(PointTableWidget, self).clearSelection()
         self.rowSelectionChanged.emit((), ())
-    
-    #Drag-out functions.
-    def mousePressEvent(self, event):
-        super(PointTableWidget, self).mousePressEvent(event)
-        if event.button()==Qt.LeftButton:
-            self.draged = True
-    
-    def mouseReleaseEvent(self, event):
-        super(PointTableWidget, self).mouseReleaseEvent(event)
-        self.draged = False
-    
-    def mouseMoveEvent(self, event):
-        if self.draged:
-            selectedRows = self.selectedRows()
-            selectedRowCount = len(selectedRows)
-            if selectedRowCount>1:
-                drag = QDrag(self)
-                mimeData = QMimeData()
-                mimeData.setText(';'.join([str(e) for e in selectedRows]))
-                drag.setMimeData(mimeData)
-                drag.setPixmap(QPixmap(":/icons/bearing.png").scaledToWidth(30))
-                drag.exec_()
 
 class LinkTableWidget(BaseTableWidget):
     name = 'Line'
@@ -255,21 +233,6 @@ class LinkTableWidget(BaseTableWidget):
             if i==1:
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
-    
-    #Drag-in functions.
-    def dragEnterEvent(self, event):
-        mimeData = event.mimeData()
-        if mimeData.hasText():
-            if len(mimeData.text().split(';'))>1:
-                event.acceptProposedAction()
-    
-    def dragMoveEvent(self, event):
-        event.setDropAction(Qt.MoveAction)
-        event.accept()
-    
-    def dropEvent(self, event):
-        self.dragIn.emit([int(e) for e in event.mimeData().text().split(';')])
-        event.acceptProposedAction()
     
     def clear(self):
         super(LinkTableWidget, self).clear()

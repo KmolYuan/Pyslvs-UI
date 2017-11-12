@@ -105,7 +105,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
         self.enablePointContext()
+        selectionCount = len(self.Entities_Point.selectedRows())
+        if selectionCount>1:
+            self.popMenu_point.insertAction(self.action_point_right_click_menu_add, self.action_New_Link)
         self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
+        if selectionCount>1:
+            self.popMenu_point.removeAction(self.action_New_Link)
     
     #Entities_Link context menu
     @pyqtSlot(QPoint)
@@ -118,7 +123,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_canvas_context_menu(self, point):
         self.action_canvas_right_click_menu_path.setVisible(self.panelWidget.currentIndex()==1)
         self.enablePointContext()
+        selectionCount = len(self.Entities_Point.selectedRows())
+        if selectionCount>1:
+            self.popMenu_canvas.insertAction(self.action_canvas_right_click_menu_add, self.action_New_Link)
         self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
+        if selectionCount>1:
+            self.popMenu_canvas.removeAction(self.action_New_Link)
     
     #What ever we have least one point or not, need to enable / disable QAction.
     def enablePointContext(self):
