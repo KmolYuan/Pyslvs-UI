@@ -265,8 +265,8 @@ class FileWidget(QWidget, Ui_Form):
         self.branch_current.setText(branch_name)
         #Add to table widget.
         for i, text in enumerate((date, commit.description, author_name, previous_id, branch_name)):
-            item = QTableWidgetItem(date)
-            item.setToolTip(date)
+            item = QTableWidgetItem(text)
+            item.setToolTip(text)
             self.CommitTable.setItem(row, i+1, item)
     
     #Check the id is correct.
