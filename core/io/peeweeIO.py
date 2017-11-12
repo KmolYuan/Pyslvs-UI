@@ -137,7 +137,7 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
     
     def save(self, fileName, isBranch=False):
-        if fileName!=self.fileName and os.path.isfile(fileName):
+        if fileName!=self.fileName.absoluteFilePath() and os.path.isfile(fileName):
             os.remove(fileName)
             print("The original file has been overwritten.")
         db.init(fileName)
@@ -190,7 +190,7 @@ class FileWidget(QWidget, Ui_Form):
                 db.rollback()
             else:
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
-                self.loadCommit(self.history_commit.get())
+                self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
                 print("Saving {} successful.".format(fileName))
                 self.isSavedFunc()
         self.fileName = QFileInfo(fileName)
@@ -213,7 +213,7 @@ class FileWidget(QWidget, Ui_Form):
         #Load the last commit.
         print("Added {} commits.".format(len(self.history_commit)))
         try:
-            self.loadCommit(self.history_commit.get())
+            self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
         except CommitModel.DoesNotExist:
             QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
             return
