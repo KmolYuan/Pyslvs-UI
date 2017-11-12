@@ -323,3 +323,12 @@ class FileWidget(QWidget, Ui_Form):
         if ok:
             self.parseFunc(example_list[example_name])
             print("Example {} has been loaded.".format(example_name))
+    
+    @pyqtSlot(str)
+    def on_commit_search_text_textEdited(self, text):
+        if text:
+            for row in range(self.CommitTable.rowCount()):
+                self.CommitTable.setRowHidden(row, text not in self.CommitTable.item(row, 2).text())
+        else:
+            for row in range(self.CommitTable.rowCount()):
+                self.CommitTable.setRowHidden(row, False)

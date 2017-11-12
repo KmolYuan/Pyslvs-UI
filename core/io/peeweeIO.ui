@@ -36,14 +36,7 @@
      <item>
       <widget class="QLineEdit" name="commit_search_text">
        <property name="placeholderText">
-        <string>Enter a keyword about the commit description.</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="commit_search">
-       <property name="text">
-        <string>Search</string>
+        <string>Filter: Enter a keyword about the commit description.</string>
        </property>
       </widget>
      </item>
