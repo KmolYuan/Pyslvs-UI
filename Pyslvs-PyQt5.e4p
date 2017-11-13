@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-11-11, 22:41:29 -->
+<!-- Saved: 2017-11-13, 17:33:40 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -76,6 +76,7 @@
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
+    <Source>core/synthesis/NumberAndTypeSynthesis/number.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>

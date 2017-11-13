@@ -18,38 +18,8 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+from .number import NumberSynthesis
 from .Ui_Permutations import Ui_Form
-from itertools import product
-
-class NumberSynthesis:
-    def __init__(self, NL, NJ):
-        self.NL = NL
-        self.NJ = NJ
-    
-    @property
-    def Mmax(self):
-        if self.NL <= self.NJ and self.NJ <= (2*self.NL-3):
-            return self.NJ - self.NL + 2
-        elif self.NL == self.NJ and self.NJ == 0:
-            raise ValueError("incorrect mechanism.")
-        elif (2*self.NL-3) <= self.NJ and self.NJ <= (self.NL*(self.NL-1)/2):
-            return self.NL - 1
-        else:
-            raise ValueError("incorrect mechanism.")
-    
-    @property
-    def NLm(self):
-        result = []
-        correction = lambda l: sum((i+2)*l[i] for i in range(len(l))) == 2*self.NJ
-        Mmax = self.Mmax
-        for symbols in product(range(self.NL+1), repeat=Mmax-2):
-            NLMmax = self.NL - sum(symbols)
-            if NLMmax < 0:
-                continue
-            answer = symbols+(NLMmax,)
-            if correction(answer):
-                result.append(answer)
-        return tuple(result)
 
 class Permutations_show(QWidget, Ui_Form):
     def __init__(self, parent):
