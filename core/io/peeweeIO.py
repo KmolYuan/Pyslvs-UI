@@ -120,7 +120,7 @@ class FileWidget(QWidget, Ui_Form):
         self.reset()
     
     def reset(self):
-        self.history_commit = None #peewee Quary type
+        self.history_commit = None #peewee Quary(CommitModel) type
         self.pathData = {}
         self.Designs = Designs()
         self.Script = ""
@@ -195,35 +195,32 @@ class FileWidget(QWidget, Ui_Form):
                 db.rollback()
             else:
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
+                self.isSavedFunc()
                 self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
                 print("Saving {} successful.".format(fileName))
-                self.isSavedFunc()
         self.fileName = QFileInfo(fileName)
         db.close()
     
     def read(self, fileName):
-        self.reset()
-        for row in range(self.CommitTable.rowCount()):
-            self.CommitTable.removeRow(0)
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
-        #Read and load the table rows to commit table widget.
-        self.AuthorList.clear()
-        self.history_commit = CommitModel.select().order_by(CommitModel.id)
-        for commit in self.history_commit:
-            self.addCommit(commit)
+        history_commit = CommitModel.select().order_by(CommitModel.id)
         db.close()
-        #Load the last commit.
-        print("Added {} commits.".format(len(self.history_commit)))
-        try:
+        if len(history_commit):
+            self.reset()
+            for row in range(self.CommitTable.rowCount()):
+                self.CommitTable.removeRow(0)
+            self.AuthorList.clear()
+            self.history_commit = history_commit
+            for commit in self.history_commit:
+                self.addCommit(commit)
+            print("Added {} commits.".format(len(self.history_commit)))
             self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
-        except CommitModel.DoesNotExist:
-            QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
-            return
-        else:
             self.fileName = QFileInfo(fileName)
             self.isSavedFunc()
+        else:
+            QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
     
     def importMechanism(self, fileName):
         db.init(fileName)
@@ -277,7 +274,6 @@ class FileWidget(QWidget, Ui_Form):
     
     #Check the id is correct.
     def loadCommitID(self, id: int):
-        print("Load commit #{}".format(id))
         try:
             commit = self.history_commit.where(CommitModel.id==id).get()
         except CommitModel.DoesNotExist:
@@ -285,19 +281,19 @@ class FileWidget(QWidget, Ui_Form):
         except AttributeError:
             QMessageBox.warning(self, "Warning", "Nothing submitted.")
         else:
-            if self.changed:
-                reply = QMessageBox.question(self, "Message", "Are you sure to load?\nAny changes won't be saved.",
-                    (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok)
-                if reply==QMessageBox.Ok:
-                    self.loadCommit(commit)
-            else:
-                self.loadCommit(commit)
+            self.loadCommit(commit)
     
     #Load the commit pointer.
     def loadCommit(self, commit: CommitModel):
+        if self.changed:
+            reply = QMessageBox.question(self, "Message", "Are you sure to load?\nAny changes won't be saved.",
+                (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok)
+            if reply!=QMessageBox.Ok:
+                return
         #Reset the main window status.
         self.clearFunc()
         #Load the commit to widgets.
+        print("Load commit #{}".format(commit.id))
         self.load_id.emit(commit.id)
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
@@ -345,14 +341,17 @@ class FileWidget(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_branch_checkout_clicked(self):
-        #TODO: Switch to the last commit of branch.
-        branch_name = self.BranchList.currentItem().text()
-        if branch_name!=self.branch_current.text():
-            print(branch_name)
+        #Switch to the last commit of branch.
+        if self.BranchList.currentRow()>-1:
+            branch_name = self.BranchList.currentItem().text()
+            if branch_name!=self.branch_current.text():
+                leastCommit = self.history_commit.join(BranchModel).where(BranchModel.name==branch_name).order_by(-CommitModel.date).get()
+                self.loadCommit(leastCommit)
     
     @pyqtSlot()
     def on_branch_delete_clicked(self):
         #TODO: Delete all commits in the branch.
-        branch_name = self.BranchList.currentItem().text()
-        if branch_name!=self.branch_current.text():
-            print(branch_name)
+        if self.BranchList.currentRow()>-1:
+            branch_name = self.BranchList.currentItem().text()
+            if branch_name!=self.branch_current.text():
+                print(branch_name)

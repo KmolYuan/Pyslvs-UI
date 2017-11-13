@@ -430,7 +430,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.FileWidget.fileName.absoluteFilePath()
         suffix = self.FileWidget.fileName.suffix()
         if suffix=='pyslvs':
-            self.FileWidget.save(fileName, isBranch=False)
+            self.FileWidget.save(fileName, isBranch)
         else:
             self.on_action_Save_as_triggered(isBranch)
     
@@ -439,7 +439,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Save_as_triggered(self, isBranch=False):
         fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if fileName:
-            self.FileWidget.save(fileName, isBranch=False)
+            self.FileWidget.save(fileName, isBranch)
     
     @pyqtSlot()
     def on_action_Save_branch_triggered(self):
