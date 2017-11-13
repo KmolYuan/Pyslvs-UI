@@ -68,6 +68,7 @@ class CommitModel(Model):
     description = CharField()
     #Use Lark parser
     mechanism = BlobField()
+    linkcolor = BlobField()
     #Path data
     pathdata = BlobField()
     #Algorithm data
@@ -105,8 +106,10 @@ class FileWidget(QWidget, Ui_Form):
         self.CommitTable.setColumnWidth(4, 70) #Previous
         self.CommitTable.setColumnWidth(5, 70) #Branch
         #The main window functions.
-        self.pointDataFunc = parent.Entities_Point.data #Get current Point data.
+        self.pointDataFunc = parent.Entities_Point.data #Get current point data.
+        self.linkDataFunc = parent.Entities_Link.data #Get current link data.
         self.isSavedFunc = parent.workbookSaved #Call it to get main window be shown as saved.
+        self.linkGroupFunc = parent.emptyLinkGroup #Add empty link with color.
         self.parseFunc = parent.parseExpression #Main window will load the entered expression.
         self.clearFunc = parent.clear #Reset the main window.
         self.loadPathFunc = parent.loadPaths #Call after loaded paths.
@@ -166,10 +169,12 @@ class FileWidget(QWidget, Ui_Form):
             else:
                 branch_model = BranchModel(name=branch_name)
             pointData = self.pointDataFunc()
+            linkcolor = {vlink.name:vlink.colorSTR for vlink in self.linkDataFunc()}
             args = {
                 'author':author_model,
                 'description':commit_text,
                 'mechanism':compress("M[{}]".format(", ".join(str(vpoint) for vpoint in pointData))),
+                'linkcolor':compress(linkcolor),
                 'pathdata':compress(self.pathData),
                 'algorithmdata':compress(self.Designs.result),
                 'branch':branch_model
@@ -198,7 +203,6 @@ class FileWidget(QWidget, Ui_Form):
     
     def read(self, fileName):
         self.reset()
-        self.fileName = QFileInfo(fileName)
         for row in range(self.CommitTable.rowCount()):
             self.CommitTable.removeRow(0)
         db.init(fileName)
@@ -217,7 +221,9 @@ class FileWidget(QWidget, Ui_Form):
         except CommitModel.DoesNotExist:
             QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
             return
-        self.isSavedFunc()
+        else:
+            self.fileName = QFileInfo(fileName)
+            self.isSavedFunc()
     
     def importMechanism(self, fileName):
         db.init(fileName)
@@ -296,6 +302,7 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(commit.id)
         self.branch_current.setText(commit.branch.name)
         #Load the expression.
+        self.linkGroupFunc(decompress(commit.linkcolor))
         self.parseFunc(decompress(commit.mechanism))
         #Load pathdata.
         self.pathData = decompress(commit.pathdata)

@@ -395,16 +395,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for linkName in links:
                     #If link name not exist.
                     if linkName not in linkNames:
-                        linkArgs = [linkName, 'Blue', '']
-                        self.FileState.beginMacro("Add {{Link: {}}}".format(linkName))
-                        self.FileState.push(addTableCommand(self.Entities_Link))
-                        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
-                        self.FileState.endMacro()
+                        self.addLink(linkName, 'Blue')
                 rowCount = self.Entities_Point.rowCount()
                 self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
                 self.FileState.push(addTableCommand(self.Entities_Point))
                 self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
                 self.FileState.endMacro()
+    
+    def emptyLinkGroup(self, linkcolor):
+        for name, color in linkcolor.items():
+            if name=='ground':
+                continue
+            self.addLink(name, color)
     
     #Load workbook.
     @pyqtSlot()
@@ -552,11 +554,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Add a link.
     @pyqtSlot(list)
     def addLinkGroup(self, points):
-        name = self.getLinkSerialNumber()
-        Args = [name, 'Blue', ','.join(['Point{}'.format(i) for i in points])]
+        self.addLink(self.getLinkSerialNumber(), 'Blue', points)
+    
+    def addLink(self, name, color, points=[]):
+        linkArgs = [name, color, ','.join(['Point{}'.format(i) for i in points])]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
         self.FileState.push(addTableCommand(self.Entities_Link))
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, Args))
+        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
         self.FileState.endMacro()
     
     def getLinkSerialNumber(self):
