@@ -193,11 +193,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="FileAuthor">
-       <property name="placeholderText">
-        <string>Anonymous</string>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="FileAuthor"/>
      </item>
     </layout>
    </item>

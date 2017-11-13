@@ -113,12 +113,17 @@ class FileWidget(QWidget, Ui_Form):
         self.parseFunc = parent.parseExpression #Main window will load the entered expression.
         self.clearFunc = parent.clear #Reset the main window.
         self.loadPathFunc = parent.loadPaths #Call after loaded paths.
-        '''self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults''' #Call after loaded algorithm results.
+        '''
+        Mentioned in "core.widgets.custom", because DimensionalSynthesis created after FileWidget.
+        
+        self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
+        '''
         #Undo Stack
         self.FileState = parent.FileState
         #Reset
         self.reset()
     
+    #Clear all the things that dependent on database.
     def reset(self):
         self.history_commit = None #peewee Quary(CommitModel) type
         self.pathData = {}
@@ -140,8 +145,13 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
     
     def save(self, fileName, isBranch=False):
-        commit_text = self.FileDescription.text()
+        author_name = self.FileAuthor.text() if self.FileAuthor.text() else self.FileAuthor.placeholderText()
         branch_name = '' if isBranch else self.branch_current.text()
+        commit_text = self.FileDescription.text()
+        while not author_name:
+            author_name, ok = QInputDialog.getText(self, "Author", "Please enter author's name:", QLineEdit.Normal, "Anonymous")
+            if not ok:
+                return
         while not branch_name:
             branch_name, ok = QInputDialog.getText(self, "Branch", "Please enter a branch name:", QLineEdit.Normal, "master")
             if not ok:
@@ -159,7 +169,6 @@ class FileWidget(QWidget, Ui_Form):
         authors = (user.name for user in UserModel.select())
         branches = (branch.name for branch in BranchModel.select())
         with db.atomic():
-            author_name = self.FileAuthor.text() if self.FileAuthor.text() else "Anonymous"
             if author_name in authors:
                 author_model = UserModel.select().where(UserModel.name==author_name).get()
             else:
@@ -209,19 +218,18 @@ class FileWidget(QWidget, Ui_Form):
         db.close()
         if len(history_commit):
             self.reset()
-            for row in range(self.CommitTable.rowCount()):
-                self.CommitTable.removeRow(0)
-            self.AuthorList.clear()
+            self.clearFunc()
             self.history_commit = history_commit
             for commit in self.history_commit:
                 self.addCommit(commit)
-            print("Added {} commits.".format(len(self.history_commit)))
+            print("{} commits find in database.".format(len(self.history_commit)))
             self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
             self.fileName = QFileInfo(fileName)
             self.isSavedFunc()
         else:
             QMessageBox.warning(self, "Warning", "This file is a non-committed database.")
     
+    #Pick and import the latest mechanism from a branch.
     def importMechanism(self, fileName):
         db.init(fileName)
         db.connect()
@@ -285,72 +293,89 @@ class FileWidget(QWidget, Ui_Form):
     
     #Load the commit pointer.
     def loadCommit(self, commit: CommitModel):
-        if self.changed:
-            reply = QMessageBox.question(self, "Message", "Are you sure to load?\nAny changes won't be saved.",
-                (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok)
-            if reply!=QMessageBox.Ok:
-                return
-        #Reset the main window status.
-        self.clearFunc()
-        #Load the commit to widgets.
-        print("Load commit #{}".format(commit.id))
-        self.load_id.emit(commit.id)
-        self.commit_current_id.setValue(commit.id)
-        self.branch_current.setText(commit.branch.name)
-        #Load the expression.
-        self.linkGroupFunc(decompress(commit.linkcolor))
-        self.parseFunc(decompress(commit.mechanism))
-        #Load pathdata.
-        self.pathData = decompress(commit.pathdata)
-        self.loadPathFunc()
-        #Load algorithmdata.
-        self.Designs.result = decompress(commit.algorithmdata)
-        self.loadAlgorithmFunc()
-        #Workbook loaded.
-        self.isSavedFunc()
-        print("The specified phase has been loaded.")
+        if self.checkSaved():
+            #Reset the main window status.
+            self.clearFunc()
+            #Load the commit to widgets.
+            print("Load commit #{}".format(commit.id))
+            self.load_id.emit(commit.id)
+            self.commit_current_id.setValue(commit.id)
+            self.branch_current.setText(commit.branch.name)
+            #Load the expression.
+            self.linkGroupFunc(decompress(commit.linkcolor))
+            self.parseFunc(decompress(commit.mechanism))
+            #Load pathdata.
+            self.pathData = decompress(commit.pathdata)
+            self.loadPathFunc()
+            #Load algorithmdata.
+            self.Designs.result = decompress(commit.algorithmdata)
+            self.loadAlgorithmFunc()
+            #Workbook loaded.
+            self.isSavedFunc()
+            print("The specified phase has been loaded.")
     
+    #Just load the expression. (No clear step!)
     def importCommit(self, commit: CommitModel):
-        #Load the expression.
         self.parseFunc(decompress(commit.mechanism))
         print("The specified phase has been merged.")
     
+    #Reload the least commit ID.
     @pyqtSlot()
     def on_commit_stash_clicked(self):
         self.loadCommitID(self.commit_current_id.value())
     
+    #Load example to new workbook.
     def loadExample(self):
-        #load example by expression.
-        example_name, ok = QInputDialog.getItem(self,
-            "Examples", "Select a example to load:", [k for k in example_list], 0, False)
-        if ok:
-            self.parseFunc(example_list[example_name])
-            print("Example {} has been loaded.".format(example_name))
+        if self.checkSaved():
+            #load example by expression.
+            example_name, ok = QInputDialog.getItem(self,
+                "Examples", "Select a example to load:", [k for k in example_list], 0, False)
+            if ok:
+                self.reset()
+                self.clearFunc()
+                self.parseFunc(example_list[example_name])
+                print("Example {} has been loaded.".format(example_name))
     
+    #Check and warn if user is not saved yet.
+    def checkSaved(self):
+        if self.changed:
+            reply = QMessageBox.question(self, "Message", "Are you sure to load?\nAny changes won't be saved.",
+                (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok)
+            if reply!=QMessageBox.Ok:
+                return False
+            return True
+        return True
+    
+    #Commit filter (by description and another).
     @pyqtSlot(str)
     def on_commit_search_text_textEdited(self, text):
         if text:
             for row in range(self.CommitTable.rowCount()):
-                self.CommitTable.setRowHidden(row,
-                    (text not in self.CommitTable.item(row, 2).text()) or
-                    (text not in self.CommitTable.item(row, 3).text())
-                )
+                self.CommitTable.setRowHidden(row, not (
+                    (text in self.CommitTable.item(row, 2).text()) or
+                    (text in self.CommitTable.item(row, 3).text())
+                ))
         else:
             for row in range(self.CommitTable.rowCount()):
                 self.CommitTable.setRowHidden(row, False)
     
+    #Change default author's name when select another author.
+    @pyqtSlot(str)
+    def on_AuthorList_currentTextChanged(self, text):
+        self.FileAuthor.setPlaceholderText(text)
+    
+    #Switch to the last commit of branch.
     @pyqtSlot()
     def on_branch_checkout_clicked(self):
-        #Switch to the last commit of branch.
         if self.BranchList.currentRow()>-1:
             branch_name = self.BranchList.currentItem().text()
             if branch_name!=self.branch_current.text():
                 leastCommit = self.history_commit.join(BranchModel).where(BranchModel.name==branch_name).order_by(-CommitModel.date).get()
                 self.loadCommit(leastCommit)
     
+    #TODO: Delete all commits in the branch.
     @pyqtSlot()
     def on_branch_delete_clicked(self):
-        #TODO: Delete all commits in the branch.
         if self.BranchList.currentRow()>-1:
             branch_name = self.BranchList.currentItem().text()
             if branch_name!=self.branch_current.text():
