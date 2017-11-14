@@ -172,6 +172,7 @@ class FileWidget(QWidget, Ui_Form):
         with db.atomic():
             if self.history_commit!=None and len(UserModel.select())!=len(self.history_commit):
                 print("Database is not synchronized.\nSynchronization start...")
+                UserModel.delete().execute()
                 for commit in self.history_commit:
                     args = {
                         'author':commit.author,
