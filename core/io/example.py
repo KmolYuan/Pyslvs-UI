@@ -20,5 +20,6 @@
 #TODO: Add examples as expression.
 
 example_list = {
-    "":""
+    "Crank rocker":"M[J[R, color[Green], P[0.0, 0.0], L[ground, link_0]], J[R, color[Green], P[12.92, 32.53], L[link_0, link_1]], J[R, color[Green], P[73.28, 67.97], L[link_1, link_2]], J[R, color[Green], P[33.3, 66.95], L[link_1]], J[R, color[Green], P[90.0, 0.0], L[ground, link_2]]]",
+    #"":"",
 }

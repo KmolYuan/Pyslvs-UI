@@ -23,7 +23,7 @@
    <bool>true</bool>
   </property>
   <property name="windowTitle">
-   <string>Pyslvs - [New Workbook]</string>
+   <string>Pyslvs - Untitled</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../icons.qrc">
@@ -861,6 +861,22 @@
                   </property>
                   <property name="value">
                    <number>16</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_3">
+               <property name="title">
+                <string>Window</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_17">
+                <item>
+                 <widget class="QCheckBox" name="windowTitle_fullpath">
+                  <property name="text">
+                   <string>Show full file path on window title.</string>
                   </property>
                  </widget>
                 </item>
