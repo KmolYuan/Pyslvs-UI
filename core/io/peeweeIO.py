@@ -170,6 +170,22 @@ class FileWidget(QWidget, Ui_Form):
         branches = (branch.name for branch in BranchModel.select())
         isError = False
         with db.atomic():
+            if self.history_commit!=None and len(UserModel.select())!=len(self.history_commit):
+                print("Database is not synchronized.\nSynchronization start...")
+                for commit in self.history_commit:
+                    args = {
+                        'author':commit.author,
+                        'description':commit.description,
+                        'mechanism':commit.mechanism,
+                        'linkcolor':commit.linkcolor,
+                        'pathdata':commit.pathdata,
+                        'algorithmdata':commit.algorithmdata,
+                        'branch':commit.branch
+                    }
+                    recover_commit = CommitModel(**args)
+                    recover_commit.save()
+                    print("- Synchronize commit #{}".format(commit.id))
+                print("Synchronization completed.")
             if author_name in authors:
                 author_model = UserModel.select().where(UserModel.name==author_name).get()
             else:
@@ -193,27 +209,24 @@ class FileWidget(QWidget, Ui_Form):
                 args['previous'] = CommitModel.select().where(CommitModel.id==self.commit_current_id.value()).get()
             except CommitModel.DoesNotExist:
                 args['previous'] = None
-            commit = CommitModel(**args)
+            new_commit = CommitModel(**args)
             try:
                 author_model.save()
                 branch_model.save()
-                commit.save()
-                self.addCommit(commit)
+                new_commit.save()
             except Exception as e:
                 print(str(e))
                 db.rollback()
                 isError = True
             else:
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
-                self.isSavedFunc()
-                self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
-                print("Saving {} successful.".format(fileName))
+        db.close()
         if not isError:
-            self.fileName = QFileInfo(fileName)
+            self.read(fileName)
+            print("Saving \"{}\" successful.".format(fileName))
         else:
             os.remove(fileName)
             print("An error was occur when saving database. The file was removed.")
-        db.close()
     
     def read(self, fileName):
         db.init(fileName)
