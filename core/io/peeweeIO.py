@@ -167,7 +167,7 @@ class FileWidget(QWidget, Ui_Form):
             author_name, ok = QInputDialog.getText(self, "Author", "Please enter author's name:", QLineEdit.Normal, "Anonymous")
             if not ok:
                 return
-        while not branch_name:
+        while not branch_name.isidentifier():
             branch_name, ok = QInputDialog.getText(self, "Branch", "Please enter a branch name:", QLineEdit.Normal, "master")
             if not ok:
                 return
