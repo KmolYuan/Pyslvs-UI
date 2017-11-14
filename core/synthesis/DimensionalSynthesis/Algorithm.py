@@ -109,9 +109,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
         #System Tray Icon Menu
         self.trayIcon = progress_systemTrayIcon(parent)
         self.path = parent.FileWidget.Designs.path
-        self.mechanism_data = lambda: parent.FileWidget.Designs.result
-        self.mechanism_data_add = parent.FileWidget.Designs.result.__iadd__
-        self.mechanism_data_del = parent.FileWidget.Designs.result.pop
+        self.mechanism_data = parent.FileWidget.Designs.result
+        self.mechanism_data_add = parent.FileWidget.Designs.addResult
+        self.mechanism_data_del = parent.FileWidget.Designs.delResult
         self.env = lambda: parent.Default_Environment_variables
         self.unsaveFunc = parent.workbookNoSave
         self.Settings = self.defaultSettings
@@ -134,7 +134,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.isGetResult()
     
     def loadResults(self):
-        for e in self.mechanism_data():
+        for e in self.mechanism_data:
             self.addResult(e)
     
     @pyqtSlot()
@@ -352,7 +352,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def on_Result_list_doubleClicked(self, index):
         row = self.Result_list.currentRow()
         if row>-1:
-            mechanism = self.mechanism_data()[row]
+            mechanism = self.mechanism_data[row]
             _, Paths = self.legal_crank()
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
@@ -367,7 +367,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     def legal_crank(self):
         row = self.Result_list.currentRow()
-        Result = self.mechanism_data()[row]
+        Result = self.mechanism_data[row]
         path = Result['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
@@ -412,14 +412,14 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_getTimeAndFitness_clicked(self):
-        dlg = ChartDialog("Convergence Value", self.mechanism_data(), self)
+        dlg = ChartDialog("Convergence Value", self.mechanism_data, self)
         dlg.show()
     
     @pyqtSlot(int)
     def on_Result_list_currentRowChanged(self, row):
         self.isGetResult()
-        if row>-1 and row!=len(self.mechanism_data()):
-            args = self.mechanism_data()[row]
+        if row>-1 and row!=len(self.mechanism_data):
+            args = self.mechanism_data[row]
             keys = set(args['algorithmPrams'].keys())
             if keys==set(self.GeneticPrams.keys()):
                 self.type0.setChecked(True)

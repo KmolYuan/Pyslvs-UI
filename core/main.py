@@ -77,7 +77,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Set environment variables
     def setLocate(self, locate):
         self.Default_Environment_variables = locate
-        print("~Start at: [\"{}\"]".format(self.Default_Environment_variables))
+        print("~Set workplace to: [\"{}\"]".format(self.Default_Environment_variables))
     
     #Drag file in to our window.
     def dragEnterEvent(self, event):
@@ -275,6 +275,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook saved signal.
     def workbookSaved(self):
         self.FileWidget.changed = False
+        self.on_windowTitle_fullpath_clicked()
+    
+    @pyqtSlot()
+    def on_windowTitle_fullpath_clicked(self):
         fileName = self.FileWidget.fileName
         self.setWindowTitle("Pyslvs - {}".format(
             fileName.absoluteFilePath() if self.windowTitle_fullpath.isChecked() else fileName.fileName()
@@ -979,9 +983,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
     
-    def loadPaths(self):
-        for name in self.FileWidget.pathData:
-            self.inputs_record.addItem(name)
+    def loadPaths(self, paths):
+        for name, path in paths.items():
+            self.addPath(name, path)
     
     #Remove path data.
     @pyqtSlot()

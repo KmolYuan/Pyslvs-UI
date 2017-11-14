@@ -20,6 +20,7 @@
 from ..QtModules import *
 from .Ui_peeweeIO import Ui_Form
 from .example import example_list
+from typing import List, Dict
 import zlib
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
@@ -38,11 +39,25 @@ from peewee import (
 db = SqliteDatabase(None)
 
 class Designs:
-    __slots__ = ('path', 'result')
+    __slots__ = ('path', '__result')
     
     def __init__(self):
         self.path = []
-        self.result = []
+        self.__result = []
+    
+    def addResult(self, new_result: List[Dict]):
+        self.result += new_result
+    
+    def delResult(self, index: int):
+        self.result.pop(index)
+    
+    @property
+    def result(self):
+        return self.__result
+    
+    @result.setter
+    def result(self, r):
+        self.__result = r
 
 #Show who commited the workbook.
 class UserModel(Model):
@@ -236,8 +251,8 @@ class FileWidget(QWidget, Ui_Form):
         history_commit = CommitModel.select().order_by(CommitModel.id)
         db.close()
         if len(history_commit):
-            self.reset()
             self.clearFunc()
+            self.reset()
             self.history_commit = history_commit
             for commit in self.history_commit:
                 self.addCommit(commit)
@@ -324,8 +339,7 @@ class FileWidget(QWidget, Ui_Form):
             self.linkGroupFunc(decompress(commit.linkcolor))
             self.parseFunc(decompress(commit.mechanism))
             #Load pathdata.
-            self.pathData = decompress(commit.pathdata)
-            self.loadPathFunc()
+            self.loadPathFunc(decompress(commit.pathdata))
             #Load algorithmdata.
             self.Designs.result = decompress(commit.algorithmdata)
             self.loadAlgorithmFunc()
