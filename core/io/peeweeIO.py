@@ -181,32 +181,29 @@ class FileWidget(QWidget, Ui_Form):
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
-        authors = (user.name for user in UserModel.select())
-        branches = (branch.name for branch in BranchModel.select())
         isError = False
+        '''
+        not_synchronized = self.history_commit!=None and len(UserModel.select())!=len(self.history_commit)
+        if not_synchronized:
+            print("Database is not synchronized.\nSynchronization start...")
+            db.close()
+            os.remove(fileName)
+            db.init(fileName)
+            db.connect()
+            db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+            UserModel.save()
+            BranchModel.save()
+            CommitModel.insert_from([
+                CommitModel.
+            ], self.history_commit).execute()
+            print("Synchronization completed.")
+        '''
         with db.atomic():
-            if self.history_commit!=None and len(UserModel.select())!=len(self.history_commit):
-                print("Database is not synchronized.\nSynchronization start...")
-                UserModel.delete().execute()
-                for commit in self.history_commit:
-                    args = {
-                        'author':commit.author,
-                        'description':commit.description,
-                        'mechanism':commit.mechanism,
-                        'linkcolor':commit.linkcolor,
-                        'pathdata':commit.pathdata,
-                        'algorithmdata':commit.algorithmdata,
-                        'branch':commit.branch
-                    }
-                    recover_commit = CommitModel(**args)
-                    recover_commit.save()
-                    print("- Synchronize commit #{}".format(commit.id))
-                print("Synchronization completed.")
-            if author_name in authors:
+            if author_name in (user.name for user in UserModel.select()):
                 author_model = UserModel.select().where(UserModel.name==author_name).get()
             else:
                 author_model = UserModel(name=author_name)
-            if branch_name in branches:
+            if branch_name in (branch.name for branch in BranchModel.select()):
                 branch_model = BranchModel.select().where(BranchModel.name==branch_name).get()
             else:
                 branch_model = BranchModel(name=branch_name)
