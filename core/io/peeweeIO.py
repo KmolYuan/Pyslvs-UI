@@ -168,6 +168,7 @@ class FileWidget(QWidget, Ui_Form):
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
         authors = (user.name for user in UserModel.select())
         branches = (branch.name for branch in BranchModel.select())
+        isError = False
         with db.atomic():
             if author_name in authors:
                 author_model = UserModel.select().where(UserModel.name==author_name).get()
@@ -188,7 +189,6 @@ class FileWidget(QWidget, Ui_Form):
                 'algorithmdata':compress(self.Designs.result),
                 'branch':branch_model
             }
-            #Last commit
             try:
                 args['previous'] = CommitModel.select().where(CommitModel.id==self.commit_current_id.value()).get()
             except CommitModel.DoesNotExist:
@@ -202,12 +202,17 @@ class FileWidget(QWidget, Ui_Form):
             except Exception as e:
                 print(str(e))
                 db.rollback()
+                isError = True
             else:
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
                 self.isSavedFunc()
                 self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
                 print("Saving {} successful.".format(fileName))
-        self.fileName = QFileInfo(fileName)
+        if not isError:
+            self.fileName = QFileInfo(fileName)
+        else:
+            os.remove(fileName)
+            print("An error was occur when saving database. The file was removed.")
         db.close()
     
     def read(self, fileName):
@@ -373,10 +378,24 @@ class FileWidget(QWidget, Ui_Form):
                 leastCommit = self.history_commit.join(BranchModel).where(BranchModel.name==branch_name).order_by(-CommitModel.date).get()
                 self.loadCommit(leastCommit)
     
-    #TODO: Delete all commits in the branch.
+    #Delete all commits in the branch.
     @pyqtSlot()
     def on_branch_delete_clicked(self):
         if self.BranchList.currentRow()>-1:
             branch_name = self.BranchList.currentItem().text()
             if branch_name!=self.branch_current.text():
-                print(branch_name)
+                fileName = self.fileName.absoluteFilePath()
+                #Connect on database to remove all the commit in this branch.
+                db.init(fileName)
+                db.connect()
+                db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+                with db.atomic():
+                    branch_quary = BranchModel.select().where(BranchModel.name==branch_name)
+                    CommitModel.delete().where(CommitModel.branch.in_(branch_quary)).execute()
+                    BranchModel.delete().where(BranchModel.name==branch_name).execute()
+                db.close()
+                print("Branch {} was deleted.".format(branch_name))
+                #Reload database.
+                self.read(fileName)
+            else:
+                QMessageBox.warning(self, "Warning", "Cannot delete current branch.")
