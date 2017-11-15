@@ -37,6 +37,7 @@ from peewee import (
 
 #Create a empty Sqlite database object.
 db = SqliteDatabase(None)
+db.init(None)
 
 class Designs:
     __slots__ = ('path', '__result')
@@ -133,6 +134,8 @@ class FileWidget(QWidget, Ui_Form):
         
         self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
         '''
+        #Close database when destroyed.
+        self.destroyed.connect(self.colseDatabase)
         #Undo Stack
         self.FileState = parent.FileState
         #Reset
@@ -164,9 +167,10 @@ class FileWidget(QWidget, Ui_Form):
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
     
-    def __del__(self):
-        db.close()
-        super(FileWidget, self).__del__()
+    @pyqtSlot()
+    def colseDatabase(self):
+        if not db.deferred:
+            db.close()
     
     def save(self, fileName, isBranch=False):
         author_name = self.FileAuthor.text() if self.FileAuthor.text() else self.FileAuthor.placeholderText()

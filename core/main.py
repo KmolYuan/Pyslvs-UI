@@ -336,6 +336,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.checkFileChanged():
             self.clear()
             self.FileWidget.reset()
+            self.FileWidget.colseDatabase()
             print("Created a new workbook.")
     
     def clear(self):
