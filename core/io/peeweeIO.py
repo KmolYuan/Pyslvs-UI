@@ -159,6 +159,15 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_search_text.clear()
         self.commit_current_id.setValue(0)
     
+    def connectDatabase(self, fileName):
+        db.init(fileName)
+        db.connect()
+        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+    
+    def __del__(self):
+        db.close()
+        super(FileWidget, self).__del__()
+    
     def save(self, fileName, isBranch=False):
         author_name = self.FileAuthor.text() if self.FileAuthor.text() else self.FileAuthor.placeholderText()
         branch_name = '' if isBranch else self.branch_current.text()
@@ -178,26 +187,8 @@ class FileWidget(QWidget, Ui_Form):
         if fileName!=self.fileName.absoluteFilePath() and os.path.isfile(fileName):
             os.remove(fileName)
             print("The original file has been overwritten.")
-        db.init(fileName)
-        db.connect()
-        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+        self.connectDatabase(fileName)
         isError = False
-        '''
-        not_synchronized = self.history_commit!=None and len(UserModel.select())!=len(self.history_commit)
-        if not_synchronized:
-            print("Database is not synchronized.\nSynchronization start...")
-            db.close()
-            os.remove(fileName)
-            db.init(fileName)
-            db.connect()
-            db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
-            UserModel.save()
-            BranchModel.save()
-            CommitModel.insert_from([
-                CommitModel.
-            ], self.history_commit).execute()
-            print("Synchronization completed.")
-        '''
         with db.atomic():
             if author_name in (user.name for user in UserModel.select()):
                 author_model = UserModel.select().where(UserModel.name==author_name).get()
@@ -233,7 +224,6 @@ class FileWidget(QWidget, Ui_Form):
                 isError = True
             else:
                 self.history_commit = CommitModel.select().order_by(CommitModel.id)
-        db.close()
         if not isError:
             self.read(fileName)
             print("Saving \"{}\" successful.".format(fileName))
@@ -242,11 +232,8 @@ class FileWidget(QWidget, Ui_Form):
             print("An error was occur when saving database. The file was removed.")
     
     def read(self, fileName):
-        db.init(fileName)
-        db.connect()
-        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+        self.connectDatabase(fileName)
         history_commit = CommitModel.select().order_by(CommitModel.id)
-        db.close()
         if len(history_commit):
             self.clearFunc()
             self.reset()
@@ -262,12 +249,10 @@ class FileWidget(QWidget, Ui_Form):
     
     #Pick and import the latest mechanism from a branch.
     def importMechanism(self, fileName):
-        db.init(fileName)
-        db.connect()
-        db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+        self.connectDatabase(fileName)
         commit_all = CommitModel.select().join(BranchModel)
         branch_all = BranchModel.select().order_by(BranchModel.name)
-        db.close()
+        self.connectDatabase(self.fileName.absoluteFilePath())
         branch_name, ok = QInputDialog.getItem(self, "Branch", "Select the latest commit in the branch to load.",
             [branch.name for branch in branch_all], 0, False)
         if ok:
@@ -413,9 +398,7 @@ class FileWidget(QWidget, Ui_Form):
             if branch_name!=self.branch_current.text():
                 fileName = self.fileName.absoluteFilePath()
                 #Connect on database to remove all the commit in this branch.
-                db.init(fileName)
-                db.connect()
-                db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
+                self.connectDatabase(fileName)
                 with db.atomic():
                     branch_quary = BranchModel.select().where(BranchModel.name==branch_name)
                     CommitModel.delete().where(CommitModel.branch.in_(branch_quary)).execute()
