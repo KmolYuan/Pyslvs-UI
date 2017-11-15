@@ -398,7 +398,6 @@ class FileWidget(QWidget, Ui_Form):
             if branch_name!=self.branch_current.text():
                 fileName = self.fileName.absoluteFilePath()
                 #Connect on database to remove all the commit in this branch.
-                self.connectDatabase(fileName)
                 with db.atomic():
                     branch_quary = BranchModel.select().where(BranchModel.name==branch_name)
                     CommitModel.delete().where(CommitModel.branch.in_(branch_quary)).execute()
