@@ -37,7 +37,6 @@ from peewee import (
 
 #Create a empty Sqlite database object.
 db = SqliteDatabase(None)
-db.init(None)
 
 class Designs:
     __slots__ = ('path', '__result')

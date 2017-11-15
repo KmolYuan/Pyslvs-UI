@@ -22,7 +22,7 @@ import platform, argparse
 from ..QtModules import *
 from .Ui_about import Ui_About_Dialog
 
-VERSION = (0, 9, 0, 'dev')
+VERSION = (0, 9, 0, 'beta2')
 from PyQt5.QtCore import qVersion
 from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 
