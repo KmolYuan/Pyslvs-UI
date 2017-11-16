@@ -162,6 +162,7 @@ class FileWidget(QWidget, Ui_Form):
         self.commit_current_id.setValue(0)
     
     def connectDatabase(self, fileName):
+        self.colseDatabase()
         db.init(fileName)
         db.connect()
         db.create_tables([CommitModel, UserModel, BranchModel], safe=True)
@@ -255,7 +256,8 @@ class FileWidget(QWidget, Ui_Form):
         self.connectDatabase(fileName)
         commit_all = CommitModel.select().join(BranchModel)
         branch_all = BranchModel.select().order_by(BranchModel.name)
-        self.connectDatabase(self.fileName.absoluteFilePath())
+        if self.history_commit!=None:
+            self.connectDatabase(self.fileName.absoluteFilePath())
         branch_name, ok = QInputDialog.getItem(self, "Branch", "Select the latest commit in the branch to load.",
             [branch.name for branch in branch_all], 0, False)
         if ok:
