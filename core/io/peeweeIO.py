@@ -258,6 +258,8 @@ class FileWidget(QWidget, Ui_Form):
         branch_all = BranchModel.select().order_by(BranchModel.name)
         if self.history_commit!=None:
             self.connectDatabase(self.fileName.absoluteFilePath())
+        else:
+            self.colseDatabase()
         branch_name, ok = QInputDialog.getItem(self, "Branch", "Select the latest commit in the branch to load.",
             [branch.name for branch in branch_all], 0, False)
         if ok:
