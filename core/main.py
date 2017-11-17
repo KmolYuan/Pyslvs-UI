@@ -325,10 +325,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.OptionTab.setCurrentIndex(2)
         self.History_tab.setCurrentIndex(1)
     
-    #Examples need to update!
+    #Examples
     @pyqtSlot()
     def on_action_Example_triggered(self):
         self.FileWidget.loadExample()
+    
+    #Import a example.
+    @pyqtSlot()
+    def on_action_Import_Example_triggered(self):
+        self.FileWidget.loadExample(isImport=True)
     
     #Create (Clean) a new workbook
     @pyqtSlot()
@@ -349,7 +354,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Load PMKS URL and turn it to expression.
     @pyqtSlot()
-    def on_action_From_PMKS_server_triggered(self):
+    def on_action_Import_PMKS_server_triggered(self):
         URL, ok = QInputDialog.getText(self, "PMKS URL input", "Please input link string:")
         if ok:
             dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), self)
@@ -381,7 +386,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 dlg.exec_()
     
     @pyqtSlot()
-    def on_action_From_Expression_triggered(self):
+    def on_action_Import_Expression_triggered(self):
         expr, ok = QInputDialog.getText(self, "Expression input", "Please input expression string:")
         if ok:
             self.parseExpression(expr)
@@ -426,7 +431,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Import workbook.
     @pyqtSlot()
-    def on_action_Import_From_Workbook_triggered(self):
+    def on_action_Import_Workbook_triggered(self):
         if not self.checkFileChanged():
             fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
             if fileName:

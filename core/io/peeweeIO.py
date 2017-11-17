@@ -347,14 +347,15 @@ class FileWidget(QWidget, Ui_Form):
         self.loadCommitID(self.commit_current_id.value())
     
     #Load example to new workbook.
-    def loadExample(self):
+    def loadExample(self, isImport=False):
         if self.checkSaved():
             #load example by expression.
             example_name, ok = QInputDialog.getItem(self,
                 "Examples", "Select a example to load:", [k for k in example_list], 0, False)
             if ok:
-                self.reset()
-                self.clearFunc()
+                if not isImport:
+                    self.reset()
+                    self.clearFunc()
                 self.parseFunc(example_list[example_name])
                 self.fileName = QFileInfo(example_name)
                 self.isSavedFunc()

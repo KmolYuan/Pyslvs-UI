@@ -1273,9 +1273,10 @@
      <property name="title">
       <string>&amp;Import</string>
      </property>
-     <addaction name="action_Import_From_Workbook"/>
-     <addaction name="action_From_Expression"/>
-     <addaction name="action_From_PMKS_server"/>
+     <addaction name="action_Import_Expression"/>
+     <addaction name="action_Import_PMKS_server"/>
+     <addaction name="action_Import_Example"/>
+     <addaction name="action_Import_Workbook"/>
     </widget>
     <addaction name="action_New_Workbook"/>
     <addaction name="action_Load_Workbook"/>
@@ -1665,7 +1666,7 @@
     <string>Other Format</string>
    </property>
   </action>
-  <action name="action_Import_From_Workbook">
+  <action name="action_Import_Workbook">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
@@ -1783,7 +1784,7 @@
     <string>Pass your mechanism to PMKS server by generate a URL.</string>
    </property>
   </action>
-  <action name="action_From_PMKS_server">
+  <action name="action_Import_PMKS_server">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/PMKSLogo.png</normaloff>:/icons/PMKSLogo.png</iconset>
@@ -1801,7 +1802,7 @@
     <string>Example...</string>
    </property>
   </action>
-  <action name="action_From_Expression">
+  <action name="action_Import_Expression">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
@@ -1841,6 +1842,15 @@
    </property>
    <property name="statusTip">
     <string>Abandon all changes of this time, and return to the latest commit.</string>
+   </property>
+  </action>
+  <action name="action_Import_Example">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/example.png</normaloff>:/icons/example.png</iconset>
+   </property>
+   <property name="text">
+    <string>From example</string>
    </property>
   </action>
  </widget>
