@@ -28,6 +28,9 @@ from ..kernel.python_solvespace.slvs import (
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
 )
 
+class SlvsException(Exception):
+    pass
+
 def slvsProcess(
     Point: Tuple['VPoint'],
     Link: Tuple['VLink'],
@@ -180,4 +183,4 @@ def slvsProcess(
             error = "Did not converge."
         elif result_flag==SLVS_RESULT_TOO_MANY_UNKNOWNS:
             error = "Too many unknowns."
-        raise Exception(error)
+        raise SlvsException(error)

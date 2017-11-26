@@ -351,7 +351,7 @@ class FileWidget(QWidget, Ui_Form):
         if self.checkSaved():
             #load example by expression.
             example_name, ok = QInputDialog.getItem(self,
-                "Examples", "Select a example to load:", [k for k in example_list], 0, False)
+                "Examples", "Select a example to load:", sorted(k for k in example_list), 0, False)
             if ok:
                 if not isImport:
                     self.reset()

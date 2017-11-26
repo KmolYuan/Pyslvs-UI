@@ -35,7 +35,10 @@ from .io.undoRedo import (
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 #Solve
-from .calculation.planarSolving import slvsProcess
+from .calculation.planarSolving import (
+    slvsProcess,
+    SlvsException
+)
 '''
 from .io.dxfType import dxfTypeSettings
 from .io.slvsType import slvsTypeSettings
@@ -247,7 +250,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entities_Link.data(),
                 self.variableConstraints() if not self.FreeMoveMode.isChecked() else ()
             )
-        except Exception as e:
+        except SlvsException as e:
             if self.showConsoleError.isChecked():
                 print(e)
             self.ConflictGuide.setToolTip(str(e))
