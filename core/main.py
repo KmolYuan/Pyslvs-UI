@@ -251,6 +251,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.showConsoleError.isChecked():
                 print(e)
             self.ConflictGuide.setToolTip(str(e))
+            self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
             self.Reload_Canvas()
@@ -400,7 +401,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             tree = parser.parse(expr)
             pointsArgs = ArgsTransformer().transform(tree)
         except Exception as e:
-            print(str(e))
+            print(e)
             dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), self)
             dlg.show()
             dlg.exec_()

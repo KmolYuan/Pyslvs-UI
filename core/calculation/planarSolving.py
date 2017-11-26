@@ -22,9 +22,9 @@ from math import radians, cos, sin
 from ..kernel.python_solvespace.slvs import (
     #System base
     System, groupNum, Slvs_MakeQuaternion,
-    #Entities
+    #Entities & Constraint
     Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
-    #Results
+    #Result flags
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
 )
 
@@ -82,18 +82,24 @@ def slvsProcess(
             Constraint.distance(10., Workplane1, p_base, p_assist)
             #Angle constraint function:
             def relateWith(linkName):
-                relate = Link[LinkIndex(linkName)].points
-                relateOrder = relate.index(i)
-                p_link_assist = Slvs_Points[i][relateOrder-1]
-                l_link = LineSegment2d(Workplane1, p_base, p_link_assist)
-                angle_base = Point[relateOrder-1].slopeAngle(vpoint)
-                Constraint.angle(Workplane1, angle_base, l_link, l_slot)
+                if linkName=='ground':
+                    #Angle can not be zero.
+                    if vpoint.angle:
+                        Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
+                    else:
+                        Constraint.parallel(Workplane1, ground, l_slot)
+                else:
+                    relate = Link[LinkIndex(linkName)].points
+                    relateOrder = relate.index(i)
+                    p_link_assist = Slvs_Points[i][relateOrder-1]
+                    l_link = LineSegment2d(Workplane1, p_base, p_link_assist)
+                    angle_base = vpoint.slopeAngle(Point[relateOrder-1])
+                    Constraint.angle(Workplane1, angle_base, l_link, l_slot)
             #The slot has an angle with base link.
-            link_base = vpoint.links[0]
-            if link_base=='ground':
-                Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
-            else:
-                relateWith(link_base)
+            relateWith(vpoint.links[0])
+            #All point should on the slot.
+            for p in Slvs_Points[i][1:]:
+                Constraint.on(Workplane1, p, l_slot)
             #P Joint: The point do not have freedom of rotation.
             if vpoint.type==1:
                 for linkName in vpoint.links[1:]:
@@ -111,6 +117,7 @@ def slvsProcess(
                 continue
             relate = Link[LinkIndex(linkName)].points
             relateOrder = relate.index(i)
+            #Pass if this is the first point.
             if relateOrder==0:
                 continue
             #Connect function:
@@ -168,9 +175,9 @@ def slvsProcess(
         return resultList, int(Sys.dof)
     else:
         if result_flag==SLVS_RESULT_INCONSISTENT:
-            error = "Inconsistent"
+            error = "Inconsistent."
         elif result_flag==SLVS_RESULT_DIDNT_CONVERGE:
-            error = "Did not converge"
+            error = "Did not converge."
         elif result_flag==SLVS_RESULT_TOO_MANY_UNKNOWNS:
-            error = "Too many unknowns"
+            error = "Too many unknowns."
         raise Exception(error)
