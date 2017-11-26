@@ -31,8 +31,7 @@ from ..kernel.python_solvespace.slvs import (
 def slvsProcess(
     Point: Tuple['VPoint'],
     Link: Tuple['VLink'],
-    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float]],
-    hasWarning: bool =True
+    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float]]
 ):
     pointCount = len(Point)
     sliderCount = sum([len(p.links)-1 for p in Point if p.type==1 or p.type==2])
@@ -56,6 +55,7 @@ def slvsProcess(
     p10 = Sys.add_param(0.)
     hp = Point2d(Workplane1, p9, p10)
     Constraint.dragged(Workplane1, hp)
+    #Name 'ground' is a horizontal line through (0, 0).
     ground = LineSegment2d(Workplane1, Origin2D, hp)
     Sys.default_group = groupNum(2)
     Slvs_Points = []
@@ -63,25 +63,21 @@ def slvsProcess(
     for vpoint in Point:
         #This is the point recorded in the table.
         if vpoint.type==0:
-            #Has only one pointer
-            x = Sys.add_param(vpoint.cx)
-            y = Sys.add_param(vpoint.cy)
-            Slvs_Points.append(Point2d(Workplane1, x, y))
+            #Has only one coordinate
+            Slvs_Points.append(Point2d(Workplane1, Sys.add_param(vpoint.cx), Sys.add_param(vpoint.cy)))
         elif vpoint.type==1 or vpoint.type==2:
             #Has one more pointer
             Slvs_Points.append(
-                tuple(Point2d(Workplane1, Sys.add_param(x), Sys.add_param(y)) for x, y in vpoint.c)
+                tuple(Point2d(Workplane1, Sys.add_param(vpoint.cx), Sys.add_param(vpoint.cy)) for i in range(len(vpoint.links)))
             )
     #Topology of PMKS points.
     LinkIndex = lambda l: [vlink.name for vlink in Link].index(l)
     for i, vpoint in enumerate(Point):
         #P and RP Joint: If the point has a sliding degree of freedom.
         if vpoint.type==1 or vpoint.type==2:
-            p_base = Slvs_Points[i][0]
-            x = Sys.add_param(vpoint.cx+10.*cos(vpoint.angle))
-            y = Sys.add_param(vpoint.cy+10.*sin(vpoint.angle))
-            p_assist = Point2d(Workplane1, x, y)
             #Make auxiliary line as a slider slot (The length is 10.0).
+            p_base = Slvs_Points[i][0]
+            p_assist = Point2d(Workplane1, Sys.add_param(vpoint.cx+10.*cos(vpoint.angle)), Sys.add_param(vpoint.cy+10.*sin(vpoint.angle)))
             l_slot = LineSegment2d(Workplane1, p_base, p_assist)
             Constraint.distance(10., Workplane1, p_base, p_assist)
             #Angle constraint function:
@@ -161,8 +157,8 @@ def slvsProcess(
         link = LineSegment2d(Workplane1, p_base, p_drive)
         Constraint.angle(Workplane1, .5, link, leader)
     #Solve
-    result = Sys.solve()
-    if result==SLVS_RESULT_OKAY:
+    result_flag = Sys.solve()
+    if result_flag==SLVS_RESULT_OKAY:
         resultList = []
         for p in Slvs_Points:
             if type(p)==Point2d:
@@ -171,16 +167,10 @@ def slvsProcess(
                 resultList.append(tuple((round(c.u().value, 4), round(c.v().value, 4)) for c in p))
         return resultList, int(Sys.dof)
     else:
-        if result==SLVS_RESULT_INCONSISTENT:
-            if hasWarning:
-                print("SLVS_RESULT_INCONSISTENT")
-            resultSTR = "Inconsistent"
-        elif result==SLVS_RESULT_DIDNT_CONVERGE:
-            if hasWarning:
-                print("SLVS_RESULT_DIDNT_CONVERGE")
-            resultSTR = "Didn't converge"
-        elif result==SLVS_RESULT_TOO_MANY_UNKNOWNS:
-            if hasWarning:
-                print("SLVS_RESULT_TOO_MANY_UNKNOWNS")
-            resultSTR = "Too many unknowns"
-        return [], resultSTR
+        if result_flag==SLVS_RESULT_INCONSISTENT:
+            error = "Inconsistent"
+        elif result_flag==SLVS_RESULT_DIDNT_CONVERGE:
+            error = "Did not converge"
+        elif result_flag==SLVS_RESULT_TOO_MANY_UNKNOWNS:
+            error = "Too many unknowns"
+        raise Exception(error)

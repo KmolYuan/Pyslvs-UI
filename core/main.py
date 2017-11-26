@@ -35,7 +35,7 @@ from .io.undoRedo import (
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 #Solve
-from .calculation.planeSolving import slvsProcess
+from .calculation.planarSolving import slvsProcess
 '''
 from .io.dxfType import dxfTypeSettings
 from .io.slvsType import slvsTypeSettings
@@ -241,22 +241,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Resolve: Use Solvespace kernel.
     def Resolve(self):
-        result, DOF = slvsProcess(
-            self.Entities_Point.data(),
-            self.Entities_Link.data(),
-            self.variableConstraints() if not self.FreeMoveMode.isChecked() else (),
-            hasWarning=self.showConsoleError.isChecked()
-        )
-        Failed = type(DOF)!=int
-        self.ConflictGuide.setVisible(Failed)
-        self.DOFview.setVisible(not Failed)
-        if not Failed:
+        try:
+            result, DOF = slvsProcess(
+                self.Entities_Point.data(),
+                self.Entities_Link.data(),
+                self.variableConstraints() if not self.FreeMoveMode.isChecked() else ()
+            )
+        except Exception as e:
+            if self.showConsoleError.isChecked():
+                print(e)
+            self.ConflictGuide.setToolTip(str(e))
+            self.ConflictGuide.setVisible(True)
+            self.DOFview.setVisible(False)
+            self.Reload_Canvas()
+        else:
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
-            self.Reload_Canvas()
-        else:
-            self.ConflictGuide.setToolTip(DOF)
+            self.ConflictGuide.setVisible(False)
+            self.DOFview.setVisible(True)
             self.Reload_Canvas()
     
     #Reload Canvas, without resolving.
