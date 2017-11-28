@@ -466,13 +466,14 @@ class DynamicCanvas(BaseCanvas):
             self.ox = event.x() - self.Selector.x
             self.oy = event.y() - self.Selector.y
         elif self.Selector.LeftButtonDrag:
-            if self.freemove and self.pointsSelection:
-                #Free move (batch move) function.
-                mouse_x = x - self.Selector.x/self.zoom
-                mouse_y = y - self.Selector.y/-self.zoom
-                for row in self.pointsSelection:
-                    vpoint = self.Point[row]
-                    vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
+            if self.freemove:
+                if self.pointsSelection:
+                    #Free move (batch move) function.
+                    mouse_x = x - self.Selector.x/self.zoom
+                    mouse_y = y - self.Selector.y/-self.zoom
+                    for row in self.pointsSelection:
+                        vpoint = self.Point[row]
+                        vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
             else:
                 #Rectangular selection
                 self.Selector.RectangularSelection = True

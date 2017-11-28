@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -751,6 +751,11 @@ class Ui_MainWindow(object):
         self.action_Import_Example = QtWidgets.QAction(MainWindow)
         self.action_Import_Example.setIcon(icon32)
         self.action_Import_Example.setObjectName("action_Import_Example")
+        self.action_Free_move = QtWidgets.QAction(MainWindow)
+        icon33 = QtGui.QIcon()
+        icon33.addPixmap(QtGui.QPixmap(":/icons/freemove_on.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_Free_move.setIcon(icon33)
+        self.action_Free_move.setObjectName("action_Free_move")
         self.menuExport.addAction(self.SolvespaceMenuTitle)
         self.menuExport.addAction(self.action_Solvespace_2D_sketch)
         self.menuExport.addSeparator()
@@ -786,6 +791,8 @@ class Ui_MainWindow(object):
         self.menu_Mechanism.addSeparator()
         self.menu_Mechanism.addAction(self.action_Delete_Point)
         self.menu_Mechanism.addAction(self.action_Delete_Link)
+        self.menu_Mechanism.addSeparator()
+        self.menu_Mechanism.addAction(self.action_Free_move)
         self.menu_Options.addAction(self.action_Show_console)
         self.menu_Options.addSeparator()
         self.menu_Options.addAction(self.action_Zoom_to_fit)
@@ -816,6 +823,7 @@ class Ui_MainWindow(object):
         self.action_Exit.triggered.connect(MainWindow.close)
         self.action_Show_console.triggered.connect(self.ConsoleWidget.show)
         self.closeConsoleButton.clicked.connect(self.ConsoleWidget.hide)
+        self.action_Free_move.triggered.connect(self.FreeMoveMode.toggle)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -883,7 +891,7 @@ class Ui_MainWindow(object):
         self.action_New_Workbook.setText(_translate("MainWindow", "&New Workbook"))
         self.action_New_Workbook.setStatusTip(_translate("MainWindow", "Reset to a new wrokbook."))
         self.action_New_Workbook.setShortcut(_translate("MainWindow", "Ctrl+N"))
-        self.action_New_Point.setText(_translate("MainWindow", "New &point"))
+        self.action_New_Point.setText(_translate("MainWindow", "New &Point"))
         self.action_New_Point.setStatusTip(_translate("MainWindow", "Add a new point representative of a node on a machine."))
         self.action_New_Point.setShortcut(_translate("MainWindow", "P"))
         self.action_New_Link.setText(_translate("MainWindow", "New &Linkage"))
@@ -969,6 +977,8 @@ class Ui_MainWindow(object):
         self.action_Stash.setText(_translate("MainWindow", "Stash"))
         self.action_Stash.setStatusTip(_translate("MainWindow", "Abandon all changes of this time, and return to the latest commit."))
         self.action_Import_Example.setText(_translate("MainWindow", "From example"))
+        self.action_Free_move.setText(_translate("MainWindow", "&Free move"))
+        self.action_Free_move.setShortcut(_translate("MainWindow", "Ctrl+F"))
 
 import icons_rc
 import preview_rc

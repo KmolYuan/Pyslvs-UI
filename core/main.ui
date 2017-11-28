@@ -1304,6 +1304,8 @@
     <addaction name="separator"/>
     <addaction name="action_Delete_Point"/>
     <addaction name="action_Delete_Link"/>
+    <addaction name="separator"/>
+    <addaction name="action_Free_move"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
@@ -1367,7 +1369,7 @@
      <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
    </property>
    <property name="text">
-    <string>New &amp;point</string>
+    <string>New &amp;Point</string>
    </property>
    <property name="statusTip">
     <string>Add a new point representative of a node on a machine.</string>
@@ -1853,6 +1855,18 @@
     <string>From example</string>
    </property>
   </action>
+  <action name="action_Free_move">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/freemove_on.png</normaloff>:/icons/freemove_on.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Free move</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../icons.qrc"/>
@@ -1904,6 +1918,22 @@
     <hint type="destinationlabel">
      <x>822</x>
      <y>451</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>action_Free_move</sender>
+   <signal>triggered()</signal>
+   <receiver>FreeMoveMode</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>876</x>
+     <y>62</y>
     </hint>
    </hints>
   </connection>
