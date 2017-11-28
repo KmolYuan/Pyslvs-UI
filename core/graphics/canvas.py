@@ -34,17 +34,29 @@ class Path:
 
 class Selector:
     #Use to record mouse clicked point.
-    __slots__ = ('x', 'y', 'selection', 'MiddleButtonDrag', 'LeftButtonDrag')
+    __slots__ = (
+        'x', 'y', 'selection',
+        'MiddleButtonDrag',
+        'LeftButtonDrag',
+        'sx', 'sy', 'RectangularSelection'
+    )
     
     def __init__(self):
-        self.x = 0
-        self.y = 0
+        self.x = 0.
+        self.y = 0.
         self.selection = []
         self.MiddleButtonDrag = False
         self.LeftButtonDrag = False
+        self.RectangularSelection = False
+        self.sx = 0.
+        self.sy = 0.
     
     def distance(self, x, y):
         return round(sqrt((self.x-x)**2+(self.y-y)**2), 2)
+    
+    def inRect(self, x, y):
+        rect = QRectF(QPointF(self.x, self.y), QPointF(self.sx, self.sy))
+        return rect.contains(x, y)
 
 class BaseCanvas(QWidget):
     def __init__(self, parent=None):
@@ -232,6 +244,14 @@ class DynamicCanvas(BaseCanvas):
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.drawFrame(pen)
+        if self.Selector.RectangularSelection:
+            pen = QPen(Qt.gray)
+            pen.setWidth(1)
+            self.painter.setPen(pen)
+            self.painter.drawRect(QRectF(
+                QPointF(self.Selector.x, self.Selector.y),
+                QPointF(self.Selector.sx, self.Selector.sy)
+            ))
         #Draw links.
         for i, vlink in enumerate(self.Link[1:]):
             points = [self.Point[i] for i in vlink.points]
@@ -406,10 +426,14 @@ class DynamicCanvas(BaseCanvas):
     
     def mouseSelectedPoint(self):
         self.Selector.selection.clear()
-        for i, e in enumerate(self.Point):
-            x = e.cx * self.zoom
-            y = e.cy * -self.zoom
-            if self.Selector.distance(x, y) < self.selectionRadius:
+        for i, vpoint in enumerate(self.Point):
+            if self.Selector.distance(vpoint.cx * self.zoom, vpoint.cy * -self.zoom) < self.selectionRadius:
+                self.Selector.selection.append(i)
+    
+    def RectangularSelectedPoint(self):
+        self.Selector.selection.clear()
+        for i, vpoint in enumerate(self.Point):
+            if self.Selector.inRect(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 self.Selector.selection.append(i)
     
     def mouseReleaseEvent(self, event):
@@ -432,6 +456,8 @@ class DynamicCanvas(BaseCanvas):
                 )
         self.Selector.MiddleButtonDrag = False
         self.Selector.LeftButtonDrag = False
+        self.Selector.RectangularSelection = False
+        self.update()
     
     def mouseMoveEvent(self, event):
         x = (event.x() - self.ox)/self.zoom
@@ -439,15 +465,23 @@ class DynamicCanvas(BaseCanvas):
         if self.Selector.MiddleButtonDrag:
             self.ox = event.x() - self.Selector.x
             self.oy = event.y() - self.Selector.y
-            self.update()
-        elif self.Selector.LeftButtonDrag and self.freemove:
-            #Free move function.
-            mouse_x = x - self.Selector.x/self.zoom
-            mouse_y = y - self.Selector.y/-self.zoom
-            for row in self.pointsSelection:
-                vpoint = self.Point[row]
-                vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
-            self.update()
+        elif self.Selector.LeftButtonDrag:
+            if self.freemove and self.pointsSelection:
+                #Free move (batch move) function.
+                mouse_x = x - self.Selector.x/self.zoom
+                mouse_y = y - self.Selector.y/-self.zoom
+                for row in self.pointsSelection:
+                    vpoint = self.Point[row]
+                    vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
+            else:
+                #Rectangular selection
+                self.Selector.RectangularSelection = True
+                self.Selector.sx = event.x() - self.ox
+                self.Selector.sy = event.y() - self.oy
+                self.RectangularSelectedPoint()
+                if self.Selector.selection:
+                    self.mouse_getSelection.emit(tuple(self.Selector.selection))
+        self.update()
         self.mouse_track.emit(x, y)
     
     def SetIn(self):
