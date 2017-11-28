@@ -31,9 +31,20 @@ from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
-    #Version text
-    self.menuBar.setCornerWidget(QLabel("Version {}.{}.{} ({})".format(*VERSION)))
-    #Entities tables
+    #Version text and canvas capture button.
+    CanvasCaptureButton = QPushButton()
+    CanvasCaptureButton.setIcon(QIcon(QPixmap(":/icons/capture.png")))
+    CanvasCaptureButton.setToolTip("Canvas capture")
+    CanvasCaptureButton.setStatusTip("Make a canvas capture to the clipboard.")
+    CanvasCaptureButton.clicked.connect(self.canvasCapture)
+    VersionLabel = QLabel("Version {}.{}.{} ({})".format(*VERSION))
+    w = QWidget(self)
+    l = QHBoxLayout(w)
+    l.setContentsMargins(0, 0, 0, 0)
+    l.addWidget(CanvasCaptureButton)
+    l.addWidget(VersionLabel)
+    self.menuBar.setCornerWidget(w)
+    #Entities tables.
     self.Entities_Point = PointTableWidget(self.Entities_Point_Widget)
     self.Entities_Point.cellDoubleClicked.connect(self.on_action_Edit_Point_triggered)
     self.Entities_Point.itemSelectionChanged.connect(self.pointSelection)
@@ -90,13 +101,14 @@ def initCustomWidgets(self):
     #Connect to GUI button switching.
     self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
-    #Properties and canvas capture button on the Point and Link tab as corner widget.
-    CanvasCaptureButton = QPushButton()
-    CanvasCaptureButton.setIcon(QIcon(QPixmap(":/icons/capture.png")))
-    CanvasCaptureButton.setToolTip("Canvas capture")
-    CanvasCaptureButton.setStatusTip("Make a canvas capture to the clipboard.")
-    CanvasCaptureButton.clicked.connect(self.canvasCapture)
-    self.PointTab.setCornerWidget(CanvasCaptureButton)
+    #Select all button on the Point and Link tab as corner widget.
+    for tab, table in [(self.PointTab, self.Entities_Point), (self.LinkTab, self.Entities_Link)]:
+        SelectAllButton = QPushButton()
+        SelectAllButton.setIcon(QIcon(QPixmap(":/icons/chain.png")))
+        SelectAllButton.setToolTip("Select all")
+        SelectAllButton.setStatusTip("Select all item of this table.")
+        SelectAllButton.clicked.connect(table.selectAll)
+        tab.setCornerWidget(SelectAllButton)
     #Add inputs QDial.
     self.inputs_Degree = QDial()
     self.inputs_Degree.setEnabled(False)
