@@ -104,7 +104,7 @@ def initCustomWidgets(self):
     #Select all button on the Point and Link tab as corner widget.
     for tab, table in [(self.PointTab, self.Entities_Point), (self.LinkTab, self.Entities_Link)]:
         SelectAllButton = QPushButton()
-        SelectAllButton.setIcon(QIcon(QPixmap(":/icons/chain.png")))
+        SelectAllButton.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
         SelectAllButton.setToolTip("Select all")
         SelectAllButton.setStatusTip("Select all item of this table.")
         SelectAllButton.clicked.connect(table.selectAll)

@@ -30,7 +30,6 @@
     <file>icons/bearing.png</file>
     <file>icons/BrowseAim.png</file>
     <file>icons/capture.png</file>
-    <file>icons/chain.png</file>
     <file>icons/close.png</file>
     <file>icons/ConflictGuide.png</file>
     <file>icons/connect.png</file>
@@ -64,6 +63,7 @@
     <file>icons/redo.png</file>
     <file>icons/rod.png</file>
     <file>icons/savefile.png</file>
+    <file>icons/select_all.png</file>
     <file>icons/settings.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>
