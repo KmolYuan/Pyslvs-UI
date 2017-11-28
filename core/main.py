@@ -272,7 +272,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.FileWidget.pathData[self.inputs_record.item(pathIndex).text()] if pathIndex>-1 else ())
+            self.FileWidget.pathData[self.inputs_record.item(pathIndex).text().split(':')[0]] if pathIndex>-1 else ())
     
     #Workbook not saved signal.
     def workbookNoSave(self):
@@ -1054,7 +1054,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DimensionalSynthesis.on_add_clicked(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple, tuple)
-    def PathSolving_mergeResult(self, row, answer, Path):
+    def PathSolving_mergeResult(self, row, answer, path):
         pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
         if self.FileWidget.Designs.result[row]['type']=='8Bar':
             expression = self.DimensionalSynthesis.mechanismParams_8Bar['Expression'].split(',')
@@ -1082,10 +1082,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         while name in nameList:
             i += 1
             name = "Algorithm_{}".format(i)
-        self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-        self.FileState.push(addPathCommand(self.inputs_record, name, self.FileWidget.pathData, Path))
-        self.FileState.endMacro()
-        self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+        self.addPath(name, path)
     
     @pyqtSlot()
     def pointSelection(self):

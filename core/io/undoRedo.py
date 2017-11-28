@@ -206,7 +206,7 @@ class addPathCommand(QUndoCommand):
     
     def redo(self):
         self.data[self.name] = self.path
-        self.widget.addItem(self.name)
+        self.widget.addItem("{}: {}".format(self.name, ", ".join("[{}]".format(i) for i, d in enumerate(self.path) if d)))
     
     def undo(self):
         self.widget.takeItem(self.widget.count()-1)
@@ -221,9 +221,10 @@ class deletePathCommand(QUndoCommand):
     
     def redo(self):
         self.oldItem = self.widget.takeItem(self.row)
-        self.oldPath = self.data[self.oldItem.text()]
-        del self.data[self.oldItem.text()]
+        name = self.oldItem.text().split(':')[0]
+        self.oldPath = self.data[name]
+        del self.data[name]
     
     def undo(self):
-        self.data[self.oldItem.text()] = self.oldPath
+        self.data[self.oldItem.text().split(':')[0]] = self.oldPath
         self.widget.addItem(self.oldItem)
