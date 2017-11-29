@@ -426,13 +426,17 @@ class DynamicCanvas(BaseCanvas):
                 self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
     
     def mouseSelectedPoint(self):
-        self.Selector.selection.clear()
+        keyboardModifiers = QApplication.keyboardModifiers()
+        if not keyboardModifiers==Qt.ShiftModifier:
+            self.Selector.selection.clear()
         for i, vpoint in enumerate(self.Point):
             if self.Selector.distance(vpoint.cx * self.zoom, vpoint.cy * -self.zoom) < self.selectionRadius:
                 self.Selector.selection.append(i)
     
     def RectangularSelectedPoint(self):
-        self.Selector.selection.clear()
+        keyboardModifiers = QApplication.keyboardModifiers()
+        if not keyboardModifiers==Qt.ShiftModifier:
+            self.Selector.selection.clear()
         for i, vpoint in enumerate(self.Point):
             if self.Selector.inRect(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 self.Selector.selection.append(i)
