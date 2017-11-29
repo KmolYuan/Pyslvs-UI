@@ -837,7 +837,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.inputs_baseLinks.clear()
         if row>-1:
             if row not in self.Entities_Point.selectedRows():
-                self.Entities_Point.setSelections((row,))
+                self.Entities_Point.setSelections((row,), False)
             for linkName in filter(lambda x: x!='', self.Entities_Point.item(row, 1).text().split(',')):
                 self.inputs_baseLinks.addItem(linkName)
     
