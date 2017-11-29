@@ -55,8 +55,9 @@ class Selector:
         return round(sqrt((self.x-x)**2+(self.y-y)**2), 2)
     
     def inRect(self, x, y):
-        rect = QRectF(QPointF(self.x, self.y), QPointF(self.sx, self.sy))
-        return rect.contains(x, y)
+        x_in_range = lambda u: min(self.x, self.sx) <= u <= max(self.x, self.sx)
+        y_in_range = lambda v: min(self.y, self.sy) <= v <= max(self.y, self.sy)
+        return x_in_range(x) and y_in_range(y)
 
 class BaseCanvas(QWidget):
     def __init__(self, parent=None):
@@ -67,7 +68,7 @@ class BaseCanvas(QWidget):
         self.oy = self.height()/2
         #Canvas zoom rate
         self.rate = 2
-        self.zoom = 2*self.rate
+        self.zoom = 2 * self.rate
         #Canvas line width
         self.linkWidth = 3
         self.pathWidth = 3
@@ -137,7 +138,7 @@ class BaseCanvas(QWidget):
 class DynamicCanvas(BaseCanvas):
     mouse_track = pyqtSignal(float, float)
     mouse_browse_track = pyqtSignal(float, float)
-    mouse_getSelection = pyqtSignal(tuple)
+    mouse_getSelection = pyqtSignal(tuple, bool)
     mouse_freemoveSelection = pyqtSignal(tuple)
     mouse_noSelection = pyqtSignal()
     mouse_getDoubleClickAdd = pyqtSignal()
@@ -411,7 +412,7 @@ class DynamicCanvas(BaseCanvas):
             self.Selector.LeftButtonDrag = True
             self.mouseSelectedPoint()
             if self.Selector.selection:
-                self.mouse_getSelection.emit(tuple(self.Selector.selection))
+                self.mouse_getSelection.emit(tuple(self.Selector.selection), True)
     
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
@@ -421,7 +422,7 @@ class DynamicCanvas(BaseCanvas):
             self.Selector.y = event.y() - self.oy
             self.mouseSelectedPoint()
             if self.Selector.selection:
-                self.mouse_getSelection.emit((self.Selector.selection[0],))
+                self.mouse_getSelection.emit((self.Selector.selection[0],), True)
                 self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
     
     def mouseSelectedPoint(self):
@@ -439,15 +440,16 @@ class DynamicCanvas(BaseCanvas):
     def mouseReleaseEvent(self, event):
         #Only one clicked.
         if self.Selector.LeftButtonDrag:
-            if QApplication.keyboardModifiers()==Qt.AltModifier:
+            keyboardModifiers = QApplication.keyboardModifiers()
+            if keyboardModifiers==Qt.AltModifier:
                 self.mouse_getDoubleClickAdd.emit()
             elif (
                 (abs(event.x() - self.ox - self.Selector.x) < self.selectionRadius/2) and
                 (abs(event.y() - self.oy - self.Selector.y) < self.selectionRadius/2)
             ):
                 if (not self.Selector.selection and
-                    (QApplication.keyboardModifiers()!=Qt.ControlModifier) and
-                    (QApplication.keyboardModifiers()!=Qt.ShiftModifier)
+                    (keyboardModifiers!=Qt.ControlModifier) and
+                    (keyboardModifiers!=Qt.ShiftModifier)
                 ):
                     self.mouse_noSelection.emit()
             elif self.freemove:
@@ -481,7 +483,9 @@ class DynamicCanvas(BaseCanvas):
                 self.Selector.sy = event.y() - self.oy
                 self.RectangularSelectedPoint()
                 if self.Selector.selection:
-                    self.mouse_getSelection.emit(tuple(self.Selector.selection))
+                    self.mouse_getSelection.emit(tuple(self.Selector.selection), False)
+                else:
+                    self.mouse_noSelection.emit()
         self.update()
         self.mouse_track.emit(x, y)
     

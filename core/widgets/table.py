@@ -156,15 +156,20 @@ class PointTableWidget(BaseTableWidget):
         ))
     
     #Auto select function, get the signal from canvas.
-    @pyqtSlot(tuple)
-    def setSelections(self, selections: Tuple[int]):
+    @pyqtSlot(tuple, bool)
+    def setSelections(self, selections: Tuple[int], keyDetect: bool):
         self.setFocus()
-        if QApplication.keyboardModifiers()==Qt.ShiftModifier:
-            self.setRangesSelected(selections, continueSelect=True, UnSelect=False)
-        elif QApplication.keyboardModifiers()==Qt.ControlModifier:
-            self.setRangesSelected(selections, continueSelect=True)
+        keyboardModifiers = QApplication.keyboardModifiers()
+        if keyDetect:
+            if keyboardModifiers==Qt.ShiftModifier:
+                self.setRangesSelected(selections, continueSelect=True, UnSelect=False)
+            elif keyboardModifiers==Qt.ControlModifier:
+                self.setRangesSelected(selections, continueSelect=True, UnSelect=True)
+            else:
+                self.setRangesSelected(selections, continueSelect=False, UnSelect=False)
         else:
-            self.setRangesSelected(selections, continueSelect=False, UnSelect=False)
+            continueSelect = keyboardModifiers==Qt.ShiftModifier or keyboardModifiers==Qt.ControlModifier
+            self.setRangesSelected(selections, continueSelect=continueSelect, UnSelect=False)
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows)>1:
@@ -176,7 +181,7 @@ class PointTableWidget(BaseTableWidget):
         self.rowSelectionChanged.emit(selectedRows, tuple(distance))
     
     #Different mode of select function.
-    def setRangesSelected(self, selections, continueSelect=True, UnSelect=True):
+    def setRangesSelected(self, selections, continueSelect, UnSelect):
         selectedRows = self.selectedRows()
         if not continueSelect:
             self.clearSelection()
