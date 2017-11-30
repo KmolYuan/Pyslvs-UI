@@ -462,6 +462,7 @@ class DynamicCanvas(BaseCanvas):
             ):
                 if (not self.Selector.selection) and km!=Qt.ControlModifier and km!=Qt.ShiftModifier:
                     self.mouse_noSelection.emit()
+                    self.Selector.selection_old.clear()
             #Edit point coordinates.
             elif self.freemove:
                 self.mouse_freemoveSelection.emit(
