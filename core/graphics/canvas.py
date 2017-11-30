@@ -19,7 +19,8 @@
 
 from ..QtModules import *
 from math import sqrt
-from typing import List, Tuple
+from typing import TypeVar, List, Tuple
+function = TypeVar("function")
 from heapq import nsmallest
 from .color import colorQt
 
@@ -36,6 +37,7 @@ class Selector:
     #Use to record mouse clicked point.
     __slots__ = (
         'x', 'y', 'selection',
+        'selection_rect', 'selection_old',
         'MiddleButtonDrag',
         'LeftButtonDrag',
         'sx', 'sy', 'RectangularSelection'
@@ -45,6 +47,8 @@ class Selector:
         self.x = 0.
         self.y = 0.
         self.selection = []
+        self.selection_rect = []
+        self.selection_old = []
         self.MiddleButtonDrag = False
         self.LeftButtonDrag = False
         self.RectangularSelection = False
@@ -426,40 +430,44 @@ class DynamicCanvas(BaseCanvas):
                 self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
     
     def mouseSelectedPoint(self):
-        keyboardModifiers = QApplication.keyboardModifiers()
-        if not keyboardModifiers==Qt.ShiftModifier:
-            self.Selector.selection.clear()
-        for i, vpoint in enumerate(self.Point):
-            if self.Selector.distance(vpoint.cx * self.zoom, vpoint.cy * -self.zoom) < self.selectionRadius:
-                self.Selector.selection.append(i)
+        self.selectedPointFunc(
+            self.Selector.selection,
+            lambda *args: self.Selector.distance(*args) < self.selectionRadius
+        )
     
     def RectangularSelectedPoint(self):
-        keyboardModifiers = QApplication.keyboardModifiers()
-        if not keyboardModifiers==Qt.ShiftModifier:
-            self.Selector.selection.clear()
+        self.Selector.selection_rect.clear()
+        self.selectedPointFunc(
+            self.Selector.selection_rect,
+            self.Selector.inRect
+        )
+    
+    def selectedPointFunc(self, selection: List[int], inSelection: function):
         for i, vpoint in enumerate(self.Point):
-            if self.Selector.inRect(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
-                self.Selector.selection.append(i)
+            if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
+                if i not in selection:
+                    selection.append(i)
     
     def mouseReleaseEvent(self, event):
-        #Only one clicked.
         if self.Selector.LeftButtonDrag:
-            keyboardModifiers = QApplication.keyboardModifiers()
-            if keyboardModifiers==Qt.AltModifier:
+            self.Selector.selection_old = list(self.pointsSelection)
+            km = QApplication.keyboardModifiers()
+            #Add Point
+            if km==Qt.AltModifier:
                 self.mouse_getDoubleClickAdd.emit()
+            #Only one clicked.
             elif (
                 (abs(event.x() - self.ox - self.Selector.x) < self.selectionRadius/2) and
                 (abs(event.y() - self.oy - self.Selector.y) < self.selectionRadius/2)
             ):
-                if (not self.Selector.selection and
-                    (keyboardModifiers!=Qt.ControlModifier) and
-                    (keyboardModifiers!=Qt.ShiftModifier)
-                ):
+                if (not self.Selector.selection) and km!=Qt.ControlModifier and km!=Qt.ShiftModifier:
                     self.mouse_noSelection.emit()
+            #Edit point coordinates.
             elif self.freemove:
                 self.mouse_freemoveSelection.emit(
                     tuple((row, (self.Point[row].cx, self.Point[row].cy)) for row in self.pointsSelection)
                 )
+        self.Selector.selection_rect.clear()
         self.Selector.MiddleButtonDrag = False
         self.Selector.LeftButtonDrag = False
         self.Selector.RectangularSelection = False
@@ -486,8 +494,12 @@ class DynamicCanvas(BaseCanvas):
                 self.Selector.sx = event.x() - self.ox
                 self.Selector.sy = event.y() - self.oy
                 self.RectangularSelectedPoint()
-                if self.Selector.selection:
-                    self.mouse_getSelection.emit(tuple(self.Selector.selection), False)
+                km = QApplication.keyboardModifiers()
+                if self.Selector.selection_rect:
+                    if km==Qt.ControlModifier or km==Qt.ShiftModifier:
+                        self.mouse_getSelection.emit(tuple(set(self.Selector.selection_old + self.Selector.selection_rect)), False)
+                    else:
+                        self.mouse_getSelection.emit(tuple(self.Selector.selection_rect), False)
                 else:
                     self.mouse_noSelection.emit()
         self.update()
