@@ -155,21 +155,23 @@ class DynamicCanvas(BaseCanvas):
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         self.Selector = Selector()
-        #Entities
+        #Entities.
         self.Point = ()
         self.Link = ()
-        #Point selection
+        #Point selection.
         self.selectionRadius = 10
         self.pointsSelection = []
-        #Linkage transparency
+        #Linkage transparency.
         self.transparency = 1.
-        #Path solving range
+        #Path solving range.
         defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
         self.ranges = (defult_range, defult_range)
-        #Set showDimension to False
+        #Set showDimension to False.
         self.showDimension = False
-        #Free move mode
+        #Free move mode.
         self.freemove = False
+        #Clear selection list signal.
+        self.mouse_noSelection.connect(self.Selector.selection_old.clear)
     
     def update_figure(self, Point, Link, path):
         self.Point = Point
@@ -462,7 +464,6 @@ class DynamicCanvas(BaseCanvas):
             ):
                 if (not self.Selector.selection) and km!=Qt.ControlModifier and km!=Qt.ShiftModifier:
                     self.mouse_noSelection.emit()
-                    self.Selector.selection_old.clear()
             #Edit point coordinates.
             elif self.freemove:
                 self.mouse_freemoveSelection.emit(
