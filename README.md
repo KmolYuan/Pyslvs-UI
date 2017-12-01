@@ -233,43 +233,48 @@ But you can be assured that the changes won't cause any negative impact.
     gendef python3x.dll
     dlltool --dllname python3x.dll --def python3x.def --output-lib libpython3x.a
     ```
-
-    And then adjust source code about Visual C. Find this code in `where_your_python\include\pyconfig.h`.
-
-    ```c
-    #ifdef _WIN64
-    #define MS_WIN64
-    #endif
-    ```
-
-    Cut them and paste **Above** this:
-
-    ```c
-    #ifdef _MSC_VER
+    
     ```
 
     Find this code in `where_your_python\Lib\distutils\cygwinccompiler.py`:
 
     ```python
-    #with MSVC 7.0 or later.
+    # no additional libraries needed
+    self.dll_libraries=[]
+    
+    # Include the appropriate MSVC runtime library if Python was built
+    # with MSVC 7.0 or later.
     self.dll_libraries = get_msvcr()
     ```
-
+    
     Commit `self.dll_libraries = get_msvcr()`.
-
+    
+    And then adjust source code about Visual C. Find this code in `where_your_python\include\pyconfig.h`.
+    
+    ```c
+    #ifdef _WIN64
+    #define MS_WIN64
+    #endif
+    ```
+    
+    Cut them and paste **Above** this:
+    
+    ```c
+    #ifdef _MSC_VER
+    
 1. `math.h` conflict with `pyconfig.h`
-
+    
     You will definitely get warning with `_hypot` in `pyconfig.h`, and you should do this step.
-
+    
     In `where_your_python\include\pyconfig.h`, find this:
-
+    
     ```c
     #define COMPILER "[gcc]"
     #define hypot _hypot
     ```
-
+    
     Edit it to this:
-
+    
     ```c
     #define COMPILER "[gcc]"
     #ifndef _MATH_H_
