@@ -91,10 +91,10 @@ def slvsProcess(
             def relateWith(linkName):
                 if linkName=='ground':
                     #Angle can not be zero.
-                    if vpoint.angle:
-                        Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
-                    else:
+                    if vpoint.angle==0. or vpoint.angle==180.:
                         Constraint.parallel(Workplane1, ground, l_slot)
+                    else:
+                        Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
                 else:
                     relate = Link[LinkIndex(linkName)].points
                     relateOrder = relate.index(i)

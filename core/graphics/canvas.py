@@ -291,6 +291,10 @@ class DynamicCanvas(BaseCanvas):
             if x_all:
                 p_left = silder_points[x_all.index(min(x_all))]
                 p_right = silder_points[x_all.index(max(x_all))]
+                if p_left==p_right:
+                    y_all = tuple(cy for cx, cy in silder_points)
+                    p_left = silder_points[y_all.index(min(y_all))]
+                    p_right = silder_points[y_all.index(max(y_all))]
                 self.painter.drawLine(QPointF(p_left[0]*self.zoom, p_left[1]*-self.zoom), QPointF(p_right[0]*self.zoom, p_right[1]*-self.zoom))
         else:
             super(DynamicCanvas, self).drawPoint(i, vpoint.cx, vpoint.cy, 'ground' in vpoint.links, vpoint.color)

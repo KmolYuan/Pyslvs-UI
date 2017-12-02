@@ -611,7 +611,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             rowCount = self.Entities_Point.rowCount()
             Type = dlg.Type.currentText().split(" ")[0]
             if Type!='R':
-                Type += ":{}".format(dlg.Angle.value())
+                Type += ":{}".format(dlg.Angle.value()%360)
             Args = [
                 ','.join([dlg.selected.item(row).text() for row in range(dlg.selected.count())]),
                 Type,
