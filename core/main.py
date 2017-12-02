@@ -62,7 +62,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.on_connectConsoleButton_clicked()
         #Undo Stack
         self.FileState = QUndoStack()
-        self.setLocate(QFileInfo(self.args.i if self.args.i else '.').canonicalFilePath())
+        self.setLocate(QFileInfo(self.args.i if self.args.i else QDir.homePath()).canonicalFilePath())
         #Initialize custom UI.
         initCustomWidgets(self)
         self.Resolve()
