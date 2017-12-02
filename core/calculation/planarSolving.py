@@ -82,8 +82,8 @@ def slvsProcess(
             #Make auxiliary line as a slider slot (The length is 10.0).
             p_base = Slvs_Points[i][0]
             p_assist = Point2d(Workplane1,
-                Sys.add_param(vpoint.cx + 10.*cos(vpoint.angle)),
-                Sys.add_param(vpoint.cy + 10.*sin(vpoint.angle))
+                Sys.add_param(vpoint.cx + 10.*cos(radians(vpoint.angle))),
+                Sys.add_param(vpoint.cy + 10.*sin(radians(vpoint.angle)))
             )
             l_slot = LineSegment2d(Workplane1, p_base, p_assist)
             Constraint.distance(10., Workplane1, p_base, p_assist)

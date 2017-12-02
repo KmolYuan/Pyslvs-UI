@@ -289,10 +289,11 @@ class DynamicCanvas(BaseCanvas):
             pen = QPen(vpoint.color.darker())
             pen.setWidth(2)
             self.painter.setPen(pen)
-            x_all = tuple(cx*self.zoom for cx, cy in silder_points)
-            y_all = tuple(cy*-self.zoom for cx, cy in silder_points)
-            if x_all and y_all:
-                self.painter.drawLine(QPointF(max(x_all), max(y_all)), QPointF(min(x_all), min(y_all)))
+            x_all = tuple(cx for cx, cy in silder_points)
+            if x_all:
+                p_left = silder_points[x_all.index(min(x_all))]
+                p_right = silder_points[x_all.index(max(x_all))]
+                self.painter.drawLine(QPointF(p_left[0]*self.zoom, p_left[1]*-self.zoom), QPointF(p_right[0]*self.zoom, p_right[1]*-self.zoom))
         else:
             super(DynamicCanvas, self).drawPoint(i, vpoint.cx, vpoint.cy, 'ground' in vpoint.links, vpoint.color)
         #For selects function.
