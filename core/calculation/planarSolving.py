@@ -38,7 +38,8 @@ def slvsProcess(
 ):
     pointCount = len(Point)
     sliderCount = sum([len(p.links)-1 for p in Point if p.type==1 or p.type==2])
-    Sys = System(pointCount*2 + sliderCount + 15)
+    constraintCount = len(constraints)
+    Sys = System(pointCount*2 + sliderCount + constraintCount*2 + 15)
     Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
     p1 = Sys.add_param(0.)

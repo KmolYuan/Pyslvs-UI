@@ -970,6 +970,7 @@ class Ui_MainWindow(object):
         self.action_Output_to_PMKS.setStatusTip(_translate("MainWindow", "Pass your mechanism to PMKS server by generate a URL."))
         self.action_Import_PMKS_server.setText(_translate("MainWindow", "From PMKS server"))
         self.action_Example.setText(_translate("MainWindow", "Example..."))
+        self.action_Example.setShortcut(_translate("MainWindow", "Ctrl+E"))
         self.action_Import_Expression.setText(_translate("MainWindow", "From expression"))
         self.action_Output_to_Expression.setText(_translate("MainWindow", "Get expression"))
         self.action_Save_branch.setText(_translate("MainWindow", "Save to new branch"))

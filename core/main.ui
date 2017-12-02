@@ -1803,6 +1803,9 @@
    <property name="text">
     <string>Example...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
   </action>
   <action name="action_Import_Expression">
    <property name="icon">
