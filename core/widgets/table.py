@@ -95,15 +95,12 @@ class PointTableWidget(BaseTableWidget):
             if Type[0]=='R':
                 Type = 0
                 angle = 0.
-            else:
+            elif Type[0]=='P' or Type[0]=='RP':
                 angle = float(Type[1])
-                if Type[0]=='P':
-                    Type = 1
-                elif Type[0]=='RP':
-                    Type = 2
-            v = VPoint(Links, Type, angle, color, x, y)
-            v.move(*self.currentPosition(row))
-            return v
+                Type = {'P':1, 'RP':2}[Type[0]]
+            vpoint = VPoint(Links, Type, angle, color, x, y)
+            vpoint.move(*self.currentPosition(row))
+            return vpoint
         if index==-1:
             data = []
             for row in range(self.rowCount()):
@@ -134,8 +131,14 @@ class PointTableWidget(BaseTableWidget):
     
     #Get the current coordinate from a point.
     def currentPosition(self, row: int) -> Tuple[float, float]:
-        return tuple(tuple(float(p) for p in coordinate.split(", "))
-            for coordinate in self.item(row, 6).text().replace('(', '').replace(')', '').split("; "))
+        Type = self.item(row, 2).text().split(':')
+        coordinates = tuple(tuple(float(p) for p in coordinate.split(", ")) for coordinate in self.item(row, 6).text().replace('(', '').replace(')', '').split("; "))
+        if Type[0]=='P' or Type[0]=='RP':
+            link_count = len(self.item(row, 1).text().split(','))
+            if len(coordinates)!=link_count:
+                coordinates = tuple(coordinates[0] for i in range(link_count))
+                self.item(row, 6).setText("; ".join("({}, {})".format(cx, cy) for cx, cy in coordinates))
+        return coordinates
     
     #Update the current coordinate for a point.
     def updateCurrentPosition(self, coordinates: Tuple[Tuple[Tuple[float, float],],]):

@@ -72,7 +72,7 @@ def slvsProcess(
         elif vpoint.type==1 or vpoint.type==2:
             #Has one more pointer
             Slvs_Points.append(
-                tuple(Point2d(Workplane1, Sys.add_param(vpoint.cx), Sys.add_param(vpoint.cy)) for i in range(len(vpoint.links)))
+                tuple(Point2d(Workplane1, Sys.add_param(cx), Sys.add_param(cy)) for cx, cy in vpoint.c)
             )
     #Topology of PMKS points.
     LinkIndex = lambda l: [vlink.name for vlink in Link].index(l)
@@ -81,7 +81,10 @@ def slvsProcess(
         if vpoint.type==1 or vpoint.type==2:
             #Make auxiliary line as a slider slot (The length is 10.0).
             p_base = Slvs_Points[i][0]
-            p_assist = Point2d(Workplane1, Sys.add_param(vpoint.cx+10.*cos(vpoint.angle)), Sys.add_param(vpoint.cy+10.*sin(vpoint.angle)))
+            p_assist = Point2d(Workplane1,
+                Sys.add_param(vpoint.cx + 10.*cos(vpoint.angle)),
+                Sys.add_param(vpoint.cy + 10.*sin(vpoint.angle))
+            )
             l_slot = LineSegment2d(Workplane1, p_base, p_assist)
             Constraint.distance(10., Workplane1, p_base, p_assist)
             #Angle constraint function:

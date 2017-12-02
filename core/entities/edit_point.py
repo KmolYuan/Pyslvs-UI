@@ -51,6 +51,7 @@ class edit_point_show(QDialog, edit_point_Dialog):
             self.Y_coordinate.setValue(vpoint.y)
             self.Color.setCurrentIndex(self.Color.findText(vpoint.colorSTR))
             self.Type.setCurrentIndex(vpoint.type)
+            self.Angle.setValue(vpoint.angle)
             self.noSelected.clear()
             self.selected.clear()
             for linkName in vpoint.links:
