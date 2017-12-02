@@ -117,18 +117,18 @@ class BaseCanvas(QWidget):
         fix: bool,
         color: QColor
     ):
-        x = cx*self.zoom
-        y = cy*-self.zoom
         pen = QPen(color)
         pen.setWidth(2)
         self.painter.setPen(pen)
+        x = cx*self.zoom
+        y = cy*-self.zoom
         if fix:
             bottom = y + 20
             width = 10
             self.painter.drawPolygon(QPointF(x, y), QPointF(x - width, bottom), QPointF(x + width, bottom))
             self.painter.drawEllipse(QPointF(x, y), width, width)
         else:
-            self.painter.drawEllipse(QPointF(x, y), 5., 5.)
+            self.painter.drawEllipse(QPointF(x, y), 5, 5)
         if self.showPointMark:
             pen.setColor(Qt.darkGray)
             pen.setWidth(2)
@@ -260,56 +260,85 @@ class DynamicCanvas(BaseCanvas):
                 QPointF(self.Selector.sx, self.Selector.sy)
             ))
         #Draw links.
-        for i, vlink in enumerate(self.Link[1:]):
-            points = [self.Point[i] for i in vlink.points]
-            self.drawLink(vlink.name, vlink.color, points)
+        for vlink in self.Link[1:]:
+            self.drawLink(vlink)
         #Draw path.
         self.drawPath()
         #Draw points.
         for i, vpoint in enumerate(self.Point):
-            fix = 'ground' in vpoint.links
-            self.drawPoint(i, vpoint.cx, vpoint.cy, fix, vpoint.color)
+            self.drawPoint(i, vpoint)
         self.painter.end()
         self.change_event.emit()
     
-    def drawPoint(self, i, cx, cy, fix, color):
-        super(DynamicCanvas, self).drawPoint(i, cx, cy, fix, color)
+    def drawPoint(self, i, vpoint):
+        if vpoint.type==1 or vpoint.type==2:
+            #Draw slider
+            silder_points = vpoint.c
+            pen = QPen(vpoint.color)
+            pen.setWidth(2)
+            self.painter.setPen(pen)
+            for j, (cx, cy) in enumerate(silder_points):
+                if vpoint.type==1:
+                    r = 10 if j==0 else 5
+                    self.painter.drawRect(QRectF(
+                        QPointF(cx*self.zoom + r, cy*-self.zoom + r),
+                        QPointF(cx*self.zoom - r, cy*-self.zoom - r)
+                    ))
+                elif vpoint.type==2:
+                    super(DynamicCanvas, self).drawPoint(i, cx, cy, vpoint.links[j]=='ground', vpoint.color)
+            pen = QPen(vpoint.color.darker())
+            pen.setWidth(2)
+            self.painter.setPen(pen)
+            x_all = tuple(cx*self.zoom for cx, cy in silder_points)
+            y_all = tuple(cy*-self.zoom for cx, cy in silder_points)
+            if x_all and y_all:
+                self.painter.drawLine(QPointF(max(x_all), max(y_all)), QPointF(min(x_all), min(y_all)))
+        else:
+            super(DynamicCanvas, self).drawPoint(i, vpoint.cx, vpoint.cy, 'ground' in vpoint.links, vpoint.color)
         #For selects function.
         if i in self.pointsSelection:
             pen = QPen(QColor(161, 16, 239))
             pen.setWidth(3)
             self.painter.setPen(pen)
-            self.painter.drawRect(cx*self.zoom - 12, cy*-self.zoom - 12, 24, 24)
+            self.painter.drawRect(vpoint.cx*self.zoom - 12, vpoint.cy*-self.zoom - 12, 24, 24)
     
-    def drawLink(self,
-        name: str,
-        color: QColor,
-        points: List['VPoint']
-    ):
-        pen = QPen(color)
+    def drawLink(self, vlink):
+        points = []
+        for i in vlink.points:
+            vpoint = self.Point[i]
+            if vpoint.type==1 or vpoint.type==2:
+                coordinate = vpoint.c[vpoint.links.index(vlink.name)]
+                x = coordinate[0]
+                y = coordinate[1]
+            else:
+                x = vpoint.cx
+                y = vpoint.cy
+            points.append((x, y))
+        pen = QPen(vlink.color)
         pen.setWidth(self.linkWidth)
         self.painter.setPen(pen)
         brush = QColor(226, 219, 190)
         brush.setAlphaF(self.transparency)
         self.painter.setBrush(brush)
         #Rearrange: Put the nearest point to the next position.
+        distance = lambda p1, p2: sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
         for i in range(len(points)):
             if i==len(points)-1:
                 break
-            distanceList = [points[i].distance(p) for p in points]
+            distanceList = [distance(points[i], p) for p in points]
             j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
             points[i+1], points[j] = points[j], points[i+1]
-        qpoints = [QPointF(vpoint.cx*self.zoom, vpoint.cy*-self.zoom) for vpoint in points]
+        qpoints = [QPointF(p[0]*self.zoom, p[1]*-self.zoom) for p in points]
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.showPointMark and name!='ground' and qpoints:
+        if self.showPointMark and vlink.name!='ground' and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.fontSize))
-            text = '[{}]'.format(name)
-            cenX = sum([vpoint.cx for vpoint in points])/len(points)
-            cenY = sum([vpoint.cy for vpoint in points])/len(points)
+            text = '[{}]'.format(vlink.name)
+            cenX = sum([p[0] for p in points])/len(points)
+            cenY = sum([p[1] for p in points])/len(points)
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
     
     def drawPath(self):

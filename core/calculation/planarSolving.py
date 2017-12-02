@@ -37,7 +37,7 @@ def slvsProcess(
     constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float]]
 ):
     pointCount = len(Point)
-    sliderCount = sum([len(p.links)-1 for p in Point if p.type==1 or p.type==2])
+    sliderCount = sum([len(vpoint.links)-1 for vpoint in Point if vpoint.type==1 or vpoint.type==2])
     constraintCount = len(constraints)
     Sys = System(pointCount*2 + sliderCount + constraintCount*2 + 15)
     Sys.default_group = groupNum(1)

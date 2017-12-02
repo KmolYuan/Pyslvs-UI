@@ -84,8 +84,7 @@ class DynamicCanvas(BaseCanvas):
         for i, name in enumerate(self.exp_symbol):
             coordinate = self.Point[i]
             if coordinate:
-                fixed = i<2
-                self.drawPoint(i, coordinate[0], coordinate[1], fixed, colorQt('Blue') if fixed else colorQt('Green'))
+                self.drawPoint(i, coordinate[0], coordinate[1], fixed, colorQt('Blue') if i<2 else colorQt('Green'))
         self.painter.end()
     
     def drawLink(self,
@@ -130,9 +129,7 @@ class DynamicCanvas(BaseCanvas):
         def drawDot(path):
             for coordinate in path:
                 if coordinate:
-                    x = coordinate[0]*self.zoom
-                    y = coordinate[1]*-self.zoom
-                    self.painter.drawPoint(QPointF(x, y))
+                    self.painter.drawPoint(QPointF(coordinate[0]*self.zoom, coordinate[1]*-self.zoom))
         draw = drawPath if self.Path.mode else drawDot
         Path = self.Path.path
         for i, path in enumerate(Path):
