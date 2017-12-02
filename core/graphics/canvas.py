@@ -170,8 +170,6 @@ class DynamicCanvas(BaseCanvas):
         self.showDimension = False
         #Free move mode.
         self.freemove = False
-        #Clear selection list signal.
-        self.mouse_noSelection.connect(self.Selector.selection_old.clear)
     
     def update_figure(self, Point, Link, path):
         self.Point = Point
@@ -468,13 +466,13 @@ class DynamicCanvas(BaseCanvas):
         )
     
     def RectangularSelectedPoint(self):
-        self.Selector.selection_rect.clear()
         self.selectedPointFunc(
             self.Selector.selection_rect,
             self.Selector.inRect
         )
     
     def selectedPointFunc(self, selection: List[int], inSelection: function):
+        selection.clear()
         for i, vpoint in enumerate(self.Point):
             if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 if i not in selection:
