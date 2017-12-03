@@ -957,19 +957,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Triggered when play button was changed.
     @pyqtSlot(bool)
     def on_inputs_variable_play_toggled(self, toggled):
+        self.inputs_Degree.setEnabled(not toggled)
         if toggled:
-            self.inputs_Degree.setEnabled(False)
             self.inputs_playShaft.start()
         else:
             self.inputs_playShaft.stop()
-            self.inputs_Degree.setEnabled(True)
     
     #QTimer change index.
     @pyqtSlot()
     def inputs_change_index(self):
         index = self.inputs_Degree.value()
-        speed = int(self.inputs_variable_speed.value()*6)
-        index += speed
+        speed = self.inputs_variable_speed.value()
+        extremeRebound = self.ConflictGuide.isVisible() and self.extremeRebound.isChecked()
+        if extremeRebound:
+            speed *= -1
+            self.inputs_variable_speed.setValue(speed)
+        index += int(speed * 6 * (3 if extremeRebound else 1))
         index %= self.inputs_Degree.maximum()
         self.inputs_Degree.setValue(index)
     
