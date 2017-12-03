@@ -135,8 +135,8 @@ def slvsProcess(
             #Pass if this is the first point.
             if relateOrder==0:
                 continue
-            #Connect function:
-            def ConnectTo(index):
+            #Connect function, and return the distance.
+            def getConnection(index: int) -> (float, Point2d):
                 n = relate[index]
                 p = Point[n]
                 d = p.distance(vpoint)
@@ -144,12 +144,34 @@ def slvsProcess(
                     p_contact = Slvs_Points[n][p.links.index(linkName)]
                 else:
                     p_contact = Slvs_Points[n]
-                Constraint.distance(d, Workplane1, p_contact, p_base)
-            #Connect first point of this link.
-            ConnectTo(0)
-            #Conect the previous point.
-            if relateOrder!=1:
-                ConnectTo(relateOrder-1)
+                return (d, p_contact)
+            def ConnectTo(d, p_contact):
+                if d:
+                    Constraint.distance(d, Workplane1, p_base, p_contact)
+                else:
+                    Constraint.on(Workplane1, p_base, p_contact)
+            #Connection of the first point in this link.
+            connect_1 = getConnection(0)
+            if relateOrder>1:
+                #Conection of the previous point.
+                connect_2 = getConnection(relateOrder-1)
+                if bool(connect_1[0])!=bool(connect_2[0]):
+                    #Same point. Just connect to same point.
+                    ConnectTo(*(connect_1 if connect_1[0]==0. else connect_2))
+                elif min(
+                    abs(connect_1[0]-connect_2[0]),
+                    abs(2*connect_1[0]-connect_2[0]),
+                    abs(connect_1[0]-2*connect_2[0]),
+                ) < 0.01:
+                    #Colliner.
+                    Constraint.on(Workplane1, p_base, LineSegment2d(Workplane1, connect_1[1], connect_2[1]))
+                    ConnectTo(*connect_1)
+                else:
+                    #Normal status.
+                    ConnectTo(*connect_1)
+                    ConnectTo(*connect_2)
+            else:
+                ConnectTo(*connect_1)
     #The constraints of drive shaft.
     for shaft, base_link, drive_link, angle in constraints:
         #Base point as shaft center.
