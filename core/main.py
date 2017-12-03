@@ -865,7 +865,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Point.item(self.inputs_points.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
-            str(self.getLinkAngle(row, self.inputs_driveLinks.currentItem().text()))
+            "{:.02f}".format(self.getLinkAngle(row, self.inputs_driveLinks.currentItem().text()))
         ])
         if (self.inputs_variable.count()<self.DOF) and (not self.inputs_variable.findItems(text, Qt.MatchExactly)):
             self.inputs_variable.addItem(text)
@@ -937,7 +937,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 itemText[0],
                 itemText[1],
                 itemText[2],
-                str(self.getLinkAngle(row, itemText[2]))
+                "{:.02f}".format(self.getLinkAngle(row, itemText[2]))
             ])
             self.inputs_variable.item(i).setText(text)
         self.on_inputs_variable_currentRowChanged(self.inputs_variable.currentRow())

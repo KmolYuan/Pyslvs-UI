@@ -74,7 +74,7 @@ class PointTableWidget(BaseTableWidget):
         super(PointTableWidget, self).__init__(0, ('Links', 'Type', 'Color', 'X', 'Y', 'Current'), parent)
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 130)
-        self.setColumnWidth(2, 40)
+        self.setColumnWidth(2, 60)
         self.setColumnWidth(3, 90)
         self.setColumnWidth(4, 60)
         self.setColumnWidth(5, 60)

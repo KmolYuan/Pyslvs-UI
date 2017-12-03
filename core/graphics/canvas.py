@@ -272,14 +272,14 @@ class DynamicCanvas(BaseCanvas):
         if vpoint.type==1 or vpoint.type==2:
             #Draw slider
             silder_points = vpoint.c
-            pen = QPen(vpoint.color)
-            pen.setWidth(2)
-            self.painter.setPen(pen)
             for j, (cx, cy) in enumerate(silder_points):
                 if vpoint.type==1:
                     if j==0:
                         super(DynamicCanvas, self).drawPoint(i, cx, cy, vpoint.links[j]=='ground', vpoint.color)
                     else:
+                        pen = QPen(vpoint.color)
+                        pen.setWidth(2)
+                        self.painter.setPen(pen)
                         r = 5
                         self.painter.drawRect(QRectF(
                             QPointF(cx*self.zoom + r, cy*-self.zoom + r),
