@@ -272,7 +272,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.FileWidget.pathData[self.inputs_record.item(pathIndex).text().split(':')[0]] if pathIndex>-1 else ())
+            self.FileWidget.pathData.get(self.inputs_record.item(pathIndex).text().split(':')[0], ()) if pathIndex>-1 else ())
     
     #Workbook not saved signal.
     def workbookNoSave(self):

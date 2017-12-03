@@ -163,7 +163,7 @@ def slvsProcess(
                     abs(2*connect_1[0]-connect_2[0]),
                     abs(connect_1[0]-2*connect_2[0]),
                 ) < 0.01:
-                    #Colliner.
+                    #Collinear.
                     Constraint.on(Workplane1, p_base, LineSegment2d(Workplane1, connect_1[1], connect_2[1]))
                     ConnectTo(*connect_1)
                 else:
