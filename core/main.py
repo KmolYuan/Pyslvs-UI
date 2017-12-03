@@ -277,7 +277,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook not saved signal.
     def workbookNoSave(self):
         self.FileWidget.changed = True
-        self.setWindowTitle(self.windowTitle().replace('*', '') + '*')
+        not_yet_saved = " (not yet saved)"
+        self.setWindowTitle(self.windowTitle().replace(not_yet_saved, '') + not_yet_saved)
     
     #Workbook saved signal.
     def workbookSaved(self):
@@ -289,7 +290,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.FileWidget.fileName
         self.setWindowTitle("Pyslvs - {}".format(
             fileName.absoluteFilePath() if self.windowTitle_fullpath.isChecked() else fileName.fileName()
-        ) + ('*' if self.FileWidget.changed else ''))
+        ) + (" (not yet saved)" if self.FileWidget.changed else ""))
     
     #Open website: http://mde.tw
     @pyqtSlot()
@@ -1036,7 +1037,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_record_context_menu(self, point):
         row = self.inputs_record.currentRow()
         if row>-1:
-            data = self.FileWidget.pathData[self.inputs_record.item(row).text()]
+            data = self.FileWidget.pathData[self.inputs_record.item(row).text().split(":")[0]]
             for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
                 self.popMenu_inputs_record.addAction(actionName)
         else:
