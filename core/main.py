@@ -277,7 +277,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Workbook not saved signal.
     def workbookNoSave(self):
         self.FileWidget.changed = True
-        self.setWindowTitle(self.windowTitle().replace('*', '')+'*')
+        self.setWindowTitle(self.windowTitle().replace('*', '') + '*')
     
     #Workbook saved signal.
     def workbookSaved(self):
@@ -289,7 +289,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.FileWidget.fileName
         self.setWindowTitle("Pyslvs - {}".format(
             fileName.absoluteFilePath() if self.windowTitle_fullpath.isChecked() else fileName.fileName()
-        ))
+        ) + ('*' if self.FileWidget.changed else ''))
     
     #Open website: http://mde.tw
     @pyqtSlot()

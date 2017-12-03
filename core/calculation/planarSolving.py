@@ -34,7 +34,7 @@ class SlvsException(Exception):
 def slvsProcess(
     Point: Tuple['VPoint'],
     Link: Tuple['VLink'],
-    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float]]
+    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float],]
 ):
     pointCount = len(Point)
     sliderCount = sum([len(vpoint.links)-1 for vpoint in Point if vpoint.type==1 or vpoint.type==2])
@@ -97,11 +97,19 @@ def slvsProcess(
                         Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
                 else:
                     relate = Link[LinkIndex(linkName)].points
-                    relateOrder = relate.index(i)
-                    p_link_assist = Slvs_Points[i][relateOrder-1]
-                    l_link = LineSegment2d(Workplane1, p_base, p_link_assist)
-                    angle_base = vpoint.slopeAngle(Point[relateOrder-1])
-                    Constraint.angle(Workplane1, angle_base, l_link, l_slot)
+                    relateNum = relate[relate.index(i)-1]
+                    relate_vpoint = Point[relateNum]
+                    p_main = Slvs_Points[i][vpoint.links.index(linkName)]
+                    if relate_vpoint.type==1 or relate_vpoint.type==2:
+                        p_link_assist = Slvs_Points[relateNum][relate_vpoint.links.index(linkName)]
+                    else:
+                        p_link_assist = Slvs_Points[relateNum]
+                    l_link = LineSegment2d(Workplane1, p_main, p_link_assist)
+                    angle_base = vpoint.slopeAngle(relate_vpoint)
+                    if angle_base==0. or angle_base==180.:
+                        Constraint.parallel(Workplane1, l_link, l_slot)
+                    else:
+                        Constraint.angle(Workplane1, angle_base, l_link, l_slot)
             #The slot has an angle with base link.
             relateWith(vpoint.links[0])
             #All point should on the slot.

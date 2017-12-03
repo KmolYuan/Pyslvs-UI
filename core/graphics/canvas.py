@@ -277,13 +277,23 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             for j, (cx, cy) in enumerate(silder_points):
                 if vpoint.type==1:
-                    r = 10 if j==0 else 5
-                    self.painter.drawRect(QRectF(
-                        QPointF(cx*self.zoom + r, cy*-self.zoom + r),
-                        QPointF(cx*self.zoom - r, cy*-self.zoom - r)
-                    ))
+                    if j==0:
+                        super(DynamicCanvas, self).drawPoint(i, cx, cy, vpoint.links[j]=='ground', vpoint.color)
+                    else:
+                        r = 5
+                        self.painter.drawRect(QRectF(
+                            QPointF(cx*self.zoom + r, cy*-self.zoom + r),
+                            QPointF(cx*self.zoom - r, cy*-self.zoom - r)
+                        ))
                 elif vpoint.type==2:
-                    super(DynamicCanvas, self).drawPoint(i, cx, cy, vpoint.links[j]=='ground', vpoint.color)
+                    if j==0:
+                        super(DynamicCanvas, self).drawPoint(i, cx, cy, vpoint.links[j]=='ground', vpoint.color)
+                    else:
+                        #Turn off point mark.
+                        showPointMark = self.showPointMark
+                        self.showPointMark = False
+                        super(DynamicCanvas, self).drawPoint(i, cx, cy, vpoint.links[j]=='ground', vpoint.color)
+                        self.showPointMark = showPointMark
             pen = QPen(vpoint.color.darker())
             pen.setWidth(2)
             self.painter.setPen(pen)
