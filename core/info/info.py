@@ -34,8 +34,6 @@ INFO = [
     "Qt Version: {}".format(qVersion().strip()),
     "PyQt Version: {}".format(pyqtVersion.strip())
 ]
-print('\n'.join(INFO))
-print('-'*7)
 
 POWERBY = [
     "Python IDE Eric 6",
