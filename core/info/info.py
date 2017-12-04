@@ -46,7 +46,8 @@ POWERBY = [
     "openpyxl",
     "psutil",
     "peewee",
-    "lark-parser"
+    "lark-parser",
+    "anytree"
 ]
 
 #--help

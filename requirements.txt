@@ -6,3 +6,4 @@ openpyxl
 psutil
 peewee
 lark-parser
+anytree
