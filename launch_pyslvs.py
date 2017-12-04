@@ -2,7 +2,7 @@
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 ##Copyright (C) 2016-2017 Yuan Chang [pyslvs@gmail.com]
 from sys import exit
-from core.info.info import args, Pyslvs_Splash
+from core.info.info import (INFO, args, Pyslvs_Splash)
 
 if __name__=='__main__':
     if args.server:
@@ -14,6 +14,8 @@ if __name__=='__main__':
         print("All modules are loaded.")
         exit(0)
     else:
+        print('\n'.join(INFO))
+        print('-'*7)
         from PyQt5.QtWidgets import QApplication
         from core.main import MainWindow
         QApp = QApplication([])

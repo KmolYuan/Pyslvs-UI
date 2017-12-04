@@ -885,6 +885,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_variable_remove_clicked(self):
         row = self.inputs_variable.currentRow()
         if row>-1:
+            self.inputs_variable_stop.click()
             self.inputs_variable.takeItem(row)
             self.Entities_Point.getBackOrigin()
             self.Resolve()
