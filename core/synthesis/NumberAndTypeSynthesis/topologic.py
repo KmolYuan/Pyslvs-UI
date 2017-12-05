@@ -22,15 +22,10 @@ from anytree.search import findall
 from itertools import permutations
 from typing import Tuple
 
-def show_tree(node, noname=False):
-    if noname:
-        string = '\n'.join("{}{}".format(pre, n.limit) for pre, fill, n in RenderTree(node))
-    else:
-        string = '\n'.join("{}{}({})".format(pre, n.name, n.limit) for pre, fill, n in RenderTree(node))
-    return string
+show_tree = lambda root: '\n'.join("{}{}({})".format(pre, n.name, n.limit) for pre, fill, n in RenderTree(root))
 
 #Linkage Topological Component
-def make_link(iter: Tuple[int,]):
+def topo(iter: Tuple[int,]):
     link_type = []
     for i, num in enumerate(iter):
         i += 2
@@ -53,7 +48,7 @@ def make_link(iter: Tuple[int,]):
         get_no_done = lambda: findall(links[0], filter_=lambda n: '[' not in n.name and (len(n.children) + bool(links[-1].parent)) < n.limit)
         error = False
         while get_no_done():
-            nodes = list(get_no_done())
+            nodes = get_no_done()
             try:
                 l_1, l_2 = nodes[0], nodes[1]
             except (ValueError, IndexError):
@@ -71,7 +66,7 @@ def make_link(iter: Tuple[int,]):
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = make_link([5, 4])
+    answer = topo([5, 4])
     #Show tree
     for root in answer:
         print(show_tree(root))
