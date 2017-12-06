@@ -25,7 +25,7 @@ class Algorithm_path_adjust_show(QDialog, Ui_Dialog):
         super(Algorithm_path_adjust_show, self).__init__(parent)
         self.setupUi(self)
         for e in path:
-            self.Point_list.addItem("({}, {})".format(e['x'], e['y']))
+            self.Point_list.addItem("({}, {})".format(e[0], e[1]))
         self.points_num.setText(str(len(path)))
         self.blurring_num.setMaximum(len(path))
         self.blurring_num.setValue(self.blurring_num.maximum())
@@ -53,9 +53,9 @@ class Algorithm_path_adjust_show(QDialog, Ui_Dialog):
             target_num = round(len(self.path)/self.blurring_num.value())
         except ZeroDivisionError:
             target_num = len(self.path)
-        self.r_path = [(e['x'], e['y']) for i, e in enumerate(self.path) if i%target_num==0]
-        f_p = (self.path[0]['x'], self.path[0]['y'])
-        e_p = (self.path[-1]['x'], self.path[-1]['y'])
+        self.r_path = [(e[0], e[1]) for i, e in enumerate(self.path) if i%target_num==0]
+        f_p = (self.path[0][0], self.path[0][1])
+        e_p = (self.path[-1][0], self.path[-1][1])
         if self.r_path[0]!=f_p:
             self.r_path.insert(0, f_p)
         if self.r_path[-1]!=e_p:

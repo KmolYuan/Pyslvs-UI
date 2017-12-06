@@ -84,7 +84,7 @@ class DynamicCanvas(BaseCanvas):
         for i, name in enumerate(self.exp_symbol):
             coordinate = self.Point[i]
             if coordinate:
-                self.drawPoint(i, coordinate[0], coordinate[1], fixed, colorQt('Blue') if i<2 else colorQt('Green'))
+                self.drawPoint(i, coordinate[0], coordinate[1], i<2, colorQt('Blue') if i<2 else colorQt('Green'))
         self.painter.end()
     
     def drawLink(self,

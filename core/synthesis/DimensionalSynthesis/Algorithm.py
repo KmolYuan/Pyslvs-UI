@@ -360,10 +360,12 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
-        reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?",
-            (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-        if reply==QMessageBox.Apply:
-            self.mergeResult.emit(self.Result_list.currentRow(), *self.legal_crank())
+        row = self.Result_list.currentRow()
+        if row>-1:
+            reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?",
+                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if reply==QMessageBox.Apply:
+                self.mergeResult.emit(row, *self.legal_crank())
     
     def legal_crank(self):
         row = self.Result_list.currentRow()
