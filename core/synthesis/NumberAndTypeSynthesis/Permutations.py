@@ -19,6 +19,7 @@
 
 from ...QtModules import *
 from .number import NumberSynthesis
+from .topologic import topo, show_tree
 from .Ui_Permutations import Ui_Form
 
 class Permutations_show(QWidget, Ui_Form):
@@ -43,7 +44,6 @@ class Permutations_show(QWidget, Ui_Form):
         self.NJ_input.setValue(NJ)
         self.DOF_input.setValue(dof)
         self.on_Combine_number_clicked()
-        self.on_Combine_type_clicked()
     
     #Show number of links with different number of joints.
     @pyqtSlot()
@@ -61,4 +61,12 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Combine_type_clicked(self):
-        '''TODO: Topologic'''
+        self.Topologic_result.clear()
+        r = self.Expression_number.currentItem()
+        if r and r.text()!="incorrect mechanism.":
+            answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")])
+            for i, (root, joints) in enumerate(answer):
+                item = QListWidgetItem("No. {}".format(i))
+                item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
+                item.setToolTip(show_tree(root))
+                self.Topologic_result.addItem(item)

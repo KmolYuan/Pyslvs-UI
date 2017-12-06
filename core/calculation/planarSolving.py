@@ -159,7 +159,6 @@ def slvsProcess(
                     #Same point. Just connect to same point.
                     ConnectTo(*(connect_1 if connect_1[0]==0. else connect_2))
                 elif min(
-                    abs(connect_1[0]-connect_2[0]),
                     abs(2*connect_1[0]-connect_2[0]),
                     abs(connect_1[0]-2*connect_2[0]),
                 ) < 0.01:

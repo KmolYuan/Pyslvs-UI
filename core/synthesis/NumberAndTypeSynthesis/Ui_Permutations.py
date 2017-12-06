@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(399, 489)
+        Form.resize(399, 558)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -74,8 +74,12 @@ class Ui_Form(object):
         self.Combine_type.setAutoDefault(True)
         self.Combine_type.setObjectName("Combine_type")
         self.verticalLayout_2.addWidget(self.Combine_type)
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_2.addItem(spacerItem)
+        self.Topologic_result = QtWidgets.QListWidget(Form)
+        self.Topologic_result.setMovement(QtWidgets.QListView.Static)
+        self.Topologic_result.setViewMode(QtWidgets.QListView.IconMode)
+        self.Topologic_result.setUniformItemSizes(True)
+        self.Topologic_result.setObjectName("Topologic_result")
+        self.verticalLayout_2.addWidget(self.Topologic_result)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

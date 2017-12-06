@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>399</width>
-    <height>489</height>
+    <height>558</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -129,17 +129,20 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="QListWidget" name="Topologic_result">
+     <property name="movement">
+      <enum>QListView::Static</enum>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
+     <property name="spacing">
+      <number>3</number>
      </property>
-    </spacer>
+     <property name="viewMode">
+      <enum>QListView::IconMode</enum>
+     </property>
+     <property name="uniformItemSizes">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
