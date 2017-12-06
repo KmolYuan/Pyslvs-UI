@@ -19,10 +19,12 @@
 
 from anytree import Node, RenderTree
 from anytree.search import findall
+from collections import Counter
 from itertools import permutations
 from typing import Tuple
 
 show_tree = lambda root: '\n'.join("{}{}({})".format(pre, n.name, n.limit) for pre, fill, n in RenderTree(root))
+show_joint = lambda root: Counter([tuple(sorted(([n.parent.limit] if n.parent else [])+[int(c.limit) for c in n.children])) for n in findall(root, filter_=lambda n: '[' not in n.name)])
 
 #Linkage Topological Component
 def topo(iter: Tuple[int,]):
@@ -59,16 +61,19 @@ def topo(iter: Tuple[int,]):
                 Node("[{}]".format(l_2.name), limit=str(l_2.limit), parent=l_1)
         if error:
             continue
-        if findall(links[0], filter_=lambda n: len([c.name for c in n.children])!=len(set(c.name for c in n.children))):
+        joints = show_joint(links[0])
+        if joints in [a[1] for a in answer]:
             continue
-        answer.append(links[0])
+        if findall(links[0], filter_=lambda n: len(n.children)!=len(set(c.name.replace('[', '').replace(']', '') for c in n.children))):
+            continue
+        answer.append((links[0], joints))
     return answer
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = topo([5, 4])
+    answer = topo([4, 2])
     #Show tree
-    for root in answer:
+    for root, joints in answer:
         print(show_tree(root))
         print('-'*7)
     print("Answer count: {}".format(len(answer)))
