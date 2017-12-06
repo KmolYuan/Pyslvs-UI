@@ -84,7 +84,7 @@ def topo(iter: Tuple[int,]):
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = topo([4])
+    answer = topo([4, 2])
     #Show tree
     for root, joints in answer:
         print(joints)
