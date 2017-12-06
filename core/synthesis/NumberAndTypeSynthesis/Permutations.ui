@@ -37,22 +37,12 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Mainly for joint:</string>
+        <string>Generalized expression:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="Expression_joint"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Mainly for link:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="Expression_link"/>
      </item>
     </layout>
    </item>

@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .number import NumberSynthesis
-from .topologic import topo, show_tree
+from .topologic import show_tree, as_expression, topo
 from .Ui_Permutations import Ui_Form
 
 class Permutations_show(QWidget, Ui_Form):
@@ -36,8 +36,7 @@ class Permutations_show(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         dof = self.dofFunc()
-        self.Expression_joint.setText("M[{}]".format(", ".join(str(vpoint) for vpoint in jointData)))
-        self.Expression_link.setText("M[{}]".format(", ".join(str(vlink) for vlink in linkData)))
+        self.Expression_joint.setText(", ".join(vpoint.joint for vpoint in jointData))
         NL = sum(1 for vlink in linkData if len(vlink.points)>1)
         NJ = sum(len(vpoint.c) for vpoint in jointData if len(vpoint.links)>1)
         self.NL_input.setValue(NL)
@@ -68,5 +67,5 @@ class Permutations_show(QWidget, Ui_Form):
             for i, (root, joints) in enumerate(answer):
                 item = QListWidgetItem("No. {}".format(i))
                 item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
-                item.setToolTip(show_tree(root))
+                item.setToolTip(show_tree(root)+'\n'+'-'*7+'\n'+str(as_expression(root)))
                 self.Topologic_result.addItem(item)

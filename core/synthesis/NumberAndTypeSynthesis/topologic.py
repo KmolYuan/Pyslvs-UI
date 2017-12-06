@@ -26,6 +26,19 @@ from typing import Tuple
 show_tree = lambda root: '\n'.join("{}{}({})".format(pre, n.name, n.limit) for pre, fill, n in RenderTree(root))
 show_joint = lambda root: Counter([tuple(sorted(([n.parent.limit] if n.parent else [])+[int(c.limit) for c in n.children])) for n in findall(root, filter_=lambda n: '[' not in n.name)])
 
+def as_expression(root):
+    joints = []
+    j = []
+    for node in findall(root, filter_=lambda n: '[' not in n.name):
+        for c in node.children:
+            c_name = c.name.replace('[', '').replace(']', '')
+            connection = [node.name, c_name]
+            if set(connection) in j:
+                continue
+            j.append(set(connection))
+            joints.append("L[{}]".format(", ".join(connection)))
+    return joints
+
 #Linkage Topological Component
 def topo(iter: Tuple[int,]):
     link_type = []
@@ -71,9 +84,11 @@ def topo(iter: Tuple[int,]):
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = topo([4, 2])
+    answer = topo([4])
     #Show tree
     for root, joints in answer:
+        print(joints)
         print(show_tree(root))
+        print(as_expression(root))
         print('-'*7)
     print("Answer count: {}".format(len(answer)))

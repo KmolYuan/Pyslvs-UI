@@ -98,6 +98,11 @@ class VPoint:
     def c(self) -> Tuple[Tuple[float, float]]:
         return self.__c
     
+    #Get the generalized chain.
+    @property
+    def joint(self):
+        return "L[{}]".format(", ".join(self.links))
+    
     def set(self, links, type, angle, color, x, y):
         self.__links = links
         self.__type = type
