@@ -19,9 +19,10 @@
 
 from ..QtModules import *
 from math import sqrt
+from collections import deque
+from heapq import nsmallest
 from typing import TypeVar, List, Tuple
 function = TypeVar("function")
-from heapq import nsmallest
 from .color import colorQt
 
 class Path:
@@ -434,8 +435,8 @@ class DynamicCanvas(BaseCanvas):
                         y *= -self.zoom
                         self.painter.drawPoint(QPointF(x, y))
     
-    def recordStart(self):
-        self.PathRecord = [[] for i in range(len(self.Point))]
+    def recordStart(self, limit):
+        self.PathRecord = [deque([], limit) for i in range(len(self.Point))]
     
     #Recording path.
     def recordPath(self):

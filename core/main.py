@@ -983,7 +983,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(bool)
     def on_inputs_record_record_toggled(self, toggled):
         if toggled:
-            self.DynamicCanvasView.recordStart()
+            self.DynamicCanvasView.recordStart(self.inputs_record_limit.value())
         else:
             path = self.DynamicCanvasView.getRecordPath()
             name, ok = QInputDialog.getText(self, "Recording completed!", "Please input name tag:")
