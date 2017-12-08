@@ -64,7 +64,7 @@ class Permutations_show(QWidget, Ui_Form):
         r = self.Expression_number.currentItem()
         if r and r.text()!="incorrect mechanism.":
             answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")])
-            for i, (root, joints) in enumerate(answer):
+            for i, G in enumerate(answer):
                 item = QListWidgetItem("No. {}".format(i))
                 item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
                 self.Topologic_result.addItem(item)

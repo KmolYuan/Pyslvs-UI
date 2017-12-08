@@ -22,7 +22,8 @@ from networkx import (
     is_isomorphic,
     find_cycle
 )
-from itertools import permutations
+from itertools import combinations
+from collections import Counter
 from typing import Iterable
 
 as_expression = lambda G: tuple("L[{}, {}]".format(l1, l2) for l1, l2 in G.edges)
@@ -35,31 +36,40 @@ def testG(G_base, answer):
     for G_ in answer:
         if is_isomorphic(G, G_):
             raise TestError()
+    '''
     while G:
         c = find_cycle(G)
         if len(c)==3:
             print(c)
             raise TestError()
         G.remove_edges_from(c)
+    '''
 
 #Linkage Topological Component
 def topo(iter: Iterable[int,]):
-    link_type = []
-    for i, num in enumerate(iter):
-        i += 2
-        for j in range(num):
-            link_type.append(i)
+    links = Counter()
+    for i in range(sum(iter)):
+        name = i
+        joint_count = 0
+        for j, t in enumerate(iter):
+            if i < t:
+                joint_count = j+2
+                break
+            i -= t
+        links[name] = joint_count
+    connection = list(combinations(range(sum(iter)), 2))
+    connection_get = lambda i, limit: [c for c in connection if (i in c) and all(l not in c for l in limit)]
+    print(links)
+    edges_combinations = []
+    used_link = []
+    for link, count in links.items():
+        print(connection_get(link, used_link))
+        used_link.append(link)
     answer = []
-    for all_link in [list(e) for e in set(permutations(link_type))]:
-        edges = []
+    '''
+    for edges in :
+        print(edges)
         #Matching
-        for i in range(len(all_link)):
-            j = i
-            while all_link[i]:
-                j += 1
-                if all_link[j%len(all_link)] and ({i, j} not in edges):
-                    all_link[i] -= 1
-                    edges.append({i, j})
         G = Graph()
         G.add_edges_from(edges)
         try:
@@ -67,13 +77,16 @@ def topo(iter: Iterable[int,]):
         except TestError:
             continue
         answer.append(G)
+    '''
     return answer
 
 if __name__=='__main__':
     print("Topologic test")
     answer = topo([4, 2])
+    '''
     #Show tree
     for G in answer:
         print(as_expression(G))
         print('-'*7)
     print("Answer count: {}".format(len(answer)))
+    '''
