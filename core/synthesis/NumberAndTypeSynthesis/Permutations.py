@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .number import NumberSynthesis
-from .topologic import show_tree, topo
+from .topologic import topo
 from .Ui_Permutations import Ui_Form
 
 class Permutations_show(QWidget, Ui_Form):
@@ -67,5 +67,4 @@ class Permutations_show(QWidget, Ui_Form):
             for i, (root, joints) in enumerate(answer):
                 item = QListWidgetItem("No. {}".format(i))
                 item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
-                item.setToolTip(show_tree(root))
                 self.Topologic_result.addItem(item)

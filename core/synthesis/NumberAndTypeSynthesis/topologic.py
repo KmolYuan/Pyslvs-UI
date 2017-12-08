@@ -17,78 +17,63 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from anytree import Node, RenderTree
-from anytree.search import findall
-from collections import Counter
+from networkx import (
+    Graph,
+    is_isomorphic,
+    find_cycle
+)
 from itertools import permutations
-from typing import Tuple
+from typing import Iterable
 
-show_tree = lambda root: '\n'.join("{}{}({})".format(pre, n.name, n.limit) for pre, fill, n in RenderTree(root))
-show_joint = lambda root: Counter([tuple(sorted(([n.parent.limit] if n.parent else [])+[int(c.limit) for c in n.children])) for n in findall(root, filter_=lambda n: '[' not in n.name)])
+as_expression = lambda G: tuple("L[{}, {}]".format(l1, l2) for l1, l2 in G.edges)
 
-def as_expression(root):
-    joints = []
-    j = []
-    for node in findall(root, filter_=lambda n: '[' not in n.name):
-        for c in node.children:
-            c_name = c.name.replace('[', '').replace(']', '')
-            connection = [node.name, c_name]
-            if set(connection) in j:
-                continue
-            j.append(set(connection))
-            joints.append("L[{}]".format(", ".join(connection)))
-    return joints
+class TestError(Exception):
+    pass
+
+def testG(G_base, answer):
+    G = Graph(G_base)
+    for G_ in answer:
+        if is_isomorphic(G, G_):
+            raise TestError()
+    while G:
+        c = find_cycle(G)
+        if len(c)==3:
+            print(c)
+            raise TestError()
+        G.remove_edges_from(c)
 
 #Linkage Topological Component
-def topo(iter: Tuple[int,]):
+def topo(iter: Iterable[int,]):
     link_type = []
     for i, num in enumerate(iter):
         i += 2
         for j in range(num):
             link_type.append(i)
     answer = []
-    for all_link in list(set(permutations(link_type))):
-        all_link = [Node("L{}".format(i), limit=v) for i, v in enumerate(all_link)]
-        links = []
-        #Root
-        links.append(all_link.pop(0))
-        #First connect.
-        while all_link:
-            #Let all of links to connect.
-            link = all_link.pop(0)
-            if (len(links[-1].children) + bool(links[-1].parent))==links[-1].limit:
-                links.append(links[-1].children[0])
-            link.parent = links[-1]
-        #Decided the remaining connection.
-        get_no_done = lambda: findall(links[0], filter_=lambda n: '[' not in n.name and (len(n.children) + bool(links[-1].parent)) < n.limit)
-        error = False
-        while get_no_done():
-            nodes = get_no_done()
-            try:
-                l_1, l_2 = nodes[0], nodes[1]
-            except (ValueError, IndexError):
-                error = True
-                break
-            else:
-                Node("[{}]".format(l_1.name), limit=str(l_1.limit), parent=l_2)
-                Node("[{}]".format(l_2.name), limit=str(l_2.limit), parent=l_1)
-        if error:
+    for all_link in [list(e) for e in set(permutations(link_type))]:
+        edges = []
+        #Matching
+        for i in range(len(all_link)):
+            j = i
+            while all_link[i]:
+                j += 1
+                if all_link[j%len(all_link)] and ({i, j} not in edges):
+                    all_link[i] -= 1
+                    edges.append({i, j})
+        G = Graph()
+        G.add_edges_from(edges)
+        try:
+            testG(G, answer)
+        except TestError:
             continue
-        joints = show_joint(links[0])
-        if joints in [a[1] for a in answer]:
-            continue
-        if findall(links[0], filter_=lambda n: len(n.children)!=len(set(c.name.replace('[', '').replace(']', '') for c in n.children))):
-            continue
-        answer.append((links[0], joints))
+        answer.append(G)
     return answer
 
 if __name__=='__main__':
     print("Topologic test")
     answer = topo([4, 2])
     #Show tree
-    for root, joints in answer:
-        print(joints)
-        print(show_tree(root))
-        print(as_expression(root))
+    for G in answer:
+        print(as_expression(G))
         print('-'*7)
     print("Answer count: {}".format(len(answer)))
