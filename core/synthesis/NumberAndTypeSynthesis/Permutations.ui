@@ -133,7 +133,7 @@
         <widget class="QListWidget" name="Topologic_result">
          <property name="iconSize">
           <size>
-           <width>150</width>
+           <width>200</width>
            <height>150</height>
           </size>
          </property>

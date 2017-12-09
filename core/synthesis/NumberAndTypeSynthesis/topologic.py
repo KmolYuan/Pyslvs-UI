@@ -19,6 +19,7 @@
 
 from networkx import (
     Graph,
+    is_connected,
     is_isomorphic
 )
 from itertools import (
@@ -34,12 +35,14 @@ class TestError(Exception):
     pass
 
 def testG(G, answer):
+    if not is_connected(G):
+        raise TestError("is not connected")
     for G_ in answer:
         if is_isomorphic(G, G_):
             raise TestError("is isomorphic")
 
 #Linkage Topological Component
-def topo(iter: Iterable[int,]):
+def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda:False):
     links = Counter()
     for i in range(sum(iter)):
         name = i
@@ -56,7 +59,11 @@ def topo(iter: Iterable[int,]):
     for link, count in links.items():
         match = set(combinations(connection_get(link), count))
         m = set()
-        for p1, p2 in product(edges_combinations, match):
+        prod = list(product(edges_combinations, match))
+        setjobFunc("Match link #{}".format(link), len(prod)+1)
+        for p1, p2 in prod:
+            if stopFunc():
+                return
             combin = tuple(set(p1)|set(p2))
             error = False
             for link, count in links.items():
@@ -70,8 +77,11 @@ def topo(iter: Iterable[int,]):
             edges_combinations = match
         else:
             edges_combinations = m
+    setjobFunc("Verify the graphs...", len(edges_combinations)+1)
     answer = []
     for edges in edges_combinations:
+        if stopFunc():
+            return
         G = Graph()
         G.add_edges_from(edges)
         try:
@@ -83,7 +93,7 @@ def topo(iter: Iterable[int,]):
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = topo([4, 2])
+    answer = topo([5, 2])
     #Show tree
     for G in answer:
         print(as_expression(G))

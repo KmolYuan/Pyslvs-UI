@@ -64,8 +64,27 @@ class Permutations_show(QWidget, Ui_Form):
         self.Topologic_result.clear()
         r = self.Expression_number.currentItem()
         if r and r.text()!="incorrect mechanism.":
-            answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")])
-            for i, G in enumerate(answer):
-                item = QListWidgetItem("No. {}".format(i))
-                item.setIcon(graph(G, self.Topologic_result.iconSize().width()))
-                self.Topologic_result.addItem(item)
+            progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
+            progdlg.setWindowTitle("Type synthesis")
+            progdlg.setModal(True)
+            progdlg.show()
+            #Call in every loop.
+            def stopFunc():
+                QCoreApplication.processEvents()
+                progdlg.setValue(progdlg.value()+1)
+                return progdlg.wasCanceled()
+            def setjobFunc(job, maximum):
+                progdlg.setLabelText(job)
+                progdlg.setValue(0)
+                progdlg.setMaximum(maximum)
+            answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")], setjobFunc, stopFunc)
+            if answer:
+                setjobFunc("Drawing atlas...", len(answer))
+                for i, G in enumerate(answer):
+                    QCoreApplication.processEvents()
+                    if progdlg.wasCanceled():
+                        return
+                    item = QListWidgetItem("No. {}".format(i))
+                    item.setIcon(graph(G, self.Topologic_result.iconSize().width()))
+                    self.Topologic_result.addItem(item)
+                    progdlg.setValue(i+1)

@@ -82,7 +82,7 @@ class Ui_Form(object):
         self.Combine_type.setObjectName("Combine_type")
         self.verticalLayout_3.addWidget(self.Combine_type)
         self.Topologic_result = QtWidgets.QListWidget(self.verticalLayoutWidget_2)
-        self.Topologic_result.setIconSize(QtCore.QSize(150, 150))
+        self.Topologic_result.setIconSize(QtCore.QSize(200, 150))
         self.Topologic_result.setMovement(QtWidgets.QListView.Static)
         self.Topologic_result.setViewMode(QtWidgets.QListView.IconMode)
         self.Topologic_result.setUniformItemSizes(True)

@@ -53,6 +53,10 @@ def colorName() -> Tuple[str]:
 def colorQt(colorName: str) -> QColor:
     return colorlist.get(colorName, colorlist['Blue'])
 
+#Get color by index.
+def colorNum(colorIndex: int) -> QColor:
+    return colorlist[colorName()[colorIndex % len(colorlist.keys())]]
+
 #Get color block as QIcon by name.
 def colorIcons(colorName: str, size: int =20) -> QIcon:
     colorBlock = QPixmap(QSize(size, size))

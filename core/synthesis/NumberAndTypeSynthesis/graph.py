@@ -18,10 +18,14 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+from ...graphics.color import colorNum
 from networkx import nx_agraph
 
 def graph(G, width):
-    pos = {k:(round(x, 4), round(y, 4)) for k, (x, y) in nx_agraph.graphviz_layout(G).items()}
+    pos = {
+        k:(round(x, 4), round(y, 4))
+        for k, (x, y) in nx_agraph.graphviz_layout(G).items()
+    }
     rect = [max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2
     pixmap = QPixmap(*rect)
     painter = QPainter(pixmap)
@@ -31,9 +35,13 @@ def graph(G, width):
     pen.setWidth(5)
     painter.setPen(pen)
     r = 5
-    for x, y in pos.values():
+    for k, (x, y) in pos.items():
+        pen.setColor(colorNum(len(list(G.neighbors(k)))-1))
+        painter.setPen(pen)
         painter.drawEllipse(QPointF(x, y), r, r)
     for l1, l2 in G.edges:
+        pen.setColor(Qt.black)
+        painter.setPen(pen)
         painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
     painter.end()
     return QIcon(pixmap.scaledToWidth(width))
