@@ -24,8 +24,11 @@ from networkx import nx_agraph
 def graph(G, width):
     pos = {
         k:(round(x, 4), round(y, 4))
-        for k, (x, y) in nx_agraph.graphviz_layout(G).items()
+        for k, (x, y) in nx_agraph.graphviz_layout(G, prog="circo", args="-Goverlap=false").items()
     }
+    x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
+    y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
+    pos = {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
     rect = [max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2
     pixmap = QPixmap(*rect)
     painter = QPainter(pixmap)

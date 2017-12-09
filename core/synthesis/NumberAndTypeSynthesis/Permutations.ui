@@ -47,55 +47,6 @@
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>Number of joints:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Number of links:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QSpinBox" name="NL_input">
-       <property name="toolTip">
-        <string>≥3</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="NJ_input">
-       <property name="toolTip">
-        <string>8~18</string>
-       </property>
-       <property name="maximum">
-        <number>18</number>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Degree of freedom:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QSpinBox" name="DOF_input">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <widget class="QSplitter" name="splitter">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -103,9 +54,58 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="1">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Number of joints:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Number of links:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QSpinBox" name="NL_input">
+           <property name="toolTip">
+            <string>≥3</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="NJ_input">
+           <property name="toolTip">
+            <string>8~18</string>
+           </property>
+           <property name="maximum">
+            <number>18</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Degree of freedom:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QSpinBox" name="DOF_input">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QPushButton" name="Combine_number">
          <property name="text">
-          <string>Number Combine</string>
+          <string>Number Synthesis</string>
          </property>
          <property name="autoDefault">
           <bool>true</bool>
@@ -122,7 +122,7 @@
        <item>
         <widget class="QPushButton" name="Combine_type">
          <property name="text">
-          <string>Type Combine</string>
+          <string>Type Synthesis</string>
          </property>
          <property name="autoDefault">
           <bool>true</bool>
@@ -134,11 +134,14 @@
          <property name="iconSize">
           <size>
            <width>200</width>
-           <height>150</height>
+           <height>200</height>
           </size>
          </property>
          <property name="movement">
           <enum>QListView::Static</enum>
+         </property>
+         <property name="resizeMode">
+          <enum>QListView::Adjust</enum>
          </property>
          <property name="spacing">
           <number>3</number>
