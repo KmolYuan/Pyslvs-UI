@@ -21,10 +21,10 @@ from ...QtModules import *
 from ...graphics.color import colorNum
 from networkx import nx_agraph
 
-def graph(G, width):
+def graph(G, width, engine):
     pos = {
         k:(round(x, 4), round(y, 4))
-        for k, (x, y) in nx_agraph.graphviz_layout(G, prog="circo", args="-Goverlap=false").items()
+        for k, (x, y) in nx_agraph.graphviz_layout(G, prog=engine).items() #, prog="circo", args="-Goverlap=false"
     }
     x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
@@ -34,17 +34,17 @@ def graph(G, width):
     painter = QPainter(pixmap)
     painter.fillRect(pixmap.rect(), QBrush(Qt.white))
     painter.translate(pixmap.width()/2, pixmap.height()/2)
-    pen = QPen()
+    pen = QPen(Qt.black)
     pen.setWidth(5)
     painter.setPen(pen)
+    for l1, l2 in G.edges:
+        painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
     r = 5
     for k, (x, y) in pos.items():
-        pen.setColor(colorNum(len(list(G.neighbors(k)))-1))
+        color = colorNum(len(list(G.neighbors(k)))-1)
+        pen.setColor(color)
         painter.setPen(pen)
+        painter.setBrush(QBrush(color))
         painter.drawEllipse(QPointF(x, y), r, r)
-    for l1, l2 in G.edges:
-        pen.setColor(Qt.black)
-        painter.setPen(pen)
-        painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
     painter.end()
     return QIcon(pixmap.scaledToWidth(width))

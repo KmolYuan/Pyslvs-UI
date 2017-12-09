@@ -82,6 +82,9 @@ def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda:Fals
     for edges in edges_combinations:
         if stopFunc():
             return
+        for n, count in links.items():
+            if sum((link in e) for e in edges)!=count:
+                continue
         G = Graph()
         G.add_edges_from(edges)
         try:
@@ -93,7 +96,7 @@ def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda:Fals
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = topo([5, 2])
+    answer = topo([4, 2])
     #Show tree
     for G in answer:
         print(as_expression(G))

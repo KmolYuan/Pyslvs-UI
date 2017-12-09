@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .number import NumberSynthesis
-from .topologic import topo
+from .topologic import topo, as_expression
 from .graph import graph
 from .Ui_Permutations import Ui_Form
 
@@ -27,9 +27,15 @@ class Permutations_show(QWidget, Ui_Form):
     def __init__(self, parent):
         super(Permutations_show, self).__init__(parent)
         self.setupUi(self)
+        self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
+        self.popMenu_topo = QMenu(self)
+        self.copy_edges = QAction("Copy edges", self)
+        self.copy_expr = QAction("Copy expression", self)
+        self.popMenu_topo.addActions([self.copy_edges, self.copy_expr])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
         self.dofFunc = lambda: parent.DOF
+        self.answer = []
     
     #Reload button: Auto-combine the mechanism from the workbook.
     @pyqtSlot()
@@ -79,12 +85,26 @@ class Permutations_show(QWidget, Ui_Form):
                 progdlg.setMaximum(maximum)
             answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")], setjobFunc, stopFunc)
             if answer:
-                setjobFunc("Drawing atlas...", len(answer))
-                for i, G in enumerate(answer):
+                self.answer = answer
+                setjobFunc("Drawing atlas...", len(self.answer))
+                for i, G in enumerate(self.answer):
                     QCoreApplication.processEvents()
                     if progdlg.wasCanceled():
                         return
                     item = QListWidgetItem("No. {}".format(i))
-                    item.setIcon(graph(G, self.Topologic_result.iconSize().width()))
+                    item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText()))
+                    item.setToolTip(str(G.edges))
                     self.Topologic_result.addItem(item)
                     progdlg.setValue(i+1)
+    
+    @pyqtSlot(QPoint)
+    def Topologic_result_context_menu(self, point):
+        index = self.Topologic_result.currentIndex().row()
+        self.copy_edges.setEnabled(index>-1)
+        self.copy_expr.setEnabled(index>-1)
+        action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
+        clipboard = QApplication.clipboard()
+        if action==self.copy_edges:
+            clipboard.setText(str(self.answer[index].edges))
+        elif action==self.copy_expr:
+            clipboard.setText(str(as_expression(self.answer[index])))

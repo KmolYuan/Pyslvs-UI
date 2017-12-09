@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>399</width>
+    <width>442</width>
     <height>558</height>
    </rect>
   </property>
@@ -17,9 +17,37 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/NumberAndTypeSynthesis.png</normaloff>:/icons/NumberAndTypeSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="Expression_joint_text">
+         <property name="text">
+          <string>Generalized expression:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLineEdit" name="Expression_joint"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="DOF_text">
+         <property name="text">
+          <string>Degree of freedom:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="DOF_input">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
      <item>
       <widget class="QPushButton" name="ReloadMechanism">
        <property name="text">
@@ -27,24 +55,14 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Generalized expression:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="Expression_joint"/>
-     </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QSplitter" name="splitter">
@@ -54,51 +72,54 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Number of joints:</string>
-           </property>
-          </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <layout class="QGridLayout" name="gridLayout">
+           <item row="0" column="1">
+            <widget class="QLabel" name="NJ_text">
+             <property name="text">
+              <string>Number of joints:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="NL_text">
+             <property name="text">
+              <string>Number of links:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QSpinBox" name="NL_input">
+             <property name="toolTip">
+              <string>≥3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSpinBox" name="NJ_input">
+             <property name="toolTip">
+              <string>8~18</string>
+             </property>
+             <property name="maximum">
+              <number>18</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>Number of links:</string>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QSpinBox" name="NL_input">
-           <property name="toolTip">
-            <string>≥3</string>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QSpinBox" name="NJ_input">
-           <property name="toolTip">
-            <string>8~18</string>
-           </property>
-           <property name="maximum">
-            <number>18</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Degree of freedom:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QSpinBox" name="DOF_input">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
+          </spacer>
          </item>
         </layout>
        </item>
@@ -120,6 +141,62 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="graph_engine_text">
+           <property name="text">
+            <string>Graphviz engine: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="graph_engine">
+           <property name="currentIndex">
+            <number>4</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>dot</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>neato</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>fdp</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>twopi</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>circo</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QPushButton" name="Combine_type">
          <property name="text">
           <string>Type Synthesis</string>
@@ -131,6 +208,9 @@
        </item>
        <item>
         <widget class="QListWidget" name="Topologic_result">
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
          <property name="iconSize">
           <size>
            <width>200</width>
