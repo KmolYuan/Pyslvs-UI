@@ -17,7 +17,7 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/NumberAndTypeSynthesis.png</normaloff>:/icons/NumberAndTypeSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -96,42 +96,63 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="Combine_number">
-     <property name="text">
-      <string>Number Combine</string>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="autoDefault">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QListWidget" name="Expression_number"/>
-   </item>
-   <item>
-    <widget class="QPushButton" name="Combine_type">
-     <property name="text">
-      <string>Type Combine</string>
-     </property>
-     <property name="autoDefault">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QListWidget" name="Topologic_result">
-     <property name="movement">
-      <enum>QListView::Static</enum>
-     </property>
-     <property name="spacing">
-      <number>3</number>
-     </property>
-     <property name="viewMode">
-      <enum>QListView::IconMode</enum>
-     </property>
-     <property name="uniformItemSizes">
-      <bool>true</bool>
-     </property>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QPushButton" name="Combine_number">
+         <property name="text">
+          <string>Number Combine</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="Expression_number"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QPushButton" name="Combine_type">
+         <property name="text">
+          <string>Type Combine</string>
+         </property>
+         <property name="autoDefault">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListWidget" name="Topologic_result">
+         <property name="iconSize">
+          <size>
+           <width>150</width>
+           <height>150</height>
+          </size>
+         </property>
+         <property name="movement">
+          <enum>QListView::Static</enum>
+         </property>
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <property name="viewMode">
+          <enum>QListView::IconMode</enum>
+         </property>
+         <property name="uniformItemSizes">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>

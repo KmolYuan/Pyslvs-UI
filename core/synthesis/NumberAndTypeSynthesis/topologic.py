@@ -28,13 +28,12 @@ from itertools import (
 from collections import Counter
 from typing import Iterable
 
-as_expression = lambda G: tuple("L[{}, {}]".format(l1, l2) for l1, l2 in G.edges)
+as_expression = lambda G: tuple("L[L{}, L{}]".format(l1, l2) for l1, l2 in G.edges)
 
 class TestError(Exception):
     pass
 
-def testG(G_base, answer):
-    G = Graph(G_base)
+def testG(G, answer):
     for G_ in answer:
         if is_isomorphic(G, G_):
             raise TestError("is isomorphic")
@@ -73,7 +72,6 @@ def topo(iter: Iterable[int,]):
             edges_combinations = m
     answer = []
     for edges in edges_combinations:
-        #Matching
         G = Graph()
         G.add_edges_from(edges)
         try:

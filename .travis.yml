@@ -13,8 +13,8 @@ branches:
     - /^dev\d*[.]?\d*$/
 
 before_install:
-  #SWIG
-  - sudo apt -y install swig
+  #SWIG & graphviz
+  - sudo apt -y install swig graphviz libgraphviz-dev pkg-config
 
 script:
   - sudo apt -y install desktop-file-utils zenity

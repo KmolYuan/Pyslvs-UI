@@ -17,38 +17,23 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from math import pi, sin, cos
-from anytree import LevelOrderIter
-from anytree.search import findall
+from ...QtModules import *
+from networkx import nx_agraph
 
-#Return a function that can calculate coordinates by diameter.
-def regular_polygons(sides: int, vertice_based: bool =False):
-    angle_unit = 2*pi/sides
-    angle_init = pi if vertice_based else (pi - angle_unit/2)
-    
-    def func(d: float):
-        dots = []
-        for i in range(sides):
-            a = (angle_init + i*angle_unit)%360
-            dots.append((round(d/2*cos(a), 4), round(d/2*sin(a), 4)))
-        return dots
-    
-    return func
-
-def circulation_allocation(root):
-    deepest_node = list(LevelOrderIter(root))[-1]
-    step_1 = deepest_node.path
-    clone = findall(root, filter_=lambda n: n.name==deepest_node.name.replace('[', '').replace(']', ''))[0]
-    step_2 = clone.path
-    extern = len(step_1)-1 + len(step_2)-1
-    return extern
-
-if __name__=='__main__':
-    #foo = regular_polygons(7)
-    #print(foo(10))
-    from topologic import topo, show_tree
-    answer = topo([4, 2])
-    for root, joints in answer:
-        print(show_tree(root))
-        print(circulation_allocation(root))
-        print('-'*7)
+def graph(G, width):
+    pos = {k:(round(x, 4), round(y, 4)) for k, (x, y) in nx_agraph.graphviz_layout(G).items()}
+    rect = [max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2
+    pixmap = QPixmap(*rect)
+    painter = QPainter(pixmap)
+    painter.fillRect(pixmap.rect(), QBrush(Qt.white))
+    painter.translate(pixmap.width()/2, pixmap.height()/2)
+    pen = QPen()
+    pen.setWidth(5)
+    painter.setPen(pen)
+    r = 5
+    for x, y in pos.values():
+        painter.drawEllipse(QPointF(x, y), r, r)
+    for l1, l2 in G.edges:
+        painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
+    painter.end()
+    return QIcon(pixmap.scaledToWidth(width))
