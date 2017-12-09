@@ -33,8 +33,8 @@ python --version
 pip --version
 
 # Install python dependencies into the virtualenv
-pip install pyqt5 pyqtchart
 pip install -r ../../requirements.txt
+pip install pygraphviz --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/"
 
 deactivate
 
