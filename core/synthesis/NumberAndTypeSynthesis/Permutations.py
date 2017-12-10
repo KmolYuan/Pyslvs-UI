@@ -51,7 +51,8 @@ class Permutations_show(QWidget, Ui_Form):
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)
         self.copy_expr = QAction("Copy expression", self)
-        self.popMenu_topo.addActions([self.copy_edges, self.copy_expr])
+        self.copy_image = QAction("Copy image", self)
+        self.popMenu_topo.addActions([self.copy_edges, self.copy_expr, self.copy_image])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
         self.answer = []
@@ -92,6 +93,7 @@ class Permutations_show(QWidget, Ui_Form):
         if r and r.text()!="incorrect mechanism.":
             progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
             progdlg.setWindowTitle("Type synthesis")
+            progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
             #Call in every loop.
@@ -109,24 +111,13 @@ class Permutations_show(QWidget, Ui_Form):
                 self.answer = answer
                 self.on_reload_atlas_clicked()
     
-    @pyqtSlot(QPoint)
-    def Topologic_result_context_menu(self, point):
-        index = self.Topologic_result.currentIndex().row()
-        self.copy_edges.setEnabled(index>-1)
-        self.copy_expr.setEnabled(index>-1)
-        action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
-        clipboard = QApplication.clipboard()
-        if action==self.copy_edges:
-            clipboard.setText(str(self.answer[index].edges))
-        elif action==self.copy_expr:
-            clipboard.setText(str(as_expression(self.answer[index])))
-    
     @pyqtSlot()
     def on_reload_atlas_clicked(self):
         if self.answer:
             self.Topologic_result.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
             progdlg.setWindowTitle("Type synthesis")
+            progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
             engine = self.graph_engine.currentText()
@@ -139,3 +130,18 @@ class Permutations_show(QWidget, Ui_Form):
                 item.setToolTip(str(G.edges))
                 self.Topologic_result.addItem(item)
                 progdlg.setValue(i+1)
+    
+    @pyqtSlot(QPoint)
+    def Topologic_result_context_menu(self, point):
+        index = self.Topologic_result.currentIndex().row()
+        self.copy_edges.setEnabled(index>-1)
+        self.copy_expr.setEnabled(index>-1)
+        self.copy_image.setEnabled(index>-1)
+        action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
+        clipboard = QApplication.clipboard()
+        if action==self.copy_edges:
+            clipboard.setText(str(self.answer[index].edges))
+        elif action==self.copy_expr:
+            clipboard.setText(str(as_expression(self.answer[index])))
+        elif action==self.copy_image:
+            clipboard.setPixmap(self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()))

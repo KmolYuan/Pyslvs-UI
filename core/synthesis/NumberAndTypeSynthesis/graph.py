@@ -33,10 +33,10 @@ def graph(G, width, engine):
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
     pos = {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
     rect = [max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2
-    pixmap = QPixmap(*rect)
-    painter = QPainter(pixmap)
-    painter.fillRect(pixmap.rect(), QBrush(Qt.white))
-    painter.translate(pixmap.width()/2, pixmap.height()/2)
+    image = QImage(QSize(*rect), QImage.Format_ARGB32_Premultiplied)
+    image.fill(Qt.transparent)
+    painter = QPainter(image)
+    painter.translate(image.width()/2, image.height()/2)
     pen = QPen(Qt.black)
     pen.setWidth(5)
     painter.setPen(pen)
@@ -50,4 +50,4 @@ def graph(G, width, engine):
         painter.setBrush(QBrush(color))
         painter.drawEllipse(QPointF(x, y), r, r)
     painter.end()
-    return QIcon(pixmap.scaledToWidth(width))
+    return QIcon(QPixmap.fromImage(image).scaledToWidth(width))
