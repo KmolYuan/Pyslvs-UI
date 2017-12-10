@@ -19,13 +19,14 @@
 
 from ...QtModules import *
 from ...graphics.color import colorNum
-from networkx import nx_agraph
+from networkx import random_layout, nx_agraph
 
 def graph(G, width, engine):
-    pos = {
-        k:(round(x, 4), round(y, 4))
-        for k, (x, y) in nx_agraph.graphviz_layout(G, prog=engine).items() #, prog="circo", args="-Goverlap=false"
-    }
+    if engine=="random":
+        pos_engine = {k:(x*200, y*200) for k, (x, y) in random_layout(G).items()}.items()
+    else:
+        pos_engine = nx_agraph.graphviz_layout(G, prog=engine).items() #, prog="circo", args="-Goverlap=false"
+    pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in pos_engine}
     x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
     pos = {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}

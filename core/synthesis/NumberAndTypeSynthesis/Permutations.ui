@@ -185,6 +185,11 @@
              <string>circo</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>random</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>

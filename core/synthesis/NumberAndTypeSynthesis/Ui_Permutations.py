@@ -99,6 +99,7 @@ class Ui_Form(object):
         self.graph_engine.addItem("")
         self.graph_engine.addItem("")
         self.graph_engine.addItem("")
+        self.graph_engine.addItem("")
         self.horizontalLayout.addWidget(self.graph_engine)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
@@ -142,6 +143,7 @@ class Ui_Form(object):
         self.graph_engine.setItemText(2, _translate("Form", "fdp"))
         self.graph_engine.setItemText(3, _translate("Form", "twopi"))
         self.graph_engine.setItemText(4, _translate("Form", "circo"))
+        self.graph_engine.setItemText(5, _translate("Form", "random"))
         self.reload_atlas.setText(_translate("Form", "Reload atlas"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
 

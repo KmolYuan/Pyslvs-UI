@@ -113,12 +113,13 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setWindowTitle("Type synthesis")
             progdlg.setModal(True)
             progdlg.show()
+            engine = self.graph_engine.currentText()
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i))
-                item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText()))
+                item.setIcon(graph(G, self.Topologic_result.iconSize().width(), engine))
                 item.setToolTip(str(G.edges))
                 self.Topologic_result.addItem(item)
                 progdlg.setValue(i+1)
