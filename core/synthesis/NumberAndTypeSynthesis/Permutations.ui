@@ -151,45 +151,15 @@
          <item>
           <widget class="QLabel" name="graph_engine_text">
            <property name="text">
-            <string>Graphviz engine: </string>
+            <string>Graphviz and NetworkX engine: </string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QComboBox" name="graph_engine">
            <property name="currentIndex">
-            <number>4</number>
+            <number>-1</number>
            </property>
-           <item>
-            <property name="text">
-             <string>dot</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>neato</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>fdp</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>twopi</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>circo</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>random</string>
-            </property>
-           </item>
           </widget>
          </item>
          <item>

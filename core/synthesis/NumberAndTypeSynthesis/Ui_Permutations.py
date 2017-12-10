@@ -94,12 +94,6 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.graph_engine_text)
         self.graph_engine = QtWidgets.QComboBox(self.verticalLayoutWidget_2)
         self.graph_engine.setObjectName("graph_engine")
-        self.graph_engine.addItem("")
-        self.graph_engine.addItem("")
-        self.graph_engine.addItem("")
-        self.graph_engine.addItem("")
-        self.graph_engine.addItem("")
-        self.graph_engine.addItem("")
         self.horizontalLayout.addWidget(self.graph_engine)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
@@ -123,7 +117,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.splitter)
 
         self.retranslateUi(Form)
-        self.graph_engine.setCurrentIndex(4)
+        self.graph_engine.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -137,13 +131,7 @@ class Ui_Form(object):
         self.NJ_input.setToolTip(_translate("Form", "8~18"))
         self.DOF_text.setText(_translate("Form", "Degree of freedom:"))
         self.Combine_number.setText(_translate("Form", "Number Synthesis"))
-        self.graph_engine_text.setText(_translate("Form", "Graphviz engine: "))
-        self.graph_engine.setItemText(0, _translate("Form", "dot"))
-        self.graph_engine.setItemText(1, _translate("Form", "neato"))
-        self.graph_engine.setItemText(2, _translate("Form", "fdp"))
-        self.graph_engine.setItemText(3, _translate("Form", "twopi"))
-        self.graph_engine.setItemText(4, _translate("Form", "circo"))
-        self.graph_engine.setItemText(5, _translate("Form", "random"))
+        self.graph_engine_text.setText(_translate("Form", "Graphviz and NetworkX engine: "))
         self.reload_atlas.setText(_translate("Form", "Reload atlas"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
 

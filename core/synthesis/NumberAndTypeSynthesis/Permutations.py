@@ -22,6 +22,7 @@ from .number import NumberSynthesis
 from .topologic import topo, as_expression
 from .graph import graph
 from .Ui_Permutations import Ui_Form
+import os
 
 class Permutations_show(QWidget, Ui_Form):
     def __init__(self, parent):
@@ -31,6 +32,21 @@ class Permutations_show(QWidget, Ui_Form):
         self.splitter.setStretchFactor(1, 15)
         self.NL_input.valueChanged.connect(self.setDOF)
         self.NJ_input.valueChanged.connect(self.setDOF)
+        if os.name=='posix':
+            self.graph_engine.addItems([
+                "dot",
+                "neato",
+                "fdp",
+                "twopi",
+                "circo",
+                "random"
+            ])
+        else:
+            self.graph_engine_text.setText("NetworkX engine: ")
+            self.graph_engine.addItems([
+                "shell",
+                "random"
+            ])
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)

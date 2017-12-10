@@ -16,6 +16,7 @@
 
 1. [Modules Requirement](#modules-requirement)
 
+    + [PyGraphviz](#pygraphviz)
     + [PyQt](#pyqt)
 
 1. [Kernels Requirement](#kernels-requirement)
@@ -116,8 +117,10 @@ Makefile tool: [MinGW] for win64.
 > pip install -r requirements.txt
 ```
 
-pygraphviz
+PyGraphviz
 ---
+
+PyGraphviz module provide some graph engine that can make the position of dots in atlas looks more pretty.
 
 **Ubuntu**:
 
@@ -128,12 +131,12 @@ $ sudo pip3 install pygraphviz --install-option="--include-path=/usr/include/gra
 
 **Windows**:
 
-```bash
-> pip install pygraphviz
-```
+Unfortunately PyGraphviz does not provide 64-bit support for Windows platforms, so Pyslvs will not use Graphviz engine to draw the atlas.
 
 Qt tools
 ---
+
+Qt tools can use to design the user interface, they are not the requirement if you just want to run Pyslvs.
 
 **Ubuntu**:
 
@@ -367,7 +370,7 @@ Including Python modules:
 * [peewee] (MIT)
 * [lark-parser] (MIT)
 * [networkx] (BSD 3-Clause)
-* [pygraphviz] (BSD 3-Clause)
+* [PyGraphviz](https://pygraphviz.github.io/) (BSD 3-Clause)
 
 Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
 
@@ -397,7 +400,6 @@ Here is the **origin kernel** repository:
 [peewee]: http://docs.peewee-orm.com/en/latest/
 [lark-parser]: https://github.com/erezsh/lark
 [networkx]: https://networkx.github.io/
-[pygraphviz]: https://pygraphviz.github.io/
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm

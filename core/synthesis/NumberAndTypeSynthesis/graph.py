@@ -19,11 +19,13 @@
 
 from ...QtModules import *
 from ...graphics.color import colorNum
-from networkx import random_layout, nx_agraph
+from networkx import shell_layout, nx_agraph, random_layout
 
 def graph(G, width, engine):
     if engine=="random":
         pos_engine = {k:(x*200, y*200) for k, (x, y) in random_layout(G).items()}.items()
+    elif engine=="shell":
+        pos_engine = shell_layout(G, scale=100).items()
     else:
         pos_engine = nx_agraph.graphviz_layout(G, prog=engine).items() #, prog="circo", args="-Goverlap=false"
     pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in pos_engine}
