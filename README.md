@@ -24,12 +24,11 @@
     + [Python-solvespace Kernel](#python-solvespace-kernel)
     + [Dimensional Synthesis Kernel](#dimensional-synthesis-kernel)
 
-1. [Compile](#compile)
+1. [Stand-alone Executable File](#stand-alone-executable-file)
 
 1. [Power By](#power-by)
 
-Introduction
-===
+# Introduction
 
 A GUI-based tool solving 2D linkage subject.
 
@@ -51,8 +50,7 @@ Previews in Windows 8.1 theme:
 
 ![main](images/main_win.png)
 
-How to startup
----
+## How to startup
 
 Open GUI by Python:
 
@@ -66,8 +64,7 @@ Or see help:
 python3 launch_pyslvs.py --help
 ```
 
-Symbolic
----
+## Symbolic
 
 Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 
@@ -79,8 +76,7 @@ Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 
     ![Link](images/Link.png)
 
-Algorithm
----
+## Algorithm
 
 ![Algorithm](images/Algorithm.png)
 
@@ -94,8 +90,7 @@ Specify a path and options to generate a crank rocker.
 
 This function has a simple TCP ZMQ connecting mode.
 
-Modules Requirement
-===
+# Modules Requirement
 
 You should install some python module and SDK first.
 
@@ -117,8 +112,7 @@ Makefile tool: [MinGW] for win64.
 > pip install -r requirements.txt
 ```
 
-PyGraphviz
----
+## PyGraphviz
 
 PyGraphviz module provide some graph engine that can make the position of dots in atlas looks more pretty.
 
@@ -133,8 +127,7 @@ $ sudo pip3 install pygraphviz --install-option="--include-path=/usr/include/gra
 
 Unfortunately PyGraphviz does not provide 64-bit support for Windows platforms, so Pyslvs will not use Graphviz engine to draw the atlas.
 
-PyQt Stuff
----
+## PyQt Stuff
 
 PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can use them.
 
@@ -175,8 +168,7 @@ Windows user can get Qt tools by pip, and don't need to install Qt package.
 > pip install pyqt5-tools
 ```
 
-Kernels Requirement
-===
+# Kernels Requirement
 
 Make command:
 
@@ -186,8 +178,7 @@ make build-kernel
 
 This project including 2 kernels should build, please following the steps if you are first time to use.
 
-Python-solvespace Kernel
----
+## Python-solvespace Kernel
 
 Make command:
 
@@ -209,77 +200,67 @@ sudo apt install swig python3-dev
 
 Download and install [SWIG](http://www.swig.org/download.html).
 
-Some conflicts between the Microsoft C Language and Python.
+If your Python doesn't have development library, like `libpython35.a`, using `gendef` to generate it.
 
-You need change a few of Python files to avoid these conflicts.
+**In Python 3.6 and above versions, you do not have to get lib file.**
 
-But you can be assured that the changes won't cause any negative impact.
+First copy `python3x.dll` to `where_your_python\libs` folder.
 
-1. Python development settings
+Then using this command:
 
-    If your Python doesn't have development library, like `libpython35.a`, using `gendef` to generate it.
+```bash
+gendef python3x.dll
+dlltool --dllname python3x.dll --def python3x.def --output-lib libpython3x.a
+```
 
-    **In Python 3.6 and above versions, you do not have to do these actions.**
+You need to modify a few of Python files to avoid these conflicts before compile the library. But you can be assured that the changes won't cause any negative impact.
 
-    First copy `python3x.dll` to `where_your_python\libs` folder.
+Find this code in `where_your_python\Lib\distutils\cygwinccompiler.py`:
 
-    Then using this command:
+```python
+# no additional libraries needed
+self.dll_libraries=[]
 
-    ```bash
-    gendef python3x.dll
-    dlltool --dllname python3x.dll --def python3x.def --output-lib libpython3x.a
-    ```
-    
-    ```
+# Include the appropriate MSVC runtime library if Python was built
+# with MSVC 7.0 or later.
+self.dll_libraries = get_msvcr()
+```
 
-    Find this code in `where_your_python\Lib\distutils\cygwinccompiler.py`:
+Commit `self.dll_libraries = get_msvcr()`.
 
-    ```python
-    # no additional libraries needed
-    self.dll_libraries=[]
-    
-    # Include the appropriate MSVC runtime library if Python was built
-    # with MSVC 7.0 or later.
-    self.dll_libraries = get_msvcr()
-    ```
-    
-    Commit `self.dll_libraries = get_msvcr()`.
-    
-    And then adjust source code about Visual C. Find this code in `where_your_python\include\pyconfig.h`.
-    
-    ```c
-    #ifdef _WIN64
-    #define MS_WIN64
-    #endif
-    ```
-    
-    Cut them and paste **Above** this:
-    
-    ```c
-    #ifdef _MSC_VER
-    
-1. `math.h` conflict with `pyconfig.h`
-    
-    You will definitely get warning with `_hypot` in `pyconfig.h`, and you should do this step.
-    
-    In `where_your_python\include\pyconfig.h`, find this:
-    
-    ```c
-    #define COMPILER "[gcc]"
-    #define hypot _hypot
-    ```
-    
-    Edit it to this:
-    
-    ```c
-    #define COMPILER "[gcc]"
-    #ifndef _MATH_H_
-    #define hypot _hypot
-    #endif
-    ```
+And then adjust source code about Virtual Studio. Find this code in `where_your_python\include\pyconfig.h`.
 
-Dimensional Synthesis Kernel
----
+```c
+#ifdef _WIN64
+#define MS_WIN64
+#endif
+```
+
+Cut them and paste **Above** this:
+
+```c
+#ifdef _MSC_VER
+```
+
+You also will get warning with `_hypot` in `pyconfig.h`, and you should do this step.
+
+In `where_your_python\include\pyconfig.h`, find this:
+
+```c
+#define COMPILER "[gcc]"
+#define hypot _hypot
+```
+
+Edit it to this:
+
+```c
+#define COMPILER "[gcc]"
+#ifndef _MATH_H_
+#define hypot _hypot
+#endif
+```
+
+## Dimensional Synthesis Kernel
 
 Make command:
 
@@ -302,8 +283,7 @@ When installation finished, see the instructions [here][cython-link] to set up t
 [visualstudio-link]: https://www.visualstudio.com/downloads/
 [cython-link]: https://github.com/cython/cython/wiki/CythonExtensionsOnWindows#using-windows-sdk-cc-compiler-works-for-all-python-versions
 
-Compile
-===
+# Stand-alone Executable File
 
 As your wish, it can be renamed or moved out and operate independently in no-Python environment.
 
@@ -311,7 +291,7 @@ As your wish, it can be renamed or moved out and operate independently in no-Pyt
 
 Use shell command to build as [AppImage](https://github.com/AppImage/AppImages).
 
-After following operation, the executable file is located at `out` folder.
+After following operation, the executable file is in `out` folder.
 
 Make command:
 
@@ -324,7 +304,7 @@ $ make
 
 Use PyInstaller to build.
 
-After following operation, the executable file is located at `dist` folder.
+After following operation, the executable file is in `dist` folder.
 
 Make command:
 
@@ -333,14 +313,7 @@ Make command:
 > make
 ```
 
-If you installed PyInstaller with problem of coding error, or using Python 3.6 or above, you can try another source:
-
-```bash
-pip install https://github.com/pyinstaller/pyinstaller/archive/develop.zip
-```
-
-Power By
-===
+# Power By
 
 Made by [Qt5] and Python IDE [Eric 6].
 
