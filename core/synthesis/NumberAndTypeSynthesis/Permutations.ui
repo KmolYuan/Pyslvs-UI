@@ -32,26 +32,18 @@
        <item row="1" column="0">
         <widget class="QLineEdit" name="Expression_joint"/>
        </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="DOF_text">
-         <property name="text">
-          <string>Degree of freedom:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QSpinBox" name="DOF_input">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
      <item>
       <widget class="QPushButton" name="ReloadMechanism">
        <property name="text">
         <string>Reload from workbook</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -103,6 +95,20 @@
              </property>
              <property name="maximum">
               <number>18</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="DOF_text">
+             <property name="text">
+              <string>Degree of freedom:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QSpinBox" name="DOF_input">
+             <property name="enabled">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -193,6 +199,13 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="reload_atlas">
+           <property name="text">
+            <string>Reload atlas</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

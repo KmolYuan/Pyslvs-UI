@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+0# -*- coding: utf-8 -*-
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 ##Copyright (C) 2016-2017 Yuan Chang
 ##E-mail: pyslvs@gmail.com
@@ -27,6 +27,10 @@ class Permutations_show(QWidget, Ui_Form):
     def __init__(self, parent):
         super(Permutations_show, self).__init__(parent)
         self.setupUi(self)
+        self.splitter.setStretchFactor(0, 2)
+        self.splitter.setStretchFactor(1, 15)
+        self.NL_input.valueChanged.connect(self.setDOF)
+        self.NJ_input.valueChanged.connect(self.setDOF)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)
@@ -34,7 +38,6 @@ class Permutations_show(QWidget, Ui_Form):
         self.popMenu_topo.addActions([self.copy_edges, self.copy_expr])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
-        self.dofFunc = lambda: parent.DOF
         self.answer = []
     
     #Reload button: Auto-combine the mechanism from the workbook.
@@ -42,14 +45,16 @@ class Permutations_show(QWidget, Ui_Form):
     def on_ReloadMechanism_clicked(self):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
-        dof = self.dofFunc()
         self.Expression_joint.setText(", ".join(vpoint.joint for vpoint in jointData))
         NL = sum(1 for vlink in linkData if len(vlink.points)>1)
         NJ = sum(len(vpoint.links)-1 for vpoint in jointData if len(vpoint.links)>1)
         self.NL_input.setValue(NL)
         self.NJ_input.setValue(NJ)
-        self.DOF_input.setValue(dof)
         self.on_Combine_number_clicked()
+    
+    @pyqtSlot(int)
+    def setDOF(self):
+        self.DOF_input.setValue(3*(self.NL_input.value()-1) - 2*self.NJ_input.value())
     
     #Show number of links with different number of joints.
     @pyqtSlot()
@@ -67,7 +72,6 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Combine_type_clicked(self):
-        self.Topologic_result.clear()
         r = self.Expression_number.currentItem()
         if r and r.text()!="incorrect mechanism.":
             progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
@@ -84,18 +88,10 @@ class Permutations_show(QWidget, Ui_Form):
                 progdlg.setValue(0)
                 progdlg.setMaximum(maximum)
             answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")], setjobFunc, stopFunc)
+            progdlg.setValue(progdlg.maximum())
             if answer:
                 self.answer = answer
-                setjobFunc("Drawing atlas...", len(self.answer))
-                for i, G in enumerate(self.answer):
-                    QCoreApplication.processEvents()
-                    if progdlg.wasCanceled():
-                        return
-                    item = QListWidgetItem("No. {}".format(i))
-                    item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText()))
-                    item.setToolTip(str(G.edges))
-                    self.Topologic_result.addItem(item)
-                    progdlg.setValue(i+1)
+                self.on_reload_atlas_clicked()
     
     @pyqtSlot(QPoint)
     def Topologic_result_context_menu(self, point):
@@ -108,3 +104,21 @@ class Permutations_show(QWidget, Ui_Form):
             clipboard.setText(str(self.answer[index].edges))
         elif action==self.copy_expr:
             clipboard.setText(str(as_expression(self.answer[index])))
+    
+    @pyqtSlot()
+    def on_reload_atlas_clicked(self):
+        if self.answer:
+            self.Topologic_result.clear()
+            progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
+            progdlg.setWindowTitle("Type synthesis")
+            progdlg.setModal(True)
+            progdlg.show()
+            for i, G in enumerate(self.answer):
+                QCoreApplication.processEvents()
+                if progdlg.wasCanceled():
+                    return
+                item = QListWidgetItem("No. {}".format(i))
+                item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText()))
+                item.setToolTip(str(G.edges))
+                self.Topologic_result.addItem(item)
+                progdlg.setValue(i+1)
