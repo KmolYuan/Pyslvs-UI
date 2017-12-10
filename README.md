@@ -38,9 +38,17 @@ A GUI-based tool solving 2D linkage subject.
 
 Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
 
-Cross-platform Development: Ubuntu and Windows OS (64-bit).
+Cross-platform Development: Ubuntu and Windows (64-bit).
 
-**Please note that other platforms may be available but I have not tested before.**
+AppImage of Ubuntu platform should install Graphviz.
+
+```bash
+$ sudo apt install graphviz
+```
+
+Excutable file of Windows platform has no requirement.
+
+**Please note that the other platforms may be available but I have not tested before.**
 
 Previews in KDE Plasma desktop:
 
