@@ -30,6 +30,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.setupUi(self)
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
+        self.answer = []
         self.NL_input.valueChanged.connect(self.setDOF)
         self.NJ_input.valueChanged.connect(self.setDOF)
         if os.name=='posix':
@@ -38,15 +39,18 @@ class Permutations_show(QWidget, Ui_Form):
                 "neato",
                 "fdp",
                 "twopi",
-                "circo",
-                "random"
+                "circo"
             ])
+            self.graph_engine.setCurrentIndex(4)
         else:
             self.graph_engine_text.setText("NetworkX engine: ")
-            self.graph_engine.addItems([
-                "shell",
-                "random"
-            ])
+        self.graph_engine.addItems([
+            "shell",
+            "circular",
+            "spring",
+            "spectral",
+            "random"
+        ])
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)
@@ -55,7 +59,6 @@ class Permutations_show(QWidget, Ui_Form):
         self.popMenu_topo.addActions([self.copy_edges, self.copy_expr, self.copy_image])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
-        self.answer = []
     
     #Reload button: Auto-combine the mechanism from the workbook.
     @pyqtSlot()
@@ -109,10 +112,10 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setValue(progdlg.maximum())
             if answer:
                 self.answer = answer
-                self.on_reload_atlas_clicked()
+                self.on_graph_engine_currentIndexChanged(self.graph_engine.currentText())
     
-    @pyqtSlot()
-    def on_reload_atlas_clicked(self):
+    @pyqtSlot(str)
+    def on_graph_engine_currentIndexChanged(self, engine):
         if self.answer:
             self.Topologic_result.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
@@ -120,7 +123,6 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
-            engine = self.graph_engine.currentText()
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():

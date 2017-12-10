@@ -19,15 +19,28 @@
 
 from ...QtModules import *
 from ...graphics.color import colorNum
-from networkx import shell_layout, nx_agraph, random_layout
+from networkx import (
+    nx_agraph,
+    shell_layout,
+    circular_layout,
+    spring_layout,
+    spectral_layout,
+    random_layout
+)
 
 def graph(G, width, engine):
     if engine=="random":
         pos_engine = {k:(x*200, y*200) for k, (x, y) in random_layout(G).items()}.items()
     elif engine=="shell":
         pos_engine = shell_layout(G, scale=100).items()
+    elif engine=="circular":
+        pos_engine = circular_layout(G, scale=100).items()
+    elif engine=="spring":
+        pos_engine = spring_layout(G, scale=100).items()
+    elif engine=="spectral":
+        pos_engine = spectral_layout(G, scale=100).items()
     else:
-        pos_engine = nx_agraph.graphviz_layout(G, prog=engine).items() #, prog="circo", args="-Goverlap=false"
+        pos_engine = nx_agraph.graphviz_layout(G, prog=engine).items()
     pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in pos_engine}
     x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2

@@ -97,9 +97,6 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.graph_engine)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
-        self.reload_atlas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        self.reload_atlas.setObjectName("reload_atlas")
-        self.horizontalLayout.addWidget(self.reload_atlas)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.Combine_type = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         self.Combine_type.setAutoDefault(True)
@@ -132,7 +129,6 @@ class Ui_Form(object):
         self.DOF_text.setText(_translate("Form", "Degree of freedom:"))
         self.Combine_number.setText(_translate("Form", "Number Synthesis"))
         self.graph_engine_text.setText(_translate("Form", "Graphviz and NetworkX engine: "))
-        self.reload_atlas.setText(_translate("Form", "Reload atlas"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
 
 import icons_rc
