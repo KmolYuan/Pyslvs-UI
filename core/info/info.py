@@ -45,7 +45,8 @@ POWERBY = [
     "psutil",
     "peewee",
     "lark-parser",
-    "anytree"
+    "networkx",
+    "PyGraphviz"
 ]
 
 #--help

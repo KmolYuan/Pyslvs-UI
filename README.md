@@ -17,7 +17,7 @@
 1. [Modules Requirement](#modules-requirement)
 
     + [PyGraphviz](#pygraphviz)
-    + [PyQt](#pyqt)
+    + [PyQt Stuff](#pyqt-stuff)
 
 1. [Kernels Requirement](#kernels-requirement)
 
@@ -133,41 +133,22 @@ $ sudo pip3 install pygraphviz --install-option="--include-path=/usr/include/gra
 
 Unfortunately PyGraphviz does not provide 64-bit support for Windows platforms, so Pyslvs will not use Graphviz engine to draw the atlas.
 
-Qt tools
+PyQt Stuff
 ---
+
+PyQt5 and QtChart are now pack into the wheel file that Windows and Ubuntu can use them.
+
+When the installation is complete by pip, some stuff need to remind you.
 
 Qt tools can use to design the user interface, they are not the requirement if you just want to run Pyslvs.
 
 **Ubuntu**:
 
-Download [Qt5] and install it.
+Download [Qt5] and install it, then we will get the tools.
 
-Remember it should include QtChart.
-
-Make sure computer is installed Qt5 and PyQt5 in the same version.
-
-User has to add Qt file path in user's `QTDIR`, `LD_LIBRARY_PATH`, and `PATH`.
-
-Just like `/opt/Qt/5.9.1/gcc_64/`.
-
-```bash
-export QTDIR=/opt/Qt/5.9.1/gcc_64/
-
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${QTDIR}/lib/
-
-export PATH=${QTDIR}/bin:${PATH}
-```
-
-Then re-link QMake command (If your desktop is made by earlier Qt version).
-
-```bash
-$ sudo rm /usr/bin/qmake
-$ sudo ln -s /opt/Qt/5.9.1/gcc_64/bin/qmake /usr/bin/qmake
-```
+If your desktop is made by earlier Qt version, you should install in another place.
 
 Download and install / upgrade [SIP].
-
-Before that, if your desktop is made by earlier PyQt version, you should remove it.
 
 ```python
 >>> import sip
@@ -180,9 +161,15 @@ Then remove SIP from the location:
 $ sudo rm -fr /usr/local/lib/python3.5/dist-packages/sip*
 ```
 
+Or maybe directly:
+
+```bash
+$ sudo pip3 install sip -U
+```
+
 **Windows**:
 
-Windows user can get Qt tools directly by pip:
+Windows user can get Qt tools by pip, and don't need to install Qt package.
 
 ```bash
 > pip install pyqt5-tools
