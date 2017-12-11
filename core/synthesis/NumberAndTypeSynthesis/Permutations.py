@@ -20,7 +20,7 @@
 from ...QtModules import *
 from .number import NumberSynthesis
 from .topologic import topo, as_expression
-from .graph import graph
+from .graph import graph_node, graph_link
 from .Ui_Permutations import Ui_Form
 import os
 
@@ -51,6 +51,8 @@ class Permutations_show(QWidget, Ui_Form):
             "spectral",
             "random"
         ])
+        self.graph_link_as_node.clicked.connect(self.reloadAtlas)
+        self.graph_engine.currentIndexChanged.connect(self.reloadAtlas)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)
@@ -112,11 +114,13 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setValue(progdlg.maximum())
             if answer:
                 self.answer = answer
-                self.on_graph_engine_currentIndexChanged(self.graph_engine.currentText())
+                self.reloadAtlas()
     
+    @pyqtSlot()
     @pyqtSlot(str)
-    def on_graph_engine_currentIndexChanged(self, engine):
+    def reloadAtlas(self, p0=None):
         if self.answer:
+            engine = self.graph_engine.currentText()
             self.Topologic_result.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
             progdlg.setWindowTitle("Type synthesis")
@@ -128,7 +132,11 @@ class Permutations_show(QWidget, Ui_Form):
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i))
-                item.setIcon(graph(G, self.Topologic_result.iconSize().width(), engine))
+                if self.graph_link_as_node.isChecked():
+                    icon = graph_node
+                else:
+                    icon = graph_link
+                item.setIcon(icon(G, self.Topologic_result.iconSize().width(), engine))
                 item.setToolTip(str(G.edges))
                 self.Topologic_result.addItem(item)
                 progdlg.setValue(i+1)

@@ -18,8 +18,9 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from ...graphics.color import colorNum
+from ...graphics.color import colorQt, colorNum
 from networkx import (
+    Graph,
     nx_agraph,
     shell_layout,
     circular_layout,
@@ -28,29 +29,33 @@ from networkx import (
     random_layout
 )
 
-def graph(G, width, engine):
+def engine_picker(G: Graph, engine: str):
     if engine=="random":
-        pos_engine = {k:(x*200, y*200) for k, (x, y) in random_layout(G).items()}.items()
+        E = {k:(x*200, y*200) for k, (x, y) in random_layout(G).items()}
     elif engine=="shell":
-        pos_engine = shell_layout(G, scale=100).items()
+        E = shell_layout(G, scale=100)
     elif engine=="circular":
-        pos_engine = circular_layout(G, scale=100).items()
+        E = circular_layout(G, scale=100)
     elif engine=="spring":
-        pos_engine = spring_layout(G, scale=100).items()
+        E = spring_layout(G, scale=100)
     elif engine=="spectral":
-        pos_engine = spectral_layout(G, scale=100).items()
+        E = spectral_layout(G, scale=100)
     else:
-        pos_engine = nx_agraph.graphviz_layout(G, prog=engine).items()
-    pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in pos_engine}
+        E = nx_agraph.graphviz_layout(G, prog=engine)
+    pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
     x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
-    pos = {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
-    rect = [max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2
-    image = QImage(QSize(*rect), QImage.Format_ARGB32_Premultiplied)
+    return {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
+
+image_blank = lambda pos: QImage(QSize(*[max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2), QImage.Format_ARGB32_Premultiplied)
+
+def graph_node(G: Graph, width: int, engine: str):
+    pos = engine_picker(G, engine)
+    image = image_blank(pos)
     image.fill(Qt.transparent)
     painter = QPainter(image)
     painter.translate(image.width()/2, image.height()/2)
-    pen = QPen(Qt.black)
+    pen = QPen()
     pen.setWidth(5)
     painter.setPen(pen)
     for l1, l2 in G.edges:
@@ -58,6 +63,39 @@ def graph(G, width, engine):
     r = 5
     for k, (x, y) in pos.items():
         color = colorNum(len(list(G.neighbors(k)))-1)
+        pen.setColor(color)
+        painter.setPen(pen)
+        painter.setBrush(QBrush(color))
+        painter.drawEllipse(QPointF(x, y), r, r)
+    painter.end()
+    return QIcon(QPixmap.fromImage(image).scaledToWidth(width))
+
+#Translate node from linkage to joint.
+def graph_link(G: Graph, width: int, engine: str):
+    G_ = Graph()
+    nodes = {i:edge for i, edge in enumerate(G.edges)}
+    for i, (l1, l2) in nodes.items():
+        for j, edge in nodes.items():
+            if i==j:
+                continue
+            if (l1 in edge) or (l2 in edge):
+                G_.add_edge(i, j)
+    pos = engine_picker(G_, engine)
+    image = image_blank(pos)
+    image.fill(Qt.transparent)
+    painter = QPainter(image)
+    painter.translate(image.width()/2, image.height()/2)
+    pen = QPen()
+    pen.setWidth(5)
+    painter.setPen(pen)
+    for l1, l2 in G_.edges:
+        painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
+    painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+    for l in G.nodes:
+        painter.drawPolygon(*[QPointF(*pos[n]) for n, edge in nodes.items() if l in edge])
+    r = 5
+    for k, (x, y) in pos.items():
+        color = colorQt('Blue')
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))

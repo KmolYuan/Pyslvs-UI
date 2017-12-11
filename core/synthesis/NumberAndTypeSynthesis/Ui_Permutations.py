@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(442, 558)
+        Form.resize(442, 609)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -97,6 +97,9 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.graph_engine)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
+        self.graph_link_as_node = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
+        self.graph_link_as_node.setObjectName("graph_link_as_node")
+        self.horizontalLayout.addWidget(self.graph_link_as_node)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
         self.Combine_type = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         self.Combine_type.setAutoDefault(True)
@@ -129,6 +132,7 @@ class Ui_Form(object):
         self.DOF_text.setText(_translate("Form", "Degree of freedom:"))
         self.Combine_number.setText(_translate("Form", "Number Synthesis"))
         self.graph_engine_text.setText(_translate("Form", "Graphviz and NetworkX engine: "))
+        self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
 
 import icons_rc
