@@ -42,8 +42,6 @@ class Permutations_show(QWidget, Ui_Form):
                 "circo"
             ])
             self.graph_engine.setCurrentIndex(4)
-        else:
-            self.graph_engine_text.setText("NetworkX engine: ")
         self.graph_engine.addItems([
             "shell",
             "circular",
@@ -51,8 +49,8 @@ class Permutations_show(QWidget, Ui_Form):
             "spectral",
             "random"
         ])
-        self.graph_link_as_node.clicked.connect(self.reloadAtlas)
-        self.graph_engine.currentIndexChanged.connect(self.reloadAtlas)
+        self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
+        self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)
@@ -114,11 +112,11 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setValue(progdlg.maximum())
             if answer:
                 self.answer = answer
-                self.reloadAtlas()
+                self.on_reload_atlas_clicked()
     
     @pyqtSlot()
     @pyqtSlot(str)
-    def reloadAtlas(self, p0=None):
+    def on_reload_atlas_clicked(self, p0=None):
         if self.answer:
             engine = self.graph_engine.currentText()
             self.Topologic_result.clear()

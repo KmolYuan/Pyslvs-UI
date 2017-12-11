@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>442</width>
+    <width>517</width>
     <height>609</height>
    </rect>
   </property>
@@ -151,7 +151,7 @@
          <item>
           <widget class="QLabel" name="graph_engine_text">
            <property name="text">
-            <string>Graphviz and NetworkX engine: </string>
+            <string>Engine: </string>
            </property>
           </widget>
          </item>
@@ -159,6 +159,17 @@
           <widget class="QComboBox" name="graph_engine">
            <property name="currentIndex">
             <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="reload_atlas">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
            </property>
           </widget>
          </item>

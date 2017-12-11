@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(442, 609)
+        Form.resize(517, 609)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -95,6 +95,13 @@ class Ui_Form(object):
         self.graph_engine = QtWidgets.QComboBox(self.verticalLayoutWidget_2)
         self.graph_engine.setObjectName("graph_engine")
         self.horizontalLayout.addWidget(self.graph_engine)
+        self.reload_atlas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        self.reload_atlas.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/icons/dataupdate.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.reload_atlas.setIcon(icon1)
+        self.reload_atlas.setObjectName("reload_atlas")
+        self.horizontalLayout.addWidget(self.reload_atlas)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.graph_link_as_node = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
