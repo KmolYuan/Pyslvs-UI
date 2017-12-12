@@ -16,7 +16,7 @@
 
 1. [Modules Requirement](#modules-requirement)
 
-    + [PyGraphviz](#pygraphviz)
+    + [Graphviz](#graphviz)
     + [PyQt Stuff](#pyqt-stuff)
 
 1. [Kernels Requirement](#kernels-requirement)
@@ -40,13 +40,7 @@ Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
 
 Cross-platform Development: Ubuntu and Windows (64-bit).
 
-AppImage of Ubuntu platform should install Graphviz.
-
-```bash
-$ sudo apt install graphviz
-```
-
-Excutable file of Windows platform has no requirement.
+You should install Graphviz first. See [here](#graphviz).
 
 **Please note that the other platforms may be available but I have not tested before.**
 
@@ -120,20 +114,19 @@ Makefile tool: [MinGW] for win64.
 > pip install -r requirements.txt
 ```
 
-## PyGraphviz
+## Graphviz
 
-PyGraphviz module provide some graph engine that can make the position of dots in atlas looks more pretty.
+Graphviz tools provide some graph engine that can make the position of dots in atlas looks more pretty.
 
-**Ubuntu**:
+Download it from [here](https://www.graphviz.org/) or:
 
 ```bash
-$ sudo apt -y install graphviz libgraphviz-dev pkg-config
-$ sudo pip3 install pygraphviz --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/"
+$ sudo apt install graphviz
 ```
 
-**Windows**:
+Windows user please make sure to add Graphviz `bin` folder path to environment variables.
 
-Unfortunately PyGraphviz does not provide 64-bit support for Windows platforms, so Pyslvs will not use Graphviz engine to draw the atlas.
+Then use the `dot` command to check if it works.
 
 ## PyQt Stuff
 
@@ -336,9 +329,9 @@ Including Python modules:
 * [openpyxl] (MIT)
 * [psutil] (BSD)
 * [peewee] (MIT)
-* [lark-parser] (MIT)
-* [networkx] (BSD 3-Clause)
-* [PyGraphviz](https://pygraphviz.github.io/) (BSD 3-Clause)
+* [Lark-parser] (MIT)
+* [NetworkX] (BSD 3-Clause)
+* [Pydot] (MIT)
 
 Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
 
@@ -366,8 +359,9 @@ Here is the **origin kernel** repository:
 [openpyxl]: http://openpyxl.readthedocs.io/
 [psutil]: https://github.com/giampaolo/psutil
 [peewee]: http://docs.peewee-orm.com/en/latest/
-[lark-parser]: https://github.com/erezsh/lark
-[networkx]: https://networkx.github.io/
+[Lark-parser]: https://github.com/erezsh/lark
+[NetworkX]: https://networkx.github.io/
+[Pydot]: https://github.com/erocarrera/pydot
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm

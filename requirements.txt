@@ -9,3 +9,4 @@ psutil
 peewee
 lark-parser
 networkx
+pydot

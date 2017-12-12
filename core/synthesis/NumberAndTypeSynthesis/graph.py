@@ -21,13 +21,16 @@ from ...QtModules import *
 from ...graphics.color import colorQt, colorNum
 from networkx import (
     Graph,
-    nx_agraph,
+    nx_pydot,
     shell_layout,
     circular_layout,
     spring_layout,
     spectral_layout,
     random_layout
 )
+
+class EngineError(Exception):
+    pass
 
 def engine_picker(G: Graph, engine: str):
     if engine=="random":
@@ -41,7 +44,10 @@ def engine_picker(G: Graph, engine: str):
     elif engine=="spectral":
         E = spectral_layout(G, scale=100)
     else:
-        E = nx_agraph.graphviz_layout(G, prog=engine)
+        try:
+            E = nx_pydot.graphviz_layout(G, prog=engine)
+        except:
+            raise EngineError("No Graphviz")
     pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
     x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
@@ -50,7 +56,10 @@ def engine_picker(G: Graph, engine: str):
 image_blank = lambda pos: QImage(QSize(*[max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2), QImage.Format_ARGB32_Premultiplied)
 
 def graph_node(G: Graph, width: int, engine: str):
-    pos = engine_picker(G, engine)
+    try:
+        pos = engine_picker(G, engine)
+    except EngineError as e:
+        raise e
     image = image_blank(pos)
     image.fill(Qt.transparent)
     painter = QPainter(image)
@@ -80,7 +89,10 @@ def graph_link(G: Graph, width: int, engine: str):
                 continue
             if (l1 in edge) or (l2 in edge):
                 G_.add_edge(i, j)
-    pos = engine_picker(G_, engine)
+    try:
+        pos = engine_picker(G_, engine)
+    except EngineError as e:
+        raise e
     image = image_blank(pos)
     image.fill(Qt.transparent)
     painter = QPainter(image)

@@ -20,9 +20,8 @@
 from ...QtModules import *
 from .number import NumberSynthesis
 from .topologic import topo, as_expression
-from .graph import graph_node, graph_link
+from .graph import graph_node, graph_link, EngineError
 from .Ui_Permutations import Ui_Form
-import os
 
 class Permutations_show(QWidget, Ui_Form):
     def __init__(self, parent):
@@ -33,22 +32,19 @@ class Permutations_show(QWidget, Ui_Form):
         self.answer = []
         self.NL_input.valueChanged.connect(self.setDOF)
         self.NJ_input.valueChanged.connect(self.setDOF)
-        if os.name=='posix':
-            self.graph_engine.addItems([
-                "dot",
-                "neato",
-                "fdp",
-                "twopi",
-                "circo"
-            ])
-            self.graph_engine.setCurrentIndex(4)
         self.graph_engine.addItems([
+            "dot",
+            "neato",
+            "fdp",
+            "twopi",
+            "circo",
             "shell",
             "circular",
             "spring",
             "spectral",
             "random"
         ])
+        self.graph_engine.setCurrentIndex(1)
         self.graph_degenerate.clicked.connect(self.on_Combine_type_clicked)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
@@ -135,15 +131,23 @@ class Permutations_show(QWidget, Ui_Form):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():
                     return
-                item = QListWidgetItem("No. {}".format(i))
+                item = QListWidgetItem("No. {}".format(i+1))
                 if self.graph_link_as_node.isChecked():
                     icon = graph_node
                 else:
                     icon = graph_link
-                item.setIcon(icon(G, self.Topologic_result.iconSize().width(), engine))
-                item.setToolTip(str(G.edges))
-                self.Topologic_result.addItem(item)
-                progdlg.setValue(i+1)
+                try:
+                    item.setIcon(icon(G, self.Topologic_result.iconSize().width(), engine))
+                except EngineError as e:
+                    progdlg.setValue(progdlg.maximum())
+                    dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
+                    dlg.show()
+                    dlg.exec_()
+                    break
+                else:
+                    item.setToolTip(str(G.edges))
+                    self.Topologic_result.addItem(item)
+                    progdlg.setValue(i+1)
     
     @pyqtSlot(QPoint)
     def Topologic_result_context_menu(self, point):
