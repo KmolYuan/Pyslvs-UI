@@ -49,6 +49,7 @@ class Permutations_show(QWidget, Ui_Form):
             "spectral",
             "random"
         ])
+        self.graph_degenerate.clicked.connect(self.on_Combine_type_clicked)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
@@ -107,8 +108,13 @@ class Permutations_show(QWidget, Ui_Form):
             def setjobFunc(job, maximum):
                 progdlg.setLabelText(job)
                 progdlg.setValue(0)
-                progdlg.setMaximum(maximum)
-            answer = topo([int(t.split(" = ")[1]) for t in r.text().split(", ")], setjobFunc, stopFunc)
+                progdlg.setMaximum(maximum+1)
+            answer = topo(
+                [int(t.split(" = ")[1]) for t in r.text().split(", ")],
+                not self.graph_degenerate.isChecked(),
+                setjobFunc,
+                stopFunc
+            )
             progdlg.setValue(progdlg.maximum())
             if answer:
                 self.answer = answer

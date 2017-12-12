@@ -19,6 +19,7 @@
 
 from networkx import (
     Graph,
+    triangles,
     is_connected,
     is_isomorphic
 )
@@ -34,7 +35,10 @@ as_expression = lambda G: tuple("L[L{}, L{}]".format(l1, l2) for l1, l2 in G.edg
 class TestError(Exception):
     pass
 
-def testG(G, answer):
+def testG(G, answer, degenerate):
+    if degenerate:
+        if not all(n==0 for n in triangles(G).values()):
+            raise TestError("has triangle")
     if not is_connected(G):
         raise TestError("is not connected")
     for G_ in answer:
@@ -42,7 +46,7 @@ def testG(G, answer):
             raise TestError("is isomorphic")
 
 #Linkage Topological Component
-def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda: False):
+def topo(iter: Iterable[int,], degenerate: bool, setjobFunc=lambda j, i:None, stopFunc=lambda: False):
     links = Counter()
     for i in range(sum(iter)):
         name = i
@@ -60,7 +64,7 @@ def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda: Fal
         match = set(combinations(connection_get(link), count))
         m = set()
         prod = list(product(edges_combinations, match))
-        setjobFunc("Match link #{}".format(link), len(prod)+1)
+        setjobFunc("Match link #{}".format(link), len(prod))
         for p1, p2 in prod:
             if stopFunc():
                 return
@@ -77,7 +81,7 @@ def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda: Fal
             edges_combinations = match
         else:
             edges_combinations = m
-    setjobFunc("Verify the graphs...", len(edges_combinations)+1)
+    setjobFunc("Verify the graphs...", len(edges_combinations))
     answer = []
     for edges in edges_combinations:
         if stopFunc():
@@ -85,7 +89,7 @@ def topo(iter: Iterable[int,], setjobFunc=lambda j, i:None, stopFunc=lambda: Fal
         G = Graph()
         G.add_edges_from(edges)
         try:
-            testG(G, answer)
+            testG(G, answer, degenerate)
         except TestError:
             continue
         answer.append(G)
