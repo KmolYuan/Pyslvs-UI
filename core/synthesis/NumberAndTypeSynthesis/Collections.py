@@ -89,7 +89,7 @@ class Collections_show(QWidget, Ui_Form):
             dlg.exec_()
             return
         self.Collections.append(G)
-        item = QListWidgetItem("No. {}".format(self.Collection_list.count()))
+        item = QListWidgetItem("No. {}".format(self.Collection_list.count()+1))
         if self.graph_link_as_node.isChecked():
             icon = graph_node
         else:
@@ -123,3 +123,32 @@ class Collections_show(QWidget, Ui_Form):
             return
         else:
             self.addCollection(edges)
+    
+    @pyqtSlot(QListWidgetItem, QListWidgetItem)
+    def on_Collection_list_currentItemChanged(self, item, p0):
+        self.delete_button.setEnabled(bool(item))
+        if item:
+            self.Preview_window.clear()
+            item_ = QListWidgetItem(item.text())
+            item_.setIcon(item.icon())
+            self.Preview_window.addItem(item_)
+            G = self.Collections[self.Collection_list.row(item)]
+            self.NL.setValue(len(G.nodes))
+            self.NJ.setValue(len(G.edges))
+            self.DOF.setValue(3*(self.NL.value()-1) - 2*self.NJ.value())
+    
+    @pyqtSlot()
+    def on_delete_button_clicked(self):
+        row = self.Collection_list.currentRow()
+        if row>-1:
+            self.Preview_window.clear()
+            self.NL.setValue(0)
+            self.NJ.setValue(0)
+            self.DOF.setValue(0)
+            self.Collection_list.takeItem(row)
+            del self.Collections[row]
+    
+    @pyqtSlot()
+    def on_grounded_button_clicked(self):
+        # TODO: grounded combinations
+        pass
