@@ -49,9 +49,10 @@ class Permutations_show(QWidget, Ui_Form):
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
-        self.copy_edges = QAction("Copy edges", self)
+        self.add_collection = QAction("Add to collection", self)
+        self.copy_edges = QAction("Copy connection", self)
         self.copy_image = QAction("Copy image", self)
-        self.popMenu_topo.addActions([self.copy_edges, self.copy_image])
+        self.popMenu_topo.addActions([self.add_collection, self.copy_edges, self.copy_image])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
     
@@ -69,7 +70,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.on_Combine_number_clicked()
     
     @pyqtSlot(int)
-    def setDOF(self):
+    def setDOF(self, p0=None):
         self.DOF_input.setValue(3*(self.NL_input.value()-1) - 2*self.NJ_input.value())
     
     #Show number of links with different number of joints.
@@ -119,7 +120,6 @@ class Permutations_show(QWidget, Ui_Form):
     @pyqtSlot(str)
     def on_reload_atlas_clicked(self, p0=None):
         if self.answer:
-            engine = self.graph_engine.currentText()
             self.Topologic_result.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
             progdlg.setWindowTitle("Type synthesis")
@@ -136,7 +136,7 @@ class Permutations_show(QWidget, Ui_Form):
                 else:
                     icon = graph_link
                 try:
-                    item.setIcon(icon(G, self.Topologic_result.iconSize().width(), engine))
+                    item.setIcon(icon(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
@@ -151,11 +151,14 @@ class Permutations_show(QWidget, Ui_Form):
     @pyqtSlot(QPoint)
     def Topologic_result_context_menu(self, point):
         index = self.Topologic_result.currentIndex().row()
+        self.add_collection.setEnabled(index>-1)
         self.copy_edges.setEnabled(index>-1)
         self.copy_image.setEnabled(index>-1)
         action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
         clipboard = QApplication.clipboard()
-        if action==self.copy_edges:
+        if action==self.add_collection:
+            self.addCollection(self.answer[index].edges)
+        elif action==self.copy_edges:
             clipboard.setText(str(self.answer[index].edges))
         elif action==self.copy_image:
             clipboard.setPixmap(self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()))

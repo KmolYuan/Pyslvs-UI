@@ -93,6 +93,7 @@ def initCustomWidgets(self):
     #Synthesis collections
     self.SynthesisCollections = SynthesisCollections(self)
     self.panelWidget.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
+    self.NumberAndTypeSynthesis.addCollection = self.SynthesisCollections.addCollection
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)

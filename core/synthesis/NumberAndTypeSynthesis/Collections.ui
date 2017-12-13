@@ -79,6 +79,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QPushButton" name="add_by_connection_button">
+     <property name="text">
+      <string>Add by connection</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QListWidget" name="Collection_list">
      <property name="contextMenuPolicy">
       <enum>Qt::CustomContextMenu</enum>

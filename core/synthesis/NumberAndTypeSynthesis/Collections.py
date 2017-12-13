@@ -18,12 +18,16 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+from networkx import Graph
+from .topologic import testG, TestError
+from .graph import graph_node, graph_link, EngineError
 from .Ui_Collections import Ui_Form
 
 class Collections_show(QWidget, Ui_Form):
     def __init__(self, parent=None):
         super(Collections_show, self).__init__(parent)
         self.setupUi(self)
+        self.Collections = []
         self.graph_engine.addItems([
             "dot",
             "neato",
@@ -37,3 +41,85 @@ class Collections_show(QWidget, Ui_Form):
             "random"
         ])
         self.graph_engine.setCurrentIndex(1)
+        self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
+        self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
+    
+    @pyqtSlot()
+    @pyqtSlot(str)
+    def on_reload_atlas_clicked(self, p0=None):
+        if self.Collections:
+            self.Collection_list.clear()
+            progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.Collections), self)
+            progdlg.setWindowTitle("Type synthesis")
+            progdlg.resize(400, progdlg.height())
+            progdlg.setModal(True)
+            progdlg.show()
+            for i, G in enumerate(self.Collections):
+                QCoreApplication.processEvents()
+                if progdlg.wasCanceled():
+                    return
+                item = QListWidgetItem("No. {}".format(i+1))
+                if self.graph_link_as_node.isChecked():
+                    icon = graph_node
+                else:
+                    icon = graph_link
+                try:
+                    item.setIcon(icon(G, self.Collection_list.iconSize().width(), self.graph_engine.currentText()))
+                except EngineError as e:
+                    progdlg.setValue(progdlg.maximum())
+                    dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
+                    dlg.show()
+                    dlg.exec_()
+                    break
+                else:
+                    item.setToolTip(str(G.edges))
+                    self.Collection_list.addItem(item)
+                    progdlg.setValue(i+1)
+    
+    def addCollection(self, edges):
+        G = Graph(edges)
+        try:
+            testG(G, self.Collections, False)
+            for n in G.nodes:
+                if len(list(G.neighbors(n)))<2:
+                    raise TestError("is not close chain")
+        except TestError as e:
+            dlg = QMessageBox(QMessageBox.Warning, str(e), "Error: {}".format(e), (QMessageBox.Ok), self)
+            dlg.show()
+            dlg.exec_()
+            return
+        self.Collections.append(G)
+        item = QListWidgetItem("No. {}".format(self.Collection_list.count()))
+        if self.graph_link_as_node.isChecked():
+            icon = graph_node
+        else:
+            icon = graph_link
+        try:
+            item.setIcon(icon(G, self.Collection_list.iconSize().width(), self.graph_engine.currentText()))
+        except EngineError as e:
+            progdlg.setValue(progdlg.maximum())
+            dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
+            dlg.show()
+            dlg.exec_()
+        else:
+            item.setToolTip(str(G.edges))
+            self.Collection_list.addItem(item)
+    
+    @pyqtSlot()
+    def on_add_by_connection_button_clicked(self):
+        edgesSTR = ""
+        while not edgesSTR:
+            edgesSTR, ok = QInputDialog.getText(self, "Add by connection", "Please enter a connection:")
+            if not ok:
+                return
+        try:
+            edges = eval(edgesSTR)
+            if any(len(edge)!=2 for edge in edges):
+                raise SyntaxError("Wrong format")
+        except Exception as e:
+            dlg = QMessageBox(QMessageBox.Warning, str(e), "Error: {}".format(e), (QMessageBox.Ok), self)
+            dlg.show()
+            dlg.exec_()
+            return
+        else:
+            self.addCollection(edges)
