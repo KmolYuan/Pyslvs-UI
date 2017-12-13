@@ -100,8 +100,6 @@ def graph_link(G: Graph, width: int, engine: str):
     pen = QPen()
     pen.setWidth(5)
     painter.setPen(pen)
-    for l1, l2 in G_.edges:
-        painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
     painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
     for l in G.nodes:
         painter.drawPolygon(*[QPointF(*pos[n]) for n, edge in nodes.items() if l in edge])

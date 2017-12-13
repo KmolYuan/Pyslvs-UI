@@ -63,10 +63,11 @@ class Permutations_show(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         self.Expression_joint.setText(", ".join(vpoint.joint for vpoint in jointData))
-        NL = sum(1 for vlink in linkData if len(vlink.points)>1)
-        NJ = sum(len(vpoint.links)-1 for vpoint in jointData if len(vpoint.links)>1)
-        self.NL_input.setValue(NL)
-        self.NJ_input.setValue(NJ)
+        self.NL_input.setValue(
+            sum(len(vlink.points)>1 for vlink in linkData)+
+            sum(len(vpoint.links)-1 for vpoint in jointData if vpoint.type==2 and len(vpoint.links)>1)
+        )
+        self.NJ_input.setValue(sum((len(vpoint.links)-1 + int(vpoint.type==2)) for vpoint in jointData if len(vpoint.links)>1))
         self.on_Combine_number_clicked()
     
     @pyqtSlot(int)
