@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-06, 22:56:58 -->
+<!-- Saved: 2017-12-13, 19:43:34 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -74,7 +74,9 @@
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
+    <Source>core/synthesis/NumberAndTypeSynthesis/Collections.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
+    <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Collections.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/graph.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/number.py</Source>
@@ -104,6 +106,7 @@
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_path_adjust.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_progress.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_series.ui</Form>
+    <Form>core/synthesis/NumberAndTypeSynthesis/Collections.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
   <Translations/>

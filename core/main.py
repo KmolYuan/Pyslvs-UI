@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
-        self.action_canvas_right_click_menu_path.setVisible(self.panelWidget.currentIndex()==1)
+        self.action_canvas_right_click_menu_path.setVisible(self.panelWidget.tabText(self.panelWidget.currentIndex())=="Dimensional")
         self.enablePointContext()
         selectionCount = len(self.Entities_Point.selectedRows())
         if selectionCount>1:
@@ -1054,7 +1054,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int)
     def on_panelWidget_currentChanged(self, index):
-        self.DynamicCanvasView.setShowSlvsPath(index==1)
+        self.DynamicCanvasView.setShowSlvsPath(self.panelWidget.tabText(self.panelWidget.currentIndex())=="Dimensional")
     
     def PathSolving_add_rightClick(self):
         self.DimensionalSynthesis.on_add_clicked(self.mouse_pos_x, self.mouse_pos_y)

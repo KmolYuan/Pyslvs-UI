@@ -28,6 +28,7 @@ from .table import (
 from .rotatable import RotatableView
 from ..io.peeweeIO import FileWidget
 from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as NumberAndTypeSynthesis
+from ..synthesis.NumberAndTypeSynthesis.Collections import Collections_show as SynthesisCollections
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
@@ -89,6 +90,9 @@ def initCustomWidgets(self):
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
     self.panelWidget.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
+    #Synthesis collections
+    self.SynthesisCollections = SynthesisCollections(self)
+    self.panelWidget.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)

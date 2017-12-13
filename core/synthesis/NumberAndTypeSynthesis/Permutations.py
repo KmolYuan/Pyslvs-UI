@@ -1,4 +1,4 @@
-0# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 ##Copyright (C) 2016-2017 Yuan Chang
 ##E-mail: pyslvs@gmail.com
@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .number import NumberSynthesis
-from .topologic import topo, as_expression
+from .topologic import topo
 from .graph import graph_node, graph_link, EngineError
 from .Ui_Permutations import Ui_Form
 
@@ -45,15 +45,13 @@ class Permutations_show(QWidget, Ui_Form):
             "random"
         ])
         self.graph_engine.setCurrentIndex(1)
-        self.graph_degenerate.clicked.connect(self.on_Combine_type_clicked)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
         self.copy_edges = QAction("Copy edges", self)
-        self.copy_expr = QAction("Copy expression", self)
         self.copy_image = QAction("Copy image", self)
-        self.popMenu_topo.addActions([self.copy_edges, self.copy_expr, self.copy_image])
+        self.popMenu_topo.addActions([self.copy_edges, self.copy_image])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
     
@@ -154,13 +152,10 @@ class Permutations_show(QWidget, Ui_Form):
     def Topologic_result_context_menu(self, point):
         index = self.Topologic_result.currentIndex().row()
         self.copy_edges.setEnabled(index>-1)
-        self.copy_expr.setEnabled(index>-1)
         self.copy_image.setEnabled(index>-1)
         action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
         clipboard = QApplication.clipboard()
         if action==self.copy_edges:
             clipboard.setText(str(self.answer[index].edges))
-        elif action==self.copy_expr:
-            clipboard.setText(str(as_expression(self.answer[index])))
         elif action==self.copy_image:
             clipboard.setPixmap(self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()))

@@ -30,8 +30,6 @@ from itertools import (
 from collections import Counter
 from typing import Iterable
 
-as_expression = lambda G: tuple("L[L{}, L{}]".format(l1, l2) for l1, l2 in G.edges)
-
 class TestError(Exception):
     pass
 
@@ -46,7 +44,7 @@ def testG(G, answer, degenerate):
             raise TestError("is isomorphic")
 
 #Linkage Topological Component
-def topo(iter: Iterable[int,], degenerate: bool, setjobFunc=lambda j, i:None, stopFunc=lambda: False):
+def topo(iter: Iterable[int,], degenerate: bool =True, setjobFunc=lambda j, i:None, stopFunc=lambda: False):
     links = Counter()
     for i in range(sum(iter)):
         name = i
@@ -100,6 +98,6 @@ if __name__=='__main__':
     answer = topo([4, 2])
     #Show tree
     for G in answer:
-        print(as_expression(G))
+        print(G.edges)
         print('-'*7)
     print("Answer count: {}".format(len(answer)))
