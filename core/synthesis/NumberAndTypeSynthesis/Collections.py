@@ -130,21 +130,21 @@ class Collections_show(QWidget, Ui_Form):
         if item:
             self.Preview_window.clear()
             item_ = QListWidgetItem(item.text())
-            item_.setIcon(item.icon())
+            item_.setIcon(QIcon(item.icon().pixmap(self.Preview_window.iconSize()).scaledToWidth(self.Preview_window.iconSize().width())))
             self.Preview_window.addItem(item_)
             G = self.Collections[self.Collection_list.row(item)]
-            self.NL.setValue(len(G.nodes))
-            self.NJ.setValue(len(G.edges))
-            self.DOF.setValue(3*(self.NL.value()-1) - 2*self.NJ.value())
+            self.NL.setText(str(len(G.nodes)))
+            self.NJ.setText(str(len(G.edges)))
+            self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
     
     @pyqtSlot()
     def on_delete_button_clicked(self):
         row = self.Collection_list.currentRow()
         if row>-1:
             self.Preview_window.clear()
-            self.NL.setValue(0)
-            self.NJ.setValue(0)
-            self.DOF.setValue(0)
+            self.NL.setText('0')
+            self.NJ.setText('0')
+            self.DOF.setText('0')
             self.Collection_list.takeItem(row)
             del self.Collections[row]
     

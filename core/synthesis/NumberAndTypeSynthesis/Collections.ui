@@ -88,8 +88,8 @@
          </property>
          <property name="iconSize">
           <size>
-           <width>200</width>
-           <height>200</height>
+           <width>100</width>
+           <height>100</height>
           </size>
          </property>
          <property name="movement">
@@ -152,12 +152,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="NL">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>≥3</string>
+            <widget class="QLabel" name="NL">
+             <property name="text">
+              <string>0</string>
              </property>
             </widget>
            </item>
@@ -169,15 +166,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="NJ">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="toolTip">
-              <string>8~18</string>
-             </property>
-             <property name="maximum">
-              <number>18</number>
+            <widget class="QLabel" name="NJ">
+             <property name="text">
+              <string>0</string>
              </property>
             </widget>
            </item>
@@ -189,9 +180,9 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="DOF">
-             <property name="enabled">
-              <bool>false</bool>
+            <widget class="QLabel" name="DOF">
+             <property name="text">
+              <string>0</string>
              </property>
             </widget>
            </item>
@@ -228,8 +219,8 @@
       </property>
       <property name="iconSize">
        <size>
-        <width>200</width>
-        <height>200</height>
+        <width>100</width>
+        <height>100</height>
        </size>
       </property>
       <property name="movement">
