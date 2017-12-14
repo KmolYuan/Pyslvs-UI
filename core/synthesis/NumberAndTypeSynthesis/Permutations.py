@@ -21,6 +21,7 @@ from ...QtModules import *
 from .number import NumberSynthesis
 from .topologic import topo
 from .graph import (
+    v_to_edges,
     graph_node,
     graph_link,
     EngineList,
@@ -64,7 +65,7 @@ class Permutations_show(QWidget, Ui_Form):
     def on_ReloadMechanism_clicked(self):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
-        self.Expression_joint.setText(", ".join(vpoint.joint for vpoint in jointData))
+        self.Expression_joint.setText(v_to_edges(jointData, linkData))
         self.NL_input.setValue(
             sum(len(vlink.points)>1 for vlink in linkData)+
             sum(len(vpoint.links)-1 for vpoint in jointData if vpoint.type==2 and len(vpoint.links)>1)
@@ -122,8 +123,8 @@ class Permutations_show(QWidget, Ui_Form):
     @pyqtSlot()
     @pyqtSlot(str)
     def on_reload_atlas_clicked(self, p0=None):
+        self.Topologic_result.clear()
         if self.answer:
-            self.Topologic_result.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
             progdlg.setWindowTitle("Type synthesis")
             progdlg.resize(400, progdlg.height())

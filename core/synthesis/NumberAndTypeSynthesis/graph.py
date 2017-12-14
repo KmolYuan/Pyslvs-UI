@@ -28,6 +28,23 @@ from networkx import (
     spectral_layout,
     random_layout
 )
+from typing import Tuple
+
+def v_to_edges(jointData: Tuple['VPoint'], linkData: Tuple['VLink']):
+    G = Graph()
+    #Links name for RP joint.
+    k = len(linkData)
+    for i, vlink in enumerate(linkData):
+        for p in vlink.points:
+            match = [m for m, vlink_ in enumerate(linkData) if i!=m and (p in vlink_.points)]
+            for m in match:
+                if jointData[p].type==2:
+                    G.add_edge(i, k)
+                    G.add_edge(k, m)
+                    k += 1
+                else:
+                    G.add_edge(i, m)
+    return str(list(G.edges))
 
 EngineList = [
     "dot",
