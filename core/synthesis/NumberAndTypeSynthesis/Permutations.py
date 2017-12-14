@@ -53,7 +53,7 @@ class Permutations_show(QWidget, Ui_Form):
     
     def clear(self):
         self.answer.clear()
-        self.Expression_joint.clear()
+        self.Expression_edges.clear()
         self.Expression_number.clear()
         self.Topologic_result.clear()
         self.NL_input.setValue(0)
@@ -65,7 +65,10 @@ class Permutations_show(QWidget, Ui_Form):
     def on_ReloadMechanism_clicked(self):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
-        self.Expression_joint.setText(v_to_edges(jointData, linkData))
+        if jointData and linkData:
+            self.Expression_edges.setText(v_to_edges(jointData, linkData))
+        else:
+            self.Expression_edges.setText("")
         self.NL_input.setValue(
             sum(len(vlink.points)>1 for vlink in linkData)+
             sum(len(vpoint.links)-1 for vpoint in jointData if vpoint.type==2 and len(vpoint.links)>1)
@@ -159,10 +162,25 @@ class Permutations_show(QWidget, Ui_Form):
         self.copy_edges.setEnabled(index>-1)
         self.copy_image.setEnabled(index>-1)
         action = self.popMenu_topo.exec_(self.Topologic_result.mapToGlobal(point))
-        clipboard = QApplication.clipboard()
-        if action==self.add_collection:
-            self.addCollection(self.answer[index].edges)
-        elif action==self.copy_edges:
-            clipboard.setText(str(self.answer[index].edges))
-        elif action==self.copy_image:
-            clipboard.setPixmap(self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()))
+        if action:
+            clipboard = QApplication.clipboard()
+            if action==self.add_collection:
+                self.addCollection(self.answer[index].edges)
+            elif action==self.copy_edges:
+                clipboard.setText(str(self.answer[index].edges))
+            elif action==self.copy_image:
+                clipboard.setPixmap(self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()))
+    
+    @pyqtSlot()
+    def on_Expression_copy_clicked(self):
+        string = self.Expression_edges.text()
+        if string:
+            clipboard = QApplication.clipboard()
+            clipboard.setText(string)
+            self.Expression_edges.selectAll()
+    
+    @pyqtSlot()
+    def on_Expression_add_collection_clicked(self):
+        string = self.Expression_edges.text()
+        if string:
+            self.addCollection(eval(string))

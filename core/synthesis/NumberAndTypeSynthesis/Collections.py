@@ -142,9 +142,13 @@ class Collections_show(QWidget, Ui_Form):
         if item:
             self.Preview_window.clear()
             item_ = QListWidgetItem(item.text())
-            item_.setIcon(QIcon(item.icon().pixmap(self.Preview_window.iconSize()).scaledToWidth(self.Preview_window.iconSize().width())))
-            self.Preview_window.addItem(item_)
+            if self.graph_link_as_node.isChecked():
+                icon = graph_node
+            else:
+                icon = graph_link
             G = self.Collections[self.Collection_list.row(item)]
+            item_.setIcon(icon(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText()))
+            self.Preview_window.addItem(item_)
             self.NL.setText(str(len(G.nodes)))
             self.NJ.setText(str(len(G.edges)))
             self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
