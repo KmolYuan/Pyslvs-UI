@@ -29,6 +29,19 @@ from networkx import (
     random_layout
 )
 
+EngineList = [
+    "dot",
+    "neato",
+    "fdp",
+    "twopi",
+    "circo",
+    "shell",
+    "circular",
+    "spring",
+    "spectral",
+    "random"
+]
+
 class EngineError(Exception):
     pass
 

@@ -20,7 +20,12 @@
 from ...QtModules import *
 from .number import NumberSynthesis
 from .topologic import topo
-from .graph import graph_node, graph_link, EngineError
+from .graph import (
+    graph_node,
+    graph_link,
+    EngineList,
+    EngineError
+)
 from .Ui_Permutations import Ui_Form
 
 class Permutations_show(QWidget, Ui_Form):
@@ -32,18 +37,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.answer = []
         self.NL_input.valueChanged.connect(self.setDOF)
         self.NJ_input.valueChanged.connect(self.setDOF)
-        self.graph_engine.addItems([
-            "dot",
-            "neato",
-            "fdp",
-            "twopi",
-            "circo",
-            "shell",
-            "circular",
-            "spring",
-            "spectral",
-            "random"
-        ])
+        self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(1)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
@@ -55,6 +49,15 @@ class Permutations_show(QWidget, Ui_Form):
         self.popMenu_topo.addActions([self.add_collection, self.copy_edges, self.copy_image])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
+    
+    def clear(self):
+        self.answer.clear()
+        self.Expression_joint.clear()
+        self.Expression_number.clear()
+        self.Topologic_result.clear()
+        self.NL_input.setValue(0)
+        self.NJ_input.setValue(0)
+        self.DOF_input.setValue(0)
     
     #Reload button: Auto-combine the mechanism from the workbook.
     @pyqtSlot()

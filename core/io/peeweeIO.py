@@ -86,6 +86,8 @@ class CommitModel(Model):
     linkcolor = BlobField()
     #Path data
     pathdata = BlobField()
+    #Collection data
+    collectiondata = BlobField()
     #Algorithm data
     algorithmdata = BlobField()
     class Meta:
@@ -131,6 +133,8 @@ class FileWidget(QWidget, Ui_Form):
         '''
         Mentioned in "core.widgets.custom", because DimensionalSynthesis created after FileWidget.
         
+        self.CollectDataFunc = lambda: [list(G.edges) for G in parent.NumberAndTypeSynthesis.Collections] #Call to get Collections data
+        self.loadCollectFunc = parent.NumberAndTypeSynthesis.addCollections #Call to load Collections data.
         self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
         '''
         #Close database when destroyed.
@@ -210,6 +214,7 @@ class FileWidget(QWidget, Ui_Form):
                 'mechanism':compress("M[{}]".format(", ".join(str(vpoint) for vpoint in pointData))),
                 'linkcolor':compress(linkcolor),
                 'pathdata':compress(self.pathData),
+                'collectiondata':compress(self.CollectDataFunc()),
                 'algorithmdata':compress(self.Designs.result),
                 'branch':branch_model
             }
@@ -329,6 +334,8 @@ class FileWidget(QWidget, Ui_Form):
             self.parseFunc(decompress(commit.mechanism))
             #Load pathdata.
             self.loadPathFunc(decompress(commit.pathdata))
+            #Load collectiondata.
+            self.loadCollectFunc(decompress(commit.collectiondata))
             #Load algorithmdata.
             self.Designs.result = decompress(commit.algorithmdata)
             self.loadAlgorithmFunc()

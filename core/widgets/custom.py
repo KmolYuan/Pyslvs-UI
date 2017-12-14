@@ -92,8 +92,10 @@ def initCustomWidgets(self):
     self.panelWidget.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
     #Synthesis collections
     self.SynthesisCollections = SynthesisCollections(self)
-    self.panelWidget.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
     self.NumberAndTypeSynthesis.addCollection = self.SynthesisCollections.addCollection
+    self.FileWidget.CollectDataFunc = lambda: [tuple(G.edges) for G in self.SynthesisCollections.Collections] #Call to get Collections data.
+    self.FileWidget.loadCollectFunc = self.SynthesisCollections.addCollections #Call to load Collections data.
+    self.panelWidget.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)

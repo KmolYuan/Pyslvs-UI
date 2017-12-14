@@ -353,7 +353,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileWidget.colseDatabase()
             print("Created a new workbook.")
     
+    #Clear to create commit stage.
     def clear(self):
+        self.SynthesisCollections.clear()
+        self.NumberAndTypeSynthesis.clear()
         self.inputs_record.clear()
         self.inputs_variable.clear()
         self.DimensionalSynthesis.clear()

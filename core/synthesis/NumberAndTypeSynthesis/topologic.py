@@ -43,6 +43,7 @@ def testG(G, answer, degenerate):
         if is_isomorphic(G, G_):
             raise TestError("is isomorphic")
 
+#TODO: The function must be accelerated.
 #Linkage Topological Component
 def topo(iter: Iterable[int,], degenerate: bool =True, setjobFunc=lambda j, i:None, stopFunc=lambda: False):
     links = Counter()

@@ -20,7 +20,12 @@
 from ...QtModules import *
 from networkx import Graph
 from .topologic import testG, TestError
-from .graph import graph_node, graph_link, EngineError
+from .graph import (
+    graph_node,
+    graph_link,
+    EngineList,
+    EngineError
+)
 from .Ui_Collections import Ui_Form
 
 class Collections_show(QWidget, Ui_Form):
@@ -28,22 +33,21 @@ class Collections_show(QWidget, Ui_Form):
         super(Collections_show, self).__init__(parent)
         self.setupUi(self)
         self.Collections = []
-        self.graph_engine.addItems([
-            "dot",
-            "neato",
-            "fdp",
-            "twopi",
-            "circo",
-            "shell",
-            "circular",
-            "spring",
-            "spectral",
-            "random"
-        ])
+        self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(1)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
     
+    def clear(self):
+        self.Collections.clear()
+        self.Collection_list.clear()
+        self.Preview_window.clear()
+        self.NL.setText('0')
+        self.NJ.setText('0')
+        self.DOF.setText('0')
+        self.grounded_list.clear()
+    
+    #Reload atlas with the engine.
     @pyqtSlot()
     @pyqtSlot(str)
     def on_reload_atlas_clicked(self, p0=None):
@@ -76,6 +80,7 @@ class Collections_show(QWidget, Ui_Form):
                     self.Collection_list.addItem(item)
                     progdlg.setValue(i+1)
     
+    #Add collection by in put edges.
     def addCollection(self, edges):
         G = Graph(edges)
         try:
@@ -105,6 +110,12 @@ class Collections_show(QWidget, Ui_Form):
             item.setToolTip(str(G.edges))
             self.Collection_list.addItem(item)
     
+    #Add collections.
+    def addCollections(self, Collections):
+        for c in Collections:
+            self.addCollection(c)
+    
+    #Add collection by input string.
     @pyqtSlot()
     def on_add_by_connection_button_clicked(self):
         edgesSTR = ""
@@ -124,6 +135,7 @@ class Collections_show(QWidget, Ui_Form):
         else:
             self.addCollection(edges)
     
+    #Show the data of collection.
     @pyqtSlot(QListWidgetItem, QListWidgetItem)
     def on_Collection_list_currentItemChanged(self, item, p0):
         self.delete_button.setEnabled(bool(item))
@@ -137,6 +149,7 @@ class Collections_show(QWidget, Ui_Form):
             self.NJ.setText(str(len(G.edges)))
             self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
     
+    #Delete the selected collection.
     @pyqtSlot()
     def on_delete_button_clicked(self):
         row = self.Collection_list.currentRow()
