@@ -156,7 +156,6 @@ class Ui_Form(object):
         self.branch_delete.setText(_translate("Form", "Delete"))
         self.AuthorList_text.setText(_translate("Form", "Author list:"))
         self.FileAuthor_text.setText(_translate("Form", "Author:"))
-        self.FileAuthor.setPlaceholderText(_translate("Form", "Anonymous"))
         self.FileDescription_text.setText(_translate("Form", "Description:"))
         self.FileDescription.setPlaceholderText(_translate("Form", "Explain what you have done here (required)."))
         self.commit_add.setStatusTip(_translate("Form", "Save the changes for this phase and provide backtracking points for this phase."))

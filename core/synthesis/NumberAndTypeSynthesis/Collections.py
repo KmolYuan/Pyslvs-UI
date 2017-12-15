@@ -21,8 +21,7 @@ from ...QtModules import *
 from networkx import Graph
 from .topologic import testG, TestError
 from .graph import (
-    graph_node,
-    graph_link,
+    graph,
     EngineList,
     EngineError
 )
@@ -37,11 +36,13 @@ class Collections_show(QWidget, Ui_Form):
         self.graph_engine.setCurrentIndex(1)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
+        self.unsaveFunc = parent.workbookNoSave
     
     def clear(self):
         self.Collections.clear()
         self.Collection_list.clear()
         self.Preview_window.clear()
+        self.Expression_edges.clear()
         self.NL.setText('0')
         self.NJ.setText('0')
         self.DOF.setText('0')
@@ -63,12 +64,8 @@ class Collections_show(QWidget, Ui_Form):
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
-                if self.graph_link_as_node.isChecked():
-                    icon = graph_node
-                else:
-                    icon = graph_link
                 try:
-                    item.setIcon(icon(G, self.Collection_list.iconSize().width(), self.graph_engine.currentText()))
+                    item.setIcon(graph(G, self.Collection_list.iconSize().width(), self.graph_engine.currentText(), self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
@@ -109,6 +106,7 @@ class Collections_show(QWidget, Ui_Form):
         else:
             item.setToolTip(str(G.edges))
             self.Collection_list.addItem(item)
+            self.unsaveFunc()
     
     #Add collections.
     def addCollections(self, Collections):
@@ -117,10 +115,10 @@ class Collections_show(QWidget, Ui_Form):
     
     #Add collection by input string.
     @pyqtSlot()
-    def on_add_by_connection_button_clicked(self):
+    def on_add_by_edges_button_clicked(self):
         edgesSTR = ""
         while not edgesSTR:
-            edgesSTR, ok = QInputDialog.getText(self, "Add by connection", "Please enter a connection:")
+            edgesSTR, ok = QInputDialog.getText(self, "Add by edges", "Please enter a connection:")
             if not ok:
                 return
         try:
@@ -149,9 +147,18 @@ class Collections_show(QWidget, Ui_Form):
             G = self.Collections[self.Collection_list.row(item)]
             item_.setIcon(icon(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText()))
             self.Preview_window.addItem(item_)
+            self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))
             self.NJ.setText(str(len(G.edges)))
             self.DOF.setText(str(3*(int(self.NL.text())-1) - 2*int(self.NJ.text())))
+    
+    @pyqtSlot()
+    def on_Expression_copy_clicked(self):
+        string = self.Expression_edges.text()
+        if string:
+            clipboard = QApplication.clipboard()
+            clipboard.setText(string)
+            self.Expression_edges.selectAll()
     
     #Delete the selected collection.
     @pyqtSlot()
@@ -159,6 +166,7 @@ class Collections_show(QWidget, Ui_Form):
         row = self.Collection_list.currentRow()
         if row>-1:
             self.Preview_window.clear()
+            self.Expression_edges.clear()
             self.NL.setText('0')
             self.NJ.setText('0')
             self.DOF.setText('0')

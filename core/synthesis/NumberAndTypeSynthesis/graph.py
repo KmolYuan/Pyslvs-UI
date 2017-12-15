@@ -83,59 +83,44 @@ def engine_picker(G: Graph, engine: str):
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
     return {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
 
-image_blank = lambda pos: QImage(QSize(*[max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2]*2), QImage.Format_ARGB32_Premultiplied)
-
-def graph_node(G: Graph, width: int, engine: str):
+def graph(G: Graph, width: int, engine: str, node_mode: bool):
+    if not node_mode:
+        G_ = Graph()
+        nodes = {i:edge for i, edge in enumerate(G.edges)}
+        for i, (l1, l2) in nodes.items():
+            for j, edge in nodes.items():
+                if i==j:
+                    continue
+                if (l1 in edge) or (l2 in edge):
+                    G_.add_edge(i, j)
     try:
-        pos = engine_picker(G, engine)
+        if node_mode:
+            pos = engine_picker(G, engine)
+        else:
+            pos = engine_picker(G_, engine)
     except EngineError as e:
         raise e
-    image = image_blank(pos)
+    width_ = max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2
+    image = QImage(QSize(width_, width_), QImage.Format_ARGB32_Premultiplied)
     image.fill(Qt.transparent)
     painter = QPainter(image)
     painter.translate(image.width()/2, image.height()/2)
     pen = QPen()
-    pen.setWidth(5)
+    r = width_ / 33.78744
+    pen.setWidth(r)
     painter.setPen(pen)
-    for l1, l2 in G.edges:
-        painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
-    r = 5
+    if node_mode:
+        for l1, l2 in G.edges:
+            painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
+    else:
+        painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+        for l in G.nodes:
+            painter.drawPolygon(*[QPointF(*pos[n]) for n, edge in nodes.items() if l in edge])
     for k, (x, y) in pos.items():
-        color = colorNum(len(list(G.neighbors(k)))-1)
-        pen.setColor(color)
-        painter.setPen(pen)
-        painter.setBrush(QBrush(color))
-        painter.drawEllipse(QPointF(x, y), r, r)
-    painter.end()
-    return QIcon(QPixmap.fromImage(image).scaledToWidth(width))
-
-#Translate node from linkage to joint.
-def graph_link(G: Graph, width: int, engine: str):
-    G_ = Graph()
-    nodes = {i:edge for i, edge in enumerate(G.edges)}
-    for i, (l1, l2) in nodes.items():
-        for j, edge in nodes.items():
-            if i==j:
-                continue
-            if (l1 in edge) or (l2 in edge):
-                G_.add_edge(i, j)
-    try:
-        pos = engine_picker(G_, engine)
-    except EngineError as e:
-        raise e
-    image = image_blank(pos)
-    image.fill(Qt.transparent)
-    painter = QPainter(image)
-    painter.translate(image.width()/2, image.height()/2)
-    pen = QPen()
-    pen.setWidth(5)
-    painter.setPen(pen)
-    painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
-    for l in G.nodes:
-        painter.drawPolygon(*[QPointF(*pos[n]) for n, edge in nodes.items() if l in edge])
-    r = 5
-    for k, (x, y) in pos.items():
-        color = colorQt('Blue')
+        if node_mode:
+            color = colorNum(len(list(G.neighbors(k)))-1)
+        else:
+            color = colorQt('Blue')
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))

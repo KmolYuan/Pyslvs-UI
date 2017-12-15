@@ -65,6 +65,10 @@
        <property name="text">
         <string>Analyze from workbook</string>
        </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
+       </property>
        <property name="autoDefault">
         <bool>true</bool>
        </property>

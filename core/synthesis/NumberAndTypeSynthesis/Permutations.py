@@ -22,8 +22,7 @@ from .number import NumberSynthesis
 from .topologic import topo
 from .graph import (
     v_to_edges,
-    graph_node,
-    graph_link,
+    graph,
     EngineList,
     EngineError
 )
@@ -44,8 +43,8 @@ class Permutations_show(QWidget, Ui_Form):
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
-        self.add_collection = QAction("Add to collection", self)
-        self.copy_edges = QAction("Copy connection", self)
+        self.add_collection = QAction(QIcon(QPixmap(":/icons/collections.png")), "Add to collection", self)
+        self.copy_edges = QAction("Copy edges", self)
         self.copy_image = QAction("Copy image", self)
         self.popMenu_topo.addActions([self.add_collection, self.copy_edges, self.copy_image])
         self.jointDataFunc = parent.Entities_Point.data
@@ -138,12 +137,8 @@ class Permutations_show(QWidget, Ui_Form):
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
-                if self.graph_link_as_node.isChecked():
-                    icon = graph_node
-                else:
-                    icon = graph_link
                 try:
-                    item.setIcon(icon(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText()))
+                    item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText(), self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
