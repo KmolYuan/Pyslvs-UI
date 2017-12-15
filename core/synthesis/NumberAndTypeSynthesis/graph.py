@@ -34,8 +34,11 @@ def v_to_edges(jointData: Tuple['VPoint'], linkData: Tuple['VLink']):
     G = Graph()
     #Links name for RP joint.
     k = len(linkData)
+    used_point = []
     for i, vlink in enumerate(linkData):
         for p in vlink.points:
+            if p in used_point:
+                continue
             match = [m for m, vlink_ in enumerate(linkData) if i!=m and (p in vlink_.points)]
             for m in match:
                 if jointData[p].type==2:
@@ -44,6 +47,7 @@ def v_to_edges(jointData: Tuple['VPoint'], linkData: Tuple['VLink']):
                     k += 1
                 else:
                     G.add_edge(i, m)
+            used_point.append(p)
     return str(list(G.edges))
 
 EngineList = [

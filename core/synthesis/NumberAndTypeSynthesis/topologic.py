@@ -19,6 +19,7 @@
 
 from networkx import (
     Graph,
+    compose,
     triangles,
     is_connected,
     is_isomorphic
@@ -33,10 +34,12 @@ from typing import Iterable
 class TestError(Exception):
     pass
 
-def testG(G, answer, degenerate):
+def testT(G, degenerate):
     if degenerate:
         if not all(n==0 for n in triangles(G).values()):
             raise TestError("has triangle")
+
+def testG(G, answer):
     if not is_connected(G):
         raise TestError("is not connected")
     for G_ in answer:
@@ -45,7 +48,7 @@ def testG(G, answer, degenerate):
 
 #TODO: The function must be accelerated.
 #Linkage Topological Component
-def topo(iter: Iterable[int,], degenerate: bool =True, setjobFunc=lambda j, i:None, stopFunc=lambda: False):
+def topo(iter: Iterable[int,], degenerate: bool, setjobFunc=lambda j, i:None, stopFunc=lambda: False):
     links = Counter()
     for i in range(sum(iter)):
         name = i
@@ -58,37 +61,37 @@ def topo(iter: Iterable[int,], degenerate: bool =True, setjobFunc=lambda j, i:No
         links[name] = joint_count
     connection = list(combinations(range(sum(iter)), 2))
     connection_get = lambda i, limit=(): (c for c in connection if (i in c) and all(l not in c for l in limit))
-    edges_combinations = set()
+    edges_combinations = []
     for link, count in links.items():
-        match = set(combinations(connection_get(link), count))
-        m = set()
+        match = [Graph(m) for m in combinations(connection_get(link), count)]
+        match_ = []
         prod = list(product(edges_combinations, match))
-        setjobFunc("Match link #{}".format(link), len(prod))
-        for p1, p2 in prod:
+        setjobFunc("Match link #{} / {}".format(link, len(links)-1), len(prod))
+        for G, H in prod:
             if stopFunc():
                 return
-            combin = tuple(set(p1)|set(p2))
+            G = compose(G, H)
             error = False
-            for link, count in links.items():
-                if sum((link in c) for c in combin)>count:
+            for n in G.nodes:
+                if len(list(G.neighbors(n)))>links[n]:
                     error = True
                     break
             if error:
                 continue
-            m.add(combin)
+            if degenerate and not all(n==0 for n in triangles(G).values()):
+                continue
+            match_.append(G)
         if not edges_combinations:
             edges_combinations = match
         else:
-            edges_combinations = m
+            edges_combinations = match_
     setjobFunc("Verify the graphs...", len(edges_combinations))
     answer = []
-    for edges in edges_combinations:
+    for G in edges_combinations:
         if stopFunc():
             return
-        G = Graph()
-        G.add_edges_from(edges)
         try:
-            testG(G, answer, degenerate)
+            testG(G, answer)
         except TestError:
             continue
         answer.append(G)
@@ -96,7 +99,7 @@ def topo(iter: Iterable[int,], degenerate: bool =True, setjobFunc=lambda j, i:No
 
 if __name__=='__main__':
     print("Topologic test")
-    answer = topo([4, 2])
+    answer = topo([4, 2], degenerate=True)
     #Show tree
     for G in answer:
         print(G.edges)

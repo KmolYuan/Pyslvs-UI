@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from networkx import Graph
-from .topologic import testG, TestError
+from .topologic import testT, TestError
 from .graph import (
     graph,
     EngineList,
@@ -81,7 +81,7 @@ class Collections_show(QWidget, Ui_Form):
     def addCollection(self, edges):
         G = Graph(edges)
         try:
-            testG(G, self.Collections, False)
+            testT(G, False)
             for n in G.nodes:
                 if len(list(G.neighbors(n)))<2:
                     raise TestError("is not close chain")
@@ -91,22 +91,8 @@ class Collections_show(QWidget, Ui_Form):
             dlg.exec_()
             return
         self.Collections.append(G)
-        item = QListWidgetItem("No. {}".format(self.Collection_list.count()+1))
-        if self.graph_link_as_node.isChecked():
-            icon = graph_node
-        else:
-            icon = graph_link
-        try:
-            item.setIcon(icon(G, self.Collection_list.iconSize().width(), self.graph_engine.currentText()))
-        except EngineError as e:
-            progdlg.setValue(progdlg.maximum())
-            dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
-            dlg.show()
-            dlg.exec_()
-        else:
-            item.setToolTip(str(G.edges))
-            self.Collection_list.addItem(item)
-            self.unsaveFunc()
+        self.unsaveFunc()
+        self.on_reload_atlas_clicked()
     
     #Add collections.
     def addCollections(self, Collections):
@@ -140,12 +126,8 @@ class Collections_show(QWidget, Ui_Form):
         if item:
             self.Preview_window.clear()
             item_ = QListWidgetItem(item.text())
-            if self.graph_link_as_node.isChecked():
-                icon = graph_node
-            else:
-                icon = graph_link
             G = self.Collections[self.Collection_list.row(item)]
-            item_.setIcon(icon(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText()))
+            item_.setIcon(graph(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText(), self.graph_link_as_node.isChecked()))
             self.Preview_window.addItem(item_)
             self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))
