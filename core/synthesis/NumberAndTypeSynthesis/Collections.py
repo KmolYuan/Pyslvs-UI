@@ -59,13 +59,14 @@ class Collections_show(QWidget, Ui_Form):
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
+            engine = self.graph_engine.currentText().split(" - ")[1]
             for i, G in enumerate(self.Collections):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
                 try:
-                    item.setIcon(graph(G, self.Collection_list.iconSize().width(), self.graph_engine.currentText(), self.graph_link_as_node.isChecked()))
+                    item.setIcon(graph(G, self.Collection_list.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
@@ -127,7 +128,7 @@ class Collections_show(QWidget, Ui_Form):
             self.Preview_window.clear()
             item_ = QListWidgetItem(item.text())
             G = self.Collections[self.Collection_list.row(item)]
-            item_.setIcon(graph(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText(), self.graph_link_as_node.isChecked()))
+            item_.setIcon(graph(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText().split(" - ")[1], self.graph_link_as_node.isChecked()))
             self.Preview_window.addItem(item_)
             self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))

@@ -39,14 +39,11 @@ from .calculation.planarSolving import (
     slvsProcess,
     SlvsException
 )
-'''
-from .io.dxfType import dxfTypeSettings
-from .io.slvsType import slvsTypeSettings
-from .io.slvsForm.sketch import slvs2D
-'''
+#slvs format
+from .io.slvsIO import slvs2D
 #Logging
 from .io.loggingHandler import XStream
-#Write CSV
+#CSV format
 import csv
 #Parser
 from .io.larkParser import parser, ArgsTransformer
@@ -470,7 +467,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Save_branch_triggered(self):
         self.on_action_Save_triggered(True)
     
-    #TODO: Solvespace 2d save function.
+    #Solvespace 2d save function.
+    @pyqtSlot()
+    def on_action_Solvespace_2D_sketch_triggered(self):
+        fileName = self.outputTo("Solvespace sketch", ['Solvespace module(*.slvs)'])
+        if fileName:
+            slvs2D(self.Entities_Point.data(), self.Entities_Link.data(), fileName)
+            self.saveReplyBox("Solvespace sketch", fileName)
     
     #TODO: DXF 2d save function.
     

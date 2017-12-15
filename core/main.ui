@@ -1682,9 +1682,6 @@
    </property>
   </action>
   <action name="action_Solvespace_2D_sketch">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>

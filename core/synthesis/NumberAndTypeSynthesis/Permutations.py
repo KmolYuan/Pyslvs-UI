@@ -132,13 +132,14 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
+            engine = self.graph_engine.currentText().split(" - ")[1]
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
                 try:
-                    item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.graph_engine.currentText(), self.graph_link_as_node.isChecked()))
+                    item.setIcon(graph(G, self.Topologic_result.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
