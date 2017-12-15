@@ -791,7 +791,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.FileState.endMacro()
     
     @pyqtSlot()
-    def canvasCapture(self):
+    def on_action_Output_to_Picture_clipboard_triggered(self):
         clipboard = QApplication.clipboard()
         pixmap = self.DynamicCanvasView.grab()
         clipboard.setPixmap(pixmap)

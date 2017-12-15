@@ -18,7 +18,6 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from ..info.info import VERSION
 from ..graphics.canvas import DynamicCanvas
 from .table import (
     PointTableWidget,
@@ -32,19 +31,6 @@ from ..synthesis.NumberAndTypeSynthesis.Collections import Collections_show as S
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
-    #Version text and canvas capture button.
-    CanvasCaptureButton = QPushButton()
-    CanvasCaptureButton.setIcon(QIcon(QPixmap(":/icons/capture.png")))
-    CanvasCaptureButton.setToolTip("Canvas capture")
-    CanvasCaptureButton.setStatusTip("Make a canvas capture to the clipboard.")
-    CanvasCaptureButton.clicked.connect(self.canvasCapture)
-    VersionLabel = QLabel("Version {}.{}.{} ({})".format(*VERSION))
-    w = QWidget(self)
-    l = QHBoxLayout(w)
-    l.setContentsMargins(0, 0, 0, 0)
-    l.addWidget(CanvasCaptureButton)
-    l.addWidget(VersionLabel)
-    self.menuBar.setCornerWidget(w)
     #Entities tables.
     self.Entities_Point = PointTableWidget(self.Entities_Point_Widget)
     self.Entities_Point.cellDoubleClicked.connect(self.on_action_Edit_Point_triggered)

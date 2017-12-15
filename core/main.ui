@@ -1322,6 +1322,7 @@
      <addaction name="OtherFormatMenuTitle"/>
      <addaction name="action_Output_to_Expression"/>
      <addaction name="action_Output_to_Picture"/>
+     <addaction name="action_Output_to_Picture_clipboard"/>
      <addaction name="action_Output_to_PMKS"/>
     </widget>
     <widget class="QMenu" name="menuImport">
@@ -1920,6 +1921,15 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="action_Output_to_Picture_clipboard">
+   <property name="icon">
+    <iconset resource="../icons.qrc">
+     <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+   </property>
+   <property name="text">
+    <string>Image to clipboard</string>
    </property>
   </action>
  </widget>
