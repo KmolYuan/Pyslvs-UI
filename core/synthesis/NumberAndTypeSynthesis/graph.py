@@ -51,15 +51,15 @@ def v_to_edges(jointData: Tuple['VPoint'], linkData: Tuple['VLink']):
     return str(list(G.edges))
 
 EngineList = [
+    "NetworkX - circular",
+    "NetworkX - shell",
+    "NetworkX - spring",
+    "NetworkX - spectral",
     "Graphviz - dot",
     "Graphviz - neato",
     "Graphviz - fdp",
     "Graphviz - twopi",
     "Graphviz - circo",
-    "NetworkX - shell",
-    "NetworkX - circular",
-    "NetworkX - spring",
-    "NetworkX - spectral",
     "NetworkX - random"
 ]
 

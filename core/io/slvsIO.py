@@ -20,7 +20,7 @@
 def slvs2D(VPointList, VLinkList, fileName):
     #The number of same points.
     point_num = [[] for vpoint in VPointList]
-    #The number of same lines.
+    #TODO: The number of same lines.
     line_num = [[] for vlink in VLinkList if vlink.name!="ground"]
     script_group = '''±²³SolveSpaceREVa
 
@@ -144,9 +144,9 @@ AddParam
             continue
         param_num += 0x10
         for p in vlink.points:
-            script_param = Param(script_param, param_num, VPointList[p].cx)
+            script_param += Param(param_num, VPointList[p].cx)
             param_num += 1
-            script_param = Param(script_param, param_num, VPointList[p].cy)
+            script_param += Param(param_num, VPointList[p].cy)
             param_num += 2
         param_num = up(param_num, 4)
     script_request = '''
@@ -173,7 +173,7 @@ AddRequest
     for i in range(len(VLinkList)):
         if i==0:
             continue
-        script_request = Request(script_request, request_num)
+        script_request += Request(request_num)
         request_num += 1
     script_entity = '''
 Entity.h.v=00010000
@@ -248,16 +248,18 @@ Entity.actNormal.vz=-0.50000000000000000000
 Entity.actVisible=1
 AddEntity
 '''
-    #Add "Entity"
+    #TODO: Add "Entity"
     entity_num = 0x40000
     for i, vlink in enumerate(VLinkList):
         if i==0:
             continue
-        script_entity = Entity_line(script_entity, entity_num)
-        for p in vlink.points:
+        script_entity += Entity_line(entity_num)
+        for i, p in enumerate(vlink.points):
+            if i==0:
+                continue
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity = Entity_point(script_entity, entity_num, VPointList[p].cx, VPointList[p].cy)
+            script_entity += Entity_point(entity_num, VPointList[p].cx, VPointList[p].cy)
             line_num[i].append(entity_num)
         entity_num = up(entity_num, 4)
     script_entity += '''
@@ -298,11 +300,11 @@ AddEntity
     #Position constraint
     for i, vpoint in enumerate(VPointList):
         if "ground" in vpoint.links and point_num[i]:
-            script_constraint.append(Constraint_fix(script_constraint, constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
+            script_constraint.append(Constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
             constraint_num += 2
-    #Distance constraint
+    #TODO: Distance constraint
     for i, l in enumerate(line_num):
-        script_constraint.append(Constraint_line(script_constraint, constraint_num, l[0], l[1], VLinkList[i].len))
+        script_constraint.append(Constraint_line(constraint_num, l[0], l[1], VLinkList[i].len))
         constraint_num += 1
     #Write file
     with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
@@ -314,16 +316,15 @@ def up(num, digit):
     num -= num%ten
     return num
 
-def Param(script, num, val):
-    script += '''
+def Param(num, val):
+    return '''
 Param.h.v.={:08x}
 Param.val={:.20f}
 AddParam
 '''.format(num, val)
-    return script
 
-def Request(script, num):
-    script += '''
+def Request(num):
+    return '''
 Request.h.v={:08x}
 Request.type=200
 Request.workplane.v=80020000
@@ -331,10 +332,9 @@ Request.group.v=00000002
 Request.construction=0
 AddRequest
 '''.format(num)
-    return script
 
-def Entity_line(script, num):
-    script += '''
+def Entity_line(num):
+    return '''
 Entity.h.v={0:08x}
 Entity.type=11000
 Entity.construction=0
@@ -344,10 +344,9 @@ Entity.workplane.v=80020000
 Entity.actVisible=1
 AddEntity
 '''.format(num, num+1, num+2)
-    return script
 
-def Entity_point(script, num, x, y):
-    script += '''
+def Entity_point(num, x, y):
+    return '''
 Entity.h.v={0:08x}
 Entity.type=2001
 Entity.construction=0
@@ -357,7 +356,6 @@ Entity.actPoint.y={2:.20f}
 Entity.actVisible=1
 AddEntity
 '''.format(num, x, y)
-    return script
 
 def Constraint_point(num, p1, p2):
     return '''

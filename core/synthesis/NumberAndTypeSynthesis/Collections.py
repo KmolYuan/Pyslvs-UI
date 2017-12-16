@@ -33,7 +33,7 @@ class Collections_show(QWidget, Ui_Form):
         self.setupUi(self)
         self.Collections = []
         self.graph_engine.addItems(EngineList)
-        self.graph_engine.setCurrentIndex(1)
+        self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.unsaveFunc = parent.workbookNoSave

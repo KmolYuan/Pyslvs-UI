@@ -38,7 +38,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.NL_input.valueChanged.connect(self.setDOF)
         self.NJ_input.valueChanged.connect(self.setDOF)
         self.graph_engine.addItems(EngineList)
-        self.graph_engine.setCurrentIndex(1)
+        self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
