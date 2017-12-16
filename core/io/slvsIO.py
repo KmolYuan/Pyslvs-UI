@@ -17,12 +17,10 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-def slvs2D(VPointList, VLinkList, fileName):
-    #The number of same points.
-    point_num = [[] for vpoint in VPointList]
-    #TODO: The number of same lines.
-    line_num = [[] for vlink in VLinkList if vlink.name!="ground"]
-    script_group = '''±²³SolveSpaceREVa
+import textwrap
+
+script_group = '''\
+±²³SolveSpaceREVa
 
 
 Group.h.v=00000001
@@ -64,79 +62,76 @@ Group.remap={
 }
 AddGroup
 '''
-    script_param = '''
-Param.h.v.=00010010
-AddParam
 
-Param.h.v.=00010011
-AddParam
+entity_plane = lambda n, p, v, : '\n'.join([
+    "Entity.h.v={:08x}".format(n),
+    "Entity.type={}".format(10000),
+    "Entity.construction={}".format(0),
+    "Entity.point[0].v={:08x}".format(p),
+    "Entity.normal.v={:08x}".format(v),
+    "Entity.actVisible=1",
+    "AddEntity"
+])
 
-Param.h.v.=00010012
-AddParam
+entity_point = lambda n: '\n'.join([
+    "Entity.h.v={:08x}".format(n),
+    "Entity.type={}".format(2000),
+    "Entity.construction={}".format(1),
+    "Entity.actVisible=1",
+    "AddEntity"
+])
 
-Param.h.v.=00010020
-Param.val=1.00000000000000000000
-AddParam
+entity_normal_w = lambda n, p: '\n'.join([
+    "Entity.h.v={:08x}".format(n),
+    "Entity.type={}".format(3000),
+    "Entity.construction={}".format(0),
+    "Entity.point[0].v={:08x}".format(p),
+    "Entity.actNormal.w={:.020f}".format(1),
+    "Entity.actVisible=1",
+    "AddEntity"
+])
 
-Param.h.v.=00010021
-AddParam
+entity_normal_xyz = lambda n, p: '\n'.join([
+    "Entity.h.v={:08x}".format(n),
+    "Entity.type={}".format(3000),
+    "Entity.construction={}".format(0),
+    "Entity.point[0].v={:08x}".format(p),
+    "Entity.actNormal.w={:.020f}".format(0.5),
+    "Entity.actNormal.vx={:.020f}".format(0.5),
+    "Entity.actNormal.vy={:.020f}".format(0.5),
+    "Entity.actNormal.vz={:.020f}".format(0.5),
+    "Entity.actVisible=1",
+    "AddEntity"
+])
 
-Param.h.v.=00010022
-AddParam
-
-Param.h.v.=00010023
-AddParam
-
-Param.h.v.=00020010
-AddParam
-
-Param.h.v.=00020011
-AddParam
-
-Param.h.v.=00020012
-AddParam
-
-Param.h.v.=00020020
-Param.val=0.50000000000000000000
-AddParam
-
-Param.h.v.=00020021
-Param.val=0.50000000000000000000
-AddParam
-
-Param.h.v.=00020022
-Param.val=0.50000000000000000000
-AddParam
-
-Param.h.v.=00020023
-Param.val=0.50000000000000000000
-AddParam
-
-Param.h.v.=00030010
-AddParam
-
-Param.h.v.=00030011
-AddParam
-
-Param.h.v.=00030012
-AddParam
-
-Param.h.v.=00030020
-Param.val=0.50000000000000000000
-AddParam
-
-Param.h.v.=00030021
-Param.val=-0.50000000000000000000
-AddParam
-
-Param.h.v.=00030022
-Param.val=-0.50000000000000000000
-AddParam
-
-Param.h.v.=00030023
-Param.val=-0.50000000000000000000
-AddParam
-'''
+def slvs2D(VPointList, VLinkList, fileName):
+    script_param = '\n\n'.join([
+        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
+        "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),
+        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10020+n) for n in range(1, 4)),
+        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x20010+n) for n in range(3)),
+        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x20020+n, 0.5) for n in range(4)),
+        '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x30010+n) for n in range(3)),
+        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5) for n in range(4))
+    ])
+    script_request = '\n\n'.join(
+        "Request.h.v={:08x}\nRequest.type=100\nRequest.group.v=00000001\nRequest.construction=0\nAddRequest".format(n) for n in range(1, 4)
+    )
+    script_entity = '\n\n'.join([
+        entity_plane(0x10000, 0x10001, 0x10020),
+        entity_point(0x10001),
+        entity_normal_w(0x10020, 0x10001),
+        entity_plane(0x20000, 0x20001, 0x20020),
+        entity_point(0x20001),
+        entity_normal_xyz(0x20020, 0x20001),
+        entity_plane(0x30000, 0x30001, 0x30020),
+        entity_point(0x30001),
+        entity_normal_xyz(0x30020, 0x30001)
+    ])
+    #The number of same points.
+    point_num = [[] for vpoint in VPointList]
+    #TODO: The number of same lines.
+    line_num = [[] for vlink in VLinkList if vlink.name!="ground"]
     #Add "Param"
     param_num = 0x40000
     for i, vlink in enumerate(VLinkList):
@@ -149,25 +144,6 @@ AddParam
             script_param += Param(param_num, VPointList[p].cy)
             param_num += 2
         param_num = up(param_num, 4)
-    script_request = '''
-Request.h.v=00000001
-Request.type=100
-Request.group.v=00000001
-Request.construction=0
-AddRequest
-
-Request.h.v=00000002
-Request.type=100
-Request.group.v=00000001
-Request.construction=0
-AddRequest
-
-Request.h.v=00000003
-Request.type=100
-Request.group.v=00000001
-Request.construction=0
-AddRequest
-'''
     #Add "Request"
     request_num = 0x4
     for i in range(len(VLinkList)):
@@ -175,79 +151,6 @@ AddRequest
             continue
         script_request += Request(request_num)
         request_num += 1
-    script_entity = '''
-Entity.h.v=00010000
-Entity.type=10000
-Entity.construction=0
-Entity.point[0].v=00010001
-Entity.normal.v=00010020
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00010001
-Entity.type=2000
-Entity.construction=1
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00010020
-Entity.type=3000
-Entity.construction=0
-Entity.point[0].v=00010001
-Entity.actNormal.w=1.00000000000000000000
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00020000
-Entity.type=10000
-Entity.construction=0
-Entity.point[0].v=00020001
-Entity.normal.v=00020020
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00020001
-Entity.type=2000
-Entity.construction=1
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00020020
-Entity.type=3000
-Entity.construction=0
-Entity.point[0].v=00020001
-Entity.actNormal.w=0.50000000000000000000
-Entity.actNormal.vx=0.50000000000000000000
-Entity.actNormal.vy=0.50000000000000000000
-Entity.actNormal.vz=0.50000000000000000000
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00030000
-Entity.type=10000
-Entity.construction=0
-Entity.point[0].v=00030001
-Entity.normal.v=00030020
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00030001
-Entity.type=2000
-Entity.construction=1
-Entity.actVisible=1
-AddEntity
-
-Entity.h.v=00030020
-Entity.type=3000
-Entity.construction=0
-Entity.point[0].v=00030001
-Entity.actNormal.w=0.50000000000000000000
-Entity.actNormal.vx=-0.50000000000000000000
-Entity.actNormal.vy=-0.50000000000000000000
-Entity.actNormal.vz=-0.50000000000000000000
-Entity.actVisible=1
-AddEntity
-'''
     #TODO: Add "Entity"
     entity_num = 0x40000
     for i, vlink in enumerate(VLinkList):
@@ -263,28 +166,28 @@ AddEntity
             line_num[i].append(entity_num)
         entity_num = up(entity_num, 4)
     script_entity += '''
-Entity.h.v=80020000
-Entity.type=10000
-Entity.construction=0
-Entity.point[0].v=80020002
-Entity.normal.v=80020001
-Entity.actVisible=1
-AddEntity
+    Entity.h.v=80020000
+    Entity.type=10000
+    Entity.construction=0
+    Entity.point[0].v=80020002
+    Entity.normal.v=80020001
+    Entity.actVisible=1
+    AddEntity
 
-Entity.h.v=80020001
-Entity.type=3010
-Entity.construction=0
-Entity.point[0].v=80020002
-Entity.actNormal.w=1.00000000000000000000
-Entity.actVisible=1
-AddEntity
+    Entity.h.v=80020001
+    Entity.type=3010
+    Entity.construction=0
+    Entity.point[0].v=80020002
+    Entity.actNormal.w=1.00000000000000000000
+    Entity.actVisible=1
+    AddEntity
 
-Entity.h.v=80020002
-Entity.type=2012
-Entity.construction=1
-Entity.actVisible=1
-AddEntity
-'''
+    Entity.h.v=80020002
+    Entity.type=2012
+    Entity.construction=1
+    Entity.actVisible=1
+    AddEntity
+    '''
     #Add "Constraint"
     script_constraint = []
     constraint_num = 0x1
@@ -308,7 +211,13 @@ AddEntity
         constraint_num += 1
     #Write file
     with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
-        f.write(script_group+script_param+script_request+script_entity+script_constraint)
+        f.write('\n\n'.join([
+            textwrap.dedent(script_group)+
+            textwrap.dedent(script_param)+
+            textwrap.dedent(script_request)+
+            textwrap.dedent(script_entity)+
+            '\n\n'.join(script_constraint)
+        ]))
 
 def up(num, digit):
     ten = 0x10**digit
@@ -316,109 +225,100 @@ def up(num, digit):
     num -= num%ten
     return num
 
-def Param(num, val):
-    return '''
-Param.h.v.={:08x}
-Param.val={:.20f}
-AddParam
-'''.format(num, val)
+Param = lambda num, val: '\n'.join([
+    "Param.h.v.={:08x}".format(num),
+    "Param.val={:.20f}".format(val),
+    "AddParam"
+])
 
-def Request(num):
-    return '''
-Request.h.v={:08x}
-Request.type=200
-Request.workplane.v=80020000
-Request.group.v=00000002
-Request.construction=0
-AddRequest
-'''.format(num)
+Request = lambda num: '\n'.join([
+    "Request.h.v={:08x}".format(num),
+    "Request.type=200",
+    "Request.workplane.v=80020000",
+    "Request.group.v=00000002",
+    "Request.construction=0",
+    "AddRequest"
+])
 
-def Entity_line(num):
-    return '''
-Entity.h.v={0:08x}
-Entity.type=11000
-Entity.construction=0
-Entity.point[0].v={1:08x}
-Entity.point[1].v={2:08x}
-Entity.workplane.v=80020000
-Entity.actVisible=1
-AddEntity
-'''.format(num, num+1, num+2)
+Entity_line = lambda num: '\n'.join([
+    "Entity.h.v={:08x}".format(num),
+    "Entity.type={}".format(11000),
+    "Entity.construction={}".format(0),
+    "Entity.point[0].v={:08x}".format(num+1),
+    "Entity.point[1].v={:08x}".format(num+2),
+    "Entity.workplane.v=80020000",
+    "Entity.actVisible=1",
+    "AddEntity"
+])
 
-def Entity_point(num, x, y):
-    return '''
-Entity.h.v={0:08x}
-Entity.type=2001
-Entity.construction=0
-Entity.workplane.v=80020000
-Entity.actPoint.x={1:.20f}
-Entity.actPoint.y={2:.20f}
-Entity.actVisible=1
-AddEntity
-'''.format(num, x, y)
+Entity_point = lambda num, x, y: '\n'.join([
+    "Entity.h.v={:08x}".format(num),
+    "Entity.type={}".format(2001),
+    "Entity.construction={}".format(0),
+    "Entity.workplane.v=80020000",
+    "Entity.actPoint.x={:.20f}".format(x),
+    "Entity.actPoint.y={:.20f}".format(y),
+    "Entity.actVisible=1",
+    "AddEntity"
+])
 
-def Constraint_point(num, p1, p2):
-    return '''
-Constraint.h.v={0:08x}
-Constraint.type=20
-Constraint.group.v=00000002
-Constraint.workplane.v=80020000
-Constraint.ptA.v={1:08x}
-Constraint.ptB.v={2:08x}
-Constraint.other=0
-Constraint.other2=0
-Constraint.reference=0
-AddConstraint
-'''.format(num, p1, p2)
+Constraint_point = lambda num, p1, p2: '\n'.join([
+    "Constraint.h.v={0:08x}".format(num),
+    "Constraint.type={}".format(20),
+    "Constraint.group.v=00000002",
+    "Constraint.workplane.v=80020000",
+    "Constraint.ptA.v={:08x}".format(p1),
+    "Constraint.ptB.v={:08x}".format(p2),
+    "Constraint.other=0",
+    "Constraint.other2=0",
+    "Constraint.reference=0",
+    "AddConstraint"
+])
 
-def Constraint_fix(num, p0, x, y):
-    return Constraint_fix_hv(num, p0, 0x30000, y) + Constraint_fix_hv(num+1, p0, 0x20000, x)
+Constraint_fix = lambda num, p0, x, y: Constraint_fix_hv(num, p0, 0x30000, y) + Constraint_fix_hv(num+1, p0, 0x20000, x)
 
-def Constraint_fix_hv(num, p0, phv, val):
-    return '''
-Constraint.h.v={0:08x}
-Constraint.type=31
-Constraint.group.v=00000002
-Constraint.workplane.v=80020000
-Constraint.valA={3:.20f}
-Constraint.ptA.v={1:08x}
-Constraint.entityA.v={2:08x}
-Constraint.other=0
-Constraint.other2=0
-Constraint.reference=0
-Constraint.disp.offset.x={4:.20f}
-Constraint.disp.offset.y={4:.20f}
-AddConstraint
-'''.format(num, p0, phv, val, 10)
+Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
+    "Constraint.h.v={0:08x}".format(num),
+    "Constraint.type={}".format(31),
+    "Constraint.group.v=00000002",
+    "Constraint.workplane.v=80020000",
+    "Constraint.valA={:.20f}".format(val),
+    "Constraint.ptA.v={:08x}".format(p0),
+    "Constraint.entityA.v={:08x}".format(phv),
+    "Constraint.other=0",
+    "Constraint.other2=0",
+    "Constraint.reference=0",
+    "Constraint.disp.offset.x={:.20f}".format(10),
+    "Constraint.disp.offset.y={:.20f}".format(10),
+    "AddConstraint"
+])
 
-def Constraint_line(num, p1, p2, len):
-    return '''
-Constraint.h.v={0:08x}
-Constraint.type=30
-Constraint.group.v=00000002
-Constraint.workplane.v=80020000
-Constraint.valA={3:.20f}
-Constraint.ptA.v={1:08x}
-Constraint.ptB.v={2:08x}
-Constraint.other=0
-Constraint.other2=0
-Constraint.reference=0
-Constraint.disp.offset.x={4:.20f}
-Constraint.disp.offset.y={4:.20f}
-AddConstraint
-'''.format(num, p1, p2, len, 10)
+Constraint_line = lambda num, p1, p2, len: '\n'.join([
+    "Constraint.h.v={0:08x}".format(num),
+    "Constraint.type={}".format(30),
+    "Constraint.group.v=00000002",
+    "Constraint.workplane.v=80020000",
+    "Constraint.valA={:.20f}".format(len),
+    "Constraint.ptA.v={:08x}".format(p1),
+    "Constraint.ptB.v={:08x}".format(p2),
+    "Constraint.other=0",
+    "Constraint.other2=0",
+    "Constraint.reference=0",
+    "Constraint.disp.offset.x={:.20f}".format(10),
+    "Constraint.disp.offset.y={:.20f}".format(10),
+    "AddConstraint"
+])
 
-def Constraint_comment(num, comment, x, y):
-    return '''
-Constraint.h.v={0:08x}
-Constraint.type=1000
-Constraint.group.v=00000002
-Constraint.workplane.v=80020000
-Constraint.other=0
-Constraint.other2=0
-Constraint.reference=0
-Constraint.comment={1}
-Constraint.disp.offset.x={2:.20f}
-Constraint.disp.offset.y={3:.20f}
-AddConstraint
-'''.format(num, comment, x, y)
+Constraint_comment = lambda num, comment, x, y: '\n'.join([
+    "Constraint.h.v={:08x}".format(num),
+    "Constraint.type={}".format(1000),
+    "Constraint.group.v=00000002",
+    "Constraint.workplane.v=80020000",
+    "Constraint.other=0",
+    "Constraint.other2=0",
+    "Constraint.reference=0",
+    "Constraint.comment={}".format(comment),
+    "Constraint.disp.offset.x={:.20f}".format(x),
+    "Constraint.disp.offset.y={:.20f}".format(y),
+    "AddConstraint"
+])
