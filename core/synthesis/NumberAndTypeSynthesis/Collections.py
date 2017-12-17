@@ -18,7 +18,10 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from networkx import Graph
+from networkx import (
+    Graph,
+    is_isomorphic
+)
 from .topologic import testT, TestError
 from .graph import (
     graph,
@@ -32,6 +35,7 @@ class Collections_show(QWidget, Ui_Form):
         super(Collections_show, self).__init__(parent)
         self.setupUi(self)
         self.Collections = []
+        self.iso = []
         self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
@@ -48,10 +52,16 @@ class Collections_show(QWidget, Ui_Form):
         self.DOF.setText('0')
         self.grounded_list.clear()
     
+    def engineErrorMsg(self, e):
+        dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
+        dlg.show()
+        dlg.exec_()
+    
     #Reload atlas with the engine.
     @pyqtSlot()
     @pyqtSlot(str)
     def on_reload_atlas_clicked(self, p0=None):
+        self.on_grounded_button_clicked()
         if self.Collections:
             self.Collection_list.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.Collections), self)
@@ -69,9 +79,7 @@ class Collections_show(QWidget, Ui_Form):
                     item.setIcon(graph(G, self.Collection_list.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
-                    dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
-                    dlg.show()
-                    dlg.exec_()
+                    self.engineErrorMsg(e)
                     break
                 else:
                     item.setToolTip(str(G.edges))
@@ -156,7 +164,36 @@ class Collections_show(QWidget, Ui_Form):
             self.Collection_list.takeItem(row)
             del self.Collections[row]
     
+    #Grounded combinations
     @pyqtSlot()
     def on_grounded_button_clicked(self):
-        # TODO: grounded combinations
-        pass
+        item = self.Collection_list.currentItem()
+        if item:
+            self.iso.clear()
+            engine = self.graph_engine.currentText().split(" - ")[1]
+            G = self.Collections[self.Collection_list.row(item)]
+            self.grounded_list.clear()
+            item = QListWidgetItem("Released")
+            try:
+                item.setIcon(graph(G, self.Collection_list.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
+            except EngineError as e:
+                self.engineErrorMsg(e)
+                return
+            self.iso.append(G)
+            self.grounded_list.addItem(item)
+            for node in G.nodes:
+                G_ = Graph(G)
+                G_.remove_node(node)
+                error = False
+                for H in self.iso:
+                    if is_isomorphic(G_, H):
+                        error = True
+                if error:
+                    continue
+                self.iso.append(G_)
+                item = QListWidgetItem("link {}".format(node))
+                if self.graph_link_as_node.isChecked():
+                    item.setIcon(graph(G_, self.Collection_list.iconSize().width(), engine, True))
+                else:
+                    item.setIcon(graph(G, self.Collection_list.iconSize().width(), engine, False, node))
+                self.grounded_list.addItem(item)

@@ -18,10 +18,10 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+from ...io.elements import v_to_graph
 from .number import NumberSynthesis
 from .topologic import topo
 from .graph import (
-    v_to_edges,
     graph,
     EngineList,
     EngineError
@@ -65,7 +65,7 @@ class Permutations_show(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         if jointData and linkData:
-            self.Expression_edges.setText(v_to_edges(jointData, linkData))
+            self.Expression_edges.setText(str(list(v_to_graph(jointData, linkData).edges)))
         else:
             self.Expression_edges.setText("")
         self.NL_input.setValue(

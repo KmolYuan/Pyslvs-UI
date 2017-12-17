@@ -17,6 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+from .elements import v_to_graph_slvs
 import textwrap
 
 script_group = '''\
@@ -105,6 +106,8 @@ entity_normal_xyz = lambda n, p: '\n'.join([
 ])
 
 def slvs2D(VPointList, VLinkList, fileName):
+    G = v_to_graph_slvs(VPointList, VLinkList)
+    print(G.edges)
     script_param = '\n\n'.join([
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
         "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),

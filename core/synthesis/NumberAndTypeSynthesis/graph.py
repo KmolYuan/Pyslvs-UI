@@ -28,27 +28,6 @@ from networkx import (
     spectral_layout,
     random_layout
 )
-from typing import Tuple
-
-def v_to_edges(jointData: Tuple['VPoint'], linkData: Tuple['VLink']):
-    G = Graph()
-    #Links name for RP joint.
-    k = len(linkData)
-    used_point = []
-    for i, vlink in enumerate(linkData):
-        for p in vlink.points:
-            if p in used_point:
-                continue
-            match = [m for m, vlink_ in enumerate(linkData) if i!=m and (p in vlink_.points)]
-            for m in match:
-                if jointData[p].type==2:
-                    G.add_edge(i, k)
-                    G.add_edge(k, m)
-                    k += 1
-                else:
-                    G.add_edge(i, m)
-            used_point.append(p)
-    return str(list(G.edges))
 
 EngineList = [
     "NetworkX - circular",
@@ -87,7 +66,7 @@ def engine_picker(G: Graph, engine: str):
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
     return {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
 
-def graph(G: Graph, width: int, engine: str, node_mode: bool):
+def graph(G: Graph, width: int, engine: str, node_mode: bool, except_node=None):
     if not node_mode:
         G_ = Graph()
         nodes = {i:edge for i, edge in enumerate(G.edges)}
@@ -119,12 +98,17 @@ def graph(G: Graph, width: int, engine: str, node_mode: bool):
     else:
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         for l in G.nodes:
+            if l==except_node:
+                continue
             painter.drawPolygon(*[QPointF(*pos[n]) for n, edge in nodes.items() if l in edge])
     for k, (x, y) in pos.items():
         if node_mode:
             color = colorNum(len(list(G.neighbors(k)))-1)
         else:
-            color = colorQt('Blue')
+            if except_node in nodes[k]:
+                color = colorQt('Green')
+            else:
+                color = colorQt('Blue')
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))

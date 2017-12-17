@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from math import sqrt, degrees, atan2
+from networkx import Graph
 from ..graphics.color import colorQt
 from typing import Tuple
 
@@ -178,3 +179,40 @@ class VLink:
     
     def __repr__(self):
         return "L[{}, P[{}]]".format(self.name, ", ".join(str(p) for p in self.points))
+
+#Generalization chain
+def v_to_graph(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
+    G = Graph()
+    #Links name for RP joint.
+    k = len(linkData)
+    used_point = []
+    for i, vlink in enumerate(linkData):
+        for p in vlink.points:
+            if p in used_point:
+                continue
+            match = [m for m, vlink_ in enumerate(linkData) if i!=m and (p in vlink_.points)]
+            for m in match:
+                if jointData[p].type==2:
+                    G.add_edge(i, k)
+                    G.add_edge(k, m)
+                    k += 1
+                else:
+                    G.add_edge(i, m)
+            used_point.append(p)
+    print(G.edges)
+    return G
+
+#TODO: v_to_graph_slvs
+def v_to_graph_slvs(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
+    G = Graph()
+    for vlink in linkData:
+        if vlink.name=='ground':
+            continue
+        for i, p in enumerate(vlink.points):
+            if i==0:
+                continue
+            G.add_edge(vlink.points[0], p)
+            if i>1:
+                G.add_edge(vlink.points[i-1], p)
+    print(G.edges)
+    return G
