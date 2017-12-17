@@ -552,9 +552,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard.setText(expr)
     
     #TODO: Output to Python script for Jupyterhub.
-    @pyqtSlot()
-    def on_action_See_Python_Scripts_triggered(self):
-        '''self.OpenDlg(Script_Dialog(self.FileWidget.fileName.baseName(), Point, Line, Chain, Shaft, Slider, Rod, self.Default_Environment_variables, self))'''
     
     #Add point group using alt key.
     @pyqtSlot()
@@ -570,7 +567,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
     
     #Add an ordinary point.
-    def addPoint(self, x, y, fixed=False, color=''):
+    def addPoint(self, x, y, fixed=False, color=None):
         Args = ['ground' if fixed else '', 'R', color if color else ('Blue' if fixed else 'Green'), x, y]
         rowCount = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
@@ -579,12 +576,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.endMacro()
         return rowCount
     
+    def addPoint_by_graph(self, G, pos, ground_link):
+        base_count = self.Entities_Point.rowCount()
+        for x, y in pos.values():
+            self.addPoint(x, y)
+        for link in G.nodes:
+            self.addLink(
+                self.getLinkSerialNumber(),
+                'Blue',
+                [base_count + i for i in [list(G.edges).index(edge) for edge in G.edges if (link in edge)]]
+            )
+            if link==ground_link:
+                self.constrainLink(self.Entities_Link.rowCount()-1)
+    
     #Add a link.
     @pyqtSlot(list)
     def addLinkGroup(self, points):
         self.addLink(self.getLinkSerialNumber(), 'Blue', points)
     
-    def addLink(self, name, color, points=[]):
+    def addLink(self, name, color, points=()):
         linkArgs = [name, color, ','.join(['Point{}'.format(i) for i in points])]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
         self.FileState.push(addTableCommand(self.Entities_Link))
@@ -592,12 +602,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.endMacro()
     
     def getLinkSerialNumber(self):
-        name = 'link_0'
+        name = "link_{}".format(0)
         names = [self.Entities_Link.item(row, 0).text() for row in range(self.Entities_Link.rowCount())]
         i = 0
         while name in names:
             i += 1
-            name = 'link_{}'.format(i)
+            name = "link_{}".format(i)
         return name
     
     #Create a point with arguments.
@@ -738,8 +748,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Turn a link to ground, then delete this link.
     @pyqtSlot()
-    def constrainLink(self):
-        row = self.Entities_Link.currentRow()
+    def constrainLink(self, row=None):
+        if row is None:
+            row = self.Entities_Link.currentRow()
         name = self.Entities_Link.item(row, 0).text()
         linkArgs = [self.Entities_Link.item(row, 0).text(), self.Entities_Link.item(row, 1).text(), '']
         newPoints = sorted(set(self.Entities_Link.item(0, 2).text().split(','))|set(self.Entities_Link.item(row, 2).text().split(',')))

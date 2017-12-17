@@ -45,28 +45,7 @@ EngineList = [
 class EngineError(Exception):
     pass
 
-def engine_picker(G: Graph, engine: str):
-    if engine=="random":
-        E = {k:(x*200, y*200) for k, (x, y) in random_layout(G).items()}
-    elif engine=="shell":
-        E = shell_layout(G, scale=100)
-    elif engine=="circular":
-        E = circular_layout(G, scale=100)
-    elif engine=="spring":
-        E = spring_layout(G, scale=100)
-    elif engine=="spectral":
-        E = spectral_layout(G, scale=100)
-    else:
-        try:
-            E = nx_pydot.graphviz_layout(G, prog=engine)
-        except:
-            raise EngineError("No Graphviz")
-    pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
-    x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
-    y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
-    return {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
-
-def graph(G: Graph, width: int, engine: str, node_mode: bool, except_node=None):
+def engine_picker(G: Graph, engine: str, node_mode: bool):
     if not node_mode:
         G_ = Graph()
         nodes = {i:edge for i, edge in enumerate(G.edges)}
@@ -76,11 +55,43 @@ def graph(G: Graph, width: int, engine: str, node_mode: bool, except_node=None):
                     continue
                 if (l1 in edge) or (l2 in edge):
                     G_.add_edge(i, j)
+        H = G_
+    else:
+        H = G
+    if engine=="random":
+        E = {k:(x*200, y*200) for k, (x, y) in random_layout(H).items()}
+    elif engine=="shell":
+        E = shell_layout(H, scale=100)
+    elif engine=="circular":
+        E = circular_layout(H, scale=100)
+    elif engine=="spring":
+        E = spring_layout(H, scale=100)
+    elif engine=="spectral":
+        E = spectral_layout(H, scale=100)
+    elif type(engine)==str:
+        try:
+            E = nx_pydot.graphviz_layout(H, prog=engine)
+        except:
+            raise EngineError("No Graphviz")
+    else:
+        return engine
+    pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
+    x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
+    y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
+    return {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
+
+def graph(
+    G: Graph,
+    width: int,
+    engine: [str, dict],
+    node_mode: bool,
+    except_node: int =None,
+    get_pos: bool =False
+):
+    if not node_mode:
+        nodes = {i:edge for i, edge in enumerate(G.edges)}
     try:
-        if node_mode:
-            pos = engine_picker(G, engine)
-        else:
-            pos = engine_picker(G_, engine)
+        pos = engine_picker(G, engine, node_mode)
     except EngineError as e:
         raise e
     width_ = max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2
@@ -89,7 +100,7 @@ def graph(G: Graph, width: int, engine: str, node_mode: bool, except_node=None):
     painter = QPainter(image)
     painter.translate(image.width()/2, image.height()/2)
     pen = QPen()
-    r = width_ / 33.78744
+    r = width_ / 34
     pen.setWidth(r)
     painter.setPen(pen)
     if node_mode:
@@ -100,7 +111,7 @@ def graph(G: Graph, width: int, engine: str, node_mode: bool, except_node=None):
         for l in G.nodes:
             if l==except_node:
                 continue
-            painter.drawPolygon(*[QPointF(*pos[n]) for n, edge in nodes.items() if l in edge])
+            painter.drawPolygon(*[QPointF(pos[n][0], -pos[n][1]) for n, edge in nodes.items() if l in edge])
     for k, (x, y) in pos.items():
         if node_mode:
             color = colorNum(len(list(G.neighbors(k)))-1)
@@ -112,6 +123,10 @@ def graph(G: Graph, width: int, engine: str, node_mode: bool, except_node=None):
         pen.setColor(color)
         painter.setPen(pen)
         painter.setBrush(QBrush(color))
-        painter.drawEllipse(QPointF(x, y), r, r)
+        painter.drawEllipse(QPointF(x, -y), r, r)
     painter.end()
-    return QIcon(QPixmap.fromImage(image).scaledToWidth(width))
+    icon = QIcon(QPixmap.fromImage(image).scaledToWidth(width))
+    if get_pos:
+        return icon, pos
+    else:
+        return icon

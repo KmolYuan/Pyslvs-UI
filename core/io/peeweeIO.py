@@ -133,8 +133,8 @@ class FileWidget(QWidget, Ui_Form):
         '''
         Mentioned in "core.widgets.custom", because DimensionalSynthesis created after FileWidget.
         
-        self.CollectDataFunc = lambda: [list(G.edges) for G in parent.NumberAndTypeSynthesis.Collections] #Call to get Collections data
-        self.loadCollectFunc = parent.NumberAndTypeSynthesis.addCollections #Call to load Collections data.
+        self.CollectDataFunc = lambda: [list(G.edges) for G in parent.NumberAndTypeSynthesis.collections] #Call to get collections data
+        self.loadCollectFunc = parent.NumberAndTypeSynthesis.addCollections #Call to load collections data.
         self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
         '''
         #Close database when destroyed.

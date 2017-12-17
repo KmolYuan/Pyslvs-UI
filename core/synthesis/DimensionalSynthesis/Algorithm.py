@@ -362,7 +362,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def on_mergeButton_clicked(self):
         row = self.Result_list.currentRow()
         if row>-1:
-            reply = QMessageBox.question(self, 'Prompt Message', "Merge this result to your canvas?",
+            reply = QMessageBox.question(self, "Message", "Merge this result to your canvas?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.mergeResult.emit(row, *self.legal_crank())

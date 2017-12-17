@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>585</height>
+    <width>450</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -79,7 +79,7 @@
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QListWidget" name="Collection_list">
+     <widget class="QListWidget" name="collection_list">
       <property name="contextMenuPolicy">
        <enum>Qt::CustomContextMenu</enum>
       </property>
@@ -252,6 +252,13 @@
          </property>
          <property name="uniformItemSizes">
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="grounded_merge">
+         <property name="text">
+          <string>Merge to canvas</string>
          </property>
         </widget>
        </item>

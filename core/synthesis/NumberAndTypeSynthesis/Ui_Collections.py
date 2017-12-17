@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Collections.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/collections.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(439, 585)
+        Form.resize(450, 601)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collections.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -44,14 +44,14 @@ class Ui_Form(object):
         self.splitter = QtWidgets.QSplitter(Form)
         self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.splitter.setObjectName("splitter")
-        self.Collection_list = QtWidgets.QListWidget(self.splitter)
-        self.Collection_list.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.Collection_list.setIconSize(QtCore.QSize(100, 100))
-        self.Collection_list.setMovement(QtWidgets.QListView.Static)
-        self.Collection_list.setResizeMode(QtWidgets.QListView.Adjust)
-        self.Collection_list.setViewMode(QtWidgets.QListView.IconMode)
-        self.Collection_list.setUniformItemSizes(True)
-        self.Collection_list.setObjectName("Collection_list")
+        self.collection_list = QtWidgets.QListWidget(self.splitter)
+        self.collection_list.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.collection_list.setIconSize(QtCore.QSize(100, 100))
+        self.collection_list.setMovement(QtWidgets.QListView.Static)
+        self.collection_list.setResizeMode(QtWidgets.QListView.Adjust)
+        self.collection_list.setViewMode(QtWidgets.QListView.IconMode)
+        self.collection_list.setUniformItemSizes(True)
+        self.collection_list.setObjectName("collection_list")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.splitter)
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
@@ -119,6 +119,9 @@ class Ui_Form(object):
         self.grounded_list.setUniformItemSizes(True)
         self.grounded_list.setObjectName("grounded_list")
         self.verticalLayout.addWidget(self.grounded_list)
+        self.grounded_merge = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        self.grounded_merge.setObjectName("grounded_merge")
+        self.verticalLayout.addWidget(self.grounded_merge)
         self.verticalLayout_3.addWidget(self.splitter)
 
         self.retranslateUi(Form)
@@ -140,6 +143,7 @@ class Ui_Form(object):
         self.DOF.setText(_translate("Form", "0"))
         self.delete_button.setText(_translate("Form", "Delete"))
         self.grounded_button.setText(_translate("Form", "Gounded"))
+        self.grounded_merge.setText(_translate("Form", "Merge to canvas"))
 
 import icons_rc
 
