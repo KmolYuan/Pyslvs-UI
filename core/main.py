@@ -576,7 +576,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.endMacro()
         return rowCount
     
-    def addPoint_by_graph(self, G, pos, ground_link):
+    def addPoint_by_graph(self, G, pos, ground_link: [None, int]):
         base_count = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Merge mechanism kit from {Number and Type Synthesis}")
         for x, y in pos.values():
@@ -587,9 +587,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 'Blue',
                 [base_count + i for i in [list(G.edges).index(edge) for edge in G.edges if (link in edge)]]
             )
-            if link==ground_link:
-                self.constrainLink(self.Entities_Link.rowCount()-1)
         self.FileState.endMacro()
+        if ground_link is not None:
+            self.constrainLink(base_count + ground_link + 1)
     
     #Add a link.
     @pyqtSlot(list)
