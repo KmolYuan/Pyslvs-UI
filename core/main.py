@@ -587,9 +587,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 'Blue',
                 [base_count + i for i in [list(G.edges).index(edge) for edge in G.edges if (link in edge)]]
             )
+            if link==ground_link:
+                ground = self.Entities_Link.rowCount()-1
         self.FileState.endMacro()
         if ground_link is not None:
-            self.constrainLink(base_count + ground_link + 1)
+            self.constrainLink(ground)
     
     #Add a link.
     @pyqtSlot(list)
