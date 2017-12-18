@@ -28,6 +28,7 @@ from networkx import (
     spectral_layout,
     random_layout
 )
+from typing import Dict, Tuple
 
 EngineList = [
     "NetworkX - circular",
@@ -68,13 +69,11 @@ def engine_picker(G: Graph, engine: str, node_mode: bool):
         E = spring_layout(H, scale=100)
     elif engine=="spectral":
         E = spectral_layout(H, scale=100)
-    elif type(engine)==str:
+    else:
         try:
             E = nx_pydot.graphviz_layout(H, prog=engine)
         except:
             raise EngineError("No Graphviz")
-    else:
-        return engine
     pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
     x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
     y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
@@ -83,17 +82,20 @@ def engine_picker(G: Graph, engine: str, node_mode: bool):
 def graph(
     G: Graph,
     width: int,
-    engine: [str, dict],
+    engine: [str, Dict[int, Tuple[float, float]]],
     node_mode: bool,
     except_node: int =None,
     get_pos: bool =False
 ):
     if not node_mode:
         nodes = {i:edge for i, edge in enumerate(G.edges)}
-    try:
-        pos = engine_picker(G, engine, node_mode)
-    except EngineError as e:
-        raise e
+    if type(engine)==str:
+        try:
+            pos = engine_picker(G, engine, node_mode)
+        except EngineError as e:
+            raise e
+    else:
+        pos = engine
     width_ = max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2
     image = QImage(QSize(width_, width_), QImage.Format_ARGB32_Premultiplied)
     image.fill(Qt.transparent)

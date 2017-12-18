@@ -578,6 +578,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def addPoint_by_graph(self, G, pos, ground_link):
         base_count = self.Entities_Point.rowCount()
+        self.FileState.beginMacro("Merge mechanism kit from {Number and Type Synthesis}")
         for x, y in pos.values():
             self.addPoint(x, y)
         for link in G.nodes:
@@ -588,6 +589,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             if link==ground_link:
                 self.constrainLink(self.Entities_Link.rowCount()-1)
+        self.FileState.endMacro()
     
     #Add a link.
     @pyqtSlot(list)
@@ -1087,6 +1089,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
         #('A', 'D', 'B', 'C', 'E')
+        self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
         for i, exp in enumerate(expression_tag):
             #Dimensional synthesis link merge function.
             if i==0:
@@ -1098,6 +1101,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (3, 4))
             else:
                 self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, 4))
+        self.FileState.endMacro()
         #Add the path.
         nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
         i = 0

@@ -37,6 +37,7 @@ class Collections_show(QWidget, Ui_Form):
         self.setupUi(self)
         self.addPoint_by_graph = parent.addPoint_by_graph
         self.collections = []
+        self.collections_layouts = []
         self.collections_grounded = []
         self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(2)
@@ -45,6 +46,7 @@ class Collections_show(QWidget, Ui_Form):
         self.unsaveFunc = parent.workbookNoSave
     
     def clear(self):
+        self.grounded_merge.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
         self.Preview_window.clear()
@@ -63,27 +65,35 @@ class Collections_show(QWidget, Ui_Form):
     @pyqtSlot()
     @pyqtSlot(str)
     def on_reload_atlas_clicked(self, p0=None):
-        self.on_grounded_button_clicked()
         if self.collections:
+            self.collections_layouts.clear()
             self.collection_list.clear()
+            self.Preview_window.clear()
+            self.Expression_edges.clear()
+            self.NL.setText('0')
+            self.NJ.setText('0')
+            self.DOF.setText('0')
+            self.grounded_list.clear()
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.collections), self)
             progdlg.setWindowTitle("Type synthesis")
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
-            engine = self.graph_engine.currentText().split(" - ")[1]
+            engineSTR = self.graph_engine.currentText().split(" - ")[1]
             for i, G in enumerate(self.collections):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
                 try:
+                    engine = engine_picker(G, engineSTR, self.graph_link_as_node.isChecked())
                     item.setIcon(graph(G, self.collection_list.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     self.engineErrorMsg(e)
                     break
                 else:
+                    self.collections_layouts.append(engine)
                     item.setToolTip(str(G.edges))
                     self.collection_list.addItem(item)
                     progdlg.setValue(i+1)
@@ -115,7 +125,11 @@ class Collections_show(QWidget, Ui_Form):
     def on_add_by_edges_button_clicked(self):
         edgesSTR = ""
         while not edgesSTR:
-            edgesSTR, ok = QInputDialog.getText(self, "Add by edges", "Please enter a connection:")
+            edgesSTR, ok = QInputDialog.getText(
+                self,
+                "Add by edges",
+                "Please enter a connection expression:\nExample: [(0, 1), (1, 2), (2, 3), (3, 0)]"
+            )
             if not ok:
                 return
         try:
@@ -133,12 +147,16 @@ class Collections_show(QWidget, Ui_Form):
     #Show the data of collection.
     @pyqtSlot(QListWidgetItem, QListWidgetItem)
     def on_collection_list_currentItemChanged(self, item, p0):
-        self.delete_button.setEnabled(bool(item))
+        has_item = bool(item)
+        self.delete_button.setEnabled(has_item)
+        self.grounded_button.setEnabled(has_item)
         if item:
             self.Preview_window.clear()
             item_ = QListWidgetItem(item.text())
-            G = self.collections[self.collection_list.row(item)]
-            item_.setIcon(graph(G, self.Preview_window.iconSize().width(), self.graph_engine.currentText().split(" - ")[1], self.graph_link_as_node.isChecked()))
+            row = self.collection_list.row(item)
+            G = self.collections[row]
+            self.ground_engine = self.collections_layouts[row]
+            item_.setIcon(graph(G, self.Preview_window.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked()))
             self.Preview_window.addItem(item_)
             self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))
@@ -158,26 +176,30 @@ class Collections_show(QWidget, Ui_Form):
     def on_delete_button_clicked(self):
         row = self.collection_list.currentRow()
         if row>-1:
-            self.Preview_window.clear()
-            self.Expression_edges.clear()
-            self.NL.setText('0')
-            self.NJ.setText('0')
-            self.DOF.setText('0')
-            self.collection_list.takeItem(row)
-            del self.collections[row]
+            reply = QMessageBox.question(self, "Message", "Sure to remove #{} from your collections?".format(row),
+                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if reply:
+                self.grounded_list.clear()
+                self.Preview_window.clear()
+                self.Expression_edges.clear()
+                self.NL.setText('0')
+                self.NJ.setText('0')
+                self.DOF.setText('0')
+                self.collection_list.takeItem(row)
+                del self.collections[row]
     
     #Grounded combinations
     @pyqtSlot()
     def on_grounded_button_clicked(self):
         item = self.collection_list.currentItem()
+        self.grounded_merge.setEnabled(bool(item))
         if item:
             self.collections_grounded.clear()
             self.grounded_list.clear()
             G = self.collections[self.collection_list.row(item)]
-            self.ground_engine = engine_picker(G, self.graph_engine.currentText().split(" - ")[1], self.graph_link_as_node.isChecked())
             item = QListWidgetItem("Released")
             try:
-                icon, pos = graph(G, self.collection_list.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked(), get_pos=True)
+                icon, pos = graph(G, self.grounded_list.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked(), get_pos=True)
             except EngineError as e:
                 self.engineErrorMsg(e)
                 return
@@ -193,9 +215,9 @@ class Collections_show(QWidget, Ui_Form):
                         error = True
                 if error:
                     continue
-                item = QListWidgetItem("link {}".format(node))
+                item = QListWidgetItem("link_{} constrainted".format(node))
                 icon, pos = graph(
-                    G, self.collection_list.iconSize().width(),
+                    G, self.grounded_list.iconSize().width(),
                     self.ground_engine,
                     self.graph_link_as_node.isChecked(),
                     None if self.graph_link_as_node.isChecked() else node,
@@ -211,8 +233,8 @@ class Collections_show(QWidget, Ui_Form):
         if item:
             G = self.collections_grounded[0]
             text = item.text()
-            ground_link = None if text=="Released" else int(text.split()[1])
-            reply = QMessageBox.question(self, "Message", "Merge {} to your canvas?".format(text),
+            ground_link = None if text=="Released" else int(text.replace(" constrainted", "").split("_")[1])
+            reply = QMessageBox.question(self, "Message", "Merge \"{}\" chain to your canvas?".format(text),
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.addPoint_by_graph(G, self.ground_engine, ground_link)
