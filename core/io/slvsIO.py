@@ -18,7 +18,6 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from .elements import v_to_graph_slvs
-import textwrap
 
 script_group = '''\
 ±²³SolveSpaceREVa
@@ -37,6 +36,7 @@ Group.suppress=0
 Group.relaxConstraints=0
 Group.allowRedundant=0
 Group.allDimsReference=0
+Group.scale=1.00000000000000000000
 Group.remap={
 }
 AddGroup
@@ -59,10 +59,10 @@ Group.suppress=0
 Group.relaxConstraints=0
 Group.allowRedundant=0
 Group.allDimsReference=0
+Group.scale=1.00000000000000000000
 Group.remap={
 }
-AddGroup
-'''
+AddGroup'''
 
 entity_plane = lambda n, p, v, : '\n'.join([
     "Entity.h.v={:08x}".format(n),
@@ -74,17 +74,17 @@ entity_plane = lambda n, p, v, : '\n'.join([
     "AddEntity"
 ])
 
-entity_point = lambda n: '\n'.join([
+entity_point = lambda n, t=2000: '\n'.join([
     "Entity.h.v={:08x}".format(n),
-    "Entity.type={}".format(2000),
-    "Entity.construction={}".format(1),
+    "Entity.type={}".format(t),
+    "Entity.construction={}".format(0),
     "Entity.actVisible=1",
     "AddEntity"
 ])
 
-entity_normal_w = lambda n, p: '\n'.join([
+entity_normal_w = lambda n, p, t=3000: '\n'.join([
     "Entity.h.v={:08x}".format(n),
-    "Entity.type={}".format(3000),
+    "Entity.type={}".format(t),
     "Entity.construction={}".format(0),
     "Entity.point[0].v={:08x}".format(p),
     "Entity.actNormal.w={:.020f}".format(1),
@@ -92,22 +92,21 @@ entity_normal_w = lambda n, p: '\n'.join([
     "AddEntity"
 ])
 
-entity_normal_xyz = lambda n, p: '\n'.join([
+entity_normal_xyz = lambda n, p, reversed=False: '\n'.join([
     "Entity.h.v={:08x}".format(n),
     "Entity.type={}".format(3000),
     "Entity.construction={}".format(0),
     "Entity.point[0].v={:08x}".format(p),
     "Entity.actNormal.w={:.020f}".format(0.5),
-    "Entity.actNormal.vx={:.020f}".format(0.5),
-    "Entity.actNormal.vy={:.020f}".format(0.5),
-    "Entity.actNormal.vz={:.020f}".format(0.5),
+    "Entity.actNormal.vx={:.020f}".format(-0.5 if reversed else 0.5),
+    "Entity.actNormal.vy={:.020f}".format(-0.5 if reversed else 0.5),
+    "Entity.actNormal.vz={:.020f}".format(-0.5 if reversed else 0.5),
     "Entity.actVisible=1",
     "AddEntity"
 ])
 
 def slvs2D(VPointList, VLinkList, fileName):
     G = v_to_graph_slvs(VPointList, VLinkList)
-    print(G.edges)
     script_param = '\n\n'.join([
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
         "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),
@@ -115,12 +114,12 @@ def slvs2D(VPointList, VLinkList, fileName):
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x20010+n) for n in range(3)),
         '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x20020+n, 0.5) for n in range(4)),
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x30010+n) for n in range(3)),
-        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5) for n in range(4))
+        '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5 if n==0 else -0.5) for n in range(4))
     ])
     script_request = '\n\n'.join(
         "Request.h.v={:08x}\nRequest.type=100\nRequest.group.v=00000001\nRequest.construction=0\nAddRequest".format(n) for n in range(1, 4)
     )
-    script_entity = '\n\n'.join([
+    script_entity = ['\n\n'.join([
         entity_plane(0x10000, 0x10001, 0x10020),
         entity_point(0x10001),
         entity_normal_w(0x10020, 0x10001),
@@ -129,8 +128,8 @@ def slvs2D(VPointList, VLinkList, fileName):
         entity_normal_xyz(0x20020, 0x20001),
         entity_plane(0x30000, 0x30001, 0x30020),
         entity_point(0x30001),
-        entity_normal_xyz(0x30020, 0x30001)
-    ])
+        entity_normal_xyz(0x30020, 0x30001, True)
+    ])]
     #The number of same points.
     point_num = [[] for vpoint in VPointList]
     #TODO: The number of same lines.
@@ -159,38 +158,20 @@ def slvs2D(VPointList, VLinkList, fileName):
     for i, vlink in enumerate(VLinkList):
         if i==0:
             continue
-        script_entity += Entity_line(entity_num)
+        script_entity.append(Entity_line(entity_num))
         for i, p in enumerate(vlink.points):
             if i==0:
                 continue
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity += Entity_point(entity_num, VPointList[p].cx, VPointList[p].cy)
+            script_entity.append(Entity_point(entity_num, VPointList[p].cx, VPointList[p].cy))
             line_num[i].append(entity_num)
         entity_num = up(entity_num, 4)
-    script_entity += '''
-    Entity.h.v=80020000
-    Entity.type=10000
-    Entity.construction=0
-    Entity.point[0].v=80020002
-    Entity.normal.v=80020001
-    Entity.actVisible=1
-    AddEntity
-
-    Entity.h.v=80020001
-    Entity.type=3010
-    Entity.construction=0
-    Entity.point[0].v=80020002
-    Entity.actNormal.w=1.00000000000000000000
-    Entity.actVisible=1
-    AddEntity
-
-    Entity.h.v=80020002
-    Entity.type=2012
-    Entity.construction=1
-    Entity.actVisible=1
-    AddEntity
-    '''
+    script_entity.append('\n\n'.join([
+        entity_plane(0x80020000, 0x80020002, 0x80020001),
+        entity_normal_w(0x80020001, 0x80020002, 3010),
+        entity_point(0x80020002, 2012)
+    ]))
     #Add "Constraint"
     script_constraint = []
     constraint_num = 0x1
@@ -213,12 +194,12 @@ def slvs2D(VPointList, VLinkList, fileName):
         script_constraint.append(Constraint_line(constraint_num, l[0], l[1], VLinkList[i].len))
         constraint_num += 1
     #Write file
-    with open(fileName, 'w', encoding="iso-8859-15", newline="") as f:
+    with open(fileName, 'w', encoding="iso-8859-15") as f: #, newline=""
         f.write('\n\n'.join([
-            textwrap.dedent(script_group)+
-            textwrap.dedent(script_param)+
-            textwrap.dedent(script_request)+
-            textwrap.dedent(script_entity)+
+            script_group,
+            script_param,
+            script_request,
+            '\n\n'.join(script_entity),
             '\n\n'.join(script_constraint)
         ]))
 

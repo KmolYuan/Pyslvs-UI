@@ -59,7 +59,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.on_connectConsoleButton_clicked()
         #Undo Stack
         self.FileState = QUndoStack()
-        self.setLocate(QFileInfo(self.args.i if self.args.i else QDir.homePath()).canonicalFilePath())
+        self.setLocate(
+            QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
+            QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+        )
         #Initialize custom UI.
         initCustomWidgets(self)
         self.Resolve()
@@ -499,7 +502,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if fileName:
             if QFileInfo(fileName).suffix()!=suffix0[1:]:
                 fileName = fileName+suffix0
-            self.setLocate(QFileInfo(fileName).absolutePath())
+            dir = QFileInfo(fileName).absolutePath()
+            if dir!=self.Default_Environment_variables:
+                self.setLocate(dir)
             print("Formate: {}".format(form))
         return fileName
     
