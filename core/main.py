@@ -373,23 +373,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0]
                         .replace('mech=', '').split('|')
                     ))
-                    for i in range(len(textList)):
-                        item = textList[i].split(',')[:-1]
-                        isfloat = lambda s: s.replace('.','',1).isdigit()
-                        hasAngle = isfloat(item[-1]) and isfloat(item[-2]) and isfloat(item[-3])
-                        links = item[:-4] if hasAngle else item[:-3]
-                        item = item[-4:] if hasAngle else item[-3:]
-                        textList[i] = "J[{}, P[{}], L[{}]]".format(
-                            "{}:{}".format(item[-4], item[-1]) if item[0]!='R' else 'R',
+                    expression = []
+                    while textList:
+                        item = textList.pop(0).split(',')[:-1]
+                        for i, e in enumerate(reversed(item)):
+                            if e in ['R', 'P', 'RP']:
+                                t = -(i+1)
+                                break
+                        links = item[:t]
+                        item = item[t:]
+                        expression.append("J[{}, P[{}], L[{}]]".format(
+                            "{}:{}".format(item[0], item[-1]) if item[0]!='R' else 'R',
                             ", ".join((item[1], item[2])),
                             ", ".join(links)
-                        )
-                    textList = "M[{}]".format(", ".join(textList))
+                        ))
+                    expression = "M[{}]".format(", ".join(expression))
                 except Exception as e:
                     dlg.show()
                     dlg.exec_()
                 else:
-                    self.parseExpression(textList)
+                    self.parseExpression(expression)
             else:
                 dlg.show()
                 dlg.exec_()
