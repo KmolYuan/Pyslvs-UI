@@ -360,19 +360,27 @@ class DynamicCanvas(BaseCanvas):
             #draw paths.
             def drawPath(path):
                 pointPath = QPainterPath()
-                for i, (x, y) in enumerate(path):
-                    x *= self.zoom
-                    y *= -self.zoom
-                    if i==0:
-                        pointPath.moveTo(x, y)
+                for i, coordinate in enumerate(path):
+                    try:
+                        x = coordinate[0]*self.zoom
+                        y = coordinate[1]*-self.zoom
+                    except TypeError:
+                        continue
                     else:
-                        pointPath.lineTo(QPointF(x, y))
+                        if i==0:
+                            pointPath.moveTo(x, y)
+                        else:
+                            pointPath.lineTo(QPointF(x, y))
                 self.painter.drawPath(pointPath)
             def drawDot(path):
-                for x, y in path:
-                    x *= self.zoom
-                    y *= -self.zoom
-                    self.painter.drawPoint(QPointF(x, y))
+                for coordinate in path:
+                    try:
+                        x = coordinate[0]*self.zoom
+                        y = coordinate[1]*-self.zoom
+                    except TypeError:
+                        continue
+                    else:
+                        self.painter.drawPoint(QPointF(x, y))
             draw = drawPath if self.Path.mode else drawDot
             if hasattr(self, 'PathRecord'):
                 Path = self.PathRecord
@@ -391,18 +399,17 @@ class DynamicCanvas(BaseCanvas):
         if self.showSlvsPath:
             #Draw solving range.
             for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
-                pen = QPen(range_color)
                 self.painter.setBrush(range_color)
+                range_color.setAlpha(255)
+                pen = QPen(range_color)
+                pen.setWidth(5)
                 self.painter.setPen(pen)
                 cx = rect.x()*self.zoom
                 cy = rect.y()*-self.zoom
-                self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
-                range_color.setAlpha(100)
-                pen.setColor(range_color)
-                pen.setWidth(2)
-                self.painter.setPen(pen)
-                self.painter.setBrush(Qt.NoBrush)
-                self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
+                if rect.width():
+                    self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
+                else:
+                    self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
                 self.painter.setFont(QFont("Arial", self.fontSize+5))
                 range_color.setAlpha(255)
                 pen.setColor(range_color)

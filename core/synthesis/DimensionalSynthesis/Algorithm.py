@@ -210,6 +210,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.pathChanged.emit(tuple(self.path))
         self.Point_list.addItem("({}, {})".format(x, y))
         self.isGenerate()
+    
     @pyqtSlot()
     def on_remove_clicked(self):
         if self.Point_list.currentRow()>-1:
@@ -217,6 +218,11 @@ class Algorithm_show(QWidget, PathSolving_Form):
             self.pathChanged.emit(tuple(self.path))
             self.Point_list.takeItem(self.Point_list.currentRow())
             self.isGenerate()
+    
+    @pyqtSlot()
+    def on_close_path_clicked(self):
+        if self.Point_list.count() > 1 and self.path[0]!=self.path[-1]:
+            self.on_add_clicked(*self.path[0])
     
     def isGenerate(self):
         self.pointNum.setText(

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>518</height>
+    <height>636</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -171,7 +171,7 @@
                 <string>Process path data, such as moving or scaling.</string>
                </property>
                <property name="text">
-                <string>Process ...</string>
+                <string>Adjustment ...</string>
                </property>
               </widget>
              </item>
@@ -264,6 +264,20 @@
                 </size>
                </property>
               </spacer>
+             </item>
+             <item>
+              <widget class="QPushButton" name="close_path">
+               <property name="text">
+                <string>Close path</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="line_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
              </item>
              <item>
               <widget class="QPushButton" name="moveUp">
