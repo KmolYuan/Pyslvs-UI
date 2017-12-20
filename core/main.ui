@@ -109,7 +109,7 @@
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
-               <widget class="QWidget" name="PointTabWidget" native="true">
+               <widget class="QWidget" name="EntitiesTabWidget" native="true">
                 <layout class="QVBoxLayout" name="verticalLayout_29">
                  <property name="leftMargin">
                   <number>3</number>
@@ -124,7 +124,7 @@
                   <number>3</number>
                  </property>
                  <item>
-                  <widget class="QTabWidget" name="PointTab">
+                  <widget class="QTabWidget" name="EntitiesTab">
                    <property name="currentIndex">
                     <number>0</number>
                    </property>
@@ -178,39 +178,6 @@
                      </item>
                     </layout>
                    </widget>
-                  </widget>
-                 </item>
-                </layout>
-               </widget>
-               <widget class="QWidget" name="LinkTabWidget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_30">
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
-                 <item>
-                  <widget class="Line" name="MechanismPanelSplitterLine">
-                   <property name="lineWidth">
-                    <number>3</number>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QTabWidget" name="LinkTab">
-                   <property name="currentIndex">
-                    <number>0</number>
-                   </property>
                    <widget class="QWidget" name="LinksTab">
                     <attribute name="icon">
                      <iconset resource="../icons.qrc">
@@ -219,7 +186,7 @@
                     <attribute name="title">
                      <string>Link</string>
                     </attribute>
-                    <layout class="QVBoxLayout" name="LinkTabLayout">
+                    <layout class="QVBoxLayout" name="verticalLayout_19">
                      <property name="leftMargin">
                       <number>6</number>
                      </property>
@@ -264,6 +231,48 @@
                      </item>
                     </layout>
                    </widget>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+               <widget class="QWidget" name="MechanismsTabWidget" native="true">
+                <layout class="QVBoxLayout" name="verticalLayout_30">
+                 <property name="leftMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>3</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>3</number>
+                 </property>
+                 <item>
+                  <widget class="Line" name="MechanismPanelSplitterLine">
+                   <property name="lineWidth">
+                    <number>3</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_6">
+                   <property name="text">
+                    <string>Mechanism list:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QListWidget" name="mechanism_list">
+                   <item>
+                    <property name="text">
+                     <string>Main</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                 </layout>

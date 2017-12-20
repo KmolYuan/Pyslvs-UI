@@ -95,13 +95,12 @@ def initCustomWidgets(self):
     self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
     #Select all button on the Point and Link tab as corner widget.
-    for tab, table in [(self.PointTab, self.Entities_Point), (self.LinkTab, self.Entities_Link)]:
-        SelectAllButton = QPushButton()
-        SelectAllButton.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
-        SelectAllButton.setToolTip("Select all")
-        SelectAllButton.setStatusTip("Select all item of this table.")
-        SelectAllButton.clicked.connect(table.selectAll)
-        tab.setCornerWidget(SelectAllButton)
+    SelectAllButton = QPushButton()
+    SelectAllButton.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
+    SelectAllButton.setToolTip("Select all")
+    SelectAllButton.setStatusTip("Select all item of this table.")
+    SelectAllButton.clicked.connect(self.Entities_Point.selectAll)
+    self.EntitiesTab.setCornerWidget(SelectAllButton)
     SelectAllAction = QAction("Select all point", self)
     SelectAllAction.triggered.connect(self.Entities_Point.selectAll)
     SelectAllAction.setShortcut("Ctrl+A")
@@ -129,8 +128,7 @@ def initCustomWidgets(self):
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 15)
-    self.MechanismPanelSplitter.setStretchFactor(0, 4)
-    self.MechanismPanelSplitter.setStretchFactor(1, 5)
+    self.MechanismPanelSplitter.setSizes([500, 100])
     self.synthesis_splitter.setSizes([100, 500])
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMenu)
