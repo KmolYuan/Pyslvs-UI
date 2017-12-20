@@ -413,27 +413,24 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
             #Draw solving path.
             if self.slvsPath:
-                pen = QPen(QColor(69, 247, 232))
+                pen = QPen(QColor(3, 163, 120))
                 pen.setWidth(self.pathWidth)
                 self.painter.setPen(pen)
-                if self.Path.mode:
-                    if len(self.slvsPath)>1:
-                        pointPath = QPainterPath()
-                        for i, (x, y) in enumerate(self.slvsPath):
-                            x *= self.zoom
-                            y *= -self.zoom
-                            if i==0:
-                                pointPath.moveTo(x, y)
-                            else:
-                                pointPath.lineTo(QPointF(x, y))
-                        self.painter.drawPath(pointPath)
-                    elif len(self.slvsPath)==1:
-                        self.painter.drawPoint(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom))
-                else:
-                    for x, y in self.slvsPath:
+                if len(self.slvsPath)>1:
+                    pointPath = QPainterPath()
+                    for i, (x, y) in enumerate(self.slvsPath):
                         x *= self.zoom
                         y *= -self.zoom
-                        self.painter.drawPoint(QPointF(x, y))
+                        self.painter.drawEllipse(QPointF(x, y), 3, 3)
+                        if i==0:
+                            pointPath.moveTo(x, y)
+                        else:
+                            pointPath.lineTo(QPointF(x, y))
+                    pen.setColor(QColor(69, 247, 232))
+                    self.painter.setPen(pen)
+                    self.painter.drawPath(pointPath)
+                elif len(self.slvsPath)==1:
+                    self.painter.drawEllipse(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom), 3, 3)
     
     def recordStart(self, limit):
         self.PathRecord = [deque([], limit) for i in range(len(self.Point))]
