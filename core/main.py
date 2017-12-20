@@ -826,12 +826,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setText('{}%'.format(value))
     
-    #Wheel Event
-    def wheelEvent(self, event):
-        if self.DynamicCanvasView.underMouse():
-            a = event.angleDelta().y()
-            self.ZoomBar.setValue(self.ZoomBar.value() + self.ScaleFactor.value()*a/abs(a))
-    
     @pyqtSlot(bool)
     def on_action_Display_Dimensions_toggled(self, p0):
         if p0:

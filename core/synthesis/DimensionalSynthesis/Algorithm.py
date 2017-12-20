@@ -226,7 +226,8 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     def isGenerate(self):
         self.pointNum.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.Point_list.count()))
+            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.Point_list.count())
+        )
         n = self.Point_list.count()>1
         self.pathAdjust.setEnabled(n)
         self.GenerateLocal.setEnabled(n)

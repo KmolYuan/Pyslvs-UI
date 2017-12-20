@@ -867,6 +867,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="GenerateLocal">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>120</width>

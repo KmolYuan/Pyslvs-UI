@@ -171,6 +171,8 @@ class DynamicCanvas(BaseCanvas):
         self.showDimension = False
         #Free move mode.
         self.freemove = False
+        #Set zoom bar function
+        self.setZoomValue = lambda a: parent.ZoomBar.setValue(parent.ZoomBar.value() + parent.ScaleFactor.value()*a/abs(a))
     
     def update_figure(self, Point, Link, path):
         self.Point = Point
@@ -452,6 +454,13 @@ class DynamicCanvas(BaseCanvas):
         path = tuple(tuple(path) if len(set(path))>1 else () for path in self.PathRecord)
         del self.PathRecord
         return path
+    
+    def wheelEvent(self, event):
+        if self.freemove and QApplication.keyboardModifiers()==Qt.AltModifier:
+            #TODO: (Edit mode) Rotate points function.
+            print(event.angleDelta().x()/abs(event.angleDelta().x()))
+        else:
+            self.setZoomValue(event.angleDelta().y())
     
     def mousePressEvent(self, event):
         self.Selector.x = event.x() - self.ox

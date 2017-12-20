@@ -362,6 +362,7 @@ class Ui_Form(object):
         self.GenerateZMQ.setObjectName("GenerateZMQ")
         self.timePanelLayout.addWidget(self.GenerateZMQ)
         self.GenerateLocal = QtWidgets.QPushButton(self.timePanel)
+        self.GenerateLocal.setEnabled(False)
         self.GenerateLocal.setMinimumSize(QtCore.QSize(120, 0))
         icon8 = QtGui.QIcon()
         icon8.addPixmap(QtGui.QPixmap(":/icons/local.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
