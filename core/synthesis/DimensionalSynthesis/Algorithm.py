@@ -29,45 +29,6 @@ from .Algorithm_series import Algorithm_series_show
 import csv
 import openpyxl
 from re import split as charSplit
-import platform
-
-#SystemTrayIcon
-class progress_systemTrayIcon(QSystemTrayIcon):
-    def __init__(self, parent=None):
-        QSystemTrayIcon.__init__(self, QIcon(QPixmap(":/icons/main_big.png")), parent)
-        self.menu = QMenu(parent)
-        self.setContextMenu(self.menu)
-        self.messageClicked.connect(self.showMainWindow)
-        self.dlg = None
-        if platform.system().lower()=='windows':
-            self.setToolTip("Pyslvs\nClick here to minimize / show Pyslvs.")
-        else:
-            self.setToolTip("<html><head/><body><h2>Pyslvs</h2><p>Click here to minimize / show Pyslvs.</p></body></html>")
-        self.activated.connect(self.clicked)
-        self.mainState = parent.windowState()
-    
-    def setDialog(self, dlg):
-        self.dlg = dlg
-    
-    @pyqtSlot()
-    def showMainWindow(self):
-        mainWindow = self.parent()
-        mainWindow.setWindowState(self.mainState)
-        mainWindow.activateWindow()
-    
-    @pyqtSlot(QSystemTrayIcon.ActivationReason)
-    def clicked(self, ActivationReason):
-        if ActivationReason==QSystemTrayIcon.Trigger:
-            mainWindow = self.parent()
-            if mainWindow.windowState()==Qt.WindowMinimized:
-                mainWindow.setWindowState(self.mainState)
-                if self.dlg:
-                    self.dlg.setWindowState(self.mainState)
-            else:
-                self.mainState = mainWindow.windowState()
-                mainWindow.showMinimized()
-                if self.dlg:
-                    self.dlg.showMinimized()
 
 class Algorithm_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
@@ -106,8 +67,6 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def __init__(self, parent):
         super(Algorithm_show, self).__init__(parent)
         self.setupUi(self)
-        #System Tray Icon Menu
-        self.trayIcon = progress_systemTrayIcon(parent)
         self.path = parent.FileWidget.Designs.path
         self.mechanism_data = parent.FileWidget.Designs.result
         self.mechanism_data_add = parent.FileWidget.Designs.addResult
@@ -276,11 +235,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.startAlgorithm(hasPort=True)
     
     def startAlgorithm(self, hasPort=False):
-        self.trayIcon.show()
         type_num, mechanismParams, generateData = self.getGenerate()
         dlg = Algorithm_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
             PORT=self.portText.text() if hasPort else None, parent=self.parent())
-        self.trayIcon.setDialog(dlg)
         dlg.show()
         if dlg.exec_():
             self.mechanism_data_add(dlg.mechanisms)
@@ -288,12 +245,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 self.addResult(m)
             self.setTime(dlg.time_spand)
             self.unsaveFunc()
-            if self.trayIcon.supportsMessages():
-                self.trayIcon.showMessage("Algorithm completed!", "You can see the results in Pyslvs.")
             dlgbox = QMessageBox(QMessageBox.Information, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), self.parent())
             if dlgbox.exec_():
                 print("Finished.")
-        self.trayIcon.hide()
     
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2

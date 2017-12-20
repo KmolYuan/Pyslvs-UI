@@ -134,10 +134,10 @@ class BaseCanvas(QWidget):
             pen.setColor(Qt.darkGray)
             pen.setWidth(2)
             self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.fontSize))
-            text = '[{}]'.format(i) if type(i)==str else '[Point{}]'.format(i)
+            self.painter.setFont(QFont("Arial", self.fontSize))
+            text = "[{}]".format(i) if type(i)==str else "[Point{}]".format(i)
             if self.showDimension:
-                text += ':({:.02f}, {:.02f})'.format(cx, cy)
+                text += ":({:.02f}, {:.02f})".format(cx, cy)
             self.painter.drawText(QPointF(x+6, y-6), text)
 
 class DynamicCanvas(BaseCanvas):
@@ -403,14 +403,14 @@ class DynamicCanvas(BaseCanvas):
                 self.painter.setPen(pen)
                 self.painter.setBrush(Qt.NoBrush)
                 self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
-                self.painter.setFont(QFont('Arial', self.fontSize+5))
+                self.painter.setFont(QFont("Arial", self.fontSize+5))
                 range_color.setAlpha(255)
                 pen.setColor(range_color)
                 self.painter.setPen(pen)
                 if i==0:
-                    self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), 'Driver')
+                    self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), "Driver")
                 else:
-                    self.painter.drawText(QPointF(cx+6, cy-6), 'Follower')
+                    self.painter.drawText(QPointF(cx+6, cy-6), "Follower")
             #Draw solving path.
             if self.slvsPath:
                 pen = QPen(QColor(3, 163, 120))
