@@ -29,7 +29,8 @@ from .io.undoRedo import (
     addTableCommand, deleteTableCommand,
     fixSequenceNumberCommand,
     editPointTableCommand, editLinkTableCommand,
-    addPathCommand, deletePathCommand
+    addPathCommand, deletePathCommand,
+    addStorageCommand, deleteStorageCommand
 )
 #Entities
 from .entities.edit_point import edit_point_show
@@ -560,7 +561,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard = QApplication.clipboard()
             clipboard.setText(expr)
     
-    #TODO: Output to Python script for Jupyterhub.
+    #TODO: Output to Python script for Jupyter notebook.
     
     #Add point group using alt key.
     @pyqtSlot()
@@ -640,7 +641,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dlg.show()
         if dlg.exec_():
             rowCount = self.Entities_Point.rowCount()
-            Type = dlg.Type.currentText().split(" ")[0]
+            Type = dlg.Type.currentText().split()[0]
             if Type!='R':
                 Type += ":{}".format(dlg.Angle.value()%360)
             Args = [
@@ -791,19 +792,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         selections = self.Entities_Point.selectedRows()
         selections = tuple(p-i if p>selections[i-1] else p for i, p in enumerate(selections))
         for row in selections:
-            Args = [
-                '',
-                self.Entities_Point.item(row, 2).text(),
-                self.Entities_Point.item(row, 3).text(),
-                self.Entities_Point.item(row, 4).text(),
-                self.Entities_Point.item(row, 5).text()
-            ]
-            self.FileState.beginMacro("Delete {{Point{}}}".format(row))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
-            for i in range(self.Entities_Link.rowCount()):
-                self.FileState.push(fixSequenceNumberCommand(self.Entities_Link, i, row))
-            self.FileState.push(deleteTableCommand(self.Entities_Point, row, isRename=True))
-            self.FileState.endMacro()
+            self.deletePoint(row)
+    
+    def deletePoint(self, row):
+        Args = [
+            '',
+            self.Entities_Point.item(row, 2).text(),
+            self.Entities_Point.item(row, 3).text(),
+            self.Entities_Point.item(row, 4).text(),
+            self.Entities_Point.item(row, 5).text()
+        ]
+        self.FileState.beginMacro("Delete {{Point{}}}".format(row))
+        self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+        for i in range(self.Entities_Link.rowCount()):
+            self.FileState.push(fixSequenceNumberCommand(self.Entities_Link, i, row))
+        self.FileState.push(deleteTableCommand(self.Entities_Point, row, isRename=True))
+        self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Delete_Link_triggered(self):
@@ -813,16 +817,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i, p in enumerate(selections)
         )
         for row in selections:
-            if row!=0:
-                Args = [
-                    self.Entities_Link.item(row, 0).text(),
-                    self.Entities_Link.item(row, 1).text(),
-                    ''
-                ]
-                self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
-                self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
-                self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
-                self.FileState.endMacro()
+            self.deleteLink(row)
+    
+    def deleteLink(self, row):
+        if row!=0:
+            Args = [
+                self.Entities_Link.item(row, 0).text(),
+                self.Entities_Link.item(row, 1).text(),
+                ''
+            ]
+            self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
+            self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
+            self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
+            self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):
@@ -1160,3 +1167,48 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showFullScreen()
         else:
             self.showMaximized()
+    
+    def storage_clear(self):
+        for row in range(self.Entities_Point.rowCount()):
+            self.deletePoint(0)
+        for row in range(self.Entities_Link.rowCount()-1):
+            self.deleteLink(1)
+    
+    @pyqtSlot()
+    def on_mechanism_storage_add_clicked(self):
+        name, ok = QInputDialog.getText(self, "Storage", "Please input name tag:")
+        if ok:
+            if not name:
+                nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
+                i = 0
+                name = "Mechanism_{}".format(i)
+                while name in nameList:
+                    i += 1
+                    name = "Mechanism_{}".format(i)
+            expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data()))
+            self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
+            self.storage_clear()
+            self.FileState.push(addStorageCommand(
+                name,
+                self.mechanism_storage,
+                expr
+            ))
+            self.FileState.endMacro()
+    
+    @pyqtSlot()
+    def on_mechanism_storage_delete_clicked(self):
+        row = self.mechanism_storage.currentRow()
+        if row>-1:
+            self.FileState.beginMacro("Delete {{Mechanism: {}}}".format(self.mechanism_storage.item(row).text()))
+            self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
+            self.FileState.endMacro()
+    
+    @pyqtSlot()
+    def on_mechanism_storage_restore_clicked(self):
+        row = self.mechanism_storage.currentRow()
+        if row>-1:
+            self.FileState.beginMacro("Restore from {{Mechanism: {}}}".format(self.mechanism_storage.item(row).text()))
+            self.storage_clear()
+            self.parseExpression(self.mechanism_storage.item(row).expr)
+            self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
+            self.FileState.endMacro()

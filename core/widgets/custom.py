@@ -128,7 +128,7 @@ def initCustomWidgets(self):
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 2)
     self.MainSplitter.setStretchFactor(1, 15)
-    self.MechanismPanelSplitter.setSizes([500, 100])
+    self.MechanismPanelSplitter.setSizes([500, 200])
     self.synthesis_splitter.setSizes([100, 500])
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMenu)

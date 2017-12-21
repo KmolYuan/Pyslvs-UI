@@ -228,3 +228,36 @@ class deletePathCommand(QUndoCommand):
     def undo(self):
         self.data[self.oldItem.text().split(':')[0]] = self.oldPath
         self.widget.addItem(self.oldItem)
+
+class addStorageCommand(QUndoCommand):
+    def __init__(self, name, widget, mechanism):
+        QUndoCommand.__init__(self)
+        self.name = name
+        self.widget = widget
+        self.mechanism = mechanism
+    
+    def redo(self):
+        item = QListWidgetItem(self.name)
+        item.expr = self.mechanism
+        item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
+        self.widget.addItem(item)
+    
+    def undo(self):
+        self.widget.takeItem(self.widget.count()-1)
+
+class deleteStorageCommand(QUndoCommand):
+    def __init__(self, row, widget):
+        QUndoCommand.__init__(self)
+        self.row = row
+        self.widget = widget
+        self.name = widget.item(row).text()
+        self.mechanism = widget.item(row).expr
+    
+    def redo(self):
+        self.widget.takeItem(self.row)
+    
+    def undo(self):
+        item = QListWidgetItem(self.name)
+        item.expr = self.mechanism
+        item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
+        self.widget.insertItem(self.row, item)

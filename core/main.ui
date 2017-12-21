@@ -210,9 +210,6 @@
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
-                       <property name="statusTip">
-                        <string>All Links in this workbook. Needs two point.</string>
-                       </property>
                        <layout class="QVBoxLayout" name="Entities_Link_Layout">
                         <property name="leftMargin">
                          <number>0</number>
@@ -236,19 +233,7 @@
                 </layout>
                </widget>
                <widget class="QWidget" name="MechanismsTabWidget" native="true">
-                <layout class="QVBoxLayout" name="verticalLayout_30">
-                 <property name="leftMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="topMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="rightMargin">
-                  <number>3</number>
-                 </property>
-                 <property name="bottomMargin">
-                  <number>3</number>
-                 </property>
+                <layout class="QVBoxLayout" name="verticalLayout_21">
                  <item>
                   <widget class="Line" name="MechanismPanelSplitterLine">
                    <property name="lineWidth">
@@ -267,13 +252,61 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QListWidget" name="mechanism_storage">
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
                    <item>
-                    <property name="text">
-                     <string>Main</string>
-                    </property>
+                    <widget class="QListWidget" name="mechanism_storage"/>
                    </item>
-                  </widget>
+                   <item>
+                    <layout class="QVBoxLayout" name="verticalLayout_20">
+                     <item>
+                      <widget class="QPushButton" name="mechanism_storage_add">
+                       <property name="text">
+                        <string>Add</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="mechanism_storage_restore">
+                       <property name="text">
+                        <string>Restore</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="verticalSpacer">
+                       <property name="orientation">
+                        <enum>Qt::Vertical</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>20</width>
+                         <height>40</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="mechanism_storage_delete">
+                       <property name="text">
+                        <string>Delete</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                       </property>
+                      </widget>
+                     </item>
+                    </layout>
+                   </item>
+                  </layout>
                  </item>
                 </layout>
                </widget>
