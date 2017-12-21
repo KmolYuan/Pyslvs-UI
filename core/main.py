@@ -430,6 +430,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
                 self.FileState.endMacro()
     
+    #Use to add empty link when loading database.
     def emptyLinkGroup(self, linkcolor):
         for name, color in linkcolor.items():
             if name=='ground':
@@ -716,6 +717,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Link_triggered(self):
         selectedRows = self.Entities_Point.selectedRows()
         if len(selectedRows)>1:
+            for row, vlink in enumerate(self.Entities_Link.data()):
+                if vlink.points and set(selectedRows) > set(vlink.points):
+                    Args = [
+                        vlink.name, vlink.colorSTR,
+                        ','.join(['Point{}'.format(i) for i in selectedRows]),
+                    ]
+                    self.FileState.beginMacro("Edit {{Link: {}}}".format(vlink.name))
+                    self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
+                    self.FileState.endMacro()
+                    return
             self.addLinkGroup(selectedRows)
         else:
             self.editLink()
