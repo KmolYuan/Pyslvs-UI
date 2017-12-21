@@ -48,6 +48,8 @@ from .io.loggingHandler import XStream
 import csv
 #Parser
 from .io.larkParser import parser, ArgsTransformer
+#Typing
+from typing import Tuple
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
@@ -356,6 +358,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Clear to create commit stage.
     def clear(self):
+        self.mechanism_storage.clear()
         self.SynthesisCollections.clear()
         self.NumberAndTypeSynthesis.clear()
         self.inputs_record.clear()
@@ -1188,12 +1191,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data()))
             self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
             self.storage_clear()
-            self.FileState.push(addStorageCommand(
-                name,
-                self.mechanism_storage,
-                expr
-            ))
+            self.addStorage(name, expr)
             self.FileState.endMacro()
+    
+    def addStorage(self, name, expr):
+        self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
+        self.storage_clear()
+        self.FileState.push(addStorageCommand(
+            name,
+            self.mechanism_storage,
+            expr
+        ))
+        self.FileState.endMacro()
     
     @pyqtSlot()
     def on_mechanism_storage_delete_clicked(self):
@@ -1212,3 +1221,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.parseExpression(self.mechanism_storage.item(row).expr)
             self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
             self.FileState.endMacro()
+    
+    def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
+        for name, expr in exprs:
+            self.addStorage(name, expr)

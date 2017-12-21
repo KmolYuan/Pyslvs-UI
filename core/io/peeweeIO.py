@@ -84,6 +84,8 @@ class CommitModel(Model):
     #Use Lark parser
     mechanism = BlobField()
     linkcolor = BlobField()
+    #Storage data
+    storage = BlobField()
     #Path data
     pathdata = BlobField()
     #Collection data
@@ -125,10 +127,15 @@ class FileWidget(QWidget, Ui_Form):
         #The main window functions.
         self.pointDataFunc = parent.Entities_Point.data #Get current point data.
         self.linkDataFunc = parent.Entities_Link.data #Get current link data.
+        self.storageDataFunc = lambda: tuple(
+            (parent.mechanism_storage.item(row).text(), parent.mechanism_storage.item(row).expr)
+            for row in range(parent.mechanism_storage.count())
+        )
         self.isSavedFunc = parent.workbookSaved #Call it to get main window be shown as saved.
         self.linkGroupFunc = parent.emptyLinkGroup #Add empty link with color.
         self.parseFunc = parent.parseExpression #Main window will load the entered expression.
         self.clearFunc = parent.clear #Reset the main window.
+        self.loadStorageFunc = parent.loadStorage #Call to load storages.
         self.loadPathFunc = parent.loadPaths #Call after loaded paths.
         '''
         Mentioned in "core.widgets.custom", because DimensionalSynthesis created after FileWidget.
@@ -213,6 +220,7 @@ class FileWidget(QWidget, Ui_Form):
                 'description':commit_text,
                 'mechanism':compress("M[{}]".format(", ".join(str(vpoint) for vpoint in pointData))),
                 'linkcolor':compress(linkcolor),
+                'storage':compress(self.storageDataFunc()),
                 'pathdata':compress(self.pathData),
                 'collectiondata':compress(self.CollectDataFunc()),
                 'algorithmdata':compress(self.Designs.result),
@@ -332,6 +340,8 @@ class FileWidget(QWidget, Ui_Form):
             #Load the expression.
             self.linkGroupFunc(decompress(commit.linkcolor))
             self.parseFunc(decompress(commit.mechanism))
+            #Load the storages.
+            self.loadStorageFunc(decompress(commit.storage))
             #Load pathdata.
             self.loadPathFunc(decompress(commit.pathdata))
             #Load collectiondata.
