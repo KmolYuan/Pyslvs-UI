@@ -26,13 +26,13 @@ function = TypeVar("function")
 from .color import colorQt
 
 class Path:
-    __slots__ = ('path', 'show', 'mode')
+    __slots__ = ('path', 'show', 'curve')
     
     def __init__(self):
         self.path = ()
         self.show = True
         #Display mode: The path will be the curve, otherwise the points.
-        self.mode = True
+        self.curve = True
 
 class Selector:
     #Use to record mouse clicked point.
@@ -198,6 +198,11 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(bool)
     def setShowDimension(self, showDimension):
         self.showDimension = showDimension
+        self.update()
+    
+    @pyqtSlot(bool)
+    def setCurveMode(self, curve):
+        self.Path.curve = curve
         self.update()
     
     @pyqtSlot(int)
@@ -383,7 +388,7 @@ class DynamicCanvas(BaseCanvas):
                         continue
                     else:
                         self.painter.drawPoint(QPointF(x, y))
-            draw = drawPath if self.Path.mode else drawDot
+            draw = drawPath if self.Path.curve else drawDot
             if hasattr(self, 'PathRecord'):
                 Path = self.PathRecord
             else:
@@ -456,11 +461,7 @@ class DynamicCanvas(BaseCanvas):
         return path
     
     def wheelEvent(self, event):
-        if self.freemove and QApplication.keyboardModifiers()==Qt.AltModifier:
-            #TODO: (Edit mode) Rotate points function.
-            print(event.angleDelta().x()/abs(event.angleDelta().x()))
-        else:
-            self.setZoomValue(event.angleDelta().y())
+        self.setZoomValue(event.angleDelta().y())
     
     def mousePressEvent(self, event):
         self.Selector.x = event.x() - self.ox

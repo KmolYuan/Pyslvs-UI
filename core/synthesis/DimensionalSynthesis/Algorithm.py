@@ -71,7 +71,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.mechanism_data = parent.FileWidget.Designs.result
         self.mechanism_data_add = parent.FileWidget.Designs.addResult
         self.mechanism_data_del = parent.FileWidget.Designs.delResult
-        self.env = lambda: parent.Default_Environment_variables
+        self.env = lambda: parent.env
         self.unsaveFunc = parent.workbookNoSave
         self.Settings = self.defaultSettings
         self.algorithmPrams_default()

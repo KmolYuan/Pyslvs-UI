@@ -79,8 +79,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Set environment variables
     def setLocate(self, locate):
-        self.Default_Environment_variables = locate
-        print("~Set workplace to: [\"{}\"]".format(self.Default_Environment_variables))
+        self.env = locate
+        print("~Set workplace to: [\"{}\"]".format(self.env))
     
     #Drag file in to our window.
     def dragEnterEvent(self, event):
@@ -440,7 +440,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
         if not self.checkFileChanged():
-            fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+            fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env, "Pyslvs workbook (*.pyslvs)")
             if fileName:
                 self.FileWidget.read(fileName)
     
@@ -448,7 +448,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Import_Workbook_triggered(self):
         if not self.checkFileChanged():
-            fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.Default_Environment_variables, "Pyslvs workbook (*.pyslvs)")
+            fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.env, "Pyslvs workbook (*.pyslvs)")
             if fileName:
                 self.FileWidget.importMechanism(fileName)
     
@@ -498,12 +498,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def outputTo(self, formatName, formatChoose):
         suffix0 = formatChoose[0].split('*')[-1][:-1]
         fileName, form = QFileDialog.getSaveFileName(self, "Save {}...".format(formatName),
-            self.Default_Environment_variables+'/'+self.FileWidget.fileName.baseName()+suffix0, ';;'.join(formatChoose))
+            self.env+'/'+self.FileWidget.fileName.baseName()+suffix0, ';;'.join(formatChoose))
         if fileName:
             if QFileInfo(fileName).suffix()!=suffix0[1:]:
                 fileName = fileName+suffix0
             dir = QFileInfo(fileName).absolutePath()
-            if dir!=self.Default_Environment_variables:
+            if dir!=self.env:
                 self.setLocate(dir)
             print("Formate: {}".format(form))
         return fileName
@@ -842,8 +842,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Path_style_triggered(self):
-        self.DynamicCanvasView.Path.mode = self.action_Path_style.isChecked()
-        self.Reload_Canvas()
+        self.DynamicCanvasView.setCurveMode(self.action_Path_style.isChecked())
     
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
@@ -935,6 +934,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         enabled = row>-1
         rotatable = enabled and not self.FreeMoveMode.isChecked()
         self.inputs_Degree.setEnabled(rotatable)
+        self.oldVariableValue = self.inputs_Degree.value() / 100.
         self.inputs_variable_play.setEnabled(rotatable)
         self.inputs_variable_speed.setEnabled(rotatable)
         self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100. if enabled else 0.)
@@ -948,8 +948,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             itemText[-1] = str(value)
             item.setText('->'.join(itemText))
             self.Resolve()
-        if self.inputs_record_record.isChecked():
+        if self.inputs_record_record.isChecked() and abs(self.oldVariableValue - value) > self.inputs_record_interval.value():
             self.DynamicCanvasView.recordPath()
+            self.oldVariableValue = value
     
     def variableValueReset(self):
         if self.inputs_playShaft.isActive():
