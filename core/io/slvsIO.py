@@ -17,9 +17,9 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from .elements import v_to_graph_slvs
+from .elements import v_to_slvs
 
-script_group = '''\
+script_group = ['''\
 ±²³SolveSpaceREVa
 
 
@@ -62,7 +62,7 @@ Group.allDimsReference=0
 Group.scale=1.00000000000000000000
 Group.remap={
 }
-AddGroup'''
+AddGroup''']
 
 entity_plane = lambda n, p, v, : '\n'.join([
     "Entity.h.v={:08x}".format(n),
@@ -74,10 +74,10 @@ entity_plane = lambda n, p, v, : '\n'.join([
     "AddEntity"
 ])
 
-entity_point = lambda n, t=2000: '\n'.join([
+entity_point = lambda n, t=2000, con=0: '\n'.join([
     "Entity.h.v={:08x}".format(n),
     "Entity.type={}".format(t),
-    "Entity.construction={}".format(0),
+    "Entity.construction={}".format(con),
     "Entity.actVisible=1",
     "AddEntity"
 ])
@@ -106,8 +106,8 @@ entity_normal_xyz = lambda n, p, reversed=False: '\n'.join([
 ])
 
 def slvs2D(VPointList, VLinkList, fileName):
-    G = v_to_graph_slvs(VPointList, VLinkList)
-    script_param = '\n\n'.join([
+    edges = v_to_slvs(VPointList, VLinkList)
+    script_param = ['\n\n'.join([
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
         "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10020+n) for n in range(1, 4)),
@@ -115,10 +115,10 @@ def slvs2D(VPointList, VLinkList, fileName):
         '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x20020+n, 0.5) for n in range(4)),
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x30010+n) for n in range(3)),
         '\n\n'.join("Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x30020+n, 0.5 if n==0 else -0.5) for n in range(4))
-    ])
-    script_request = '\n\n'.join(
+    ])]
+    script_request = ['\n\n'.join(
         "Request.h.v={:08x}\nRequest.type=100\nRequest.group.v=00000001\nRequest.construction=0\nAddRequest".format(n) for n in range(1, 4)
-    )
+    )]
     script_entity = ['\n\n'.join([
         entity_plane(0x10000, 0x10001, 0x10020),
         entity_point(0x10001),
@@ -132,36 +132,28 @@ def slvs2D(VPointList, VLinkList, fileName):
     ])]
     #The number of same points.
     point_num = [[] for vpoint in VPointList]
-    #TODO: The number of same lines.
-    line_num = [[] for vlink in VLinkList if vlink.name!="ground"]
+    #The number of same lines.
+    line_num = [[] for edge in edges]
     #Add "Param"
     param_num = 0x40000
-    for i, vlink in enumerate(VLinkList):
-        if i==0:
-            continue
+    for i, edge in enumerate(edges):
         param_num += 0x10
-        for p in vlink.points:
-            script_param += Param(param_num, VPointList[p].cx)
+        for p in edge:
+            script_param.append(Param(param_num, VPointList[p].cx))
             param_num += 1
-            script_param += Param(param_num, VPointList[p].cy)
+            script_param.append(Param(param_num, VPointList[p].cy))
             param_num += 2
         param_num = up(param_num, 4)
     #Add "Request"
     request_num = 0x4
-    for i in range(len(VLinkList)):
-        if i==0:
-            continue
-        script_request += Request(request_num)
+    for i in range(len(edges)):
+        script_request.append(Request(request_num))
         request_num += 1
-    #TODO: Add "Entity"
+    #Add "Entity"
     entity_num = 0x40000
-    for i, vlink in enumerate(VLinkList):
-        if i==0:
-            continue
+    for i, edge in enumerate(edges):
         script_entity.append(Entity_line(entity_num))
-        for i, p in enumerate(vlink.points):
-            if i==0:
-                continue
+        for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
             script_entity.append(Entity_point(entity_num, VPointList[p].cx, VPointList[p].cy))
@@ -170,7 +162,7 @@ def slvs2D(VPointList, VLinkList, fileName):
     script_entity.append('\n\n'.join([
         entity_plane(0x80020000, 0x80020002, 0x80020001),
         entity_normal_w(0x80020001, 0x80020002, 3010),
-        entity_point(0x80020002, 2012)
+        entity_point(0x80020002, 2012, 1)
     ]))
     #Add "Constraint"
     script_constraint = []
@@ -180,28 +172,29 @@ def slvs2D(VPointList, VLinkList, fileName):
         for p_ in p[1:]:
             script_constraint.append(Constraint_point(constraint_num, p[0], p_))
             constraint_num += 1
-    #Comment constraint
-    for i, vpoint in enumerate(VPointList):
-        script_constraint.append(Constraint_comment(constraint_num, 'VPointList{}'.format(i), vpoint.cx, vpoint.cy))
-        constraint_num += 1
     #Position constraint
     for i, vpoint in enumerate(VPointList):
         if "ground" in vpoint.links and point_num[i]:
             script_constraint.append(Constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
             constraint_num += 2
-    #TODO: Distance constraint
-    for i, l in enumerate(line_num):
-        script_constraint.append(Constraint_line(constraint_num, l[0], l[1], VLinkList[i].len))
+    #Distance constraint
+    for i, (n1, n2) in enumerate(line_num):
+        p1, p2 = edges[i]
+        script_constraint.append(Constraint_line(constraint_num, n1, n2, VPointList[p1].distance(VPointList[p2])))
+        constraint_num += 1
+    #Comment constraint
+    for i, vpoint in enumerate(VPointList):
+        script_constraint.append(Constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
     #Write file
-    with open(fileName, 'w', encoding="iso-8859-15") as f: #, newline=""
-        f.write('\n\n'.join([
+    with open(fileName, 'w', encoding="iso-8859-15") as f:
+        f.write('\n\n'.join('\n\n'.join(script) for script in [
             script_group,
             script_param,
             script_request,
-            '\n\n'.join(script_entity),
-            '\n\n'.join(script_constraint)
-        ]))
+            script_entity,
+            script_constraint
+        ]) + '\n\n')
 
 def up(num, digit):
     ten = 0x10**digit
@@ -259,7 +252,7 @@ Constraint_point = lambda num, p1, p2: '\n'.join([
     "AddConstraint"
 ])
 
-Constraint_fix = lambda num, p0, x, y: Constraint_fix_hv(num, p0, 0x30000, y) + Constraint_fix_hv(num+1, p0, 0x20000, x)
+Constraint_fix = lambda num, p0, x, y: Constraint_fix_hv(num, p0, 0x30000, y) +'\n\n'+ Constraint_fix_hv(num+1, p0, 0x20000, x)
 
 Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
     "Constraint.h.v={0:08x}".format(num),

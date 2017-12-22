@@ -199,20 +199,18 @@ def v_to_graph(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
                 else:
                     G.add_edge(i, m)
             used_point.append(p)
-    print(G.edges)
     return G
 
-#TODO: v_to_graph_slvs
-def v_to_graph_slvs(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
-    G = Graph()
+#Solvespace edges
+def v_to_slvs(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
+    edges = []
     for vlink in linkData:
         if vlink.name=='ground':
             continue
         for i, p in enumerate(vlink.points):
             if i==0:
                 continue
-            G.add_edge(vlink.points[0], p)
+            edges.append((vlink.points[0], p))
             if i>1:
-                G.add_edge(vlink.points[i-1], p)
-    print(G.edges)
-    return G
+                edges.append((vlink.points[i-1], p))
+    return tuple(edges)
