@@ -22,7 +22,7 @@ from .Ui_main import Ui_MainWindow
 from .widgets.custom import initCustomWidgets
 
 #Dialog
-from .info.info import version_show
+from .info.about import Pyslvs_About
 '''from .io.script import Script_Dialog'''
 #Undo redo
 from .io.undoRedo import (
@@ -185,8 +185,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Delete
         self.action_Delete_Point.setEnabled(POINT_SELECTED)
         self.action_Delete_Link.setEnabled(LINK_SELECTED)
-        #Others
-        self.action_Batch_moving.setEnabled(ONE_POINT)
     
     #Copy text from point table.
     @pyqtSlot()
@@ -314,7 +312,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Open Pyslvs about.
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
-        self.OpenDlg(version_show(self))
+        self.OpenDlg(Pyslvs_About(self))
     
     #Open Qt about.
     @pyqtSlot()

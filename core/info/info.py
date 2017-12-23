@@ -18,21 +18,25 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from sys import version_info
-import platform, argparse
-from ..QtModules import *
-from .Ui_about import Ui_About_Dialog
+import platform
+import argparse
+try:
+    from PyQt5.QtCore import qVersion, PYQT_VERSION_STR
+    Qt_Version = qVersion().strip()
+    PyQt_Version = PYQT_VERSION_STR.strip()
+except ImportError:
+    Qt_Version = "No Qt"
+    PyQt_Version = "No PyQt"
 
 VERSION = (0, 9, 0, 'beta4')
-from PyQt5.QtCore import qVersion
-from PyQt5.QtCore import PYQT_VERSION_STR as pyqtVersion
 
 INFO = [
     "Pyslvs {}.{}.{}({})".format(*VERSION),
     "OS Type: {} {} [{}]".format(platform.system(), platform.release(), platform.machine()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
     "Python Compiler: {}".format(platform.python_compiler()),
-    "Qt Version: {}".format(qVersion().strip()),
-    "PyQt Version: {}".format(pyqtVersion.strip())
+    "Qt Version: {}".format(Qt_Version),
+    "PyQt Version: {}".format(PyQt_Version)
 ]
 
 POWERBY = [
@@ -64,47 +68,3 @@ parser.add_argument('--server', metavar='PORT', default=False, nargs='?', type=s
 parser.add_argument('-d', '--debug-mode', action='store_true', help="do not connect to GUI console when opening")
 parser.add_argument('--test', action='store_true', help="startup the program to test imported modules")
 args = parser.parse_args()
-
-## Turn simple string to html format.
-html = lambda s: "<html><head/><body>{}</body></html>".format(s.replace('\n', '<br/>'))
-title = lambda name, *s: '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(s)) if s else '')
-content = lambda *s: '<p>{}</p>'.format('</p><p>'.join(s))
-orderList = lambda *s: '<ul><li>{}</li></ul>'.format('</li><li>'.join(s))
-
-#Splash
-class Pyslvs_Splash(QSplashScreen):
-    def __init__(self, parent=None):
-        super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
-        self.showMessage("Version {}.{}.{}({})".format(*VERSION), (Qt.AlignBottom|Qt.AlignRight))
-
-class version_show(QDialog, Ui_About_Dialog):
-    def __init__(self, parent=None):
-        super(version_show, self).__init__(parent)
-        self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.Title.setText(html(title("Pyslvs")+content("Version {}.{}.{}({}) 2016-2017".format(*VERSION))))
-        self.Content.setText(html(content(
-            "Pyslvs is a Open Source support tools to help user solving 2D linkage problem.",
-            "It can use in Mechanical Design and Simulation.",
-            "This program using Python 3 with Python Solvespace.",
-            "Pyslvs just like a ordinary CAD software, but use table to add and edit points.",
-            "Within changing points location, finally give the answer to designer.",
-            "We have these features:")+orderList(
-            "2D Linkages dynamic simulation.",
-            "Dimensional Synthesis of Planar Four-bar Linkages.",
-            "Output points coordinate to Data Sheet (*.csv) format.",
-            "Change canvas appearance.",
-            "Draw dynamic simulation path with any point in the machinery.",
-            "Using triangle iterate the mechanism results.")+content(
-            "If you want to know about more, you can reference by our website."))
-        )
-        self.Versions.setText(html(orderList(*INFO)))
-        self.Arguments.setText(html(content(
-            "Startup arguments are as follows:")+orderList(
-            "The loaded file when startup: {}".format(args.r),
-            "Start Path: {}".format(args.i),
-            "Enable solving warning: {}".format(args.w),
-            "Fusion style: {}".format(args.fusion),
-            "Debug mode: {}".format(args.debug_mode))+content(
-            "Using the \"-h\" argument to view the help."))
-        )

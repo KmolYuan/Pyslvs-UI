@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .Ui_Algorithm_options import Ui_Dialog
-from ...info.info import html
+from ...info.about import html
 
 class Algorithm_options_show(QDialog, Ui_Dialog):
     def __init__(self, algorithm, settings, parent=None):

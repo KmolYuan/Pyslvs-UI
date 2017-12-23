@@ -142,9 +142,6 @@ def initCustomWidgets(self):
     self.undoView = QUndoView(self.FileState)
     self.undoView.setEmptyLabel("~ Start Pyslvs")
     self.UndoRedoLayout.addWidget(self.undoView)
-    separator = QAction(self)
-    separator.setSeparator(True)
-    self.menu_Edit.insertAction(self.action_Batch_moving, separator)
     self.action_Redo = self.FileState.createRedoAction(self, 'Redo')
     self.action_Undo = self.FileState.createUndoAction(self, 'Undo')
     self.action_Redo.setShortcut("Ctrl+Shift+Z")
@@ -153,8 +150,8 @@ def initCustomWidgets(self):
     self.action_Undo.setShortcut("Ctrl+Z")
     self.action_Undo.setStatusTip("Recover last action.")
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
-    self.menu_Edit.insertAction(separator, self.action_Undo)
-    self.menu_Edit.insertAction(separator, self.action_Redo)
+    self.menu_Edit.addAction(self.action_Undo)
+    self.menu_Edit.addAction(self.action_Redo)
     '''
     Entities_Point context menu
     

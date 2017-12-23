@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Project SYSTEM "Project-5.1.dtd">
+<!DOCTYPE Project SYSTEM "Project-6.0.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-21, 12:47:16 -->
+<!-- Saved: 2017-12-23, 13:44:39 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
-<Project version="5.1">
+<Project version="6.0">
   <Language></Language>
   <Hash>8830517c87a377b45c7328ed685a32516abd547e</Hash>
   <ProgLanguage mixed="0">Python3</ProgLanguage>
@@ -32,6 +32,7 @@
     <Source>core/graphics/color.py</Source>
     <Source>core/info/Ui_about.py</Source>
     <Source>core/info/__init__.py</Source>
+    <Source>core/info/about.py</Source>
     <Source>core/info/info.py</Source>
     <Source>core/io/Ui_dxfType.py</Source>
     <Source>core/io/Ui_peeweeIO.py</Source>
@@ -86,7 +87,6 @@
     <Source>core/widgets/table.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
-    <Source>launch_zmq_server.py</Source>
     <Source>preview_rc.py</Source>
   </Sources>
   <Forms>
@@ -106,12 +106,10 @@
     <Form>core/synthesis/NumberAndTypeSynthesis/Collections.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
-  <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
     <Resource>preview.qrc</Resource>
   </Resources>
-  <Interfaces/>
   <Others>
     <Other>.travis.yml</Other>
     <Other>Makefile</Other>

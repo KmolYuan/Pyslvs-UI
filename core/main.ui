@@ -1450,7 +1450,6 @@
     <property name="title">
      <string>&amp;Edit</string>
     </property>
-    <addaction name="action_Batch_moving"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Edit"/>
@@ -1727,17 +1726,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
-  <action name="action_Batch_moving">
-   <property name="text">
-    <string>Batch moving</string>
-   </property>
-   <property name="statusTip">
-    <string>Move some of points.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+B</string>
    </property>
   </action>
   <action name="action_Solvespace_2D_sketch">
