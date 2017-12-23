@@ -12,7 +12,8 @@
 
     + [How to startup](#how-to-startup)
     + [Symbolic](#symbolic)
-    + [Algorithm](#algorithm)
+    + [Number and Type Synthesis](#number-and-type-synthesis)
+    + [Dimensional Synthesis](#dimensional-synthesis)
 
 1. [Modules Requirement](#modules-requirement)
 
@@ -78,9 +79,27 @@ Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 
     ![Link](images/Link.png)
 
-## Algorithm
+## Number and Type Synthesis
 
-![Algorithm](images/Algorithm.png)
+Analysis a type of mechanism that exists, and find out other possibilities.
+
+![](images/Number_and_Type_Synthesis.png)
+
+We have a topological algorithm to combine atlas with:
+
++ Same degree of freedom
++ Same number of link.
++ Same number of joint.
+
+And use a type of mechanism to do grounding combine.
+
+![](images/Grounding.png)
+
+## Dimensional Synthesis
+
+Generate a mechanism with path requirement by random dimension.
+
+![](images/Dimensional_Synthesis.png)
 
 Contains three algorithms:
 
