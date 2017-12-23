@@ -61,7 +61,7 @@ Open GUI by Python:
 python3 launch_pyslvs.py
 ```
 
-Or see help:
+Or see the help:
 
 ```bash
 python3 launch_pyslvs.py --help
@@ -87,7 +87,7 @@ Analysis a type of mechanism that exists, and find out other possibilities.
 
 We have a topological algorithm to combine atlas with:
 
-+ Same degree of freedom
++ Same degree of freedom.
 + Same number of link.
 + Same number of joint.
 
@@ -146,6 +146,8 @@ $ sudo apt install graphviz
 Windows user please make sure to add Graphviz `bin` folder path to environment variables.
 
 Then use the `dot` command to check if it works.
+
+If you are not willing to install Graphviz, you can just using built-in layout from NetworkX.
 
 ## PyQt Stuff
 
