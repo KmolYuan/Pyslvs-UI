@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-6.0.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-23, 13:44:39 -->
+<!-- Saved: 2017-12-23, 21:53:19 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="6.0">
   <Language></Language>
@@ -49,12 +49,12 @@
     <Source>core/io/undoRedo.py</Source>
     <Source>core/kernel/__init__.py</Source>
     <Source>core/kernel/pyslvs_algorithm/TS.py</Source>
-    <Source>core/kernel/pyslvs_algorithm/TS2.py</Source>
     <Source>core/kernel/pyslvs_algorithm/__init__.py</Source>
     <Source>core/kernel/pyslvs_algorithm/de.pyx</Source>
     <Source>core/kernel/pyslvs_algorithm/firefly.pyx</Source>
     <Source>core/kernel/pyslvs_algorithm/planarlinkage.pyx</Source>
     <Source>core/kernel/pyslvs_algorithm/rga.pyx</Source>
+    <Source>core/kernel/pyslvs_algorithm/setup.py</Source>
     <Source>core/kernel/pyslvs_algorithm/tinycadlib.pyx</Source>
     <Source>core/main.py</Source>
     <Source>core/server/__init__.py</Source>

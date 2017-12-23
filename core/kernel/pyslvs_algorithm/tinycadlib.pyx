@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-from libc.math cimport sqrt, pi, isnan, sin, cos
+from libc.math cimport (
+    sqrt,
+    isnan,
+    sin,
+    cos,
+    atan2
+)
 from cpython cimport bool
 
-DEGREE = pi/180.0
-nan = float("NaN")
+nan = float("nan")
 
 cdef class Coordinate(object):
     cdef double x, y
@@ -20,15 +25,12 @@ cdef class Coordinate(object):
     cpdef public double distance(self, Coordinate obj):
         return sqrt((self.x-obj.x)**2+(self.y-obj.y)**2)
 
-cpdef PLAP(Coordinate A, double L0, double a0, Coordinate B, double loop=1):
-    cdef double x0 = A.x
-    cdef double y0 = A.y
-    cdef double x1 = B.x
-    cdef double y1 = B.y
-    return (
-        -L0*loop*(-y0 + y1)*sin(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + L0*(-x0 + x1)*cos(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + x0,
-        L0*loop*(-x0 + x1)*sin(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + L0*(-y0 + y1)*cos(a0)/sqrt((-x0 + x1)**2 + (-y0 + y1)**2) + y0
-    )
+cpdef PLAP(Coordinate A, double L0, double a0, Coordinate B, bool reverse=False):
+    cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
+    if reverse:
+        return (A.x + L0*sin(b0 - a0), A.y + L0*cos(b0 - a0))
+    else:
+        return (A.x + L0*sin(b0 + a0), A.y + L0*cos(b0 + a0))
 
 cpdef PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse=False):
     cdef double dx = B.x - A.x

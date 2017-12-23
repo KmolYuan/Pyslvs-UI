@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from libc.math cimport isnan
 import tinycadlib
-from tinycadlib import legal_crank, legal_triangle, DEGREE, Coordinate
+from tinycadlib import (
+    legal_crank,
+    legal_triangle,
+    Coordinate
+)
 import numpy as np
 cimport numpy as np
 
@@ -111,7 +115,7 @@ cdef class build_planar(object):
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
-            tmp_dict['a0'] = v[self.VARS+i]*DEGREE
+            tmp_dict['a0'] = np.deg2rad(v[self.VARS+i])
             for e in self.Exp:
                 #self.formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
                 x, y = self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]])

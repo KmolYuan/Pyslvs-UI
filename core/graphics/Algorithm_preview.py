@@ -31,6 +31,7 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
+        self.slvsPath = mechanism['targetPath']
         self.index = 0
         expression = (self.Exp_8 if self.mechanism['type']=='8Bar' else self.Exp_4).split(',')
         self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
@@ -115,6 +116,7 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
     
     def drawPath(self):
+        #Draw the path of mechanism.
         def drawPath(path):
             pointPath = QPainterPath()
             for i, coordinate in enumerate(path):
@@ -137,6 +139,25 @@ class DynamicCanvas(BaseCanvas):
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
             draw(path)
+        #Draw the path that specified by user.
+        pen = QPen(QColor(3, 163, 120))
+        pen.setWidth(self.pathWidth)
+        self.painter.setPen(pen)
+        if len(self.slvsPath)>1:
+            pointPath = QPainterPath()
+            for i, (x, y) in enumerate(self.slvsPath):
+                x *= self.zoom
+                y *= -self.zoom
+                self.painter.drawEllipse(QPointF(x, y), 3, 3)
+                if i==0:
+                    pointPath.moveTo(x, y)
+                else:
+                    pointPath.lineTo(QPointF(x, y))
+            pen.setColor(QColor(69, 247, 232))
+            self.painter.setPen(pen)
+            self.painter.drawPath(pointPath)
+        elif len(self.slvsPath)==1:
+            self.painter.drawEllipse(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom), 3, 3)
     
     @pyqtSlot()
     def change_index(self):
