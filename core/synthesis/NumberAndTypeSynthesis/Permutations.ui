@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>422</width>
+    <width>477</width>
     <height>609</height>
    </rect>
   </property>
@@ -113,32 +113,35 @@
            </item>
            <item row="2" column="0">
             <widget class="QSpinBox" name="NL_input">
-             <property name="toolTip">
-              <string>≥3</string>
+             <property name="minimum">
+              <number>4</number>
              </property>
             </widget>
            </item>
            <item row="2" column="1">
             <widget class="QSpinBox" name="NJ_input">
-             <property name="toolTip">
-              <string>8~18</string>
-             </property>
-             <property name="maximum">
-              <number>18</number>
+             <property name="minimum">
+              <number>4</number>
              </property>
             </widget>
            </item>
            <item row="0" column="2">
             <widget class="QLabel" name="DOF_text">
+             <property name="toolTip">
+              <string>Degree of freedom</string>
+             </property>
              <property name="text">
-              <string>Degree of freedom:</string>
+              <string>DOF (?):</string>
              </property>
             </widget>
            </item>
            <item row="2" column="2">
-            <widget class="QSpinBox" name="DOF_input">
+            <widget class="QSpinBox" name="DOF">
              <property name="enabled">
               <bool>false</bool>
+             </property>
+             <property name="value">
+              <number>1</number>
              </property>
             </widget>
            </item>
@@ -156,6 +159,13 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="keep_dof">
+           <property name="text">
+            <string>Keep the DOF</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>

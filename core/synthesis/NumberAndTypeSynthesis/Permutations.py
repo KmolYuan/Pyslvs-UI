@@ -35,8 +35,8 @@ class Permutations_show(QWidget, Ui_Form):
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
         self.answer = []
-        self.NL_input.valueChanged.connect(self.setDOF)
-        self.NJ_input.valueChanged.connect(self.setDOF)
+        self.NL_input.valueChanged.connect(self.adjust_NJ_NL_dof)
+        self.NJ_input.valueChanged.connect(self.adjust_NJ_NL_dof)
         self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
@@ -57,7 +57,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.Topologic_result.clear()
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
-        self.DOF_input.setValue(0)
+        self.DOF.setValue(0)
     
     #Reload button: Auto-combine the mechanism from the workbook.
     @pyqtSlot()
@@ -68,16 +68,38 @@ class Permutations_show(QWidget, Ui_Form):
             self.Expression_edges.setText(str(list(v_to_graph(jointData, linkData).edges)))
         else:
             self.Expression_edges.setText("")
+        keep_dof_checked = self.keep_dof.isChecked()
+        self.keep_dof.setChecked(False)
         self.NL_input.setValue(
             sum(len(vlink.points)>1 for vlink in linkData)+
             sum(len(vpoint.links)-1 for vpoint in jointData if vpoint.type==2 and len(vpoint.links)>1)
         )
         self.NJ_input.setValue(sum((len(vpoint.links)-1 + int(vpoint.type==2)) for vpoint in jointData if len(vpoint.links)>1))
+        self.keep_dof.setChecked(keep_dof_checked)
         self.on_Combine_number_clicked()
     
-    @pyqtSlot(int)
-    def setDOF(self, p0=None):
-        self.DOF_input.setValue(3*(self.NL_input.value()-1) - 2*self.NJ_input.value())
+    def adjust_NJ_NL_dof(self):
+        if self.keep_dof.isChecked():
+            if self.sender()==self.NJ_input:
+                N2 = self.NJ_input.value()
+                NL_func = lambda: float(((self.DOF.value() + 2*N2) / 3) + 1)
+            else:
+                N2 = self.NL_input.value()
+                NL_func = lambda: float((3*(N2-1) - self.DOF.value()) / 2)
+            N1 = NL_func()
+            while not N1.is_integer():
+                N2 += 1
+                N1 = NL_func()
+                if N2==0:
+                    break
+            if self.sender()==self.NJ_input:
+                self.NJ_input.setValue(N2)
+                self.NL_input.setValue(N1)
+            else:
+                self.NJ_input.setValue(N1)
+                self.NL_input.setValue(N2)
+        else:
+            self.DOF.setValue(3*(self.NL_input.value()-1) - 2*self.NJ_input.value())
     
     #Show number of links with different number of joints.
     @pyqtSlot()
