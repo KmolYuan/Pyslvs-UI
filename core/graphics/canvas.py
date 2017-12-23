@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from math import sqrt
+from math import sqrt, isnan
 from collections import deque
 from heapq import nsmallest
 from typing import TypeVar, List, Tuple
@@ -445,6 +445,8 @@ class DynamicCanvas(BaseCanvas):
                 if len(self.slvsPath)>1:
                     pointPath = QPainterPath()
                     for i, (x, y) in enumerate(self.slvsPath):
+                        if isnan(x):
+                            continue
                         x *= self.zoom
                         y *= -self.zoom
                         self.painter.drawEllipse(QPointF(x, y), 3, 3)

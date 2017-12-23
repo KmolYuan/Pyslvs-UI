@@ -146,6 +146,8 @@ class DynamicCanvas(BaseCanvas):
         if len(self.slvsPath)>1:
             pointPath = QPainterPath()
             for i, (x, y) in enumerate(self.slvsPath):
+                if isnan(x):
+                    continue
                 x *= self.zoom
                 y *= -self.zoom
                 self.painter.drawEllipse(QPointF(x, y), 3, 3)
