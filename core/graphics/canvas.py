@@ -435,11 +435,13 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), "Driver")
                 else:
                     self.painter.drawText(QPointF(cx+6, cy-6), "Follower")
+                self.painter.setBrush(Qt.NoBrush)
             #Draw solving path.
             if self.slvsPath:
                 pen = QPen(QColor(3, 163, 120))
                 pen.setWidth(self.pathWidth)
                 self.painter.setPen(pen)
+                self.painter.setBrush(QColor(74, 178, 176, 30))
                 if len(self.slvsPath)>1:
                     pointPath = QPainterPath()
                     for i, (x, y) in enumerate(self.slvsPath):
@@ -455,6 +457,7 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawPath(pointPath)
                 elif len(self.slvsPath)==1:
                     self.painter.drawEllipse(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom), 3, 3)
+                self.painter.setBrush(Qt.NoBrush)
     
     def recordStart(self, limit):
         self.PathRecord = [deque([], limit) for i in range(len(self.Point))]
