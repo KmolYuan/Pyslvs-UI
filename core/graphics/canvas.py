@@ -97,8 +97,18 @@ class BaseCanvas(QWidget):
         pen = QPen(Qt.gray)
         pen.setWidth(1)
         self.painter.setPen(pen)
-        self.painter.drawLine(QPointF(-self.ox, 0), QPointF(self.width()-self.ox, 0))
-        self.painter.drawLine(QPointF(0, -self.oy), QPointF(0, self.height()-self.oy))
+        x_l = -self.ox
+        x_r = self.width()-self.ox
+        self.painter.drawLine(QPointF(x_l, 0), QPointF(x_r, 0))
+        y_t = self.height()-self.oy
+        y_b = -self.oy
+        self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
+        #Draw tick.
+        Indexing = lambda v: int(v - v%5)
+        for x in range(Indexing(x_l), Indexing(x_r), 5):
+            self.painter.drawLine(QPointF(x*self.zoom, 0), QPointF(x*self.zoom, -10 if x%10==0 else -5))
+        for y in range(Indexing(y_b), Indexing(y_t), 5):
+            self.painter.drawLine(QPointF(0, y*self.zoom), QPointF(10 if y%10==0 else 5, y*self.zoom))
     
     def drawFrame(self, pen):
         positive_x = self.width()-self.ox
