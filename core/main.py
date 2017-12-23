@@ -126,7 +126,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
-        self.action_canvas_right_click_menu_path.setVisible(self.panelWidget.tabText(self.panelWidget.currentIndex())=="Dimensional")
+        self.action_canvas_right_click_menu_path.setVisible(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
         self.enablePointContext()
         selectionCount = len(self.Entities_Point.selectedRows())
         if selectionCount>1:
@@ -567,7 +567,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Add point group using alt key.
     @pyqtSlot()
     def qAddPointGroup(self):
-        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
+        if self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional":
+            self.PathSolving_add_rightClick()
+        else:
+            self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
     
     #Add a point (not fixed).
     def addPointGroup(self):
@@ -617,13 +620,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.endMacro()
     
     def getLinkSerialNumber(self):
-        name = "link_{}".format(0)
         names = [self.Entities_Link.item(row, 0).text() for row in range(self.Entities_Link.rowCount())]
         i = 0
-        while name in names:
+        while "link_{}".format(i) in names:
             i += 1
-            name = "link_{}".format(i)
-        return name
+        return "link_{}".format(i)
     
     #Create a point with arguments.
     @pyqtSlot()
@@ -1033,11 +1034,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if not name:
                 nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
                 i = 0
-                name = "Record_{}".format(i)
-                while name in nameList:
+                while "Record_{}".format(i) in nameList:
                     i += 1
-                    name = "Record_{}".format(i)
-            self.addPath(name, path)
+            self.addPath("Record_{}".format(i), path)
     
     def addPath(self, name, path):
         self.FileState.beginMacro("Add {{Path: {}}}".format(name))
@@ -1096,15 +1095,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_inputs_record.clear()
     
     @pyqtSlot(int)
-    def on_panelWidget_currentChanged(self, index):
-        self.DynamicCanvasView.setShowSlvsPath(self.panelWidget.tabText(self.panelWidget.currentIndex())=="Dimensional")
+    def on_SynthesisTab_currentChanged(self, index):
+        self.DynamicCanvasView.setShowSlvsPath(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
     
     def PathSolving_add_rightClick(self):
         self.DimensionalSynthesis.on_add_clicked(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple, tuple)
     def PathSolving_mergeResult(self, row, answer, path):
-        pointNum = tuple(self.addPoint(x, y, i<2) for i, (x, y) in enumerate(answer))
+        self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
+        pointNum = tuple(
+            self.addPoint(x, y, i<2, "Dark-Orange" if i==len(answer)-1 else None)
+            for i, (x, y) in enumerate(answer)
+        )
         if self.FileWidget.Designs.result[row]['type']=='8Bar':
             expression = self.DimensionalSynthesis.mechanismParams_8Bar['Expression'].split(',')
         else:
@@ -1113,7 +1116,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
         #('A', 'D', 'B', 'C', 'E')
-        self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
         for i, exp in enumerate(expression_tag):
             #Dimensional synthesis link merge function.
             if i==0:
@@ -1129,11 +1131,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #Add the path.
         nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
         i = 0
-        name = "Algorithm_{}".format(i)
-        while name in nameList:
+        while "Algorithm_path_{}".format(i) in nameList:
             i += 1
-            name = "Algorithm_{}".format(i)
-        self.addPath(name, path)
+        self.addPath("Algorithm_path_{}".format(i), path)
     
     @pyqtSlot()
     def pointSelection(self):
@@ -1182,10 +1182,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if not name:
                 nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
                 i = 0
-                name = "Mechanism_{}".format(i)
-                while name in nameList:
+                while "Mechanism_{}".format(i) in nameList:
                     i += 1
-                    name = "Mechanism_{}".format(i)
+                name = "Mechanism_{}".format(i)
             expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data()))
             self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
             self.storage_clear()

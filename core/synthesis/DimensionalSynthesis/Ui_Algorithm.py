@@ -385,7 +385,7 @@ class Ui_Form(object):
         self.clearAll.setStatusTip(_translate("Form", "Clear all points."))
         self.clearAll.setText(_translate("Form", "Clear All"))
         self.pathAdjust.setStatusTip(_translate("Form", "Process path data, such as moving or scaling."))
-        self.pathAdjust.setText(_translate("Form", "Adjustment ..."))
+        self.pathAdjust.setText(_translate("Form", "Adjust ..."))
         self.series.setToolTip(_translate("Form", "Formula"))
         self.series.setStatusTip(_translate("Form", "Generat points from formula."))
         self.importCSV.setToolTip(_translate("Form", "CSV"))

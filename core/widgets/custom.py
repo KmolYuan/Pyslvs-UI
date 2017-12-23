@@ -75,20 +75,20 @@ def initCustomWidgets(self):
     self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
-    self.panelWidget.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
+    self.SynthesisTab.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
     #Synthesis collections
     self.SynthesisCollections = SynthesisCollections(self)
     self.NumberAndTypeSynthesis.addCollection = self.SynthesisCollections.addCollection
     self.FileWidget.CollectDataFunc = lambda: [tuple(G.edges) for G in self.SynthesisCollections.collections] #Call to get collections data.
     self.FileWidget.loadCollectFunc = self.SynthesisCollections.addCollections #Call to load collections data.
-    self.panelWidget.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
+    self.SynthesisTab.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
     self.DimensionalSynthesis.pathChanged.connect(self.DynamicCanvasView.path_solving)
     self.DimensionalSynthesis.mergeResult.connect(self.PathSolving_mergeResult)
     self.FileWidget.loadAlgorithmFunc = self.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
-    self.panelWidget.addTab(self.DimensionalSynthesis, self.DimensionalSynthesis.windowIcon(), "Dimensional")
+    self.SynthesisTab.addTab(self.DimensionalSynthesis, self.DimensionalSynthesis.windowIcon(), "Dimensional")
     #Console dock will hide when startup.
     self.ConsoleWidget.hide()
     #Connect to GUI button switching.

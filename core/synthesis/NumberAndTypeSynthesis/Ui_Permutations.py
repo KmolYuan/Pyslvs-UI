@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(477, 609)
+        Form.resize(421, 609)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -161,15 +161,15 @@ class Ui_Form(object):
         self.Expression_joint_text.setText(_translate("Form", "Generalized expression:"))
         self.Expression_copy.setText(_translate("Form", "Copy"))
         self.ReloadMechanism.setText(_translate("Form", "Analyze from workbook"))
-        self.NJ_text.setText(_translate("Form", "Number of joints:"))
-        self.NL_text.setText(_translate("Form", "Number of links:"))
+        self.NJ_text.setText(_translate("Form", "Number of joints"))
+        self.NL_text.setText(_translate("Form", "Number of links"))
         self.DOF_text.setToolTip(_translate("Form", "Degree of freedom"))
-        self.DOF_text.setText(_translate("Form", "DOF (?):"))
+        self.DOF_text.setText(_translate("Form", "DOF (?)"))
         self.keep_dof.setText(_translate("Form", "Keep the DOF"))
         self.Combine_number.setText(_translate("Form", "Number Synthesis"))
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
         self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
-        self.graph_degenerate.setText(_translate("Form", "Show degenerate chain"))
+        self.graph_degenerate.setText(_translate("Form", "Degenerate chain"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
 
 import icons_rc

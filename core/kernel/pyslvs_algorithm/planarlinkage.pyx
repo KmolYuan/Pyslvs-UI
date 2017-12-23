@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from libc.math cimport isnan
 import tinycadlib
-from tinycadlib import legal_crank, legal_triangle, DEGREE, Coordinate, DEGREE
+from tinycadlib import legal_crank, legal_triangle, DEGREE, Coordinate
 import numpy as np
 cimport numpy as np
 

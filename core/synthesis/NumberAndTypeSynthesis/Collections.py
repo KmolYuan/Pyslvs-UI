@@ -106,8 +106,11 @@ class Collections_show(QWidget, Ui_Form):
             for n in G.nodes:
                 if len(list(G.neighbors(n)))<2:
                     raise TestError("is not close chain")
+            for H in self.collections:
+                if is_isomorphic(G, H):
+                    raise TestError("is isomorphic")
         except TestError as e:
-            dlg = QMessageBox(QMessageBox.Warning, str(e), "Error: {}".format(e), (QMessageBox.Ok), self)
+            dlg = QMessageBox(QMessageBox.Warning, "Add Collection Error", "Error: {}".format(e), (QMessageBox.Ok), self)
             dlg.show()
             dlg.exec_()
             return
