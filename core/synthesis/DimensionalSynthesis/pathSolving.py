@@ -30,14 +30,13 @@ class WorkerThread(QThread):
     progress_update = pyqtSignal(int, str)
     result = pyqtSignal(dict, float)
     done = pyqtSignal()
-    def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, parent=None):
+    def __init__(self, type_num, mechanismParams, settings, parent=None):
         super(WorkerThread, self).__init__(parent)
         self.stoped = False
         self.mutex = QMutex()
         self.type_num = type_num
         self.mechanismParams = mechanismParams
-        self.generateData = generateData
-        self.algorithmPrams = algorithmPrams
+        self.settings = settings
         self.socket = None
         self.loop = 1
         self.currentLoop = 0
@@ -64,7 +63,6 @@ class WorkerThread(QThread):
             TnF, FP = self.generateProcess()
             t1 = timeit.default_timer()
             time_spand = round(t1-t0, 2)
-            mem = virtual_memory()
             cpu = numpy.distutils.cpuinfo.cpu.info[0]
             mechanism = {
                 'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
@@ -74,14 +72,14 @@ class WorkerThread(QThread):
                 'targetPath':self.mechanismParams['targetPath'],
                 'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
                 'type':'8Bar' if self.mechanismParams['Link']=='L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10' else '4Bar',
-                'generateData':self.generateData,
-                'algorithmPrams':self.algorithmPrams,
+                'settings':self.settings,
                 'hardwareInfo':{
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
-                    'memory':"{} GB".format(round(mem.total/(1024.**3), 4)),
+                    'memory':"{} GB".format(round(virtual_memory().total/(1024.**3), 4)),
                     'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
                     'network':str(self.socket!=None)},
-                'TimeAndFitness':TnF}
+                'TimeAndFitness':TnF
+            }
             for index in range(len(self.mechanismParams['Link'].split(','))):
                 mechanism['L{}'.format(index)] = FP[4+index]
             print("cost time: {} [s]".format(time_spand))
@@ -103,52 +101,22 @@ class WorkerThread(QThread):
         mechanismObj = build_planar(self.mechanismParams)
         #Genetic Algorithm
         if self.type_num==0:
-            APs = {
-                'nParm':self.generateData['nParm'],
-                'nPop':self.algorithmPrams['nPop'], #250
-                'pCross':self.algorithmPrams['pCross'], #0.95
-                'pMute':self.algorithmPrams['pMute'], #0.05
-                'pWin':self.algorithmPrams['pWin'], #0.95
-                'bDelta':self.algorithmPrams['bDelta'], #5.
-                'upper':self.generateData['upper'],
-                'lower':self.generateData['lower'],
-                'maxGen':self.generateData['maxGen'],
-                'report':self.generateData['report']}
             foo = Genetic
         #Firefly Algorithm
         elif self.type_num==1:
-            APs = {
-                'D':self.generateData['nParm'],
-                'n':self.algorithmPrams['n'], #40
-                'alpha':self.algorithmPrams['alpha'], #0.01
-                'betaMin':self.algorithmPrams['betaMin'], #0.2
-                'gamma':self.algorithmPrams['gamma'], #1.
-                'beta0':self.algorithmPrams['beta0'], #1.
-                'ub':self.generateData['upper'],
-                'lb':self.generateData['lower'],
-                'maxGen':self.generateData['maxGen'],
-                'report':self.generateData['report']}
             foo = Firefly
         #Differential Evolution
         elif self.type_num==2:
-            APs = {
-                'D':self.generateData['nParm'],
-                'strategy':self.algorithmPrams['strategy'], #1
-                'NP':self.algorithmPrams['NP'], #190
-                'F':self.algorithmPrams['F'], #0.6
-                'CR':self.algorithmPrams['CR'], #0.9
-                'upper':self.generateData['upper'],
-                'lower':self.generateData['lower'],
-                'maxGen':self.generateData['maxGen'],
-                'report':self.generateData['report']}
             foo = DiffertialEvolution
         if self.socket!=None:
-            APs['socket_port'] = self.socket
-            APs['targetPath'] = self.mechanismParams['targetPath']
-        self.fun = foo(mechanismObj,
+            self.settings['socket_port'] = self.socket
+            self.settings['targetPath'] = self.mechanismParams['targetPath']
+        self.fun = foo(
+            mechanismObj,
+            self.settings,
             progress_fun=self.progress_update.emit,
             interrupt_fun=self.isStoped,
-            **APs)
+        )
         time_and_fitness, fitnessParameter = self.fun.run()
         return(tuple(tuple([int(e.split(',')[0]), float(e.split(',')[1]), float(e.split(',')[2])]) for e in time_and_fitness.split(';')[0:-1]),
             [float(e) for e in fitnessParameter.split(',')])

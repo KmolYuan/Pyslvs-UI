@@ -380,7 +380,7 @@ class DynamicCanvas(BaseCanvas):
                 for i, coordinate in enumerate(path):
                     x = coordinate[0]*self.zoom
                     y = coordinate[1]*-self.zoom
-                    if isnan(x):
+                    if not isnan(x):
                         continue
                     else:
                         if i==0:
@@ -392,7 +392,7 @@ class DynamicCanvas(BaseCanvas):
                 for coordinate in path:
                     x = coordinate[0]*self.zoom
                     y = coordinate[1]*-self.zoom
-                    if isnan(x):
+                    if not isnan(x):
                         continue
                     else:
                         self.painter.drawPoint(QPointF(x, y))
@@ -587,8 +587,10 @@ class DynamicCanvas(BaseCanvas):
             Xs = tuple(e.cx for e in self.Point) if self.Point else (0,)
             Ys = tuple(e.cy for e in self.Point) if self.Point else (0,)
             if self.Path.path:
-                Path = self.Path.path
-                Comparator = lambda fun, i, d: fun(fun(fun(path[i] for path in point if point) for point in Path if point), fun(d))
+                Comparator = lambda fun, i, d: fun(
+                    fun(fun(path[i] for path in point if not isnan(path[i])) for point in self.Path.path if point),
+                    fun(d)
+                )
                 pathMaxX = Comparator(max, 0, Xs)
                 pathMinX = Comparator(min, 0, Xs)
                 pathMaxY = Comparator(max, 1, Ys)

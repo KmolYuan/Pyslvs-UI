@@ -22,6 +22,8 @@ from .Ui_peeweeIO import Ui_Form
 from .example import example_list
 from typing import List, Dict
 import zlib
+#NaN coordinate
+nan = float('nan')
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
 import os

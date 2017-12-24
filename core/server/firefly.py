@@ -56,35 +56,33 @@ class Chromosome(object):
         self.f = obj.f
 
 class Firefly(object):
-    def __init__(self, func, D, n,
-            alpha, betaMin, beta0, gamma, lb, ub,
-            maxGen, report, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
+    def __init__(self, func, settings, progress_fun=None, interrupt_fun=None):
         # D, the dimension of question
         # and each firefly will random place position in this landscape
-        self.D = D
+        self.D = settings['nParm']
         # n, the population size of fireflies
-        self.n = n
+        self.n = settings['n']
         # alpha, the step size
-        self.alpha = alpha
+        self.alpha = settings['alpha']
         # alpha0, use to calculate_new_alpha
-        self.alpha0 = alpha
+        self.alpha0 = settings['alpha']
         # betamin, the minimum attration, must not less than this
-        self.betaMin = betaMin
+        self.betaMin = settings['betaMin']
         # beta0, the attration of two firefly in 0 distance
-        self.beta0 = beta0
+        self.beta0 = settings['beta0']
         # gamma
-        self.gamma = gamma
+        self.gamma = settings['gamma']
         # low bound
-        self.lb = lb
+        self.lb = settings['lower']
         # up bound
-        self.ub = ub
+        self.ub = settings['upper']
         # fireflies pool, depend on population n
         self.fireflys = [Chromosome(self.D) for i in range(self.n)]
         # object function, maybe can call the environment
         self.func = func
         # maxima generation, report: how many generation report status once
-        self.maxGen = maxGen
-        self.rp = report
+        self.maxGen = settings['maxGen']
+        self.rp = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         # generation of current
@@ -94,13 +92,13 @@ class Firefly(object):
         # best firefly so far
         self.bestFirefly = Chromosome(self.D)
         #socket
-        self.socket_port = socket_port
+        self.socket_port = settings['socket_port']
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REQ)
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
-        self.targetPath = targetPath
+        self.targetPath = settings['targetPath']
         # setup benchmark
         self.timeS = time.time()
         self.timeE = 0

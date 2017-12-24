@@ -90,7 +90,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.type1.clicked.connect(self.algorithmPrams_default)
         self.type2.clicked.connect(self.algorithmPrams_default)
         self.isGenerate()
-        self.isGetResult()
+        self.hasResult()
     
     def loadResults(self):
         for e in self.mechanism_data:
@@ -242,9 +242,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.startAlgorithm(hasPort=True)
     
     def startAlgorithm(self, hasPort=False):
-        type_num, mechanismParams, generateData = self.getGenerate()
-        dlg = Algorithm_progress_show(type_num, mechanismParams, generateData, self.Settings['algorithmPrams'],
-            PORT=self.portText.text() if hasPort else None, parent=self.parent())
+        type_num, mechanismParams, setting = self.getGenerate()
+        setting.update(self.Settings['algorithmPrams'])
+        dlg = Algorithm_progress_show(type_num, mechanismParams, setting, self.portText.text() if hasPort else None, self)
         dlg.show()
         if dlg.exec_():
             self.mechanism_data_add(dlg.mechanisms)
@@ -271,7 +271,8 @@ class Algorithm_show(QWidget, PathSolving_Form):
             'upper':upper+[self.Settings['AMax']]*p,
             'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],
-            'report':int(self.Settings['maxGen']*self.Settings['report']/100)}
+            'report':int(self.Settings['maxGen']*self.Settings['report']/100)
+        }
         return type_num, mechanismParams, generateData
     
     def setTime(self, time_spand):
@@ -281,7 +282,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     #Add result items, except add to the list.
     def addResult(self, result):
-        item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['generateData']['maxGen']))
+        item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['settings']['maxGen']))
         interrupt = result['interrupted']
         if interrupt=='False':
             item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
@@ -293,7 +294,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         info = (["{}: {}".format(k, result[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
             ["\nClick to apply setting."]+["Double click to see dynamic preview."])
         item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(result['Algorithm'],
-            '' if interrupt=='False' else interrupt+'-', result['generateData']['maxGen'])]+
+            '' if interrupt=='False' else interrupt+'-', result['settings']['maxGen'])]+
             (["※ Completeness is not clear." if interrupt=='N/A' else ''])+info))
         self.Result_list.addItem(item)
     
@@ -303,9 +304,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.mechanism_data_del(row)
         self.Result_list.takeItem(row)
         self.unsaveFunc()
-        self.isGetResult()
+        self.hasResult()
     
-    def isGetResult(self):
+    def hasResult(self):
         for button in [self.mergeButton, self.deleteButton]:
             button.setEnabled(self.Result_list.currentRow()>-1)
     
@@ -374,41 +375,48 @@ class Algorithm_show(QWidget, PathSolving_Form):
         return tuple(answer), tuple(tuple(path) if (path==False or len(set(path))>1 or (False in path)) else () for path in Paths)
     
     @pyqtSlot()
-    def on_getTimeAndFitness_clicked(self):
+    def on_Result_chart_clicked(self):
         dlg = ChartDialog("Convergence Value", self.mechanism_data, self)
         dlg.show()
     
-    @pyqtSlot(int)
-    def on_Result_list_currentRowChanged(self, row):
-        self.isGetResult()
+    @pyqtSlot()
+    def on_Result_load_settings_clicked(self):
+        self.hasResult()
+        row = self.Result_list.currentRow()
         if row>-1 and row!=len(self.mechanism_data):
             args = self.mechanism_data[row]
-            keys = set(args['algorithmPrams'].keys())
-            if keys==set(self.GeneticPrams.keys()):
+            if args['Algorithm']=='RGA':
                 self.type0.setChecked(True)
-            elif keys==set(self.FireflyPrams.keys()):
+            elif args['Algorithm']=='Firefly':
                 self.type1.setChecked(True)
-            elif keys==set(self.DifferentialPrams.keys()):
+            elif args['Algorithm']=='DE':
                 self.type2.setChecked(True)
             if args['type']=='8Bar':
                 self.EightBar.setChecked(True)
             else:
                 self.FourBar.setChecked(True)
             self.setTime(args['time'])
-            generateData = args['generateData']
-            self.Ax.setValue((generateData['upper'][0]+generateData['lower'][0])/2)
-            self.Ay.setValue((generateData['upper'][1]+generateData['lower'][1])/2)
-            self.Ar.setValue(abs(generateData['upper'][0]-self.Ax.value())*2)
-            self.Dx.setValue((generateData['upper'][2]+generateData['lower'][2])/2)
-            self.Dy.setValue((generateData['upper'][3]+generateData['lower'][3])/2)
-            self.Dr.setValue(abs(generateData['upper'][2]-self.Dx.value())*2)
-            self.Settings = {'maxGen':generateData['maxGen'],
-                'report':0 if generateData['report']==0 else generateData['maxGen']/generateData['report']/100,
-                'IMax':generateData['upper'][4], 'IMin':generateData['lower'][4],
-                'LMax':generateData['upper'][5], 'LMin':generateData['lower'][5],
-                'FMax':generateData['upper'][6], 'FMin':generateData['lower'][6],
-                'AMax':generateData['upper'][-1], 'AMin':generateData['lower'][-1]}
-            self.Settings['algorithmPrams'] = args['algorithmPrams']
+            settings = args['settings']
+            self.Ax.setValue((settings['upper'][0]+settings['lower'][0])/2)
+            self.Ay.setValue((settings['upper'][1]+settings['lower'][1])/2)
+            self.Ar.setValue(abs(settings['upper'][0]-self.Ax.value())*2)
+            self.Dx.setValue((settings['upper'][2]+settings['lower'][2])/2)
+            self.Dy.setValue((settings['upper'][3]+settings['lower'][3])/2)
+            self.Dr.setValue(abs(settings['upper'][2]-self.Dx.value())*2)
+            self.Settings = {
+                'maxGen':settings['maxGen'],
+                'report':0 if settings['report']==0 else settings['maxGen']/settings['report']/100,
+                'IMax':settings['upper'][4], 'IMin':settings['lower'][4],
+                'LMax':settings['upper'][5], 'LMin':settings['lower'][5],
+                'FMax':settings['upper'][6], 'FMin':settings['lower'][6],
+                'AMax':settings['upper'][-1], 'AMin':settings['lower'][-1]
+            }
+            algorithmPrams = settings.copy()
+            del algorithmPrams['nParm']
+            del algorithmPrams['upper']
+            del algorithmPrams['lower']
+            del algorithmPrams['report']
+            self.Settings['algorithmPrams'] = algorithmPrams
             self.on_clearAll_clicked()
             for e in args['targetPath']:
                 self.on_add_clicked(e[0], e[1])

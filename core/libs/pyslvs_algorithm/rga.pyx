@@ -3,13 +3,12 @@ from libc.math cimport fmod, pow
 import numpy as np
 cimport numpy as np
 #from libc.time cimport time
-from time import time as pytime
-from cpython.exc cimport PyErr_CheckSignals
+from time import time
 from cpython cimport bool
 
 #https://stackoverflow.com/questions/25974975/cython-c-array-initialization
 from libc.stdlib cimport rand, RAND_MAX, srand
-srand(int(pytime()))
+srand(int(time()))
 
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
@@ -51,48 +50,45 @@ cdef class Genetic(object):
     cdef np.ndarray maxLimit, minLimit
     cdef object fitnessTime, fitnessParameter
     
-    def __cinit__(self, object objFunc, int nParm, int nPop,
-            double pCross, double pMute, double pWin, double bDelta, object upper, object lower,
-            int maxGen, int report, object progress_fun=None, object interrupt_fun=None):
+    def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
         """
         init(function func)
         """
-        # check nParm and list upper's len is equal
-        if nParm != len(upper) or nParm != len(lower):
-            raise Exception("nParm and upper's length and lower's length must be equal")
-        self.func = objFunc
-        self.nParm = nParm
-        self.nPop = nPop
-        self.pCross = pCross
-        self.pMute = pMute
-        self.pWin = pWin
-        self.bDelta = bDelta
-        self.maxGen = maxGen
-        self.rpt = report
+        self.func = func
+        self.nParm = settings['nParm']
+        self.nPop = settings['nPop']
+        self.pCross = settings['pCross']
+        self.pMute = settings['pMute']
+        self.pWin = settings['pWin']
+        self.bDelta = settings['bDelta']
+        self.maxGen = settings['maxGen']
+        self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
-        
-        self.chrom = np.ndarray((nPop,),dtype=np.object)
-        for i in range(nPop):
+        # check nParm and list upper's len is equal
+        if not self.nParm==len(self.upper)==len(self.lower):
+            raise Exception("nParm and upper's length and lower's length must be equal")
+        self.chrom = np.ndarray((self.nPop,), dtype=np.object)
+        for i in range(self.nPop):
             self.chrom[i] = Chromosome(self.nParm)
-        self.newChrom = np.ndarray((nPop,),dtype=np.object)
-        for i in range(nPop):
+        self.newChrom = np.ndarray((self.nPop,), dtype=np.object)
+        for i in range(self.nPop):
             self.newChrom[i] = Chromosome(self.nParm)
-        self.babyChrom = np.ndarray((3,),dtype=np.object)
+        self.babyChrom = np.ndarray((3,), dtype=np.object)
         for i in range(3):
             self.babyChrom[i] = Chromosome(self.nParm)
         
-        self.chromElite = Chromosome(nParm)
-        self.chromBest = Chromosome(nParm)
+        self.chromElite = Chromosome(self.nParm)
+        self.chromBest = Chromosome(self.nParm)
         # low bound
-        self.minLimit = np.array(lower[:])
+        self.minLimit = np.array(settings['lower'][:])
         # up bound
-        self.maxLimit = np.array(upper[:])
+        self.maxLimit = np.array(settings['upper'][:])
         # maxgen and gen
         self.gen = 0
         
         # setup benchmark
-        self.timeS = pytime()
+        self.timeS = time()
         self.timeE = 0
         self.fitnessTime = ''
         self.fitnessParameter = ''
@@ -149,9 +145,9 @@ cdef class Genetic(object):
             self.chrom[j].f = self.func(self.chrom[j].v)
         self.chromBest.assign(self.chrom[0])
         for j in range(1, self.nPop):
-            if(self.chrom[j].f < self.chromBest.f):
+            if (self.chrom[j].f < self.chromBest.f):
                 self.chromBest.assign(self.chrom[j])
-        if(self.chromBest.f < self.chromElite.f):
+        if (self.chromBest.f < self.chromElite.f):
             self.chromElite.assign(self.chromBest)
     
     cdef void initialPop(self)except *:
@@ -171,7 +167,7 @@ cdef class Genetic(object):
                     self.chrom[i].v[s] -= self.delta(self.chrom[i].v[s]-self.minLimit[s])
     
     cdef void report(self)except *:
-        self.timeE = pytime()
+        self.timeE = time()
         self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.chromElite.f, self.timeE - self.timeS)
     
     cdef void select(self)except *:
@@ -183,7 +179,7 @@ cdef class Genetic(object):
             j = self.random(self.nPop)
             k = self.random(self.nPop)
             self.newChrom[i].assign(self.chrom[j])
-            if(self.chrom[k].f < self.chrom[j].f) and (randV() < self.pWin):
+            if (self.chrom[k].f < self.chrom[j].f) and (randV() < self.pWin):
                 self.newChrom[i].assign(self.chrom[k])
         # in this stage, newChrom is select finish
         # now replace origin chrom
@@ -231,7 +227,6 @@ cdef class Genetic(object):
                 if self.interrupt_fun is not None:
                     if self.interrupt_fun():
                         break
-                PyErr_CheckSignals()
         else:
             while True:
                 self.generation_process()
@@ -240,7 +235,6 @@ cdef class Genetic(object):
                 if self.interrupt_fun is not None:
                     if self.interrupt_fun():
                         break
-                PyErr_CheckSignals()
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

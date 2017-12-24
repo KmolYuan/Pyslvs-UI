@@ -48,7 +48,17 @@ class DynamicCanvas(BaseCanvas):
     def paintEvent(self, event):
         width = self.width()
         height = self.height()
-        Comparator = lambda fun, i: fun(fun(path[i] for path in point if path) for point in self.Path.path if point)
+        def Comparator(fun, i):
+            real_point = []
+            for point in self.Path.path:
+                if point:
+                    r = [path[i] for path in point if not isnan(path[i])]
+                    if r:
+                        real_point.append(fun(r))
+            if real_point:
+                return fun(real_point)
+            else:
+                return self.mechanism['Ax']
         maxX = max(Comparator(max, 0), self.mechanism['Ax'], self.mechanism['Dx'])
         minX = min(Comparator(min, 0), self.mechanism['Ax'], self.mechanism['Dx'])
         maxY = max(Comparator(max, 1), self.mechanism['Ay'], self.mechanism['Dy'])
@@ -64,7 +74,7 @@ class DynamicCanvas(BaseCanvas):
         self.Point = (
             (self.mechanism['Ax'], self.mechanism['Ay']),
             (self.mechanism['Dx'], self.mechanism['Dy'])
-        ) + tuple((c[self.index][0], c[self.index][1]) if c[self.index] else False for c in self.Path.path[2:])
+        ) + tuple((c[self.index][0], c[self.index][1]) if not isnan(c[self.index][0]) else False for c in self.Path.path[2:])
         if False in self.Point:
             self.index += 1
             return
@@ -102,9 +112,9 @@ class DynamicCanvas(BaseCanvas):
         self.painter.setBrush(brush)
         qpoints = tuple(
             QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
-            for i in points if self.Point[i]
+            for i in points if self.Point[i] and not isnan(self.Point[i][0])
         )
-        if qpoints:
+        if len(qpoints)==len(points):
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
         if self.showPointMark and name!='ground' and qpoints:
@@ -134,7 +144,7 @@ class DynamicCanvas(BaseCanvas):
         def drawDot(path):
             for coordinate in path:
                 if coordinate:
-                    if isnan(coordinate[0]):
+                    if not isnan(coordinate[0]):
                         continue
                     self.painter.drawPoint(QPointF(coordinate[0]*self.zoom, coordinate[1]*-self.zoom))
         draw = drawPath if self.Path.curve else drawDot
@@ -172,7 +182,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.mechanism = mechanism
-        self.setWindowTitle("Preview: {} (max {} generations)".format(self.mechanism['Algorithm'], self.mechanism['generateData']['maxGen']))
+        self.setWindowTitle("Preview: {} (max {} generations)".format(self.mechanism['Algorithm'], self.mechanism['settings']['maxGen']))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.splitter.setSizes([800, 100])
         previewWidget = DynamicCanvas(self.mechanism, Path, self)
@@ -185,12 +195,12 @@ class PreviewDialog(QDialog, Ui_Dialog):
         interrupt = self.mechanism['interrupted']
         fitness = self.mechanism['TimeAndFitness'][-1]
         self.algorithm_label.setText("<html><head/><body><p>"+
-            "<br/>".join(["Max generation: {}".format(self.mechanism['generateData']['maxGen'])]+
+            "<br/>".join(["Max generation: {}".format(self.mechanism['settings']['maxGen'])]+
             ["Fitness: {}".format(fitness if type(fitness)==float else fitness[1])]+
             ["<img src=\"{}\" width=\"15\"/>".format(":/icons/task-completed.png" if interrupt=='False' else
             ":/icons/question-mark.png" if interrupt=='N/A' else ":/icons/interrupted.png")+
             "Interrupted at: {}".format(interrupt)]+
-            ["{}: {}".format(k, v) for k, v in self.mechanism['algorithmPrams'].items()])+
+            ["{}: {}".format(k, v) for k, v in self.mechanism['settings'].items()])+
             "</p></body></html>")
         #Hardware information
         self.hardware_label.setText("\n".join(["{}: {}".format(tag, self.mechanism['hardwareInfo'][tag]) for tag in

@@ -23,16 +23,16 @@ from .Ui_Algorithm_progress import Ui_Dialog
 from .pathSolving import WorkerThread
 
 class Algorithm_progress_show(QDialog, Ui_Dialog):
-    def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, PORT=None, parent=None):
+    def __init__(self, type_num, mechanismParams, setting, PORT=None, parent=None):
         super(Algorithm_progress_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.closeWork)
-        self.maxGen = generateData['maxGen']
+        self.maxGen = setting['maxGen']
         self.loopTime.setEnabled(self.maxGen>0)
         self.maxGen_label.setText(str(self.maxGen) if self.maxGen>0 else '∞')
         self.mechanisms = []
-        self.work = WorkerThread(type_num, mechanismParams, generateData, algorithmPrams)
+        self.work = WorkerThread(type_num, mechanismParams, setting)
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)
         self.work.done.connect(self.finish)

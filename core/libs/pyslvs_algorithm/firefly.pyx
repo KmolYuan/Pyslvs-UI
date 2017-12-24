@@ -6,11 +6,10 @@ import numpy as np
 cimport numpy as np
 from libc.stdlib cimport rand, RAND_MAX, srand
 #from libc.time cimport time
-from time import time as pytime
-from cpython.exc cimport PyErr_CheckSignals
+from time import time
 
 # make true it is random everytime
-srand(int(pytime()))
+srand(int(time()))
 
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
@@ -48,34 +47,34 @@ cdef class Firefly(object):
     cdef Chromosome genbest, bestFirefly
     cdef object fitnessTime, fitnessParameter
     
-    def __init__(self, object f, int D, int n,
+    def __init__(self, object func, object settings, int D, int n,
             double alpha, double betaMin, double beta0, double gamma, object lb, object ub,
             int maxGen, int report, object progress_fun=None, object interrupt_fun=None):
         # D, the dimension of question
         # and each firefly will random place position in this landscape
-        self.D = D
+        self.D = settings['nParm']
         # n, the population size of fireflies
-        self.n = n
+        self.n = settings['n']
         # alpha, the step size
-        self.alpha = alpha
+        self.alpha = settings['alpha']
         # alpha0, use to calculate_new_alpha
-        self.alpha0 = alpha
+        self.alpha0 = settings['alpha']
         # betamin, the minimal attraction, must not less than this
-        self.betaMin = betaMin
+        self.betaMin = settings['betaMin']
         # beta0, the attraction of two firefly in 0 distance
-        self.beta0 = beta0
+        self.beta0 = settings['beta0']
         # gamma
-        self.gamma = gamma
+        self.gamma = settings['gamma']
         # low bound
-        self.lb = np.array(lb[:])
+        self.lb = np.array(settings['lower'][:])
         # up bound
-        self.ub = np.array(ub[:])
+        self.ub = np.array(settings['upper'][:])
         # all fireflies, depend on population n
-        self.fireflys = np.ndarray((self.n),dtype=np.object)
+        self.fireflys = np.ndarray((self.n,), dtype=np.object)
         for i in range(self.n):
             self.fireflys[i] = Chromosome(self.D)
         # object function
-        self.f = f
+        self.f = func
         # maxima generation, report: how many generation report status once
         self.maxGen = maxGen
         self.rp = report
@@ -89,7 +88,7 @@ cdef class Firefly(object):
         self.bestFirefly = Chromosome(self.D)
         
         # setup benchmark
-        self.timeS = pytime()
+        self.timeS = time()
         self.timeE = 0
         self.fitnessTime = ''
         self.fitnessParameter = ''
@@ -144,7 +143,7 @@ cdef class Firefly(object):
         return min(self.fireflys, key=lambda chrom:chrom.f)
     
     cdef void report(self):
-        self.timeE = pytime()
+        self.timeE = time()
         self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
     
     cdef void calculate_new_alpha(self):
@@ -186,7 +185,6 @@ cdef class Firefly(object):
                 if self.interrupt_fun is not None:
                     if self.interrupt_fun():
                         break
-                PyErr_CheckSignals()
         else:
             while True:
                 self.generation_process()
@@ -195,7 +193,6 @@ cdef class Firefly(object):
                 if self.interrupt_fun is not None:
                     if self.interrupt_fun():
                         break
-                PyErr_CheckSignals()
         self.report()
         self.getParamValue()
         return self.fitnessTime, self.fitnessParameter

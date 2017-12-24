@@ -4,11 +4,10 @@ import numpy as np
 cimport numpy as np
 from libc.stdlib cimport rand, RAND_MAX, srand
 #from libc.time cimport time
-from time import time as pytime
-from cpython.exc cimport PyErr_CheckSignals
+from time import time
 
 # make true it is random everytime
-srand(int(pytime()))
+srand(int(time()))
 
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
@@ -49,44 +48,41 @@ cdef class DiffertialEvolution(object):
     cdef Chromosome lastgenbest, currentbest
     cdef object fitnessTime, fitnessParameter
     
-    def __cinit__(self, object Func,
-            int strategy, int D, int NP, double F, double CR, object lower, object upper,
-            int maxGen, int report, object progress_fun=None, object interrupt_fun=None):
-        # strategy 1~10, choice what strategy to generate new member in temporary
-        self.strategy = strategy
+    def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
         # dimesion of quesiton
-        self.D = D
+        self.D = settings['nParm']
+        # strategy 1~10, choice what strategy to generate new member in temporary
+        self.strategy = settings['strategy']
         # population size
         # To start off NP = 10*D is a reasonable choice. Increase NP if misconvergence
-        self.NP = NP
+        self.NP = settings['NP']
         # weight factor
         # F is usually between 0.5 and 1 (in rare cases > 1)
-        self.F = F
+        self.F = settings['F']
         # crossover possible
         # CR in [0,1]
-        self.CR = CR
+        self.CR = settings['CR']
         # low bound
-        self.lb = np.array(lower[:])
+        self.lb = np.array(settings['lower'][:])
         # up bound
-        self.ub = np.array(upper[:])
+        self.ub = np.array(settings['upper'][:])
         # maxima generation, report: how many generation report status once
-        self.maxGen = maxGen
-        self.rpt = report
+        self.maxGen = settings['maxGen']
+        self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         # object function, or enviorment
-        self.f = Func
+        self.f = func
         # check parameter is set properly
         self.checkParameter()
-        
         # generation pool, depend on population size
-        self.pop = np.ndarray((NP,),dtype=np.object)
-        for i in range(NP):
+        self.pop = np.ndarray((self.NP,), dtype=np.object)
+        for i in range(self.NP):
             self.pop[i] = Chromosome(self.D)
         # last generation best member
-        self.lastgenbest = Chromosome(D)
+        self.lastgenbest = Chromosome(self.D)
         # current best member
-        self.currentbest = Chromosome(D)
+        self.currentbest = Chromosome(self.D)
         # the generation count
         self.gen = 0
         # the vector
@@ -97,7 +93,7 @@ cdef class DiffertialEvolution(object):
         self.r5 = 0
         
         # setup benchmark
-        self.timeS = pytime()
+        self.timeS = time()
         self.timeE = 0
         self.fitnessTime = ''
         self.fitnessParameter = ''
@@ -247,7 +243,7 @@ cdef class DiffertialEvolution(object):
         """
         report current generation status
         """
-        self.timeE = pytime()
+        self.timeE = time()
         self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
     
     cdef bool overbound(self, Chromosome member):
@@ -325,7 +321,6 @@ cdef class DiffertialEvolution(object):
                 if self.interrupt_fun is not None:
                     if self.interrupt_fun():
                         break
-                PyErr_CheckSignals()
         else:
             while True:
                 self.generation_process()
@@ -334,7 +329,6 @@ cdef class DiffertialEvolution(object):
                 if self.interrupt_fun is not None:
                     if self.interrupt_fun():
                         break
-                PyErr_CheckSignals()
         # the evolution journey is done, report the final status
         self.report()
         self.getParamValue()

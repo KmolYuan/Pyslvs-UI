@@ -47,27 +47,25 @@ class Chromosome(object):
             self.cp(obj)
 
 class Genetic(object):
-    def __init__(self, func, nParm, nPop,
-            pCross, pMute, pWin, bDelta, upper, lower,
-            maxGen, report, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
+    def __init__(self, func, settings, progress_fun=None, interrupt_fun=None):
         self.func = func
-        self.nParm = nParm
-        self.nPop = nPop
-        self.pCross = pCross
-        self.pMute = pMute
-        self.pWin = pWin
-        self.bDelta = bDelta
+        self.nParm = settings['nParm']
+        self.nPop = settings['nPop']
+        self.pCross = settings['pCross']
+        self.pMute = settings['pMute']
+        self.pWin = settings['pWin']
+        self.bDelta = settings['bDelta']
         
-        self.chrom = [Chromosome(nParm) for i in range(nPop)]
-        self.newChrom = [Chromosome(nParm) for i in range(nPop)]
-        self.babyChrom = [Chromosome(nParm) for i in range(3)]
-        self.chromElite = Chromosome(nParm)
-        self.chromBest = Chromosome(nParm)
-        self.maxLimit = upper[:]
-        self.minLimit = lower[:]
+        self.chrom = [Chromosome(self.nParm) for i in range(self.nPop)]
+        self.newChrom = [Chromosome(self.nParm) for i in range(self.nPop)]
+        self.babyChrom = [Chromosome(self.nParm) for i in range(3)]
+        self.chromElite = Chromosome(self.nParm)
+        self.chromBest = Chromosome(self.nParm)
+        self.maxLimit = settings['upper'][:]
+        self.minLimit = settings['lower'][:]
         #Gen
-        self.maxGen = maxGen
-        self.rpt = report
+        self.maxGen = settings['maxGen']
+        self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         self.gen = 0
@@ -81,13 +79,13 @@ class Genetic(object):
         self.iseed = 470211272.0
         self.mask = 2147483647
         #socket
-        self.socket_port = socket_port
+        self.socket_port = settings['socket_port']
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REQ)
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
-        self.targetPath = targetPath
+        self.targetPath = settings['targetPath']
         # setup benchmark
         self.timeS = time.time()
         self.timeE = 0

@@ -44,42 +44,39 @@ class Chromosome(object):
         self.f = obj.f
 
 class DiffertialEvolution(object):
-    def __init__(self, func,
-            strategy, D, NP, F, CR, lower, upper,
-            maxGen, report, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
-        # strategy 1~10, choice what strategy to generate new member in temporary
-        self.strategy = strategy
+    def __init__(self, func, settings, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
         # dimesion of quesiton
-        self.D = D
+        self.D = settings['nParm']
+        # strategy 1~10, choice what strategy to generate new member in temporary
+        self.strategy = settings['strategy']
         # population size
         # To start off NP = 10*D is a reasonable choice. Increase NP if misconvergence
-        self.NP = NP
+        self.NP = settings['NP']
         # weight factor
         # F is usually between 0.5 and 1 (in rare cases > 1)
-        self.F = F
+        self.F = settings['F']
         # crossover possible
         # CR in [0,1]
-        self.CR = CR
+        self.CR = settings['CR']
         # lower bound array
-        self.lb = lower[:]
+        self.lb = settings['lower'][:]
         # upper bound array
-        self.ub = upper[:]
+        self.ub = settings['upper'][:]
         # maxima generation, report: how many generation report status once
-        self.maxGen = maxGen
-        self.rpt = report
+        self.maxGen = settings['maxGen']
+        self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         # object function, or enviorment
         self.func = func
         # check parameter is set properly
         self.checkParameter()
-        
         # generation pool, depend on population size
-        self.pop = [Chromosome(D) for i in range(NP)]
+        self.pop = [Chromosome(self.D) for i in range(self.NP)]
         # last generation best member
-        self.lastgenbest = Chromosome(D)
+        self.lastgenbest = Chromosome(self.D)
         # current best member
-        self.currentbest = Chromosome(D)
+        self.currentbest = Chromosome(self.D)
         # the generation count
         self.gen = 0
         # the vector
@@ -89,13 +86,13 @@ class DiffertialEvolution(object):
         self.r4 = 0
         self.r5 = 0
         #socket
-        self.socket_port = socket_port
+        self.socket_port = settings['socket_port']
         self.context = zmq.Context()
         self.socket = self.context.socket(zmq.REQ)
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
-        self.targetPath = targetPath
+        self.targetPath = settings['targetPath']
         # setup benchmark
         self.timeS = time.time()
         self.timeE = 0

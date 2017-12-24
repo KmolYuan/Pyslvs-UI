@@ -93,7 +93,7 @@ cdef class build_planar(object):
         cdef double y
         cdef double sum
         #Large fitness
-        cdef int FAILURE = 1987
+        cdef int FAILURE = 9487
         # all variable
         tmp_dict = dict()
         index = 0
