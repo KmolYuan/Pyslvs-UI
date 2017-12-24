@@ -243,7 +243,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.inputs_variable_autocheck()
         self.Resolve()
     
-    #Resolve: Use Solvespace kernel.
+    #Resolve: Use Solvespace lib.
     def Resolve(self):
         try:
             result, DOF = slvsProcess(

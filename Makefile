@@ -17,15 +17,15 @@ help:
 
 .PHONY: help build build-kernel clean clean-kernel clean-all
 
-build-kernel: core/kernel/pyslvs_algorithm/*.pyx
+build-kernel: core/libs/pyslvs_algorithm/*.pyx
 	@echo ---Pyslvs generate Build---
-	$(MAKE) -C core/kernel/pyslvs_algorithm
+	$(MAKE) -C core/libs/pyslvs_algorithm
 	@echo ---Done---
 	@echo ---Pyslvs topologic Build---
-	$(MAKE) -C core/kernel/pyslvs_topologic
+	$(MAKE) -C core/libs/pyslvs_topologic
 	@echo ---Done---
 	@echo ---Python solvespace Build---
-	$(MAKE) -C core/kernel/python_solvespace
+	$(MAKE) -C core/libs/python_solvespace
 	@echo ---Done---
 
 build: launch_pyslvs.py build-kernel
@@ -39,12 +39,12 @@ ifeq ($(OS),Windows_NT)
 	@echo --Python Version $(PYTHON)--
 	pyinstaller -F $< -i ./icons/main.ico \
 --path="$(PYQTPATH)\Qt\bin" \
---add-binary="core/kernel/python_solvespace/libslvs.so;." \
---add-binary="core/kernel/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_algorithm/firefly.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_algorithm/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_algorithm/rga.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/kernel/pyslvs_algorithm/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
+--add-binary="core/libs/python_solvespace/libslvs.so;." \
+--add-binary="core/libs/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs_algorithm/firefly.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs_algorithm/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs_algorithm/rga.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs_algorithm/tinycadlib.$(CPPYTHON)-win_amd64.pyd;."
 	$(eval PYSLVSVERSION = $(shell python -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))"))
 	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
 	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))
@@ -76,8 +76,8 @@ else
 endif
 
 clean-kernel:
-	$(MAKE) -C core/kernel/pyslvs_algorithm clean
-	$(MAKE) -C core/kernel/pyslvs_topologic clean
-	$(MAKE) -C core/kernel/python_solvespace clean
+	$(MAKE) -C core/libs/pyslvs_algorithm clean
+	$(MAKE) -C core/libs/pyslvs_topologic clean
+	$(MAKE) -C core/libs/python_solvespace clean
 
 clean-all: clean-kernel clean

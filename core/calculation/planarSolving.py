@@ -19,7 +19,7 @@
 
 from typing import Tuple
 from math import radians, cos, sin
-from ..kernel.python_solvespace.slvs import (
+from ..libs.python_solvespace.slvs import (
     #System base
     System, groupNum, Slvs_MakeQuaternion,
     #Entities & Constraint

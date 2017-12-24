@@ -17,8 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..kernel.pyslvs_algorithm import tinycadlib
-from ..kernel.pyslvs_algorithm.planarlinkage import build_planar
+from ..libs.pyslvs_algorithm import tinycadlib
+from ..libs.pyslvs_algorithm.planarlinkage import build_planar
 import os, zmq
 
 def startRep(PORT):

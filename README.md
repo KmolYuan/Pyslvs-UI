@@ -173,7 +173,7 @@ Download and install / upgrade [SIP].
 Then remove SIP from the location:
 
 ```bash
-$ sudo rm -fr /usr/local/lib/python3.5/dist-packages/sip*
+$ sudo rm -fr /usr/local/libs/python3.5/dist-packages/sip*
 ```
 
 Or maybe directly:
@@ -205,7 +205,7 @@ This project including 2 kernels should build, please following the steps if you
 Make command:
 
 ```bash
-make -C core/kernel/python_solvespace
+make -C core/libs/python_solvespace
 ```
 
 **Ubuntu**:
@@ -287,7 +287,7 @@ Edit it to this:
 Make command:
 
 ```bash
-make -C core/kernel/pyslvs_algorithm
+make -C core/libs/pyslvs_algorithm
 ```
 
 **Ubuntu**:
