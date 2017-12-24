@@ -44,7 +44,7 @@ cdef class DiffertialEvolution(object):
     cdef int strategy, D, NP, maxGen, rpt, gen, r1, r2, r3, r4, r5
     cdef double F, CR, timeS, timeE
     cdef np.ndarray lb, ub, pop
-    cdef object f, progress_fun, interrupt_fun
+    cdef object func, progress_fun, interrupt_fun
     cdef Chromosome lastgenbest, currentbest
     cdef object fitnessTime, fitnessParameter
     
@@ -72,7 +72,7 @@ cdef class DiffertialEvolution(object):
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         # object function, or enviorment
-        self.f = func
+        self.func = func
         # check parameter is set properly
         self.checkParameter()
         # generation pool, depend on population size
@@ -130,7 +130,7 @@ cdef class DiffertialEvolution(object):
         """
         evalute the member in enviorment
         """
-        return self.f(member.v)
+        return self.func(member.v)
     
     cdef Chromosome findBest(self):
         """

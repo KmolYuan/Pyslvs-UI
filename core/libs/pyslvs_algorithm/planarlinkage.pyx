@@ -2,6 +2,9 @@
 from libc.math cimport isnan
 import tinycadlib
 from tinycadlib import (
+    PLAP,
+    PLLP,
+    PLPP,
     legal_crank,
     legal_triangle,
     Coordinate
@@ -37,11 +40,11 @@ cdef class build_planar(object):
             self.target[i] = Coordinate(coord[0], coord[1])
             #[Coordinate(x0, y0), Coordinate(x0, y0), Coordinate(x0, y0), ...]
         # formulaction dictionary Link
-        self.formula = dict()
-        for f in mechanismParams['formula']:
-            self.formula[f] = getattr(tinycadlib, f)
-            #{'PLAP': PLAP(), 'PLLP': PLLP()}
-        
+        self.formula = {
+            'PLAP':PLAP,
+            'PLLP':PLLP,
+            'PLPP':PLPP
+        }
         # Expression A, L0, a0, D, B, B, L1, L2, D, C, B, L3, L4, C, E
         # split Expression to list
         self.Expression_str = mechanismParams['Expression']
@@ -65,8 +68,11 @@ cdef class build_planar(object):
             target = ExpressionL[_tmp]
             count = _tmp+1
             self.Exp.append({"relate":relate, 'target':target, 'params':params})
-            #{'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']}
-            #{'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}
+        '''
+        Exp: Tuple[Dict]
+        {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']}
+        {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}
+        '''
     
     def get_Driving(self):
         return self.Driving
@@ -83,6 +89,7 @@ cdef class build_planar(object):
     
     def __call__(self, object v):
         """
+        v: a list of parameter [Ax, Ay, Dx, Dy, ...]
         target: a list of target [(1,5), (2,5), (3,5)]
         POINT: length of target
         VARS: linkage variables

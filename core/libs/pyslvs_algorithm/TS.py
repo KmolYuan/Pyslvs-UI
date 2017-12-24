@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 from math import sqrt, radians
-from .tinycadlib import Coordinate
+from .tinycadlib import (
+    Coordinate,
+    PLAP,
+    PLLP,
+    PLPP
+)
 
 ##Directions:
 ##[Direction('p1':Point1, 'p2':Point2, 'len1':Line1, ('len2':Line2, 'angle':angle ...)), ...]
@@ -31,11 +36,6 @@ class Direction:
         return "<{}>".format(self.items())
 
 class solver:
-    from .tinycadlib import (
-        PLAP,
-        PLLP,
-        PLPP
-    )
     
     def __init__(self, Directions=[], showError=True, *keywords):
         self.showError = showError
@@ -81,11 +81,11 @@ class solver:
             ##True: angle1-angle2
             ##False: angle1+angle2
             if d.Type=='PLAP':
-                results.append(self.PLAP(Coordinate(*p1), d.len1, radians(d.angle), Coordinate(*p2), other))
+                results.append(PLAP(Coordinate(*p1), d.len1, radians(d.angle), Coordinate(*p2), other))
             elif d.Type=='PLLP':
-                results.append(self.PLLP(Coordinate(*p1), d.len1, d.len2, Coordinate(*p2), other))
+                results.append(PLLP(Coordinate(*p1), d.len1, d.len2, Coordinate(*p2), other))
             elif d.Type=='PLPP':
-                results.append(self.PLPP(Coordinate(*p1), d.len1, p3, Coordinate(*p2), other))
+                results.append(PLPP(Coordinate(*p1), d.len1, p3, Coordinate(*p2), other))
             elif d.Type=='PPP':
                 results.append(self.PPP(p1, p2, p3))
         return results

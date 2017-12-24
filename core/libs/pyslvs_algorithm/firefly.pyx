@@ -74,7 +74,7 @@ cdef class Firefly(object):
         for i in range(self.n):
             self.fireflys[i] = Chromosome(self.D)
         # object function
-        self.f = func
+        self.func = func
         # maxima generation, report: how many generation report status once
         self.maxGen = maxGen
         self.rp = report
@@ -116,7 +116,7 @@ cdef class Firefly(object):
     cdef void evaluate(self):
         cdef Chromosome firefly
         for firefly in self.fireflys:
-            firefly.f = self.f(firefly.v)
+            firefly.f = self.func(firefly.v)
     
     cdef bool movefly(self, Chromosome me, Chromosome she):
         cdef double r, beta

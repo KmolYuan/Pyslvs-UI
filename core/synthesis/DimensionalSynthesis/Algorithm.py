@@ -48,8 +48,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         'Target':'E',
         'ExpressionName':'PLAP,PLLP,PLLP',
         'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
-        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-        'formula':['PLAP','PLLP']
+        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
     mechanismParams_4Bar['VARS'] = len(set(mechanismParams_4Bar['Expression'].split(',')))-2
     mechanismParams_8Bar = { #No 'targetPath'
@@ -59,8 +58,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         'Target':'H',
         'ExpressionName':'PLAP,PLLP,PLLP,PLLP,PLLP,PLLP',
         'Expression':'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H',
-        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}],
-        'formula':['PLAP','PLLP']
+        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
