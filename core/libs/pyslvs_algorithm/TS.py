@@ -1,11 +1,6 @@
 # -*- coding: utf-8 -*-
 from math import sqrt, radians
-from .tinycadlib import (
-    Coordinate,
-    PLAP,
-    PLLP,
-    PLPP
-)
+from .tinycadlib import Coordinate
 
 ##Directions:
 ##[Direction('p1':Point1, 'p2':Point2, 'len1':Line1, ('len2':Line2, 'angle':angle ...)), ...]
@@ -36,6 +31,12 @@ class Direction:
         return "<{}>".format(self.items())
 
 class solver:
+    from .tinycadlib import (
+        PLAP,
+        PLLP,
+        PLPP
+    )
+    
     def __init__(self, Directions=[], showError=True, *keywords):
         self.showError = showError
         self.set(Directions)
@@ -70,51 +71,30 @@ class solver:
     
     def Iterator(self):
         results = []
-        for e in self.Directions:
-            p1 = results[e.p1] if type(e.p1)==int else e.p1
-            p2 = results[e.p2] if type(e.p2)==int else e.p2
-            if e.Type in ['PLPP', 'PPP']:
-                p3 = results[e.p3] if type(e.p3)==int else e.p3
+        for d in self.Directions:
+            p1 = results[d.p1] if type(d.p1)==int else d.p1
+            p2 = results[d.p2] if type(d.p2)==int else d.p2
+            if d.Type in ['PLPP', 'PPP']:
+                p3 = results[d.p3] if type(d.p3)==int else d.p3
             #Direction of the point
-            other = e.get('other', False)
+            other = d.get('other', False)
             ##True: angle1-angle2
             ##False: angle1+angle2
-            if e.Type=='PLAP':
-                results.append(self.PLAP(p1, e.len1, e.angle, p2, other))
-            elif e.Type=='PLLP':
-                results.append(self.PLLP(p1, e.len1, e.len2, p2, other))
-            elif e.Type=='PLPP':
-                results.append(self.PLPP(p1, e.len1, p3, p2, other))
-            elif e.Type=='PPP':
+            if d.Type=='PLAP':
+                results.append(self.PLAP(Coordinate(*p1), d.len1, radians(d.angle), Coordinate(*p2), other))
+            elif d.Type=='PLLP':
+                results.append(self.PLLP(Coordinate(*p1), d.len1, d.len2, Coordinate(*p2), other))
+            elif d.Type=='PLPP':
+                results.append(self.PLPP(Coordinate(*p1), d.len1, p3, Coordinate(*p2), other))
+            elif d.Type=='PPP':
                 results.append(self.PPP(p1, p2, p3))
         return results
-    
-    def PLAP(self, A, L0, angle, B, other=False):
-        try:
-            return PLAP(Coordinate(*A), L0, radians(angle), Coordinate(*B), other)
-        except Exception as e:
-            return self.ErrorBack(e)
-    
-    def PLLP(self, A, L0, R0, B, other=False):
-        try:
-            return PLLP(Coordinate(*A), L0, R0, Coordinate(*B), other)
-        except Exception as e:
-            return self.ErrorBack(e)
-    
-    def PLPP(self, A, L0, B, C, other=False):
-        try:
-            return PLPP(Coordinate(*A), L0, Coordinate(*B), Coordinate(*C), other)
-        except Exception as e:
-            return self.ErrorBack(e)
     
     def PPP(self, p1, p2, p3):
         return self.diff(p1, p2), self.diff(p2, p3), self.diff(p1, p3)
     
     def diff(self, p1, p2):
         return sqrt((p2[0]-p1[0])**2+(p2[1]-p1[1])**2)
-    
-    def ErrorBack(self, e):
-        return False
 
 if __name__=='__main__':
     #Test

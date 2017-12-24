@@ -104,7 +104,7 @@ class BaseCanvas(QWidget):
         y_b = -self.oy
         self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
         #Draw tick.
-        Indexing = lambda v: int(v - v%5)
+        Indexing = lambda v: int(v/self.zoom - (v/self.zoom)%5)
         for x in range(Indexing(x_l), Indexing(x_r), 5):
             self.painter.drawLine(QPointF(x*self.zoom, 0), QPointF(x*self.zoom, -10 if x%10==0 else -5))
         for y in range(Indexing(y_b), Indexing(y_t), 5):
@@ -380,7 +380,7 @@ class DynamicCanvas(BaseCanvas):
                 for i, coordinate in enumerate(path):
                     x = coordinate[0]*self.zoom
                     y = coordinate[1]*-self.zoom
-                    if not isnan(x):
+                    if isnan(x):
                         continue
                     else:
                         if i==0:
@@ -392,7 +392,7 @@ class DynamicCanvas(BaseCanvas):
                 for coordinate in path:
                     x = coordinate[0]*self.zoom
                     y = coordinate[1]*-self.zoom
-                    if not isnan(x):
+                    if isnan(x):
                         continue
                     else:
                         self.painter.drawPoint(QPointF(x, y))

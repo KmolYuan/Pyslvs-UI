@@ -89,6 +89,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.type0.clicked.connect(self.algorithmPrams_default)
         self.type1.clicked.connect(self.algorithmPrams_default)
         self.type2.clicked.connect(self.algorithmPrams_default)
+        self.Result_list.clicked.connect(self.hasResult)
         self.isGenerate()
         self.hasResult()
     
@@ -306,7 +307,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.unsaveFunc()
         self.hasResult()
     
-    def hasResult(self):
+    def hasResult(self, p0=None):
         for button in [self.mergeButton, self.deleteButton]:
             button.setEnabled(self.Result_list.currentRow()>-1)
     
