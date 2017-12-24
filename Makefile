@@ -21,6 +21,9 @@ build-kernel: core/kernel/pyslvs_algorithm/*.pyx
 	@echo ---Pyslvs generate Build---
 	$(MAKE) -C core/kernel/pyslvs_algorithm
 	@echo ---Done---
+	@echo ---Pyslvs topologic Build---
+	$(MAKE) -C core/kernel/pyslvs_topologic
+	@echo ---Done---
 	@echo ---Python solvespace Build---
 	$(MAKE) -C core/kernel/python_solvespace
 	@echo ---Done---
@@ -74,6 +77,7 @@ endif
 
 clean-kernel:
 	$(MAKE) -C core/kernel/pyslvs_algorithm clean
+	$(MAKE) -C core/kernel/pyslvs_topologic clean
 	$(MAKE) -C core/kernel/python_solvespace clean
 
 clean-all: clean-kernel clean

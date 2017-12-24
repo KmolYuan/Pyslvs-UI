@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-6.0.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-23, 21:53:19 -->
+<!-- Saved: 2017-12-24, 13:11:33 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="6.0">
   <Language></Language>
@@ -56,6 +56,9 @@
     <Source>core/kernel/pyslvs_algorithm/rga.pyx</Source>
     <Source>core/kernel/pyslvs_algorithm/setup.py</Source>
     <Source>core/kernel/pyslvs_algorithm/tinycadlib.pyx</Source>
+    <Source>core/kernel/pyslvs_topologic/__init__.py</Source>
+    <Source>core/kernel/pyslvs_topologic/setup.py</Source>
+    <Source>core/kernel/pyslvs_topologic/topologic.pyx</Source>
     <Source>core/main.py</Source>
     <Source>core/server/__init__.py</Source>
     <Source>core/server/de.py</Source>
@@ -116,6 +119,7 @@
     <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
     <Other>core/kernel/pyslvs_algorithm/Makefile</Other>
+    <Other>core/kernel/pyslvs_topologic/Makefile</Other>
     <Other>core/kernel/python_solvespace/Makefile</Other>
     <Other>requirements.txt</Other>
   </Others>

@@ -8,6 +8,7 @@ __pycache__/
 *.pyd
 *.o*
 core/kernel/pyslvs_algorithm/*.c
+core/kernel/pyslvs_topologic/*.c
 core/kernel/python_solvespace/slvs.py
 core/kernel/python_solvespace/obj*
 *.cxx
