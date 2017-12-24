@@ -71,15 +71,16 @@ def initCustomWidgets(self):
     for i, (text, icon) in enumerate([
         ("View mode", "freemove_off"),
         ("Translate mode", "freemove_on"),
-        ("Rotate mode", "freemove_on")
+        ("Rotate mode", "freemove_on"),
+        ("Reflect mode", "freemove_on"),
     ]):
         action = QAction(QIcon(QPixmap(":/icons/{}.png".format(icon))), text, self)
-        def freeMoveMode_func(j):
+        def freeMoveMode_func(j, qicon):
             def func():
-                self.FreeMoveMode.setIcon(action.icon())
+                self.FreeMoveMode.setIcon(qicon)
                 self.DynamicCanvasView.setFreeMove(j)
             return func
-        action.triggered.connect(freeMoveMode_func(i))
+        action.triggered.connect(freeMoveMode_func(i, action.icon()))
         action.setShortcut("Ctrl+{}".format(i+1))
         action.setShortcutContext(Qt.WindowShortcut)
         FreeMoveMode_menu.addAction(action)

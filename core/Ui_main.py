@@ -548,7 +548,6 @@ class Ui_MainWindow(object):
         icon16.addPixmap(QtGui.QPixmap(":/icons/freemove_off.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.FreeMoveMode.setIcon(icon16)
         self.FreeMoveMode.setIconSize(QtCore.QSize(32, 32))
-        self.FreeMoveMode.setCheckable(True)
         self.FreeMoveMode.setObjectName("FreeMoveMode")
         self.horizontalLayout_7.addWidget(self.FreeMoveMode)
         self.line_3 = QtWidgets.QFrame(self.BrowserWidget)

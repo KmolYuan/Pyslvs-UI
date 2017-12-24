@@ -273,6 +273,8 @@ class DynamicCanvas(BaseCanvas):
                 pen.setColor(QColor(161, 105, 229))
             elif self.freemove==2:
                 pen.setColor(QColor(219, 162, 6))
+            elif self.freemove==3:
+                pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.drawFrame(pen)
@@ -568,7 +570,7 @@ class DynamicCanvas(BaseCanvas):
                         for row in self.pointsSelection:
                             vpoint = self.Point[row]
                             vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
-                    if self.freemove==2:
+                    elif self.freemove==2:
                         #Free move rotate function.
                         alpha = atan2(y, x) - atan2(self.Selector.y/-self.zoom, self.Selector.x/self.zoom)
                         for row in self.pointsSelection:
@@ -576,6 +578,13 @@ class DynamicCanvas(BaseCanvas):
                             r = sqrt(vpoint.x**2 + vpoint.y**2)
                             beta = atan2(vpoint.y, vpoint.x)
                             vpoint.move((r*cos(alpha + beta), r*sin(alpha + beta)))
+                    elif self.freemove==3:
+                        #Free move reflect function.
+                        factor_x = 1 if x > 0 else -1
+                        factor_y = 1 if y > 0 else -1
+                        for row in self.pointsSelection:
+                            vpoint = self.Point[row]
+                            vpoint.move((vpoint.x*factor_x, vpoint.y*factor_y))
             else:
                 #Rectangular selection
                 self.Selector.RectangularSelection = True
