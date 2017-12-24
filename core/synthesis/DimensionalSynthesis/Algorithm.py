@@ -292,9 +292,11 @@ class Algorithm_show(QWidget, PathSolving_Form):
         keys = sorted(list(result.keys()))
         info = (["{}: {}".format(k, result[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
             ["\nClick to apply setting."]+["Double click to see dynamic preview."])
-        item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(result['Algorithm'],
-            '' if interrupt=='False' else interrupt+'-', result['settings']['maxGen'])]+
-            (["※ Completeness is not clear." if interrupt=='N/A' else ''])+info))
+        item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(
+            result['Algorithm'],
+            '' if interrupt=='False' else interrupt+'-',
+            result['settings']['maxGen'])]+["※ Completeness is not clear." if interrupt=='N/A' else '']+info
+        ))
         self.Result_list.addItem(item)
     
     @pyqtSlot()

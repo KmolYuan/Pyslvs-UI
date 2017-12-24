@@ -77,7 +77,8 @@ class WorkerThread(QThread):
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
                     'memory':"{} GB".format(round(virtual_memory().total/(1024.**3), 4)),
                     'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
-                    'network':str(self.socket!=None)},
+                    'network':str(self.socket!=None)
+                },
                 'TimeAndFitness':TnF
             }
             for index in range(len(self.mechanismParams['Link'].split(','))):
@@ -118,8 +119,10 @@ class WorkerThread(QThread):
             interrupt_fun=self.isStoped,
         )
         time_and_fitness, fitnessParameter = self.fun.run()
-        return(tuple(tuple([int(e.split(',')[0]), float(e.split(',')[1]), float(e.split(',')[2])]) for e in time_and_fitness.split(';')[0:-1]),
-            [float(e) for e in fitnessParameter.split(',')])
+        return(
+            tuple((int(e.split(',')[0]), float(e.split(',')[1]), float(e.split(',')[2])) for e in time_and_fitness.split(';')[0:-1]),
+            [float(e) for e in fitnessParameter.split(',')]
+        )
     
     def stop(self):
         with QMutexLocker(self.mutex):

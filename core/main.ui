@@ -1087,7 +1087,7 @@
                 <number>10</number>
                </property>
                <property name="maximum">
-                <number>1000</number>
+                <number>2000</number>
                </property>
                <property name="singleStep">
                 <number>50</number>
@@ -1158,8 +1158,7 @@
                </property>
                <property name="icon">
                 <iconset resource="../icons.qrc">
-                 <normaloff>:/icons/freemove_off.png</normaloff>
-                 <activeon>:/icons/freemove_on.png</activeon>:/icons/freemove_off.png</iconset>
+                 <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
                </property>
                <property name="iconSize">
                 <size>
@@ -1418,8 +1417,6 @@
     <addaction name="separator"/>
     <addaction name="action_Delete_Point"/>
     <addaction name="action_Delete_Link"/>
-    <addaction name="separator"/>
-    <addaction name="action_Free_move"/>
    </widget>
    <widget class="QMenu" name="menu_Options">
     <property name="title">
@@ -1709,9 +1706,6 @@
    <property name="statusTip">
     <string>Output to Drawing Exchange sketch.</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+D</string>
-   </property>
   </action>
   <action name="action_Save_as">
    <property name="icon">
@@ -1738,9 +1732,6 @@
    </property>
    <property name="statusTip">
     <string>Output to Solvespace 2D sketch.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+2</string>
    </property>
   </action>
   <action name="SolvespaceMenuTitle">
@@ -1957,18 +1948,6 @@
     <string>From example</string>
    </property>
   </action>
-  <action name="action_Free_move">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/freemove_on.png</normaloff>:/icons/freemove_on.png</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Free move</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F</string>
-   </property>
-  </action>
   <action name="action_Output_to_Picture_clipboard">
    <property name="icon">
     <iconset resource="../icons.qrc">
@@ -2029,22 +2008,6 @@
     <hint type="destinationlabel">
      <x>822</x>
      <y>451</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>action_Free_move</sender>
-   <signal>triggered()</signal>
-   <receiver>FreeMoveMode</receiver>
-   <slot>toggle()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>876</x>
-     <y>62</y>
     </hint>
    </hints>
   </connection>

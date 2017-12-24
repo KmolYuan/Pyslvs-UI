@@ -48,7 +48,6 @@ def initCustomWidgets(self):
     self.statusBar.addPermanentWidget(selectionLabel)
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
-    self.FreeMoveMode.toggled.connect(self.DynamicCanvasView.setFreeMove)
     self.FreeMoveMode.toggled.connect(self.variableValueReset)
     self.DynamicCanvasView.mouse_getSelection.connect(self.Entities_Point.setSelections)
     self.DynamicCanvasView.mouse_getSelection.connect(self.inputs_points_setSelection)
@@ -67,6 +66,24 @@ def initCustomWidgets(self):
     self.DynamicCanvasView.mouse_browse_track.connect(selectionLabel.updateMousePosition)
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
+    #Menu of free move mode.
+    FreeMoveMode_menu = QMenu(self)
+    for i, (text, icon) in enumerate([
+        ("View mode", "freemove_off"),
+        ("Translate mode", "freemove_on"),
+        ("Rotate mode", "freemove_on")
+    ]):
+        action = QAction(QIcon(QPixmap(":/icons/{}.png".format(icon))), text, self)
+        def freeMoveMode_func(j):
+            def func():
+                self.FreeMoveMode.setIcon(action.icon())
+                self.DynamicCanvasView.setFreeMove(j)
+            return func
+        action.triggered.connect(freeMoveMode_func(i))
+        action.setShortcut("Ctrl+{}".format(i+1))
+        action.setShortcutContext(Qt.WindowShortcut)
+        FreeMoveMode_menu.addAction(action)
+    self.FreeMoveMode.setMenu(FreeMoveMode_menu)
     #File table settings.
     self.FileWidget = FileWidget(self)
     self.SCMLayout.addWidget(self.FileWidget)

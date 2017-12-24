@@ -18,7 +18,13 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from math import sqrt, isnan
+from math import (
+    sin,
+    cos,
+    atan2,
+    sqrt,
+    isnan
+)
 from collections import deque
 from heapq import nsmallest
 from typing import TypeVar, List, Tuple
@@ -179,8 +185,8 @@ class DynamicCanvas(BaseCanvas):
         self.ranges = (defult_range, defult_range)
         #Set showDimension to False.
         self.showDimension = False
-        #Free move mode.
-        self.freemove = False
+        #Free move mode. (0: no free move. 1: translate. 2: rotate.)
+        self.freemove = 0
         #Set zoom bar function
         self.setZoomValue = lambda a: parent.ZoomBar.setValue(parent.ZoomBar.value() + parent.ScaleFactor.value()*a/abs(a))
     
@@ -229,7 +235,6 @@ class DynamicCanvas(BaseCanvas):
         self.showSlvsPath = showSlvsPath
         self.update()
     
-    @pyqtSlot(bool)
     def setFreeMove(self, freemove):
         self.freemove = freemove
         self.update()
@@ -263,7 +268,11 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).paintEvent(event)
         if self.freemove:
             #Draw a colored frame for free move mode.
-            pen = QPen(QColor(161, 105, 229))
+            pen = QPen()
+            if self.freemove==1:
+                pen.setColor(QColor(161, 105, 229))
+            elif self.freemove==2:
+                pen.setColor(QColor(219, 162, 6))
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.drawFrame(pen)
@@ -552,12 +561,21 @@ class DynamicCanvas(BaseCanvas):
         elif self.Selector.LeftButtonDrag:
             if self.freemove:
                 if self.pointsSelection:
-                    #Free move (batch move) function.
-                    mouse_x = x - self.Selector.x/self.zoom
-                    mouse_y = y - self.Selector.y/-self.zoom
-                    for row in self.pointsSelection:
-                        vpoint = self.Point[row]
-                        vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
+                    if self.freemove==1:
+                        #Free move translate function.
+                        mouse_x = x - self.Selector.x/self.zoom
+                        mouse_y = y - self.Selector.y/-self.zoom
+                        for row in self.pointsSelection:
+                            vpoint = self.Point[row]
+                            vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
+                    if self.freemove==2:
+                        #Free move rotate function.
+                        alpha = atan2(y, x) - atan2(self.Selector.y/-self.zoom, self.Selector.x/self.zoom)
+                        for row in self.pointsSelection:
+                            vpoint = self.Point[row]
+                            r = sqrt(vpoint.x**2 + vpoint.y**2)
+                            beta = atan2(vpoint.y, vpoint.x)
+                            vpoint.move((r*cos(alpha + beta), r*sin(alpha + beta)))
             else:
                 #Rectangular selection
                 self.Selector.RectangularSelection = True

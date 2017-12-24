@@ -91,7 +91,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if mimeData.hasUrls():
             for url in mimeData.urls():
                 fileName = url.toLocalFile()
-                if QFileInfo(fileName).suffix() in ('pyslvs',):
+                if QFileInfo(fileName).suffix() in ('pyslvs', 'db'):
                     event.acceptProposedAction()
     
     #Drop file in to our window.
