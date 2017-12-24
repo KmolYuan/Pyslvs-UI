@@ -17,14 +17,14 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..QtModules import *
+from ...QtModules import *
 import timeit
 import platform
 import numpy
 import numpy.distutils.cpuinfo
 from psutil import virtual_memory
-from ..libs.pyslvs_algorithm import tinycadlib
-from ..libs.pyslvs_algorithm.planarlinkage import build_planar
+from ...libs.pyslvs_algorithm import tinycadlib
+from ...libs.pyslvs_algorithm.planarlinkage import build_planar
 
 class WorkerThread(QThread):
     progress_update = pyqtSignal(int, str)
@@ -93,13 +93,13 @@ class WorkerThread(QThread):
     
     def generateProcess(self):
         if self.socket!=None:
-            from ..server.rga import Genetic
-            from ..server.firefly import Firefly
-            from ..server.de import DiffertialEvolution
+            from ...server.rga import Genetic
+            from ...server.firefly import Firefly
+            from ...server.de import DiffertialEvolution
         else:
-            from ..libs.pyslvs_algorithm.rga import Genetic
-            from ..libs.pyslvs_algorithm.firefly import Firefly
-            from ..libs.pyslvs_algorithm.de import DiffertialEvolution
+            from ...libs.pyslvs_algorithm.rga import Genetic
+            from ...libs.pyslvs_algorithm.firefly import Firefly
+            from ...libs.pyslvs_algorithm.de import DiffertialEvolution
         mechanismObj = build_planar(self.mechanismParams)
         #Genetic Algorithm
         if self.type_num==0:

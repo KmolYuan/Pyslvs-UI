@@ -378,10 +378,9 @@ class DynamicCanvas(BaseCanvas):
             def drawPath(path):
                 pointPath = QPainterPath()
                 for i, coordinate in enumerate(path):
-                    try:
-                        x = coordinate[0]*self.zoom
-                        y = coordinate[1]*-self.zoom
-                    except TypeError:
+                    x = coordinate[0]*self.zoom
+                    y = coordinate[1]*-self.zoom
+                    if isnan(x):
                         continue
                     else:
                         if i==0:
@@ -391,10 +390,9 @@ class DynamicCanvas(BaseCanvas):
                 self.painter.drawPath(pointPath)
             def drawDot(path):
                 for coordinate in path:
-                    try:
-                        x = coordinate[0]*self.zoom
-                        y = coordinate[1]*-self.zoom
-                    except TypeError:
+                    x = coordinate[0]*self.zoom
+                    y = coordinate[1]*-self.zoom
+                    if isnan(x):
                         continue
                     else:
                         self.painter.drawPoint(QPointF(x, y))
@@ -445,8 +443,6 @@ class DynamicCanvas(BaseCanvas):
                 if len(self.slvsPath)>1:
                     pointPath = QPainterPath()
                     for i, (x, y) in enumerate(self.slvsPath):
-                        if isnan(x):
-                            continue
                         x *= self.zoom
                         y *= -self.zoom
                         self.painter.drawEllipse(QPointF(x, y), 3, 3)

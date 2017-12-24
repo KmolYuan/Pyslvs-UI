@@ -21,6 +21,7 @@ from ..QtModules import *
 from .Ui_Algorithm_preview import Ui_Dialog
 from .canvas import BaseCanvas
 from .color import colorQt
+from math import isnan
 from typing import Tuple
 
 class DynamicCanvas(BaseCanvas):
@@ -123,6 +124,8 @@ class DynamicCanvas(BaseCanvas):
                 if coordinate:
                     x = coordinate[0]*self.zoom
                     y = coordinate[1]*-self.zoom
+                    if isnan(x):
+                        continue
                     if i==0:
                         pointPath.moveTo(x, y)
                     else:
@@ -131,6 +134,8 @@ class DynamicCanvas(BaseCanvas):
         def drawDot(path):
             for coordinate in path:
                 if coordinate:
+                    if isnan(coordinate[0]):
+                        continue
                     self.painter.drawPoint(QPointF(coordinate[0]*self.zoom, coordinate[1]*-self.zoom))
         draw = drawPath if self.Path.curve else drawDot
         Path = self.Path.path
@@ -143,23 +148,18 @@ class DynamicCanvas(BaseCanvas):
         pen = QPen(QColor(3, 163, 120))
         pen.setWidth(self.pathWidth)
         self.painter.setPen(pen)
-        if len(self.slvsPath)>1:
-            pointPath = QPainterPath()
-            for i, (x, y) in enumerate(self.slvsPath):
-                if isnan(x):
-                    continue
-                x *= self.zoom
-                y *= -self.zoom
-                self.painter.drawEllipse(QPointF(x, y), 3, 3)
-                if i==0:
-                    pointPath.moveTo(x, y)
-                else:
-                    pointPath.lineTo(QPointF(x, y))
-            pen.setColor(QColor(69, 247, 232))
-            self.painter.setPen(pen)
-            self.painter.drawPath(pointPath)
-        elif len(self.slvsPath)==1:
-            self.painter.drawEllipse(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom), 3, 3)
+        pointPath = QPainterPath()
+        for i, (x, y) in enumerate(self.slvsPath):
+            x *= self.zoom
+            y *= -self.zoom
+            self.painter.drawEllipse(QPointF(x, y), 3, 3)
+            if i==0:
+                pointPath.moveTo(x, y)
+            else:
+                pointPath.lineTo(QPointF(x, y))
+        pen.setColor(QColor(69, 247, 232))
+        self.painter.setPen(pen)
+        self.painter.drawPath(pointPath)
     
     @pyqtSlot()
     def change_index(self):

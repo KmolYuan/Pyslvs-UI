@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-6.0.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-24, 15:11:02 -->
+<!-- Saved: 2017-12-24, 15:39:23 -->
 <!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
 <Project version="6.0">
   <Language></Language>
@@ -16,9 +16,6 @@
     <Source>core/QtModules.py</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
-    <Source>core/calculation/__init__.py</Source>
-    <Source>core/calculation/pathSolving.py</Source>
-    <Source>core/calculation/planarSolving.py</Source>
     <Source>core/entities/Ui_edit_link.py</Source>
     <Source>core/entities/Ui_edit_point.py</Source>
     <Source>core/entities/__init__.py</Source>
@@ -30,6 +27,7 @@
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas.py</Source>
     <Source>core/graphics/color.py</Source>
+    <Source>core/graphics/planarSolving.py</Source>
     <Source>core/info/Ui_about.py</Source>
     <Source>core/info/__init__.py</Source>
     <Source>core/info/about.py</Source>
@@ -48,6 +46,14 @@
     <Source>core/io/slvsIO.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/libs/__init__.py</Source>
+    <Source>core/libs/pyslvs_algorithm/TS.py</Source>
+    <Source>core/libs/pyslvs_algorithm/__init__.py</Source>
+    <Source>core/libs/pyslvs_algorithm/de.pyx</Source>
+    <Source>core/libs/pyslvs_algorithm/firefly.pyx</Source>
+    <Source>core/libs/pyslvs_algorithm/planarlinkage.pyx</Source>
+    <Source>core/libs/pyslvs_algorithm/rga.pyx</Source>
+    <Source>core/libs/pyslvs_algorithm/setup.py</Source>
+    <Source>core/libs/pyslvs_algorithm/tinycadlib.pyx</Source>
     <Source>core/libs/pyslvs_topologic/Makefile</Source>
     <Source>core/libs/pyslvs_topologic/__init__.py</Source>
     <Source>core/libs/pyslvs_topologic/setup.py</Source>
@@ -71,6 +77,7 @@
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/pathSolving.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Collections.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Collections.py</Source>

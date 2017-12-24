@@ -20,7 +20,7 @@
 from ...QtModules import *
 import zmq
 from .Ui_Algorithm_progress import Ui_Dialog
-from ...calculation.pathSolving import WorkerThread
+from .pathSolving import WorkerThread
 
 class Algorithm_progress_show(QDialog, Ui_Dialog):
     def __init__(self, type_num, mechanismParams, generateData, algorithmPrams, PORT=None, parent=None):

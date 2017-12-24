@@ -36,7 +36,7 @@ from .io.undoRedo import (
 from .entities.edit_point import edit_point_show
 from .entities.edit_link import edit_link_show
 #Solve
-from .calculation.planarSolving import (
+from .graphics.planarSolving import (
     slvsProcess,
     SlvsException
 )
