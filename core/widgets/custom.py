@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
+from ..info.info import VERSION
 from ..graphics.canvas import DynamicCanvas
 from .table import (
     PointTableWidget,
@@ -31,6 +32,8 @@ from ..synthesis.NumberAndTypeSynthesis.Collections import Collections_show as S
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
+    #Version label
+    self.version_label.setText("v{}.{}.{} ({})".format(*VERSION))
     #Entities tables.
     self.Entities_Point = PointTableWidget(self.Entities_Point_Widget)
     self.Entities_Point.cellDoubleClicked.connect(self.on_action_Edit_Point_triggered)
@@ -68,6 +71,11 @@ def initCustomWidgets(self):
     self.canvasSplitter.setSizes([600, 10, 30])
     #Menu of free move mode.
     FreeMoveMode_menu = QMenu(self)
+    def freeMoveMode_func(j, qicon):
+        def func():
+            self.FreeMoveMode.setIcon(qicon)
+            self.DynamicCanvasView.setFreeMove(j)
+        return func
     for i, (text, icon) in enumerate([
         ("View mode", "freemove_off"),
         ("Translate mode", "freemove_on"),
@@ -75,11 +83,6 @@ def initCustomWidgets(self):
         ("Reflect mode", "freemove_on"),
     ]):
         action = QAction(QIcon(QPixmap(":/icons/{}.png".format(icon))), text, self)
-        def freeMoveMode_func(j, qicon):
-            def func():
-                self.FreeMoveMode.setIcon(qicon)
-                self.DynamicCanvasView.setFreeMove(j)
-            return func
         action.triggered.connect(freeMoveMode_func(i, action.icon()))
         action.setShortcut("Ctrl+{}".format(i+1))
         action.setShortcutContext(Qt.WindowShortcut)
