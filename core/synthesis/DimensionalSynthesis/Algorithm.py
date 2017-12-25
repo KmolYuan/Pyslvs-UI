@@ -44,7 +44,6 @@ class Algorithm_show(QWidget, PathSolving_Form):
     mechanismParams_4Bar = { #No 'targetPath'
         'Driving':'A',
         'Follower':'D',
-        'Link':'L0,L1,L2,L3,L4',
         'Target':'E',
         'ExpressionName':'PLAP,PLLP,PLLP',
         'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
@@ -54,7 +53,6 @@ class Algorithm_show(QWidget, PathSolving_Form):
     mechanismParams_8Bar = { #No 'targetPath'
         'Driving':'A',
         'Follower':'B',
-        'Link':'L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10',
         'Target':'H',
         'ExpressionName':'PLAP,PLLP,PLLP,PLLP,PLLP,PLLP',
         'Expression':'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H',
@@ -97,9 +95,8 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
-        self.Point_list.setCurrentRow(0)
-        for i in reversed(range(self.Point_list.count()+1)):
-            self.on_remove_clicked()
+        for i in range(self.Point_list.count()):
+            self.on_remove_clicked(0)
         self.isGenerate()
     
     @pyqtSlot()
@@ -211,11 +208,13 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.isGenerate()
     
     @pyqtSlot()
-    def on_remove_clicked(self):
-        if self.Point_list.currentRow()>-1:
-            del self.path[self.Point_list.currentRow()]
+    def on_remove_clicked(self, row=None):
+        if row is None:
+            row = self.Point_list.currentRow()
+        if row>-1:
+            del self.path[row]
             self.pathChanged.emit(tuple(self.path))
-            self.Point_list.takeItem(self.Point_list.currentRow())
+            self.Point_list.takeItem(row)
             self.isGenerate()
     
     @pyqtSlot()
@@ -302,10 +301,11 @@ class Algorithm_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
-        self.mechanism_data_del(row)
-        self.Result_list.takeItem(row)
-        self.unsaveFunc()
-        self.hasResult()
+        if row>-1:
+            self.mechanism_data_del(row)
+            self.Result_list.takeItem(row)
+            self.unsaveFunc()
+            self.hasResult()
     
     def hasResult(self, p0=None):
         for button in [self.mergeButton, self.deleteButton]:
@@ -316,7 +316,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         row = self.Result_list.currentRow()
         if row>-1:
             mechanism = self.mechanism_data[row]
-            _, Paths = self.legal_crank()
+            _, Paths = self.legal_crank(row)
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
             dlg.exec_()
@@ -328,10 +328,9 @@ class Algorithm_show(QWidget, PathSolving_Form):
             reply = QMessageBox.question(self, "Message", "Merge this result to your canvas?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
-                self.mergeResult.emit(row, *self.legal_crank())
+                self.mergeResult.emit(row, *self.legal_crank(row))
     
-    def legal_crank(self):
-        row = self.Result_list.currentRow()
+    def legal_crank(self, row):
         Result = self.mechanism_data[row]
         path = Result['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)

@@ -32,6 +32,8 @@ from itertools import (
     combinations,
     product
 )
+import numpy as np
+cimport numpy as np
 from cpython cimport bool
 
 cpdef bool testG(object G, object answer):
@@ -62,7 +64,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=None, object
         setjobFunc = emptyFunc
     if stopFunc is None:
         stopFunc = returnFalse
-    cdef object links = dict()
+    cdef np.ndarray links = np.ndarray((sum(link_num),), dtype=np.int)
     cdef int i, j, t, name, joint_count
     for i in range(sum(link_num)):
         name = i
@@ -78,7 +80,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=None, object
     cdef int link, count, n
     cdef object match, match_, prod, G, H
     cdef bool error
-    for link, count in links.items():
+    for link, count in enumerate(links):
         match = [Graph(m) for m in combinations(connection_get(link, connection), count)]
         match_ = []
         prod = list(product(edges_combinations, match))

@@ -12,18 +12,21 @@ from tinycadlib import (
 import numpy as np
 cimport numpy as np
 
+cdef object formula = {
+    'PLAP':PLAP,
+    'PLLP':PLLP,
+    'PLPP':PLPP
+}
+
+#This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, count, _tmp, VARS
-    cdef object formula, ExpressionL, ExpressionNameL, coord, constraint
-    cdef object Exp, Link
+    cdef object formula, ExpressionL, ExpressionNameL, constraint, Exp, Link
     cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
     cdef np.ndarray target
     
     def __cinit__ (self, object mechanismParams):
         self.VARS = mechanismParams['VARS']
-        # split string to list
-        self.Link_str = mechanismParams['Link']
-        self.Link = mechanismParams['Link'].split(',')
         #target point
         self.targetPoint = mechanismParams['Target']
         # counting how many action to satisfied require point
@@ -34,21 +37,20 @@ cdef class build_planar(object):
         self.Follower = mechanismParams['Follower']
         #constraint
         self.constraint = mechanismParams['constraint']
+        
         # use tuple data, create a list of coordinate object
-        self.target = np.ndarray((self.POINTS,),dtype=np.object)
-        for i, coord in enumerate(mechanismParams['targetPath']):
-            self.target[i] = Coordinate(coord[0], coord[1])
-            #[Coordinate(x0, y0), Coordinate(x0, y0), Coordinate(x0, y0), ...]
-        # formulaction dictionary Link
-        self.formula = {
-            'PLAP':PLAP,
-            'PLLP':PLLP,
-            'PLPP':PLPP
-        }
+        #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
+        self.target = np.ndarray((self.POINTS,), dtype=np.object)
+        for i, (x, y) in enumerate(mechanismParams['targetPath']):
+            self.target[i] = Coordinate(x, y)
+        
         # Expression A, L0, a0, D, B, B, L1, L2, D, C, B, L3, L4, C, E
         # split Expression to list
         self.Expression_str = mechanismParams['Expression']
         ExpressionL = mechanismParams['Expression'].split(',')
+        
+        # Link L0, L1, L2, L3, ...
+        self.Link = [L for L in ExpressionL if 'L' in L]
         
         # ExpressionName PLAP, PLLP, PLLP
         # split ExpressionName to list
@@ -66,7 +68,7 @@ cdef class build_planar(object):
             relate = ExpressN
             params = ExpressionL[count:_tmp]
             target = ExpressionL[_tmp]
-            count = _tmp+1
+            count = _tmp + 1
             self.Exp.append({"relate":relate, 'target':target, 'params':params})
         '''
         Exp: Tuple[Dict]
@@ -74,17 +76,19 @@ cdef class build_planar(object):
         {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}
         '''
     
-    def get_Driving(self):
+    cpdef object get_path(self):
+        return [(c.x, c.y) for c in self.target]
+    cpdef str get_Driving(self):
         return self.Driving
-    def get_Follower(self):
+    cpdef str get_Follower(self):
         return self.Follower
-    def get_Target(self):
+    cpdef str get_Target(self):
         return self.targetPoint
-    def get_Link(self):
-        return self.Link_str
-    def get_ExpressionName(self):
+    cpdef object get_Link(self):
+        return self.Link
+    cpdef str get_ExpressionName(self):
         return self.ExpressionName_str
-    def get_Expression(self):
+    cpdef str get_Expression(self):
         return self.Expression_str
     
     def __call__(self, object v):
@@ -124,8 +128,8 @@ cdef class build_planar(object):
             #match to path points.
             tmp_dict['a0'] = np.deg2rad(v[self.VARS+i])
             for e in self.Exp:
-                #self.formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
-                x, y = self.formula[e["relate"]](*[tmp_dict[p] for p in e["params"]])
+                #formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
+                x, y = formula[e["relate"]](*[tmp_dict[p] for p in e["params"]])
                 if isnan(x) or isnan(y):
                     return FAILURE
                 target_coordinate = Coordinate(x, y)

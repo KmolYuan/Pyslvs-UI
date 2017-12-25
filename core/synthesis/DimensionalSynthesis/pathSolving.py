@@ -71,7 +71,7 @@ class WorkerThread(QThread):
                 'Dx':FP[2], 'Dy':FP[3],
                 'targetPath':self.mechanismParams['targetPath'],
                 'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
-                'type':'8Bar' if self.mechanismParams['Link']=='L0,L1,L2,L3,L4,L5,L6,L7,L8,L9,L10' else '4Bar',
+                'type':'4Bar' if self.mechanismParams['ExpressionName']=='PLAP,PLLP,PLLP' else '8Bar',
                 'settings':self.settings,
                 'hardwareInfo':{
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
@@ -81,8 +81,8 @@ class WorkerThread(QThread):
                 },
                 'TimeAndFitness':TnF
             }
-            for index in range(len(self.mechanismParams['Link'].split(','))):
-                mechanism['L{}'.format(index)] = FP[4+index]
+            for i, link in enumerate([L for L in self.mechanismParams['Expression'].split(',') if 'L' in L]):
+                mechanism[link] = FP[4+i]
             print("cost time: {} [s]".format(time_spand))
             self.result.emit(mechanism, time_spand)
         T1 = timeit.default_timer()

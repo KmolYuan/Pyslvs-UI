@@ -12,6 +12,7 @@ nan = float("nan")
 
 cdef class Coordinate(object):
     cdef double x, y
+    
     def __cinit__(self, x, y):
         self.x = x
         self.y = y
