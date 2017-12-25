@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Project SYSTEM "Project-6.0.dtd">
+<!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-24, 15:39:23 -->
-<!-- Copyright (C) 2017 Yuan, pyslvs@gmail.com -->
-<Project version="6.0">
+<!-- Saved: 2017-12-25, 20:22:04 -->
+<!-- Copyright (C) 2017 KmolYuan, pyslvs@gmail.com -->
+<Project version="5.1">
   <Language></Language>
-  <Hash>8830517c87a377b45c7328ed685a32516abd547e</Hash>
+  <Hash>6025882eb6939472903477af24befdd6ddef8a93</Hash>
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
   <Description>Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.</Description>
-  <Version>0.8.1</Version>
-  <Author>Yuan</Author>
+  <Version>0.9.0</Version>
+  <Author>KmolYuan</Author>
   <Email>pyslvs@gmail.com</Email>
+  <Eol index="0"/>
   <Sources>
+    <Source>__init__.py</Source>
     <Source>core/QtModules.py</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
@@ -44,6 +46,7 @@
     <Source>core/io/script.py</Source>
     <Source>core/io/scriptType.py</Source>
     <Source>core/io/slvsIO.py</Source>
+    <Source>core/io/stl_utils.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/libs/__init__.py</Source>
     <Source>core/libs/pyslvs_algorithm/TS.py</Source>
@@ -54,12 +57,10 @@
     <Source>core/libs/pyslvs_algorithm/rga.pyx</Source>
     <Source>core/libs/pyslvs_algorithm/setup.py</Source>
     <Source>core/libs/pyslvs_algorithm/tinycadlib.pyx</Source>
-    <Source>core/libs/pyslvs_topologic/Makefile</Source>
     <Source>core/libs/pyslvs_topologic/__init__.py</Source>
     <Source>core/libs/pyslvs_topologic/setup.py</Source>
-    <Source>core/libs/pyslvs_topologic/topologic.c</Source>
-    <Source>core/libs/pyslvs_topologic/topologic.cpython-35m-x86_64-linux-gnu.so</Source>
     <Source>core/libs/pyslvs_topologic/topologic.pyx</Source>
+    <Source>core/libs/python_solvespace/__init__.py</Source>
     <Source>core/main.py</Source>
     <Source>core/server/__init__.py</Source>
     <Source>core/server/de.py</Source>
@@ -111,15 +112,15 @@
     <Form>core/synthesis/NumberAndTypeSynthesis/Collections.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
+  <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
     <Resource>preview.qrc</Resource>
   </Resources>
+  <Interfaces/>
   <Others>
-    <Other>.travis.yml</Other>
     <Other>Makefile</Other>
     <Other>README.md</Other>
-    <Other>appimage_recipe.sh</Other>
     <Other>core/libs/pyslvs_algorithm/Makefile</Other>
     <Other>core/libs/pyslvs_topologic/Makefile</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>
@@ -128,116 +129,22 @@
   <MainScript>launch_pyslvs.py</MainScript>
   <Vcs>
     <VcsType>None</VcsType>
-    <VcsOptions>
-      <dict>
-        <key>
-          <string>add</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>checkout</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>commit</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>diff</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>export</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>global</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>history</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>log</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>remove</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>status</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>tag</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-        <key>
-          <string>update</string>
-        </key>
-        <value>
-          <list>
-            <string></string>
-          </list>
-        </value>
-      </dict>
-    </VcsOptions>
   </Vcs>
   <FiletypeAssociations>
+    <FiletypeAssociation pattern="*.e4p" type="OTHERS"/>
     <FiletypeAssociation pattern="*.idl" type="INTERFACES"/>
+    <FiletypeAssociation pattern="*.md" type="OTHERS"/>
     <FiletypeAssociation pattern="*.py" type="SOURCES"/>
     <FiletypeAssociation pattern="*.py3" type="SOURCES"/>
     <FiletypeAssociation pattern="*.pyw" type="SOURCES"/>
     <FiletypeAssociation pattern="*.pyw3" type="SOURCES"/>
     <FiletypeAssociation pattern="*.qm" type="TRANSLATIONS"/>
     <FiletypeAssociation pattern="*.qrc" type="RESOURCES"/>
+    <FiletypeAssociation pattern="*.rst" type="OTHERS"/>
     <FiletypeAssociation pattern="*.ts" type="TRANSLATIONS"/>
+    <FiletypeAssociation pattern="*.txt" type="OTHERS"/>
     <FiletypeAssociation pattern="*.ui" type="FORMS"/>
+    <FiletypeAssociation pattern="README" type="OTHERS"/>
+    <FiletypeAssociation pattern="README.*" type="OTHERS"/>
   </FiletypeAssociations>
 </Project>
