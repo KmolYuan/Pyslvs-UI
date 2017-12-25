@@ -143,10 +143,9 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawPath(pointPath)
         def drawDot(path):
             for coordinate in path:
-                if coordinate:
-                    if isnan(coordinate[0]):
-                        continue
-                    self.painter.drawPoint(QPointF(coordinate[0]*self.zoom, coordinate[1]*-self.zoom))
+                if isnan(coordinate[0]):
+                    continue
+                self.painter.drawPoint(QPointF(coordinate[0]*self.zoom, coordinate[1]*-self.zoom))
         draw = drawPath if self.Path.curve else drawDot
         Path = self.Path.path
         for i, path in enumerate(Path):

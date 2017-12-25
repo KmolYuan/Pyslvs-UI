@@ -67,11 +67,11 @@ class WorkerThread(QThread):
             mechanism = {
                 'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
                 'time':time_spand,
-                'Ax':fitnessParameter['A'].x, 'Ay':fitnessParameter['A'].y,
-                'Dx':fitnessParameter['D'].x, 'Dy':fitnessParameter['D'].y,
+                'Ax':fitnessParameter['A'][0], 'Ay':fitnessParameter['A'][1],
+                'Dx':fitnessParameter['D'][0], 'Dy':fitnessParameter['D'][1],
                 'targetPath':self.mechanismParams['targetPath'],
                 'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
-                'type':'4Bar' if self.mechanismParams['ExpressionName']=='PLAP,PLLP,PLLP' else '8Bar',
+                'type':'4Bar' if self.mechanismParams['Expression']=="PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)" else '8Bar',
                 'settings':self.settings,
                 'hardwareInfo':{
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
@@ -81,8 +81,7 @@ class WorkerThread(QThread):
                 },
                 'TimeAndFitness':time_and_fitness
             }
-            for link in [L for L in self.mechanismParams['Expression'].split(',') if 'L' in L]:
-                mechanism[link] = fitnessParameter[link]
+            mechanism.update(fitnessParameter)
             print("cost time: {} [s]".format(time_spand))
             self.result.emit(mechanism, time_spand)
         T1 = timeit.default_timer()

@@ -9,6 +9,7 @@ help:
 	@echo - all: build Pyslvs and test binary.
 	@echo - build: build Pyslvs.
 	@echo - build-kernel: build kernel only.
+	@echo - build-cython: build cython kernel only.
 	@echo - clean: clean executable file and PyInstaller items,
 	@echo          will not delete kernel binary files.
 	@echo - clean-kernel: clean up kernel binary files.
@@ -17,13 +18,15 @@ help:
 
 .PHONY: help build build-kernel clean clean-kernel clean-all
 
-build-kernel: core/libs/pyslvs_algorithm/*.pyx
+build-cython: core/libs/pyslvs_algorithm/*.pyx core/libs/pyslvs_topologic/*.pyx
 	@echo ---Pyslvs generate Build---
 	$(MAKE) -C core/libs/pyslvs_algorithm
 	@echo ---Done---
 	@echo ---Pyslvs topologic Build---
 	$(MAKE) -C core/libs/pyslvs_topologic
 	@echo ---Done---
+
+build-kernel: build-cython
 	@echo ---Python solvespace Build---
 	$(MAKE) -C core/libs/python_solvespace
 	@echo ---Done---

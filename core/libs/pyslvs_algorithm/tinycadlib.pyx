@@ -31,7 +31,7 @@ cpdef object PLAP(Coordinate A, double L0, double a0, Coordinate B, bool reverse
 cpdef object PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse=False):
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
-    cdef double d = sqrt(dx**2 + dy**2)
+    cdef double d = A.distance(B)
     #No solutions, the circles are separate.
     if d > L0 + R0:
         return (nan, nan)

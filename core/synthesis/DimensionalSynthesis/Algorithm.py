@@ -21,6 +21,7 @@ from ...QtModules import *
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
 from ...graphics.ChartGraphics import ChartDialog
 from ...graphics.Algorithm_preview import PreviewDialog
+from ...io.larkParser import get_from_parenthesis
 from ...libs.pyslvs_algorithm.TS import solver, Direction
 from .Algorithm_options import Algorithm_options_show
 from .Algorithm_path_adjust import Algorithm_path_adjust_show
@@ -45,8 +46,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         'Driving':'A',
         'Follower':'D',
         'Target':'E',
-        'ExpressionName':'PLAP,PLLP,PLLP',
-        'Expression':'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E',
+        'Expression':"PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)",
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
     mechanismParams_4Bar['VARS'] = len(set(mechanismParams_4Bar['Expression'].split(',')))-2
@@ -54,8 +54,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         'Driving':'A',
         'Follower':'B',
         'Target':'H',
-        'ExpressionName':'PLAP,PLLP,PLLP,PLLP,PLLP,PLLP',
-        'Expression':'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H',
+        'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
     mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
@@ -336,7 +335,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         answer = [False]
-        expression = (self.mechanismParams_8Bar if Result['type']=='8Bar' else self.mechanismParams_4Bar)['Expression'].split(',')
+        expression = (self.mechanismParams_8Bar if Result['type']=='8Bar' else self.mechanismParams_4Bar)['Expression'].split(';')
         '''
         expression_tag
         four_bar = (
@@ -353,7 +352,10 @@ class Algorithm_show(QWidget, PathSolving_Form):
             ('F', 'L9', 'L10', 'G', 'H')
         )
         '''
-        expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        expression_tag = tuple(
+            tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
+            for exp in expression
+        )
         expression_result = [exp[-1] for exp in expression_tag]
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
         '''

@@ -18,12 +18,18 @@ cdef object formula = {
     'PLPP':PLPP
 }
 
+cdef str get_from_parenthesis(str s, str front, str back):
+    return s[s.find(front)+1:s.find(back)]
+
+cdef str get_front_of_parenthesis(str s, str front):
+    return s[:s.find(front)]
+
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
-    cdef int POINTS, count, _tmp, VARS
-    cdef object formula, ExpressionL, ExpressionNameL, constraint, Exp, Link
+    cdef int POINTS, VARS
+    cdef object formula, ExpressionL, ExpressionNameL, constraint, Link
     cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
-    cdef np.ndarray target
+    cdef np.ndarray target, Exp
     
     def __cinit__ (self, object mechanismParams):
         self.VARS = mechanismParams['VARS']
@@ -38,6 +44,7 @@ cdef class build_planar(object):
         #constraint
         self.constraint = mechanismParams['constraint']
         
+        cdef int i
         # use tuple data, create a list of coordinate object
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
         self.target = np.ndarray((self.POINTS,), dtype=np.object)
@@ -47,47 +54,44 @@ cdef class build_planar(object):
         # Expression A, L0, a0, D, B, B, L1, L2, D, C, B, L3, L4, C, E
         # split Expression to list
         self.Expression_str = mechanismParams['Expression']
-        ExpressionL = mechanismParams['Expression'].split(',')
+        ExpressionL = mechanismParams['Expression'].split(';')
         
         # Link L0, L1, L2, L3, ...
-        self.Link = [L for L in ExpressionL if 'L' in L]
+        self.Link = []
         
-        # ExpressionName PLAP, PLLP, PLLP
-        # split ExpressionName to list
-        self.ExpressionName_str = mechanismParams['ExpressionName']
-        ExpressionNameL = mechanismParams['ExpressionName'].split(',')
-        
-        # combine ExpressionName and Expression, to set Expression List
-        # counter,
-        # PLLP -> A,L1,L2,D,B  the B will be equation target
-        # the reset will be parameter of PLLP
-        count = 0
-        self.Exp = []
-        for ExpressN in ExpressionNameL:
-            _tmp = count+len(ExpressN)
-            relate = ExpressN
-            params = ExpressionL[count:_tmp]
-            target = ExpressionL[_tmp]
-            count = _tmp + 1
-            self.Exp.append({"relate":relate, 'target':target, 'params':params})
         '''
-        Exp: Tuple[Dict]
-        {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']}
-        {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}
+        Exp:        Tuple[Dict]
+        Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
+        {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
+        {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         '''
+        cdef str expr, p
+        self.Exp = np.ndarray((len(ExpressionL),), dtype=np.object)
+        for i, expr in enumerate(ExpressionL):
+            self.Exp[i] = {
+                'relate':get_front_of_parenthesis(expr, '['),
+                'target':get_from_parenthesis(expr, '(', ')'),
+                'params':get_from_parenthesis(expr, '[', ']').split(',')
+            }
+            for p in get_from_parenthesis(expr, '[', ']').split(','):
+                if 'L' in p:
+                    self.Link.append(p)
     
     cpdef object get_path(self):
         return [(c.x, c.y) for c in self.target]
+    
     cpdef str get_Driving(self):
         return self.Driving
+    
     cpdef str get_Follower(self):
         return self.Follower
+    
     cpdef str get_Target(self):
         return self.targetPoint
+    
     cpdef object get_Link(self):
         return self.Link
-    cpdef str get_ExpressionName(self):
-        return self.ExpressionName_str
+    
     cpdef str get_Expression(self):
         return self.Expression_str
     
@@ -157,4 +161,7 @@ cdef class build_planar(object):
         final_dict['a0'] = np.deg2rad(v[self.VARS])
         for e in self.Exp:
             final_dict[e["target"]] = Coordinate(*formula[e["relate"]](*[final_dict[p] for p in e["params"]]))
+        for k, v in final_dict.items():
+            if type(v)==Coordinate:
+                final_dict[k] = (v.x, v.y)
         return final_dict

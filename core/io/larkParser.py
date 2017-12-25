@@ -20,6 +20,9 @@
 from lark import Lark, Transformer
 from ..graphics.color import colorName
 
+#Parenthesis
+get_from_parenthesis = lambda s, front, back: s[s.find(front)+1:s.find(back)]
+
 #Common grammar
 common_NUMBER = '''
     DIGIT: "0".."9"
