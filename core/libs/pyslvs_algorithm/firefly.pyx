@@ -149,9 +149,6 @@ cdef class Firefly(object):
     cdef void calculate_new_alpha(self):
         self.alpha = self.alpha0 * log10(self.genbest.f + 1)
     
-    cdef void getParamValue(self):
-        self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.bestFirefly.v])
-    
     cdef void generation_process(self):
         self.movefireflies()
         self.evaluate()
@@ -194,5 +191,4 @@ cdef class Firefly(object):
                     if self.interrupt_fun():
                         break
         self.report()
-        self.getParamValue()
-        return self.fitnessTime, self.fitnessParameter
+        return self.func.get_coordinates(self.bestFirefly.v), self.fitnessTime

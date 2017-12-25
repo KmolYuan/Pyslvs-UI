@@ -11,29 +11,24 @@ from cpython cimport bool
 nan = float("nan")
 
 cdef class Coordinate(object):
-    cdef double x, y
+    cdef public double x
+    cdef public double y
     
     def __cinit__(self, x, y):
         self.x = x
         self.y = y
     
-    cpdef public double x(self):
-        return self.x
-    
-    cpdef public double y(self):
-        return self.y
-    
     cpdef public double distance(self, Coordinate obj):
         return sqrt((self.x-obj.x)**2+(self.y-obj.y)**2)
 
-cpdef PLAP(Coordinate A, double L0, double a0, Coordinate B, bool reverse=False):
+cpdef object PLAP(Coordinate A, double L0, double a0, Coordinate B, bool reverse=False):
     cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
     if reverse:
         return (A.x + L0*sin(b0 - a0), A.y + L0*cos(b0 - a0))
     else:
         return (A.x + L0*sin(b0 + a0), A.y + L0*cos(b0 + a0))
 
-cpdef PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse=False):
+cpdef object PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse=False):
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
     cdef double d = sqrt(dx**2 + dy**2)
@@ -55,7 +50,7 @@ cpdef PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse=False)
     else:
         return (xm - h*dy/d, ym + h*dx/d)
 
-cpdef PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool reverse=False):
+cpdef object PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool reverse=False):
     cdef double x1 = A.x
     cdef double y1 = A.y
     cdef double x2 = B.x

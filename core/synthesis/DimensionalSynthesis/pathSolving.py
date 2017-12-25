@@ -60,15 +60,15 @@ class WorkerThread(QThread):
                 continue
             print("Through: {}".format(self.mechanismParams['targetPath']))
             t0 = timeit.default_timer()
-            TnF, FP = self.generateProcess()
+            fitnessParameter, time_and_fitness = self.generateProcess()
             t1 = timeit.default_timer()
             time_spand = round(t1-t0, 2)
             cpu = numpy.distutils.cpuinfo.cpu.info[0]
             mechanism = {
                 'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
                 'time':time_spand,
-                'Ax':FP[0], 'Ay':FP[1],
-                'Dx':FP[2], 'Dy':FP[3],
+                'Ax':fitnessParameter['A'].x, 'Ay':fitnessParameter['A'].y,
+                'Dx':fitnessParameter['D'].x, 'Dy':fitnessParameter['D'].y,
                 'targetPath':self.mechanismParams['targetPath'],
                 'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
                 'type':'4Bar' if self.mechanismParams['ExpressionName']=='PLAP,PLLP,PLLP' else '8Bar',
@@ -79,10 +79,10 @@ class WorkerThread(QThread):
                     'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
                     'network':str(self.socket!=None)
                 },
-                'TimeAndFitness':TnF
+                'TimeAndFitness':time_and_fitness
             }
-            for i, link in enumerate([L for L in self.mechanismParams['Expression'].split(',') if 'L' in L]):
-                mechanism[link] = FP[4+i]
+            for link in [L for L in self.mechanismParams['Expression'].split(',') if 'L' in L]:
+                mechanism[link] = fitnessParameter[link]
             print("cost time: {} [s]".format(time_spand))
             self.result.emit(mechanism, time_spand)
         T1 = timeit.default_timer()
@@ -118,10 +118,10 @@ class WorkerThread(QThread):
             progress_fun=self.progress_update.emit,
             interrupt_fun=self.isStoped,
         )
-        time_and_fitness, fitnessParameter = self.fun.run()
+        fitnessParameter, time_and_fitness = self.fun.run()
         return(
-            tuple((int(e.split(',')[0]), float(e.split(',')[1]), float(e.split(',')[2])) for e in time_and_fitness.split(';')[0:-1]),
-            [float(e) for e in fitnessParameter.split(',')]
+            fitnessParameter,
+            tuple((int(e.split(',')[0]), float(e.split(',')[1]), float(e.split(',')[2])) for e in time_and_fitness.split(';')[0:-1])
         )
     
     def stop(self):

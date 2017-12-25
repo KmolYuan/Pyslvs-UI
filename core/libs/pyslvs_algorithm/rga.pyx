@@ -189,9 +189,6 @@ cdef class Genetic(object):
         j = self.random(self.nPop);
         self.chrom[j].assign(self.chromElite)
     
-    cdef void getParamValue(self):
-        self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.chromElite.v])
-    
     cdef void generation_process(self):
         self.select()
         self.crossOver()
@@ -236,5 +233,4 @@ cdef class Genetic(object):
                     if self.interrupt_fun():
                         break
         self.report()
-        self.getParamValue()
-        return self.fitnessTime, self.fitnessParameter
+        return self.func.get_coordinates(self.chromElite.v), self.fitnessTime

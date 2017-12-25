@@ -98,31 +98,25 @@ cdef class build_planar(object):
         POINT: length of target
         VARS: linkage variables
         """
-        cdef object tmp_dict, path, e
-        cdef int index, i
-        cdef double x
-        cdef double y
-        cdef double sum
+        cdef int i
+        cdef double x, y
         #Large fitness
         cdef int FAILURE = 9487
         # all variable
-        tmp_dict = dict()
-        index = 0
+        cdef object tmp_dict = dict()
         # driving
-        tmp_dict[self.Driving] = Coordinate(v[index], v[index+1])
+        tmp_dict[self.Driving] = Coordinate(v[0], v[1])
         # follower
-        tmp_dict[self.Follower] = Coordinate(v[index+2], v[index+3])
-        index += 4
+        tmp_dict[self.Follower] = Coordinate(v[2], v[3])
         # links
         for i, L in enumerate(self.Link):
-            tmp_dict[L] = v[index+i]
-        path = []
-        fourbar_ground = tmp_dict[self.Driving].distance(tmp_dict[self.Follower])
+            tmp_dict[L] = v[4+i]
         for constraint in self.constraint:
-            if not legal_crank(tmp_dict[constraint['driver']], tmp_dict[constraint['follower']], tmp_dict[constraint['connect']], fourbar_ground):
+            if not legal_crank(tmp_dict[constraint['driver']], tmp_dict[constraint['follower']], tmp_dict[constraint['connect']], tmp_dict[self.Driving].distance(tmp_dict[self.Follower])):
                 return FAILURE
         # calculate the target point, and sum all error.
-        sum = 0
+        cdef object path = []
+        cdef double sum = 0
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
@@ -146,3 +140,21 @@ cdef class build_planar(object):
         if isnan(sum):
             return FAILURE
         return sum
+    
+    cpdef object get_coordinates(self, object v):
+        cdef int i
+        cdef double x, y
+        cdef str L, P
+        cdef object e
+        cdef object final_dict = dict()
+        # driving
+        final_dict[self.Driving] = Coordinate(v[0], v[1])
+        # follower
+        final_dict[self.Follower] = Coordinate(v[2], v[3])
+        # links
+        for i, L in enumerate(self.Link):
+            final_dict[L] = v[4+i]
+        final_dict['a0'] = np.deg2rad(v[self.VARS])
+        for e in self.Exp:
+            final_dict[e["target"]] = Coordinate(*formula[e["relate"]](*[final_dict[p] for p in e["params"]]))
+        return final_dict

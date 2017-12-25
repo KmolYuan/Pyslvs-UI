@@ -37,9 +37,11 @@ class Algorithm_progress_show(QDialog, Ui_Dialog):
         self.work.result.connect(self.getResult)
         self.work.done.connect(self.finish)
         if PORT is None:
-            self.label.setText("<html><head/><body><p><span style=\"font-size:12pt;\">"+
-                "This action will take some time, depending on the number of path points, advanced settings and your computer performance."+
-                "<br/><br/>Please wait patiently.</p></body></html>")
+            self.label.setText(
+                "<html><head/><body><p><span style=\"font-size:12pt;\">"+
+                "This action will take some time, depending on the number of path points,"+
+                "advanced settings and your computer performance.</p></body></html>"
+            )
             self.argumentText.hide()
         else:
             context = zmq.Context()

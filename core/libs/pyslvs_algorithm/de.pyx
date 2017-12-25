@@ -256,9 +256,6 @@ cdef class DiffertialEvolution(object):
                 return True
         return False
     
-    cdef void getParamValue(self):
-        self.fitnessParameter = ','.join(['%.4f'%(v) for v in self.lastgenbest.v])
-    
     cdef void generation_process(self):
         for i in range(self.NP):
             # generate new vector
@@ -331,5 +328,4 @@ cdef class DiffertialEvolution(object):
                         break
         # the evolution journey is done, report the final status
         self.report()
-        self.getParamValue()
-        return self.fitnessTime, self.fitnessParameter
+        return self.func.get_coordinates(self.lastgenbest.v), self.fitnessTime
