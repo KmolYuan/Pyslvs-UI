@@ -71,7 +71,7 @@ class WorkerThread(QThread):
                 'Dx':fitnessParameter['D'][0], 'Dy':fitnessParameter['D'][1],
                 'targetPath':self.mechanismParams['targetPath'],
                 'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
-                'type':'4Bar' if self.mechanismParams['Expression']=="PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)" else '8Bar',
+                'Expression':self.mechanismParams['Expression'],
                 'settings':self.settings,
                 'hardwareInfo':{
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),

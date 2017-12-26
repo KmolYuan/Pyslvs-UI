@@ -335,7 +335,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         pointAvg = sum([e[1] for e in path])/len(path)
         other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
         answer = [False]
-        expression = (self.mechanismParams_8Bar if Result['type']=='8Bar' else self.mechanismParams_4Bar)['Expression'].split(';')
+        expression = Result['Expression'].split(';')
         '''
         expression_tag
         four_bar = (
@@ -386,19 +386,19 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.hasResult()
         row = self.Result_list.currentRow()
         if row>-1 and row!=len(self.mechanism_data):
-            args = self.mechanism_data[row]
-            if args['Algorithm']=='RGA':
+            Result = self.mechanism_data[row]
+            if Result['Algorithm']=='RGA':
                 self.type0.setChecked(True)
-            elif args['Algorithm']=='Firefly':
+            elif Result['Algorithm']=='Firefly':
                 self.type1.setChecked(True)
-            elif args['Algorithm']=='DE':
+            elif Result['Algorithm']=='DE':
                 self.type2.setChecked(True)
-            if args['type']=='8Bar':
-                self.EightBar.setChecked(True)
-            else:
+            if Result['Expression']=="PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)":
                 self.FourBar.setChecked(True)
-            self.setTime(args['time'])
-            settings = args['settings']
+            else:
+                self.EightBar.setChecked(True)
+            self.setTime(Result['time'])
+            settings = Result['settings']
             self.Ax.setValue((settings['upper'][0]+settings['lower'][0])/2)
             self.Ay.setValue((settings['upper'][1]+settings['lower'][1])/2)
             self.Ar.setValue(abs(settings['upper'][0]-self.Ax.value())*2)
@@ -420,7 +420,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
             del algorithmPrams['report']
             self.Settings['algorithmPrams'] = algorithmPrams
             self.on_clearAll_clicked()
-            for e in args['targetPath']:
+            for e in Result['targetPath']:
                 self.on_add_clicked(e[0], e[1])
     
     def algorithmPrams_default(self):

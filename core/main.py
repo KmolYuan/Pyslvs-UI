@@ -1112,13 +1112,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.addPoint(x, y, i<2, "Dark-Orange" if i==len(answer)-1 else None)
             for i, (x, y) in enumerate(answer)
         )
-        if self.FileWidget.Designs.result[row]['type']=='8Bar':
-            expression = self.DimensionalSynthesis.mechanismParams_8Bar['Expression'].split(';')
-        else:
-            expression = self.DimensionalSynthesis.mechanismParams_4Bar['Expression'].split(';')
         expression_tag = tuple(
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
-            for exp in expression
+            for exp in self.FileWidget.Designs.result[row]['Expression'].split(';')
         )
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)

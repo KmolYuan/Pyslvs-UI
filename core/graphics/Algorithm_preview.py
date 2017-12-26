@@ -21,21 +21,21 @@ from ..QtModules import *
 from .Ui_Algorithm_preview import Ui_Dialog
 from .canvas import BaseCanvas
 from .color import colorQt
+from ..io.larkParser import get_from_parenthesis
 from math import isnan
 from typing import Tuple
 
 class DynamicCanvas(BaseCanvas):
-    Exp_4 = 'A,L0,a0,D,B,B,L1,L2,D,C,B,L3,L4,C,E'
-    Exp_8 = 'A,L0,a0,B,C,B,L2,L1,C,D,B,L4,L3,D,E,C,L5,L6,B,F,F,L8,L7,E,G,F,L9,L10,G,H'
-    
     def __init__(self, mechanism, Path, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
         self.slvsPath = mechanism['targetPath']
         self.index = 0
-        expression = (self.Exp_8 if self.mechanism['type']=='8Bar' else self.Exp_4).split(',')
-        self.expression_tag = tuple(tuple(expression[i+j] for j in range(5)) for i in range(0, len(expression), 5))
+        self.expression_tag = tuple(
+            tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
+            for exp in mechanism['Expression'].split(';')
+        )
         #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         self.exp_symbol = (self.expression_tag[0][0], self.expression_tag[0][3])+tuple(exp[-1] for exp in self.expression_tag)
         #('A', 'D', 'B', 'C', 'E')
