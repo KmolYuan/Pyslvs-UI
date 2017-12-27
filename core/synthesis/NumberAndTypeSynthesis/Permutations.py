@@ -187,7 +187,15 @@ class Permutations_show(QWidget, Ui_Form):
             elif action==self.copy_edges:
                 clipboard.setText(str(self.answer[index].edges))
             elif action==self.copy_image:
-                clipboard.setPixmap(self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()))
+                #Turn the transparent background to white.
+                image1 = self.Topologic_result.currentItem().icon().pixmap(self.Topologic_result.iconSize()).toImage()
+                image2 = QImage(image1.size(), image1.format())
+                image2.fill(QColor(Qt.white).rgb())
+                painter = QPainter(image2)
+                painter.drawImage(0, 0, image1)
+                p = QPixmap()
+                p.convertFromImage(image2)
+                clipboard.setPixmap(p)
     
     @pyqtSlot()
     def on_Expression_copy_clicked(self):
