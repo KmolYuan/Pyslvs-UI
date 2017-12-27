@@ -303,10 +303,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Get_Help_triggered(self):
         self.OpenURL("http://mde.tw")
     
-    #Open website: https://pyslvs.com
+    #Open website: http://www.pyslvs.com/blog/index.html
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self):
-        self.OpenURL("https://pyslvs.com")
+        self.OpenURL("http://www.pyslvs.com/blog/index.html")
     
     #Open website: Github repository.
     @pyqtSlot()
@@ -1105,20 +1105,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def PathSolving_add_rightClick(self):
         self.DimensionalSynthesis.on_add_clicked(self.mouse_pos_x, self.mouse_pos_y)
     
-    @pyqtSlot(int, tuple, tuple)
-    def PathSolving_mergeResult(self, row, answer, path):
-        self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
-        pointNum = tuple(
-            self.addPoint(x, y, i<2, "Dark-Orange" if i==len(answer)-1 else None)
-            for i, (x, y) in enumerate(answer)
-        )
+    @pyqtSlot(int, tuple)
+    def PathSolving_mergeResult(self, row, path):
+        Result = self.FileWidget.Designs.result[row]
+        #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         expression_tag = tuple(
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
-            for exp in self.FileWidget.Designs.result[row]['Expression'].split(';')
+            for exp in Result['Expression'].split(';')
         )
-        #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
-        exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
         #('A', 'D', 'B', 'C', 'E')
+        exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
+        pointNum = tuple(
+            self.addPoint(Result[tag][0], Result[tag][1], i<2, "Dark-Orange" if i==len(exp_symbol)-1 else None)
+            for i, tag in enumerate(exp_symbol)
+        )
         for i, exp in enumerate(expression_tag):
             #Dimensional synthesis link merge function.
             if i==0:

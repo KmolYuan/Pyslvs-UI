@@ -34,7 +34,7 @@ from re import split as charSplit
 class Algorithm_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
     pathChanged = pyqtSignal(tuple)
-    mergeResult = pyqtSignal(int, tuple, tuple)
+    mergeResult = pyqtSignal(int, tuple)
     GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
     FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
     DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
@@ -315,7 +315,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         row = self.Result_list.currentRow()
         if row>-1:
             mechanism = self.mechanism_data[row]
-            _, Paths = self.legal_crank(row)
+            Paths = self.legal_crank(row)
             dlg = PreviewDialog(mechanism, Paths, self)
             dlg.show()
             dlg.exec_()
@@ -327,14 +327,13 @@ class Algorithm_show(QWidget, PathSolving_Form):
             reply = QMessageBox.question(self, "Message", "Merge this result to your canvas?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
-                self.mergeResult.emit(row, *self.legal_crank(row))
+                self.mergeResult.emit(row, self.legal_crank(row))
     
     def legal_crank(self, row):
         Result = self.mechanism_data[row]
         path = Result['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
-        other = (Result['Ay']+Result['Dy'])/2>pointAvg and Result['Ax']<Result['Dx']
-        answer = [False]
+        other = (Result['A'][1]+Result['D'][1])/2>pointAvg and Result['A'][0]<Result['D'][0]
         expression = Result['Expression'].split(';')
         '''
         expression_tag
@@ -363,18 +362,16 @@ class Algorithm_show(QWidget, PathSolving_Form):
         '''
         Paths = tuple([] for tag in exp_symbol)
         for a in range(360+1):
-            Directions = [Direction(p1=(Result['Ax'], Result['Ay']), p2=(Result['Ax']+10, Result['Ay']), len1=Result['L0'], angle=a, other=other)]
+            Directions = [Direction(p1=Result['A'], p2=Result['D'], len1=Result['L0'], angle=a, other=other)]
             for exp in expression_tag[1:]:
-                p1 = (Result['Ax'], Result['Ay']) if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else (Result['Dx'], Result['Dy'])
-                p2 = (Result['Ax'], Result['Ay']) if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else (Result['Dx'], Result['Dy'])
+                p1 = Result['A'] if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else Result['D']
+                p2 = Result['A'] if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else Result['D']
                 Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
             s = solver(Directions)
             s_answer = s.answer()
-            if False not in s_answer:
-                answer = [(Result['Ax'], Result['Ay']), (Result['Dx'], Result['Dy'])]+s_answer
             for i, a in enumerate(s_answer):
                 Paths[exp_symbol.index(expression_result[i])].append(a)
-        return tuple(answer), tuple(tuple(path) if (path==False or len(set(path))>1 or (False in path)) else () for path in Paths)
+        return tuple(tuple(path) if (path==False or len(set(path))>1 or (False in path)) else () for path in Paths)
     
     @pyqtSlot()
     def on_Result_chart_clicked(self):

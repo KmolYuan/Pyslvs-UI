@@ -56,13 +56,13 @@ class DynamicCanvas(BaseCanvas):
                     if r:
                         real_point.append(fun(r))
             if real_point:
-                return fun(real_point)
+                return fun(fun(real_point), self.mechanism['A'][i], self.mechanism['D'][i])
             else:
-                return self.mechanism['Ax']
-        maxX = max(Comparator(max, 0), self.mechanism['Ax'], self.mechanism['Dx'])
-        minX = min(Comparator(min, 0), self.mechanism['Ax'], self.mechanism['Dx'])
-        maxY = max(Comparator(max, 1), self.mechanism['Ay'], self.mechanism['Dy'])
-        minY = min(Comparator(min, 1), self.mechanism['Ay'], self.mechanism['Dy'])
+                return fun(self.mechanism['A'][i], self.mechanism['D'][i])
+        maxX = Comparator(max, 0)
+        minX = Comparator(min, 0)
+        maxY = Comparator(max, 1)
+        minY = Comparator(min, 1)
         diffX = maxX - minX
         diffY = maxY - minY
         diff = diffX/diffY > width/height
@@ -71,16 +71,16 @@ class DynamicCanvas(BaseCanvas):
         self.oy = height/2 + (minY + maxY)/2*self.zoom
         super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
-        self.Point = (
-            (self.mechanism['Ax'], self.mechanism['Ay']),
-            (self.mechanism['Dx'], self.mechanism['Dy'])
-        ) + tuple((c[self.index][0], c[self.index][1]) if not isnan(c[self.index][0]) else False for c in self.Path.path[2:])
+        self.Point = (self.mechanism['A'], self.mechanism['D']) + tuple(
+            (c[self.index][0], c[self.index][1])
+            if not isnan(c[self.index][0]) else False for c in self.Path.path[2:]
+        )
         if False in self.Point:
             self.index += 1
             return
         #Draw links.
         for i, exp in enumerate(self.expression_tag):
-            name = 'link_{}'.format(i)
+            name = "link_{}".format(i)
             if i==0:
                 self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 4)))
             elif i%3==0:
@@ -121,7 +121,7 @@ class DynamicCanvas(BaseCanvas):
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.fontSize))
-            text = '[{}]'.format(name)
+            text = "[{}]".format(name)
             cenX = sum(self.Point[i][0] for i in points if self.Point[i])/len(points)
             cenY = sum(self.Point[i][1] for i in points if self.Point[i])/len(points)
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
@@ -188,7 +188,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         self.basic_label.setText("\n".join(["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']]+
-            ["{}: ({}, {})".format(tag, self.mechanism[tag+'x'], self.mechanism[tag+'y']) for tag in ['A', 'D']]+
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in ['A', 'D']]+
             ["{}: {}".format(tag, self.mechanism[tag]) for tag in sorted(k for k in self.mechanism if 'L' in k)]))
         #Algorithm information
         interrupt = self.mechanism['interrupted']
