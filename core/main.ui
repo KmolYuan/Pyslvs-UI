@@ -1608,7 +1608,7 @@
     <string>&amp;Image</string>
    </property>
    <property name="statusTip">
-    <string>Capture and output to Image format.</string>
+    <string>Capture and output to image format.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
@@ -1881,6 +1881,9 @@
    <property name="text">
     <string>Show GUI console</string>
    </property>
+   <property name="statusTip">
+    <string>Open a widget to show console output.</string>
+   </property>
    <property name="shortcut">
     <string>F12</string>
    </property>
@@ -1905,6 +1908,9 @@
    <property name="text">
     <string>From PMKS server</string>
    </property>
+   <property name="statusTip">
+    <string>Import from PMKS URL.</string>
+   </property>
   </action>
   <action name="action_Example">
    <property name="icon">
@@ -1913,6 +1919,9 @@
    </property>
    <property name="text">
     <string>Example...</string>
+   </property>
+   <property name="statusTip">
+    <string>Load a example.</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -1926,6 +1935,9 @@
    <property name="text">
     <string>From expression</string>
    </property>
+   <property name="statusTip">
+    <string>Import from Pyslvs expression.</string>
+   </property>
   </action>
   <action name="action_Output_to_Expression">
    <property name="icon">
@@ -1934,6 +1946,9 @@
    </property>
    <property name="text">
     <string>Get expression</string>
+   </property>
+   <property name="statusTip">
+    <string>Get the Pyslvs expression.</string>
    </property>
   </action>
   <action name="action_Save_branch">
@@ -1968,6 +1983,9 @@
    <property name="text">
     <string>From example</string>
    </property>
+   <property name="statusTip">
+    <string>Import from example</string>
+   </property>
   </action>
   <action name="action_Output_to_Picture_clipboard">
    <property name="icon">
@@ -1976,6 +1994,9 @@
    </property>
    <property name="text">
     <string>Image to clipboard</string>
+   </property>
+   <property name="statusTip">
+    <string>Capture and output to clipboard.</string>
    </property>
   </action>
  </widget>

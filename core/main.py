@@ -238,8 +238,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #The time of withdrawal and redo action.
     @pyqtSlot(int)
     def commandReload(self, index=0):
-        self.action_Undo.setText("Undo - {}".format(self.FileState.undoText()))
-        self.action_Redo.setText("Redo - {}".format(self.FileState.redoText()))
         if index!=self.FileWidget.Stack:
             self.workbookNoSave()
         else:
