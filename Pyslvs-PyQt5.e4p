@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-25, 20:22:04 -->
+<!-- Saved: 2017-12-28, 21:50:32 -->
 <!-- Copyright (C) 2017 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -38,6 +38,7 @@
     <Source>core/io/Ui_peeweeIO.py</Source>
     <Source>core/io/Ui_script.py</Source>
     <Source>core/io/__init__.py</Source>
+    <Source>core/io/dxfIO.py</Source>
     <Source>core/io/elements.py</Source>
     <Source>core/io/example.py</Source>
     <Source>core/io/larkParser.py</Source>
@@ -46,7 +47,6 @@
     <Source>core/io/script.py</Source>
     <Source>core/io/scriptType.py</Source>
     <Source>core/io/slvsIO.py</Source>
-    <Source>core/io/stl_utils.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/libs/__init__.py</Source>
     <Source>core/libs/pyslvs_algorithm/TS.py</Source>

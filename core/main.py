@@ -42,6 +42,8 @@ from .graphics.planarSolving import (
 )
 #slvs format
 from .io.slvsIO import slvs2D
+#dxf format
+from .io.dxfIO import dxfSketch
 #Logging
 from .io.loggingHandler import XStream
 #CSV format
@@ -480,13 +482,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Solvespace 2d save function.
     @pyqtSlot()
-    def on_action_Solvespace_2D_sketch_triggered(self):
-        fileName = self.outputTo("Solvespace sketch", ['Solvespace module(*.slvs)'])
+    def on_action_Output_to_Solvespace_triggered(self):
+        fileName = self.outputTo("Solvespace sketch", ["Solvespace module(*.slvs)"])
         if fileName:
             slvs2D(self.Entities_Point.data(), self.Entities_Link.data(), fileName)
             self.saveReplyBox("Solvespace sketch", fileName)
     
-    #TODO: DXF 2d save function.
+    #DXF 2d save function.
+    @pyqtSlot()
+    def on_action_Output_to_DXF_triggered(self):
+        fileName = self.outputTo("Drawing Exchange Format", ["Drawing Exchange Format(*.dxf)"])
+        if fileName:
+            dxfSketch(self.Entities_Point.data(), self.Entities_Link.data(), fileName)
+            self.saveReplyBox("Drawing Exchange Format", fileName)
     
     #Picture save function.
     @pyqtSlot()
@@ -501,16 +509,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Simple to support mutiple format.
     def outputTo(self, formatName, formatChoose):
-        suffix0 = formatChoose[0].split('*')[-1][:-1]
-        fileName, form = QFileDialog.getSaveFileName(self, "Save {}...".format(formatName),
+        suffix0 = get_from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
+        fileName, suffix = QFileDialog.getSaveFileName(self, "Save to {}...".format(formatName),
             self.env+'/'+self.FileWidget.fileName.baseName()+suffix0, ';;'.join(formatChoose))
         if fileName:
-            if QFileInfo(fileName).suffix()!=suffix0[1:]:
-                fileName = fileName+suffix0
+            suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
+            if QFileInfo(fileName).suffix()!=suffix[1:]:
+                fileName += suffix
             dir = QFileInfo(fileName).absolutePath()
+            print("Formate: {}".format(suffix))
             if dir!=self.env:
                 self.setLocate(dir)
-            print("Formate: {}".format(form))
         return fileName
     
     #Show message when successfully saved.

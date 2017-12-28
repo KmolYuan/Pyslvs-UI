@@ -1392,10 +1392,10 @@
       <string>E&amp;xport</string>
      </property>
      <addaction name="SolvespaceMenuTitle"/>
-     <addaction name="action_Solvespace_2D_sketch"/>
+     <addaction name="action_Output_to_Solvespace"/>
      <addaction name="separator"/>
      <addaction name="DXFMenuTitle"/>
-     <addaction name="action_DXF_2D_sketch"/>
+     <addaction name="action_Output_to_DXF"/>
      <addaction name="separator"/>
      <addaction name="OtherFormatMenuTitle"/>
      <addaction name="action_Output_to_Expression"/>
@@ -1713,10 +1713,7 @@
     <string>F10</string>
    </property>
   </action>
-  <action name="action_DXF_2D_sketch">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
+  <action name="action_Output_to_DXF">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/dxf.png</normaloff>:/icons/dxf.png</iconset>
@@ -1743,7 +1740,7 @@
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="action_Solvespace_2D_sketch">
+  <action name="action_Output_to_Solvespace">
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/Solvespace.ico</normaloff>:/icons/Solvespace.ico</iconset>
