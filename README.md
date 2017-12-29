@@ -23,7 +23,7 @@
 1. [Kernels Requirement](#kernels-requirement)
 
     + [Python-solvespace Kernel](#python-solvespace-kernel)
-    + [Cython Kernel](#dimensional-synthesis-kernel)
+    + [Cython Kernel](#cython-kernel)
 
 1. [Stand-alone Executable File](#stand-alone-executable-file)
 

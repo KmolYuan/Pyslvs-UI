@@ -36,9 +36,8 @@ class DynamicCanvas(BaseCanvas):
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
             for exp in mechanism['Expression'].split(';')
         )
-        #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
+        #('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = (self.expression_tag[0][0], self.expression_tag[0][3])+tuple(exp[-1] for exp in self.expression_tag)
-        #('A', 'D', 'B', 'C', 'E')
         #Timer start.
         timer = QTimer(self)
         timer.setInterval(10)
@@ -56,9 +55,9 @@ class DynamicCanvas(BaseCanvas):
                     if r:
                         real_point.append(fun(r))
             if real_point:
-                return fun(fun(real_point), self.mechanism['A'][i], self.mechanism['D'][i])
+                return fun(fun(real_point), self.mechanism['A'][i], self.mechanism['B'][i])
             else:
-                return fun(self.mechanism['A'][i], self.mechanism['D'][i])
+                return fun(self.mechanism['A'][i], self.mechanism['B'][i])
         maxX = Comparator(max, 0)
         minX = Comparator(min, 0)
         maxY = Comparator(max, 1)
@@ -71,7 +70,7 @@ class DynamicCanvas(BaseCanvas):
         self.oy = height/2 + (minY + maxY)/2*self.zoom
         super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
-        self.Point = (self.mechanism['A'], self.mechanism['D']) + tuple(
+        self.Point = (self.mechanism['A'], self.mechanism['B']) + tuple(
             (c[self.index][0], c[self.index][1])
             if not isnan(c[self.index][0]) else False for c in self.Path.path[2:]
         )
@@ -188,7 +187,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         self.basic_label.setText("\n".join(["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']]+
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in ['A', 'D']]+
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in ['A', 'B']]+
             ["{}: {}".format(tag, self.mechanism[tag]) for tag in sorted(k for k in self.mechanism if 'L' in k)]))
         #Algorithm information
         interrupt = self.mechanism['interrupted']

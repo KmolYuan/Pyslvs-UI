@@ -22,14 +22,14 @@ cdef class Coordinate(object):
     cpdef public double distance(self, Coordinate obj):
         return sqrt(pow(self.x-obj.x, 2) + pow(self.y-obj.y, 2))
 
-cpdef object PLAP(Coordinate A, double L0, double a0, Coordinate B, bool reverse=False):
+cpdef object PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
     cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
-    if reverse:
+    if inverse:
         return (A.x + L0*sin(b0 - a0), A.y + L0*cos(b0 - a0))
     else:
         return (A.x + L0*sin(b0 + a0), A.y + L0*cos(b0 + a0))
 
-cpdef object PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse=False):
+cpdef object PLLP(Coordinate A, double L0, double R0, Coordinate B, bool inverse=False):
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
     cdef double d = A.distance(B)
@@ -46,19 +46,19 @@ cpdef object PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse
     cdef double h = sqrt(pow(L0, 2) - pow(a, 2))
     cdef double xm = A.x + a*dx/d
     cdef double ym = A.y + a*dy/d
-    if reverse:
+    if inverse:
         return (xm + h*dy/d, ym - h*dx/d)
     else:
         return (xm - h*dy/d, ym + h*dx/d)
 
-cpdef object PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool reverse=False):
+cpdef object PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inverse=False):
     cdef double x1 = A.x
     cdef double y1 = A.y
     cdef double x2 = B.x
     cdef double y2 = B.y
     cdef double x3 = C.x
     cdef double y3 = C.y
-    if reverse:
+    if inverse:
         return (
             ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)),
             (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)

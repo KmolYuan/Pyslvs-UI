@@ -42,15 +42,15 @@ class Algorithm_show(QWidget, PathSolving_Form):
         'maxGen':1500, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
         'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
     }
-    mechanismParams_4Bar = { #No 'targetPath'
+    mechanismParams_4Bar = {
         'VARS':9,
         'Driving':'A',
-        'Follower':'D',
+        'Follower':'B',
         'Target':'E',
-        'Expression':"PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)",
+        'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
-    mechanismParams_8Bar = { #No 'targetPath'
+    mechanismParams_8Bar = {
         'VARS':18,
         'Driving':'A',
         'Follower':'B',
@@ -256,31 +256,29 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
+        mechanismParams['targetPath'] = tuple(self.path)
         link_q = mechanismParams['VARS']-7
-        upper = [
-            self.Ax.value()+self.Ar.value()/2,
-            self.Ay.value()+self.Ar.value()/2,
-            self.Dx.value()+self.Dr.value()/2,
-            self.Dy.value()+self.Dr.value()/2,
+        mechanismParams['upper'] = [
+            self.Ax.value() + self.Ar.value()/2,
+            self.Ay.value() + self.Ar.value()/2,
+            self.Dx.value() + self.Dr.value()/2,
+            self.Dy.value() + self.Dr.value()/2,
             self.Settings['IMax'],
             self.Settings['LMax'],
             self.Settings['FMax']
         ] + [self.Settings['LMax']]*link_q
-        lower = [
-            self.Ax.value()-self.Ar.value()/2,
-            self.Ay.value()-self.Ar.value()/2,
-            self.Dx.value()-self.Dr.value()/2,
-            self.Dy.value()-self.Dr.value()/2,
+        mechanismParams['lower'] = [
+            self.Ax.value() - self.Ar.value()/2,
+            self.Ay.value() - self.Ar.value()/2,
+            self.Dx.value() - self.Dr.value()/2,
+            self.Dy.value() - self.Dr.value()/2,
             self.Settings['IMin'],
             self.Settings['LMin'],
             self.Settings['FMin']
         ] + [self.Settings['LMin']]*link_q
-        mechanismParams['targetPath'] = tuple(self.path)
-        p = len(self.path)
+        mechanismParams['AMax'] = self.Settings['AMax']
+        mechanismParams['AMin'] = self.Settings['AMin']
         generateData = {
-            'nParm':mechanismParams['VARS'] + p,
-            'upper':upper+[self.Settings['AMax']]*p,
-            'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],
             'report':int(self.Settings['maxGen']*self.Settings['report']/100)
         }
@@ -347,24 +345,8 @@ class Algorithm_show(QWidget, PathSolving_Form):
         Result = self.mechanism_data[row]
         path = Result['targetPath']
         pointAvg = sum([e[1] for e in path])/len(path)
-        other = (Result['A'][1]+Result['D'][1])/2>pointAvg and Result['A'][0]<Result['D'][0]
+        other = (Result['A'][1]+Result['B'][1])/2>pointAvg and Result['A'][0]<Result['B'][0]
         expression = Result['Expression'].split(';')
-        '''
-        expression_tag
-        four_bar = (
-            ('A', 'L0', 'a0', 'D', 'B'),
-            ('B', 'L1', 'L2', 'D', 'C'),
-            ('B', 'L3', 'L4', 'C', 'E')
-        )
-        eight_bar = (
-            ('A', 'L0', 'a0', 'B', 'C'),
-            ('B', 'L1', 'L2', 'C', 'D'),
-            ('B', 'L3', 'L4', 'D', 'E'),
-            ('C', 'L5', 'L6', 'B', 'F'),
-            ('F', 'L7', 'L8', 'E', 'G'),
-            ('F', 'L9', 'L10', 'G', 'H')
-        )
-        '''
         expression_tag = tuple(
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
             for exp in expression
@@ -372,14 +354,14 @@ class Algorithm_show(QWidget, PathSolving_Form):
         expression_result = [exp[-1] for exp in expression_tag]
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
         '''
-        ('A', 'D', 'B', 'C', 'E')
+        ('A', 'B', 'C', 'D', 'E')
         '''
         Paths = tuple([] for tag in exp_symbol)
         for a in range(360+1):
-            Directions = [Direction(p1=Result['A'], p2=Result['D'], len1=Result['L0'], angle=a, other=other)]
+            Directions = [Direction(p1=Result['A'], p2=Result['B'], len1=Result['L0'], angle=a, other=other)]
             for exp in expression_tag[1:]:
-                p1 = Result['A'] if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else Result['D']
-                p2 = Result['A'] if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else Result['D']
+                p1 = Result['A'] if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else Result['B']
+                p2 = Result['A'] if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else Result['B']
                 Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
             s = solver(Directions)
             s_answer = s.answer()

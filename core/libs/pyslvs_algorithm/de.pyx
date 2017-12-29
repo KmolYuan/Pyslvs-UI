@@ -49,8 +49,10 @@ cdef class DiffertialEvolution(object):
     cdef object fitnessTime, fitnessParameter
     
     def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+        # object function, or enviorment
+        self.func = func
         # dimesion of quesiton
-        self.D = settings['nParm']
+        self.D = self.func.get_nParm()
         # strategy 1~10, choice what strategy to generate new member in temporary
         self.strategy = settings['strategy']
         # population size
@@ -63,16 +65,14 @@ cdef class DiffertialEvolution(object):
         # CR in [0,1]
         self.CR = settings['CR']
         # low bound
-        self.lb = np.array(settings['lower'][:])
+        self.lb = np.array(self.func.get_lower())
         # up bound
-        self.ub = np.array(settings['upper'][:])
+        self.ub = np.array(self.func.get_upper())
         # maxima generation, report: how many generation report status once
         self.maxGen = settings['maxGen']
         self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
-        # object function, or enviorment
-        self.func = func
         # check parameter is set properly
         self.checkParameter()
         # generation pool, depend on population size

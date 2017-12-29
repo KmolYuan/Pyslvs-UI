@@ -578,26 +578,6 @@
                      </widget>
                     </item>
                     <item>
-                     <widget class="QLabel" name="inputs_record_limit_text">
-                      <property name="text">
-                       <string>Max coordinates:</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QSpinBox" name="inputs_record_limit">
-                      <property name="minimum">
-                       <number>100</number>
-                      </property>
-                      <property name="maximum">
-                       <number>1000</number>
-                      </property>
-                      <property name="value">
-                       <number>500</number>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
                      <spacer name="horizontalSpacer">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>

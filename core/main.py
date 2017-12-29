@@ -1037,7 +1037,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(bool)
     def on_inputs_record_record_toggled(self, toggled):
         if toggled:
-            self.DynamicCanvasView.recordStart(self.inputs_record_limit.value())
+            self.DynamicCanvasView.recordStart(int(360/self.inputs_record_interval.value()))
         else:
             path = self.DynamicCanvasView.getRecordPath()
             name, ok = QInputDialog.getText(self, "Recording completed!", "Please input name tag:")
@@ -1114,12 +1114,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, tuple)
     def PathSolving_mergeResult(self, row, path):
         Result = self.FileWidget.Designs.result[row]
-        #(('A', 'L0', 'a0', 'D', 'B'), ('B', 'L1', 'L2', 'D', 'C'), ('B', 'L3', 'L4', 'C', 'E'))
         expression_tag = tuple(
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
             for exp in Result['Expression'].split(';')
         )
-        #('A', 'D', 'B', 'C', 'E')
+        #('A', 'B', 'C', 'D', 'E')
         exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
         self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
         pointNum = tuple(

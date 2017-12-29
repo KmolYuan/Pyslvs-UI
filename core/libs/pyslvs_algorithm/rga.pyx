@@ -55,7 +55,7 @@ cdef class Genetic(object):
         init(function func)
         """
         self.func = func
-        self.nParm = settings['nParm']
+        self.nParm = self.func.get_nParm()
         self.nPop = settings['nPop']
         self.pCross = settings['pCross']
         self.pMute = settings['pMute']
@@ -81,9 +81,9 @@ cdef class Genetic(object):
         self.chromElite = Chromosome(self.nParm)
         self.chromBest = Chromosome(self.nParm)
         # low bound
-        self.minLimit = np.array(settings['lower'][:])
+        self.minLimit = np.array(self.func.get_lower())
         # up bound
-        self.maxLimit = np.array(settings['upper'][:])
+        self.maxLimit = np.array(self.func.get_upper())
         # maxgen and gen
         self.gen = 0
         

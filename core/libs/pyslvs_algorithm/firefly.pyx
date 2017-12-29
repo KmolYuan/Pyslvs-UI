@@ -47,12 +47,11 @@ cdef class Firefly(object):
     cdef Chromosome genbest, bestFirefly
     cdef object fitnessTime, fitnessParameter
     
-    def __init__(self, object func, object settings, int D, int n,
-            double alpha, double betaMin, double beta0, double gamma, object lb, object ub,
-            int maxGen, int report, object progress_fun=None, object interrupt_fun=None):
-        # D, the dimension of question
-        # and each firefly will random place position in this landscape
-        self.D = settings['nParm']
+    def __init__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+        # object function
+        self.func = func
+        # D, the dimension of question and each firefly will random place position in this landscape
+        self.D = self.func.get_nParm()
         # n, the population size of fireflies
         self.n = settings['n']
         # alpha, the step size
@@ -66,18 +65,16 @@ cdef class Firefly(object):
         # gamma
         self.gamma = settings['gamma']
         # low bound
-        self.lb = np.array(settings['lower'][:])
+        self.lb = np.array(self.func.get_lower())
         # up bound
-        self.ub = np.array(settings['upper'][:])
+        self.ub = np.array(self.func.get_upper())
         # all fireflies, depend on population n
         self.fireflys = np.ndarray((self.n,), dtype=np.object)
         for i in range(self.n):
             self.fireflys[i] = Chromosome(self.D)
-        # object function
-        self.func = func
         # maxima generation, report: how many generation report status once
-        self.maxGen = maxGen
-        self.rp = report
+        self.maxGen = settings['maxGen']
+        self.rp = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         # generation of current

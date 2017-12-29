@@ -27,7 +27,7 @@ cdef str get_front_of_parenthesis(str s, str front):
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, VARS
-    cdef object formula, ExpressionNameL, constraint, Link
+    cdef object formula, ExpressionNameL, constraint, Link, upper, lower
     cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
     cdef np.ndarray target, Exp
     
@@ -42,6 +42,9 @@ cdef class build_planar(object):
         self.Follower = mechanismParams['Follower']
         #constraint
         self.constraint = mechanismParams['constraint']
+        #upper and lower
+        self.upper = mechanismParams['upper'] + [mechanismParams['AMax']]*self.POINTS
+        self.lower = mechanismParams['lower'] + [mechanismParams['AMin']]*self.POINTS
         
         #use tuple data, create a list of coordinate object
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
@@ -74,10 +77,19 @@ cdef class build_planar(object):
                 if 'L' in p:
                     self.Link.append(p)
         #The number of all variables (chromsome).
-        self.VARS = 4+len(self.Link)
+        self.VARS = 4 + len(self.Link)
     
     cpdef object get_path(self):
         return [(c.x, c.y) for c in self.target]
+    
+    cpdef object get_upper(self):
+        return self.upper[:]
+    
+    cpdef object get_lower(self):
+        return self.lower[:]
+    
+    cpdef int get_nParm(self):
+        return self.VARS + self.POINTS
     
     cpdef str get_Driving(self):
         return self.Driving
