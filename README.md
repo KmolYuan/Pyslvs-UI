@@ -127,7 +127,7 @@ $ sudo pip3 install -r requirements.txt
 
 Python 3: [Official Python] for Windows 64 bit.
 
-Makefile tool: [MinGW] for win64.
+Makefile tool: [MinGW] or [Msys 2][msys].
 
 ```bash
 > pip install -r requirements.txt
@@ -284,7 +284,7 @@ Edit it to this:
 
 ## Cython Kernel
 
-The library of Type and Dimensional synthesis.
+Type and Dimensional synthesis libraries.
 
 Make command:
 
@@ -298,7 +298,7 @@ Ubuntu user can compile the kernel by Cython directly.
 
 **Windows**:
 
-If you are using 64 bit OS with 64bit Python. There's two options:
+There's two options to choose SDK:
 
 1. Using Microsoft Visual Studio. You can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
 1. Using [Msys 2][msys]. It is based on MinGW 64-bit version.
