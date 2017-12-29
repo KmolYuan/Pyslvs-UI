@@ -84,7 +84,7 @@ class ChartDialog(QDialog):
             gen = data['settings']['maxGen']
             Tnf = TimeAndFitness[self.mechanism_data.index(data)]
             points = Tnf[:-1] if Tnf[-1]==Tnf[-2] else Tnf
-            line.setName("{} ({} gen, {} chrom)".format(data['Algorithm'], gen, data['settings']['nParm']-len(data['targetPath'])))
+            line.setName("{}({} gen): {}".format(data['Algorithm'], gen, data['Expression']))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):

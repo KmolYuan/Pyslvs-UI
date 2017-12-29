@@ -39,7 +39,7 @@ class Algorithm_progress_show(QDialog, Ui_Dialog):
         if PORT is None:
             self.label.setText(
                 "<html><head/><body><p><span style=\"font-size:12pt;\">"+
-                "This action will take some time, depending on the number of path points,"+
+                "This action will take some time, depending on the length of path, "+
                 "advanced settings and your computer performance.</p></body></html>"
             )
             self.argumentText.hide()

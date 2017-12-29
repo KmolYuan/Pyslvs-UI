@@ -21,7 +21,13 @@ from ...QtModules import *
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
 from ...io.larkParser import get_from_parenthesis
 from ...libs.pyslvs_algorithm.TS import solver, Direction
-from .Algorithm_options import Algorithm_options_show
+from .Algorithm_options import (
+    GeneticPrams,
+    FireflyPrams,
+    defaultSettings,
+    DifferentialPrams,
+    Algorithm_options_show
+)
 from .Algorithm_path_adjust import Algorithm_path_adjust_show
 from .Algorithm_progress import Algorithm_progress_show
 from .Algorithm_series import Algorithm_series_show
@@ -31,33 +37,25 @@ import csv
 import openpyxl
 from re import split as charSplit
 
+mechanismParams_4Bar = {
+    'Driving':{'A':None},
+    'Follower':{'B':None},
+    'Target':'E',
+    'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
+    'constraint':[('A', 'B', 'C', 'D')]
+}
+mechanismParams_8Bar = {
+    'Driving':{'A':None},
+    'Follower':{'B':None},
+    'Target':'H',
+    'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
+    'constraint':[('A', 'B', 'C', 'D')]
+}
+
 class Algorithm_show(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
     pathChanged = pyqtSignal(tuple)
     mergeResult = pyqtSignal(int, tuple)
-    GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
-    FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
-    DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
-    defaultSettings = {
-        'maxGen':1500, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
-        'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
-    }
-    mechanismParams_4Bar = {
-        'VARS':9,
-        'Driving':'A',
-        'Follower':'B',
-        'Target':'E',
-        'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
-        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
-    }
-    mechanismParams_8Bar = {
-        'VARS':18,
-        'Driving':'A',
-        'Follower':'B',
-        'Target':'H',
-        'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
-        'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
-    }
     
     def __init__(self, parent):
         super(Algorithm_show, self).__init__(parent)
@@ -68,7 +66,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.mechanism_data_del = parent.FileWidget.Designs.delResult
         self.env = lambda: parent.env
         self.unsaveFunc = parent.workbookNoSave
-        self.Settings = self.defaultSettings
+        self.Settings = defaultSettings.copy()
         self.algorithmPrams_default()
         self.Point_list.setContextMenuPolicy(Qt.CustomContextMenu)
         self.Point_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
@@ -255,27 +253,16 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
+        mechanismParams = (mechanismParams_4Bar if self.FourBar.isChecked() else mechanismParams_8Bar).copy()
         mechanismParams['targetPath'] = tuple(self.path)
-        link_q = mechanismParams['VARS']-7
-        mechanismParams['upper'] = [
-            self.Ax.value() + self.Ar.value()/2,
-            self.Ay.value() + self.Ar.value()/2,
-            self.Dx.value() + self.Dr.value()/2,
-            self.Dy.value() + self.Dr.value()/2,
-            self.Settings['IMax'],
-            self.Settings['LMax'],
-            self.Settings['FMax']
-        ] + [self.Settings['LMax']]*link_q
-        mechanismParams['lower'] = [
-            self.Ax.value() - self.Ar.value()/2,
-            self.Ay.value() - self.Ar.value()/2,
-            self.Dx.value() - self.Dr.value()/2,
-            self.Dy.value() - self.Dr.value()/2,
-            self.Settings['IMin'],
-            self.Settings['LMin'],
-            self.Settings['FMin']
-        ] + [self.Settings['LMin']]*link_q
+        mechanismParams['Driving']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
+        mechanismParams['Follower']['B'] = (self.Dx.value(), self.Dy.value(), self.Dr.value())
+        mechanismParams['IMax'] = self.Settings['IMax']
+        mechanismParams['IMin'] = self.Settings['IMin']
+        mechanismParams['LMax'] = self.Settings['LMax']
+        mechanismParams['LMin'] = self.Settings['LMin']
+        mechanismParams['FMax'] = self.Settings['FMax']
+        mechanismParams['FMin'] = self.Settings['FMin']
         mechanismParams['AMax'] = self.Settings['AMax']
         mechanismParams['AMin'] = self.Settings['AMin']
         generateData = {
@@ -419,11 +406,11 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def algorithmPrams_default(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         if type_num==0:
-            self.Settings['algorithmPrams'] = self.GeneticPrams
+            self.Settings['algorithmPrams'] = GeneticPrams.copy()
         elif type_num==1:
-            self.Settings['algorithmPrams'] = self.FireflyPrams
+            self.Settings['algorithmPrams'] = FireflyPrams.copy()
         elif type_num==2:
-            self.Settings['algorithmPrams'] = self.DifferentialPrams
+            self.Settings['algorithmPrams'] = DifferentialPrams.copy()
     
     @pyqtSlot()
     def on_advanceButton_clicked(self):
@@ -453,7 +440,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def clear(self):
         self.Point_list.clear()
         self.Result_list.clear()
-        self.Settings = self.defaultSettings
+        self.Settings = defaultSettings.copy()
         self.X_coordinate.setValue(0)
         self.Y_coordinate.setValue(0)
         self.Ax.setValue(0)

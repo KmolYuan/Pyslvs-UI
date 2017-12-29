@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm_progress.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm_progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,9 +11,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(486, 343)
-        Dialog.setMinimumSize(QtCore.QSize(486, 343))
-        Dialog.setMaximumSize(QtCore.QSize(486, 343))
+        Dialog.resize(600, 313)
+        Dialog.setMinimumSize(QtCore.QSize(600, 313))
+        Dialog.setMaximumSize(QtCore.QSize(600, 313))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)

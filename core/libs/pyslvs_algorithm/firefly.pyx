@@ -41,7 +41,7 @@ cdef class Chromosome(object):
 cdef class Firefly(object):
     cdef int D, n, maxGen, rp, gen
     cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE
-    cdef object f, progress_fun, interrupt_fun
+    cdef object func, progress_fun, interrupt_fun
     cdef np.ndarray lb, ub
     cdef np.ndarray fireflys
     cdef Chromosome genbest, bestFirefly

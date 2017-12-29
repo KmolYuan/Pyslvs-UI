@@ -65,9 +65,6 @@ cdef class Genetic(object):
         self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
-        # check nParm and list upper's len is equal
-        if not self.nParm==len(self.upper)==len(self.lower):
-            raise Exception("nParm and upper's length and lower's length must be equal")
         self.chrom = np.ndarray((self.nPop,), dtype=np.object)
         for i in range(self.nPop):
             self.chrom[i] = Chromosome(self.nParm)

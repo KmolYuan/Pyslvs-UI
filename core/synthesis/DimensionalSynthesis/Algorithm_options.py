@@ -18,8 +18,16 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from .Ui_Algorithm_options import Ui_Dialog
 from ...info.about import html
+from .Ui_Algorithm_options import Ui_Dialog
+
+GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
+FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
+DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
+defaultSettings = {
+    'maxGen':1000, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
+    'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
+}
 
 class Algorithm_options_show(QDialog, Ui_Dialog):
     def __init__(self, algorithm, settings, parent=None):
@@ -139,14 +147,12 @@ class Algorithm_options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_setDefault_clicked(self):
-        self.setArgs({
-            'maxGen':1500, 'report':1,
-            'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0., 'IMax':300., 'LMax':300., 'FMax':300., 'AMax':360.,
-            'algorithmPrams':
-                {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.} if self.algorithm=="Genetic Algorithm" else
-                {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.} if self.algorithm=="Firefly Algorithm" else
-                {'NP':400, 'strategy':1, 'F':0.6, 'CR':0.9}
-        })
+        d = defaultSettings.copy()
+        if self.algorithm=="Genetic Algorithm":
+            d['algorithmPrams'] = GeneticPrams.copy()
+        elif self.algorithm=="Firefly Algorithm":
+            d['algorithmPrams'] = FireflyPrams.copy()
+        self.setArgs(d)
     
     @pyqtSlot(int)
     def on_maxGen_valueChanged(self, p0):

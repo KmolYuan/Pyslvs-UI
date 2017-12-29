@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm_options.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm_options.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -37,7 +37,7 @@ class Ui_Dialog(object):
         self.maxGen.setMinimum(0)
         self.maxGen.setMaximum(5000)
         self.maxGen.setSingleStep(100)
-        self.maxGen.setProperty("value", 1500)
+        self.maxGen.setProperty("value", 1000)
         self.maxGen.setObjectName("maxGen")
         self.horizontalLayout_2.addWidget(self.maxGen)
         self.report_label = QtWidgets.QLabel(self.planarlinkage)

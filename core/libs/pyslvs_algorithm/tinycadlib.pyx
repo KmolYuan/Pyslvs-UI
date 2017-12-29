@@ -78,14 +78,15 @@ cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
         return False
     return L1+L2>L0 and L0+L2>L1 and L0+L1>L2
 
-cpdef bool legal_crank(double driver, double ground, double connect, double follower):
-    #verify the fourbar is satisfied the condition, s + l <= p + q
-    cdef double tmp_driver = driver
-    cdef double tmp_ground = ground
-    cdef object fourbar
-    fourbar = [driver, ground, connect, follower]
-    sorted(fourbar)
-    if (fourbar[0]+fourbar[3])<(fourbar[1]+fourbar[2]):
-        # verify the fourbar is satisfied the crank condition
-        return fourbar[0]==tmp_driver or fourbar[0]==tmp_ground
-    return False
+cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
+    '''
+    verify the fourbar is satisfied the Gruebler's Equation, s + g <= p + q
+        C - D
+        |   |
+        A   B
+    '''
+    cdef double driver = A.distance(C)
+    cdef double follower = B.distance(D)
+    cdef double ground = A.distance(B)
+    cdef double connector = C.distance(D)
+    return (driver + connector <= ground + follower) or (driver + ground <= connector + follower)

@@ -28,7 +28,8 @@ cdef str get_front_of_parenthesis(str s, str front):
 cdef class build_planar(object):
     cdef int POINTS, VARS
     cdef object formula, ExpressionNameL, constraint, Link, upper, lower
-    cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
+    cdef object Driving, Follower, Driving_list, Follower_list
+    cdef str targetPoint, Link_str, ExpressionName_str, Expression_str
     cdef np.ndarray target, Exp
     
     def __cinit__ (self, object mechanismParams):
@@ -42,9 +43,6 @@ cdef class build_planar(object):
         self.Follower = mechanismParams['Follower']
         #constraint
         self.constraint = mechanismParams['constraint']
-        #upper and lower
-        self.upper = mechanismParams['upper'] + [mechanismParams['AMax']]*self.POINTS
-        self.lower = mechanismParams['lower'] + [mechanismParams['AMin']]*self.POINTS
         
         #use tuple data, create a list of coordinate object
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
@@ -58,26 +56,59 @@ cdef class build_planar(object):
         cdef object ExpressionL = mechanismParams['Expression'].split(';')
         
         '''
-        Link L0, L1, L2, L3, ...
+        Link: L0, L1, L2, L3, ...
+        Driving_list: The name of the point in "self.Driving".
+        Follower_list: The name of the point in "self.Follower".
         Exp:        Tuple[Dict]
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
         {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
         {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         '''
+        cdef str expr, params, name
         self.Link = []
-        cdef str expr, p
+        self.Driving_list = []
+        self.Follower_list = []
         self.Exp = np.ndarray((len(ExpressionL),), dtype=np.object)
         for i, expr in enumerate(ExpressionL):
+            params = get_from_parenthesis(expr, '[', ']')
             self.Exp[i] = {
                 'relate':get_front_of_parenthesis(expr, '['),
                 'target':get_from_parenthesis(expr, '(', ')'),
-                'params':get_from_parenthesis(expr, '[', ']').split(',')
+                'params':params.split(',')
             }
-            for p in get_from_parenthesis(expr, '[', ']').split(','):
-                if 'L' in p:
+            for p in params.split(','):
+                if ('L' in p) and ('L' != p):
                     self.Link.append(p)
+                if (p in self.Driving) and (p not in self.Driving_list):
+                    self.Driving_list.append(p)
+                if (p in self.Follower) and (p not in self.Follower_list):
+                    self.Follower_list.append(p)
         #The number of all variables (chromsome).
-        self.VARS = 4 + len(self.Link)
+        self.VARS = 2*len(self.Driving_list) + 2*len(self.Follower_list) + len(self.Link)
+        
+        #upper
+        self.upper = []
+        for name in self.Driving_list:
+            for i in [0, 1]:
+                self.upper.append(self.Driving[name][i] + self.Driving[name][2]/2)
+        for name in self.Follower_list:
+            for i in [0, 1]:
+                self.upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
+        for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
+            self.upper.append(mechanismParams[name])
+        self.upper += [mechanismParams['AMax']]*self.POINTS
+        
+        #lower
+        self.lower = []
+        for name in self.Driving_list:
+            for i in [0, 1]:
+                self.lower.append(self.Driving[name][i] - self.Driving[name][2]/2)
+        for name in self.Follower_list:
+            for i in [0, 1]:
+                self.lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
+        for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):
+            self.lower.append(mechanismParams[name])
+        self.lower += [mechanismParams['AMin']]*self.POINTS
     
     cpdef object get_path(self):
         return [(c.x, c.y) for c in self.target]
@@ -113,25 +144,29 @@ cdef class build_planar(object):
         POINT: length of target
         VARS: linkage variables
         """
-        cdef int i
         cdef double x, y
+        cdef str name, L
         #Large fitness
         cdef int FAILURE = 9487
         # all variable
         cdef object tmp_dict = dict()
-        # driving
-        tmp_dict[self.Driving] = Coordinate(v[0], v[1])
-        # follower
-        tmp_dict[self.Follower] = Coordinate(v[2], v[3])
-        # links
-        for i, L in enumerate(self.Link):
-            tmp_dict[L] = v[4+i]
-        for constraint in self.constraint:
-            if not legal_crank(tmp_dict[constraint['driver']], tmp_dict[constraint['follower']], tmp_dict[constraint['connect']], tmp_dict[self.Driving].distance(tmp_dict[self.Follower])):
-                return FAILURE
+        cdef int vi = 0
+        #driving
+        for name in self.Driving_list:
+            tmp_dict[name] = Coordinate(v[vi], v[vi+1])
+            vi += 2
+        #follower
+        for name in self.Follower_list:
+            tmp_dict[name] = Coordinate(v[vi], v[vi+1])
+            vi += 2
+        #links
+        for L in self.Link:
+            tmp_dict[L] = v[vi]
+            vi += 1
         # calculate the target point, and sum all error.
         cdef object path = []
-        cdef double sum = 0
+        cdef double fitness = 0
+        cdef int i
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
@@ -146,29 +181,39 @@ cdef class build_planar(object):
                     return FAILURE
                 tmp_dict[e["target"]] = target_coordinate
             path.append(tmp_dict[self.targetPoint])
-            sum += path[i].distance(self.target[i])
-        # swap
+            fitness += path[i].distance(self.target[i])
+        #constraint
+        for constraint in self.constraint:
+            if not legal_crank(*[tmp_dict[name] for name in constraint]):
+                return FAILURE
+        #swap
         for i in range(self.POINTS):
             for j in range(self.POINTS):
                 if path[j].distance(self.target[i])<path[i].distance(self.target[i]):
                     path[i], path[j] = path[j], path[i]
-        if isnan(sum):
+        if isnan(fitness):
             return FAILURE
-        return sum
+        return fitness
     
     cpdef object get_coordinates(self, object v):
         cdef int i
         cdef double x, y
-        cdef str L, P
+        cdef str name, L, P
         cdef object e
         cdef object final_dict = dict()
-        # driving
-        final_dict[self.Driving] = Coordinate(v[0], v[1])
-        # follower
-        final_dict[self.Follower] = Coordinate(v[2], v[3])
-        # links
-        for i, L in enumerate(self.Link):
-            final_dict[L] = v[4+i]
+        cdef int vi = 0
+        #driving
+        for name in self.Driving_list:
+            final_dict[name] = Coordinate(v[vi], v[vi+1])
+            vi += 2
+        #follower
+        for name in self.Follower_list:
+            final_dict[name] = Coordinate(v[vi], v[vi+1])
+            vi += 2
+        #links
+        for L in self.Link:
+            final_dict[L] = v[vi]
+            vi += 1
         final_dict['a0'] = np.deg2rad(v[self.VARS])
         for e in self.Exp:
             final_dict[e["target"]] = Coordinate(*formula[e["relate"]](*[final_dict[p] for p in e["params"]]))
