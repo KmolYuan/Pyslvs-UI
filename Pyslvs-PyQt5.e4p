@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-28, 21:50:32 -->
+<!-- Saved: 2017-12-29, 12:12:53 -->
 <!-- Copyright (C) 2017 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -23,11 +23,9 @@
     <Source>core/entities/__init__.py</Source>
     <Source>core/entities/edit_link.py</Source>
     <Source>core/entities/edit_point.py</Source>
-    <Source>core/graphics/Algorithm_preview.py</Source>
-    <Source>core/graphics/ChartGraphics.py</Source>
-    <Source>core/graphics/Ui_Algorithm_preview.py</Source>
     <Source>core/graphics/__init__.py</Source>
     <Source>core/graphics/canvas.py</Source>
+    <Source>core/graphics/chart.py</Source>
     <Source>core/graphics/color.py</Source>
     <Source>core/graphics/planarSolving.py</Source>
     <Source>core/info/Ui_about.py</Source>
@@ -68,13 +66,16 @@
     <Source>core/server/rga.py</Source>
     <Source>core/server/zmq_rep.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm_chart.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm_options.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm_path_adjust.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Algorithm_preview.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm_progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_options.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_path_adjust.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_preview.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
@@ -98,7 +99,6 @@
   <Forms>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
-    <Form>core/graphics/Algorithm_preview.ui</Form>
     <Form>core/info/about.ui</Form>
     <Form>core/io/dxfType.ui</Form>
     <Form>core/io/peeweeIO.ui</Form>
@@ -107,6 +107,7 @@
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_options.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_path_adjust.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/Algorithm_preview.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_progress.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm_series.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Collections.ui</Form>

@@ -17,19 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..QtModules import *
-"""This part is using PyQtChart module."""
-
-class dataChart(QChart):
-    def __init__(self, Title, axisX, axisY, parent=None):
-        super(dataChart, self).__init__(parent)
-        self.setTitle(Title)
-        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        legend = self.legend()
-        legend.setAlignment(Qt.AlignBottom)
-        legend.setFont(QFont(legend.font().family(), 12, QFont.Medium))
-        self.addAxis(axisX, Qt.AlignBottom)
-        self.addAxis(axisY, Qt.AlignLeft)
+from ...QtModules import *
+from ...graphics.chart import dataChart
 
 class ChartDialog(QDialog):
     def __init__(self, Title, mechanism_data=[], parent=None):

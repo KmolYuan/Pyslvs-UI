@@ -32,6 +32,11 @@ from ..synthesis.NumberAndTypeSynthesis.Collections import Collections_show as S
 from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
 
 def initCustomWidgets(self):
+    appearance(self)
+    undo_redo(self)
+    context_menu(self)
+
+def appearance(self):
     #Version label
     self.version_label.setText("v{}.{}.{} ({})".format(*VERSION))
     #Entities tables.
@@ -156,6 +161,8 @@ def initCustomWidgets(self):
     #SetIn function connections.
     self.action_Zoom_to_fit.triggered.connect(self.DynamicCanvasView.SetIn)
     self.ResetCanvas.clicked.connect(self.DynamicCanvasView.SetIn)
+
+def undo_redo(self):
     #Undo list settings.
     self.FileState.setUndoLimit(self.UndoLimit.value())
     self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)
@@ -173,6 +180,8 @@ def initCustomWidgets(self):
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
     self.menu_Edit.addAction(self.action_Undo)
     self.menu_Edit.addAction(self.action_Redo)
+
+def context_menu(self):
     '''
     Entities_Point context menu
     

@@ -14,8 +14,7 @@ if __name__=='__main__':
         print("All modules are loaded.")
         exit(0)
     else:
-        print('\n'.join(INFO))
-        print('-'*7)
+        print('\n'.join(INFO+('-'*7,)))
         from PyQt5.QtWidgets import QApplication
         from core.main import MainWindow
         QApp = QApplication([])

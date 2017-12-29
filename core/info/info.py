@@ -30,16 +30,16 @@ except ImportError:
 
 VERSION = (0, 9, 0, 'beta4')
 
-INFO = [
+INFO = (
     "Pyslvs {}.{}.{}({})".format(*VERSION),
     "OS Type: {} {} [{}]".format(platform.system(), platform.release(), platform.machine()),
     "Python Version: {v.major}.{v.minor}.{v.micro}({v.releaselevel})".format(v=version_info),
     "Python Compiler: {}".format(platform.python_compiler()),
     "Qt Version: {}".format(Qt_Version),
     "PyQt Version: {}".format(PyQt_Version)
-]
+)
 
-POWERBY = [
+POWERBY = (
     "Python IDE Eric 6",
     "PyQt 5",
     "dxfwrite",
@@ -51,7 +51,7 @@ POWERBY = [
     "Lark-parser",
     "NetworkX",
     "Pydot"
-]
+)
 
 #--help
 parser = argparse.ArgumentParser(

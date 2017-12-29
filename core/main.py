@@ -463,8 +463,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Save_triggered(self, isBranch=False):
         fileName = self.FileWidget.fileName.absoluteFilePath()
-        suffix = self.FileWidget.fileName.suffix()
-        if suffix=='pyslvs':
+        if self.FileWidget.fileName.suffix()=='pyslvs':
             self.FileWidget.save(fileName, isBranch)
         else:
             self.on_action_Save_as_triggered(isBranch)
@@ -517,7 +516,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if QFileInfo(fileName).suffix()!=suffix[1:]:
                 fileName += suffix
             dir = QFileInfo(fileName).absolutePath()
-            print("Formate: {}".format(suffix))
+            print("Formate: {}\nSize: {} KB".format(suffix, round(QFileInfo(fileName).size()/1024, 2)))
             if dir!=self.env:
                 self.setLocate(dir)
         return fileName

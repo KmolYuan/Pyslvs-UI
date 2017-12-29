@@ -17,11 +17,11 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..QtModules import *
+from ...QtModules import *
 from .Ui_Algorithm_preview import Ui_Dialog
-from .canvas import BaseCanvas
-from .color import colorQt
-from ..io.larkParser import get_from_parenthesis
+from ...graphics.canvas import BaseCanvas
+from ...graphics.color import colorQt
+from ...io.larkParser import get_from_parenthesis
 from math import isnan
 from typing import Tuple
 
