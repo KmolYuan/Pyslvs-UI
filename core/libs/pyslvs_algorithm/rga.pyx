@@ -112,14 +112,14 @@ cdef class Genetic(object):
         cdef int i, s, j
         for i in range(0, self.nPop-1, 2):
             # crossover
-            if(randV() < self.pCross):
+            if randV() < self.pCross:
                 for s in range(self.nParm):
                     # first baby, half father half mother
-                    self.babyChrom[0].v[s] = 0.5 * self.chrom[i].v[s] + 0.5*self.chrom[i+1].v[s];
+                    self.babyChrom[0].v[s] = 0.5 * self.chrom[i].v[s] + 0.5*self.chrom[i+1].v[s]
                     # second baby, three quaters of fater and quater of mother
                     self.babyChrom[1].v[s] = self.check(s, 1.5 * self.chrom[i].v[s] - 0.5*self.chrom[i+1].v[s])
                     # third baby, quater of fater and three quaters of mother
-                    self.babyChrom[2].v[s] = self.check(s,-0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s]);
+                    self.babyChrom[2].v[s] = self.check(s, -0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s])
                 # evaluate new baby
                 for j in range(3):
                     self.babyChrom[j].f = self.func(self.babyChrom[j].v)
@@ -186,7 +186,7 @@ cdef class Genetic(object):
         for i in range(self.nPop):
             self.chrom[i].assign(self.newChrom[i])
         # select random one chrom to be best chrom, make best chrom still exist
-        j = self.random(self.nPop);
+        j = self.random(self.nPop)
         self.chrom[j].assign(self.chromElite)
     
     cdef void generation_process(self):

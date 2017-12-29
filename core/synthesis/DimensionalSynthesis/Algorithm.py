@@ -43,21 +43,21 @@ class Algorithm_show(QWidget, PathSolving_Form):
         'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
     }
     mechanismParams_4Bar = { #No 'targetPath'
+        'VARS':9,
         'Driving':'A',
         'Follower':'D',
         'Target':'E',
         'Expression':"PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)",
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
-    mechanismParams_4Bar['VARS'] = len(set(mechanismParams_4Bar['Expression'].split(',')))-2
     mechanismParams_8Bar = { #No 'targetPath'
+        'VARS':18,
         'Driving':'A',
         'Follower':'B',
         'Target':'H',
         'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
         'constraint':[{'driver':'L0', 'follower':'L2', 'connect':'L1'}]
     }
-    mechanismParams_8Bar['VARS'] = len(set(mechanismParams_8Bar['Expression'].split(',')))-2
     
     def __init__(self, parent):
         super(Algorithm_show, self).__init__(parent)
@@ -257,14 +257,28 @@ class Algorithm_show(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams_4Bar if self.FourBar.isChecked() else self.mechanismParams_8Bar
         link_q = mechanismParams['VARS']-7
-        upper = [self.Ax.value()+self.Ar.value()/2, self.Ay.value()+self.Ar.value()/2, self.Dx.value()+self.Dr.value()/2, self.Dy.value()+self.Dr.value()/2,
-            self.Settings['IMax'], self.Settings['LMax'], self.Settings['FMax']]+[self.Settings['LMax']]*link_q
-        lower = [self.Ax.value()-self.Ar.value()/2, self.Ay.value()-self.Ar.value()/2, self.Dx.value()-self.Dr.value()/2, self.Dy.value()-self.Dr.value()/2,
-            self.Settings['IMin'], self.Settings['LMin'], self.Settings['FMin']]+[self.Settings['LMin']]*link_q
+        upper = [
+            self.Ax.value()+self.Ar.value()/2,
+            self.Ay.value()+self.Ar.value()/2,
+            self.Dx.value()+self.Dr.value()/2,
+            self.Dy.value()+self.Dr.value()/2,
+            self.Settings['IMax'],
+            self.Settings['LMax'],
+            self.Settings['FMax']
+        ] + [self.Settings['LMax']]*link_q
+        lower = [
+            self.Ax.value()-self.Ar.value()/2,
+            self.Ay.value()-self.Ar.value()/2,
+            self.Dx.value()-self.Dr.value()/2,
+            self.Dy.value()-self.Dr.value()/2,
+            self.Settings['IMin'],
+            self.Settings['LMin'],
+            self.Settings['FMin']
+        ] + [self.Settings['LMin']]*link_q
         mechanismParams['targetPath'] = tuple(self.path)
         p = len(self.path)
         generateData = {
-            'nParm':p+mechanismParams['VARS'],
+            'nParm':mechanismParams['VARS'] + p,
             'upper':upper+[self.Settings['AMax']]*p,
             'lower':lower+[self.Settings['AMin']]*p,
             'maxGen':self.Settings['maxGen'],

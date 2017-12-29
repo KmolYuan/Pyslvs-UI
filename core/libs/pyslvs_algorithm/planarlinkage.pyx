@@ -27,44 +27,41 @@ cdef str get_front_of_parenthesis(str s, str front):
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, VARS
-    cdef object formula, ExpressionL, ExpressionNameL, constraint, Link
+    cdef object formula, ExpressionNameL, constraint, Link
     cdef str Driving, Follower, targetPoint, Link_str, ExpressionName_str, Expression_str
     cdef np.ndarray target, Exp
     
     def __cinit__ (self, object mechanismParams):
-        self.VARS = mechanismParams['VARS']
         #target point
         self.targetPoint = mechanismParams['Target']
-        # counting how many action to satisfied require point
+        #counting how many action to satisfied require point
         self.POINTS = len(mechanismParams['targetPath'])
-        # driving point, string
+        #driving point, string
         self.Driving = mechanismParams['Driving']
-        # folower point, string
+        #folower point, string
         self.Follower = mechanismParams['Follower']
         #constraint
         self.constraint = mechanismParams['constraint']
         
-        cdef int i
-        # use tuple data, create a list of coordinate object
+        #use tuple data, create a list of coordinate object
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
+        cdef int i
         self.target = np.ndarray((self.POINTS,), dtype=np.object)
         for i, (x, y) in enumerate(mechanismParams['targetPath']):
             self.target[i] = Coordinate(x, y)
         
-        # Expression A, L0, a0, D, B, B, L1, L2, D, C, B, L3, L4, C, E
-        # split Expression to list
+        #Expression ['A', 'B', 'C', 'D', 'E', 'L0', 'L1', 'L2', 'L3', 'L4', 'a0']
         self.Expression_str = mechanismParams['Expression']
-        ExpressionL = mechanismParams['Expression'].split(';')
-        
-        # Link L0, L1, L2, L3, ...
-        self.Link = []
+        cdef object ExpressionL = mechanismParams['Expression'].split(';')
         
         '''
+        Link L0, L1, L2, L3, ...
         Exp:        Tuple[Dict]
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
         {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
         {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         '''
+        self.Link = []
         cdef str expr, p
         self.Exp = np.ndarray((len(ExpressionL),), dtype=np.object)
         for i, expr in enumerate(ExpressionL):
@@ -76,6 +73,8 @@ cdef class build_planar(object):
             for p in get_from_parenthesis(expr, '[', ']').split(','):
                 if 'L' in p:
                     self.Link.append(p)
+        #The number of all variables (chromsome).
+        self.VARS = 4+len(self.Link)
     
     cpdef object get_path(self):
         return [(c.x, c.y) for c in self.target]

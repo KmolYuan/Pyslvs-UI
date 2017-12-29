@@ -68,7 +68,7 @@ class WorkerThread(QThread):
                 'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
                 'time':time_spand,
                 'targetPath':self.mechanismParams['targetPath'],
-                'interrupted':str(TnF[-1][0]) if self.stoped else 'False',
+                'interrupted':str(time_and_fitness[-1][0]) if self.stoped else 'False',
                 'Expression':self.mechanismParams['Expression'],
                 'settings':self.settings,
                 'hardwareInfo':{

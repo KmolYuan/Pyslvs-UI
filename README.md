@@ -23,7 +23,7 @@
 1. [Kernels Requirement](#kernels-requirement)
 
     + [Python-solvespace Kernel](#python-solvespace-kernel)
-    + [Dimensional Synthesis Kernel](#dimensional-synthesis-kernel)
+    + [Cython Kernel](#dimensional-synthesis-kernel)
 
 1. [Stand-alone Executable File](#stand-alone-executable-file)
 
@@ -282,12 +282,14 @@ Edit it to this:
 #endif
 ```
 
-## Dimensional Synthesis Kernel
+## Cython Kernel
+
+The library of Type and Dimensional synthesis.
 
 Make command:
 
 ```bash
-make -C core/libs/pyslvs_algorithm
+make build-cython
 ```
 
 **Ubuntu**:
@@ -296,14 +298,17 @@ Ubuntu user can compile the kernel by Cython directly.
 
 **Windows**:
 
-If you are using 64 bit OS with 64bit Python, unfortunately you **can not** use mingw64 to complete the compilation.
+If you are using 64 bit OS with 64bit Python. There's two options:
 
-Using Microsoft Visual Studio is the only option, you can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
-
-When installation finished, see the instructions [here][cython-link] to set up the Windows SDK.
+1. Using Microsoft Visual Studio. You can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
+1. Using [Msys 2][msys]. It is based on MinGW 64-bit version.
 
 [visualstudio-link]: https://www.visualstudio.com/downloads/
-[cython-link]: https://github.com/cython/cython/wiki/CythonExtensionsOnWindows#using-windows-sdk-cc-compiler-works-for-all-python-versions
+[msys]: http://www.msys2.org/
+
+After the actual test, Microsoft Visual Studio SDK will take a large of file size in your disk, but the executable file will smaller than Msys.
+
+One benefit of Msys is that it is portable.
 
 # Stand-alone Executable File
 

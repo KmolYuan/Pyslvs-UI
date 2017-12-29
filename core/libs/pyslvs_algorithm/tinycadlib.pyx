@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from libc.math cimport (
+    pow,
     sqrt,
     isnan,
     sin,
@@ -19,7 +20,7 @@ cdef class Coordinate(object):
         self.y = y
     
     cpdef public double distance(self, Coordinate obj):
-        return sqrt((self.x-obj.x)**2+(self.y-obj.y)**2)
+        return sqrt(pow(self.x-obj.x, 2) + pow(self.y-obj.y, 2))
 
 cpdef object PLAP(Coordinate A, double L0, double a0, Coordinate B, bool reverse=False):
     cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
@@ -41,8 +42,8 @@ cpdef object PLLP(Coordinate A, double L0, double R0, Coordinate B, bool reverse
     #Circles are coincident and there are an infinite number of solutions.
     if d==0 and L0==R0:
         return (nan, nan)
-    cdef double a = (L0**2 - R0**2 + d**2)/(2*d)
-    cdef double h = sqrt(L0**2 - a**2)
+    cdef double a = (pow(L0, 2) - pow(R0, 2) + pow(d, 2))/(2*d)
+    cdef double h = sqrt(pow(L0, 2) - pow(a, 2))
     cdef double xm = A.x + a*dx/d
     cdef double ym = A.y + a*dy/d
     if reverse:
