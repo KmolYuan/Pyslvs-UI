@@ -52,7 +52,15 @@ cdef class Genetic(object):
     
     def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
         """
-        init(function func)
+        settings = {
+            'nPop',
+            'pCross',
+            'pMute',
+            'pWin',
+            'bDelta',
+            'maxGen',
+            'report'
+        }
         """
         self.func = func
         self.nParm = self.func.get_nParm()

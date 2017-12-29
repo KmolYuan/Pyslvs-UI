@@ -27,20 +27,32 @@ cdef str get_front_of_parenthesis(str s, str front):
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, VARS
-    cdef object formula, ExpressionNameL, constraint, Link, upper, lower
-    cdef object Driving, Follower, Driving_list, Follower_list
-    cdef str targetPoint, Link_str, ExpressionName_str, Expression_str
+    cdef object constraint, Link, upper, lower, Driving, Follower, Driving_list, Follower_list
+    cdef str targetPoint, Expression_str
     cdef np.ndarray target, Exp
     
     def __cinit__ (self, object mechanismParams):
-        #target point
-        self.targetPoint = mechanismParams['Target']
+        '''
+        mechanismParams = {
+            'targetPath',
+            'Target',
+            'Driving',
+            'Follower',
+            'Target',
+            'constraint',
+            'Expression',
+            'IMax', 'LMax', 'FMax', 'AMax',
+            'IMin', 'LMin', 'FMin', 'AMin'
+        }
+        '''
         #counting how many action to satisfied require point
         self.POINTS = len(mechanismParams['targetPath'])
         #driving point, string
         self.Driving = mechanismParams['Driving']
         #folower point, string
         self.Follower = mechanismParams['Follower']
+        #target point
+        self.targetPoint = mechanismParams['Target']
         #constraint
         self.constraint = mechanismParams['constraint']
         

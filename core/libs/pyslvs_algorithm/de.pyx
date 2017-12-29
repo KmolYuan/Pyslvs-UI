@@ -49,6 +49,16 @@ cdef class DiffertialEvolution(object):
     cdef object fitnessTime, fitnessParameter
     
     def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+        """
+        settings = {
+            'strategy',
+            'NP',
+            'F',
+            'CR',
+            'maxGen',
+            'report'
+        }
+        """
         # object function, or enviorment
         self.func = func
         # dimesion of quesiton

@@ -48,6 +48,17 @@ cdef class Firefly(object):
     cdef object fitnessTime, fitnessParameter
     
     def __init__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+        """
+        settings = {
+            'n',
+            'alpha',
+            'betaMin',
+            'beta0',
+            'gamma',
+            'maxGen',
+            'report'
+        }
+        """
         # object function
         self.func = func
         # D, the dimension of question and each firefly will random place position in this landscape
