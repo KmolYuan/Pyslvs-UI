@@ -59,11 +59,7 @@ cpdef object connection_get(int i, object connection):
 
 #TODO: The function must be accelerated.
 #Linkage Topological Component
-cpdef topo(object link_num, bool degenerate=True, object setjobFunc=None, object stopFunc=None):
-    if setjobFunc is None:
-        setjobFunc = emptyFunc
-    if stopFunc is None:
-        stopFunc = returnFalse
+cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, object stopFunc=returnFalse):
     cdef np.ndarray links = np.ndarray((sum(link_num),), dtype=np.int)
     cdef int i, j, t, name, joint_count
     for i in range(sum(link_num)):

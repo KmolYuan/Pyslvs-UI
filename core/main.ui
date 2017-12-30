@@ -245,21 +245,39 @@
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="label_6">
-                   <property name="text">
-                    <string>Mechanism storage:</string>
-                   </property>
-                  </widget>
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <item>
+                    <widget class="QLabel" name="mechanism_storage_name_tag_text">
+                     <property name="text">
+                      <string>Mechanism name:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLineEdit" name="mechanism_storage_name_tag">
+                     <property name="placeholderText">
+                      <string>Prototype_0</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
                  </item>
                  <item>
                   <layout class="QHBoxLayout" name="horizontalLayout_9">
                    <item>
-                    <widget class="QListWidget" name="mechanism_storage"/>
+                    <widget class="QListWidget" name="mechanism_storage">
+                     <property name="statusTip">
+                      <string>All expressions of this workbook. They will be saving with database.</string>
+                     </property>
+                    </widget>
                    </item>
                    <item>
                     <layout class="QVBoxLayout" name="verticalLayout_20">
                      <item>
                       <widget class="QPushButton" name="mechanism_storage_add">
+                       <property name="statusTip">
+                        <string>Capture the current expression than save to the list.</string>
+                       </property>
                        <property name="text">
                         <string>Add</string>
                        </property>
@@ -271,12 +289,36 @@
                      </item>
                      <item>
                       <widget class="QPushButton" name="mechanism_storage_restore">
+                       <property name="statusTip">
+                        <string>Restore the selected expression.</string>
+                       </property>
                        <property name="text">
                         <string>Restore</string>
                        </property>
                        <property name="icon">
                         <iconset resource="../icons.qrc">
                          <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="Line" name="line_4">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="mechanism_storage_expression">
+                       <property name="statusTip">
+                        <string>Append a new expression to list by string format.</string>
+                       </property>
+                       <property name="text">
+                        <string>Expression</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
                        </property>
                       </widget>
                      </item>

@@ -360,6 +360,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Clear to create commit stage.
     def clear(self):
+        self.mechanism_storage_name_tag.clear()
         self.mechanism_storage.clear()
         self.SynthesisCollections.clear()
         self.NumberAndTypeSynthesis.clear()
@@ -860,6 +861,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Display_Dimensions_toggled(self, p0):
         if p0:
             self.action_Display_Point_Mark.setChecked(True)
+    
     @pyqtSlot(bool)
     def on_action_Display_Point_Mark_toggled(self, p0):
         if not p0:
@@ -1186,23 +1188,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_mechanism_storage_add_clicked(self):
-        name, ok = QInputDialog.getText(self, "Storage", "Please input name tag:")
-        if ok:
-            if not name:
-                nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
-                i = 0
-                while "Mechanism_{}".format(i) in nameList:
-                    i += 1
-                name = "Mechanism_{}".format(i)
-            expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data()))
-            self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
-            self.storage_clear()
-            self.addStorage(name, expr)
-            self.FileState.endMacro()
+        name = self.mechanism_storage_name_tag.text()
+        if not name:
+            name = self.mechanism_storage_name_tag.placeholderText()
+        self.addStorage(name, "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data())))
+        self.mechanism_storage_name_tag.clear()
+        nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
+        i = 0
+        while "Prototype_{}".format(i) in nameList:
+            i += 1
+        self.mechanism_storage_name_tag.setPlaceholderText("Prototype_{}".format(i))
     
-    def addStorage(self, name, expr):
+    @pyqtSlot()
+    def on_mechanism_storage_expression_clicked(self):
+        expr, ok = QInputDialog.getText(self, "Storage", "Please input expression:")
+        if ok:
+            try:
+                parser.parse(expr)
+            except:
+                dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), self)
+                dlg.show()
+                dlg.exec_()
+                return
+            name, ok = QInputDialog.getText(self, "Storage", "Please input name tag:")
+            if ok:
+                if not name:
+                    nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
+                    i = 0
+                    while "Prototype_{}".format(i) in nameList:
+                        i += 1
+                    name = "Prototype_{}".format(i)
+                self.addStorage(name, expr)
+    
+    def addStorage(self, name, expr, clear=True):
         self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
-        self.storage_clear()
+        if clear:
+            self.storage_clear()
         self.FileState.push(addStorageCommand(
             name,
             self.mechanism_storage,
@@ -1218,16 +1239,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
             self.FileState.endMacro()
     
+    @pyqtSlot(QListWidgetItem)
+    def on_mechanism_storage_itemDoubleClicked(self, item):
+        self.on_mechanism_storage_restore_clicked(item)
+    
     @pyqtSlot()
-    def on_mechanism_storage_restore_clicked(self):
-        row = self.mechanism_storage.currentRow()
-        if row>-1:
-            self.FileState.beginMacro("Restore from {{Mechanism: {}}}".format(self.mechanism_storage.item(row).text()))
-            self.storage_clear()
-            self.parseExpression(self.mechanism_storage.item(row).expr)
-            self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
-            self.FileState.endMacro()
+    def on_mechanism_storage_restore_clicked(self, item=None):
+        if item:
+            item = self.mechanism_storage.currentItem()
+        if item:
+            dlg = QMessageBox(QMessageBox.Warning, "Storage",
+                "Restore mechanism will overwrite the canvas.\nDo you want to continue?",
+                (QMessageBox.Ok | QMessageBox.Cancel),
+                self
+            )
+            dlg.show()
+            if dlg.exec_():
+                name = item.text()
+                self.FileState.beginMacro("Restore from {{Mechanism: {}}}".format(name))
+                self.storage_clear()
+                self.parseExpression(item.expr)
+                self.FileState.push(deleteStorageCommand(self.mechanism_storage.row(item), self.mechanism_storage))
+                self.mechanism_storage_name_tag.setText(name)
+                self.FileState.endMacro()
     
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         for name, expr in exprs:
-            self.addStorage(name, expr)
+            self.addStorage(name, expr, clear=False)
