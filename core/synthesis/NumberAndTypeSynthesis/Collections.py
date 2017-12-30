@@ -57,9 +57,7 @@ class Collections_show(QWidget, Ui_Form):
         self.grounded_list.clear()
     
     def engineErrorMsg(self, e):
-        dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
-        dlg.show()
-        dlg.exec_()
+        QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), QMessageBox.Ok)
     
     #Reload atlas with the engine.
     @pyqtSlot()
@@ -110,9 +108,7 @@ class Collections_show(QWidget, Ui_Form):
                 if is_isomorphic(G, H):
                     raise TestError("is isomorphic")
         except TestError as e:
-            dlg = QMessageBox(QMessageBox.Warning, "Add Collection Error", "Error: {}".format(e), (QMessageBox.Ok), self)
-            dlg.show()
-            dlg.exec_()
+            QMessageBox.warning(self, "Add Collection Error", "Error: {}".format(e), (QMessageBox.Ok), QMessageBox.Ok)
             return
         self.collections.append(G)
         self.unsaveFunc()
@@ -140,9 +136,7 @@ class Collections_show(QWidget, Ui_Form):
             if any(len(edge)!=2 for edge in edges):
                 raise SyntaxError("Wrong format")
         except Exception as e:
-            dlg = QMessageBox(QMessageBox.Warning, str(e), "Error: {}".format(e), (QMessageBox.Ok), self)
-            dlg.show()
-            dlg.exec_()
+            QMessageBox.warning(self, str(e), "Error: {}".format(e), (QMessageBox.Ok), QMessageBox.Ok)
             return
         else:
             self.addCollection(edges)

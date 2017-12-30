@@ -128,9 +128,10 @@ class Algorithm_show(QWidget, PathSolving_Form):
             for e in data:
                 self.on_add_clicked(e[0], e[1])
         except:
-            dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nIt should be look like this:"+
-                "\n0.0,0.0[\\n]"*3, (QMessageBox.Ok), self)
-            dlgbox.exec_()
+            QMessageBox.warning(self, "File error",
+                "Wrong format.\nIt should be look like this:"+"\n0.0,0.0[\\n]"*3,
+                (QMessageBox.Ok), QMessageBox.Ok
+            )
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
@@ -149,8 +150,10 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 try:
                     data.append((round(float(x), 4), round(float(y), 4)))
                 except:
-                    dlgbox = QMessageBox(QMessageBox.Warning, "File error", "Wrong format.\nThe datasheet seems to including non-digital cell.", (QMessageBox.Ok), self)
-                    dlgbox.exec_()
+                    QMessageBox.warning(self, "File error",
+                        "Wrong format.\nThe datasheet seems to including non-digital cell.",
+                        (QMessageBox.Ok), QMessageBox.Ok
+                    )
                     break
                 i += 1
             for e in data:
@@ -247,9 +250,8 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 self.addResult(m)
             self.setTime(dlg.time_spand)
             self.unsaveFunc()
-            dlgbox = QMessageBox(QMessageBox.Information, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), self.parent())
-            if dlgbox.exec_():
-                print("Finished.")
+            QMessageBox.information(self, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), QMessageBox.Ok)
+            print("Finished.")
     
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2

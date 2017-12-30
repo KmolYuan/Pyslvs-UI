@@ -274,11 +274,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Reload Canvas, without resolving.
     def Reload_Canvas(self, *Args):
-        pathIndex = self.inputs_record.currentRow()
+        item_path = self.inputs_record.currentItem()
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.FileWidget.pathData.get(self.inputs_record.item(pathIndex).text().split(':')[0], ()) if pathIndex>-1 else ()
+            self.FileWidget.pathData.get(item_path.text().split(':')[0], ()) if item_path else ()
         )
     
     #Workbook not saved signal.
@@ -377,7 +377,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Import_PMKS_server_triggered(self):
         URL, ok = QInputDialog.getText(self, "PMKS URL input", "Please input link string:")
         if ok:
-            dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), self)
             if URL:
                 try:
                     textList = list(filter(lambda s: s not in ('', " ", '\n'),
@@ -400,13 +399,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         ))
                     expression = "M[{}]".format(", ".join(expression))
                 except Exception as e:
-                    dlg.show()
-                    dlg.exec_()
+                    QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), QMessageBox.Ok)
                 else:
                     self.parseExpression(expression)
             else:
-                dlg.show()
-                dlg.exec_()
+                QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.", (QMessageBox.Ok), QMessageBox.Ok)
     
     @pyqtSlot()
     def on_action_Import_Expression_triggered(self):
@@ -421,9 +418,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pointsArgs = ArgsTransformer().transform(tree)
         except Exception as e:
             print(e)
-            dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), self)
-            dlg.show()
-            dlg.exec_()
+            QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), QMessageBox.Ok)
         else:
             for pointArgs in pointsArgs:
                 linkNames = tuple(vlink.name for vlink in self.Entities_Link.data())
@@ -525,8 +520,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Show message when successfully saved.
     def saveReplyBox(self, title, fileName):
-        dlgbox = QMessageBox(QMessageBox.Information, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), self)
-        if dlgbox.exec_():
+        if QMessageBox.information(self, title, "Successfully converted:\n{}".format(fileName), (QMessageBox.Ok), QMessageBox.Ok):
             print("Successful saved {}.".format(title))
     
     #Output to PMKS as URL.
@@ -552,12 +546,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "If you have installed Microsoft Silverlight in Internet Explorer as default browser, "+
             "just click \"Open\" button to open it in PMKS website."
         ])
-        dlg = QMessageBox(QMessageBox.Information, "PMKS web server", text, (QMessageBox.Save | QMessageBox.Open | QMessageBox.Close), self)
-        dlg.show()
-        action = dlg.exec()
-        if action==QMessageBox.Open:
+        reply = QMessageBox.information(self, "PMKS web server", text, (QMessageBox.Save | QMessageBox.Open | QMessageBox.Close), QMessageBox.Save)
+        if reply==QMessageBox.Open:
             self.OpenURL(url)
-        elif action==QMessageBox.Save:
+        elif reply==QMessageBox.Save:
             clipboard = QApplication.clipboard()
             clipboard.setText(url)
     
@@ -567,10 +559,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         data = self.Entities_Point.data()
         expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in data))
         text = "You can copy the expression and import to another workbook:\n\n{}\n\nClick the save button to copy it.".format(expr)
-        dlg = QMessageBox(QMessageBox.Information, "Pyslvs Expression", text, (QMessageBox.Save | QMessageBox.Close), self)
-        dlg.show()
-        action = dlg.exec()
-        if action==QMessageBox.Save:
+        reply = QMessageBox.question(self, "Pyslvs Expression", text, (QMessageBox.Save | QMessageBox.Close), QMessageBox.Save)
+        if reply==QMessageBox.Save:
             clipboard = QApplication.clipboard()
             clipboard.setText(expr)
     
@@ -850,9 +840,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         clipboard = QApplication.clipboard()
         pixmap = self.DynamicCanvasView.grab()
         clipboard.setPixmap(pixmap)
-        dlg = QMessageBox(QMessageBox.Information, "Captured!", "Canvas widget picture is copy to clipboard.", QMessageBox.Ok, self)
-        dlg.show()
-        dlg.exec_()
+        QMessageBox.information(self, "Captured!", "Canvas widget picture is copy to clipboard.", (QMessageBox.Ok), QMessageBox.Ok)
     
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value):
@@ -1039,12 +1027,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             path = self.DynamicCanvasView.getRecordPath()
             name, ok = QInputDialog.getText(self, "Recording completed!", "Please input name tag:")
-            if not name:
-                nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
+            if (not name) or (name in self.FileWidget.pathData):
                 i = 0
-                while "Record_{}".format(i) in nameList:
+                while "Record_{}".format(i) in self.FileWidget.pathData:
                     i += 1
-            self.addPath("Record_{}".format(i), path)
+                QMessageBox.information(self, "Record", "The name tag is being used or empty.")
+                name = "Record_{}".format(i)
+            self.addPath(name, path)
     
     def addPath(self, name, path):
         self.FileState.beginMacro("Add {{Path: {}}}".format(name))
@@ -1070,7 +1059,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #View path data.
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
-        data = self.FileWidget.pathData[item.text()]
+        data = self.FileWidget.pathData[item.text().split(":")[0]]
         reply = QMessageBox.question(self, "Path data",
             "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
             (QMessageBox.Save | QMessageBox.Close), QMessageBox.Close)
@@ -1093,6 +1082,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             action.index = -1
             data = self.FileWidget.pathData[self.inputs_record.item(row).text().split(":")[0]]
             for action_text in ["Show", "Copy data from"]:
+                self.popMenu_inputs_record.addSeparator()
                 for i in range(len(data)):
                     if data[i]:
                         action = self.popMenu_inputs_record.addAction("{} Point{}".format(action_text, i))
@@ -1103,12 +1093,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     clipboard = QApplication.clipboard()
                     clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[action.index]))
                 elif "Show" in action.text():
+                    if action.index==-1:
+                        self.inputs_record_show.setChecked(True)
                     self.DynamicCanvasView.setPathShow(action.index)
         self.popMenu_inputs_record.clear()
     
     @pyqtSlot()
     def on_inputs_record_show_clicked(self):
         self.DynamicCanvasView.setPathShow(-1 if self.inputs_record_show.isChecked() else -2)
+    
+    @pyqtSlot(int)
+    def on_inputs_record_currentRowChanged(self, row):
+        if self.inputs_record_show.isChecked():
+            self.DynamicCanvasView.setPathShow(-1)
+        self.Reload_Canvas()
     
     @pyqtSlot(int)
     def on_SynthesisTab_currentChanged(self, index):
@@ -1144,9 +1142,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, 4))
         self.FileState.endMacro()
         #Add the path.
-        nameList = [self.inputs_record.item(i).text() for i in range(self.inputs_record.count())]
         i = 0
-        while "Algorithm_path_{}".format(i) in nameList:
+        while "Algorithm_path_{}".format(i) in self.FileWidget.pathData:
             i += 1
         self.addPath("Algorithm_path_{}".format(i), path)
     
@@ -1199,11 +1196,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addStorage(name, "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data())))
         self.FileState.push(clearStorageNameCommand(self.mechanism_storage_name_tag))
         self.FileState.endMacro()
-        nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
-        i = 0
-        while "Prototype_{}".format(i) in nameList:
-            i += 1
-        self.mechanism_storage_name_tag.setPlaceholderText("Prototype_{}".format(i))
     
     @pyqtSlot()
     def on_mechanism_storage_expression_clicked(self):
@@ -1212,9 +1204,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             try:
                 parser.parse(expr)
             except:
-                dlg = QMessageBox(QMessageBox.Warning, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), self)
-                dlg.show()
-                dlg.exec_()
+                QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.", (QMessageBox.Ok), QMessageBox.Ok)
                 return
             name, ok = QInputDialog.getText(self, "Storage", "Please input name tag:")
             if ok:
@@ -1236,6 +1226,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             expr
         ))
         self.FileState.endMacro()
+        i = 0
+        while "Prototype_{}".format(i) in [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]:
+            i += 1
+        self.mechanism_storage_name_tag.setPlaceholderText("Prototype_{}".format(i))
     
     @pyqtSlot()
     def on_mechanism_storage_delete_clicked(self):
@@ -1254,13 +1248,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if item is None:
             item = self.mechanism_storage.currentItem()
         if item:
-            dlg = QMessageBox(QMessageBox.Warning, "Storage",
+            reply = QMessageBox.question(self, "Storage",
                 "Restore mechanism will overwrite the canvas.\nDo you want to continue?",
-                (QMessageBox.Ok | QMessageBox.Cancel),
-                self
+                (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok
             )
-            dlg.show()
-            if dlg.exec_()==QMessageBox.Ok:
+            if reply==QMessageBox.Ok:
                 name = item.text()
                 self.FileState.beginMacro("Restore from {{Mechanism: {}}}".format(name))
                 self.storage_clear()

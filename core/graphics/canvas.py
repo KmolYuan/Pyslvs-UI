@@ -115,9 +115,9 @@ class BaseCanvas(QWidget):
         self.painter.drawLine(QPointF(0, y_b), QPointF(0, y_t))
         #Draw tick.
         Indexing = lambda v: int(v/self.zoom - (v/self.zoom)%5)
-        for x in range(Indexing(x_l), Indexing(x_r), 5):
+        for x in range(Indexing(x_l), Indexing(x_r)+1, 5):
             self.painter.drawLine(QPointF(x*self.zoom, 0), QPointF(x*self.zoom, -10 if x%10==0 else -5))
-        for y in range(Indexing(y_b), Indexing(y_t), 5):
+        for y in range(Indexing(y_b), Indexing(y_t)+1, 5):
             self.painter.drawLine(QPointF(0, y*self.zoom), QPointF(10 if y%10==0 else 5, y*self.zoom))
     
     def drawFrame(self, pen):

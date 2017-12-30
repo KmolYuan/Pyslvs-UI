@@ -148,7 +148,6 @@ def appearance(self):
     self.Font_size.valueChanged.connect(self.DynamicCanvasView.setFontSize)
     self.action_Display_Point_Mark.toggled.connect(self.DynamicCanvasView.setPointMark)
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
-    self.inputs_record.currentRowChanged.connect(self.Reload_Canvas)
     self.SelectionRadius.valueChanged.connect(self.DynamicCanvasView.setSelectionRadius)
     self.LinkageTransparency.valueChanged.connect(self.DynamicCanvasView.setTransparency)
     #Splitter stretch factor.

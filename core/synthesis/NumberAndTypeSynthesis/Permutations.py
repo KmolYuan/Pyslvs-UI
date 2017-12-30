@@ -164,9 +164,7 @@ class Permutations_show(QWidget, Ui_Form):
                     item.setIcon(graph(G, self.Topologic_result.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
-                    dlg = QMessageBox(QMessageBox.Warning, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), self)
-                    dlg.show()
-                    dlg.exec_()
+                    QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working", (QMessageBox.Ok), QMessageBox.Ok)
                     break
                 else:
                     item.setToolTip(str(G.edges))

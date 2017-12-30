@@ -51,10 +51,11 @@ class Algorithm_progress_show(QDialog, Ui_Dialog):
                 self.socket.setsockopt(zmq.LINGER, 0)
                 self.socket.close()
             except:
-                dlgbox = QMessageBox(QMessageBox.Warning, "Connect Error",
-                    "The following address are not available:\n{}".format(PORT), (QMessageBox.Ok), self)
-                if dlgbox.exec_():
-                    self.reject()
+                QMessageBox.warning(self, "Connect Error",
+                    "The following address are not available:\n{}".format(PORT),
+                    (QMessageBox.Ok), QMessageBox.Ok
+                )
+                self.reject()
             self.argumentText.setText("--server tcp://localhost:{}".format(PORT.split(':')[2]))
             self.work.setSocket(PORT)
     
