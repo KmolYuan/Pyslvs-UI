@@ -30,7 +30,8 @@ from .io.undoRedo import (
     fixSequenceNumberCommand,
     editPointTableCommand, editLinkTableCommand,
     addPathCommand, deletePathCommand,
-    addStorageCommand, deleteStorageCommand
+    addStorageCommand, deleteStorageCommand,
+    addStorageNameCommand, clearStorageNameCommand
 )
 #Entities
 from .entities.edit_point import edit_point_show
@@ -1191,8 +1192,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         name = self.mechanism_storage_name_tag.text()
         if not name:
             name = self.mechanism_storage_name_tag.placeholderText()
+        self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
         self.addStorage(name, "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data())))
-        self.mechanism_storage_name_tag.clear()
+        self.FileState.push(clearStorageNameCommand(self.mechanism_storage_name_tag))
+        self.FileState.endMacro()
         nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
         i = 0
         while "Prototype_{}".format(i) in nameList:
@@ -1245,7 +1248,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_mechanism_storage_restore_clicked(self, item=None):
-        if item:
+        if item is None:
             item = self.mechanism_storage.currentItem()
         if item:
             dlg = QMessageBox(QMessageBox.Warning, "Storage",
@@ -1254,13 +1257,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self
             )
             dlg.show()
-            if dlg.exec_():
+            if dlg.exec_()==QMessageBox.Ok:
                 name = item.text()
                 self.FileState.beginMacro("Restore from {{Mechanism: {}}}".format(name))
                 self.storage_clear()
                 self.parseExpression(item.expr)
                 self.FileState.push(deleteStorageCommand(self.mechanism_storage.row(item), self.mechanism_storage))
-                self.mechanism_storage_name_tag.setText(name)
+                self.FileState.push(addStorageNameCommand(name, self.mechanism_storage_name_tag))
                 self.FileState.endMacro()
     
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):

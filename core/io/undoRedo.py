@@ -245,6 +245,18 @@ class addStorageCommand(QUndoCommand):
     def undo(self):
         self.widget.takeItem(self.widget.count()-1)
 
+class addStorageNameCommand(QUndoCommand):
+    def __init__(self, name, widget):
+        QUndoCommand.__init__(self)
+        self.name = name
+        self.widget = widget
+    
+    def redo(self):
+        self.widget.setText(self.name)
+    
+    def undo(self):
+        self.widget.clear()
+
 class deleteStorageCommand(QUndoCommand):
     def __init__(self, row, widget):
         QUndoCommand.__init__(self)
@@ -261,3 +273,17 @@ class deleteStorageCommand(QUndoCommand):
         item.expr = self.mechanism
         item.setIcon(QIcon(QPixmap(":/icons/mechanism.png")))
         self.widget.insertItem(self.row, item)
+
+class clearStorageNameCommand(QUndoCommand):
+    def __init__(self, widget):
+        QUndoCommand.__init__(self)
+        self.name = widget.text()
+        if not self.name:
+            self.name = widget.placeholderText()
+        self.widget = widget
+    
+    def redo(self):
+        self.widget.clear()
+    
+    def undo(self):
+        self.widget.setText(self.name)

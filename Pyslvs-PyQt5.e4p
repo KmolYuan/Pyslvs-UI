@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-29, 12:12:53 -->
+<!-- Saved: 2017-12-30, 13:28:42 -->
 <!-- Copyright (C) 2017 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -14,7 +14,6 @@
   <Email>pyslvs@gmail.com</Email>
   <Eol index="0"/>
   <Sources>
-    <Source>__init__.py</Source>
     <Source>core/QtModules.py</Source>
     <Source>core/Ui_main.py</Source>
     <Source>core/__init__.py</Source>
