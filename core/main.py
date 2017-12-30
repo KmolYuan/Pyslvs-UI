@@ -1224,7 +1224,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     while "Prototype_{}".format(i) in nameList:
                         i += 1
                     name = "Prototype_{}".format(i)
-                self.addStorage(name, expr)
+                self.addStorage(name, expr, clear=False)
     
     def addStorage(self, name, expr, clear=True):
         self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
