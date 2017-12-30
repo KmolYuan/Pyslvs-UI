@@ -869,11 +869,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.action_Display_Dimensions.setChecked(False)
     
     @pyqtSlot()
-    def on_action_Path_data_show_triggered(self):
-        self.DynamicCanvasView.Path.show = self.action_Path_data_show.isChecked()
-        self.Reload_Canvas()
-    
-    @pyqtSlot()
     def on_action_Path_style_triggered(self):
         self.DynamicCanvasView.setCurveMode(self.action_Path_style.isChecked())
     
@@ -1094,18 +1089,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_record_context_menu(self, point):
         row = self.inputs_record.currentRow()
         if row>-1:
+            action = self.popMenu_inputs_record.addAction("Show all")
+            action.index = -1
             data = self.FileWidget.pathData[self.inputs_record.item(row).text().split(":")[0]]
-            for actionName in ("Copy data from Point{}".format(i) for i in range(len(data)) if data[i]):
-                self.popMenu_inputs_record.addAction(actionName)
-        else:
-            a = self.popMenu_inputs_record.addAction("No any path")
-            a.setEnabled(False)
-        action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
-        if action:
-            copyIndex = int(action.text().replace("Copy data from Point", ''))
-            clipboard = QApplication.clipboard()
-            clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[copyIndex]))
+            for action_text in ["Show", "Copy data from"]:
+                for i in range(len(data)):
+                    if data[i]:
+                        action = self.popMenu_inputs_record.addAction("{} Point{}".format(action_text, i))
+                        action.index = i
+            action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
+            if action:
+                if "Copy data from" in action.text():
+                    clipboard = QApplication.clipboard()
+                    clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[action.index]))
+                elif "Show" in action.text():
+                    self.DynamicCanvasView.setPathShow(action.index)
         self.popMenu_inputs_record.clear()
+    
+    @pyqtSlot()
+    def on_inputs_record_show_clicked(self):
+        self.DynamicCanvasView.setPathShow(-1 if self.inputs_record_show.isChecked() else -2)
     
     @pyqtSlot(int)
     def on_SynthesisTab_currentChanged(self, index):

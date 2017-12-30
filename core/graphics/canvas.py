@@ -36,7 +36,11 @@ class Path:
     
     def __init__(self):
         self.path = ()
-        self.show = True
+        '''
+        -1: show all
+        -2: hide path.
+        '''
+        self.show = -1
         #Display mode: The path will be the curve, otherwise the points.
         self.curve = True
 
@@ -256,6 +260,10 @@ class DynamicCanvas(BaseCanvas):
         self.slvsPath = slvsPath
         self.update()
     
+    def setPathShow(self, p: int):
+        self.Path.show = p
+        self.update()
+    
     @pyqtSlot(tuple, float, tuple, float)
     def update_ranges(self, point1, range1, point2, range2):
         self.ranges = (
@@ -384,35 +392,33 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
     
     def drawPath(self):
-        if self.Path.show:
+        if self.Path.show>-2:
             #draw paths.
             def drawPath(path):
                 pointPath = QPainterPath()
-                for i, coordinate in enumerate(path):
-                    x = coordinate[0]*self.zoom
-                    y = coordinate[1]*-self.zoom
+                for i, (x, y) in enumerate(path):
                     if isnan(x):
                         continue
                     else:
                         if i==0:
-                            pointPath.moveTo(x, y)
+                            pointPath.moveTo(x*self.zoom, y*-self.zoom)
                         else:
-                            pointPath.lineTo(QPointF(x, y))
+                            pointPath.lineTo(QPointF(x*self.zoom, y*-self.zoom))
                 self.painter.drawPath(pointPath)
             def drawDot(path):
-                for coordinate in path:
-                    x = coordinate[0]*self.zoom
-                    y = coordinate[1]*-self.zoom
+                for i, (x, y) in enumerate(path):
                     if isnan(x):
                         continue
                     else:
-                        self.painter.drawPoint(QPointF(x, y))
+                        self.painter.drawPoint(QPointF(x*self.zoom, y*-self.zoom))
             draw = drawPath if self.Path.curve else drawDot
             if hasattr(self, 'PathRecord'):
                 Path = self.PathRecord
             else:
                 Path = self.Path.path
             for i, path in enumerate(Path):
+                if self.Path.show!=i and self.Path.show!=-1:
+                    continue
                 if len(set(path))>1:
                     try:
                         color = self.Point[i].color
