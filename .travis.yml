@@ -14,7 +14,7 @@ branches:
 
 before_install:
   #SWIG & graphviz
-  - sudo apt -y install swig graphviz libgraphviz-dev pkg-config
+  - sudo apt -y install swig graphviz
 
 script:
   - sudo apt -y install desktop-file-utils zenity
