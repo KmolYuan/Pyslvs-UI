@@ -87,6 +87,7 @@ class Ui_Form(object):
         self.gridLayout.addWidget(self.DOF_text, 0, 2, 1, 1)
         self.DOF = QtWidgets.QSpinBox(self.verticalLayoutWidget)
         self.DOF.setEnabled(False)
+        self.DOF.setMinimum(-99)
         self.DOF.setProperty("value", 1)
         self.DOF.setObjectName("DOF")
         self.gridLayout.addWidget(self.DOF, 2, 2, 1, 1)

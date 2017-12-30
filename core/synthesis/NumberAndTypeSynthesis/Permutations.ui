@@ -140,6 +140,9 @@
              <property name="enabled">
               <bool>false</bool>
              </property>
+             <property name="minimum">
+              <number>-99</number>
+             </property>
              <property name="value">
               <number>1</number>
              </property>
