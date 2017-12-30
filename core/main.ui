@@ -1001,11 +1001,8 @@
                   <property name="minimum">
                    <number>5</number>
                   </property>
-                  <property name="maximum">
-                   <number>30</number>
-                  </property>
                   <property name="value">
-                   <number>16</number>
+                   <number>32</number>
                   </property>
                  </widget>
                 </item>
