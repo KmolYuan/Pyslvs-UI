@@ -38,8 +38,8 @@ import openpyxl
 from re import split as charSplit
 
 mechanismParams_4Bar = {
-    'Driving':{'A':None},
-    'Follower':{'B':None},
+    'Driving':{'A':None}, #'A':(x, y, r)
+    'Follower':{'B':None}, #'B':(x, y, r)
     'Target':'E',
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
     'constraint':[('A', 'B', 'C', 'D')]
