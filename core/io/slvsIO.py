@@ -131,9 +131,9 @@ def slvs2D(VPointList, VLinkList, fileName):
         entity_normal_xyz(0x30020, 0x30001, True)
     ])]
     #The number of same points.
-    point_num = [[] for vpoint in VPointList]
+    point_num = [[] for i in range(len(VPointList))]
     #The number of same lines.
-    line_num = [[] for edge in edges]
+    line_num = [[] for i in range(len(edges))]
     #Add "Param"
     param_num = 0x40000
     for i, edge in enumerate(edges):
@@ -270,15 +270,31 @@ Constraint_fix_hv = lambda num, p0, phv, val: '\n'.join([
     "AddConstraint"
 ])
 
-Constraint_line = lambda num, p1, p2, len: '\n'.join([
+Constraint_line = lambda num, p1, p2, leng: '\n'.join([
     "Constraint.h.v={0:08x}".format(num),
     "Constraint.type={}".format(30),
     "Constraint.group.v=00000002",
     "Constraint.workplane.v=80020000",
-    "Constraint.valA={:.20f}".format(len),
+    "Constraint.valA={:.20f}".format(leng),
     "Constraint.ptA.v={:08x}".format(p1),
     "Constraint.ptB.v={:08x}".format(p2),
     "Constraint.other=0",
+    "Constraint.other2=0",
+    "Constraint.reference=0",
+    "Constraint.disp.offset.x={:.20f}".format(10),
+    "Constraint.disp.offset.y={:.20f}".format(10),
+    "AddConstraint"
+])
+
+Constraint_angle = lambda num, l1, l2, angle: '\n'.join([
+    "Constraint.h.v={0:08x}".format(num),
+    "Constraint.type={}".format(120),
+    "Constraint.group.v=00000002",
+    "Constraint.workplane.v=80020000",
+    "Constraint.valA={:.20f}".format(angle),
+    "Constraint.ptA.v={:08x}".format(l1),
+    "Constraint.ptB.v={:08x}".format(l2),
+    "Constraint.other=1",
     "Constraint.other2=0",
     "Constraint.reference=0",
     "Constraint.disp.offset.x={:.20f}".format(10),

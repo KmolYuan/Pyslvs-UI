@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -335,8 +335,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout_8.addLayout(self.verticalLayout_2)
         self.verticalLayout_22.addLayout(self.horizontalLayout_8)
         self.verticalLayout_8.addWidget(self.inputs_record_groupBox)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_8.addItem(spacerItem4)
         icon11 = QtGui.QIcon()
         icon11.addPixmap(QtGui.QPixmap(":/icons/motor.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Panel.addTab(self.inputs_tab, icon11, "")
@@ -493,12 +491,12 @@ class Ui_MainWindow(object):
         self.windowTitle_fullpath.setObjectName("windowTitle_fullpath")
         self.verticalLayout_17.addWidget(self.windowTitle_fullpath)
         self.verticalLayout_6.addWidget(self.groupBox_3)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 619, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_6.addItem(spacerItem5)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 619, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_6.addItem(spacerItem4)
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_10.addItem(spacerItem6)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_10.addItem(spacerItem5)
         self.version_label = QtWidgets.QLabel(self.settings_tab)
         self.version_label.setText("")
         self.version_label.setObjectName("version_label")
@@ -617,8 +615,8 @@ class Ui_MainWindow(object):
         self.label_3 = QtWidgets.QLabel(self.widget)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout_5.addWidget(self.label_3)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_5.addItem(spacerItem7)
+        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem6)
         self.disconnectConsoleButton = QtWidgets.QPushButton(self.widget)
         icon18 = QtGui.QIcon()
         icon18.addPixmap(QtGui.QPixmap(":/icons/disconnect.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

@@ -53,7 +53,7 @@ class Algorithm_progress_show(QDialog, Ui_Dialog):
             except:
                 QMessageBox.warning(self, "Connect Error",
                     "The following address are not available:\n{}".format(PORT),
-                    (QMessageBox.Ok), QMessageBox.Ok
+                    QMessageBox.Ok, QMessageBox.Ok
                 )
                 self.reject()
             self.argumentText.setText("--server tcp://localhost:{}".format(PORT.split(':')[2]))

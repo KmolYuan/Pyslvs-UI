@@ -130,7 +130,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         except:
             QMessageBox.warning(self, "File error",
                 "Wrong format.\nIt should be look like this:"+"\n0.0,0.0[\\n]"*3,
-                (QMessageBox.Ok), QMessageBox.Ok
+                QMessageBox.Ok, QMessageBox.Ok
             )
     
     @pyqtSlot()
@@ -152,7 +152,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 except:
                     QMessageBox.warning(self, "File error",
                         "Wrong format.\nThe datasheet seems to including non-digital cell.",
-                        (QMessageBox.Ok), QMessageBox.Ok
+                        QMessageBox.Ok, QMessageBox.Ok
                     )
                     break
                 i += 1
@@ -250,7 +250,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
                 self.addResult(m)
             self.setTime(dlg.time_spand)
             self.unsaveFunc()
-            QMessageBox.information(self, "Dimensional Synthesis", "Your tasks is all completed.", (QMessageBox.Ok), QMessageBox.Ok)
+            QMessageBox.information(self, "Dimensional Synthesis", "Your tasks is all completed.", QMessageBox.Ok, QMessageBox.Ok)
             print("Finished.")
     
     def getGenerate(self):
