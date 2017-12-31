@@ -23,7 +23,7 @@ from ..graphics.color import colorQt
 from typing import Tuple
 
 class VPoint:
-    __slots__ = ('__links','__type', '__angle', '__color', '__x', '__y', '__c')
+    __slots__ = ('__links', '__type', '__angle', '__color', '__x', '__y', '__c')
     Jtype = ('R', 'P', 'RP')
     
     def __init__(self,
@@ -39,11 +39,10 @@ class VPoint:
     
     @property
     def links(self):
-        links = self.__links.split(',')
-        return tuple(filter(lambda a: a!='', links))
+        return self.__links
     
     def setLinks(self, links: str):
-        self.__links = links
+        self.__links = tuple(filter(lambda a: a!='', links.split(',')))
     
     @property
     def type(self) -> int:
@@ -99,13 +98,8 @@ class VPoint:
     def c(self) -> Tuple[Tuple[float, float]]:
         return self.__c
     
-    #Get the generalized chain.
-    @property
-    def joint(self):
-        return "L[{}]".format(", ".join(self.links))
-    
     def set(self, links, type, angle, color, x, y):
-        self.__links = links
+        self.__links = tuple(filter(lambda a: a!='', links.split(',')))
         self.__type = type
         self.__angle = angle
         self.__color = color
@@ -130,13 +124,17 @@ class VPoint:
     def slopeAngle(self, p):
         return round(degrees(atan2(p.y-self.y, p.x-self.x)), 4)
     
-    def __repr__(self):
+    @property
+    def expr(self):
         return "J[{}, color[{}], P[{}], L[{}]]".format(
             "{}, A[{}]".format(self.typeSTR, self.angle) if self.typeSTR!='R' else 'R',
             self.colorSTR,
             "{}, {}".format(self.x, self.y),
             ", ".join(l for l in self.links)
         )
+    
+    def __repr__(self):
+        return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)
 
 class VLink:
     __slots__ = ('__name', '__color', '__points')
@@ -178,7 +176,7 @@ class VLink:
         return point in self.points
     
     def __repr__(self):
-        return "L[{}, P[{}]]".format(self.name, ", ".join(str(p) for p in self.points))
+        return "VLink('{l.name}', {l.points})".format(l=self)
 
 #Generalization chain
 def v_to_graph(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):

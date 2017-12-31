@@ -1655,9 +1655,6 @@
    </property>
   </action>
   <action name="action_See_Python_Scripts">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../icons.qrc">
      <normaloff>:/icons/script.png</normaloff>:/icons/script.png</iconset>

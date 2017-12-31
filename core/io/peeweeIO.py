@@ -220,7 +220,7 @@ class FileWidget(QWidget, Ui_Form):
             args = {
                 'author':author_model,
                 'description':commit_text,
-                'mechanism':compress("M[{}]".format(", ".join(str(vpoint) for vpoint in pointData))),
+                'mechanism':compress("M[{}]".format(", ".join(vpoint.expr for vpoint in pointData))),
                 'linkcolor':compress(linkcolor),
                 'storage':compress(self.storageDataFunc()),
                 'pathdata':compress(self.pathData),

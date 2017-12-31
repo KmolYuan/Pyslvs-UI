@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-30, 13:28:42 -->
+<!-- Saved: 2017-12-31, 13:41:06 -->
 <!-- Copyright (C) 2017 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -41,8 +41,7 @@
     <Source>core/io/larkParser.py</Source>
     <Source>core/io/loggingHandler.py</Source>
     <Source>core/io/peeweeIO.py</Source>
-    <Source>core/io/script.py</Source>
-    <Source>core/io/scriptType.py</Source>
+    <Source>core/io/scriptIO.py</Source>
     <Source>core/io/slvsIO.py</Source>
     <Source>core/io/undoRedo.py</Source>
     <Source>core/libs/__init__.py</Source>

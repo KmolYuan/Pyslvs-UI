@@ -23,7 +23,7 @@ from .widgets.custom import initCustomWidgets
 
 #Dialog
 from .info.about import Pyslvs_About
-'''from .io.script import Script_Dialog'''
+from .io.scriptIO import Script_Dialog
 #Undo redo
 from .io.undoRedo import (
     addTableCommand, deleteTableCommand,
@@ -558,14 +558,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Output_to_Expression_triggered(self):
         data = self.Entities_Point.data()
-        expr = "M[{}]".format(", ".join(str(vpoint) for vpoint in data))
+        expr = "M[{}]".format(", ".join(vpoint.expr for vpoint in data))
         text = "You can copy the expression and import to another workbook:\n\n{}\n\nClick the save button to copy it.".format(expr)
         reply = QMessageBox.question(self, "Pyslvs Expression", text, (QMessageBox.Save | QMessageBox.Close), QMessageBox.Save)
         if reply==QMessageBox.Save:
             clipboard = QApplication.clipboard()
             clipboard.setText(expr)
     
-    #TODO: Output to Python script for Jupyter notebook.
+    #Output to Python script for Jupyter notebook.
+    @pyqtSlot()
+    def on_action_See_Python_Scripts_triggered(self):
+        self.OpenDlg(Script_Dialog(self.Entities_Point.data(), self.Entities_Link.data(), self))
     
     #Add point group using alt key.
     @pyqtSlot()
@@ -1194,7 +1197,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not name:
             name = self.mechanism_storage_name_tag.placeholderText()
         self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
-        self.addStorage(name, "M[{}]".format(", ".join(str(vpoint) for vpoint in self.Entities_Point.data())))
+        self.addStorage(name, "M[{}]".format(", ".join(vpoint.expr for vpoint in self.Entities_Point.data())))
         self.FileState.push(clearStorageNameCommand(self.mechanism_storage_name_tag))
         self.FileState.endMacro()
     

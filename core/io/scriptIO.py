@@ -17,13 +17,20 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from typing import Tuple
+from ..QtModules import *
+tr = QCoreApplication.translate
+from .Ui_script import Ui_Info_Dialog
+
+script_title = '''\
+#This script is generate by Pyslvs.
+
 from math import (
     radians,
+    sqrt,
     cos,
     sin
 )
-from ..libs.python_solvespace.slvs import (
+from slvs import (
     #System base
     System, groupNum, Slvs_MakeQuaternion,
     #Entities & Constraint
@@ -32,14 +39,41 @@ from ..libs.python_solvespace.slvs import (
     SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
 )
 
+class VPoint:
+    __slots__ = ('links', 'type', 'angle', '__c')
+    
+    def __init__(self, links, type, angle, c):
+        self.links = links
+        self.type = type
+        self.angle = angle
+        self.__c = c
+    
+    @property
+    def cx(self):
+        return self.__c[0][0]
+    
+    @property
+    def cy(self):
+        return self.__c[0][1]
+    
+    @property
+    def c(self):
+        return self.__c
+    
+    def distance(self, p):
+        return round(sqrt((self.cx-p.cx)**2 + (self.cy-p.cy)**2), 4)
+
+class VLink:
+    __slots__ = ('name', 'points')
+    
+    def __init__(self, name, points):
+        self.name = name
+        self.points = points
+
 class SlvsException(Exception):
     pass
 
-def slvsProcess(
-    Point: Tuple['VPoint'],
-    Link: Tuple['VLink'],
-    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float],]
-):
+def slvsProcess(Point, Link, constraints):
     pointCount = sum([len(vpoint.c) for vpoint in Point])
     sliderCount = sum([1 for vpoint in Point if vpoint.type==1 or vpoint.type==2])
     constraintCount = len(constraints)
@@ -140,7 +174,7 @@ def slvsProcess(
             if relateOrder==0:
                 continue
             #Connect function, and return the distance.
-            def getConnection(index: int) -> (float, Point2d):
+            def getConnection(index: int):
                 n = relate[index]
                 p = Point[n]
                 d = p.distance(vpoint)
@@ -221,3 +255,112 @@ def slvsProcess(
         elif result_flag==SLVS_RESULT_TOO_MANY_UNKNOWNS:
             error = "Too many unknowns."
         raise SlvsException(error)
+
+if __name__=="__main__":
+    Point = {}
+    Link = {}
+    """
+    constraints = (
+        (
+            "Point number": int,
+            "Base link name": str,
+            "Drive link name": str,
+            "Angle (degrees)": float
+        ),
+    )
+    """
+    constraints = ()
+    print("Coordinates: {{}}\\nDOF: {{}}".format(*slvsProcess(Point, Link, constraints)))
+'''
+
+def slvsProcessScript(VPointList, VLinkList):
+    return script_title.format(
+        [vpoint for vpoint in VPointList],
+        [vlink for vlink in VLinkList]
+    )
+
+class highlightRule:
+    def __init__(self, pattern, format):
+        self.pattern = pattern
+        self.format = format
+
+class keywordSyntax(QSyntaxHighlighter):
+    def __init__(self, parent=None):
+        super(keywordSyntax, self).__init__(parent)
+        keyword = QTextCharFormat()
+        keyword.setForeground(QBrush(Qt.darkBlue, Qt.SolidPattern))
+        keyword.setFontWeight(QFont.Bold)
+        number = QTextCharFormat()
+        number.setForeground(QBrush(QColor(0, 127, 127), Qt.SolidPattern))
+        annotation = QTextCharFormat()
+        annotation.setForeground(QBrush(QColor(61, 158, 77), Qt.SolidPattern))
+        decorator = QTextCharFormat()
+        decorator.setForeground(QBrush(QColor(158, 140, 61), Qt.SolidPattern))
+        function = QTextCharFormat()
+        function.setFontWeight(QFont.Bold)
+        function.setForeground(QBrush(QColor(10, 147, 111), Qt.SolidPattern))
+        string = QTextCharFormat()
+        string.setForeground(QBrush(QColor(127, 0, 127), Qt.SolidPattern))
+        boolean = QTextCharFormat()
+        boolean.setForeground(QBrush(QColor(64, 112, 144), Qt.SolidPattern))
+        self.highlightingRules = [
+            highlightRule(QRegExp(r'\b[+-]?[0-9]+[lL]?\b'), number),
+            highlightRule(QRegExp(r'\b[+-]?0[xX][0-9A-Fa-f]+[lL]?\b'), number),
+            highlightRule(QRegExp(r'\b[+-]?[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\b'), number),
+            highlightRule(QRegExp(r'\bdef\b\s*(\w+)'), function),
+            highlightRule(QRegExp(r'\bclass\b\s*(\w+)'), function)
+        ]
+        self.highlightingRules += [
+            highlightRule(QRegExp("\\b"+key+"\\b"), keyword) for key in
+            ['print', 'pass', 'def', 'class', 'from', 'is', 'as', 'import', 'for', 'in', 'if', 'else', 'elif', 'raise']
+        ]
+        self.highlightingRules += [highlightRule(QRegExp("\\b"+key+"\\b"), boolean) for key in ['self', 'True', 'False']]
+        self.highlightingRules += [
+            highlightRule(QRegExp("'''"), string),
+            highlightRule(QRegExp('"""'), string),
+            highlightRule(QRegExp(r'"[^"\\]*(\\.[^"\\]*)*"'), string),
+            highlightRule(QRegExp(r"'[^'\\]*(\\.[^'\\]*)*'"), string),
+            highlightRule(QRegExp(r'@[^(\n|\()]*'), decorator),
+            highlightRule(QRegExp(r'#[^\n]*'), annotation)
+        ]
+    
+    def highlightBlock(self, text):
+        for rule in self.highlightingRules:
+            expression = QRegExp(rule.pattern)
+            index = expression.indexIn(text)
+            while index>=0:
+              length = expression.matchedLength()
+              self.setFormat(index, length, rule.format)
+              index = text.find(expression.pattern(), index+length)
+        self.setCurrentBlockState(0)
+
+class highlightTextEdit(QTextEdit):
+    def __init__(self, parent=None):
+        super(highlightTextEdit, self).__init__(parent)
+        self.setWordWrapMode(QTextOption.NoWrap)
+        self.setStyleSheet("font: 10pt \"Bitstream Vera Sans Mono\";")
+        keywordSyntax(self)
+    
+class Script_Dialog(QDialog, Ui_Info_Dialog):
+    def __init__(self, Point, Line, parent):
+        super(Script_Dialog, self).__init__(parent)
+        self.setupUi(self)
+        self.outputTo = parent.outputTo
+        self.saveReplyBox = parent.saveReplyBox
+        self.script = highlightTextEdit()
+        self.verticalLayout.insertWidget(1, self.script)
+        self.script.setPlainText(slvsProcessScript(Point, Line))
+    
+    @pyqtSlot()
+    def on_copy_clicked(self):
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.script.toPlainText())
+        self.copy.setText(tr("Info_Dialog", "Copied!"))
+    
+    @pyqtSlot()
+    def on_save_clicked(self):
+        fileName = self.outputTo("Python script", ["Python3 Script(*.py)"])
+        if fileName:
+            with open(fileName, 'w', newline="") as f:
+                f.write(self.script.toPlainText())
+            self.saveReplyBox("Python script", fileName)
