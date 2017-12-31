@@ -18,11 +18,11 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-tr = QCoreApplication.translate
+from ..info.info import VERSION
 from .Ui_script import Ui_Info_Dialog
 
 script_title = '''\
-#This script is generate by Pyslvs.
+#This script is generate by Pyslvs {}.
 
 from math import (
     radians,
@@ -275,6 +275,7 @@ if __name__=="__main__":
 
 def slvsProcessScript(VPointList, VLinkList):
     return script_title.format(
+        "v{}.{}.{} ({})".format(*VERSION),
         [vpoint for vpoint in VPointList],
         [vlink for vlink in VLinkList]
     )
@@ -355,7 +356,7 @@ class Script_Dialog(QDialog, Ui_Info_Dialog):
     def on_copy_clicked(self):
         clipboard = QApplication.clipboard()
         clipboard.setText(self.script.toPlainText())
-        self.copy.setText(tr("Info_Dialog", "Copied!"))
+        self.copy.setText("Copied!")
     
     @pyqtSlot()
     def on_save_clicked(self):
