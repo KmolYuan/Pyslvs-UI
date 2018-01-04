@@ -107,7 +107,7 @@ def graph(
     painter.setPen(pen)
     if node_mode:
         for l1, l2 in G.edges:
-            painter.drawLine(QPointF(*pos[l1]), QPointF(*pos[l2]))
+            painter.drawLine(QPointF(pos[l1][0], -pos[l1][1]), QPointF(pos[l2][0], -pos[l2][1]))
     else:
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         for l in G.nodes:

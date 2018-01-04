@@ -1,8 +1,4 @@
 # -*- coding: utf-8 -*-
-# cython: boundscheck=False
-# cython: cdivision=True
-# cython: wraparound=False
-
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
 ##Copyright (C) 2016-2017 Yuan Chang
 ##E-mail: pyslvs@gmail.com
@@ -21,13 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from networkx import (
-    Graph,
-    compose,
-    triangles,
-    is_connected,
-    is_isomorphic
-)
+import networkx as nx
 from itertools import (
     combinations,
     product
@@ -36,13 +26,88 @@ import numpy as np
 cimport numpy as np
 from cpython cimport bool
 
+cdef object Count(object adj, object edges):
+    cdef object tmp_adj = []
+    cdef int l1, l2
+    for l1, l2 in edges:
+        tmp_adj.append(sorted((len(adj[l1]), len(adj[l2]))))
+    return sorted(tmp_adj)
+
+cdef class Graph(object):
+    cdef public object edges
+    cdef public object nodes
+    
+    def __cinit__(self, object edges):
+        self.edges = tuple(edges)
+        cdef object nodes = []
+        for p1, p2 in self.edges:
+            if p1 not in nodes:
+                nodes.append(p1)
+            if p2 not in nodes:
+                nodes.append(p2)
+        self.nodes = tuple(nodes)
+    
+    cpdef object neighbors(self, int n):
+        cdef object neighbors = []
+        for l1, l2 in self.edges:
+            if n==l1:
+                neighbors.append(l2)
+            if n==l2:
+                neighbors.append(l1)
+        return tuple(neighbors)
+    
+    cpdef object adj(self):
+        cdef object adj = {}
+        cdef object neighbors = []
+        cdef int n
+        for n in self.nodes:
+            adj[n] = self.neighbors(n)
+        return adj
+    
+    cpdef bool has_triangles(self):
+        cdef object adj = self.adj()
+        cdef int i, n1, n2
+        cdef object neighbors1, neighbors2
+        for neighbors1 in adj.values():
+            for n1, n2 in combinations(neighbors1, 2):
+                for n, neighbors2 in adj.items():
+                    if n1==n and (n2 in neighbors2):
+                        return True
+                    if n2==n and (n1 in neighbors2):
+                        return True
+        return False
+    
+    cpdef bool is_connected(self):
+        cdef object adj = self.adj()
+        cdef int index = 0
+        cdef object nodes = [self.nodes[index]]
+        while index < len(nodes):
+            for neighbor in adj[nodes[index]]:
+                if neighbor not in nodes:
+                    nodes.append(neighbor)
+            index += 1
+        return len(nodes)==len(self.nodes)
+    
+    cpdef bool is_isomorphic(self, object G):
+        cdef object self_count = Count(self.adj(), self.edges)
+        cdef object G_count = Count(G.adj(), G.edges)
+        return self_count==G_count
+
+cdef object compose(object G, object H):
+    cdef object tmp_edges = list(G.edges)
+    for l1, l2 in H.edges:
+        if ((l1, l2) in tmp_edges) or ((l2, l1) in tmp_edges):
+            continue
+        tmp_edges.append((l1, l2))
+    return Graph(tmp_edges)
+
 cpdef bool testG(object G, object answer):
-    if not is_connected(G):
+    if not G.is_connected():
         #is not connected
         return True
     cdef object G_
     for G_ in answer:
-        if is_isomorphic(G, G_):
+        if G.is_isomorphic(G_):
             #is isomorphic
             return True
     return False
@@ -87,14 +152,11 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
             G = compose(G, H)
             error = False
             for n in G.nodes:
-                if len(list(G.neighbors(n)))>links[n]:
+                if len(G.neighbors(n))>links[n]:
                     error = True
                     break
-            if degenerate:
-                for n in triangles(G).values():
-                    if n!=0:
-                        error = True
-                        break
+            if degenerate and G.has_triangles():
+                continue
             if error:
                 continue
             match_.append(G)
@@ -110,4 +172,4 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
         if testG(G, answer):
             continue
         answer.append(G)
-    return answer
+    return [nx.Graph(G.edges) for G in answer]
