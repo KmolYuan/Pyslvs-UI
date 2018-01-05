@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2017-12-31, 13:41:06 -->
-<!-- Copyright (C) 2017 KmolYuan, pyslvs@gmail.com -->
+<!-- Saved: 2018-01-05, 14:58:49 -->
+<!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
   <Hash>6025882eb6939472903477af24befdd6ddef8a93</Hash>
@@ -120,6 +120,7 @@
   <Others>
     <Other>Makefile</Other>
     <Other>README.md</Other>
+    <Other>appimage_recipe.sh</Other>
     <Other>core/libs/pyslvs_algorithm/Makefile</Other>
     <Other>core/libs/pyslvs_topologic/Makefile</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>

@@ -32,23 +32,18 @@ cdef class Graph(object):
     cdef public object adj
     
     def __cinit__(self, object edges):
+        #edges
         self.edges = tuple(edges)
+        #nodes
         cdef object nodes = []
         for p1, p2 in self.edges:
             if p1 not in nodes:
                 nodes.append(p1)
-            elif p2 not in nodes:
+            if p2 not in nodes:
                 nodes.append(p2)
         self.nodes = tuple(nodes)
-        self.adj = self.setAdj()
-    
-    cdef object setAdj(self):
-        cdef object adj = {}
-        cdef object neighbors = []
-        cdef int n
-        for n in self.nodes:
-            adj[n] = self.neighbors(n)
-        return adj
+        #adj
+        self.adj = {n:self.neighbors(n) for n in self.nodes}
     
     cdef object count(self, object adj, object edges):
         cdef object tmp_adj = []
@@ -59,6 +54,7 @@ cdef class Graph(object):
     
     cpdef object neighbors(self, int n):
         cdef object neighbors = []
+        cdef int l1, l2
         for l1, l2 in self.edges:
             if n==l1:
                 neighbors.append(l2)
@@ -93,6 +89,7 @@ cdef class Graph(object):
 
 cdef object compose(object G, object H):
     cdef object tmp_edges = list(G.edges)
+    cdef int l1, l2
     for l1, l2 in H.edges:
         if ((l1, l2) in tmp_edges) or ((l2, l1) in tmp_edges):
             continue
@@ -142,6 +139,9 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
     cdef bool error
     for link, count in enumerate(links):
         match = [Graph(m) for m in combinations(connection_get(link, connection), count)]
+        if not edges_combinations:
+            edges_combinations = match
+            continue
         match_ = []
         prod = list(product(edges_combinations, match))
         setjobFunc("Match link #{} / {}".format(link, len(links)-1), len(prod))
@@ -159,10 +159,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
             if degenerate and G.has_triangles():
                 continue
             match_.append(G)
-        if not edges_combinations:
-            edges_combinations = match
-        else:
-            edges_combinations = match_
+        edges_combinations = match_
     setjobFunc("Verify the graphs...", len(edges_combinations))
     cdef object answer = []
     for G in edges_combinations:
