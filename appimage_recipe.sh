@@ -7,7 +7,6 @@
 # Create the AppDir
 ########################################################################
 
-ARCH=x86_64
 APP=pyslvs
 LOWERAPP=${APP,,}
 
@@ -24,7 +23,7 @@ virtualenv --no-site-packages --python=python3 usr
 source usr/bin/activate
 
 # Source some helper functions
-wget -q https://github.com/probonopd/AppImages/raw/master/functions.sh -O ./functions.sh
+wget -q https://raw.githubusercontent.com/AppImage/AppImages/87a312129c0db40285612727adffad2a4dcc0647/functions.sh -O ./functions.sh
 . ./functions.sh
 
 mkdir -p usr/bin/
