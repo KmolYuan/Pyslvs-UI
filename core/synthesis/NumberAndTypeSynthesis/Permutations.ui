@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>609</height>
+    <width>413</width>
+    <height>620</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -306,6 +306,32 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QPushButton" name="save_atlas">
+           <property name="text">
+            <string>Save atlas</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="save_edges">
+           <property name="text">
+            <string>Save edges</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

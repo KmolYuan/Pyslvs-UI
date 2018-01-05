@@ -471,6 +471,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if fileName:
             self.FileWidget.save(fileName, isBranch)
+            self.saveReplyBox("Workbook", fileName)
     
     @pyqtSlot()
     def on_action_Save_branch_triggered(self):
@@ -495,13 +496,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Picture save function.
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
-        fileName = self.outputTo("picture", ["Portable Network Graphics (*.png)", "Joint Photographic Experts Group (*.jpg)", "Bitmap Image file (*.bmp)",
-            "Business Process Model (*.bpm)", "Tagged Image File Format (*.tiff)", "Windows Icon (*.ico)", "Wireless Application Protocol Bitmap (*.wbmp)",
-            "X BitMap (*.xbm)", "X Pixmap (*.xpm)"])
+        fileName = self.outputTo("picture", [
+            "Portable Network Graphics (*.png)",
+            "Joint Photographic Experts Group (*.jpg)",
+            "Bitmap Image file (*.bmp)",
+            "Business Process Model (*.bpm)",
+            "Tagged Image File Format (*.tiff)",
+            "Windows Icon (*.ico)",
+            "Wireless Application Protocol Bitmap (*.wbmp)",
+            "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
+        ])
         if fileName:
             pixmap = self.DynamicCanvasView.grab()
-            pixmap.save(fileName, format = QFileInfo(fileName).suffix())
-            self.saveReplyBox('Picture', fileName)
+            pixmap.save(fileName, format=QFileInfo(fileName).suffix())
+            self.saveReplyBox("Picture", fileName)
     
     #Simple to support mutiple format.
     def outputTo(self, formatName, formatChoose):
@@ -520,7 +528,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Show message when successfully saved.
     def saveReplyBox(self, title, fileName):
-        print("Size: {} KB".format(round(QFileInfo(fileName).size()/1024, 2)))
+        size = QFileInfo(fileName).size()
+        print("Size: {}".format("{} MB".format(round(size/1024/1024, 2)) if size/1024//1024 else "{} KB".format(round(size/1024, 2))))
         QMessageBox.information(self, title, "Successfully converted:\n{}".format(fileName), QMessageBox.Ok, QMessageBox.Ok)
         print("Successful saved: [\"{}\"]".format(fileName))
     

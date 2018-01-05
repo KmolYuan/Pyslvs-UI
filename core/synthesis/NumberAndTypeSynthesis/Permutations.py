@@ -32,6 +32,8 @@ class Permutations_show(QWidget, Ui_Form):
     def __init__(self, parent):
         super(Permutations_show, self).__init__(parent)
         self.setupUi(self)
+        self.outputTo = parent.outputTo
+        self.saveReplyBox = parent.saveReplyBox
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
         self.answer = []
@@ -212,10 +214,11 @@ class Permutations_show(QWidget, Ui_Form):
                 image2 = QImage(image1.size(), image1.format())
                 image2.fill(QColor(Qt.white).rgb())
                 painter = QPainter(image2)
-                painter.drawImage(0, 0, image1)
-                p = QPixmap()
-                p.convertFromImage(image2)
-                clipboard.setPixmap(p)
+                painter.drawImage(QPointF(0, 0), image1)
+                painter.end()
+                pixmap = QPixmap()
+                pixmap.convertFromImage(image2)
+                clipboard.setPixmap(pixmap)
     
     @pyqtSlot()
     def on_Expression_copy_clicked(self):
@@ -230,3 +233,43 @@ class Permutations_show(QWidget, Ui_Form):
         string = self.Expression_edges.text()
         if string:
             self.addCollection(eval(string))
+    
+    @pyqtSlot()
+    def on_save_atlas_clicked(self):
+        count = self.Topologic_result.count()
+        if count:
+            fileName = self.outputTo("Atlas image", [
+                "Portable Network Graphics (*.png)",
+                "Joint Photographic Experts Group (*.jpg)",
+                "Bitmap Image file (*.bmp)",
+                "Business Process Model (*.bpm)",
+                "Tagged Image File Format (*.tiff)",
+                "Windows Icon (*.ico)",
+                "Wireless Application Protocol Bitmap (*.wbmp)",
+                "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
+            ])
+            if fileName:
+                icon_size = self.Topologic_result.iconSize()
+                width = icon_size.width()
+                image1 = self.Topologic_result.item(0).icon().pixmap(icon_size).toImage()
+                image_main = QImage(QSize(5 * width if count>5 else count * width, ((count // 5) + bool(count % 5)) * width), image1.format())
+                image_main.fill(QColor(Qt.white).rgb())
+                painter = QPainter(image_main)
+                for row in range(count):
+                    image = self.Topologic_result.item(row).icon().pixmap(icon_size).toImage()
+                    painter.drawImage(QPointF(row % 5 * width, row // 5 * width), image)
+                painter.end()
+                pixmap = QPixmap()
+                pixmap.convertFromImage(image_main)
+                pixmap.save(fileName, format=QFileInfo(fileName).suffix())
+                self.saveReplyBox("Atlas", fileName)
+    
+    @pyqtSlot()
+    def on_save_edges_clicked(self):
+        count = self.Topologic_result.count()
+        if count:
+            fileName = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
+            if fileName:
+                with open(fileName, 'w') as f:
+                    f.write('\n'.join(str(G.edges) for G in self.answer))
+                self.saveReplyBox("edges expression", fileName)

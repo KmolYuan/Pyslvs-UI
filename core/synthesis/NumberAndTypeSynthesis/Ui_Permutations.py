@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(404, 609)
+        Form.resize(413, 620)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -158,6 +158,21 @@ class Ui_Form(object):
         self.Topologic_result.setUniformItemSizes(True)
         self.Topologic_result.setObjectName("Topologic_result")
         self.verticalLayout_3.addWidget(self.Topologic_result)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.save_atlas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap(":/icons/picture.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.save_atlas.setIcon(icon4)
+        self.save_atlas.setObjectName("save_atlas")
+        self.horizontalLayout_6.addWidget(self.save_atlas)
+        self.save_edges = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/icons/properties.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.save_edges.setIcon(icon5)
+        self.save_edges.setObjectName("save_edges")
+        self.horizontalLayout_6.addWidget(self.save_edges)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_6)
         self.verticalLayout_5.addWidget(self.splitter)
 
         self.retranslateUi(Form)
@@ -181,6 +196,8 @@ class Ui_Form(object):
         self.graph_degenerate.setText(_translate("Form", "Degenerate chain"))
         self.Combine_type_all.setText(_translate("Form", "Find all"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
+        self.save_atlas.setText(_translate("Form", "Save atlas"))
+        self.save_edges.setText(_translate("Form", "Save edges"))
 
 import icons_rc
 
