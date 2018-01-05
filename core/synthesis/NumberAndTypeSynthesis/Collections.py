@@ -22,7 +22,10 @@ from networkx import (
     Graph,
     is_isomorphic
 )
-from .topologic import testT, TestError
+from .topologic import (
+    testT,
+    TestError
+)
 from .graph import (
     graph,
     engine_picker,

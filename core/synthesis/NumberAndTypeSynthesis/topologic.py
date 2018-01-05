@@ -17,24 +17,21 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ...libs.pyslvs_topologic.topologic import topo
+from ...libs.pyslvs_topologic.topologic import topo as lib_topo
 from networkx import (
-    triangles,
-    is_connected,
-    is_isomorphic
+    Graph,
+    triangles
 )
 
 class TestError(Exception):
     pass
 
+def topo(*Args):
+    answer = lib_topo(*Args)
+    if answer:
+        return [Graph(G.edges) for G in answer]
+
 def testT(G, degenerate):
     if degenerate:
         if not all(n==0 for n in triangles(G).values()):
             raise TestError("has triangle")
-
-def testG(G, answer):
-    if not is_connected(G):
-        raise TestError("is not connected")
-    for G_ in answer:
-        if is_isomorphic(G, G_):
-            raise TestError("is isomorphic")

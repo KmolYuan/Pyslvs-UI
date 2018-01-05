@@ -115,33 +115,55 @@ class Permutations_show(QWidget, Ui_Form):
                 self.Expression_number.addItem(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))))
         self.Expression_number.setCurrentRow(0)
     
+    #Combine and show progress dialog.
+    def combineType(self, row):
+        text = self.Expression_number.item(row).text()
+        progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
+        progdlg.setWindowTitle("Type synthesis - ({})".format(text))
+        progdlg.resize(500, progdlg.height())
+        progdlg.setModal(True)
+        progdlg.show()
+        #Call in every loop.
+        def stopFunc():
+            QCoreApplication.processEvents()
+            progdlg.setValue(progdlg.value()+1)
+            return progdlg.wasCanceled()
+        def setjobFunc(job, maximum):
+            progdlg.setLabelText(job)
+            progdlg.setValue(0)
+            progdlg.setMaximum(maximum+1)
+        answer = topo(
+            [int(t.split(" = ")[1]) for t in text.split(", ")],
+            not self.graph_degenerate.isChecked(),
+            setjobFunc,
+            stopFunc
+        )
+        progdlg.setValue(progdlg.maximum())
+        return answer
+    
     @pyqtSlot()
     def on_Combine_type_clicked(self):
-        r = self.Expression_number.currentItem()
-        if r and r.text()!="incorrect mechanism.":
-            progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
-            progdlg.setWindowTitle("Type synthesis")
-            progdlg.resize(400, progdlg.height())
-            progdlg.setModal(True)
-            progdlg.show()
-            #Call in every loop.
-            def stopFunc():
-                QCoreApplication.processEvents()
-                progdlg.setValue(progdlg.value()+1)
-                return progdlg.wasCanceled()
-            def setjobFunc(job, maximum):
-                progdlg.setLabelText(job)
-                progdlg.setValue(0)
-                progdlg.setMaximum(maximum+1)
-            answer = topo(
-                [int(t.split(" = ")[1]) for t in r.text().split(", ")],
-                not self.graph_degenerate.isChecked(),
-                setjobFunc,
-                stopFunc
-            )
-            progdlg.setValue(progdlg.maximum())
+        row = self.Expression_number.currentRow()
+        if row>-1:
+            answer = self.combineType(row)
             if answer:
                 self.answer = answer
+                self.on_reload_atlas_clicked()
+    
+    @pyqtSlot()
+    def on_Combine_type_all_clicked(self):
+        answers = []
+        for row in range(self.Expression_number.count()):
+            answer = self.combineType(row)
+            if answer:
+                answers += answer
+            else:
+                break
+        if answers:
+            reply = QMessageBox.question(self, "Type synthesis - abort", "Do you want to keep the results?",
+                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if reply:
+                self.answer = answers
                 self.on_reload_atlas_clicked()
     
     @pyqtSlot()

@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(421, 609)
+        Form.resize(404, 609)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -137,10 +137,18 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.graph_degenerate)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        self.Combine_type_all = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        self.Combine_type_all.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.Combine_type_all.setAutoDefault(True)
+        self.Combine_type_all.setObjectName("Combine_type_all")
+        self.horizontalLayout_5.addWidget(self.Combine_type_all)
         self.Combine_type = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         self.Combine_type.setAutoDefault(True)
         self.Combine_type.setObjectName("Combine_type")
-        self.verticalLayout_3.addWidget(self.Combine_type)
+        self.horizontalLayout_5.addWidget(self.Combine_type)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_5)
         self.Topologic_result = QtWidgets.QListWidget(self.verticalLayoutWidget_2)
         self.Topologic_result.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.Topologic_result.setIconSize(QtCore.QSize(200, 200))
@@ -171,6 +179,7 @@ class Ui_Form(object):
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
         self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
         self.graph_degenerate.setText(_translate("Form", "Degenerate chain"))
+        self.Combine_type_all.setText(_translate("Form", "Find all"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
 
 import icons_rc
