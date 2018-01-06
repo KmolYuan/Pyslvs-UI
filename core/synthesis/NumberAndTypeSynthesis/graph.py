@@ -102,7 +102,7 @@ def graph(
     painter = QPainter(image)
     painter.translate(image.width()/2, image.height()/2)
     pen = QPen()
-    r = width_ / 34
+    r = width_ / 50
     pen.setWidth(r)
     painter.setPen(pen)
     if node_mode:
