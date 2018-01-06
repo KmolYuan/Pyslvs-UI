@@ -146,24 +146,33 @@ class Permutations_show(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Combine_type_clicked(self):
         row = self.Expression_number.currentRow()
-        if row>-1:
-            answer = self.combineType(row)
-            if answer:
-                self.answer = answer
-                self.on_reload_atlas_clicked()
+        if not row>-1:
+            self.on_Combine_number_clicked()
+            row = self.Expression_number.currentRow()
+        answer = self.combineType(row)
+        if answer:
+            self.answer = answer
+            self.on_reload_atlas_clicked()
     
     @pyqtSlot()
     def on_Combine_type_all_clicked(self):
+        if not self.Expression_number.currentRow()>-1:
+            self.on_Combine_number_clicked()
         answers = []
+        break_point = False
         for row in range(self.Expression_number.count()):
             answer = self.combineType(row)
             if answer:
                 answers += answer
             else:
+                break_point = True
                 break
         if answers:
-            reply = QMessageBox.question(self, "Type synthesis - abort", "Do you want to keep the results?",
-                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if break_point:
+                reply = QMessageBox.question(self, "Type synthesis - abort", "Do you want to keep the results?",
+                    (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            else:
+                reply = True
             if reply:
                 self.answer = answers
                 self.on_reload_atlas_clicked()
@@ -236,39 +245,81 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_save_atlas_clicked(self):
+        fileName = ""
+        lateral = 0
+        if self.save_edges_auto.isChecked():
+            lateral, ok = QInputDialog.getInt(self, "Atlas", "The number of lateral:", 5, 1, 10)
+            if ok:
+                fileName = self.outputTo("Atlas image", [
+                    "Portable Network Graphics (*.png)",
+                    "Joint Photographic Experts Group (*.jpg)",
+                    "Bitmap Image file (*.bmp)",
+                    "Business Process Model (*.bpm)",
+                    "Tagged Image File Format (*.tiff)",
+                    "Windows Icon (*.ico)",
+                    "Wireless Application Protocol Bitmap (*.wbmp)",
+                    "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
+                ])
+                if fileName:
+                    reply = QMessageBox.question(self, "Type synthesis", "Do you want to Re-synthesis?",
+                        (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel), QMessageBox.YesToAll)
+                    if reply==QMessageBox.Yes:
+                        self.on_Combine_type_clicked()
+                    elif reply==QMessageBox.YesToAll:
+                        self.on_Combine_type_all_clicked()
         count = self.Topologic_result.count()
         if count:
-            fileName = self.outputTo("Atlas image", [
-                "Portable Network Graphics (*.png)",
-                "Joint Photographic Experts Group (*.jpg)",
-                "Bitmap Image file (*.bmp)",
-                "Business Process Model (*.bpm)",
-                "Tagged Image File Format (*.tiff)",
-                "Windows Icon (*.ico)",
-                "Wireless Application Protocol Bitmap (*.wbmp)",
-                "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
-            ])
-            if fileName:
-                icon_size = self.Topologic_result.iconSize()
-                width = icon_size.width()
-                image1 = self.Topologic_result.item(0).icon().pixmap(icon_size).toImage()
-                image_main = QImage(QSize(5 * width if count>5 else count * width, ((count // 5) + bool(count % 5)) * width), image1.format())
-                image_main.fill(QColor(Qt.white).rgb())
-                painter = QPainter(image_main)
-                for row in range(count):
-                    image = self.Topologic_result.item(row).icon().pixmap(icon_size).toImage()
-                    painter.drawImage(QPointF(row % 5 * width, row // 5 * width), image)
-                painter.end()
-                pixmap = QPixmap()
-                pixmap.convertFromImage(image_main)
-                pixmap.save(fileName, format=QFileInfo(fileName).suffix())
-                self.saveReplyBox("Atlas", fileName)
+            if not lateral:
+                lateral, ok = QInputDialog.getInt(self, "Atlas", "The number of lateral:", 5, 1, 10)
+            if ok:
+                if not fileName:
+                    fileName = self.outputTo("Atlas image", [
+                        "Portable Network Graphics (*.png)",
+                        "Joint Photographic Experts Group (*.jpg)",
+                        "Bitmap Image file (*.bmp)",
+                        "Business Process Model (*.bpm)",
+                        "Tagged Image File Format (*.tiff)",
+                        "Windows Icon (*.ico)",
+                        "Wireless Application Protocol Bitmap (*.wbmp)",
+                        "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
+                    ])
+                if fileName:
+                    icon_size = self.Topologic_result.iconSize()
+                    width = icon_size.width()
+                    image_main = QImage(
+                        QSize(
+                            lateral * width if count>lateral else count * width,
+                            ((count // lateral) + bool(count % lateral)) * width
+                        ),
+                        self.Topologic_result.item(0).icon().pixmap(icon_size).toImage().format()
+                    )
+                    image_main.fill(QColor(Qt.white).rgb())
+                    painter = QPainter(image_main)
+                    for row in range(count):
+                        image = self.Topologic_result.item(row).icon().pixmap(icon_size).toImage()
+                        painter.drawImage(QPointF(row % lateral * width, row // lateral * width), image)
+                    painter.end()
+                    pixmap = QPixmap()
+                    pixmap.convertFromImage(image_main)
+                    pixmap.save(fileName, format=QFileInfo(fileName).suffix())
+                    self.saveReplyBox("Atlas", fileName)
     
     @pyqtSlot()
     def on_save_edges_clicked(self):
+        fileName = ""
+        if self.save_edges_auto.isChecked():
+            fileName = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
+            if fileName:
+                reply = QMessageBox.question(self, "Type synthesis", "Do you want to Re-synthesis?",
+                    (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel), QMessageBox.YesToAll)
+                if reply==QMessageBox.Yes:
+                    self.on_Combine_type_clicked()
+                elif reply==QMessageBox.YesToAll:
+                    self.on_Combine_type_all_clicked()
         count = self.Topologic_result.count()
         if count:
-            fileName = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
+            if not fileName:
+                fileName = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
             if fileName:
                 with open(fileName, 'w') as f:
                     f.write('\n'.join(str(G.edges) for G in self.answer))

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
-    <height>620</height>
+    <width>411</width>
+    <height>628</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -309,6 +309,19 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QCheckBox" name="save_edges_auto">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Re-synthesis</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QPushButton" name="save_atlas">
            <property name="text">

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(413, 620)
+        Form.resize(411, 628)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -160,6 +160,14 @@ class Ui_Form(object):
         self.verticalLayout_3.addWidget(self.Topologic_result)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.save_edges_auto = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.save_edges_auto.sizePolicy().hasHeightForWidth())
+        self.save_edges_auto.setSizePolicy(sizePolicy)
+        self.save_edges_auto.setObjectName("save_edges_auto")
+        self.horizontalLayout_6.addWidget(self.save_edges_auto)
         self.save_atlas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icons/picture.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -196,6 +204,7 @@ class Ui_Form(object):
         self.graph_degenerate.setText(_translate("Form", "Degenerate chain"))
         self.Combine_type_all.setText(_translate("Form", "Find all"))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
+        self.save_edges_auto.setText(_translate("Form", "Re-synthesis"))
         self.save_atlas.setText(_translate("Form", "Save atlas"))
         self.save_edges.setText(_translate("Form", "Save edges"))
 
