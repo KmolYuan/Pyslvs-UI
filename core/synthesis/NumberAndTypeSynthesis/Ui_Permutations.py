@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(411, 628)
+        Form.resize(428, 628)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -158,16 +158,16 @@ class Ui_Form(object):
         self.Topologic_result.setUniformItemSizes(True)
         self.Topologic_result.setObjectName("Topologic_result")
         self.verticalLayout_3.addWidget(self.Topologic_result)
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem2)
+        self.save_edges_auto = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
+        self.save_edges_auto.setObjectName("save_edges_auto")
+        self.horizontalLayout_7.addWidget(self.save_edges_auto)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
-        self.save_edges_auto = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.save_edges_auto.sizePolicy().hasHeightForWidth())
-        self.save_edges_auto.setSizePolicy(sizePolicy)
-        self.save_edges_auto.setObjectName("save_edges_auto")
-        self.horizontalLayout_6.addWidget(self.save_edges_auto)
         self.save_atlas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icons/picture.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -180,6 +180,10 @@ class Ui_Form(object):
         self.save_edges.setIcon(icon5)
         self.save_edges.setObjectName("save_edges")
         self.horizontalLayout_6.addWidget(self.save_edges)
+        self.Edges_to_altas = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
+        self.Edges_to_altas.setIcon(icon4)
+        self.Edges_to_altas.setObjectName("Edges_to_altas")
+        self.horizontalLayout_6.addWidget(self.Edges_to_altas)
         self.verticalLayout_3.addLayout(self.horizontalLayout_6)
         self.verticalLayout_5.addWidget(self.splitter)
 
@@ -207,6 +211,7 @@ class Ui_Form(object):
         self.save_edges_auto.setText(_translate("Form", "Re-synthesis"))
         self.save_atlas.setText(_translate("Form", "Save atlas"))
         self.save_edges.setText(_translate("Form", "Save edges"))
+        self.Edges_to_altas.setText(_translate("Form", "Edges to atlas"))
 
 import icons_rc
 

@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+from networkx import Graph
 from ...io.elements import v_to_graph
 from .number import NumberSynthesis
 from .topologic import topo
@@ -34,6 +35,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.setupUi(self)
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
+        self.env = lambda: parent.env
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
         self.answer = []
@@ -180,6 +182,7 @@ class Permutations_show(QWidget, Ui_Form):
     @pyqtSlot()
     @pyqtSlot(str)
     def on_reload_atlas_clicked(self, p0=None):
+        self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()
         if self.answer:
             progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
@@ -187,22 +190,27 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)
             progdlg.show()
-            engine = self.graph_engine.currentText().split(" - ")[1]
             for i, G in enumerate(self.answer):
                 QCoreApplication.processEvents()
                 if progdlg.wasCanceled():
                     return
-                item = QListWidgetItem("No. {}".format(i+1))
-                try:
-                    item.setIcon(graph(G, self.Topologic_result.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
-                except EngineError as e:
-                    progdlg.setValue(progdlg.maximum())
-                    QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working", QMessageBox.Ok, QMessageBox.Ok)
-                    break
-                else:
-                    item.setToolTip(str(G.edges))
-                    self.Topologic_result.addItem(item)
+                if self.drawAtlas(i, G):
                     progdlg.setValue(i+1)
+                else:
+                    break
+            progdlg.setValue(progdlg.maximum())
+    
+    def drawAtlas(self, i, G) -> bool:
+        item = QListWidgetItem("No. {}".format(i+1))
+        try:
+            item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.engine, self.graph_link_as_node.isChecked()))
+        except EngineError as e:
+            QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working.", QMessageBox.Ok, QMessageBox.Ok)
+            return False
+        else:
+            item.setToolTip(str(G.edges))
+            self.Topologic_result.addItem(item)
+            return True
     
     @pyqtSlot(QPoint)
     def Topologic_result_context_menu(self, point):
@@ -324,3 +332,24 @@ class Permutations_show(QWidget, Ui_Form):
                 with open(fileName, 'w') as f:
                     f.write('\n'.join(str(G.edges) for G in self.answer))
                 self.saveReplyBox("edges expression", fileName)
+    
+    @pyqtSlot()
+    def on_Edges_to_altas_clicked(self):
+        fileNames, _ = QFileDialog.getOpenFileNames(self, "Open file...", self.env(), "Text File (*.txt)")
+        if fileNames:
+            read_data = []
+            for fileName in fileNames:
+                with open(fileName, 'r') as f:
+                    read_data += f.read().split('\n')
+            try:
+                answer = [Graph(eval(edges)) for edges in read_data]
+            except:
+                QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
+                return
+            if answer:
+                self.answer = answer
+                self.on_reload_atlas_clicked()
+                check_status = self.save_edges_auto.isChecked()
+                self.save_edges_auto.setChecked(False)
+                self.on_save_atlas_clicked()
+                self.save_edges_auto.setChecked(check_status)
