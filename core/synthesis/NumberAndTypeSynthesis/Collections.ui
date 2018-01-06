@@ -29,6 +29,9 @@
      </item>
      <item>
       <widget class="QComboBox" name="graph_engine">
+       <property name="statusTip">
+        <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
+       </property>
        <property name="currentIndex">
         <number>-1</number>
        </property>
@@ -36,6 +39,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="reload_atlas">
+       <property name="toolTip">
+        <string>Add to collection.</string>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -60,6 +66,9 @@
      </item>
      <item>
       <widget class="QCheckBox" name="graph_link_as_node">
+       <property name="statusTip">
+        <string>Show the edges as nodes.</string>
+       </property>
        <property name="text">
         <string>Linkage as node</string>
        </property>
@@ -69,6 +78,9 @@
    </item>
    <item>
     <widget class="QPushButton" name="add_by_edges_button">
+     <property name="statusTip">
+      <string>Add the chain by edge expression.</string>
+     </property>
      <property name="text">
       <string>Add by edges</string>
      </property>
@@ -243,6 +255,9 @@
               <property name="enabled">
                <bool>false</bool>
               </property>
+              <property name="statusTip">
+               <string>Delete this chain.</string>
+              </property>
               <property name="text">
                <string>Delete</string>
               </property>
@@ -256,6 +271,9 @@
              <widget class="QPushButton" name="grounded_button">
               <property name="enabled">
                <bool>false</bool>
+              </property>
+              <property name="statusTip">
+               <string>Re-layout the grounded chains.</string>
               </property>
               <property name="text">
                <string>Generate layout</string>
@@ -311,6 +329,9 @@
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="statusTip">
+            <string>Merge the specified chain to canvas with current layout.</string>
            </property>
            <property name="text">
             <string>Merge</string>

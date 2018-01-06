@@ -124,7 +124,7 @@ def appearance(self):
     SelectAllButton = QPushButton()
     SelectAllButton.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
     SelectAllButton.setToolTip("Select all")
-    SelectAllButton.setStatusTip("Select all item of this table.")
+    SelectAllButton.setStatusTip("Select all item of point table.")
     SelectAllButton.clicked.connect(self.Entities_Point.selectAll)
     self.EntitiesTab.setCornerWidget(SelectAllButton)
     SelectAllAction = QAction("Select all point", self)

@@ -47,6 +47,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="Expression_add_collection">
+           <property name="toolTip">
+            <string>Add to collection.</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -62,6 +65,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="ReloadMechanism">
+       <property name="statusTip">
+        <string>Analyze current mechanism from canvas.</string>
+       </property>
        <property name="text">
         <string>Analyze from workbook</string>
        </property>
@@ -165,6 +171,9 @@
          </item>
          <item>
           <widget class="QCheckBox" name="keep_dof">
+           <property name="statusTip">
+            <string>Keep the degrees of freedom when adjusting numbers.</string>
+           </property>
            <property name="text">
             <string>Keep the DOF</string>
            </property>
@@ -174,6 +183,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="Combine_number">
+         <property name="statusTip">
+          <string>Find the possible number of different joints.</string>
+         </property>
          <property name="text">
           <string>Number Synthesis</string>
          </property>
@@ -200,6 +212,9 @@
          </item>
          <item>
           <widget class="QComboBox" name="graph_engine">
+           <property name="statusTip">
+            <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
+           </property>
            <property name="currentIndex">
             <number>-1</number>
            </property>
@@ -207,6 +222,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="reload_atlas">
+           <property name="toolTip">
+            <string>Re-layout</string>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -233,6 +251,9 @@
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
             <widget class="QCheckBox" name="graph_link_as_node">
+             <property name="statusTip">
+              <string>Show the edges as nodes.</string>
+             </property>
              <property name="text">
               <string>Linkage as node</string>
              </property>
@@ -240,6 +261,9 @@
            </item>
            <item>
             <widget class="QCheckBox" name="graph_degenerate">
+             <property name="statusTip">
+              <string>Keep degenerate chains in the result.</string>
+             </property>
              <property name="text">
               <string>Degenerate chain</string>
              </property>
@@ -259,6 +283,9 @@
              <height>16777215</height>
             </size>
            </property>
+           <property name="statusTip">
+            <string>Find the structure of mechanism from all numbers.</string>
+           </property>
            <property name="text">
             <string>Find all</string>
            </property>
@@ -269,6 +296,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="Combine_type">
+           <property name="statusTip">
+            <string>Find the structure of mechanism from specified numbers.</string>
+           </property>
            <property name="text">
             <string>Type Synthesis</string>
            </property>
@@ -324,6 +354,9 @@
          </item>
          <item>
           <widget class="QCheckBox" name="save_edges_auto">
+           <property name="statusTip">
+            <string>Re-synthesis when save actions.</string>
+           </property>
            <property name="text">
             <string>Re-synthesis</string>
            </property>
@@ -335,6 +368,9 @@
         <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QPushButton" name="save_atlas">
+           <property name="statusTip">
+            <string>Save the atlas to image file.</string>
+           </property>
            <property name="text">
             <string>Save atlas</string>
            </property>
@@ -346,6 +382,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="save_edges">
+           <property name="statusTip">
+            <string>Save the edges of atlas to text file.</string>
+           </property>
            <property name="text">
             <string>Save edges</string>
            </property>
@@ -357,6 +396,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="Edges_to_altas">
+           <property name="statusTip">
+            <string>Load the edges data from text file, than save them to image files.</string>
+           </property>
            <property name="text">
             <string>Edges to atlas</string>
            </property>

@@ -152,7 +152,11 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.graph_engine_text.setText(_translate("Form", "Engine: "))
+        self.graph_engine.setStatusTip(_translate("Form", "Layout engine from NetworkX and Pydot (Graphviz)."))
+        self.reload_atlas.setToolTip(_translate("Form", "Add to collection."))
+        self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
         self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
+        self.add_by_edges_button.setStatusTip(_translate("Form", "Add the chain by edge expression."))
         self.add_by_edges_button.setText(_translate("Form", "Add by edges"))
         self.Expression_copy.setText(_translate("Form", "Copy"))
         self.NL_text.setText(_translate("Form", "Number of links:"))
@@ -161,8 +165,11 @@ class Ui_Form(object):
         self.NJ.setText(_translate("Form", "0"))
         self.DOF_text.setText(_translate("Form", "Degree of freedom:"))
         self.DOF.setText(_translate("Form", "0"))
+        self.delete_button.setStatusTip(_translate("Form", "Delete this chain."))
         self.delete_button.setText(_translate("Form", "Delete"))
+        self.grounded_button.setStatusTip(_translate("Form", "Re-layout the grounded chains."))
         self.grounded_button.setText(_translate("Form", "Generate layout"))
+        self.grounded_merge.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.grounded_merge.setText(_translate("Form", "Merge"))
 
 import icons_rc
