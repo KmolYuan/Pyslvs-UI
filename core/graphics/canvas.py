@@ -31,6 +31,16 @@ from typing import TypeVar, List, Tuple
 function = TypeVar("function")
 from .color import colorQt
 
+def distance_sorted(points):
+    distance = lambda p1, p2: sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+    for i in range(len(points)):
+        if i==len(points)-1:
+            break
+        distanceList = [distance(points[i], p) for p in points]
+        j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
+        points[i+1], points[j] = points[j], points[i+1]
+    return [QPointF(*coordinate) for coordinate in points]
+
 class Path:
     __slots__ = ('path', 'show', 'curve')
     
@@ -358,11 +368,11 @@ class DynamicCanvas(BaseCanvas):
             vpoint = self.Point[i]
             if vpoint.type==1 or vpoint.type==2:
                 coordinate = vpoint.c[vpoint.links.index(vlink.name)]
-                x = coordinate[0]
-                y = coordinate[1]
+                x = coordinate[0]*self.zoom
+                y = coordinate[1]*-self.zoom
             else:
-                x = vpoint.cx
-                y = vpoint.cy
+                x = vpoint.cx*self.zoom
+                y = vpoint.cy*-self.zoom
             points.append((x, y))
         pen = QPen(vlink.color)
         pen.setWidth(self.linkWidth)
@@ -371,14 +381,7 @@ class DynamicCanvas(BaseCanvas):
         brush.setAlphaF(self.transparency)
         self.painter.setBrush(brush)
         #Rearrange: Put the nearest point to the next position.
-        distance = lambda p1, p2: sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
-        for i in range(len(points)):
-            if i==len(points)-1:
-                break
-            distanceList = [distance(points[i], p) for p in points]
-            j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
-            points[i+1], points[j] = points[j], points[i+1]
-        qpoints = [QPointF(p[0]*self.zoom, p[1]*-self.zoom) for p in points]
+        qpoints = distance_sorted(points)
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
@@ -389,7 +392,7 @@ class DynamicCanvas(BaseCanvas):
             text = '[{}]'.format(vlink.name)
             cenX = sum([p[0] for p in points])/len(points)
             cenY = sum([p[1] for p in points])/len(points)
-            self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
+            self.painter.drawText(QPointF(cenX, cenY), text)
     
     def drawPath(self):
         if self.Path.show>-2:

@@ -19,6 +19,7 @@
 
 from ...QtModules import *
 from ...graphics.color import colorQt, colorNum
+from ...graphics.canvas import distance_sorted
 from networkx import (
     Graph,
     nx_pydot,
@@ -110,10 +111,11 @@ def graph(
             painter.drawLine(QPointF(pos[l1][0], -pos[l1][1]), QPointF(pos[l2][0], -pos[l2][1]))
     else:
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
-        for l in G.nodes:
-            if l==except_node:
+        for link in G.nodes:
+            if link==except_node:
                 continue
-            painter.drawPolygon(*[QPointF(pos[n][0], -pos[n][1]) for n, edge in nodes.items() if l in edge])
+            #Distance sorted function from canvas
+            painter.drawPolygon(*distance_sorted([(pos[n][0], -pos[n][1]) for n, edge in nodes.items() if link in edge]))
     for k, (x, y) in pos.items():
         if node_mode:
             color = colorNum(len(list(G.neighbors(k)))-1)
