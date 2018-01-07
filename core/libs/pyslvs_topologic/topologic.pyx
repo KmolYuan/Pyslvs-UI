@@ -94,11 +94,9 @@ cdef class GMState
 
 #GraphMatcher and GMState class from NetworkX.
 cdef class GraphMatcher(object):
-    cdef Graph G1, G2
+    cdef public Graph G1, G2
     cdef object G1_nodes, G2_nodes, mapping
     cdef public object core_1, core_2, inout_1, inout_2
-    cdef int old_recursion_limit
-    cdef str test
     cdef GMState state
     
     def __cinit__(self, Graph G1, Graph G2):
@@ -108,14 +106,11 @@ cdef class GraphMatcher(object):
         self.G2_nodes = set(G2.nodes)
         
         # Set recursion limit.
-        self.old_recursion_limit = sys.getrecursionlimit()
+        cdef int old_recursion_limit = sys.getrecursionlimit()
         cdef int expected_max_recursion_level = len(self.G2)
-        if self.old_recursion_limit < 1.5 * expected_max_recursion_level:
+        if old_recursion_limit < 1.5 * expected_max_recursion_level:
             # Give some breathing room.
             sys.setrecursionlimit(int(1.5 * expected_max_recursion_level))
-        
-        # Declare that we will be searching for a graph-graph isomorphism.
-        self.test = 'graph'
         
         # Initialize state
         self.initialize()
@@ -194,7 +189,6 @@ cdef class GraphMatcher(object):
     #Generator over isomorphisms between G1 and G2.
     def isomorphisms_iter(self):
         # Declare that we are looking for a graph-graph isomorphism.
-        self.test = 'graph'
         self.initialize()
         for mapping in self.match():
             yield mapping
@@ -279,12 +273,8 @@ cdef class GraphMatcher(object):
         for neighbor in self.G2.neighbors(G2_node):
             if (neighbor in self.inout_2) and (neighbor not in self.core_2):
                 num2 += 1
-        if self.test == 'graph':
-            if not (num1 == num2):
-                return False
-        else: # self.test == 'subgraph'
-            if not (num1 >= num2):
-                return False
+        if not (num1 == num2):
+            return False
         
         ### Look ahead 2
         # R_new
@@ -299,12 +289,8 @@ cdef class GraphMatcher(object):
         for neighbor in self.G2.neighbors(G2_node):
             if neighbor not in self.inout_2:
                 num2 += 1
-        if self.test == 'graph':
-            if not (num1 == num2):
-                return False
-        else: # self.test == 'subgraph'
-            if not (num1 >= num2):
-                return False
+        if not (num1 == num2):
+            return False
         
         # Otherwise, this node pair is syntactically feasible!
         return True
