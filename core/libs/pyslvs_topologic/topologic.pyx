@@ -24,6 +24,7 @@ from itertools import (
 import sys
 import numpy as np
 cimport numpy as np
+from time import time
 from cpython cimport bool
 
 #NetworkX-like graph class.
@@ -88,8 +89,19 @@ cdef class Graph(object):
     def __len__(self):
         return len(self.nodes)
 
-class GraphMatcher(object):
-    def __init__(self, G1, G2):
+#Declared GMState.
+cdef class GMState
+
+#GraphMatcher and GMState class from NetworkX.
+cdef class GraphMatcher(object):
+    cdef Graph G1, G2
+    cdef object G1_nodes, G2_nodes, mapping
+    cdef public object core_1, core_2, inout_1, inout_2
+    cdef int old_recursion_limit
+    cdef str test
+    cdef GMState state
+    
+    def __cinit__(self, Graph G1, Graph G2):
         self.G1 = G1
         self.G2 = G2
         self.G1_nodes = set(G1.nodes)
@@ -97,7 +109,7 @@ class GraphMatcher(object):
         
         # Set recursion limit.
         self.old_recursion_limit = sys.getrecursionlimit()
-        expected_max_recursion_level = len(self.G2)
+        cdef int expected_max_recursion_level = len(self.G2)
         if self.old_recursion_limit < 1.5 * expected_max_recursion_level:
             # Give some breathing room.
             sys.setrecursionlimit(int(1.5 * expected_max_recursion_level))
@@ -108,38 +120,8 @@ class GraphMatcher(object):
         # Initialize state
         self.initialize()
     
-    def candidate_pairs_iter(self):
-        """Iterator over candidate pairs of nodes in G1 and G2."""
-        # All computations are done using the current state!
-        G1_nodes = self.G1_nodes
-        G2_nodes = self.G2_nodes
-        # First we compute the inout-terminal sets.
-        T1_inout = [node for node in G1_nodes if (node in self.inout_1) and (node not in self.core_1)]
-        T2_inout = [node for node in G2_nodes if (node in self.inout_2) and (node not in self.core_2)]
-        # If T1_inout and T2_inout are both nonempty.
-        # P(s) = T1_inout x {min T2_inout}
-        if T1_inout and T2_inout:
-            for node in T1_inout:
-                yield node, min(T2_inout)
-        else:
-            # If T1_inout and T2_inout were both empty....
-            # P(s) = (N_1 - M_1) x {min (N_2 - M_2)}
-            ##if not (T1_inout or T2_inout):       # as suggested by  [2], incorrect
-            if 1:                                  # as inferred from [1], correct
-                # First we determine the candidate node for G2
-                other_node = min(G2_nodes - set(self.core_2))
-                for node in self.G1.nodes:
-                    if node not in self.core_1:
-                        yield node, other_node
-        
-        # For all other cases, we don't have any candidate pairs.
-    
-    def initialize(self):
-        """Reinitializes the state of the algorithm.
-        This method should be redefined if using something other than GMState.
-        If only subclassing GraphMatcher, a redefinition is not necessary.
-        """
-        
+    #Reinitializes the state of the algorithm.
+    cdef void initialize(self):
         # core_1[n] contains the index of the node paired with n, which is m,
         #           provided n is in the mapping.
         # core_2[m] contains the index of the node paired with m, which is n,
@@ -148,7 +130,6 @@ class GraphMatcher(object):
         self.core_2 = {}
         
         # See the paper for definitions of M_x and T_x^{y}
-        
         # inout_1[n]  is non-zero if n is in M_1 or in T_1^{inout}
         # inout_2[m]  is non-zero if m is in M_2 or in T_2^{inout}
         #
@@ -157,49 +138,72 @@ class GraphMatcher(object):
         self.inout_1 = {}
         self.inout_2 = {}
         # Practically, these sets simply store the nodes in the subgraph.
-
+        
         self.state = GMState(self)
         
         # Provide a convienient way to access the isomorphism mapping.
         self.mapping = self.core_1.copy()
     
-    def is_isomorphic(self):
-        """Returns True if G1 and G2 are isomorphic graphs."""
-        
+    #Generator candidate_pairs_iter()
+    def candidate_pairs_iter(self):
+        """Iterator over candidate pairs of nodes in G1 and G2."""
+        cdef int node
+        # All computations are done using the current state!
+        cdef object G1_nodes = self.G1_nodes
+        cdef object G2_nodes = self.G2_nodes
+        # First we compute the inout-terminal sets.
+        cdef object T1_inout = [node for node in G1_nodes if (node in self.inout_1) and (node not in self.core_1)]
+        cdef object T2_inout = [node for node in G2_nodes if (node in self.inout_2) and (node not in self.core_2)]
+        # If T1_inout and T2_inout are both nonempty.
+        # P(s) = T1_inout x {min T2_inout}
+        if T1_inout and T2_inout:
+            for node in T1_inout:
+                yield node, min(T2_inout)
+        else:
+            # If T1_inout and T2_inout were both empty....
+            # P(s) = (N_1 - M_1) x {min (N_2 - M_2)}
+            ##if not (T1_inout or T2_inout):
+            # as suggested by  [2], incorrect
+            # as inferred from [1], correct
+            # First we determine the candidate node for G2
+            for node in self.G1.nodes:
+                if node not in self.core_1:
+                    yield node, min(G2_nodes - set(self.core_2))
+        # For all other cases, we don't have any candidate pairs.
+    
+    #Returns True if G1 and G2 are isomorphic graphs.
+    cpdef bool is_isomorphic(self):
         # Let's do two very quick checks!
         # QUESTION: Should we call faster_graph_could_be_isomorphic(G1,G2)?
         # For now, I just copy the code.
         
         # Check global properties
-        if len(self.G1)!=len(self.G2): return False
+        if len(self.G1)!=len(self.G2):
+            return False
         
         # Check local properties
-        d1 = sorted(d for n, d in self.G1.degree())
-        d2 = sorted(d for n, d in self.G2.degree())
-        if d1 != d2: return False
-    
+        if sorted([d for n, d in self.G1.degree()]) != sorted([d for n, d in self.G2.degree()]):
+            return False
         try:
             next(self.isomorphisms_iter())
             return True
         except StopIteration:
             return False
     
+    #Generator isomorphisms_iter()
+    #Generator over isomorphisms between G1 and G2.
     def isomorphisms_iter(self):
-        """Generator over isomorphisms between G1 and G2."""
         # Declare that we are looking for a graph-graph isomorphism.
         self.test = 'graph'
         self.initialize()
         for mapping in self.match():
             yield mapping
     
+    #Generator match()
+    #Extends the isomorphism mapping.
     def match(self):
-        """Extends the isomorphism mapping.
-        
-        This function is called recursively to determine if a complete
-        isomorphism can be found between G1 and G2.  It cleans up the class
-        variables after each recursive call. If an isomorphism is found,
-        we yield the mapping.
-        """
+        cdef int G1_node, G2_node
+        cdef GMState newstate
         if len(self.core_1) == len(self.G2):
             # Save the final mapping, otherwise garbage collection deletes it.
             self.mapping = self.core_1.copy()
@@ -216,18 +220,11 @@ class GraphMatcher(object):
                         # restore data structures
                         newstate.restore()
     
-    def semantic_feasibility(self, G1_node, G2_node):
+    cdef bool semantic_feasibility(self, int G1_node, int G2_node):
         return True
     
-    def syntactic_feasibility(self, G1_node, G2_node):
-        """Returns True if adding (G1_node, G2_node) is syntactically feasible.
-        
-        This function returns True if it is adding the candidate pair
-        to the current partial isomorphism mapping is allowable.  The addition
-        is allowable if the inclusion of the candidate pair does not make it
-        impossible for an isomorphism to be found.
-        """
-        
+    #Returns True if adding (G1_node, G2_node) is syntactically feasible.
+    cdef bool syntactic_feasibility(self, int G1_node, int G2_node):
         # The VF2 algorithm was designed to work with graphs having, at most,
         # one edge connecting any two nodes.  This is not the case when
         # dealing with an MultiGraphs.
@@ -242,26 +239,21 @@ class GraphMatcher(object):
         # singlet for Graph instances.  For MultiGraphs, the value in the
         # innermost dictionary is a list.
         
-        ###
         ### Test at each step to get a return value as soon as possible.
-        ###
-
+        
         ### Look ahead 0
-        
         # R_self
-        
         # The number of selfloops for G1_node must equal the number of
         # self-loops for G2_node. Without this check, we would fail on
         # R_neighbor at the next recursion level. But it is good to prune the
         # search tree now.
         if self.G1.number_of_edges(G1_node, G1_node)!=self.G2.number_of_edges(G2_node, G2_node):
             return False
-        
         # R_neighbor
-        
         # For each neighbor n' of n in the partial mapping, the corresponding
         # node m' is a neighbor of m, and vice versa. Also, the number of
         # edges must be equal.
+        cdef object neighbor
         for neighbor in self.G1.neighbors(G1_node):
             if neighbor in self.core_1:
                 if not (self.core_1[neighbor] in self.G2.neighbors(G2_node)):
@@ -276,15 +268,14 @@ class GraphMatcher(object):
                     return False
         
         ### Look ahead 1
-        
         # R_terminout
         # The number of neighbors of n that are in T_1^{inout} is equal to the
         # number of neighbors of m that are in T_2^{inout}, and vice versa.
-        num1 = 0
+        cdef int num1 = 0
         for neighbor in self.G1.neighbors(G1_node):
             if (neighbor in self.inout_1) and (neighbor not in self.core_1):
                 num1 += 1
-        num2 = 0
+        cdef int num2 = 0
         for neighbor in self.G2.neighbors(G2_node):
             if (neighbor in self.inout_2) and (neighbor not in self.core_2):
                 num2 += 1
@@ -296,9 +287,7 @@ class GraphMatcher(object):
                 return False
         
         ### Look ahead 2
-        
         # R_new
-        
         # The number of neighbors of n that are neither in the core_1 nor
         # T_1^{inout} is equal to the number of neighbors of m
         # that are neither in core_2 nor T_2^{inout}.
@@ -320,15 +309,12 @@ class GraphMatcher(object):
         # Otherwise, this node pair is syntactically feasible!
         return True
 
-class GMState(object):
-    """Internal representation of state for the GraphMatcher class.
+cdef class GMState(object):
+    cdef GraphMatcher GM
+    cdef object G1_node, G2_node
+    cdef int depth
     
-    This class is used internally by the GraphMatcher class.  It is used
-    only to store state specific data. There will be at most G2.order() of
-    these objects in memory at a time, due to the depth-first search
-    strategy employed by the VF2 algorithm.
-    """
-    def __init__(self, GM, G1_node=None, G2_node=None):
+    def __cinit__(self, GraphMatcher GM, object G1_node=None, object G2_node=None):
         """Initializes GMState object.
         
         Pass in the GraphMatcher to which this GMState belongs and the
@@ -348,13 +334,15 @@ class GMState(object):
             GM.core_2 = {}
             GM.inout_1 = {}
             GM.inout_2 = {}
-        
+        cdef object new_nodes
+        cdef object neighbor
+        cdef int node
         # Watch out! G1_node == 0 should evaluate to True.
         if G1_node is not None and G2_node is not None:
             # Add the node pair to the isomorphism mapping.
             GM.core_1[G1_node] = G2_node
             GM.core_2[G2_node] = G1_node
-
+            
             # Store the node that was added last.
             self.G1_node = G1_node
             self.G2_node = G2_node
@@ -387,7 +375,7 @@ class GMState(object):
                 if node not in GM.inout_2:
                     GM.inout_2[node] = self.depth
     
-    def restore(self):
+    cpdef void restore(self):
         """Deletes the GMState object and restores the class variables."""
         # First we remove the node that was added from the core vectors.
         # Watch out! G1_node == 0 should evaluate to True.
@@ -397,8 +385,10 @@ class GMState(object):
         
         # Now we revert the other two vectors.
         # Thus, we delete all entries which have this depth level.
+        cdef object vector
+        cdef int node
         for vector in (self.GM.inout_1, self.GM.inout_2):
-            for node in list(vector.keys()):
+            for node in list(vector):
                 if vector[node] == self.depth:
                     del vector[node]
 
@@ -435,6 +425,7 @@ cdef object connection_get(int i, object connection):
 
 #Linkage Topological Component
 cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, object stopFunc=returnFalse):
+    cdef double t0 = time()
     cdef np.ndarray links = np.zeros((sum(link_num),), dtype=np.int8)
     cdef int i, j, t, name, joint_count
     for i in range(sum(link_num)):
@@ -485,4 +476,5 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
         if test(G, answer):
             continue
         answer.append(G)
+    print("Times: {}s".format(time() - t0))
     return answer
