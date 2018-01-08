@@ -80,6 +80,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QPushButton" name="add_by_files_button">
+       <property name="statusTip">
+        <string>Add the chain by edge expression from text files.</string>
+       </property>
        <property name="text">
         <string>Append by text files</string>
        </property>
@@ -240,6 +243,9 @@
               </item>
               <item>
                <widget class="QPushButton" name="Expression_copy">
+                <property name="statusTip">
+                 <string>Copy expression.</string>
+                </property>
                 <property name="text">
                  <string>Copy</string>
                 </property>

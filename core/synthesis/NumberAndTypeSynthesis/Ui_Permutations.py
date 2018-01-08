@@ -195,6 +195,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.Expression_joint_text.setText(_translate("Form", "Generalized expression:"))
+        self.Expression_copy.setStatusTip(_translate("Form", "Copy expression."))
         self.Expression_copy.setText(_translate("Form", "Copy"))
         self.Expression_add_collection.setToolTip(_translate("Form", "Add to collection."))
         self.ReloadMechanism.setStatusTip(_translate("Form", "Analyze current mechanism from canvas."))
