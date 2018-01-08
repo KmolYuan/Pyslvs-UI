@@ -38,6 +38,9 @@ class Collections_show(QWidget, Ui_Form):
     def __init__(self, parent=None):
         super(Collections_show, self).__init__(parent)
         self.setupUi(self)
+        self.outputTo = parent.outputTo
+        self.saveReplyBox = parent.saveReplyBox
+        self.inputFrom = parent.inputFrom
         self.addPoint_by_graph = parent.addPoint_by_graph
         self.collections = []
         self.collections_layouts = []
@@ -143,6 +146,24 @@ class Collections_show(QWidget, Ui_Form):
             return
         else:
             self.addCollection(edges)
+    
+    #Append atlas by text files
+    @pyqtSlot()
+    def on_add_by_files_button_clicked(self):
+        fileNames = self.inputFrom("Edges data", ["Text File (*.txt)"], multiple=True)
+        if fileNames:
+            read_data = []
+            for fileName in fileNames:
+                with open(fileName, 'r') as f:
+                    read_data += f.read().split('\n')
+            try:
+                collections = [Graph(eval(edges)) for edges in read_data]
+            except:
+                QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
+                return
+            if collections:
+                self.collections = collections
+                self.on_reload_atlas_clicked()
     
     #Show the data of collection.
     @pyqtSlot(QListWidgetItem, QListWidgetItem)

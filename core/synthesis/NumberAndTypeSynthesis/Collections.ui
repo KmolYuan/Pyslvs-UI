@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
+    <width>419</width>
     <height>630</height>
    </rect>
   </property>
@@ -77,14 +77,25 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="add_by_edges_button">
-     <property name="statusTip">
-      <string>Add the chain by edge expression.</string>
-     </property>
-     <property name="text">
-      <string>Add by edges</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QPushButton" name="add_by_files_button">
+       <property name="text">
+        <string>Append by text files</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="add_by_edges_button">
+       <property name="statusTip">
+        <string>Add the chain by edge expression.</string>
+       </property>
+       <property name="text">
+        <string>Add by edges</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QSplitter" name="splitter">

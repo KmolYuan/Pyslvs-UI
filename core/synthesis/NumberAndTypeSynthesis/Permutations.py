@@ -35,7 +35,7 @@ class Permutations_show(QWidget, Ui_Form):
         self.setupUi(self)
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
-        self.env = lambda: parent.env
+        self.inputFrom = parent.inputFrom
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
         self.answer = []
@@ -335,7 +335,7 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Edges_to_altas_clicked(self):
-        fileNames, _ = QFileDialog.getOpenFileNames(self, "Open file...", self.env(), "Text File (*.txt)")
+        fileNames = self.inputFrom("Edges data", ["Text File (*.txt)"], multiple=True)
         if fileNames:
             read_data = []
             for fileName in fileNames:

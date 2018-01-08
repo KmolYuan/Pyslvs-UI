@@ -63,6 +63,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.args = args
+        self.env = ""
         #Console widget.
         self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
@@ -88,9 +89,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.SetIn()
     
     #Set environment variables
-    def setLocate(self, locate):
-        self.env = locate
-        print("~Set workplace to: [\"{}\"]".format(self.env))
+    def setLocate(self, locate: str):
+        if locate!=self.env:
+            self.env = locate
+            print("~Set workplace to: [\"{}\"]".format(self.env))
     
     #Drag file in to our window.
     def dragEnterEvent(self, event):
@@ -444,7 +446,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
         if not self.checkFileChanged():
-            fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env, "Pyslvs workbook (*.pyslvs)")
+            fileName = self.inputFrom("Workbook database", ["Pyslvs workbook (*.pyslvs)"])
             if fileName:
                 self.FileWidget.read(fileName)
     
@@ -452,7 +454,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Import_Workbook_triggered(self):
         if not self.checkFileChanged():
-            fileName, _ = QFileDialog.getOpenFileName(self, "Import file...", self.env, "Pyslvs workbook (*.pyslvs)")
+            fileName = self.inputFrom("Workbook database (Import)", ["Pyslvs workbook (*.pyslvs)"])
             if fileName:
                 self.FileWidget.importMechanism(fileName)
     
@@ -514,16 +516,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Simple to support mutiple format.
     def outputTo(self, formatName, formatChoose):
         suffix0 = get_from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
-        fileName, suffix = QFileDialog.getSaveFileName(self, "Save to {}...".format(formatName),
-            self.env+'/'+self.FileWidget.fileName.baseName()+suffix0, ';;'.join(formatChoose))
+        fileName, suffix = QFileDialog.getSaveFileName(
+            self,
+            "Save to {}...".format(formatName),
+            self.env+'/'+self.FileWidget.fileName.baseName()+suffix0,
+            ';;'.join(formatChoose)
+        )
         if fileName:
             suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Formate: {}".format(suffix))
             if QFileInfo(fileName).suffix()!=suffix[1:]:
                 fileName += suffix
-            dir = QFileInfo(fileName).absolutePath()
-            if dir!=self.env:
-                self.setLocate(dir)
+            self.setLocate(QFileInfo(fileName).absolutePath())
         return fileName
     
     #Show message when successfully saved.
@@ -532,6 +536,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Size: {}".format("{} MB".format(round(size/1024/1024, 2)) if size/1024//1024 else "{} KB".format(round(size/1024, 2))))
         QMessageBox.information(self, title, "Successfully converted:\n{}".format(fileName), QMessageBox.Ok, QMessageBox.Ok)
         print("Successful saved: [\"{}\"]".format(fileName))
+    
+    #Get file name(s).
+    def inputFrom(self, formatName, formatChoose, multiple=False):
+        Args = ["Open {} file...".format(formatName), self.env, ';;'.join(formatChoose)]
+        if multiple:
+            fileName_s, suffix = QFileDialog.getOpenFileNames(self, *Args)
+        else:
+            fileName_s, suffix = QFileDialog.getOpenFileName(self, *Args)
+        if fileName_s:
+            suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
+            print("Formate: {}".format(suffix))
+            if type(fileName_s)==str:
+                self.setLocate(QFileInfo(fileName_s).absolutePath())
+            else:
+                self.setLocate(QFileInfo(fileName_s[0]).absolutePath())
+        return fileName_s
     
     #Output to PMKS as URL.
     @pyqtSlot()

@@ -64,7 +64,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
         self.mechanism_data = parent.FileWidget.Designs.result
         self.mechanism_data_add = parent.FileWidget.Designs.addResult
         self.mechanism_data_del = parent.FileWidget.Designs.delResult
-        self.env = lambda: parent.env
+        self.inputFrom = parent.inputFrom
         self.unsaveFunc = parent.workbookNoSave
         self.Settings = defaultSettings.copy()
         self.algorithmPrams_default()
@@ -113,7 +113,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env(), "Text File (*.txt);;CSV File (*.csv)")
+        fileName = self.inputFrom("Path data", ["Text File (*.txt)", "CSV File (*.csv)"])
         if fileName:
             data = []
             with open(fileName, newline=str()) as stream:
@@ -135,7 +135,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
-        fileName, _ = QFileDialog.getOpenFileName(self, "Open file...", self.env(), "Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)")
+        fileName = self.inputFrom("Excel file", ["Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)"])
         if fileName:
             wb = openpyxl.load_workbook(fileName)
             ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
