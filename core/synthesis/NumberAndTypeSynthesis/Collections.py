@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
+from ...io.images import Qt_images
 from networkx import (
     Graph,
     is_isomorphic
@@ -156,14 +157,54 @@ class Collections_show(QWidget, Ui_Form):
             for fileName in fileNames:
                 with open(fileName, 'r') as f:
                     read_data += f.read().split('\n')
-            try:
-                collections = [Graph(eval(edges)) for edges in read_data]
-            except:
-                QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
-                return
+            collections = []
+            for edges in read_data:
+                try:
+                    collections.append(Graph(eval(edges)))
+                except:
+                    QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
+                    return
             if collections:
-                self.collections = collections
+                self.collections += collections
                 self.on_reload_atlas_clicked()
+    
+    @pyqtSlot()
+    def on_save_atlas_clicked(self):
+        count = self.collection_list.count()
+        if count:
+            lateral, ok = QInputDialog.getInt(self, "Atlas", "The number of lateral:", 5, 1, 10)
+            if ok:
+                fileName = self.outputTo("Atlas image", Qt_images)
+                if fileName:
+                    icon_size = self.collection_list.iconSize()
+                    width = icon_size.width()
+                    image_main = QImage(
+                        QSize(
+                            lateral * width if count>lateral else count * width,
+                            ((count // lateral) + bool(count % lateral)) * width
+                        ),
+                        self.collection_list.item(0).icon().pixmap(icon_size).toImage().format()
+                    )
+                    image_main.fill(QColor(Qt.white).rgb())
+                    painter = QPainter(image_main)
+                    for row in range(count):
+                        image = self.collection_list.item(row).icon().pixmap(icon_size).toImage()
+                        painter.drawImage(QPointF(row % lateral * width, row // lateral * width), image)
+                    painter.end()
+                    pixmap = QPixmap()
+                    pixmap.convertFromImage(image_main)
+                    pixmap.save(fileName, format=QFileInfo(fileName).suffix())
+                    self.saveReplyBox("Atlas", fileName)
+    
+    @pyqtSlot()
+    def on_save_edges_clicked(self):
+        count = self.collection_list.count()
+        if count:
+            fileName = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
+            if fileName:
+                with open(fileName, 'w') as f:
+                    f.write('\n'.join(str(G.edges) for G in self.collections))
+                self.saveReplyBox("edges expression", fileName)
     
     #Show the data of collection.
     @pyqtSlot(QListWidgetItem, QListWidgetItem)

@@ -41,6 +41,8 @@ from .graphics.planarSolving import (
     slvsProcess,
     SlvsException
 )
+#image format
+from .io.images import Qt_images
 #slvs format
 from .io.slvsIO import slvs2D
 #dxf format
@@ -498,16 +500,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Picture save function.
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
-        fileName = self.outputTo("picture", [
-            "Portable Network Graphics (*.png)",
-            "Joint Photographic Experts Group (*.jpg)",
-            "Bitmap Image file (*.bmp)",
-            "Business Process Model (*.bpm)",
-            "Tagged Image File Format (*.tiff)",
-            "Windows Icon (*.ico)",
-            "Wireless Application Protocol Bitmap (*.wbmp)",
-            "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
-        ])
+        fileName = self.outputTo("picture", Qt_images)
         if fileName:
             pixmap = self.DynamicCanvasView.grab()
             pixmap.save(fileName, format=QFileInfo(fileName).suffix())
@@ -539,7 +532,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Get file name(s).
     def inputFrom(self, formatName, formatChoose, multiple=False):
-        Args = ["Open {} file...".format(formatName), self.env, ';;'.join(formatChoose)]
+        Args = ("Open {} file{}...".format(formatName, 's' if multiple else ''), self.env, ';;'.join(formatChoose))
         if multiple:
             fileName_s, suffix = QFileDialog.getOpenFileNames(self, *Args)
         else:

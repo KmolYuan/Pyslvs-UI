@@ -19,6 +19,7 @@
 
 from ...QtModules import *
 from networkx import Graph
+from ...io.images import Qt_images
 from ...io.elements import v_to_graph
 from .number import NumberSynthesis
 from .topologic import topo
@@ -258,16 +259,7 @@ class Permutations_show(QWidget, Ui_Form):
         if self.save_edges_auto.isChecked():
             lateral, ok = QInputDialog.getInt(self, "Atlas", "The number of lateral:", 5, 1, 10)
             if ok:
-                fileName = self.outputTo("Atlas image", [
-                    "Portable Network Graphics (*.png)",
-                    "Joint Photographic Experts Group (*.jpg)",
-                    "Bitmap Image file (*.bmp)",
-                    "Business Process Model (*.bpm)",
-                    "Tagged Image File Format (*.tiff)",
-                    "Windows Icon (*.ico)",
-                    "Wireless Application Protocol Bitmap (*.wbmp)",
-                    "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
-                ])
+                fileName = self.outputTo("Atlas image", Qt_images)
                 if fileName:
                     reply = QMessageBox.question(self, "Type synthesis", "Do you want to Re-synthesis?",
                         (QMessageBox.Yes | QMessageBox.YesToAll | QMessageBox.Cancel), QMessageBox.YesToAll)
@@ -281,16 +273,7 @@ class Permutations_show(QWidget, Ui_Form):
                 lateral, ok = QInputDialog.getInt(self, "Atlas", "The number of lateral:", 5, 1, 10)
             if ok:
                 if not fileName:
-                    fileName = self.outputTo("Atlas image", [
-                        "Portable Network Graphics (*.png)",
-                        "Joint Photographic Experts Group (*.jpg)",
-                        "Bitmap Image file (*.bmp)",
-                        "Business Process Model (*.bpm)",
-                        "Tagged Image File Format (*.tiff)",
-                        "Windows Icon (*.ico)",
-                        "Wireless Application Protocol Bitmap (*.wbmp)",
-                        "X BitMap (*.xbm)", "X Pixmap (*.xpm)"
-                    ])
+                    fileName = self.outputTo("Atlas image", Qt_images)
                 if fileName:
                     icon_size = self.Topologic_result.iconSize()
                     width = icon_size.width()
@@ -341,11 +324,13 @@ class Permutations_show(QWidget, Ui_Form):
             for fileName in fileNames:
                 with open(fileName, 'r') as f:
                     read_data += f.read().split('\n')
-            try:
-                answer = [Graph(eval(edges)) for edges in read_data]
-            except:
-                QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
-                return
+            answer = []
+            for edges in read_data:
+                try:
+                    answer.append(Graph(eval(edges)))
+                except:
+                    QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
+                    return
             if answer:
                 self.answer = answer
                 self.on_reload_atlas_clicked()
