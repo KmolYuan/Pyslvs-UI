@@ -15,8 +15,5 @@
     <file>icons/preview/PLLP.png</file>
     <file>icons/preview/PLPP.png</file>
     <file>icons/preview/PPP.png</file>
-    <!--Tool tip preview pictures-->
-    <file>icons/tooltips/DimensionalSynthesis.png</file>
-    <file>icons/tooltips/DriveShaft.png</file>
     </qresource>
 </RCC>
