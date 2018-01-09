@@ -605,6 +605,10 @@
               <property name="text">
                <string>Merge</string>
               </property>
+              <property name="icon">
+               <iconset resource="../../../icons.qrc">
+                <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+              </property>
              </widget>
             </item>
            </layout>

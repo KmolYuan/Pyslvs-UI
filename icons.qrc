@@ -50,6 +50,7 @@
     <file>icons/link.png</file>
     <file>icons/loadfile.png</file>
     <file>icons/maxmized.png</file>
+    <file>icons/merge.png</file>
     <file>icons/minimized.png</file>
     <file>icons/motor.png</file>
     <file>icons/newfile.png</file>
@@ -68,6 +69,7 @@
     <file>icons/settings.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>
+    <file>icons/triangular-iteration.png</file>
     <file>icons/undo.png</file>
   </qresource>
 </RCC>

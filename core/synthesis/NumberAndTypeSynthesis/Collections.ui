@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>412</width>
-    <height>630</height>
+    <width>428</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -135,6 +135,10 @@
          </property>
         </widget>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
@@ -168,20 +172,48 @@
         </layout>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QPushButton" name="clear_button">
+           <property name="text">
+            <string>Clear all</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="delete_button">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="statusTip">
+            <string>Delete this chain.</string>
+           </property>
+           <property name="text">
+            <string>Delete</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <item>
-          <widget class="QListWidget" name="Preview_window">
+          <widget class="QListWidget" name="selection_window">
            <property name="minimumSize">
             <size>
              <width>210</width>
@@ -313,19 +345,19 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="delete_button">
+             <widget class="QPushButton" name="triangle_button">
               <property name="enabled">
                <bool>false</bool>
               </property>
               <property name="statusTip">
-               <string>Delete this chain.</string>
+               <string>Use trangular formula to do dimentional synthesis.</string>
               </property>
               <property name="text">
-               <string>Delete</string>
+               <string>Triangular modeling</string>
               </property>
               <property name="icon">
                <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
               </property>
              </widget>
             </item>
@@ -397,6 +429,10 @@
            </property>
            <property name="text">
             <string>Merge</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
            </property>
           </widget>
          </item>

@@ -206,16 +206,12 @@ cdef class GraphMatcher(object):
         else:
             for G1_node, G2_node in self.candidate_pairs_iter():
                 if self.syntactic_feasibility(G1_node, G2_node):
-                    if self.semantic_feasibility(G1_node, G2_node):
-                        # Recursive call, adding the feasible state.
-                        newstate = self.state.__class__(self, G1_node, G2_node)
-                        for mapping in self.match():
-                            yield mapping
-                        # restore data structures
-                        newstate.restore()
-    
-    cdef bool semantic_feasibility(self, int G1_node, int G2_node):
-        return True
+                    # Recursive call, adding the feasible state.
+                    newstate = self.state.__class__(self, G1_node, G2_node)
+                    for mapping in self.match():
+                        yield mapping
+                    # restore data structures
+                    newstate.restore()
     
     #Returns True if adding (G1_node, G2_node) is syntactically feasible.
     cdef bool syntactic_feasibility(self, int G1_node, int G2_node):
@@ -297,10 +293,9 @@ cdef class GraphMatcher(object):
 
 cdef class GMState(object):
     cdef GraphMatcher GM
-    cdef object G1_node, G2_node
-    cdef int depth
+    cdef int G1_node, G2_node, depth
     
-    def __cinit__(self, GraphMatcher GM, object G1_node=None, object G2_node=None):
+    def __cinit__(self, GraphMatcher GM, int G1_node=-1, int G2_node=-1):
         """Initializes GMState object.
         
         Pass in the GraphMatcher to which this GMState belongs and the
@@ -310,11 +305,11 @@ cdef class GMState(object):
         self.GM = GM
         
         # Initialize the last stored node pair.
-        self.G1_node = None
-        self.G2_node = None
+        self.G1_node = -1
+        self.G2_node = -1
         self.depth = len(GM.core_1)
         
-        if G1_node is None or G2_node is None:
+        if G1_node==-1 or G2_node==-1:
             # Then we reset the class variables
             GM.core_1 = {}
             GM.core_2 = {}
@@ -324,7 +319,7 @@ cdef class GMState(object):
         cdef object neighbor
         cdef int node
         # Watch out! G1_node == 0 should evaluate to True.
-        if G1_node is not None and G2_node is not None:
+        if G1_node!=-1 and G2_node!=-1:
             # Add the node pair to the isomorphism mapping.
             GM.core_1[G1_node] = G2_node
             GM.core_2[G2_node] = G1_node
@@ -365,7 +360,7 @@ cdef class GMState(object):
         """Deletes the GMState object and restores the class variables."""
         # First we remove the node that was added from the core vectors.
         # Watch out! G1_node == 0 should evaluate to True.
-        if self.G1_node is not None and self.G2_node is not None:
+        if self.G1_node!=-1 and self.G2_node!=-1:
             del self.GM.core_1[self.G1_node]
             del self.GM.core_2[self.G2_node]
         

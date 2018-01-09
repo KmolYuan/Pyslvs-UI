@@ -43,6 +43,7 @@ class Collections_show(QWidget, Ui_Form):
         self.saveReplyBox = parent.saveReplyBox
         self.inputFrom = parent.inputFrom
         self.addPoint_by_graph = parent.addPoint_by_graph
+        self.unsaveFunc = parent.workbookNoSave
         self.collections = []
         self.collections_layouts = []
         self.collections_grounded = []
@@ -50,18 +51,29 @@ class Collections_show(QWidget, Ui_Form):
         self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
-        self.unsaveFunc = parent.workbookNoSave
+    
+    def clearSelection(self):
+        self.grounded_list.clear()
+        self.selection_window.clear()
+        self.Expression_edges.clear()
+        self.NL.setText('0')
+        self.NJ.setText('0')
+        self.DOF.setText('0')
     
     def clear(self):
         self.grounded_merge.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
-        self.Preview_window.clear()
-        self.Expression_edges.clear()
-        self.NL.setText('0')
-        self.NJ.setText('0')
-        self.DOF.setText('0')
-        self.grounded_list.clear()
+        self.clearSelection()
+    
+    @pyqtSlot()
+    def on_clear_button_clicked(self):
+        if len(self.collections):
+            reply = QMessageBox.question(self, "Message", "Sure to remove all your collections?",
+                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if reply==QMessageBox.Apply:
+                self.clear()
+                self.unsaveFunc()
     
     def engineErrorMsg(self, e):
         QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working", QMessageBox.Ok, QMessageBox.Ok)
@@ -73,7 +85,7 @@ class Collections_show(QWidget, Ui_Form):
         if self.collections:
             self.collections_layouts.clear()
             self.collection_list.clear()
-            self.Preview_window.clear()
+            self.selection_window.clear()
             self.Expression_edges.clear()
             self.NL.setText('0')
             self.NJ.setText('0')
@@ -213,13 +225,13 @@ class Collections_show(QWidget, Ui_Form):
         self.delete_button.setEnabled(has_item)
         self.grounded_button.setEnabled(has_item)
         if item:
-            self.Preview_window.clear()
+            self.selection_window.clear()
             item_ = QListWidgetItem(item.text())
             row = self.collection_list.row(item)
             G = self.collections[row]
             self.ground_engine = self.collections_layouts[row]
-            item_.setIcon(graph(G, self.Preview_window.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked()))
-            self.Preview_window.addItem(item_)
+            item_.setIcon(graph(G, self.selection_window.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked()))
+            self.selection_window.addItem(item_)
             self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))
             self.NJ.setText(str(len(G.edges)))
@@ -240,15 +252,11 @@ class Collections_show(QWidget, Ui_Form):
         if row>-1:
             reply = QMessageBox.question(self, "Message", "Sure to remove #{} from your collections?".format(row),
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply:
-                self.grounded_list.clear()
-                self.Preview_window.clear()
-                self.Expression_edges.clear()
-                self.NL.setText('0')
-                self.NJ.setText('0')
-                self.DOF.setText('0')
+            if reply==QMessageBox.Apply:
+                self.clearSelection()
                 self.collection_list.takeItem(row)
                 del self.collections[row]
+                self.unsaveFunc()
     
     #Grounded combinations
     @pyqtSlot()

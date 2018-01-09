@@ -174,8 +174,8 @@ class Permutations_show(QWidget, Ui_Form):
                 reply = QMessageBox.question(self, "Type synthesis - abort", "Do you want to keep the results?",
                     (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             else:
-                reply = True
-            if reply:
+                reply = QMessageBox.Apply
+            if reply==QMessageBox.Apply:
                 self.answer = answers
                 self.on_reload_atlas_clicked()
     
