@@ -17,8 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..QtModules import *
-from ..graphics import colorName, colorIcons
+from core.QtModules import *
+from core.graphics import colorName, colorIcons
 from .Ui_edit_point import Ui_Dialog as edit_point_Dialog
 
 class edit_point_show(QDialog, edit_point_Dialog):

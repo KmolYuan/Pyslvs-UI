@@ -8,8 +8,7 @@
 
 #['INFO', 'args', 'Pyslvs_Splash']
 from .info import *
-#['startRep']
-from .server import *
+from .server import startRep
 ImportTest = "All modules are loaded."
 try:
     from .main import MainWindow

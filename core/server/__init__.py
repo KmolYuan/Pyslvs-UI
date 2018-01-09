@@ -7,5 +7,8 @@
 """
 
 from .zmq_rep import startRep
+from .rga import Genetic
+from .firefly import Firefly
+from .de import DiffertialEvolution
 
-__all__ = ['startRep']
+__all__ = ['startRep', 'Genetic', 'Firefly', 'DiffertialEvolution']

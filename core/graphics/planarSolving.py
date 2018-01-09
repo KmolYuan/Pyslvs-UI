@@ -23,7 +23,7 @@ from math import (
     cos,
     sin
 )
-from ..libs.python_solvespace.slvs import (
+from core.libs import (
     #System base
     System, groupNum, Slvs_MakeQuaternion,
     #Entities & Constraint

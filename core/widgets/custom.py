@@ -17,17 +17,17 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..QtModules import *
-from ..info import VERSION
-from ..graphics import DynamicCanvas
+from core.QtModules import *
+from core.info import VERSION
+from core.graphics import DynamicCanvas
 from .table import (
     PointTableWidget,
     LinkTableWidget,
     SelectionLabel
 )
 from .rotatable import RotatableView
-from ..io import FileWidget
-from ..synthesis import (
+from core.io import FileWidget
+from core.synthesis import (
     Permutations_show as NumberAndTypeSynthesis,
     Collections_show as SynthesisCollections,
     Algorithm_show as DimensionalSynthesis

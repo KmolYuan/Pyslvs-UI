@@ -17,7 +17,7 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ..QtModules import *
+from core.QtModules import *
 from .Ui_peeweeIO import Ui_Form
 from .example import example_list
 from typing import List, Dict

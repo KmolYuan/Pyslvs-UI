@@ -17,9 +17,9 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ...QtModules import *
+from core.QtModules import *
 from networkx import Graph
-from ...io import Qt_images, v_to_graph
+from core.io import Qt_images, v_to_graph
 from .number import NumberSynthesis
 from .topologic import topo
 from .graph import (

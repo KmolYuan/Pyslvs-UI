@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from lark import Lark, Transformer
-from ..graphics import colorName
+from core.graphics import colorName
 
 #Parenthesis
 get_from_parenthesis = lambda s, front, back: s[s.find(front)+1:s.find(back)]

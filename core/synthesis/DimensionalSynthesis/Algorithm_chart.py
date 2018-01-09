@@ -17,8 +17,8 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ...QtModules import *
-from ...graphics import dataChart
+from core.QtModules import *
+from core.graphics import dataChart
 
 class ChartDialog(QDialog):
     def __init__(self, Title, mechanism_data=[], parent=None):

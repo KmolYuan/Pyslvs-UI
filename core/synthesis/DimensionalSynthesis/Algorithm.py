@@ -17,10 +17,10 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from ...QtModules import *
+from core.QtModules import *
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
-from ...io import get_from_parenthesis
-from ...libs.pyslvs_algorithm.TS import solver, Direction
+from core.io import get_from_parenthesis
+from core.libs.pyslvs_algorithm.TS import solver, Direction
 from .Algorithm_options import (
     GeneticPrams,
     FireflyPrams,
