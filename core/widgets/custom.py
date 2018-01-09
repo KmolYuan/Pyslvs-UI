@@ -18,18 +18,20 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from ..info.info import VERSION
-from ..graphics.canvas import DynamicCanvas
+from ..info import VERSION
+from ..graphics import DynamicCanvas
 from .table import (
     PointTableWidget,
     LinkTableWidget,
     SelectionLabel
 )
 from .rotatable import RotatableView
-from ..io.peeweeIO import FileWidget
-from ..synthesis.NumberAndTypeSynthesis.Permutations import Permutations_show as NumberAndTypeSynthesis
-from ..synthesis.NumberAndTypeSynthesis.Collections import Collections_show as SynthesisCollections
-from ..synthesis.DimensionalSynthesis.Algorithm import Algorithm_show as DimensionalSynthesis
+from ..io import FileWidget
+from ..synthesis import (
+    Permutations_show as NumberAndTypeSynthesis,
+    Collections_show as SynthesisCollections,
+    Algorithm_show as DimensionalSynthesis
+)
 
 def initCustomWidgets(self):
     appearance(self)

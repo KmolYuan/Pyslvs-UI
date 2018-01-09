@@ -19,9 +19,8 @@
 
 from ...QtModules import *
 from .Ui_Algorithm_preview import Ui_Dialog
-from ...graphics.canvas import BaseCanvas
-from ...graphics.color import colorQt
-from ...io.larkParser import get_from_parenthesis
+from ...graphics import BaseCanvas, colorQt
+from ...io import get_from_parenthesis
 from math import isnan
 from typing import Tuple
 

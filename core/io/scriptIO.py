@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ..QtModules import *
-from ..info.info import VERSION
+from ..info import VERSION
 from .Ui_script import Ui_Info_Dialog
 
 script_title = '''\

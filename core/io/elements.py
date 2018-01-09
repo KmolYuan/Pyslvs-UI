@@ -19,7 +19,7 @@
 
 from math import sqrt, degrees, atan2
 from networkx import Graph
-from ..graphics.color import colorQt
+from ..graphics import colorQt
 from typing import Tuple
 
 class VPoint:

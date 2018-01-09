@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from ...info.about import html
+from ...info import html
 from .Ui_Algorithm_options import Ui_Dialog
 
 GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}

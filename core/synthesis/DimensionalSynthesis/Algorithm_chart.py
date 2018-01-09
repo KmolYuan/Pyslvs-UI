@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from ...graphics.chart import dataChart
+from ...graphics import dataChart
 
 class ChartDialog(QDialog):
     def __init__(self, Title, mechanism_data=[], parent=None):

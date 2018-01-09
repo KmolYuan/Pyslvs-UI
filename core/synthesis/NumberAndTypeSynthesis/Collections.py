@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from ...io.images import Qt_images
+from ...io import Qt_images
 from networkx import (
     Graph,
     is_isomorphic

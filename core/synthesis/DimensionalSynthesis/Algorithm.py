@@ -19,7 +19,7 @@
 
 from ...QtModules import *
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
-from ...io.larkParser import get_from_parenthesis
+from ...io import get_from_parenthesis
 from ...libs.pyslvs_algorithm.TS import solver, Direction
 from .Algorithm_options import (
     GeneticPrams,

@@ -19,8 +19,7 @@
 
 from ...QtModules import *
 from networkx import Graph
-from ...io.images import Qt_images
-from ...io.elements import v_to_graph
+from ...io import Qt_images, v_to_graph
 from .number import NumberSynthesis
 from .topologic import topo
 from .graph import (

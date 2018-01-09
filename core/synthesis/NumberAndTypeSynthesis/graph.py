@@ -18,8 +18,11 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from ...QtModules import *
-from ...graphics.color import colorQt, colorNum
-from ...graphics.canvas import distance_sorted
+from ...graphics import (
+    colorQt,
+    colorNum,
+    distance_sorted
+)
 from networkx import (
     Graph,
     nx_pydot,

@@ -19,46 +19,24 @@
 
 from .QtModules import *
 from .Ui_main import Ui_MainWindow
-from .widgets.custom import initCustomWidgets
-
-#Dialog
-from .info.about import Pyslvs_About
-from .io.scriptIO import Script_Dialog
-#Undo redo
-from .io.undoRedo import (
-    addTableCommand, deleteTableCommand,
-    fixSequenceNumberCommand,
+from .info import Pyslvs_About
+from .graphics import slvsProcess, SlvsException
+import csv
+from typing import Tuple
+from .io import (
+    Script_Dialog,
+    addTableCommand, deleteTableCommand, fixSequenceNumberCommand,
     editPointTableCommand, editLinkTableCommand,
     addPathCommand, deletePathCommand,
     addStorageCommand, deleteStorageCommand,
-    addStorageNameCommand, clearStorageNameCommand
+    addStorageNameCommand, clearStorageNameCommand,
+    Qt_images, slvs2D, dxfSketch, XStream,
+    parser, ArgsTransformer, get_from_parenthesis
 )
-#Entities
-from .entities.edit_point import edit_point_show
-from .entities.edit_link import edit_link_show
-#Solve
-from .graphics.planarSolving import (
-    slvsProcess,
-    SlvsException
-)
-#image format
-from .io.images import Qt_images
-#slvs format
-from .io.slvsIO import slvs2D
-#dxf format
-from .io.dxfIO import dxfSketch
-#Logging
-from .io.loggingHandler import XStream
-#CSV format
-import csv
-#Parser
-from .io.larkParser import (
-    parser,
-    ArgsTransformer,
-    get_from_parenthesis
-)
-#Typing
-from typing import Tuple
+#['initCustomWidgets']
+from .widgets import *
+#['edit_point_show', 'edit_link_show']
+from .entities import *
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):
