@@ -20,7 +20,7 @@
 from core.QtModules import *
 from networkx import Graph
 from core.io import Qt_images, v_to_graph
-from .number import NumberSynthesis
+from core.libs import NumberSynthesis
 from .topologic import topo
 from .graph import (
     graph,
@@ -108,22 +108,24 @@ class Permutations_show(QWidget, Ui_Form):
     #Show number of links with different number of joints.
     @pyqtSlot()
     def on_Combine_number_clicked(self):
-        NS = NumberSynthesis(self.NL_input.value(), self.NJ_input.value())
         self.Expression_number.clear()
-        try:
-            NS_result = NS.NLm
-        except ValueError as e:
-            self.Expression_number.addItem(str(e))
+        NS_result = NumberSynthesis(self.NL_input.value(), self.NJ_input.value())
+        if type(NS_result)==str:
+            item = QListWidgetItem(NS_result)
+            item.links = None
+            self.Expression_number.addItem(item)
         else:
             for result in NS_result:
-                self.Expression_number.addItem(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))))
+                item = QListWidgetItem(", ".join("NL{} = {}".format(i+2, result[i]) for i in range(len(result))))
+                item.links = result
+                self.Expression_number.addItem(item)
         self.Expression_number.setCurrentRow(0)
     
     #Combine and show progress dialog.
     def combineType(self, row):
-        text = self.Expression_number.item(row).text()
+        item = self.Expression_number.item(row)
         progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
-        progdlg.setWindowTitle("Type synthesis - ({})".format(text))
+        progdlg.setWindowTitle("Type synthesis - ({})".format(item.text()))
         progdlg.resize(500, progdlg.height())
         progdlg.setModal(True)
         progdlg.show()
@@ -137,7 +139,7 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setValue(0)
             progdlg.setMaximum(maximum+1)
         answer = topo(
-            [int(t.split(" = ")[1]) for t in text.split(", ")],
+            item.links,
             not self.graph_degenerate.isChecked(),
             setjobFunc,
             stopFunc
@@ -147,6 +149,8 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Combine_type_clicked(self):
+        if self.Expression_number.currentItem().links is None:
+            return
         row = self.Expression_number.currentRow()
         if not row>-1:
             self.on_Combine_number_clicked()
@@ -158,6 +162,8 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Combine_type_all_clicked(self):
+        if self.Expression_number.currentItem().links is None:
+            return
         if not self.Expression_number.currentRow()>-1:
             self.on_Combine_number_clicked()
         answers = []
