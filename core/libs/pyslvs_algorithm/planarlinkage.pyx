@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from libc.math cimport isnan
 import tinycadlib
 from tinycadlib import (
     PLAP,
@@ -11,12 +10,6 @@ from tinycadlib import (
 )
 import numpy as np
 cimport numpy as np
-
-cdef object formula = {
-    'PLAP':PLAP,
-    'PLLP':PLLP,
-    'PLPP':PLPP
-}
 
 cdef str get_from_parenthesis(str s, str front, str back):
     return s[s.find(front)+1:s.find(back)]
@@ -31,7 +24,7 @@ cdef class build_planar(object):
     cdef str targetPoint, Expression_str
     cdef np.ndarray target, Exp
     
-    def __cinit__ (self, object mechanismParams):
+    def __cinit__(self, object mechanismParams):
         '''
         mechanismParams = {
             'targetPath',
@@ -71,10 +64,10 @@ cdef class build_planar(object):
         Link: L0, L1, L2, L3, ...
         Driving_list: The name of the point in "self.Driving".
         Follower_list: The name of the point in "self.Follower".
-        Exp:        Tuple[Dict]
+        Exp:
+            {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
+            {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
-        {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
-        {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         '''
         cdef str expr, params, name
         self.Link = []
@@ -149,18 +142,7 @@ cdef class build_planar(object):
     cpdef str get_Expression(self):
         return self.Expression_str
     
-    def __call__(self, object v):
-        """
-        v: a list of parameter [Ax, Ay, Dx, Dy, ...]
-        target: a list of target [(1,5), (2,5), (3,5)]
-        POINT: length of target
-        VARS: linkage variables
-        """
-        cdef double x, y
-        cdef str name, L
-        #Large fitness
-        cdef int FAILURE = 9487
-        # all variable
+    cdef object get_data_dict(self, object v):
         cdef object tmp_dict = dict()
         cdef int vi = 0
         #driving
@@ -175,36 +157,59 @@ cdef class build_planar(object):
         for L in self.Link:
             tmp_dict[L] = v[vi]
             vi += 1
+        return tmp_dict
+    
+    cdef object from_formula(self, object expression_dict, object data_dict):
+        cdef str fun = expression_dict["relate"]
+        cdef object params = tuple(data_dict[p] for p in expression_dict["params"])
+        if fun=='PLAP':
+            return Coordinate(*PLAP(*params))
+        if fun=='PLLP':
+            return Coordinate(*PLLP(*params))
+        if fun=='PLPP':
+            return Coordinate(*PLPP(*params))
+    
+    cdef double run(self, object v):
+        """
+        v: a list of parameter [Ax, Ay, Dx, Dy, ...]
+        target: a list of target [(1,5), (2,5), (3,5)]
+        POINT: length of target
+        VARS: linkage variables
+        """
+        cdef double x, y
+        cdef str name, L
+        # all variable
+        cdef object test_dict = self.get_data_dict(v)
         # calculate the target point, and sum all error.
         cdef object path = []
+        #Large fitness
+        cdef double FAILURE = 9487
+        #My fitness
         cdef double fitness = 0
         cdef int i
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
-            tmp_dict['a0'] = np.deg2rad(v[self.VARS+i])
+            test_dict['a0'] = np.deg2rad(v[self.VARS+i])
             for e in self.Exp:
-                #formula['PLLP'](tmp_dict['B'], tmp_dict['L1'], tmp_dict['L2'], tmp_dict['D'])
-                x, y = formula[e["relate"]](*[tmp_dict[p] for p in e["params"]])
-                if isnan(x) or isnan(y):
+                #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+                target_coordinate = self.from_formula(e, test_dict)
+                if target_coordinate.isnan():
                     return FAILURE
-                target_coordinate = Coordinate(x, y)
-                if not legal_triangle(target_coordinate, tmp_dict[e["params"][0]], tmp_dict[e["params"][-1]]):
+                if not legal_triangle(target_coordinate, test_dict[e["params"][0]], test_dict[e["params"][-1]]):
                     return FAILURE
-                tmp_dict[e["target"]] = target_coordinate
-            path.append(tmp_dict[self.targetPoint])
+                test_dict[e["target"]] = target_coordinate
+            path.append(test_dict[self.targetPoint])
             fitness += path[i].distance(self.target[i])
         #constraint
         for constraint in self.constraint:
-            if not legal_crank(*[tmp_dict[name] for name in constraint]):
+            if not legal_crank(*[test_dict[name] for name in constraint]):
                 return FAILURE
         #swap
         for i in range(self.POINTS):
             for j in range(self.POINTS):
                 if path[j].distance(self.target[i])<path[i].distance(self.target[i]):
                     path[i], path[j] = path[j], path[i]
-        if isnan(fitness):
-            return FAILURE
         return fitness
     
     cpdef object get_coordinates(self, object v):
@@ -212,24 +217,14 @@ cdef class build_planar(object):
         cdef double x, y
         cdef str name, L, P
         cdef object e
-        cdef object final_dict = dict()
-        cdef int vi = 0
-        #driving
-        for name in self.Driving_list:
-            final_dict[name] = Coordinate(v[vi], v[vi+1])
-            vi += 2
-        #follower
-        for name in self.Follower_list:
-            final_dict[name] = Coordinate(v[vi], v[vi+1])
-            vi += 2
-        #links
-        for L in self.Link:
-            final_dict[L] = v[vi]
-            vi += 1
+        cdef object final_dict = self.get_data_dict(v)
         final_dict['a0'] = np.deg2rad(v[self.VARS])
         for e in self.Exp:
-            final_dict[e["target"]] = Coordinate(*formula[e["relate"]](*[final_dict[p] for p in e["params"]]))
+            final_dict[e["target"]] = self.from_formula(e, final_dict)
         for k, v in final_dict.items():
             if type(v)==Coordinate:
                 final_dict[k] = (v.x, v.y)
         return final_dict
+    
+    def __call__(self, object v):
+        return self.run(v)

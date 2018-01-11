@@ -19,8 +19,11 @@ cdef class Coordinate(object):
         self.x = x
         self.y = y
     
-    cpdef public double distance(self, Coordinate obj):
+    cpdef double distance(self, Coordinate obj):
         return sqrt(pow(self.x-obj.x, 2) + pow(self.y-obj.y, 2))
+    
+    cpdef bool isnan(self):
+        return isnan(self.x) or isnan(self.y)
 
 cpdef object PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
     cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
@@ -74,8 +77,6 @@ cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     cdef double L0 = A.distance(B)
     cdef double L1 = B.distance(C)
     cdef double L2 = A.distance(C)
-    if isnan(L0) or isnan(L1) or isnan(L2):
-        return False
     return L1+L2>L0 and L0+L2>L1 and L0+L1>L2
 
 cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
