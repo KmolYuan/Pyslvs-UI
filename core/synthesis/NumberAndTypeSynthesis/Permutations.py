@@ -125,7 +125,9 @@ class Permutations_show(QWidget, Ui_Form):
         item = self.Expression_number.item(row)
         progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
         progdlg.setWindowTitle("Type synthesis - ({})".format(item.text()))
-        progdlg.resize(500, progdlg.height())
+        progdlg.setMinimumSize(QSize(500, 120))
+        progdlg.setMaximumSize(QSize(500, 120))
+        progdlg.setWindowFlags(progdlg.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         progdlg.setModal(True)
         progdlg.show()
         #Call in every loop.
@@ -139,7 +141,7 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setMaximum(maximum+1)
         answer, time = topo(item.links, not self.graph_degenerate.isChecked(), setjobFunc, stopFunc)
         progdlg.setValue(progdlg.maximum())
-        print("Type synthesis find in {:.04f} [s].".format(time))
+        print("Type synthesis {} {:.04f} [s].".format("find in" if answer else "break at", time))
         if answer:
             return [Graph(G.edges) for G in answer]
     

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm_progress.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm_progress.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -65,7 +65,6 @@ class Ui_Dialog(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
         self.progressBar = QtWidgets.QProgressBar(Dialog)
-        self.progressBar.setTextVisible(True)
         self.progressBar.setObjectName("progressBar")
         self.verticalLayout.addWidget(self.progressBar)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -110,7 +109,6 @@ class Ui_Dialog(object):
         self.label_7.setText(_translate("Dialog", "generation(s) with"))
         self.label_5.setText(_translate("Dialog", "time(s)"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">※ The interrupt button will stop the process, but you can keep the result.</span></p></body></html>"))
-        self.progressBar.setFormat(_translate("Dialog", "%v / %m generations (%p%)"))
         self.label_3.setText(_translate("Dialog", "Fitness: "))
         self.fitness_label.setText(_translate("Dialog", "N/A"))
         self.Start.setText(_translate("Dialog", "Start"))

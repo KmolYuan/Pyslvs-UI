@@ -145,14 +145,7 @@ color: rgb(255, 255, 255);</string>
     </widget>
    </item>
    <item>
-    <widget class="QProgressBar" name="progressBar">
-     <property name="textVisible">
-      <bool>true</bool>
-     </property>
-     <property name="format">
-      <string>%v / %m generations (%p%)</string>
-     </property>
-    </widget>
+    <widget class="QProgressBar" name="progressBar"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

@@ -395,7 +395,8 @@ cdef bool test(Graph G, object answer):
     if not G.is_connected():
         #is not connected
         return True
-    cdef object H
+    cdef Graph H
+    cdef GraphMatcher GM_GH
     for H in answer:
         GM_GH = GraphMatcher(G, H)
         if GM_GH.is_isomorphic():
@@ -444,7 +445,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
         setjobFunc("Match link #{} / {}".format(link, len(links)-1), len(edges_combinations)*len(match))
         for G, H in product(edges_combinations, match):
             if stopFunc():
-                return
+                return None, time()-t0
             G = compose(G, H)
             error = False
             for n in G.nodes:
@@ -461,7 +462,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
     cdef object answer = []
     for G in edges_combinations:
         if stopFunc():
-            return
+            return None, time()-t0
         if test(G, answer):
             continue
         answer.append(G)
