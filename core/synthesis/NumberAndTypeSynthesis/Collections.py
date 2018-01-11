@@ -23,10 +23,6 @@ from networkx import (
     Graph,
     is_isomorphic
 )
-from .topologic import (
-    testT,
-    TestError
-)
 from .graph import (
     graph,
     engine_picker,
@@ -34,6 +30,9 @@ from .graph import (
     EngineError
 )
 from .Ui_Collections import Ui_Form
+
+class TestError(Exception):
+    pass
 
 class Collections_show(QWidget, Ui_Form):
     def __init__(self, parent=None):
@@ -119,7 +118,6 @@ class Collections_show(QWidget, Ui_Form):
     def addCollection(self, edges):
         G = Graph(edges)
         try:
-            testT(G, False)
             for n in G.nodes:
                 if len(list(G.neighbors(n)))<2:
                     raise TestError("is not close chain")

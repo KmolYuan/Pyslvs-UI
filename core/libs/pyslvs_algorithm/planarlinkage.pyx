@@ -143,6 +143,7 @@ cdef class build_planar(object):
         return self.Expression_str
     
     cdef object get_data_dict(self, object v):
+        cdef str name, L
         cdef object tmp_dict = dict()
         cdef int vi = 0
         #driving
@@ -176,8 +177,6 @@ cdef class build_planar(object):
         POINT: length of target
         VARS: linkage variables
         """
-        cdef double x, y
-        cdef str name, L
         # all variable
         cdef object test_dict = self.get_data_dict(v)
         # calculate the target point, and sum all error.
@@ -202,6 +201,7 @@ cdef class build_planar(object):
             path.append(test_dict[self.targetPoint])
             fitness += path[i].distance(self.target[i])
         #constraint
+        cdef str name
         for constraint in self.constraint:
             if not legal_crank(*[test_dict[name] for name in constraint]):
                 return FAILURE
@@ -213,9 +213,6 @@ cdef class build_planar(object):
         return fitness
     
     cpdef object get_coordinates(self, object v):
-        cdef int i
-        cdef double x, y
-        cdef str name, L, P
         cdef object e
         cdef object final_dict = self.get_data_dict(v)
         final_dict['a0'] = np.deg2rad(v[self.VARS])

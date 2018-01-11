@@ -93,6 +93,14 @@ cdef class Graph(object):
 cdef class GMState
 
 #GraphMatcher and GMState class from NetworkX.
+#Copyright (C) 2007-2009 by the NetworkX maintainers
+#All rights reserved.
+#BSD license.
+#
+#This work was originally coded by Christopher Ellison
+#as part of the Computational Mechanics Python (CMPy) project.
+#James P. Crutchfield, principal investigator.
+#Complexity Sciences Center and Physics Department, UC Davis.
 cdef class GraphMatcher(object):
     cdef public Graph G1, G2
     cdef object G1_nodes, G2_nodes, mapping
@@ -198,6 +206,7 @@ cdef class GraphMatcher(object):
     def match(self):
         cdef int G1_node, G2_node
         cdef GMState newstate
+        cdef object mapping
         if len(self.core_1) == len(self.G2):
             # Save the final mapping, otherwise garbage collection deletes it.
             self.mapping = self.core_1.copy()
@@ -423,7 +432,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
     #ALL results.
     cdef object edges_combinations = []
     cdef int link, count, n
-    cdef object match, match_, prod
+    cdef object match, match_
     cdef Graph G, H
     cdef bool error
     for link, count in enumerate(links):
@@ -432,9 +441,8 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
             edges_combinations = match
             continue
         match_ = []
-        prod = list(product(edges_combinations, match))
-        setjobFunc("Match link #{} / {}".format(link, len(links)-1), len(prod))
-        for G, H in prod:
+        setjobFunc("Match link #{} / {}".format(link, len(links)-1), len(edges_combinations)*len(match))
+        for G, H in product(edges_combinations, match):
             if stopFunc():
                 return
             G = compose(G, H)
@@ -457,5 +465,4 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
         if test(G, answer):
             continue
         answer.append(G)
-    print("Times: {}s".format(time() - t0))
-    return answer
+    return answer, time()-t0

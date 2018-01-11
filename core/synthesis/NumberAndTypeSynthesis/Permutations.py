@@ -20,8 +20,7 @@
 from core.QtModules import *
 from networkx import Graph
 from core.io import Qt_images, v_to_graph
-from core.libs import NumberSynthesis
-from .topologic import topo
+from core.libs import NumberSynthesis, topo
 from .graph import (
     graph,
     EngineList,
@@ -138,23 +137,20 @@ class Permutations_show(QWidget, Ui_Form):
             progdlg.setLabelText(job)
             progdlg.setValue(0)
             progdlg.setMaximum(maximum+1)
-        answer = topo(
-            item.links,
-            not self.graph_degenerate.isChecked(),
-            setjobFunc,
-            stopFunc
-        )
+        answer, time = topo(item.links, not self.graph_degenerate.isChecked(), setjobFunc, stopFunc)
         progdlg.setValue(progdlg.maximum())
-        return answer
+        print("Type synthesis find in {:.04f} [s].".format(time))
+        if answer:
+            return [Graph(G.edges) for G in answer]
     
     @pyqtSlot()
     def on_Combine_type_clicked(self):
-        if self.Expression_number.currentItem().links is None:
-            return
         row = self.Expression_number.currentRow()
         if not row>-1:
             self.on_Combine_number_clicked()
             row = self.Expression_number.currentRow()
+        if self.Expression_number.currentItem().links is None:
+            return
         answer = self.combineType(row)
         if answer:
             self.answer = answer
@@ -162,10 +158,10 @@ class Permutations_show(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Combine_type_all_clicked(self):
-        if self.Expression_number.currentItem().links is None:
-            return
         if not self.Expression_number.currentRow()>-1:
             self.on_Combine_number_clicked()
+        if self.Expression_number.currentItem().links is None:
+            return
         answers = []
         break_point = False
         for row in range(self.Expression_number.count()):
