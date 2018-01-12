@@ -20,14 +20,13 @@ cdef str get_front_of_parenthesis(str s, str front):
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, VARS
-    cdef object constraint, Link, upper, lower, Driving, Follower, Driving_list, Follower_list
-    cdef str targetPoint, Expression_str
-    cdef np.ndarray target, Exp
+    cdef object constraint, Link, upper, lower, Driving, Follower, Driving_list, Follower_list, targetPoint, target
+    cdef str Expression_str
+    cdef np.ndarray Exp
     
     def __cinit__(self, object mechanismParams):
         '''
         mechanismParams = {
-            'targetPath',
             'Target',
             'Driving',
             'Follower',
@@ -38,23 +37,28 @@ cdef class build_planar(object):
             'IMin', 'LMin', 'FMin', 'AMin'
         }
         '''
+        cdef object value
+        cdef int l
+        cdef object check_tuple = tuple(len(value) for value in mechanismParams['Target'].values())
+        if not all([l==check_tuple[0] for l in check_tuple]):
+            raise ValueError("targetPath should be in same size.")
         #counting how many action to satisfied require point
-        self.POINTS = len(mechanismParams['targetPath'])
+        self.POINTS = check_tuple[0]
         #driving point, string
         self.Driving = mechanismParams['Driving']
         #folower point, string
         self.Follower = mechanismParams['Follower']
-        #target point
-        self.targetPoint = mechanismParams['Target']
+        #target point name
+        self.targetPoint = tuple(mechanismParams['Target'])
         #constraint
         self.constraint = mechanismParams['constraint']
         
         #use tuple data, create a list of coordinate object
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
-        cdef int i
-        self.target = np.ndarray((self.POINTS,), dtype=np.object)
-        for i, (x, y) in enumerate(mechanismParams['targetPath']):
-            self.target[i] = Coordinate(x, y)
+        cdef str name
+        self.target = {}
+        for name, value in mechanismParams['Target'].items():
+            self.target[name] = tuple(Coordinate(x, y) for x, y in value)
         
         #Expression ['A', 'B', 'C', 'D', 'E', 'L0', 'L1', 'L2', 'L3', 'L4', 'a0']
         self.Expression_str = mechanismParams['Expression']
@@ -69,7 +73,8 @@ cdef class build_planar(object):
             {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
         '''
-        cdef str expr, params, name
+        cdef int i
+        cdef str expr, params
         self.Link = []
         self.Driving_list = []
         self.Follower_list = []
@@ -115,9 +120,6 @@ cdef class build_planar(object):
             self.lower.append(mechanismParams[name])
         self.lower += [mechanismParams['AMin']]*self.POINTS
     
-    cpdef object get_path(self):
-        return [(c.x, c.y) for c in self.target]
-    
     cpdef object get_upper(self):
         return self.upper[:]
     
@@ -126,15 +128,6 @@ cdef class build_planar(object):
     
     cpdef int get_nParm(self):
         return self.VARS + self.POINTS
-    
-    cpdef str get_Driving(self):
-        return self.Driving
-    
-    cpdef str get_Follower(self):
-        return self.Follower
-    
-    cpdef str get_Target(self):
-        return self.targetPoint
     
     cpdef object get_Link(self):
         return self.Link
@@ -179,13 +172,14 @@ cdef class build_planar(object):
         """
         # all variable
         cdef object test_dict = self.get_data_dict(v)
+        cdef object path = {name:[] for name in self.targetPoint}
         # calculate the target point, and sum all error.
-        cdef object path = []
         #Large fitness
         cdef double FAILURE = 9487
         #My fitness
         cdef double fitness = 0
         cdef int i
+        cdef str name
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
@@ -198,18 +192,22 @@ cdef class build_planar(object):
                 if not legal_triangle(target_coordinate, test_dict[e["params"][0]], test_dict[e["params"][-1]]):
                     return FAILURE
                 test_dict[e["target"]] = target_coordinate
-            path.append(test_dict[self.targetPoint])
-            fitness += path[i].distance(self.target[i])
+            for name in self.targetPoint:
+                path[name].append(test_dict[name])
         #constraint
-        cdef str name
         for constraint in self.constraint:
             if not legal_crank(*[test_dict[name] for name in constraint]):
                 return FAILURE
         #swap
-        for i in range(self.POINTS):
-            for j in range(self.POINTS):
-                if path[j].distance(self.target[i])<path[i].distance(self.target[i]):
-                    path[i], path[j] = path[j], path[i]
+        for name in self.targetPoint:
+            for i in range(self.POINTS):
+                for j in range(self.POINTS):
+                    if path[name][j].distance(self.target[name][i])<path[name][i].distance(self.target[name][i]):
+                        path[name][i], path[name][j] = path[name][j], path[name][i]
+        #sum the fitness
+        for name in self.targetPoint:
+            for i in range(self.POINTS):
+                fitness += path[name][i].distance(self.target[name][i])
         return fitness
     
     cpdef object get_coordinates(self, object v):

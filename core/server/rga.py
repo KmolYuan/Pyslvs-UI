@@ -49,7 +49,7 @@ class Chromosome(object):
 class Genetic(object):
     def __init__(self, func, settings, progress_fun=None, interrupt_fun=None):
         self.func = func
-        self.nParm = settings['nParm']
+        self.nParm = self.func.get_nParm()
         self.nPop = settings['nPop']
         self.pCross = settings['pCross']
         self.pMute = settings['pMute']
@@ -61,8 +61,8 @@ class Genetic(object):
         self.babyChrom = [Chromosome(self.nParm) for i in range(3)]
         self.chromElite = Chromosome(self.nParm)
         self.chromBest = Chromosome(self.nParm)
-        self.maxLimit = settings['upper'][:]
-        self.minLimit = settings['lower'][:]
+        self.maxLimit = self.func.get_upper()
+        self.minLimit = self.func.get_lower()
         #Gen
         self.maxGen = settings['maxGen']
         self.rpt = settings['report']
@@ -85,7 +85,7 @@ class Genetic(object):
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
-        self.targetPath = settings['targetPath']
+        self.targetPath = settings['Target']
         # setup benchmark
         self.timeS = time.time()
         self.timeE = 0

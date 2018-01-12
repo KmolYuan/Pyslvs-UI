@@ -44,9 +44,11 @@ class Chromosome(object):
         self.f = obj.f
 
 class DiffertialEvolution(object):
-    def __init__(self, func, settings, socket_port, targetPath, progress_fun=None, interrupt_fun=None):
+    def __init__(self, func, settings, socket_port, progress_fun=None, interrupt_fun=None):
+        # object function, or enviorment
+        self.func = func
         # dimesion of quesiton
-        self.D = settings['nParm']
+        self.D = self.func.get_nParm()
         # strategy 1~10, choice what strategy to generate new member in temporary
         self.strategy = settings['strategy']
         # population size
@@ -59,16 +61,14 @@ class DiffertialEvolution(object):
         # CR in [0,1]
         self.CR = settings['CR']
         # lower bound array
-        self.lb = settings['lower'][:]
+        self.lb = self.func.get_lower()
         # upper bound array
-        self.ub = settings['upper'][:]
+        self.ub = self.func.get_upper()
         # maxima generation, report: how many generation report status once
         self.maxGen = settings['maxGen']
         self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
-        # object function, or enviorment
-        self.func = func
         # check parameter is set properly
         self.checkParameter()
         # generation pool, depend on population size
@@ -92,7 +92,7 @@ class DiffertialEvolution(object):
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
-        self.targetPath = settings['targetPath']
+        self.targetPath = settings['Target']
         # setup benchmark
         self.timeS = time.time()
         self.timeE = 0
@@ -357,7 +357,7 @@ class DiffertialEvolution(object):
             self.func.get_Target(),
             self.func.get_ExpressionName(),
             self.func.get_Expression(),
-            ','.join(["{}:{}".format(e[0], e[1]) for e in self.targetPath]),
+            str(self.targetPath),
             ','.join([str(e) for e in chrom])
             ]))
         while True:

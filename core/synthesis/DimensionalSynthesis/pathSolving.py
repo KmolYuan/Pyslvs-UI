@@ -59,7 +59,8 @@ class WorkerThread(QThread):
                 #Cancel the remaining tasks.
                 print("Canceled.")
                 continue
-            print("Through: {}".format(self.mechanismParams['targetPath']))
+            for name, path in self.mechanismParams['Target'].items():
+                print("- [{}]: {}".format(name, path))
             t0 = timeit.default_timer()
             fitnessParameter, time_and_fitness = self.generateProcess()
             t1 = timeit.default_timer()
@@ -68,7 +69,7 @@ class WorkerThread(QThread):
             mechanism = {
                 'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
                 'time':time_spand,
-                'targetPath':self.mechanismParams['targetPath'],
+                'Target':self.mechanismParams['Target'],
                 'interrupted':str(time_and_fitness[-1][0]) if self.stoped else 'False',
                 'Expression':self.mechanismParams['Expression'],
                 'settings':self.settings,
@@ -109,7 +110,7 @@ class WorkerThread(QThread):
             foo = DiffertialEvolution
         if self.socket!=None:
             self.settings['socket_port'] = self.socket
-            self.settings['targetPath'] = self.mechanismParams['targetPath']
+            self.settings['Target'] = self.mechanismParams['Target']
         self.fun = foo(
             mechanismObj,
             self.settings,

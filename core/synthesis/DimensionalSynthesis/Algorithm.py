@@ -40,14 +40,16 @@ from re import split as charSplit
 mechanismParams_4Bar = {
     'Driving':{'A':None}, #'A':(x, y, r)
     'Follower':{'B':None}, #'B':(x, y, r)
-    'Target':'E',
+    'Target':{'E':None}, #'E':((x1, y1), (x2, y2), (x3, y3), ...)
+    'Link_Expression':"ground[A,B];[A,C];[C,D,E];[B,D]",
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
     'constraint':[('A', 'B', 'C', 'D')]
 }
 mechanismParams_8Bar = {
     'Driving':{'A':None},
     'Follower':{'B':None},
-    'Target':'H',
+    'Target':{'H':None},
+    'Link_Expression':"ground[A,B];[A,C];[C,D];[B,D,E];[C,F];[B,F];[E,G];[E,G,H]",
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
     'constraint':[('A', 'B', 'C', 'D')]
 }
@@ -256,7 +258,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = (mechanismParams_4Bar if self.FourBar.isChecked() else mechanismParams_8Bar).copy()
-        mechanismParams['targetPath'] = tuple(self.path)
+        mechanismParams['Target'][get_from_parenthesis(mechanismParams['Expression'].split(';')[-1], '(', ')')] = tuple(self.path)
         mechanismParams['Driving']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
         mechanismParams['Follower']['B'] = (self.Dx.value(), self.Dy.value(), self.Dr.value())
         mechanismParams['IMax'] = self.Settings['IMax']
@@ -332,9 +334,6 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     def legal_crank(self, row):
         Result = self.mechanism_data[row]
-        path = Result['targetPath']
-        pointAvg = sum([e[1] for e in path])/len(path)
-        other = (Result['A'][1]+Result['B'][1])/2>pointAvg and Result['A'][0]<Result['B'][0]
         expression = Result['Expression'].split(';')
         expression_tag = tuple(
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
@@ -347,16 +346,16 @@ class Algorithm_show(QWidget, PathSolving_Form):
         '''
         Paths = tuple([] for tag in exp_symbol)
         for a in range(360+1):
-            Directions = [Direction(p1=Result['A'], p2=Result['B'], len1=Result['L0'], angle=a, other=other)]
+            Directions = [Direction(p1=Result['A'], p2=Result['B'], len1=Result['L0'], angle=a)]
             for exp in expression_tag[1:]:
                 p1 = Result['A'] if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else Result['B']
                 p2 = Result['A'] if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else Result['B']
-                Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]], other=other))
+                Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]]))
             s = solver(Directions)
             s_answer = s.answer()
             for i, a in enumerate(s_answer):
                 Paths[exp_symbol.index(expression_result[i])].append(a)
-        return tuple(tuple(path) if (path==False or len(set(path))>1 or (False in path)) else () for path in Paths)
+        return tuple(tuple(path) if len(set(path))>1 else () for path in Paths)
     
     @pyqtSlot()
     def on_Result_chart_clicked(self):

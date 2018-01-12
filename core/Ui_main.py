@@ -253,6 +253,7 @@ class Ui_MainWindow(object):
         self.inputs_variable_speed.setEnabled(False)
         self.inputs_variable_speed.setMinimum(-100)
         self.inputs_variable_speed.setMaximum(100)
+        self.inputs_variable_speed.setSingleStep(5)
         self.inputs_variable_speed.setProperty("value", -10)
         self.inputs_variable_speed.setObjectName("inputs_variable_speed")
         self.horizontalLayout_4.addWidget(self.inputs_variable_speed)

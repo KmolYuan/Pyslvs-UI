@@ -29,7 +29,7 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
-        self.slvsPath = mechanism['targetPath']
+        self.slvsPath = mechanism['Target']
         self.index = 0
         self.expression_tag = tuple(
             tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
@@ -43,24 +43,25 @@ class DynamicCanvas(BaseCanvas):
         timer.timeout.connect(self.change_index)
         timer.start()
     
+    def Comparator(self, fun, i):
+        real_point = []
+        for point in self.Path.path:
+            if point:
+                r = [path[i] for path in point if not isnan(path[i])]
+                if r:
+                    real_point.append(fun(r))
+        if real_point:
+            return fun(fun(real_point), self.mechanism['A'][i], self.mechanism['B'][i])
+        else:
+            return fun(self.mechanism['A'][i], self.mechanism['B'][i])
+    
     def paintEvent(self, event):
         width = self.width()
         height = self.height()
-        def Comparator(fun, i):
-            real_point = []
-            for point in self.Path.path:
-                if point:
-                    r = [path[i] for path in point if not isnan(path[i])]
-                    if r:
-                        real_point.append(fun(r))
-            if real_point:
-                return fun(fun(real_point), self.mechanism['A'][i], self.mechanism['B'][i])
-            else:
-                return fun(self.mechanism['A'][i], self.mechanism['B'][i])
-        maxX = Comparator(max, 0)
-        minX = Comparator(min, 0)
-        maxY = Comparator(max, 1)
-        minY = Comparator(min, 1)
+        maxX = self.Comparator(max, 0)
+        minX = self.Comparator(min, 0)
+        maxY = self.Comparator(max, 1)
+        minY = self.Comparator(min, 1)
         diffX = maxX - minX
         diffY = maxY - minY
         diff = diffX/diffY > width/height
@@ -156,14 +157,15 @@ class DynamicCanvas(BaseCanvas):
         pen.setWidth(self.pathWidth)
         self.painter.setPen(pen)
         pointPath = QPainterPath()
-        for i, (x, y) in enumerate(self.slvsPath):
-            x *= self.zoom
-            y *= -self.zoom
-            self.painter.drawEllipse(QPointF(x, y), 3, 3)
-            if i==0:
-                pointPath.moveTo(x, y)
-            else:
-                pointPath.lineTo(QPointF(x, y))
+        for name, path in self.slvsPath.items():
+            for i, (x, y) in enumerate(path):
+                x *= self.zoom
+                y *= -self.zoom
+                self.painter.drawEllipse(QPointF(x, y), 3, 3)
+                if i==0:
+                    pointPath.moveTo(x, y)
+                else:
+                    pointPath.lineTo(QPointF(x, y))
         pen.setColor(QColor(69, 247, 232))
         self.painter.setPen(pen)
         self.painter.drawPath(pointPath)

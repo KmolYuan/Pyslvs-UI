@@ -57,9 +57,11 @@ class Chromosome(object):
 
 class Firefly(object):
     def __init__(self, func, settings, progress_fun=None, interrupt_fun=None):
+        # object function, maybe can call the environment
+        self.func = func
         # D, the dimension of question
         # and each firefly will random place position in this landscape
-        self.D = settings['nParm']
+        self.D = self.func.get_nParm()
         # n, the population size of fireflies
         self.n = settings['n']
         # alpha, the step size
@@ -73,13 +75,11 @@ class Firefly(object):
         # gamma
         self.gamma = settings['gamma']
         # low bound
-        self.lb = settings['lower']
+        self.lb = self.func.get_lower()
         # up bound
-        self.ub = settings['upper']
+        self.ub = self.func.get_upper()
         # fireflies pool, depend on population n
         self.fireflys = [Chromosome(self.D) for i in range(self.n)]
-        # object function, maybe can call the environment
-        self.func = func
         # maxima generation, report: how many generation report status once
         self.maxGen = settings['maxGen']
         self.rp = settings['report']
@@ -98,7 +98,7 @@ class Firefly(object):
         self.socket.bind(self.socket_port)
         self.poll = zmq.Poller()
         self.poll.register(self.socket, zmq.POLLIN)
-        self.targetPath = settings['targetPath']
+        self.targetPath = settings['Target']
         # setup benchmark
         self.timeS = time.time()
         self.timeE = 0
