@@ -19,12 +19,12 @@
 
 from core.QtModules import *
 import zmq
-from .Ui_Algorithm_progress import Ui_Dialog
+from .Ui_progress import Ui_Dialog
 from .pathSolving import WorkerThread
 
-class Algorithm_progress_show(QDialog, Ui_Dialog):
+class Progress_show(QDialog, Ui_Dialog):
     def __init__(self, type_num, mechanismParams, setting, PORT=None, parent=None):
-        super(Algorithm_progress_show, self).__init__(parent)
+        super(Progress_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.closeWork)

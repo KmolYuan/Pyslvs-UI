@@ -18,11 +18,11 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from .Ui_Algorithm_path_adjust import Ui_Dialog
+from .Ui_path_adjust import Ui_Dialog
 
-class Algorithm_path_adjust_show(QDialog, Ui_Dialog):
+class Path_adjust_show(QDialog, Ui_Dialog):
     def __init__(self, path, parent=None):
-        super(Algorithm_path_adjust_show, self).__init__(parent)
+        super(Path_adjust_show, self).__init__(parent)
         self.setupUi(self)
         for e in path:
             self.Point_list.addItem("({}, {})".format(e[0], e[1]))

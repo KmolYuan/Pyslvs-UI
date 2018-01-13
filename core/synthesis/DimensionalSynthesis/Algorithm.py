@@ -21,18 +21,18 @@ from core.QtModules import *
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
 from core.io import get_from_parenthesis
 from core.libs.pyslvs_algorithm.TS import solver, Direction
-from .Algorithm_options import (
+from .options import (
     GeneticPrams,
     FireflyPrams,
     defaultSettings,
     DifferentialPrams,
-    Algorithm_options_show
+    Options_show
 )
-from .Algorithm_path_adjust import Algorithm_path_adjust_show
-from .Algorithm_progress import Algorithm_progress_show
-from .Algorithm_series import Algorithm_series_show
-from .Algorithm_preview import PreviewDialog
-from .Algorithm_chart import ChartDialog
+from .path_adjust import Path_adjust_show
+from .progress import Progress_show
+from .series import Series_show
+from .preview import PreviewDialog
+from .chart import ChartDialog
 import csv
 import openpyxl
 from re import split as charSplit
@@ -100,7 +100,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_series_clicked(self):
-        dlg = Algorithm_series_show(self)
+        dlg = Series_show(self)
         dlg.show()
         if dlg.exec_():
             for e in dlg.path:
@@ -163,7 +163,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_pathAdjust_clicked(self):
-        dlg = Algorithm_path_adjust_show(self.path)
+        dlg = Path_adjust_show(self.path)
         dlg.show()
         if dlg.exec_():
             self.on_clearAll_clicked()
@@ -244,7 +244,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     def startAlgorithm(self, hasPort=False):
         type_num, mechanismParams, setting = self.getGenerate()
         setting.update(self.Settings['algorithmPrams'])
-        dlg = Algorithm_progress_show(type_num, mechanismParams, setting, self.portText.text() if hasPort else None, self)
+        dlg = Progress_show(type_num, mechanismParams, setting, self.portText.text() if hasPort else None, self)
         dlg.show()
         if dlg.exec_():
             self.mechanism_data_add(dlg.mechanisms)
@@ -416,7 +416,7 @@ class Algorithm_show(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_advanceButton_clicked(self):
         type_num = "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution"
-        dlg = Algorithm_options_show(type_num, self.Settings)
+        dlg = Options_show(type_num, self.Settings)
         dlg.show()
         if dlg.exec_():
             tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()

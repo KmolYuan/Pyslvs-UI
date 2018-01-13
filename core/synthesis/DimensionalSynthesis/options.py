@@ -19,7 +19,7 @@
 
 from core.QtModules import *
 from core.info import html
-from .Ui_Algorithm_options import Ui_Dialog
+from .Ui_options import Ui_Dialog
 
 GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
 FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
@@ -29,9 +29,9 @@ defaultSettings = {
     'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
 }
 
-class Algorithm_options_show(QDialog, Ui_Dialog):
+class Options_show(QDialog, Ui_Dialog):
     def __init__(self, algorithm, settings, parent=None):
-        super(Algorithm_options_show, self).__init__(parent)
+        super(Options_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.tabWidget.setTabText(1, algorithm)

@@ -17,13 +17,12 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from .QtModules import *
-from .Ui_main import Ui_MainWindow
-from .info import Pyslvs_About
-from .graphics import slvsProcess, SlvsException
+from core.QtModules import *
 import csv
 from typing import Tuple
-from .io import (
+from core.info import Pyslvs_About
+from core.graphics import slvsProcess, SlvsException
+from core.io import (
     Script_Dialog,
     addTableCommand, deleteTableCommand, fixSequenceNumberCommand,
     editPointTableCommand, editLinkTableCommand,
@@ -34,9 +33,10 @@ from .io import (
     parser, ArgsTransformer, get_from_parenthesis
 )
 #['initCustomWidgets']
-from .widgets import *
+from core.widgets import *
 #['edit_point_show', 'edit_link_show']
-from .entities import *
+from core.entities import *
+from .Ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self, args, parent=None):

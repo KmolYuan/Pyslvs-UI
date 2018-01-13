@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm_series.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/series.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #

@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from .Ui_Algorithm_preview import Ui_Dialog
+from .Ui_preview import Ui_Dialog
 from core.graphics import BaseCanvas, colorQt
 from core.io import get_from_parenthesis
 from math import isnan
