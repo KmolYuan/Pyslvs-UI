@@ -81,6 +81,22 @@ Referring symbolic from [PMKS](http://designengrlab.github.io/PMKS/).
 
     ![Link](images/Link.png)
 
+The PMKS expression is using a name label to present a link bar.
+
+A joint between two links will get two name labels, and so on.
+
+The "ground" label is a default name, this link will be the absolute coordinate in the system, might be a frame of your mechanism.
+
+![PMKS example](images/PMKS_example.png)
+
+Pyslvs was translate the PMKS expression as a string, like below:
+
+```
+M[J[R, color[Green], P[0.0, 0.0], L[ground, link_0]], J[R, color[Green], P[12.92, 32.53], L[link_0, link_1]], J[R, color[Green], P[73.28, 67.97], L[link_1, link_2]], J[R, color[Green], P[33.3, 66.95], L[link_1]], J[R, color[Green], P[90.0, 0.0], L[ground, link_2]]]
+```
+
+Then the expression can be parse in Pyslvs to create the mechanism.
+
 ## Number and Type Synthesis
 
 Analysis a type of mechanism that exists, and find out other possibilities.
