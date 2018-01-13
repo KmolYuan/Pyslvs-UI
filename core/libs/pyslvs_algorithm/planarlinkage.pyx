@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import tinycadlib
 from tinycadlib import (
     PLAP,
     PLLP,
@@ -11,6 +10,9 @@ from tinycadlib import (
 import numpy as np
 cimport numpy as np
 
+#Large fitness
+cdef double FAILURE = 9487
+
 cdef str get_from_parenthesis(str s, str front, str back):
     return s[s.find(front)+1:s.find(back)]
 
@@ -20,9 +22,9 @@ cdef str get_front_of_parenthesis(str s, str front):
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, VARS
-    cdef object constraint, Link, upper, lower, Driving, Follower, Driving_list, Follower_list, targetPoint, target
+    cdef object constraint, Link, upper, lower, Driving, Follower, Driving_list, Follower_list, targetPoint
     cdef str Expression_str
-    cdef np.ndarray Exp
+    cdef np.ndarray Exp, target
     
     def __cinit__(self, object mechanismParams):
         '''
@@ -41,7 +43,7 @@ cdef class build_planar(object):
         cdef int l
         cdef object check_tuple = tuple(len(value) for value in mechanismParams['Target'].values())
         if not all([l==check_tuple[0] for l in check_tuple]):
-            raise ValueError("targetPath should be in same size.")
+            raise ValueError("Target path should be in the same size.")
         #counting how many action to satisfied require point
         self.POINTS = check_tuple[0]
         #driving point, string
@@ -49,16 +51,16 @@ cdef class build_planar(object):
         #folower point, string
         self.Follower = mechanismParams['Follower']
         #target point name
+        #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
+        cdef double x, y
         self.targetPoint = tuple(mechanismParams['Target'])
+        self.target = np.ndarray((len(mechanismParams['Target']),), dtype=np.object)
+        cdef int i
+        for i, value in enumerate(mechanismParams['Target'].values()):
+            self.target[i] = tuple(Coordinate(x, y) for x, y in value)
+        
         #constraint
         self.constraint = mechanismParams['constraint']
-        
-        #use tuple data, create a list of coordinate object
-        #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
-        cdef str name
-        self.target = {}
-        for name, value in mechanismParams['Target'].items():
-            self.target[name] = tuple(Coordinate(x, y) for x, y in value)
         
         #Expression ['A', 'B', 'C', 'D', 'E', 'L0', 'L1', 'L2', 'L3', 'L4', 'a0']
         self.Expression_str = mechanismParams['Expression']
@@ -73,7 +75,6 @@ cdef class build_planar(object):
             {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
         '''
-        cdef int i
         cdef str expr, params
         self.Link = []
         self.Driving_list = []
@@ -81,11 +82,14 @@ cdef class build_planar(object):
         self.Exp = np.ndarray((len(ExpressionL),), dtype=np.object)
         for i, expr in enumerate(ExpressionL):
             params = get_from_parenthesis(expr, '[', ']')
-            self.Exp[i] = {
-                'relate':get_front_of_parenthesis(expr, '['),
-                'target':get_from_parenthesis(expr, '(', ')'),
-                'params':params.split(',')
-            }
+            self.Exp[i] = (
+                #relate
+                get_front_of_parenthesis(expr, '['),
+                #target
+                get_from_parenthesis(expr, '(', ')'),
+                #params
+                params.split(',')
+            )
             for p in params.split(','):
                 if ('L' in p) and ('L' != p):
                     self.Link.append(p)
@@ -97,6 +101,7 @@ cdef class build_planar(object):
         self.VARS = 2*len(self.Driving_list) + 2*len(self.Follower_list) + len(self.Link)
         
         #upper
+        cdef str name
         self.upper = []
         for name in self.Driving_list:
             for i in [0, 1]:
@@ -153,9 +158,16 @@ cdef class build_planar(object):
             vi += 1
         return tmp_dict
     
+    cdef np.ndarray get_path_array(self):
+        cdef np.ndarray path = np.ndarray((len(self.targetPoint),), dtype=np.object)
+        cdef int i
+        for i in range(len(self.targetPoint)):
+            path[i] = []
+        return path
+    
     cdef object from_formula(self, object expression_dict, object data_dict):
-        cdef str fun = expression_dict["relate"]
-        cdef object params = tuple(data_dict[p] for p in expression_dict["params"])
+        cdef str fun = expression_dict[0]
+        cdef object params = tuple(data_dict[p] for p in expression_dict[2])
         if fun=='PLAP':
             return Coordinate(*PLAP(*params))
         if fun=='PLLP':
@@ -172,14 +184,13 @@ cdef class build_planar(object):
         """
         # all variable
         cdef object test_dict = self.get_data_dict(v)
-        cdef object path = {name:[] for name in self.targetPoint}
+        cdef np.ndarray path = self.get_path_array()
         # calculate the target point, and sum all error.
-        #Large fitness
-        cdef double FAILURE = 9487
         #My fitness
         cdef double fitness = 0
-        cdef int i
+        cdef int i, j, k
         cdef str name
+        cdef object e
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
@@ -189,36 +200,40 @@ cdef class build_planar(object):
                 target_coordinate = self.from_formula(e, test_dict)
                 if target_coordinate.isnan():
                     return FAILURE
-                if not legal_triangle(target_coordinate, test_dict[e["params"][0]], test_dict[e["params"][-1]]):
+                #params
+                if not legal_triangle(target_coordinate, test_dict[e[2][0]], test_dict[e[2][-1]]):
                     return FAILURE
-                test_dict[e["target"]] = target_coordinate
-            for name in self.targetPoint:
-                path[name].append(test_dict[name])
+                #target
+                test_dict[e[1]] = target_coordinate
+            for i, name in enumerate(self.targetPoint):
+                path[i].append(test_dict[name])
         #constraint
         for constraint in self.constraint:
             if not legal_crank(*[test_dict[name] for name in constraint]):
                 return FAILURE
         #swap
-        for name in self.targetPoint:
+        for k in range(len(self.targetPoint)):
             for i in range(self.POINTS):
                 for j in range(self.POINTS):
-                    if path[name][j].distance(self.target[name][i])<path[name][i].distance(self.target[name][i]):
-                        path[name][i], path[name][j] = path[name][j], path[name][i]
+                    if path[k][j].distance(self.target[k][i])<path[k][i].distance(self.target[k][i]):
+                        path[k][i], path[k][j] = path[k][j], path[k][i]
         #sum the fitness
-        for name in self.targetPoint:
+        for k in range(len(self.targetPoint)):
             for i in range(self.POINTS):
-                fitness += path[name][i].distance(self.target[name][i])
+                fitness += path[k][i].distance(self.target[k][i])
         return fitness
     
     cpdef object get_coordinates(self, object v):
-        cdef object e
+        cdef str k
+        cdef object e, value
         cdef object final_dict = self.get_data_dict(v)
         final_dict['a0'] = np.deg2rad(v[self.VARS])
         for e in self.Exp:
-            final_dict[e["target"]] = self.from_formula(e, final_dict)
-        for k, v in final_dict.items():
-            if type(v)==Coordinate:
-                final_dict[k] = (v.x, v.y)
+            #target
+            final_dict[e[1]] = self.from_formula(e, final_dict)
+        for k, value in final_dict.items():
+            if type(value)==Coordinate:
+                final_dict[k] = (value.x, value.y)
         return final_dict
     
     def __call__(self, object v):
