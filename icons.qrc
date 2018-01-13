@@ -31,6 +31,8 @@
     <file>icons/BrowseAim.png</file>
     <file>icons/capture.png</file>
     <file>icons/close.png</file>
+    <file>icons/collection-structure.png</file>
+    <file>icons/collection-triangular-iteration.png</file>
     <file>icons/collections.png</file>
     <file>icons/ConflictGuide.png</file>
     <file>icons/connect.png</file>
@@ -69,7 +71,6 @@
     <file>icons/settings.png</file>
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>
-    <file>icons/triangular-iteration.png</file>
     <file>icons/undo.png</file>
   </qresource>
 </RCC>

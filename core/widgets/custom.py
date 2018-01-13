@@ -154,7 +154,7 @@ def appearance(self):
     self.SelectionRadius.valueChanged.connect(self.DynamicCanvasView.setSelectionRadius)
     self.LinkageTransparency.valueChanged.connect(self.DynamicCanvasView.setTransparency)
     #Splitter stretch factor.
-    self.MainSplitter.setStretchFactor(0, 2)
+    self.MainSplitter.setStretchFactor(0, 4)
     self.MainSplitter.setStretchFactor(1, 15)
     self.MechanismPanelSplitter.setSizes([500, 200])
     self.synthesis_splitter.setSizes([100, 500])

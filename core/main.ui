@@ -48,9 +48,6 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="handleWidth">
-       <number>3</number>
-      </property>
       <widget class="QSplitter" name="LaftSplitter">
        <property name="minimumSize">
         <size>
@@ -79,9 +76,6 @@
           <widget class="QTabWidget" name="Panel">
            <property name="tabPosition">
             <enum>QTabWidget::West</enum>
-           </property>
-           <property name="currentIndex">
-            <number>0</number>
            </property>
            <widget class="QWidget" name="mechanism_tab">
             <attribute name="icon">
@@ -151,12 +145,6 @@
                      </property>
                      <item>
                       <widget class="QWidget" name="Entities_Point_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>
@@ -201,12 +189,6 @@
                      </property>
                      <item>
                       <widget class="QWidget" name="Entities_Link_Widget" native="true">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
                        <property name="contextMenuPolicy">
                         <enum>Qt::CustomContextMenu</enum>
                        </property>

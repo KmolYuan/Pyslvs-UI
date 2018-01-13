@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>418</width>
+    <width>481</width>
     <height>679</height>
    </rect>
   </property>
@@ -17,428 +17,452 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_4">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="graph_engine_text">
-       <property name="text">
-        <string>Engine: </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="graph_engine">
-       <property name="statusTip">
-        <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="reload_atlas">
-       <property name="toolTip">
-        <string>Add to collection.</string>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="graph_link_as_node">
-       <property name="statusTip">
-        <string>Show the edges as nodes.</string>
-       </property>
-       <property name="text">
-        <string>Linkage as node</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
-     <item>
-      <widget class="QPushButton" name="add_by_files_button">
-       <property name="statusTip">
-        <string>Add the chain by edge expression from text files.</string>
-       </property>
-       <property name="text">
-        <string>Append by text files</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="add_by_edges_button">
-       <property name="statusTip">
-        <string>Add the chain by edge expression.</string>
-       </property>
-       <property name="text">
-        <string>Add by edges</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="QSplitter" name="splitter">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <widget class="QWidget" name="verticalLayoutWidget_2">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+    <widget class="QTabWidget" name="tabWidget">
+     <widget class="QWidget" name="structure">
+      <attribute name="icon">
+       <iconset resource="../../../icons.qrc">
+        <normaloff>:/icons/collection-structure.png</normaloff>:/icons/collection-structure.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Structure</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QListWidget" name="collection_list">
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="graph_engine_text">
+           <property name="text">
+            <string>Engine: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="graph_engine">
+           <property name="statusTip">
+            <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
+           </property>
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="reload_atlas">
+           <property name="toolTip">
+            <string>Add to collection.</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="graph_link_as_node">
+           <property name="statusTip">
+            <string>Show the edges as nodes.</string>
+           </property>
+           <property name="text">
+            <string>Linkage as node</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QPushButton" name="add_by_files_button">
+           <property name="statusTip">
+            <string>Add the chain by edge expression from text files.</string>
+           </property>
+           <property name="text">
+            <string>Append by text files</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="add_by_edges_button">
+           <property name="statusTip">
+            <string>Add the chain by edge expression.</string>
+           </property>
+           <property name="text">
+            <string>Add by edges</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QSplitter" name="splitter">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-         <property name="iconSize">
-          <size>
-           <width>100</width>
-           <height>100</height>
-          </size>
-         </property>
-         <property name="movement">
-          <enum>QListView::Static</enum>
-         </property>
-         <property name="resizeMode">
-          <enum>QListView::Adjust</enum>
-         </property>
-         <property name="spacing">
-          <number>3</number>
-         </property>
-         <property name="viewMode">
-          <enum>QListView::IconMode</enum>
-         </property>
-         <property name="uniformItemSizes">
-          <bool>true</bool>
-         </property>
+         <widget class="QWidget" name="verticalLayoutWidget_2">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QListWidget" name="collection_list">
+             <property name="contextMenuPolicy">
+              <enum>Qt::CustomContextMenu</enum>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="movement">
+              <enum>QListView::Static</enum>
+             </property>
+             <property name="resizeMode">
+              <enum>QListView::Adjust</enum>
+             </property>
+             <property name="spacing">
+              <number>3</number>
+             </property>
+             <property name="viewMode">
+              <enum>QListView::IconMode</enum>
+             </property>
+             <property name="uniformItemSizes">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="verticalLayoutWidget">
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QPushButton" name="save_atlas">
+               <property name="statusTip">
+                <string>Save the atlas to image file.</string>
+               </property>
+               <property name="text">
+                <string>Save atlas</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="save_edges">
+               <property name="statusTip">
+                <string>Save the edges of atlas to text file.</string>
+               </property>
+               <property name="text">
+                <string>Save edges</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QPushButton" name="clear_button">
+               <property name="text">
+                <string>Clear all</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="delete_button">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="statusTip">
+                <string>Delete this chain.</string>
+               </property>
+               <property name="text">
+                <string>Delete</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="Line" name="line">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QListWidget" name="selection_window">
+               <property name="minimumSize">
+                <size>
+                 <width>210</width>
+                 <height>230</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>210</width>
+                 <height>230</height>
+                </size>
+               </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::NoSelection</enum>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>200</width>
+                 <height>200</height>
+                </size>
+               </property>
+               <property name="movement">
+                <enum>QListView::Static</enum>
+               </property>
+               <property name="viewMode">
+                <enum>QListView::IconMode</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QWidget" name="widget" native="true">
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>230</height>
+                </size>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_3">
+                  <item>
+                   <widget class="QLineEdit" name="Expression_edges">
+                    <property name="readOnly">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="Expression_copy">
+                    <property name="statusTip">
+                     <string>Copy expression.</string>
+                    </property>
+                    <property name="text">
+                     <string>Copy</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QFormLayout" name="formLayout">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="NL_text">
+                    <property name="text">
+                     <string>Number of links:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="NL">
+                    <property name="text">
+                     <string>0</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="NJ_text">
+                    <property name="text">
+                     <string>Number of joints:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="NJ">
+                    <property name="text">
+                     <string>0</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="DOF_text">
+                    <property name="text">
+                     <string>Degree of freedom:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLabel" name="DOF">
+                    <property name="text">
+                     <string>0</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="triangle_button">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="statusTip">
+                   <string>Use trangular formula to do dimentional synthesis.</string>
+                  </property>
+                  <property name="text">
+                   <string>Triangular modeling</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="grounded_button">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="statusTip">
+                   <string>Re-layout the grounded chains.</string>
+                  </property>
+                  <property name="text">
+                   <string>Generate layout</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QListWidget" name="grounded_list">
+               <property name="contextMenuPolicy">
+                <enum>Qt::CustomContextMenu</enum>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>150</width>
+                 <height>150</height>
+                </size>
+               </property>
+               <property name="movement">
+                <enum>QListView::Static</enum>
+               </property>
+               <property name="resizeMode">
+                <enum>QListView::Adjust</enum>
+               </property>
+               <property name="spacing">
+                <number>3</number>
+               </property>
+               <property name="viewMode">
+                <enum>QListView::IconMode</enum>
+               </property>
+               <property name="uniformItemSizes">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="grounded_merge">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="statusTip">
+                <string>Merge the specified chain to canvas with current layout.</string>
+               </property>
+               <property name="text">
+                <string>Merge</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <item>
-          <widget class="QPushButton" name="save_atlas">
-           <property name="statusTip">
-            <string>Save the atlas to image file.</string>
-           </property>
-           <property name="text">
-            <string>Save atlas</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="save_edges">
-           <property name="statusTip">
-            <string>Save the edges of atlas to text file.</string>
-           </property>
-           <property name="text">
-            <string>Save edges</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QPushButton" name="clear_button">
-           <property name="text">
-            <string>Clear all</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="delete_button">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="statusTip">
-            <string>Delete this chain.</string>
-           </property>
-           <property name="text">
-            <string>Delete</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QListWidget" name="selection_window">
-           <property name="minimumSize">
-            <size>
-             <width>210</width>
-             <height>230</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>210</width>
-             <height>230</height>
-            </size>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::NoSelection</enum>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>200</width>
-             <height>200</height>
-            </size>
-           </property>
-           <property name="movement">
-            <enum>QListView::Static</enum>
-           </property>
-           <property name="viewMode">
-            <enum>QListView::IconMode</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QWidget" name="widget" native="true">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>230</height>
-            </size>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <property name="leftMargin">
-             <number>0</number>
-            </property>
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <property name="rightMargin">
-             <number>0</number>
-            </property>
-            <property name="bottomMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <item>
-               <widget class="QLineEdit" name="Expression_edges">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="Expression_copy">
-                <property name="statusTip">
-                 <string>Copy expression.</string>
-                </property>
-                <property name="text">
-                 <string>Copy</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="NL_text">
-                <property name="text">
-                 <string>Number of links:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="NL">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="NJ_text">
-                <property name="text">
-                 <string>Number of joints:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="NJ">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="DOF_text">
-                <property name="text">
-                 <string>Degree of freedom:</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="DOF">
-                <property name="text">
-                 <string>0</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="triangle_button">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="statusTip">
-               <string>Use trangular formula to do dimentional synthesis.</string>
-              </property>
-              <property name="text">
-               <string>Triangular modeling</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/triangular-iteration.png</normaloff>:/icons/triangular-iteration.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="grounded_button">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="statusTip">
-               <string>Re-layout the grounded chains.</string>
-              </property>
-              <property name="text">
-               <string>Generate layout</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QListWidget" name="grounded_list">
-           <property name="contextMenuPolicy">
-            <enum>Qt::CustomContextMenu</enum>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>150</width>
-             <height>150</height>
-            </size>
-           </property>
-           <property name="movement">
-            <enum>QListView::Static</enum>
-           </property>
-           <property name="resizeMode">
-            <enum>QListView::Adjust</enum>
-           </property>
-           <property name="spacing">
-            <number>3</number>
-           </property>
-           <property name="viewMode">
-            <enum>QListView::IconMode</enum>
-           </property>
-           <property name="uniformItemSizes">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="grounded_merge">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="statusTip">
-            <string>Merge the specified chain to canvas with current layout.</string>
-           </property>
-           <property name="text">
-            <string>Merge</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+     <widget class="QWidget" name="triangular_iteration">
+      <attribute name="icon">
+       <iconset resource="../../../icons.qrc">
+        <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
+      </attribute>
+      <attribute name="title">
+       <string>Triangular iteration</string>
+      </attribute>
      </widget>
     </widget>
    </item>
