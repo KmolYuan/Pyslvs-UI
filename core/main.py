@@ -1085,7 +1085,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             action = self.popMenu_inputs_record.addAction("Show all")
             action.index = -1
             data = self.FileWidget.pathData[self.inputs_record.item(row).text().split(":")[0]]
-            for action_text in ["Show", "Copy data from"]:
+            for action_text in ("Show", "Copy data from"):
                 self.popMenu_inputs_record.addSeparator()
                 for i in range(len(data)):
                     if data[i]:
@@ -1122,28 +1122,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int, tuple)
     def PathSolving_mergeResult(self, row, path):
         Result = self.FileWidget.Designs.result[row]
-        expression_tag = tuple(
-            tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
-            for exp in Result['Expression'].split(';')
-        )
-        #('A', 'B', 'C', 'D', 'E')
-        exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        #exp_symbol = ['A', 'B', 'C', 'D', 'E']
+        exp_symbol = []
+        for exp in Result['Link_Expression'].split(';'):
+            for name in get_from_parenthesis(exp, '[', ']').split(','):
+                if name not in exp_symbol:
+                    exp_symbol.append(name)
         self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
-        pointNum = tuple(
-            self.addPoint(Result[tag][0], Result[tag][1], i<2, "Dark-Orange" if i==len(exp_symbol)-1 else None)
-            for i, tag in enumerate(exp_symbol)
-        )
-        for i, exp in enumerate(expression_tag):
-            #Dimensional synthesis link merge function.
+        for i, tag in enumerate(exp_symbol):
+            self.addPoint(Result[tag][0], Result[tag][1], color=("Dark-Orange" if i==len(exp_symbol)-1 else None))
+        for i, exp in enumerate(Result['Link_Expression'].split(';')):
+            self.addLinkGroup(exp_symbol.index(name) for name in get_from_parenthesis(exp, '[', ']').split(','))
             if i==0:
-                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 4))
-            elif i%3==0:
-                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 4))
-                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (3, 4))
-            elif i%3==1:
-                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (3, 4))
-            else:
-                self.addLinkGroup(pointNum[exp_symbol.index(exp[n])] for n in (0, 3, 4))
+                self.constrainLink(self.Entities_Link.rowCount()-1)
         self.FileState.endMacro()
         #Add the path.
         i = 0

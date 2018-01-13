@@ -15,7 +15,7 @@ cdef class Coordinate(object):
     cdef public double x
     cdef public double y
     
-    def __cinit__(self, x, y):
+    def __cinit__(self, double x, double y):
         self.x = x
         self.y = y
     

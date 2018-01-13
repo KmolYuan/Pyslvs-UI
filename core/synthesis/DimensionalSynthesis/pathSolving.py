@@ -71,6 +71,7 @@ class WorkerThread(QThread):
                 'time':time_spand,
                 'Target':self.mechanismParams['Target'],
                 'interrupted':str(time_and_fitness[-1][0]) if self.stoped else 'False',
+                'Link_Expression':self.mechanismParams['Link_Expression'],
                 'Expression':self.mechanismParams['Expression'],
                 'settings':self.settings,
                 'hardwareInfo':{

@@ -31,12 +31,15 @@ class DynamicCanvas(BaseCanvas):
         self.Path.path = Path
         self.slvsPath = mechanism['Target']
         self.index = 0
-        self.expression_tag = tuple(
-            tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
-            for exp in mechanism['Expression'].split(';')
-        )
-        #('A', 'B', 'C', 'D', 'E')
-        self.exp_symbol = (self.expression_tag[0][0], self.expression_tag[0][3])+tuple(exp[-1] for exp in self.expression_tag)
+        #exp_symbol = ('A', 'B', 'C', 'D', 'E')
+        self.exp_symbol = []
+        self.links = []
+        for exp in mechanism['Link_Expression'].split(';'):
+            tags = get_from_parenthesis(exp, '[', ']').split(',')
+            self.links.append(tags)
+            for name in tags:
+                if name not in self.exp_symbol:
+                    self.exp_symbol.append(name)
         #Timer start.
         timer = QTimer(self)
         timer.setInterval(10)
@@ -78,17 +81,11 @@ class DynamicCanvas(BaseCanvas):
             self.index += 1
             return
         #Draw links.
-        for i, exp in enumerate(self.expression_tag):
-            name = "link_{}".format(i)
+        for i, exp in enumerate(self.links):
             if i==0:
-                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 4)))
-            elif i%3==0:
-                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 4)))
-                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (3, 4)))
-            elif i%3==1:
-                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (3, 4)))
-            else:
-                self.drawLink(name, tuple(self.exp_symbol.index(exp[n]) for n in (0, 3, 4)))
+                continue
+            name = "link_{}".format(i)
+            self.drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
         #Draw path.
         self.drawPath()
         #Draw points.
