@@ -27,11 +27,13 @@ from .table import (
 )
 from .rotatable import RotatableView
 from core.io import FileWidget
-from core.synthesis import (
-    NumberAndTypeSynthesis,
-    SynthesisCollections,
-    DimensionalSynthesis
-)
+'''
+'NumberAndTypeSynthesis',
+'CollectionsStructure',
+'CollectionTriangularIteration',
+'DimensionalSynthesis'
+'''
+from core.synthesis import *
 
 def initCustomWidgets(self):
     appearance(self)
@@ -106,11 +108,20 @@ def appearance(self):
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
     self.SynthesisTab.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
     #Synthesis collections
-    self.SynthesisCollections = SynthesisCollections(self)
-    self.NumberAndTypeSynthesis.addCollection = self.SynthesisCollections.addCollection
-    self.FileWidget.CollectDataFunc = lambda: [tuple(G.edges) for G in self.SynthesisCollections.collections] #Call to get collections data.
-    self.FileWidget.loadCollectFunc = self.SynthesisCollections.addCollections #Call to load collections data.
-    self.SynthesisTab.addTab(self.SynthesisCollections, self.SynthesisCollections.windowIcon(), "Collections")
+    CollectionTabPage = QWidget(self)
+    collection_layout = QVBoxLayout(CollectionTabPage)
+    collection_tabwidget = QTabWidget(CollectionTabPage)
+    collection_layout.addWidget(collection_tabwidget)
+    self.SynthesisTab.addTab(CollectionTabPage, QIcon(QPixmap(":/icons/collections.png")), "Collections")
+    #Synthesis collections - Collections structure
+    self.CollectionsStructure = CollectionsStructure(self)
+    self.NumberAndTypeSynthesis.addCollection = self.CollectionsStructure.addCollection
+    self.FileWidget.CollectDataFunc = lambda: [tuple(G.edges) for G in self.CollectionsStructure.collections] #Call to get collections data.
+    self.FileWidget.loadCollectFunc = self.CollectionsStructure.addCollections #Call to load collections data.
+    collection_tabwidget.addTab(self.CollectionsStructure, self.CollectionsStructure.windowIcon(), "Structure")
+    #Synthesis collections - Triangular iteration
+    self.CollectionTriangularIteration = CollectionTriangularIteration(self)
+    collection_tabwidget.addTab(self.CollectionTriangularIteration, self.CollectionTriangularIteration.windowIcon(), "Triangular Iteration")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)

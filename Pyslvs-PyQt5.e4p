@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-14, 13:32:27 -->
+<!-- Saved: 2018-01-14, 13:59:14 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -67,7 +67,11 @@
     <Source>core/server/rga.py</Source>
     <Source>core/server/zmq_rep.py</Source>
     <Source>core/synthesis/Collections/Collections.py</Source>
+    <Source>core/synthesis/Collections/Structure.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/Ui_Collections.py</Source>
+    <Source>core/synthesis/Collections/Ui_Structure.py</Source>
+    <Source>core/synthesis/Collections/Ui_TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/__init__.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
@@ -84,12 +88,9 @@
     <Source>core/synthesis/DimensionalSynthesis/preview.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/series.py</Source>
-    <Source>core/synthesis/NumberAndTypeSynthesis/Collections.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
-    <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Collections.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/__init__.py</Source>
-    <Source>core/synthesis/NumberAndTypeSynthesis/graph.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
@@ -108,13 +109,14 @@
     <Form>core/io/script.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/synthesis/Collections/Collections.ui</Form>
+    <Form>core/synthesis/Collections/Structure.ui</Form>
+    <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/options.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/path_adjust.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/preview.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/progress.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/series.ui</Form>
-    <Form>core/synthesis/NumberAndTypeSynthesis/Collections.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
   <Resources>

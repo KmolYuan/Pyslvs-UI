@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Collections.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/Structure.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -11,27 +11,21 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(481, 679)
+        Form.resize(529, 787)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/collections.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/icons/collection-structure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
-        self.verticalLayout_5 = QtWidgets.QVBoxLayout(Form)
-        self.verticalLayout_5.setObjectName("verticalLayout_5")
-        self.tabWidget = QtWidgets.QTabWidget(Form)
-        self.tabWidget.setObjectName("tabWidget")
-        self.structure = QtWidgets.QWidget()
-        self.structure.setObjectName("structure")
-        self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.structure)
+        self.verticalLayout_4 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.graph_engine_text = QtWidgets.QLabel(self.structure)
+        self.graph_engine_text = QtWidgets.QLabel(Form)
         self.graph_engine_text.setObjectName("graph_engine_text")
         self.horizontalLayout.addWidget(self.graph_engine_text)
-        self.graph_engine = QtWidgets.QComboBox(self.structure)
+        self.graph_engine = QtWidgets.QComboBox(Form)
         self.graph_engine.setObjectName("graph_engine")
         self.horizontalLayout.addWidget(self.graph_engine)
-        self.reload_atlas = QtWidgets.QPushButton(self.structure)
+        self.reload_atlas = QtWidgets.QPushButton(Form)
         self.reload_atlas.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap(":/icons/dataupdate.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -40,20 +34,20 @@ class Ui_Form(object):
         self.horizontalLayout.addWidget(self.reload_atlas)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.graph_link_as_node = QtWidgets.QCheckBox(self.structure)
+        self.graph_link_as_node = QtWidgets.QCheckBox(Form)
         self.graph_link_as_node.setObjectName("graph_link_as_node")
         self.horizontalLayout.addWidget(self.graph_link_as_node)
         self.verticalLayout_4.addLayout(self.horizontalLayout)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_5.setObjectName("horizontalLayout_5")
-        self.add_by_files_button = QtWidgets.QPushButton(self.structure)
+        self.add_by_files_button = QtWidgets.QPushButton(Form)
         self.add_by_files_button.setObjectName("add_by_files_button")
         self.horizontalLayout_5.addWidget(self.add_by_files_button)
-        self.add_by_edges_button = QtWidgets.QPushButton(self.structure)
+        self.add_by_edges_button = QtWidgets.QPushButton(Form)
         self.add_by_edges_button.setObjectName("add_by_edges_button")
         self.horizontalLayout_5.addWidget(self.add_by_edges_button)
         self.verticalLayout_4.addLayout(self.horizontalLayout_5)
-        self.splitter = QtWidgets.QSplitter(self.structure)
+        self.splitter = QtWidgets.QSplitter(Form)
         self.splitter.setOrientation(QtCore.Qt.Vertical)
         self.splitter.setObjectName("splitter")
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.splitter)
@@ -198,13 +192,6 @@ class Ui_Form(object):
         self.horizontalLayout_4.addWidget(self.grounded_merge)
         self.verticalLayout.addLayout(self.horizontalLayout_4)
         self.verticalLayout_4.addWidget(self.splitter)
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap(":/icons/collection-structure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.tabWidget.addTab(self.structure, icon7, "")
-        self.triangular_iteration = QtWidgets.QWidget()
-        self.triangular_iteration.setObjectName("triangular_iteration")
-        self.tabWidget.addTab(self.triangular_iteration, icon5, "")
-        self.verticalLayout_5.addWidget(self.tabWidget)
 
         self.retranslateUi(Form)
         self.graph_engine.setCurrentIndex(-1)
@@ -243,8 +230,6 @@ class Ui_Form(object):
         self.grounded_button.setText(_translate("Form", "Generate layout"))
         self.grounded_merge.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.grounded_merge.setText(_translate("Form", "Merge"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.structure), _translate("Form", "Structure"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.triangular_iteration), _translate("Form", "Triangular iteration"))
 
 import icons_rc
 

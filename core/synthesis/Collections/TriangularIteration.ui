@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+    <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
+  </property>
+ </widget>
+ <resources>
+  <include location="../../../../../桌面/Pyslvs-PyQt5/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

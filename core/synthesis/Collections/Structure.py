@@ -29,14 +29,14 @@ from core.graphics import (
     EngineList,
     EngineError
 )
-from .Ui_Collections import Ui_Form
+from .Ui_Structure import Ui_Form
 
 class TestError(Exception):
     pass
 
-class SynthesisCollections(QWidget, Ui_Form):
+class CollectionsStructure(QWidget, Ui_Form):
     def __init__(self, parent=None):
-        super(SynthesisCollections, self).__init__(parent)
+        super(CollectionsStructure, self).__init__(parent)
         self.setupUi(self)
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox

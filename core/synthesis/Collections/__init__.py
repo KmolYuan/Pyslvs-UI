@@ -6,6 +6,7 @@
 "Collections" module contains the result from type synthesis and triangular iteration by users.
 """
 
-from .Collections import SynthesisCollections
+from .Structure import CollectionsStructure
+from .TriangularIteration import CollectionTriangularIteration
 
-__all__ = ['SynthesisCollections']
+__all__ = ['CollectionsStructure', 'CollectionTriangularIteration']
