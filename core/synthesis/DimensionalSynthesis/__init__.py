@@ -6,6 +6,6 @@
 "DimensionalSynthesis" module contains dimensional synthesis functional interfaces.
 """
 
-from .Algorithm import Algorithm_show
+from .Algorithm import DimensionalSynthesis
 
-__all__ = ['Algorithm_show']
+__all__ = ['DimensionalSynthesis']

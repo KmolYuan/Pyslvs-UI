@@ -28,9 +28,9 @@ from .table import (
 from .rotatable import RotatableView
 from core.io import FileWidget
 from core.synthesis import (
-    Permutations_show as NumberAndTypeSynthesis,
-    Collections_show as SynthesisCollections,
-    Algorithm_show as DimensionalSynthesis
+    NumberAndTypeSynthesis,
+    SynthesisCollections,
+    DimensionalSynthesis
 )
 
 def initCustomWidgets(self):

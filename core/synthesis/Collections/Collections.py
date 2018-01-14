@@ -23,7 +23,7 @@ from networkx import (
     Graph,
     is_isomorphic
 )
-from .graph import (
+from core.graphics import (
     graph,
     engine_picker,
     EngineList,
@@ -34,9 +34,9 @@ from .Ui_Collections import Ui_Form
 class TestError(Exception):
     pass
 
-class Collections_show(QWidget, Ui_Form):
+class SynthesisCollections(QWidget, Ui_Form):
     def __init__(self, parent=None):
-        super(Collections_show, self).__init__(parent)
+        super(SynthesisCollections, self).__init__(parent)
         self.setupUi(self)
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox

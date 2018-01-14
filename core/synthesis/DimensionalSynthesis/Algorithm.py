@@ -54,13 +54,13 @@ mechanismParams_8Bar = {
     'constraint':[('A', 'B', 'C', 'D')]
 }
 
-class Algorithm_show(QWidget, PathSolving_Form):
+class DimensionalSynthesis(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(tuple, float, tuple, float)
     pathChanged = pyqtSignal(tuple)
     mergeResult = pyqtSignal(int, tuple)
     
     def __init__(self, parent):
-        super(Algorithm_show, self).__init__(parent)
+        super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
         self.path = parent.FileWidget.Designs.path
         self.mechanism_data = parent.FileWidget.Designs.result

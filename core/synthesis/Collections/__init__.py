@@ -3,9 +3,9 @@
 ##Copyright (C) 2016-2017 Yuan Chang [pyslvs@gmail.com]
 
 """
-"NumberAndTypeSynthesis" module contains number and type synthesis functional interfaces.
+"Collections" module contains the result from type synthesis and triangular iteration by users.
 """
 
-from .Permutations import NumberAndTypeSynthesis
+from .Collections import SynthesisCollections
 
-__all__ = ['NumberAndTypeSynthesis']
+__all__ = ['SynthesisCollections']

@@ -21,16 +21,16 @@ from core.QtModules import *
 from networkx import Graph
 from core.io import Qt_images, v_to_graph
 from core.libs import NumberSynthesis, topo
-from .graph import (
+from core.graphics import (
     graph,
     EngineList,
     EngineError
 )
 from .Ui_Permutations import Ui_Form
 
-class Permutations_show(QWidget, Ui_Form):
+class NumberAndTypeSynthesis(QWidget, Ui_Form):
     def __init__(self, parent):
-        super(Permutations_show, self).__init__(parent)
+        super(NumberAndTypeSynthesis, self).__init__(parent)
         self.setupUi(self)
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox

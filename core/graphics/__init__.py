@@ -22,6 +22,12 @@ from .canvas import (
     distance_sorted,
     DynamicCanvas
 )
+from .nx_pydot import (
+    graph,
+    engine_picker,
+    EngineList,
+    EngineError
+)
 
 __all__ = [
     'colorNum',
@@ -33,5 +39,9 @@ __all__ = [
     'dataChart',
     'BaseCanvas',
     'distance_sorted',
-    'DynamicCanvas'
+    'DynamicCanvas',
+    'graph',
+    'engine_picker',
+    'EngineList',
+    'EngineError'
 ]
