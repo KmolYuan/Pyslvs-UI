@@ -35,6 +35,8 @@ class TestError(Exception):
     pass
 
 class CollectionsStructure(QWidget, Ui_Form):
+    layout_sender = pyqtSignal(Graph, dict)
+    
     def __init__(self, parent=None):
         super(CollectionsStructure, self).__init__(parent)
         self.setupUi(self)
@@ -61,6 +63,7 @@ class CollectionsStructure(QWidget, Ui_Form):
     
     def clear(self):
         self.grounded_merge.setEnabled(False)
+        self.triangle_button.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
         self.clearSelection()
@@ -222,11 +225,13 @@ class CollectionsStructure(QWidget, Ui_Form):
         has_item = bool(item)
         self.delete_button.setEnabled(has_item)
         self.grounded_button.setEnabled(has_item)
+        self.triangle_button.setEnabled(has_item)
         if item:
             self.selection_window.clear()
             item_ = QListWidgetItem(item.text())
             row = self.collection_list.row(item)
             G = self.collections[row]
+            #Save the layout position to keep the graphs will be in same appearance.
             self.ground_engine = self.collections_layouts[row]
             item_.setIcon(graph(G, self.selection_window.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked()))
             self.selection_window.addItem(item_)
@@ -256,44 +261,49 @@ class CollectionsStructure(QWidget, Ui_Form):
                 del self.collections[row]
                 self.unsaveFunc()
     
+    #Triangular iteration
+    @pyqtSlot()
+    def on_triangle_button_clicked(self):
+        G = self.collections[self.collection_list.currentRow()]
+        self.layout_sender.emit(G, self.ground_engine)
+    
     #Grounded combinations
     @pyqtSlot()
     def on_grounded_button_clicked(self):
-        item = self.collection_list.currentItem()
-        self.grounded_merge.setEnabled(bool(item))
-        if item:
-            self.collections_grounded.clear()
-            self.grounded_list.clear()
-            G = self.collections[self.collection_list.row(item)]
-            item = QListWidgetItem("Released")
-            try:
-                icon, pos = graph(G, self.grounded_list.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked(), get_pos=True)
-            except EngineError as e:
-                self.engineErrorMsg(e)
-                return
+        current_item = self.collection_list.currentItem()
+        self.collections_grounded.clear()
+        self.grounded_list.clear()
+        G = self.collections[self.collection_list.row(current_item)]
+        item = QListWidgetItem("Released")
+        try:
+            icon, pos = graph(G, self.grounded_list.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked(), get_pos=True)
+        except EngineError as e:
+            self.engineErrorMsg(e)
+            return
+        item.setIcon(icon)
+        self.collections_grounded.append(G)
+        self.grounded_list.addItem(item)
+        for node in G.nodes:
+            G_ = Graph(G)
+            G_.remove_node(node)
+            error = False
+            for H in self.collections_grounded:
+                if is_isomorphic(G_, H):
+                    error = True
+            if error:
+                continue
+            item = QListWidgetItem("link_{} constrainted".format(node))
+            icon, pos = graph(
+                G, self.grounded_list.iconSize().width(),
+                self.ground_engine,
+                self.graph_link_as_node.isChecked(),
+                None if self.graph_link_as_node.isChecked() else node,
+                get_pos=True
+            )
             item.setIcon(icon)
-            self.collections_grounded.append(G)
+            self.collections_grounded.append(G_)
             self.grounded_list.addItem(item)
-            for node in G.nodes:
-                G_ = Graph(G)
-                G_.remove_node(node)
-                error = False
-                for H in self.collections_grounded:
-                    if is_isomorphic(G_, H):
-                        error = True
-                if error:
-                    continue
-                item = QListWidgetItem("link_{} constrainted".format(node))
-                icon, pos = graph(
-                    G, self.grounded_list.iconSize().width(),
-                    self.ground_engine,
-                    self.graph_link_as_node.isChecked(),
-                    None if self.graph_link_as_node.isChecked() else node,
-                    get_pos=True
-                )
-                item.setIcon(icon)
-                self.collections_grounded.append(G_)
-                self.grounded_list.addItem(item)
+        self.grounded_merge.setEnabled(bool(self.grounded_list.count()))
     
     @pyqtSlot()
     def on_grounded_merge_clicked(self):

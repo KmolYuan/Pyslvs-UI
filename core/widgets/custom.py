@@ -121,6 +121,7 @@ def appearance(self):
     collection_tabwidget.addTab(self.CollectionsStructure, self.CollectionsStructure.windowIcon(), "Structure")
     #Synthesis collections - Triangular iteration
     self.CollectionTriangularIteration = CollectionTriangularIteration(self)
+    self.CollectionsStructure.layout_sender.connect(self.CollectionTriangularIteration.PreviewWindow.setGraph)
     collection_tabwidget.addTab(self.CollectionTriangularIteration, self.CollectionTriangularIteration.windowIcon(), "Triangular Iteration")
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)

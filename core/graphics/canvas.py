@@ -44,6 +44,7 @@ class Path:
         #Display mode: The path will be the curve, otherwise the points.
         self.curve = True
 
+#The subclass can draw a blank canvas more easier.
 class BaseCanvas(QWidget):
     def __init__(self, parent=None):
         super(BaseCanvas, self).__init__(parent)
@@ -89,6 +90,10 @@ class BaseCanvas(QWidget):
             self.painter.drawLine(QPointF(x*self.zoom, 0), QPointF(x*self.zoom, -10 if x%10==0 else -5))
         for y in range(Indexing(y_b), Indexing(y_t)+1, 5):
             self.painter.drawLine(QPointF(0, y*self.zoom), QPointF(10 if y%10==0 else 5, y*self.zoom))
+        '''
+        - Please to call the "end" method when ending paint event.
+        self.painter.end()
+        '''
     
     def drawFrame(self, pen):
         positive_x = self.width()-self.ox

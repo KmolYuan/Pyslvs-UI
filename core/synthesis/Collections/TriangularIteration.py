@@ -18,9 +18,34 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
+from core.graphics import (
+    BaseCanvas,
+    distance_sorted
+)
+from networkx import Graph
 from .Ui_TriangularIteration import Ui_Form
+
+class PreviewCanvas(BaseCanvas):
+    def __init__(self, parent=None):
+        super(PreviewCanvas, self).__init__(parent)
+        self.G = Graph()
+        self.pos = {}
+    
+    def paintEvent(self, event):
+        self.ox = self.width()/2
+        self.oy = self.height()/2
+        super(PreviewCanvas, self).paintEvent(event)
+        self.painter.end()
+    
+    @pyqtSlot(Graph, dict)
+    def setGraph(self, G, pos):
+        self.G = G
+        self.pos = pos
+        self.update()
 
 class CollectionTriangularIteration(QWidget, Ui_Form):
     def __init__(self, parent=None):
         super(CollectionTriangularIteration, self).__init__(parent)
         self.setupUi(self)
+        self.PreviewWindow = PreviewCanvas(self)
+        self.main_layout.insertWidget(0, self.PreviewWindow)
