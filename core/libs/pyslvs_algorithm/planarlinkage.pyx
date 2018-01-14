@@ -83,11 +83,11 @@ cdef class build_planar(object):
         for i, expr in enumerate(ExpressionL):
             params = get_from_parenthesis(expr, '[', ']')
             self.Exp[i] = (
-                #relate
+                #[0]: relate
                 get_front_of_parenthesis(expr, '['),
-                #target
+                #[1]: target
                 get_from_parenthesis(expr, '(', ')'),
-                #params
+                #[2]: params
                 params.split(',')
             )
             for p in params.split(','):

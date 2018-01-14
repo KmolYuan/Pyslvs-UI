@@ -152,7 +152,7 @@ class PointTableWidget(BaseTableWidget):
             self.setItem(i, 6, item)
     
     #Let all points go back to the origin coordinate.
-    def getBackOrigin(self):
+    def getBackPosition(self):
         self.updateCurrentPosition(tuple(
             (float(self.item(row, 4).text()), float(self.item(row, 5).text()))
             for row in range(self.rowCount())

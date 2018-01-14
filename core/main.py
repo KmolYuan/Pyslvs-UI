@@ -929,7 +929,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if row>-1:
             self.inputs_variable_stop.click()
             self.inputs_variable.takeItem(row)
-            self.Entities_Point.getBackOrigin()
+            self.Entities_Point.getBackPosition()
             self.Resolve()
     
     def inputs_variable_autocheck(self):
@@ -976,7 +976,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if self.inputs_playShaft.isActive():
             self.inputs_variable_play.setChecked(False)
             self.inputs_playShaft.stop()
-        self.Entities_Point.getBackOrigin()
+        self.Entities_Point.getBackPosition()
         for i in range(self.inputs_variable.count()):
             itemText = self.inputs_variable.item(i).text().split('->')
             row = int(itemText[0].replace('Point', ''))
@@ -1129,10 +1129,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
         self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
+        tmp_dict = {}
         for i, tag in enumerate(exp_symbol):
-            self.addPoint(Result[tag][0], Result[tag][1], color=("Dark-Orange" if i==len(exp_symbol)-1 else None))
+            tmp_dict[tag] = self.addPoint(
+                Result[tag][0],
+                Result[tag][1],
+                color=("Dark-Orange" if i==len(exp_symbol)-1 else None)
+            )
         for i, exp in enumerate(Result['Link_Expression'].split(';')):
-            self.addLinkGroup(exp_symbol.index(name) for name in get_from_parenthesis(exp, '[', ']').split(','))
+            self.addLinkGroup(tmp_dict[name] for name in get_from_parenthesis(exp, '[', ']').split(','))
             if i==0:
                 self.constrainLink(self.Entities_Link.rowCount()-1)
         self.FileState.endMacro()

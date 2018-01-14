@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-14, 13:59:14 -->
+<!-- Saved: 2018-01-14, 14:08:40 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -66,10 +66,8 @@
     <Source>core/server/firefly.py</Source>
     <Source>core/server/rga.py</Source>
     <Source>core/server/zmq_rep.py</Source>
-    <Source>core/synthesis/Collections/Collections.py</Source>
     <Source>core/synthesis/Collections/Structure.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration.py</Source>
-    <Source>core/synthesis/Collections/Ui_Collections.py</Source>
     <Source>core/synthesis/Collections/Ui_Structure.py</Source>
     <Source>core/synthesis/Collections/Ui_TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/__init__.py</Source>
@@ -108,7 +106,6 @@
     <Form>core/io/peeweeIO.ui</Form>
     <Form>core/io/script.ui</Form>
     <Form>core/main.ui</Form>
-    <Form>core/synthesis/Collections/Collections.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
