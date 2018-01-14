@@ -362,7 +362,7 @@
             <item>
              <widget class="QLabel" name="label_2">
               <property name="text">
-               <string>Driver: </string>
+               <string>Driver (A): </string>
               </property>
              </widget>
             </item>
@@ -446,7 +446,7 @@
             <item>
              <widget class="QLabel" name="label_3">
               <property name="text">
-               <string>Follower: </string>
+               <string>Follower (B): </string>
               </property>
              </widget>
             </item>
@@ -457,7 +457,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
-               <widget class="QDoubleSpinBox" name="Dx">
+               <widget class="QDoubleSpinBox" name="Bx">
                 <property name="maximumSize">
                  <size>
                   <width>70</width>
@@ -473,10 +473,13 @@
                 <property name="singleStep">
                  <double>10.000000000000000</double>
                 </property>
+                <property name="value">
+                 <double>50.000000000000000</double>
+                </property>
                </widget>
               </item>
               <item>
-               <widget class="QDoubleSpinBox" name="Dy">
+               <widget class="QDoubleSpinBox" name="By">
                 <property name="maximumSize">
                  <size>
                   <width>70</width>
@@ -497,7 +500,7 @@
              </layout>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="Dr">
+             <widget class="QDoubleSpinBox" name="Br">
               <property name="prefix">
                <string>±</string>
               </property>

@@ -67,6 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def show(self):
         super(MainWindow, self).show()
         self.DynamicCanvasView.SetIn()
+        self.DimensionalSynthesis.updateRange()
     
     #Set environment variables
     def setLocate(self, locate: str):

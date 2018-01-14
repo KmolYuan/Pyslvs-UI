@@ -235,7 +235,7 @@ class LinkTableWidget(BaseTableWidget):
         color: str,
         points: str
     ):
-        for i, e in enumerate([name, color, points]):
+        for i, e in enumerate((name, color, points)):
             item = QTableWidgetItem(e)
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i==1:

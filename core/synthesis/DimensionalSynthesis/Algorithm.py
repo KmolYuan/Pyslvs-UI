@@ -55,7 +55,7 @@ mechanismParams_8Bar = {
 }
 
 class DimensionalSynthesis(QWidget, PathSolving_Form):
-    fixPointRange = pyqtSignal(tuple, float, tuple, float)
+    fixPointRange = pyqtSignal(dict)
     pathChanged = pyqtSignal(tuple)
     mergeResult = pyqtSignal(int, tuple)
     
@@ -78,9 +78,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Ar.valueChanged.connect(self.updateRange)
         self.Ax.valueChanged.connect(self.updateRange)
         self.Ay.valueChanged.connect(self.updateRange)
-        self.Dr.valueChanged.connect(self.updateRange)
-        self.Dx.valueChanged.connect(self.updateRange)
-        self.Dy.valueChanged.connect(self.updateRange)
+        self.Br.valueChanged.connect(self.updateRange)
+        self.Bx.valueChanged.connect(self.updateRange)
+        self.By.valueChanged.connect(self.updateRange)
         self.type0.clicked.connect(self.algorithmPrams_default)
         self.type1.clicked.connect(self.algorithmPrams_default)
         self.type2.clicked.connect(self.algorithmPrams_default)
@@ -260,7 +260,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         mechanismParams = (mechanismParams_4Bar if self.FourBar.isChecked() else mechanismParams_8Bar).copy()
         mechanismParams['Target'][get_from_parenthesis(mechanismParams['Expression'].split(';')[-1], '(', ')')] = tuple(self.path)
         mechanismParams['Driving']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
-        mechanismParams['Follower']['B'] = (self.Dx.value(), self.Dy.value(), self.Dr.value())
+        mechanismParams['Follower']['B'] = (self.Bx.value(), self.By.value(), self.Br.value())
         mechanismParams['IMax'] = self.Settings['IMax']
         mechanismParams['IMin'] = self.Settings['IMin']
         mechanismParams['LMax'] = self.Settings['LMax']
@@ -383,9 +383,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.Ax.setValue((settings['upper'][0]+settings['lower'][0])/2)
             self.Ay.setValue((settings['upper'][1]+settings['lower'][1])/2)
             self.Ar.setValue(abs(settings['upper'][0]-self.Ax.value())*2)
-            self.Dx.setValue((settings['upper'][2]+settings['lower'][2])/2)
-            self.Dy.setValue((settings['upper'][3]+settings['lower'][3])/2)
-            self.Dr.setValue(abs(settings['upper'][2]-self.Dx.value())*2)
+            self.Bx.setValue((settings['upper'][2]+settings['lower'][2])/2)
+            self.By.setValue((settings['upper'][3]+settings['lower'][3])/2)
+            self.Br.setValue(abs(settings['upper'][2]-self.Bx.value())*2)
             self.Settings = {
                 'maxGen':settings['maxGen'],
                 'report':0 if settings['report']==0 else settings['maxGen']/settings['report']/100,
@@ -436,7 +436,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot(float)
     def updateRange(self, p0=None):
-        self.fixPointRange.emit((self.Ax.value(), self.Ay.value()), self.Ar.value(), (self.Dx.value(), self.Dy.value()), self.Dr.value())
+        self.fixPointRange.emit({
+            'A':(self.Ax.value(), self.Ay.value(), self.Ar.value()),
+            'B':(self.Bx.value(), self.By.value(), self.Br.value())
+        })
     
     def clear(self):
         self.Point_list.clear()
@@ -447,6 +450,6 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Ax.setValue(0)
         self.Ay.setValue(0)
         self.Ar.setValue(100)
-        self.Dx.setValue(0)
-        self.Dy.setValue(0)
-        self.Dr.setValue(100)
+        self.Bx.setValue(0)
+        self.By.setValue(0)
+        self.Br.setValue(100)

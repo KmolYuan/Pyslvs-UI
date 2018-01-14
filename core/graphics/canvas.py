@@ -29,7 +29,10 @@ from collections import deque
 from heapq import nsmallest
 from typing import TypeVar, List, Tuple
 function = TypeVar("function")
-from .color import colorQt
+from .color import (
+    colorQt,
+    colorNum
+)
 
 def distance_sorted(points):
     distance = lambda p1, p2: sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
@@ -195,8 +198,7 @@ class DynamicCanvas(BaseCanvas):
         #Linkage transparency.
         self.transparency = 1.
         #Path solving range.
-        defult_range = QRectF(QPointF(-50., 50.), QSizeF(100., 100.))
-        self.ranges = (defult_range, defult_range)
+        self.ranges = {}
         #Set showDimension to False.
         self.showDimension = False
         #Free move mode. (0: no free move. 1: translate. 2: rotate.)
@@ -274,12 +276,12 @@ class DynamicCanvas(BaseCanvas):
         self.Path.show = p
         self.update()
     
-    @pyqtSlot(tuple, float, tuple, float)
-    def update_ranges(self, point1, range1, point2, range2):
-        self.ranges = (
-            QRectF(QPointF(point1[0]-range1/2, point1[1]+range1/2), QSizeF(range1, range1)),
-            QRectF(QPointF(point2[0]-range2/2, point2[1]+range2/2), QSizeF(range2, range2))
-        )
+    @pyqtSlot(dict)
+    def update_ranges(self, ranges):
+        self.ranges = {tag:QRectF(
+            QPointF(values[0] - values[2]/2, values[1] + values[2]/2),
+            QSizeF(values[2], values[2])
+        ) for tag, values in ranges.items()}
         self.update()
     
     def paintEvent(self, event):
@@ -433,7 +435,9 @@ class DynamicCanvas(BaseCanvas):
                     draw(path)
         if self.showSlvsPath:
             #Draw solving range.
-            for (i, rect), range_color in zip(enumerate(self.ranges), [QColor(138, 21, 196, 30), QColor(74, 178, 176, 30)]):
+            for i, (tag, rect) in enumerate(self.ranges.items()):
+                range_color = QColor(colorNum(i+1))
+                range_color.setAlpha(30)
                 self.painter.setBrush(range_color)
                 range_color.setAlpha(255)
                 pen = QPen(range_color)
@@ -449,10 +453,7 @@ class DynamicCanvas(BaseCanvas):
                 range_color.setAlpha(255)
                 pen.setColor(range_color)
                 self.painter.setPen(pen)
-                if i==0:
-                    self.painter.drawText(QPointF(cx-70+rect.width()*self.zoom, cy-6), "Driver")
-                else:
-                    self.painter.drawText(QPointF(cx+6, cy-6), "Follower")
+                self.painter.drawText(QPointF(cx+6, cy-6), tag)
                 self.painter.setBrush(Qt.NoBrush)
             #Draw solving path.
             if self.slvsPath:
