@@ -49,9 +49,9 @@ mechanismParams_8Bar = {
     'Driving':{'A':None},
     'Follower':{'B':None},
     'Target':{'H':None},
-    'Link_Expression':"ground[A,B];[A,C];[C,D];[B,D,E];[C,F];[B,F];[E,G];[E,G,H]",
+    'Link_Expression':"ground[A,B];[A,C];[C,D];[B,D,E];[C,F];[B,F];[E,G];[F,G,H]",
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
-    'constraint':[('A', 'B', 'C', 'D')]
+    'constraint':[('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')]
 }
 
 class DimensionalSynthesis(QWidget, PathSolving_Form):
@@ -85,6 +85,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.type1.clicked.connect(self.algorithmPrams_default)
         self.type2.clicked.connect(self.algorithmPrams_default)
         self.Result_list.clicked.connect(self.hasResult)
+        self.clear()
         self.isGenerate()
         self.hasResult()
     
@@ -304,10 +305,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
         if row>-1:
-            self.mechanism_data_del(row)
-            self.Result_list.takeItem(row)
-            self.unsaveFunc()
-            self.hasResult()
+            reply = QMessageBox.question(self, "Delete", "Delete this result from list?",
+                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+            if reply==QMessageBox.Apply:
+                self.mechanism_data_del(row)
+                self.Result_list.takeItem(row)
+                self.unsaveFunc()
+                self.hasResult()
     
     def hasResult(self, p0=None):
         for button in [self.mergeButton, self.deleteButton]:
@@ -327,7 +331,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_mergeButton_clicked(self):
         row = self.Result_list.currentRow()
         if row>-1:
-            reply = QMessageBox.question(self, "Message", "Merge this result to your canvas?",
+            reply = QMessageBox.question(self, "Merge", "Merge this result to your canvas?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.mergeResult.emit(row, self.legal_crank(row))
@@ -449,7 +453,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Y_coordinate.setValue(0)
         self.Ax.setValue(0)
         self.Ay.setValue(0)
-        self.Ar.setValue(100)
-        self.Bx.setValue(0)
+        self.Ar.setValue(10)
+        self.Bx.setValue(50)
         self.By.setValue(0)
-        self.Br.setValue(100)
+        self.Br.setValue(10)

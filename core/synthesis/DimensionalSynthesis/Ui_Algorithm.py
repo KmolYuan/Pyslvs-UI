@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -191,7 +191,6 @@ class Ui_Form(object):
         self.Ar = QtWidgets.QDoubleSpinBox(self.groupBox)
         self.Ar.setMaximum(10000.0)
         self.Ar.setSingleStep(10.0)
-        self.Ar.setProperty("value", 100.0)
         self.Ar.setObjectName("Ar")
         self.verticalLayout_9.addWidget(self.Ar)
         self.horizontalLayout_14.addLayout(self.verticalLayout_9)
@@ -218,7 +217,6 @@ class Ui_Form(object):
         self.Bx.setMinimum(-1000000.0)
         self.Bx.setMaximum(1000000.0)
         self.Bx.setSingleStep(10.0)
-        self.Bx.setProperty("value", 50.0)
         self.Bx.setObjectName("Bx")
         self.horizontalLayout_5.addWidget(self.Bx)
         self.By = QtWidgets.QDoubleSpinBox(self.groupBox)
@@ -232,7 +230,6 @@ class Ui_Form(object):
         self.Br = QtWidgets.QDoubleSpinBox(self.groupBox)
         self.Br.setMaximum(10000.0)
         self.Br.setSingleStep(10.0)
-        self.Br.setProperty("value", 100.0)
         self.Br.setObjectName("Br")
         self.verticalLayout_10.addWidget(self.Br)
         self.horizontalLayout_15.addLayout(self.verticalLayout_10)

@@ -423,9 +423,6 @@
               <property name="singleStep">
                <double>10.000000000000000</double>
               </property>
-              <property name="value">
-               <double>100.000000000000000</double>
-              </property>
              </widget>
             </item>
            </layout>
@@ -473,9 +470,6 @@
                 <property name="singleStep">
                  <double>10.000000000000000</double>
                 </property>
-                <property name="value">
-                 <double>50.000000000000000</double>
-                </property>
                </widget>
               </item>
               <item>
@@ -509,9 +503,6 @@
               </property>
               <property name="singleStep">
                <double>10.000000000000000</double>
-              </property>
-              <property name="value">
-               <double>100.000000000000000</double>
               </property>
              </widget>
             </item>

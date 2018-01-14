@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-14, 14:08:40 -->
+<!-- Saved: 2018-01-14, 20:34:26 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -81,17 +81,18 @@
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/chart.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/pathSolving.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/path_adjust.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/preview.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/progress.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/series.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/thread.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/__init__.py</Source>
     <Source>core/synthesis/__init__.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
+    <Source>core/widgets/main_canvas.py</Source>
     <Source>core/widgets/rotatable.py</Source>
     <Source>core/widgets/table.py</Source>
     <Source>icons_rc.py</Source>

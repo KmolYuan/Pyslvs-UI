@@ -19,8 +19,7 @@ from .planarSolving import (
 from .chart import dataChart
 from .canvas import (
     BaseCanvas,
-    distance_sorted,
-    DynamicCanvas
+    distance_sorted
 )
 from .nx_pydot import (
     graph,
@@ -39,7 +38,6 @@ __all__ = [
     'dataChart',
     'BaseCanvas',
     'distance_sorted',
-    'DynamicCanvas',
     'graph',
     'engine_picker',
     'EngineList',

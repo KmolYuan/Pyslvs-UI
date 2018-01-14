@@ -19,7 +19,7 @@
 
 from core.QtModules import *
 from core.info import VERSION
-from core.graphics import DynamicCanvas
+from .main_canvas import DynamicCanvas
 from .table import (
     PointTableWidget,
     LinkTableWidget,

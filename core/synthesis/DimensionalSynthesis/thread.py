@@ -60,7 +60,7 @@ class WorkerThread(QThread):
                 print("Canceled.")
                 continue
             for name, path in self.mechanismParams['Target'].items():
-                print("- [{}]: {}".format(name, path))
+                print("- [{}]: {}".format(name, tuple((round(x, 2), round(y, 2)) for x, y in path)))
             t0 = timeit.default_timer()
             fitnessParameter, time_and_fitness = self.generateProcess()
             t1 = timeit.default_timer()
