@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>361</width>
+    <width>353</width>
     <height>736</height>
    </rect>
   </property>
@@ -101,11 +101,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="joint_name">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="joint_name"/>
           </item>
           <item>
            <widget class="QLabel" name="status_label">
@@ -130,6 +126,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="PLAP_solution">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>PLAP</string>
             </property>
@@ -137,6 +136,9 @@
           </item>
           <item>
            <widget class="QPushButton" name="PLLP_solution">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>PLLP</string>
             </property>
@@ -198,7 +200,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QListView" name="grounded_list"/>
+            <widget class="QListWidget" name="grounded_list"/>
            </item>
           </layout>
          </item>

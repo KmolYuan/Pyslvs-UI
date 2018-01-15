@@ -31,7 +31,7 @@ from networkx import (
 )
 from typing import Dict, Tuple
 
-EngineList = [
+EngineList = (
     "NetworkX - circular",
     "NetworkX - shell",
     "NetworkX - spring",
@@ -42,12 +42,12 @@ EngineList = [
     "Graphviz - twopi",
     "Graphviz - circo",
     "NetworkX - random"
-]
+)
 
 class EngineError(Exception):
     pass
 
-def engine_picker(G: Graph, engine: str, node_mode: bool):
+def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     if not node_mode:
         G_ = Graph()
         nodes = {i:edge for i, edge in enumerate(G.edges)}
@@ -60,43 +60,42 @@ def engine_picker(G: Graph, engine: str, node_mode: bool):
         H = G_
     else:
         H = G
-    if engine=="random":
-        E = {k:(x*200, y*200) for k, (x, y) in random_layout(H).items()}
-    elif engine=="shell":
-        E = shell_layout(H, scale=100)
-    elif engine=="circular":
-        E = circular_layout(H, scale=100)
-    elif engine=="spring":
-        E = spring_layout(H, scale=100)
-    elif engine=="spectral":
-        E = spectral_layout(H, scale=100)
+    if type(engine)==str:
+        if engine=="random":
+            E = {k:(x*200, y*200) for k, (x, y) in random_layout(H).items()}
+        elif engine=="shell":
+            E = shell_layout(H, scale=100)
+        elif engine=="circular":
+            E = circular_layout(H, scale=100)
+        elif engine=="spring":
+            E = spring_layout(H, scale=100)
+        elif engine=="spectral":
+            E = spectral_layout(H, scale=100)
+        else:
+            try:
+                E = nx_pydot.graphviz_layout(H, prog=engine)
+            except:
+                raise EngineError("No Graphviz")
+        pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
+        x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
+        y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
+        pos = {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
     else:
-        try:
-            E = nx_pydot.graphviz_layout(H, prog=engine)
-        except:
-            raise EngineError("No Graphviz")
-    pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
-    x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
-    y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
-    return {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
+        pos = engine
+    return pos
 
 def graph(
     G: Graph,
     width: int,
     engine: [str, Dict[int, Tuple[float, float]]],
-    node_mode: bool,
+    node_mode: bool =False,
     except_node: int =None,
     get_pos: bool =False
 ):
-    if not node_mode:
-        nodes = {i:edge for i, edge in enumerate(G.edges)}
-    if type(engine)==str:
-        try:
-            pos = engine_picker(G, engine, node_mode)
-        except EngineError as e:
-            raise e
-    else:
-        pos = engine
+    try:
+        pos = engine_picker(G, engine, node_mode)
+    except EngineError as e:
+        raise e
     width_ = max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2
     image = QImage(QSize(width_, width_), QImage.Format_ARGB32_Premultiplied)
     image.fill(Qt.transparent)
@@ -115,12 +114,15 @@ def graph(
             if link==except_node:
                 continue
             #Distance sorted function from canvas
-            painter.drawPolygon(*distance_sorted([(pos[n][0], -pos[n][1]) for n, edge in nodes.items() if link in edge]))
+            painter.drawPolygon(*distance_sorted([
+                (pos[n][0], -pos[n][1])
+                for n, edge in enumerate(G.edges) if link in edge
+            ]))
     for k, (x, y) in pos.items():
         if node_mode:
             color = colorNum(len(list(G.neighbors(k)))-1)
         else:
-            if except_node in nodes[k]:
+            if except_node in tuple(G.edges)[k]:
                 color = colorQt('Green')
             else:
                 color = colorQt('Blue')

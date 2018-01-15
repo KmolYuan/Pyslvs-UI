@@ -22,7 +22,11 @@ from math import sqrt
 from heapq import nsmallest
 
 def distance_sorted(points):
+    #A function to find out distance between two tuple.
     distance = lambda p1, p2: sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+    #Re-sort by x coordinate first.
+    points = sorted(points, key=lambda c: c[0])
+    #Then we arrive next nearest point one by one.
     for i in range(len(points)):
         if i==len(points)-1:
             break

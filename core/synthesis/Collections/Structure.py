@@ -104,8 +104,8 @@ class CollectionsStructure(QWidget, Ui_Form):
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
                 try:
-                    engine = engine_picker(G, engineSTR, False)
-                    item.setIcon(graph(G, self.collection_list.iconSize().width(), engine, False))
+                    engine = engine_picker(G, engineSTR)
+                    item.setIcon(graph(G, self.collection_list.iconSize().width(), engine))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     self.engineErrorMsg(e)
@@ -232,7 +232,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             G = self.collections[row]
             #Save the layout position to keep the graphs will be in same appearance.
             self.ground_engine = self.collections_layouts[row]
-            item_.setIcon(graph(G, self.selection_window.iconSize().width(), self.ground_engine, False))
+            item_.setIcon(graph(G, self.selection_window.iconSize().width(), self.ground_engine))
             self.selection_window.addItem(item_)
             self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))
@@ -275,7 +275,7 @@ class CollectionsStructure(QWidget, Ui_Form):
         G = self.collections[self.collection_list.row(current_item)]
         item = QListWidgetItem("Released")
         try:
-            icon = graph(G, self.grounded_list.iconSize().width(), self.ground_engine, False)
+            icon = graph(G, self.grounded_list.iconSize().width(), self.ground_engine)
         except EngineError as e:
             self.engineErrorMsg(e)
             return
@@ -295,8 +295,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             icon = graph(
                 G, self.grounded_list.iconSize().width(),
                 self.ground_engine,
-                False,
-                node
+                except_node=node
             )
             item.setIcon(icon)
             self.collections_grounded.append(G_)

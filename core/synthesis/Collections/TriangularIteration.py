@@ -45,31 +45,52 @@ class PreviewCanvas(BaseCanvas):
     def clear(self):
         self.G = Graph()
         self.pos = {}
+        self.status = {}
+        self.grounded = -1
         self.update()
     
     def paintEvent(self, event):
         self.ox = self.width()/2
         self.oy = self.height()/2
         super(PreviewCanvas, self).paintEvent(event)
-        ln = letter_names()
         r = 4.5
         pen = QPen()
+        pen.setWidth(r)
+        self.painter.setPen(pen)
+        self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+        for link in self.G.nodes:
+            if link==self.grounded:
+                continue
+            self.painter.drawPolygon(*distance_sorted([
+                (self.pos[n][0], -self.pos[n][1])
+                for n, edge in enumerate(self.G.edges) if link in edge
+            ]))
         self.painter.setFont(QFont("Arial", self.fontSize*1.5))
         for node, (x, y) in self.pos.items():
-            color = colorQt('Green')
+            color = colorQt('Dark-Magenta') if self.status[node] else colorQt('Green')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
             self.painter.drawEllipse(QPointF(x, -y), r, r)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
-            self.painter.drawText(QPointF(x + 2*r, -y), next(ln))
+            self.painter.drawText(QPointF(x + 2*r, -y), 'P{}'.format(node))
         self.painter.end()
     
     def setGraph(self, G, pos):
         self.G = G
         self.pos = pos
+        self.status = {k:False for k in pos}
         self.update()
+    
+    def setGrounded(self, link: int):
+        self.grounded = link
+        for n, edge in enumerate(self.G.edges):
+            self.status[n] = self.grounded in edge
+        self.update()
+    
+    def setStatus(self, point: int, status: bool):
+        self.status[point] = status
 
 class CollectionsTriangularIteration(QWidget, Ui_Form):
     warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
@@ -99,17 +120,40 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Target_label,
             self.constraint_label
         ]:
-            self.setWarning(label)
+            self.setWarning(label, True)
     
-    def setWarning(self, label):
-        self.removeWarning(label)
-        label.setText(self.warning_icon + label.text())
-    
-    def removeWarning(self, label):
+    def setWarning(self, label, warning: bool):
         label.setText(label.text().replace(self.warning_icon, ''))
+        if warning:
+            label.setText(self.warning_icon + label.text())
     
     @pyqtSlot(Graph, dict)
     def setGraph(self, G, pos):
         self.clear()
         self.PreviewWindow.setGraph(G, pos)
-        #TODO: Show the settings warning.
+        for link in G.nodes:
+            self.grounded_list.addItem("({})".format(", ".join(
+                'P{}'.format(n) for n, edge in enumerate(G.edges) if link in edge
+            )))
+        for node in pos:
+            self.joint_name.addItem('P{}'.format(node))
+    
+    @pyqtSlot(int)
+    def on_grounded_list_currentRowChanged(self, row):
+        self.setWarning(self.grounded_label, not row>-1)
+        self.PreviewWindow.setGrounded(row)
+        self.on_joint_name_currentIndexChanged()
+    
+    @pyqtSlot(int)
+    def on_joint_name_currentIndexChanged(self, index=None):
+        if index is None:
+            index = self.joint_name.currentIndex()
+        if index>-1:
+            status = self.PreviewWindow.status[index]
+            self.status.setText("Known" if status else "Not known")
+            self.PLAP_solution.setEnabled(not status)
+            self.PLLP_solution.setEnabled(not status)
+        else:
+            self.status.setText("No status")
+            self.PLAP_solution.setEnabled(False)
+            self.PLLP_solution.setEnabled(False)
