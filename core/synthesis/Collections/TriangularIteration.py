@@ -106,6 +106,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def clear(self):
         self.PreviewWindow.clear()
         self.joint_name.clear()
+        self.Expression_list.clear()
+        self.grounded_list.clear()
         self.Driver_list.clear()
         self.Follower_list.clear()
         self.Target_list.clear()
@@ -117,8 +119,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.grounded_label,
             self.Driver_label,
             self.Follower_label,
-            self.Target_label,
-            self.constraint_label
+            self.Target_label
         ]:
             self.setWarning(label, True)
     
@@ -143,6 +144,17 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.setWarning(self.grounded_label, not row>-1)
         self.PreviewWindow.setGrounded(row)
         self.on_joint_name_currentIndexChanged()
+        self.Follower_list.clear()
+        self.Driver_list.clear()
+        if row>-1:
+            self.Follower_list.addItems(
+                self.grounded_list.currentItem().text()
+                .replace('(', '')
+                .replace(')', '')
+                .split(", ")
+            )
+        self.setWarning(self.Follower_label, not row>-1)
+        self.setWarning(self.Driver_label, True)
     
     @pyqtSlot(int)
     def on_joint_name_currentIndexChanged(self, index=None):
@@ -157,3 +169,17 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.status.setText("No status")
             self.PLAP_solution.setEnabled(False)
             self.PLLP_solution.setEnabled(False)
+    
+    @pyqtSlot()
+    def on_Driver_add_clicked(self):
+        row = self.Follower_list.currentRow()
+        if row>-1:
+            self.Driver_list.addItem(self.Follower_list.takeItem(row))
+            self.setWarning(self.Driver_label, False)
+    
+    @pyqtSlot()
+    def on_Follower_add_clicked(self):
+        row = self.Driver_list.currentRow()
+        if row>-1:
+            self.Follower_list.addItem(self.Driver_list.takeItem(row))
+            self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))

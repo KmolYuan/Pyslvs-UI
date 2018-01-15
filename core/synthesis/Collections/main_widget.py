@@ -25,14 +25,14 @@ class Collections(QWidget):
     def __init__(self, parent=None):
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)
-        self.tabWidget = QTabWidget(self)
-        layout.addWidget(self.tabWidget)
+        tabWidget = QTabWidget(self)
+        layout.addWidget(tabWidget)
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
         self.CollectionsStructure = CollectionsStructure(parent)
         self.CollectionsTriangularIteration = CollectionsTriangularIteration(parent)
-        self.tabWidget.addTab(self.CollectionsStructure, self.CollectionsStructure.windowIcon(), "Structure")
-        self.tabWidget.addTab(self.CollectionsTriangularIteration, self.CollectionsTriangularIteration.windowIcon(), "Triangular iteration")
-        self.CollectionsStructure.triangle_button.clicked.connect(lambda: self.tabWidget.setCurrentIndex(1))
+        tabWidget.addTab(self.CollectionsStructure, self.CollectionsStructure.windowIcon(), "Structure")
+        tabWidget.addTab(self.CollectionsTriangularIteration, self.CollectionsTriangularIteration.windowIcon(), "Triangular iteration")
+        self.CollectionsStructure.triangle_button.clicked.connect(lambda: tabWidget.setCurrentIndex(1))
         self.CollectionsStructure.layout_sender.connect(self.CollectionsTriangularIteration.setGraph)
     
     def CollectDataFunc(self):

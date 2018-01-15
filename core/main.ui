@@ -172,7 +172,7 @@
                       <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
                     </attribute>
                     <attribute name="title">
-                     <string>Link</string>
+                     <string>Links</string>
                     </attribute>
                     <layout class="QVBoxLayout" name="verticalLayout_19">
                      <property name="leftMargin">

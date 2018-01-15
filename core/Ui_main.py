@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -877,7 +877,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Pyslvs - Untitled"))
         self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.PointsTab), _translate("MainWindow", "Points"))
-        self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.LinksTab), _translate("MainWindow", "Link"))
+        self.EntitiesTab.setTabText(self.EntitiesTab.indexOf(self.LinksTab), _translate("MainWindow", "Links"))
         self.mechanism_storage_name_tag_text.setText(_translate("MainWindow", "Mechanism name:"))
         self.mechanism_storage_name_tag.setPlaceholderText(_translate("MainWindow", "Prototype_0"))
         self.mechanism_storage.setStatusTip(_translate("MainWindow", "All expressions of this workbook. They will be saving with database."))
