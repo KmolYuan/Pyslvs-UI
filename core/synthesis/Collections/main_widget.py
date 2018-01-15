@@ -19,7 +19,7 @@
 
 from core.QtModules import *
 from .Structure import CollectionsStructure
-from .TriangularIteration import CollectionTriangularIteration
+from .TriangularIteration import CollectionsTriangularIteration
 
 class Collections(QWidget):
     def __init__(self, parent=None):
@@ -29,11 +29,11 @@ class Collections(QWidget):
         layout.addWidget(self.tabWidget)
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
         self.CollectionsStructure = CollectionsStructure(parent)
-        self.CollectionTriangularIteration = CollectionTriangularIteration(parent)
+        self.CollectionsTriangularIteration = CollectionsTriangularIteration(parent)
         self.tabWidget.addTab(self.CollectionsStructure, self.CollectionsStructure.windowIcon(), "Structure")
-        self.tabWidget.addTab(self.CollectionTriangularIteration, self.CollectionTriangularIteration.windowIcon(), "Structure")
+        self.tabWidget.addTab(self.CollectionsTriangularIteration, self.CollectionsTriangularIteration.windowIcon(), "Triangular iteration")
         self.CollectionsStructure.triangle_button.clicked.connect(lambda: self.tabWidget.setCurrentIndex(1))
-        self.CollectionsStructure.layout_sender.connect(self.CollectionTriangularIteration.setGraph)
+        self.CollectionsStructure.layout_sender.connect(self.CollectionsTriangularIteration.setGraph)
     
     def CollectDataFunc(self):
         return [tuple(G.edges) for G in self.CollectionsStructure.collections]

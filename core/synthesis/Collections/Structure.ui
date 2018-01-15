@@ -64,16 +64,6 @@
        </property>
       </spacer>
      </item>
-     <item>
-      <widget class="QCheckBox" name="graph_link_as_node">
-       <property name="statusTip">
-        <string>Show the edges as nodes.</string>
-       </property>
-       <property name="text">
-        <string>Linkage as node</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>

@@ -72,5 +72,6 @@
     <file>icons/SQL_icon.png</file>
     <file>icons/task-completed.png</file>
     <file>icons/undo.png</file>
+    <file>icons/warning.png</file>
   </qresource>
 </RCC>

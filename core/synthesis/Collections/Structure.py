@@ -50,7 +50,6 @@ class CollectionsStructure(QWidget, Ui_Form):
         self.collections_grounded = []
         self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(2)
-        self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
     
     def clearSelection(self):
@@ -105,8 +104,8 @@ class CollectionsStructure(QWidget, Ui_Form):
                     return
                 item = QListWidgetItem("No. {}".format(i+1))
                 try:
-                    engine = engine_picker(G, engineSTR, self.graph_link_as_node.isChecked())
-                    item.setIcon(graph(G, self.collection_list.iconSize().width(), engine, self.graph_link_as_node.isChecked()))
+                    engine = engine_picker(G, engineSTR, False)
+                    item.setIcon(graph(G, self.collection_list.iconSize().width(), engine, False))
                 except EngineError as e:
                     progdlg.setValue(progdlg.maximum())
                     self.engineErrorMsg(e)
@@ -233,7 +232,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             G = self.collections[row]
             #Save the layout position to keep the graphs will be in same appearance.
             self.ground_engine = self.collections_layouts[row]
-            item_.setIcon(graph(G, self.selection_window.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked()))
+            item_.setIcon(graph(G, self.selection_window.iconSize().width(), self.ground_engine, False))
             self.selection_window.addItem(item_)
             self.Expression_edges.setText(str(list(G.edges)))
             self.NL.setText(str(len(G.nodes)))
@@ -276,7 +275,7 @@ class CollectionsStructure(QWidget, Ui_Form):
         G = self.collections[self.collection_list.row(current_item)]
         item = QListWidgetItem("Released")
         try:
-            icon, pos = graph(G, self.grounded_list.iconSize().width(), self.ground_engine, self.graph_link_as_node.isChecked(), get_pos=True)
+            icon = graph(G, self.grounded_list.iconSize().width(), self.ground_engine, False)
         except EngineError as e:
             self.engineErrorMsg(e)
             return
@@ -293,12 +292,11 @@ class CollectionsStructure(QWidget, Ui_Form):
             if error:
                 continue
             item = QListWidgetItem("link_{} constrainted".format(node))
-            icon, pos = graph(
+            icon = graph(
                 G, self.grounded_list.iconSize().width(),
                 self.ground_engine,
-                self.graph_link_as_node.isChecked(),
-                None if self.graph_link_as_node.isChecked() else node,
-                get_pos=True
+                False,
+                node
             )
             item.setIcon(icon)
             self.collections_grounded.append(G_)

@@ -24,7 +24,18 @@ from core.graphics import (
     colorQt
 )
 from networkx import Graph
+from string import ascii_uppercase
+from itertools import product
 from .Ui_TriangularIteration import Ui_Form
+
+#This is a generator to get a non-numeric and non-repeat name string.
+#('A', 'B', ..., 'AA', 'AB', ..., 'AAA', 'AAB', ...)
+def letter_names():
+    i = 0
+    while True:
+        i += 1
+        for e in product(ascii_uppercase, repeat=i):
+            yield ''.join(e)
 
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
@@ -40,14 +51,19 @@ class PreviewCanvas(BaseCanvas):
         self.ox = self.width()/2
         self.oy = self.height()/2
         super(PreviewCanvas, self).paintEvent(event)
-        r = self.height() / 50
+        ln = letter_names()
+        r = 4.5
         pen = QPen()
+        self.painter.setFont(QFont("Arial", self.fontSize*1.5))
         for node, (x, y) in self.pos.items():
             color = colorQt('Green')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
             self.painter.drawEllipse(QPointF(x, -y), r, r)
+            pen.setColor(colorQt('Black'))
+            self.painter.setPen(pen)
+            self.painter.drawText(QPointF(x + 2*r, -y), next(ln))
         self.painter.end()
     
     def setGraph(self, G, pos):
@@ -55,13 +71,16 @@ class PreviewCanvas(BaseCanvas):
         self.pos = pos
         self.update()
 
-class CollectionTriangularIteration(QWidget, Ui_Form):
+class CollectionsTriangularIteration(QWidget, Ui_Form):
+    warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
+    
     def __init__(self, parent=None):
-        super(CollectionTriangularIteration, self).__init__(parent)
+        super(CollectionsTriangularIteration, self).__init__(parent)
         self.setupUi(self)
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.clear_button.clicked.connect(self.clear)
+        self.clear()
     
     def clear(self):
         self.PreviewWindow.clear()
@@ -72,8 +91,25 @@ class CollectionTriangularIteration(QWidget, Ui_Form):
         self.constraint_list.clear()
         self.Link_Expression.clear()
         self.Expression.clear()
+        for label in [
+            self.Expression_list_label,
+            self.grounded_label,
+            self.Driver_label,
+            self.Follower_label,
+            self.Target_label,
+            self.constraint_label
+        ]:
+            self.setWarning(label)
+    
+    def setWarning(self, label):
+        self.removeWarning(label)
+        label.setText(self.warning_icon + label.text())
+    
+    def removeWarning(self, label):
+        label.setText(label.text().replace(self.warning_icon, ''))
     
     @pyqtSlot(Graph, dict)
     def setGraph(self, G, pos):
         self.clear()
         self.PreviewWindow.setGraph(G, pos)
+        #TODO: Show the settings warning.
