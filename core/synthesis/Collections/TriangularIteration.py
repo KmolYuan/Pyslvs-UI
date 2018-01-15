@@ -20,7 +20,8 @@
 from core.QtModules import *
 from core.graphics import (
     BaseCanvas,
-    distance_sorted
+    distance_sorted,
+    colorQt
 )
 from networkx import Graph
 from .Ui_TriangularIteration import Ui_Form
@@ -28,16 +29,27 @@ from .Ui_TriangularIteration import Ui_Form
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(PreviewCanvas, self).__init__(parent)
+        self.clear()
+    
+    def clear(self):
         self.G = Graph()
         self.pos = {}
+        self.update()
     
     def paintEvent(self, event):
         self.ox = self.width()/2
         self.oy = self.height()/2
         super(PreviewCanvas, self).paintEvent(event)
+        r = self.height() / 50
+        pen = QPen()
+        for node, (x, y) in self.pos.items():
+            color = colorQt('Green')
+            pen.setColor(color)
+            self.painter.setPen(pen)
+            self.painter.setBrush(QBrush(color))
+            self.painter.drawEllipse(QPointF(x, -y), r, r)
         self.painter.end()
     
-    @pyqtSlot(Graph, dict)
     def setGraph(self, G, pos):
         self.G = G
         self.pos = pos
@@ -49,3 +61,19 @@ class CollectionTriangularIteration(QWidget, Ui_Form):
         self.setupUi(self)
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
+        self.clear_button.clicked.connect(self.clear)
+    
+    def clear(self):
+        self.PreviewWindow.clear()
+        self.joint_name.clear()
+        self.Driver_list.clear()
+        self.Follower_list.clear()
+        self.Target_list.clear()
+        self.constraint_list.clear()
+        self.Link_Expression.clear()
+        self.Expression.clear()
+    
+    @pyqtSlot(Graph, dict)
+    def setGraph(self, G, pos):
+        self.clear()
+        self.PreviewWindow.setGraph(G, pos)

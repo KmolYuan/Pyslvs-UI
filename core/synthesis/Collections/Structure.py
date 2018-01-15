@@ -71,7 +71,7 @@ class CollectionsStructure(QWidget, Ui_Form):
     @pyqtSlot()
     def on_clear_button_clicked(self):
         if len(self.collections):
-            reply = QMessageBox.question(self, "Message", "Sure to remove all your collections?",
+            reply = QMessageBox.question(self, "Delete", "Sure to remove all your collections?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.clear()
@@ -253,7 +253,7 @@ class CollectionsStructure(QWidget, Ui_Form):
     def on_delete_button_clicked(self):
         row = self.collection_list.currentRow()
         if row>-1:
-            reply = QMessageBox.question(self, "Message", "Sure to remove #{} from your collections?".format(row),
+            reply = QMessageBox.question(self, "Delete", "Sure to remove #{} from your collections?".format(row),
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
                 self.clearSelection()

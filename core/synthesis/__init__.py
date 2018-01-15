@@ -6,16 +6,11 @@
 "synthesis" module contains synthesis functional interfaces.
 """
 
-#['CollectionsStructure', 'CollectionTriangularIteration']
+#['Collections']
 from .Collections import *
 #['NumberAndTypeSynthesis']
 from .NumberAndTypeSynthesis import *
 #['DimensionalSynthesis']
 from .DimensionalSynthesis import *
 
-__all__ = [
-    'NumberAndTypeSynthesis',
-    'CollectionsStructure',
-    'CollectionTriangularIteration',
-    'DimensionalSynthesis'
-]
+__all__ = ['NumberAndTypeSynthesis', 'Collections', 'DimensionalSynthesis']
