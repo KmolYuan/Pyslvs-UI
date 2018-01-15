@@ -22,7 +22,7 @@ cdef str get_front_of_parenthesis(str s, str front):
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     cdef int POINTS, VARS
-    cdef object constraint, Link, upper, lower, Driving, Follower, Driving_list, Follower_list, targetPoint
+    cdef object constraint, Link, upper, lower, Driver, Follower, Driver_list, Follower_list, targetPoint
     cdef str Expression_str
     cdef np.ndarray Exp, target
     
@@ -30,7 +30,7 @@ cdef class build_planar(object):
         '''
         mechanismParams = {
             'Target',
-            'Driving',
+            'Driver',
             'Follower',
             'Target',
             'constraint',
@@ -47,7 +47,7 @@ cdef class build_planar(object):
         #counting how many action to satisfied require point
         self.POINTS = check_tuple[0]
         #driving point, string
-        self.Driving = mechanismParams['Driving']
+        self.Driver = mechanismParams['Driver']
         #folower point, string
         self.Follower = mechanismParams['Follower']
         #target point name
@@ -68,7 +68,7 @@ cdef class build_planar(object):
         
         '''
         Link: L0, L1, L2, L3, ...
-        Driving_list: The name of the point in "self.Driving".
+        Driver_list: The name of the point in "self.Driver".
         Follower_list: The name of the point in "self.Follower".
         Exp:
             {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
@@ -77,7 +77,7 @@ cdef class build_planar(object):
         '''
         cdef str expr, params
         self.Link = []
-        self.Driving_list = []
+        self.Driver_list = []
         self.Follower_list = []
         self.Exp = np.ndarray((len(ExpressionL),), dtype=np.object)
         for i, expr in enumerate(ExpressionL):
@@ -93,19 +93,19 @@ cdef class build_planar(object):
             for p in params.split(','):
                 if ('L' in p) and ('L' != p):
                     self.Link.append(p)
-                if (p in self.Driving) and (p not in self.Driving_list):
-                    self.Driving_list.append(p)
+                if (p in self.Driver) and (p not in self.Driver_list):
+                    self.Driver_list.append(p)
                 if (p in self.Follower) and (p not in self.Follower_list):
                     self.Follower_list.append(p)
         #The number of all variables (chromsome).
-        self.VARS = 2*len(self.Driving_list) + 2*len(self.Follower_list) + len(self.Link)
+        self.VARS = 2*len(self.Driver_list) + 2*len(self.Follower_list) + len(self.Link)
         
         #upper
         cdef str name
         self.upper = []
-        for name in self.Driving_list:
+        for name in self.Driver_list:
             for i in [0, 1]:
-                self.upper.append(self.Driving[name][i] + self.Driving[name][2]/2)
+                self.upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
         for name in self.Follower_list:
             for i in [0, 1]:
                 self.upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
@@ -115,9 +115,9 @@ cdef class build_planar(object):
         
         #lower
         self.lower = []
-        for name in self.Driving_list:
+        for name in self.Driver_list:
             for i in [0, 1]:
-                self.lower.append(self.Driving[name][i] - self.Driving[name][2]/2)
+                self.lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
         for name in self.Follower_list:
             for i in [0, 1]:
                 self.lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
@@ -145,7 +145,7 @@ cdef class build_planar(object):
         cdef object tmp_dict = dict()
         cdef int vi = 0
         #driving
-        for name in self.Driving_list:
+        for name in self.Driver_list:
             tmp_dict[name] = Coordinate(v[vi], v[vi+1])
             vi += 2
         #follower

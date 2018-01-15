@@ -26,6 +26,7 @@ from core.graphics import (
 from networkx import Graph
 from string import ascii_uppercase
 from itertools import product
+from .TriangularIteration_list import CollectionsDialog
 from .Ui_TriangularIteration import Ui_Form
 
 #This is a generator to get a non-numeric and non-repeat name string.
@@ -98,12 +99,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def __init__(self, parent=None):
         super(CollectionsTriangularIteration, self).__init__(parent)
         self.setupUi(self)
+        self.collections = []
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.clear_button.clicked.connect(self.clear)
         self.clear()
     
     def clear(self):
+        self.collections.clear()
         self.PreviewWindow.clear()
         self.joint_name.clear()
         self.Expression_list.clear()
@@ -138,6 +141,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             )))
         for node in pos:
             self.joint_name.addItem('P{}'.format(node))
+        ln = letter_names()
+        self.name_dict = {
+            self.joint_name.item(row).text():next(ln)
+            for row in range(self.joint_name.count())
+        }
     
     @pyqtSlot(int)
     def on_grounded_list_currentRowChanged(self, row):
@@ -183,3 +191,31 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if row>-1:
             self.Follower_list.addItem(self.Driver_list.takeItem(row))
             self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))
+    
+    def get_currentMechanismParams(self):
+        return {
+            'Driver':{
+                self.name_dict[self.Driver_list.item().text()]:None
+                for row in range(self.Driver_list.count())
+            },
+            'Follower':{
+                self.name_dict[self.Follower_list.item().text()]:None
+                for row in range(self.Follower_list.count())
+            },
+            'Target':{
+                self.name_dict[self.Target_list.item().text()]:None
+                for row in range(self.Target_list.count())
+            },
+            'Link_Expression':self.Link_Expression.text(),
+            'Expression':self.Expression.text(),
+            'constraint':[
+                tuple(self.constraint_list.item(row).text().split(','))
+                for row in range(self.constraint_list.count())
+            ]
+        }
+    
+    @pyqtSlot()
+    def on_load_button_clicked(self):
+        dlg = CollectionsDialog(self.collections, self.get_currentMechanismParams(), self)
+        dlg.show()
+        dlg.exec_()

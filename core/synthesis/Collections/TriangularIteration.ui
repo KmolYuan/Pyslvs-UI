@@ -21,16 +21,13 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="load_4Bar">
+      <widget class="QPushButton" name="load_button">
        <property name="text">
-        <string>4 Bar</string>
+        <string>Collections</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="load_8Bar">
-       <property name="text">
-        <string>8 Bar</string>
+       <property name="icon">
+        <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+         <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
        </property>
       </widget>
      </item>

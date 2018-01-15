@@ -1,0 +1,108 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_list.ui'
+#
+# Created by: PyQt5 UI code generator 5.9.2
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.resize(331, 420)
+        Dialog.setSizeGripEnabled(True)
+        Dialog.setModal(True)
+        self.verticalLayout_3 = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.common_label = QtWidgets.QLabel(Dialog)
+        self.common_label.setObjectName("common_label")
+        self.verticalLayout_2.addWidget(self.common_label)
+        self.common_linkage = QtWidgets.QListWidget(Dialog)
+        self.common_linkage.setObjectName("common_linkage")
+        item = QtWidgets.QListWidgetItem()
+        self.common_linkage.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        self.common_linkage.addItem(item)
+        self.verticalLayout_2.addWidget(self.common_linkage)
+        self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.Collections_label = QtWidgets.QLabel(Dialog)
+        self.Collections_label.setObjectName("Collections_label")
+        self.verticalLayout_3.addWidget(self.Collections_label)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.listWidget = QtWidgets.QListWidget(Dialog)
+        self.listWidget.setObjectName("listWidget")
+        self.horizontalLayout_2.addWidget(self.listWidget)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.rename_button = QtWidgets.QPushButton(Dialog)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/rename.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.rename_button.setIcon(icon)
+        self.rename_button.setObjectName("rename_button")
+        self.verticalLayout.addWidget(self.rename_button)
+        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout.addItem(spacerItem)
+        self.delete_button = QtWidgets.QPushButton(Dialog)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.delete_button.setIcon(icon1)
+        self.delete_button.setObjectName("delete_button")
+        self.verticalLayout.addWidget(self.delete_button)
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(Dialog)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.name = QtWidgets.QLineEdit(Dialog)
+        self.name.setObjectName("name")
+        self.horizontalLayout.addWidget(self.name)
+        self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+        self.buttonBox.setObjectName("buttonBox")
+        self.horizontalLayout_3.addWidget(self.buttonBox)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+
+        self.retranslateUi(Dialog)
+        self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def retranslateUi(self, Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Dialog.setWindowTitle(_translate("Dialog", "Workbook Collections"))
+        self.common_label.setText(_translate("Dialog", "Common:"))
+        __sortingEnabled = self.common_linkage.isSortingEnabled()
+        self.common_linkage.setSortingEnabled(False)
+        item = self.common_linkage.item(0)
+        item.setText(_translate("Dialog", "Four bar linkage mechanism"))
+        item = self.common_linkage.item(1)
+        item.setText(_translate("Dialog", "Eight bar linkage mechanism"))
+        self.common_linkage.setSortingEnabled(__sortingEnabled)
+        self.Collections_label.setText(_translate("Dialog", "Workbook Collections:"))
+        self.rename_button.setText(_translate("Dialog", "Rename"))
+        self.delete_button.setText(_translate("Dialog", "Delete"))
+        self.label.setText(_translate("Dialog", "Name:"))
+
+import icons_rc
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())
+

@@ -282,7 +282,7 @@ class Firefly(object):
             self.socket.bind(self.socket_port)
             self.poll.register(self.socket, zmq.POLLIN)
         self.socket.send_string(';'.join([
-            self.func.get_Driving(),
+            self.func.get_Driver(),
             self.func.get_Follower(),
             self.func.get_Link(),
             self.func.get_Target(),

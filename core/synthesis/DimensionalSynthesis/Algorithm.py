@@ -38,7 +38,7 @@ import openpyxl
 from re import split as charSplit
 
 mechanismParams_4Bar = {
-    'Driving':{'A':None}, #'A':(x, y, r)
+    'Driver':{'A':None}, #'A':(x, y, r)
     'Follower':{'B':None}, #'B':(x, y, r)
     'Target':{'E':None}, #'E':((x1, y1), (x2, y2), (x3, y3), ...)
     'Link_Expression':"ground[A,B];[A,C];[C,D,E];[B,D]",
@@ -46,7 +46,7 @@ mechanismParams_4Bar = {
     'constraint':[('A', 'B', 'C', 'D')]
 }
 mechanismParams_8Bar = {
-    'Driving':{'A':None},
+    'Driver':{'A':None},
     'Follower':{'B':None},
     'Target':{'H':None},
     'Link_Expression':"ground[A,B];[A,C];[C,D];[B,D,E];[C,F];[B,F];[E,G];[F,G,H]",
@@ -260,7 +260,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = (mechanismParams_4Bar if self.FourBar.isChecked() else mechanismParams_8Bar).copy()
         mechanismParams['Target'][get_from_parenthesis(mechanismParams['Expression'].split(';')[-1], '(', ')')] = tuple(self.path)
-        mechanismParams['Driving']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
+        mechanismParams['Driver']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
         mechanismParams['Follower']['B'] = (self.Bx.value(), self.By.value(), self.Br.value())
         mechanismParams['IMax'] = self.Settings['IMax']
         mechanismParams['IMin'] = self.Settings['IMin']

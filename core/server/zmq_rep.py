@@ -31,7 +31,7 @@ def startRep(PORT):
         try:
             data = socket.recv().decode("utf-8").split(';')
             mechanismParams = {
-                'Driving':data[0],
+                'Driver':data[0],
                 'Follower':data[1],
                 'Link':data[2],
                 'Target':data[3],
