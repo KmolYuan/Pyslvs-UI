@@ -382,11 +382,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         ))
                     expression = "M[{}]".format(", ".join(expression))
                 except Exception as e:
-                    QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.", QMessageBox.Ok, QMessageBox.Ok)
+                    QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.")
                 else:
                     self.parseExpression(expression)
             else:
-                QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.", QMessageBox.Ok, QMessageBox.Ok)
+                QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.")
     
     @pyqtSlot()
     def on_action_Import_Expression_triggered(self):
@@ -401,7 +401,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pointsArgs = ArgsTransformer().transform(tree)
         except Exception as e:
             print(e)
-            QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.")
         else:
             for pointArgs in pointsArgs:
                 linkNames = tuple(vlink.name for vlink in self.Entities_Link.data())
@@ -1205,7 +1205,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             try:
                 parser.parse(expr)
             except:
-                QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.", QMessageBox.Ok, QMessageBox.Ok)
+                QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.")
                 return
             name, ok = QInputDialog.getText(self, "Storage", "Please input name tag:")
             if ok:

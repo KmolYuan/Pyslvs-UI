@@ -209,7 +209,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         try:
             item.setIcon(graph(G, self.Topologic_result.iconSize().width(), self.engine, self.graph_link_as_node.isChecked()))
         except EngineError as e:
-            QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working.", QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working.")
             return False
         else:
             item.setToolTip(str(G.edges))
@@ -332,7 +332,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
                 try:
                     answer.append(Graph(eval(edges)))
                 except:
-                    QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
+                    QMessageBox.warning(self, "Wrong format", "Please check the edges text format.")
                     return
             if answer:
                 self.answer = answer

@@ -131,10 +131,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             for e in data:
                 self.on_add_clicked(e[0], e[1])
         except:
-            QMessageBox.warning(self, "File error",
-                "Wrong format.\nIt should be look like this:"+"\n0.0,0.0[\\n]"*3,
-                QMessageBox.Ok, QMessageBox.Ok
-            )
+            QMessageBox.warning(self, "File error", "Wrong format.\nIt should be look like this:"+"\n0.0,0.0[\\n]"*3)
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
@@ -153,10 +150,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 try:
                     data.append((round(float(x), 4), round(float(y), 4)))
                 except:
-                    QMessageBox.warning(self, "File error",
-                        "Wrong format.\nThe datasheet seems to including non-digital cell.",
-                        QMessageBox.Ok, QMessageBox.Ok
-                    )
+                    QMessageBox.warning(self, "File error", "Wrong format.\nThe datasheet seems to including non-digital cell.")
                     break
                 i += 1
             for e in data:

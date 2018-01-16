@@ -77,7 +77,7 @@ class CollectionsStructure(QWidget, Ui_Form):
                 self.unsaveFunc()
     
     def engineErrorMsg(self, e):
-        QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working", QMessageBox.Ok, QMessageBox.Ok)
+        QMessageBox.warning(self, str(e), "Please install and make sure Graphviz is working")
     
     #Reload atlas with the engine.
     @pyqtSlot()
@@ -127,7 +127,7 @@ class CollectionsStructure(QWidget, Ui_Form):
                 if is_isomorphic(G, H):
                     raise TestError("is isomorphic")
         except TestError as e:
-            QMessageBox.warning(self, "Add Collection Error", "Error: {}".format(e), QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.warning(self, "Add Collection Error", "Error: {}".format(e))
             return
         self.collections.append(G)
         self.unsaveFunc()
@@ -155,7 +155,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             if any(len(edge)!=2 for edge in edges):
                 raise SyntaxError("Wrong format")
         except Exception as e:
-            QMessageBox.warning(self, str(e), "Error: {}".format(e), QMessageBox.Ok, QMessageBox.Ok)
+            QMessageBox.warning(self, str(e), "Error: {}".format(e))
             return
         else:
             self.addCollection(edges)
@@ -174,7 +174,7 @@ class CollectionsStructure(QWidget, Ui_Form):
                 try:
                     collections.append(Graph(eval(edges)))
                 except:
-                    QMessageBox.warning(self, "Wrong format", "Please check the edges text format.", QMessageBox.Ok, QMessageBox.Ok)
+                    QMessageBox.warning(self, "Wrong format", "Please check the edges text format.")
                     return
             if collections:
                 self.collections += collections
