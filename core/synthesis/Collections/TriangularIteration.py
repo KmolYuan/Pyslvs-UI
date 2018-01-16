@@ -26,7 +26,8 @@ from core.graphics import (
 from networkx import Graph
 from string import ascii_uppercase
 from itertools import product
-from .TriangularIteration_list import CollectionsDialog
+#['CollectionsDialog', 'ConstrainsDialog']
+from .TriangularIteration_dialog import *
 from .Ui_TriangularIteration import Ui_Form
 
 #This is a generator to get a non-numeric and non-repeat name string.
@@ -216,6 +217,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_load_button_clicked(self):
-        dlg = CollectionsDialog(self.collections, self.get_currentMechanismParams(), self)
+        dlg = CollectionsDialog(self)
+        dlg.show()
+        dlg.exec_()
+    
+    @pyqtSlot()
+    def on_constrains_button_clicked(self):
+        dlg = ConstrainsDialog(self)
         dlg.show()
         dlg.exec_()

@@ -6,12 +6,22 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>331</width>
-    <height>420</height>
+    <width>280</width>
+    <height>399</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>280</width>
+    <height>399</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Workbook Collections</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../../../icons.qrc">
+    <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
   </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
@@ -65,8 +75,11 @@
           <string>Rename</string>
          </property>
          <property name="icon">
-          <iconset resource="../../../icons.qrc">
+          <iconset resource="../../../../icons.qrc">
            <normaloff>:/icons/rename.png</normaloff>:/icons/rename.png</iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -89,8 +102,11 @@
           <string>Delete</string>
          </property>
          <property name="icon">
-          <iconset resource="../../../icons.qrc">
+          <iconset resource="../../../../icons.qrc">
            <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -99,18 +115,11 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Name:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="name"/>
-     </item>
-    </layout>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -130,7 +139,7 @@
      <item>
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Save</set>
+        <set>QDialogButtonBox::Close|QDialogButtonBox::Open</set>
        </property>
       </widget>
      </item>
@@ -139,25 +148,9 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../icons.qrc"/>
+  <include location="../../../../icons.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>237</x>
-     <y>395</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>165</x>
-     <y>209</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
@@ -171,6 +164,22 @@
     <hint type="destinationlabel">
      <x>165</x>
      <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>374</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>139</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-15, 22:28:05 -->
+<!-- Saved: 2018-01-16, 17:32:50 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -68,10 +68,13 @@
     <Source>core/server/zmq_rep.py</Source>
     <Source>core/synthesis/Collections/Structure.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_list.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_collections.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_constrains.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/__init__.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/collections.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/constrains.py</Source>
     <Source>core/synthesis/Collections/Ui_Structure.py</Source>
     <Source>core/synthesis/Collections/Ui_TriangularIteration.py</Source>
-    <Source>core/synthesis/Collections/Ui_TriangularIteration_list.py</Source>
     <Source>core/synthesis/Collections/__init__.py</Source>
     <Source>core/synthesis/Collections/main_widget.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm.py</Source>
@@ -112,7 +115,8 @@
     <Form>core/main.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_list.ui</Form>
+    <Form>core/synthesis/Collections/TriangularIteration_dialog/collections.ui</Form>
+    <Form>core/synthesis/Collections/TriangularIteration_dialog/constrains.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/options.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/path_adjust.ui</Form>

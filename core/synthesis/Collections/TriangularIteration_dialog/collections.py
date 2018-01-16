@@ -18,11 +18,10 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from .Ui_TriangularIteration_list import Ui_Dialog
+from .Ui_collections import Ui_Dialog
 
 class CollectionsDialog(QDialog, Ui_Dialog):
-    def __init__(self, collections, currentCollection, parent=None):
+    def __init__(self, parent):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
-        self.collections = collections
-        self.currentCollection = currentCollection
+        self.collections = parent.collections

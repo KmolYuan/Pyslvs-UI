@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_list.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/collections.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -11,7 +11,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(331, 420)
+        Dialog.resize(280, 399)
+        Dialog.setMinimumSize(QtCore.QSize(280, 399))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/collections.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(Dialog)
@@ -40,43 +44,41 @@ class Ui_Dialog(object):
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
         self.rename_button = QtWidgets.QPushButton(Dialog)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/rename.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.rename_button.setIcon(icon)
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap(":/icons/rename.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.rename_button.setIcon(icon1)
+        self.rename_button.setAutoDefault(False)
         self.rename_button.setObjectName("rename_button")
         self.verticalLayout.addWidget(self.rename_button)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem)
         self.delete_button = QtWidgets.QPushButton(Dialog)
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.delete_button.setIcon(icon1)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.delete_button.setIcon(icon2)
+        self.delete_button.setAutoDefault(False)
         self.delete_button.setObjectName("delete_button")
         self.verticalLayout.addWidget(self.delete_button)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label = QtWidgets.QLabel(Dialog)
-        self.label.setObjectName("label")
-        self.horizontalLayout.addWidget(self.label)
-        self.name = QtWidgets.QLineEdit(Dialog)
-        self.name.setObjectName("name")
-        self.horizontalLayout.addWidget(self.name)
-        self.verticalLayout_3.addLayout(self.horizontalLayout)
+        self.line = QtWidgets.QFrame(Dialog)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.verticalLayout_3.addWidget(self.line)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem1)
         self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Close|QtWidgets.QDialogButtonBox.Open)
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout_3.addWidget(self.buttonBox)
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
 
         self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
+        self.buttonBox.accepted.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -93,7 +95,6 @@ class Ui_Dialog(object):
         self.Collections_label.setText(_translate("Dialog", "Workbook Collections:"))
         self.rename_button.setText(_translate("Dialog", "Rename"))
         self.delete_button.setText(_translate("Dialog", "Delete"))
-        self.label.setText(_translate("Dialog", "Name:"))
 
 import icons_rc
 
