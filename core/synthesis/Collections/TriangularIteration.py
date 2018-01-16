@@ -26,7 +26,12 @@ from core.graphics import (
 from networkx import Graph
 from string import ascii_uppercase
 from itertools import product
-#['CollectionsDialog', 'ConstrainsDialog']
+'''
+'CollectionsDialog',
+'ConstrainsDialog',
+'TargetsDialog',
+'SolutionsDialog',
+'''
 from .TriangularIteration_dialog import *
 from .Ui_TriangularIteration import Ui_Form
 
@@ -142,9 +147,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             )))
         for node in pos:
             self.joint_name.addItem('P{}'.format(node))
-        ln = letter_names()
         self.name_dict = {
-            self.joint_name.item(row).text():next(ln)
+            self.joint_name.itemText(row):""
             for row in range(self.joint_name.count())
         }
     
@@ -224,5 +228,23 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot()
     def on_constrains_button_clicked(self):
         dlg = ConstrainsDialog(self)
+        dlg.show()
+        dlg.exec_()
+    
+    @pyqtSlot()
+    def on_Target_button_clicked(self):
+        dlg = TargetsDialog(self)
+        dlg.show()
+        dlg.exec_()
+    
+    @pyqtSlot()
+    def on_PLAP_solution_clicked(self):
+        dlg = SolutionsDialog('PLAP', self)
+        dlg.show()
+        dlg.exec_()
+    
+    @pyqtSlot()
+    def on_PLLP_solution_clicked(self):
+        dlg = SolutionsDialog('PLLP', self)
         dlg.show()
         dlg.exec_()

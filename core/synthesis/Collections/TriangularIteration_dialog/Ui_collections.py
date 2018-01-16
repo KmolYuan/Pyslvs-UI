@@ -32,6 +32,9 @@ class Ui_Dialog(object):
         item = QtWidgets.QListWidgetItem()
         self.common_linkage.addItem(item)
         self.verticalLayout_2.addWidget(self.common_linkage)
+        self.common_load = QtWidgets.QPushButton(Dialog)
+        self.common_load.setObjectName("common_load")
+        self.verticalLayout_2.addWidget(self.common_load)
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
         self.Collections_label = QtWidgets.QLabel(Dialog)
         self.Collections_label.setObjectName("Collections_label")
@@ -79,6 +82,7 @@ class Ui_Dialog(object):
         self.retranslateUi(Dialog)
         self.buttonBox.rejected.connect(Dialog.reject)
         self.buttonBox.accepted.connect(Dialog.accept)
+        self.common_load.clicked.connect(Dialog.accept)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
@@ -92,6 +96,7 @@ class Ui_Dialog(object):
         item = self.common_linkage.item(1)
         item.setText(_translate("Dialog", "Eight bar linkage mechanism"))
         self.common_linkage.setSortingEnabled(__sortingEnabled)
+        self.common_load.setText(_translate("Dialog", "Load common structure"))
         self.Collections_label.setText(_translate("Dialog", "Workbook Collections:"))
         self.rename_button.setText(_translate("Dialog", "Rename"))
         self.delete_button.setText(_translate("Dialog", "Delete"))

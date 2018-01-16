@@ -53,6 +53,13 @@
        </item>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="common_load">
+       <property name="text">
+        <string>Load common structure</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item>
@@ -176,6 +183,22 @@
     <hint type="sourcelabel">
      <x>186</x>
      <y>374</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>139</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>common_load</sender>
+   <signal>clicked()</signal>
+   <receiver>Dialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>139</x>
+     <y>175</y>
     </hint>
     <hint type="destinationlabel">
      <x>139</x>

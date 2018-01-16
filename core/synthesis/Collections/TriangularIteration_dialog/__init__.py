@@ -8,5 +8,12 @@
 
 from .collections import CollectionsDialog
 from .constrains import ConstrainsDialog
+from .targets import TargetsDialog
+from .solutions import SolutionsDialog
 
-__all__ = ['CollectionsDialog', 'ConstrainsDialog']
+__all__ = [
+    'CollectionsDialog',
+    'ConstrainsDialog',
+    'TargetsDialog',
+    'SolutionsDialog',
+]
