@@ -25,3 +25,47 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.collections = parent.collections
+        for name in self.collections:
+            self.collections_list.addItem(name)
+        self.hasCollection()
+        self.canOpen()
+    
+    def canOpen(self):
+        self.buttonBox.button(QDialogButtonBox.Open).setEnabled(self.collections_list.currentRow()>-1)
+    
+    @pyqtSlot(int)
+    def on_collections_list_currentRowChanged(self, row):
+        self.canOpen()
+    
+    def hasCollection(self):
+        hasCollection = bool(self.collections)
+        self.delete_button.setEnabled(hasCollection)
+        self.rename_button.setEnabled(hasCollection)
+    
+    @pyqtSlot()
+    def on_delete_button_clicked(self):
+        row = self.collections_list.currentRow()
+        if row>-1:
+            reply = QMessageBox.question(self, "Delete", "Do you want to delete this structure?",
+                (QMessageBox.Yes | QMessageBox.No), QMessageBox.Yes)
+            if reply==QMessageBox.Yes:
+                item = self.collections_list.takeItem(row)
+                del self.collections[item.text()]
+                self.hasCollection()
+    
+    @pyqtSlot()
+    def on_rename_button_clicked(self):
+        row = self.collections_list.currentRow()
+        if row>-1:
+            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+            if ok:
+                if not name:
+                    QMessageBox.warning(self, "Profile name", "Can not use blank to rename.")
+                    return
+                item = self.collections_list.item(row)
+                self.collections[name] = self.collections.pop(item.text())
+                item.setText(name)
+    
+    @pyqtSlot()
+    def on_buttonBox_accepted(self):
+        self.mechanismParams = self.collections[self.collections_list.currentText()]

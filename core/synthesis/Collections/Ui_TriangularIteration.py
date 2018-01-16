@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(302, 730)
+        Form.resize(389, 730)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collection-triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -25,6 +25,12 @@ class Ui_Form(object):
         self.load_button.setIcon(icon1)
         self.load_button.setObjectName("load_button")
         self.horizontalLayout_4.addWidget(self.load_button)
+        self.save_button = QtWidgets.QPushButton(Form)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/icons/savefile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.save_button.setIcon(icon2)
+        self.save_button.setObjectName("save_button")
+        self.horizontalLayout_4.addWidget(self.save_button)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem)
         self.clear_button = QtWidgets.QPushButton(Form)
@@ -217,6 +223,7 @@ class Ui_Form(object):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
         self.load_button.setText(_translate("Form", "Collections"))
+        self.save_button.setText(_translate("Form", "Save"))
         self.clear_button.setText(_translate("Form", "Clear"))
         self.joint_name_label.setText(_translate("Form", "Joint name:"))
         self.status_label.setText(_translate("Form", "Status:"))

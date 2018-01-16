@@ -99,13 +99,14 @@ class PreviewCanvas(BaseCanvas):
     def setStatus(self, point: int, status: bool):
         self.status[point] = status
 
+warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
+
 class CollectionsTriangularIteration(QWidget, Ui_Form):
-    warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
-    
     def __init__(self, parent=None):
         super(CollectionsTriangularIteration, self).__init__(parent)
         self.setupUi(self)
-        self.collections = []
+        self.unsaveFunc = parent.workbookNoSave
+        self.collections = {}
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.clear_button.clicked.connect(self.clear)
@@ -133,9 +134,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.setWarning(label, True)
     
     def setWarning(self, label, warning: bool):
-        label.setText(label.text().replace(self.warning_icon, ''))
+        label.setText(label.text().replace(warning_icon, ''))
         if warning:
-            label.setText(self.warning_icon + label.text())
+            label.setText(warning_icon + label.text())
     
     @pyqtSlot(Graph, dict)
     def setGraph(self, G, pos):
@@ -147,10 +148,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             )))
         for node in pos:
             self.joint_name.addItem('P{}'.format(node))
-        self.name_dict = {
-            self.joint_name.itemText(row):""
-            for row in range(self.joint_name.count())
-        }
     
     @pyqtSlot(int)
     def on_grounded_list_currentRowChanged(self, row):
@@ -198,17 +195,25 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))
     
     def get_currentMechanismParams(self):
+        name_dict = {
+            self.joint_name.itemText(row):""
+            for row in range(self.joint_name.count())
+        }
         return {
+            #To keep the origin graph.
+            'Graph':tuple(self.PreviewWindow.G.edges),
+            #To keep the position of points.
+            'pos':self.PreviewWindow.pos.copy(),
             'Driver':{
-                self.name_dict[self.Driver_list.item().text()]:None
+                name_dict[self.Driver_list.item().text()]:None
                 for row in range(self.Driver_list.count())
             },
             'Follower':{
-                self.name_dict[self.Follower_list.item().text()]:None
+                name_dict[self.Follower_list.item().text()]:None
                 for row in range(self.Follower_list.count())
             },
             'Target':{
-                self.name_dict[self.Target_list.item().text()]:None
+                name_dict[self.Target_list.item().text()]:None
                 for row in range(self.Target_list.count())
             },
             'Link_Expression':self.Link_Expression.text(),
@@ -248,3 +253,13 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg = SolutionsDialog('PLLP', self)
         dlg.show()
         dlg.exec_()
+    
+    @pyqtSlot()
+    def on_save_button_clicked(self):
+        name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+        if ok:
+            i = 0
+            while (name not in self.collections) and (not name):
+                name = "Structure_{}".format(i)
+            self.collections[name] = self.get_currentMechanismParams()
+            self.unsaveFunc()

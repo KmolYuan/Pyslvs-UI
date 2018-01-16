@@ -72,7 +72,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QListWidget" name="listWidget"/>
+      <widget class="QListWidget" name="collections_list"/>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">

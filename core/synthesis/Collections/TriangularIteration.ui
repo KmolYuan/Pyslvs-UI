@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
+    <width>389</width>
     <height>730</height>
    </rect>
   </property>
@@ -28,6 +28,17 @@
        <property name="icon">
         <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
          <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="save_button">
+       <property name="text">
+        <string>Save</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+         <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
        </property>
       </widget>
      </item>
