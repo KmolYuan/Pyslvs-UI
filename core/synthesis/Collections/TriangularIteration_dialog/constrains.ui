@@ -54,34 +54,11 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="sorting_add">
-         <property name="maximumSize">
-          <size>
-           <width>30</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>&gt;&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="Loops_add">
-         <property name="maximumSize">
-          <size>
-           <width>30</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>&lt;&lt;</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>&gt;&gt;</string>
+       </property>
+      </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -120,7 +97,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="sorting_add_2">
+        <widget class="QPushButton" name="sorting_add">
          <property name="maximumSize">
           <size>
            <width>30</width>

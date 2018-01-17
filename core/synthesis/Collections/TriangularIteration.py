@@ -115,6 +115,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.clear_button.clicked.connect(self.clear)
         self.clear()
     
+    def addCollections(self, collections):
+        self.collections.update(collections)
+    
     def clear(self):
         self.collections.clear()
         self.PreviewWindow.clear()
@@ -137,9 +140,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         ]:
             self.setWarning(label, True)
     
-    def addCollections(self, collections):
-        self.collections.update(collections)
-    
     def setWarning(self, label, warning: bool):
         label.setText(label.text().replace(warning_icon, ''))
         if warning:
@@ -153,6 +153,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.grounded_list.addItem("({})".format(", ".join(
                 'P{}'.format(n) for n, edge in enumerate(G.edges) if link in edge
             )))
+        #Point name as (P1, P2, P3, ...).
         for node in pos:
             self.joint_name.addItem('P{}'.format(node))
     
@@ -310,6 +311,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def on_Expression_list_itemChanged(self, item):
         parm_bind = {}
         expr_list = []
+        #At this time, we should turn the points number to letter names.
         ln = letter_names()
         for row in range(self.Expression_list.count()):
             expr = self.Expression_list.item(row).text()
@@ -317,6 +319,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             params.append(get_from_parenthesis(expr, '(', ')'))
             for name in params:
                 if 'P' in name:
+                    #Find out with who was shown earlier.
                     if name not in parm_bind:
                         parm_bind[name] = next(ln)
                     expr = expr.replace(name, parm_bind[name])
