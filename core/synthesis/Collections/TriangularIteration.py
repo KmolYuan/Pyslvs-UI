@@ -23,6 +23,7 @@ from core.graphics import (
     distance_sorted,
     colorQt
 )
+from core.io import get_from_parenthesis
 from networkx import Graph
 from string import ascii_uppercase
 from itertools import product
@@ -96,8 +97,9 @@ class PreviewCanvas(BaseCanvas):
             self.status[n] = self.grounded in edge
         self.update()
     
-    def setStatus(self, point: int, status: bool):
-        self.status[point] = status
+    def setStatus(self, point: str, status: bool):
+        self.status[int(point.replace('P', ''))] = status
+        self.update()
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
 
@@ -107,6 +109,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
         self.collections = {}
+        self.Expression.parm_bind = {}
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.clear_button.clicked.connect(self.clear)
@@ -117,6 +120,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.clear()
         self.joint_name.clear()
         self.Expression_list.clear()
+        self.Expression.parm_bind.clear()
         self.grounded_list.clear()
         self.Driver_list.clear()
         self.Follower_list.clear()
@@ -154,6 +158,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.setWarning(self.grounded_label, not row>-1)
         self.PreviewWindow.setGrounded(row)
         self.on_joint_name_currentIndexChanged()
+        self.Expression_list.clear()
+        self.Expression.clear()
         self.Follower_list.clear()
         self.Driver_list.clear()
         if row>-1:
@@ -165,6 +171,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             )
         self.setWarning(self.Follower_label, not row>-1)
         self.setWarning(self.Driver_label, True)
+        self.setWarning(self.Expression_list_label, True)
     
     @pyqtSlot(int)
     def on_joint_name_currentIndexChanged(self, index=None):
@@ -194,11 +201,23 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Follower_list.addItem(self.Driver_list.takeItem(row))
             self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))
     
+    def expression(self):
+        expr_list = set([])
+        for expr in self.Expression.text().split(';'):
+            param_list = get_from_parenthesis(expr, '[', ']').split(',')
+            param_list.append(get_from_parenthesis(expr, '(', ')'))
+            expr_list.update(param_list)
+        return expr_list
+    
+    def getParam(self, angle: bool =False):
+        i = 0
+        p = '{}{{}}'.format('a' if angle else 'L')
+        while p.format(i) in self.expression():
+            i += 1
+        return i
+    
     def get_currentMechanismParams(self):
-        name_dict = {
-            self.joint_name.itemText(row):""
-            for row in range(self.joint_name.count())
-        }
+        name_dict = self.Expression.parm_bind
         return {
             #To keep the origin graph.
             'Graph':tuple(self.PreviewWindow.G.edges),
@@ -246,13 +265,62 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def on_PLAP_solution_clicked(self):
         dlg = SolutionsDialog('PLAP', self)
         dlg.show()
-        dlg.exec_()
+        if dlg.exec_():
+            point = self.joint_name.currentText()
+            self.PreviewWindow.setStatus(point, True)
+            item = QListWidgetItem()
+            self.Expression_list.addItem(item)
+            item.setText("PLAP[{},{},{},{}]({})".format(
+                dlg.point_A.currentText(),
+                'a{}'.format(self.getParam(angle=True)),
+                'L{}'.format(self.getParam()),
+                dlg.point_B.currentText(),
+                point
+            ))
+            self.on_joint_name_currentIndexChanged()
+            self.setWarning(self.Expression_list_label, False)
     
     @pyqtSlot()
     def on_PLLP_solution_clicked(self):
         dlg = SolutionsDialog('PLLP', self)
         dlg.show()
-        dlg.exec_()
+        if dlg.exec_():
+            point = self.joint_name.currentText()
+            self.PreviewWindow.setStatus(point, True)
+            link_num = self.getParam()
+            item = QListWidgetItem()
+            self.Expression_list.addItem(item)
+            item.setText("PLLP[{},{},{},{}]({})".format(
+                dlg.point_A.currentText(),
+                'L{}'.format(link_num),
+                'L{}'.format(link_num + 1),
+                dlg.point_B.currentText(),
+                point
+            ))
+            self.on_joint_name_currentIndexChanged()
+            self.setWarning(self.Expression_list_label, False)
+    
+    @pyqtSlot(QListWidgetItem)
+    def on_Expression_list_itemChanged(self, item):
+        parm_bind = {}
+        expr_list = []
+        ln = letter_names()
+        for row in range(self.Expression_list.count()):
+            expr = self.Expression_list.item(row).text()
+            params = get_from_parenthesis(expr, '[', ']').split(',')
+            params.append(get_from_parenthesis(expr, '(', ')'))
+            for name in params:
+                if 'P' in name:
+                    if name not in parm_bind:
+                        parm_bind[name] = next(ln)
+                    expr = expr.replace(name, parm_bind[name])
+            expr_list.append(expr)
+        self.Expression.setText(';'.join(expr_list))
+        self.Expression.parm_bind = parm_bind
+    
+    @pyqtSlot()
+    def on_Expression_clear_clicked(self):
+        self.on_grounded_list_currentRowChanged(self.grounded_list.currentRow())
     
     @pyqtSlot()
     def on_save_button_clicked(self):

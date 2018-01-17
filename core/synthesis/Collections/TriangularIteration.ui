@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>730</height>
+    <width>394</width>
+    <height>712</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
     <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_12">
+  <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -90,7 +90,7 @@
           <item>
            <widget class="QLabel" name="joint_name_label">
             <property name="text">
-             <string>Joint name:</string>
+             <string>Joint:</string>
             </property>
            </widget>
           </item>
@@ -114,7 +114,7 @@
           <item>
            <widget class="QLabel" name="solution_label">
             <property name="text">
-             <string>Joint solutions:</string>
+             <string>Solutions:</string>
             </property>
            </widget>
           </item>
@@ -163,45 +163,6 @@
          <property name="lineWidth">
           <number>3</number>
          </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <item>
-            <widget class="QLabel" name="Expression_list_label">
-             <property name="text">
-              <string>Solutions:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="Expression_list"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_10">
-           <item>
-            <widget class="QLabel" name="grounded_label">
-             <property name="text">
-              <string>Gounded:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QListWidget" name="grounded_list"/>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line_4">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -267,6 +228,27 @@
            </item>
           </layout>
          </item>
+         <item>
+          <widget class="Line" name="line_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_15">
+           <item>
+            <widget class="QLabel" name="grounded_label">
+             <property name="text">
+              <string>Gounded:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="grounded_list"/>
+           </item>
+          </layout>
+         </item>
         </layout>
        </item>
        <item>
@@ -324,6 +306,31 @@
            </item>
            <item>
             <widget class="QListWidget" name="constraint_list"/>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item>
+            <widget class="QLabel" name="Expression_list_label">
+             <property name="text">
+              <string>Solutions:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QListWidget" name="Expression_list"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Expression_clear">
+             <property name="text">
+              <string>Clear</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>

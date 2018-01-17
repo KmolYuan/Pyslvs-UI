@@ -36,3 +36,13 @@ class SolutionsDialog(QDialog, Ui_Dialog):
                 "with length L0 and R0 to find out the coordinate of point C."
             )
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
+        for node, status in parent.PreviewWindow.status.items():
+            if status:
+                self.point_A.addItem('P{}'.format(node))
+                self.point_B.addItem('P{}'.format(node))
+        self.point_A.currentIndexChanged.connect(self.isOk)
+        self.point_B.currentIndexChanged.connect(self.isOk)
+        self.isOk()
+    
+    def isOk(self):
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.point_A.currentText()!=self.point_B.currentText())
