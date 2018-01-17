@@ -24,3 +24,30 @@ class TargetsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
+        currentItem = parent.grounded_list.currentItem()
+        if currentItem:
+            for row in range(parent.joint_name.count()):
+                text = parent.joint_name.itemText(row)
+                if text not in (
+                    currentItem.text()
+                    .replace('(', '')
+                    .replace(')', '')
+                    .split(", ")
+                ):
+                    self.other_list.addItem(text)
+        target_list = [parent.Target_list.item(row).text() for row in range(parent.Target_list.count())]
+        for row in range(self.other_list.count()):
+            if self.other_list.item(row).text() in target_list:
+                self.targets_list.addItem(self.other_list.takeItem(row))
+    
+    @pyqtSlot()
+    def on_targets_add_clicked(self):
+        row = self.other_list.currentRow()
+        if row>-1:
+            self.targets_list.addItem(self.other_list.takeItem(row))
+    
+    @pyqtSlot()
+    def on_other_add_clicked(self):
+        row = self.targets_list.currentRow()
+        if row>-1:
+            self.other_list.addItem(self.targets_list.takeItem(row))

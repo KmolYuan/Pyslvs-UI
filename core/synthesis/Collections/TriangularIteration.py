@@ -259,7 +259,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def on_Target_button_clicked(self):
         dlg = TargetsDialog(self)
         dlg.show()
-        dlg.exec_()
+        if dlg.exec_():
+            self.Target_list.clear()
+            for row in range(dlg.targets_list.count()):
+                self.Target_list.addItem(dlg.targets_list.item(row).text())
     
     @pyqtSlot()
     def on_PLAP_solution_clicked(self):

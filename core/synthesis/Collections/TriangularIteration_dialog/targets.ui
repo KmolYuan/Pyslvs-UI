@@ -52,7 +52,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="targets_add">
          <property name="maximumSize">
           <size>
            <width>30</width>
@@ -65,7 +65,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="other_add">
          <property name="maximumSize">
           <size>
            <width>30</width>
