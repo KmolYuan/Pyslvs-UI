@@ -92,6 +92,8 @@ class CommitModel(Model):
     pathdata = BlobField()
     #Collection data
     collectiondata = BlobField()
+    #Triangle collection data
+    triangledata = BlobField()
     #Algorithm data
     algorithmdata = BlobField()
     class Meta:
@@ -142,9 +144,11 @@ class FileWidget(QWidget, Ui_Form):
         '''
         Mentioned in "core.widgets.custom", because DimensionalSynthesis created after FileWidget.
         
-        self.CollectDataFunc = lambda: [list(G.edges) for G in parent.NumberAndTypeSynthesis.collections] #Call to get collections data
-        self.loadCollectFunc = parent.NumberAndTypeSynthesis.addCollections #Call to load collections data.
-        self.loadAlgorithmFunc = parent.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
+        self.CollectDataFunc #Call to get collections data.
+        self.TriangleDataFunc #Call to get triangle data.
+        self.loadCollectFunc #Call to load collections data.
+        self.loadTriangleFunc #Call to load triangle data.
+        self.loadAlgorithmFunc #Call after loaded algorithm results.
         '''
         #Close database when destroyed.
         self.destroyed.connect(self.colseDatabase)
@@ -225,6 +229,7 @@ class FileWidget(QWidget, Ui_Form):
                 'storage':compress(self.storageDataFunc()),
                 'pathdata':compress(self.pathData),
                 'collectiondata':compress(self.CollectDataFunc()),
+                'triangledata':compress(self.TriangleDataFunc()),
                 'algorithmdata':compress(self.Designs.result),
                 'branch':branch_model
             }
@@ -348,6 +353,8 @@ class FileWidget(QWidget, Ui_Form):
             self.loadPathFunc(decompress(commit.pathdata))
             #Load collectiondata.
             self.loadCollectFunc(decompress(commit.collectiondata))
+            #Load triangledata.
+            self.loadTriangleFunc(decompress(commit.triangledata))
             #Load algorithmdata.
             self.Designs.result = decompress(commit.algorithmdata)
             self.loadAlgorithmFunc()

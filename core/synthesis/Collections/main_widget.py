@@ -37,3 +37,6 @@ class Collections(QWidget):
     
     def CollectDataFunc(self):
         return [tuple(G.edges) for G in self.CollectionsStructure.collections]
+    
+    def TriangleDataFunc(self):
+        return self.CollectionsTriangularIteration.collections

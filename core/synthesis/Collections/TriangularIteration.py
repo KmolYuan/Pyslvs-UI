@@ -137,6 +137,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         ]:
             self.setWarning(label, True)
     
+    def addCollections(self, collections):
+        self.collections.update(collections)
+    
     def setWarning(self, label, warning: bool):
         label.setText(label.text().replace(warning_icon, ''))
         if warning:
