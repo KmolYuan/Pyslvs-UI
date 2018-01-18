@@ -20,6 +20,23 @@
 from core.QtModules import *
 from .Ui_collections import Ui_Dialog
 
+mechanismParams_4Bar = {
+    'Driver':{'A':None}, #'A':(x, y, r)
+    'Follower':{'B':None}, #'B':(x, y, r)
+    'Target':{'E':None}, #'E':((x1, y1), (x2, y2), (x3, y3), ...)
+    'Link_Expression':"ground[A,B];[A,C];[C,D,E];[B,D]",
+    'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
+    'constraint':[('A', 'B', 'C', 'D')]
+}
+mechanismParams_8Bar = {
+    'Driver':{'A':None},
+    'Follower':{'B':None},
+    'Target':{'H':None},
+    'Link_Expression':"ground[A,B];[A,C];[C,D];[B,D,E];[C,F];[B,F];[E,G];[F,G,H]",
+    'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
+    'constraint':[('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')]
+}
+
 class CollectionsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(CollectionsDialog, self).__init__(parent)
@@ -68,4 +85,12 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_buttonBox_accepted(self):
-        self.mechanismParams = self.collections[self.collections_list.currentText()]
+        self.mechanismParams = self.collections[self.collections_list.currentItem().text()]
+    
+    @pyqtSlot()
+    def on_common_load_clicked(self):
+        row = self.common_linkage.currentRow()
+        if row==0:
+            self.mechanismParams = mechanismParams_4Bar
+        elif row==1:
+            self.mechanismParams = mechanismParams_8Bar

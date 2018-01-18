@@ -48,6 +48,8 @@ def letter_names():
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(PreviewCanvas, self).__init__(parent)
+        self.get_joint_number = lambda: parent.joint_name.currentIndex()
+        self.pressed = False
         self.clear()
     
     def clear(self):
@@ -100,6 +102,21 @@ class PreviewCanvas(BaseCanvas):
     def setStatus(self, point: str, status: bool):
         self.status[int(point.replace('P', ''))] = status
         self.update()
+    
+    def mousePressEvent(self, event):
+        self.pressed = True
+    
+    def mouseReleaseEvent(self, event):
+        self.pressed = False
+    
+    def mouseMoveEvent(self, event):
+        if self.pressed:
+            row = self.get_joint_number()
+            if row>-1:
+                x = (event.x() - self.ox)
+                y = -(event.y() - self.oy)
+                self.pos[row] = (x, y)
+                self.update()
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
 
@@ -158,7 +175,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.setGraph(G, pos)
         for link in G.nodes:
             self.grounded_list.addItem("({})".format(", ".join(
-                'P{}'.format(n) for n, edge in enumerate(G.edges) if link in edge
+                'P{}'.format(n)
+                for n, edge in enumerate(G.edges)
+                if link in edge
             )))
         #Point name as (P1, P2, P3, ...).
         for node in pos:
@@ -248,19 +267,18 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             },
             'Link_Expression':self.Link_Expression.text(),
             'Expression':self.Expression.text(),
-            'constraint':[
-                tuple(name_dict[name] for name in (
-                    self.constraint_list.item(row).text().split(',')
-                ))
-                for row in range(self.constraint_list.count())
-            ]
+            'constraint':[tuple(
+                name_dict[name]
+                for name in self.constraint_list.item(row).text().split(',')
+            ) for row in range(self.constraint_list.count())]
         }
     
     @pyqtSlot()
     def on_load_button_clicked(self):
         dlg = CollectionsDialog(self)
         dlg.show()
-        dlg.exec_()
+        if dlg.exec_():
+            print(dlg.mechanismParams)
     
     @pyqtSlot()
     def on_constrains_button_clicked(self):

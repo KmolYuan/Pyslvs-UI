@@ -103,13 +103,13 @@ def appearance(self):
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
     self.SynthesisTab.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
     #Synthesis collections
-    CollectionTabPage = Collections(self)
-    self.SynthesisTab.addTab(CollectionTabPage, CollectionTabPage.windowIcon(), "Collections")
-    self.NumberAndTypeSynthesis.addCollection = CollectionTabPage.CollectionsStructure.addCollection
-    self.FileWidget.CollectDataFunc = CollectionTabPage.CollectDataFunc #Call to get collections data.
-    self.FileWidget.TriangleDataFunc = CollectionTabPage.TriangleDataFunc #Call to get collections data.
-    self.FileWidget.loadCollectFunc = CollectionTabPage.CollectionsStructure.addCollections #Call to load collections data.
-    self.FileWidget.loadTriangleFunc = CollectionTabPage.CollectionsTriangularIteration.addCollections #Call to load collections data.
+    self.CollectionTabPage = Collections(self)
+    self.SynthesisTab.addTab(self.CollectionTabPage, self.CollectionTabPage.windowIcon(), "Collections")
+    self.NumberAndTypeSynthesis.addCollection = self.CollectionTabPage.CollectionsStructure.addCollection
+    self.FileWidget.CollectDataFunc = self.CollectionTabPage.CollectDataFunc #Call to get collections data.
+    self.FileWidget.TriangleDataFunc = self.CollectionTabPage.TriangleDataFunc #Call to get collections data.
+    self.FileWidget.loadCollectFunc = self.CollectionTabPage.CollectionsStructure.addCollections #Call to load collections data.
+    self.FileWidget.loadTriangleFunc = self.CollectionTabPage.CollectionsTriangularIteration.addCollections #Call to load collections data.
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)

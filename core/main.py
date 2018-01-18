@@ -346,7 +346,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def clear(self):
         self.mechanism_storage_name_tag.clear()
         self.mechanism_storage.clear()
-        self.CollectionsStructure.clear()
+        self.CollectionTabPage.clear()
         self.NumberAndTypeSynthesis.clear()
         self.inputs_record.clear()
         self.inputs_variable.clear()

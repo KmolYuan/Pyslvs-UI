@@ -36,6 +36,10 @@ class Collections(QWidget):
         self.CollectionsStructure.triangle_button.clicked.connect(lambda: tabWidget.setCurrentIndex(1))
         self.CollectionsStructure.layout_sender.connect(self.CollectionsTriangularIteration.setGraph)
     
+    def clear(self):
+        self.CollectionsStructure.clear()
+        self.CollectionsTriangularIteration.clear()
+    
     def CollectDataFunc(self):
         return [tuple(G.edges) for G in self.CollectionsStructure.collections]
     

@@ -13,4 +13,10 @@ from .NumberAndTypeSynthesis import *
 #['DimensionalSynthesis']
 from .DimensionalSynthesis import *
 
-__all__ = ['NumberAndTypeSynthesis', 'Collections', 'DimensionalSynthesis']
+__all__ = [
+    'NumberAndTypeSynthesis',
+    'Collections',
+    'DimensionalSynthesis',
+    'mechanismParams_4Bar',
+    'mechanismParams_8Bar'
+]
