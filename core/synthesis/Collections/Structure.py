@@ -120,6 +120,8 @@ class CollectionsStructure(QWidget, Ui_Form):
     def addCollection(self, edges):
         G = Graph(edges)
         try:
+            if not edges:
+                raise TestError("is empty graph.")
             for n in G.nodes:
                 if len(list(G.neighbors(n)))<2:
                     raise TestError("is not close chain")

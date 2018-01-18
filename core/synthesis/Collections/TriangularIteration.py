@@ -108,6 +108,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         super(CollectionsTriangularIteration, self).__init__(parent)
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
+        '''
+        self.addToCollection = CollectionsStructure.addCollection
+        '''
         self.collections = {}
         self.Expression.parm_bind = {}
         self.PreviewWindow = PreviewCanvas(self)
@@ -144,6 +147,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         label.setText(label.text().replace(warning_icon, ''))
         if warning:
             label.setText(warning_icon + label.text())
+    
+    @pyqtSlot()
+    def on_addToCollection_button_clicked(self):
+        self.addToCollection(tuple(self.PreviewWindow.G.edges))
     
     @pyqtSlot(Graph, dict)
     def setGraph(self, G, pos):
@@ -242,7 +249,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             'Link_Expression':self.Link_Expression.text(),
             'Expression':self.Expression.text(),
             'constraint':[
-                tuple(self.constraint_list.item(row).text().split(','))
+                tuple(name_dict[name] for name in (
+                    self.constraint_list.item(row).text().split(',')
+                ))
                 for row in range(self.constraint_list.count())
             ]
         }
@@ -257,7 +266,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def on_constrains_button_clicked(self):
         dlg = ConstrainsDialog(self)
         dlg.show()
-        dlg.exec_()
+        if dlg.exec_():
+            self.constraint_list.clear()
+            for row in range(dlg.main_list.count()):
+                self.constraint_list.addItem(dlg.main_list.item(row).text())
     
     @pyqtSlot()
     def on_Target_button_clicked(self):
@@ -274,7 +286,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg.show()
         if dlg.exec_():
             point = self.joint_name.currentText()
-            self.PreviewWindow.setStatus(point, True)
             item = QListWidgetItem()
             self.Expression_list.addItem(item)
             item.setText("PLAP[{},{},{},{}]({})".format(
@@ -285,6 +296,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 point
             ))
             self.on_joint_name_currentIndexChanged()
+            self.PreviewWindow.setStatus(point, True)
             self.setWarning(self.Expression_list_label, False)
     
     @pyqtSlot()
@@ -293,7 +305,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg.show()
         if dlg.exec_():
             point = self.joint_name.currentText()
-            self.PreviewWindow.setStatus(point, True)
             link_num = self.getParam()
             item = QListWidgetItem()
             self.Expression_list.addItem(item)
@@ -305,6 +316,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 point
             ))
             self.on_joint_name_currentIndexChanged()
+            self.PreviewWindow.setStatus(point, True)
             self.setWarning(self.Expression_list_label, False)
     
     @pyqtSlot(QListWidgetItem)
@@ -324,8 +336,28 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                         parm_bind[name] = next(ln)
                     expr = expr.replace(name, parm_bind[name])
             expr_list.append(expr)
-        self.Expression.setText(';'.join(expr_list))
         self.Expression.parm_bind = parm_bind
+        link_expr_list = []
+        self.Expression.setText(';'.join(expr_list))
+        for row in range(self.grounded_list.count()):
+            try:
+                link_expr = ','.join(parm_bind[name] for name in (
+                    self.grounded_list.item(row).text()
+                    .replace('(', '')
+                    .replace(')', '')
+                    .split(", ")
+                ))
+            except KeyError:
+                continue
+            else:
+                if row==self.grounded_list.currentRow():
+                    link_expr_list.insert(0, link_expr)
+                else:
+                    link_expr_list.append(link_expr)
+        self.Link_Expression.setText(';'.join(
+            ('ground' if i==0 else '') + "[{}]".format(link)
+            for i, link in enumerate(link_expr_list)
+        ))
     
     @pyqtSlot()
     def on_Expression_clear_clicked(self):

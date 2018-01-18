@@ -30,6 +30,7 @@ class Collections(QWidget):
         self.setWindowIcon(QIcon(QPixmap(":/icons/collections.png")))
         self.CollectionsStructure = CollectionsStructure(parent)
         self.CollectionsTriangularIteration = CollectionsTriangularIteration(parent)
+        self.CollectionsTriangularIteration.addToCollection = self.CollectionsStructure.addCollection
         tabWidget.addTab(self.CollectionsStructure, self.CollectionsStructure.windowIcon(), "Structure")
         tabWidget.addTab(self.CollectionsTriangularIteration, self.CollectionsTriangularIteration.windowIcon(), "Triangular iteration")
         self.CollectionsStructure.triangle_button.clicked.connect(lambda: tabWidget.setCurrentIndex(1))

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
+    <width>359</width>
     <height>712</height>
    </rect>
   </property>
@@ -20,6 +20,21 @@
   <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QPushButton" name="addToCollection_button">
+       <property name="icon">
+        <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+         <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_5">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QPushButton" name="load_button">
        <property name="text">
