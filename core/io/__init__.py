@@ -21,7 +21,8 @@ from .loggingHandler import XStream
 from .larkParser import (
     parser,
     ArgsTransformer,
-    get_from_parenthesis
+    get_from_parenthesis,
+    get_front_of_parenthesis
 )
 from .elements import (
     VPoint,
@@ -50,6 +51,7 @@ __all__ = [
     'parser',
     'ArgsTransformer',
     'get_from_parenthesis',
+    'get_front_of_parenthesis',
     'VPoint',
     'VLink',
     'v_to_graph',

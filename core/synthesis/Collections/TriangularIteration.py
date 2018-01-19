@@ -23,7 +23,8 @@ from core.graphics import (
     distance_sorted,
     colorQt
 )
-from core.io import get_from_parenthesis
+from core.io import get_from_parenthesis, get_front_of_parenthesis
+from math import sqrt
 from networkx import Graph
 from string import ascii_uppercase
 from itertools import product
@@ -48,7 +49,12 @@ def letter_names():
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(PreviewCanvas, self).__init__(parent)
+        self.set_joint_number = parent.joint_name.setCurrentIndex
         self.get_joint_number = lambda: parent.joint_name.currentIndex()
+        self.get_solutions = lambda: tuple(
+            parent.Expression_list.item(row).text()
+            for row in range(parent.Expression_list.count())
+        )
         self.pressed = False
         self.clear()
     
@@ -85,6 +91,24 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
             self.painter.drawText(QPointF(x + 2*r, -y), 'P{}'.format(node))
+        for expr in self.get_solutions():
+            params = [
+                p for p in get_from_parenthesis(expr, '[', ']').split(',')
+                if 'P' in p
+            ]
+            params.append(get_from_parenthesis(expr, '(', ')'))
+            func = get_front_of_parenthesis(expr, '[')
+            color = QColor(121, 171, 252) if func=='PLLP' else QColor(249, 84, 216)
+            color.setAlpha(255)
+            pen.setColor(color)
+            self.painter.setPen(pen)
+            color.setAlpha(30)
+            self.painter.setBrush(QBrush(color))
+            qpoints = []
+            for name in params:
+                x, y = self.pos[int(name.replace('P', ''))]
+                qpoints.append(QPointF(x, -y))
+            self.painter.drawPolygon(*qpoints)
         self.painter.end()
     
     def setGraph(self, G, pos):
@@ -105,6 +129,12 @@ class PreviewCanvas(BaseCanvas):
     
     def mousePressEvent(self, event):
         self.pressed = True
+        mx = (event.x() - self.ox)
+        my = -(event.y() - self.oy)
+        for node, (x, y) in self.pos.items():
+            if sqrt((mx - x)**2 + (my - y)**2)<=5:
+                self.set_joint_number(node)
+                break
     
     def mouseReleaseEvent(self, event):
         self.pressed = False
@@ -113,9 +143,14 @@ class PreviewCanvas(BaseCanvas):
         if self.pressed:
             row = self.get_joint_number()
             if row>-1:
-                x = (event.x() - self.ox)
-                y = -(event.y() - self.oy)
-                self.pos[row] = (x, y)
+                mx = (event.x() - self.ox)
+                my = -(event.y() - self.oy)
+                width = self.width()
+                height = self.height()
+                if -self.ox < mx < width-self.ox:
+                    self.pos[row] = (mx, self.pos[row][1])
+                if -self.oy < my < height-self.oy:
+                    self.pos[row] = (self.pos[row][0], my)
                 self.update()
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
@@ -315,7 +350,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
             self.on_joint_name_currentIndexChanged()
             self.PreviewWindow.setStatus(point, True)
-            self.setWarning(self.Expression_list_label, False)
+            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status))
     
     @pyqtSlot()
     def on_PLLP_solution_clicked(self):
@@ -335,7 +370,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
             self.on_joint_name_currentIndexChanged()
             self.PreviewWindow.setStatus(point, True)
-            self.setWarning(self.Expression_list_label, False)
+            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status))
     
     @pyqtSlot(QListWidgetItem)
     def on_Expression_list_itemChanged(self, item):
