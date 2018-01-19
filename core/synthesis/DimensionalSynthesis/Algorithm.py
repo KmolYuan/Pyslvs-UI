@@ -257,7 +257,11 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def setTime(self, time_spand):
         sec = round(time_spand%60, 2)
         mins = int(time_spand/60)
-        self.timeShow.setText("<html><head/><body><p><span style=\"font-size:12pt\">{}[min] {}[s]</span></p></body></html>".format(mins, sec))
+        self.timeShow.setText(
+            "<html><head/><body><p><span style=\"font-size:12pt\">"+
+            "{}[min] {:.02f}[s]".format(mins, sec)+
+            "</span></p></body></html>"
+        )
     
     #Add result items, except add to the list.
     def addResult(self, result):
@@ -348,7 +352,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_Result_load_settings_clicked(self):
         self.hasResult()
         row = self.Result_list.currentRow()
-        if row>-1 and row!=len(self.mechanism_data):
+        if row>-1:
             Result = self.mechanism_data[row]
             if Result['Algorithm']=='RGA':
                 self.type0.setChecked(True)
@@ -356,35 +360,33 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.type1.setChecked(True)
             elif Result['Algorithm']=='DE':
                 self.type2.setChecked(True)
-            if Result['Expression']=="PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)":
+            if Result['Expression']=="PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)":
                 self.FourBar.setChecked(True)
             else:
                 self.EightBar.setChecked(True)
             self.setTime(Result['time'])
+            self.Ax.setValue(Result['Driver']['A'][0])
+            self.Ay.setValue(Result['Driver']['A'][1])
+            self.Ar.setValue(Result['Driver']['A'][2])
+            self.Bx.setValue(Result['Follower']['B'][0])
+            self.By.setValue(Result['Follower']['B'][1])
+            self.Br.setValue(Result['Follower']['B'][2])
             settings = Result['settings']
-            self.Ax.setValue((settings['upper'][0]+settings['lower'][0])/2)
-            self.Ay.setValue((settings['upper'][1]+settings['lower'][1])/2)
-            self.Ar.setValue(abs(settings['upper'][0]-self.Ax.value())*2)
-            self.Bx.setValue((settings['upper'][2]+settings['lower'][2])/2)
-            self.By.setValue((settings['upper'][3]+settings['lower'][3])/2)
-            self.Br.setValue(abs(settings['upper'][2]-self.Bx.value())*2)
             self.Settings = {
                 'maxGen':settings['maxGen'],
                 'report':0 if settings['report']==0 else settings['maxGen']/settings['report']/100,
-                'IMax':settings['upper'][4], 'IMin':settings['lower'][4],
-                'LMax':settings['upper'][5], 'LMin':settings['lower'][5],
-                'FMax':settings['upper'][6], 'FMin':settings['lower'][6],
-                'AMax':settings['upper'][-1], 'AMin':settings['lower'][-1]
+                'IMax':Result['IMax'], 'IMin':Result['IMin'],
+                'LMax':Result['LMax'], 'LMin':Result['LMin'],
+                'FMax':Result['FMax'], 'FMin':Result['FMin'],
+                'AMax':Result['AMax'], 'AMin':Result['AMin']
             }
             algorithmPrams = settings.copy()
-            del algorithmPrams['nParm']
-            del algorithmPrams['upper']
-            del algorithmPrams['lower']
             del algorithmPrams['report']
             self.Settings['algorithmPrams'] = algorithmPrams
             self.on_clearAll_clicked()
-            for e in Result['targetPath']:
-                self.on_add_clicked(e[0], e[1])
+            for point in Result['Target'].values():
+                for x, y in point:
+                    self.on_add_clicked(x, y)
     
     def algorithmPrams_default(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2

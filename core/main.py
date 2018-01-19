@@ -716,8 +716,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entities_Point.item(row, 1).text(),
                 self.Entities_Point.item(row, 2).text(),
                 self.Entities_Point.item(row, 3).text(),
-                x,
-                y
+                x, y
             ]
             self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
         self.FileState.endMacro()
@@ -1122,7 +1121,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int, tuple)
     def PathSolving_mergeResult(self, row, path):
-        Result = self.FileWidget.Designs.result[row]
+        try:
+            Result = self.FileWidget.Designs.result[row]
+        except IndexError:
+            print(row, self.FileWidget.Designs.result)
+            return
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in Result['Link_Expression'].split(';'):

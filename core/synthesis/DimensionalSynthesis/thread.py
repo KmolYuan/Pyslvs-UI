@@ -69,10 +69,7 @@ class WorkerThread(QThread):
             mechanism = {
                 'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
                 'time':time_spand,
-                'Target':self.mechanismParams['Target'],
                 'interrupted':str(time_and_fitness[-1][0]) if self.stoped else 'False',
-                'Link_Expression':self.mechanismParams['Link_Expression'],
-                'Expression':self.mechanismParams['Expression'],
                 'settings':self.settings,
                 'hardwareInfo':{
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
@@ -82,6 +79,7 @@ class WorkerThread(QThread):
                 },
                 'TimeAndFitness':time_and_fitness
             }
+            mechanism.update(self.mechanismParams)
             mechanism.update(fitnessParameter)
             print("cost time: {} [s]".format(time_spand))
             self.result.emit(mechanism, time_spand)
