@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,8 +11,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1014, 780)
-        MainWindow.setMinimumSize(QtCore.QSize(1014, 780))
+        MainWindow.resize(903, 780)
+        MainWindow.setMinimumSize(QtCore.QSize(903, 780))
         MainWindow.setMouseTracking(True)
         MainWindow.setAcceptDrops(True)
         icon = QtGui.QIcon()
@@ -257,8 +257,8 @@ class Ui_MainWindow(object):
         self.inputs_variable_play = QtWidgets.QPushButton(self.inputs_variable_groupBox)
         self.inputs_variable_play.setEnabled(False)
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         icon8.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         self.inputs_variable_play.setIcon(icon8)
         self.inputs_variable_play.setCheckable(True)
         self.inputs_variable_play.setObjectName("inputs_variable_play")
@@ -639,7 +639,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 1014, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 903, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")

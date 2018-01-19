@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>481</width>
+    <width>458</width>
     <height>787</height>
    </rect>
   </property>
@@ -255,64 +255,60 @@
              <number>0</number>
             </property>
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
-              <item>
-               <widget class="QLineEdit" name="Expression_edges">
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="Expression_copy">
-                <property name="statusTip">
-                 <string>Copy expression.</string>
-                </property>
-                <property name="text">
-                 <string>Copy</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QLineEdit" name="Expression_edges">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="Expression_copy">
+              <property name="statusTip">
+               <string>Copy expression.</string>
+              </property>
+              <property name="text">
+               <string>Copy</string>
+              </property>
+             </widget>
             </item>
             <item>
              <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="0">
+              <item row="1" column="0">
                <widget class="QLabel" name="NL_text">
                 <property name="text">
                  <string>Number of links:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
+              <item row="1" column="1">
                <widget class="QLabel" name="NL">
                 <property name="text">
                  <string>0</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="0">
+              <item row="2" column="0">
                <widget class="QLabel" name="NJ_text">
                 <property name="text">
                  <string>Number of joints:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="2" column="1">
                <widget class="QLabel" name="NJ">
                 <property name="text">
                  <string>0</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
+              <item row="3" column="0">
                <widget class="QLabel" name="DOF_text">
                 <property name="text">
-                 <string>Degree of freedom:</string>
+                 <string>DOF:</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
+              <item row="3" column="1">
                <widget class="QLabel" name="DOF">
                 <property name="text">
                  <string>0</string>
@@ -343,7 +339,7 @@
                <string>Use trangular formula to do dimentional synthesis.</string>
               </property>
               <property name="text">
-               <string>Triangular modeling</string>
+               <string>Iterate</string>
               </property>
               <property name="icon">
                <iconset resource="../../../icons.qrc">
@@ -360,7 +356,7 @@
                <string>Re-layout the grounded chains.</string>
               </property>
               <property name="text">
-               <string>Generate layout</string>
+               <string>Layouting</string>
               </property>
               <property name="icon">
                <iconset resource="../../../icons.qrc">

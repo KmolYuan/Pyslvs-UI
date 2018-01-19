@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>359</width>
+    <width>375</width>
     <height>712</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+   <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -23,7 +23,7 @@
      <item>
       <widget class="QPushButton" name="addToCollection_button">
        <property name="icon">
-        <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+        <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
        </property>
       </widget>
@@ -41,7 +41,7 @@
         <string>Collections</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+        <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
        </property>
       </widget>
@@ -52,7 +52,7 @@
         <string>Save</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+        <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
        </property>
       </widget>
@@ -342,7 +342,7 @@
               <string>Clear</string>
              </property>
              <property name="icon">
-              <iconset resource="../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+              <iconset resource="../../../icons.qrc">
                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
              </property>
             </widget>
@@ -398,7 +398,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../../../桌面/Pyslvs-PyQt5/icons.qrc"/>
+  <include location="../../../icons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/Structure.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\Structure.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(481, 787)
+        Form.resize(458, 787)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collection-structure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -117,36 +117,33 @@ class Ui_Form(object):
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.Expression_edges = QtWidgets.QLineEdit(self.widget)
         self.Expression_edges.setReadOnly(True)
         self.Expression_edges.setObjectName("Expression_edges")
-        self.horizontalLayout_3.addWidget(self.Expression_edges)
+        self.verticalLayout_2.addWidget(self.Expression_edges)
         self.Expression_copy = QtWidgets.QPushButton(self.widget)
         self.Expression_copy.setObjectName("Expression_copy")
-        self.horizontalLayout_3.addWidget(self.Expression_copy)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_3)
+        self.verticalLayout_2.addWidget(self.Expression_copy)
         self.formLayout = QtWidgets.QFormLayout()
         self.formLayout.setObjectName("formLayout")
         self.NL_text = QtWidgets.QLabel(self.widget)
         self.NL_text.setObjectName("NL_text")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.NL_text)
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.NL_text)
         self.NL = QtWidgets.QLabel(self.widget)
         self.NL.setObjectName("NL")
-        self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.NL)
+        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.NL)
         self.NJ_text = QtWidgets.QLabel(self.widget)
         self.NJ_text.setObjectName("NJ_text")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.NJ_text)
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.NJ_text)
         self.NJ = QtWidgets.QLabel(self.widget)
         self.NJ.setObjectName("NJ")
-        self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.NJ)
+        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.NJ)
         self.DOF_text = QtWidgets.QLabel(self.widget)
         self.DOF_text.setObjectName("DOF_text")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.DOF_text)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.DOF_text)
         self.DOF = QtWidgets.QLabel(self.widget)
         self.DOF.setObjectName("DOF")
-        self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.DOF)
+        self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.DOF)
         self.verticalLayout_2.addLayout(self.formLayout)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout_2.addItem(spacerItem1)
@@ -217,12 +214,12 @@ class Ui_Form(object):
         self.NL.setText(_translate("Form", "0"))
         self.NJ_text.setText(_translate("Form", "Number of joints:"))
         self.NJ.setText(_translate("Form", "0"))
-        self.DOF_text.setText(_translate("Form", "Degree of freedom:"))
+        self.DOF_text.setText(_translate("Form", "DOF:"))
         self.DOF.setText(_translate("Form", "0"))
         self.triangle_button.setStatusTip(_translate("Form", "Use trangular formula to do dimentional synthesis."))
-        self.triangle_button.setText(_translate("Form", "Triangular modeling"))
+        self.triangle_button.setText(_translate("Form", "Iterate"))
         self.grounded_button.setStatusTip(_translate("Form", "Re-layout the grounded chains."))
-        self.grounded_button.setText(_translate("Form", "Generate layout"))
+        self.grounded_button.setText(_translate("Form", "Layouting"))
         self.grounded_merge.setStatusTip(_translate("Form", "Merge the specified chain to canvas with current layout."))
         self.grounded_merge.setText(_translate("Form", "Merge"))
 
