@@ -12,12 +12,14 @@ from .collections import (
     mechanismParams_8Bar
 )
 from .constrains import ConstrainsDialog
+from .customs import CustomsDialog
 from .targets import TargetsDialog
 from .solutions import SolutionsDialog
 
 __all__ = [
     'CollectionsDialog',
     'ConstrainsDialog',
+    'CustomsDialog',
     'TargetsDialog',
     'SolutionsDialog',
     'mechanismParams_4Bar',

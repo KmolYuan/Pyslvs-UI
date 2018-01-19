@@ -92,5 +92,30 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         row = self.common_linkage.currentRow()
         if row==0:
             self.mechanismParams = mechanismParams_4Bar
+            self.mechanismParams.update({
+                'name_dict':{'A':'P0', 'B':'P1', 'C':'P2', 'D':'P3', 'E':'P4'},
+                'Graph':((0, 1), (0, 3), (1, 2), (3, 2)),
+                'pos':{
+                    0: (99.7508, -40.076),
+                    1: (38.8806, 98.5055),
+                    2: (-39.8773, -98.5055),
+                    3: (-99.7508, 39.6776)
+                }
+            })
         elif row==1:
             self.mechanismParams = mechanismParams_8Bar
+            self.mechanismParams.update({
+                'name_dict':{'A':'P0', 'B':'P1', 'C':'P2', 'D':'P3', 'E':'P4', 'F':'P5', 'G':'P6', 'H':'P7'},
+                'Graph':((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (4, 2), (4, 6), (5, 3), (3, 7), (7, 6)),
+                'pos':{
+                    0: (-77.113, -23.68105),
+                    1: (-11.2466, -73.06755),
+                    2: (-60.1642, -59.16765),
+                    3: (-83.3015, 13.35115),
+                    4: (-59.4057, 56.76275),
+                    5: (-4.3716, -29.91355),
+                    6: (58.5385, -37.87025),
+                    7: (-28.6629, 25.78135),
+                    8: (15.4405, 73.06755),
+                    9: (83.3015, 35.15075)}
+            })

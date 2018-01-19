@@ -89,8 +89,7 @@ def graph(
     width: int,
     engine: [str, Dict[int, Tuple[float, float]]],
     node_mode: bool =False,
-    except_node: int =None,
-    get_pos: bool =False
+    except_node: int =None
 ):
     try:
         pos = engine_picker(G, engine, node_mode)
@@ -132,7 +131,4 @@ def graph(
         painter.drawEllipse(QPointF(x, -y), r, r)
     painter.end()
     icon = QIcon(QPixmap.fromImage(image).scaledToWidth(width))
-    if get_pos:
-        return icon, pos
-    else:
-        return icon
+    return icon

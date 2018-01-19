@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-16, 18:36:36 -->
+<!-- Saved: 2018-01-19, 21:08:37 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -70,11 +70,13 @@
     <Source>core/synthesis/Collections/TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_collections.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_constrains.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_customs.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_solutions.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_targets.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/__init__.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/collections.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/constrains.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/customs.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/solutions.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/targets.py</Source>
     <Source>core/synthesis/Collections/Ui_Structure.py</Source>
@@ -110,6 +112,7 @@
     <Source>preview_rc.py</Source>
   </Sources>
   <Forms>
+    <Form>core/synthesis/Collections/TriangularIteration_dialog/customs.ui</Form>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
     <Form>core/info/about.ui</Form>
@@ -131,10 +134,12 @@
     <Form>core/synthesis/DimensionalSynthesis/series.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
+  <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
     <Resource>preview.qrc</Resource>
   </Resources>
+  <Interfaces/>
   <Others>
     <Other>Makefile</Other>
     <Other>README.md</Other>

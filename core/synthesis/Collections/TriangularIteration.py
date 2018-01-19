@@ -31,6 +31,7 @@ from itertools import product
 '''
 'CollectionsDialog',
 'ConstrainsDialog',
+'CustomsDialog',
 'TargetsDialog',
 'SolutionsDialog',
 '''
@@ -55,12 +56,17 @@ class PreviewCanvas(BaseCanvas):
             parent.Expression_list.item(row).text()
             for row in range(parent.Expression_list.count())
         )
-        self.pressed = False
         self.clear()
     
     def clear(self):
+        self.pressed = False
+        #Origin graph.
         self.G = Graph()
+        #Customize point.
+        self.cus = {}
+        #Positions.
         self.pos = {}
+        #Point status.
         self.status = {}
         self.grounded = -1
         self.update()
@@ -77,10 +83,15 @@ class PreviewCanvas(BaseCanvas):
         for link in self.G.nodes:
             if link==self.grounded:
                 continue
-            self.painter.drawPolygon(*distance_sorted([
-                (self.pos[n][0], -self.pos[n][1])
-                for n, edge in enumerate(self.G.edges) if link in edge
-            ]))
+            points = [
+                (self.pos[num][0], -self.pos[num][1])
+                for num, edge in enumerate(self.G.edges) if link in edge
+            ]
+            for name, link_ in self.cus.items():
+                if link==link_:
+                    num = int(name.replace('P', ''))
+                    points.append((self.pos[num][0], -self.pos[num][1]))
+            self.painter.drawPolygon(*distance_sorted(points))
         self.painter.setFont(QFont("Arial", self.fontSize*1.5))
         for node, (x, y) in self.pos.items():
             color = colorQt('Dark-Magenta') if self.status[node] else colorQt('Green')
@@ -128,12 +139,12 @@ class PreviewCanvas(BaseCanvas):
         self.update()
     
     def mousePressEvent(self, event):
-        self.pressed = True
         mx = (event.x() - self.ox)
         my = -(event.y() - self.oy)
         for node, (x, y) in self.pos.items():
             if sqrt((mx - x)**2 + (my - y)**2)<=5:
                 self.set_joint_number(node)
+                self.pressed = True
                 break
     
     def mouseReleaseEvent(self, event):
@@ -253,6 +264,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.PLLP_solution.setEnabled(False)
     
     @pyqtSlot()
+    def on_add_customization_clicked(self):
+        dlg = CustomsDialog(self)
+        dlg.show()
+        dlg.exec_()
+    
+    @pyqtSlot()
     def on_Driver_add_clicked(self):
         row = self.Follower_list.currentRow()
         if row>-1:
@@ -288,6 +305,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             'Graph':tuple(self.PreviewWindow.G.edges),
             #To keep the position of points.
             'pos':self.PreviewWindow.pos.copy(),
+            'name_dict':{v:k for k, v in name_dict},
             'Driver':{
                 name_dict[self.Driver_list.item().text()]:None
                 for row in range(self.Driver_list.count())
@@ -313,7 +331,16 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg = CollectionsDialog(self)
         dlg.show()
         if dlg.exec_():
-            print(dlg.mechanismParams)
+            params = dlg.mechanismParams
+            mapping = params['name_dict']
+            self.setGraph(Graph(params['Graph']), params['pos'])
+            self.Driver_list.addItems([mapping[e] for e in params['Driver']])
+            self.Follower_list.addItems([mapping[e] for e in params['Follower']])
+            self.Target_list.addItems([mapping[e] for e in params['Target']])
+            #self.constraint_list.addItems(list(params['constraint']))
+            self.Link_Expression.setText(params['Link_Expression'])
+            self.Expression.setText(params['Expression'])
+            self.Expression.parm_bind = {v:k for k, v in name_dict}
     
     @pyqtSlot()
     def on_constrains_button_clicked(self):

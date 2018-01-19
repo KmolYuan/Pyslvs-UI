@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\TriangularIteration.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(359, 712)
+        Form.resize(393, 712)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collection-triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -65,13 +65,21 @@ class Ui_Form(object):
         self.joint_panel.setMaximumSize(QtCore.QSize(150, 16777215))
         self.joint_panel.setObjectName("joint_panel")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.joint_panel)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.joint_name_label = QtWidgets.QLabel(self.joint_panel)
         self.joint_name_label.setObjectName("joint_name_label")
         self.verticalLayout_6.addWidget(self.joint_name_label)
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
         self.joint_name = QtWidgets.QComboBox(self.joint_panel)
         self.joint_name.setObjectName("joint_name")
-        self.verticalLayout_6.addWidget(self.joint_name)
+        self.horizontalLayout_5.addWidget(self.joint_name)
+        self.add_customization = QtWidgets.QPushButton(self.joint_panel)
+        self.add_customization.setMaximumSize(QtCore.QSize(30, 16777215))
+        self.add_customization.setObjectName("add_customization")
+        self.horizontalLayout_5.addWidget(self.add_customization)
+        self.verticalLayout_6.addLayout(self.horizontalLayout_5)
         self.status_label = QtWidgets.QLabel(self.joint_panel)
         self.status_label.setObjectName("status_label")
         self.verticalLayout_6.addWidget(self.status_label)
@@ -240,6 +248,7 @@ class Ui_Form(object):
         self.save_button.setText(_translate("Form", "Save"))
         self.clear_button.setText(_translate("Form", "Clear"))
         self.joint_name_label.setText(_translate("Form", "Joint:"))
+        self.add_customization.setText(_translate("Form", "..."))
         self.status_label.setText(_translate("Form", "Status:"))
         self.status.setText(_translate("Form", "No status"))
         self.solution_label.setText(_translate("Form", "Solutions:"))
