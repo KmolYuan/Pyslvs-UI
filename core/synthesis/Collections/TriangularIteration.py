@@ -268,6 +268,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg = CustomsDialog(self)
         dlg.show()
         dlg.exec_()
+        self.PreviewWindow.update()
     
     @pyqtSlot()
     def on_Driver_add_clicked(self):
@@ -305,24 +306,25 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             'Graph':tuple(self.PreviewWindow.G.edges),
             #To keep the position of points.
             'pos':self.PreviewWindow.pos.copy(),
-            'name_dict':{v:k for k, v in name_dict},
+            'cus':self.PreviewWindow.cus.copy(),
+            'name_dict':{v:k for k, v in name_dict.items()},
             'Driver':{
-                name_dict[self.Driver_list.item().text()]:None
+                name_dict[self.Driver_list.item(row).text()]:None
                 for row in range(self.Driver_list.count())
             },
             'Follower':{
-                name_dict[self.Follower_list.item().text()]:None
+                name_dict[self.Follower_list.item(row).text()]:None
                 for row in range(self.Follower_list.count())
             },
             'Target':{
-                name_dict[self.Target_list.item().text()]:None
+                name_dict[self.Target_list.item(row).text()]:None
                 for row in range(self.Target_list.count())
             },
             'Link_Expression':self.Link_Expression.text(),
             'Expression':self.Expression.text(),
             'constraint':[tuple(
                 name_dict[name]
-                for name in self.constraint_list.item(row).text().split(',')
+                for name in self.constraint_list.item(row).text().split(", ")
             ) for row in range(self.constraint_list.count())]
         }
     
@@ -333,6 +335,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if dlg.exec_():
             params = dlg.mechanismParams
             mapping = params['name_dict']
+            #Add customize joints.
+            self.PreviewWindow.cus = params['cus']
             self.setGraph(Graph(params['Graph']), params['pos'])
             self.Driver_list.addItems([mapping[e] for e in params['Driver']])
             self.Follower_list.addItems([mapping[e] for e in params['Follower']])
@@ -340,7 +344,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             #self.constraint_list.addItems(list(params['constraint']))
             self.Link_Expression.setText(params['Link_Expression'])
             self.Expression.setText(params['Expression'])
-            self.Expression.parm_bind = {v:k for k, v in name_dict}
+            self.Expression.parm_bind = {v:k for k, v in mapping.items()}
+            self.PreviewWindow.update()
     
     @pyqtSlot()
     def on_constrains_button_clicked(self):
@@ -441,7 +446,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_Expression_clear_clicked(self):
-        self.on_grounded_list_currentRowChanged(self.grounded_list.currentRow())
+        self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
+        self.on_joint_name_currentIndexChanged()
+        self.Expression_list.clear()
+        self.Expression.clear()
     
     @pyqtSlot()
     def on_save_button_clicked(self):

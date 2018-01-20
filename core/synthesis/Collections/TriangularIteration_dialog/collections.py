@@ -43,6 +43,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.collections = parent.collections
         for name in self.collections:
+            print(self.collections[name])
             self.collections_list.addItem(name)
         self.hasCollection()
         self.canOpen()
@@ -93,14 +94,22 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if row==0:
             self.mechanismParams = mechanismParams_4Bar
             self.mechanismParams.update({
-                'name_dict':{'A':'P0', 'B':'P1', 'C':'P2', 'D':'P3', 'E':'P4'},
-                'Graph':((0, 1), (0, 3), (1, 2), (3, 2)),
+                'name_dict':{
+                    'A': 'P0',
+                    'B': 'P1',
+                    'C': 'P2',
+                    'D': 'P3',
+                    'E': 'P4'
+                },
+                'Graph':((0, 1), (1, 2), (2, 3), (3, 0)),
                 'pos':{
-                    0: (99.7508, -40.076),
-                    1: (38.8806, 98.5055),
-                    2: (-39.8773, -98.5055),
-                    3: (-99.7508, 39.6776)
-                }
+                    0: (-44.5, -59.5),
+                    1: (57.5, -62.5),
+                    2: (-39.5, 12.5),
+                    3: (52.5, 11.5),
+                    4: (2.5, 63.5)
+                },
+                'cus':{'P4':3}
             })
         elif row==1:
             self.mechanismParams = mechanismParams_8Bar
@@ -117,5 +126,9 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                     6: (58.5385, -37.87025),
                     7: (-28.6629, 25.78135),
                     8: (15.4405, 73.06755),
-                    9: (83.3015, 35.15075)}
+                    9: (83.3015, 35.15075)
+                },
+                'cus':{
+                    #'P7':
+                }
             })
