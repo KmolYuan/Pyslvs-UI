@@ -24,7 +24,7 @@
       <widget class="QPushButton" name="addToCollection_button">
        <property name="icon">
         <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+         <normaloff>:/icons/collection-structure.png</normaloff>:/icons/collection-structure.png</iconset>
        </property>
       </widget>
      </item>
@@ -329,15 +329,11 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
-              <widget class="QPushButton" name="constrains_button">
-               <property name="text">
-                <string>Gruebler's Equation</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            <widget class="QPushButton" name="constraints_button">
+             <property name="text">
+              <string>Gruebler's Equation</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QListWidget" name="constraint_list"/>

@@ -332,7 +332,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg = CollectionsDialog(self)
         dlg.show()
         if dlg.exec_():
-            self.clear()
             params = dlg.mechanismParams
             mapping = params['name_dict']
             #Add customize joints.
@@ -368,6 +367,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 params.append(target)
                 for p in params:
                     try:
+                        #Try to avoid replace function name.
                         expr = mapping[p].join(expr.rsplit(p, 1))
                     except KeyError:
                         continue
@@ -375,7 +375,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 self.Expression_list.addItem(item)
                 item.setText(expr)
                 self.PreviewWindow.setStatus(mapping[target], True)
-            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status))
+            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
             self.Expression.parm_bind = {v:k for k, v in mapping.items()}
             self.PreviewWindow.update()
     
@@ -415,7 +415,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
             self.on_joint_name_currentIndexChanged()
             self.PreviewWindow.setStatus(point, True)
-            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status))
+            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
     
     @pyqtSlot()
     def on_PLLP_solution_clicked(self):
@@ -435,7 +435,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
             self.on_joint_name_currentIndexChanged()
             self.PreviewWindow.setStatus(point, True)
-            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status))
+            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
     
     @pyqtSlot(QListWidgetItem)
     def on_Expression_list_itemChanged(self, item):

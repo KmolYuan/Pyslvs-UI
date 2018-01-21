@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>439</width>
+    <height>804</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -35,8 +43,9 @@
            <property name="statusTip">
             <string>Copy expression.</string>
            </property>
-           <property name="text">
-            <string>Copy</string>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
            </property>
           </widget>
          </item>

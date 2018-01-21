@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>385</width>
+    <width>381</width>
     <height>787</height>
    </rect>
   </property>
@@ -255,21 +255,26 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLineEdit" name="Expression_edges">
-              <property name="readOnly">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="Expression_copy">
-              <property name="statusTip">
-               <string>Copy expression.</string>
-              </property>
-              <property name="text">
-               <string>Copy</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLineEdit" name="Expression_edges">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Expression_copy">
+                <property name="statusTip">
+                 <string>Copy expression.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <layout class="QFormLayout" name="formLayout">
