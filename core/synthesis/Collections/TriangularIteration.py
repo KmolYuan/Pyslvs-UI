@@ -222,8 +222,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         for link in G.nodes:
             self.grounded_list.addItem("({})".format(", ".join(
                 'P{}'.format(n)
-                for n, edge in enumerate(G.edges)
-                if link in edge
+                for n, edge in enumerate(G.edges) if link in edge
             )))
         #Point name as (P1, P2, P3, ...).
         for node in pos:
@@ -333,17 +332,50 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg = CollectionsDialog(self)
         dlg.show()
         if dlg.exec_():
+            self.clear()
             params = dlg.mechanismParams
             mapping = params['name_dict']
             #Add customize joints.
+            G = Graph(params['Graph'])
+            self.setGraph(G, params['pos'])
             self.PreviewWindow.cus = params['cus']
-            self.setGraph(Graph(params['Graph']), params['pos'])
-            self.Driver_list.addItems([mapping[e] for e in params['Driver']])
-            self.Follower_list.addItems([mapping[e] for e in params['Follower']])
+            #Grounded setting.
+            Driver = [mapping[e] for e in params['Driver']]
+            Follower = [mapping[e] for e in params['Follower']]
+            for row, link in enumerate(G.nodes):
+                points = sorted(
+                    'P{}'.format(n)
+                    for n, edge in enumerate(G.edges) if link in edge
+                )
+                if sorted(Driver + Follower)==points:
+                    self.grounded_list.setCurrentRow(row)
+                    break
+            #Driver, Follower, Target
+            for row in reversed(range(self.Follower_list.count())):
+                if self.Follower_list.item(row).text() in Driver:
+                    self.Follower_list.setCurrentRow(row)
+                    self.Driver_add.click()
             self.Target_list.addItems([mapping[e] for e in params['Target']])
-            #self.constraint_list.addItems(list(params['constraint']))
-            self.Link_Expression.setText(params['Link_Expression'])
-            self.Expression.setText(params['Expression'])
+            self.setWarning(self.Target_label, not self.Target_list.count()>0)
+            #Constraints
+            self.constraint_list.addItems([
+                ", ".join(mapping[e] for e in c) for c in params['constraint']
+            ])
+            #Expression
+            for expr in params['Expression'].split(';'):
+                params = get_from_parenthesis(expr, '[', ']').split(',')
+                target = get_from_parenthesis(expr, '(', ')')
+                params.append(target)
+                for p in params:
+                    try:
+                        expr = mapping[p].join(expr.rsplit(p, 1))
+                    except KeyError:
+                        continue
+                item = QListWidgetItem()
+                self.Expression_list.addItem(item)
+                item.setText(expr)
+                self.PreviewWindow.setStatus(mapping[target], True)
+            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status))
             self.Expression.parm_bind = {v:k for k, v in mapping.items()}
             self.PreviewWindow.update()
     
@@ -364,6 +396,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Target_list.clear()
             for row in range(dlg.targets_list.count()):
                 self.Target_list.addItem(dlg.targets_list.item(row).text())
+            self.setWarning(self.Target_label, not self.Target_list.count()>0)
     
     @pyqtSlot()
     def on_PLAP_solution_clicked(self):
