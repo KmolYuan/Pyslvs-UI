@@ -28,6 +28,7 @@ class ConstrainsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(ConstrainsDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         for chain in cycle_basis(parent.PreviewWindow.G):
             if len(chain)==4:
                 chain_node = []

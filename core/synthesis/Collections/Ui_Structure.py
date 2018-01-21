@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\Structure.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/Structure.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(458, 787)
+        Form.resize(385, 787)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collection-structure.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -130,18 +130,21 @@ class Ui_Form(object):
         self.NL_text.setObjectName("NL_text")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.NL_text)
         self.NL = QtWidgets.QLabel(self.widget)
+        self.NL.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.NL.setObjectName("NL")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.NL)
         self.NJ_text = QtWidgets.QLabel(self.widget)
         self.NJ_text.setObjectName("NJ_text")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.NJ_text)
         self.NJ = QtWidgets.QLabel(self.widget)
+        self.NJ.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.NJ.setObjectName("NJ")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.NJ)
         self.DOF_text = QtWidgets.QLabel(self.widget)
         self.DOF_text.setObjectName("DOF_text")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.DOF_text)
         self.DOF = QtWidgets.QLabel(self.widget)
+        self.DOF.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.DOF.setObjectName("DOF")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.DOF)
         self.verticalLayout_2.addLayout(self.formLayout)
@@ -210,9 +213,9 @@ class Ui_Form(object):
         self.delete_button.setText(_translate("Form", "Delete"))
         self.Expression_copy.setStatusTip(_translate("Form", "Copy expression."))
         self.Expression_copy.setText(_translate("Form", "Copy"))
-        self.NL_text.setText(_translate("Form", "Number of links:"))
+        self.NL_text.setText(_translate("Form", "NL:"))
         self.NL.setText(_translate("Form", "0"))
-        self.NJ_text.setText(_translate("Form", "Number of joints:"))
+        self.NJ_text.setText(_translate("Form", "NJ:"))
         self.NJ.setText(_translate("Form", "0"))
         self.DOF_text.setText(_translate("Form", "DOF:"))
         self.DOF.setText(_translate("Form", "0"))

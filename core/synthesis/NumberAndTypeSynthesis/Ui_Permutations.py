@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,6 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(428, 628)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -199,9 +198,11 @@ class Ui_Form(object):
         self.Expression_copy.setText(_translate("Form", "Copy"))
         self.Expression_add_collection.setToolTip(_translate("Form", "Add to collection."))
         self.ReloadMechanism.setStatusTip(_translate("Form", "Analyze current mechanism from canvas."))
-        self.ReloadMechanism.setText(_translate("Form", "Analyze from workbook"))
-        self.NJ_text.setText(_translate("Form", "Number of joints"))
-        self.NL_text.setText(_translate("Form", "Number of links"))
+        self.ReloadMechanism.setText(_translate("Form", "From workbook"))
+        self.NJ_text.setToolTip(_translate("Form", "Number of joints"))
+        self.NJ_text.setText(_translate("Form", "NJ (?)"))
+        self.NL_text.setToolTip(_translate("Form", "Number of links"))
+        self.NL_text.setText(_translate("Form", "NL (?)"))
         self.DOF_text.setToolTip(_translate("Form", "Degree of freedom"))
         self.DOF_text.setText(_translate("Form", "DOF (?)"))
         self.keep_dof.setStatusTip(_translate("Form", "Keep the degrees of freedom when adjusting numbers."))

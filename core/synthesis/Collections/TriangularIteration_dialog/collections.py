@@ -41,6 +41,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.collections = parent.collections
         for name in self.collections:
             print(self.collections[name])

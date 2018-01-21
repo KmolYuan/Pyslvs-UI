@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>428</width>
-    <height>628</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -72,7 +64,7 @@
         <string>Analyze current mechanism from canvas.</string>
        </property>
        <property name="text">
-        <string>Analyze from workbook</string>
+        <string>From workbook</string>
        </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
@@ -108,15 +100,21 @@
           <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="1">
             <widget class="QLabel" name="NJ_text">
-             <property name="text">
+             <property name="toolTip">
               <string>Number of joints</string>
+             </property>
+             <property name="text">
+              <string>NJ (?)</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0">
             <widget class="QLabel" name="NL_text">
-             <property name="text">
+             <property name="toolTip">
               <string>Number of links</string>
+             </property>
+             <property name="text">
+              <string>NL (?)</string>
              </property>
             </widget>
            </item>

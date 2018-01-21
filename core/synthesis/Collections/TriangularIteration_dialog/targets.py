@@ -24,6 +24,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         currentItem = parent.grounded_list.currentItem()
         if currentItem:
             for row in range(parent.joint_name.count()):

@@ -24,12 +24,15 @@ class SolutionsDialog(QDialog, Ui_Dialog):
     def __init__(self, mode, parent):
         super(SolutionsDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("{} solution".format(mode))
         if mode=='PLAP':
             self.main_label.setText(
-                "Two known points A and B, "+
+                "Two known points A (Driver) and B, "+
                 "with angle β and length L0 to find out the coordinate of point C."
             )
+            for row in range(parent.Driver_list.count()):
+                self.point_A.addItem(parent.Driver_list.item(row).text())
         elif mode=='PLLP':
             self.main_label.setText(
                 "Two known points A and B, "+
@@ -38,11 +41,16 @@ class SolutionsDialog(QDialog, Ui_Dialog):
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
         for node, status in parent.PreviewWindow.status.items():
             if status:
-                self.point_A.addItem('P{}'.format(node))
+                if mode=='PLLP':
+                    self.point_A.addItem('P{}'.format(node))
                 self.point_B.addItem('P{}'.format(node))
         self.point_A.currentIndexChanged.connect(self.isOk)
         self.point_B.currentIndexChanged.connect(self.isOk)
         self.isOk()
     
     def isOk(self):
-        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(self.point_A.currentText()!=self.point_B.currentText())
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
+            self.point_A.currentText()!=self.point_B.currentText() and
+            bool(self.point_A.currentText()) and
+            bool(self.point_B.currentText())
+        )

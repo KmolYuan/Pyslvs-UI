@@ -202,6 +202,9 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>3</number>
+         </property>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
@@ -261,9 +264,9 @@
           </layout>
          </item>
          <item>
-          <widget class="Line" name="line_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>&lt;&lt;</string>
            </property>
           </widget>
          </item>

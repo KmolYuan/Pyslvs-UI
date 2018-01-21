@@ -29,6 +29,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.cus = parent.PreviewWindow.cus
         self.pos = parent.PreviewWindow.pos
         self.status = parent.PreviewWindow.status

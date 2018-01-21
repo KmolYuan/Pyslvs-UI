@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
+    <width>385</width>
     <height>787</height>
    </rect>
   </property>
@@ -276,7 +276,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="NL_text">
                 <property name="text">
-                 <string>Number of links:</string>
+                 <string>NL:</string>
                 </property>
                </widget>
               </item>
@@ -285,12 +285,15 @@
                 <property name="text">
                  <string>0</string>
                 </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
                </widget>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="NJ_text">
                 <property name="text">
-                 <string>Number of joints:</string>
+                 <string>NJ:</string>
                 </property>
                </widget>
               </item>
@@ -298,6 +301,9 @@
                <widget class="QLabel" name="NJ">
                 <property name="text">
                  <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
@@ -312,6 +318,9 @@
                <widget class="QLabel" name="DOF">
                 <property name="text">
                  <string>0</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>

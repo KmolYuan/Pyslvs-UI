@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\TriangularIteration.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -65,7 +65,6 @@ class Ui_Form(object):
         self.joint_panel.setMaximumSize(QtCore.QSize(150, 16777215))
         self.joint_panel.setObjectName("joint_panel")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.joint_panel)
-        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.joint_name_label = QtWidgets.QLabel(self.joint_panel)
         self.joint_name_label.setObjectName("joint_name_label")
@@ -142,11 +141,9 @@ class Ui_Form(object):
         self.Follower_list.setObjectName("Follower_list")
         self.verticalLayout_4.addWidget(self.Follower_list)
         self.horizontalLayout.addLayout(self.verticalLayout_4)
-        self.line_4 = QtWidgets.QFrame(self.verticalLayoutWidget_2)
-        self.line_4.setFrameShape(QtWidgets.QFrame.VLine)
-        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line_4.setObjectName("line_4")
-        self.horizontalLayout.addWidget(self.line_4)
+        self.label = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
         self.verticalLayout_15 = QtWidgets.QVBoxLayout()
         self.verticalLayout_15.setObjectName("verticalLayout_15")
         self.grounded_label = QtWidgets.QLabel(self.verticalLayoutWidget_2)
@@ -258,6 +255,7 @@ class Ui_Form(object):
         self.Driver_add.setText(_translate("Form", "<<"))
         self.Follower_add.setText(_translate("Form", ">>"))
         self.Follower_label.setText(_translate("Form", "Followers:"))
+        self.label.setText(_translate("Form", "<<"))
         self.grounded_label.setText(_translate("Form", "Gounded:"))
         self.Target_button.setText(_translate("Form", "Targets"))
         self.constrains_button.setText(_translate("Form", "Gruebler\'s Equation"))

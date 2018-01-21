@@ -79,7 +79,6 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         )
         self.NJ_input.setValue(sum((len(vpoint.links)-1 + int(vpoint.type==2)) for vpoint in jointData if len(vpoint.links)>1))
         self.keep_dof.setChecked(keep_dof_checked)
-        self.on_Combine_number_clicked()
     
     def adjust_NJ_NL_dof(self):
         if self.keep_dof.isChecked():

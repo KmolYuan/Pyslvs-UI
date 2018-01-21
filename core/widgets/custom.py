@@ -101,7 +101,7 @@ def appearance(self):
     self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
-    self.SynthesisTab.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Number and type")
+    self.SynthesisTab.addTab(self.NumberAndTypeSynthesis, self.NumberAndTypeSynthesis.windowIcon(), "Structure")
     #Synthesis collections
     self.CollectionTabPage = Collections(self)
     self.SynthesisTab.addTab(self.CollectionTabPage, self.CollectionTabPage.windowIcon(), "Collections")
