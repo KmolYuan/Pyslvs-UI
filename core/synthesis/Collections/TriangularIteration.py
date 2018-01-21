@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
-##Copyright (C) 2016-2017 Yuan Chang
+##Copyright (C) 2016-2018 Yuan Chang
 ##E-mail: pyslvs@gmail.com
 ##
 ##This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,7 @@ from string import ascii_uppercase
 from itertools import product
 '''
 'CollectionsDialog',
-'ConstrainsDialog',
+'ConstraintsDialog',
 'CustomsDialog',
 'TargetsDialog',
 'SolutionsDialog',
@@ -348,8 +348,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.PreviewWindow.update()
     
     @pyqtSlot()
-    def on_constrains_button_clicked(self):
-        dlg = ConstrainsDialog(self)
+    def on_constraints_button_clicked(self):
+        dlg = ConstraintsDialog(self)
         dlg.show()
         if dlg.exec_():
             self.constraint_list.clear()

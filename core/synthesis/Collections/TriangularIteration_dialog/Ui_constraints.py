@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/constrains.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/constraints.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -86,14 +86,14 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Constrains"))
+        Dialog.setWindowTitle(_translate("Dialog", "constraints"))
         self.main_label.setText(_translate("Dialog", "Four bar loop in this structure:"))
         self.Loops_label.setText(_translate("Dialog", "Loops:"))
         self.label_2.setText(_translate("Dialog", ">>"))
         self.sorting_label.setText(_translate("Dialog", "Sorting:"))
         self.main_add.setText(_translate("Dialog", ">>"))
         self.sorting_add.setText(_translate("Dialog", "<<"))
-        self.label.setText(_translate("Dialog", "Constrains:"))
+        self.label.setText(_translate("Dialog", "constraints:"))
 
 import icons_rc
 

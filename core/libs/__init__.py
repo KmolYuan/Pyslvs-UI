@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
-##Copyright (C) 2016-2017 Yuan Chang [pyslvs@gmail.com]
+##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
 """
 "lib" module contains C++ and Cython libraries.

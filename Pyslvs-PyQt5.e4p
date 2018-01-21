@@ -69,13 +69,13 @@
     <Source>core/synthesis/Collections/Structure.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_collections.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_constrains.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_constraints.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_customs.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_solutions.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/Ui_targets.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/__init__.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/collections.py</Source>
-    <Source>core/synthesis/Collections/TriangularIteration_dialog/constrains.py</Source>
+    <Source>core/synthesis/Collections/TriangularIteration_dialog/constraints.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/customs.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/solutions.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration_dialog/targets.py</Source>
@@ -123,7 +123,7 @@
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/collections.ui</Form>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/constrains.ui</Form>
+    <Form>core/synthesis/Collections/TriangularIteration_dialog/constraints.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/solutions.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/targets.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>

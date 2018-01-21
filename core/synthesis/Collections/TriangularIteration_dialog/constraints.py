@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
-##Copyright (C) 2016-2017 Yuan Chang
+##Copyright (C) 2016-2018 Yuan Chang
 ##E-mail: pyslvs@gmail.com
 ##
 ##This program is free software; you can redistribute it and/or modify
@@ -20,13 +20,13 @@
 from core.QtModules import *
 from networkx import cycle_basis
 from itertools import combinations
-from .Ui_constrains import Ui_Dialog
+from .Ui_constraints import Ui_Dialog
 
 get_list = lambda item: item.text().split(", ")
 
-class ConstrainsDialog(QDialog, Ui_Dialog):
+class ConstraintsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
-        super(ConstrainsDialog, self).__init__(parent)
+        super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         for chain in cycle_basis(parent.PreviewWindow.G):
