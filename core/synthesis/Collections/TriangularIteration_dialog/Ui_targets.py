@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/targets.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/targets.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -13,6 +13,9 @@ class Ui_Dialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(346, 309)
         Dialog.setMinimumSize(QtCore.QSize(346, 309))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/collection-triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Dialog.setWindowIcon(icon)
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(Dialog)
@@ -76,6 +79,7 @@ class Ui_Dialog(object):
         self.other_add.setText(_translate("Dialog", "<<"))
         self.targets_label.setText(_translate("Dialog", "Tragets:"))
 
+import icons_rc
 
 if __name__ == "__main__":
     import sys

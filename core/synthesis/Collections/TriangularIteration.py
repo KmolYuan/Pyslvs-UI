@@ -62,8 +62,10 @@ class PreviewCanvas(BaseCanvas):
         self.pressed = False
         #Origin graph.
         self.G = Graph()
-        #Customize point.
+        #Customize points.
         self.cus = {}
+        #Multiple joints.
+        self.same = {}
         #Positions.
         self.pos = {}
         #Point status.
@@ -83,10 +85,14 @@ class PreviewCanvas(BaseCanvas):
         for link in self.G.nodes:
             if link==self.grounded:
                 continue
-            points = [
-                (self.pos[num][0], -self.pos[num][1])
-                for num, edge in enumerate(self.G.edges) if link in edge
-            ]
+            points = []
+            #Points that is belong with the link.
+            for num, edge in enumerate(self.G.edges):
+                if link in edge:
+                    if num in self.same:
+                        num = self.same[num]
+                    points.append((self.pos[num][0], -self.pos[num][1]))
+            #Customize points.
             for name, link_ in self.cus.items():
                 if link==link_:
                     num = int(name.replace('P', ''))
@@ -94,7 +100,9 @@ class PreviewCanvas(BaseCanvas):
             self.painter.drawPolygon(*distance_sorted(points))
         self.painter.setFont(QFont("Arial", self.fontSize*1.5))
         for node, (x, y) in self.pos.items():
-            color = colorQt('Dark-Magenta') if self.status[node] else colorQt('Green')
+            if node in self.same:
+                continue
+            color = colorQt('Dark-Magenta') if self.getStatus(node) else colorQt('Green')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
@@ -138,6 +146,9 @@ class PreviewCanvas(BaseCanvas):
         self.status[int(point.replace('P', ''))] = status
         self.update()
     
+    def getStatus(self, point: int) -> bool:
+        return self.status[point] or (point in self.same)
+    
     def mousePressEvent(self, event):
         mx = (event.x() - self.ox)
         my = -(event.y() - self.oy)
@@ -179,6 +190,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.clear_button.clicked.connect(self.clear)
+        self.joint_name.currentIndexChanged.connect(self.hasSolution)
         self.clear()
     
     def addCollections(self, collections):
@@ -232,7 +244,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def on_grounded_list_currentRowChanged(self, row):
         self.setWarning(self.grounded_label, not row>-1)
         self.PreviewWindow.setGrounded(row)
-        self.on_joint_name_currentIndexChanged()
+        self.hasSolution()
         self.Expression_list.clear()
         self.Expression.clear()
         self.Follower_list.clear()
@@ -249,11 +261,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.setWarning(self.Expression_list_label, True)
     
     @pyqtSlot(int)
-    def on_joint_name_currentIndexChanged(self, index=None):
+    def hasSolution(self, index=None):
         if index is None:
             index = self.joint_name.currentIndex()
         if index>-1:
-            status = self.PreviewWindow.status[index]
+            status = self.PreviewWindow.getStatus(index)
             self.status.setText("Known" if status else "Not known")
             self.PLAP_solution.setEnabled(not status)
             self.PLLP_solution.setEnabled(not status)
@@ -413,8 +425,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 dlg.point_B.currentText(),
                 point
             ))
-            self.on_joint_name_currentIndexChanged()
             self.PreviewWindow.setStatus(point, True)
+            self.hasSolution()
             self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
     
     @pyqtSlot()
@@ -433,8 +445,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 dlg.point_B.currentText(),
                 point
             ))
-            self.on_joint_name_currentIndexChanged()
             self.PreviewWindow.setStatus(point, True)
+            self.hasSolution()
             self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
     
     @pyqtSlot(QListWidgetItem)
@@ -480,7 +492,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Expression_clear_clicked(self):
         self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
-        self.on_joint_name_currentIndexChanged()
+        self.hasSolution()
         self.Expression_list.clear()
         self.Expression.clear()
     
@@ -492,4 +504,5 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             while (name not in self.collections) and (not name):
                 name = "Structure_{}".format(i)
             self.collections[name] = self.get_currentMechanismParams()
+            print(self.collections[name])
             self.unsaveFunc()

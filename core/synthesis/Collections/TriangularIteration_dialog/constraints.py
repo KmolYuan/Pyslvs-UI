@@ -22,7 +22,10 @@ from networkx import cycle_basis
 from itertools import combinations
 from .Ui_constraints import Ui_Dialog
 
-get_list = lambda item: item.text().split(", ")
+def get_list(item):
+    if item:
+        for e in item.text().split(", "):
+            yield e
 
 class ConstraintsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
