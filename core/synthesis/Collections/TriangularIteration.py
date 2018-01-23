@@ -47,6 +47,19 @@ def letter_names():
         for e in product(ascii_uppercase, repeat=i):
             yield ''.join(e)
 
+#Generator to get the text from list widget.
+def list_texts(widget, returnRow=False):
+    for row in range(widget.count()):
+        if returnRow:
+            yield row, widget.item(row).text()
+        else:
+            yield widget.item(row).text()
+
+#Generator to get the text from combobox widget.
+def combo_texts(widget):
+    for row in range(widget.count()):
+        yield widget.itemText(row)
+
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(PreviewCanvas, self).__init__(parent)
@@ -336,23 +349,19 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             'same':self.PreviewWindow.same.copy(),
             'name_dict':{v:k for k, v in self.parm_bind.items()},
             'Driver':{
-                self.parm_bind[self.Driver_list.item(row).text()]:None
-                for row in range(self.Driver_list.count())
+                self.parm_bind[s]:None for s in list_texts(self.Driver_list)
             },
             'Follower':{
-                self.parm_bind[self.Follower_list.item(row).text()]:None
-                for row in range(self.Follower_list.count())
+                self.parm_bind[s]:None for s in list_texts(self.Follower_list)
             },
             'Target':{
-                self.parm_bind[self.Target_list.item(row).text()]:None
-                for row in range(self.Target_list.count())
+                self.parm_bind[s]:None for s in list_texts(self.Target_list)
             },
             'Link_Expression':self.Link_Expression.text(),
             'Expression':self.Expression.text(),
             'constraint':[tuple(
-                self.parm_bind[name]
-                for name in self.constraint_list.item(row).text().split(", ")
-            ) for row in range(self.constraint_list.count())]
+                self.parm_bind[name] for name in s.split(", ")
+            ) for s in list_texts(self.constraint_list)]
         }
     
     @pyqtSlot()
@@ -414,8 +423,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg.show()
         if dlg.exec_():
             self.constraint_list.clear()
-            for row in range(dlg.main_list.count()):
-                self.constraint_list.addItem(dlg.main_list.item(row).text())
+            for constraint in list_texts(dlg.main_list):
+                self.constraint_list.addItem(constraint)
     
     @pyqtSlot()
     def on_Target_button_clicked(self):
@@ -423,8 +432,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg.show()
         if dlg.exec_():
             self.Target_list.clear()
-            for row in range(dlg.targets_list.count()):
-                self.Target_list.addItem(dlg.targets_list.item(row).text())
+            for target in list_texts(dlg.targets_list):
+                self.Target_list.addItem(target)
             self.setWarning(self.Target_label, not self.Target_list.count()>0)
     
     @pyqtSlot()
@@ -477,8 +486,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         #At this time, we should turn the points number to letter names.
         ln = letter_names()
         #Set functional expression.
-        for row in range(self.Expression_list.count()):
-            expr = self.Expression_list.item(row).text()
+        for expr in list_texts(self.Expression_list):
             params = get_from_parenthesis(expr, '[', ']').split(',')
             params.append(get_from_parenthesis(expr, '(', ')'))
             for name in params:
@@ -489,21 +497,18 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                     expr = expr.replace(name, self.parm_bind[name])
             expr_list.append(expr)
         #If there has any joints not named yet.
-        for row in range(self.joint_name.count()):
-            name = self.joint_name.itemText(row)
+        for name in combo_texts(self.joint_name):
             if name not in self.parm_bind:
                 self.parm_bind[name] = next(ln)
         #Set link expression.
         link_expr_list = []
         self.Expression.setText(';'.join(expr_list))
-        for row in range(self.grounded_list.count()):
+        for row, gs in list_texts(self.grounded_list, True):
             try:
-                link_expr = ','.join(self.parm_bind[name] for name in (
-                    self.grounded_list.item(row).text()
-                    .replace('(', '')
-                    .replace(')', '')
-                    .split(", ")
-                ))
+                link_expr = ','.join(
+                    self.parm_bind[name]
+                    for name in gs.replace('(', '').replace(')', '').split(", ")
+                )
             except KeyError:
                 continue
             else:

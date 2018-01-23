@@ -23,32 +23,40 @@ from itertools import combinations
 from .Ui_constraints import Ui_Dialog
 
 def get_list(item):
-    if item:
-        for e in item.text().split(", "):
-            yield e
+    if not item:
+        return []
+    for e in item.text().split(", "):
+        yield e
+
+def list_items(widget, returnRow=False):
+    for row in range(widget.count()):
+        if returnRow:
+            yield row, widget.item(row)
+        else:
+            yield widget.item(row)
 
 class ConstraintsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        cl = tuple(
+            set(get_list(item)) for item in list_items(parent.constraint_list)
+        )
         for chain in cycle_basis(parent.PreviewWindow.G):
             if len(chain)==4:
                 chain_node = []
                 for link in combinations(chain, 2):
                     for n, edge in enumerate(parent.PreviewWindow.G.edges):
                         if sorted(link)==sorted(edge):
+                            if n in parent.PreviewWindow.same:
+                                n = parent.PreviewWindow.same[n]
                             chain_node.append('P{}'.format(n))
+                if set(chain_node) in cl:
+                    continue
                 self.Loops_list.addItem(", ".join(sorted(chain_node)))
-        constraint_list = [
-            sorted(get_list(parent.constraint_list.item(row)))
-            for row in range(parent.constraint_list.count())
-        ]
-        for row in range(self.Loops_list.count()):
-            item_list = sorted(get_list(self.Loops_list.item(row)))
-            if item_list in constraint_list:
-                self.Loops_list.takeItem(row)
-                self.main_list.addItem(parent.constraint_list.item(constraint_list.index(item_list)).text())
+        for item in list_items(parent.constraint_list):
+            self.main_list.addItem(item.text())
     
     @pyqtSlot(int)
     def on_Loops_list_currentRowChanged(self, row):
@@ -60,10 +68,7 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_main_add_clicked(self):
         if self.sorting_list.count():
-            self.main_list.addItem(", ".join(
-                self.sorting_list.item(row).text()
-                for row in range(self.sorting_list.count())
-            ))
+            self.main_list.addItem(", ".join(item.text() for item in list_items(self.sorting_list)))
             self.sorting_list.clear()
             self.Loops_list.takeItem(self.Loops_list.currentRow())
     
