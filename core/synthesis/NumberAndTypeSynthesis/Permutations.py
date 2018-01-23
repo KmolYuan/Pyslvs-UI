@@ -60,7 +60,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.Topologic_result.clear()
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
-        self.DOF.setValue(0)
+        self.DOF.setValue(1)
     
     #Reload button: Auto-combine the mechanism from the workbook.
     @pyqtSlot()

@@ -194,11 +194,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.addToCollection = CollectionsStructure.addCollection
         '''
         self.collections = {}
-        self.Expression.parm_bind = {}
+        self.parm_bind = {}
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.clear_button.clicked.connect(self.clear)
         self.joint_name.currentIndexChanged.connect(self.hasSolution)
+        self.Expression_list.itemChanged.connect(self.set_parm_bind)
         self.clear()
     
     def addCollections(self, collections):
@@ -209,7 +210,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.clear()
         self.joint_name.clear()
         self.Expression_list.clear()
-        self.Expression.parm_bind.clear()
+        self.parm_bind.clear()
         self.grounded_list.clear()
         self.Driver_list.clear()
         self.Follower_list.clear()
@@ -274,11 +275,17 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             index = self.joint_name.currentIndex()
         if index>-1:
             status = self.PreviewWindow.getStatus(index)
-            self.status.setText("Known" if status else "Not known")
+            if not status:
+                status_str = "Not known."
+            elif index in self.PreviewWindow.same:
+                status_str = "Same as P{}.".format(self.PreviewWindow.same[index])
+            else:
+                status_str = "Known."
+            self.status.setText(status_str)
             self.PLAP_solution.setEnabled(not status)
             self.PLLP_solution.setEnabled(not status)
         else:
-            self.status.setText("No status")
+            self.status.setText("N/A")
             self.PLAP_solution.setEnabled(False)
             self.PLLP_solution.setEnabled(False)
     
@@ -311,7 +318,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             expr_list.update(param_list)
         return expr_list
     
-    def getParam(self, angle: bool =False):
+    def getParam(self, angle: bool =False) -> int:
         i = 0
         p = '{}{{}}'.format('a' if angle else 'L')
         while p.format(i) in self.expression():
@@ -319,30 +326,31 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         return i
     
     def get_currentMechanismParams(self):
-        name_dict = self.Expression.parm_bind
+        self.set_parm_bind()
         return {
             #To keep the origin graph.
             'Graph':tuple(self.PreviewWindow.G.edges),
             #To keep the position of points.
             'pos':self.PreviewWindow.pos.copy(),
             'cus':self.PreviewWindow.cus.copy(),
-            'name_dict':{v:k for k, v in name_dict.items()},
+            'same':self.PreviewWindow.same.copy(),
+            'name_dict':{v:k for k, v in self.parm_bind.items()},
             'Driver':{
-                name_dict[self.Driver_list.item(row).text()]:None
+                self.parm_bind[self.Driver_list.item(row).text()]:None
                 for row in range(self.Driver_list.count())
             },
             'Follower':{
-                name_dict[self.Follower_list.item(row).text()]:None
+                self.parm_bind[self.Follower_list.item(row).text()]:None
                 for row in range(self.Follower_list.count())
             },
             'Target':{
-                name_dict[self.Target_list.item(row).text()]:None
+                self.parm_bind[self.Target_list.item(row).text()]:None
                 for row in range(self.Target_list.count())
             },
             'Link_Expression':self.Link_Expression.text(),
             'Expression':self.Expression.text(),
             'constraint':[tuple(
-                name_dict[name]
+                self.parm_bind[name]
                 for name in self.constraint_list.item(row).text().split(", ")
             ) for row in range(self.constraint_list.count())]
         }
@@ -358,6 +366,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             G = Graph(params['Graph'])
             self.setGraph(G, params['pos'])
             self.PreviewWindow.cus = params['cus']
+            self.PreviewWindow.same = params['same']
             #Grounded setting.
             Driver = [mapping[e] for e in params['Driver']]
             Follower = [mapping[e] for e in params['Follower']]
@@ -396,7 +405,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 item.setText(expr)
                 self.PreviewWindow.setStatus(mapping[target], True)
             self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
-            self.Expression.parm_bind = {v:k for k, v in mapping.items()}
+            self.parm_bind = {v:k for k, v in mapping.items()}
             self.PreviewWindow.update()
     
     @pyqtSlot()
@@ -462,11 +471,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.setShowSolutions(self.show_solutions.isChecked())
     
     @pyqtSlot(QListWidgetItem)
-    def on_Expression_list_itemChanged(self, item):
-        parm_bind = {}
+    def set_parm_bind(self, item=None):
+        self.parm_bind.clear()
         expr_list = []
         #At this time, we should turn the points number to letter names.
         ln = letter_names()
+        #Set functional expression.
         for row in range(self.Expression_list.count()):
             expr = self.Expression_list.item(row).text()
             params = get_from_parenthesis(expr, '[', ']').split(',')
@@ -474,16 +484,21 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             for name in params:
                 if 'P' in name:
                     #Find out with who was shown earlier.
-                    if name not in parm_bind:
-                        parm_bind[name] = next(ln)
-                    expr = expr.replace(name, parm_bind[name])
+                    if name not in self.parm_bind:
+                        self.parm_bind[name] = next(ln)
+                    expr = expr.replace(name, self.parm_bind[name])
             expr_list.append(expr)
-        self.Expression.parm_bind = parm_bind
+        #If there has any joints not named yet.
+        for row in range(self.joint_name.count()):
+            name = self.joint_name.itemText(row)
+            if name not in self.parm_bind:
+                self.parm_bind[name] = next(ln)
+        #Set link expression.
         link_expr_list = []
         self.Expression.setText(';'.join(expr_list))
         for row in range(self.grounded_list.count()):
             try:
-                link_expr = ','.join(parm_bind[name] for name in (
+                link_expr = ','.join(self.parm_bind[name] for name in (
                     self.grounded_list.item(row).text()
                     .replace('(', '')
                     .replace(')', '')

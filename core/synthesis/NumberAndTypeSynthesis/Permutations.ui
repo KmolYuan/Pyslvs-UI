@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
+    <width>404</width>
     <height>804</height>
    </rect>
   </property>
@@ -72,12 +72,15 @@
        <property name="statusTip">
         <string>Analyze current mechanism from canvas.</string>
        </property>
-       <property name="text">
-        <string>From workbook</string>
-       </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>60</width>
+         <height>60</height>
+        </size>
        </property>
        <property name="autoDefault">
         <bool>true</bool>

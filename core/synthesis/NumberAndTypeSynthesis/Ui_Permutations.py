@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(439, 804)
+        Form.resize(404, 804)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -49,6 +49,7 @@ class Ui_Form(object):
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icons/mechanism.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.ReloadMechanism.setIcon(icon3)
+        self.ReloadMechanism.setIconSize(QtCore.QSize(60, 60))
         self.ReloadMechanism.setAutoDefault(True)
         self.ReloadMechanism.setDefault(True)
         self.ReloadMechanism.setObjectName("ReloadMechanism")
@@ -201,7 +202,6 @@ class Ui_Form(object):
         self.Expression_copy.setStatusTip(_translate("Form", "Copy expression."))
         self.Expression_add_collection.setToolTip(_translate("Form", "Add to collection."))
         self.ReloadMechanism.setStatusTip(_translate("Form", "Analyze current mechanism from canvas."))
-        self.ReloadMechanism.setText(_translate("Form", "From workbook"))
         self.NJ_text.setToolTip(_translate("Form", "Number of joints"))
         self.NJ_text.setText(_translate("Form", "NJ (?)"))
         self.NL_text.setToolTip(_translate("Form", "Number of links"))

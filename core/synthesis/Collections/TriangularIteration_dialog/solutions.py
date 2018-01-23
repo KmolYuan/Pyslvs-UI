@@ -41,9 +41,10 @@ class SolutionsDialog(QDialog, Ui_Dialog):
             self.graph_label.setPixmap(QPixmap(":/icons/preview/PLLP.png"))
         for node, status in parent.PreviewWindow.status.items():
             if status:
-                if mode=='PLLP':
-                    self.point_A.addItem('P{}'.format(node))
-                self.point_B.addItem('P{}'.format(node))
+                if node not in parent.PreviewWindow.same:
+                    if mode=='PLLP':
+                        self.point_A.addItem('P{}'.format(node))
+                    self.point_B.addItem('P{}'.format(node))
         self.point_A.currentIndexChanged.connect(self.isOk)
         self.point_B.currentIndexChanged.connect(self.isOk)
         self.isOk()

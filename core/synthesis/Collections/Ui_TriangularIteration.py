@@ -257,7 +257,7 @@ class Ui_Form(object):
         self.joint_name_label.setText(_translate("Form", "Joint:"))
         self.add_customization.setText(_translate("Form", "..."))
         self.status_label.setText(_translate("Form", "Status:"))
-        self.status.setText(_translate("Form", "No status"))
+        self.status.setText(_translate("Form", "N/A"))
         self.solution_label.setText(_translate("Form", "Solutions:"))
         self.PLAP_solution.setText(_translate("Form", "PLAP"))
         self.PLLP_solution.setText(_translate("Form", "PLLP"))

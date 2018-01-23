@@ -139,7 +139,7 @@
           <item>
            <widget class="QLabel" name="status">
             <property name="text">
-             <string>No status</string>
+             <string>N/A</string>
             </property>
            </widget>
           </item>
