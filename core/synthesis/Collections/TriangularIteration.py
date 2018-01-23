@@ -50,6 +50,7 @@ def letter_names():
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(PreviewCanvas, self).__init__(parent)
+        self.showSolutions = True
         self.set_joint_number = parent.joint_name.setCurrentIndex
         self.get_joint_number = lambda: parent.joint_name.currentIndex()
         self.get_solutions = lambda: tuple(
@@ -110,24 +111,25 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
             self.painter.drawText(QPointF(x + 2*r, -y), 'P{}'.format(node))
-        for expr in self.get_solutions():
-            params = [
-                p for p in get_from_parenthesis(expr, '[', ']').split(',')
-                if 'P' in p
-            ]
-            params.append(get_from_parenthesis(expr, '(', ')'))
-            func = get_front_of_parenthesis(expr, '[')
-            color = QColor(121, 171, 252) if func=='PLLP' else QColor(249, 84, 216)
-            color.setAlpha(255)
-            pen.setColor(color)
-            self.painter.setPen(pen)
-            color.setAlpha(30)
-            self.painter.setBrush(QBrush(color))
-            qpoints = []
-            for name in params:
-                x, y = self.pos[int(name.replace('P', ''))]
-                qpoints.append(QPointF(x, -y))
-            self.painter.drawPolygon(*qpoints)
+        if self.showSolutions:
+            for expr in self.get_solutions():
+                params = [
+                    p for p in get_from_parenthesis(expr, '[', ']').split(',')
+                    if 'P' in p
+                ]
+                params.append(get_from_parenthesis(expr, '(', ')'))
+                func = get_front_of_parenthesis(expr, '[')
+                color = QColor(121, 171, 252) if func=='PLLP' else QColor(249, 84, 216)
+                color.setAlpha(255)
+                pen.setColor(color)
+                self.painter.setPen(pen)
+                color.setAlpha(30)
+                self.painter.setBrush(QBrush(color))
+                qpoints = []
+                for name in params:
+                    x, y = self.pos[int(name.replace('P', ''))]
+                    qpoints.append(QPointF(x, -y))
+                self.painter.drawPolygon(*qpoints)
         self.painter.end()
     
     def setGraph(self, G, pos):
@@ -149,10 +151,16 @@ class PreviewCanvas(BaseCanvas):
     def getStatus(self, point: int) -> bool:
         return self.status[point] or (point in self.same)
     
+    def setShowSolutions(self, status: bool):
+        self.showSolutions = status
+        self.update()
+    
     def mousePressEvent(self, event):
         mx = (event.x() - self.ox)
         my = -(event.y() - self.oy)
         for node, (x, y) in self.pos.items():
+            if node in self.same:
+                continue
             if sqrt((mx - x)**2 + (my - y)**2)<=5:
                 self.set_joint_number(node)
                 self.pressed = True
@@ -448,6 +456,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.PreviewWindow.setStatus(point, True)
             self.hasSolution()
             self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
+    
+    @pyqtSlot()
+    def on_show_solutions_clicked(self):
+        self.PreviewWindow.setShowSolutions(self.show_solutions.isChecked())
     
     @pyqtSlot(QListWidgetItem)
     def on_Expression_list_itemChanged(self, item):

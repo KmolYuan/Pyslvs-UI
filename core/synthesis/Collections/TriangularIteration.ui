@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>393</width>
+    <width>392</width>
     <height>712</height>
    </rect>
   </property>
@@ -331,7 +331,7 @@
            <item>
             <widget class="QPushButton" name="constraints_button">
              <property name="text">
-              <string>Gruebler's Equation</string>
+              <string>Constraints</string>
              </property>
             </widget>
            </item>
@@ -343,11 +343,28 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_10">
            <item>
-            <widget class="QLabel" name="Expression_list_label">
-             <property name="text">
-              <string>Solutions:</string>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QCheckBox" name="show_solutions">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="Expression_list_label">
+               <property name="text">
+                <string>Solutions:</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QListWidget" name="Expression_list"/>

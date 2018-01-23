@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/constraints.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/constraints.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(422, 311)
+        Dialog.resize(422, 360)
         Dialog.setMinimumSize(QtCore.QSize(422, 311))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collection-triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -21,6 +21,7 @@ class Ui_Dialog(object):
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.main_label = QtWidgets.QLabel(Dialog)
+        self.main_label.setWordWrap(True)
         self.main_label.setObjectName("main_label")
         self.verticalLayout_6.addWidget(self.main_label)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -86,14 +87,14 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "constraints"))
-        self.main_label.setText(_translate("Dialog", "Four bar loop in this structure:"))
+        Dialog.setWindowTitle(_translate("Dialog", "Constrains"))
+        self.main_label.setText(_translate("Dialog", "Four bar loop in this structure can be apply Gruebler\'s Equation to keep the path integrity."))
         self.Loops_label.setText(_translate("Dialog", "Loops:"))
         self.label_2.setText(_translate("Dialog", ">>"))
         self.sorting_label.setText(_translate("Dialog", "Sorting:"))
         self.main_add.setText(_translate("Dialog", ">>"))
         self.sorting_add.setText(_translate("Dialog", "<<"))
-        self.label.setText(_translate("Dialog", "constraints:"))
+        self.label.setText(_translate("Dialog", "Constrains:"))
 
 import icons_rc
 
