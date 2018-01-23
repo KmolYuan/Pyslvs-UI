@@ -168,6 +168,15 @@ class PreviewCanvas(BaseCanvas):
         self.showSolutions = status
         self.update()
     
+    def isAllLock(self) -> bool:
+        for node, status in self.status.items():
+            if not status and node not in self.same:
+                return False
+        return True
+    
+    def name_in_same(self, name) -> bool:
+        return int(name.replace('P', '')) in self.same
+    
     def mousePressEvent(self, event):
         mx = (event.x() - self.ox)
         my = -(event.y() - self.oy)
@@ -348,11 +357,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             'cus':self.PreviewWindow.cus.copy(),
             'same':self.PreviewWindow.same.copy(),
             'name_dict':{v:k for k, v in self.parm_bind.items()},
+            #Mechanism params.
             'Driver':{
                 self.parm_bind[s]:None for s in list_texts(self.Driver_list)
+                if not self.PreviewWindow.name_in_same(s)
             },
             'Follower':{
                 self.parm_bind[s]:None for s in list_texts(self.Follower_list)
+                if not self.PreviewWindow.name_in_same(s)
             },
             'Target':{
                 self.parm_bind[s]:None for s in list_texts(self.Target_list)
@@ -380,11 +392,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             Driver = [mapping[e] for e in params['Driver']]
             Follower = [mapping[e] for e in params['Follower']]
             for row, link in enumerate(G.nodes):
-                points = sorted(
+                points = set(
                     'P{}'.format(n)
                     for n, edge in enumerate(G.edges) if link in edge
                 )
-                if sorted(Driver + Follower)==points:
+                if set(Driver + Follower) <= points:
                     self.grounded_list.setCurrentRow(row)
                     break
             #Driver, Follower, Target
@@ -413,8 +425,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 self.Expression_list.addItem(item)
                 item.setText(expr)
                 self.PreviewWindow.setStatus(mapping[target], True)
-            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
-            self.parm_bind = {v:k for k, v in mapping.items()}
+            self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
             self.PreviewWindow.update()
     
     @pyqtSlot()
@@ -453,7 +464,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
             self.PreviewWindow.setStatus(point, True)
             self.hasSolution()
-            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
+            self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
     
     @pyqtSlot()
     def on_PLLP_solution_clicked(self):
@@ -473,7 +484,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
             self.PreviewWindow.setStatus(point, True)
             self.hasSolution()
-            self.setWarning(self.Expression_list_label, not all(self.PreviewWindow.status.values()))
+            self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
     
     @pyqtSlot()
     def on_show_solutions_clicked(self):
@@ -505,17 +516,17 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.Expression.setText(';'.join(expr_list))
         for row, gs in list_texts(self.grounded_list, True):
             try:
-                link_expr = ','.join(
-                    self.parm_bind[name]
-                    for name in gs.replace('(', '').replace(')', '').split(", ")
-                )
+                link_expr = []
+                for name in gs.replace('(', '').replace(')', '').split(", "):
+                    if not self.PreviewWindow.name_in_same(name):
+                        link_expr.append(self.parm_bind[name])
             except KeyError:
                 continue
             else:
                 if row==self.grounded_list.currentRow():
-                    link_expr_list.insert(0, link_expr)
+                    link_expr_list.insert(0, ','.join(link_expr))
                 else:
-                    link_expr_list.append(link_expr)
+                    link_expr_list.append(','.join(link_expr))
         self.Link_Expression.setText(';'.join(
             ('ground' if i==0 else '') + "[{}]".format(link)
             for i, link in enumerate(link_expr_list)
