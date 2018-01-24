@@ -39,6 +39,11 @@ class Ui_Dialog(object):
         self.common_load.setObjectName("common_load")
         self.verticalLayout_2.addWidget(self.common_load)
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
+        self.line = QtWidgets.QFrame(Dialog)
+        self.line.setFrameShape(QtWidgets.QFrame.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setObjectName("line")
+        self.verticalLayout_3.addWidget(self.line)
         self.Collections_label = QtWidgets.QLabel(Dialog)
         self.Collections_label.setObjectName("Collections_label")
         self.verticalLayout_3.addWidget(self.Collections_label)
@@ -73,11 +78,6 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.delete_button)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-        self.line = QtWidgets.QFrame(Dialog)
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
-        self.line.setObjectName("line")
-        self.verticalLayout_3.addWidget(self.line)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -102,8 +102,10 @@ class Ui_Dialog(object):
         self.common_list.setSortingEnabled(False)
         item = self.common_list.item(0)
         item.setText(_translate("Dialog", "Four bar linkage mechanism"))
+        item.setToolTip(_translate("Dialog", "<html><head/><body><h1>Four Bar</h1><p><img src=\":/icons/preview/4Bar_triangle.png\"/></p></body></html>"))
         item = self.common_list.item(1)
         item.setText(_translate("Dialog", "Eight bar linkage mechanism"))
+        item.setToolTip(_translate("Dialog", "<html><head/><body><h1>Eight Bar</h1><p><img src=\":/icons/preview/8Bar_triangle.png\"/></p></body></html>"))
         self.common_list.setSortingEnabled(__sortingEnabled)
         self.common_load.setText(_translate("Dialog", "Load common structure"))
         self.Collections_label.setText(_translate("Dialog", "Workbook Collections:"))
@@ -112,6 +114,7 @@ class Ui_Dialog(object):
         self.delete_button.setText(_translate("Dialog", "Delete"))
 
 import icons_rc
+import preview_rc
 
 if __name__ == "__main__":
     import sys

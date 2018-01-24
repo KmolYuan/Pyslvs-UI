@@ -45,10 +45,16 @@
         <property name="text">
          <string>Four bar linkage mechanism</string>
         </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Four Bar&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/4Bar_triangle.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
        </item>
        <item>
         <property name="text">
          <string>Eight bar linkage mechanism</string>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Eight Bar&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/8Bar_triangle.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </item>
       </widget>
@@ -65,6 +71,13 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="Collections_label">
@@ -137,13 +150,6 @@
     </layout>
    </item>
    <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <spacer name="horizontalSpacer">
@@ -171,6 +177,7 @@
  </widget>
  <resources>
   <include location="../../../../icons.qrc"/>
+  <include location="../../../../preview.qrc"/>
  </resources>
  <connections>
   <connection>
