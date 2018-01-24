@@ -54,7 +54,7 @@ class PreviewCanvas(BaseCanvas):
         super(PreviewCanvas, self).__init__(parent)
         self.showSolutions = True
         self.set_joint_number = parent.joint_name.setCurrentIndex
-        self.get_joint_number = lambda: parent.joint_name.currentIndex()
+        self.get_joint_number = parent.joint_name.currentIndex
         self.get_solutions = lambda: tuple(
             parent.Expression_list.item(row).text()
             for row in range(parent.Expression_list.count())

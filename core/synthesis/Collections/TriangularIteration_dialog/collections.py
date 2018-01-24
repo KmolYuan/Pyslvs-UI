@@ -51,15 +51,12 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.buttonBox.accepted.connect(self.load_collections)
         self.collections_list.itemDoubleClicked.connect(self.load_collections)
         self.collections_list.itemDoubleClicked.connect(self.accept)
+        self.collections_list.currentRowChanged.connect(self.canOpen)
         self.hasCollection()
         self.canOpen()
     
     def canOpen(self):
         self.buttonBox.button(QDialogButtonBox.Open).setEnabled(self.collections_list.currentRow()>-1)
-    
-    @pyqtSlot(int)
-    def on_collections_list_currentRowChanged(self, row):
-        self.canOpen()
     
     def hasCollection(self):
         hasCollection = bool(self.collections)

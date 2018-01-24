@@ -31,8 +31,9 @@ class WorkerThread(QThread):
     progress_update = pyqtSignal(int, str)
     result = pyqtSignal(dict, float)
     done = pyqtSignal()
-    def __init__(self, type_num, mechanismParams, settings, parent=None):
-        super(WorkerThread, self).__init__(parent)
+    
+    def __init__(self, type_num, mechanismParams, settings, parent):
+        super(WorkerThread, self).__init__(None)
         self.stoped = False
         self.mutex = QMutex()
         self.type_num = type_num

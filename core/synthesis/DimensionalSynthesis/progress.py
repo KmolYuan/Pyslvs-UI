@@ -32,7 +32,7 @@ class Progress_show(QDialog, Ui_Dialog):
         self.loopTime.setEnabled(self.maxGen>0)
         self.maxGen_label.setText(str(self.maxGen) if self.maxGen>0 else '∞')
         self.mechanisms = []
-        self.work = WorkerThread(type_num, mechanismParams, setting)
+        self.work = WorkerThread(type_num, mechanismParams, setting, self)
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)
         self.work.done.connect(self.finish)
