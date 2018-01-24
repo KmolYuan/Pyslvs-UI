@@ -34,6 +34,8 @@ from itertools import product
 'CustomsDialog',
 'TargetsDialog',
 'SolutionsDialog',
+'list_texts',
+'combo_texts',
 '''
 from .TriangularIteration_dialog import *
 from .Ui_TriangularIteration import Ui_Form
@@ -46,19 +48,6 @@ def letter_names():
         i += 1
         for e in product(ascii_uppercase, repeat=i):
             yield ''.join(e)
-
-#Generator to get the text from list widget.
-def list_texts(widget, returnRow=False):
-    for row in range(widget.count()):
-        if returnRow:
-            yield row, widget.item(row).text()
-        else:
-            yield widget.item(row).text()
-
-#Generator to get the text from combobox widget.
-def combo_texts(widget):
-    for row in range(widget.count()):
-        yield widget.itemText(row)
 
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
@@ -219,7 +208,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.parm_bind = {}
         self.PreviewWindow = PreviewCanvas(self)
         self.main_layout.insertWidget(0, self.PreviewWindow)
-        self.clear_button.clicked.connect(self.clear)
         self.joint_name.currentIndexChanged.connect(self.hasSolution)
         self.Expression_list.itemChanged.connect(self.set_parm_bind)
         self.clear()
@@ -229,6 +217,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     def clear(self):
         self.collections.clear()
+        self.clearPanel()
+    
+    def clearPanel(self):
+        self.profile_name = ""
         self.PreviewWindow.clear()
         self.joint_name.clear()
         self.Expression_list.clear()
@@ -248,6 +240,17 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Target_label
         ]:
             self.setWarning(label, True)
+    
+    @pyqtSlot()
+    def on_clear_button_clicked(self):
+        reply = QMessageBox.question(self, "New profile",
+            "Triangular iteration should be added structure diagrams from structure collections.\n"+
+            "Do you want to create a new profile?",
+            (QMessageBox.Yes | QMessageBox.No),
+            QMessageBox.Yes
+        )
+        if reply==QMessageBox.Yes:
+            self.clearPanel()
     
     def setWarning(self, label, warning: bool):
         label.setText(label.text().replace(warning_icon, ''))
@@ -302,7 +305,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             elif index in self.PreviewWindow.same:
                 status_str = "Same as P{}.".format(self.PreviewWindow.same[index])
             else:
-                status_str = "Known."
+                status_str = "Grounded."
+                for expr in list_texts(self.Expression_list):
+                    if index==int(get_from_parenthesis(expr, '(', ')').replace('P', '')):
+                        status_str = "From {}.".format(
+                            get_front_of_parenthesis(expr, '[')
+                        )
             self.status.setText(status_str)
             self.PLAP_solution.setEnabled(not status)
             self.PLLP_solution.setEnabled(not status)
@@ -540,6 +548,15 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         ))
     
     @pyqtSlot()
+    def on_Expression_pop_clicked(self):
+        count = self.Expression_list.count()
+        if count:
+            expr = self.Expression_list.item(count-1).text()
+            self.Expression_list.takeItem(count-1)
+            self.PreviewWindow.setStatus(get_from_parenthesis(expr, '(', ')'), False)
+            self.set_parm_bind()
+    
+    @pyqtSlot()
     def on_Expression_clear_clicked(self):
         self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
         self.hasSolution()
@@ -548,11 +565,15 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     @pyqtSlot()
     def on_save_button_clicked(self):
-        name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+        if self.profile_name:
+            name = self.profile_name
+            ok = True
+        else:
+            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
         if ok:
             i = 0
             while (name not in self.collections) and (not name):
                 name = "Structure_{}".format(i)
             self.collections[name] = self.get_currentMechanismParams()
-            print(self.collections[name])
+            self.profile_name = name
             self.unsaveFunc()

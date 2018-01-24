@@ -44,8 +44,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.collections = parent.collections
         for name in self.collections:
-            print(self.collections[name])
             self.collections_list.addItem(name)
+        self.common_load.clicked.connect(self.load_common)
+        self.common_list.itemDoubleClicked.connect(self.load_common)
+        self.common_list.itemDoubleClicked.connect(self.accept)
+        self.buttonBox.accepted.connect(self.load_collections)
+        self.collections_list.itemDoubleClicked.connect(self.load_collections)
+        self.collections_list.itemDoubleClicked.connect(self.accept)
         self.hasCollection()
         self.canOpen()
     
@@ -58,8 +63,34 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     def hasCollection(self):
         hasCollection = bool(self.collections)
-        self.delete_button.setEnabled(hasCollection)
-        self.rename_button.setEnabled(hasCollection)
+        for button in [self.rename_button, self.copy_button, self.delete_button]:
+            button.setEnabled(hasCollection)
+    
+    @pyqtSlot()
+    def on_rename_button_clicked(self):
+        row = self.collections_list.currentRow()
+        if row>-1:
+            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+            if ok:
+                if not name:
+                    QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
+                    return
+                item = self.collections_list.item(row)
+                self.collections[name] = self.collections.pop(item.text())
+                item.setText(name)
+    
+    @pyqtSlot()
+    def on_copy_button_clicked(self):
+        row = self.collections_list.currentRow()
+        if row>-1:
+            name, ok = QInputDialog.getText(self, "Profile name", "Please enter a new profile name:")
+            if ok:
+                if not name:
+                    QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
+                    return
+                name_old = self.collections_list.item(row).text()
+                self.collections[name] = self.collections[name_old].copy()
+                self.collections_list.addItem(name)
     
     @pyqtSlot()
     def on_delete_button_clicked(self):
@@ -73,25 +104,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 self.hasCollection()
     
     @pyqtSlot()
-    def on_rename_button_clicked(self):
-        row = self.collections_list.currentRow()
-        if row>-1:
-            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
-            if ok:
-                if not name:
-                    QMessageBox.warning(self, "Profile name", "Can not use blank to rename.")
-                    return
-                item = self.collections_list.item(row)
-                self.collections[name] = self.collections.pop(item.text())
-                item.setText(name)
-    
-    @pyqtSlot()
-    def on_buttonBox_accepted(self):
+    @pyqtSlot(QListWidgetItem)
+    def load_collections(self, p0=None):
         self.mechanismParams = self.collections[self.collections_list.currentItem().text()]
     
     @pyqtSlot()
-    def on_common_load_clicked(self):
-        row = self.common_linkage.currentRow()
+    @pyqtSlot(QListWidgetItem)
+    def load_common(self, p0=None):
+        row = self.common_list.currentRow()
         if row==0:
             self.mechanismParams = mechanismParams_4Bar
             self.mechanismParams.update({
@@ -131,7 +151,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                     'I':'P2'
                 },
                 'pos':{
-                    0:(30.5, 16.5),
+                    0:(30.5, 10.5),
                     1:(-14.5, 10.5),
                     2:(-18.5, 0.),
                     3:(81.5, 60.5),

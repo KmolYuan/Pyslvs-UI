@@ -20,6 +20,19 @@
 from core.QtModules import *
 from .Ui_targets import Ui_Dialog
 
+#Generator to get the text from list widget.
+def list_texts(widget, returnRow=False):
+    for row in range(widget.count()):
+        if returnRow:
+            yield row, widget.item(row).text()
+        else:
+            yield widget.item(row).text()
+
+#Generator to get the text from combobox widget.
+def combo_texts(widget):
+    for row in range(widget.count()):
+        yield widget.itemText(row)
+
 class TargetsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(TargetsDialog, self).__init__(parent)
@@ -27,18 +40,17 @@ class TargetsDialog(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         currentItem = parent.grounded_list.currentItem()
         if currentItem:
-            for row in range(parent.joint_name.count()):
-                text = parent.joint_name.itemText(row)
-                if text not in (
+            for text in combo_texts(parent.joint_name):
+                if not parent.PreviewWindow.name_in_same(text) and (text not in (
                     currentItem.text()
                     .replace('(', '')
                     .replace(')', '')
                     .split(", ")
-                ):
+                )):
                     self.other_list.addItem(text)
-        target_list = [parent.Target_list.item(row).text() for row in range(parent.Target_list.count())]
-        for row in range(self.other_list.count()):
-            if self.other_list.item(row).text() in target_list:
+        target_list = [text for text in list_texts(parent.Target_list)]
+        for row, text in list_texts(self.other_list, True):
+            if text in target_list:
                 self.targets_list.addItem(self.other_list.takeItem(row))
     
     @pyqtSlot()

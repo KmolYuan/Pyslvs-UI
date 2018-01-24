@@ -13,7 +13,7 @@ from .collections import (
 )
 from .constraints import ConstraintsDialog
 from .customs import CustomsDialog
-from .targets import TargetsDialog
+from .targets import TargetsDialog, list_texts, combo_texts
 from .solutions import SolutionsDialog
 
 __all__ = [
@@ -24,4 +24,8 @@ __all__ = [
     'SolutionsDialog',
     'mechanismParams_4Bar',
     'mechanismParams_8Bar',
+    'list_texts',
+    'combo_texts',
 ]
+
+

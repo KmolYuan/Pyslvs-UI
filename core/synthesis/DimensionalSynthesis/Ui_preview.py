@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/Desktop/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/preview.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/preview.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -77,7 +77,6 @@ class Ui_Dialog(object):
         self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 735, 186))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
         self.algorithm_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
@@ -104,7 +103,6 @@ class Ui_Dialog(object):
         self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 735, 186))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
-        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
         self.hardware_label = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
