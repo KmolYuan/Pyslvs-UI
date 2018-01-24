@@ -517,16 +517,23 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         for row, gs in list_texts(self.grounded_list, True):
             try:
                 link_expr = []
+                #Links from grounded list.
                 for name in gs.replace('(', '').replace(')', '').split(", "):
-                    if not self.PreviewWindow.name_in_same(name):
-                        link_expr.append(self.parm_bind[name])
+                    if self.PreviewWindow.name_in_same(name):
+                        name = 'P{}'.format(self.PreviewWindow.same[int(name.replace('P', ''))])
+                    link_expr.append(self.parm_bind[name])
             except KeyError:
                 continue
             else:
+                #Customize joints.
+                for joint, link in self.PreviewWindow.cus.items():
+                    if row==link:
+                        link_expr.append(self.parm_bind[joint])
+                link_expr_str = ','.join(sorted(set(link_expr)))
                 if row==self.grounded_list.currentRow():
-                    link_expr_list.insert(0, ','.join(link_expr))
+                    link_expr_list.insert(0, link_expr_str)
                 else:
-                    link_expr_list.append(','.join(link_expr))
+                    link_expr_list.append(link_expr_str)
         self.Link_Expression.setText(';'.join(
             ('ground' if i==0 else '') + "[{}]".format(link)
             for i, link in enumerate(link_expr_list)

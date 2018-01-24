@@ -29,17 +29,18 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
-        self.slvsPath = mechanism['Target']
+        self.slvsPath = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = []
         self.links = []
-        for exp in mechanism['Link_Expression'].split(';'):
+        for exp in self.mechanism['Link_Expression'].split(';'):
             tags = get_from_parenthesis(exp, '[', ']').split(',')
             self.links.append(tags)
             for name in tags:
                 if name not in self.exp_symbol:
                     self.exp_symbol.append(name)
+        self.exp_symbol = sorted(self.exp_symbol)
         #Timer start.
         timer = QTimer(self)
         timer.setInterval(10)
@@ -53,10 +54,14 @@ class DynamicCanvas(BaseCanvas):
                 r = [path[i] for path in point if not isnan(path[i])]
                 if r:
                     real_point.append(fun(r))
+        fixed_point = fun(
+            fun(self.mechanism[name][i] for name in self.mechanism['Driver']),
+            fun(self.mechanism[name][i] for name in self.mechanism['Follower'])
+        )
         if real_point:
-            return fun(fun(real_point), self.mechanism['A'][i], self.mechanism['B'][i])
+            return fun(fun(real_point), fixed_point)
         else:
-            return fun(self.mechanism['A'][i], self.mechanism['B'][i])
+            return fixed_point
     
     def paintEvent(self, event):
         width = self.width()
@@ -92,7 +97,17 @@ class DynamicCanvas(BaseCanvas):
         for i, name in enumerate(self.exp_symbol):
             coordinate = self.Point[i]
             if coordinate:
-                self.drawPoint(i, coordinate[0], coordinate[1], i<2, colorQt('Blue') if i<2 else colorQt('Green'))
+                color = colorQt('Green')
+                fixed = False
+                if name in self.slvsPath:
+                    color = colorQt('Dark-Orange')
+                elif name in self.mechanism['Driver']:
+                    color = colorQt('Red')
+                    fixed = True
+                elif name in self.mechanism['Follower']:
+                    color = colorQt('Blue')
+                    fixed = True
+                self.drawPoint(i, coordinate[0], coordinate[1], fixed, color)
         self.painter.end()
     
     def drawLink(self,
@@ -145,7 +160,10 @@ class DynamicCanvas(BaseCanvas):
         draw = drawPath if self.Path.curve else drawDot
         Path = self.Path.path
         for i, path in enumerate(Path):
-            pen = QPen(colorQt('Green'))
+            color = colorQt('Green')
+            if self.exp_symbol[i] in self.slvsPath:
+                color = colorQt('Dark-Orange')
+            pen = QPen(color)
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
             draw(path)

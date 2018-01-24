@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
+    <width>507</width>
     <height>636</height>
    </rect>
   </property>
@@ -558,7 +558,11 @@
             <item>
              <widget class="QPushButton" name="Result_load_settings">
               <property name="text">
-               <string>Load settings</string>
+               <string>Load</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../icons.qrc">
+                <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
               </property>
              </widget>
             </item>
@@ -585,6 +589,10 @@
               </property>
               <property name="text">
                <string>Delete</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../icons.qrc">
+                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
               </property>
              </widget>
             </item>
@@ -842,7 +850,7 @@
            <string>Calculated by the zmq servers.</string>
           </property>
           <property name="text">
-           <string>ZMQ Generate</string>
+           <string>Synthesis</string>
           </property>
           <property name="icon">
            <iconset resource="../../../icons.qrc">
@@ -868,7 +876,7 @@
            <string>Calculated on the local side.</string>
           </property>
           <property name="text">
-           <string>Local Generate</string>
+           <string>Synthesis</string>
           </property>
           <property name="icon">
            <iconset resource="../../../icons.qrc">

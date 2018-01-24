@@ -32,7 +32,7 @@ mechanismParams_8Bar = {
     'Driver':{'A':None},
     'Follower':{'B':None},
     'Target':{'H':None},
-    'Link_Expression':"ground[A,B];[A,C];[C,D];[B,D,E];[C,F];[B,F];[E,G];[F,G,H]",
+    'Link_Expression':"ground[A,B];[A,C];[C,D];[C,F];[B,D,E];[B,F];[E,G];[F,G,H]",
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
     'constraint':[('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')]
 }
