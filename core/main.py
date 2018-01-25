@@ -100,12 +100,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
         self.enablePointContext()
-        selectionCount = len(self.Entities_Point.selectedRows())
-        if selectionCount>1:
-            self.popMenu_point.insertAction(self.action_point_right_click_menu_add, self.action_New_Link)
         self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
-        if selectionCount>1:
-            self.popMenu_point.removeAction(self.action_New_Link)
+        self.action_New_Link.setVisible(True)
+        self.popMenu_point_merge.clear()
     
     #Entities_Link context menu
     @pyqtSlot(QPoint)
@@ -116,50 +113,59 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
-        self.action_canvas_right_click_menu_path.setVisible(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
         self.enablePointContext()
-        selectionCount = len(self.Entities_Point.selectedRows())
-        if selectionCount>1:
-            self.popMenu_canvas.insertAction(self.action_canvas_right_click_menu_add, self.action_New_Link)
+        self.action_canvas_context_path.setVisible(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
         self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
-        if selectionCount>1:
-            self.popMenu_canvas.removeAction(self.action_New_Link)
+        self.action_New_Link.setVisible(True)
+        self.popMenu_point_merge.clear()
     
     #What ever we have least one point or not, need to enable / disable QAction.
     def enablePointContext(self):
-        selectionCount = len(self.Entities_Point.selectedRows())
+        selectedRows = self.Entities_Point.selectedRows()
+        selectionCount = len(selectedRows)
         row = self.Entities_Point.currentRow()
         #If connecting with the ground.
         if selectionCount:
             fixed = all('ground' in self.Entities_Point.item(r, 1).text() for r in self.Entities_Point.selectedRows())
-            self.action_point_right_click_menu_lock.setChecked(fixed)
-        #If the point selected.
+            self.action_point_context_lock.setChecked(fixed)
+        #If no any points selected.
         for action in (
-            self.action_point_right_click_menu_add,
-            self.action_canvas_right_click_menu_add,
-            self.action_canvas_right_click_menu_fix_add
+            self.action_point_context_add,
+            self.action_canvas_context_add,
+            self.action_canvas_context_fix_add
         ):
             action.setVisible(selectionCount<=0)
-        self.action_point_right_click_menu_lock.setVisible(row>-1)
-        self.action_point_right_click_menu_delete.setVisible(row>-1)
+        self.action_point_context_lock.setVisible(row>-1)
+        self.action_point_context_delete.setVisible(row>-1)
+        #If a point selected.
         for action in (
-            self.action_point_right_click_menu_edit,
-            self.action_point_right_click_menu_copyPoint,
-            self.action_point_right_click_menu_copydata
+            self.action_point_context_edit,
+            self.action_point_context_copyPoint,
+            self.action_point_context_copydata
         ):
             action.setVisible(row>-1)
             action.setEnabled(selectionCount==1)
+        #If two or more points selected.
+        self.action_New_Link.setVisible(selectionCount>1)
+        self.popMenu_point_merge.menuAction().setVisible(selectionCount>1)
+        #Generate a merge function.
+        def mjFunc(i):
+            return lambda: self.toMultipleJoint(i, selectedRows)
+        for i, p in enumerate(selectedRows):
+            action = QAction("Base on Point{}".format(p), self)
+            action.triggered.connect(mjFunc(i))
+            self.popMenu_point_merge.addAction(action)
     
     #Enable / disable link's QAction, same as point table.
     def enableLinkContext(self):
         selectionCount = len(self.Entities_Link.selectedRows())
         row = self.Entities_Link.currentRow()
-        self.action_link_right_click_menu_add.setVisible(selectionCount<=0)
-        self.action_link_right_click_menu_edit.setEnabled(row>-1 and selectionCount==1)
-        self.action_link_right_click_menu_delete.setEnabled(row>0 and selectionCount==1)
-        self.action_link_right_click_menu_copydata.setEnabled(row>-1 and selectionCount==1)
-        self.action_link_right_click_menu_release.setVisible(row==0 and selectionCount==1)
-        self.action_link_right_click_menu_constrain.setVisible(row>0 and selectionCount==1)
+        self.action_link_context_add.setVisible(selectionCount<=0)
+        self.action_link_context_edit.setEnabled(row>-1 and selectionCount==1)
+        self.action_link_context_delete.setEnabled(row>0 and selectionCount==1)
+        self.action_link_context_copydata.setEnabled(row>-1 and selectionCount==1)
+        self.action_link_context_release.setVisible(row==0 and selectionCount==1)
+        self.action_link_context_constrain.setVisible(row>0 and selectionCount==1)
     
     @pyqtSlot()
     def enableMenu(self):
@@ -256,7 +262,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Reload_Canvas()
     
     #Reload Canvas, without resolving.
-    def Reload_Canvas(self, *Args):
+    def Reload_Canvas(self, *A):
         item_path = self.inputs_record.currentItem()
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
@@ -511,11 +517,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Get file name(s).
     def inputFrom(self, formatName, formatChoose, multiple=False):
-        Args = ("Open {} file{}...".format(formatName, 's' if multiple else ''), self.env, ';;'.join(formatChoose))
+        args = ("Open {} file{}...".format(formatName, 's' if multiple else ''), self.env, ';;'.join(formatChoose))
         if multiple:
-            fileName_s, suffix = QFileDialog.getOpenFileNames(self, *Args)
+            fileName_s, suffix = QFileDialog.getOpenFileNames(self, *args)
         else:
-            fileName_s, suffix = QFileDialog.getOpenFileName(self, *Args)
+            fileName_s, suffix = QFileDialog.getOpenFileName(self, *args)
         if fileName_s:
             suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Formate: {}".format(suffix))
@@ -620,7 +626,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addLink(self.getLinkSerialNumber(), 'Blue', points)
     
     def addLink(self, name, color, points=()):
-        linkArgs = [name, color, ','.join(['Point{}'.format(i) for i in points])]
+        linkArgs = [name, color, ','.join('Point{}'.format(i) for i in points)]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
         self.FileState.push(addTableCommand(self.Entities_Link))
         self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
@@ -654,7 +660,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if Type!='R':
                 Type += ":{}".format(dlg.Angle.value()%360)
             Args = [
-                ','.join([dlg.selected.item(row).text() for row in range(dlg.selected.count())]),
+                ','.join(dlg.selected.item(row).text() for row in range(dlg.selected.count())),
                 Type,
                 dlg.Color.currentText(),
                 dlg.X_coordinate.value(),
@@ -671,7 +677,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Turn a group of points to fixed on ground or not.
     def lockPoint(self):
-        toFixed = self.action_point_right_click_menu_lock.isChecked()
+        toFixed = self.action_point_context_lock.isChecked()
         for row in self.Entities_Point.selectedRows():
             newLinks = self.Entities_Point.item(row, 1).text().split(',')
             if toFixed:
@@ -680,27 +686,37 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 if 'ground' in newLinks:
                     newLinks.remove('ground')
-            Args = [
-                ','.join(filter(lambda a: a!='', newLinks)),
-                self.Entities_Point.item(row, 2).text(),
-                self.Entities_Point.item(row, 3).text(),
-                self.Entities_Point.item(row, 4).text(),
-                self.Entities_Point.item(row, 5).text()
-            ]
+            Args = list(self.Entities_Point.rowTexts(row, True))
+            Args[0] = ','.join(filter(lambda a: a!='', newLinks))
             self.FileState.beginMacro("Edit {{Point{}}}".format(row))
             self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
             self.FileState.endMacro()
     
+    #Merge points into a multiple joint.
+    def toMultipleJoint(self, index, points):
+        row = points[index]
+        self.FileState.beginMacro("Merge {{{}}} as multiple joint {{{}}}".format(
+            ", ".join('Point{}'.format(p) for p in points), 'Point{}'.format(row)
+        ))
+        Links = lambda i: list(filter(lambda a: a!='', self.Entities_Point.item(i, 1).text().split(',')))
+        newLinks = Links(row)
+        for i, p in enumerate(points):
+            if i==index:
+                continue
+            for l in Links(p):
+                if l not in newLinks:
+                    newLinks.append(l)
+            self.deletePoint(p)
+        Args = list(self.Entities_Point.rowTexts(row, True))
+        Args[0] = ','.join(newLinks)
+        self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+        self.FileState.endMacro()
+    
     #Clone a point (with orange color).
     def clonePoint(self):
         row = self.Entities_Point.currentRow()
-        Args = [
-            self.Entities_Point.item(row, 1).text(),
-            self.Entities_Point.item(row, 2).text(),
-            'Orange',
-            self.Entities_Point.item(row, 4).text(),
-            self.Entities_Point.item(row, 5).text()
-        ]
+        Args = list(self.Entities_Point.rowTexts(row, True))
+        Args[2] = 'Orange'
         rowCount = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Clone {{Point{}}} as {{Point{}}}".format(row, rowCount))
         self.FileState.push(addTableCommand(self.Entities_Point))
@@ -712,12 +728,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def freemove_setCoordinate(self, coordinates):
         self.FileState.beginMacro("Moved {{{}}}".format(", ".join('Point{}'.format(c[0]) for c in coordinates)))
         for row, (x, y) in coordinates:
-            Args = [
-                self.Entities_Point.item(row, 1).text(),
-                self.Entities_Point.item(row, 2).text(),
-                self.Entities_Point.item(row, 3).text(),
-                x, y
-            ]
+            Args = list(self.Entities_Point.rowTexts(row, True))
+            Args[3] = x
+            Args[4] = y
             self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
         self.FileState.endMacro()
     
@@ -730,7 +743,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if vlink.points and set(selectedRows) > set(vlink.points):
                     Args = [
                         vlink.name, vlink.colorSTR,
-                        ','.join(['Point{}'.format(i) for i in selectedRows]),
+                        ','.join('Point{}'.format(i) for i in selectedRows),
                     ]
                     self.FileState.beginMacro("Edit {{Link: {}}}".format(vlink.name))
                     self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
@@ -754,7 +767,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Args = [
                 name,
                 dlg.Color.currentText(),
-                ','.join([dlg.selected.item(p).text() for p in range(dlg.selected.count())])
+                ','.join(dlg.selected.item(p).text() for p in range(dlg.selected.count()))
             ]
             if row is False:
                 self.FileState.beginMacro("Add {{Link: {}}}".format(name))
@@ -786,7 +799,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         name = self.Entities_Link.item(row, 0).text()
         linkArgs = [self.Entities_Link.item(row, 0).text(), self.Entities_Link.item(row, 1).text(), '']
         newPoints = sorted(set(self.Entities_Link.item(0, 2).text().split(','))|set(self.Entities_Link.item(row, 2).text().split(',')))
-        groundArgs = ['ground', 'White', ','.join([e for e in newPoints if e])]
+        groundArgs = ['ground', 'White', ','.join(e for e in newPoints if e)]
         self.FileState.beginMacro("Constrain {{Link: {}}} to ground".format(name))
         #Turn to ground.
         self.FileState.push(editLinkTableCommand(self.Entities_Link, 0, self.Entities_Point, groundArgs))
@@ -803,13 +816,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.deletePoint(row)
     
     def deletePoint(self, row):
-        Args = [
-            '',
-            self.Entities_Point.item(row, 2).text(),
-            self.Entities_Point.item(row, 3).text(),
-            self.Entities_Point.item(row, 4).text(),
-            self.Entities_Point.item(row, 5).text()
-        ]
+        Args = list(self.Entities_Point.rowTexts(row, True))
+        Args[0] = ''
         self.FileState.beginMacro("Delete {{Point{}}}".format(row))
         self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
         for i in range(self.Entities_Link.rowCount()):
@@ -829,11 +837,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def deleteLink(self, row):
         if row!=0:
-            Args = [
-                self.Entities_Link.item(row, 0).text(),
-                self.Entities_Link.item(row, 1).text(),
-                ''
-            ]
+            Args = list(self.Entities_Link.rowTexts(row, True))
+            Args[2] = ''
             self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
             self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
             self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))

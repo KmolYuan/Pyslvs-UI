@@ -39,14 +39,14 @@ class BaseTableWidget(QTableWidget):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
     #Get the whole row of texts.
-    def rowTexts(self, row):
+    def rowTexts(self, row, noName=False):
         texts = []
-        for column in range(self.columnCount()):
+        for column in self.EffectiveRange(noName):
             item = self.item(row, column)
-            if item is not None:
-                texts.append(item.text())
-            else:
+            if item is None:
                 texts.append('')
+            else:
+                texts.append(item.text())
         return tuple(texts)
     
     #Get what row is been selected.
@@ -196,6 +196,12 @@ class PointTableWidget(BaseTableWidget):
                 isSelected if UnSelect else True)
             self.scrollToItem(self.item(row, 0))
     
+    def EffectiveRange(self, noName):
+        if noName:
+            return range(1, self.columnCount()-1)
+        else:
+            return range(self.columnCount())
+    
     #Overwrite "clearSelection" slot, so it will emit "rowSelectionChanged" signal.
     @pyqtSlot()
     def clearSelection(self):
@@ -241,6 +247,9 @@ class LinkTableWidget(BaseTableWidget):
             if i==1:
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
+    
+    def EffectiveRange(self, noName):
+        return range(self.columnCount())
     
     def clear(self):
         super(LinkTableWidget, self).clear()
