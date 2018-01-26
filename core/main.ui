@@ -71,9 +71,6 @@
            <property name="tabPosition">
             <enum>QTabWidget::West</enum>
            </property>
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
            <widget class="QWidget" name="mechanism_tab">
             <attribute name="icon">
              <iconset resource="../icons.qrc">
@@ -997,6 +994,29 @@
                   </property>
                  </widget>
                 </item>
+                <item row="7" column="0">
+                 <widget class="QLabel" name="label_4">
+                  <property name="text">
+                   <string>Margin of &quot;zoom to fit&quot;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="7" column="1">
+                 <widget class="QSpinBox" name="MarginFactor">
+                  <property name="suffix">
+                   <string>%</string>
+                  </property>
+                  <property name="maximum">
+                   <number>30</number>
+                  </property>
+                  <property name="singleStep">
+                   <number>5</number>
+                  </property>
+                  <property name="value">
+                   <number>5</number>
+                  </property>
+                 </widget>
+                </item>
                </layout>
               </widget>
              </item>
@@ -1439,7 +1459,7 @@
      <x>0</x>
      <y>0</y>
      <width>947</width>
-     <height>30</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

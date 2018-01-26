@@ -153,6 +153,7 @@ def appearance(self):
     self.action_Display_Dimensions.toggled.connect(self.DynamicCanvasView.setShowDimension)
     self.SelectionRadius.valueChanged.connect(self.DynamicCanvasView.setSelectionRadius)
     self.LinkageTransparency.valueChanged.connect(self.DynamicCanvasView.setTransparency)
+    self.MarginFactor.valueChanged.connect(self.DynamicCanvasView.setMarginFactor)
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)
     self.MainSplitter.setStretchFactor(1, 15)

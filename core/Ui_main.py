@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -451,6 +451,15 @@ class Ui_MainWindow(object):
         self.LinkageTransparency.setSingleStep(10)
         self.LinkageTransparency.setObjectName("LinkageTransparency")
         self.formLayout.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.LinkageTransparency)
+        self.label_4 = QtWidgets.QLabel(self.CanvasSettingsGroupBox)
+        self.label_4.setObjectName("label_4")
+        self.formLayout.setWidget(7, QtWidgets.QFormLayout.LabelRole, self.label_4)
+        self.MarginFactor = QtWidgets.QSpinBox(self.CanvasSettingsGroupBox)
+        self.MarginFactor.setMaximum(30)
+        self.MarginFactor.setSingleStep(5)
+        self.MarginFactor.setProperty("value", 5)
+        self.MarginFactor.setObjectName("MarginFactor")
+        self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.MarginFactor)
         self.verticalLayout_6.addWidget(self.CanvasSettingsGroupBox)
         self.groupBox = QtWidgets.QGroupBox(self.settings_tab)
         self.groupBox.setObjectName("groupBox")
@@ -639,7 +648,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 947, 30))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 947, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -866,7 +875,6 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menu_Help.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.Panel.setCurrentIndex(0)
         self.EntitiesTab.setCurrentIndex(0)
         self.SynthesisTab.setCurrentIndex(-1)
         self.action_Exit.triggered.connect(MainWindow.close)
@@ -934,6 +942,8 @@ class Ui_MainWindow(object):
         self.label.setText(_translate("MainWindow", "Selection radius"))
         self.label_2.setText(_translate("MainWindow", "Linkage transparency"))
         self.LinkageTransparency.setSuffix(_translate("MainWindow", " %"))
+        self.label_4.setText(_translate("MainWindow", "Margin of \"zoom to fit\""))
+        self.MarginFactor.setSuffix(_translate("MainWindow", "%"))
         self.groupBox.setTitle(_translate("MainWindow", "Console"))
         self.showConsoleError.setText(_translate("MainWindow", "Show solvespace error in the console."))
         self.groupBox_2.setTitle(_translate("MainWindow", "History"))

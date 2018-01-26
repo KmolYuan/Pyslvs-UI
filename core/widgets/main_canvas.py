@@ -96,7 +96,11 @@ class DynamicCanvas(BaseCanvas):
         #Free move mode. (0: no free move. 1: translate. 2: rotate.)
         self.freemove = 0
         #Set zoom bar function
-        self.setZoomValue = lambda a: parent.ZoomBar.setValue(parent.ZoomBar.value() + parent.ScaleFactor.value()*a/abs(a))
+        def setZoomValue(a):
+            parent.ZoomBar.setValue(parent.ZoomBar.value() + parent.ScaleFactor.value()*a/abs(a))
+        self.setZoomValue = setZoomValue
+        #Default margin factor
+        self.marginFactor = 0.95
     
     def update_figure(self, Point, Link, path):
         self.Point = Point
@@ -154,6 +158,11 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(int)
     def setTransparency(self, transparency):
         self.transparency = (100 - transparency)/100
+        self.update()
+    
+    @pyqtSlot(int)
+    def setMarginFactor(self, marginFactor):
+        self.marginFactor = 1 - marginFactor/100
         self.update()
     
     def changePointsSelection(self, pointsSelection):
@@ -536,7 +545,9 @@ class DynamicCanvas(BaseCanvas):
             diffY = diffY if diffY!=0 else 1
             height = height if height!=0 else 1
             diff = diffX/diffY > width/height
-            self.zoom_change.emit(int((width if diff else height)/(diffX if diff else diffY)*0.95*50))
+            self.zoom_change.emit(int(
+                (width if diff else height)/(diffX if diff else diffY)*self.marginFactor*50
+            ))
             self.ox = width/2 - cenx*self.zoom
             self.oy = height/2 + ceny*self.zoom
         self.update()
