@@ -29,12 +29,6 @@
    <iconset resource="../icons.qrc">
     <normaloff>:/icons/main_big.png</normaloff>:/icons/main_big.png</iconset>
   </property>
-  <property name="dockNestingEnabled">
-   <bool>true</bool>
-  </property>
-  <property name="dockOptions">
-   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
-  </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -323,6 +317,9 @@
                      </item>
                      <item>
                       <widget class="QPushButton" name="mechanism_storage_delete">
+                       <property name="statusTip">
+                        <string>Delete the specified mechanism.</string>
+                       </property>
                        <property name="text">
                         <string>Delete</string>
                        </property>
@@ -1145,9 +1142,9 @@
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="ZoomText">
+              <widget class="QPushButton" name="ZoomText">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>

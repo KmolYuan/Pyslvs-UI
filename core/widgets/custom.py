@@ -76,6 +76,7 @@ def appearance(self):
     #Menu of free move mode.
     FreeMoveMode_menu = QMenu(self)
     def freeMoveMode_func(j, qicon):
+        @pyqtSlot()
         def func():
             self.FreeMoveMode.setIcon(qicon)
             self.DynamicCanvasView.setFreeMove(j)
@@ -162,6 +163,25 @@ def appearance(self):
     #SetIn function connections.
     self.action_Zoom_to_fit.triggered.connect(self.DynamicCanvasView.SetIn)
     self.ResetCanvas.clicked.connect(self.DynamicCanvasView.SetIn)
+    #Zoom text button
+    Zoom_menu = QMenu(self)
+    def zoom_level(level):
+        @pyqtSlot()
+        def func():
+            self.ZoomBar.setValue(level)
+        return func
+    for level in range(
+        self.ZoomBar.minimum() - self.ZoomBar.minimum()%100 + 100,
+        500 + 1,
+        100
+    ):
+        action = QAction('{}%'.format(level), self)
+        action.triggered.connect(zoom_level(level))
+        Zoom_menu.addAction(action)
+    action = QAction("customize", self)
+    action.triggered.connect(self.zoom_customize)
+    Zoom_menu.addAction(action)
+    self.ZoomText.setMenu(Zoom_menu)
 
 def undo_redo(self):
     #Undo list settings.

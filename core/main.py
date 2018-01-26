@@ -855,6 +855,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_ZoomBar_valueChanged(self, value):
         self.ZoomText.setText('{}%'.format(value))
     
+    @pyqtSlot()
+    def zoom_customize(self):
+        value, ok = QInputDialog.getInt(self, "Zoom", "Enter a zoom value:",
+            self.ZoomBar.minimum(),
+            self.ZoomBar.value(),
+            self.ZoomBar.maximum(),
+            10
+        )
+        if ok:
+            self.ZoomBar.setValue(value)
+    
     @pyqtSlot(bool)
     def on_action_Display_Dimensions_toggled(self, p0):
         if p0:
