@@ -28,7 +28,7 @@ except ImportError:
     Qt_Version = "No Qt"
     PyQt_Version = "No PyQt"
 
-VERSION = (18, 1, 0, 'dev')
+VERSION = (18, 1, 0, 'release')
 
 INFO = (
     "Pyslvs {}.{}.{}({})".format(*VERSION),
