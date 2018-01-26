@@ -79,7 +79,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
-        for i in range(self.Point_list.count()):
+        for i in range(len(self.path)):
             self.on_remove_clicked(0)
         self.isGenerate()
     
@@ -426,7 +426,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         })
     
     def clear(self):
-        self.Point_list.clear()
+        self.on_clearAll_clicked()
         self.Result_list.clear()
         self.Settings = defaultSettings.copy()
         self.X_coordinate.setValue(0)

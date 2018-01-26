@@ -41,25 +41,18 @@ from peewee import (
 db = SqliteDatabase(None)
 
 class Designs:
-    __slots__ = ('path', '__result')
+    __slots__ = ('path', 'result')
     
     def __init__(self):
         self.path = []
-        self.__result = []
+        self.result = []
     
     def addResult(self, new_result: List[Dict]):
-        self.result += new_result
+        for result in new_result:
+            self.result.append(result.copy())
     
     def delResult(self, index: int):
         self.result.pop(index)
-    
-    @property
-    def result(self):
-        return self.__result
-    
-    @result.setter
-    def result(self, r):
-        self.__result = r
 
 #Show who commited the workbook.
 class UserModel(Model):
@@ -356,7 +349,7 @@ class FileWidget(QWidget, Ui_Form):
             #Load triangledata.
             self.loadTriangleFunc(decompress(commit.triangledata))
             #Load algorithmdata.
-            self.Designs.result = decompress(commit.algorithmdata)
+            self.Designs.addResult(decompress(commit.algorithmdata))
             self.loadAlgorithmFunc()
             #Workbook loaded.
             self.isSavedFunc()

@@ -15,6 +15,7 @@ Website: <http://www.pyslvs.com/blog/index.html>
     + [How to startup](#how-to-startup)
     + [Symbolic](#symbolic)
     + [Number and Type Synthesis](#number-and-type-synthesis)
+    + [Triangular iteration](#triangular-iteration)
     + [Dimensional Synthesis](#dimensional-synthesis)
 
 1. [Modules Requirement](#modules-requirement)
@@ -113,9 +114,25 @@ And use a type of mechanism to do grounding combine.
 
 ![](images/Grounding.png)
 
+Grounding combine can merge the structure diagram immediately to canvas.
+
+But in the common ways, you can give it to dimensional synthesis to make it more useful.
+
+## Triangular iteration
+
+Before doing dimensional synthesis, a structure diagram has to configure it's verification formula.
+
+![](images/Triangular_Iteration.png)
+
+**PLAP** function is using two known points, a length variable and an angle variable to find out the position of third point.
+
+**PLLP** function is using two known points and two length variables to find out the position of third point.
+
+When the structure profile is complete, is time to doing dimensional synthesis!
+
 ## Dimensional Synthesis
 
-Generate a mechanism with path requirement by random dimension.
+Generate a mechanism with path requirement by random variables.
 
 ![](images/Dimensional_Synthesis.png)
 

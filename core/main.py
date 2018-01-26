@@ -1137,11 +1137,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int, tuple)
     def PathSolving_mergeResult(self, row, path):
-        try:
-            Result = self.FileWidget.Designs.result[row]
-        except IndexError:
-            print(row, self.FileWidget.Designs.result)
-            return
+        Result = self.FileWidget.Designs.result[row]
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in Result['Link_Expression'].split(';'):
