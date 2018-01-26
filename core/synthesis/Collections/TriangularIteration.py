@@ -49,6 +49,11 @@ def letter_names():
         for e in product(ascii_uppercase, repeat=i):
             yield ''.join(e)
 
+#This generator can keep the numbering be consistent.
+def edges_view(G):
+    for n, e in enumerate(sorted(sorted(e) for e in G.edges)):
+        yield n, tuple(e)
+
 class PreviewCanvas(BaseCanvas):
     def __init__(self, parent=None):
         super(PreviewCanvas, self).__init__(parent)
@@ -90,7 +95,7 @@ class PreviewCanvas(BaseCanvas):
                 continue
             points = []
             #Points that is belong with the link.
-            for num, edge in enumerate(self.G.edges):
+            for num, edge in edges_view(self.G):
                 if link in edge:
                     if num in self.same:
                         num = self.same[num]
@@ -142,7 +147,7 @@ class PreviewCanvas(BaseCanvas):
     
     def setGrounded(self, link: int):
         self.grounded = link
-        for n, edge in enumerate(self.G.edges):
+        for n, edge in edges_view(self.G):
             self.status[n] = self.grounded in edge
         self.update()
     
@@ -268,7 +273,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         for link in G.nodes:
             self.grounded_list.addItem("({})".format(", ".join(
                 'P{}'.format(n)
-                for n, edge in enumerate(G.edges) if link in edge
+                for n, edge in edges_view(G) if link in edge
             )))
         #Point name as (P1, P2, P3, ...).
         for node in pos:
@@ -402,7 +407,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             for row, link in enumerate(G.nodes):
                 points = set(
                     'P{}'.format(n)
-                    for n, edge in enumerate(G.edges) if link in edge
+                    for n, edge in edges_view(G) if link in edge
                 )
                 if set(Driver + Follower) <= points:
                     self.grounded_list.setCurrentRow(row)
