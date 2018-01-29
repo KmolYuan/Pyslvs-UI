@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from .info import VERSION, INFO, args
+from .info import VERSION, INFO, ARGUMENTS
 from .Ui_about import Ui_About_Dialog
 
 #Turn simple string to html format.
@@ -57,10 +57,10 @@ class Pyslvs_About(QDialog, Ui_About_Dialog):
         self.Versions.setText(html(orderList(*INFO)))
         self.Arguments.setText(html(content(
             "Startup arguments are as follows:")+orderList(
-            "The loaded file when startup: {}".format(args.r),
-            "Start Path: {}".format(args.i),
-            "Enable solving warning: {}".format(args.w),
-            "Fusion style: {}".format(args.fusion),
-            "Debug mode: {}".format(args.debug_mode))+content(
+            "The loaded file when startup: {}".format(ARGUMENTS.r),
+            "Start Path: {}".format(ARGUMENTS.i),
+            "Enable solving warning: {}".format(ARGUMENTS.w),
+            "Fusion style: {}".format(ARGUMENTS.fusion),
+            "Debug mode: {}".format(ARGUMENTS.debug_mode))+content(
             "Using the \"-h\" argument to view the help."))
         )

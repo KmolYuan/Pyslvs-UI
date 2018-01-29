@@ -66,5 +66,5 @@ parser.add_argument('-f', '--fusion', action='store_true', help="run Pyslvs in F
 parser.add_argument('--full-screen', action='store_true', help="start Pyslvs with full-screen mode")
 parser.add_argument('--server', metavar='PORT', default=False, nargs='?', type=str, help="start ZMQ server")
 parser.add_argument('-d', '--debug-mode', action='store_true', help="do not connect to GUI console when opening")
-parser.add_argument('--test', action='store_true', help="startup the program to test imported modules")
-args = parser.parse_args()
+parser.add_argument('-t', '--test', action='store_true', help="startup the program to test imported modules")
+ARGUMENTS = parser.parse_args()

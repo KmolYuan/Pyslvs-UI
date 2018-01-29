@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-19, 21:08:37 -->
+<!-- Saved: 2018-01-29, 11:24:58 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -84,20 +84,21 @@
     <Source>core/synthesis/Collections/__init__.py</Source>
     <Source>core/synthesis/Collections/main_widget.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Algorithm.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_options.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_path_adjust.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_preview.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_progress.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_series.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/__init__.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/chart.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/series.py</Source>
+    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/thread.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_path_adjust.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_preview.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/Ui_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/chart.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/options.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/path_adjust.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/preview.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/series.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/thread.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/__init__.py</Source>
@@ -112,7 +113,6 @@
     <Source>preview_rc.py</Source>
   </Sources>
   <Forms>
-    <Form>core/synthesis/Collections/TriangularIteration_dialog/customs.ui</Form>
     <Form>core/entities/edit_link.ui</Form>
     <Form>core/entities/edit_point.ui</Form>
     <Form>core/info/about.ui</Form>
@@ -124,22 +124,21 @@
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/collections.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/constraints.ui</Form>
+    <Form>core/synthesis/Collections/TriangularIteration_dialog/customs.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/solutions.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration_dialog/targets.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/Algorithm.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/options.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/path_adjust.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/preview.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/progress.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/series.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.ui</Form>
+    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/series.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
-  <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
     <Resource>preview.qrc</Resource>
   </Resources>
-  <Interfaces/>
   <Others>
     <Other>Makefile</Other>
     <Other>README.md</Other>

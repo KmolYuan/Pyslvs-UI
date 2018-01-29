@@ -18,25 +18,26 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from .Ui_Algorithm import Ui_Form as PathSolving_Form
 from core.io import get_from_parenthesis
 from core.libs.pyslvs_algorithm.TS import solver, Direction
 from core.synthesis import mechanismParams_4Bar, mechanismParams_8Bar
-from .options import (
-    GeneticPrams,
-    FireflyPrams,
-    defaultSettings,
-    DifferentialPrams,
-    Options_show
-)
-from .path_adjust import Path_adjust_show
-from .progress import Progress_show
-from .series import Series_show
-from .preview import PreviewDialog
-from .chart import ChartDialog
+'''
+'GeneticPrams',
+'FireflyPrams',
+'defaultSettings',
+'DifferentialPrams',
+'Options_show',
+'Path_adjust_show',
+'Progress_show',
+'Series_show',
+'PreviewDialog',
+'ChartDialog'
+'''
+from .DimensionalSynthesis_dialog import *
 import csv
 import openpyxl
 from re import split as charSplit
+from .Ui_Algorithm import Ui_Form as PathSolving_Form
 
 class DimensionalSynthesis(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(dict)

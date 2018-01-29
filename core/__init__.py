@@ -6,7 +6,7 @@
 "core" module will load necessaries when startup.
 """
 
-#['INFO', 'args', 'Pyslvs_Splash']
+#['INFO', 'ARGUMENTS', 'Pyslvs_Splash']
 from .info import *
 from .server import startRep
 ImportTest = "All modules are loaded."
@@ -19,7 +19,7 @@ except ImportError as e:
 __all__ = [
     'ImportTest',
     'INFO',
-    'args',
+    'ARGUMENTS',
     'startRep',
     'MainWindow',
     'Pyslvs_Splash'

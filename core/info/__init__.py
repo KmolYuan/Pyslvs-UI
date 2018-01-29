@@ -8,7 +8,7 @@
 
 from .info import (
     INFO,
-    args,
+    ARGUMENTS,
     VERSION
 )
 from .about import (
@@ -19,7 +19,7 @@ from .about import (
 
 __all__ = [
     'INFO',
-    'args',
+    'ARGUMENTS',
     'VERSION',
     'Pyslvs_Splash',
     'Pyslvs_About',
