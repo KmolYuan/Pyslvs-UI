@@ -18,12 +18,12 @@ cd ENV/$APP.AppDir/
 ########################################################################
 
 mkdir -p usr
-virtualenv --no-site-packages --python=python3 usr
+virtualenv --no-site-packages --always-copy --python=python3 usr
 
 source usr/bin/activate
 
 # Source some helper functions
-wget -q https://raw.githubusercontent.com/AppImage/AppImages/87a312129c0db40285612727adffad2a4dcc0647/functions.sh -O ./functions.sh
+wget -q https://raw.githubusercontent.com/AppImage/AppImages/master/functions.sh -O ./functions.sh
 . ./functions.sh
 
 mkdir -p usr/bin/
