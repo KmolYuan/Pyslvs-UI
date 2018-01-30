@@ -103,12 +103,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def load_collections(self, p0=None):
-        self.mechanismParams = self.collections[self.collections_list.currentItem().text()]
+        self.name_loaded = self.collections_list.currentItem().text()
+        self.mechanismParams = self.collections[self.name_loaded]
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def load_common(self, p0=None):
         row = self.common_list.currentRow()
+        self.name_loaded = self.common_list.item(row).text()
         if row==0:
             self.mechanismParams = mechanismParams_4Bar
             self.mechanismParams.update({

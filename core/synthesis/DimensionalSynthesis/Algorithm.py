@@ -20,7 +20,7 @@
 from core.QtModules import *
 from core.io import get_from_parenthesis
 from core.libs.pyslvs_algorithm.TS import solver, Direction
-from core.synthesis import mechanismParams_4Bar, mechanismParams_8Bar
+from core.synthesis import CollectionsDialog
 '''
 'GeneticPrams',
 'FireflyPrams',
@@ -47,7 +47,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def __init__(self, parent):
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
+        self.mechanismParams = {}
         self.path = parent.FileWidget.Designs.path
+        #Just a pointer reference.
+        self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
         self.mechanism_data = parent.FileWidget.Designs.result
         self.mechanism_data_add = parent.FileWidget.Designs.addResult
         self.mechanism_data_del = parent.FileWidget.Designs.delResult
@@ -73,6 +76,22 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.clear()
         self.isGenerate()
         self.hasResult()
+    
+    def clear(self):
+        self.on_clearAll_clicked()
+        self.Result_list.clear()
+        self.mechanismParams.clear()
+        self.Settings = defaultSettings.copy()
+        self.profile_label.setText("Porfile: No profile.")
+        self.profile_label.setToolTip("Porfile: N/A")
+        self.X_coordinate.setValue(0)
+        self.Y_coordinate.setValue(0)
+        self.Ax.setValue(0)
+        self.Ay.setValue(0)
+        self.Ar.setValue(10)
+        self.Bx.setValue(50)
+        self.By.setValue(0)
+        self.Br.setValue(10)
     
     def loadResults(self):
         for e in self.mechanism_data:
@@ -208,7 +227,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.pointNum.setText(
             "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.Point_list.count())
         )
-        n = self.Point_list.count()>1
+        n = bool(self.mechanismParams) and (self.Point_list.count() > 1)
         self.pathAdjust.setEnabled(n)
         self.GenerateLocal.setEnabled(n)
         self.GenerateZMQ.setEnabled(n)
@@ -237,7 +256,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        mechanismParams = (mechanismParams_4Bar if self.FourBar.isChecked() else mechanismParams_8Bar).copy()
+        mechanismParams = self.mechanismParams.copy()
         mechanismParams['Target'][get_from_parenthesis(mechanismParams['Expression'].split(';')[-1], '(', ')')] = tuple(self.path)
         mechanismParams['Driver']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
         mechanismParams['Follower']['B'] = (self.Bx.value(), self.By.value(), self.Br.value())
@@ -350,6 +369,16 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg.show()
     
     @pyqtSlot()
+    def on_load_profile_clicked(self):
+        dlg = CollectionsDialog(self)
+        dlg.show()
+        if dlg.exec_():
+            self.mechanismParams = dlg.mechanismParams.copy()
+            self.profile_label.setText("Profile: Database.")
+            self.profile_label.setToolTip("Profile: {}".format(dlg.name_loaded))
+            self.isGenerate()
+    
+    @pyqtSlot()
     def on_Result_load_settings_clicked(self):
         self.hasResult()
         row = self.Result_list.currentRow()
@@ -361,10 +390,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.type1.setChecked(True)
             elif Result['Algorithm']=='DE':
                 self.type2.setChecked(True)
-            if Result['Expression']=="PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)":
-                self.FourBar.setChecked(True)
-            else:
-                self.EightBar.setChecked(True)
+            self.profile_label.setText("Profile: External setting")
+            self.profile_label.setToolTip("Profile: External setting")
+            #TODO: External setting.
             self.setTime(Result['time'])
             self.Ax.setValue(Result['Driver']['A'][0])
             self.Ay.setValue(Result['Driver']['A'][1])
@@ -425,16 +453,3 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             'A':(self.Ax.value(), self.Ay.value(), self.Ar.value()),
             'B':(self.Bx.value(), self.By.value(), self.Br.value())
         })
-    
-    def clear(self):
-        self.on_clearAll_clicked()
-        self.Result_list.clear()
-        self.Settings = defaultSettings.copy()
-        self.X_coordinate.setValue(0)
-        self.Y_coordinate.setValue(0)
-        self.Ax.setValue(0)
-        self.Ay.setValue(0)
-        self.Ar.setValue(10)
-        self.Bx.setValue(50)
-        self.By.setValue(0)
-        self.Br.setValue(10)

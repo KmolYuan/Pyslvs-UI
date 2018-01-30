@@ -6,7 +6,7 @@
 "synthesis" module contains synthesis functional interfaces.
 """
 
-#['Collections']
+#['Collections', 'CollectionsDialog']
 from .Collections import *
 #['NumberAndTypeSynthesis']
 from .NumberAndTypeSynthesis import *
@@ -16,7 +16,6 @@ from .DimensionalSynthesis import *
 __all__ = [
     'NumberAndTypeSynthesis',
     'Collections',
-    'DimensionalSynthesis',
-    'mechanismParams_4Bar',
-    'mechanismParams_8Bar'
+    'CollectionsDialog',
+    'DimensionalSynthesis'
 ]

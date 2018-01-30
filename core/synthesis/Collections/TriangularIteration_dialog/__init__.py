@@ -6,11 +6,7 @@
 "TriangularIteration_dialog" module contains the dialog of this page.
 """ 
 
-from .collections import (
-    CollectionsDialog,
-    mechanismParams_4Bar,
-    mechanismParams_8Bar
-)
+from .collections import CollectionsDialog
 from .constraints import ConstraintsDialog
 from .customs import CustomsDialog
 from .targets import TargetsDialog, list_texts, combo_texts
@@ -22,8 +18,6 @@ __all__ = [
     'CustomsDialog',
     'TargetsDialog',
     'SolutionsDialog',
-    'mechanismParams_4Bar',
-    'mechanismParams_8Bar',
     'list_texts',
     'combo_texts',
 ]

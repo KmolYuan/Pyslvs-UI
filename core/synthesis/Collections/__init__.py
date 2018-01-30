@@ -7,6 +7,6 @@
 """
 
 from .main_widget import Collections
-from .TriangularIteration_dialog import mechanismParams_4Bar, mechanismParams_8Bar
+from .TriangularIteration_dialog import CollectionsDialog
 
-__all__ = ['Collections', 'mechanismParams_4Bar', 'mechanismParams_8Bar']
+__all__ = ['Collections', 'CollectionsDialog']
