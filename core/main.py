@@ -1129,7 +1129,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DynamicCanvasView.setShowSlvsPath(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
     
     def PathSolving_add_rightClick(self):
-        self.DimensionalSynthesis.on_add_clicked(self.mouse_pos_x, self.mouse_pos_y)
+        self.DimensionalSynthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple)
     def PathSolving_mergeResult(self, row, path):

@@ -41,14 +41,19 @@ import numpy as np
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
 
 #Return a 2D fitting equation.
-def polyfit(x: np.array, y, d: int):
+def polyfit(x: np.ndarray, y: np.ndarray, d: int):
     coeffs = np.polyfit(x, y, d)
-    coeffs_list = coeffs.tolist()
     #Fit values and mean.
     yhat = np.poly1d(coeffs)(x)
     ybar = np.sum(y)/len(y)
     print("Accuracy: {}".format(np.sum((yhat - ybar)**2)/np.sum((y - ybar)**2)))
-    return lambda t: sum(c * t**power for power, c in enumerate(reversed(coeffs_list)))
+    return lambda t: sum(c * t**power for power, c in enumerate(reversed(coeffs)))
+
+#Find a name and return the row from the table.
+def name_in_table(widget, name: str) -> int:
+    for row in range(widget.rowCount()):
+        if widget.item(row, 0).text()==name:
+            return row
 
 class DimensionalSynthesis(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(dict)
@@ -62,27 +67,30 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.path = parent.FileWidget.Designs.path
         #Just a pointer reference.
         self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
+        #Data and functions.
         self.mechanism_data = parent.FileWidget.Designs.result
         self.mechanism_data_add = parent.FileWidget.Designs.addResult
         self.mechanism_data_del = parent.FileWidget.Designs.delResult
         self.inputFrom = parent.inputFrom
         self.unsaveFunc = parent.workbookNoSave
         self.Settings = defaultSettings.copy()
-        self.algorithmPrams_default()
+        self.algorithmParams_default()
+        #Context menu action.
         self.Point_list.setContextMenuPolicy(Qt.CustomContextMenu)
         self.Point_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
         self.popMenu_list = QMenu(self)
         self.action_paste_from_clipboard = QAction("&Paste from clipboard", self)
         self.popMenu_list.addAction(self.action_paste_from_clipboard)
-        self.Ar.valueChanged.connect(self.updateRange)
-        self.Ax.valueChanged.connect(self.updateRange)
-        self.Ay.valueChanged.connect(self.updateRange)
-        self.Br.valueChanged.connect(self.updateRange)
-        self.Bx.valueChanged.connect(self.updateRange)
-        self.By.valueChanged.connect(self.updateRange)
-        self.type0.clicked.connect(self.algorithmPrams_default)
-        self.type1.clicked.connect(self.algorithmPrams_default)
-        self.type2.clicked.connect(self.algorithmPrams_default)
+        #Table widget column width.
+        self.ground_joints.setColumnWidth(0, 50)
+        self.ground_joints.setColumnWidth(1, 70)
+        self.ground_joints.setColumnWidth(2, 70)
+        self.ground_joints.setColumnWidth(3, 80)
+        self.ground_joints.setColumnWidth(4, 80)
+        #Default value of algorithm parameters.
+        self.type0.clicked.connect(self.algorithmParams_default)
+        self.type1.clicked.connect(self.algorithmParams_default)
+        self.type2.clicked.connect(self.algorithmParams_default)
         self.Result_list.clicked.connect(self.hasResult)
         self.clear()
         self.isGenerate()
@@ -94,14 +102,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.mechanismParams.clear()
         self.Settings = defaultSettings.copy()
         self.profile_name.setText("No setting")
+        self.ground_joints.setRowCount(0)
         self.Expression.clear()
         self.Link_Expression.clear()
-        self.Ax.setValue(0)
-        self.Ay.setValue(0)
-        self.Ar.setValue(10)
-        self.Bx.setValue(50)
-        self.By.setValue(0)
-        self.Br.setValue(10)
     
     def loadResults(self):
         for e in self.mechanism_data:
@@ -208,9 +211,11 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.isGenerate()
     
     def add_point(self, x, y):
+        x = round(x, 4)
+        y = round(y, 4)
         self.path.append((x, y))
         self.pathChanged.emit(tuple(self.path))
-        self.Point_list.addItem("({}, {})".format(x, y))
+        self.Point_list.addItem("({:.04f}, {:.04f})".format(x, y))
         self.isGenerate()
     
     @pyqtSlot()
@@ -253,8 +258,14 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams.copy()
         mechanismParams['Target'][get_from_parenthesis(mechanismParams['Expression'].split(';')[-1], '(', ')')] = tuple(self.path)
-        mechanismParams['Driver']['A'] = (self.Ax.value(), self.Ay.value(), self.Ar.value())
-        mechanismParams['Follower']['B'] = (self.Bx.value(), self.By.value(), self.Br.value())
+        for key in ['Driver', 'Follower']:
+            for name in mechanismParams[key]:
+                row = name_in_table(self.ground_joints, name)
+                mechanismParams[key][name] = (
+                    self.ground_joints.cellWidget(row, 1).value(),
+                    self.ground_joints.cellWidget(row, 2).value(),
+                    self.ground_joints.cellWidget(row, 3).value()
+                )
         mechanismParams['IMax'] = self.Settings['IMax']
         mechanismParams['IMin'] = self.Settings['IMin']
         mechanismParams['LMax'] = self.Settings['LMax']
@@ -377,7 +388,42 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.profile_name.setText(dlg.name_loaded)
             self.Expression.setText(self.mechanismParams['Expression'])
             self.Link_Expression.setText(self.mechanismParams['Link_Expression'])
+            self.set_ground_joints(self.mechanismParams)
             self.isGenerate()
+    
+    def set_ground_joints(self, params):
+        gj = {}
+        for key in ['Driver', 'Follower']:
+            gj.update(params[key])
+        self.ground_joints.setRowCount(len(gj))
+        def spinbox(v, prefix=False):
+            s = QDoubleSpinBox(self)
+            s.setMinimum(-1000000.0)
+            s.setMaximum(1000000.0)
+            s.setSingleStep(10.0)
+            s.setValue(v)
+            if prefix:
+                s.setPrefix("±")
+            return s
+        for row, name in enumerate(sorted(gj)):
+            coord = gj[name]
+            self.ground_joints.setItem(row, 0, QTableWidgetItem(name))
+            self.ground_joints.setCellWidget(row, 1,
+                spinbox(coord[0] if coord else 0.)
+            )
+            self.ground_joints.setCellWidget(row, 2,
+                spinbox(coord[1] if coord else 0.)
+            )
+            self.ground_joints.setCellWidget(row, 3,
+                spinbox(coord[2] if coord else 10., True)
+            )
+            self.ground_joints.setItem(row, 4,
+                QTableWidgetItem('Driver' if name in params['Driver'] else 'Follower')
+            )
+        for row in range(self.ground_joints.rowCount()):
+            for column in range(1, 4):
+                self.ground_joints.cellWidget(row, column).valueChanged.connect(self.updateRange)
+        self.updateRange()
     
     @pyqtSlot()
     def on_Result_load_settings_clicked(self):
@@ -395,13 +441,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             #External setting.
             self.Expression.setText(Result['Expression'])
             self.Link_Expression.setText(Result['Link_Expression'])
+            self.set_ground_joints(Result)
             self.setTime(Result['time'])
-            self.Ax.setValue(Result['Driver']['A'][0])
-            self.Ay.setValue(Result['Driver']['A'][1])
-            self.Ar.setValue(Result['Driver']['A'][2])
-            self.Bx.setValue(Result['Follower']['B'][0])
-            self.By.setValue(Result['Follower']['B'][1])
-            self.Br.setValue(Result['Follower']['B'][2])
             settings = Result['settings']
             self.Settings = {
                 'maxGen':settings['maxGen'],
@@ -419,7 +460,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 for x, y in point:
                     self.add_point(x, y)
     
-    def algorithmPrams_default(self):
+    def algorithmParams_default(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         if type_num==0:
             self.Settings['algorithmPrams'] = GeneticPrams.copy()
@@ -451,9 +492,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot(float)
     def updateRange(self, p0=None):
+        def t(x, y):
+            item = self.ground_joints.item(x, y)
+            if item:
+                return item.text()
+            else:
+                return self.ground_joints.cellWidget(x, y).value()
         self.fixPointRange.emit({
-            'A':(self.Ax.value(), self.Ay.value(), self.Ar.value()),
-            'B':(self.Bx.value(), self.By.value(), self.Br.value())
+            t(row, 0): (t(row, 1), t(row, 2), t(row, 3))
+            for row in range(self.ground_joints.rowCount())
         })
     
     @pyqtSlot()
