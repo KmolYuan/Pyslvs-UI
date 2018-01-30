@@ -37,7 +37,18 @@ from .DimensionalSynthesis_dialog import *
 import csv
 import openpyxl
 from re import split as charSplit
+import numpy as np
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
+
+#Return a 2D fitting equation.
+def polyfit(x: np.array, y, d: int):
+    coeffs = np.polyfit(x, y, d)
+    coeffs_list = coeffs.tolist()
+    #Fit values and mean.
+    yhat = np.poly1d(coeffs)(x)
+    ybar = np.sum(y)/len(y)
+    print("Accuracy: {}".format(np.sum((yhat - ybar)**2)/np.sum((y - ybar)**2)))
+    return lambda t: sum(c * t**power for power, c in enumerate(reversed(coeffs_list)))
 
 class DimensionalSynthesis(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(dict)
@@ -85,8 +96,6 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.profile_name.setText("No setting")
         self.Expression.clear()
         self.Link_Expression.clear()
-        self.X_coordinate.setValue(0)
-        self.Y_coordinate.setValue(0)
         self.Ax.setValue(0)
         self.Ay.setValue(0)
         self.Ar.setValue(10)
@@ -100,8 +109,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_clearAll_clicked(self):
-        for i in range(len(self.path)):
-            self.on_remove_clicked(0)
+        self.path.clear()
+        self.pathChanged.emit(tuple(self.path))
+        self.Point_list.clear()
         self.isGenerate()
     
     @pyqtSlot()
@@ -110,7 +120,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg.show()
         if dlg.exec_():
             for e in dlg.path:
-                self.on_add_clicked(e[0], e[1])
+                self.add_point(e[0], e[1])
     
     def on_Point_list_context_menu(self, point):
         action = self.popMenu_list.exec_(self.Point_list.mapToGlobal(point))
@@ -132,7 +142,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         try:
             data = [(round(float(data[i]), 4), round(float(data[i+1]), 4)) for i in range(0, len(data), 2)]
             for e in data:
-                self.on_add_clicked(e[0], e[1])
+                self.add_point(e[0], e[1])
         except:
             QMessageBox.warning(self, "File error", "Wrong format.\nIt should be look like this:"+"\n0.0,0.0[\\n]"*3)
     
@@ -157,7 +167,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                     break
                 i += 1
             for e in data:
-                self.on_add_clicked(e[0], e[1])
+                self.add_point(e[0], e[1])
     
     @pyqtSlot()
     def on_pathAdjust_clicked(self):
@@ -166,7 +176,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if dlg.exec_():
             self.on_clearAll_clicked()
             for e in dlg.get_path():
-                self.on_add_clicked(e[0], e[1])
+                self.add_point(e[0], e[1])
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
@@ -197,30 +207,16 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Point_list.addItem('({}, {})'.format(x, y))
         self.isGenerate()
     
-    @pyqtSlot()
-    def on_add_clicked(self, x=None, y=None):
-        if x is None:
-            x = self.X_coordinate.value()
-            y = self.Y_coordinate.value()
+    def add_point(self, x, y):
         self.path.append((x, y))
         self.pathChanged.emit(tuple(self.path))
         self.Point_list.addItem("({}, {})".format(x, y))
         self.isGenerate()
     
     @pyqtSlot()
-    def on_remove_clicked(self, row=None):
-        if row is None:
-            row = self.Point_list.currentRow()
-        if row>-1:
-            del self.path[row]
-            self.pathChanged.emit(tuple(self.path))
-            self.Point_list.takeItem(row)
-            self.isGenerate()
-    
-    @pyqtSlot()
     def on_close_path_clicked(self):
         if self.Point_list.count() > 1 and self.path[0]!=self.path[-1]:
-            self.on_add_clicked(*self.path[0])
+            self.add_point(*self.path[0])
     
     def isGenerate(self):
         self.pointNum.setText(
@@ -421,7 +417,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.on_clearAll_clicked()
             for point in Result['Target'].values():
                 for x, y in point:
-                    self.on_add_clicked(x, y)
+                    self.add_point(x, y)
     
     def algorithmPrams_default(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
