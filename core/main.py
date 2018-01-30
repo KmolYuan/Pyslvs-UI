@@ -196,8 +196,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def tableCopy(self, table):
         text = table.currentItem().text()
         if text:
-            clipboard = QApplication.clipboard()
-            clipboard.setText(text)
+            QApplication.clipboard().setText(text)
     
     #Close Event
     def closeEvent(self, event):
@@ -558,8 +557,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if reply==QMessageBox.Open:
             self.OpenURL(url)
         elif reply==QMessageBox.Save:
-            clipboard = QApplication.clipboard()
-            clipboard.setText(url)
+            QApplication.clipboard().setText(url)
     
     #Output as expression.
     @pyqtSlot()
@@ -569,8 +567,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         text = "You can copy the expression and import to another workbook:\n\n{}\n\nClick the save button to copy it.".format(expr)
         reply = QMessageBox.question(self, "Pyslvs Expression", text, (QMessageBox.Save | QMessageBox.Close), QMessageBox.Save)
         if reply==QMessageBox.Save:
-            clipboard = QApplication.clipboard()
-            clipboard.setText(expr)
+            QApplication.clipboard().setText(expr)
     
     #Output to Python script for Jupyter notebook.
     @pyqtSlot()
@@ -846,9 +843,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):
-        clipboard = QApplication.clipboard()
-        pixmap = self.DynamicCanvasView.grab()
-        clipboard.setPixmap(pixmap)
+        QApplication.clipboard().setPixmap(self.DynamicCanvasView.grab())
         QMessageBox.information(self, "Captured!", "Canvas widget picture is copy to clipboard.", QMessageBox.Ok, QMessageBox.Ok)
     
     @pyqtSlot(int)
@@ -1110,8 +1105,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
             if action:
                 if "Copy data from" in action.text():
-                    clipboard = QApplication.clipboard()
-                    clipboard.setText('\n'.join("{},{}".format(x, y) for x, y in data[action.index]))
+                    QApplication.clipboard().setText('\n'.join(
+                        "{},{}".format(x, y) for x, y in data[action.index]
+                    ))
                 elif "Show" in action.text():
                     if action.index==-1:
                         self.inputs_record_show.setChecked(True)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>527</width>
-    <height>636</height>
+    <width>505</width>
+    <height>653</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -534,82 +534,152 @@
            <number>6</number>
           </property>
           <item>
-           <widget class="QListWidget" name="Result_list">
-            <property name="verticalScrollBarPolicy">
-             <enum>Qt::ScrollBarAsNeeded</enum>
-            </property>
-            <property name="horizontalScrollBarPolicy">
-             <enum>Qt::ScrollBarAlwaysOff</enum>
-            </property>
-           </widget>
+           <layout class="QVBoxLayout" name="verticalLayout_13">
+            <item>
+             <widget class="QListWidget" name="Result_list">
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_10">
+              <item>
+               <widget class="QPushButton" name="Result_load_settings">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="statusTip">
+                 <string>Load the setting of this result.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="Result_chart">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="statusTip">
+                 <string>Show the fitness - time chart</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="deleteButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="statusTip">
+                 <string>Delete this result.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="mergeButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="statusTip">
+                 <string>Merge this result to canvas.</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../../icons.qrc">
+                  <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Profile</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLineEdit" name="profile_name">
+              <property name="readOnly">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="load_profile">
+              <property name="text">
+               <string>...</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
-           <layout class="QVBoxLayout" name="verticalLayout_6">
+           <layout class="QHBoxLayout" name="horizontalLayout_17">
             <item>
-             <widget class="QPushButton" name="Result_chart">
-              <property name="statusTip">
-               <string>Fitness / Time chart</string>
-              </property>
-              <property name="text">
-               <string>Chart</string>
+             <widget class="QLineEdit" name="Expression">
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="Result_load_settings">
-              <property name="text">
-               <string>Load</string>
-              </property>
+             <widget class="QPushButton" name="Expression_copy">
               <property name="icon">
                <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_18">
+            <item>
+             <widget class="QLineEdit" name="Link_Expression">
+              <property name="readOnly">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="deleteButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="statusTip">
-               <string>Delete this result.</string>
-              </property>
-              <property name="text">
-               <string>Delete</string>
-              </property>
+             <widget class="QPushButton" name="Link_Expression_copy">
               <property name="icon">
                <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="mergeButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="statusTip">
-               <string>Merge this result to canvas.</string>
-              </property>
-              <property name="text">
-               <string>Merge</string>
-              </property>
-              <property name="icon">
-               <iconset resource="../../../icons.qrc">
-                <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+                <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
               </property>
              </widget>
             </item>
@@ -637,73 +707,30 @@
            <number>6</number>
           </property>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
-            <item>
-             <widget class="QLabel" name="profile_label">
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="load_profile">
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="Line" name="line">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+           <widget class="QRadioButton" name="type0">
+            <property name="text">
+             <string>Genetic Algorithm</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="verticalWidget" native="true">
-            <layout class="QVBoxLayout" name="verticalLayout_5">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QRadioButton" name="type0">
-               <property name="text">
-                <string>Genetic Algorithm</string>
-               </property>
-               <property name="checked">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="type1">
-               <property name="text">
-                <string>Firefly Algorithm</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="type2">
-               <property name="text">
-                <string>Differential Evolution</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
+           <widget class="QRadioButton" name="type1">
+            <property name="text">
+             <string>Firefly Algorithm</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="type2">
+            <property name="text">
+             <string>Differential Evolution</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -737,19 +764,6 @@
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </widget>

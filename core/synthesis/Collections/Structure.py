@@ -245,8 +245,7 @@ class CollectionsStructure(QWidget, Ui_Form):
     def on_Expression_copy_clicked(self):
         string = self.Expression_edges.text()
         if string:
-            clipboard = QApplication.clipboard()
-            clipboard.setText(string)
+            QApplication.clipboard().setText(string)
             self.Expression_edges.selectAll()
     
     #Delete the selected collection.

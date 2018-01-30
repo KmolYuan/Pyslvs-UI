@@ -82,8 +82,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Result_list.clear()
         self.mechanismParams.clear()
         self.Settings = defaultSettings.copy()
-        self.profile_label.setText("Porfile: No profile.")
-        self.profile_label.setToolTip("Porfile: N/A")
+        self.profile_name.setText("No setting")
+        self.Expression.clear()
+        self.Link_Expression.clear()
         self.X_coordinate.setValue(0)
         self.Y_coordinate.setValue(0)
         self.Ax.setValue(0)
@@ -114,9 +115,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_Point_list_context_menu(self, point):
         action = self.popMenu_list.exec_(self.Point_list.mapToGlobal(point))
         if action==self.action_paste_from_clipboard:
-            data = QApplication.clipboard().text()
-            data = charSplit(",|\n", data)
-            self.readPathFromCSV(data)
+            self.readPathFromCSV(charSplit(",|\n", QApplication.clipboard().text()))
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
@@ -316,7 +315,12 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.hasResult()
     
     def hasResult(self, p0=None):
-        for button in [self.mergeButton, self.deleteButton]:
+        for button in [
+            self.mergeButton,
+            self.deleteButton,
+            self.Result_chart,
+            self.Result_load_settings
+        ]:
             button.setEnabled(self.Result_list.currentRow()>-1)
     
     @pyqtSlot(QModelIndex)
@@ -374,8 +378,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg.show()
         if dlg.exec_():
             self.mechanismParams = dlg.mechanismParams.copy()
-            self.profile_label.setText("Profile: Database.")
-            self.profile_label.setToolTip("Profile: {}".format(dlg.name_loaded))
+            self.profile_name.setText(dlg.name_loaded)
+            self.Expression.setText(self.mechanismParams['Expression'])
+            self.Link_Expression.setText(self.mechanismParams['Link_Expression'])
             self.isGenerate()
     
     @pyqtSlot()
@@ -390,9 +395,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.type1.setChecked(True)
             elif Result['Algorithm']=='DE':
                 self.type2.setChecked(True)
-            self.profile_label.setText("Profile: External setting")
-            self.profile_label.setToolTip("Profile: External setting")
-            #TODO: External setting.
+            self.profile_name.setText("External setting")
+            #External setting.
+            self.Expression.setText(Result['Expression'])
+            self.Link_Expression.setText(Result['Link_Expression'])
             self.setTime(Result['time'])
             self.Ax.setValue(Result['Driver']['A'][0])
             self.Ay.setValue(Result['Driver']['A'][1])
@@ -453,3 +459,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             'A':(self.Ax.value(), self.Ay.value(), self.Ar.value()),
             'B':(self.Bx.value(), self.By.value(), self.Br.value())
         })
+    
+    @pyqtSlot()
+    def on_Expression_copy_clicked(self):
+        text = self.Expression.text()
+        if text:
+            QApplication.clipboard().setText(text)
+    
+    @pyqtSlot()
+    def on_Link_Expression_copy_clicked(self):
+        text = self.Link_Expression.text()
+        if text:
+            QApplication.clipboard().setText(text)

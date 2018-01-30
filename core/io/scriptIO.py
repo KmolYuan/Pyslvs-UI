@@ -354,9 +354,7 @@ class Script_Dialog(QDialog, Ui_Info_Dialog):
     
     @pyqtSlot()
     def on_copy_clicked(self):
-        clipboard = QApplication.clipboard()
-        clipboard.setText(self.script.toPlainText())
-        self.copy.setText("Copied!")
+        QApplication.clipboard().setText(self.script.toPlainText())
     
     @pyqtSlot()
     def on_save_clicked(self):
