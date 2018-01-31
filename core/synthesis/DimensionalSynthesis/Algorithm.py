@@ -64,7 +64,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         super(DimensionalSynthesis, self).__init__(parent)
         self.setupUi(self)
         self.mechanismParams = {}
-        self.path = parent.FileWidget.Designs.path
+        self.path = {}
         #Just a pointer reference.
         self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
         #Data and functions.
@@ -76,8 +76,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Settings = defaultSettings.copy()
         self.algorithmParams_default()
         #Context menu action.
-        self.Point_list.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.Point_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
+        self.path_list.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.path_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
         self.popMenu_list = QMenu(self)
         self.action_paste_from_clipboard = QAction("&Paste from clipboard", self)
         self.popMenu_list.addAction(self.action_paste_from_clipboard)
@@ -97,24 +97,41 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.hasResult()
     
     def clear(self):
-        self.on_clearAll_clicked()
+        self.on_path_clear_clicked()
         self.Result_list.clear()
         self.mechanismParams.clear()
         self.Settings = defaultSettings.copy()
         self.profile_name.setText("No setting")
         self.ground_joints.setRowCount(0)
+        self.target_points.clear()
         self.Expression.clear()
         self.Link_Expression.clear()
     
     def loadResults(self):
         for e in self.mechanism_data:
-            self.addResult(e)
+            self.add_result(e)
+    
+    def currentPathChanged(self):
+        self.pathChanged.emit(tuple(self.currentPath()))
+    
+    def currentPath(self):
+        item = self.target_points.currentItem()
+        if item:
+            return self.path[item.text()]
+        else:
+            return []
+    
+    @pyqtSlot(str)
+    def on_target_points_currentTextChanged(self, text):
+        self.path_list.clear()
+        for x, y in self.currentPath():
+            self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
     
     @pyqtSlot()
-    def on_clearAll_clicked(self):
-        self.path.clear()
-        self.pathChanged.emit(tuple(self.path))
-        self.Point_list.clear()
+    def on_path_clear_clicked(self):
+        self.currentPath().clear()
+        self.currentPathChanged()
+        self.path_list.clear()
         self.isGenerate()
     
     @pyqtSlot()
@@ -126,7 +143,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.add_point(e[0], e[1])
     
     def on_Point_list_context_menu(self, point):
-        action = self.popMenu_list.exec_(self.Point_list.mapToGlobal(point))
+        action = self.popMenu_list.exec_(self.path_list.mapToGlobal(point))
         if action==self.action_paste_from_clipboard:
             self.readPathFromCSV(charSplit(",|\n", QApplication.clipboard().text()))
     
@@ -174,60 +191,62 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_pathAdjust_clicked(self):
-        dlg = Path_adjust_show(self.path)
+        dlg = Path_adjust_show(self.currentPath())
         dlg.show()
         if dlg.exec_():
-            self.on_clearAll_clicked()
+            self.on_path_clear_clicked()
             for e in dlg.get_path():
                 self.add_point(e[0], e[1])
     
     @pyqtSlot()
     def on_moveUp_clicked(self):
-        row = self.Point_list.currentRow()
-        if row > 0 and self.Point_list.count() > 1:
-            self.path.insert(row-1, (self.path[row][0], self.path[row][1]))
-            del self.path[row+1]
-            self.pathChanged.emit(tuple(self.path))
-            x = self.Point_list.currentItem().text()[1:-1].split(", ")[0]
-            y = self.Point_list.currentItem().text()[1:-1].split(", ")[1]
-            self.Point_list.insertItem(row-1, "({}, {})".format(x, y))
-            self.Point_list.takeItem(row+1)
-            self.Point_list.setCurrentRow(row-1)
+        row = self.path_list.currentRow()
+        if row > 0 and self.path_list.count() > 1:
+            currentPath = self.currentPath()
+            currentPath.insert(row-1, (currentPath[row][0], currentPath[row][1]))
+            del currentPath[row+1]
+            self.currentPathChanged()
+            coord = self.path_list.currentItem().text()[1:-1].split(", ")
+            self.path_list.insertItem(row-1, "({}, {})".format(coord[0], coord[1]))
+            self.path_list.takeItem(row+1)
+            self.path_list.setCurrentRow(row-1)
     
     @pyqtSlot()
     def on_moveDown_clicked(self):
-        row = self.Point_list.currentRow()
-        if row < self.Point_list.count()-1 and self.Point_list.count() > 1:
-            self.path.insert(row+2, (self.path[row][0], self.path[row][1]))
-            del self.path[row]
-            self.pathChanged.emit(tuple(self.path))
-            c = self.Point_list.currentItem().text()[1:-1].split(", ")
-            self.Point_list.insertItem(row+2, "({}, {})".format(c[0], c[1]))
-            self.Point_list.takeItem(row)
-            self.Point_list.setCurrentRow(row+1)
+        row = self.path_list.currentRow()
+        if row < self.path_list.count()-1 and self.path_list.count() > 1:
+            currentPath = self.currentPath()
+            currentPath.insert(row+2, (currentPath[row][0], currentPath[row][1]))
+            del currentPath[row]
+            self.currentPathChanged()
+            c = self.path_list.currentItem().text()[1:-1].split(", ")
+            self.path_list.insertItem(row+2, "({}, {})".format(c[0], c[1]))
+            self.path_list.takeItem(row)
+            self.path_list.setCurrentRow(row+1)
     
     def addPath(self, x, y):
-        self.Point_list.addItem('({}, {})'.format(x, y))
+        self.path_list.addItem('({}, {})'.format(x, y))
         self.isGenerate()
     
     def add_point(self, x, y):
         x = round(x, 4)
         y = round(y, 4)
-        self.path.append((x, y))
-        self.pathChanged.emit(tuple(self.path))
-        self.Point_list.addItem("({:.04f}, {:.04f})".format(x, y))
+        self.currentPath().append((x, y))
+        self.currentPathChanged()
+        self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
         self.isGenerate()
     
     @pyqtSlot()
     def on_close_path_clicked(self):
-        if self.Point_list.count() > 1 and self.path[0]!=self.path[-1]:
-            self.add_point(*self.path[0])
+        currentPath = self.currentPath()
+        if self.path_list.count() > 1 and currentPath[0]!=currentPath[-1]:
+            self.add_point(*currentPath[0])
     
     def isGenerate(self):
         self.pointNum.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.Point_list.count())
+            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.path_list.count())
         )
-        n = bool(self.mechanismParams) and (self.Point_list.count() > 1)
+        n = bool(self.mechanismParams) and (self.path_list.count() > 1)
         self.pathAdjust.setEnabled(n)
         self.generate_button.setEnabled(n)
     
@@ -243,7 +262,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if dlg.exec_():
             self.mechanism_data_add(dlg.mechanisms)
             for m in dlg.mechanisms:
-                self.addResult(m)
+                self.add_result(m)
             self.setTime(dlg.time_spand)
             self.unsaveFunc()
             QMessageBox.information(self, "Dimensional Synthesis", "Your tasks is all completed.", QMessageBox.Ok, QMessageBox.Ok)
@@ -252,7 +271,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def getGenerate(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams.copy()
-        mechanismParams['Target'][get_from_parenthesis(mechanismParams['Expression'].split(';')[-1], '(', ')')] = tuple(self.path)
+        for name in mechanismParams['Target']:
+            mechanismParams['Target'][name] = self.path[name].copy()
         for key in ['Driver', 'Follower']:
             for name in mechanismParams[key]:
                 row = name_in_table(self.ground_joints, name)
@@ -285,7 +305,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         )
     
     #Add result items, except add to the list.
-    def addResult(self, result):
+    def add_result(self, result):
         item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['settings']['maxGen']))
         interrupt = result['interrupted']
         if interrupt=='False':
@@ -387,6 +407,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.isGenerate()
     
     def set_ground_joints(self, params):
+        self.path.clear()
+        self.target_points.clear()
+        for name in params['Target']:
+            self.target_points.addItem(name)
+            self.path[name] = []
+        if self.target_points.count():
+            self.target_points.setCurrentRow(0)
         gj = {}
         for key in ['Driver', 'Follower']:
             gj.update(params[key])
@@ -451,7 +478,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             algorithmPrams = settings.copy()
             del algorithmPrams['report']
             self.Settings['algorithmPrams'] = algorithmPrams
-            self.on_clearAll_clicked()
+            self.on_path_clear_clicked()
             for point in Result['Target'].values():
                 for x, y in point:
                     self.add_point(x, y)

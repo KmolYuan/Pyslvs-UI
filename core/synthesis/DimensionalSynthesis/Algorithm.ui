@@ -189,14 +189,14 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
-               <widget class="QListWidget" name="Point_list"/>
+               <widget class="QListWidget" name="path_list"/>
               </item>
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_19">
                   <item>
-                   <widget class="QPushButton" name="clearAll">
+                   <widget class="QPushButton" name="path_clear">
                     <property name="statusTip">
                      <string>Clear all points.</string>
                     </property>
@@ -591,7 +591,7 @@
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>ZMQ filter: </string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width=&quot;15&quot; src=&quot;:/icons/ZeroMQ.png&quot;/&gt;ZMQ filter: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
            </widget>
           </item>

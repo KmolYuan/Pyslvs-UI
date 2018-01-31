@@ -41,10 +41,9 @@ from peewee import (
 db = SqliteDatabase(None)
 
 class Designs:
-    __slots__ = ('path', 'result')
+    __slots__ = ('result',)
     
     def __init__(self):
-        self.path = []
         self.result = []
     
     def addResult(self, new_result: List[Dict]):

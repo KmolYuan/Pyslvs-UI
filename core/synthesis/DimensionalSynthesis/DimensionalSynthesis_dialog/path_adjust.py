@@ -25,7 +25,7 @@ class Path_adjust_show(QDialog, Ui_Dialog):
         super(Path_adjust_show, self).__init__(parent)
         self.setupUi(self)
         for e in path:
-            self.Point_list.addItem("({}, {})".format(e[0], e[1]))
+            self.path_list.addItem("({}, {})".format(e[0], e[1]))
         self.points_num.setText(str(len(path)))
         self.blurring_num.setMaximum(len(path))
         self.blurring_num.setValue(self.blurring_num.maximum())
