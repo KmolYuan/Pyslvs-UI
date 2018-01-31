@@ -83,9 +83,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.popMenu_list.addAction(self.action_paste_from_clipboard)
         #Table widget column width.
         self.ground_joints.setColumnWidth(0, 50)
-        self.ground_joints.setColumnWidth(1, 70)
+        self.ground_joints.setColumnWidth(1, 80)
         self.ground_joints.setColumnWidth(2, 70)
-        self.ground_joints.setColumnWidth(3, 80)
+        self.ground_joints.setColumnWidth(3, 70)
         self.ground_joints.setColumnWidth(4, 80)
         #Default value of algorithm parameters.
         self.type0.clicked.connect(self.algorithmParams_default)
@@ -229,16 +229,11 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         )
         n = bool(self.mechanismParams) and (self.Point_list.count() > 1)
         self.pathAdjust.setEnabled(n)
-        self.GenerateLocal.setEnabled(n)
-        self.GenerateZMQ.setEnabled(n)
+        self.generate_button.setEnabled(n)
     
     @pyqtSlot()
-    def on_GenerateLocal_clicked(self):
-        self.startAlgorithm()
-    
-    @pyqtSlot()
-    def on_GenerateZMQ_clicked(self):
-        self.startAlgorithm(hasPort=True)
+    def on_generate_button_clicked(self):
+        self.startAlgorithm(hasPort=self.has_zmq.isChecked())
     
     def startAlgorithm(self, hasPort=False):
         type_num, mechanismParams, setting = self.getGenerate()
@@ -262,9 +257,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             for name in mechanismParams[key]:
                 row = name_in_table(self.ground_joints, name)
                 mechanismParams[key][name] = (
-                    self.ground_joints.cellWidget(row, 1).value(),
                     self.ground_joints.cellWidget(row, 2).value(),
-                    self.ground_joints.cellWidget(row, 3).value()
+                    self.ground_joints.cellWidget(row, 3).value(),
+                    self.ground_joints.cellWidget(row, 4).value()
                 )
         mechanismParams['IMax'] = self.Settings['IMax']
         mechanismParams['IMin'] = self.Settings['IMin']
@@ -395,6 +390,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         gj = {}
         for key in ['Driver', 'Follower']:
             gj.update(params[key])
+        self.ground_joints.setRowCount(0)
         self.ground_joints.setRowCount(len(gj))
         def spinbox(v, prefix=False):
             s = QDoubleSpinBox(self)
@@ -408,20 +404,20 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         for row, name in enumerate(sorted(gj)):
             coord = gj[name]
             self.ground_joints.setItem(row, 0, QTableWidgetItem(name))
-            self.ground_joints.setCellWidget(row, 1,
-                spinbox(coord[0] if coord else 0.)
-            )
-            self.ground_joints.setCellWidget(row, 2,
-                spinbox(coord[1] if coord else 0.)
-            )
-            self.ground_joints.setCellWidget(row, 3,
-                spinbox(coord[2] if coord else 10., True)
-            )
-            self.ground_joints.setItem(row, 4,
+            self.ground_joints.setItem(row, 1,
                 QTableWidgetItem('Driver' if name in params['Driver'] else 'Follower')
             )
+            self.ground_joints.setCellWidget(row, 2,
+                spinbox(coord[0] if coord else 0.)
+            )
+            self.ground_joints.setCellWidget(row, 3,
+                spinbox(coord[1] if coord else 0.)
+            )
+            self.ground_joints.setCellWidget(row, 4,
+                spinbox(coord[2] if coord else 10., True)
+            )
         for row in range(self.ground_joints.rowCount()):
-            for column in range(1, 4):
+            for column in range(2, 5):
                 self.ground_joints.cellWidget(row, column).valueChanged.connect(self.updateRange)
         self.updateRange()
     
@@ -499,7 +495,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             else:
                 return self.ground_joints.cellWidget(x, y).value()
         self.fixPointRange.emit({
-            t(row, 0): (t(row, 1), t(row, 2), t(row, 3))
+            t(row, 0): (t(row, 2), t(row, 3), t(row, 4))
             for row in range(self.ground_joints.rowCount())
         })
     

@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>617</height>
+    <width>444</width>
+    <height>679</height>
    </rect>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <widget class="QSplitter" name="splitter_main">
      <property name="sizePolicy">
@@ -106,6 +106,11 @@
           </column>
           <column>
            <property name="text">
+            <string>Role</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
             <string>x</string>
            </property>
           </column>
@@ -119,20 +124,15 @@
             <string>Range</string>
            </property>
           </column>
-          <column>
-           <property name="text">
-            <string>type</string>
-           </property>
-          </column>
          </widget>
         </item>
        </layout>
       </widget>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
-        <string>Path</string>
+        <string>Target path</string>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>3</number>
         </property>
@@ -149,226 +149,220 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QWidget" name="horizontalWidget" native="true">
-          <layout class="QHBoxLayout" name="horizontalLayout_13">
-           <property name="leftMargin">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <property name="rightMargin">
-            <number>0</number>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <property name="spacing">
-              <number>3</number>
-             </property>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <item>
-                <spacer name="horizontalSpacer_7">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-               <item>
-                <widget class="QLabel" name="pointNum">
-                 <property name="text">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="QListWidget" name="Point_list"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_19">
-               <item>
-                <widget class="QPushButton" name="clearAll">
-                 <property name="statusTip">
-                  <string>Clear all points.</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="close_path">
-                 <property name="statusTip">
-                  <string>Close the path.</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QToolButton" name="pathAdjust">
-                 <property name="statusTip">
-                  <string>Process path data, such as moving or scaling.</string>
-                 </property>
-                 <property name="text">
-                  <string>...</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="Line" name="line_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout">
-               <item>
-                <widget class="QPushButton" name="series">
-                 <property name="toolTip">
-                  <string>Formula</string>
-                 </property>
-                 <property name="statusTip">
-                  <string>Generat points from formula.</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
-                 </property>
-                 <property name="autoDefault">
-                  <bool>false</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="importCSV">
-                 <property name="toolTip">
-                  <string>CSV</string>
-                 </property>
-                 <property name="statusTip">
-                  <string>Import path from CSV format.</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="importXLSX">
-                 <property name="toolTip">
-                  <string>Microsoft Excel</string>
-                 </property>
-                 <property name="statusTip">
-                  <string>Import path from Microsoft Excel format.</string>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../icons.qrc">
-                   <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>20</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <widget class="Line" name="line_6">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="moveUp">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="moveDown">
-               <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
-               </property>
-               <property name="autoDefault">
-                <bool>false</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-          </layout>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QListWidget" name="target_points"/>
+          <widget class="QWidget" name="layoutWidget">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <spacer name="horizontalSpacer_7">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QLabel" name="pointNum">
+                <property name="text">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; color:#00aa00;&quot;&gt;0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <item>
+               <widget class="QListWidget" name="Point_list"/>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <item>
+                   <widget class="QPushButton" name="clearAll">
+                    <property name="statusTip">
+                     <string>Clear all points.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                    </property>
+                    <property name="autoDefault">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="close_path">
+                    <property name="statusTip">
+                     <string>Close the path.</string>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QToolButton" name="pathAdjust">
+                    <property name="statusTip">
+                     <string>Process path data, such as moving or scaling.</string>
+                    </property>
+                    <property name="text">
+                     <string>...</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_5">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout">
+                  <item>
+                   <widget class="QPushButton" name="series">
+                    <property name="toolTip">
+                     <string>Formula</string>
+                    </property>
+                    <property name="statusTip">
+                     <string>Generat points from formula.</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
+                    </property>
+                    <property name="autoDefault">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="importCSV">
+                    <property name="toolTip">
+                     <string>CSV</string>
+                    </property>
+                    <property name="statusTip">
+                     <string>Import path from CSV format.</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/CSV.png</normaloff>:/icons/CSV.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="importXLSX">
+                    <property name="toolTip">
+                     <string>Microsoft Excel</string>
+                    </property>
+                    <property name="statusTip">
+                     <string>Import path from Microsoft Excel format.</string>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                    <property name="icon">
+                     <iconset resource="../../../icons.qrc">
+                      <normaloff>:/icons/excel_2013.png</normaloff>:/icons/excel_2013.png</iconset>
+                    </property>
+                    <property name="iconSize">
+                     <size>
+                      <width>20</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveUp">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="moveDown">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -383,18 +377,6 @@
         <string>Results</string>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <property name="leftMargin">
-         <number>6</number>
-        </property>
-        <property name="topMargin">
-         <number>6</number>
-        </property>
-        <property name="rightMargin">
-         <number>6</number>
-        </property>
-        <property name="bottomMargin">
-         <number>6</number>
-        </property>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_13">
           <item>
@@ -490,16 +472,16 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="leftMargin">
-         <number>6</number>
+         <number>3</number>
         </property>
         <property name="topMargin">
-         <number>6</number>
+         <number>3</number>
         </property>
         <property name="rightMargin">
-         <number>6</number>
+         <number>3</number>
         </property>
         <property name="bottomMargin">
-         <number>6</number>
+         <number>3</number>
         </property>
         <item>
          <widget class="QRadioButton" name="type0">
@@ -530,6 +512,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="advanceButton">
+          <property name="statusTip">
+           <string>More algorithm settings.</string>
+          </property>
           <property name="text">
            <string>Advance ...</string>
           </property>
@@ -601,6 +586,9 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
+           <widget class="QCheckBox" name="has_zmq"/>
+          </item>
+          <item>
            <widget class="QLabel" name="label">
             <property name="text">
              <string>ZMQ filter: </string>
@@ -633,7 +621,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QPushButton" name="GenerateZMQ">
+         <widget class="QPushButton" name="generate_button">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -644,40 +632,14 @@
            </size>
           </property>
           <property name="statusTip">
-           <string>Calculated by the zmq servers.</string>
+           <string>Start dimesional synthesis.</string>
           </property>
           <property name="text">
            <string>Synthesis</string>
           </property>
           <property name="icon">
            <iconset resource="../../../icons.qrc">
-            <normaloff>:/icons/ZeroMQ.png</normaloff>:/icons/ZeroMQ.png</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="GenerateLocal">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="statusTip">
-           <string>Calculated on the local side.</string>
-          </property>
-          <property name="text">
-           <string>Synthesis</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../../icons.qrc">
-            <normaloff>:/icons/local.png</normaloff>:/icons/local.png</iconset>
+            <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
           </property>
           <property name="autoDefault">
            <bool>true</bool>
