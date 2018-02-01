@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>348</width>
+    <width>375</width>
     <height>712</height>
    </rect>
   </property>
@@ -142,8 +142,9 @@
               <property name="statusTip">
                <string>Customize joints and multiple joints option interface.</string>
               </property>
-              <property name="text">
-               <string>...</string>
+              <property name="icon">
+               <iconset resource="../../../icons.qrc">
+                <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
               </property>
              </widget>
             </item>

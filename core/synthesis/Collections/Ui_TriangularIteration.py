@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\TriangularIteration.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(348, 712)
+        Form.resize(375, 712)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/collection-triangular-iteration.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -69,6 +69,7 @@ class Ui_Form(object):
         self.joint_panel.setMaximumSize(QtCore.QSize(150, 16777215))
         self.joint_panel.setObjectName("joint_panel")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.joint_panel)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.joint_name_label = QtWidgets.QLabel(self.joint_panel)
         self.joint_name_label.setObjectName("joint_name_label")
@@ -80,6 +81,9 @@ class Ui_Form(object):
         self.horizontalLayout_5.addWidget(self.joint_name)
         self.add_customization = QtWidgets.QPushButton(self.joint_panel)
         self.add_customization.setMaximumSize(QtCore.QSize(30, 16777215))
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap(":/icons/properties.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.add_customization.setIcon(icon5)
         self.add_customization.setObjectName("add_customization")
         self.horizontalLayout_5.addWidget(self.add_customization)
         self.verticalLayout_6.addLayout(self.horizontalLayout_5)
@@ -223,9 +227,9 @@ class Ui_Form(object):
         self.Expression_pop.setObjectName("Expression_pop")
         self.horizontalLayout_8.addWidget(self.Expression_pop)
         self.Expression_clear = QtWidgets.QPushButton(self.verticalLayoutWidget_2)
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.Expression_clear.setIcon(icon5)
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.Expression_clear.setIcon(icon6)
         self.Expression_clear.setObjectName("Expression_clear")
         self.horizontalLayout_8.addWidget(self.Expression_clear)
         self.verticalLayout_10.addLayout(self.horizontalLayout_8)
@@ -270,7 +274,6 @@ class Ui_Form(object):
         self.joint_name_label.setText(_translate("Form", "Joint:"))
         self.joint_name.setStatusTip(_translate("Form", "Choose a joint tag to see it\'s status."))
         self.add_customization.setStatusTip(_translate("Form", "Customize joints and multiple joints option interface."))
-        self.add_customization.setText(_translate("Form", "..."))
         self.status_label.setText(_translate("Form", "Status:"))
         self.status.setStatusTip(_translate("Form", "Each joint should have a solution to find out it\'s position."))
         self.status.setText(_translate("Form", "N/A"))
