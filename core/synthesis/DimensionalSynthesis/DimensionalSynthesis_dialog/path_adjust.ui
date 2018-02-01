@@ -6,33 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>509</width>
-    <height>406</height>
+    <width>570</width>
+    <height>375</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>509</width>
-    <height>406</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>509</width>
-    <height>406</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Process ...</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset resource="../../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_5">
    <item>
     <widget class="QSplitter" name="splitter">
      <property name="sizePolicy">
@@ -44,11 +35,55 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QListWidget" name="path_list"/>
+     <widget class="QWidget" name="">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QListWidget" name="path_list"/>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QPushButton" name="point_up">
+           <property name="icon">
+            <iconset resource="../../../../icons.qrc">
+             <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="point_down">
+           <property name="icon">
+            <iconset resource="../../../../icons.qrc">
+             <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_15">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="point_delete">
+           <property name="icon">
+            <iconset resource="../../../../icons.qrc">
+             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
      <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
       <widget class="QWidget" name="moving">
        <attribute name="title">
         <string>Moving</string>
@@ -159,7 +194,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="movingButton">
+           <widget class="QPushButton" name="moving_button">
             <property name="text">
              <string>Moving</string>
             </property>
@@ -346,7 +381,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="scalingButton">
+           <widget class="QPushButton" name="scaling_button">
             <property name="text">
              <string>Scaling</string>
             </property>
@@ -372,9 +407,9 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="blurring">
+      <widget class="QWidget" name="curve_fitting">
        <attribute name="title">
-        <string>Blurring</string>
+        <string>Curve Fitting</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <property name="leftMargin">
@@ -440,7 +475,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="blurring_num"/>
+           <widget class="QSpinBox" name="match_num"/>
           </item>
           <item>
            <spacer name="horizontalSpacer_11">
@@ -486,9 +521,9 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="blurringButton">
+           <widget class="QPushButton" name="match_button">
             <property name="text">
-             <string>Blurring</string>
+             <string>Match</string>
             </property>
             <property name="default">
              <bool>true</bool>
@@ -539,7 +574,7 @@
         </sizepolicy>
        </property>
        <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel</set>
+        <set>QDialogButtonBox::Close</set>
        </property>
       </widget>
      </item>
@@ -548,7 +583,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../icons.qrc"/>
+  <include location="../../../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

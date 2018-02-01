@@ -37,17 +37,7 @@ from .DimensionalSynthesis_dialog import *
 import csv
 import openpyxl
 from re import split as charSplit
-import numpy as np
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
-
-#Return a 2D fitting equation.
-def polyfit(x: np.ndarray, y: np.ndarray, d: int):
-    coeffs = np.polyfit(x, y, d)
-    #Fit values and mean.
-    yhat = np.poly1d(coeffs)(x)
-    ybar = np.sum(y)/len(y)
-    print("Accuracy: {}".format(np.sum((yhat - ybar)**2)/np.sum((y - ybar)**2)))
-    return lambda t: sum(c * t**power for power, c in enumerate(reversed(coeffs)))
 
 #Find a name and return the row from the table.
 def name_in_table(widget, name: str) -> int:
@@ -113,6 +103,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def currentPathChanged(self):
         self.pathChanged.emit(tuple(self.currentPath()))
+        self.isGenerate()
     
     def currentPath(self):
         item = self.target_points.currentItem()
@@ -130,9 +121,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_path_clear_clicked(self):
         self.currentPath().clear()
-        self.currentPathChanged()
         self.path_list.clear()
-        self.isGenerate()
+        self.currentPathChanged()
     
     @pyqtSlot()
     def on_series_clicked(self):
@@ -191,38 +181,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_pathAdjust_clicked(self):
-        dlg = Path_adjust_show(self.currentPath())
+        dlg = Path_adjust_show(self)
         dlg.show()
         if dlg.exec_():
             self.on_path_clear_clicked()
-            for e in dlg.get_path():
+            for e in dlg.r_path:
                 self.add_point(e[0], e[1])
-    
-    @pyqtSlot()
-    def on_moveUp_clicked(self):
-        row = self.path_list.currentRow()
-        if row > 0 and self.path_list.count() > 1:
-            currentPath = self.currentPath()
-            currentPath.insert(row-1, (currentPath[row][0], currentPath[row][1]))
-            del currentPath[row+1]
-            self.currentPathChanged()
-            coord = self.path_list.currentItem().text()[1:-1].split(", ")
-            self.path_list.insertItem(row-1, "({}, {})".format(coord[0], coord[1]))
-            self.path_list.takeItem(row+1)
-            self.path_list.setCurrentRow(row-1)
-    
-    @pyqtSlot()
-    def on_moveDown_clicked(self):
-        row = self.path_list.currentRow()
-        if row < self.path_list.count()-1 and self.path_list.count() > 1:
-            currentPath = self.currentPath()
-            currentPath.insert(row+2, (currentPath[row][0], currentPath[row][1]))
-            del currentPath[row]
-            self.currentPathChanged()
-            c = self.path_list.currentItem().text()[1:-1].split(", ")
-            self.path_list.insertItem(row+2, "({}, {})".format(c[0], c[1]))
-            self.path_list.takeItem(row)
-            self.path_list.setCurrentRow(row+1)
+        self.currentPathChanged()
     
     def addPath(self, x, y):
         self.path_list.addItem('({}, {})'.format(x, y))
@@ -232,9 +197,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         x = round(x, 4)
         y = round(y, 4)
         self.currentPath().append((x, y))
-        self.currentPathChanged()
         self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
-        self.isGenerate()
+        self.currentPathChanged()
     
     @pyqtSlot()
     def on_close_path_clicked(self):
