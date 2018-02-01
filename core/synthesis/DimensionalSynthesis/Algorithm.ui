@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>515</width>
-    <height>624</height>
+    <width>440</width>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -18,7 +18,7 @@
    <item>
     <widget class="QSplitter" name="splitter_2">
      <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+      <enum>Qt::Vertical</enum>
      </property>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="title">
@@ -116,6 +116,10 @@
          </column>
         </widget>
        </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="">
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
@@ -324,188 +328,188 @@
          </layout>
         </widget>
        </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="">
-      <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
-        <widget class="QGroupBox" name="verticalGroupBox">
-         <property name="title">
-          <string>Results</string>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_13">
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QGroupBox" name="verticalGroupBox">
+           <property name="title">
+            <string>Results</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
-             <widget class="QListWidget" name="Result_list">
-              <property name="verticalScrollBarPolicy">
-               <enum>Qt::ScrollBarAsNeeded</enum>
-              </property>
-              <property name="horizontalScrollBarPolicy">
-               <enum>Qt::ScrollBarAlwaysOff</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <layout class="QVBoxLayout" name="verticalLayout_13">
               <item>
-               <widget class="QPushButton" name="Result_load_settings">
-                <property name="enabled">
-                 <bool>false</bool>
+               <widget class="QListWidget" name="Result_list">
+                <property name="verticalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAsNeeded</enum>
                 </property>
-                <property name="statusTip">
-                 <string>Load the setting of this result.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                <property name="horizontalScrollBarPolicy">
+                 <enum>Qt::ScrollBarAlwaysOff</enum>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="Result_chart">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="statusTip">
-                 <string>Show the fitness - time chart</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QPushButton" name="deleteButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="statusTip">
-                 <string>Delete this result.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="mergeButton">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="statusTip">
-                 <string>Merge this result to canvas.</string>
-                </property>
-                <property name="icon">
-                 <iconset resource="../../../icons.qrc">
-                  <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
-                </property>
-               </widget>
+               <layout class="QHBoxLayout" name="horizontalLayout_10">
+                <item>
+                 <widget class="QPushButton" name="Result_load_settings">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="statusTip">
+                   <string>Load the setting of this result.</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="Result_chart">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="statusTip">
+                   <string>Show the fitness - time chart</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="deleteButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="statusTip">
+                   <string>Delete this result.</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="mergeButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="statusTip">
+                   <string>Merge this result to canvas.</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/merge.png</normaloff>:/icons/merge.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </item>
              </layout>
             </item>
            </layout>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="verticalGroupBox_2">
-         <property name="title">
-          <string>Options</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>3</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>3</number>
-          </property>
-          <item>
-           <widget class="QRadioButton" name="type0">
-            <property name="text">
-             <string>Genetic Algorithm</string>
+          </widget>
+         </item>
+         <item>
+          <widget class="QGroupBox" name="verticalGroupBox_2">
+           <property name="title">
+            <string>Options</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="leftMargin">
+             <number>3</number>
             </property>
-            <property name="checked">
-             <bool>false</bool>
+            <property name="topMargin">
+             <number>3</number>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="type1">
-            <property name="text">
-             <string>Firefly Algorithm</string>
+            <property name="rightMargin">
+             <number>3</number>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="type2">
-            <property name="text">
-             <string>Differential Evolution</string>
+            <property name="bottomMargin">
+             <number>3</number>
             </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="advanceButton">
-            <property name="statusTip">
-             <string>More algorithm settings.</string>
-            </property>
-            <property name="text">
-             <string>Advance ...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../icons.qrc">
-              <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_7">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Time spent: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="timeShow">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
+            <item>
+             <widget class="QRadioButton" name="type0">
+              <property name="text">
+               <string>Genetic Algorithm</string>
+              </property>
+              <property name="checked">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="type1">
+              <property name="text">
+               <string>Firefly Algorithm</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="type2">
+              <property name="text">
+               <string>Differential Evolution</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="advanceButton">
+              <property name="statusTip">
+               <string>More algorithm settings.</string>
+              </property>
+              <property name="text">
+               <string>Advance ...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../icons.qrc">
+                <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Line" name="line_3">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_7">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Time spent: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="timeShow">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -517,84 +521,62 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QWidget" name="timePanel" native="true">
-       <layout class="QHBoxLayout" name="timePanelLayout">
-        <property name="leftMargin">
-         <number>6</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>6</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <widget class="QCheckBox" name="has_zmq"/>
-          </item>
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width=&quot;15&quot; src=&quot;:/icons/ZeroMQ.png&quot;/&gt;ZMQ filter: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="portText">
-            <property name="statusTip">
-             <string>LAN screening.</string>
-            </property>
-            <property name="text">
-             <string>tcp://*:8000</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_6">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="generate_button">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>120</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="statusTip">
-           <string>Start dimesional synthesis.</string>
-          </property>
-          <property name="text">
-           <string>Synthesis</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../../../icons.qrc">
-            <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
+      <widget class="QCheckBox" name="has_zmq"/>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width=&quot;15&quot; src=&quot;:/icons/ZeroMQ.png&quot;/&gt;ZMQ filter: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="portText">
+       <property name="statusTip">
+        <string>LAN screening.</string>
+       </property>
+       <property name="text">
+        <string>tcp://*:8000</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="generate_button">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>120</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="statusTip">
+        <string>Start dimesional synthesis.</string>
+       </property>
+       <property name="text">
+        <string>Synthesis</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
     </layout>
