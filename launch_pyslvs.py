@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.
+##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
 ##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 from sys import exit
 from core import *
