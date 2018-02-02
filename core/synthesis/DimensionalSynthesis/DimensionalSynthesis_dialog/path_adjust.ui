@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Process ...</string>
+   <string>Path process</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../../icons.qrc">
@@ -35,7 +35,7 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
         <widget class="QListWidget" name="path_list"/>

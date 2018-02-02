@@ -6,7 +6,7 @@
 "lib" module contains C++ and Cython libraries.
 """
 
-#['Genetic', 'Firefly', 'DiffertialEvolution', 'tinycadlib', 'build_planar']
+#['Genetic', 'Firefly', 'DiffertialEvolution', 'expr_parser', 'build_planar']
 from .pyslvs_algorithm import *
 #['NumberSynthesis', 'topo']
 from .pyslvs_topologic import *
@@ -17,7 +17,7 @@ __all__ = [
     'Genetic',
     'Firefly',
     'DiffertialEvolution',
-    'tinycadlib',
+    'expr_parser',
     'build_planar',
     'NumberSynthesis',
     'topo',

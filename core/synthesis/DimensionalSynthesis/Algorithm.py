@@ -19,7 +19,7 @@
 
 from core.QtModules import *
 from core.io import get_from_parenthesis
-from core.libs.pyslvs_algorithm.TS import solver, Direction
+from core.libs import expr_parser
 from core.synthesis import CollectionsDialog
 '''
 'GeneticPrams',
@@ -36,8 +36,11 @@ from core.synthesis import CollectionsDialog
 from .DimensionalSynthesis_dialog import *
 import csv
 import openpyxl
+from math import radians
 from re import split as charSplit
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
+
+nan = float('nan')
 
 #Find a name and return the row from the table.
 def name_in_table(widget, name: str) -> int:
@@ -337,28 +340,35 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def legal_crank(self, row):
         Result = self.mechanism_data[row]
-        expression = Result['Expression'].split(';')
-        expression_tag = tuple(
-            tuple(get_from_parenthesis(exp, '[', ']').split(',') + [get_from_parenthesis(exp, '(', ')')])
-            for exp in expression
+        expr = Result['Expression'].split(';')
+        expr_tag = tuple(
+            get_from_parenthesis(exp, '[', ']').split(',') +
+            [get_from_parenthesis(exp, '(', ')')]
+            for exp in expr
         )
-        expression_result = [exp[-1] for exp in expression_tag]
-        exp_symbol = (expression_tag[0][0], expression_tag[0][3])+tuple(exp[-1] for exp in expression_tag)
+        expr_set = set([])
+        for exp in expr_tag:
+            expr_set.update(exp)
+        expr_angles = tuple(e for e in expr_set if 'a' in e)
+        if len(expr_angles)>1:
+            return tuple()
+        expr_links = tuple(e for e in expr_set if ('L' in e) and len(e)>1)
+        expr_points = (expr_tag[0][0], expr_tag[0][3]) + tuple(exp[-1] for exp in expr_tag)
         '''
         ('A', 'B', 'C', 'D', 'E')
         '''
-        Paths = tuple([] for tag in exp_symbol)
+        Paths = tuple([] for i in range(len(expr_points)))
         for a in range(360+1):
-            Directions = [Direction(p1=Result['A'], p2=Result['B'], len1=Result['L0'], angle=a)]
-            for exp in expression_tag[1:]:
-                p1 = Result['A'] if exp[0]=='A' else expression_result.index(exp[0]) if exp[0] in expression_result else Result['B']
-                p2 = Result['A'] if exp[3]=='A' else expression_result.index(exp[3]) if exp[3] in expression_result else Result['B']
-                Directions.append(Direction(p1=p1, p2=p2, len1=Result[exp[1]], len2=Result[exp[2]]))
-            s = solver(Directions)
-            s_answer = s.answer()
-            for i, a in enumerate(s_answer):
-                Paths[exp_symbol.index(expression_result[i])].append(a)
-        return tuple(tuple(path) if len(set(path))>1 else () for path in Paths)
+            data_dict = {e: Result[e] for e in expr_links}
+            data_dict.update({e: Result[e] for e in Result['Driver']})
+            data_dict.update({e: Result[e] for e in Result['Follower']})
+            data_dict.update({expr_angles[0]: radians(a)})
+            expr_parser(Result['Expression'], data_dict)
+            for i, e in enumerate(expr_points):
+                x, y = data_dict[e]
+                if x!=nan:
+                    Paths[i].append((x, y))
+        return tuple(tuple(path) if len(set(path))>1 else tuple() for path in Paths)
     
     @pyqtSlot()
     def on_Result_chart_clicked(self):

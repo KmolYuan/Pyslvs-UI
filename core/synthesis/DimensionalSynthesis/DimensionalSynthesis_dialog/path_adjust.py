@@ -36,6 +36,7 @@ class Path_adjust_show(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(Path_adjust_show, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.path = parent.currentPath()
         self.path_list_parent = parent.path_list
         self.r_path = []

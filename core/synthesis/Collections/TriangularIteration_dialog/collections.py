@@ -18,6 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
+from core.graphics import PreviewCanvas
 from .Ui_collections import Ui_Dialog
 
 mechanismParams_4Bar = {
@@ -26,7 +27,24 @@ mechanismParams_4Bar = {
     'Target':{'E':None}, #'E':((x1, y1), (x2, y2), (x3, y3), ...)
     'Link_Expression':"ground[A,B];[A,C];[C,D,E];[B,D]",
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
-    'constraint':[('A', 'B', 'C', 'D')]
+    'constraint':[('A', 'B', 'C', 'D')],
+    'Graph':((0, 1), (1, 2), (2, 3), (3, 0)),
+    'name_dict':{
+        'A': 'P0',
+        'B': 'P1',
+        'C': 'P2',
+        'D': 'P3',
+        'E': 'P4'
+    },
+    'pos':{
+        0: (-70, -70),
+        1: (70, -70),
+        2: (-70, 12.5),
+        3: (70, 12.5),
+        4: (0, 63.5)
+    },
+    'cus':{'P4':2},
+    'same':{}
 }
 mechanismParams_8Bar = {
     'Driver':{'A':None},
@@ -34,7 +52,36 @@ mechanismParams_8Bar = {
     'Target':{'H':None},
     'Link_Expression':"ground[A,B];[A,C];[C,D];[C,F];[B,D,E];[B,F];[E,G];[F,G,H]",
     'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
-    'constraint':[('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')]
+    'constraint':[('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')],
+    'Graph':((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5), (3, 7), (4, 6), (6, 7)),
+    'name_dict':{
+        'C':'P3',
+        'F':'P7',
+        'J':'P4',
+        'K':'P6',
+        'B':'P1',
+        'D':'P5',
+        'H':'P10',
+        'G':'P9',
+        'E':'P8',
+        'A':'P0',
+        'I':'P2'
+    },
+    'pos':{
+        0:(30.5, 10.5),
+        1:(-14.5, 10.5),
+        2:(-18.5, 0.),
+        3:(81.5, 60.5),
+        4:(92.5, 75.5),
+        5:(-31.5, 86.5),
+        6:(41.5, -38.5),
+        7:(19.5, -32.5),
+        8:(-85.5, 9.5),
+        9:(-37.5, -48.5),
+        10:(32.5, -107.5)
+    },
+    'cus':{'P10': 7},
+    'same':{2:1, 4:3, 6:7}
 }
 
 class CollectionsDialog(QDialog, Ui_Dialog):
@@ -47,10 +94,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.collections_list.addItem(name)
         self.common_load.clicked.connect(self.load_common)
         self.common_list.itemDoubleClicked.connect(self.load_common)
-        self.common_list.itemDoubleClicked.connect(self.accept)
         self.buttonBox.accepted.connect(self.load_collections)
         self.collections_list.itemDoubleClicked.connect(self.load_collections)
-        self.collections_list.itemDoubleClicked.connect(self.accept)
         self.collections_list.currentRowChanged.connect(self.canOpen)
         self.hasCollection()
         self.canOpen()
@@ -102,66 +147,18 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
-    def load_collections(self, p0=None):
-        self.name_loaded = self.collections_list.currentItem().text()
-        self.mechanismParams = self.collections[self.name_loaded]
-    
-    @pyqtSlot()
-    @pyqtSlot(QListWidgetItem)
     def load_common(self, p0=None):
         row = self.common_list.currentRow()
         self.name_loaded = self.common_list.item(row).text()
         if row==0:
             self.mechanismParams = mechanismParams_4Bar
-            self.mechanismParams.update({
-                'Graph':((0, 1), (1, 2), (2, 3), (3, 0)),
-                'name_dict':{
-                    'A': 'P0',
-                    'B': 'P1',
-                    'C': 'P2',
-                    'D': 'P3',
-                    'E': 'P4'
-                },
-                'pos':{
-                    0: (-70, -70),
-                    1: (70, -70),
-                    2: (-70, 12.5),
-                    3: (70, 12.5),
-                    4: (0, 63.5)
-                },
-                'cus':{'P4':2},
-                'same':{}
-            })
         elif row==1:
             self.mechanismParams = mechanismParams_8Bar
-            self.mechanismParams.update({
-                'Graph':((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5), (3, 7), (4, 6), (6, 7)),
-                'name_dict':{
-                    'C':'P3',
-                    'F':'P7',
-                    'J':'P4',
-                    'K':'P6',
-                    'B':'P1',
-                    'D':'P5',
-                    'H':'P10',
-                    'G':'P9',
-                    'E':'P8',
-                    'A':'P0',
-                    'I':'P2'
-                },
-                'pos':{
-                    0:(30.5, 10.5),
-                    1:(-14.5, 10.5),
-                    2:(-18.5, 0.),
-                    3:(81.5, 60.5),
-                    4:(92.5, 75.5),
-                    5:(-31.5, 86.5),
-                    6:(41.5, -38.5),
-                    7:(19.5, -32.5),
-                    8:(-85.5, 9.5),
-                    9:(-37.5, -48.5),
-                    10:(32.5, -107.5)
-                },
-                'cus':{'P10': 7},
-                'same':{2:1, 4:3, 6:7}
-            })
+        self.accept()
+    
+    @pyqtSlot()
+    @pyqtSlot(QListWidgetItem)
+    def load_collections(self, p0=None):
+        self.name_loaded = self.collections_list.currentItem().text()
+        self.mechanismParams = self.collections[self.name_loaded]
+        self.accept()

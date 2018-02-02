@@ -9,7 +9,7 @@
 from .rga import Genetic
 from .firefly import Firefly
 from .de import DiffertialEvolution
-from . import tinycadlib
+from .tinycadlib import expr_parser
 from .planarlinkage import build_planar
 
-__all__ = ['Genetic', 'Firefly', 'DiffertialEvolution', 'tinycadlib', 'build_planar']
+__all__ = ['Genetic', 'Firefly', 'DiffertialEvolution', 'expr_parser', 'build_planar']

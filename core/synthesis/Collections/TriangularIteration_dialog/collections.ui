@@ -29,147 +29,145 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QHBoxLayout" name="main_layout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QLabel" name="common_label">
-       <property name="text">
-        <string>Common:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QListWidget" name="common_list">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <property name="text">
-         <string>Four bar linkage mechanism</string>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Four Bar&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/4Bar_triangle.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Eight bar linkage mechanism</string>
-        </property>
-        <property name="toolTip">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h1&gt;Eight Bar&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;:/icons/preview/8Bar_triangle.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </item>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="common_load">
-       <property name="text">
-        <string>Load common structure</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../../icons.qrc">
-         <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <widget class="Line" name="line">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="Collections_label">
-     <property name="text">
-      <string>Workbook Collections:</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QListWidget" name="collections_list"/>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QPushButton" name="rename_button">
+        <widget class="QLabel" name="common_label">
          <property name="text">
-          <string>Rename</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../icons.qrc">
-           <normaloff>:/icons/rename.png</normaloff>:/icons/rename.png</iconset>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
+          <string>Common:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="copy_button">
-         <property name="text">
-          <string>Copy</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../../../icons.qrc">
-           <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-         </property>
+        <widget class="QListWidget" name="common_list">
+         <item>
+          <property name="text">
+           <string>Four bar linkage mechanism</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Eight bar linkage mechanism</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="delete_button">
+        <widget class="QPushButton" name="common_load">
          <property name="text">
-          <string>Delete</string>
+          <string>Load common structure</string>
          </property>
          <property name="icon">
           <iconset resource="../../../../icons.qrc">
-           <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-         </property>
-         <property name="autoDefault">
-          <bool>false</bool>
+           <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
          </property>
         </widget>
        </item>
       </layout>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
-      <spacer name="horizontalSpacer">
+      <widget class="Line" name="line">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      </widget>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Close|QDialogButtonBox::Open</set>
+      <widget class="QLabel" name="Collections_label">
+       <property name="text">
+        <string>Workbook Collections:</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QListWidget" name="collections_list"/>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QPushButton" name="rename_button">
+           <property name="text">
+            <string>Rename</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../../icons.qrc">
+             <normaloff>:/icons/rename.png</normaloff>:/icons/rename.png</iconset>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="copy_button">
+           <property name="text">
+            <string>Copy</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../../icons.qrc">
+             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="delete_button">
+           <property name="text">
+            <string>Delete</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../../../icons.qrc">
+             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QDialogButtonBox" name="buttonBox">
+         <property name="standardButtons">
+          <set>QDialogButtonBox::Close|QDialogButtonBox::Open</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

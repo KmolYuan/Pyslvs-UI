@@ -91,3 +91,37 @@ cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
     cdef double ground = A.distance(B)
     cdef double connector = C.distance(D)
     return (driver + connector <= ground + follower) or (driver + ground <= connector + follower)
+
+cdef str get_from_parenthesis(str s, str front, str back):
+    return s[s.find(front)+1:s.find(back)]
+
+cdef str get_front_of_parenthesis(str s, str front):
+    return s[:s.find(front)]
+
+cdef object Coordinate_to_tuple(Coordinate coord):
+    return (coord.x, coord.y)
+
+cpdef void expr_parser(str exprs, object data_list):
+    '''
+    exprs: "PLAP[A,a0,L1,B](C);PLLP[C,L1,L2,B](D);..."
+    data_list: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
+    '''
+    cdef str expr, f, name
+    cdef object params, args, p
+    for expr in exprs.split(';'):
+        f = get_front_of_parenthesis(expr, '[')
+        params = get_from_parenthesis(expr, '[', ']').split(',')
+        target = get_from_parenthesis(expr, '(', ')')
+        args = []
+        for name in params:
+            p = data_list[name]
+            if type(p)==tuple or type(p)==list:
+                args.append(Coordinate(*p))
+            else:
+                args.append(p)
+        if f=='PLAP':
+            data_list[target] = PLAP(*args)
+        elif f=='PLLP':
+            data_list[target] = PLLP(*args)
+        elif f=='PLPP':
+            data_list[target] = PLPP(*args)
