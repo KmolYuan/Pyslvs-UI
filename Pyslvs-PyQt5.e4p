@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-01-29, 11:24:58 -->
+<!-- Saved: 2018-02-02, 10:24:14 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
   <Hash>6025882eb6939472903477af24befdd6ddef8a93</Hash>
   <ProgLanguage mixed="0">Python3</ProgLanguage>
   <ProjectType>PyQt5</ProjectType>
-  <Description>Open Source Planar Linkage Mechanism Simulation and Dimensional Synthesis System.</Description>
+  <Description>Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.</Description>
   <Version>0.9.0</Version>
   <Author>KmolYuan</Author>
   <Email>pyslvs@gmail.com</Email>

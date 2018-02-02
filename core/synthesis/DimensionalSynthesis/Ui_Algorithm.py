@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(449, 681)
+        Form.resize(449, 687)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -37,6 +37,12 @@ class Ui_Form(object):
         self.load_profile.setIcon(icon1)
         self.load_profile.setObjectName("load_profile")
         self.horizontalLayout_7.addWidget(self.load_profile)
+        self.clear_button = QtWidgets.QPushButton(self.verticalLayoutWidget)
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.clear_button.setIcon(icon2)
+        self.clear_button.setObjectName("clear_button")
+        self.horizontalLayout_7.addWidget(self.clear_button)
         self.verticalLayout_8.addLayout(self.horizontalLayout_7)
         self.horizontalLayout_17 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_17.setObjectName("horizontalLayout_17")
@@ -45,9 +51,9 @@ class Ui_Form(object):
         self.Expression.setObjectName("Expression")
         self.horizontalLayout_17.addWidget(self.Expression)
         self.Expression_copy = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/icons/copy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.Expression_copy.setIcon(icon2)
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap(":/icons/copy.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.Expression_copy.setIcon(icon3)
         self.Expression_copy.setObjectName("Expression_copy")
         self.horizontalLayout_17.addWidget(self.Expression_copy)
         self.verticalLayout_8.addLayout(self.horizontalLayout_17)
@@ -58,7 +64,7 @@ class Ui_Form(object):
         self.Link_Expression.setObjectName("Link_Expression")
         self.horizontalLayout_18.addWidget(self.Link_Expression)
         self.Link_Expression_copy = QtWidgets.QPushButton(self.verticalLayoutWidget)
-        self.Link_Expression_copy.setIcon(icon2)
+        self.Link_Expression_copy.setIcon(icon3)
         self.Link_Expression_copy.setObjectName("Link_Expression_copy")
         self.horizontalLayout_18.addWidget(self.Link_Expression_copy)
         self.verticalLayout_8.addLayout(self.horizontalLayout_18)
@@ -122,9 +128,7 @@ class Ui_Form(object):
         self.pathAdjust.setObjectName("pathAdjust")
         self.verticalLayout_7.addWidget(self.pathAdjust)
         self.path_clear = QtWidgets.QPushButton(self.layoutWidget1)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.path_clear.setIcon(icon3)
+        self.path_clear.setIcon(icon2)
         self.path_clear.setAutoDefault(False)
         self.path_clear.setObjectName("path_clear")
         self.verticalLayout_7.addWidget(self.path_clear)
@@ -202,7 +206,7 @@ class Ui_Form(object):
         self.horizontalLayout_10.addItem(spacerItem3)
         self.deleteButton = QtWidgets.QPushButton(self.verticalGroupBox)
         self.deleteButton.setEnabled(False)
-        self.deleteButton.setIcon(icon3)
+        self.deleteButton.setIcon(icon2)
         self.deleteButton.setObjectName("deleteButton")
         self.horizontalLayout_10.addWidget(self.deleteButton)
         self.mergeButton = QtWidgets.QPushButton(self.verticalGroupBox)

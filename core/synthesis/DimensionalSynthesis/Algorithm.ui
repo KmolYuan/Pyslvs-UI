@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>449</width>
-    <height>681</height>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -36,6 +36,14 @@
            <property name="icon">
             <iconset resource="../../../icons.qrc">
              <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="clear_button">
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
            </property>
           </widget>
          </item>

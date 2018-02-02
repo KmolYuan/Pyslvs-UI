@@ -81,7 +81,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.type0.clicked.connect(self.algorithmParams_default)
         self.type1.clicked.connect(self.algorithmParams_default)
         self.type2.clicked.connect(self.algorithmParams_default)
+        #Signals
         self.Result_list.clicked.connect(self.hasResult)
+        self.clear_button.clicked.connect(self.clear)
         self.clear()
         self.isGenerate()
         self.hasResult()
@@ -96,6 +98,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.target_points.clear()
         self.Expression.clear()
         self.Link_Expression.clear()
+        self.updateRange()
     
     def loadResults(self):
         for e in self.mechanism_data:
