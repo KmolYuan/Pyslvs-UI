@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>449</width>
-    <height>687</height>
+    <width>403</width>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_6">
+  <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <widget class="QSplitter" name="splitter_2">
      <property name="orientation">
@@ -23,65 +23,96 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QLineEdit" name="profile_name">
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QLineEdit" name="profile_name">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="save_button">
+               <property name="statusTip">
+                <string>Save the structure profile back to the database.</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="clear_button">
+               <property name="statusTip">
+                <string>Clear the current profile and settings.</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
+             <item>
+              <widget class="QLineEdit" name="Expression">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Expression_copy">
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_18">
+             <item>
+              <widget class="QLineEdit" name="Link_Expression">
+               <property name="readOnly">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Link_Expression_copy">
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QPushButton" name="load_profile">
+           <property name="statusTip">
+            <string>Load profile from triangular iteration database.</string>
+           </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
              <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="clear_button">
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_17">
-         <item>
-          <widget class="QLineEdit" name="Expression">
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="Expression_copy">
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_18">
-         <item>
-          <widget class="QLineEdit" name="Link_Expression">
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="Link_Expression_copy">
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+           <property name="iconSize">
+            <size>
+             <width>100</width>
+             <height>100</height>
+            </size>
            </property>
           </widget>
          </item>
@@ -89,6 +120,9 @@
        </item>
        <item>
         <widget class="QTableWidget" name="ground_joints">
+         <property name="statusTip">
+          <string>All the joints of grounded link will show here.</string>
+         </property>
          <property name="verticalScrollMode">
           <enum>QAbstractItemView::ScrollPerPixel</enum>
          </property>
@@ -194,6 +228,9 @@
                  <layout class="QVBoxLayout" name="verticalLayout_7">
                   <item>
                    <widget class="QPushButton" name="pathAdjust">
+                    <property name="statusTip">
+                     <string>Adjust the target path.</string>
+                    </property>
                     <property name="icon">
                      <iconset resource="../../../icons.qrc">
                       <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
@@ -494,7 +531,7 @@
             <item>
              <widget class="QLabel" name="timeShow">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;[N/A]&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>

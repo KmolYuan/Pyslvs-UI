@@ -83,14 +83,17 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.type2.clicked.connect(self.algorithmParams_default)
         #Signals
         self.Result_list.clicked.connect(self.hasResult)
-        self.clear_button.clicked.connect(self.clear)
+        self.clear_button.clicked.connect(self.clear_settings)
         self.clear()
         self.isGenerate()
         self.hasResult()
     
     def clear(self):
-        self.on_path_clear_clicked()
         self.Result_list.clear()
+        self.clear_settings()
+    
+    def clear_settings(self):
+        self.on_path_clear_clicked()
         self.mechanismParams.clear()
         self.Settings = defaultSettings.copy()
         self.profile_name.setText("No setting")
@@ -219,23 +222,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_generate_button_clicked(self):
-        self.startAlgorithm(hasPort=self.has_zmq.isChecked())
-    
-    def startAlgorithm(self, hasPort=False):
-        type_num, mechanismParams, setting = self.getGenerate()
-        setting.update(self.Settings['algorithmPrams'])
-        dlg = Progress_show(type_num, mechanismParams, setting, self.portText.text() if hasPort else None, self)
-        dlg.show()
-        if dlg.exec_():
-            self.mechanism_data_add(dlg.mechanisms)
-            for m in dlg.mechanisms:
-                self.add_result(m)
-            self.setTime(dlg.time_spand)
-            self.unsaveFunc()
-            QMessageBox.information(self, "Dimensional Synthesis", "Your tasks is all completed.", QMessageBox.Ok, QMessageBox.Ok)
-            print("Finished.")
-    
-    def getGenerate(self):
+        #Get generate settings.
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         mechanismParams = self.mechanismParams.copy()
         for name in mechanismParams['Target']:
@@ -256,17 +243,34 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         mechanismParams['FMin'] = self.Settings['FMin']
         mechanismParams['AMax'] = self.Settings['AMax']
         mechanismParams['AMin'] = self.Settings['AMin']
-        generateData = {
+        setting = {
             'maxGen':self.Settings['maxGen'],
             'report':int(self.Settings['maxGen']*self.Settings['report']/100)
         }
-        return type_num, mechanismParams, generateData
+        setting.update(self.Settings['algorithmPrams'])
+        #Start progress dialog.
+        dlg = Progress_show(
+            type_num,
+            mechanismParams,
+            setting,
+            self.portText.text() if self.has_zmq.isChecked() else None,
+            self
+        )
+        dlg.show()
+        if dlg.exec_():
+            self.mechanism_data_add(dlg.mechanisms)
+            for m in dlg.mechanisms:
+                self.add_result(m)
+            self.setTime(dlg.time_spand)
+            self.unsaveFunc()
+            QMessageBox.information(self, "Dimensional Synthesis", "Your tasks is all completed.", QMessageBox.Ok, QMessageBox.Ok)
+            print("Finished.")
     
     def setTime(self, time_spand):
         sec = round(time_spand%60, 2)
         mins = int(time_spand/60)
         self.timeShow.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt\">"+
+            "<html><head/><body><p><span style=\"font-size:16pt\">"+
             "{}[min] {:.02f}[s]".format(mins, sec)+
             "</span></p></body></html>"
         )
@@ -362,6 +366,17 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg.show()
     
     @pyqtSlot()
+    def on_save_button_clicked(self):
+        if self.mechanismParams:
+            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+            if ok:
+                i = 0
+                while (name not in self.collections) and (not name):
+                    name = "Structure_{}".format(i)
+                self.collections[name] = self.mechanismParams.copy()
+                self.unsaveFunc()
+    
+    @pyqtSlot()
     def on_load_profile_clicked(self):
         dlg = CollectionsDialog(self)
         dlg.show()
@@ -432,6 +447,22 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.Expression.setText(Result['Expression'])
             self.Link_Expression.setText(Result['Link_Expression'])
             self.set_ground_joints(Result)
+            #Copy to mechanism params.
+            self.mechanismParams.clear()
+            for key in [
+                'Driver',
+                'Follower',
+                'Target',
+                'Link_Expression',
+                'Expression',
+                'constraint',
+                'Graph',
+                'name_dict',
+                'pos',
+                'cus',
+                'same'
+            ]:
+                self.mechanismParams[key] = Result[key]
             self.setTime(Result['time'])
             settings = Result['settings']
             self.Settings = {
