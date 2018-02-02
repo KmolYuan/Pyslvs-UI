@@ -106,7 +106,7 @@
            </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+             <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
            </property>
            <property name="iconSize">
             <size>

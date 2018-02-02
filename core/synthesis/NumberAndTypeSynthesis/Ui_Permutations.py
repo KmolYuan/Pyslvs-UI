@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(404, 804)
+        Form.resize(394, 582)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/NumberAndTypeSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -218,7 +218,7 @@ class Ui_Form(object):
         self.graph_link_as_node.setStatusTip(_translate("Form", "Show the edges as nodes."))
         self.graph_link_as_node.setText(_translate("Form", "Linkage as node"))
         self.graph_degenerate.setStatusTip(_translate("Form", "Keep degenerate chains in the result."))
-        self.graph_degenerate.setText(_translate("Form", "Degenerate chain"))
+        self.graph_degenerate.setText(_translate("Form", "Degenerate chains"))
         self.Combine_type_all.setStatusTip(_translate("Form", "Find the structure of mechanism from all numbers."))
         self.Combine_type_all.setText(_translate("Form", "Find all"))
         self.Combine_type.setStatusTip(_translate("Form", "Find the structure of mechanism from specified numbers."))

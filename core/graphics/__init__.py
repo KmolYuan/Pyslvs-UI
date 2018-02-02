@@ -19,7 +19,9 @@ from .planarSolving import (
 from .chart import dataChart
 from .canvas import (
     BaseCanvas,
-    distance_sorted
+    PreviewCanvas,
+    distance_sorted,
+    edges_view
 )
 from .nx_pydot import (
     graph,
@@ -37,7 +39,9 @@ __all__ = [
     'SlvsException',
     'dataChart',
     'BaseCanvas',
+    'PreviewCanvas',
     'distance_sorted',
+    'edges_view',
     'graph',
     'engine_picker',
     'EngineList',

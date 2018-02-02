@@ -46,7 +46,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
         self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
         self.popMenu_topo = QMenu(self)
-        self.add_collection = QAction(QIcon(QPixmap(":/icons/collections.png")), "Add to collection", self)
+        self.add_collection = QAction(QIcon(QPixmap(":/icons/collections.png")), "Add to collections", self)
         self.copy_edges = QAction("Copy edges", self)
         self.copy_image = QAction("Copy image", self)
         self.popMenu_topo.addActions([self.add_collection, self.copy_edges, self.copy_image])

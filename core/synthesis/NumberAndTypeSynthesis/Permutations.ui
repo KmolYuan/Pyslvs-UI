@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>804</height>
+    <width>394</width>
+    <height>582</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -278,7 +278,7 @@
               <string>Keep degenerate chains in the result.</string>
              </property>
              <property name="text">
-              <string>Degenerate chain</string>
+              <string>Degenerate chains</string>
              </property>
             </widget>
            </item>

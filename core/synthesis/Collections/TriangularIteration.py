@@ -18,11 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from core.graphics import (
-    BaseCanvas,
-    distance_sorted,
-    colorQt
-)
+from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
 from math import sqrt
 from networkx import Graph
@@ -49,127 +45,12 @@ def letter_names():
         for e in product(ascii_uppercase, repeat=i):
             yield ''.join(e)
 
-#This generator can keep the numbering be consistent.
-def edges_view(G):
-    for n, e in enumerate(sorted(sorted(e) for e in G.edges)):
-        yield n, tuple(e)
-
-class PreviewCanvas(BaseCanvas):
-    def __init__(self, parent=None):
-        super(PreviewCanvas, self).__init__(parent)
-        self.showSolutions = True
-        self.set_joint_number = parent.joint_name.setCurrentIndex
+class PreviewWindow(PreviewCanvas):
+    set_joint_number = pyqtSignal(int)
+    
+    def __init__(self, get_solutions_func, parent):
+        super(PreviewWindow, self).__init__(get_solutions_func, parent)
         self.get_joint_number = parent.joint_name.currentIndex
-        self.get_solutions = lambda: tuple(
-            parent.Expression_list.item(row).text()
-            for row in range(parent.Expression_list.count())
-        )
-        self.clear()
-    
-    def clear(self):
-        self.pressed = False
-        #Origin graph.
-        self.G = Graph()
-        #Customize points.
-        self.cus = {}
-        #Multiple joints.
-        self.same = {}
-        #Positions.
-        self.pos = {}
-        #Point status.
-        self.status = {}
-        self.grounded = -1
-        self.update()
-    
-    def paintEvent(self, event):
-        self.ox = self.width()/2
-        self.oy = self.height()/2
-        super(PreviewCanvas, self).paintEvent(event)
-        r = 4.5
-        pen = QPen()
-        pen.setWidth(r)
-        self.painter.setPen(pen)
-        self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
-        for link in self.G.nodes:
-            if link==self.grounded:
-                continue
-            points = []
-            #Points that is belong with the link.
-            for num, edge in edges_view(self.G):
-                if link in edge:
-                    if num in self.same:
-                        num = self.same[num]
-                    points.append((self.pos[num][0], -self.pos[num][1]))
-            #Customize points.
-            for name, link_ in self.cus.items():
-                if link==link_:
-                    num = int(name.replace('P', ''))
-                    points.append((self.pos[num][0], -self.pos[num][1]))
-            self.painter.drawPolygon(*distance_sorted(points))
-        self.painter.setFont(QFont("Arial", self.fontSize*1.5))
-        for node, (x, y) in self.pos.items():
-            if node in self.same:
-                continue
-            color = colorQt('Dark-Magenta') if self.getStatus(node) else colorQt('Green')
-            pen.setColor(color)
-            self.painter.setPen(pen)
-            self.painter.setBrush(QBrush(color))
-            self.painter.drawEllipse(QPointF(x, -y), r, r)
-            pen.setColor(colorQt('Black'))
-            self.painter.setPen(pen)
-            self.painter.drawText(QPointF(x + 2*r, -y), 'P{}'.format(node))
-        if self.showSolutions:
-            for expr in self.get_solutions():
-                params = [
-                    p for p in get_from_parenthesis(expr, '[', ']').split(',')
-                    if 'P' in p
-                ]
-                params.append(get_from_parenthesis(expr, '(', ')'))
-                func = get_front_of_parenthesis(expr, '[')
-                color = QColor(121, 171, 252) if func=='PLLP' else QColor(249, 84, 216)
-                color.setAlpha(255)
-                pen.setColor(color)
-                self.painter.setPen(pen)
-                color.setAlpha(30)
-                self.painter.setBrush(QBrush(color))
-                qpoints = []
-                for name in params:
-                    x, y = self.pos[int(name.replace('P', ''))]
-                    qpoints.append(QPointF(x, -y))
-                self.painter.drawPolygon(*qpoints)
-        self.painter.end()
-    
-    def setGraph(self, G, pos):
-        self.G = G
-        self.pos = pos
-        self.status = {k:False for k in pos}
-        self.update()
-    
-    def setGrounded(self, link: int):
-        self.grounded = link
-        for n, edge in edges_view(self.G):
-            self.status[n] = self.grounded in edge
-        self.update()
-    
-    def setStatus(self, point: str, status: bool):
-        self.status[int(point.replace('P', ''))] = status
-        self.update()
-    
-    def getStatus(self, point: int) -> bool:
-        return self.status[point] or (point in self.same)
-    
-    def setShowSolutions(self, status: bool):
-        self.showSolutions = status
-        self.update()
-    
-    def isAllLock(self) -> bool:
-        for node, status in self.status.items():
-            if not status and node not in self.same:
-                return False
-        return True
-    
-    def name_in_same(self, name) -> bool:
-        return int(name.replace('P', '')) in self.same
     
     def mousePressEvent(self, event):
         mx = (event.x() - self.ox)
@@ -178,7 +59,7 @@ class PreviewCanvas(BaseCanvas):
             if node in self.same:
                 continue
             if sqrt((mx - x)**2 + (my - y)**2)<=5:
-                self.set_joint_number(node)
+                self.set_joint_number.emit(node)
                 self.pressed = True
                 break
     
@@ -211,7 +92,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         '''
         self.collections = {}
         self.parm_bind = {}
-        self.PreviewWindow = PreviewCanvas(self)
+        self.PreviewWindow = PreviewWindow(
+            lambda: tuple(
+                self.Expression_list.item(row).text()
+                for row in range(self.Expression_list.count())
+            ),
+            self
+        )
+        self.PreviewWindow.set_joint_number.connect(self.joint_name.setCurrentIndex)
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.joint_name.currentIndexChanged.connect(self.hasSolution)
         self.Expression_list.itemChanged.connect(self.set_parm_bind)
