@@ -327,7 +327,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 item.setText(expr)
                 self.PreviewWindow.setStatus(mapping[target], True)
             self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
-            self.PreviewWindow.update()
     
     @pyqtSlot()
     def on_constraints_button_clicked(self):

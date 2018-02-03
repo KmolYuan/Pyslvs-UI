@@ -21,7 +21,8 @@ from .canvas import (
     BaseCanvas,
     PreviewCanvas,
     distance_sorted,
-    edges_view
+    edges_view,
+    replace_by_dict
 )
 from .nx_pydot import (
     graph,
@@ -42,6 +43,7 @@ __all__ = [
     'PreviewCanvas',
     'distance_sorted',
     'edges_view',
+    'replace_by_dict',
     'graph',
     'engine_picker',
     'EngineList',

@@ -18,7 +18,9 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from core.graphics import PreviewCanvas
+from core.graphics import PreviewCanvas, edges_view, replace_by_dict
+from core.io import get_from_parenthesis
+from networkx import Graph
 from .Ui_collections import Ui_Dialog
 
 mechanismParams_4Bar = {
@@ -90,10 +92,29 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.collections = parent.collections
+        self.name_loaded = ""
+        #Canvas
+        def get_solutions_func():
+            try:
+                return replace_by_dict(self.collections[self.name_loaded])
+            except KeyError:
+                if self.name_loaded=="Four bar linkage mechanism":
+                    return replace_by_dict(mechanismParams_4Bar)
+                elif self.name_loaded=="Eight bar linkage mechanism":
+                    return replace_by_dict(mechanismParams_8Bar)
+                else:
+                    return tuple()
+        self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
+        self.preview_layout.insertWidget(1, self.PreviewCanvas)
         for name in self.collections:
             self.collections_list.addItem(name)
+        #Splitter
+        self.main_splitter.setSizes([200, 200])
+        #Signals
+        self.common_list.currentTextChanged.connect(self.choose_common)
         self.common_load.clicked.connect(self.load_common)
         self.common_list.itemDoubleClicked.connect(self.load_common)
+        self.collections_list.currentTextChanged.connect(self.choose_collections)
         self.buttonBox.accepted.connect(self.load_collections)
         self.collections_list.itemDoubleClicked.connect(self.load_collections)
         self.collections_list.currentRowChanged.connect(self.canOpen)
@@ -145,20 +166,63 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 del self.collections[item.text()]
                 self.hasCollection()
     
+    @pyqtSlot(str)
+    def choose_common(self, text):
+        self.name_loaded = text
+        if text=="Four bar linkage mechanism":
+            self.mechanismParams = mechanismParams_4Bar
+        elif text=="Eight bar linkage mechanism":
+            self.mechanismParams = mechanismParams_8Bar
+        self.reload_canvas()
+    
+    @pyqtSlot(str)
+    def choose_collections(self, text):
+        self.name_loaded = text
+        self.mechanismParams = self.collections[self.name_loaded]
+        self.reload_canvas()
+    
+    #Simple loading.
+    def reload_canvas(self):
+        params = self.mechanismParams
+        mapping = params['name_dict']
+        #Name dict.
+        self.PreviewCanvas.setNameDict(mapping)
+        #Add customize joints.
+        G = Graph(params['Graph'])
+        self.PreviewCanvas.setGraph(G, params['pos'])
+        self.PreviewCanvas.cus = params['cus']
+        self.PreviewCanvas.same = params['same']
+        #Grounded setting.
+        Driver = [mapping[e] for e in params['Driver']]
+        Follower = [mapping[e] for e in params['Follower']]
+        for row, link in enumerate(G.nodes):
+            points = set(
+                'P{}'.format(n)
+                for n, edge in edges_view(G) if link in edge
+            )
+            if set(Driver + Follower) <= points:
+                self.PreviewCanvas.setGrounded(row)
+                break
+        #Expression
+        for expr in params['Expression'].split(';'):
+            target = get_from_parenthesis(expr, '(', ')')
+            self.PreviewCanvas.setStatus(params['name_dict'][target], True)
+    
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def load_common(self, p0=None):
-        row = self.common_list.currentRow()
-        self.name_loaded = self.common_list.item(row).text()
-        if row==0:
-            self.mechanismParams = mechanismParams_4Bar
-        elif row==1:
-            self.mechanismParams = mechanismParams_8Bar
+        self.choose_common(self.common_list.currentItem().text())
         self.accept()
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def load_collections(self, p0=None):
-        self.name_loaded = self.collections_list.currentItem().text()
-        self.mechanismParams = self.collections[self.name_loaded]
+        self.choose_collections(self.collections_list.currentItem().text())
         self.accept()
+    
+    @pyqtSlot(bool)
+    def on_switch_name_clicked(self, checked):
+        if checked:
+            self.PreviewCanvas.setNameDict({})
+        else:
+            self.PreviewCanvas.setNameDict(self.mechanismParams['name_dict'])

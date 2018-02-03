@@ -39,9 +39,31 @@ def distance_sorted(points):
     return [QPointF(*coordinate) for coordinate in points]
 
 #This generator can keep the numbering be consistent.
-def edges_view(G: Graph):
+def edges_view(G: Graph) -> [int, tuple]:
     for n, e in enumerate(sorted(sorted(e) for e in G.edges)):
         yield n, tuple(e)
+
+#A function use to translate the expression.
+def replace_by_dict(d: dict) -> tuple:
+    expr = d['Expression'].split(';')
+    nd = d['name_dict'].copy()
+    tmp_list = []
+    for s in expr:
+        #Replace P first.
+        try:
+            s = (
+                get_front_of_parenthesis(s, '[') + '[' +
+                get_from_parenthesis(s, '[', ')').replace('P', nd['P']) + ')'
+            )
+        except KeyError:
+            pass
+        for k in sorted(nd.keys()):
+            s = (
+                get_front_of_parenthesis(s, '[') + '[' +
+                get_from_parenthesis(s, '[', ')').replace(k, nd[k]) + ')'
+            )
+        tmp_list.append(s)
+    return tuple(tmp_list)
 
 class Path:
     __slots__ = ('path', 'show', 'curve')
@@ -169,6 +191,8 @@ class PreviewCanvas(BaseCanvas):
         self.pos = {}
         #Point status.
         self.status = {}
+        #Name dict.
+        self.name_dict = {}
         self.grounded = -1
         self.update()
     
@@ -208,7 +232,10 @@ class PreviewCanvas(BaseCanvas):
             self.painter.drawEllipse(QPointF(x, -y), r, r)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
-            self.painter.drawText(QPointF(x + 2*r, -y), 'P{}'.format(node))
+            name = 'P{}'.format(node)
+            if self.name_dict:
+                name = self.name_dict[name]
+            self.painter.drawText(QPointF(x + 2*r, -y), name)
         if self.showSolutions:
             for expr in self.get_solutions():
                 params = [
@@ -230,7 +257,7 @@ class PreviewCanvas(BaseCanvas):
                 self.painter.drawPolygon(*qpoints)
         self.painter.end()
     
-    def setGraph(self, G, pos):
+    def setGraph(self, G: Graph, pos: dict):
         self.G = G
         self.pos = pos
         self.status = {k:False for k in pos}
@@ -248,6 +275,10 @@ class PreviewCanvas(BaseCanvas):
     
     def getStatus(self, point: int) -> bool:
         return self.status[point] or (point in self.same)
+    
+    def setNameDict(self, name_dict: dict):
+        self.name_dict = {v: k for k, v in name_dict.items()}
+        self.update()
     
     def setShowSolutions(self, status: bool):
         self.showSolutions = status
