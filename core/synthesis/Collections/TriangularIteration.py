@@ -20,6 +20,7 @@
 from core.QtModules import *
 from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
+import json
 from math import sqrt
 from networkx import Graph
 from string import ascii_uppercase
@@ -251,7 +252,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             i += 1
         return i
     
-    def get_currentMechanismParams(self):
+    def get_currentMechanismParams(self) -> dict:
         self.set_parm_bind()
         return {
             #To keep the origin graph.
@@ -468,3 +469,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.collections[name] = self.get_currentMechanismParams()
             self.profile_name = name
             self.unsaveFunc()
+    
+    @pyqtSlot()
+    def on_clipboard_button_clicked(self):
+        QApplication.clipboard().setText(
+            json.dumps(self.get_currentMechanismParams(), indent=4)
+        )
