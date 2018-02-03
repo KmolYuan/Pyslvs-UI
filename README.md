@@ -34,11 +34,15 @@ Website: <http://www.pyslvs.com/blog/index.html>
 
 # Introduction
 
-A GUI-based tool solving 2D linkage subject.
+A GUI-based tool use to solving 2D linkage subject.
 
 + **Planar Linkages Simulation**: Kernel from [Solvespace] with Python bundle (SWIG).
 
-+ **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
++ **Mechanical Synthesis**:
+
+    - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
+
+    - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
 Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
 
