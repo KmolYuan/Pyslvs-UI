@@ -6,157 +6,168 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>403</width>
-    <height>698</height>
+    <width>486</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowIcon">
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_9">
+  <layout class="QVBoxLayout" name="verticalLayout_8">
    <item>
-    <widget class="QSplitter" name="splitter_2">
+    <widget class="QSplitter" name="splitter_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <widget class="QWidget" name="verticalLayoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout_8">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_6">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <widget class="QLineEdit" name="profile_name">
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="save_button">
-               <property name="statusTip">
-                <string>Save the structure profile back to the database.</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="clear_button">
-               <property name="statusTip">
-                <string>Clear the current profile and settings.</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_17">
-             <item>
-              <widget class="QLineEdit" name="Expression">
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="Expression_copy">
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_18">
-             <item>
-              <widget class="QLineEdit" name="Link_Expression">
-               <property name="readOnly">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="Link_Expression_copy">
-               <property name="icon">
-                <iconset resource="../../../icons.qrc">
-                 <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="load_profile">
-           <property name="statusTip">
-            <string>Load profile from triangular iteration database.</string>
+     <widget class="QSplitter" name="up_splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QPushButton" name="load_profile">
+            <property name="statusTip">
+             <string>Load profile from triangular iteration database.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="profile_name">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="save_button">
+            <property name="statusTip">
+             <string>Save the structure profile back to the database.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="clear_button">
+            <property name="statusTip">
+             <string>Clear the current profile and settings.</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <item>
+           <widget class="QLineEdit" name="Expression">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Expression_copy">
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <item>
+           <widget class="QLineEdit" name="Link_Expression">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Link_Expression_copy">
+            <property name="icon">
+             <iconset resource="../../../icons.qrc">
+              <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="ground_joints">
+          <property name="statusTip">
+           <string>All the joints of grounded link will show here.</string>
+          </property>
+          <property name="selectionBehavior">
+           <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="verticalScrollMode">
+           <enum>QAbstractItemView::ScrollPerPixel</enum>
+          </property>
+          <property name="horizontalScrollMode">
+           <enum>QAbstractItemView::ScrollPerPixel</enum>
+          </property>
+          <column>
+           <property name="text">
+            <string>Name</string>
            </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+          </column>
+          <column>
+           <property name="text">
+            <string>Role</string>
            </property>
-           <property name="iconSize">
-            <size>
-             <width>100</width>
-             <height>100</height>
-            </size>
+          </column>
+          <column>
+           <property name="text">
+            <string>x</string>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="ground_joints">
-         <property name="statusTip">
-          <string>All the joints of grounded link will show here.</string>
-         </property>
-         <property name="verticalScrollMode">
-          <enum>QAbstractItemView::ScrollPerPixel</enum>
-         </property>
-         <property name="horizontalScrollMode">
-          <enum>QAbstractItemView::ScrollPerPixel</enum>
-         </property>
-         <column>
+          </column>
+          <column>
+           <property name="text">
+            <string>y</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Range</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QGroupBox" name="preview_box">
+       <property name="title">
+        <string>Preview</string>
+       </property>
+       <layout class="QVBoxLayout" name="preview_layout">
+        <item>
+         <widget class="QCheckBox" name="show_solutions">
           <property name="text">
-           <string>Name</string>
+           <string>Show solutions</string>
           </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Role</string>
+          <property name="checked">
+           <bool>true</bool>
           </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>x</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>y</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Range</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-      </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
      </widget>
      <widget class="QWidget" name="layoutWidget">
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -364,6 +375,16 @@
               </item>
              </layout>
             </widget>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;※ Use &amp;quot;Alt + left button&amp;quot; or &amp;quot;context menu of canvas&amp;quot; to add the path points.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>

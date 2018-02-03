@@ -280,6 +280,7 @@ class PreviewCanvas(BaseCanvas):
         self.name_dict = {v: k for k, v in name_dict.items()}
         self.update()
     
+    @pyqtSlot(bool)
     def setShowSolutions(self, status: bool):
         self.showSolutions = status
         self.update()

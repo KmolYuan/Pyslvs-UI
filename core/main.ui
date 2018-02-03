@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>947</width>
-    <height>780</height>
+    <width>965</width>
+    <height>824</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>947</width>
-    <height>780</height>
+    <width>965</width>
+    <height>824</height>
    </size>
   </property>
   <property name="mouseTracking">
@@ -1458,8 +1458,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>947</width>
-     <height>26</height>
+     <width>965</width>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

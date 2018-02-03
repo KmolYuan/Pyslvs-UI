@@ -48,6 +48,7 @@ mechanismParams_4Bar = {
     'cus':{'P4':2},
     'same':{}
 }
+
 mechanismParams_8Bar = {
     'Driver':{'A':None},
     'Follower':{'B':None},
@@ -105,7 +106,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 else:
                     return tuple()
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
-        self.preview_layout.insertWidget(1, self.PreviewCanvas)
+        self.preview_layout.addWidget(self.PreviewCanvas)
+        self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
         for name in self.collections:
             self.collections_list.addItem(name)
         #Splitter
@@ -190,12 +192,13 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.mechanismParams = self.collections[self.name_loaded]
             self.reload_canvas()
     
-    #Simple loading.
+    #Simple loading. As same as dimensional synthesis tab widget.
     def reload_canvas(self):
         params = self.mechanismParams
         mapping = params['name_dict']
         #Name dict.
-        self.PreviewCanvas.setNameDict(mapping)
+        if self.switch_name.isChecked():
+            self.PreviewCanvas.setNameDict(mapping)
         #Add customize joints.
         G = Graph(params['Graph'])
         self.PreviewCanvas.setGraph(G, params['pos'])

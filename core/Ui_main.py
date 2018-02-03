@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,8 +11,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(947, 780)
-        MainWindow.setMinimumSize(QtCore.QSize(947, 780))
+        MainWindow.resize(965, 824)
+        MainWindow.setMinimumSize(QtCore.QSize(965, 824))
         MainWindow.setMouseTracking(True)
         MainWindow.setAcceptDrops(True)
         icon = QtGui.QIcon()
@@ -648,7 +648,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_12.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 947, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 965, 30))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")

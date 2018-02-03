@@ -18,9 +18,16 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
+from core.graphics import PreviewCanvas, edges_view, replace_by_dict
 from core.io import get_from_parenthesis
 from core.libs import expr_parser
 from core.synthesis import CollectionsDialog
+import csv
+import openpyxl
+from math import radians
+from copy import deepcopy
+from re import split as charSplit
+from networkx import Graph
 '''
 'GeneticPrams',
 'FireflyPrams',
@@ -34,10 +41,6 @@ from core.synthesis import CollectionsDialog
 'ChartDialog'
 '''
 from .DimensionalSynthesis_dialog import *
-import csv
-import openpyxl
-from math import radians
-from re import split as charSplit
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
 
 nan = float('nan')
@@ -66,8 +69,19 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.mechanism_data_del = parent.FileWidget.Designs.delResult
         self.inputFrom = parent.inputFrom
         self.unsaveFunc = parent.workbookNoSave
-        self.Settings = defaultSettings.copy()
+        self.Settings = deepcopy(defaultSettings)
         self.algorithmParams_default()
+        #Canvas
+        def get_solutions_func():
+            try:
+                return replace_by_dict(self.mechanismParams)
+            except KeyError:
+                return tuple()
+        self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
+        self.preview_layout.addWidget(self.PreviewCanvas)
+        self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
+        #Splitter
+        self.up_splitter.setSizes([80, 100])
         #Context menu action.
         self.path_list.setContextMenuPolicy(Qt.CustomContextMenu)
         self.path_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
@@ -98,7 +112,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def clear_settings(self):
         self.on_path_clear_clicked()
         self.mechanismParams.clear()
-        self.Settings = defaultSettings.copy()
+        self.PreviewCanvas.clear()
+        self.Settings = deepcopy(defaultSettings)
         self.profile_name.setText("No setting")
         self.ground_joints.setRowCount(0)
         self.target_points.clear()
@@ -163,7 +178,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             for e in data:
                 self.add_point(e[0], e[1])
         except:
-            QMessageBox.warning(self, "File error", "Wrong format.\nIt should be look like this:"+"\n0.0,0.0[\\n]"*3)
+            QMessageBox.warning(self, "File error",
+                "Wrong format.\nIt should be look like this:" + "\n0.0,0.0[\\n]"*3
+            )
     
     @pyqtSlot()
     def on_importXLSX_clicked(self):
@@ -182,7 +199,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 try:
                     data.append((round(float(x), 4), round(float(y), 4)))
                 except:
-                    QMessageBox.warning(self, "File error", "Wrong format.\nThe datasheet seems to including non-digital cell.")
+                    QMessageBox.warning(self, "File error",
+                        "Wrong format.\nThe datasheet seems to including non-digital cell."
+                    )
                     break
                 i += 1
             for e in data:
@@ -217,7 +236,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def isGenerate(self):
         self.pointNum.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p></body></html>".format(self.path_list.count())
+            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">" +
+            str(self.path_list.count()) +
+            "</span></p></body></html>"
         )
         n = bool(self.mechanismParams) and (self.path_list.count() > 1)
         self.pathAdjust.setEnabled(n)
@@ -225,11 +246,22 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     @pyqtSlot()
     def on_generate_button_clicked(self):
+        #Check if the number of target points are same.
+        leng = -1
+        for path in self.path.values():
+            if leng<0:
+                leng = len(path)
+            if len(path)!=leng:
+                QMessageBox.warning(self, "Target Error",
+                    "The length of target paths should be the same."
+                )
+                return
         #Get generate settings.
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        mechanismParams = self.mechanismParams.copy()
+        #Deep copy it so the pointer will not the same.
+        mechanismParams = deepcopy(self.mechanismParams)
         for name in mechanismParams['Target']:
-            mechanismParams['Target'][name] = self.path[name].copy()
+            mechanismParams['Target'][name] = self.path[name]
         for key in ['Driver', 'Follower']:
             for name in mechanismParams[key]:
                 row = name_in_table(self.ground_joints, name)
@@ -383,7 +415,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 i = 0
                 while (name not in self.collections) and (not name):
                     name = "Structure_{}".format(i)
-                self.collections[name] = self.mechanismParams.copy()
+                self.collections[name] = self.mechanismParams
                 self.unsaveFunc()
     
     @pyqtSlot()
@@ -391,14 +423,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg = CollectionsDialog(self)
         dlg.show()
         if dlg.exec_():
-            self.mechanismParams = dlg.mechanismParams.copy()
+            self.mechanismParams = dlg.mechanismParams
             self.profile_name.setText(dlg.name_loaded)
             self.Expression.setText(self.mechanismParams['Expression'])
             self.Link_Expression.setText(self.mechanismParams['Link_Expression'])
-            self.set_ground_joints(self.mechanismParams)
+            self.set_ground_joints()
             self.isGenerate()
     
-    def set_ground_joints(self, params):
+    def set_ground_joints(self):
+        params = self.mechanismParams
         self.path.clear()
         self.target_points.clear()
         for name in params['Target']:
@@ -439,6 +472,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             for column in range(2, 5):
                 self.ground_joints.cellWidget(row, column).valueChanged.connect(self.updateRange)
         self.updateRange()
+        self.reload_canvas()
     
     @pyqtSlot()
     def on_Result_load_settings_clicked(self):
@@ -456,13 +490,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             #External setting.
             self.Expression.setText(Result['Expression'])
             self.Link_Expression.setText(Result['Link_Expression'])
-            self.set_ground_joints(Result)
             #Copy to mechanism params.
             self.mechanismParams.clear()
             for key in [
                 'Driver',
                 'Follower',
-                'Target',
+                'Target'
+            ]:
+                self.mechanismParams[key] = {name: None for name in Result[key]}
+            for key in [
                 'Link_Expression',
                 'Expression',
                 'constraint',
@@ -473,6 +509,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 'same'
             ]:
                 self.mechanismParams[key] = Result[key]
+            self.set_ground_joints()
             self.setTime(Result['time'])
             settings = Result['settings']
             self.Settings = {
@@ -507,11 +544,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg.show()
         if dlg.exec_():
             tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()
-            self.Settings = {'maxGen':dlg.maxGen.value(), 'report':dlg.report.value(),
+            self.Settings = {
+                'maxGen':dlg.maxGen.value(), 'report':dlg.report.value(),
                 'IMax':tablePL(0), 'IMin':tablePL(1),
                 'LMax':tablePL(2), 'LMin':tablePL(3),
                 'FMax':tablePL(4), 'FMin':tablePL(5),
-                'AMax':tablePL(6), 'AMin':tablePL(7)}
+                'AMax':tablePL(6), 'AMin':tablePL(7)
+            }
             tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
             popSize = dlg.popSize.value()
             if type_num=="Genetic Algorithm":
@@ -545,3 +584,30 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         text = self.Link_Expression.text()
         if text:
             QApplication.clipboard().setText(text)
+    
+    #Simple loading. As same as collections dialog.
+    def reload_canvas(self):
+        params = self.mechanismParams
+        mapping = params['name_dict']
+        #Name dict.
+        self.PreviewCanvas.setNameDict(mapping)
+        #Add customize joints.
+        G = Graph(params['Graph'])
+        self.PreviewCanvas.setGraph(G, params['pos'])
+        self.PreviewCanvas.cus = params['cus']
+        self.PreviewCanvas.same = params['same']
+        #Grounded setting.
+        Driver = [mapping[e] for e in params['Driver']]
+        Follower = [mapping[e] for e in params['Follower']]
+        for row, link in enumerate(G.nodes):
+            points = set(
+                'P{}'.format(n)
+                for n, edge in edges_view(G) if link in edge
+            )
+            if set(Driver + Follower) <= points:
+                self.PreviewCanvas.setGrounded(row)
+                break
+        #Expression
+        for expr in params['Expression'].split(';'):
+            target = get_from_parenthesis(expr, '(', ')')
+            self.PreviewCanvas.setStatus(params['name_dict'][target], True)

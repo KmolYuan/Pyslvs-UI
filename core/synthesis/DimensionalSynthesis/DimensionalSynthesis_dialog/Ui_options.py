@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,12 +11,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(409, 492)
-        Dialog.setMinimumSize(QtCore.QSize(409, 492))
-        Dialog.setMaximumSize(QtCore.QSize(409, 492))
+        Dialog.resize(471, 553)
+        Dialog.setMinimumSize(QtCore.QSize(471, 553))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
+        Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setContentsMargins(6, 6, 6, 6)
@@ -103,7 +103,6 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
-        self.tabWidget.setCurrentIndex(0)
         self.buttonBox.accepted.connect(Dialog.accept)
         self.buttonBox.rejected.connect(Dialog.reject)
         QtCore.QMetaObject.connectSlotsByName(Dialog)

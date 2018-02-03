@@ -6,28 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>409</width>
-    <height>492</height>
+    <width>471</width>
+    <height>553</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>409</width>
-    <height>492</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>409</width>
-    <height>492</height>
+    <width>471</width>
+    <height>553</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Options</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../icons.qrc">
+   <iconset resource="../../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -47,9 +44,6 @@
    </property>
    <item>
     <widget class="QTabWidget" name="tabWidget">
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
      <widget class="QWidget" name="planarlinkage">
       <attribute name="title">
        <string>Planar Linkage</string>
@@ -238,7 +232,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../icons.qrc"/>
+  <include location="../../../../icons.qrc"/>
  </resources>
  <connections>
   <connection>

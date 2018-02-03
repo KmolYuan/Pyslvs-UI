@@ -92,6 +92,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         '''
         self.collections = {}
         self.parm_bind = {}
+        #Canvas
         self.PreviewWindow = PreviewWindow(
             lambda: tuple(
                 self.Expression_list.item(row).text()
@@ -101,6 +102,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         )
         self.PreviewWindow.set_joint_number.connect(self.joint_name.setCurrentIndex)
         self.main_layout.insertWidget(0, self.PreviewWindow)
+        self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
+        #Signals
         self.joint_name.currentIndexChanged.connect(self.hasSolution)
         self.Expression_list.itemChanged.connect(self.set_parm_bind)
         self.clear()
@@ -385,10 +388,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.PreviewWindow.setStatus(point, True)
             self.hasSolution()
             self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
-    
-    @pyqtSlot()
-    def on_show_solutions_clicked(self):
-        self.PreviewWindow.setShowSolutions(self.show_solutions.isChecked())
     
     @pyqtSlot(QListWidgetItem)
     def set_parm_bind(self, item=None):

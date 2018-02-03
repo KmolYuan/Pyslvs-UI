@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,13 +11,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(800, 600)
+        Dialog.resize(865, 662)
         Dialog.setMinimumSize(QtCore.QSize(800, 600))
         Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
-        self.verticalLayout_6 = QtWidgets.QVBoxLayout(Dialog)
-        self.verticalLayout_6.setContentsMargins(6, 6, 6, 6)
-        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.verticalLayout_9 = QtWidgets.QVBoxLayout(Dialog)
+        self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.information_tab = QtWidgets.QTabWidget(Dialog)
         self.information_tab.setObjectName("information_tab")
         self.geometry = QtWidgets.QWidget()
@@ -54,16 +53,26 @@ class Ui_Dialog(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.basic_groupbox)
         self.verticalLayout_4.setContentsMargins(6, 6, 6, 6)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.basic_label = QtWidgets.QLabel(self.basic_groupbox)
+        self.scrollArea = QtWidgets.QScrollArea(self.basic_groupbox)
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 796, 68))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_6.setObjectName("verticalLayout_6")
+        self.basic_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.basic_label.sizePolicy().hasHeightForWidth())
         self.basic_label.setSizePolicy(sizePolicy)
         self.basic_label.setObjectName("basic_label")
-        self.verticalLayout_4.addWidget(self.basic_label)
+        self.verticalLayout_6.addWidget(self.basic_label)
         spacerItem = QtWidgets.QSpacerItem(20, 47, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_4.addItem(spacerItem)
+        self.verticalLayout_6.addItem(spacerItem)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+        self.verticalLayout_4.addWidget(self.scrollArea)
         self.verticalLayout_2.addWidget(self.basic_groupbox)
         self.algorithm_groupbox = QtWidgets.QGroupBox(self.rightWidget)
         self.algorithm_groupbox.setObjectName("algorithm_groupbox")
@@ -74,7 +83,7 @@ class Ui_Dialog(object):
         self.scrollArea_2.setWidgetResizable(True)
         self.scrollArea_2.setObjectName("scrollArea_2")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 735, 186))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 796, 184))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_2)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
@@ -100,7 +109,7 @@ class Ui_Dialog(object):
         self.scrollArea_3.setWidgetResizable(True)
         self.scrollArea_3.setObjectName("scrollArea_3")
         self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 735, 186))
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 796, 185))
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.verticalLayout_8 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents_3)
         self.verticalLayout_8.setObjectName("verticalLayout_8")
@@ -119,7 +128,7 @@ class Ui_Dialog(object):
         self.verticalLayout_2.addWidget(self.hardware_groupbox)
         self.verticalLayout.addWidget(self.splitter)
         self.information_tab.addTab(self.geometry, "")
-        self.verticalLayout_6.addWidget(self.information_tab)
+        self.verticalLayout_9.addWidget(self.information_tab)
 
         self.retranslateUi(Dialog)
         self.information_tab.setCurrentIndex(0)
