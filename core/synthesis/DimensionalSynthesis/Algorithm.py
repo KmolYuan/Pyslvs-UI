@@ -320,14 +320,14 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
         else:
             item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
-        keys = sorted(list(result.keys()))
-        info = (["{}: {}".format(k, result[k]) for k in keys if 'x' in k or 'y' in k or 'L' in k]+
-            ["\nClick to apply setting."]+["Double click to see dynamic preview."])
-        item.setToolTip('\n'.join(["[{}] ({}{} gen)".format(
+        text = "[{}] ({}{} gen)".format(
             result['Algorithm'],
             '' if interrupt=='False' else interrupt+'-',
-            result['settings']['maxGen'])]+["※ Completeness is not clear." if interrupt=='N/A' else '']+info
-        ))
+            result['settings']['maxGen']
+        )
+        if interrupt=='N/A':
+            text += "\n※Completeness is not clear."
+        item.setToolTip(text)
         self.Result_list.addItem(item)
     
     @pyqtSlot()
@@ -423,6 +423,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg = CollectionsDialog(self)
         dlg.show()
         if dlg.exec_():
+            self.clear_settings()
             self.mechanismParams = dlg.mechanismParams
             self.profile_name.setText(dlg.name_loaded)
             self.Expression.setText(self.mechanismParams['Expression'])
@@ -479,6 +480,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.hasResult()
         row = self.Result_list.currentRow()
         if row>-1:
+            self.clear_settings()
             Result = self.mechanism_data[row]
             if Result['Algorithm']=='RGA':
                 self.type0.setChecked(True)

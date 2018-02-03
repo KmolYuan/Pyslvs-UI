@@ -78,7 +78,7 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(3, 90)
         self.setColumnWidth(4, 60)
         self.setColumnWidth(5, 60)
-        self.setColumnWidth(6, 60)
+        self.setColumnWidth(6, 130)
         self.draged = False
     
     #Get the digitization of all table data.

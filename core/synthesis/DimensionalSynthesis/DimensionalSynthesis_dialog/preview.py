@@ -78,9 +78,13 @@ class DynamicCanvas(BaseCanvas):
         self.oy = height/2 + (minY + maxY)/2*self.zoom
         super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
-        self.Point = (self.mechanism['A'], self.mechanism['B']) + tuple(
-            (c[self.index][0], c[self.index][1])
-            if not isnan(c[self.index][0]) else False for c in self.Path.path[2:]
+        self.Point = (
+            tuple(self.mechanism[name] for name in self.mechanism['Driver']) +
+            tuple(self.mechanism[name] for name in self.mechanism['Follower']) +
+            tuple(
+                (c[self.index][0], c[self.index][1])
+                if not isnan(c[self.index][0]) else False for c in self.Path.path[2:]
+            )
         )
         if False in self.Point:
             self.index += 1
@@ -119,7 +123,7 @@ class DynamicCanvas(BaseCanvas):
         pen.setWidth(self.linkWidth)
         self.painter.setPen(pen)
         brush = QColor(226, 219, 190)
-        brush.setAlphaF(0.75)
+        brush.setAlphaF(0.70)
         self.painter.setBrush(brush)
         qpoints = tuple(
             QPointF(self.Point[i][0]*self.zoom, self.Point[i][1]*-self.zoom)
@@ -196,15 +200,26 @@ class PreviewDialog(QDialog, Ui_Dialog):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.mechanism = mechanism
-        self.setWindowTitle("Preview: {} (max {} generations)".format(self.mechanism['Algorithm'], self.mechanism['settings']['maxGen']))
+        self.setWindowTitle("Preview: {} (max {} generations)".format(
+            self.mechanism['Algorithm'], self.mechanism['settings']['maxGen']
+        ))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
-        self.splitter.setSizes([800, 100])
+        self.main_splitter.setSizes([800, 100])
+        self.splitter.setSizes([100, 100, 100])
         previewWidget = DynamicCanvas(self.mechanism, Path, self)
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
-        self.basic_label.setText("\n".join(["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']]+
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in ['A', 'B']]+
-            ["{}: {}".format(tag, self.mechanism[tag]) for tag in sorted(k for k in self.mechanism if 'L' in k)]))
+        link_tags = []
+        for expr in self.mechanism['Expression'].split(';'):
+            for p in get_from_parenthesis(expr, '[', ']').split(','):
+                if ('L' in p) and (p not in link_tags):
+                    link_tags.append(p)
+        self.basic_label.setText("\n".join(
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in ['Algorithm', 'time']] +
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in self.mechanism['Driver']] +
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in self.mechanism['Follower']] +
+            ["{}: {}".format(tag, self.mechanism[tag]) for tag in sorted(link_tags)]
+        ))
         #Algorithm information
         interrupt = self.mechanism['interrupted']
         fitness = self.mechanism['TimeAndFitness'][-1]

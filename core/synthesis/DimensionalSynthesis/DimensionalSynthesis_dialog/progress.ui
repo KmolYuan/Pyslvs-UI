@@ -128,7 +128,7 @@ color: rgb(255, 255, 255);</string>
      <item>
       <widget class="QLabel" name="label_5">
        <property name="text">
-        <string>time(s)</string>
+        <string>time(s).</string>
        </property>
       </widget>
      </item>

@@ -107,7 +107,7 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "Batch execution:"))
         self.maxGen_label.setText(_translate("Dialog", "0"))
         self.label_7.setText(_translate("Dialog", "generation(s) with"))
-        self.label_5.setText(_translate("Dialog", "time(s)"))
+        self.label_5.setText(_translate("Dialog", "time(s)."))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><span style=\" color:#ff0000;\">※ The interrupt button will stop the process, but you can keep the result.</span></p></body></html>"))
         self.label_3.setText(_translate("Dialog", "Fitness: "))
         self.fitness_label.setText(_translate("Dialog", "N/A"))

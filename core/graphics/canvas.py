@@ -200,11 +200,17 @@ class PreviewCanvas(BaseCanvas):
         self.ox = self.width()/2
         self.oy = self.height()/2
         super(PreviewCanvas, self).paintEvent(event)
+        #Center square.
+        self.painter.drawLine(QPointF(-120, 120), QPointF(120, 120))
+        self.painter.drawLine(QPointF(-120, 120), QPointF(-120, -120))
+        self.painter.drawLine(QPointF(-120, -120), QPointF(120, -120))
+        self.painter.drawLine(QPointF(120, -120), QPointF(120, 120))
         r = 4.5
         pen = QPen()
         pen.setWidth(r)
         self.painter.setPen(pen)
         self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
+        #Links
         for link in self.G.nodes:
             if link==self.grounded:
                 continue
@@ -222,6 +228,7 @@ class PreviewCanvas(BaseCanvas):
                     points.append((self.pos[num][0], -self.pos[num][1]))
             self.painter.drawPolygon(*distance_sorted(points))
         self.painter.setFont(QFont("Arial", self.fontSize*1.5))
+        #Nodes
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
@@ -232,10 +239,7 @@ class PreviewCanvas(BaseCanvas):
             self.painter.drawEllipse(QPointF(x, -y), r, r)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
-            name = 'P{}'.format(node)
-            if self.name_dict:
-                name = self.name_dict[name]
-            self.painter.drawText(QPointF(x + 2*r, -y), name)
+        #Solutions
         if self.showSolutions:
             for expr in self.get_solutions():
                 params = [
@@ -255,6 +259,16 @@ class PreviewCanvas(BaseCanvas):
                     x, y = self.pos[int(name.replace('P', ''))]
                     qpoints.append(QPointF(x, -y))
                 self.painter.drawPolygon(*qpoints)
+        #Text of node.
+        pen.setColor(Qt.black)
+        self.painter.setPen(pen)
+        for node, (x, y) in self.pos.items():
+            if node in self.same:
+                continue
+            name = 'P{}'.format(node)
+            if self.name_dict:
+                name = self.name_dict[name]
+            self.painter.drawText(QPointF(x + 2*r, -y), name)
         self.painter.end()
     
     def setGraph(self, G: Graph, pos: dict):
