@@ -112,9 +112,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.main_splitter.setSizes([200, 200])
         #Signals
         self.common_list.currentTextChanged.connect(self.choose_common)
+        self.common_list.itemClicked.connect(self.choose_common)
         self.common_load.clicked.connect(self.load_common)
         self.common_list.itemDoubleClicked.connect(self.load_common)
         self.collections_list.currentTextChanged.connect(self.choose_collections)
+        self.collections_list.itemClicked.connect(self.choose_collections)
         self.buttonBox.accepted.connect(self.load_collections)
         self.collections_list.itemDoubleClicked.connect(self.load_collections)
         self.collections_list.currentRowChanged.connect(self.canOpen)
@@ -164,22 +166,29 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             if reply==QMessageBox.Yes:
                 item = self.collections_list.takeItem(row)
                 del self.collections[item.text()]
+                self.PreviewCanvas.clear()
                 self.hasCollection()
     
     @pyqtSlot(str)
-    def choose_common(self, text):
-        self.name_loaded = text
-        if text=="Four bar linkage mechanism":
-            self.mechanismParams = mechanismParams_4Bar
-        elif text=="Eight bar linkage mechanism":
-            self.mechanismParams = mechanismParams_8Bar
-        self.reload_canvas()
+    @pyqtSlot(QListWidgetItem)
+    def choose_common(self, p0=None):
+        text = self.common_list.currentItem().text()
+        if text:
+            self.name_loaded = text
+            if text=="Four bar linkage mechanism":
+                self.mechanismParams = mechanismParams_4Bar
+            elif text=="Eight bar linkage mechanism":
+                self.mechanismParams = mechanismParams_8Bar
+            self.reload_canvas()
     
     @pyqtSlot(str)
-    def choose_collections(self, text):
-        self.name_loaded = text
-        self.mechanismParams = self.collections[self.name_loaded]
-        self.reload_canvas()
+    @pyqtSlot(QListWidgetItem)
+    def choose_collections(self, p0=None):
+        text = self.collections_list.currentItem().text()
+        if text:
+            self.name_loaded = text
+            self.mechanismParams = self.collections[self.name_loaded]
+            self.reload_canvas()
     
     #Simple loading.
     def reload_canvas(self):
