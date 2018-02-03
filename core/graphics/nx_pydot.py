@@ -19,7 +19,7 @@
 
 from core.QtModules import *
 from .color import colorQt, colorNum
-from .canvas import distance_sorted
+from .canvas import distance_sorted, edges_view
 from networkx import (
     Graph,
     nx_pydot,
@@ -50,7 +50,7 @@ class EngineError(Exception):
 def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     if not node_mode:
         G_ = Graph()
-        nodes = {i:edge for i, edge in enumerate(G.edges)}
+        nodes = {i:edge for i, edge in edges_view(G)}
         for i, (l1, l2) in nodes.items():
             for j, edge in nodes.items():
                 if i==j:
@@ -115,7 +115,7 @@ def graph(
             #Distance sorted function from canvas
             painter.drawPolygon(*distance_sorted([
                 (pos[n][0], -pos[n][1])
-                for n, edge in enumerate(G.edges) if link in edge
+                for n, edge in edges_view(G) if link in edge
             ]))
     for k, (x, y) in pos.items():
         if node_mode:
