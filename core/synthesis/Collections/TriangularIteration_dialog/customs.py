@@ -57,7 +57,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         row = self.link_choose.currentIndex()
         if row>-1:
             try:
-                new_num = max(self.cus)
+                new_num = max(int(c.replace('P', '')) for c in self.cus)
             except ValueError:
                 new_num = max(self.pos)
             new_num += 1
