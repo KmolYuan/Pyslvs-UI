@@ -18,9 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from core.graphics import PreviewCanvas, edges_view, replace_by_dict
-from core.io import get_from_parenthesis
-from networkx import Graph
+from core.graphics import PreviewCanvas, replace_by_dict
 from .Ui_collections import Ui_Dialog
 
 mechanismParams_4Bar = {
@@ -181,7 +179,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 self.mechanismParams = mechanismParams_4Bar
             elif text=="Eight bar linkage mechanism":
                 self.mechanismParams = mechanismParams_8Bar
-            self.reload_canvas()
+            self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
@@ -190,35 +188,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if text:
             self.name_loaded = text
             self.mechanismParams = self.collections[self.name_loaded]
-            self.reload_canvas()
-    
-    #Simple loading. As same as dimensional synthesis tab widget.
-    def reload_canvas(self):
-        params = self.mechanismParams
-        mapping = params['name_dict']
-        #Name dict.
-        if self.switch_name.isChecked():
-            self.PreviewCanvas.setNameDict(mapping)
-        #Add customize joints.
-        G = Graph(params['Graph'])
-        self.PreviewCanvas.setGraph(G, params['pos'])
-        self.PreviewCanvas.cus = params['cus']
-        self.PreviewCanvas.same = params['same']
-        #Grounded setting.
-        Driver = [mapping[e] for e in params['Driver']]
-        Follower = [mapping[e] for e in params['Follower']]
-        for row, link in enumerate(G.nodes):
-            points = set(
-                'P{}'.format(n)
-                for n, edge in edges_view(G) if link in edge
-            )
-            if set(Driver + Follower) <= points:
-                self.PreviewCanvas.setGrounded(row)
-                break
-        #Expression
-        for expr in params['Expression'].split(';'):
-            target = get_from_parenthesis(expr, '(', ')')
-            self.PreviewCanvas.setStatus(params['name_dict'][target], True)
+            self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)

@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from core.graphics import PreviewCanvas, edges_view, replace_by_dict
+from core.graphics import PreviewCanvas, replace_by_dict
 from core.io import get_from_parenthesis
 from core.libs import expr_parser
 from core.synthesis import CollectionsDialog
@@ -27,7 +27,6 @@ import openpyxl
 from math import radians
 from copy import deepcopy
 from re import split as charSplit
-from networkx import Graph
 '''
 'GeneticPrams',
 'FireflyPrams',
@@ -473,7 +472,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             for column in range(2, 5):
                 self.ground_joints.cellWidget(row, column).valueChanged.connect(self.updateRange)
         self.updateRange()
-        self.reload_canvas()
+        self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot()
     def on_Result_load_settings_clicked(self):
@@ -586,30 +585,3 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         text = self.Link_Expression.text()
         if text:
             QApplication.clipboard().setText(text)
-    
-    #Simple loading. As same as collections dialog.
-    def reload_canvas(self):
-        params = self.mechanismParams
-        mapping = params['name_dict']
-        #Name dict.
-        self.PreviewCanvas.setNameDict(mapping)
-        #Add customize joints.
-        G = Graph(params['Graph'])
-        self.PreviewCanvas.setGraph(G, params['pos'])
-        self.PreviewCanvas.cus = params['cus']
-        self.PreviewCanvas.same = params['same']
-        #Grounded setting.
-        Driver = [mapping[e] for e in params['Driver']]
-        Follower = [mapping[e] for e in params['Follower']]
-        for row, link in enumerate(G.nodes):
-            points = set(
-                'P{}'.format(n)
-                for n, edge in edges_view(G) if link in edge
-            )
-            if set(Driver + Follower) <= points:
-                self.PreviewCanvas.setGrounded(row)
-                break
-        #Expression
-        for expr in params['Expression'].split(';'):
-            target = get_from_parenthesis(expr, '(', ')')
-            self.PreviewCanvas.setStatus(params['name_dict'][target], True)

@@ -299,6 +299,34 @@ class PreviewCanvas(BaseCanvas):
         self.showSolutions = status
         self.update()
     
+    #Simple load by dict object.
+    def from_profile(self, params, setNameDict=True):
+        mapping = params['name_dict']
+        #Name dict.
+        if setNameDict:
+            self.setNameDict(mapping)
+        #Add customize joints.
+        G = Graph(params['Graph'])
+        self.setGraph(G, params['pos'])
+        self.cus = params['cus']
+        self.same = params['same']
+        #Grounded setting.
+        if setNameDict:
+            Driver = [mapping[e] for e in params['Driver']]
+            Follower = [mapping[e] for e in params['Follower']]
+            for row, link in enumerate(G.nodes):
+                points = set(
+                    'P{}'.format(n)
+                    for n, edge in edges_view(G) if link in edge
+                )
+                if set(Driver + Follower) <= points:
+                    self.setGrounded(row)
+                    break
+        #Expression
+        for expr in params['Expression'].split(';'):
+            target = get_from_parenthesis(expr, '(', ')')
+            self.setStatus(params['name_dict'][target], True)
+    
     def isAllLock(self) -> bool:
         for node, status in self.status.items():
             if not status and node not in self.same:
