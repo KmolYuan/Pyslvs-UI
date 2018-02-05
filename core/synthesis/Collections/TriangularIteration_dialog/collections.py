@@ -22,67 +22,121 @@ from core.graphics import PreviewCanvas, replace_by_dict
 from .Ui_collections import Ui_Dialog
 
 mechanismParams_4Bar = {
-    'Driver':{'A':None}, #'A':(x, y, r)
-    'Follower':{'B':None}, #'B':(x, y, r)
-    'Target':{'E':None}, #'E':((x1, y1), (x2, y2), (x3, y3), ...)
-    'Link_Expression':"ground[A,B];[A,C];[C,D,E];[B,D]",
-    'Expression':"PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
-    'constraint':[('A', 'B', 'C', 'D')],
-    'Graph':((0, 1), (1, 2), (2, 3), (3, 0)),
-    'name_dict':{
+    'Driver': {'A': None}, #'A':(x, y, r)
+    'Follower': {'B': None}, #'B':(x, y, r)
+    'Target': {'E': None}, #'E':((x1, y1), (x2, y2), (x3, y3), ...)
+    'Link_Expression': "ground[A,B];[A,C];[C,D,E];[B,D]",
+    'Expression': "PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)",
+    'constraint': [('A', 'B', 'C', 'D')],
+    'Graph': ((0, 1), (1, 2), (2, 3), (3, 0)),
+    'name_dict': {
         'A': 'P0',
         'B': 'P1',
         'C': 'P2',
         'D': 'P3',
         'E': 'P4'
     },
-    'pos':{
+    'pos': {
         0: (-70, -70),
         1: (70, -70),
         2: (-70, 12.5),
         3: (70, 12.5),
         4: (0, 63.5)
     },
-    'cus':{'P4':2},
-    'same':{}
+    'cus': {'P4': 2},
+    'same': {}
 }
 
 mechanismParams_8Bar = {
-    'Driver':{'A':None},
-    'Follower':{'B':None},
-    'Target':{'H':None},
-    'Link_Expression':"ground[A,B];[A,C];[C,D];[C,F];[B,D,E];[B,F];[E,G];[F,G,H]",
-    'Expression':"PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
-    'constraint':[('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')],
-    'Graph':((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5), (3, 7), (4, 6), (6, 7)),
-    'name_dict':{
-        'C':'P3',
-        'F':'P7',
-        'J':'P4',
-        'K':'P6',
-        'B':'P1',
-        'D':'P5',
-        'H':'P10',
-        'G':'P9',
-        'E':'P8',
-        'A':'P0',
-        'I':'P2'
+    'Driver': {'A': None},
+    'Follower': {'B': None},
+    'Target': {'H': None},
+    'Link_Expression': "ground[A,B];[A,C];[C,D];[C,F];[B,D,E];[B,F];[E,G];[F,G,H]",
+    'Expression': "PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
+    'constraint': [('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')],
+    'Graph': ((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5), (3, 7), (4, 6), (6, 7)),
+    'name_dict': {
+        'A': 'P0',
+        'B': 'P1',
+        'C': 'P3',
+        'D': 'P5',
+        'E': 'P8',
+        'F': 'P7',
+        'G': 'P9',
+        'H': 'P10',
+        'I': 'P2',
+        'J': 'P4',
+        'K': 'P6'
     },
     'pos':{
-        0:(30.5, 10.5),
-        1:(-14.5, 10.5),
-        2:(-18.5, 0.),
-        3:(81.5, 60.5),
-        4:(92.5, 75.5),
-        5:(-31.5, 86.5),
-        6:(41.5, -38.5),
-        7:(19.5, -32.5),
-        8:(-85.5, 9.5),
-        9:(-37.5, -48.5),
-        10:(32.5, -107.5)
+        0: (30.5, 10.5),
+        1: (-14.5, 10.5),
+        2: (-18.5, 0.),
+        3: (81.5, 60.5),
+        4: (92.5, 75.5),
+        5: (-31.5, 86.5),
+        6: (41.5, -38.5),
+        7: (19.5, -32.5),
+        8: (-85.5, 9.5),
+        9: (-37.5, -48.5),
+        10: (32.5, -107.5)
     },
     'cus':{'P10': 7},
-    'same':{2:1, 4:3, 6:7}
+    'same':{2: 1, 4: 3, 6: 7}
+}
+
+mechanismParams_BallLifter = {
+    'Driver': {'A': None},
+    'Follower': {
+        'B': None,
+        'F': None,
+        'I': None,
+        'L': None
+    },
+    'Target': {
+        'N': None,
+        'H': None
+    },
+    'Expression': "PLAP[A,a0,L0,B](C);PLLP[B,L1,L2,C](D);PLLP[D,L3,L4,C](E);PLLP[E,L5,L6,F](G);PLLP[E,L7,L8,G](H);PLLP[C,L9,L10,I](J);PLLP[C,L11,L12,J](K);PLLP[K,L13,L14,L](M);PLLP[K,L15,L16,M](N)",
+    'Link_Expression': "ground[A,B,F,I,L];[A,C];[C,D,E];[C,J,K];[B,D];[E,G,H];[F,G];[I,J];[K,M,N];[L,M]",
+    'pos': {
+        0: (36.5, -59.5),
+        1: (23.5, -91.5),
+        2: (-28.5, -93.5),
+        3: (102.5, -43.5),
+        4: (77.5, -74.5),
+        5: (16.5, -3.5),
+        6: (23.5, 22.5),
+        7: (-18.5, -44.5),
+        8: (-75.5, -59.5),
+        9: (56.5, 29.5),
+        10: (68.5, 71.5),
+        11: (-53.5, -12.5),
+        12: (107.5, 42.5),
+        13: (-111.5, -59.5),
+        14: (56.5, 110.5)
+    },
+    'constraint': [],
+    'Graph': ((0, 1), (0, 4), (0, 6), (0, 7), (0, 9), (1, 2), (1, 3), (2, 4), (2, 5), (3, 7), (3, 8), (5, 6), (8, 9)),
+    'name_dict': {
+        'A': 'P0',
+        'B': 'P1',
+        'C': 'P5',
+        'D': 'P7',
+        'E': 'P8',
+        'F': 'P2',
+        'G': 'P11',
+        'H': 'P13',
+        'I': 'P3',
+        'J': 'P9',
+        'K': 'P10',
+        'L': 'P4',
+        'M': 'P12',
+        'N': 'P14',
+        'O': 'P6'
+    },
+    'cus': {'P14': 8, 'P13': 5},
+    'same': {6: 5}
 }
 
 class CollectionsDialog(QDialog, Ui_Dialog):
@@ -101,6 +155,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                     return replace_by_dict(mechanismParams_4Bar)
                 elif self.name_loaded=="Eight bar linkage mechanism":
                     return replace_by_dict(mechanismParams_8Bar)
+                elif self.name_loaded=="Ball lifter linkage mechanism":
+                    return replace_by_dict(mechanismParams_BallLifter)
                 else:
                     return tuple()
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
@@ -179,6 +235,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 self.mechanismParams = mechanismParams_4Bar
             elif text=="Eight bar linkage mechanism":
                 self.mechanismParams = mechanismParams_8Bar
+            elif self.name_loaded=="Ball lifter linkage mechanism":
+                self.mechanismParams = mechanismParams_BallLifter
             self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot(str)

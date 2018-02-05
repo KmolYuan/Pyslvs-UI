@@ -46,6 +46,7 @@ common_WS = '''
 
 COLOR_LIST = " | ".join("\"{}\"".format(color) for color in reversed(colorName()))
 
+#Usage: tree = parser.parse(expr)
 parser = Lark(
     common_NUMBER + common_CNAME + common_WS +
     '''
@@ -68,6 +69,8 @@ parser = Lark(
     ''', start='mechanism'
 )
 
+#Usage: tree = parser.parse(expr)
+#       pointsArgs = ArgsTransformer().transform(tree)
 class ArgsTransformer(Transformer):
     type = lambda self, n: str(n[0])
     name = type

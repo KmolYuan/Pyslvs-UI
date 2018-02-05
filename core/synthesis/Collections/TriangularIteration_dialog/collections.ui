@@ -88,6 +88,11 @@
              <string>Eight bar linkage mechanism</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>Ball lifter linkage mechanism</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
