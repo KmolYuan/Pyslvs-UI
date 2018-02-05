@@ -460,7 +460,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 QTableWidgetItem('Driver' if name in params['Driver'] else 'Follower')
             )
             self.ground_joints.setCellWidget(row, 2,
-                spinbox(coord[0] if coord else 0.)
+                spinbox(coord[0] if coord else row * 30.)
             )
             self.ground_joints.setCellWidget(row, 3,
                 spinbox(coord[1] if coord else 0.)

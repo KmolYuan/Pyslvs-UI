@@ -147,4 +147,4 @@ class TriangleArgsTransformer(Transformer):
     expr = params
     exprs = params
 
-triangle_expr = lambda expr: TriangleArgsTransformer().transform(triangle_parser)
+triangle_expr = lambda expr: TriangleArgsTransformer().transform(triangle_parser.parse(expr))

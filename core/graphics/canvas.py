@@ -19,7 +19,11 @@
 
 from core.QtModules import *
 from core.graphics import colorQt
-from core.io import get_from_parenthesis, get_front_of_parenthesis
+from core.io import (
+    triangle_expr,
+    get_from_parenthesis,
+    get_front_of_parenthesis
+)
 from networkx import Graph
 from math import sqrt
 from heapq import nsmallest
@@ -45,25 +49,15 @@ def edges_view(G: Graph) -> [int, tuple]:
 
 #A function use to translate the expression.
 def replace_by_dict(d: dict) -> tuple:
-    expr = d['Expression'].split(';')
-    nd = d['name_dict'].copy()
+    expr = triangle_expr(d['Expression'])
+    nd = d['name_dict']
     tmp_list = []
-    for s in expr:
-        #Replace P first.
-        try:
-            s = (
-                get_front_of_parenthesis(s, '[') + '[' +
-                get_from_parenthesis(s, '[', ')').replace('P', nd['P']) + ')'
-            )
-        except KeyError:
-            pass
-        for k in sorted(nd.keys()):
-            s = (
-                get_front_of_parenthesis(s, '[') + '[' +
-                get_from_parenthesis(s, '[', ')').replace(k, nd[k]) + ')'
-            )
-        tmp_list.append(s)
-    print(tuple(tmp_list))
+    for func, params, target in expr:
+        params = list(params)
+        for i, p in enumerate(params):
+            if p in nd:
+                params[i] = nd[p]
+        tmp_list.append("{}[{}]({})".format(func, ','.join(params), nd[target]))
     return tuple(tmp_list)
 
 class Path:
