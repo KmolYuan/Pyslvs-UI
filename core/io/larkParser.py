@@ -47,7 +47,7 @@ common_WS = '''
 COLOR_LIST = " | ".join("\"{}\"".format(color) for color in reversed(colorName()))
 
 #Usage: tree = parser.parse(expr)
-parser = Lark(
+PMKS_parser = Lark(
     common_NUMBER + common_CNAME + common_WS +
     '''
     type: JOINTTYPE+
@@ -71,7 +71,8 @@ parser = Lark(
 
 #Usage: tree = parser.parse(expr)
 #       pointsArgs = ArgsTransformer().transform(tree)
-class ArgsTransformer(Transformer):
+#       pointsArgs: Dict[str: value, ...]
+class PMKArgsTransformer(Transformer):
     type = lambda self, n: str(n[0])
     name = type
     color = type
@@ -102,3 +103,42 @@ class ArgsTransformer(Transformer):
     
     link = lambda self, a: tuple(a)
     mechanism = lambda self, j: j
+
+#Triangle expression parser.
+triangle_parser = Lark(
+    common_NUMBER + common_CNAME + common_WS +
+    '''
+    FUNCTIONTYPE: "PLAP" | "PLLP" | "PLPP"
+    letter      : UCASE_LETTER+
+    
+    function    : FUNCTIONTYPE+
+    link        : "L" INT
+    angle       : "a" INT
+    joint       : letter (letter)*
+    
+    param       : joint | link | angle
+    params      : param ("," param)*
+    expr        : function "[" params "]" "(" joint ")"
+    exprs       : expr (";" expr)*
+    
+    %ignore WS
+    ''', start='exprs'
+)
+
+#tree = triangle_parser.parse("PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)")
+
+#Turn into tuple format.
+#TriangleArgsTransformer().transform(tree)
+class TriangleArgsTransformer(Transformer):
+    UCASE_LETTER = lambda self, n: str(n[0])
+    letter = UCASE_LETTER
+    joint = UCASE_LETTER
+    link = lambda self, n: 'L{}'.format(n[0])
+    angle = lambda self, n: 'a{}'.format(n[0])
+    function = UCASE_LETTER
+    param = UCASE_LETTER
+    params = lambda self, a: tuple(a)
+    expr = params
+    exprs = params
+
+triangle_data = lambda expr: TriangleArgsTransformer().transform(triangle_parser)

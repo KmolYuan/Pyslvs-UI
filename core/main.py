@@ -30,7 +30,7 @@ from core.io import (
     addStorageCommand, deleteStorageCommand,
     addStorageNameCommand, clearStorageNameCommand,
     Qt_images, slvs2D, dxfSketch, XStream,
-    parser, ArgsTransformer, get_from_parenthesis
+    PMK_parser, PMKArgsTransformer, get_from_parenthesis
 )
 #['initCustomWidgets']
 from core.widgets import *
@@ -402,8 +402,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Parse expression.
     def parseExpression(self, expr):
         try:
-            tree = parser.parse(expr)
-            pointsArgs = ArgsTransformer().transform(tree)
+            pointsArgs = PMKArgsTransformer().transform(PMK_parser.parse(expr))
         except Exception as e:
             print(e)
             QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.")
@@ -1214,7 +1213,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         expr, ok = QInputDialog.getText(self, "Storage", "Please input expression:")
         if ok:
             try:
-                parser.parse(expr)
+                #Put the expression into parser to see if it is legal.
+                PMK_parser.parse(expr)
             except:
                 QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.")
                 return
