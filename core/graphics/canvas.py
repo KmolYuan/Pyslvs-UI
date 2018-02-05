@@ -63,6 +63,7 @@ def replace_by_dict(d: dict) -> tuple:
                 get_from_parenthesis(s, '[', ')').replace(k, nd[k]) + ')'
             )
         tmp_list.append(s)
+    print(tuple(tmp_list))
     return tuple(tmp_list)
 
 class Path:

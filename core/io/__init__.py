@@ -19,8 +19,9 @@ from .slvsIO import slvs2D
 from .dxfIO import dxfSketch
 from .loggingHandler import XStream
 from .larkParser import (
-    PMK_parser,
-    PMKArgsTransformer,
+    PMKS_parser,
+    PMKSArgsTransformer,
+    triangle_expr,
     get_from_parenthesis,
     get_front_of_parenthesis
 )
@@ -48,8 +49,9 @@ __all__ = [
     'slvs2D',
     'dxfSketch',
     'XStream',
-    'PMK_parser',
-    'PMKArgsTransformer',
+    'PMKS_parser',
+    'PMKSArgsTransformer',
+    'triangle_expr',
     'get_from_parenthesis',
     'get_front_of_parenthesis',
     'VPoint',
