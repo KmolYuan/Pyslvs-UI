@@ -141,8 +141,11 @@ cdef class Genetic(object):
     
     cdef double delta(self, double y)except *:
         cdef double r
-        r = self.gen / self.maxGen
-        return y*randV()*pow(1.0-r, self.bDelta)
+        if self.maxGen!=0:
+            r = self.gen / self.maxGen
+        else:
+            r = 1
+        return y*randV()*pow(1.0 - r, self.bDelta)
     
     cdef void fitness(self)except *:
         cdef int j
