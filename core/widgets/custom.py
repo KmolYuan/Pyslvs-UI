@@ -19,6 +19,9 @@
 
 from core.QtModules import *
 from core.info import VERSION
+from core.io import FileWidget
+#['NumberAndTypeSynthesis', 'Collections', 'DimensionalSynthesis']
+from core.synthesis import *
 from .main_canvas import DynamicCanvas
 from .table import (
     PointTableWidget,
@@ -26,9 +29,6 @@ from .table import (
     SelectionLabel
 )
 from .rotatable import RotatableView
-from core.io import FileWidget
-#['NumberAndTypeSynthesis', 'Collections', 'DimensionalSynthesis']
-from core.synthesis import *
 
 def initCustomWidgets(self):
     appearance(self)
@@ -114,7 +114,7 @@ def appearance(self):
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
-    self.DimensionalSynthesis.pathChanged.connect(self.DynamicCanvasView.path_solving)
+    self.DimensionalSynthesis.pathChanged.connect(self.DynamicCanvasView.setSolvingPath)
     self.DimensionalSynthesis.mergeResult.connect(self.PathSolving_mergeResult)
     self.FileWidget.loadAlgorithmFunc = self.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
     self.SynthesisTab.addTab(self.DimensionalSynthesis, self.DimensionalSynthesis.windowIcon(), "Dimensional")

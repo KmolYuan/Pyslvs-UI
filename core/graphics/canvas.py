@@ -95,7 +95,7 @@ class BaseCanvas(QWidget):
         #Path track
         self.Path = Path()
         #Path solving
-        self.slvsPath = ()
+        self.solvingPath = {}
         self.showSlvsPath = False
     
     def paintEvent(self, event):

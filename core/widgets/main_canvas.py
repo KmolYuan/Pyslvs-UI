@@ -32,7 +32,12 @@ from math import (
     isnan
 )
 from collections import deque
-from typing import TypeVar, List, Tuple
+from typing import (
+    TypeVar,
+    List,
+    Tuple,
+    Dict
+)
 function = TypeVar("function")
 
 class Selector:
@@ -169,8 +174,9 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = pointsSelection
         self.update()
     
-    def path_solving(self, slvsPath: Tuple[Tuple[float, float]]):
-        self.slvsPath = slvsPath
+    @pyqtSlot(dict)
+    def setSolvingPath(self, solvingPath: Dict[str, Tuple[Tuple[float, float]]]):
+        self.solvingPath = solvingPath
         self.update()
     
     def setPathShow(self, p: int):
@@ -188,6 +194,7 @@ class DynamicCanvas(BaseCanvas):
     
     def paintEvent(self, event):
         super(DynamicCanvas, self).paintEvent(event)
+        self.painter.setFont(QFont('Arial', self.fontSize))
         if self.freemove:
             #Draw a colored frame for free move mode.
             pen = QPen()
@@ -292,7 +299,6 @@ class DynamicCanvas(BaseCanvas):
         if self.showPointMark and vlink.name!='ground' and qpoints:
             pen.setColor(Qt.darkGray)
             self.painter.setPen(pen)
-            self.painter.setFont(QFont('Arial', self.fontSize))
             text = '[{}]'.format(vlink.name)
             cenX = sum([p[0] for p in points])/len(points)
             cenY = sum([p[1] for p in points])/len(points)
@@ -337,6 +343,7 @@ class DynamicCanvas(BaseCanvas):
                     draw(path)
         if self.showSlvsPath:
             #Draw solving range.
+            self.painter.setFont(QFont("Arial", self.fontSize+5))
             for i, (tag, rect) in enumerate(self.ranges.items()):
                 range_color = QColor(colorNum(i+1))
                 range_color.setAlpha(30)
@@ -351,24 +358,25 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
                 else:
                     self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
-                self.painter.setFont(QFont("Arial", self.fontSize+5))
                 range_color.setAlpha(255)
                 pen.setColor(range_color)
                 self.painter.setPen(pen)
                 self.painter.drawText(QPointF(cx+6, cy-6), tag)
                 self.painter.setBrush(Qt.NoBrush)
             #Draw solving path.
-            if self.slvsPath:
+            for name, path in self.solvingPath.items():
                 pen = QPen(QColor(3, 163, 120))
                 pen.setWidth(self.pathWidth)
                 self.painter.setPen(pen)
                 self.painter.setBrush(QColor(74, 178, 176, 30))
-                if len(self.slvsPath)>1:
+                if len(path)>1:
                     pointPath = QPainterPath()
-                    for i, (x, y) in enumerate(self.slvsPath):
+                    for i, (x, y) in enumerate(path):
                         x *= self.zoom
                         y *= -self.zoom
                         self.painter.drawEllipse(QPointF(x, y), 3, 3)
+                        if i==0:
+                            self.painter.drawText(QPointF(x+6, y-6), name)
                         if i==0:
                             pointPath.moveTo(x, y)
                         else:
@@ -376,8 +384,11 @@ class DynamicCanvas(BaseCanvas):
                     pen.setColor(QColor(69, 247, 232))
                     self.painter.setPen(pen)
                     self.painter.drawPath(pointPath)
-                elif len(self.slvsPath)==1:
-                    self.painter.drawEllipse(QPointF(self.slvsPath[0][0]*self.zoom, self.slvsPath[0][1]*-self.zoom), 3, 3)
+                elif len(path)==1:
+                    x = path[0][0]*self.zoom
+                    y = path[0][1]*-self.zoom
+                    self.painter.drawEllipse(QPointF(x, y), 3, 3)
+                    self.painter.drawText(QPointF(x+6, y-6), name)
                 self.painter.setBrush(Qt.NoBrush)
     
     def recordStart(self, limit):

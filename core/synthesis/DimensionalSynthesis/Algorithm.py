@@ -52,7 +52,7 @@ def name_in_table(widget, name: str) -> int:
 
 class DimensionalSynthesis(QWidget, PathSolving_Form):
     fixPointRange = pyqtSignal(dict)
-    pathChanged = pyqtSignal(tuple)
+    pathChanged = pyqtSignal(dict)
     mergeResult = pyqtSignal(int, tuple)
     
     def __init__(self, parent):
@@ -125,7 +125,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.add_result(e)
     
     def currentPathChanged(self):
-        self.pathChanged.emit(tuple(self.currentPath()))
+        self.pathChanged.emit({
+            name: tuple(path)
+            for name, path in self.path.items()
+        })
         self.isGenerate()
     
     def currentPath(self):
@@ -140,6 +143,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.path_list.clear()
         for x, y in self.currentPath():
             self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
+        self.currentPathChanged()
     
     @pyqtSlot()
     def on_path_clear_clicked(self):

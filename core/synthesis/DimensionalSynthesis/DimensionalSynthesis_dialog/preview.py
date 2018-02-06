@@ -29,7 +29,7 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
-        self.slvsPath = self.mechanism['Target']
+        self.solvingPath = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = []
@@ -103,7 +103,7 @@ class DynamicCanvas(BaseCanvas):
             if coordinate:
                 color = colorQt('Green')
                 fixed = False
-                if name in self.slvsPath:
+                if name in self.solvingPath:
                     color = colorQt('Dark-Orange')
                 elif name in self.mechanism['Driver']:
                     color = colorQt('Red')
@@ -165,7 +165,7 @@ class DynamicCanvas(BaseCanvas):
         Path = self.Path.path
         for i, path in enumerate(Path):
             color = colorQt('Green')
-            if self.exp_symbol[i] in self.slvsPath:
+            if self.exp_symbol[i] in self.solvingPath:
                 color = colorQt('Dark-Orange')
             pen = QPen(color)
             pen.setWidth(self.pathWidth)
@@ -176,7 +176,7 @@ class DynamicCanvas(BaseCanvas):
         pen.setWidth(self.pathWidth)
         self.painter.setPen(pen)
         pointPath = QPainterPath()
-        for name, path in self.slvsPath.items():
+        for name, path in self.solvingPath.items():
             for i, (x, y) in enumerate(path):
                 x *= self.zoom
                 y *= -self.zoom
