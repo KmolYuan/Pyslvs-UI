@@ -31,6 +31,10 @@ srand(int(time()))
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
 
+cdef enum limit:
+    maxGen,
+    minFit
+
 cdef class Chromosome(object):
     cdef public int n
     cdef public double f
@@ -54,8 +58,9 @@ cdef class Chromosome(object):
             self.cp(obj)
 
 cdef class Genetic(object):
+    cdef limit option
     cdef int nParm, nPop, maxGen, gen, rpt
-    cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE
+    cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE, minFit
     cdef object func, progress_fun, interrupt_fun
     cdef np.ndarray chrom, newChrom, babyChrom
     cdef Chromosome chromElite, chromBest
@@ -70,7 +75,7 @@ cdef class Genetic(object):
             'pMute',
             'pWin',
             'bDelta',
-            'maxGen',
+            'maxGen' or 'minFit',
             'report'
         }
         """
@@ -81,7 +86,14 @@ cdef class Genetic(object):
         self.pMute = settings['pMute']
         self.pWin = settings['pWin']
         self.bDelta = settings['bDelta']
-        self.maxGen = settings['maxGen']
+        self.maxGen = 0
+        self.minFit = 0
+        if 'maxGen' in settings:
+            self.option = maxGen
+            self.maxGen = settings['maxGen']
+        elif 'minFit' in settings:
+            self.option = minFit
+            self.minFit = settings['minFit']
         self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
@@ -134,9 +146,9 @@ cdef class Genetic(object):
                     # first baby, half father half mother
                     self.babyChrom[0].v[s] = 0.5 * self.chrom[i].v[s] + 0.5*self.chrom[i+1].v[s]
                     # second baby, three quaters of fater and quater of mother
-                    self.babyChrom[1].v[s] = self.check(s, 1.5 * self.chrom[i].v[s] - 0.5*self.chrom[i+1].v[s])
+                    self.babyChrom[1].v[s] = self.check(s, 1.5 * self.chrom[i].v[s] - 0.5 * self.chrom[i+1].v[s])
                     # third baby, quater of fater and three quaters of mother
-                    self.babyChrom[2].v[s] = self.check(s, -0.5 * self.chrom[i].v[s] + 1.5*self.chrom[i+1].v[s])
+                    self.babyChrom[2].v[s] = self.check(s, -0.5 * self.chrom[i].v[s] + 1.5 * self.chrom[i+1].v[s])
                 # evaluate new baby
                 for j in range(3):
                     self.babyChrom[j].f = self.func(self.babyChrom[j].v)
@@ -153,7 +165,7 @@ cdef class Genetic(object):
     
     cdef double delta(self, double y)except *:
         cdef double r
-        if self.maxGen!=0:
+        if self.maxGen > 0:
             r = self.gen / self.maxGen
         else:
             r = 1
@@ -222,9 +234,9 @@ cdef class Genetic(object):
                 self.report()
         #progress
         if self.progress_fun is not None:
-            self.progress_fun(self.gen, '%.4f'%self.chromElite.f)
+            self.progress_fun(self.gen, "{:.04f}".format(self.chromElite.f))
     
-    cpdef run(self):
+    cpdef object run(self):
         """
         // **** Init and run GA for maxGen times
         // **** mxg : maximum generation
@@ -234,23 +246,20 @@ cdef class Genetic(object):
         self.initialPop()
         self.chrom[0].f = self.func(self.chrom[0].v)
         self.chromElite.assign(self.chrom[0])
-        self.gen = 0
         self.fitness()
         self.report()
-        if self.maxGen>0:
-            for self.gen in range(1, self.maxGen+1):
-                self.generation_process()
-                #interrupt
-                if self.interrupt_fun is not None:
-                    if self.interrupt_fun():
-                        break
-        else:
-            while True:
-                self.generation_process()
-                self.gen += 1
-                #interrupt
-                if self.interrupt_fun is not None:
-                    if self.interrupt_fun():
-                        break
+        while True:
+            self.gen += 1
+            if self.option == maxGen:
+                if (self.maxGen > 0) and (self.gen > self.maxGen):
+                    break
+            elif self.option == minFit:
+                if self.chromElite.f <= self.minFit:
+                    break
+            self.generation_process()
+            #interrupt
+            if self.interrupt_fun is not None:
+                if self.interrupt_fun():
+                    break
         self.report()
         return self.func.get_coordinates(self.chromElite.v), self.fitnessTime
