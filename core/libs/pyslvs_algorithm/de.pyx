@@ -1,4 +1,22 @@
 # -*- coding: utf-8 -*-
+##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
+##Copyright (C) 2016-2018 Yuan Chang
+##E-mail: pyslvs@gmail.com
+##
+##This program is free software; you can redistribute it and/or modify
+##it under the terms of the GNU Affero General Public License as published by
+##the Free Software Foundation; either version 3 of the License, or
+##(at your option) any later version.
+##
+##This program is distributed in the hope that it will be useful,
+##but WITHOUT ANY WARRANTY; without even the implied warranty of
+##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+##GNU Affero General Public License for more details.
+##
+##You should have received a copy of the GNU Affero General Public License
+##along with this program; if not, write to the Free Software
+##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
 from cpython cimport bool
 import numpy as np
 cimport numpy as np
@@ -13,17 +31,11 @@ cdef double randV():
     return rand()/(RAND_MAX*1.01)
 
 cdef class Chromosome(object):
-    """
-    just copy the idea of genetic algorithm, pretty similar..
-    """
     cdef public int n
     cdef public double f
     cdef public np.ndarray v
     
     def __cinit__(self, int n):
-        """
-        int n, dimension of question
-        """
         # dimension
         self.n = n
         # the gene
@@ -31,11 +43,7 @@ cdef class Chromosome(object):
         # the fitness value
         self.f = 0
     
-    def assign(self, Chromosome obj):
-        """
-        Chromosome obj
-        copy all attribute from obj to itself
-        """
+    cpdef void assign(self, Chromosome obj):
         self.n = obj.n
         self.v[:] = obj.v
         self.f = obj.f
