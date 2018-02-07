@@ -79,7 +79,11 @@ class Progress_show(QDialog, Ui_Dialog):
     @pyqtSlot()
     def setTime(self):
         self.time += 1
-        self.time_label.setText("{:02d}:{:02d}".format(self.time // 60, self.time % 60))
+        self.time_label.setText("{:02d}:{:02d}:{:02d}".format(
+            self.time // 3600,
+            (self.time % 3600) // 60,
+            self.time % 3600 % 60
+        ))
     
     @pyqtSlot()
     def on_Start_clicked(self):

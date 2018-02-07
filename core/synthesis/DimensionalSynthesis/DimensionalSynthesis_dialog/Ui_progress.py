@@ -111,7 +111,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dimensional Synthesis"))
         self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:12pt;\">Pyslvs will start the algorithm via the ZMQ module.<br/>More servers can save more time.<br/><br/>Start Pyslvs server by following argument:<br/>(for example, localhost)</span></p></body></html>"))
         self.label_6.setText(_translate("Dialog", "Time passed:"))
-        self.time_label.setText(_translate("Dialog", "00:00"))
+        self.time_label.setText(_translate("Dialog", "00:00:00"))
         self.label_4.setText(_translate("Dialog", "Batch execution:"))
         self.label_7.setText(_translate("Dialog", "with"))
         self.label_5.setText(_translate("Dialog", "time(s)."))
