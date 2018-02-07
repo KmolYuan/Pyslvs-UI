@@ -139,7 +139,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             return []
     
     @pyqtSlot(str)
-    def on_target_points_currentTextChanged(self, text):
+    def on_target_points_currentTextChanged(self, text=None):
         self.path_list.clear()
         for x, y in self.currentPath():
             self.path_list.addItem("({:.04f}, {:.04f})".format(x, y))
@@ -156,8 +156,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         dlg = Series_show(self)
         dlg.show()
         if dlg.exec_():
-            for e in dlg.path:
-                self.add_point(e[0], e[1])
+            for x, y in dlg.path:
+                self.add_point(x, y)
     
     def on_Point_list_context_menu(self, point):
         action = self.popMenu_list.exec_(self.path_list.mapToGlobal(point))
@@ -263,8 +263,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
         #Deep copy it so the pointer will not the same.
         mechanismParams = deepcopy(self.mechanismParams)
-        for name in mechanismParams['Target']:
-            mechanismParams['Target'][name] = self.path[name]
+        mechanismParams['Target'] = deepcopy(self.path)
         for key in ['Driver', 'Follower']:
             for name in mechanismParams[key]:
                 row = name_in_table(self.ground_joints, name)
@@ -273,18 +272,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                     self.ground_joints.cellWidget(row, 3).value(),
                     self.ground_joints.cellWidget(row, 4).value()
                 )
-        mechanismParams['IMax'] = self.Settings['IMax']
-        mechanismParams['IMin'] = self.Settings['IMin']
-        mechanismParams['LMax'] = self.Settings['LMax']
-        mechanismParams['LMin'] = self.Settings['LMin']
-        mechanismParams['FMax'] = self.Settings['FMax']
-        mechanismParams['FMin'] = self.Settings['FMin']
-        mechanismParams['AMax'] = self.Settings['AMax']
-        mechanismParams['AMin'] = self.Settings['AMin']
-        setting = {
-            'maxGen':self.Settings['maxGen'],
-            'report':int(self.Settings['maxGen']*self.Settings['report']/100)
-        }
+        for name in ['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']:
+            mechanismParams[name] = self.Settings[name]
+        setting = {'report': self.Settings['report']}
+        if 'maxGen' in self.Settings:
+            setting['maxGen'] = self.Settings['maxGen']
+        elif 'minFit' in self.Settings:
+            setting['minFit'] = self.Settings['minFit']
         setting.update(self.Settings['algorithmPrams'])
         #Start progress dialog.
         dlg = Progress_show(
@@ -315,7 +309,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     #Add result items, except add to the list.
     def add_result(self, result):
-        item = QListWidgetItem("{} ({} gen)".format(result['Algorithm'], result['settings']['maxGen']))
+        item = QListWidgetItem(result['Algorithm'])
         interrupt = result['interrupted']
         if interrupt=='False':
             item.setIcon(QIcon(QPixmap(":/icons/task-completed.png")))
@@ -323,10 +317,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             item.setIcon(QIcon(QPixmap(":/icons/question-mark.png")))
         else:
             item.setIcon(QIcon(QPixmap(":/icons/interrupted.png")))
-        text = "[{}] ({}{} gen)".format(
+        text = "{} ({})".format(
             result['Algorithm'],
-            '' if interrupt=='False' else interrupt+'-',
-            result['settings']['maxGen']
+            "No interrupt." if interrupt=='False' else "Interrupt at {}".format(interrupt)
         )
         if interrupt=='N/A':
             text += "\n※Completeness is not clear."
@@ -418,7 +411,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 i = 0
                 while (name not in self.collections) and (not name):
                     name = "Structure_{}".format(i)
-                self.collections[name] = self.mechanismParams
+                mechanismParams = deepcopy(self.mechanismParams)
+                for key in [
+                    'Driver',
+                    'Follower',
+                    'Target'
+                ]:
+                    for name in mechanismParams[key]:
+                        mechanismParams[key][name] = None
+                self.collections[name] = mechanismParams
                 self.unsaveFunc()
     
     @pyqtSlot()
@@ -438,9 +439,12 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         params = self.mechanismParams
         self.path.clear()
         self.target_points.clear()
-        for name in params['Target']:
+        for name, path in params['Target'].items():
             self.target_points.addItem(name)
-            self.path[name] = []
+            if path:
+                self.path[name] = path.copy()
+            else:
+                self.path[name] = []
         if self.target_points.count():
             self.target_points.setCurrentRow(0)
         gj = {}
@@ -502,7 +506,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 'Follower',
                 'Target'
             ]:
-                self.mechanismParams[key] = {name: None for name in Result[key]}
+                self.mechanismParams[key] = Result[key].copy()
             for key in [
                 'Link_Expression',
                 'Expression',
@@ -518,20 +522,19 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.setTime(Result['time'])
             settings = Result['settings']
             self.Settings = {
-                'maxGen':settings['maxGen'],
-                'report':0 if settings['report']==0 else settings['maxGen']/settings['report']/100,
-                'IMax':Result['IMax'], 'IMin':Result['IMin'],
-                'LMax':Result['LMax'], 'LMin':Result['LMin'],
-                'FMax':Result['FMax'], 'FMin':Result['FMin'],
-                'AMax':Result['AMax'], 'AMin':Result['AMin']
+                'report': settings['report'],
+                'IMax': Result['IMax'], 'IMin': Result['IMin'],
+                'LMax': Result['LMax'], 'LMin': Result['LMin'],
+                'FMax': Result['FMax'], 'FMin': Result['FMin'],
+                'AMax': Result['AMax'], 'AMin': Result['AMin']
             }
+            if 'maxGen' in settings:
+                self.Settings['maxGen'] = settings['maxGen']
+            elif 'minFit' in settings:
+                self.Settings['minFit'] = settings['minFit']
             algorithmPrams = settings.copy()
             del algorithmPrams['report']
             self.Settings['algorithmPrams'] = algorithmPrams
-            self.on_path_clear_clicked()
-            for point in Result['Target'].values():
-                for x, y in point:
-                    self.add_point(x, y)
     
     def algorithmParams_default(self):
         type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
@@ -550,20 +553,41 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if dlg.exec_():
             tablePL = lambda row: dlg.PLTable.cellWidget(row, 1).value()
             self.Settings = {
-                'maxGen':dlg.maxGen.value(), 'report':dlg.report.value(),
-                'IMax':tablePL(0), 'IMin':tablePL(1),
-                'LMax':tablePL(2), 'LMin':tablePL(3),
-                'FMax':tablePL(4), 'FMin':tablePL(5),
-                'AMax':tablePL(6), 'AMin':tablePL(7)
+                'report': dlg.report.value(),
+                'IMax': tablePL(0), 'IMin': tablePL(1),
+                'LMax': tablePL(2), 'LMin': tablePL(3),
+                'FMax': tablePL(4), 'FMin': tablePL(5),
+                'AMax': tablePL(6), 'AMin': tablePL(7)
             }
+            if dlg.maxGen_option.isChecked():
+                self.Settings['maxGen'] = dlg.maxGen.value()
+            elif dlg.minFit_option.isChecked():
+                self.Settings['minFit'] = dlg.minFit.value()
             tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
             popSize = dlg.popSize.value()
             if type_num=="Genetic Algorithm":
-                self.Settings['algorithmPrams'] = {'nPop':popSize, 'pCross':tableAP(0), 'pMute':tableAP(1), 'pWin':tableAP(2), 'bDelta':tableAP(3)}
+                self.Settings['algorithmPrams'] = {
+                    'nPop': popSize,
+                    'pCross': tableAP(0),
+                    'pMute': tableAP(1),
+                    'pWin': tableAP(2),
+                    'bDelta': tableAP(3)
+                }
             elif type_num=="Firefly Algorithm":
-                self.Settings['algorithmPrams'] = {'n':popSize, 'alpha':tableAP(0), 'betaMin':tableAP(1), 'gamma':tableAP(2), 'beta0':tableAP(3)}
+                self.Settings['algorithmPrams'] = {
+                    'n': popSize,
+                    'alpha': tableAP(0),
+                    'betaMin': tableAP(1),
+                    'gamma': tableAP(2),
+                    'beta0': tableAP(3)
+                }
             elif type_num=="Differential Evolution":
-                self.Settings['algorithmPrams'] = {'NP':popSize, 'strategy':tableAP(0), 'F':tableAP(1), 'CR':tableAP(2)}
+                self.Settings['algorithmPrams'] = {
+                    'NP': popSize,
+                    'strategy': tableAP(0),
+                    'F': tableAP(1),
+                    'CR': tableAP(2)
+                }
     
     @pyqtSlot(float)
     def updateRange(self, p0=None):

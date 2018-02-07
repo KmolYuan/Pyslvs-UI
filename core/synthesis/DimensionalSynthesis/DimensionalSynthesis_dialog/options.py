@@ -25,7 +25,7 @@ GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5
 FireflyPrams = {'n':80, 'alpha':0.01, 'betaMin':0.2, 'gamma':1., 'beta0':1.}
 DifferentialPrams = {'strategy':1, 'NP':400, 'F':0.6, 'CR':0.9}
 defaultSettings = {
-    'maxGen':1000, 'report':1, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
+    'maxGen':1000, 'report':10, 'IMin':5., 'LMin':5., 'FMin':5., 'AMin':0.,
     'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
 }
 
@@ -45,6 +45,7 @@ class Options_show(QDialog, Ui_Dialog):
         self.isOk()
     
     def init_PLTable(self):
+        #Write table function.
         def writeTable(Length, Degrees):
             i = 0
             for Types, maxV, minV in zip([Length, Degrees], [1000., 360.], [0.1, 0.]):
@@ -153,8 +154,3 @@ class Options_show(QDialog, Ui_Dialog):
         elif self.algorithm=="Firefly Algorithm":
             d['algorithmPrams'] = FireflyPrams.copy()
         self.setArgs(d)
-    
-    @pyqtSlot(int)
-    def on_maxGen_valueChanged(self, p0):
-        self.report.setEnabled(not p0==0)
-        self.report_label.setEnabled(not p0==0)

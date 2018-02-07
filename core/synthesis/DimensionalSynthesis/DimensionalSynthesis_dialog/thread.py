@@ -67,18 +67,20 @@ class WorkerThread(QThread):
             t1 = timeit.default_timer()
             time_spand = round(t1-t0, 2)
             cpu = numpy.distutils.cpuinfo.cpu.info[0]
+            lastGen = time_and_fitness[-1][0]
             mechanism = {
-                'Algorithm':'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
-                'time':time_spand,
-                'interrupted':str(time_and_fitness[-1][0]) if self.stoped else 'False',
-                'settings':self.settings,
-                'hardwareInfo':{
+                'Algorithm': 'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
+                'time': time_spand,
+                'lastGen': lastGen,
+                'interrupted': str(lastGen) if self.stoped else 'False',
+                'settings': self.settings,
+                'hardwareInfo': {
                     'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
                     'memory':"{} GB".format(round(virtual_memory().total/(1024.**3), 4)),
                     'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
                     'network':str(self.socket!=None)
                 },
-                'TimeAndFitness':time_and_fitness
+                'TimeAndFitness': time_and_fitness
             }
             mechanism.update(self.mechanismParams)
             mechanism.update(fitnessParameter)

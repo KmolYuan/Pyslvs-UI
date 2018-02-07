@@ -40,7 +40,7 @@
        <item>
         <layout class="QFormLayout" name="formLayout">
          <item row="1" column="0">
-          <widget class="QRadioButton" name="radioButton">
+          <widget class="QRadioButton" name="maxGen_option">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This parameter determines the generations of evolution.&lt;/p&gt;&lt;p&gt;If the value set to 0, algorithm will stop only when you clicked the interrupt button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -69,7 +69,7 @@
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QRadioButton" name="radioButton_2">
+          <widget class="QRadioButton" name="minFit_option">
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This parameter determines the last fitness of evolution.&lt;/p&gt;&lt;p&gt;If the value set to 0, algorithm will stop only when you clicked the interrupt button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -80,6 +80,9 @@
          </item>
          <item row="2" column="1">
           <widget class="QDoubleSpinBox" name="minFit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="value">
             <double>10.000000000000000</double>
            </property>
@@ -97,11 +100,8 @@
          </item>
          <item row="3" column="1">
           <widget class="QSpinBox" name="report">
-           <property name="suffix">
-            <string>%</string>
-           </property>
-           <property name="maximum">
-            <number>100</number>
+           <property name="value">
+            <number>10</number>
            </property>
           </widget>
          </item>
@@ -260,6 +260,38 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxGen_option</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>maxGen</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>103</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minFit_option</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>minFit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>130</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>348</x>
+     <y>118</y>
     </hint>
    </hints>
   </connection>

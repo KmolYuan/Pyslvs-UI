@@ -47,7 +47,7 @@ class ChartDialog(QDialog):
             '''
             if type(self.mechanism_data[0]['TimeAndFitness'][0])==float:
                 TimeAndFitness = [
-                    [(data['settings']['maxGen']*i/len(data['TimeAndFitness']), Tnf, 0)
+                    [(data['lastGen']*i/len(data['TimeAndFitness']), Tnf, 0)
                     for i, Tnf in enumerate(data['TimeAndFitness'])]
                     for data in self.mechanism_data]
             else:
@@ -81,7 +81,7 @@ class ChartDialog(QDialog):
         for data in self.mechanism_data:
             line = QLineSeries()
             scatter = QScatterSeries()
-            gen = data['settings']['maxGen']
+            gen = data['lastGen']
             Tnf = TimeAndFitness[self.mechanism_data.index(data)]
             points = Tnf[:-1] if Tnf[-1]==Tnf[-2] else Tnf
             line.setName("{}({} gen): {}".format(data['Algorithm'], gen, data['Expression']))

@@ -201,7 +201,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.mechanism = mechanism
         self.setWindowTitle("Preview: {} (max {} generations)".format(
-            self.mechanism['Algorithm'], self.mechanism['settings']['maxGen']
+            self.mechanism['Algorithm'], self.mechanism['lastGen']
         ))
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.main_splitter.setSizes([800, 100])
@@ -224,7 +224,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
         interrupt = self.mechanism['interrupted']
         fitness = self.mechanism['TimeAndFitness'][-1]
         self.algorithm_label.setText("<html><head/><body><p>"+
-            "<br/>".join(["Max generation: {}".format(self.mechanism['settings']['maxGen'])]+
+            "<br/>".join(["Max generation: {}".format(self.mechanism['lastGen'])]+
             ["Fitness: {}".format(fitness if type(fitness)==float else fitness[1])]+
             ["<img src=\"{}\" width=\"15\"/>".format(":/icons/task-completed.png" if interrupt=='False' else
             ":/icons/question-mark.png" if interrupt=='N/A' else ":/icons/interrupted.png")+

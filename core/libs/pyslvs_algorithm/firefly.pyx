@@ -62,7 +62,7 @@ cdef class Chromosome(object):
 
 cdef class Firefly(object):
     cdef limit option
-    cdef int D, n, maxGen, rp, gen
+    cdef int D, n, maxGen, rpt, gen
     cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE, minFit
     cdef object func, progress_fun, interrupt_fun
     cdef np.ndarray lb, ub
@@ -115,8 +115,10 @@ cdef class Firefly(object):
         elif 'minFit' in settings:
             self.option = minFit
             self.minFit = settings['minFit']
+        else:
+            raise Exception("Please give 'maxGen' or 'minFit' limit.")
         #Report function
-        self.rp = settings['report']
+        self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
         # generation of current
@@ -208,8 +210,8 @@ cdef class Firefly(object):
             self.bestFirefly.assign(self.genbest)
         # self.bestFirefly.assign(gen_best)
         self.calculate_new_alpha()
-        if self.rp != 0:
-            if self.gen % self.rp == 0:
+        if self.rpt != 0:
+            if self.gen % self.rpt == 0:
                 self.report()
         else:
             if self.gen % 10 == 0:

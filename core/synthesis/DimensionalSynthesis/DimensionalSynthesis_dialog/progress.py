@@ -28,10 +28,14 @@ class Progress_show(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.closeWork)
-        self.maxGen = setting['maxGen']
-        self.loopTime.setEnabled(self.maxGen>0)
-        self.maxGen_label.setText(str(self.maxGen) if self.maxGen>0 else '∞')
         self.mechanisms = []
+        if 'maxGen' in setting:
+            self.limit = setting['maxGen']
+            self.batch_label.setText("{} generation(s)".format(self.limit) if self.limit>0 else '∞')
+        elif 'minFit' in setting:
+            self.limit = setting['minFit']
+            self.batch_label.setText("fitness less then {}".format(self.limit))
+        self.loopTime.setEnabled(self.limit>0)
         self.work = WorkerThread(type_num, mechanismParams, setting, self)
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)
@@ -58,16 +62,16 @@ class Progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
-        if self.maxGen==0:
+        if self.limit==0:
             self.progressBar.setMaximum(progress)
-        self.progressBar.setValue(progress+self.maxGen*self.work.currentLoop)
+        self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
     def on_Start_clicked(self):
         loop = self.loopTime.value()
-        self.progressBar.setMaximum(self.maxGen*loop)
-        if self.maxGen==0:
+        self.progressBar.setMaximum(self.limit * loop)
+        if self.limit==0:
             self.progressBar.setFormat("%v generations")
         self.work.setLoop(loop)
         self.work.start()

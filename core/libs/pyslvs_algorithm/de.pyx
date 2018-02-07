@@ -100,6 +100,8 @@ cdef class DiffertialEvolution(object):
         elif 'minFit' in settings:
             self.option = minFit
             self.minFit = settings['minFit']
+        else:
+            raise Exception("Please give 'maxGen' or 'minFit' limit.")
         #Report function
         self.rpt = settings['report']
         self.progress_fun = progress_fun
