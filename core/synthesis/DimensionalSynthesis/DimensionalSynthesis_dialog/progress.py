@@ -29,13 +29,22 @@ class Progress_show(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.rejected.connect(self.closeWork)
         self.mechanisms = []
+        #Batch label.
         if 'maxGen' in setting:
             self.limit = setting['maxGen']
             self.batch_label.setText("{} generation(s)".format(self.limit) if self.limit>0 else '∞')
+            self.limit_mode = 'maxGen'
         elif 'minFit' in setting:
             self.limit = setting['minFit']
             self.batch_label.setText("fitness less then {}".format(self.limit))
+            self.limit_mode = 'minFit'
         self.loopTime.setEnabled(self.limit>0)
+        #Timer.
+        self.time = 0
+        self.timer = QTimer(self)
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.setTime)
+        #Worker thread.
         self.work = WorkerThread(type_num, mechanismParams, setting, self)
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)
@@ -62,17 +71,23 @@ class Progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
-        if self.limit==0:
+        if self.limit_mode=='minFit' or self.limit==0:
             self.progressBar.setMaximum(progress)
         self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
+    def setTime(self):
+        self.time += 1
+        self.time_label.setText("{:02d}:{:02d}".format(self.time // 60, self.time % 60))
+    
+    @pyqtSlot()
     def on_Start_clicked(self):
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
-        if self.limit==0:
+        if self.limit_mode=='minFit' or self.limit==0:
             self.progressBar.setFormat("%v generations")
+        self.timer.start()
         self.work.setLoop(loop)
         self.work.start()
         self.Start.setEnabled(False)
@@ -86,6 +101,7 @@ class Progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def finish(self):
+        self.timer.stop()
         self.accept()
     
     @pyqtSlot()

@@ -44,7 +44,7 @@ class Ui_Dialog(object):
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.minFit_option)
         self.minFit = QtWidgets.QDoubleSpinBox(self.planarlinkage)
         self.minFit.setEnabled(False)
-        self.minFit.setProperty("value", 10.0)
+        self.minFit.setProperty("value", 25.0)
         self.minFit.setObjectName("minFit")
         self.formLayout.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.minFit)
         self.report_label = QtWidgets.QLabel(self.planarlinkage)
