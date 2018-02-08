@@ -36,7 +36,7 @@ class DynamicCanvas(BaseCanvas):
         self.links = []
         for exp in self.mechanism['Link_Expression'].split(';'):
             tags = get_from_parenthesis(exp, '[', ']').split(',')
-            self.links.append(tags)
+            self.links.append(tuple(tags))
             for name in tags:
                 if name not in self.exp_symbol:
                     self.exp_symbol.append(name)
@@ -78,17 +78,17 @@ class DynamicCanvas(BaseCanvas):
         self.oy = height/2 + (minY + maxY)/2*self.zoom
         super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
-        self.Point = (
-            tuple(self.mechanism[name] for name in self.mechanism['Driver']) +
-            tuple(self.mechanism[name] for name in self.mechanism['Follower']) +
-            tuple(
-                (c[self.index][0], c[self.index][1])
-                if not isnan(c[self.index][0]) else False for c in self.Path.path[2:]
-            )
-        )
-        if False in self.Point:
-            self.index += 1
-            return
+        self.Point = []
+        for i, name in enumerate(self.exp_symbol):
+            if (name in self.mechanism['Driver']) or (name in self.mechanism['Follower']):
+                self.Point.append(self.mechanism[name])
+            else:
+                x, y = self.Path.path[i][self.index]
+                if isnan(x):
+                    self.index += 1
+                    return
+                else:
+                    self.Point.append((x, y))
         #Draw links.
         for i, exp in enumerate(self.links):
             if i==0:
@@ -103,7 +103,7 @@ class DynamicCanvas(BaseCanvas):
             if coordinate:
                 color = colorQt('Green')
                 fixed = False
-                if name in self.solvingPath:
+                if name in self.mechanism['Target']:
                     color = colorQt('Dark-Orange')
                 elif name in self.mechanism['Driver']:
                     color = colorQt('Red')

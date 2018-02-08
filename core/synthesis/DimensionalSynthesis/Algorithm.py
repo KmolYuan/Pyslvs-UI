@@ -101,15 +101,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Result_list.clicked.connect(self.hasResult)
         self.clear_button.clicked.connect(self.clear_settings)
         self.clear()
-        self.isGenerate()
-        self.hasResult()
     
     def clear(self):
         self.Result_list.clear()
         self.clear_settings()
+        self.hasResult()
     
     def clear_settings(self):
         self.on_path_clear_clicked()
+        self.path.clear()
         self.mechanismParams.clear()
         self.PreviewCanvas.clear()
         self.Settings = deepcopy(defaultSettings)
@@ -119,6 +119,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.Expression.clear()
         self.Link_Expression.clear()
         self.updateRange()
+        self.isGenerate()
     
     def loadResults(self):
         for e in self.mechanism_data:
@@ -351,9 +352,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_Result_list_doubleClicked(self, index):
         row = self.Result_list.currentRow()
         if row>-1:
-            mechanism = self.mechanism_data[row]
-            Paths = self.legal_crank(row)
-            dlg = PreviewDialog(mechanism, Paths, self)
+            dlg = PreviewDialog(self.mechanism_data[row], self.get_path(row), self)
             dlg.show()
             dlg.exec_()
     
@@ -364,15 +363,14 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             reply = QMessageBox.question(self, "Merge", "Merge this result to your canvas?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
-                self.mergeResult.emit(row, self.legal_crank(row))
+                self.mergeResult.emit(row, self.get_path(row))
     
-    def legal_crank(self, row):
+    def get_path(self, row):
         Result = self.mechanism_data[row]
-        expr = Result['Expression'].split(';')
         expr_tag = tuple(
             get_from_parenthesis(exp, '[', ']').split(',') +
             [get_from_parenthesis(exp, '(', ')')]
-            for exp in expr
+            for exp in Result['Expression'].split(';')
         )
         expr_set = set([])
         for exp in expr_tag:
@@ -381,7 +379,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if len(expr_angles)>1:
             return tuple()
         expr_links = tuple(e for e in expr_set if ('L' in e) and len(e)>1)
-        expr_points = (expr_tag[0][0], expr_tag[0][3]) + tuple(exp[-1] for exp in expr_tag)
+        expr_points = tuple(sorted(expr_set - set(expr_angles) - set(expr_links)))
         '''
         ('A', 'B', 'C', 'D', 'E')
         '''
@@ -474,7 +472,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 spinbox(coord[1] if coord else 0.)
             )
             self.ground_joints.setCellWidget(row, 4,
-                spinbox(coord[2] if coord else 10., True)
+                spinbox(coord[2] if coord else 50., True)
             )
         for row in range(self.ground_joints.rowCount()):
             for column in range(2, 5):

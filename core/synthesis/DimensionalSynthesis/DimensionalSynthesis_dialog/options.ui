@@ -83,6 +83,9 @@
            <property name="enabled">
             <bool>false</bool>
            </property>
+           <property name="maximum">
+            <double>2000.000000000000000</double>
+           </property>
            <property name="value">
             <double>25.000000000000000</double>
            </property>

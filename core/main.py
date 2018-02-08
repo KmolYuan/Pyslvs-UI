@@ -1141,11 +1141,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     exp_symbol.append(name)
         self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
         tmp_dict = {}
-        for i, tag in enumerate(exp_symbol):
+        for tag in exp_symbol:
             tmp_dict[tag] = self.addPoint(
                 Result[tag][0],
                 Result[tag][1],
-                color=("Dark-Orange" if i==len(exp_symbol)-1 else None)
+                color=("Dark-Orange" if (tag in Result['Target']) else None)
             )
         for i, exp in enumerate(Result['Link_Expression'].split(';')):
             self.addLinkGroup(tmp_dict[name] for name in get_from_parenthesis(exp, '[', ']').split(','))
