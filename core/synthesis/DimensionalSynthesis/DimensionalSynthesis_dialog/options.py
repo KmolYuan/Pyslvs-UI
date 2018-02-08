@@ -117,7 +117,10 @@ class Options_show(QDialog, Ui_Dialog):
                 ])
     
     def setArgs(self, PLnAP):
-        self.maxGen.setValue(PLnAP['maxGen'])
+        if 'maxGen' in PLnAP:
+            self.maxGen.setValue(PLnAP['maxGen'])
+        elif 'minFit' in PLnAP:
+            self.minFit.setValue(PLnAP['minFit'])
         self.report.setValue(PLnAP['report'])
         for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']):
             self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
