@@ -119,6 +119,7 @@ cdef str get_front_of_parenthesis(str s, str front):
 cdef object Coordinate_to_tuple(Coordinate coord):
     return (coord.x, coord.y)
 
+#Use to generate path data.
 cpdef void expr_parser(str exprs, object data_list):
     '''
     exprs: "PLAP[A,a0,L1,B](C);PLLP[C,L1,L2,B](D);..."

@@ -19,7 +19,7 @@
 
 from core.QtModules import *
 from core.graphics import PreviewCanvas, replace_by_dict
-from core.io import get_from_parenthesis
+from core.io import triangle_class
 from core.libs import expr_parser
 from core.synthesis import CollectionsDialog
 import csv
@@ -367,21 +367,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def get_path(self, row):
         Result = self.mechanism_data[row]
-        expr_tag = tuple(
-            get_from_parenthesis(exp, '[', ']').split(',') +
-            [get_from_parenthesis(exp, '(', ')')]
-            for exp in Result['Expression'].split(';')
-        )
-        expr_set = set([])
-        for exp in expr_tag:
-            expr_set.update(exp)
-        expr_angles = tuple(e for e in expr_set if 'a' in e)
+        expr_angles, expr_links, expr_points = triangle_class(Result['Expression'])
         if len(expr_angles)>1:
             return tuple()
-        expr_links = tuple(e for e in expr_set if ('L' in e) and len(e)>1)
-        expr_points = tuple(sorted(expr_set - set(expr_angles) - set(expr_links)))
         '''
-        ('A', 'B', 'C', 'D', 'E')
+        expr_angles: ('a0', ...)
+        expr_links: ('L0', 'L1', 'L2', ...)
+        expr_points: ('A', 'B', 'C', 'D', 'E', ...)
         '''
         Paths = tuple([] for i in range(len(expr_points)))
         for a in range(360+1):
@@ -459,6 +451,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             if prefix:
                 s.setPrefix("±")
             return s
+        nd = {k: int(v.replace('P', '')) for k, v in params['name_dict'].items()}
         for row, name in enumerate(sorted(gj)):
             coord = gj[name]
             self.ground_joints.setItem(row, 0, QTableWidgetItem(name))
@@ -466,10 +459,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 QTableWidgetItem('Driver' if name in params['Driver'] else 'Follower')
             )
             self.ground_joints.setCellWidget(row, 2,
-                spinbox(coord[0] if coord else row * 30.)
+                spinbox(coord[0] if coord else params['pos'][nd[name]][0])
             )
             self.ground_joints.setCellWidget(row, 3,
-                spinbox(coord[1] if coord else 0.)
+                spinbox(coord[1] if coord else params['pos'][nd[name]][1])
             )
             self.ground_joints.setCellWidget(row, 4,
                 spinbox(coord[2] if coord else 50., True)

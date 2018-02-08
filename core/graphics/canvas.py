@@ -49,10 +49,9 @@ def edges_view(G: Graph) -> [int, tuple]:
 
 #A function use to translate the expression.
 def replace_by_dict(d: dict) -> tuple:
-    expr = triangle_expr(d['Expression'])
     nd = d['name_dict']
     tmp_list = []
-    for func, params, target in expr:
+    for func, params, target in triangle_expr(d['Expression']):
         params = list(params)
         for i, p in enumerate(params):
             if p in nd:

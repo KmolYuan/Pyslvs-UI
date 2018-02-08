@@ -22,6 +22,7 @@ from .larkParser import (
     PMKS_parser,
     PMKSArgsTransformer,
     triangle_expr,
+    triangle_class,
     get_from_parenthesis,
     get_front_of_parenthesis
 )
@@ -52,6 +53,7 @@ __all__ = [
     'PMKS_parser',
     'PMKSArgsTransformer',
     'triangle_expr',
+    'triangle_class',
     'get_from_parenthesis',
     'get_front_of_parenthesis',
     'VPoint',

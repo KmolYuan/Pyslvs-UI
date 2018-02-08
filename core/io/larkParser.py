@@ -120,7 +120,7 @@ triangle_parser = Lark(
     joint2      : letter (letter)*
     joint       : joint1 | joint2
     
-    param       : joint | link | angle
+    param       : angle | link | joint
     params      : param ("," param)*
     expr        : function "[" params "]" "(" joint ")"
     exprs       : expr (";" expr)*
@@ -134,17 +134,53 @@ triangle_parser = Lark(
 #Turn into tuple format.
 #TriangleArgsTransformer().transform(tree)
 class TriangleArgsTransformer(Transformer):
-    UCASE_LETTER = lambda self, n: str(n[0])
-    letter = UCASE_LETTER
+    letter = lambda self, n: str(n[0])
     joint1 = lambda self, n: 'P{}'.format(n[0])
-    joint2 = UCASE_LETTER
-    joint = UCASE_LETTER
+    joint2 = letter
+    joint = letter
     link = lambda self, n: 'L{}'.format(n[0])
     angle = lambda self, n: 'a{}'.format(n[0])
-    function = UCASE_LETTER
-    param = UCASE_LETTER
+    function = letter
+    param = letter
     params = lambda self, a: tuple(a)
     expr = params
     exprs = params
 
-triangle_expr = lambda expr: TriangleArgsTransformer().transform(triangle_parser.parse(expr))
+#(('PLAP', ('A', 'L0', 'a0', 'B'), 'C'), ('PLLP', ('C', 'L1', 'L2', 'B'), 'D'), ...)
+def triangle_expr(expr):
+    tf = TriangleArgsTransformer()
+    for func, params, target in tf.transform(triangle_parser.parse(expr)):
+        yield func, params, target
+
+#Return the symble by types.
+#TriangleExprClassification().transform(tree)
+class TriangleExprClassification(Transformer):
+    def __init__(self):
+        super(TriangleExprClassification, self).__init__()
+        self.angles = []
+        self.links = []
+    
+    def transform(self, tree):
+        super(TriangleExprClassification, self).transform(tree)
+        return tuple(sorted(self.angles)), tuple(sorted(self.links))
+    
+    def link(self, n):
+        t = 'L{}'.format(n[0])
+        if t not in self.links:
+            self.links.append(t)
+    
+    def angle(self, n):
+        t = 'a{}'.format(n[0])
+        if t not in self.angles:
+            self.angles.append(t)
+
+def triangle_class(expr):
+    tc = TriangleExprClassification()
+    tmp_set = set()
+    for func, params, target in triangle_expr(expr):
+        tmp_set.add(target)
+        for p in params:
+            tmp_set.add(p)
+    angles, links = tc.transform(triangle_parser.parse(expr))
+    joints = tuple(sorted(tmp_set - set(angles) - set(links)))
+    return angles, links, joints
