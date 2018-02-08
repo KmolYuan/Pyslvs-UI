@@ -192,14 +192,22 @@ class PreviewCanvas(BaseCanvas):
         self.update()
     
     def paintEvent(self, event):
-        self.ox = self.width()/2
-        self.oy = self.height()/2
+        width = self.width()
+        height = self.height()
+        self.ox = width/2
+        self.oy = height/2
+        sq_w = 240
+        if width <= height:
+            self.zoom = width / sq_w
+        else:
+            self.zoom = height / sq_w
         super(PreviewCanvas, self).paintEvent(event)
         #Center square.
-        self.painter.drawLine(QPointF(-120, 120), QPointF(120, 120))
-        self.painter.drawLine(QPointF(-120, 120), QPointF(-120, -120))
-        self.painter.drawLine(QPointF(-120, -120), QPointF(120, -120))
-        self.painter.drawLine(QPointF(120, -120), QPointF(120, 120))
+        limit = sq_w / 2 * self.zoom
+        self.painter.drawLine(QPointF(-limit, limit), QPointF(limit, limit))
+        self.painter.drawLine(QPointF(-limit, limit), QPointF(-limit, -limit))
+        self.painter.drawLine(QPointF(-limit, -limit), QPointF(limit, -limit))
+        self.painter.drawLine(QPointF(limit, -limit), QPointF(limit, limit))
         r = 4.5
         pen = QPen()
         pen.setWidth(r)
@@ -215,12 +223,14 @@ class PreviewCanvas(BaseCanvas):
                 if link in edge:
                     if num in self.same:
                         num = self.same[num]
-                    points.append((self.pos[num][0], -self.pos[num][1]))
+                    x, y = self.pos[num]
+                    points.append((x*self.zoom, y*-self.zoom))
             #Customize points.
             for name, link_ in self.cus.items():
                 if link==link_:
                     num = int(name.replace('P', ''))
-                    points.append((self.pos[num][0], -self.pos[num][1]))
+                    x, y = self.pos[num]
+                    points.append((x*self.zoom, y*-self.zoom))
             self.painter.drawPolygon(*distance_sorted(points))
         self.painter.setFont(QFont("Arial", self.fontSize*1.5))
         #Nodes
@@ -231,7 +241,7 @@ class PreviewCanvas(BaseCanvas):
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
-            self.painter.drawEllipse(QPointF(x, -y), r, r)
+            self.painter.drawEllipse(QPointF(x*self.zoom, y*-self.zoom), r, r)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
         #Solutions
@@ -252,7 +262,7 @@ class PreviewCanvas(BaseCanvas):
                 qpoints = []
                 for name in params:
                     x, y = self.pos[int(name.replace('P', ''))]
-                    qpoints.append(QPointF(x, -y))
+                    qpoints.append(QPointF(x*self.zoom, y*-self.zoom))
                 self.painter.drawPolygon(*qpoints)
         #Text of node.
         pen.setColor(Qt.black)
@@ -263,7 +273,7 @@ class PreviewCanvas(BaseCanvas):
             name = 'P{}'.format(node)
             if self.name_dict:
                 name = self.name_dict[name]
-            self.painter.drawText(QPointF(x + 2*r, -y), name)
+            self.painter.drawText(QPointF(x*self.zoom + 2*r, y*-self.zoom), name)
         self.painter.end()
     
     def setGraph(self, G: Graph, pos: dict):
