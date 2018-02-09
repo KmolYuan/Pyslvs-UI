@@ -51,11 +51,12 @@ class PreviewWindow(PreviewCanvas):
     
     def __init__(self, get_solutions_func, parent):
         super(PreviewWindow, self).__init__(get_solutions_func, parent)
+        self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
     
     def mousePressEvent(self, event):
-        mx = (event.x() - self.ox)
-        my = -(event.y() - self.oy)
+        mx = (event.x() - self.ox) / self.zoom
+        my = (event.y() - self.oy) / -self.zoom
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
@@ -71,14 +72,16 @@ class PreviewWindow(PreviewCanvas):
         if self.pressed:
             row = self.get_joint_number()
             if row>-1:
-                mx = (event.x() - self.ox)
-                my = -(event.y() - self.oy)
-                width = self.width()
-                height = self.height()
-                if -self.ox < mx < width-self.ox:
+                mx = (event.x() - self.ox) / self.zoom
+                my = (event.y() - self.oy) / -self.zoom
+                if -120 <= mx <= 120:
                     self.pos[row] = (mx, self.pos[row][1])
-                if -self.oy < my < height-self.oy:
+                else:
+                    self.pos[row] = (120 if -120 <= mx else -120, self.pos[row][1])
+                if -120 <= my <= 120:
                     self.pos[row] = (self.pos[row][0], my)
+                else:
+                    self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
                 self.update()
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "

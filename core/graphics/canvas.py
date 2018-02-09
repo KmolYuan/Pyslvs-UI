@@ -174,7 +174,6 @@ class PreviewCanvas(BaseCanvas):
         self.clear()
     
     def clear(self):
-        self.pressed = False
         #Origin graph.
         self.G = Graph()
         #Customize points.
