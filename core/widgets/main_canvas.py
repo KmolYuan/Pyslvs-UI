@@ -33,12 +33,12 @@ from math import (
 )
 from collections import deque
 from typing import (
-    TypeVar,
     List,
     Tuple,
-    Dict
+    Dict,
+    Callable
 )
-function = TypeVar("function")
+inf = float('inf')
 
 class Selector:
     #Use to record mouse clicked point.
@@ -355,7 +355,9 @@ class DynamicCanvas(BaseCanvas):
                 cx = rect.x()*self.zoom
                 cy = rect.y()*-self.zoom
                 if rect.width():
-                    self.painter.drawRect(QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom))
+                    self.painter.drawRect(
+                        QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom)
+                    )
                 else:
                     self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
                 range_color.setAlpha(255)
@@ -445,7 +447,7 @@ class DynamicCanvas(BaseCanvas):
             self.Selector.inRect
         )
     
-    def selectedPointFunc(self, selection: List[int], inSelection: function):
+    def selectedPointFunc(self, selection: List[int], inSelection: Callable):
         selection.clear()
         for i, vpoint in enumerate(self.Point):
             if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
@@ -525,41 +527,81 @@ class DynamicCanvas(BaseCanvas):
         self.update()
         self.mouse_track.emit(x, y)
     
+    #Limitations of four side.
+    def setInLimit(self):
+        x_right = inf
+        x_left = -inf
+        y_top = -inf
+        y_bottom = inf
+        for vpoint in self.Point:
+            if vpoint.cx < x_right:
+                x_right = vpoint.cx
+            if vpoint.cx > x_left:
+                x_left = vpoint.cx
+            if vpoint.cy < y_bottom:
+                y_bottom = vpoint.cy
+            if vpoint.cy > y_top:
+                y_top = vpoint.cy
+        if self.Path.show>-2:
+            for i, path in enumerate(self.Path.path):
+                if self.Path.show!=-1 and self.Path.show!=i:
+                    continue
+                for x, y in path:
+                    if x < x_right:
+                        x_right = x
+                    if x > x_left:
+                        x_left = x
+                    if y < y_bottom:
+                        y_bottom = y
+                    if y > y_top:
+                        y_top = y
+        if self.showSlvsPath:
+            for path in self.solvingPath.values():
+                for x, y in path:
+                    if x < x_right:
+                        x_right = x
+                    if x > x_left:
+                        x_left = x
+                    if y < y_bottom:
+                        y_bottom = y
+                    if y > y_top:
+                        y_top = y
+        for rect in self.ranges.values():
+            x_r = rect.x()
+            x_l = rect.x() + rect.width()
+            y_t = rect.y()
+            y_b = rect.y() - rect.width()
+            if x_r < x_right:
+                x_right = x_r
+            if x_l > x_left:
+                x_left = x_l
+            if y_b < y_bottom:
+                y_bottom = y_b
+            if y_t > y_top:
+                y_top = y_t
+        return x_right, x_left, y_top, y_bottom
+    
+    #Zoom to fit function.
     def SetIn(self):
         width = self.width()
         height = self.height()
+        width = width if not width==0 else 1
         height = height if not height==0 else 1
-        if len(self.Point)<=1:
+        x_right, x_left, y_top, y_bottom = self.setInLimit()
+        if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
             self.zoom_change.emit(200)
             self.ox = width/2
             self.oy = height/2
-        else:
-            Xs = tuple(e.cx for e in self.Point) if self.Point else (0,)
-            Ys = tuple(e.cy for e in self.Point) if self.Point else (0,)
-            if self.Path.path:
-                Comparator = lambda fun, i, d: fun(
-                    fun(fun(path[i] for path in point if not isnan(path[i])) for point in self.Path.path if point),
-                    fun(d)
-                )
-                pathMaxX = Comparator(max, 0, Xs)
-                pathMinX = Comparator(min, 0, Xs)
-                pathMaxY = Comparator(max, 1, Ys)
-                pathMinY = Comparator(min, 1, Ys)
-                diffX = pathMaxX - pathMinX
-                diffY = pathMaxY - pathMinY
-                cenx = (pathMinX + pathMaxX)/2
-                ceny = (pathMinY + pathMaxY)/2
-            else:
-                diffX = max(Xs) - min(Xs)
-                diffY = max(Ys) - min(Ys)
-                cenx = (min(Xs) + max(Xs))/2
-                ceny = (min(Ys) + max(Ys))/2
-            diffY = diffY if diffY!=0 else 1
-            height = height if height!=0 else 1
-            diff = diffX/diffY > width/height
-            self.zoom_change.emit(int(
-                (width if diff else height)/(diffX if diff else diffY)*self.marginFactor*50
-            ))
-            self.ox = width/2 - cenx*self.zoom
-            self.oy = height/2 + ceny*self.zoom
+            self.update()
+            return
+        x_diff = abs(x_right - x_left)
+        y_diff = abs(y_top - y_bottom)
+        x_diff = x_diff if x_diff!=0 else 1
+        y_diff = y_diff if y_diff!=0 else 1
+        diff = x_diff/y_diff > width/height
+        self.zoom_change.emit(int(
+            (width if diff else height)/(x_diff if diff else y_diff)*self.marginFactor*50
+        ))
+        self.ox = width/2 - (x_right + x_left) / 2 *self.zoom
+        self.oy = height/2 + (y_top + y_bottom) / 2 *self.zoom
         self.update()
