@@ -19,6 +19,7 @@
 
 from core.QtModules import *
 from core.graphics import PreviewCanvas, replace_by_dict
+from copy import deepcopy
 from .Ui_collections import Ui_Dialog
 
 mechanismParams_4Bar = {
@@ -232,11 +233,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if text:
             self.name_loaded = text
             if text=="Four bar linkage mechanism":
-                self.mechanismParams = mechanismParams_4Bar
+                self.mechanismParams = deepcopy(mechanismParams_4Bar)
             elif text=="Eight bar linkage mechanism":
-                self.mechanismParams = mechanismParams_8Bar
+                self.mechanismParams = deepcopy(mechanismParams_8Bar)
             elif self.name_loaded=="Ball lifter linkage mechanism":
-                self.mechanismParams = mechanismParams_BallLifter
+                self.mechanismParams = deepcopy(mechanismParams_BallLifter)
             self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot(str)
