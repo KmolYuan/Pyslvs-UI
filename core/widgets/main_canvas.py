@@ -22,7 +22,8 @@ from core.graphics import (
     BaseCanvas,
     distance_sorted,
     colorQt,
-    colorNum
+    colorNum,
+    colorPath
 )
 from math import (
     sin,
@@ -98,9 +99,10 @@ class DynamicCanvas(BaseCanvas):
         self.ranges = {}
         #Set showDimension to False.
         self.showDimension = False
-        #Free move mode. (0: no free move. 1: translate. 2: rotate.)
+        #Free move mode.
+        #(0: no free move. 1: translate. 2: rotate. 3: reflect.)
         self.freemove = 0
-        #Set zoom bar function
+        #Set zoom bar function.
         def setZoomValue(a):
             parent.ZoomBar.setValue(parent.ZoomBar.value() + parent.ScaleFactor.value()*a/abs(a))
         self.setZoomValue = setZoomValue
@@ -366,11 +368,13 @@ class DynamicCanvas(BaseCanvas):
                 self.painter.drawText(QPointF(cx+6, cy-6), tag)
                 self.painter.setBrush(Qt.NoBrush)
             #Draw solving path.
-            for name, path in self.solvingPath.items():
-                pen = QPen(QColor(3, 163, 120))
+            for i, name in enumerate(sorted(self.solvingPath)):
+                path = self.solvingPath[name]
+                Dot, Pen, Brush = colorPath(i)
+                pen = QPen(Pen)
                 pen.setWidth(self.pathWidth)
                 self.painter.setPen(pen)
-                self.painter.setBrush(QColor(74, 178, 176, 30))
+                self.painter.setBrush(Brush)
                 if len(path)>1:
                     pointPath = QPainterPath()
                     for i, (x, y) in enumerate(path):
@@ -383,7 +387,7 @@ class DynamicCanvas(BaseCanvas):
                             pointPath.moveTo(x, y)
                         else:
                             pointPath.lineTo(QPointF(x, y))
-                    pen.setColor(QColor(69, 247, 232))
+                    pen.setColor(Dot)
                     self.painter.setPen(pen)
                     self.painter.drawPath(pointPath)
                 elif len(path)==1:

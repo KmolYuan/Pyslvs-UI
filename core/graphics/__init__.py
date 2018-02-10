@@ -10,7 +10,8 @@ from .color import (
     colorNum,
     colorName,
     colorIcons,
-    colorQt
+    colorQt,
+    colorPath
 )
 from .planarSolving import (
     slvsProcess,
@@ -36,6 +37,7 @@ __all__ = [
     'colorName',
     'colorIcons',
     'colorQt',
+    'colorPath',
     'slvsProcess',
     'SlvsException',
     'dataChart',
