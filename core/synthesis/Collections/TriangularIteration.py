@@ -364,8 +364,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Expression_list.addItem(item)
             item.setText("PLAP[{},{},{},{}]({})".format(
                 dlg.point_A.currentText(),
-                'a{}'.format(self.getParam(angle=True)),
                 'L{}'.format(self.getParam()),
+                'a{}'.format(self.getParam(angle=True)),
                 dlg.point_B.currentText(),
                 point
             ))
@@ -454,9 +454,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Expression_clear_clicked(self):
         self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
-        self.hasSolution()
         self.Expression_list.clear()
         self.Expression.clear()
+        self.hasSolution()
     
     @pyqtSlot()
     def on_save_button_clicked(self):

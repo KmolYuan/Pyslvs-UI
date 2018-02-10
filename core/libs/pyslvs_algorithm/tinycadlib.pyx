@@ -116,9 +116,6 @@ cdef str get_from_parenthesis(str s, str front, str back):
 cdef str get_front_of_parenthesis(str s, str front):
     return s[:s.find(front)]
 
-cdef object Coordinate_to_tuple(Coordinate coord):
-    return (coord.x, coord.y)
-
 #Use to generate path data.
 cpdef void expr_parser(str exprs, object data_list):
     '''

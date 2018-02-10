@@ -284,6 +284,8 @@ class PreviewCanvas(BaseCanvas):
         self.grounded = link
         for n, edge in edges_view(self.G):
             self.status[n] = self.grounded in edge
+        for n, link in self.cus.items():
+            self.status[int(n.replace('P', ''))] = self.grounded == link
         self.update()
     
     def setStatus(self, point: str, status: bool):
