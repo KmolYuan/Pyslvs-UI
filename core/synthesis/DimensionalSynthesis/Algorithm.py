@@ -429,8 +429,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         params = self.mechanismParams
         self.path.clear()
         self.target_points.clear()
-        for name, path in params['Target'].items():
+        for name in sorted(params['Target']):
             self.target_points.addItem(name)
+            path = params['Target'][name]
             if path:
                 self.path[name] = path.copy()
             else:
