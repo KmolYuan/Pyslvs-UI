@@ -26,6 +26,7 @@ from core.graphics import (
     colorPath
 )
 from math import (
+    radians,
     sin,
     cos,
     atan2,
@@ -307,6 +308,7 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawText(QPointF(cenX, cenY), text)
     
     def drawPath(self):
+        pen = QPen()
         if self.Path.show>-2:
             #draw paths.
             def drawPath(path):
@@ -339,7 +341,7 @@ class DynamicCanvas(BaseCanvas):
                         color = self.Point[i].color
                     except:
                         color = colorQt('Green')
-                    pen = QPen(color)
+                    pen.setColor(color)
                     pen.setWidth(self.pathWidth)
                     self.painter.setPen(pen)
                     draw(path)
@@ -351,7 +353,7 @@ class DynamicCanvas(BaseCanvas):
                 range_color.setAlpha(30)
                 self.painter.setBrush(range_color)
                 range_color.setAlpha(255)
-                pen = QPen(range_color)
+                pen.setColor(range_color)
                 pen.setWidth(5)
                 self.painter.setPen(pen)
                 cx = rect.x()*self.zoom
@@ -370,32 +372,48 @@ class DynamicCanvas(BaseCanvas):
             #Draw solving path.
             for i, name in enumerate(sorted(self.solvingPath)):
                 path = self.solvingPath[name]
-                Dot, Pen, Brush = colorPath(i)
-                pen = QPen(Pen)
+                Pen, Dot, Brush = colorPath(i)
                 pen.setWidth(self.pathWidth)
-                self.painter.setPen(pen)
                 self.painter.setBrush(Brush)
                 if len(path)>1:
                     pointPath = QPainterPath()
                     for i, (x, y) in enumerate(path):
                         x *= self.zoom
                         y *= -self.zoom
+                        pen.setColor(Dot)
+                        self.painter.setPen(pen)
                         self.painter.drawEllipse(QPointF(x, y), 3, 3)
                         if i==0:
                             self.painter.drawText(QPointF(x+6, y-6), name)
-                        if i==0:
                             pointPath.moveTo(x, y)
                         else:
+                            x2, y2 = path[i-1]
+                            pen.setColor(Pen)
+                            self.painter.setPen(pen)
+                            self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
                             pointPath.lineTo(QPointF(x, y))
-                    pen.setColor(Dot)
+                    pen.setColor(Pen)
                     self.painter.setPen(pen)
                     self.painter.drawPath(pointPath)
                 elif len(path)==1:
                     x = path[0][0]*self.zoom
                     y = path[0][1]*-self.zoom
+                    pen.setColor(Dot)
+                    self.painter.setPen(pen)
                     self.painter.drawEllipse(QPointF(x, y), 3, 3)
                     self.painter.drawText(QPointF(x+6, y-6), name)
-                self.painter.setBrush(Qt.NoBrush)
+            self.painter.setBrush(Qt.NoBrush)
+    
+    def drawArrow(self, x1, y1, x2, y2):
+        a = atan2(y2 - y1, x2 - x1)
+        self.painter.drawLine(
+            QPointF(x1, y1),
+            QPointF(x1 + 10*cos(a + radians(20)), y1 + 10*sin(a + radians(20)))
+        )
+        self.painter.drawLine(
+            QPointF(x1, y1),
+            QPointF(x1 + 10*cos(a - radians(20)), y1 + 10*sin(a - radians(20)))
+        )
     
     def recordStart(self, limit):
         self.PathRecord = [deque([], limit) for i in range(len(self.Point))]
@@ -489,6 +507,7 @@ class DynamicCanvas(BaseCanvas):
         if self.Selector.MiddleButtonDrag:
             self.ox = event.x() - self.Selector.x
             self.oy = event.y() - self.Selector.y
+            self.update()
         elif self.Selector.LeftButtonDrag:
             if self.freemove:
                 if self.pointsSelection:
@@ -528,7 +547,7 @@ class DynamicCanvas(BaseCanvas):
                         self.mouse_getSelection.emit(tuple(self.Selector.selection_rect), False)
                 else:
                     self.mouse_noSelection.emit()
-        self.update()
+            self.update()
         self.mouse_track.emit(x, y)
     
     #Limitations of four side.

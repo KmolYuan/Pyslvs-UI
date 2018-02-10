@@ -64,7 +64,7 @@ def colorIcons(colorName: str, size: int =20) -> QIcon:
     return QIcon(colorBlock)
 
 #Target path color.
-#(Dot, Pen, Brush)
+#(Pen, Dot, Brush)
 path_color = (
     #Blue - Green
     (QColor(69, 247, 232), QColor(3, 163, 120), QColor(74, 178, 176, 30)),
