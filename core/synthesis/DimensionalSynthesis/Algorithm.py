@@ -238,6 +238,40 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if self.path_list.count() > 1 and currentPath[0]!=currentPath[-1]:
             self.add_point(*currentPath[0])
     
+    @pyqtSlot()
+    def on_point_up_clicked(self):
+        row = self.path_list.currentRow()
+        if row > 0 and self.path_list.count() > 1:
+            path = self.currentPath()
+            path.insert(row-1, (path[row][0], path[row][1]))
+            del path[row+1]
+            x, y = self.path_list.currentItem().text()[1:-1].split(", ")
+            self.path_list.insertItem(row-1, "({}, {})".format(x, y))
+            self.path_list.takeItem(row+1)
+            self.path_list.setCurrentRow(row-1)
+            self.currentPathChanged()
+    
+    @pyqtSlot()
+    def on_point_down_clicked(self):
+        row = self.path_list.currentRow()
+        if row < self.path_list.count()-1 and self.path_list.count() > 1:
+            path = self.currentPath()
+            path.insert(row+2, (path[row][0], path[row][1]))
+            del path[row]
+            x, y = self.path_list.currentItem().text()[1:-1].split(", ")
+            self.path_list.insertItem(row+2, "({}, {})".format(x, y))
+            self.path_list.takeItem(row)
+            self.path_list.setCurrentRow(row+1)
+            self.currentPathChanged()
+    
+    @pyqtSlot()
+    def on_point_delete_clicked(self):
+        row = self.path_list.currentRow()
+        if row>-1:
+            del self.currentPath()[row]
+            self.path_list.takeItem(row)
+            self.currentPathChanged()
+    
     def isGenerate(self):
         self.pointNum.setText(
             "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">" +

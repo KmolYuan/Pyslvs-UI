@@ -38,44 +38,11 @@ class Path_adjust_show(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.path = parent.currentPath()
-        self.path_list_parent = parent.path_list
         self.r_path = []
         for x, y in self.path:
             self.path_list.addItem("({}, {})".format(x, y))
         self.points_num.setText(str(len(self.path)))
         self.match_num.setValue(len(self.path))
-    
-    @pyqtSlot()
-    def on_point_up_clicked(self):
-        row = self.path_list.currentRow()
-        if row > 0 and self.path_list.count() > 1:
-            self.path.insert(row-1, (self.path[row][0], self.path[row][1]))
-            del self.path[row+1]
-            x, y = self.path_list.currentItem().text()[1:-1].split(", ")
-            for widget in [self.path_list, self.path_list_parent]:
-                widget.insertItem(row-1, "({}, {})".format(x, y))
-                widget.takeItem(row+1)
-                widget.setCurrentRow(row-1)
-    
-    @pyqtSlot()
-    def on_point_down_clicked(self):
-        row = self.path_list.currentRow()
-        if row < self.path_list.count()-1 and self.path_list.count() > 1:
-            self.path.insert(row+2, (self.path[row][0], self.path[row][1]))
-            del self.path[row]
-            x, y = self.path_list.currentItem().text()[1:-1].split(", ")
-            for widget in [self.path_list, self.path_list_parent]:
-                widget.insertItem(row+2, "({}, {})".format(x, y))
-                widget.takeItem(row)
-                widget.setCurrentRow(row+1)
-    
-    @pyqtSlot()
-    def on_point_delete_clicked(self):
-        row = self.path_list.currentRow()
-        if row>-1:
-            del self.path[row]
-            for widget in [self.path_list, self.path_list_parent]:
-                widget.takeItem(row)
     
     @pyqtSlot()
     def on_scaling_button_clicked(self):

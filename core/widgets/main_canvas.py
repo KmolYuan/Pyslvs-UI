@@ -408,11 +408,11 @@ class DynamicCanvas(BaseCanvas):
         a = atan2(y2 - y1, x2 - x1)
         self.painter.drawLine(
             QPointF(x1, y1),
-            QPointF(x1 + 10*cos(a + radians(20)), y1 + 10*sin(a + radians(20)))
+            QPointF(x1 + 15*cos(a + radians(20)), y1 + 15*sin(a + radians(20)))
         )
         self.painter.drawLine(
             QPointF(x1, y1),
-            QPointF(x1 + 10*cos(a - radians(20)), y1 + 10*sin(a - radians(20)))
+            QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
         )
     
     def recordStart(self, limit):

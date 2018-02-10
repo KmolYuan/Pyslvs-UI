@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
+    <width>528</width>
     <height>694</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/DimensionalSynthesis.png</normaloff>:/icons/DimensionalSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_8">
+  <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
     <widget class="QSplitter" name="splitter_3">
      <property name="orientation">
@@ -233,7 +233,52 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
                 <item>
-                 <widget class="QListWidget" name="path_list"/>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <widget class="QListWidget" name="path_list"/>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_8">
+                    <item>
+                     <widget class="QPushButton" name="point_up">
+                      <property name="icon">
+                       <iconset resource="../../../icons.qrc">
+                        <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="point_down">
+                      <property name="icon">
+                       <iconset resource="../../../icons.qrc">
+                        <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_15">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="point_delete">
+                      <property name="icon">
+                       <iconset resource="../../../icons.qrc">
+                        <normaloff>:/icons/disconnect.png</normaloff>:/icons/disconnect.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="verticalLayout_7">
