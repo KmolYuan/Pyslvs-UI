@@ -116,6 +116,7 @@ def appearance(self):
     self.DimensionalSynthesis.fixPointRange.connect(self.DynamicCanvasView.update_ranges)
     self.DimensionalSynthesis.pathChanged.connect(self.DynamicCanvasView.setSolvingPath)
     self.DimensionalSynthesis.mergeResult.connect(self.PathSolving_mergeResult)
+    self.FileWidget.AlgorithmDataFunc = lambda: self.DimensionalSynthesis.mechanism_data #Call to get algorithm data.
     self.FileWidget.loadAlgorithmFunc = self.DimensionalSynthesis.loadResults #Call after loaded algorithm results.
     self.SynthesisTab.addTab(self.DimensionalSynthesis, self.DimensionalSynthesis.windowIcon(), "Dimensional")
     #Console dock will hide when startup.

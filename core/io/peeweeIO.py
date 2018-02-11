@@ -20,7 +20,6 @@
 from core.QtModules import *
 from .Ui_peeweeIO import Ui_Form
 from .example import example_list
-from typing import List, Dict
 import zlib
 #NaN coordinate
 nan = float('nan')
@@ -39,19 +38,6 @@ from peewee import (
 
 #Create a empty Sqlite database object.
 db = SqliteDatabase(None)
-
-class Designs:
-    __slots__ = ('result',)
-    
-    def __init__(self):
-        self.result = []
-    
-    def addResult(self, new_result: List[Dict]):
-        for result in new_result:
-            self.result.append(result.copy())
-    
-    def delResult(self, index: int):
-        self.result.pop(index)
 
 #Show who commited the workbook.
 class UserModel(Model):
@@ -138,6 +124,7 @@ class FileWidget(QWidget, Ui_Form):
         
         self.CollectDataFunc #Call to get collections data.
         self.TriangleDataFunc #Call to get triangle data.
+        self.AlgorithmDataFunc #Call to get algorithm data.
         self.loadCollectFunc #Call to load collections data.
         self.loadTriangleFunc #Call to load triangle data.
         self.loadAlgorithmFunc #Call after loaded algorithm results.
@@ -153,7 +140,6 @@ class FileWidget(QWidget, Ui_Form):
     def reset(self):
         self.history_commit = None #peewee Quary(CommitModel) type
         self.pathData = {}
-        self.Designs = Designs()
         self.Script = ""
         self.fileName = QFileInfo("Untitled")
         self.lastTime = datetime.datetime.now()
@@ -222,7 +208,7 @@ class FileWidget(QWidget, Ui_Form):
                 'pathdata':compress(self.pathData),
                 'collectiondata':compress(self.CollectDataFunc()),
                 'triangledata':compress(self.TriangleDataFunc()),
-                'algorithmdata':compress(self.Designs.result),
+                'algorithmdata':compress(self.AlgorithmDataFunc()),
                 'branch':branch_model
             }
             try:
@@ -348,8 +334,7 @@ class FileWidget(QWidget, Ui_Form):
             #Load triangledata.
             self.loadTriangleFunc(decompress(commit.triangledata))
             #Load algorithmdata.
-            self.Designs.addResult(decompress(commit.algorithmdata))
-            self.loadAlgorithmFunc()
+            self.loadAlgorithmFunc(decompress(commit.algorithmdata))
             #Workbook loaded.
             self.isSavedFunc()
             print("The specified phase has been loaded.")

@@ -62,9 +62,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         #Just a pointer reference.
         self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
         #Data and functions.
-        self.mechanism_data = parent.FileWidget.Designs.result
-        self.mechanism_data_add = parent.FileWidget.Designs.addResult
-        self.mechanism_data_del = parent.FileWidget.Designs.delResult
+        self.mechanism_data = []
         self.inputFrom = parent.inputFrom
         self.unsaveFunc = parent.workbookNoSave
         self.Settings = deepcopy(defaultSettings)
@@ -102,6 +100,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.clear()
     
     def clear(self):
+        self.mechanism_data.clear()
         self.Result_list.clear()
         self.clear_settings()
         self.hasResult()
@@ -120,8 +119,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.updateRange()
         self.isGenerate()
     
-    def loadResults(self):
-        for e in self.mechanism_data:
+    def loadResults(self, mechanism_data: list):
+        for e in mechanism_data:
+            self.mechanism_data.append(e)
             self.add_result(e)
     
     def currentPathChanged(self):
@@ -324,7 +324,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         )
         dlg.show()
         if dlg.exec_():
-            self.mechanism_data_add(dlg.mechanisms)
+            self.mechanism_data.append(dlg.mechanisms)
             for m in dlg.mechanisms:
                 self.add_result(m)
             self.setTime(dlg.time_spand)
@@ -342,7 +342,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         )
     
     #Add result items, except add to the list.
-    def add_result(self, result):
+    def add_result(self, result: dict):
         item = QListWidgetItem(result['Algorithm'])
         interrupt = result['interrupted']
         if interrupt=='False':
@@ -367,7 +367,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             reply = QMessageBox.question(self, "Delete", "Delete this result from list?",
                 (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
             if reply==QMessageBox.Apply:
-                self.mechanism_data_del(row)
+                del self.mechanism_data[row]
                 self.Result_list.takeItem(row)
                 self.unsaveFunc()
                 self.hasResult()
