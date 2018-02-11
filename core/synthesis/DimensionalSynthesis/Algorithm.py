@@ -324,8 +324,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         )
         dlg.show()
         if dlg.exec_():
-            self.mechanism_data.append(dlg.mechanisms)
             for m in dlg.mechanisms:
+                self.mechanism_data.append(m)
                 self.add_result(m)
             self.setTime(dlg.time_spand)
             self.unsaveFunc()
@@ -400,6 +400,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def get_path(self, row):
         Result = self.mechanism_data[row]
+        print(self.mechanism_data)
         expr_angles, expr_links, expr_points = triangle_class(Result['Expression'])
         if len(expr_angles)>1:
             return tuple()
