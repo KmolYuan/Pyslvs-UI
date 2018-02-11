@@ -18,8 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from networkx import cycle_basis
-from itertools import combinations
+from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
 
 def get_list(item):
@@ -35,26 +34,52 @@ def list_items(widget, returnRow=False):
         else:
             yield widget.item(row)
 
+#A generator to find out the four bar loops.
+def four_bar_loops(G):
+    result = set([])
+    vertexes = {v: k for k, v in edges_view(G)}
+    for node in G.nodes:
+        if node in result:
+            continue
+        nb1s = G.neighbors(node)
+        #node not in nb1s
+        for nb1 in nb1s:
+            if nb1 in result:
+                continue
+            nb2s = G.neighbors(nb1)
+            #node can not in nb2s
+            for nb2 in nb2s:
+                if (nb2 == node) or (nb2 in result):
+                    continue
+                nb3s = G.neighbors(nb2)
+                #node can not in nb3s
+                for nb3 in nb3s:
+                    if (nb3 in (node, nb1)) or (nb3 in result):
+                        continue
+                    if node in G.neighbors(nb3):
+                        result.update([node, nb1, nb2, nb3])
+                        yield tuple(
+                            vertexes[tuple(sorted(e))]
+                            for e in [(node, nb1), (nb1, nb2), (nb2, nb3), (node, nb3)]
+                        )
+
 class ConstraintsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(ConstraintsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         cl = tuple(
-            set(get_list(item)) for item in list_items(parent.constraint_list)
+            set(get_list(item))
+            for item in list_items(parent.constraint_list)
         )
-        for chain in cycle_basis(parent.PreviewWindow.G):
-            if len(chain)==4:
-                chain_node = []
-                for link in combinations(chain, 2):
-                    for n, edge in enumerate(parent.PreviewWindow.G.edges):
-                        if sorted(link)==sorted(edge):
-                            if n in parent.PreviewWindow.same:
-                                n = parent.PreviewWindow.same[n]
-                            chain_node.append('P{}'.format(n))
-                if set(chain_node) in cl:
-                    continue
-                self.Loops_list.addItem(", ".join(sorted(chain_node)))
+        for chain in four_bar_loops(parent.PreviewWindow.G):
+            chain = sorted(chain)
+            for i, n in enumerate(chain):
+                if n in parent.PreviewWindow.same:
+                    n = parent.PreviewWindow.same[n]
+                chain[i] = 'P{}'.format(n)
+            if set(chain) not in cl:
+                self.Loops_list.addItem(", ".join(chain))
         for item in list_items(parent.constraint_list):
             self.main_list.addItem(item.text())
     
