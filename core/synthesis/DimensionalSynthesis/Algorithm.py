@@ -41,7 +41,6 @@ from re import split as charSplit
 '''
 from .DimensionalSynthesis_dialog import *
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
-
 nan = float('nan')
 
 #Find a name and return the row from the table.
