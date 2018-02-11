@@ -120,6 +120,7 @@ class Options_show(QDialog, Ui_Dialog):
         if 'maxGen' in PLnAP:
             self.maxGen.setValue(PLnAP['maxGen'])
         elif 'minFit' in PLnAP:
+            self.minFit_option.setChecked(True)
             self.minFit.setValue(PLnAP['minFit'])
         self.report.setValue(PLnAP['report'])
         for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']):

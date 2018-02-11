@@ -1132,7 +1132,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(int, tuple)
     def PathSolving_mergeResult(self, row, path):
-        Result = self.DynamicCanvasView.mechanism_data[row]
+        Result = self.DimensionalSynthesis.mechanism_data[row]
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in Result['Link_Expression'].split(';'):
