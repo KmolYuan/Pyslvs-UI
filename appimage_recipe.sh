@@ -48,6 +48,12 @@ chmod a+x usr/bin/$LOWERAPP
 cp ../../icons_rc.py usr/bin
 cp ../../preview_rc.py usr/bin
 cp -r ../../core usr/bin
+rm -f usr/bin/core/libs/pyslvs_algorithm/*.c
+rm -f usr/bin/core/libs/pyslvs_algorithm/*.pyx
+rm -fr usr/bin/core/libs/pyslvs_algorithm/build
+rm -f usr/bin/core/libs/pyslvs_topologic/*.c
+rm -f usr/bin/core/libs/pyslvs_topologic/*.pyx
+rm -fr usr/bin/core/libs/pyslvs_topologic/build
 
 ########################################################################
 # Finalize the AppDir
