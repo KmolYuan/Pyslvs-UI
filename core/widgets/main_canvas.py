@@ -22,8 +22,7 @@ from core.graphics import (
     BaseCanvas,
     distance_sorted,
     colorQt,
-    colorNum,
-    colorPath
+    colorNum
 )
 from math import (
     sin,
@@ -221,7 +220,12 @@ class DynamicCanvas(BaseCanvas):
         for vlink in self.Link[1:]:
             self.drawLink(vlink)
         #Draw path.
-        self.drawPath()
+        if self.Path.show>-2:
+            self.drawPath()
+        #Draw solving path.
+        if self.showSlvsPath:
+            self.drawSlvsRanges()
+            self.drawSlvsPath()
         #Draw points.
         for i, vpoint in enumerate(self.Point):
             self.drawPoint(i, vpoint)
@@ -306,105 +310,68 @@ class DynamicCanvas(BaseCanvas):
             cenY = sum([p[1] for p in points])/len(points)
             self.painter.drawText(QPointF(cenX, cenY), text)
     
+    #draw paths.
     def drawPath(self):
         pen = QPen()
-        if self.Path.show>-2:
-            #draw paths.
-            def drawPath(path):
-                pointPath = QPainterPath()
-                for i, (x, y) in enumerate(path):
-                    if isnan(x):
-                        continue
-                    else:
-                        if i==0:
-                            pointPath.moveTo(x*self.zoom, y*-self.zoom)
-                        else:
-                            pointPath.lineTo(QPointF(x*self.zoom, y*-self.zoom))
-                self.painter.drawPath(pointPath)
-            def drawDot(path):
-                for i, (x, y) in enumerate(path):
-                    if isnan(x):
-                        continue
-                    else:
-                        self.painter.drawPoint(QPointF(x*self.zoom, y*-self.zoom))
-            draw = drawPath if self.Path.curve else drawDot
-            if hasattr(self, 'PathRecord'):
-                Path = self.PathRecord
-            else:
-                Path = self.Path.path
-            for i, path in enumerate(Path):
-                if self.Path.show!=i and self.Path.show!=-1:
+        def drawPath(path):
+            pointPath = QPainterPath()
+            for i, (x, y) in enumerate(path):
+                if isnan(x):
                     continue
-                if len(set(path))>1:
-                    try:
-                        color = self.Point[i].color
-                    except:
-                        color = colorQt('Green')
-                    pen.setColor(color)
-                    pen.setWidth(self.pathWidth)
-                    self.painter.setPen(pen)
-                    draw(path)
-        if self.showSlvsPath:
-            #Draw solving range.
-            self.painter.setFont(QFont("Arial", self.fontSize+5))
-            for i, (tag, rect) in enumerate(self.ranges.items()):
-                range_color = QColor(colorNum(i+1))
-                range_color.setAlpha(30)
-                self.painter.setBrush(range_color)
-                range_color.setAlpha(255)
-                pen.setColor(range_color)
-                pen.setWidth(5)
-                self.painter.setPen(pen)
-                cx = rect.x()*self.zoom
-                cy = rect.y()*-self.zoom
-                if rect.width():
-                    self.painter.drawRect(
-                        QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom)
-                    )
                 else:
-                    self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
-                range_color.setAlpha(255)
-                pen.setColor(range_color)
+                    if i==0:
+                        pointPath.moveTo(x*self.zoom, y*-self.zoom)
+                    else:
+                        pointPath.lineTo(QPointF(x*self.zoom, y*-self.zoom))
+            self.painter.drawPath(pointPath)
+        def drawDot(path):
+            for i, (x, y) in enumerate(path):
+                if isnan(x):
+                    continue
+                else:
+                    self.painter.drawPoint(QPointF(x*self.zoom, y*-self.zoom))
+        draw = drawPath if self.Path.curve else drawDot
+        if hasattr(self, 'PathRecord'):
+            Path = self.PathRecord
+        else:
+            Path = self.Path.path
+        for i, path in enumerate(Path):
+            if self.Path.show!=i and self.Path.show!=-1:
+                continue
+            if len(set(path))>1:
+                try:
+                    color = self.Point[i].color
+                except:
+                    color = colorQt('Green')
+                pen.setColor(color)
+                pen.setWidth(self.pathWidth)
                 self.painter.setPen(pen)
-                self.painter.drawText(QPointF(cx+6, cy-6), tag)
-                self.painter.setBrush(Qt.NoBrush)
-            #Draw solving path.
-            pen.setWidth(self.pathWidth)
-            for i, name in enumerate(sorted(self.solvingPath)):
-                path = self.solvingPath[name]
-                Pen, Dot, Brush = colorPath(i)
-                self.painter.setBrush(Brush)
-                if len(path)>1:
-                    pointPath = QPainterPath()
-                    for i, (x, y) in enumerate(path):
-                        x *= self.zoom
-                        y *= -self.zoom
-                        pen.setColor(Dot)
-                        self.painter.setPen(pen)
-                        self.painter.drawEllipse(QPointF(x, y), 3, 3)
-                        if i==0:
-                            self.painter.drawText(QPointF(x+6, y-6), name)
-                            pointPath.moveTo(x, y)
-                        else:
-                            x2, y2 = path[i-1]
-                            pen.setColor(Pen)
-                            self.painter.setPen(pen)
-                            x2 *= self.zoom
-                            y2 *= -self.zoom
-                            x1 = (x + x2) / 2
-                            y1 = (y + y2) / 2
-                            self.drawArrow(x1, y1, x2, y2)
-                            pointPath.lineTo(QPointF(x, y))
-                    pen.setColor(Pen)
-                    self.painter.setPen(pen)
-                    self.painter.drawPath(pointPath)
-                elif len(path)==1:
-                    x = path[0][0]*self.zoom
-                    y = path[0][1]*-self.zoom
-                    pen.setColor(Dot)
-                    self.painter.setPen(pen)
-                    self.painter.drawEllipse(QPointF(x, y), 3, 3)
-                    self.painter.drawText(QPointF(x+6, y-6), name)
+                draw(path)
+    
+    #Draw solving range.
+    def drawSlvsRanges(self):
+        pen = QPen()
+        self.painter.setFont(QFont("Arial", self.fontSize+5))
+        pen.setWidth(5)
+        for i, (tag, rect) in enumerate(self.ranges.items()):
+            range_color = QColor(colorNum(i+1))
+            range_color.setAlpha(30)
+            self.painter.setBrush(range_color)
+            range_color.setAlpha(255)
+            pen.setColor(range_color)
+            self.painter.setPen(pen)
+            cx = rect.x()*self.zoom
+            cy = rect.y()*-self.zoom
+            if rect.width():
+                self.painter.drawRect(
+                    QRectF(cx, cy, rect.width()*self.zoom, rect.height()*self.zoom)
+                )
+            else:
+                self.painter.drawEllipse(QPointF(cx, cy), 3, 3)
+            range_color.setAlpha(255)
+            pen.setColor(range_color)
+            self.painter.setPen(pen)
+            self.painter.drawText(QPointF(cx+6, cy-6), tag)
             self.painter.setBrush(Qt.NoBrush)
     
     def recordStart(self, limit):

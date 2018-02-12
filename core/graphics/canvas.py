@@ -18,7 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from core.graphics import colorQt
+from core.graphics import colorQt, colorPath
 from core.io import triangle_expr
 from networkx import Graph
 from math import (
@@ -165,8 +165,47 @@ class BaseCanvas(QWidget):
                 text += ":({:.02f}, {:.02f})".format(cx, cy)
             self.painter.drawText(QPointF(x+6, y-6), text)
     
+    #Draw solving path.
+    def drawSlvsPath(self):
+        pen = QPen()
+        pen.setWidth(self.pathWidth)
+        for i, name in enumerate(sorted(self.solvingPath)):
+            path = self.solvingPath[name]
+            Pen, Dot, Brush = colorPath(i)
+            pen.setColor(Pen)
+            self.painter.setPen(pen)
+            self.painter.setBrush(Brush)
+            if len(path)>1:
+                pointPath = QPainterPath()
+                for i, (x, y) in enumerate(path):
+                    x *= self.zoom
+                    y *= -self.zoom
+                    self.painter.drawEllipse(QPointF(x, y), 4, 4)
+                    if i==0:
+                        self.painter.drawText(QPointF(x+6, y-6), name)
+                        pointPath.moveTo(x, y)
+                    else:
+                        x2, y2 = path[i-1]
+                        self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
+                        pointPath.lineTo(QPointF(x, y))
+                self.painter.drawPath(pointPath)
+                for x, y in path:
+                    pen.setColor(Dot)
+                    self.painter.setPen(pen)
+                    self.painter.drawEllipse(QPointF(x*self.zoom, y*-self.zoom), 3, 3)
+            elif len(path)==1:
+                x = path[0][0]*self.zoom
+                y = path[0][1]*-self.zoom
+                pen.setColor(Dot)
+                self.painter.setPen(pen)
+                self.painter.drawEllipse(QPointF(x, y), 3, 3)
+                self.painter.drawText(QPointF(x+6, y-6), name)
+        self.painter.setBrush(Qt.NoBrush)
+    
     def drawArrow(self, x1, y1, x2, y2):
         a = atan2(y2 - y1, x2 - x1)
+        x1 = (x1 + x2) / 2 - 7.5*cos(a)
+        y1 = (y1 + y2) / 2 - 7.5*sin(a)
         self.painter.drawLine(
             QPointF(x1, y1),
             QPointF(x1 + 15*cos(a + radians(20)), y1 + 15*sin(a + radians(20)))
@@ -269,13 +308,8 @@ class PreviewCanvas(BaseCanvas):
                     for n in (0, 1):
                         x, y = self.pos[int(params[-1].replace('P', ''))]
                         x2, y2 = self.pos[int(params[n].replace('P', ''))]
-                        x1 = (x + x2) / 2
-                        y1 = (y + y2) / 2
                         self.drawArrow(
-                            x1*self.zoom,
-                            y1*-self.zoom,
-                            x2*self.zoom,
-                            y2*-self.zoom
+                            x*self.zoom, y*-self.zoom, x2*self.zoom, y2*-self.zoom
                         )
                     color.setAlpha(30)
                     self.painter.setBrush(QBrush(color))

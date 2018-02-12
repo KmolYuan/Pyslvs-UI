@@ -1141,7 +1141,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     exp_symbol.append(name)
         self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
         tmp_dict = {}
-        for tag in exp_symbol:
+        for tag in sorted(exp_symbol):
             tmp_dict[tag] = self.addPoint(
                 Result[tag][0],
                 Result[tag][1],

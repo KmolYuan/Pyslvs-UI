@@ -149,8 +149,8 @@ class TriangleArgsTransformer(Transformer):
 #(('PLAP', ('A', 'L0', 'a0', 'B'), 'C'), ('PLLP', ('C', 'L1', 'L2', 'B'), 'D'), ...)
 def triangle_expr(expr):
     tf = TriangleArgsTransformer()
-    for func, params, target in tf.transform(triangle_parser.parse(expr)):
-        yield func, params, target
+    for func, args, target in tf.transform(triangle_parser.parse(expr)):
+        yield func, args, target
 
 #Return the symble by types.
 #TriangleExprClassification().transform(tree)
@@ -177,9 +177,9 @@ class TriangleExprClassification(Transformer):
 def triangle_class(expr):
     tc = TriangleExprClassification()
     tmp_set = set()
-    for func, params, target in triangle_expr(expr):
+    for func, args, target in triangle_expr(expr):
         tmp_set.add(target)
-        for p in params:
+        for p in args:
             tmp_set.add(p)
     angles, links = tc.transform(triangle_parser.parse(expr))
     joints = tuple(sorted(tmp_set - set(angles) - set(links)))

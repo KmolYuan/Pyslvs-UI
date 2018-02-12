@@ -20,10 +20,9 @@
 from core.QtModules import *
 from core.graphics import (
     BaseCanvas,
-    colorQt,
-    colorPath
+    colorQt
 )
-from core.io import get_from_parenthesis
+from core.io import get_from_parenthesis, triangle_expr
 from math import isnan
 from typing import Tuple
 from .Ui_preview import Ui_Dialog
@@ -127,6 +126,8 @@ class DynamicCanvas(BaseCanvas):
             self.drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))
         #Draw path.
         self.drawPath()
+        #Draw solving path.
+        self.drawSlvsPath()
         #Draw points.
         for i, name in enumerate(self.exp_symbol):
             coordinate = self.Point[i]
@@ -173,7 +174,6 @@ class DynamicCanvas(BaseCanvas):
     
     def drawPath(self):
         pen = QPen()
-        #Draw the path of mechanism.
         def drawPath(path):
             pointPath = QPainterPath()
             for i, coordinate in enumerate(path):
@@ -202,32 +202,6 @@ class DynamicCanvas(BaseCanvas):
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
             draw(path)
-        #Draw the path that specified by user.
-        pen.setWidth(self.pathWidth)
-        for i, name in enumerate(sorted(self.solvingPath)):
-            path = self.solvingPath[name]
-            Pen, Dot, Brush = colorPath(i)
-            self.painter.setBrush(Brush)
-            pointPath = QPainterPath()
-            for i, (x, y) in enumerate(path):
-                x *= self.zoom
-                y *= -self.zoom
-                pen.setColor(Dot)
-                self.painter.setPen(pen)
-                self.painter.drawEllipse(QPointF(x, y), 3, 3)
-                if i==0:
-                    self.painter.drawText(QPointF(x+6, y-6), name)
-                    pointPath.moveTo(x, y)
-                else:
-                    x2, y2 = path[i-1]
-                    pen.setColor(Pen)
-                    self.painter.setPen(pen)
-                    self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
-                    pointPath.lineTo(QPointF(x, y))
-            pen.setColor(Pen)
-            self.painter.setPen(pen)
-            self.painter.drawPath(pointPath)
-        self.painter.setBrush(Qt.NoBrush)
     
     @pyqtSlot()
     def change_index(self):
@@ -250,8 +224,8 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         link_tags = []
-        for expr in self.mechanism['Expression'].split(';'):
-            for p in get_from_parenthesis(expr, '[', ']').split(','):
+        for func, args, target in triangle_expr(self.mechanism['Expression']):
+            for p in args:
                 if ('L' in p) and (p not in link_tags):
                     link_tags.append(p)
         self.basic_label.setText("\n".join(
