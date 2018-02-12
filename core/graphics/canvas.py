@@ -19,11 +19,7 @@
 
 from core.QtModules import *
 from core.graphics import colorQt
-from core.io import (
-    triangle_expr,
-    get_from_parenthesis,
-    get_front_of_parenthesis
-)
+from core.io import triangle_expr
 from networkx import Graph
 from math import (
     sqrt,
@@ -57,8 +53,8 @@ def edges_view(G: Graph) -> [int, tuple]:
 def replace_by_dict(d: dict) -> tuple:
     nd = d['name_dict']
     tmp_list = []
-    for func, params, target in triangle_expr(d['Expression']):
-        params = list(params)
+    for func, args, target in triangle_expr(d['Expression']):
+        params = list(args)
         for i, p in enumerate(params):
             if p in nd:
                 params[i] = nd[p]
@@ -261,24 +257,33 @@ class PreviewCanvas(BaseCanvas):
             self.painter.setPen(pen)
         #Solutions
         if self.showSolutions:
-            for expr in self.get_solutions():
-                params = [
-                    p for p in get_from_parenthesis(expr, '[', ']').split(',')
-                    if 'P' in p
-                ]
-                params.append(get_from_parenthesis(expr, '(', ')'))
-                func = get_front_of_parenthesis(expr, '[')
-                color = QColor(121, 171, 252) if func=='PLLP' else QColor(249, 84, 216)
-                color.setAlpha(255)
-                pen.setColor(color)
-                self.painter.setPen(pen)
-                color.setAlpha(30)
-                self.painter.setBrush(QBrush(color))
-                qpoints = []
-                for name in params:
-                    x, y = self.pos[int(name.replace('P', ''))]
-                    qpoints.append(QPointF(x*self.zoom, y*-self.zoom))
-                self.painter.drawPolygon(*qpoints)
+            solutions = ';'.join(self.get_solutions())
+            if solutions:
+                for func, args, target in triangle_expr(solutions):
+                    params = [args[0], args[-1]]
+                    params.append(target)
+                    color = QColor(121, 171, 252) if func=='PLLP' else QColor(249, 84, 216)
+                    color.setAlpha(255)
+                    pen.setColor(color)
+                    self.painter.setPen(pen)
+                    for n in (0, 1):
+                        x, y = self.pos[int(params[-1].replace('P', ''))]
+                        x2, y2 = self.pos[int(params[n].replace('P', ''))]
+                        x1 = (x + x2) / 2
+                        y1 = (y + y2) / 2
+                        self.drawArrow(
+                            x1*self.zoom,
+                            y1*-self.zoom,
+                            x2*self.zoom,
+                            y2*-self.zoom
+                        )
+                    color.setAlpha(30)
+                    self.painter.setBrush(QBrush(color))
+                    qpoints = []
+                    for name in params:
+                        x, y = self.pos[int(name.replace('P', ''))]
+                        qpoints.append(QPointF(x*self.zoom, y*-self.zoom))
+                    self.painter.drawPolygon(*qpoints)
         #Text of node.
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
@@ -345,8 +350,7 @@ class PreviewCanvas(BaseCanvas):
                     self.setGrounded(row)
                     break
         #Expression
-        for expr in params['Expression'].split(';'):
-            target = get_from_parenthesis(expr, '(', ')')
+        for func, args, target in triangle_expr(params['Expression']):
             self.setStatus(params['name_dict'][target], True)
     
     def isAllLock(self) -> bool:

@@ -389,7 +389,11 @@ class DynamicCanvas(BaseCanvas):
                             x2, y2 = path[i-1]
                             pen.setColor(Pen)
                             self.painter.setPen(pen)
-                            self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
+                            x2 *= self.zoom
+                            y2 *= -self.zoom
+                            x1 = (x + x2) / 2
+                            y1 = (y + y2) / 2
+                            self.drawArrow(x1, y1, x2, y2)
                             pointPath.lineTo(QPointF(x, y))
                     pen.setColor(Pen)
                     self.painter.setPen(pen)
