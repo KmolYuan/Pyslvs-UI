@@ -369,10 +369,10 @@ class DynamicCanvas(BaseCanvas):
                 self.painter.drawText(QPointF(cx+6, cy-6), tag)
                 self.painter.setBrush(Qt.NoBrush)
             #Draw solving path.
+            pen.setWidth(self.pathWidth)
             for i, name in enumerate(sorted(self.solvingPath)):
                 path = self.solvingPath[name]
                 Pen, Dot, Brush = colorPath(i)
-                pen.setWidth(self.pathWidth)
                 self.painter.setBrush(Brush)
                 if len(path)>1:
                     pointPath = QPainterPath()

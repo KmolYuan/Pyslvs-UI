@@ -18,7 +18,11 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from core.graphics import BaseCanvas, colorQt
+from core.graphics import (
+    BaseCanvas,
+    colorQt,
+    colorPath
+)
 from core.io import get_from_parenthesis
 from math import isnan
 from typing import Tuple
@@ -168,6 +172,7 @@ class DynamicCanvas(BaseCanvas):
             self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
     
     def drawPath(self):
+        pen = QPen()
         #Draw the path of mechanism.
         def drawPath(path):
             pointPath = QPainterPath()
@@ -191,29 +196,38 @@ class DynamicCanvas(BaseCanvas):
         Path = self.Path.path
         for i, path in enumerate(Path):
             color = colorQt('Green')
-            if self.exp_symbol[i] in self.solvingPath:
+            if self.exp_symbol[i] in self.mechanism['Target']:
                 color = colorQt('Dark-Orange')
-            pen = QPen(color)
+            pen.setColor(color)
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
             draw(path)
         #Draw the path that specified by user.
-        pen = QPen(QColor(3, 163, 120))
         pen.setWidth(self.pathWidth)
-        self.painter.setPen(pen)
-        pointPath = QPainterPath()
-        for name, path in self.solvingPath.items():
+        for i, name in enumerate(sorted(self.solvingPath)):
+            path = self.solvingPath[name]
+            Pen, Dot, Brush = colorPath(i)
+            self.painter.setBrush(Brush)
+            pointPath = QPainterPath()
             for i, (x, y) in enumerate(path):
                 x *= self.zoom
                 y *= -self.zoom
+                pen.setColor(Dot)
+                self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), 3, 3)
                 if i==0:
+                    self.painter.drawText(QPointF(x+6, y-6), name)
                     pointPath.moveTo(x, y)
                 else:
+                    x2, y2 = path[i-1]
+                    pen.setColor(Pen)
+                    self.painter.setPen(pen)
+                    self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
                     pointPath.lineTo(QPointF(x, y))
-        pen.setColor(QColor(69, 247, 232))
-        self.painter.setPen(pen)
-        self.painter.drawPath(pointPath)
+            pen.setColor(Pen)
+            self.painter.setPen(pen)
+            self.painter.drawPath(pointPath)
+        self.painter.setBrush(Qt.NoBrush)
     
     @pyqtSlot()
     def change_index(self):
