@@ -26,7 +26,6 @@ from core.graphics import (
     colorPath
 )
 from math import (
-    radians,
     sin,
     cos,
     atan2,
@@ -89,8 +88,8 @@ class DynamicCanvas(BaseCanvas):
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         self.Selector = Selector()
         #Entities.
-        self.Point = ()
-        self.Link = ()
+        self.Point = tuple()
+        self.Link = tuple()
         #Point selection.
         self.selectionRadius = 10
         self.pointsSelection = []
@@ -404,17 +403,6 @@ class DynamicCanvas(BaseCanvas):
                     self.painter.drawText(QPointF(x+6, y-6), name)
             self.painter.setBrush(Qt.NoBrush)
     
-    def drawArrow(self, x1, y1, x2, y2):
-        a = atan2(y2 - y1, x2 - x1)
-        self.painter.drawLine(
-            QPointF(x1, y1),
-            QPointF(x1 + 15*cos(a + radians(20)), y1 + 15*sin(a + radians(20)))
-        )
-        self.painter.drawLine(
-            QPointF(x1, y1),
-            QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
-        )
-    
     def recordStart(self, limit):
         self.PathRecord = [deque([], limit) for i in range(len(self.Point))]
     
@@ -556,6 +544,7 @@ class DynamicCanvas(BaseCanvas):
         x_left = -inf
         y_top = -inf
         y_bottom = inf
+        #Points
         for vpoint in self.Point:
             if vpoint.cx < x_right:
                 x_right = vpoint.cx
@@ -565,6 +554,7 @@ class DynamicCanvas(BaseCanvas):
                 y_bottom = vpoint.cy
             if vpoint.cy > y_top:
                 y_top = vpoint.cy
+        #Paths
         if self.Path.show>-2:
             for i, path in enumerate(self.Path.path):
                 if self.Path.show!=-1 and self.Path.show!=i:
@@ -578,6 +568,7 @@ class DynamicCanvas(BaseCanvas):
                         y_bottom = y
                     if y > y_top:
                         y_top = y
+        #Solving paths
         if self.showSlvsPath:
             for path in self.solvingPath.values():
                 for x, y in path:
@@ -589,6 +580,7 @@ class DynamicCanvas(BaseCanvas):
                         y_bottom = y
                     if y > y_top:
                         y_top = y
+        #Ranges
         for rect in self.ranges.values():
             x_r = rect.x()
             x_l = rect.x() + rect.width()
@@ -617,8 +609,8 @@ class DynamicCanvas(BaseCanvas):
             self.oy = height/2
             self.update()
             return
-        x_diff = abs(x_right - x_left)
-        y_diff = abs(y_top - y_bottom)
+        x_diff = x_right - x_left
+        y_diff = y_top - y_bottom
         x_diff = x_diff if x_diff!=0 else 1
         y_diff = y_diff if y_diff!=0 else 1
         diff = x_diff/y_diff > width/height

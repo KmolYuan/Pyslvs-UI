@@ -18,11 +18,12 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-from .Ui_preview import Ui_Dialog
 from core.graphics import BaseCanvas, colorQt
 from core.io import get_from_parenthesis
 from math import isnan
 from typing import Tuple
+from .Ui_preview import Ui_Dialog
+inf = float('inf')
 
 class DynamicCanvas(BaseCanvas):
     def __init__(self, mechanism, Path, parent=None):
@@ -47,35 +48,60 @@ class DynamicCanvas(BaseCanvas):
         timer.timeout.connect(self.change_index)
         timer.start()
     
-    def Comparator(self, fun, i):
-        real_point = []
-        for point in self.Path.path:
-            if point:
-                r = [path[i] for path in point if not isnan(path[i])]
-                if r:
-                    real_point.append(fun(r))
-        fixed_point = fun(
-            fun(self.mechanism[name][i] for name in self.mechanism['Driver']),
-            fun(self.mechanism[name][i] for name in self.mechanism['Follower'])
-        )
-        if real_point:
-            return fun(fun(real_point), fixed_point)
-        else:
-            return fixed_point
+    def setInLimit(self):
+        x_right = inf
+        x_left = -inf
+        y_top = -inf
+        y_bottom = inf
+        #Points
+        for name in self.exp_symbol:
+            x, y = self.mechanism[name]
+            if x < x_right:
+                x_right = x
+            if x > x_left:
+                x_left = x
+            if y < y_bottom:
+                y_bottom = y
+            if y > y_top:
+                y_top = y
+        #Paths
+        for i, path in enumerate(self.Path.path):
+            if self.Path.show!=-1 and self.Path.show!=i:
+                continue
+            for x, y in path:
+                if x < x_right:
+                    x_right = x
+                if x > x_left:
+                    x_left = x
+                if y < y_bottom:
+                    y_bottom = y
+                if y > y_top:
+                    y_top = y
+        #Solving paths
+        for path in self.solvingPath.values():
+            for x, y in path:
+                if x < x_right:
+                    x_right = x
+                if x > x_left:
+                    x_left = x
+                if y < y_bottom:
+                    y_bottom = y
+                if y > y_top:
+                    y_top = y
+        return x_right, x_left, y_top, y_bottom
     
     def paintEvent(self, event):
         width = self.width()
         height = self.height()
-        maxX = self.Comparator(max, 0)
-        minX = self.Comparator(min, 0)
-        maxY = self.Comparator(max, 1)
-        minY = self.Comparator(min, 1)
-        diffX = maxX - minX
-        diffY = maxY - minY
-        diff = diffX/diffY > width/height
-        self.zoom = (width if diff else height)/(diffX if diff else diffY)*0.95
-        self.ox = width/2 - (minX + maxX)/2*self.zoom
-        self.oy = height/2 + (minY + maxY)/2*self.zoom
+        x_right, x_left, y_top, y_bottom = self.setInLimit()
+        x_diff = x_right - x_left
+        y_diff = y_top - y_bottom
+        x_diff = x_diff if x_diff!=0 else 1
+        y_diff = y_diff if y_diff!=0 else 1
+        diff = x_diff/y_diff > width/height
+        self.zoom = (width if diff else height)/(x_diff if diff else y_diff)*0.95
+        self.ox = width/2 - (x_left + x_right)/2*self.zoom
+        self.oy = height/2 + (y_bottom + y_top)/2*self.zoom
         super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
         self.Point = []

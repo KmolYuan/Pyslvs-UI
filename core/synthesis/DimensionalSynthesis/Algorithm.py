@@ -400,7 +400,6 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     
     def get_path(self, row):
         Result = self.mechanism_data[row]
-        print(self.mechanism_data)
         expr_angles, expr_links, expr_points = triangle_class(Result['Expression'])
         if len(expr_angles)>1:
             return tuple()

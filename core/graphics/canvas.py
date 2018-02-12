@@ -25,7 +25,13 @@ from core.io import (
     get_front_of_parenthesis
 )
 from networkx import Graph
-from math import sqrt
+from math import (
+    sqrt,
+    radians,
+    sin,
+    cos,
+    atan2
+)
 from heapq import nsmallest
 
 def distance_sorted(points):
@@ -162,6 +168,17 @@ class BaseCanvas(QWidget):
             if self.showDimension:
                 text += ":({:.02f}, {:.02f})".format(cx, cy)
             self.painter.drawText(QPointF(x+6, y-6), text)
+    
+    def drawArrow(self, x1, y1, x2, y2):
+        a = atan2(y2 - y1, x2 - x1)
+        self.painter.drawLine(
+            QPointF(x1, y1),
+            QPointF(x1 + 15*cos(a + radians(20)), y1 + 15*sin(a + radians(20)))
+        )
+        self.painter.drawLine(
+            QPointF(x1, y1),
+            QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
+        )
 
 #A preview canvas use to show structure diagram.
 class PreviewCanvas(BaseCanvas):
