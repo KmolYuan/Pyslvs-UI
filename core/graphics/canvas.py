@@ -26,7 +26,8 @@ from math import (
     radians,
     sin,
     cos,
-    atan2
+    atan2,
+    isnan
 )
 from heapq import nsmallest
 
@@ -214,6 +215,25 @@ class BaseCanvas(QWidget):
             QPointF(x1, y1),
             QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
         )
+    
+    def drawCurve(self, path):
+        pointPath = QPainterPath()
+        for i, (x, y) in enumerate(path):
+            if isnan(x):
+                continue
+            else:
+                if i==0:
+                    pointPath.moveTo(x*self.zoom, y*-self.zoom)
+                else:
+                    pointPath.lineTo(QPointF(x*self.zoom, y*-self.zoom))
+        self.painter.drawPath(pointPath)
+    
+    def drawDot(self, path):
+        for x, y in path:
+            if isnan(x):
+                continue
+            else:
+                self.painter.drawPoint(QPointF(x*self.zoom, y*-self.zoom))
 
 #A preview canvas use to show structure diagram.
 class PreviewCanvas(BaseCanvas):

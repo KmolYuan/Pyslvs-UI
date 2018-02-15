@@ -28,8 +28,7 @@ from math import (
     sin,
     cos,
     atan2,
-    sqrt,
-    isnan
+    sqrt
 )
 from collections import deque
 from typing import (
@@ -313,24 +312,6 @@ class DynamicCanvas(BaseCanvas):
     #draw paths.
     def drawPath(self):
         pen = QPen()
-        def drawPath(path):
-            pointPath = QPainterPath()
-            for i, (x, y) in enumerate(path):
-                if isnan(x):
-                    continue
-                else:
-                    if i==0:
-                        pointPath.moveTo(x*self.zoom, y*-self.zoom)
-                    else:
-                        pointPath.lineTo(QPointF(x*self.zoom, y*-self.zoom))
-            self.painter.drawPath(pointPath)
-        def drawDot(path):
-            for i, (x, y) in enumerate(path):
-                if isnan(x):
-                    continue
-                else:
-                    self.painter.drawPoint(QPointF(x*self.zoom, y*-self.zoom))
-        draw = drawPath if self.Path.curve else drawDot
         if hasattr(self, 'PathRecord'):
             Path = self.PathRecord
         else:
@@ -346,7 +327,10 @@ class DynamicCanvas(BaseCanvas):
                 pen.setColor(color)
                 pen.setWidth(self.pathWidth)
                 self.painter.setPen(pen)
-                draw(path)
+                if self.Path.curve:
+                    self.drawCurve(path)
+                else:
+                    self.drawDot(path)
     
     #Draw solving range.
     def drawSlvsRanges(self):

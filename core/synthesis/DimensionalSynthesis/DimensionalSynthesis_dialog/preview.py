@@ -174,25 +174,6 @@ class DynamicCanvas(BaseCanvas):
     
     def drawPath(self):
         pen = QPen()
-        def drawPath(path):
-            pointPath = QPainterPath()
-            for i, coordinate in enumerate(path):
-                if coordinate:
-                    x = coordinate[0]*self.zoom
-                    y = coordinate[1]*-self.zoom
-                    if isnan(x):
-                        continue
-                    if i==0:
-                        pointPath.moveTo(x, y)
-                    else:
-                        pointPath.lineTo(QPointF(x, y))
-            self.painter.drawPath(pointPath)
-        def drawDot(path):
-            for coordinate in path:
-                if isnan(coordinate[0]):
-                    continue
-                self.painter.drawPoint(QPointF(coordinate[0]*self.zoom, coordinate[1]*-self.zoom))
-        draw = drawPath if self.Path.curve else drawDot
         Path = self.Path.path
         for i, path in enumerate(Path):
             color = colorQt('Green')
@@ -201,7 +182,7 @@ class DynamicCanvas(BaseCanvas):
             pen.setColor(color)
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
-            draw(path)
+            self.drawCurve(path)
     
     @pyqtSlot()
     def change_index(self):
