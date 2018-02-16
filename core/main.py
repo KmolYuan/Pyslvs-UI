@@ -66,6 +66,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Adjust the canvas size after display.
     def show(self):
         super(MainWindow, self).show()
+        self.DynamicCanvasView.width_old = self.DynamicCanvasView.width()
+        self.DynamicCanvasView.height_old = self.DynamicCanvasView.height()
         self.DynamicCanvasView.SetIn()
         self.DimensionalSynthesis.updateRange()
     

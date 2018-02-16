@@ -77,7 +77,6 @@ class DynamicCanvas(BaseCanvas):
     mouse_noSelection = pyqtSignal()
     mouse_getDoubleClickAdd = pyqtSignal()
     mouse_getDoubleClickEdit = pyqtSignal(int)
-    change_event = pyqtSignal()
     zoom_change = pyqtSignal(int)
     
     def __init__(self, parent=None):
@@ -193,6 +192,11 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     def paintEvent(self, event):
+        width = self.width()
+        height = self.height()
+        if self.width_old != width or self.height_old != height:
+            self.ox += (width - self.width_old) / 2
+            self.oy += (height - self.height_old) / 2
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.setFont(QFont('Arial', self.fontSize))
         if self.freemove:
@@ -229,7 +233,8 @@ class DynamicCanvas(BaseCanvas):
         for i, vpoint in enumerate(self.Point):
             self.drawPoint(i, vpoint)
         self.painter.end()
-        self.change_event.emit()
+        self.width_old = width
+        self.height_old = height
     
     def drawPoint(self, i, vpoint):
         if vpoint.type==1 or vpoint.type==2:
@@ -540,7 +545,7 @@ class DynamicCanvas(BaseCanvas):
             x_r = rect.x()
             x_l = rect.x() + rect.width()
             y_t = rect.y()
-            y_b = rect.y() - rect.width()
+            y_b = rect.y() - rect.height()
             if x_r < x_right:
                 x_right = x_r
             if x_l > x_left:

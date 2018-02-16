@@ -80,23 +80,23 @@ class BaseCanvas(QWidget):
     def __init__(self, parent=None):
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
-        #Origin coordinate
+        #Origin coordinate.
         self.ox = self.width()/2
         self.oy = self.height()/2
-        #Canvas zoom rate
+        #Canvas zoom rate.
         self.rate = 2
         self.zoom = 2 * self.rate
-        #Canvas line width
+        #Canvas line width.
         self.linkWidth = 3
         self.pathWidth = 3
-        #Font size
+        #Font size.
         self.fontSize = 10
-        #Show point mark or dimension
+        #Show point mark or dimension.
         self.showPointMark = True
         self.showDimension = True
-        #Path track
+        #Path track.
         self.Path = Path()
-        #Path solving
+        #Path solving.
         self.solvingPath = {}
         self.showSlvsPath = False
     
