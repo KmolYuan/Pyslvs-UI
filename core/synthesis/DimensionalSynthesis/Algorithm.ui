@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>528</width>
+    <width>472</width>
     <height>694</height>
    </rect>
   </property>
@@ -206,6 +206,43 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
+                 <widget class="QPushButton" name="path_clear">
+                  <property name="statusTip">
+                   <string>Clear all points.</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="path_copy">
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="path_paste">
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <spacer name="horizontalSpacer_7">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
@@ -285,12 +322,23 @@
                       </property>
                      </widget>
                     </item>
+                    <item>
+                     <widget class="QPushButton" name="close_path">
+                      <property name="statusTip">
+                       <string>Close the path.</string>
+                      </property>
+                      <property name="icon">
+                       <iconset resource="../../../icons.qrc">
+                        <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
+                      </property>
+                     </widget>
+                    </item>
                    </layout>
                   </item>
                  </layout>
                 </item>
                 <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_7">
+                 <layout class="QVBoxLayout" name="verticalLayout_3">
                   <item>
                    <widget class="QPushButton" name="pathAdjust">
                     <property name="statusTip">
@@ -302,48 +350,6 @@
                     </property>
                    </widget>
                   </item>
-                  <item>
-                   <widget class="QPushButton" name="path_clear">
-                    <property name="statusTip">
-                     <string>Clear all points.</string>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-                    </property>
-                    <property name="autoDefault">
-                     <bool>false</bool>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="close_path">
-                    <property name="statusTip">
-                     <string>Close the path.</string>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/freemove_off.png</normaloff>:/icons/freemove_off.png</iconset>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <spacer name="verticalSpacer">
-                    <property name="orientation">
-                     <enum>Qt::Vertical</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>20</width>
-                      <height>40</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_3">
                   <item>
                    <widget class="QPushButton" name="importXLSX">
                     <property name="toolTip">

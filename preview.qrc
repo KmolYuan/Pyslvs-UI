@@ -4,12 +4,8 @@
     <!--Splash-->
     <file>icons/Splash.png</file>
     <!--Preview pictures-->
-    <file>icons/preview/Chain_frame.png</file>
-    <file>icons/preview/Chain_sheet.png</file>
-    <file>icons/preview/Link_round.png</file>
     <file>icons/preview/PLAP.png</file>
     <file>icons/preview/PLLP.png</file>
     <file>icons/preview/PLPP.png</file>
-    <file>icons/preview/PPP.png</file>
     </qresource>
 </RCC>

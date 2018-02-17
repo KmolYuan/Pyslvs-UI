@@ -78,12 +78,6 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
         #Splitter
         self.up_splitter.setSizes([80, 100])
-        #Context menu action.
-        self.path_list.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.path_list.customContextMenuRequested.connect(self.on_Point_list_context_menu)
-        self.popMenu_list = QMenu(self)
-        self.action_paste_from_clipboard = QAction("&Paste from clipboard", self)
-        self.popMenu_list.addAction(self.action_paste_from_clipboard)
         #Table widget column width.
         self.ground_joints.setColumnWidth(0, 50)
         self.ground_joints.setColumnWidth(1, 80)
@@ -159,10 +153,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             for x, y in dlg.path:
                 self.add_point(x, y)
     
-    def on_Point_list_context_menu(self, point):
-        action = self.popMenu_list.exec_(self.path_list.mapToGlobal(point))
-        if action==self.action_paste_from_clipboard:
-            self.readPathFromCSV(charSplit(",|\n", QApplication.clipboard().text()))
+    @pyqtSlot()
+    def on_path_copy_clicked(self):
+        QApplication.clipboard().setText('\n'.join("{},{}".format(x, y) for x, y in self.currentPath()))
+    
+    @pyqtSlot()
+    def on_path_paste_clicked(self):
+        self.readPathFromCSV(charSplit(",|\n", QApplication.clipboard().text()))
     
     @pyqtSlot()
     def on_importCSV_clicked(self):
