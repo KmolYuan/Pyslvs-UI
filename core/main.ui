@@ -256,7 +256,7 @@
                      <item>
                       <widget class="QPushButton" name="mechanism_storage_add">
                        <property name="statusTip">
-                        <string>Capture the current expression than save to the list.</string>
+                        <string>Capture the current expression then save to the list.</string>
                        </property>
                        <property name="text">
                         <string>Add</string>
@@ -264,27 +264,6 @@
                        <property name="icon">
                         <iconset resource="../icons.qrc">
                          <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="QPushButton" name="mechanism_storage_expression">
-                       <property name="statusTip">
-                        <string>Append a new expression to list by string format.</string>
-                       </property>
-                       <property name="text">
-                        <string>Expression</string>
-                       </property>
-                       <property name="icon">
-                        <iconset resource="../icons.qrc">
-                         <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
-                      <widget class="Line" name="line_4">
-                       <property name="orientation">
-                        <enum>Qt::Horizontal</enum>
                        </property>
                       </widget>
                      </item>
@@ -299,6 +278,41 @@
                        <property name="icon">
                         <iconset resource="../icons.qrc">
                          <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="Line" name="line_4">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="mechanism_storage_copy">
+                       <property name="statusTip">
+                        <string>Copy the specified mechanism expression as string format.</string>
+                       </property>
+                       <property name="text">
+                        <string>Copy</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="mechanism_storage_paste">
+                       <property name="statusTip">
+                        <string>Append a new expression to list by string format.</string>
+                       </property>
+                       <property name="text">
+                        <string>Paste</string>
+                       </property>
+                       <property name="icon">
+                        <iconset resource="../icons.qrc">
+                         <normaloff>:/icons/paste.png</normaloff>:/icons/paste.png</iconset>
                        </property>
                       </widget>
                      </item>
@@ -1029,7 +1043,7 @@
                 <item>
                  <widget class="QCheckBox" name="showConsoleError">
                   <property name="text">
-                   <string>Show solvespace error in the console.</string>
+                   <string>Show the Solvespace error in the console.</string>
                   </property>
                  </widget>
                 </item>

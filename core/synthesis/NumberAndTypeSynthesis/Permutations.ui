@@ -410,7 +410,7 @@
          <item>
           <widget class="QPushButton" name="Edges_to_altas">
            <property name="statusTip">
-            <string>Load the edges data from text file, than save them to image files.</string>
+            <string>Load the edges data from text file, then save them to image files.</string>
            </property>
            <property name="text">
             <string>Edges to atlas</string>

@@ -1212,8 +1212,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.FileState.push(clearStorageNameCommand(self.mechanism_storage_name_tag))
         self.FileState.endMacro()
     
+    #Copy the expression from a storage data.
     @pyqtSlot()
-    def on_mechanism_storage_expression_clicked(self):
+    def on_mechanism_storage_copy_clicked(self):
+        item = self.mechanism_storage.currentItem()
+        if item:
+            QApplication.clipboard().setText(item.expr)
+    
+    #Add the storage data from string.
+    @pyqtSlot()
+    def on_mechanism_storage_paste_clicked(self):
         expr, ok = QInputDialog.getText(self, "Storage", "Please input expression:")
         if ok:
             try:
@@ -1232,6 +1240,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     name = "Prototype_{}".format(i)
                 self.addStorage(name, expr, clear=False)
     
+    #Add storage data function.
     def addStorage(self, name, expr, clear=True):
         self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
         if clear:
@@ -1247,6 +1256,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             i += 1
         self.mechanism_storage_name_tag.setPlaceholderText("Prototype_{}".format(i))
     
+    #Delete the storage data.
     @pyqtSlot()
     def on_mechanism_storage_delete_clicked(self):
         row = self.mechanism_storage.currentRow()
@@ -1255,10 +1265,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
             self.FileState.endMacro()
     
+    #Restore the storage data as below.
     @pyqtSlot(QListWidgetItem)
     def on_mechanism_storage_itemDoubleClicked(self, item):
         self.on_mechanism_storage_restore_clicked(item)
     
+    #Restore the storage data.
     @pyqtSlot()
     def on_mechanism_storage_restore_clicked(self, item=None):
         if item is None:
@@ -1277,6 +1289,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.FileState.push(addStorageNameCommand(name, self.mechanism_storage_name_tag))
                 self.FileState.endMacro()
     
+    #Load storage data from database.
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         for name, expr in exprs:
             self.addStorage(name, expr, clear=False)

@@ -229,7 +229,7 @@ class Ui_Form(object):
         self.save_atlas.setText(_translate("Form", "Save atlas"))
         self.save_edges.setStatusTip(_translate("Form", "Save the edges of atlas to text file."))
         self.save_edges.setText(_translate("Form", "Save edges"))
-        self.Edges_to_altas.setStatusTip(_translate("Form", "Load the edges data from text file, than save them to image files."))
+        self.Edges_to_altas.setStatusTip(_translate("Form", "Load the edges data from text file, then save them to image files."))
         self.Edges_to_altas.setText(_translate("Form", "Edges to atlas"))
 
 import icons_rc
