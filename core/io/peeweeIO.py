@@ -363,6 +363,8 @@ class FileWidget(QWidget, Ui_Form):
                 self.fileName = QFileInfo(example_name)
                 self.isSavedFunc()
                 print("Example \"{}\" has been loaded.".format(example_name))
+                return True
+        return False
     
     #Check and warn if user is not saved yet.
     def checkSaved(self):

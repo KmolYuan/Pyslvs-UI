@@ -162,9 +162,9 @@ def appearance(self):
     self.synthesis_splitter.setSizes([100, 500])
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMenu)
-    #SetIn function connections.
-    self.action_Zoom_to_fit.triggered.connect(self.DynamicCanvasView.SetIn)
-    self.ResetCanvas.clicked.connect(self.DynamicCanvasView.SetIn)
+    #zoom_to_fit function connections.
+    self.action_Zoom_to_fit.triggered.connect(self.DynamicCanvasView.zoom_to_fit)
+    self.ResetCanvas.clicked.connect(self.DynamicCanvasView.zoom_to_fit)
     #Zoom text button
     Zoom_menu = QMenu(self)
     def zoom_level(level):

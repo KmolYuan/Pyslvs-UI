@@ -396,7 +396,7 @@ class DynamicCanvas(BaseCanvas):
     
     def mouseDoubleClickEvent(self, event):
         if event.button()==Qt.MidButton:
-            self.SetIn()
+            self.zoom_to_fit()
         if event.buttons()==Qt.LeftButton:
             self.Selector.x = event.x() - self.ox
             self.Selector.y = event.y() - self.oy
@@ -499,7 +499,7 @@ class DynamicCanvas(BaseCanvas):
         self.mouse_track.emit(x, y)
     
     #Limitations of four side.
-    def setInLimit(self):
+    def zoom_to_fit_limit(self):
         x_right = inf
         x_left = -inf
         y_top = -inf
@@ -557,26 +557,27 @@ class DynamicCanvas(BaseCanvas):
         return x_right, x_left, y_top, y_bottom
     
     #Zoom to fit function.
-    def SetIn(self):
+    def zoom_to_fit(self):
         width = self.width()
         height = self.height()
         width = width if not width==0 else 1
         height = height if not height==0 else 1
-        x_right, x_left, y_top, y_bottom = self.setInLimit()
+        x_right, x_left, y_top, y_bottom = self.zoom_to_fit_limit()
         if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
             self.zoom_change.emit(200)
             self.ox = width/2
             self.oy = height/2
             self.update()
             return
-        x_diff = x_right - x_left
+        x_diff = x_left - x_right
         y_diff = y_top - y_bottom
         x_diff = x_diff if x_diff!=0 else 1
         y_diff = y_diff if y_diff!=0 else 1
-        diff = x_diff/y_diff > width/height
-        self.zoom_change.emit(int(
-            (width if diff else height)/(x_diff if diff else y_diff)*self.marginFactor*50
-        ))
-        self.ox = width/2 - (x_right + x_left) / 2 *self.zoom
-        self.oy = height/2 + (y_top + y_bottom) / 2 *self.zoom
+        if width / x_diff < height / y_diff:
+            factor = width / x_diff
+        else:
+            factor = height / y_diff
+        self.zoom_change.emit(int(factor * self.marginFactor * 50))
+        self.ox = width / 2 - (x_left + x_right) / 2 *self.zoom
+        self.oy = height / 2 + (y_top + y_bottom) / 2 *self.zoom
         self.update()

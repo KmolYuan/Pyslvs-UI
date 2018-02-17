@@ -68,7 +68,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).show()
         self.DynamicCanvasView.width_old = self.DynamicCanvasView.width()
         self.DynamicCanvasView.height_old = self.DynamicCanvasView.height()
-        self.DynamicCanvasView.SetIn()
+        self.DynamicCanvasView.zoom_to_fit()
         self.DimensionalSynthesis.updateRange()
     
     #Set environment variables
@@ -333,7 +333,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Examples
     @pyqtSlot()
     def on_action_Example_triggered(self):
-        self.FileWidget.loadExample()
+        if self.FileWidget.loadExample():
+            self.DynamicCanvasView.zoom_to_fit()
     
     #Import a example.
     @pyqtSlot()
@@ -436,6 +437,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName = self.inputFrom("Workbook database", ["Pyslvs workbook (*.pyslvs)"])
             if fileName:
                 self.FileWidget.read(fileName)
+                self.DynamicCanvasView.zoom_to_fit()
     
     #Import workbook.
     @pyqtSlot()
