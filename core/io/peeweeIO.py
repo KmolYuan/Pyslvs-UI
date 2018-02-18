@@ -229,6 +229,8 @@ class FileWidget(QWidget, Ui_Form):
         if not isError:
             self.read(fileName)
             print("Saving \"{}\" successful.".format(fileName))
+            size = QFileInfo(fileName).size()
+            print("Size: {}".format("{} MB".format(round(size/1024/1024, 2)) if size/1024//1024 else "{} KB".format(round(size/1024, 2))))
         else:
             os.remove(fileName)
             print("An error was occur when saving database. The file was removed.")
@@ -242,7 +244,7 @@ class FileWidget(QWidget, Ui_Form):
             self.history_commit = history_commit
             for commit in self.history_commit:
                 self.addCommit(commit)
-            print("{} commits find in database.".format(len(self.history_commit)))
+            print("{} commit(s) was find in database.".format(len(self.history_commit)))
             self.loadCommit(self.history_commit.order_by(-CommitModel.id).get())
             self.fileName = QFileInfo(fileName)
             self.isSavedFunc()
@@ -318,7 +320,7 @@ class FileWidget(QWidget, Ui_Form):
             #Reset the main window status.
             self.clearFunc()
             #Load the commit to widgets.
-            print("Load commit #{}".format(commit.id))
+            print("Loading commit #{}.".format(commit.id))
             self.load_id.emit(commit.id)
             self.commit_current_id.setValue(commit.id)
             self.branch_current.setText(commit.branch.name)
