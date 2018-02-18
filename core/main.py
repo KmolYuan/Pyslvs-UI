@@ -595,11 +595,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     #Add an ordinary point.
     def addPoint(self, x, y, fixed=False, color=None):
-        Args = ['ground' if fixed else '', 'R', color if color else ('Blue' if fixed else 'Green'), x, y]
         rowCount = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
         self.FileState.push(addTableCommand(self.Entities_Point))
-        self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
+        self.FileState.push(editPointTableCommand(
+            self.Entities_Point,
+            rowCount,
+            self.Entities_Link,
+            ['ground' if fixed else '', 'R', color if color else ('Blue' if fixed else 'Green'), x, y]
+        ))
         self.FileState.endMacro()
         return rowCount
     
@@ -739,14 +743,42 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_New_Link_triggered(self):
         selectedRows = self.Entities_Point.selectedRows()
         if len(selectedRows)>1:
-            for row, vlink in enumerate(self.Entities_Link.data()):
-                if vlink.points and set(selectedRows) > set(vlink.points):
-                    Args = [
-                        vlink.name, vlink.colorSTR,
-                        ','.join('Point{}'.format(i) for i in selectedRows),
-                    ]
+            #Search to found that there is any point is not idle.
+            link_data = self.Entities_Link.data()
+            for row, vlink in enumerate(link_data):
+                sr_set = set(selectedRows)
+                ps_set = set(vlink.points)
+                #If link are exist, edit the link.
+                if sr_set == ps_set:
+                    self.editLink(row)
+                    return
+                #If link has some new point, add the new points to link.
+                elif ps_set and (sr_set > ps_set):
                     self.FileState.beginMacro("Edit {{Link: {}}}".format(vlink.name))
-                    self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
+                    for row_, vlink_ in enumerate(link_data):
+                        self.FileState.push(editLinkTableCommand(
+                            self.Entities_Link,
+                            row_,
+                            self.Entities_Point,
+                            [
+                                vlink_.name,
+                                vlink_.colorSTR,
+                                ','.join(
+                                    'Point{}'.format(p)
+                                    for p in vlink_.points if p not in selectedRows
+                                )
+                            ]
+                        ))
+                    self.FileState.push(editLinkTableCommand(
+                        self.Entities_Link,
+                        row,
+                        self.Entities_Point,
+                        [
+                            vlink.name,
+                            vlink.colorSTR,
+                            ','.join('Point{}'.format(p) for p in selectedRows),
+                        ]
+                    ))
                     self.FileState.endMacro()
                     return
             self.addLinkGroup(selectedRows)
