@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(472, 694)
+        Form.resize(454, 694)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -262,6 +262,11 @@ class Ui_Form(object):
         self.Result_chart.setIcon(icon15)
         self.Result_chart.setObjectName("Result_chart")
         self.horizontalLayout_10.addWidget(self.Result_chart)
+        self.Result_clipboard = QtWidgets.QPushButton(self.verticalGroupBox)
+        self.Result_clipboard.setEnabled(False)
+        self.Result_clipboard.setIcon(icon4)
+        self.Result_clipboard.setObjectName("Result_clipboard")
+        self.horizontalLayout_10.addWidget(self.Result_clipboard)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_10.addItem(spacerItem3)
         self.deleteButton = QtWidgets.QPushButton(self.verticalGroupBox)

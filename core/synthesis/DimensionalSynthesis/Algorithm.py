@@ -24,6 +24,7 @@ from core.libs import expr_parser
 from core.synthesis import CollectionsDialog
 import csv
 import openpyxl
+import pprint
 from math import radians
 from copy import deepcopy
 from re import split as charSplit
@@ -373,8 +374,9 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         for button in [
             self.mergeButton,
             self.deleteButton,
+            self.Result_load_settings,
             self.Result_chart,
-            self.Result_load_settings
+            self.Result_clipboard
         ]:
             button.setEnabled(self.Result_list.currentRow()>-1)
     
@@ -422,6 +424,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_Result_chart_clicked(self):
         dlg = ChartDialog("Convergence Value", self.mechanism_data, self)
         dlg.show()
+    
+    @pyqtSlot()
+    def on_Result_clipboard_clicked(self):
+        QApplication.clipboard().setText(pprint.pformat(self.mechanism_data[self.Result_list.currentRow()]))
     
     @pyqtSlot()
     def on_save_button_clicked(self):

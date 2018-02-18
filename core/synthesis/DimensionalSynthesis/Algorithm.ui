@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
+    <width>454</width>
     <height>694</height>
    </rect>
   </property>
@@ -497,6 +497,17 @@
                   <property name="icon">
                    <iconset resource="../../../icons.qrc">
                     <normaloff>:/icons/chart.png</normaloff>:/icons/chart.png</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="Result_clipboard">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../icons.qrc">
+                    <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
                   </property>
                  </widget>
                 </item>
