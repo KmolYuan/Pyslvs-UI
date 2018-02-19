@@ -48,7 +48,7 @@ Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
 
 Cross-platform Development: Ubuntu and Windows (64-bit).
 
-You should install Graphviz first. See [here](#graphviz).
+You can install Graphviz optionally. See [here](#graphviz).
 
 **Please note that the other platforms may be available but I have not tested before.**
 
@@ -138,6 +138,8 @@ When the structure profile is complete, is time to doing dimensional synthesis!
 
 Generate a mechanism with path requirement by random variables.
 
+The structure settings is get from triangular iteration.
+
 ![](images/Dimensional_Synthesis.png)
 
 Contains three algorithms:
@@ -148,7 +150,12 @@ Contains three algorithms:
 
 Specify a path and options to generate a crank rocker.
 
-This function has a simple TCP ZMQ connecting mode.
+Two kinds of task target:
+
++ Stop at the maximum generation.
++ Get the minimum fitness value.
+
+This function also has batch tasking option and a simple TCP ZMQ connecting mode.
 
 # Modules Requirement
 

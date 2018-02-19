@@ -466,8 +466,9 @@
                     <property name="statusTip">
                      <string>Add to variable list with above settings.</string>
                     </property>
-                    <property name="text">
-                     <string>Add to variable list</string>
+                    <property name="icon">
+                     <iconset resource="../icons.qrc">
+                      <normaloff>:/icons/arrow_down.png</normaloff>:/icons/arrow_down.png</iconset>
                     </property>
                    </widget>
                   </item>
