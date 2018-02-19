@@ -38,6 +38,14 @@ class Progress_show(QDialog, Ui_Dialog):
             self.limit = setting['minFit']
             self.batch_label.setText("fitness less then {}".format(self.limit))
             self.limit_mode = 'minFit'
+        elif 'maxTime' in setting:
+            self.limit = setting['maxTime']
+            self.batch_label.setText("{:02d}:{:02d}:{:02d}".format(
+                self.limit // 3600,
+                (self.limit % 3600) // 60,
+                self.limit % 3600 % 60
+            ))
+            self.limit_mode = 'maxTime'
         self.loopTime.setEnabled(self.limit>0)
         #Timer.
         self.time = 0
@@ -71,10 +79,10 @@ class Progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
-        self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
         #Progress bar will always full.
-        if self.limit_mode=='minFit' or self.limit==0:
+        if (self.limit_mode in ('minFit', 'maxTime')) or self.limit==0:
             self.progressBar.setMaximum(progress)
+        self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
@@ -91,7 +99,7 @@ class Progress_show(QDialog, Ui_Dialog):
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
         #Progress bar will show generations instead of percent.
-        if self.limit_mode=='minFit' or self.limit==0:
+        if (self.limit_mode in ('minFit', 'maxTime')) or self.limit==0:
             self.progressBar.setFormat("%v generations")
         self.work.setLoop(loop)
         self.timer.start()

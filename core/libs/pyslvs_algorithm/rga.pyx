@@ -33,7 +33,8 @@ cdef double randV():
 
 cdef enum limit:
     maxGen,
-    minFit
+    minFit,
+    maxTime
 
 cdef class Chromosome(object):
     cdef public int n
@@ -59,7 +60,7 @@ cdef class Chromosome(object):
 
 cdef class Genetic(object):
     cdef limit option
-    cdef int nParm, nPop, maxGen, gen, rpt
+    cdef int nParm, nPop, maxGen, maxTime, gen, rpt
     cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE, minFit
     cdef object func, progress_fun, interrupt_fun
     cdef np.ndarray chrom, newChrom, babyChrom
@@ -88,14 +89,18 @@ cdef class Genetic(object):
         self.bDelta = settings['bDelta']
         self.maxGen = 0
         self.minFit = 0
+        self.maxTime = 0
         if 'maxGen' in settings:
             self.option = maxGen
             self.maxGen = settings['maxGen']
         elif 'minFit' in settings:
             self.option = minFit
             self.minFit = settings['minFit']
+        elif 'maxTime' in settings:
+            self.option = maxTime
+            self.maxTime = settings['maxTime']
         else:
-            raise Exception("Please give 'maxGen' or 'minFit' limit.")
+            raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")
         self.rpt = settings['report']
         self.progress_fun = progress_fun
         self.interrupt_fun = interrupt_fun
@@ -254,6 +259,9 @@ cdef class Genetic(object):
                     break
             elif self.option == minFit:
                 if self.chromElite.f <= self.minFit:
+                    break
+            elif self.option == maxTime:
+                if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):
                     break
             self.generation_process()
             #progress

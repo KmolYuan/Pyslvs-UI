@@ -41,7 +41,6 @@ A GUI-based tool use to solving 2D linkage subject.
 + **Mechanical Synthesis**:
 
     - **Number and Type Synthesis**: Cython algorithm use to find out structure possibilities of the mechanism.
-
     - **Dimensional Synthesis**: Kernel from three Cython algorithm API (rewrite).
 
 Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
@@ -150,10 +149,11 @@ Contains three algorithms:
 
 Specify a path and options to generate a crank rocker.
 
-Two kinds of task target:
+Three kinds of task target:
 
 + Stop at the maximum generation.
 + Get the minimum fitness value.
++ Stop at the maximum time.
 
 This function also has batch tasking option and a simple TCP ZMQ connecting mode.
 

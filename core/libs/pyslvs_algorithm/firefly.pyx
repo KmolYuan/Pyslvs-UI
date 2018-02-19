@@ -26,7 +26,7 @@ from libc.stdlib cimport rand, RAND_MAX, srand
 #from libc.time cimport time
 from time import time
 
-# make true it is random everytime
+#Make sure it is 'random'.
 srand(int(time()))
 
 cdef double randV():
@@ -34,7 +34,8 @@ cdef double randV():
 
 cdef enum limit:
     maxGen,
-    minFit
+    minFit,
+    maxTime
 
 cdef class Chromosome(object):
     cdef public int n
@@ -62,7 +63,7 @@ cdef class Chromosome(object):
 
 cdef class Firefly(object):
     cdef limit option
-    cdef int D, n, maxGen, rpt, gen
+    cdef int D, n, maxGen, maxTime, rpt, gen
     cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE, minFit
     cdef object func, progress_fun, interrupt_fun
     cdef np.ndarray lb, ub
@@ -78,7 +79,7 @@ cdef class Firefly(object):
             'betaMin',
             'beta0',
             'gamma',
-            'maxGen' or 'minFit',
+            'maxGen', 'minFit' or 'maxTime',
             'report'
         }
         """
@@ -109,14 +110,18 @@ cdef class Firefly(object):
         #Algorithm will stop when the limitation has happend.
         self.maxGen = 0
         self.minFit = 0
+        self.maxTime = 0
         if 'maxGen' in settings:
             self.option = maxGen
             self.maxGen = settings['maxGen']
         elif 'minFit' in settings:
             self.option = minFit
             self.minFit = settings['minFit']
+        elif 'maxTime' in settings:
+            self.option = maxTime
+            self.maxTime = settings['maxTime']
         else:
-            raise Exception("Please give 'maxGen' or 'minFit' limit.")
+            raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")
         #Report function
         self.rpt = settings['report']
         self.progress_fun = progress_fun
@@ -229,6 +234,9 @@ cdef class Firefly(object):
                     break
             elif self.option == minFit:
                 if self.bestFirefly.f <= self.minFit:
+                    break
+            elif self.option == maxTime:
+                if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):
                     break
             self.generation_process()
             #progress

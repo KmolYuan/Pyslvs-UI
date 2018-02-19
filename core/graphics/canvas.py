@@ -197,10 +197,10 @@ class BaseCanvas(QWidget):
             elif len(path)==1:
                 x = path[0][0]*self.zoom
                 y = path[0][1]*-self.zoom
+                self.painter.drawText(QPointF(x+6, y-6), name)
                 pen.setColor(Dot)
                 self.painter.setPen(pen)
                 self.painter.drawEllipse(QPointF(x, y), 3, 3)
-                self.painter.drawText(QPointF(x+6, y-6), name)
         self.painter.setBrush(Qt.NoBrush)
     
     def drawArrow(self, x1, y1, x2, y2):

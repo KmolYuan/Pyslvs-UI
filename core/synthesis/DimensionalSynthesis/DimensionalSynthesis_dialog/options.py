@@ -122,6 +122,13 @@ class Options_show(QDialog, Ui_Dialog):
         elif 'minFit' in PLnAP:
             self.minFit_option.setChecked(True)
             self.minFit.setValue(PLnAP['minFit'])
+        elif 'maxTime' in PLnAP:
+            self.maxTime_option.setChecked(True)
+            #In second (int).
+            maxTime = PLnAP['maxTime']
+            self.maxTime_h.setValue(maxTime // 3600)
+            self.maxTime_m.setValue((maxTime % 3600) // 60)
+            self.maxTime_s.setValue(maxTime % 3600 % 60)
         self.report.setValue(PLnAP['report'])
         for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']):
             self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])

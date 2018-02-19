@@ -311,6 +311,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             setting['maxGen'] = self.Settings['maxGen']
         elif 'minFit' in self.Settings:
             setting['minFit'] = self.Settings['minFit']
+        elif 'maxTime' in self.Settings:
+            setting['maxTime'] = self.Settings['maxTime']
         setting.update(self.Settings['algorithmPrams'])
         #Start progress dialog.
         dlg = Progress_show(
@@ -560,6 +562,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.Settings['maxGen'] = settings['maxGen']
             elif 'minFit' in settings:
                 self.Settings['minFit'] = settings['minFit']
+            elif 'maxTime' in setting:
+                self.Settings['maxTime'] = setting['maxTime']
             algorithmPrams = settings.copy()
             del algorithmPrams['report']
             self.Settings['algorithmPrams'] = algorithmPrams
@@ -573,6 +577,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         elif type_num==2:
             self.Settings['algorithmPrams'] = DifferentialPrams.copy()
     
+    #Get the settings from advance dialog.
     @pyqtSlot()
     def on_advanceButton_clicked(self):
         type_num = "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution"
@@ -591,6 +596,13 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.Settings['maxGen'] = dlg.maxGen.value()
             elif dlg.minFit_option.isChecked():
                 self.Settings['minFit'] = dlg.minFit.value()
+            elif dlg.maxTime_option.isChecked():
+                #Three spinbox value translate to second.
+                self.Settings['maxTime'] = (
+                    dlg.maxTime_h.value() * 3600 +
+                    dlg.maxTime_m.value() * 60 +
+                    dlg.maxTime_s.value()
+                )
             tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
             popSize = dlg.popSize.value()
             if type_num=="Genetic Algorithm":
