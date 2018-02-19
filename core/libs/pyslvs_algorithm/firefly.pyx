@@ -216,9 +216,6 @@ cdef class Firefly(object):
         else:
             if self.gen % 10 == 0:
                 self.report()
-        #progress
-        if self.progress_fun is not None:
-            self.progress_fun(self.gen, "{:.04f}".format(self.bestFirefly.f))
     
     cpdef object run(self):
         self.init()
@@ -234,6 +231,9 @@ cdef class Firefly(object):
                 if self.bestFirefly.f <= self.minFit:
                     break
             self.generation_process()
+            #progress
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen, "{:.04f}".format(self.bestFirefly.f))
             #interrupt
             if self.interrupt_fun is not None:
                 if self.interrupt_fun():

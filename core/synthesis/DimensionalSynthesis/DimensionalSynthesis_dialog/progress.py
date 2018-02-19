@@ -71,9 +71,10 @@ class Progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
+        self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
+        #Progress bar will always full.
         if self.limit_mode=='minFit' or self.limit==0:
             self.progressBar.setMaximum(progress)
-        self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
@@ -89,10 +90,11 @@ class Progress_show(QDialog, Ui_Dialog):
     def on_Start_clicked(self):
         loop = self.loopTime.value()
         self.progressBar.setMaximum(self.limit * loop)
+        #Progress bar will show generations instead of percent.
         if self.limit_mode=='minFit' or self.limit==0:
             self.progressBar.setFormat("%v generations")
-        self.timer.start()
         self.work.setLoop(loop)
+        self.timer.start()
         self.work.start()
         self.Start.setEnabled(False)
         self.loopTime.setEnabled(False)

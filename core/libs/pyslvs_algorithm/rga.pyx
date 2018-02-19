@@ -234,9 +234,6 @@ cdef class Genetic(object):
         else:
             if self.gen % 10 == 0:
                 self.report()
-        #progress
-        if self.progress_fun is not None:
-            self.progress_fun(self.gen, "{:.04f}".format(self.chromElite.f))
     
     cpdef object run(self):
         """
@@ -259,6 +256,9 @@ cdef class Genetic(object):
                 if self.chromElite.f <= self.minFit:
                     break
             self.generation_process()
+            #progress
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen, "{:.04f}".format(self.chromElite.f))
             #interrupt
             if self.interrupt_fun is not None:
                 if self.interrupt_fun():

@@ -322,9 +322,6 @@ cdef class DiffertialEvolution(object):
         else:
             if self.gen % 10 == 0:
                 self.report()
-        #progress
-        if self.progress_fun is not None:
-            self.progress_fun(self.gen, "{:.04f}".format(self.lastgenbest.f))
     
     cpdef object run(self):
         """
@@ -353,6 +350,9 @@ cdef class DiffertialEvolution(object):
                 if self.lastgenbest.f <= self.minFit:
                     break
             self.generation_process()
+            #progress
+            if self.progress_fun is not None:
+                self.progress_fun(self.gen, "{:.04f}".format(self.lastgenbest.f))
             #interrupt
             if self.interrupt_fun is not None:
                 if self.interrupt_fun():
