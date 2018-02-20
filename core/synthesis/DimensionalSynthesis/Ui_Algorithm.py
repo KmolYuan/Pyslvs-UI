@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(454, 694)
+        Form.resize(501, 718)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -382,7 +382,8 @@ class Ui_Form(object):
         self.deleteButton.setStatusTip(_translate("Form", "Delete this result."))
         self.mergeButton.setStatusTip(_translate("Form", "Merge this result to canvas."))
         self.verticalGroupBox_2.setTitle(_translate("Form", "Options"))
-        self.type0.setText(_translate("Form", "Genetic Algorithm"))
+        self.type0.setText(_translate("Form", "Real-coded\n"
+"Genetic Algorithm"))
         self.type1.setText(_translate("Form", "Firefly Algorithm"))
         self.type2.setText(_translate("Form", "Differential Evolution"))
         self.advanceButton.setStatusTip(_translate("Form", "More algorithm settings."))

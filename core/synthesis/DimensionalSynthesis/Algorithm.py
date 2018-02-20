@@ -519,11 +519,11 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if row>-1:
             self.clear_settings()
             Result = self.mechanism_data[row]
-            if Result['Algorithm']=='RGA':
+            if Result['Algorithm']=="Real-coded Genetic Algorithm":
                 self.type0.setChecked(True)
-            elif Result['Algorithm']=='Firefly':
+            elif Result['Algorithm']=="Firefly Algorithm":
                 self.type1.setChecked(True)
-            elif Result['Algorithm']=='DE':
+            elif Result['Algorithm']=="Differential Evolution":
                 self.type2.setChecked(True)
             self.profile_name.setText("External setting")
             #External setting.

@@ -69,7 +69,6 @@ class WorkerThread(QThread):
             cpu = numpy.distutils.cpuinfo.cpu.info[0]
             lastGen = time_and_fitness[-1][0]
             mechanism = {
-                'Algorithm': 'RGA' if self.type_num==0 else 'Firefly' if self.type_num==1 else 'DE',
                 'time': time_spand,
                 'lastGen': lastGen,
                 'interrupted': str(lastGen) if self.stoped else 'False',
@@ -82,6 +81,12 @@ class WorkerThread(QThread):
                 },
                 'TimeAndFitness': time_and_fitness
             }
+            if self.type_num==0:
+                mechanism['Algorithm'] = "Real-coded Genetic Algorithm"
+            elif self.type_num==1:
+                mechanism['Algorithm'] = "Firefly Algorithm"
+            elif self.type_num==2:
+                mechanism['Algorithm'] = "Differential Evolution"
             mechanism.update(self.mechanismParams)
             mechanism.update(fitnessParameter)
             print("cost time: {} [s]".format(time_spand))

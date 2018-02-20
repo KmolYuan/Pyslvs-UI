@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>454</width>
-    <height>694</height>
+    <width>501</width>
+    <height>718</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -568,7 +568,8 @@
             <item>
              <widget class="QRadioButton" name="type0">
               <property name="text">
-               <string>Genetic Algorithm</string>
+               <string>Real-coded
+Genetic Algorithm</string>
               </property>
               <property name="checked">
                <bool>false</bool>
