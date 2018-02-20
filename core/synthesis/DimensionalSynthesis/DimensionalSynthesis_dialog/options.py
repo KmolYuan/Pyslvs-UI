@@ -19,6 +19,7 @@
 
 from core.QtModules import *
 from core.info import html
+from enum import Enum
 from .Ui_options import Ui_Dialog
 
 GeneticPrams = {'nPop':500, 'pCross':0.95, 'pMute':0.05, 'pWin':0.95, 'bDelta':5.}
@@ -29,12 +30,21 @@ defaultSettings = {
     'IMax':100., 'LMax':100., 'FMax':100., 'AMax':360., 'algorithmPrams':DifferentialPrams
 }
 
+#Enum type of algorithms.
+class AlgorithmType(Enum):
+    def __str__(self):
+        return str(self.value)
+    
+    RGA = "Real-coded Genetic Algorithm"
+    Firefly = "Firefly Algorithm"
+    DE = "Differential Evolution"
+
 class Options_show(QDialog, Ui_Dialog):
-    def __init__(self, algorithm, settings, parent=None):
+    def __init__(self, algorithm: AlgorithmType, settings: dict, parent=None):
         super(Options_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.tabWidget.setTabText(1, algorithm)
+        self.tabWidget.setTabText(1, self.algorithm.value)
         self.algorithm = algorithm
         self.init_PLTable()
         self.init_APTable()
@@ -90,7 +100,7 @@ class Options_show(QDialog, Ui_Dialog):
                     spinbox.setToolTip(vname)
                     self.APTable.setCellWidget(i, 1, spinbox)
                     i += 1
-        if self.algorithm=="Genetic Algorithm":
+        if self.algorithm == AlgorithmType.RGA:
             writeTable(
                 Floats=[
                     ("Crossover Rate", 'pCross', html("The chance of crossover.")),
@@ -98,7 +108,7 @@ class Options_show(QDialog, Ui_Dialog):
                     ("Winning Rate", 'pWin', html("The chance of winning.")),
                     ("Delta value", 'bDelta', html("The power value when matching chromosome."))
                 ])
-        elif self.algorithm=="Firefly Algorithm":
+        elif self.algorithm == AlgorithmType.Firefly:
             writeTable(
                 Floats=[
                     ("Alpha value", 'alpha', html("Alpha value is the step size of the firefly.")),
@@ -106,7 +116,7 @@ class Options_show(QDialog, Ui_Dialog):
                     ("Gamma value", 'gamma', html("Beta will multiplied by exponential power value with this weight factor.")),
                     ("Beta0 value", 'beta0', html("The attraction of two firefly in 0 distance."))
                 ])
-        elif self.algorithm=="Differential Evolution":
+        elif self.algorithm == AlgorithmType.DE:
             writeTable(
                 Integers=[
                     ("Evolutionary strategy (0-9)", 'strategy', html("There are 10 way to evolution."))
@@ -132,15 +142,15 @@ class Options_show(QDialog, Ui_Dialog):
         self.report.setValue(PLnAP['report'])
         for i, tag in enumerate(['IMax', 'IMin', 'LMax', 'LMin', 'FMax', 'FMin', 'AMax', 'AMin']):
             self.PLTable.cellWidget(i, 1).setValue(PLnAP[tag])
-        if self.algorithm=="Genetic Algorithm":
+        if self.algorithm == AlgorithmType.RGA:
             self.popSize.setValue(PLnAP['algorithmPrams']['nPop'])
             for i, tag in enumerate(['pCross', 'pMute', 'pWin', 'bDelta']):
                 self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
-        elif self.algorithm=="Firefly Algorithm":
+        elif self.algorithm == AlgorithmType.Firefly:
             self.popSize.setValue(PLnAP['algorithmPrams']['n'])
             for i, tag in enumerate(['alpha', 'betaMin', 'gamma', 'beta0']):
                 self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
-        elif self.algorithm=="Differential Evolution":
+        elif self.algorithm == AlgorithmType.DE:
             self.popSize.setValue(PLnAP['algorithmPrams']['NP'])
             for i, tag in enumerate(['strategy', 'F', 'CR']):
                 self.APTable.cellWidget(i, 1).setValue(PLnAP['algorithmPrams'][tag])
@@ -159,9 +169,10 @@ class Options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_setDefault_clicked(self):
+        #Differential Evolution (Default)
         d = defaultSettings.copy()
-        if self.algorithm=="Genetic Algorithm":
+        if self.algorithm == AlgorithmType.RGA:
             d['algorithmPrams'] = GeneticPrams.copy()
-        elif self.algorithm=="Firefly Algorithm":
+        elif self.algorithm == AlgorithmType.Firefly:
             d['algorithmPrams'] = FireflyPrams.copy()
         self.setArgs(d)

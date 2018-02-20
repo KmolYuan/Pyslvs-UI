@@ -26,13 +26,14 @@ from psutil import virtual_memory
 from core import libs
 from core import server
 from core.libs import build_planar
+from . import AlgorithmType
 
 class WorkerThread(QThread):
     progress_update = pyqtSignal(int, str)
     result = pyqtSignal(dict, float)
     done = pyqtSignal()
     
-    def __init__(self, type_num, mechanismParams, settings, parent):
+    def __init__(self, type_num: AlgorithmType, mechanismParams, settings, parent):
         super(WorkerThread, self).__init__(None)
         self.stoped = False
         self.mutex = QMutex()
@@ -54,8 +55,7 @@ class WorkerThread(QThread):
             self.stoped = False
         T0 = timeit.default_timer()
         for self.currentLoop in range(self.loop):
-            print("Algorithm [{}]: {}".format(self.currentLoop,
-                "Genetic Algorithm" if self.type_num==0 else "Firefly Algorithm" if self.type_num==1 else "Differtial Evolution"))
+            print("Algorithm [{}]: {}".format(self.currentLoop, self.type_num))
             if self.stoped:
                 #Cancel the remaining tasks.
                 print("Canceled.")
@@ -74,19 +74,14 @@ class WorkerThread(QThread):
                 'interrupted': str(lastGen) if self.stoped else 'False',
                 'settings': self.settings,
                 'hardwareInfo': {
-                    'os':"{} {} {}".format(platform.system(), platform.release(), platform.machine()),
-                    'memory':"{} GB".format(round(virtual_memory().total/(1024.**3), 4)),
-                    'cpu':cpu.get("model name", cpu.get('ProcessorNameString', '')),
-                    'network':str(self.socket!=None)
+                    'os': "{} {} {}".format(platform.system(), platform.release(), platform.machine()),
+                    'memory': "{} GB".format(round(virtual_memory().total/(1024.**3), 4)),
+                    'cpu': cpu.get("model name", cpu.get('ProcessorNameString', '')),
+                    'network': str(self.socket!=None)
                 },
                 'TimeAndFitness': time_and_fitness
             }
-            if self.type_num==0:
-                mechanism['Algorithm'] = "Real-coded Genetic Algorithm"
-            elif self.type_num==1:
-                mechanism['Algorithm'] = "Firefly Algorithm"
-            elif self.type_num==2:
-                mechanism['Algorithm'] = "Differential Evolution"
+            mechanism['Algorithm'] = self.type_num.value
             mechanism.update(self.mechanismParams)
             mechanism.update(fitnessParameter)
             print("cost time: {} [s]".format(time_spand))
@@ -106,16 +101,13 @@ class WorkerThread(QThread):
             Firefly = libs.Firefly
             DiffertialEvolution = libs.DiffertialEvolution
         mechanismObj = build_planar(self.mechanismParams)
-        #Genetic Algorithm
-        if self.type_num==0:
+        if self.type_num == AlgorithmType.RGA:
             foo = Genetic
-        #Firefly Algorithm
-        elif self.type_num==1:
+        elif self.type_num == AlgorithmType.Firefly:
             foo = Firefly
-        #Differential Evolution
-        elif self.type_num==2:
+        elif self.type_num == AlgorithmType.DE:
             foo = DiffertialEvolution
-        if self.socket!=None:
+        if self.socket != None:
             self.settings['socket_port'] = self.socket
             self.settings['Target'] = self.mechanismParams['Target']
         self.fun = foo(

@@ -11,6 +11,7 @@ from .options import (
     FireflyPrams,
     defaultSettings,
     DifferentialPrams,
+    AlgorithmType,
     Options_show
 )
 from .path_adjust import Path_adjust_show
@@ -24,6 +25,7 @@ __all__ = [
     'FireflyPrams',
     'defaultSettings',
     'DifferentialPrams',
+    'AlgorithmType',
     'Options_show',
     'Path_adjust_show',
     'Progress_show',

@@ -33,6 +33,7 @@ from re import split as charSplit
 'FireflyPrams',
 'defaultSettings',
 'DifferentialPrams',
+'AlgorithmType',
 'Options_show',
 'Path_adjust_show',
 'Progress_show',
@@ -105,8 +106,10 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.path.clear()
         self.mechanismParams.clear()
         self.PreviewCanvas.clear()
+        self.Settings.clear()
         self.Settings = deepcopy(defaultSettings)
         self.profile_name.setText("No setting")
+        self.type2.setChecked(True)
         self.ground_joints.setRowCount(0)
         self.target_points.clear()
         self.Expression.clear()
@@ -291,12 +294,17 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                     "The length of target paths should be the same."
                 )
                 return
-        #Get generate settings.
-        type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
+        #Get the algorithm type.
+        if self.type0.isChecked():
+            type_num = AlgorithmType.RGA
+        elif self.type1.isChecked():
+            type_num = AlgorithmType.Firefly
+        elif self.type2.isChecked():
+            type_num = AlgorithmType.DE
         #Deep copy it so the pointer will not the same.
         mechanismParams = deepcopy(self.mechanismParams)
         mechanismParams['Target'] = deepcopy(self.path)
-        for key in ['Driver', 'Follower']:
+        for key in ('Driver', 'Follower'):
             for name in mechanismParams[key]:
                 row = name_in_table(self.ground_joints, name)
                 mechanismParams[key][name] = (
@@ -519,11 +527,11 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         if row>-1:
             self.clear_settings()
             Result = self.mechanism_data[row]
-            if Result['Algorithm']=="Real-coded Genetic Algorithm":
+            if Result['Algorithm'] == str(AlgorithmType.RGA):
                 self.type0.setChecked(True)
-            elif Result['Algorithm']=="Firefly Algorithm":
+            elif Result['Algorithm'] == str(AlgorithmType.Firefly):
                 self.type1.setChecked(True)
-            elif Result['Algorithm']=="Differential Evolution":
+            elif Result['Algorithm'] == str(AlgorithmType.DE):
                 self.type2.setChecked(True)
             self.profile_name.setText("External setting")
             #External setting.
@@ -569,18 +577,22 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             self.Settings['algorithmPrams'] = algorithmPrams
     
     def algorithmParams_default(self):
-        type_num = 0 if self.type0.isChecked() else 1 if self.type1.isChecked() else 2
-        if type_num==0:
+        if self.type0.isChecked():
             self.Settings['algorithmPrams'] = GeneticPrams.copy()
-        elif type_num==1:
+        elif self.type1.isChecked():
             self.Settings['algorithmPrams'] = FireflyPrams.copy()
-        elif type_num==2:
+        elif self.type2.isChecked():
             self.Settings['algorithmPrams'] = DifferentialPrams.copy()
     
     #Get the settings from advance dialog.
     @pyqtSlot()
     def on_advanceButton_clicked(self):
-        type_num = "Genetic Algorithm" if self.type0.isChecked() else "Firefly Algorithm" if self.type1.isChecked() else "Differential Evolution"
+        if self.type0.isChecked():
+            type_num = AlgorithmType.RGA
+        elif self.type1.isChecked():
+            type_num = AlgorithmType.Firefly
+        elif self.type2.isChecked():
+            type_num = AlgorithmType.DE
         dlg = Options_show(type_num, self.Settings)
         dlg.show()
         if dlg.exec_():
@@ -605,7 +617,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 )
             tableAP = lambda row: dlg.APTable.cellWidget(row, 1).value()
             popSize = dlg.popSize.value()
-            if type_num=="Genetic Algorithm":
+            if type_num == AlgorithmType.RGA:
                 self.Settings['algorithmPrams'] = {
                     'nPop': popSize,
                     'pCross': tableAP(0),
@@ -613,7 +625,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                     'pWin': tableAP(2),
                     'bDelta': tableAP(3)
                 }
-            elif type_num=="Firefly Algorithm":
+            elif type_num == AlgorithmType.Firefly:
                 self.Settings['algorithmPrams'] = {
                     'n': popSize,
                     'alpha': tableAP(0),
@@ -621,7 +633,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                     'gamma': tableAP(2),
                     'beta0': tableAP(3)
                 }
-            elif type_num=="Differential Evolution":
+            elif type_num == AlgorithmType.DE:
                 self.Settings['algorithmPrams'] = {
                     'NP': popSize,
                     'strategy': tableAP(0),
