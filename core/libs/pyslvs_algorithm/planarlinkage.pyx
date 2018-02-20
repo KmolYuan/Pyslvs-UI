@@ -29,7 +29,7 @@ import numpy as np
 cimport numpy as np
 
 #Large fitness
-cdef double FAILURE = 9487
+cdef double FAILURE = 9487945
 
 cdef str get_from_parenthesis(str s, str front, str back):
     return s[s.find(front)+1:s.find(back)]

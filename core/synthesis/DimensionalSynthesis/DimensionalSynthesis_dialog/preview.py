@@ -115,11 +115,15 @@ class DynamicCanvas(BaseCanvas):
             if (name in self.mechanism['Driver']) or (name in self.mechanism['Follower']):
                 self.Point.append(self.mechanism[name])
             else:
-                x, y = self.Path.path[i][self.index]
-                if isnan(x):
+                try:
+                    x, y = self.Path.path[i][self.index]
+                except IndexError:
                     self.index += 1
                     return
                 else:
+                    if isnan(x):
+                        self.index += 1
+                        return
                     self.Point.append((x, y))
         #Draw links.
         for i, exp in enumerate(self.links):
