@@ -31,8 +31,8 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTabWidget" name="tabWidget">
-     <widget class="QWidget" name="planarlinkage">
+    <widget class="QTabWidget" name="settings_tab">
+     <widget class="QWidget" name="planarlinkage_tab">
       <attribute name="title">
        <string>Planar Linkage</string>
       </attribute>
@@ -198,7 +198,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="algorithm">
+     <widget class="QWidget" name="algorithm_tab">
       <attribute name="title">
        <string>Algorithm</string>
       </attribute>

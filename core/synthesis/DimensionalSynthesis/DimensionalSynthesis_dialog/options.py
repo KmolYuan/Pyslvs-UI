@@ -44,8 +44,8 @@ class Options_show(QDialog, Ui_Dialog):
         super(Options_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
-        self.tabWidget.setTabText(1, self.algorithm.value)
         self.algorithm = algorithm
+        self.settings_tab.setTabText(1, self.algorithm.value)
         self.init_PLTable()
         self.init_APTable()
         for table in [self.APTable, self.PLTable]:
