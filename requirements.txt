@@ -1,3 +1,4 @@
+requests
 pyqt5
 pyqtchart
 dxfwrite
