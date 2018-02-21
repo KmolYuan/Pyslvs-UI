@@ -9,7 +9,8 @@
 from .info import (
     INFO,
     ARGUMENTS,
-    VERSION
+    VERSION,
+    check_update
 )
 from .about import (
     Pyslvs_Splash,
@@ -21,6 +22,7 @@ __all__ = [
     'INFO',
     'ARGUMENTS',
     'VERSION',
+    'check_update',
     'Pyslvs_Splash',
     'Pyslvs_About',
     'html'

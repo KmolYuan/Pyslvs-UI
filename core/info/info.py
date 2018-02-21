@@ -20,6 +20,7 @@
 from sys import version_info
 import platform
 import argparse
+import requests
 try:
     from PyQt5.QtCore import qVersion, PYQT_VERSION_STR
     Qt_Version = qVersion().strip()
@@ -68,3 +69,21 @@ parser.add_argument('--server', metavar='PORT', default=False, nargs='?', type=s
 parser.add_argument('-d', '--debug-mode', action='store_true', help="do not connect to GUI console when opening")
 parser.add_argument('-t', '--test', action='store_true', help="startup the program to test imported modules")
 ARGUMENTS = parser.parse_args()
+
+#Check for update.
+def check_update(progdlg) -> [str, bool]:
+    m = progdlg.maximum()
+    from core.QtModules import QCoreApplication
+    for i in range(m):
+        QCoreApplication.processEvents()
+        if progdlg.wasCanceled():
+            return
+        next = list(VERSION[:m])
+        next[i] += 1
+        url = "https://github.com/KmolYuan/Pyslvs-PyQt5/releases/tag/v{}.{:02}.{}".format(*next)
+        request = requests.get(url)
+        progdlg.setValue(i + 1)
+        if request.status_code == 200:
+            progdlg.setValue(m)
+            return url
+    return False

@@ -18,9 +18,7 @@
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from core.QtModules import *
-import csv
-from typing import Tuple
-from core.info import Pyslvs_About
+from core.info import Pyslvs_About, check_update
 from core.graphics import slvsProcess, SlvsException
 from core.io import (
     Script_Dialog,
@@ -36,6 +34,8 @@ from core.io import (
 from core.widgets import *
 #['edit_point_show', 'edit_link_show']
 from core.entities import *
+from typing import Tuple
+import csv
 from .Ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -215,8 +215,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #If the user has not saved the change. Return True if user want to Discard the operation.
     def checkFileChanged(self):
         if self.FileWidget.changed:
-            reply = QMessageBox.question(self, "Message", "Are you sure to quit?\nAny changes won't be saved.",
-                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel), QMessageBox.Save)
+            reply = QMessageBox.question(
+                self,
+                "Message",
+                "Are you sure to quit?\nAny changes won't be saved.",
+                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel),
+                QMessageBox.Save
+            )
             if reply==QMessageBox.Save:
                 self.on_action_Save_triggered()
                 if self.FileWidget.changed:
@@ -289,7 +294,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName.absoluteFilePath() if self.windowTitle_fullpath.isChecked() else fileName.fileName()
         ) + (" (not yet saved)" if self.FileWidget.changed else ""))
     
-    #Open website: http://mde.tw
+    #Open website: "http://mde.tw"
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
         self.OpenURL("http://mde.tw")
@@ -1110,9 +1115,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
         data = self.FileWidget.pathData[item.text().split(":")[0]]
-        reply = QMessageBox.question(self, "Path data",
+        reply = QMessageBox.question(
+            self,
+            "Path data",
             "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
-            (QMessageBox.Save | QMessageBox.Close), QMessageBox.Close)
+            (QMessageBox.Save | QMessageBox.Close),
+            QMessageBox.Close
+        )
         if reply==QMessageBox.Save:
             fileName = self.outputTo("path data", ["Comma-Separated Values (*.csv)", "Text file (*.txt)"])
             if fileName:
@@ -1325,3 +1334,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         for name, expr in exprs:
             self.addStorage(name, expr, clear=False)
+    
+    #Check for update.
+    @pyqtSlot()
+    def on_action_Check_update_triggered(self):
+        progdlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
+        progdlg.setWindowTitle("Check for update")
+        progdlg.resize(400, progdlg.height())
+        progdlg.setModal(True)
+        progdlg.show()
+        url = check_update(progdlg)
+        if url:
+            reply = QMessageBox.question(
+                self,
+                "Pyslvs has update",
+                "Do you want to get it from Github?",
+                (QMessageBox.Ok | QMessageBox.Cancel),
+                QMessageBox.Ok
+            )
+            if reply==QMessageBox.Ok:
+                self.OpenURL(url)
+        else:
+            QMessageBox.information(self, "Pyslvs is up to date", "You are using the latest version of Pyslvs.")

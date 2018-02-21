@@ -1560,8 +1560,10 @@
     <addaction name="action_github_repository"/>
     <addaction name="action_Get_Help"/>
     <addaction name="separator"/>
-    <addaction name="action_About_Pyslvs"/>
+    <addaction name="action_Check_update"/>
+    <addaction name="separator"/>
     <addaction name="action_About_Qt"/>
+    <addaction name="action_About_Pyslvs"/>
    </widget>
    <widget class="QMenu" name="menu_Edit">
     <property name="title">
@@ -2076,6 +2078,14 @@
    </property>
    <property name="statusTip">
     <string>Capture and output to clipboard.</string>
+   </property>
+  </action>
+  <action name="action_Check_update">
+   <property name="text">
+    <string>Check for updates</string>
+   </property>
+   <property name="statusTip">
+    <string>Check the lastest version of Pyslvs from Github.</string>
    </property>
   </action>
  </widget>
