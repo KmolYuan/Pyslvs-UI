@@ -79,10 +79,11 @@ class Progress_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
+        value = progress + self.limit * self.work.currentLoop
         #Progress bar will always full.
         if (self.limit_mode in ('minFit', 'maxTime')) or self.limit==0:
-            self.progressBar.setMaximum(progress)
-        self.progressBar.setValue(progress + self.limit * self.work.currentLoop)
+            self.progressBar.setMaximum(value)
+        self.progressBar.setValue(value)
         self.fitness_label.setText(fitness)
     
     @pyqtSlot()
