@@ -18,7 +18,10 @@ cd ENV/$APP.AppDir/
 ########################################################################
 
 mkdir -p usr
-virtualenv --no-site-packages --always-copy --python=python3 usr
+virtualenv --always-copy --python=python3 ./usr
+
+#Copy other modules.
+cp /usr/lib/python3.5/ssl.py ./usr/lib/python3.5/ssl.py
 
 source usr/bin/activate
 
