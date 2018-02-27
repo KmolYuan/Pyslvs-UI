@@ -10,18 +10,6 @@
     <height>325</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>314</width>
-    <height>325</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>314</width>
-    <height>325</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Link</string>
   </property>

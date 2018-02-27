@@ -144,7 +144,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def __init__(self, parent):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(
+            self.windowFlags() &
+            ~Qt.WindowContextHelpButtonHint |
+            Qt.WindowMaximizeButtonHint
+        )
         self.collections = parent.collections
         self.name_loaded = ""
         #Canvas

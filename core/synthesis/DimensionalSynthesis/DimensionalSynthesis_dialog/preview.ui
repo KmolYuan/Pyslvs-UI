@@ -10,12 +10,6 @@
     <height>659</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>800</width>
-    <height>600</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
@@ -101,8 +95,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>727</width>
-                 <height>68</height>
+                 <width>717</width>
+                 <height>85</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -165,8 +159,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>727</width>
-                 <height>182</height>
+                 <width>717</width>
+                 <height>197</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -229,8 +223,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>727</width>
-                 <height>182</height>
+                 <width>717</width>
+                 <height>196</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8">

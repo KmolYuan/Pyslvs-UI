@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/info/about.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\info\about.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,8 +13,6 @@ class Ui_About_Dialog(object):
         About_Dialog.setObjectName("About_Dialog")
         About_Dialog.setEnabled(True)
         About_Dialog.resize(586, 494)
-        About_Dialog.setMinimumSize(QtCore.QSize(586, 494))
-        About_Dialog.setMaximumSize(QtCore.QSize(586, 494))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         About_Dialog.setWindowIcon(icon)

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/script.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\script.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -13,7 +13,6 @@ class Ui_Info_Dialog(object):
         Info_Dialog.setObjectName("Info_Dialog")
         Info_Dialog.setEnabled(True)
         Info_Dialog.resize(479, 503)
-        Info_Dialog.setMinimumSize(QtCore.QSize(479, 503))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Info_Dialog.setWindowIcon(icon)

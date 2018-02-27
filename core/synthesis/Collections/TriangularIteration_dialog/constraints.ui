@@ -10,12 +10,6 @@
     <height>360</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>422</width>
-    <height>311</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Constrains</string>
   </property>

@@ -13,18 +13,6 @@
     <height>494</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>586</width>
-    <height>494</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>586</width>
-    <height>494</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>About Pyslvs</string>
   </property>

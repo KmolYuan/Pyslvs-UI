@@ -10,12 +10,6 @@
     <height>553</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>471</width>
-    <height>553</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Options</string>
   </property>

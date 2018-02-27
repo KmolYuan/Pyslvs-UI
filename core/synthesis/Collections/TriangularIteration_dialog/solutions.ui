@@ -10,20 +10,8 @@
     <height>482</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>768</width>
-    <height>482</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>768</width>
-    <height>482</height>
-   </size>
-  </property>
   <property name="windowIcon">
-   <iconset resource="../../../../../../桌面/Pyslvs-PyQt5/icons.qrc">
+   <iconset resource="../../../../icons.qrc">
     <normaloff>:/icons/collection-triangular-iteration.png</normaloff>:/icons/collection-triangular-iteration.png</iconset>
   </property>
   <property name="modal">
@@ -42,7 +30,7 @@
       </sizepolicy>
      </property>
      <property name="pixmap">
-      <pixmap resource="../../../../../../桌面/Pyslvs-PyQt5/preview.qrc">:/icons/preview/PLAP.png</pixmap>
+      <pixmap resource="../../../../preview.qrc">:/icons/preview/PLAP.png</pixmap>
      </property>
     </widget>
    </item>
@@ -93,8 +81,9 @@
   </layout>
  </widget>
  <resources>
+  <include location="../../../../preview.qrc"/>
+  <include location="../../../../icons.qrc"/>
   <include location="../../../../../../桌面/Pyslvs-PyQt5/preview.qrc"/>
-  <include location="../../../../../../桌面/Pyslvs-PyQt5/icons.qrc"/>
  </resources>
  <connections>
   <connection>

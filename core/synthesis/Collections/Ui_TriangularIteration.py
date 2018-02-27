@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\TriangularIteration.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -75,6 +75,7 @@ class Ui_Form(object):
         self.joint_panel.setMaximumSize(QtCore.QSize(150, 16777215))
         self.joint_panel.setObjectName("joint_panel")
         self.verticalLayout_6 = QtWidgets.QVBoxLayout(self.joint_panel)
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_6.setObjectName("verticalLayout_6")
         self.joint_name_label = QtWidgets.QLabel(self.joint_panel)
         self.joint_name_label.setObjectName("joint_name_label")

@@ -16,23 +16,11 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>507</width>
-    <height>649</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>507</width>
-    <height>649</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>DXF models</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../icons.qrc">
+   <iconset>
     <normaloff>:/icons/bezier.png</normaloff>:/icons/bezier.png</iconset>
   </property>
   <property name="sizeGripEnabled">

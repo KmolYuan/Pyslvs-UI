@@ -13,12 +13,6 @@
     <height>503</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>479</width>
-    <height>503</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Python Script</string>
   </property>
