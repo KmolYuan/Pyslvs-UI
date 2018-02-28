@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(501, 718)
+        Form.resize(494, 697)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -388,7 +388,7 @@ class Ui_Form(object):
         self.type2.setText(_translate("Form", "Differential Evolution"))
         self.advanceButton.setStatusTip(_translate("Form", "More algorithm settings."))
         self.advanceButton.setText(_translate("Form", "Advance ..."))
-        self.label_7.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:10pt;\">Time spent: </span></p></body></html>"))
+        self.label_7.setText(_translate("Form", "Time spent:"))
         self.timeShow.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:16pt;\">[N/A]</span></p></body></html>"))
         self.label.setText(_translate("Form", "<html><head/><body><p><img width=\"15\" src=\":/icons/ZeroMQ.png\"/>ZMQ filter: </p></body></html>"))
         self.portText.setStatusTip(_translate("Form", "LAN screening."))

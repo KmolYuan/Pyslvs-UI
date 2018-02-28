@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>501</width>
-    <height>718</height>
+    <width>494</width>
+    <height>697</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -617,7 +617,7 @@ Genetic Algorithm</string>
             <item>
              <widget class="QLabel" name="label_7">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Time spent: &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>Time spent:</string>
               </property>
              </widget>
             </item>

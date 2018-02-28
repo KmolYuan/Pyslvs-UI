@@ -289,6 +289,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg = CollectionsDialog(self)
         dlg.show()
         if dlg.exec_():
+            self.profile_name = dlg.name_loaded
             params = dlg.mechanismParams
             mapping = params['name_dict']
             #Add customize joints.
@@ -443,6 +444,24 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         ))
     
     @pyqtSlot()
+    def on_Expression_auto_clicked(self):
+        if self.Driver_list.count():
+            reply = QMessageBox.question(self, "Auto configure",
+                "This function can detect the structure to configure the solutions.\n" +
+                "The current settings will be cleared.",
+                (QMessageBox.Yes | QMessageBox.No),
+                QMessageBox.Yes
+            )
+            if reply==QMessageBox.Yes and self.on_Expression_clear_clicked():
+                #TODO: Auto configure
+                print(self.PreviewWindow.status)
+        else:
+            QMessageBox.information(self, "Auto configure",
+                "Please setting the driver joint(s)."
+            )
+    
+    #Remove the last solution.
+    @pyqtSlot()
     def on_Expression_pop_clicked(self):
         count = self.Expression_list.count()
         if count:
@@ -451,20 +470,32 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.PreviewWindow.setStatus(get_from_parenthesis(expr, '(', ')'), False)
             self.set_parm_bind()
     
+    #Clear the solutions. Return true if success.
     @pyqtSlot()
-    def on_Expression_clear_clicked(self):
-        self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
-        self.Expression_list.clear()
-        self.Expression.clear()
-        self.hasSolution()
+    def on_Expression_clear_clicked(self) -> bool:
+        reply = QMessageBox.information(self, "Clear the solutions",
+            "Are you sure to clear the solutions?",
+            (QMessageBox.Yes | QMessageBox.No),
+            QMessageBox.Yes
+        )
+        if reply==QMessageBox.Yes and self.Expression_list.count():
+            self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
+            self.Expression_list.clear()
+            self.Expression.clear()
+            self.hasSolution()
+            return True
+        return False
     
+    #Save the profile to database.
     @pyqtSlot()
     def on_save_button_clicked(self):
         if self.profile_name:
             name = self.profile_name
             ok = True
         else:
-            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+            name, ok = QInputDialog.getText(self, "Profile name",
+                "Please enter the profile name:"
+            )
         if ok:
             i = 0
             while (name not in self.collections) and (not name):
@@ -473,6 +504,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.profile_name = name
             self.unsaveFunc()
     
+    #Copy the mechanism params.
     @pyqtSlot()
     def on_clipboard_button_clicked(self):
-        QApplication.clipboard().setText(pprint.pformat(self.get_currentMechanismParams()))
+        QApplication.clipboard().setText(
+            pprint.pformat(self.get_currentMechanismParams())
+        )
