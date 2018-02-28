@@ -33,6 +33,7 @@ from itertools import product
 'SolutionsDialog',
 'list_texts',
 'combo_texts',
+'list_items',
 '''
 from .TriangularIteration_dialog import *
 from .Ui_TriangularIteration import Ui_Form
@@ -384,7 +385,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 point
             ))
     
-    def addSolution(self, point: int, expr: str):
+    def addSolution(self, point: str, expr: str):
             item = QListWidgetItem()
             self.Expression_list.addItem(item)
             item.setText(expr)
@@ -460,27 +461,46 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     #Auto configuration algorithm.
     def auto_configure_expression(self):
-        node = 0
+        friends = self.PreviewWindow.friends
         #PLAP solutions.
+        for item in list_items(self.Driver_list):
+            node = int(item.text().replace('P', ''))
+            point1 = 'P{}'.format(node)
+            point2 = 'P{}'.format(next(friends(node)))
+            self.addSolution(point2, "PLAP[{},{},{},{}]({})".format(
+                point1,
+                'L{}'.format(self.getParam()),
+                'a{}'.format(self.getParam(angle=True)),
+                'P{}'.format(next(friends(node, reliable=True))),
+                point2
+            ))
         #PLLP solutions.
         node = 0
-        reliable_friend = self.PreviewWindow.reliable_friend()
         while not self.PreviewWindow.isAllLock():
             if node not in self.PreviewWindow.pos:
                 node = 0
-                break
+                continue
             status = self.PreviewWindow.getStatus(node)
             #Set the solution.
             if status:
                 node += 1
                 continue
+            rf = friends(node, reliable=True)
             try:
-                friend = next(reliable_friend(node))
+                two_friend = self.PreviewWindow.sort_nodes((next(rf), next(rf)))
             except StopIteration:
                 pass
             else:
-                #TODO: Add solution.
-                print(node, friend)
+                #Add solution.
+                link_num = self.getParam()
+                point = 'P{}'.format(node)
+                self.addSolution(point, "PLLP[{},{},{},{}]({})".format(
+                    'P{}'.format(two_friend[0]),
+                    'L{}'.format(link_num),
+                    'L{}'.format(link_num + 1),
+                    'P{}'.format(two_friend[1]),
+                    point
+                ))
             node += 1
     
     #Remove the last solution.
@@ -496,18 +516,20 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     #Clear the solutions. Return true if success.
     @pyqtSlot()
     def on_Expression_clear_clicked(self) -> bool:
-        reply = QMessageBox.information(self, "Clear the solutions",
-            "Are you sure to clear the solutions?",
-            (QMessageBox.Yes | QMessageBox.No),
-            QMessageBox.Yes
-        )
-        if reply==QMessageBox.Yes and self.Expression_list.count():
-            self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
-            self.Expression_list.clear()
-            self.Expression.clear()
-            self.hasSolution()
-            return True
-        return False
+        if self.Expression_list.count():
+            reply = QMessageBox.information(self, "Clear the solutions",
+                "Are you sure to clear the solutions?",
+                (QMessageBox.Yes | QMessageBox.No),
+                QMessageBox.Yes
+            )
+            if reply==QMessageBox.Yes:
+                self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
+                self.Expression_list.clear()
+                self.Expression.clear()
+                self.hasSolution()
+        else:
+            reply = QMessageBox.Yes
+        return reply==QMessageBox.Yes
     
     #Save the profile to database.
     @pyqtSlot()
