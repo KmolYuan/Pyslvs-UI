@@ -294,7 +294,6 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.addToCollection_button.setStatusTip(_translate("Form", "Turn this structure diagram back to structure collections."))
         self.load_button.setStatusTip(_translate("Form", "Triangular iteration data and common structure data collections."))
-        self.load_button.setText(_translate("Form", "Collections"))
         self.clear_button.setStatusTip(_translate("Form", "Create a new iteration profile."))
         self.save_button.setStatusTip(_translate("Form", "Save this iteration profile to data collections."))
         self.clipboard_button.setStatusTip(_translate("Form", "Save this iteration profile to clipboard as a string."))

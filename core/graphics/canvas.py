@@ -249,14 +249,29 @@ class PreviewCanvas(BaseCanvas):
         #Origin graph.
         self.G = Graph()
         #Customize points.
+        '''
+        {str: int}
+        '''
         self.cus = {}
         #Multiple joints.
+        '''
+        {int: int}
+        '''
         self.same = {}
         #Positions.
+        '''
+        {int: Tuple[float, float]}
+        '''
         self.pos = {}
         #Point status.
+        '''
+        {int: bool}
+        '''
         self.status = {}
         #Name dict.
+        '''
+        {'P0': 'A'}
+        '''
         self.name_dict = {}
         self.grounded = -1
         self.update()
@@ -407,11 +422,37 @@ class PreviewCanvas(BaseCanvas):
         for func, args, target in triangle_expr(params['Expression']):
             self.setStatus(params['name_dict'][target], True)
     
+    #Is all joint has solution.
     def isAllLock(self) -> bool:
         for node, status in self.status.items():
             if not status and node not in self.same:
                 return False
         return True
     
-    def name_in_same(self, name) -> bool:
+    #Is the name in 'same'.
+    def name_in_same(self, name: str) -> bool:
         return int(name.replace('P', '')) in self.same
+    
+    #Return a generator yield the nodes that has solution on the same link.
+    def reliable_friend(self):
+        #All edges of all nodes.
+        edges = dict(edges_view(self.G))
+        for n, l in self.cus.items():
+            edges[int(n.replace('P', ''))] = (l,)
+        #Reverse dict of 'self.same'.
+        same_r = {v: k for k, v in self.same.items()}
+        def generator(node1: int):
+            #for all link of node1.
+            links1 = set(edges[node1])
+            if node1 in same_r:
+                links1.update(edges[same_r[node1]])
+            #for all link.
+            for node2 in edges:
+                if (node1 == node2) or (node2 in self.same):
+                    continue
+                links2 = set(edges[node2])
+                if node2 in same_r:
+                    links2.update(edges[same_r[node2]])
+                if (links1 & links2) and self.getStatus(node2):
+                    yield node2
+        return generator

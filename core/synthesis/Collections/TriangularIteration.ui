@@ -43,9 +43,6 @@
        <property name="statusTip">
         <string>Triangular iteration data and common structure data collections.</string>
        </property>
-       <property name="text">
-        <string>Collections</string>
-       </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
          <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>

@@ -361,18 +361,13 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg.show()
         if dlg.exec_():
             point = self.joint_name.currentText()
-            item = QListWidgetItem()
-            self.Expression_list.addItem(item)
-            item.setText("PLAP[{},{},{},{}]({})".format(
+            self.addSolution(point, "PLAP[{},{},{},{}]({})".format(
                 dlg.point_A.currentText(),
                 'L{}'.format(self.getParam()),
                 'a{}'.format(self.getParam(angle=True)),
                 dlg.point_B.currentText(),
                 point
             ))
-            self.PreviewWindow.setStatus(point, True)
-            self.hasSolution()
-            self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
     
     @pyqtSlot()
     def on_PLLP_solution_clicked(self):
@@ -381,15 +376,18 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if dlg.exec_():
             point = self.joint_name.currentText()
             link_num = self.getParam()
-            item = QListWidgetItem()
-            self.Expression_list.addItem(item)
-            item.setText("PLLP[{},{},{},{}]({})".format(
+            self.addSolution(point, "PLLP[{},{},{},{}]({})".format(
                 dlg.point_A.currentText(),
                 'L{}'.format(link_num),
                 'L{}'.format(link_num + 1),
                 dlg.point_B.currentText(),
                 point
             ))
+    
+    def addSolution(self, point: int, expr: str):
+            item = QListWidgetItem()
+            self.Expression_list.addItem(item)
+            item.setText(expr)
             self.PreviewWindow.setStatus(point, True)
             self.hasSolution()
             self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
@@ -443,6 +441,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             for i, link in enumerate(link_expr_list)
         ))
     
+    #Auto configure the solutions.
     @pyqtSlot()
     def on_Expression_auto_clicked(self):
         if self.Driver_list.count():
@@ -453,12 +452,36 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 QMessageBox.Yes
             )
             if reply==QMessageBox.Yes and self.on_Expression_clear_clicked():
-                #TODO: Auto configure
-                print(self.PreviewWindow.status)
+                self.auto_configure_expression()
         else:
             QMessageBox.information(self, "Auto configure",
                 "Please setting the driver joint(s)."
             )
+    
+    #Auto configuration algorithm.
+    def auto_configure_expression(self):
+        node = 0
+        #PLAP solutions.
+        #PLLP solutions.
+        node = 0
+        reliable_friend = self.PreviewWindow.reliable_friend()
+        while not self.PreviewWindow.isAllLock():
+            if node not in self.PreviewWindow.pos:
+                node = 0
+                break
+            status = self.PreviewWindow.getStatus(node)
+            #Set the solution.
+            if status:
+                node += 1
+                continue
+            try:
+                friend = next(reliable_friend(node))
+            except StopIteration:
+                pass
+            else:
+                #TODO: Add solution.
+                print(node, friend)
+            node += 1
     
     #Remove the last solution.
     @pyqtSlot()
