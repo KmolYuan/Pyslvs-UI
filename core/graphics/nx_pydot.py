@@ -30,7 +30,7 @@ from core.QtModules import (
     QPixmap,
 )
 from .color import colorQt, colorNum
-from .canvas import distance_sorted, edges_view
+from .canvas import convex_hull, edges_view
 from networkx import (
     Graph,
     nx_pydot,
@@ -124,7 +124,7 @@ def graph(
             if link==except_node:
                 continue
             #Distance sorted function from canvas
-            painter.drawPolygon(*distance_sorted([
+            painter.drawPolygon(*convex_hull([
                 (pos[n][0], -pos[n][1])
                 for n, edge in edges_view(G) if link in edge
             ]))

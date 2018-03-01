@@ -21,7 +21,7 @@ from .chart import dataChart
 from .canvas import (
     BaseCanvas,
     PreviewCanvas,
-    distance_sorted,
+    convex_hull,
     edges_view,
     replace_by_dict
 )
@@ -43,7 +43,7 @@ __all__ = [
     'dataChart',
     'BaseCanvas',
     'PreviewCanvas',
-    'distance_sorted',
+    'convex_hull',
     'edges_view',
     'replace_by_dict',
     'graph',

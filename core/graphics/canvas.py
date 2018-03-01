@@ -34,28 +34,40 @@ from core.graphics import colorQt, colorPath
 from core.io import triangle_expr
 from networkx import Graph
 from math import (
-    sqrt,
     radians,
     sin,
     cos,
     atan2,
     isnan
 )
-from heapq import nsmallest
+from functools import reduce
 
-def distance_sorted(points):
-    #A function to find out distance between two tuple.
-    distance = lambda p1, p2: sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
-    #Re-sort by x coordinate first.
-    points = sorted(points, key=lambda c: c[0])
-    #Then we arrive next nearest point one by one.
-    for i in range(len(points)):
-        if i==len(points)-1:
-            break
-        distanceList = [distance(points[i], p) for p in points]
-        j = i + nsmallest(2, range(len(distanceList)-i), key=distanceList[i:].__getitem__)[-1]
-        points[i+1], points[j] = points[j], points[i+1]
-    return [QPointF(*coordinate) for coordinate in points]
+def convex_hull(points):
+    '''
+    Returns points on convex hull in CCW order according to Graham's scan algorithm. 
+    By Tom Switzer <thomas.switzer@gmail.com>.
+    '''
+    
+    def cmp(a, b):
+        return (a > b) - (a < b)
+    
+    def turn(p, q, r):
+        return cmp((q[0] - p[0])*(r[1] - p[1]) - (r[0] - p[0])*(q[1] - p[1]), 0)
+    
+    def _keep_left(hull, r):
+        while len(hull) > 1 and (turn(hull[-2], hull[-1], r)!=1):
+            hull.pop()
+        if not len(hull) or hull[-1] != r:
+            hull.append(r)
+        return hull
+    
+    points = sorted(points)
+    l = reduce(_keep_left, points, [])
+    u = reduce(_keep_left, reversed(points), [])
+    return [
+        QPointF(x, y)
+        for x, y in (l.extend(u[i] for i in range(1, len(u) - 1)) or l)
+    ]
 
 #This generator can keep the numbering be consistent.
 def edges_view(G: Graph) -> [int, tuple]:
@@ -328,7 +340,7 @@ class PreviewCanvas(BaseCanvas):
                     num = int(name.replace('P', ''))
                     x, y = self.pos[num]
                     points.append((x*self.zoom, y*-self.zoom))
-            self.painter.drawPolygon(*distance_sorted(points))
+            self.painter.drawPolygon(*convex_hull(points))
         self.painter.setFont(QFont("Arial", self.fontSize*1.5))
         #Nodes
         for node, (x, y) in self.pos.items():

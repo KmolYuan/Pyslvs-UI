@@ -31,7 +31,7 @@ from core.QtModules import (
 )
 from core.graphics import (
     BaseCanvas,
-    distance_sorted,
+    convex_hull,
     colorQt,
     colorNum
 )
@@ -313,7 +313,7 @@ class DynamicCanvas(BaseCanvas):
         brush.setAlphaF(self.transparency)
         self.painter.setBrush(brush)
         #Rearrange: Put the nearest point to the next position.
-        qpoints = distance_sorted(points)
+        qpoints = convex_hull(points)
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
