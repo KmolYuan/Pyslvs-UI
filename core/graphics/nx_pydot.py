@@ -17,7 +17,18 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QImage,
+    QSize,
+    Qt,
+    QPainter,
+    QBrush,
+    QPen,
+    QPointF,
+    QColor,
+    QIcon,
+    QPixmap,
+)
 from .color import colorQt, colorNum
 from .canvas import distance_sorted, edges_view
 from networkx import (

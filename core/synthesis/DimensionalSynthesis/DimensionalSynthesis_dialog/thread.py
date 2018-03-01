@@ -17,14 +17,22 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QThread,
+    pyqtSignal,
+    QMutex,
+    QMutexLocker,
+)
 import timeit
 import platform
 import numpy
 import numpy.distutils.cpuinfo
 from psutil import virtual_memory
-from core import libs
-from core import server
+from core.libs import (
+    Genetic,
+    Firefly,
+    DiffertialEvolution,
+)
 from core.libs import build_planar
 from . import AlgorithmType
 
@@ -33,19 +41,15 @@ class WorkerThread(QThread):
     result = pyqtSignal(dict, float)
     done = pyqtSignal()
     
-    def __init__(self, type_num: AlgorithmType, mechanismParams, settings, parent):
+    def __init__(self, type_num: AlgorithmType, mechanismParams, settings):
         super(WorkerThread, self).__init__(None)
         self.stoped = False
         self.mutex = QMutex()
         self.type_num = type_num
         self.mechanismParams = mechanismParams
         self.settings = settings
-        self.socket = None
         self.loop = 1
         self.currentLoop = 0
-    
-    def setSocket(self, socket):
-        self.socket = socket
     
     def setLoop(self, loop):
         self.loop = loop
@@ -76,8 +80,7 @@ class WorkerThread(QThread):
                 'hardwareInfo': {
                     'os': "{} {} {}".format(platform.system(), platform.release(), platform.machine()),
                     'memory': "{} GB".format(round(virtual_memory().total/(1024.**3), 4)),
-                    'cpu': cpu.get("model name", cpu.get('ProcessorNameString', '')),
-                    'network': str(self.socket!=None)
+                    'cpu': cpu.get("model name", cpu.get('ProcessorNameString', ''))
                 },
                 'TimeAndFitness': time_and_fitness
             }
@@ -92,14 +95,6 @@ class WorkerThread(QThread):
         self.done.emit()
     
     def generateProcess(self):
-        if self.socket!=None:
-            Genetic = server.Genetic
-            Firefly = server.Firefly
-            DiffertialEvolution = server.DiffertialEvolution
-        else:
-            Genetic = libs.Genetic
-            Firefly = libs.Firefly
-            DiffertialEvolution = libs.DiffertialEvolution
         mechanismObj = build_planar(self.mechanismParams)
         if self.type_num == AlgorithmType.RGA:
             foo = Genetic
@@ -107,9 +102,6 @@ class WorkerThread(QThread):
             foo = Firefly
         elif self.type_num == AlgorithmType.DE:
             foo = DiffertialEvolution
-        if self.socket != None:
-            self.settings['socket_port'] = self.socket
-            self.settings['Target'] = self.mechanismParams['Target']
         self.fun = foo(
             mechanismObj,
             self.settings,

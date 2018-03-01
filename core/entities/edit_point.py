@@ -17,7 +17,14 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QDialog,
+    Qt,
+    QIcon,
+    QPixmap,
+    QListWidgetItem,
+    pyqtSlot,
+)
 from core.graphics import colorName, colorIcons
 from .Ui_edit_point import Ui_Dialog as edit_point_Dialog
 

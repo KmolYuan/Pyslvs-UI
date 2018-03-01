@@ -17,7 +17,19 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QPushButton,
+    pyqtSignal,
+    QIcon,
+    QPixmap,
+    QFileInfo,
+    QWidget,
+    pyqtSlot,
+    QInputDialog,
+    QLineEdit,
+    QMessageBox,
+    QTableWidgetItem,
+)
 from .Ui_peeweeIO import Ui_Form
 from .example import example_list
 import zlib
@@ -172,15 +184,27 @@ class FileWidget(QWidget, Ui_Form):
         branch_name = '' if isBranch else self.branch_current.text()
         commit_text = self.FileDescription.text()
         while not author_name:
-            author_name, ok = QInputDialog.getText(self, "Author", "Please enter author's name:", QLineEdit.Normal, "Anonymous")
+            author_name, ok = QInputDialog.getText(self, "Author",
+                "Please enter author's name:",
+                QLineEdit.Normal,
+                "Anonymous"
+            )
             if not ok:
                 return
         while not branch_name.isidentifier():
-            branch_name, ok = QInputDialog.getText(self, "Branch", "Please enter a branch name:", QLineEdit.Normal, "master")
+            branch_name, ok = QInputDialog.getText(self, "Branch",
+                "Please enter a branch name:",
+                QLineEdit.Normal,
+                "master"
+            )
             if not ok:
                 return
         while not commit_text:
-            commit_text, ok = QInputDialog.getText(self, "Commit", "Please add a comment:", QLineEdit.Normal, "Update mechanism.")
+            commit_text, ok = QInputDialog.getText(self, "Commit",
+                "Please add a comment:",
+                QLineEdit.Normal,
+                "Update mechanism."
+            )
             if not ok:
                 return
         if fileName!=self.fileName.absoluteFilePath() and os.path.isfile(fileName):

@@ -17,7 +17,16 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QTimer,
+    QPen,
+    QColor,
+    Qt,
+    QPointF,
+    QFont,
+    pyqtSlot,
+    QDialog,
+)
 from core.graphics import (
     BaseCanvas,
     colorQt
@@ -234,5 +243,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
             ["{}: {}".format(k, v) for k, v in self.mechanism['settings'].items()])+
             "</p></body></html>")
         #Hardware information
-        self.hardware_label.setText("\n".join(["{}: {}".format(tag, self.mechanism['hardwareInfo'][tag]) for tag in
-            ['os', 'memory', 'cpu', 'network']]))
+        self.hardware_label.setText("\n".join([
+            "{}: {}".format(tag, self.mechanism['hardwareInfo'][tag])
+            for tag in ['os', 'memory', 'cpu']
+        ]))

@@ -17,7 +17,18 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    pyqtSignal,
+    pyqtSlot,
+    QRectF,
+    QPointF,
+    QSizeF,
+    QFont,
+    QPen,
+    QColor,
+    Qt,
+    QApplication,
+)
 from core.graphics import (
     BaseCanvas,
     distance_sorted,
@@ -185,7 +196,7 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(dict)
     def update_ranges(self, ranges):
         self.ranges.clear()
-        self.ranges.update({tag:QRectF(
+        self.ranges.update({tag: QRectF(
             QPointF(values[0] - values[2]/2, values[1] + values[2]/2),
             QSizeF(values[2], values[2])
         ) for tag, values in ranges.items()})

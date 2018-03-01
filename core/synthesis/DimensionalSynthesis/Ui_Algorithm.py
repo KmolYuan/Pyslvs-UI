@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(494, 697)
+        Form.resize(494, 722)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -320,15 +320,6 @@ class Ui_Form(object):
         self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_4.setSpacing(0)
         self.horizontalLayout_4.setObjectName("horizontalLayout_4")
-        self.has_zmq = QtWidgets.QCheckBox(Form)
-        self.has_zmq.setObjectName("has_zmq")
-        self.horizontalLayout_4.addWidget(self.has_zmq)
-        self.label = QtWidgets.QLabel(Form)
-        self.label.setObjectName("label")
-        self.horizontalLayout_4.addWidget(self.label)
-        self.portText = QtWidgets.QLineEdit(Form)
-        self.portText.setObjectName("portText")
-        self.horizontalLayout_4.addWidget(self.portText)
         spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_4.addItem(spacerItem4)
         self.generate_button = QtWidgets.QPushButton(Form)
@@ -390,9 +381,6 @@ class Ui_Form(object):
         self.advanceButton.setText(_translate("Form", "Advance ..."))
         self.label_7.setText(_translate("Form", "Time spent:"))
         self.timeShow.setText(_translate("Form", "<html><head/><body><p><span style=\" font-size:16pt;\">[N/A]</span></p></body></html>"))
-        self.label.setText(_translate("Form", "<html><head/><body><p><img width=\"15\" src=\":/icons/ZeroMQ.png\"/>ZMQ filter: </p></body></html>"))
-        self.portText.setStatusTip(_translate("Form", "LAN screening."))
-        self.portText.setText(_translate("Form", "tcp://*:8000"))
         self.generate_button.setStatusTip(_translate("Form", "Start dimesional synthesis."))
         self.generate_button.setText(_translate("Form", "Synthesis"))
 

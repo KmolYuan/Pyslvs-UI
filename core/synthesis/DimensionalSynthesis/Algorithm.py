@@ -17,7 +17,20 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QWidget,
+    pyqtSignal,
+    pyqtSlot,
+    QApplication,
+    QMessageBox,
+    QListWidgetItem,
+    QIcon,
+    QPixmap,
+    QModelIndex,
+    QInputDialog,
+    QDoubleSpinBox,
+    QTableWidgetItem,
+)
 from core.graphics import PreviewCanvas, replace_by_dict
 from core.io import triangle_class
 from core.libs import expr_parser
@@ -28,20 +41,19 @@ import pprint
 from math import radians
 from copy import deepcopy
 from re import split as charSplit
-'''
-'GeneticPrams',
-'FireflyPrams',
-'defaultSettings',
-'DifferentialPrams',
-'AlgorithmType',
-'Options_show',
-'Path_adjust_show',
-'Progress_show',
-'Series_show',
-'PreviewDialog',
-'ChartDialog'
-'''
-from .DimensionalSynthesis_dialog import *
+from .DimensionalSynthesis_dialog import (
+    GeneticPrams,
+    FireflyPrams,
+    defaultSettings,
+    DifferentialPrams,
+    AlgorithmType,
+    Options_show,
+    Path_adjust_show,
+    Progress_show,
+    Series_show,
+    PreviewDialog,
+    ChartDialog
+)
 from .Ui_Algorithm import Ui_Form as PathSolving_Form
 nan = float('nan')
 
@@ -61,7 +73,7 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
         self.setupUi(self)
         self.mechanismParams = {}
         self.path = {}
-        #Just a pointer reference.
+        #A pointer reference of 'collections'.
         self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
         #Data and functions.
         self.mechanism_data = []
@@ -327,7 +339,6 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
             type_num,
             mechanismParams,
             setting,
-            self.portText.text() if self.has_zmq.isChecked() else None,
             self
         )
         dlg.show()
@@ -570,8 +581,8 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
                 self.Settings['maxGen'] = settings['maxGen']
             elif 'minFit' in settings:
                 self.Settings['minFit'] = settings['minFit']
-            elif 'maxTime' in setting:
-                self.Settings['maxTime'] = setting['maxTime']
+            elif 'maxTime' in settings:
+                self.Settings['maxTime'] = settings['maxTime']
             algorithmPrams = settings.copy()
             del algorithmPrams['report']
             self.Settings['algorithmPrams'] = algorithmPrams

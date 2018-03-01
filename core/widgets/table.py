@@ -17,7 +17,18 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QTableWidget,
+    pyqtSignal,
+    QSizePolicy,
+    QAbstractItemView,
+    QTableWidgetItem,
+    Qt,
+    pyqtSlot,
+    QApplication,
+    QTableWidgetSelectionRange,
+    QLabel,
+)
 from core.graphics import colorIcons
 from core.io import VPoint, VLink
 from typing import TypeVar, Tuple

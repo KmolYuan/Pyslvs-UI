@@ -17,7 +17,23 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QDialog,
+    Qt,
+    QSize,
+    QVBoxLayout,
+    QTabWidget,
+    QCategoryAxis,
+    QValueAxis,
+    QLineSeries,
+    QScatterSeries,
+    QColor,
+    QPointF,
+    QWidget,
+    QIcon,
+    QChartView,
+    QSizePolicy,
+)
 from core.graphics import dataChart
 
 class ChartDialog(QDialog):

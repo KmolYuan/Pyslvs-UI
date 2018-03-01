@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>494</width>
-    <height>697</height>
+    <height>722</height>
    </rect>
   </property>
   <property name="windowIcon">
@@ -642,26 +642,6 @@ Genetic Algorithm</string>
      <property name="spacing">
       <number>0</number>
      </property>
-     <item>
-      <widget class="QCheckBox" name="has_zmq"/>
-     </item>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img width=&quot;15&quot; src=&quot;:/icons/ZeroMQ.png&quot;/&gt;ZMQ filter: &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="portText">
-       <property name="statusTip">
-        <string>LAN screening.</string>
-       </property>
-       <property name="text">
-        <string>tcp://*:8000</string>
-       </property>
-      </widget>
-     </item>
      <item>
       <spacer name="horizontalSpacer_6">
        <property name="orientation">

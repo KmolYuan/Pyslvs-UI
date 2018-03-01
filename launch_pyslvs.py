@@ -2,14 +2,15 @@
 ##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
 ##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 from sys import exit
-from core import *
+from core import (
+    MainWindow,
+    ARGUMENTS,
+    INFO,
+    PyslvsSplash,
+)
 
 if __name__=='__main__':
-    if ARGUMENTS.server:
-        startRep(ARGUMENTS.server)
-        exit(0)
-    elif ARGUMENTS.test:
-        print(ImportTest)
+    if ARGUMENTS.test:
         exit(0)
     else:
         print('\n'.join(INFO+('-'*7,)))
@@ -17,7 +18,7 @@ if __name__=='__main__':
         QApp = QApplication([])
         if ARGUMENTS.fusion:
             QApp.setStyle('fusion')
-        splash = Pyslvs_Splash()
+        splash = PyslvsSplash()
         splash.show()
         run = MainWindow(ARGUMENTS)
         run.show()

@@ -17,7 +17,12 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QDialog,
+    Qt,
+    QPixmap,
+    QDialogButtonBox,
+)
 from .Ui_solutions import Ui_Dialog
 
 class SolutionsDialog(QDialog, Ui_Dialog):

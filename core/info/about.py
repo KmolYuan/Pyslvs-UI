@@ -17,7 +17,12 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QSplashScreen,
+    QPixmap,
+    Qt,
+    QDialog,
+)
 from .info import VERSION, INFO, ARGUMENTS
 from .Ui_about import Ui_About_Dialog
 
@@ -28,14 +33,14 @@ content = lambda *s: '<p>{}</p>'.format('</p><p>'.join(s))
 orderList = lambda *s: '<ul><li>{}</li></ul>'.format('</li><li>'.join(s))
 
 #Splash
-class Pyslvs_Splash(QSplashScreen):
+class PyslvsSplash(QSplashScreen):
     def __init__(self, parent=None):
-        super(Pyslvs_Splash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
+        super(PyslvsSplash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
         self.showMessage("Version {}.{}.{}({})".format(*VERSION), (Qt.AlignBottom|Qt.AlignRight))
 
-class Pyslvs_About(QDialog, Ui_About_Dialog):
+class PyslvsAbout(QDialog, Ui_About_Dialog):
     def __init__(self, parent=None):
-        super(Pyslvs_About, self).__init__(parent)
+        super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Title.setText(html(title("Pyslvs")+content("Version {}.{}.{}({}) 2016-2018".format(*VERSION))))

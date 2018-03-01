@@ -17,7 +17,15 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    pyqtSignal,
+    QWidget,
+    pyqtSlot,
+    QMessageBox,
+    QInputDialog,
+    QListWidgetItem,
+    QApplication,
+)
 from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
 import pprint
@@ -25,17 +33,16 @@ from math import sqrt
 from networkx import Graph
 from string import ascii_uppercase
 from itertools import product
-'''
-'CollectionsDialog',
-'ConstraintsDialog',
-'CustomsDialog',
-'TargetsDialog',
-'SolutionsDialog',
-'list_texts',
-'combo_texts',
-'list_items',
-'''
-from .TriangularIteration_dialog import *
+from .TriangularIteration_dialog import (
+    CollectionsDialog,
+    ConstraintsDialog,
+    CustomsDialog,
+    TargetsDialog,
+    SolutionsDialog,
+    list_texts,
+    combo_texts,
+    list_items,
+)
 from .Ui_TriangularIteration import Ui_Form
 
 #This is a generator to get a non-numeric and non-repeat name string.

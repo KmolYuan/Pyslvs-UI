@@ -17,7 +17,15 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QDialog,
+    Qt,
+    QDialogButtonBox,
+    pyqtSlot,
+    QInputDialog,
+    QMessageBox,
+    QListWidgetItem,
+)
 from core.graphics import PreviewCanvas, replace_by_dict
 from copy import deepcopy
 from .Ui_collections import Ui_Dialog

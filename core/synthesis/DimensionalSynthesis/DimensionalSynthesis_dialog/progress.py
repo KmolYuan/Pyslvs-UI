@@ -17,13 +17,17 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
-import zmq
+from core.QtModules import (
+    QDialog,
+    Qt,
+    QTimer,
+    pyqtSlot,
+)
 from .Ui_progress import Ui_Dialog
 from .thread import WorkerThread
 
 class Progress_show(QDialog, Ui_Dialog):
-    def __init__(self, type_num, mechanismParams, setting, PORT=None, parent=None):
+    def __init__(self, type_num, mechanismParams, setting, parent=None):
         super(Progress_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
@@ -53,29 +57,16 @@ class Progress_show(QDialog, Ui_Dialog):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.setTime)
         #Worker thread.
-        self.work = WorkerThread(type_num, mechanismParams, setting, self)
+        self.work = WorkerThread(type_num, mechanismParams, setting)
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)
         self.work.done.connect(self.finish)
-        if PORT is None:
-            self.label.setText(
-                "<html><head/><body><p><span style=\"font-size:12pt;\">"+
-                "This action will take some times, depending on the length of path, "+
-                "advanced settings and your computer performance.</p></body></html>"
-            )
-            self.argumentText.hide()
-        else:
-            context = zmq.Context()
-            self.socket = context.socket(zmq.REQ)
-            try:
-                self.socket.bind(PORT)
-                self.socket.setsockopt(zmq.LINGER, 0)
-                self.socket.close()
-            except:
-                QMessageBox.warning(self, "Connect Error", "The following address are not available:\n{}".format(PORT))
-                self.reject()
-            self.argumentText.setText("--server tcp://localhost:{}".format(PORT.split(':')[2]))
-            self.work.setSocket(PORT)
+        self.label.setText(
+            "<html><head/><body><p><span style=\"font-size:12pt;\">"+
+            "This action will take some times, depending on the length of path, "+
+            "advanced settings and your computer performance.</p></body></html>"
+        )
+        self.argumentText.hide()
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):

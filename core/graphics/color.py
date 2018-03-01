@@ -17,32 +17,38 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QColor,
+    Qt,
+    QIcon,
+    QPixmap,
+    QSize,
+)
 from typing import Tuple
 
 #Color dictionary.
 color_list = {
-    'Red':QColor(172, 68, 68),
-    'Green':QColor(110, 190, 30),
-    'Blue':QColor(68, 120, 172),
-    'Cyan':Qt.cyan,
-    'Magenta':Qt.magenta,
-    'Brick-Red':QColor(255, 130, 130),
-    'Yellow':Qt.yellow,
-    'Gray':Qt.gray,
-    'Orange':QColor(225, 165, 0),
-    'Pink':QColor(225, 192, 230),
-    'Black':Qt.black,
-    'White':Qt.white,
-    'Dark-Red':Qt.darkRed,
-    'Dark-Green':Qt.darkGreen,
-    'Dark-Blue':Qt.darkBlue,
-    'Dark-Cyan':Qt.darkCyan,
-    'Dark-Magenta':Qt.darkMagenta,
-    'Dark-Yellow':Qt.darkYellow,
-    'Dark-Gray':Qt.darkGray,
-    'Dark-Orange':QColor(225, 140, 0),
-    'Dark-Pink':QColor(225, 20, 147),
+    'Red': QColor(172, 68, 68),
+    'Green': QColor(110, 190, 30),
+    'Blue': QColor(68, 120, 172),
+    'Cyan': Qt.cyan,
+    'Magenta': Qt.magenta,
+    'Brick-Red': QColor(255, 130, 130),
+    'Yellow': Qt.yellow,
+    'Gray': Qt.gray,
+    'Orange': QColor(225, 165, 0),
+    'Pink': QColor(225, 192, 230),
+    'Black': Qt.black,
+    'White': Qt.white,
+    'Dark-Red': Qt.darkRed,
+    'Dark-Green': Qt.darkGreen,
+    'Dark-Blue': Qt.darkBlue,
+    'Dark-Cyan': Qt.darkCyan,
+    'Dark-Magenta': Qt.darkMagenta,
+    'Dark-Yellow': Qt.darkYellow,
+    'Dark-Gray': Qt.darkGray,
+    'Dark-Orange': QColor(225, 140, 0),
+    'Dark-Pink': QColor(225, 20, 147),
 }
 
 #Get color names.

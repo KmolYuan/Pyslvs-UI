@@ -17,7 +17,19 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QPointF,
+    QWidget,
+    QSizePolicy,
+    QPainter,
+    QBrush,
+    Qt,
+    QPen,
+    QColor,
+    QFont,
+    QPainterPath,
+    pyqtSlot,
+)
 from core.graphics import colorQt, colorPath
 from core.io import triangle_expr
 from networkx import Graph

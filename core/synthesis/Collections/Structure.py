@@ -17,7 +17,25 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
+from core.QtModules import (
+    QWidget,
+    pyqtSignal,
+    pyqtSlot,
+    QMessageBox,
+    QProgressDialog,
+    QCoreApplication,
+    QListWidgetItem,
+    QInputDialog,
+    QImage,
+    QSize,
+    QColor,
+    Qt,
+    QPainter,
+    QPointF,
+    QPixmap,
+    QFileInfo,
+    QApplication,
+)
 from core.io import Qt_images
 from networkx import (
     Graph,

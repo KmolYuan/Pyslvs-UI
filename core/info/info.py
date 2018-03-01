@@ -21,13 +21,9 @@ from sys import version_info
 import platform
 import argparse
 import requests
-try:
-    from PyQt5.QtCore import qVersion, PYQT_VERSION_STR
-    Qt_Version = qVersion().strip()
-    PyQt_Version = PYQT_VERSION_STR.strip()
-except ImportError:
-    Qt_Version = "No Qt"
-    PyQt_Version = "No PyQt"
+from core.QtModules import qVersion, PYQT_VERSION_STR
+Qt_Version = qVersion().strip()
+PyQt_Version = PYQT_VERSION_STR.strip()
 
 VERSION = (18, 3, 0, 'dev')
 

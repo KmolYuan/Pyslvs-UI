@@ -6,12 +6,30 @@
 "lib" module contains C++ and Cython libraries.
 """
 
-#['Genetic', 'Firefly', 'DiffertialEvolution', 'expr_parser', 'build_planar']
-from .pyslvs_algorithm import *
-#['NumberSynthesis', 'topo']
-from .pyslvs_topologic import *
+from .pyslvs_algorithm import (
+    Genetic,
+    Firefly,
+    DiffertialEvolution,
+    expr_parser,
+    build_planar
+)
+from .pyslvs_topologic import NumberSynthesis, topo
 #Solvespace API.
-from .python_solvespace.slvs import *
+from .python_solvespace.slvs import (
+    System,
+    groupNum,
+    Slvs_MakeQuaternion,
+    Point3d,
+    Workplane,
+    Normal3d,
+    Point2d,
+    LineSegment2d,
+    Constraint,
+    SLVS_RESULT_OKAY,
+    SLVS_RESULT_INCONSISTENT,
+    SLVS_RESULT_DIDNT_CONVERGE,
+    SLVS_RESULT_TOO_MANY_UNKNOWNS,
+)
 
 __all__ = [
     'Genetic',

@@ -4,7 +4,6 @@ pyqtchart
 dxfwrite
 numpy
 cython
-pyzmq
 openpyxl
 psutil
 peewee

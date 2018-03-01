@@ -17,8 +17,26 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from core.QtModules import *
-from core.info import Pyslvs_About, check_update
+from core.QtModules import (
+    QMainWindow,
+    QUndoStack,
+    QFileInfo,
+    QStandardPaths,
+    pyqtSlot,
+    QPoint,
+    QAction,
+    QApplication,
+    Qt,
+    QMessageBox,
+    QDesktopServices,
+    QUrl,
+    QInputDialog,
+    QFileDialog,
+    QListWidgetItem,
+    QTextCursor,
+    QProgressDialog,
+)
+from core.info import PyslvsAbout, check_update
 from core.graphics import slvsProcess, SlvsException
 from core.io import (
     Script_Dialog,
@@ -30,10 +48,8 @@ from core.io import (
     Qt_images, slvs2D, dxfSketch, XStream,
     PMKS_parser, PMKSArgsTransformer, get_from_parenthesis
 )
-#['initCustomWidgets']
-from core.widgets import *
-#['edit_point_show', 'edit_link_show']
-from core.entities import *
+from core.widgets import initCustomWidgets
+from core.entities import edit_point_show, edit_link_show
 from typing import Tuple
 import csv
 from .Ui_main import Ui_MainWindow
@@ -312,7 +328,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Open Pyslvs about.
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
-        self.OpenDlg(Pyslvs_About(self))
+        about = PyslvsAbout(self)
+        about.show()
     
     #Open Qt about.
     @pyqtSlot()
@@ -323,11 +340,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def OpenURL(self, URL):
         print("Open - {{{}}}".format(URL))
         QDesktopServices.openUrl(QUrl(URL))
-    
-    #Use to open dialog widgets.
-    def OpenDlg(self, dlg):
-        dlg.show()
-        dlg.exec()
     
     #Open GUI console.
     @pyqtSlot()
@@ -580,7 +592,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     #Output to Python script for Jupyter notebook.
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
-        self.OpenDlg(Script_Dialog(self.Entities_Point.data(), self.Entities_Link.data(), self))
+        sd = Script_Dialog(self.Entities_Point.data(), self.Entities_Link.data(), self)
+        sd.show()
     
     #Add point group using alt key.
     @pyqtSlot()
