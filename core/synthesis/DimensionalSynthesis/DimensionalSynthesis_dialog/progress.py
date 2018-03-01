@@ -61,12 +61,6 @@ class Progress_show(QDialog, Ui_Dialog):
         self.work.progress_update.connect(self.setProgress)
         self.work.result.connect(self.getResult)
         self.work.done.connect(self.finish)
-        self.label.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt;\">"+
-            "This action will take some times, depending on the length of path, "+
-            "advanced settings and your computer performance.</p></body></html>"
-        )
-        self.argumentText.hide()
     
     @pyqtSlot(int, str)
     def setProgress(self, progress, fitness):
