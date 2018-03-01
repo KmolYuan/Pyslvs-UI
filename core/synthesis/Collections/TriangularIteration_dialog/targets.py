@@ -60,11 +60,13 @@ class TargetsDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_targets_add_clicked(self):
         row = self.other_list.currentRow()
-        if row>-1:
-            self.targets_list.addItem(self.other_list.takeItem(row))
+        if not row>-1:
+            return
+        self.targets_list.addItem(self.other_list.takeItem(row))
     
     @pyqtSlot()
     def on_other_add_clicked(self):
         row = self.targets_list.currentRow()
-        if row>-1:
-            self.other_list.addItem(self.targets_list.takeItem(row))
+        if not row>-1:
+            return
+        self.other_list.addItem(self.targets_list.takeItem(row))

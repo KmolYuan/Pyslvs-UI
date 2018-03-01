@@ -203,40 +203,45 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_rename_button_clicked(self):
         row = self.collections_list.currentRow()
-        if row>-1:
-            name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
-            if ok:
-                if not name:
-                    QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
-                    return
-                item = self.collections_list.item(row)
-                self.collections[name] = self.collections.pop(item.text())
-                item.setText(name)
+        if not row>-1:
+            return
+        name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+        if not ok:
+            return
+        if not name:
+            QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
+            return
+        item = self.collections_list.item(row)
+        self.collections[name] = self.collections.pop(item.text())
+        item.setText(name)
     
     @pyqtSlot()
     def on_copy_button_clicked(self):
         row = self.collections_list.currentRow()
-        if row>-1:
-            name, ok = QInputDialog.getText(self, "Profile name", "Please enter a new profile name:")
-            if ok:
-                if not name:
-                    QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
-                    return
-                name_old = self.collections_list.item(row).text()
-                self.collections[name] = self.collections[name_old].copy()
-                self.collections_list.addItem(name)
+        if not row>-1:
+            return
+        name, ok = QInputDialog.getText(self, "Profile name", "Please enter a new profile name:")
+        if not ok:
+            return
+        if not name:
+            QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
+            return
+        name_old = self.collections_list.item(row).text()
+        self.collections[name] = self.collections[name_old].copy()
+        self.collections_list.addItem(name)
     
     @pyqtSlot()
     def on_delete_button_clicked(self):
         row = self.collections_list.currentRow()
-        if row>-1:
-            reply = QMessageBox.question(self, "Delete", "Do you want to delete this structure?",
-                (QMessageBox.Yes | QMessageBox.No), QMessageBox.Yes)
-            if reply==QMessageBox.Yes:
-                item = self.collections_list.takeItem(row)
-                del self.collections[item.text()]
-                self.PreviewCanvas.clear()
-                self.hasCollection()
+        if not row>-1:
+            return
+        reply = QMessageBox.question(self, "Delete", "Do you want to delete this structure?",
+            (QMessageBox.Yes | QMessageBox.No), QMessageBox.Yes)
+        if reply==QMessageBox.Yes:
+            item = self.collections_list.takeItem(row)
+            del self.collections[item.text()]
+            self.PreviewCanvas.clear()
+            self.hasCollection()
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)

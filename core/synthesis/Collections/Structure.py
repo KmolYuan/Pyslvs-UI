@@ -270,14 +270,15 @@ class CollectionsStructure(QWidget, Ui_Form):
     @pyqtSlot()
     def on_delete_button_clicked(self):
         row = self.collection_list.currentRow()
-        if row>-1:
-            reply = QMessageBox.question(self, "Delete", "Sure to remove #{} from your collections?".format(row),
-                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply:
-                self.clearSelection()
-                self.collection_list.takeItem(row)
-                del self.collections[row]
-                self.unsaveFunc()
+        if not row>-1:
+            return
+        reply = QMessageBox.question(self, "Delete", "Sure to remove #{} from your collections?".format(row),
+            (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+        if reply==QMessageBox.Apply:
+            self.clearSelection()
+            self.collection_list.takeItem(row)
+            del self.collections[row]
+            self.unsaveFunc()
     
     #Triangular iteration
     @pyqtSlot()

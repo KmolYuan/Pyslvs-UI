@@ -943,28 +943,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_inputs_points_currentRowChanged(self, row):
         self.inputs_baseLinks.clear()
-        if row>-1:
-            if row not in self.Entities_Point.selectedRows():
-                self.Entities_Point.setSelections((row,), False)
-            for linkName in filter(lambda x: x!='', self.Entities_Point.item(row, 1).text().split(',')):
-                self.inputs_baseLinks.addItem(linkName)
+        if not row>-1:
+            return
+        if row not in self.Entities_Point.selectedRows():
+            self.Entities_Point.setSelections((row,), False)
+        for linkName in filter(lambda x: x!='', self.Entities_Point.item(row, 1).text().split(',')):
+            self.inputs_baseLinks.addItem(linkName)
     
     @pyqtSlot(int)
     def on_inputs_baseLinks_currentRowChanged(self, row):
         self.inputs_driveLinks.clear()
-        if row>-1:
-            for linkName in self.Entities_Point.item(self.inputs_points.currentRow(), 1).text().split(','):
-                if linkName==self.inputs_baseLinks.currentItem().text():
-                    continue
-                self.inputs_driveLinks.addItem(linkName)
+        if not row>-1:
+            return
+        for linkName in self.Entities_Point.item(self.inputs_points.currentRow(), 1).text().split(','):
+            if linkName==self.inputs_baseLinks.currentItem().text():
+                continue
+            self.inputs_driveLinks.addItem(linkName)
     
     @pyqtSlot(int)
     def on_inputs_driveLinks_currentRowChanged(self, row):
-        if row>-1:
-            typeText = self.inputs_points.currentItem().text().split(" ")[0]
-            self.inputs_variable_add.setEnabled(typeText=='[R]')
-        else:
+        if not row>-1:
             self.inputs_variable_add.setEnabled(False)
+            return
+        typeText = self.inputs_points.currentItem().text().split(" ")[0]
+        self.inputs_variable_add.setEnabled(typeText=='[R]')
     
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
@@ -990,11 +992,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_inputs_variable_remove_clicked(self):
         row = self.inputs_variable.currentRow()
-        if row>-1:
-            self.inputs_variable_stop.click()
-            self.inputs_variable.takeItem(row)
-            self.Entities_Point.getBackPosition()
-            self.Resolve()
+        if not row>-1:
+            return
+        self.inputs_variable_stop.click()
+        self.inputs_variable.takeItem(row)
+        self.Entities_Point.getBackPosition()
+        self.Resolve()
     
     def inputs_variable_autocheck(self):
         self.inputs_points.clear()
@@ -1117,12 +1120,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_inputs_record_remove_clicked(self):
         row = self.inputs_record.currentRow()
-        if row>-1:
-            self.FileState.beginMacro("Delete {{Path: {}}}".format(self.inputs_record.item(row).text()))
-            self.FileState.push(deletePathCommand(row, self.inputs_record, self.FileWidget.pathData))
-            self.FileState.endMacro()
-            self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
-            self.Reload_Canvas()
+        if not row>-1:
+            return
+        self.FileState.beginMacro("Delete {{Path: {}}}".format(self.inputs_record.item(row).text()))
+        self.FileState.push(deletePathCommand(row, self.inputs_record, self.FileWidget.pathData))
+        self.FileState.endMacro()
+        self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+        self.Reload_Canvas()
     
     #View path data.
     @pyqtSlot(QListWidgetItem)
@@ -1314,10 +1318,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_mechanism_storage_delete_clicked(self):
         row = self.mechanism_storage.currentRow()
-        if row>-1:
-            self.FileState.beginMacro("Delete {{Mechanism: {}}}".format(self.mechanism_storage.item(row).text()))
-            self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
-            self.FileState.endMacro()
+        if not row>-1:
+            return
+        self.FileState.beginMacro("Delete {{Mechanism: {}}}".format(self.mechanism_storage.item(row).text()))
+        self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
+        self.FileState.endMacro()
     
     #Restore the storage data as below.
     @pyqtSlot(QListWidgetItem)

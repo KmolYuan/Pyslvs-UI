@@ -279,10 +279,11 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_point_delete_clicked(self):
         row = self.path_list.currentRow()
-        if row>-1:
-            del self.currentPath()[row]
-            self.path_list.takeItem(row)
-            self.currentPathChanged()
+        if not row>-1:
+            return
+        del self.currentPath()[row]
+        self.path_list.takeItem(row)
+        self.currentPathChanged()
     
     def isGenerate(self):
         self.pointNum.setText(
@@ -382,14 +383,15 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     @pyqtSlot()
     def on_deleteButton_clicked(self):
         row = self.Result_list.currentRow()
-        if row>-1:
-            reply = QMessageBox.question(self, "Delete", "Delete this result from list?",
-                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply:
-                del self.mechanism_data[row]
-                self.Result_list.takeItem(row)
-                self.unsaveFunc()
-                self.hasResult()
+        if not row>-1:
+            return
+        reply = QMessageBox.question(self, "Delete", "Delete this result from list?",
+            (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+        if reply==QMessageBox.Apply:
+            del self.mechanism_data[row]
+            self.Result_list.takeItem(row)
+            self.unsaveFunc()
+            self.hasResult()
     
     def hasResult(self, p0=None):
         for button in [
@@ -404,19 +406,21 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     @pyqtSlot(QModelIndex)
     def on_Result_list_doubleClicked(self, index):
         row = self.Result_list.currentRow()
-        if row>-1:
-            dlg = PreviewDialog(self.mechanism_data[row], self.get_path(row), self)
-            dlg.show()
-            dlg.exec_()
+        if not row>-1:
+            return
+        dlg = PreviewDialog(self.mechanism_data[row], self.get_path(row), self)
+        dlg.show()
+        dlg.exec_()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
         row = self.Result_list.currentRow()
-        if row>-1:
-            reply = QMessageBox.question(self, "Merge", "Merge this result to your canvas?",
-                (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
-            if reply==QMessageBox.Apply:
-                self.mergeResult.emit(row, self.get_path(row))
+        if not row>-1:
+            return
+        reply = QMessageBox.question(self, "Merge", "Merge this result to your canvas?",
+            (QMessageBox.Apply | QMessageBox.Cancel), QMessageBox.Apply)
+        if reply==QMessageBox.Apply:
+            self.mergeResult.emit(row, self.get_path(row))
     
     def get_path(self, row):
         Result = self.mechanism_data[row]
@@ -535,57 +539,58 @@ class DimensionalSynthesis(QWidget, PathSolving_Form):
     def on_Result_load_settings_clicked(self):
         self.hasResult()
         row = self.Result_list.currentRow()
-        if row>-1:
-            self.clear_settings()
-            Result = self.mechanism_data[row]
-            if Result['Algorithm'] == str(AlgorithmType.RGA):
-                self.type0.setChecked(True)
-            elif Result['Algorithm'] == str(AlgorithmType.Firefly):
-                self.type1.setChecked(True)
-            elif Result['Algorithm'] == str(AlgorithmType.DE):
-                self.type2.setChecked(True)
-            self.profile_name.setText("External setting")
-            #External setting.
-            self.Expression.setText(Result['Expression'])
-            self.Link_Expression.setText(Result['Link_Expression'])
-            #Copy to mechanism params.
-            self.mechanismParams.clear()
-            for key in [
-                'Driver',
-                'Follower',
-                'Target'
-            ]:
-                self.mechanismParams[key] = Result[key].copy()
-            for key in [
-                'Link_Expression',
-                'Expression',
-                'constraint',
-                'Graph',
-                'name_dict',
-                'pos',
-                'cus',
-                'same'
-            ]:
-                self.mechanismParams[key] = Result[key]
-            self.set_ground_joints()
-            self.setTime(Result['time'])
-            settings = Result['settings']
-            self.Settings = {
-                'report': settings['report'],
-                'IMax': Result['IMax'], 'IMin': Result['IMin'],
-                'LMax': Result['LMax'], 'LMin': Result['LMin'],
-                'FMax': Result['FMax'], 'FMin': Result['FMin'],
-                'AMax': Result['AMax'], 'AMin': Result['AMin']
-            }
-            if 'maxGen' in settings:
-                self.Settings['maxGen'] = settings['maxGen']
-            elif 'minFit' in settings:
-                self.Settings['minFit'] = settings['minFit']
-            elif 'maxTime' in settings:
-                self.Settings['maxTime'] = settings['maxTime']
-            algorithmPrams = settings.copy()
-            del algorithmPrams['report']
-            self.Settings['algorithmPrams'] = algorithmPrams
+        if not row>-1:
+            return
+        self.clear_settings()
+        Result = self.mechanism_data[row]
+        if Result['Algorithm'] == str(AlgorithmType.RGA):
+            self.type0.setChecked(True)
+        elif Result['Algorithm'] == str(AlgorithmType.Firefly):
+            self.type1.setChecked(True)
+        elif Result['Algorithm'] == str(AlgorithmType.DE):
+            self.type2.setChecked(True)
+        self.profile_name.setText("External setting")
+        #External setting.
+        self.Expression.setText(Result['Expression'])
+        self.Link_Expression.setText(Result['Link_Expression'])
+        #Copy to mechanism params.
+        self.mechanismParams.clear()
+        for key in [
+            'Driver',
+            'Follower',
+            'Target'
+        ]:
+            self.mechanismParams[key] = Result[key].copy()
+        for key in [
+            'Link_Expression',
+            'Expression',
+            'constraint',
+            'Graph',
+            'name_dict',
+            'pos',
+            'cus',
+            'same'
+        ]:
+            self.mechanismParams[key] = Result[key]
+        self.set_ground_joints()
+        self.setTime(Result['time'])
+        settings = Result['settings']
+        self.Settings = {
+            'report': settings['report'],
+            'IMax': Result['IMax'], 'IMin': Result['IMin'],
+            'LMax': Result['LMax'], 'LMin': Result['LMin'],
+            'FMax': Result['FMax'], 'FMin': Result['FMin'],
+            'AMax': Result['AMax'], 'AMin': Result['AMin']
+        }
+        if 'maxGen' in settings:
+            self.Settings['maxGen'] = settings['maxGen']
+        elif 'minFit' in settings:
+            self.Settings['minFit'] = settings['minFit']
+        elif 'maxTime' in settings:
+            self.Settings['maxTime'] = settings['maxTime']
+        algorithmPrams = settings.copy()
+        del algorithmPrams['report']
+        self.Settings['algorithmPrams'] = algorithmPrams
     
     def algorithmParams_default(self):
         if self.type0.isChecked():

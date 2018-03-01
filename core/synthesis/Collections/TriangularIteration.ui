@@ -455,13 +455,13 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
-                  <widget class="QPushButton" name="Expression_pop">
+                  <widget class="QPushButton" name="Expression_clear">
                    <property name="statusTip">
-                    <string>Remove the last solution.</string>
+                    <string>Clear all the solutions.</string>
                    </property>
                    <property name="icon">
                     <iconset resource="../../../icons.qrc">
-                     <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
+                     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
                    </property>
                   </widget>
                  </item>
@@ -479,13 +479,13 @@
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="Expression_clear">
+                  <widget class="QPushButton" name="Expression_pop">
                    <property name="statusTip">
-                    <string>Clear all the solutions.</string>
+                    <string>Remove the last solution.</string>
                    </property>
                    <property name="icon">
                     <iconset resource="../../../icons.qrc">
-                     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                     <normaloff>:/icons/arrow_up.png</normaloff>:/icons/arrow_up.png</iconset>
                    </property>
                   </widget>
                  </item>

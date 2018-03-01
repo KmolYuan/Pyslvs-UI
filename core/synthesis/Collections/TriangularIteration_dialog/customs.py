@@ -59,68 +59,74 @@ class CustomsDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_add_button_clicked(self):
         row = self.link_choose.currentIndex()
-        if row>-1:
-            try:
-                new_num = max(int(c.replace('P', '')) for c in self.cus)
-            except ValueError:
-                new_num = max(self.pos)
-            new_num += 1
-            new_name = 'P{}'.format(new_num)
-            self.cus[new_name] = row
-            self.pos[new_num] = (0., 0.)
-            self.status[new_num] = False
-            self.custom_list.addItem("{} -> {}".format(new_name, self.link_choose.itemText(row)))
-            self.joint_combobox.addItem(new_name)
+        if not row>-1:
+            return
+        try:
+            new_num = max(int(c.replace('P', '')) for c in self.cus)
+        except ValueError:
+            new_num = max(self.pos)
+        new_num += 1
+        new_name = 'P{}'.format(new_num)
+        self.cus[new_name] = row
+        self.pos[new_num] = (0., 0.)
+        self.status[new_num] = False
+        self.custom_list.addItem("{} -> {}".format(new_name, self.link_choose.itemText(row)))
+        self.joint_combobox.addItem(new_name)
     
     @pyqtSlot()
     def on_delete_button_clicked(self):
         row = self.custom_list.currentRow()
-        if row>-1:
-            name = self.custom_list.item(row).text().split(" -> ")[0]
-            num = int(name.replace('P', ''))
-            self.cus.pop(name)
-            self.pos.pop(num)
-            self.status.pop(num)
-            self.custom_list.takeItem(row)
-            self.joint_combobox.removeItem(num)
+        if not row>-1:
+            return
+        name = self.custom_list.item(row).text().split(" -> ")[0]
+        num = int(name.replace('P', ''))
+        self.cus.pop(name)
+        self.pos.pop(num)
+        self.status.pop(num)
+        self.custom_list.takeItem(row)
+        self.joint_combobox.removeItem(num)
     
     @pyqtSlot(str)
     def on_quote_choose_currentIndexChanged(self, s):
         self.quote_link_choose.clear()
-        if s:
-            for row in range(self.link_choose.count()):
-                link_text = self.link_choose.itemText(row)
-                if s in link_text.replace('(', '').replace(')', '').split(", "):
-                    self.quote_link_choose.addItem(link_text)
+        if not s:
+            return
+        for row in range(self.link_choose.count()):
+            link_text = self.link_choose.itemText(row)
+            if s in link_text.replace('(', '').replace(')', '').split(", "):
+                self.quote_link_choose.addItem(link_text)
     
     @pyqtSlot(str)
     def on_quote_link_choose_currentIndexChanged(self, s):
         self.joint_choose.clear()
-        if s:
-            for joint in s.replace('(', '').replace(')', '').split(", "):
-                if joint==self.quote_choose.currentText():
-                    continue
-                if int(joint.replace('P', '')) in self.same:
-                    continue
-                self.joint_choose.addItem(joint)
+        if not s:
+            return
+        for joint in s.replace('(', '').replace(')', '').split(", "):
+            if joint==self.quote_choose.currentText():
+                continue
+            if int(joint.replace('P', '')) in self.same:
+                continue
+            self.joint_choose.addItem(joint)
     
     @pyqtSlot()
     def on_add_mj_button_clicked(self):
         s = self.joint_choose.currentText()
-        if s:
-            joint = int(s.replace('P', ''))
-            qs = self.quote_choose.currentText()
-            quote = int(qs.replace('P', ''))
-            self.same[joint] = quote
-            self.multiple_list.addItem("{} -> {}".format(s, qs))
-            self.reload_quote_choose()
+        if not s:
+            return
+        joint = int(s.replace('P', ''))
+        qs = self.quote_choose.currentText()
+        quote = int(qs.replace('P', ''))
+        self.same[joint] = quote
+        self.multiple_list.addItem("{} -> {}".format(s, qs))
+        self.reload_quote_choose()
     
     @pyqtSlot()
     def on_delete_mj_button_clicked(self):
         row = self.multiple_list.currentRow()
-        if row>-1:
-            name = self.multiple_list.item(row).text().split(" -> ")[0]
-            joint = int(name.replace('P', ''))
-            self.same.pop(joint)
-            self.multiple_list.takeItem(row)
-            self.reload_quote_choose()
+        if not row>-1:
+            return
+        name = self.multiple_list.item(row).text().split(" -> ")[0]
+        joint = int(name.replace('P', ''))
+        self.same.pop(joint)
+        self.multiple_list.takeItem(row)
+        self.reload_quote_choose()

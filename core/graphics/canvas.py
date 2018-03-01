@@ -40,6 +40,7 @@ from math import (
     atan2,
     isnan
 )
+from typing import Sequence
 from functools import reduce
 
 def convex_hull(points):
@@ -297,7 +298,10 @@ class PreviewCanvas(BaseCanvas):
         {'P0': 'A'}
         '''
         self.name_dict = {}
+        #Special mark
         self.grounded = -1
+        self.Driver = -1
+        self.Target = -1
         self.update()
     
     def paintEvent(self, event):
@@ -346,11 +350,20 @@ class PreviewCanvas(BaseCanvas):
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
+            x *= self.zoom
+            y *= -self.zoom
+            if node in (self.Driver, self.Target):
+                if node==self.Driver:
+                    pen.setColor(colorQt('Red'))
+                elif node==self.Target:
+                    pen.setColor(colorQt('Yellow'))
+                self.painter.setPen(pen)
+                self.painter.drawEllipse(QPointF(x, y), r, r)
             color = colorQt('Dark-Magenta') if self.getStatus(node) else colorQt('Green')
             pen.setColor(color)
             self.painter.setPen(pen)
             self.painter.setBrush(QBrush(color))
-            self.painter.drawEllipse(QPointF(x*self.zoom, y*-self.zoom), r, r)
+            self.painter.drawEllipse(QPointF(x, y), r, r)
             pen.setColor(colorQt('Black'))
             self.painter.setPen(pen)
         #Solutions
@@ -401,6 +414,14 @@ class PreviewCanvas(BaseCanvas):
             self.status[n] = self.grounded in edge
         for n, link in self.cus.items():
             self.status[int(n.replace('P', ''))] = self.grounded == link
+        self.update()
+    
+    def setDriver(self, nodes: Sequence[int]):
+        self.Driver = tuple(nodes)
+        self.update()
+    
+    def setTarget(self, nodes: Sequence[int]):
+        self.Target = tuple(nodes)
         self.update()
     
     def setStatus(self, point: str, status: bool):
@@ -456,30 +477,3 @@ class PreviewCanvas(BaseCanvas):
     #Is the name in 'same'.
     def name_in_same(self, name: str) -> bool:
         return int(name.replace('P', '')) in self.same
-    
-    #Return a generator yield the nodes that has solution on the same link.
-    def friends(self, node1: int, reliable: bool =False):
-        #All edges of all nodes.
-        edges = dict(edges_view(self.G))
-        for n, l in self.cus.items():
-            edges[int(n.replace('P', ''))] = (l,)
-        #Reverse dict of 'self.same'.
-        same_r = {v: k for k, v in self.same.items()}
-        #for all link of node1.
-        links1 = set(edges[node1])
-        if node1 in same_r:
-            links1.update(edges[same_r[node1]])
-        #for all link.
-        for node2 in edges:
-            if (node1 == node2) or (node2 in self.same):
-                continue
-            links2 = set(edges[node2])
-            if node2 in same_r:
-                links2.update(edges[same_r[node2]])
-            #Reference by intersection and status.
-            if (links1 & links2) and (not self.getStatus(node2) != reliable):
-                yield node2
-    
-    #Sort the nodes by position.
-    def sort_nodes(self, nodes):
-        return tuple(sorted(nodes, key=lambda n: self.pos[n][0], reverse=True))

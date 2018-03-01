@@ -89,10 +89,11 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot(int)
     def on_Loops_list_currentRowChanged(self, row):
-        if row>-1:
-            self.sorting_list.clear()
-            for point in get_list(self.Loops_list.item(row)):
-                self.sorting_list.addItem(point)
+        if not row>-1:
+            return
+        self.sorting_list.clear()
+        for point in get_list(self.Loops_list.item(row)):
+            self.sorting_list.addItem(point)
     
     @pyqtSlot()
     def on_main_add_clicked(self):
@@ -104,5 +105,6 @@ class ConstraintsDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_sorting_add_clicked(self):
         row = self.main_list.currentRow()
-        if row>-1:
-            self.Loops_list.addItem(self.main_list.takeItem(row))
+        if not row>-1:
+            return
+        self.Loops_list.addItem(self.main_list.takeItem(row))

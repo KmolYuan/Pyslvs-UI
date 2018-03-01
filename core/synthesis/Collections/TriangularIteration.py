@@ -54,6 +54,7 @@ def letter_names():
         for e in product(ascii_uppercase, repeat=i):
             yield ''.join(e)
 
+#Preview window has some functions of mouse interaction.
 class PreviewWindow(PreviewCanvas):
     set_joint_number = pyqtSignal(int)
     
@@ -79,18 +80,46 @@ class PreviewWindow(PreviewCanvas):
     def mouseMoveEvent(self, event):
         if self.pressed:
             row = self.get_joint_number()
-            if row>-1:
-                mx = (event.x() - self.ox) / self.zoom
-                my = (event.y() - self.oy) / -self.zoom
-                if -120 <= mx <= 120:
-                    self.pos[row] = (mx, self.pos[row][1])
-                else:
-                    self.pos[row] = (120 if -120 <= mx else -120, self.pos[row][1])
-                if -120 <= my <= 120:
-                    self.pos[row] = (self.pos[row][0], my)
-                else:
-                    self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
-                self.update()
+            if not row>-1:
+                return
+            mx = (event.x() - self.ox) / self.zoom
+            my = (event.y() - self.oy) / -self.zoom
+            if -120 <= mx <= 120:
+                self.pos[row] = (mx, self.pos[row][1])
+            else:
+                self.pos[row] = (120 if -120 <= mx else -120, self.pos[row][1])
+            if -120 <= my <= 120:
+                self.pos[row] = (self.pos[row][0], my)
+            else:
+                self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
+            self.update()
+    
+    #Return a generator yield the nodes that has solution on the same link.
+    def friends(self, node1: int, reliable: bool =False) -> int:
+        #All edges of all nodes.
+        edges = dict(edges_view(self.G))
+        for n, l in self.cus.items():
+            edges[int(n.replace('P', ''))] = (l,)
+        #Reverse dict of 'self.same'.
+        same_r = {v: k for k, v in self.same.items()}
+        #for all link of node1.
+        links1 = set(edges[node1])
+        if node1 in same_r:
+            links1.update(edges[same_r[node1]])
+        #for all link.
+        for node2 in edges:
+            if (node1 == node2) or (node2 in self.same):
+                continue
+            links2 = set(edges[node2])
+            if node2 in same_r:
+                links2.update(edges[same_r[node2]])
+            #Reference by intersection and status.
+            if (links1 & links2) and (not self.getStatus(node2) != reliable):
+                yield node2
+    
+    #Sort the nodes by position.
+    def sort_nodes(self, nodes):
+        return tuple(sorted(nodes, key=lambda n: self.pos[n][0], reverse=True))
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
 
@@ -237,16 +266,21 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot()
     def on_Driver_add_clicked(self):
         row = self.Follower_list.currentRow()
-        if row>-1:
-            self.Driver_list.addItem(self.Follower_list.takeItem(row))
-            self.setWarning(self.Driver_label, False)
+        if not row>-1:
+            return
+        self.Driver_list.addItem(self.Follower_list.takeItem(row))
+        self.PreviewWindow.setDriver([
+            int(n.replace('P', '')) for n in list_texts(self.Driver_list)
+        ])
+        self.setWarning(self.Driver_label, False)
     
     @pyqtSlot()
     def on_Follower_add_clicked(self):
         row = self.Driver_list.currentRow()
-        if row>-1:
-            self.Follower_list.addItem(self.Driver_list.takeItem(row))
-            self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))
+        if not row>-1:
+            return
+        self.Follower_list.addItem(self.Driver_list.takeItem(row))
+        self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))
     
     def expression(self):
         expr_list = set([])
@@ -393,12 +427,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ))
     
     def addSolution(self, point: str, expr: str):
-            item = QListWidgetItem()
-            self.Expression_list.addItem(item)
-            item.setText(expr)
-            self.PreviewWindow.setStatus(point, True)
-            self.hasSolution()
-            self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
+        item = QListWidgetItem()
+        self.Expression_list.addItem(item)
+        item.setText(expr)
+        self.PreviewWindow.setStatus(point, True)
+        self.hasSolution()
+        self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
     
     @pyqtSlot(QListWidgetItem)
     def set_parm_bind(self, item=None):
