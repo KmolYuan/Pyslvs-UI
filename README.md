@@ -14,6 +14,7 @@ Website: <http://www.pyslvs.com/blog/index.html>
 
     + [How to startup](#how-to-startup)
     + [Symbolic](#symbolic)
+    + [Kinematics Simulation](#kinematics-simulation)
     + [Number and Type Synthesis](#number-and-type-synthesis)
     + [Triangular iteration](#triangular-iteration)
     + [Dimensional Synthesis](#dimensional-synthesis)
