@@ -101,6 +101,25 @@ M[J[R, color[Green], P[0.0, 0.0], L[ground, link_0]], J[R, color[Green], P[12.92
 
 Then the expression can be parse in Pyslvs to create the mechanism.
 
+## Kinematics Simulation
+
+Pyslvs has a simple simulation function for revolute joints.
+
+![PMKS example](images/Kinemetic.png)
+
+Choose a base link and a drive link for the joint, then add the dependent into variables list.
+
+Using QDial widget (it just like a turntable) to adjust the angle value of variable.
+
+Path data will start append coordinates (between a certain of distance) after press the "record" button. Press "record" button again to stop recording.
+
+Path data can be copy or switch visibility by right-click menu.
+
+Some exceptions are not support:
+
++ Other type of joints.
++ Degree of freedom was lower than 1 but still can moving.
+
 ## Number and Type Synthesis
 
 Analysis a type of mechanism that exists, and find out other possibilities.
