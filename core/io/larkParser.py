@@ -1,26 +1,20 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Lark parser to parse the expression.
+
++ PMKS
++ Triangular iteration
+"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from lark import Lark, Transformer
 from core.graphics import colorName
 
-#Get from parenthesis
+"""Get from parenthesis."""
 get_from_parenthesis = lambda s, front, back: s[s.find(front)+1:s.find(back)]
 get_front_of_parenthesis = lambda s, front: s[:s.find(front)]
 
@@ -71,10 +65,14 @@ PMKS_parser = Lark(
     ''', start='mechanism'
 )
 
-#Usage: tree = parser.parse(expr)
-#       pointsArgs = ArgsTransformer().transform(tree)
-#       pointsArgs: Dict[str: value, ...]
 class PMKSArgsTransformer(Transformer):
+    
+    """Usage: tree = parser.parse(expr)
+    
+    pointsArgs = ArgsTransformer().transform(tree)
+    pointsArgs: Dict[str: value, ...]
+    """
+    
     type = lambda self, n: str(n[0])
     name = type
     color = type
@@ -83,30 +81,38 @@ class PMKSArgsTransformer(Transformer):
     point = lambda self, c: tuple(c)
     angle = number
     
-    #Sort the argument list.
     def joint(self, args):
-        '''
+        """Sort the argument list.
+        
         [0]: type
         [1]: angle
         [1]/[2]: color
         [-2]: point
         [-1]: link
-        '''
+        """
         hasAngle = args[0]!='R'
         color = args[2] if hasAngle else args[1]
+        if color not in colorName():
+            color = 'Blue'
+        elif 'ground' in args[-1]:
+            color = 'Green'
+        x, y = args[-2]
         pointArgs = [
             ','.join(args[-1]),
             '{}:{}'.format(args[0], args[1]) if hasAngle else 'R',
-            color if color in colorName() else 'Blue' if 'ground' in args[-1] else 'Green',
-            args[-2][0],
-            args[-2][1]
+            color,
+            x,
+            y
         ]
         return pointArgs
     
     link = lambda self, a: tuple(a)
     mechanism = lambda self, j: j
 
-#Triangle expression parser.
+"""Triangle expression parser.
+
+tree = triangle_parser.parse("PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)")
+"""
 triangle_parser = Lark(
     common +
     '''
@@ -129,11 +135,13 @@ triangle_parser = Lark(
     ''', start='exprs'
 )
 
-#tree = triangle_parser.parse("PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)")
-
-#Turn into tuple format.
-#TriangleArgsTransformer().transform(tree)
 class TriangleArgsTransformer(Transformer):
+    
+    """Turn into tuple format.
+    
+    TriangleArgsTransformer().transform(tree)
+    """
+    
     letter = lambda self, n: str(n[0])
     joint1 = lambda self, n: 'P{}'.format(n[0])
     joint2 = letter
@@ -146,15 +154,23 @@ class TriangleArgsTransformer(Transformer):
     expr = params
     exprs = params
 
-#(('PLAP', ('A', 'L0', 'a0', 'B'), 'C'), ('PLLP', ('C', 'L1', 'L2', 'B'), 'D'), ...)
 def triangle_expr(expr):
+    """Triangular iteration expression.
+    
+    ('PLAP', ('A', 'L0', 'a0', 'B'), 'C'),
+    ('PLLP', ('C', 'L1', 'L2', 'B'), 'D'), ...
+    """
     tf = TriangleArgsTransformer()
     for func, args, target in tf.transform(triangle_parser.parse(expr)):
         yield func, args, target
 
-#Return the symble by types.
-#TriangleExprClassification().transform(tree)
 class TriangleExprClassification(Transformer):
+    
+    """Return the symble by types.
+    
+    TriangleExprClassification().transform(tree)
+    """
+    
     def __init__(self):
         super(TriangleExprClassification, self).__init__()
         self.angles = []
@@ -175,6 +191,7 @@ class TriangleExprClassification(Transformer):
             self.angles.append(t)
 
 def triangle_class(expr):
+    """All symbols of triangular iteration expression."""
     tc = TriangleExprClassification()
     tmp_set = set()
     for func, args, target in triangle_expr(expr):

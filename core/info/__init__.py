@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
-"""
-"info" module contains Pyslvs program informations.
-"""
+"""'info' module contains Pyslvs program informations."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .info import (
     INFO,

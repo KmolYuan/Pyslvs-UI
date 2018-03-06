@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
-"""
-"graphics" module contains custom display widgets.
-"""
+"""'graphics' module contains custom display widgets."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .color import (
     colorNum,
@@ -17,7 +18,7 @@ from .planarSolving import (
     slvsProcess,
     SlvsException
 )
-from .chart import dataChart
+from .chart import DataChart
 from .canvas import (
     BaseCanvas,
     PreviewCanvas,
@@ -40,7 +41,7 @@ __all__ = [
     'colorPath',
     'slvsProcess',
     'SlvsException',
-    'dataChart',
+    'DataChart',
     'BaseCanvas',
     'PreviewCanvas',
     'convex_hull',

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-03-01, 12:52:08 -->
+<!-- Saved: 2018-03-04, 16:01:11 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -82,14 +82,12 @@
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_path_adjust.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_preview.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/Ui_series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/__init__.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/chart.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/options.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.py</Source>
-    <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/series.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/thread.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/Ui_Algorithm.py</Source>
     <Source>core/synthesis/DimensionalSynthesis/__init__.py</Source>
@@ -126,7 +124,6 @@
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/path_adjust.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/preview.ui</Form>
     <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/progress.ui</Form>
-    <Form>core/synthesis/DimensionalSynthesis/DimensionalSynthesis_dialog/series.ui</Form>
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
   </Forms>
   <Resources>

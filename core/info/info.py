@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Informations.
+
++ Pyslvs version.
++ Module versions.
++ Help descriptions.
++ Check for update function.
+"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from sys import version_info
 import platform
 import argparse
 import requests
-from core.QtModules import qVersion, PYQT_VERSION_STR
+from core.QtModules import (
+    QProgressDialog,
+    qVersion,
+    PYQT_VERSION_STR
+)
 Qt_Version = qVersion().strip()
 PyQt_Version = PYQT_VERSION_STR.strip()
 
@@ -50,7 +50,8 @@ POWERBY = (
     "Pydot"
 )
 
-#--help
+"""--help arguments"""
+
 parser = argparse.ArgumentParser(
     description="Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. ",
     epilog="Power by {}.".format(", ".join(POWERBY))
@@ -66,8 +67,8 @@ parser.add_argument('-d', '--debug-mode', action='store_true', help="do not conn
 parser.add_argument('-t', '--test', action='store_true', help="startup the program to test imported modules")
 ARGUMENTS = parser.parse_args()
 
-#Check for update.
-def check_update(progdlg) -> [str, bool]:
+def check_update(progdlg: QProgressDialog) -> [str, bool]:
+    """Check for update."""
     m = progdlg.maximum()
     from core.QtModules import QCoreApplication
     for i in range(m):

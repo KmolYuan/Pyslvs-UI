@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Simple class expression of Pyslvs."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from math import sqrt, degrees, atan2
 from networkx import Graph
@@ -23,7 +13,18 @@ from core.graphics import colorQt
 from typing import Tuple
 
 class VPoint:
-    __slots__ = ('__links', '__type', '__angle', '__color', '__x', '__y', '__c')
+    
+    """Joints type."""
+    
+    __slots__ = (
+        '__links',
+        '__type',
+        '__angle',
+        '__color',
+        '__x',
+        '__y',
+        '__c'
+    )
     Jtype = ('R', 'P', 'RP')
     
     def __init__(self,
@@ -93,9 +94,9 @@ class VPoint:
     def cy(self) -> float:
         return self.__c[0][1]
     
-    #Get the coordinates of all pin.
     @property
     def c(self) -> Tuple[Tuple[float, float]]:
+        """Get the coordinates of all pin."""
         return self.__c
     
     def set(self, links, type, angle, color, x, y):
@@ -107,13 +108,16 @@ class VPoint:
         self.__y = y
     
     def round(self, d=8):
-        self.__c = tuple(tuple(round(p, d) for p in coordinate) for coordinate in self.__c)
+        self.__c = tuple(
+            tuple(round(p, d) for p in coordinate)
+            for coordinate in self.__c
+        )
     
     def move(self, *coordinates):
         self.__c = tuple(coordinates)
     
     def reset(self):
-        if self.type==1 or self.type==2:
+        if (self.type == 1) or (self.type == 2):
             self.__c = tuple((self.x, self.y) for i in range(len(self.links)))
         else:
             self.__c = ((self.x, self.y),)
@@ -127,7 +131,8 @@ class VPoint:
     @property
     def expr(self):
         return "J[{}, color[{}], P[{}], L[{}]]".format(
-            "{}, A[{}]".format(self.typeSTR, self.angle) if self.typeSTR!='R' else 'R',
+            "{}, A[{}]".format(self.typeSTR, self.angle)
+            if self.typeSTR!='R' else 'R',
             self.colorSTR,
             "{}, {}".format(self.x, self.y),
             ", ".join(l for l in self.links)
@@ -137,6 +142,9 @@ class VPoint:
         return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)
 
 class VLink:
+    
+    """Linkages type."""
+    
     __slots__ = ('__name', '__color', '__points')
     
     def __init__(self, name: str, color: str, points: Tuple[int]):
@@ -178,8 +186,8 @@ class VLink:
     def __repr__(self):
         return "VLink('{l.name}', {l.points})".format(l=self)
 
-#Generalization chain
-def v_to_graph(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
+def v_to_graph(jointData: Tuple[VPoint], linkData: Tuple[VLink]):
+    """Get generalization chain."""
     G = Graph()
     #Links name for RP joint.
     k = len(linkData)
@@ -188,7 +196,10 @@ def v_to_graph(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
         for p in vlink.points:
             if p in used_point:
                 continue
-            match = [m for m, vlink_ in enumerate(linkData) if i!=m and (p in vlink_.points)]
+            match = [
+                m for m, vlink_ in enumerate(linkData)
+                if (i != m) and (p in vlink_.points)
+            ]
             for m in match:
                 if jointData[p].type==2:
                     G.add_edge(i, k)
@@ -199,8 +210,8 @@ def v_to_graph(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
             used_point.append(p)
     return G
 
-#Solvespace edges
-def v_to_slvs(jointData: Tuple[VPoint,], linkData: Tuple[VLink,]):
+def v_to_slvs(jointData: Tuple[VPoint], linkData: Tuple[VLink]):
+    """Solvespace edges."""
     edges = []
     for vlink in linkData:
         if vlink.name=='ground':

@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""All color options in Pyslvs."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QColor,
@@ -26,7 +16,7 @@ from core.QtModules import (
 )
 from typing import Tuple
 
-#Color dictionary.
+"""Color dictionary."""
 color_list = {
     'Red': QColor(172, 68, 68),
     'Green': QColor(110, 190, 30),
@@ -51,26 +41,28 @@ color_list = {
     'Dark-Pink': QColor(225, 20, 147),
 }
 
-#Get color names.
 def colorName() -> Tuple[str]:
+    """Get color names."""
     return tuple(sorted(color_list.keys()))
 
-#Get color by name.
 def colorQt(colorName: str) -> QColor:
+    """Get color by name."""
     return color_list.get(colorName, color_list['Blue'])
 
-#Get color by index.
 def colorNum(colorIndex: int) -> QColor:
+    """Get color by index."""
     return color_list[colorName()[colorIndex % len(color_list)]]
 
-#Get color block as QIcon by name.
 def colorIcons(colorName: str, size: int =20) -> QIcon:
+    """Get color block as QIcon by name."""
     colorBlock = QPixmap(QSize(size, size))
     colorBlock.fill(colorQt(colorName))
     return QIcon(colorBlock)
 
-#Target path color.
-#(Pen, Dot, Brush)
+"""Target path color.
+
+(Pen, Dot, Brush)
+"""
 path_color = (
     #Blue - Green
     (QColor(69, 247, 232), QColor(3, 163, 120), QColor(74, 178, 176, 30)),
@@ -82,6 +74,6 @@ path_color = (
     (QColor(115, 0, 145), QColor(220, 104, 249), QColor(198, 137, 214, 30))
 )
 
-#Get path colors.
 def colorPath(colorIndex: int) -> QColor:
+    """Get path colors."""
     return path_color[colorIndex % len(path_color)]

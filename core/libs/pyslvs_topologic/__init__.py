@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
+"""'pyslvs_topologic' module contains
+number synthesis and type synthesis libraries.
 """
-"lib" module contains number synthesis and type synthesis libraries.
-"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .number import NumberSynthesis
 from .topologic import topo

@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""This module contain all the functions we needed."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QMainWindow,
@@ -40,21 +30,28 @@ from core.info import PyslvsAbout, check_update
 from core.graphics import slvsProcess, SlvsException
 from core.io import (
     Script_Dialog,
-    addTableCommand, deleteTableCommand, fixSequenceNumberCommand,
-    editPointTableCommand, editLinkTableCommand,
-    addPathCommand, deletePathCommand,
-    addStorageCommand, deleteStorageCommand,
-    addStorageNameCommand, clearStorageNameCommand,
+    AddTable, DeleteTable, FixSequenceNumber,
+    EditPointTable, EditLinkTable,
+    AddPath, DeletePath,
+    AddStorage, DeleteStorage,
+    AddStorageName, ClearStorageName,
     Qt_images, slvs2D, dxfSketch, XStream,
     PMKS_parser, PMKSArgsTransformer, get_from_parenthesis
 )
 from core.widgets import initCustomWidgets
 from core.entities import edit_point_show, edit_link_show
-from typing import Tuple
+from typing import Tuple, List
 import csv
 from .Ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
+
+    """The main window of Pyslvs.
+    
+    Inherited from QMainWindow.
+    Exit with QApplication.
+    """
+    
     def __init__(self, args, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
@@ -72,29 +69,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         #Initialize custom UI.
         initCustomWidgets(self)
-        self.Resolve()
+        self.resolve()
         #Solve & DOF value.
         self.DOF = 0
         #Load workbook from argument.
         if self.args.r:
             self.FileWidget.read(self.args.r)
     
-    #Adjust the canvas size after display.
     def show(self):
+        """Adjust the canvas size after display."""
         super(MainWindow, self).show()
         self.DynamicCanvasView.width_old = self.DynamicCanvasView.width()
         self.DynamicCanvasView.height_old = self.DynamicCanvasView.height()
         self.DynamicCanvasView.zoom_to_fit()
         self.DimensionalSynthesis.updateRange()
     
-    #Set environment variables
     def setLocate(self, locate: str):
+        """Set environment variables."""
         if locate!=self.env:
             self.env = locate
             print("~Set workplace to: [\"{}\"]".format(self.env))
     
-    #Drag file in to our window.
     def dragEnterEvent(self, event):
+        """Drag file in to our window."""
         mimeData = event.mimeData()
         if mimeData.hasUrls():
             for url in mimeData.urls():
@@ -102,49 +99,57 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if QFileInfo(fileName).suffix() in ('pyslvs', 'db'):
                     event.acceptProposedAction()
     
-    #Drop file in to our window.
     def dropEvent(self, event):
+        """Drop file in to our window."""
         fileName = event.mimeData().urls()[-1].toLocalFile()
         self.FileWidget.read(fileName)
         event.acceptProposedAction()
     
-    #Mouse position on canvace
     @pyqtSlot(float, float)
     def context_menu_mouse_pos(self, x, y):
+        """Mouse position on canvas."""
         self.mouse_pos_x = x
         self.mouse_pos_y = y
     
-    #Entities_Point context menu
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
+        """Entities_Point context menu."""
         self.enablePointContext()
         self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
         self.action_New_Link.setVisible(True)
         self.popMenu_point_merge.clear()
     
-    #Entities_Link context menu
     @pyqtSlot(QPoint)
     def on_link_context_menu(self, point):
+        """Entities_Link context menu."""
         self.enableLinkContext()
         self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
     
-    #DynamicCanvasView context menu
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
+        """DynamicCanvasView context menu."""
         self.enablePointContext()
-        self.action_canvas_context_path.setVisible(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
+        tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
+        self.action_canvas_context_path.setVisible(tabText == "Dimensional")
         self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
         self.action_New_Link.setVisible(True)
         self.popMenu_point_merge.clear()
     
-    #What ever we have least one point or not, need to enable / disable QAction.
     def enablePointContext(self):
+        """Adjust the status of QActions.
+        
+        What ever we have least one point or not,
+        need to enable / disable QAction.
+        """
         selectedRows = self.Entities_Point.selectedRows()
         selectionCount = len(selectedRows)
         row = self.Entities_Point.currentRow()
         #If connecting with the ground.
         if selectionCount:
-            fixed = all('ground' in self.Entities_Point.item(r, 1).text() for r in self.Entities_Point.selectedRows())
+            fixed = all(
+                'ground' in self.Entities_Point.item(row, 1).text()
+                for row in self.Entities_Point.selectedRows()
+            )
             self.action_point_context_lock.setChecked(fixed)
         #If no any points selected.
         for action in (
@@ -174,25 +179,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             action.triggered.connect(mjFunc(i))
             self.popMenu_point_merge.addAction(action)
     
-    #Enable / disable link's QAction, same as point table.
     def enableLinkContext(self):
+        """Enable / disable link's QAction, same as point table."""
         selectionCount = len(self.Entities_Link.selectedRows())
         row = self.Entities_Link.currentRow()
-        self.action_link_context_add.setVisible(selectionCount<=0)
-        self.action_link_context_edit.setEnabled(row>-1 and selectionCount==1)
-        self.action_link_context_delete.setEnabled(row>0 and selectionCount==1)
-        self.action_link_context_copydata.setEnabled(row>-1 and selectionCount==1)
-        self.action_link_context_release.setVisible(row==0 and selectionCount==1)
-        self.action_link_context_constrain.setVisible(row>0 and selectionCount==1)
+        self.action_link_context_add.setVisible(selectionCount <= 0)
+        selected_one = selectionCount == 1
+        self.action_link_context_edit.setEnabled(row>-1 and selected_one)
+        self.action_link_context_delete.setEnabled(row>0 and selected_one)
+        self.action_link_context_copydata.setEnabled(row>-1 and selected_one)
+        self.action_link_context_release.setVisible(row==0 and selected_one)
+        self.action_link_context_constrain.setVisible(row>0 and selected_one)
     
     @pyqtSlot()
     def enableMenu(self):
+        """Enable / disable 'mechanism' menu."""
         pointSelection = self.Entities_Point.selectedRows()
         linkSelection = self.Entities_Link.selectedRows()
         ONE_POINT = len(pointSelection)==1
         ONE_LINK = len(linkSelection)==1
         POINT_SELECTED = bool(pointSelection)
-        LINK_SELECTED = bool(linkSelection) and not (ONE_LINK and 0 in linkSelection)
+        LINK_SELECTED = (
+            bool(linkSelection) and
+            (0 not in linkSelection) and
+            not ONE_LINK
+        )
         #Edit
         self.action_Edit_Point.setEnabled(ONE_POINT)
         self.action_Edit_Link.setEnabled(ONE_LINK)
@@ -200,24 +211,24 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_Delete_Point.setEnabled(POINT_SELECTED)
         self.action_Delete_Link.setEnabled(LINK_SELECTED)
     
-    #Copy text from point table.
     @pyqtSlot()
     def tableCopy_Points(self):
+        """Copy text from point table."""
         self.tableCopy(self.Entities_Point)
     
-    #Copy text from link table.
     @pyqtSlot()
     def tableCopy_Links(self):
+        """Copy text from link table."""
         self.tableCopy(self.Entities_Link)
     
-    #Copy item text to clipboard.
     def tableCopy(self, table):
+        """Copy item text to clipboard."""
         text = table.currentItem().text()
         if text:
             QApplication.clipboard().setText(text)
     
-    #Close Event
     def closeEvent(self, event):
+        """Close event to avoid user close the window accidentally."""
         if self.checkFileChanged():
             event.ignore()
         else:
@@ -228,8 +239,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Exit.")
             event.accept()
     
-    #If the user has not saved the change. Return True if user want to Discard the operation.
-    def checkFileChanged(self):
+    def checkFileChanged(self) -> bool:
+        """If the user has not saved the change.
+        
+        Return True if user want to Discard the operation.
+        """
         if self.FileWidget.changed:
             reply = QMessageBox.question(
                 self,
@@ -238,34 +252,36 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel),
                 QMessageBox.Save
             )
-            if reply==QMessageBox.Save:
+            if reply == QMessageBox.Save:
                 self.on_action_Save_triggered()
                 if self.FileWidget.changed:
                     return True
                 else:
                     return False
-            elif reply==QMessageBox.Discard:
+            elif reply == QMessageBox.Discard:
                 return False
             return True
         return False
     
-    #The time of withdrawal and redo action.
     @pyqtSlot(int)
     def commandReload(self, index=0):
+        """The time of withdrawal and redo action."""
         if index!=self.FileWidget.Stack:
             self.workbookNoSave()
         else:
             self.workbookSaved()
         self.inputs_variable_autocheck()
-        self.Resolve()
+        self.resolve()
     
-    #Resolve: Use Solvespace lib.
-    def Resolve(self):
+    def resolve(self):
+        """Resolve: Use Solvespace lib."""
         try:
             result, DOF = slvsProcess(
                 self.Entities_Point.data(),
                 self.Entities_Link.data(),
-                self.variableConstraints() if not self.FreeMoveMode.isChecked() else ()
+                self.variableConstraints()
+                if not self.FreeMoveMode.isChecked()
+                else tuple()
             )
         except SlvsException as e:
             if self.showConsoleError.isChecked():
@@ -274,101 +290,110 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
-            self.Reload_Canvas()
+            self.reload_canvas()
         else:
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
-            self.Reload_Canvas()
+            self.reload_canvas()
     
-    #Reload Canvas, without resolving.
-    def Reload_Canvas(self, *A):
+    def reload_canvas(self):
+        """Reload Canvas, without resolving."""
         item_path = self.inputs_record.currentItem()
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.FileWidget.pathData.get(item_path.text().split(':')[0], ()) if item_path else ()
+            self.FileWidget.pathData.get(item_path.text().split(':')[0], ())
+            if item_path else tuple()
         )
     
-    #Workbook not saved signal.
     def workbookNoSave(self):
+        """Workbook not saved signal."""
         self.FileWidget.changed = True
         not_yet_saved = " (not yet saved)"
-        self.setWindowTitle(self.windowTitle().replace(not_yet_saved, '') + not_yet_saved)
+        self.setWindowTitle(
+            self.windowTitle().replace(not_yet_saved, '') +
+            not_yet_saved
+        )
     
-    #Workbook saved signal.
     def workbookSaved(self):
+        """Workbook saved signal."""
         self.FileWidget.changed = False
         self.on_windowTitle_fullpath_clicked()
     
     @pyqtSlot()
     def on_windowTitle_fullpath_clicked(self):
+        """Set the option 'window title will show the fullpath'."""
         fileName = self.FileWidget.fileName
         self.setWindowTitle("Pyslvs - {}".format(
-            fileName.absoluteFilePath() if self.windowTitle_fullpath.isChecked() else fileName.fileName()
-        ) + (" (not yet saved)" if self.FileWidget.changed else ""))
+            fileName.absoluteFilePath()
+            if self.windowTitle_fullpath.isChecked()
+            else fileName.fileName()
+        ) + (" (not yet saved)" if self.FileWidget.changed else ''))
     
-    #Open website: "http://mde.tw"
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
+        """Open website: http://mde.tw"""
         self.OpenURL("http://mde.tw")
     
-    #Open website: http://www.pyslvs.com/blog/index.html
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self):
+        """Open website: http://www.pyslvs.com/blog/index.html"""
         self.OpenURL("http://www.pyslvs.com/blog/index.html")
     
-    #Open website: Github repository.
     @pyqtSlot()
     def on_action_github_repository_triggered(self):
+        """Open website: Github repository."""
         self.OpenURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
     
-    #Open Pyslvs about.
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
+        """Open Pyslvs about."""
         about = PyslvsAbout(self)
         about.show()
     
-    #Open Qt about.
     @pyqtSlot()
     def on_action_About_Qt_triggered(self):
+        """Open Qt about."""
         QMessageBox.aboutQt(self)
     
-    #Use to open link.
     def OpenURL(self, URL):
-        print("Open - {{{}}}".format(URL))
+        """Use to open link."""
         QDesktopServices.openUrl(QUrl(URL))
     
-    #Open GUI console.
     @pyqtSlot()
     def on_action_Console_triggered(self):
+        """Open GUI console."""
         self.OptionTab.setCurrentIndex(2)
         self.History_tab.setCurrentIndex(1)
     
-    #Examples
     @pyqtSlot()
     def on_action_Example_triggered(self):
+        """Load examples from 'FileWidget'.
+        Return true if successed.
+        """
         if self.FileWidget.loadExample():
             self.DynamicCanvasView.zoom_to_fit()
     
-    #Import a example.
     @pyqtSlot()
     def on_action_Import_Example_triggered(self):
+        """Import a example and merge it to canvas."""
         self.FileWidget.loadExample(isImport=True)
     
-    #Create (Clean) a new workbook
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self):
-        if not self.checkFileChanged():
-            self.clear()
-            self.FileWidget.reset()
-            self.FileWidget.colseDatabase()
-            print("Created a new workbook.")
+        """Create (Clean) a new workbook."""
+        if self.checkFileChanged():
+            return
+        self.clear()
+        self.FileWidget.reset()
+        self.FileWidget.colseDatabase()
+        print("Created a new workbook.")
     
-    #Clear to create commit stage.
     def clear(self):
+        """Clear to create commit stage."""
         self.mechanism_storage_name_tag.clear()
         self.mechanism_storage.clear()
         self.CollectionTabPage.clear()
@@ -378,57 +403,68 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DimensionalSynthesis.clear()
         self.Entities_Point.clear()
         self.Entities_Link.clear()
-        self.Resolve()
+        self.resolve()
     
-    #Load PMKS URL and turn it to expression.
     @pyqtSlot()
     def on_action_Import_PMKS_server_triggered(self):
-        URL, ok = QInputDialog.getText(self, "PMKS URL input", "Please input link string:")
-        if ok:
-            if URL:
-                try:
-                    textList = list(filter(lambda s: s not in ('', " ", '\n'),
-                        tuple(filter(lambda s: 'mech=' in s, URL.split('?')[-1].split('&')))[0]
-                        .replace('mech=', '').split('|')
-                    ))
-                    expression = []
-                    while textList:
-                        item = textList.pop(0).split(',')[:-1]
-                        for i, e in enumerate(reversed(item)):
-                            if e in ['R', 'P', 'RP']:
-                                t = -(i+1)
-                                break
-                        links = item[:t]
-                        item = item[t:]
-                        expression.append("J[{}, P[{}], L[{}]]".format(
-                            "{}:{}".format(item[0], item[-1]) if item[0]!='R' else 'R',
-                            ", ".join((item[1], item[2])),
-                            ", ".join(links)
-                        ))
-                    expression = "M[{}]".format(", ".join(expression))
-                except Exception as e:
-                    QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.")
-                else:
-                    self.parseExpression(expression)
-            else:
-                QMessageBox.warning(self, "Loading failed", "Your link is in an incorrect format.")
+        """Load PMKS URL and turn it to expression."""
+        URL, ok = QInputDialog.getText(self,
+            "PMKS URL input",
+            "Please input link string:"
+        )
+        if not ok:
+            return
+        if not URL:
+            QMessageBox.warning(self,
+                "Loading failed",
+                "Your link is in an incorrect format."
+            )
+            return
+        try:
+            textList = list(filter(lambda s: s not in ('', " ", '\n'),
+                tuple(filter(
+                    lambda s: 'mech=' in s,
+                    URL.split('?')[-1].split('&')
+                ))[0].replace('mech=', '').split('|')
+            ))
+            expression = []
+            while textList:
+                item = textList.pop(0).split(',')[:-1]
+                for i, e in enumerate(reversed(item)):
+                    if e in ['R', 'P', 'RP']:
+                        t = -(i+1)
+                        break
+                links = item[:t]
+                item = item[t:]
+                expression.append("J[{}, P[{}], L[{}]]".format(
+                    "{}:{}".format(item[0], item[-1]) if item[0]!='R' else 'R',
+                    ", ".join((item[1], item[2])),
+                    ", ".join(links)
+                ))
+            expression = "M[{}]".format(", ".join(expression))
+        except Exception as e:
+            QMessageBox.warning(self,
+                "Loading failed",
+                "Your link is in an incorrect format."
+            )
+        else:
+            self.parseExpression(expression)
     
-    @pyqtSlot()
-    def on_action_Import_Expression_triggered(self):
-        expr, ok = QInputDialog.getText(self, "Expression input", "Please input expression string:")
-        if ok:
-            self.parseExpression(expr)
-    
-    #Parse expression.
     def parseExpression(self, expr):
+        """Parse expression."""
         try:
             pointsArgs = PMKSArgsTransformer().transform(PMKS_parser.parse(expr))
         except Exception as e:
             print(e)
-            QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.")
+            QMessageBox.warning(self,
+                "Loading failed",
+                "Your expression is in an incorrect format."
+            )
         else:
             for pointArgs in pointsArgs:
-                linkNames = tuple(vlink.name for vlink in self.Entities_Link.data())
+                linkNames = tuple(
+                    vlink.name for vlink in self.Entities_Link.data()
+                )
                 links = pointArgs[0].split(',')
                 for linkName in links:
                     #If link name not exist.
@@ -436,46 +472,60 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                         self.addLink(linkName, 'Blue')
                 rowCount = self.Entities_Point.rowCount()
                 self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-                self.FileState.push(addTableCommand(self.Entities_Point))
-                self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, pointArgs))
+                self.FileState.push(AddTable(self.Entities_Point))
+                self.FileState.push(EditPointTable(
+                    rowCount,
+                    self.Entities_Point,
+                    self.Entities_Link, pointArgs
+                ))
                 self.FileState.endMacro()
     
-    #Use to add empty link when loading database.
     def emptyLinkGroup(self, linkcolor):
+        """Use to add empty link when loading database."""
         for name, color in linkcolor.items():
-            if name=='ground':
+            if name == 'ground':
                 continue
             self.addLink(name, color)
     
-    #Load workbook.
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
-        if not self.checkFileChanged():
-            fileName = self.inputFrom("Workbook database", ["Pyslvs workbook (*.pyslvs)"])
-            if fileName:
-                self.FileWidget.read(fileName)
-                self.DynamicCanvasView.zoom_to_fit()
+        """Load workbook."""
+        if self.checkFileChanged():
+            return
+        fileName = self.inputFrom(
+            "Workbook database",
+            ["Pyslvs workbook (*.pyslvs)"]
+        )
+        if not fileName:
+            return
+        self.FileWidget.read(fileName)
+        self.DynamicCanvasView.zoom_to_fit()
     
-    #Import workbook.
     @pyqtSlot()
     def on_action_Import_Workbook_triggered(self):
-        if not self.checkFileChanged():
-            fileName = self.inputFrom("Workbook database (Import)", ["Pyslvs workbook (*.pyslvs)"])
-            if fileName:
-                self.FileWidget.importMechanism(fileName)
+        """Import from workbook."""
+        if self.checkFileChanged():
+            return
+        fileName = self.inputFrom(
+            "Workbook database (Import)",
+            ["Pyslvs workbook (*.pyslvs)"]
+        )
+        if not fileName:
+            return
+        self.FileWidget.importMechanism(fileName)
     
-    #Save action.
     @pyqtSlot()
     def on_action_Save_triggered(self, isBranch=False):
+        """Save action."""
         fileName = self.FileWidget.fileName.absoluteFilePath()
         if self.FileWidget.fileName.suffix()=='pyslvs':
             self.FileWidget.save(fileName, isBranch)
         else:
             self.on_action_Save_as_triggered(isBranch)
     
-    #Save as action.
     @pyqtSlot()
     def on_action_Save_as_triggered(self, isBranch=False):
+        """Save as action."""
         fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
         if fileName:
             self.FileWidget.save(fileName, isBranch)
@@ -483,35 +533,53 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Save_branch_triggered(self):
+        """Save as new branch action."""
         self.on_action_Save_triggered(True)
     
-    #Solvespace 2d save function.
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
-        fileName = self.outputTo("Solvespace sketch", ["Solvespace module(*.slvs)"])
-        if fileName:
-            slvs2D(self.Entities_Point.data(), self.Entities_Link.data(), fileName)
-            self.saveReplyBox("Solvespace sketch", fileName)
+        """Solvespace 2d save function."""
+        fileName = self.outputTo(
+            "Solvespace sketch",
+            ["Solvespace module(*.slvs)"]
+        )
+        if not fileName:
+            return
+        slvs2D(
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
+            fileName
+        )
+        self.saveReplyBox("Solvespace sketch", fileName)
     
-    #DXF 2d save function.
     @pyqtSlot()
     def on_action_Output_to_DXF_triggered(self):
-        fileName = self.outputTo("Drawing Exchange Format", ["Drawing Exchange Format(*.dxf)"])
-        if fileName:
-            dxfSketch(self.Entities_Point.data(), self.Entities_Link.data(), fileName)
-            self.saveReplyBox("Drawing Exchange Format", fileName)
+        """DXF 2d save function."""
+        fileName = self.outputTo(
+            "Drawing Exchange Format",
+            ["Drawing Exchange Format(*.dxf)"]
+        )
+        if not fileName:
+            return
+        dxfSketch(
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
+            fileName
+        )
+        self.saveReplyBox("Drawing Exchange Format", fileName)
     
-    #Picture save function.
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
+        """Picture save function."""
         fileName = self.outputTo("picture", Qt_images)
-        if fileName:
-            pixmap = self.DynamicCanvasView.grab()
-            pixmap.save(fileName, format=QFileInfo(fileName).suffix())
-            self.saveReplyBox("Picture", fileName)
+        if not fileName:
+            return
+        pixmap = self.DynamicCanvasView.grab()
+        pixmap.save(fileName, format=QFileInfo(fileName).suffix())
+        self.saveReplyBox("Picture", fileName)
     
-    #Simple to support mutiple format.
-    def outputTo(self, formatName, formatChoose):
+    def outputTo(self, formatName: str, formatChoose: List[str]):
+        """Simple to support mutiple format."""
         suffix0 = get_from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
         fileName, suffix = QFileDialog.getSaveFileName(
             self,
@@ -527,16 +595,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.setLocate(QFileInfo(fileName).absolutePath())
         return fileName
     
-    #Show message when successfully saved.
-    def saveReplyBox(self, title, fileName):
+    def saveReplyBox(self, title: str, fileName: str):
+        """Show message when successfully saved."""
         size = QFileInfo(fileName).size()
-        print("Size: {}".format("{} MB".format(round(size/1024/1024, 2)) if size/1024//1024 else "{} KB".format(round(size/1024, 2))))
-        QMessageBox.information(self, title, "Successfully converted:\n{}".format(fileName), QMessageBox.Ok, QMessageBox.Ok)
+        print("Size: {}".format(
+            "{} MB".format(round(size/1024/1024, 2))
+            if size/1024//1024 else "{} KB".format(round(size/1024, 2))
+        ))
+        QMessageBox.information(self,
+            title,
+            "Successfully converted:\n{}".format(fileName),
+            QMessageBox.Ok
+        )
         print("Successful saved: [\"{}\"]".format(fileName))
     
-    #Get file name(s).
-    def inputFrom(self, formatName, formatChoose, multiple=False):
-        args = ("Open {} file{}...".format(formatName, 's' if multiple else ''), self.env, ';;'.join(formatChoose))
+    def inputFrom(self,
+        formatName: str,
+        formatChoose: List[str],
+        multiple=False
+    ):
+        """Get file name(s)."""
+        args = (
+            "Open {} file{}...".format(formatName, 's' if multiple else ''),
+            self.env,
+            ';;'.join(formatChoose)
+        )
         if multiple:
             fileName_s, suffix = QFileDialog.getOpenFileNames(self, *args)
         else:
@@ -550,9 +633,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.setLocate(QFileInfo(fileName_s[0]).absolutePath())
         return fileName_s
     
-    #Output to PMKS as URL.
     @pyqtSlot()
     def on_action_Output_to_PMKS_triggered(self):
+        """Output to PMKS as URL."""
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         urlTable = []
         for row in range(self.Entities_Point.rowCount()):
@@ -569,136 +652,197 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             urlTable.append(','.join(pointData))
         url += '|'.join(urlTable)+'|'
         text = '\n'.join([
-            "Copy and past this link to web browser:\n", url+'\n',
-            "If you have installed Microsoft Silverlight in Internet Explorer as default browser, "+
+            "Copy and past this link to web browser:\n",
+            url + '\n',
+            "If you have installed Microsoft Silverlight in " +
+            "Internet Explorer as default browser, " +
             "just click \"Open\" button to open it in PMKS website."
         ])
-        reply = QMessageBox.information(self, "PMKS web server", text, (QMessageBox.Save | QMessageBox.Open | QMessageBox.Close), QMessageBox.Save)
-        if reply==QMessageBox.Open:
+        reply = QMessageBox.information(self,
+            "PMKS web server",
+            text,
+            (QMessageBox.Save | QMessageBox.Open | QMessageBox.Close),
+            QMessageBox.Save
+        )
+        if reply == QMessageBox.Open:
             self.OpenURL(url)
-        elif reply==QMessageBox.Save:
+        elif reply == QMessageBox.Save:
             QApplication.clipboard().setText(url)
     
-    #Output as expression.
     @pyqtSlot()
     def on_action_Output_to_Expression_triggered(self):
+        """Output as expression."""
         data = self.Entities_Point.data()
         expr = "M[{}]".format(", ".join(vpoint.expr for vpoint in data))
-        text = "You can copy the expression and import to another workbook:\n\n{}\n\nClick the save button to copy it.".format(expr)
-        reply = QMessageBox.question(self, "Pyslvs Expression", text, (QMessageBox.Save | QMessageBox.Close), QMessageBox.Save)
-        if reply==QMessageBox.Save:
+        text = (
+            "You can copy the expression and import to another workbook:" +
+            "\n\n{}\n\nClick the save button to copy it.".format(expr)
+        )
+        reply = QMessageBox.question(self,
+            "Pyslvs Expression",
+            text,
+            (QMessageBox.Save | QMessageBox.Close),
+            QMessageBox.Save
+        )
+        if reply == QMessageBox.Save:
             QApplication.clipboard().setText(expr)
     
-    #Output to Python script for Jupyter notebook.
     @pyqtSlot()
     def on_action_See_Python_Scripts_triggered(self):
-        sd = Script_Dialog(self.Entities_Point.data(), self.Entities_Link.data(), self)
+        """Output to Python script for Jupyter notebook."""
+        sd = Script_Dialog(
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
+            self
+        )
         sd.show()
     
-    #Add point group using alt key.
     @pyqtSlot()
     def qAddPointGroup(self):
-        if self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional":
-            self.PathSolving_add_rightClick()
+        """Add point group using alt key."""
+        tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
+        if tabText == "Dimensional":
+            self.dimensional_synthesis_add_rightClick()
         else:
             self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
     
-    #Add a point (not fixed).
     def addPointGroup(self):
+        """Add a point (not fixed)."""
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
     
-    #Add a point (fixed).
     def addPointGroup_fixed(self):
+        """Add a point (fixed)."""
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
     
-    #Add an ordinary point.
-    def addPoint(self, x, y, fixed=False, color=None):
+    def addPoint(self, x, y, fixed=False, color=None) -> int:
+        """Add an ordinary point.
+        Return the row count of new point.
+        """
         rowCount = self.Entities_Point.rowCount()
         self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-        self.FileState.push(addTableCommand(self.Entities_Point))
-        self.FileState.push(editPointTableCommand(
-            self.Entities_Point,
+        self.FileState.push(AddTable(self.Entities_Point))
+        self.FileState.push(EditPointTable(
             rowCount,
+            self.Entities_Point,
             self.Entities_Link,
-            ['ground' if fixed else '', 'R', color if color else ('Blue' if fixed else 'Green'), x, y]
+            [
+                'ground' if fixed else '',
+                'R',
+                color if color else ('Blue' if fixed else 'Green'),
+                x,
+                y
+            ]
         ))
         self.FileState.endMacro()
         return rowCount
     
-    def addPoint_by_graph(self, G, pos, ground_link: [None, int]):
+    def add_points_by_graph(self, G, pos, ground_link: [None, int]):
+        """Add points by networkx graph and position dict."""
         base_count = self.Entities_Point.rowCount()
-        self.FileState.beginMacro("Merge mechanism kit from {Number and Type Synthesis}")
+        self.FileState.beginMacro(
+            "Merge mechanism kit from {Number and Type Synthesis}"
+        )
         for x, y in pos.values():
             self.addPoint(x, y)
         for link in G.nodes:
             self.addLink(
                 self.getLinkSerialNumber(),
                 'Blue',
-                [base_count + i for i in [list(G.edges).index(edge) for edge in G.edges if (link in edge)]]
+                [
+                    base_count + i for i in [
+                        list(G.edges).index(edge)
+                        for edge in G.edges if (link in edge)
+                    ]
+                ]
             )
-            if link==ground_link:
+            if link == ground_link:
                 ground = self.Entities_Link.rowCount()-1
         self.FileState.endMacro()
         if ground_link is not None:
             self.constrainLink(ground)
     
-    #Add a link.
     @pyqtSlot(list)
     def addLinkGroup(self, points):
+        """Add a link."""
         self.addLink(self.getLinkSerialNumber(), 'Blue', points)
     
     def addLink(self, name, color, points=()):
+        """Push a new link command to stack."""
         linkArgs = [name, color, ','.join('Point{}'.format(i) for i in points)]
         self.FileState.beginMacro("Add {{Link: {}}}".format(name))
-        self.FileState.push(addTableCommand(self.Entities_Link))
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, linkArgs))
+        self.FileState.push(AddTable(self.Entities_Link))
+        self.FileState.push(EditLinkTable(
+            self.Entities_Link.rowCount() - 1,
+            self.Entities_Link,
+            self.Entities_Point,
+            linkArgs
+        ))
         self.FileState.endMacro()
     
-    def getLinkSerialNumber(self):
-        names = [self.Entities_Link.item(row, 0).text() for row in range(self.Entities_Link.rowCount())]
+    def getLinkSerialNumber(self) -> str:
+        """Return a new serial number name of link."""
+        names = [
+            self.Entities_Link.item(row, 0).text()
+            for row in range(self.Entities_Link.rowCount())
+        ]
         i = 0
         while "link_{}".format(i) in names:
             i += 1
         return "link_{}".format(i)
     
-    #Create a point with arguments.
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
+        """Create a point with arguments."""
         self.editPoint()
     
-    #Edit a point with arguments.
     @pyqtSlot()
     def on_action_Edit_Point_triggered(self):
+        """Edit a point with arguments."""
         row = self.Entities_Point.currentRow()
         self.editPoint(row if row>-1 else 0)
     
-    #Edit point function.
     def editPoint(self, row=False):
-        dlg = edit_point_show(self.Entities_Point.data(), self.Entities_Link.data(), row, self)
+        """Edit point function."""
+        dlg = edit_point_show(
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
+            row,
+            self
+        )
         dlg.show()
-        if dlg.exec_():
-            rowCount = self.Entities_Point.rowCount()
-            Type = dlg.Type.currentText().split()[0]
-            if Type!='R':
-                Type += ":{}".format(dlg.Angle.value()%360)
-            Args = [
-                ','.join(dlg.selected.item(row).text() for row in range(dlg.selected.count())),
-                Type,
-                dlg.Color.currentText(),
-                dlg.X_coordinate.value(),
-                dlg.Y_coordinate.value()
-            ]
-            if row is False:
-                self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-                self.FileState.push(addTableCommand(self.Entities_Point))
-                row = rowCount
-            else:
-                self.FileState.beginMacro("Edit {{Point{}}}".format(rowCount))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
-            self.FileState.endMacro()
+        if not dlg.exec_():
+            return
+        rowCount = self.Entities_Point.rowCount()
+        Type = dlg.Type.currentText().split()[0]
+        if Type!='R':
+            Type += ":{}".format(dlg.Angle.value()%360)
+        Args = [
+            ','.join(
+                dlg.selected.item(link).text()
+                for link in range(dlg.selected.count())
+            ),
+            Type,
+            dlg.Color.currentText(),
+            dlg.X_coordinate.value(),
+            dlg.Y_coordinate.value()
+        ]
+        if row is False:
+            self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
+            self.FileState.push(AddTable(self.Entities_Point))
+            row = rowCount
+        else:
+            row = dlg.Point.currentIndex()
+            self.FileState.beginMacro("Edit {{Point{}}}".format(rowCount))
+        self.FileState.push(EditPointTable(
+            row,
+            self.Entities_Point,
+            self.Entities_Link,
+            Args
+        ))
+        self.FileState.endMacro()
     
-    #Turn a group of points to fixed on ground or not.
     def lockPoint(self):
+        """Turn a group of points to fixed on ground or not."""
         toFixed = self.action_point_context_lock.isChecked()
         for row in self.Entities_Point.selectedRows():
             newLinks = self.Entities_Point.item(row, 1).text().split(',')
@@ -711,19 +855,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             Args = list(self.Entities_Point.rowTexts(row, True))
             Args[0] = ','.join(filter(lambda a: a!='', newLinks))
             self.FileState.beginMacro("Edit {{Point{}}}".format(row))
-            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+            self.FileState.push(EditPointTable(
+                row,
+                self.Entities_Point,
+                self.Entities_Link,
+                Args
+            ))
             self.FileState.endMacro()
     
-    #Merge points into a multiple joint.
-    def toMultipleJoint(self, index, points):
+    def toMultipleJoint(self, index: int, points: Tuple[int]):
+        """Merge points into a multiple joint.
+        @index: The index of main joint in the sequence.
+        """
         row = points[index]
         self.FileState.beginMacro("Merge {{{}}} as multiple joint {{{}}}".format(
-            ", ".join('Point{}'.format(p) for p in points), 'Point{}'.format(row)
+            ", ".join('Point{}'.format(p) for p in points),
+            'Point{}'.format(row)
         ))
-        Links = lambda i: list(filter(lambda a: a!='', self.Entities_Point.item(i, 1).text().split(',')))
+        Links = lambda i: list(filter(
+            lambda a: a!='',
+            self.Entities_Point.item(i, 1).text().split(',')
+        ))
         newLinks = Links(row)
         for i, p in enumerate(points):
-            if i==index:
+            if i == index:
                 continue
             for l in Links(p):
                 if l not in newLinks:
@@ -731,152 +886,236 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.deletePoint(p)
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[0] = ','.join(newLinks)
-        self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+        self.FileState.push(EditPointTable(
+            row,
+            self.Entities_Point,
+            self.Entities_Link,
+            Args
+        ))
         self.FileState.endMacro()
     
-    #Clone a point (with orange color).
     def clonePoint(self):
+        """Clone a point (with orange color)."""
         row = self.Entities_Point.currentRow()
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[2] = 'Orange'
         rowCount = self.Entities_Point.rowCount()
-        self.FileState.beginMacro("Clone {{Point{}}} as {{Point{}}}".format(row, rowCount))
-        self.FileState.push(addTableCommand(self.Entities_Point))
-        self.FileState.push(editPointTableCommand(self.Entities_Point, rowCount, self.Entities_Link, Args))
+        self.FileState.beginMacro(
+            "Clone {{Point{}}} as {{Point{}}}".format(row, rowCount)
+        )
+        self.FileState.push(AddTable(self.Entities_Point))
+        self.FileState.push(EditPointTable(
+            rowCount,
+            self.Entities_Point,
+            self.Entities_Link,
+            Args
+        ))
         self.FileState.endMacro()
     
-    #Free move function.
     @pyqtSlot(tuple)
     def freemove_setCoordinate(self, coordinates):
-        self.FileState.beginMacro("Moved {{{}}}".format(", ".join('Point{}'.format(c[0]) for c in coordinates)))
+        """Free move function."""
+        self.FileState.beginMacro("Moved {{{}}}".format(", ".join(
+            "Point{}".format(c[0]) for c in coordinates
+        )))
         for row, (x, y) in coordinates:
             Args = list(self.Entities_Point.rowTexts(row, True))
             Args[3] = x
             Args[4] = y
-            self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+            self.FileState.push(EditPointTable(
+                row,
+                self.Entities_Point,
+                self.Entities_Link,
+                Args
+            ))
         self.FileState.endMacro()
     
-    #Create a link with arguments.
     @pyqtSlot()
     def on_action_New_Link_triggered(self):
+        """Create a link with arguments."""
         selectedRows = self.Entities_Point.selectedRows()
-        if len(selectedRows)>1:
-            #Search to found that there is any point is not idle.
-            link_data = self.Entities_Link.data()
-            for row, vlink in enumerate(link_data):
-                sr_set = set(selectedRows)
-                ps_set = set(vlink.points)
-                #If link are exist, edit the link.
-                if sr_set == ps_set:
-                    self.editLink(row)
-                    return
-                #If link has some new point, add the new points to link.
-                elif ps_set and (sr_set > ps_set):
-                    self.FileState.beginMacro("Edit {{Link: {}}}".format(vlink.name))
-                    for row_, vlink_ in enumerate(link_data):
-                        self.FileState.push(editLinkTableCommand(
-                            self.Entities_Link,
-                            row_,
-                            self.Entities_Point,
-                            [
-                                vlink_.name,
-                                vlink_.colorSTR,
-                                ','.join(
-                                    'Point{}'.format(p)
-                                    for p in vlink_.points if p not in selectedRows
-                                )
-                            ]
-                        ))
-                    self.FileState.push(editLinkTableCommand(
-                        self.Entities_Link,
-                        row,
-                        self.Entities_Point,
-                        [
-                            vlink.name,
-                            vlink.colorSTR,
-                            ','.join('Point{}'.format(p) for p in selectedRows),
-                        ]
-                    ))
-                    self.FileState.endMacro()
-                    return
-            self.addLinkGroup(selectedRows)
-        else:
+        if not len(selectedRows)>1:
             self.editLink()
+            return
+        #Search to found that there is any point is not idle.
+        link_data = self.Entities_Link.data()
+        for row, vlink in enumerate(link_data):
+            sr_set = set(selectedRows)
+            ps_set = set(vlink.points)
+            #If link are exist, edit the link.
+            if sr_set == ps_set:
+                self.editLink(row)
+                return
+            #If link has some new point, add the new points to link.
+            elif ps_set and (sr_set > ps_set):
+                self.FileState.beginMacro("Edit {{Link: {}}}".format(vlink.name))
+                for row_, vlink_ in enumerate(link_data):
+                    Args = [vlink_.name, vlink_.colorSTR, ','.join(
+                        'Point{}'.format(p)
+                        for p in vlink_.points if p not in selectedRows
+                    )]
+                    self.FileState.push(EditLinkTable(
+                        row_,
+                        self.Entities_Link,
+                        self.Entities_Point,
+                        Args
+                    ))
+                Args = [vlink.name, vlink.colorSTR, ','.join(
+                    'Point{}'.format(p) for p in selectedRows
+                )]
+                self.FileState.push(EditLinkTable(
+                    row,
+                    self.Entities_Link,
+                    self.Entities_Point,
+                    Args
+                ))
+                self.FileState.endMacro()
+                return
+        self.addLinkGroup(selectedRows)
     
-    #Edit a link with arguments.
     @pyqtSlot()
     def on_action_Edit_Link_triggered(self):
+        """Edit a link with arguments."""
         self.editLink(self.Entities_Link.currentRow())
     
-    #Edit link function.
     def editLink(self, row=False):
-        dlg = edit_link_show(self.Entities_Point.data(), self.Entities_Link.data(), row, self)
+        """Edit link function."""
+        dlg = edit_link_show(
+            self.Entities_Point.data(),
+            self.Entities_Link.data(),
+            row,
+            self
+        )
         dlg.show()
-        if dlg.exec_():
-            name = dlg.name_edit.text()
-            Args = [
-                name,
-                dlg.Color.currentText(),
-                ','.join(dlg.selected.item(p).text() for p in range(dlg.selected.count()))
-            ]
-            if row is False:
-                self.FileState.beginMacro("Add {{Link: {}}}".format(name))
-                self.FileState.push(addTableCommand(self.Entities_Link))
-                row = self.Entities_Link.rowCount()-1
-            else:
-                self.FileState.beginMacro("Edit {{Link: {}}}".format(name))
-            self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
-            self.FileState.endMacro()
+        if not dlg.exec_():
+            return
+        name = dlg.name_edit.text()
+        Args = [
+            name,
+            dlg.Color.currentText(),
+            ','.join(
+                dlg.selected.item(point).text()
+                for point in range(dlg.selected.count())
+            )
+        ]
+        if row is False:
+            self.FileState.beginMacro("Add {{Link: {}}}".format(name))
+            self.FileState.push(AddTable(self.Entities_Link))
+            row = self.Entities_Link.rowCount()-1
+        else:
+            row = dlg.Link.currentIndex()
+            self.FileState.beginMacro("Edit {{Link: {}}}".format(name))
+        self.FileState.push(EditLinkTable(
+            row,
+            self.Entities_Link,
+            self.Entities_Point,
+            Args
+        ))
+        self.FileState.endMacro()
     
-    #Clone ground to a new link, then make ground no points.
     @pyqtSlot()
     def releaseGround(self):
+        """Clone ground to a new link, then make ground no points."""
         name = self.getLinkSerialNumber()
         Args = [name, 'Blue', self.Entities_Link.item(0, 2).text()]
         self.FileState.beginMacro("Release ground to {{Link: {}}}".format(name))
         #Free all points.
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, 0, self.Entities_Point, ['ground', 'White', '']))
+        self.FileState.push(EditLinkTable(
+            0,
+            self.Entities_Link,
+            self.Entities_Point,
+            ['ground', 'White', '']
+        ))
         #Create new link.
-        self.FileState.push(addTableCommand(self.Entities_Link))
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, self.Entities_Link.rowCount()-1, self.Entities_Point, Args))
+        self.FileState.push(AddTable(self.Entities_Link))
+        self.FileState.push(EditLinkTable(
+            self.Entities_Link.rowCount() - 1,
+            self.Entities_Link,
+            self.Entities_Point,
+            Args
+        ))
         self.FileState.endMacro()
     
-    #Turn a link to ground, then delete this link.
     @pyqtSlot()
     def constrainLink(self, row=None):
+        """Turn a link to ground, then delete this link."""
         if row is None:
             row = self.Entities_Link.currentRow()
         name = self.Entities_Link.item(row, 0).text()
-        linkArgs = [self.Entities_Link.item(row, 0).text(), self.Entities_Link.item(row, 1).text(), '']
-        newPoints = sorted(set(self.Entities_Link.item(0, 2).text().split(','))|set(self.Entities_Link.item(row, 2).text().split(',')))
+        linkArgs = [
+            self.Entities_Link.item(row, 0).text(),
+            self.Entities_Link.item(row, 1).text(),
+            ''
+        ]
+        newPoints = sorted(
+            set(self.Entities_Link.item(0, 2).text().split(',')) |
+            set(self.Entities_Link.item(row, 2).text().split(','))
+        )
         groundArgs = ['ground', 'White', ','.join(e for e in newPoints if e)]
         self.FileState.beginMacro("Constrain {{Link: {}}} to ground".format(name))
         #Turn to ground.
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, 0, self.Entities_Point, groundArgs))
+        self.FileState.push(EditLinkTable(
+            0,
+            self.Entities_Link,
+            self.Entities_Point,
+            groundArgs
+        ))
         #Free all points and delete the link.
-        self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, linkArgs))
-        self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
+        self.FileState.push(EditLinkTable(
+            row,
+            self.Entities_Link,
+            self.Entities_Point,
+            linkArgs
+        ))
+        self.FileState.push(DeleteTable(
+            row,
+            self.Entities_Link,
+            isRename=False
+        ))
         self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self):
+        """Delete the selected points.
+        Be sure that the points will has new position after deleted.
+        """
         selections = self.Entities_Point.selectedRows()
-        selections = tuple(p-i if p>selections[i-1] else p for i, p in enumerate(selections))
-        for row in selections:
+        for i, p in enumerate(selections):
+            if p > selections[i-1]:
+                row = p-i
+            else:
+                row = p
             self.deletePoint(row)
     
-    def deletePoint(self, row):
+    def deletePoint(self, row: int):
+        """Push delete point command to stack."""
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[0] = ''
         self.FileState.beginMacro("Delete {{Point{}}}".format(row))
-        self.FileState.push(editPointTableCommand(self.Entities_Point, row, self.Entities_Link, Args))
+        self.FileState.push(EditPointTable(
+            row,
+            self.Entities_Point,
+            self.Entities_Link,
+            Args
+        ))
         for i in range(self.Entities_Link.rowCount()):
-            self.FileState.push(fixSequenceNumberCommand(self.Entities_Link, i, row))
-        self.FileState.push(deleteTableCommand(self.Entities_Point, row, isRename=True))
+            self.FileState.push(FixSequenceNumber(
+                self.Entities_Link,
+                i,
+                row
+            ))
+        self.FileState.push(DeleteTable(
+            row,
+            self.Entities_Point,
+            isRename=True
+        ))
         self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Delete_Link_triggered(self):
+        """Delete the selected links.
+        Be sure that the links will has new position after deleted.
+        """
         selections = self.Entities_Link.selectedRows()
         selections = tuple(
             p - i + int(0 in selections) if p>selections[i-1] else p
@@ -885,27 +1124,48 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for row in selections:
             self.deleteLink(row)
     
-    def deleteLink(self, row):
-        if row!=0:
-            Args = list(self.Entities_Link.rowTexts(row, True))
-            Args[2] = ''
-            self.FileState.beginMacro("Delete {{Link: {}}}".format(self.Entities_Link.item(row, 0).text()))
-            self.FileState.push(editLinkTableCommand(self.Entities_Link, row, self.Entities_Point, Args))
-            self.FileState.push(deleteTableCommand(self.Entities_Link, row, isRename=False))
-            self.FileState.endMacro()
+    def deleteLink(self, row: int):
+        """Push delete link command to stack."""
+        if not row>0:
+            return
+        Args = list(self.Entities_Link.rowTexts(row, True))
+        Args[2] = ''
+        self.FileState.beginMacro("Delete {{Link: {}}}".format(
+            self.Entities_Link.item(row, 0).text()
+        ))
+        self.FileState.push(EditLinkTable(
+            row,
+            self.Entities_Link,
+            self.Entities_Point,
+            Args
+        ))
+        self.FileState.push(DeleteTable(
+            row,
+            self.Entities_Link,
+            isRename=False
+        ))
+        self.FileState.endMacro()
     
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):
+        """Capture the canvas image to clipboard."""
         QApplication.clipboard().setPixmap(self.DynamicCanvasView.grab())
-        QMessageBox.information(self, "Captured!", "Canvas widget picture is copy to clipboard.", QMessageBox.Ok, QMessageBox.Ok)
+        QMessageBox.information(self,
+            "Captured!",
+            "Canvas widget picture is copy to clipboard."
+        )
     
     @pyqtSlot(int)
-    def on_ZoomBar_valueChanged(self, value):
+    def on_ZoomBar_valueChanged(self, value: int):
+        """Reset the text when zoom bar changed."""
         self.ZoomText.setText('{}%'.format(value))
     
     @pyqtSlot()
     def zoom_customize(self):
-        value, ok = QInputDialog.getInt(self, "Zoom", "Enter a zoom value:",
+        """Customize zoom value."""
+        value, ok = QInputDialog.getInt(self,
+            "Zoom",
+            "Enter a zoom value:",
             self.ZoomBar.minimum(),
             self.ZoomBar.value(),
             self.ZoomBar.maximum(),
@@ -915,21 +1175,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ZoomBar.setValue(value)
     
     @pyqtSlot(bool)
-    def on_action_Display_Dimensions_toggled(self, p0):
-        if p0:
+    def on_action_Display_Dimensions_toggled(self, toggled):
+        """If turn on dimension labels, turn on the point marks."""
+        if toggled:
             self.action_Display_Point_Mark.setChecked(True)
     
     @pyqtSlot(bool)
-    def on_action_Display_Point_Mark_toggled(self, p0):
-        if not p0:
+    def on_action_Display_Point_Mark_toggled(self, toggled):
+        """If no point marks, turn off the dimension labels."""
+        if not toggled:
             self.action_Display_Dimensions.setChecked(False)
     
     @pyqtSlot()
     def on_action_Path_style_triggered(self):
+        """Set path style as curve (true) or dots (false)."""
         self.DynamicCanvasView.setCurveMode(self.action_Path_style.isChecked())
     
     @pyqtSlot(tuple)
     def inputs_points_setSelection(self, selections):
+        """Set one selection from canvas."""
         self.inputs_points.setCurrentRow(
             selections[0]
             if selections[0] in self.Entities_Point.selectedRows()
@@ -938,30 +1202,38 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def inputs_points_clearSelection(self):
+        """Clear the points selection."""
         self.inputs_points.setCurrentRow(-1)
     
     @pyqtSlot(int)
-    def on_inputs_points_currentRowChanged(self, row):
+    def on_inputs_points_currentRowChanged(self, row: int):
+        """Change the point row from input widget."""
         self.inputs_baseLinks.clear()
         if not row>-1:
             return
         if row not in self.Entities_Point.selectedRows():
             self.Entities_Point.setSelections((row,), False)
-        for linkName in filter(lambda x: x!='', self.Entities_Point.item(row, 1).text().split(',')):
+        for linkName in self.Entities_Point.item(row, 1).text().split(','):
+            if not linkName:
+                continue
             self.inputs_baseLinks.addItem(linkName)
     
     @pyqtSlot(int)
-    def on_inputs_baseLinks_currentRowChanged(self, row):
+    def on_inputs_baseLinks_currentRowChanged(self, row: int):
+        """Set the drive links from base link."""
         self.inputs_driveLinks.clear()
         if not row>-1:
             return
-        for linkName in self.Entities_Point.item(self.inputs_points.currentRow(), 1).text().split(','):
-            if linkName==self.inputs_baseLinks.currentItem().text():
+        inputs_point = self.inputs_points.currentRow()
+        linkNames = self.Entities_Point.item(inputs_point, 1).text().split(',')
+        for linkName in linkNames:
+            if linkName == self.inputs_baseLinks.currentItem().text():
                 continue
             self.inputs_driveLinks.addItem(linkName)
     
     @pyqtSlot(int)
-    def on_inputs_driveLinks_currentRowChanged(self, row):
+    def on_inputs_driveLinks_currentRowChanged(self, row: int):
+        """Set enable of 'add variable' button."""
         if not row>-1:
             self.inputs_variable_add.setEnabled(False)
             return
@@ -970,17 +1242,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
+        """Add variable with '->' sign."""
         row = self.inputs_points.currentRow()
         text = '->'.join([
             self.Entities_Point.item(self.inputs_points.currentRow(), 0).text(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text(),
-            "{:.02f}".format(self.getLinkAngle(row, self.inputs_driveLinks.currentItem().text()))
+            "{:.02f}".format(self.getLinkAngle(
+                row,
+                self.inputs_driveLinks.currentItem().text()
+            ))
         ])
-        if (self.inputs_variable.count()<self.DOF) and (not self.inputs_variable.findItems(text, Qt.MatchExactly)):
+        if (
+            (self.inputs_variable.count() < self.DOF) and
+            (not self.inputs_variable.findItems(text, Qt.MatchExactly))
+        ):
             self.inputs_variable.addItem(text)
     
-    def getLinkAngle(self, row, link):
+    def getLinkAngle(self, row: int, link: Tuple[str]) -> float:
+        """Get the angle of base link and drive link."""
         Point = self.Entities_Point.data()
         Link = self.Entities_Link.data()
         LinkIndex = [vlink.name for vlink in Link]
@@ -991,18 +1271,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_inputs_variable_remove_clicked(self):
+        """Remove and reset angle."""
         row = self.inputs_variable.currentRow()
         if not row>-1:
             return
         self.inputs_variable_stop.click()
         self.inputs_variable.takeItem(row)
         self.Entities_Point.getBackPosition()
-        self.Resolve()
+        self.resolve()
     
     def inputs_variable_autocheck(self):
+        """Auto check the points and type."""
         self.inputs_points.clear()
         for i in range(self.Entities_Point.rowCount()):
-            text = "[{}] Point{}".format(self.Entities_Point.item(i, 2).text(), i)
+            text = "[{}] Point{}".format(
+                self.Entities_Point.item(i, 2).text(),
+                i
+            )
             self.inputs_points.addItem(text)
         for i in range(self.inputs_variable.count()):
             itemText = self.inputs_variable.item(i).text().split('->')
@@ -1017,29 +1302,40 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.variableValueReset()
     
     @pyqtSlot(int)
-    def on_inputs_variable_currentRowChanged(self, row):
+    def on_inputs_variable_currentRowChanged(self, row: int =None):
+        """Set the angle of base link and drive link."""
+        if row is None:
+            row = self.inputs_variable.currentRow()
         enabled = row>-1
         rotatable = enabled and not self.FreeMoveMode.isChecked()
         self.inputs_Degree.setEnabled(rotatable)
         self.oldVariableValue = self.inputs_Degree.value() / 100.
         self.inputs_variable_play.setEnabled(rotatable)
         self.inputs_variable_speed.setEnabled(rotatable)
-        self.inputs_Degree.setValue(float(self.inputs_variable.currentItem().text().split('->')[-1])*100. if enabled else 0.)
+        self.inputs_Degree.setValue(float(
+            self.inputs_variable.currentItem().text().split('->')[-1])*100.
+            if enabled else 0.
+        )
     
-    #Update the value when rotating QDial.
     def variableValueUpdate(self, value):
+        """Update the value when rotating QDial."""
         item = self.inputs_variable.currentItem()
         value /= 100.
         if item:
             itemText = item.text().split('->')
             itemText[-1] = str(value)
             item.setText('->'.join(itemText))
-            self.Resolve()
-        if self.inputs_record_record.isChecked() and abs(self.oldVariableValue - value) > self.inputs_record_interval.value():
+            self.resolve()
+        interval = self.inputs_record_interval.value()
+        if (
+            self.inputs_record_record.isChecked() and
+            abs(self.oldVariableValue - value) > interval
+        ):
             self.DynamicCanvasView.recordPath()
             self.oldVariableValue = value
     
     def variableValueReset(self):
+        """Reset the value of QDial."""
         if self.inputs_playShaft.isActive():
             self.inputs_variable_play.setChecked(False)
             self.inputs_playShaft.stop()
@@ -1054,11 +1350,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 "{:.02f}".format(self.getLinkAngle(row, itemText[2]))
             ])
             self.inputs_variable.item(i).setText(text)
-        self.on_inputs_variable_currentRowChanged(self.inputs_variable.currentRow())
-        self.Resolve()
+        self.on_inputs_variable_currentRowChanged()
+        self.resolve()
     
-    #Generate constraint symbols.
     def variableConstraints(self):
+        """Generate constraint symbols."""
         constraints = []
         for i in range(self.inputs_variable.count()):
             item = self.inputs_variable.item(i)
@@ -1067,22 +1363,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             itemText[3] = float(itemText[-1])
             constraints.append(tuple(itemText))
         return tuple(constraints)
-    
-    #Triggered when play button was changed.
+
     @pyqtSlot(bool)
     def on_inputs_variable_play_toggled(self, toggled):
+        """Triggered when play button was changed."""
         self.inputs_Degree.setEnabled(not toggled)
         if toggled:
             self.inputs_playShaft.start()
         else:
             self.inputs_playShaft.stop()
     
-    #QTimer change index.
     @pyqtSlot()
     def inputs_change_index(self):
+        """QTimer change index."""
         index = self.inputs_Degree.value()
         speed = self.inputs_variable_speed.value()
-        extremeRebound = self.ConflictGuide.isVisible() and self.extremeRebound.isChecked()
+        extremeRebound = (
+            self.ConflictGuide.isVisible() and
+            self.extremeRebound.isChecked()
+        )
         if extremeRebound:
             speed *= -1
             self.inputs_variable_speed.setValue(speed)
@@ -1090,57 +1389,83 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         index %= self.inputs_Degree.maximum()
         self.inputs_Degree.setValue(index)
     
-    #Save to file path data.
     @pyqtSlot(bool)
     def on_inputs_record_record_toggled(self, toggled):
+        """Save to file path data."""
         if toggled:
-            self.DynamicCanvasView.recordStart(int(360/self.inputs_record_interval.value()))
-        else:
-            path = self.DynamicCanvasView.getRecordPath()
-            name, ok = QInputDialog.getText(self, "Recording completed!", "Please input name tag:")
-            if (not name) or (name in self.FileWidget.pathData):
-                i = 0
-                while "Record_{}".format(i) in self.FileWidget.pathData:
-                    i += 1
-                QMessageBox.information(self, "Record", "The name tag is being used or empty.")
-                name = "Record_{}".format(i)
-            self.addPath(name, path)
+            self.DynamicCanvasView.recordStart(int(
+                360 / self.inputs_record_interval.value()
+            ))
+            return
+        path = self.DynamicCanvasView.getRecordPath()
+        name, ok = QInputDialog.getText(self,
+            "Recording completed!",
+            "Please input name tag:"
+        )
+        if (not name) or (name in self.FileWidget.pathData):
+            i = 0
+            while "Record_{}".format(i) in self.FileWidget.pathData:
+                i += 1
+            QMessageBox.information(self,
+                "Record",
+                "The name tag is being used or empty."
+            )
+            name = "Record_{}".format(i)
+        self.addPath(name, path)
     
-    def addPath(self, name, path):
+    def addPath(self, name: str, path: Tuple[Tuple[float, float]]):
+        """Add path function."""
         self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-        self.FileState.push(addPathCommand(self.inputs_record, name, self.FileWidget.pathData, path))
+        self.FileState.push(AddPath(
+            self.inputs_record,
+            name,
+            self.FileWidget.pathData,
+            path
+        ))
         self.FileState.endMacro()
-        self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
+        self.inputs_record.setCurrentRow(self.inputs_record.count() - 1)
     
-    def loadPaths(self, paths):
+    def loadPaths(self, paths: Tuple[Tuple[Tuple[float, float]]]):
+        """Add multiple path."""
         for name, path in paths.items():
             self.addPath(name, path)
     
-    #Remove path data.
     @pyqtSlot()
     def on_inputs_record_remove_clicked(self):
+        """Remove path data."""
         row = self.inputs_record.currentRow()
         if not row>-1:
             return
-        self.FileState.beginMacro("Delete {{Path: {}}}".format(self.inputs_record.item(row).text()))
-        self.FileState.push(deletePathCommand(row, self.inputs_record, self.FileWidget.pathData))
+        self.FileState.beginMacro("Delete {{Path: {}}}".format(
+            self.inputs_record.item(row).text()
+        ))
+        self.FileState.push(DeletePath(
+            row,
+            self.inputs_record,
+            self.FileWidget.pathData
+        ))
         self.FileState.endMacro()
-        self.inputs_record.setCurrentRow(self.inputs_record.count()-1)
-        self.Reload_Canvas()
+        self.inputs_record.setCurrentRow(self.inputs_record.count() - 1)
+        self.reload_canvas()
     
-    #View path data.
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
+        """View path data."""
         data = self.FileWidget.pathData[item.text().split(":")[0]]
         reply = QMessageBox.question(
             self,
             "Path data",
-            "This path data including {}.".format(", ".join("Point{}".format(i) for i in range(len(data)) if data[i])),
+            "This path data including {}.".format(", ".join(
+                "Point{}".format(i) for i in range(len(data)) if data[i]
+            )),
             (QMessageBox.Save | QMessageBox.Close),
             QMessageBox.Close
         )
-        if reply==QMessageBox.Save:
-            fileName = self.outputTo("path data", ["Comma-Separated Values (*.csv)", "Text file (*.txt)"])
+        if reply == QMessageBox.Save:
+            fileName = self.outputTo(
+                "path data",
+                ["Comma-Separated Values (*.csv)", "Text file (*.txt)"]
+            )
             if fileName:
                 with open(fileName, 'w', newline='') as stream:
                     writer = csv.writer(stream)
@@ -1152,48 +1477,73 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(QPoint)
     def on_inputs_record_context_menu(self, point):
+        """Show the context menu.
+        
+        Show path [0], [1], ...
+        Or copy path coordinates.
+        """
         row = self.inputs_record.currentRow()
-        if row>-1:
+        if row > -1:
             action = self.popMenu_inputs_record.addAction("Show all")
             action.index = -1
-            data = self.FileWidget.pathData[self.inputs_record.item(row).text().split(":")[0]]
+            data = self.FileWidget.pathData[
+                self.inputs_record
+                .item(row)
+                .text()
+                .split(":")[0]
+            ]
             for action_text in ("Show", "Copy data from"):
                 self.popMenu_inputs_record.addSeparator()
                 for i in range(len(data)):
                     if data[i]:
-                        action = self.popMenu_inputs_record.addAction("{} Point{}".format(action_text, i))
+                        action = self.popMenu_inputs_record.addAction(
+                            "{} Point{}".format(action_text, i)
+                        )
                         action.index = i
-            action = self.popMenu_inputs_record.exec_(self.inputs_record.mapToGlobal(point))
-            if action:
-                if "Copy data from" in action.text():
-                    QApplication.clipboard().setText('\n'.join(
-                        "{},{}".format(x, y) for x, y in data[action.index]
-                    ))
-                elif "Show" in action.text():
-                    if action.index==-1:
-                        self.inputs_record_show.setChecked(True)
-                    self.DynamicCanvasView.setPathShow(action.index)
+        action = self.popMenu_inputs_record.exec_(
+            self.inputs_record.mapToGlobal(point)
+        )
+        if action:
+            if "Copy data from" in action.text():
+                QApplication.clipboard().setText('\n'.join(
+                    "{},{}".format(x, y) for x, y in data[action.index]
+                ))
+            elif "Show" in action.text():
+                if action.index==-1:
+                    self.inputs_record_show.setChecked(True)
+                self.DynamicCanvasView.setPathShow(action.index)
         self.popMenu_inputs_record.clear()
     
     @pyqtSlot()
     def on_inputs_record_show_clicked(self):
-        self.DynamicCanvasView.setPathShow(-1 if self.inputs_record_show.isChecked() else -2)
+        """Show all paths or hide."""
+        if self.inputs_record_show.isChecked():
+            show = -1
+        else:
+            show = -2
+        self.DynamicCanvasView.setPathShow(show)
     
     @pyqtSlot(int)
     def on_inputs_record_currentRowChanged(self, row):
+        """Reload the canvas when switch the path."""
         if self.inputs_record_show.isChecked():
             self.DynamicCanvasView.setPathShow(-1)
-        self.Reload_Canvas()
+        self.reload_canvas()
     
     @pyqtSlot(int)
     def on_SynthesisTab_currentChanged(self, index):
-        self.DynamicCanvasView.setShowSlvsPath(self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())=="Dimensional")
+        """Dimensional synthesis information will show on the canvas."""
+        self.DynamicCanvasView.setShowTargetPath(
+            self.SynthesisTab.tabText(index)=="Dimensional"
+        )
     
-    def PathSolving_add_rightClick(self):
+    def dimensional_synthesis_add_rightClick(self):
+        """Use context menu to add a target path coordinate."""
         self.DimensionalSynthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple)
-    def PathSolving_mergeResult(self, row, path):
+    def dimensional_synthesis_mergeResult(self, row, path):
+        """Merge result function of dimensional synthesis."""
         Result = self.DimensionalSynthesis.mechanism_data[row]
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
@@ -1201,7 +1551,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for name in get_from_parenthesis(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
-        self.FileState.beginMacro("Merge mechanism kit from {Dimensional Synthesis}")
+        self.FileState.beginMacro(
+            "Merge mechanism kit from {Dimensional Synthesis}"
+        )
         tmp_dict = {}
         for tag in sorted(exp_symbol):
             tmp_dict[tag] = self.addPoint(
@@ -1210,7 +1562,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 color=("Dark-Orange" if (tag in Result['Target']) else None)
             )
         for i, exp in enumerate(Result['Link_Expression'].split(';')):
-            self.addLinkGroup(tmp_dict[name] for name in get_from_parenthesis(exp, '[', ']').split(','))
+            self.addLinkGroup(
+                tmp_dict[name]
+                for name in get_from_parenthesis(exp, '[', ']').split(',')
+            )
             if i==0:
                 self.constrainLink(self.Entities_Link.rowCount()-1)
         self.FileState.endMacro()
@@ -1221,11 +1576,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.addPath("Algorithm_path_{}".format(i), path)
     
     @pyqtSlot()
-    def pointSelection(self):
-        self.DynamicCanvasView.changePointsSelection(self.Entities_Point.selectedRows())
-    
-    @pyqtSlot()
     def on_connectConsoleButton_clicked(self):
+        """Turn the OS command line (stdout) log to console."""
         print("Connect to GUI console.")
         XStream.stdout().messageWritten.connect(self.appendToConsole)
         XStream.stderr().messageWritten.connect(self.appendToConsole)
@@ -1235,6 +1587,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_disconnectConsoleButton_clicked(self):
+        """Turn the console log to OS command line (stdout)."""
         print("Disconnect from GUI console.")
         XStream.back()
         self.connectConsoleButton.setEnabled(True)
@@ -1243,22 +1596,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot(str)
     def appendToConsole(self, log):
+        """After inserted the text, move cursor to end."""
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
         self.consoleWidgetBrowser.insertPlainText(log)
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
     
     @pyqtSlot(bool)
     def on_action_Full_Screen_toggled(self, fullscreen):
+        """Show fullscreen or not."""
         if fullscreen:
             self.showFullScreen()
         else:
             self.showMaximized()
     
     def storage_clear(self):
-        for row in range(self.Entities_Point.rowCount()):
-            self.deletePoint(0)
-        for row in range(self.Entities_Link.rowCount()-1):
-            self.deleteLink(1)
+        """After saved storage,
+        clean all the item of two table widgets.
+        """
+        self.Entities_Point.clear()
+        self.Entities_Link.clear()
     
     @pyqtSlot()
     def on_mechanism_storage_add_clicked(self):
@@ -1266,111 +1622,150 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not name:
             name = self.mechanism_storage_name_tag.placeholderText()
         self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
-        self.addStorage(name, "M[{}]".format(", ".join(vpoint.expr for vpoint in self.Entities_Point.data())))
-        self.FileState.push(clearStorageNameCommand(self.mechanism_storage_name_tag))
+        self.addStorage(name, "M[{}]".format(", ".join(
+            vpoint.expr for vpoint in self.Entities_Point.data()
+        )))
+        self.FileState.push(ClearStorageName(
+            self.mechanism_storage_name_tag
+        ))
         self.FileState.endMacro()
     
-    #Copy the expression from a storage data.
     @pyqtSlot()
     def on_mechanism_storage_copy_clicked(self):
+        """Copy the expression from a storage data."""
         item = self.mechanism_storage.currentItem()
         if item:
             QApplication.clipboard().setText(item.expr)
     
-    #Add the storage data from string.
     @pyqtSlot()
     def on_mechanism_storage_paste_clicked(self):
-        expr, ok = QInputDialog.getText(self, "Storage", "Please input expression:")
-        if ok:
-            try:
-                #Put the expression into parser to see if it is legal.
-                PMKS_parser.parse(expr)
-            except:
-                QMessageBox.warning(self, "Loading failed", "Your expression is in an incorrect format.")
-                return
-            name, ok = QInputDialog.getText(self, "Storage", "Please input name tag:")
-            if ok:
-                if not name:
-                    nameList = [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]
-                    i = 0
-                    while "Prototype_{}".format(i) in nameList:
-                        i += 1
-                    name = "Prototype_{}".format(i)
-                self.addStorage(name, expr, clear=False)
+        """Add the storage data from string."""
+        expr, ok = QInputDialog.getText(self,
+            "Storage",
+            "Please input expression:"
+        )
+        if not ok:
+            return
+        try:
+            #Put the expression into parser to see if it is legal.
+            PMKS_parser.parse(expr)
+        except:
+            QMessageBox.warning(self,
+                "Loading failed",
+                "Your expression is in an incorrect format."
+            )
+            return
+        name, ok = QInputDialog.getText(self,
+            "Storage",
+            "Please input name tag:"
+        )
+        if not ok:
+            return
+        if not name:
+            nameList = [
+                self.mechanism_storage.item(i).text()
+                for i in range(self.mechanism_storage.count())
+            ]
+            i = 0
+            while "Prototype_{}".format(i) in nameList:
+                i += 1
+            name = "Prototype_{}".format(i)
+        self.addStorage(name, expr, clear=False)
     
-    #Add storage data function.
     def addStorage(self, name, expr, clear=True):
+        """Add storage data function."""
         self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
         if clear:
             self.storage_clear()
-        self.FileState.push(addStorageCommand(
+        self.FileState.push(AddStorage(
             name,
             self.mechanism_storage,
             expr
         ))
         self.FileState.endMacro()
         i = 0
-        while "Prototype_{}".format(i) in [self.mechanism_storage.item(i).text() for i in range(self.mechanism_storage.count())]:
+        exprs = []
+        for i in range(self.mechanism_storage.count()):
+            exprs.append(self.mechanism_storage.item(i).text())
+        while "Prototype_{}".format(i) in exprs:
             i += 1
-        self.mechanism_storage_name_tag.setPlaceholderText("Prototype_{}".format(i))
+        self.mechanism_storage_name_tag.setPlaceholderText(
+            "Prototype_{}".format(i)
+        )
     
-    #Delete the storage data.
     @pyqtSlot()
     def on_mechanism_storage_delete_clicked(self):
+        """Delete the storage data."""
         row = self.mechanism_storage.currentRow()
         if not row>-1:
             return
-        self.FileState.beginMacro("Delete {{Mechanism: {}}}".format(self.mechanism_storage.item(row).text()))
-        self.FileState.push(deleteStorageCommand(row, self.mechanism_storage))
+        self.FileState.beginMacro("Delete {{Mechanism: {}}}".format(
+            self.mechanism_storage.item(row).text()
+        ))
+        self.FileState.push(DeleteStorage(row, self.mechanism_storage))
         self.FileState.endMacro()
     
-    #Restore the storage data as below.
     @pyqtSlot(QListWidgetItem)
     def on_mechanism_storage_itemDoubleClicked(self, item):
+        """Restore the storage data as below."""
         self.on_mechanism_storage_restore_clicked(item)
     
-    #Restore the storage data.
     @pyqtSlot()
     def on_mechanism_storage_restore_clicked(self, item=None):
+        """Restore the storage data."""
         if item is None:
             item = self.mechanism_storage.currentItem()
         if item:
-            reply = QMessageBox.question(self, "Storage",
-                "Restore mechanism will overwrite the canvas.\nDo you want to continue?",
-                (QMessageBox.Ok | QMessageBox.Cancel), QMessageBox.Ok
+            reply = QMessageBox.question(self,
+                "Storage",
+                "Restore mechanism will overwrite the canvas." +
+                "\nDo you want to continue?",
+                (QMessageBox.Ok | QMessageBox.Cancel),
+                QMessageBox.Ok
             )
-            if reply==QMessageBox.Ok:
+            if reply == QMessageBox.Ok:
                 name = item.text()
-                self.FileState.beginMacro("Restore from {{Mechanism: {}}}".format(name))
+                self.FileState.beginMacro(
+                    "Restore from {{Mechanism: {}}}".format(name)
+                )
                 self.storage_clear()
                 self.parseExpression(item.expr)
-                self.FileState.push(deleteStorageCommand(self.mechanism_storage.row(item), self.mechanism_storage))
-                self.FileState.push(addStorageNameCommand(name, self.mechanism_storage_name_tag))
+                self.FileState.push(DeleteStorage(
+                    self.mechanism_storage.row(item),
+                    self.mechanism_storage
+                ))
+                self.FileState.push(AddStorageName(
+                    name,
+                    self.mechanism_storage_name_tag
+                ))
                 self.FileState.endMacro()
     
-    #Load storage data from database.
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
+        """Load storage data from database."""
         for name, expr in exprs:
             self.addStorage(name, expr, clear=False)
     
-    #Check for update.
     @pyqtSlot()
     def on_action_Check_update_triggered(self):
+        """Check for update."""
         progdlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
         progdlg.setWindowTitle("Check for update")
         progdlg.resize(400, progdlg.height())
         progdlg.setModal(True)
         progdlg.show()
         url = check_update(progdlg)
-        if url:
-            reply = QMessageBox.question(
-                self,
-                "Pyslvs has update",
-                "Do you want to get it from Github?",
-                (QMessageBox.Ok | QMessageBox.Cancel),
-                QMessageBox.Ok
+        if not url:
+            QMessageBox.information(self,
+                "Pyslvs is up to date",
+                "You are using the latest version of Pyslvs."
             )
-            if reply==QMessageBox.Ok:
-                self.OpenURL(url)
-        else:
-            QMessageBox.information(self, "Pyslvs is up to date", "You are using the latest version of Pyslvs.")
+            return
+        reply = QMessageBox.question(
+            self,
+            "Pyslvs has update",
+            "Do you want to get it from Github?",
+            (QMessageBox.Ok | QMessageBox.Cancel),
+            QMessageBox.Ok
+        )
+        if reply == QMessageBox.Ok:
+            self.OpenURL(url)

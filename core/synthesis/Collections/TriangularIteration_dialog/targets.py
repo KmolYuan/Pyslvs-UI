@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""The option dialog to specify target points."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QDialog,
@@ -24,20 +14,26 @@ from core.QtModules import (
 )
 from .Ui_targets import Ui_Dialog
 
-#Generator to get the text from list widget.
 def list_texts(widget, returnRow=False):
+    """Generator to get the text from list widget."""
     for row in range(widget.count()):
         if returnRow:
             yield row, widget.item(row).text()
         else:
             yield widget.item(row).text()
 
-#Generator to get the text from combobox widget.
 def combo_texts(widget):
+    """Generator to get the text from combobox widget."""
     for row in range(widget.count()):
         yield widget.itemText(row)
 
 class TargetsDialog(QDialog, Ui_Dialog):
+    
+    """Option dialog.
+    
+    Only edit the settings after closed.
+    """
+    
     def __init__(self, parent=None):
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
@@ -45,7 +41,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
         currentItem = parent.grounded_list.currentItem()
         if currentItem:
             for text in combo_texts(parent.joint_name):
-                if not parent.PreviewWindow.name_in_same(text) and (text not in (
+                if not parent.PreviewWindow.isMultiple(text) and (text not in (
                     currentItem.text()
                     .replace('(', '')
                     .replace(')', '')
@@ -59,6 +55,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_targets_add_clicked(self):
+        """Add a new target joint."""
         row = self.other_list.currentRow()
         if not row>-1:
             return
@@ -66,6 +63,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_other_add_clicked(self):
+        """Remove a target joint."""
         row = self.targets_list.currentRow()
         if not row>-1:
             return

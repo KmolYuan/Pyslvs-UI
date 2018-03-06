@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
-"""
-"io" module contains Pyslvs IO and undo redo functions.
-"""
+"""'io' module contains Pyslvs IO and undo redo functions."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .scriptIO import Script_Dialog
 from .undoRedo import (
-    addTableCommand, deleteTableCommand, fixSequenceNumberCommand,
-    editPointTableCommand, editLinkTableCommand,
-    addPathCommand, deletePathCommand,
-    addStorageCommand, deleteStorageCommand,
-    addStorageNameCommand, clearStorageNameCommand
+    AddTable, DeleteTable, FixSequenceNumber,
+    EditPointTable, EditLinkTable,
+    AddPath, DeletePath,
+    AddStorage, DeleteStorage,
+    AddStorageName, ClearStorageName
 )
 from .images import Qt_images
 from .slvsIO import slvs2D
@@ -35,17 +36,17 @@ from .peeweeIO import FileWidget
 
 __all__ = [
     'Script_Dialog',
-    'addTableCommand',
-    'deleteTableCommand',
-    'fixSequenceNumberCommand',
-    'editPointTableCommand',
-    'editLinkTableCommand',
-    'addPathCommand',
-    'deletePathCommand',
-    'addStorageCommand',
-    'deleteStorageCommand',
-    'addStorageNameCommand',
-    'clearStorageNameCommand',
+    'AddTable',
+    'DeleteTable',
+    'FixSequenceNumber',
+    'EditPointTable',
+    'EditLinkTable',
+    'AddPath',
+    'DeletePath',
+    'AddStorage',
+    'DeleteStorage',
+    'AddStorageName',
+    'ClearStorageName',
     'Qt_images',
     'slvs2D',
     'dxfSketch',

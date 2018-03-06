@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
+"""'python_solvespace' module is a wrapper of
+Python binding Solvespace solver libraries.
 """
-"python_solvespace" module is a wrapper of Python binding Solvespace solver libraries.
-"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .slvs import (
     System, groupNum, Slvs_MakeQuaternion,

@@ -1501,7 +1501,6 @@
      <property name="title">
       <string>&amp;Import</string>
      </property>
-     <addaction name="action_Import_Expression"/>
      <addaction name="action_Import_PMKS_server"/>
      <addaction name="action_Import_Example"/>
      <addaction name="action_Import_Workbook"/>
@@ -2000,18 +1999,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
-   </property>
-  </action>
-  <action name="action_Import_Expression">
-   <property name="icon">
-    <iconset resource="../icons.qrc">
-     <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
-   </property>
-   <property name="text">
-    <string>From expression</string>
-   </property>
-   <property name="statusTip">
-    <string>Import from Pyslvs expression.</string>
    </property>
   </action>
   <action name="action_Output_to_Expression">

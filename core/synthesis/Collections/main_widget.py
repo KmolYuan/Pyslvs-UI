@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Collections main tab widget."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QWidget,
@@ -28,6 +18,9 @@ from .Structure import CollectionsStructure
 from .TriangularIteration import CollectionsTriangularIteration
 
 class Collections(QWidget):
+    
+    """Just a widget contains a sub tab widget."""
+    
     def __init__(self, parent=None):
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)
@@ -43,11 +36,14 @@ class Collections(QWidget):
         self.CollectionsStructure.layout_sender.connect(self.CollectionsTriangularIteration.setGraph)
     
     def clear(self):
+        """Clear the sub-widgets."""
         self.CollectionsStructure.clear()
         self.CollectionsTriangularIteration.clear()
     
     def CollectDataFunc(self):
+        """Return collections to peewee IO."""
         return [tuple(G.edges) for G in self.CollectionsStructure.collections]
     
     def TriangleDataFunc(self):
+        """Return profiles to peewee IO."""
         return self.CollectionsTriangularIteration.collections

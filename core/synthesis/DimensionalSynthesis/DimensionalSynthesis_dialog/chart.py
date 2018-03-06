@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""The chart dialog of dimensional synthesis result."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QDialog,
@@ -34,12 +24,20 @@ from core.QtModules import (
     QChartView,
     QSizePolicy,
 )
-from core.graphics import dataChart
+from core.graphics import DataChart
 
 class ChartDialog(QDialog):
+    
+    """There are three charts are in the dialog.
+    
+    + Fitness / Generation Chart.
+    + Generation / Time Chart.
+    + Fitness / Time Chart.
+    """
+    
     def __init__(self, Title, mechanism_data=[], parent=None):
         super(ChartDialog, self).__init__(parent)
-        self.setWindowTitle('Chart')
+        self.setWindowTitle("Chart")
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
@@ -55,12 +53,13 @@ class ChartDialog(QDialog):
         self.setChart("Fitness / Time Chart", 2, 1)
         main_layout.addWidget(self.tabWidget)
     
-    def setChart(self, tabName, posX, posY):
+    def setChart(self, tabName: str, posX: int, posY: int):
+        '''Setting charts by data index.
+        
+        posX / posY: [0] / [1] / [2]
+        TimeAndFitness: List[List[Tuple[gen, fitness, time]]]
+        '''
         if self.mechanism_data:
-            '''
-            #posX / posY = [0] / [1] / [2]
-            #TimeAndFitness = [[(gen, fitness, time), ...], ...]
-            '''
             if type(self.mechanism_data[0]['TimeAndFitness'][0])==float:
                 TimeAndFitness = [
                     [(data['lastGen']*i/len(data['TimeAndFitness']), Tnf, 0)
@@ -92,7 +91,7 @@ class ChartDialog(QDialog):
             maximaY = 100
         maximaY -= maximaY%10
         axisY.setRange(0., maximaY)
-        chart = dataChart(self.Title, axisX, axisY)
+        chart = DataChart(self.Title, axisX, axisY)
         #Append datasets
         for data in self.mechanism_data:
             line = QLineSeries()

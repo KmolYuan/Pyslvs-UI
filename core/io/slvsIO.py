@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Solvespace format output function."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .elements import v_to_slvs
 
@@ -105,8 +95,8 @@ entity_normal_xyz = lambda n, p, reversed=False: '\n'.join([
     "AddEntity"
 ])
 
-def slvs2D(VPointList, VLinkList, fileName):
-    edges = v_to_slvs(VPointList, VLinkList)
+def slvs2D(VPoints, VLinks, fileName):
+    edges = v_to_slvs(VPoints, VLinks)
     script_param = ['\n\n'.join([
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
         "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),
@@ -131,7 +121,7 @@ def slvs2D(VPointList, VLinkList, fileName):
         entity_normal_xyz(0x30020, 0x30001, True)
     ])]
     #The number of same points.
-    point_num = [[] for i in range(len(VPointList))]
+    point_num = [[] for i in range(len(VPoints))]
     #The number of same lines.
     line_num = [[] for i in range(len(edges))]
     #Add "Param"
@@ -139,9 +129,9 @@ def slvs2D(VPointList, VLinkList, fileName):
     for i, edge in enumerate(edges):
         param_num += 0x10
         for p in edge:
-            script_param.append(Param(param_num, VPointList[p].cx))
+            script_param.append(Param(param_num, VPoints[p].cx))
             param_num += 1
-            script_param.append(Param(param_num, VPointList[p].cy))
+            script_param.append(Param(param_num, VPoints[p].cy))
             param_num += 2
         param_num = up(param_num, 4)
     #Add "Request"
@@ -156,7 +146,7 @@ def slvs2D(VPointList, VLinkList, fileName):
         for p in edge:
             entity_num += 1
             point_num[p].append(entity_num)
-            script_entity.append(Entity_point(entity_num, VPointList[p].cx, VPointList[p].cy))
+            script_entity.append(Entity_point(entity_num, VPoints[p].cx, VPoints[p].cy))
             line_num[i].append(entity_num)
         entity_num = up(entity_num, 4)
     script_entity.append('\n\n'.join([
@@ -173,17 +163,17 @@ def slvs2D(VPointList, VLinkList, fileName):
             script_constraint.append(Constraint_point(constraint_num, p[0], p_))
             constraint_num += 1
     #Position constraint
-    for i, vpoint in enumerate(VPointList):
+    for i, vpoint in enumerate(VPoints):
         if "ground" in vpoint.links and point_num[i]:
             script_constraint.append(Constraint_fix(constraint_num, point_num[i][0], vpoint.cx, vpoint.cy))
             constraint_num += 2
     #Distance constraint
     for i, (n1, n2) in enumerate(line_num):
         p1, p2 = edges[i]
-        script_constraint.append(Constraint_line(constraint_num, n1, n2, VPointList[p1].distance(VPointList[p2])))
+        script_constraint.append(Constraint_line(constraint_num, n1, n2, VPoints[p1].distance(VPoints[p2])))
         constraint_num += 1
     #Comment constraint
-    for i, vpoint in enumerate(VPointList):
+    for i, vpoint in enumerate(VPoints):
         script_constraint.append(Constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
     #Write file

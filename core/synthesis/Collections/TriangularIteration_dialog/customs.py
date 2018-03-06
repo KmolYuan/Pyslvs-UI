@@ -1,21 +1,13 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""The option dialog to set
+the custom joints and the multiple joints.
+"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QDialog,
@@ -25,10 +17,14 @@ from core.QtModules import (
 from .Ui_customs import Ui_Dialog
 
 class CustomsDialog(QDialog, Ui_Dialog):
-    '''
+    
+    """Option dialog.
+    
     name: str = 'P1', 'P2', ...
     num: int = 1, 2, ...
-    '''
+    
+    Settings will be edited in each operation.
+    """
     
     def __init__(self, parent=None):
         super(CustomsDialog, self).__init__(parent)
@@ -46,9 +42,13 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.reload_quote_choose()
         self.quote_choose.setCurrentIndex(0)
         for s, qs in self.same.items():
-            self.multiple_list.addItem("{} -> {}".format('P{}'.format(s), 'P{}'.format(qs)))
+            self.multiple_list.addItem("{} -> {}".format(
+                'P{}'.format(s),
+                'P{}'.format(qs)
+            ))
     
     def reload_quote_choose(self):
+        """Reload joints from 'pos' dict."""
         s_old = self.quote_choose.currentText()
         self.quote_choose.clear()
         for i in self.pos:
@@ -58,6 +58,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_add_button_clicked(self):
+        """Add a custom joint by dependents."""
         row = self.link_choose.currentIndex()
         if not row>-1:
             return
@@ -70,11 +71,15 @@ class CustomsDialog(QDialog, Ui_Dialog):
         self.cus[new_name] = row
         self.pos[new_num] = (0., 0.)
         self.status[new_num] = False
-        self.custom_list.addItem("{} -> {}".format(new_name, self.link_choose.itemText(row)))
+        self.custom_list.addItem("{} -> {}".format(
+            new_name,
+            self.link_choose.itemText(row)
+        ))
         self.joint_combobox.addItem(new_name)
     
     @pyqtSlot()
     def on_delete_button_clicked(self):
+        """Remove a custom joint."""
         row = self.custom_list.currentRow()
         if not row>-1:
             return
@@ -88,6 +93,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot(str)
     def on_quote_choose_currentIndexChanged(self, s):
+        """Update the joint symbols when switch quote."""
         self.quote_link_choose.clear()
         if not s:
             return
@@ -98,6 +104,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot(str)
     def on_quote_link_choose_currentIndexChanged(self, s):
+        """Update the joint symbols when switch quote link."""
         self.joint_choose.clear()
         if not s:
             return
@@ -110,6 +117,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_add_mj_button_clicked(self):
+        """Add a multiple joint by dependents."""
         s = self.joint_choose.currentText()
         if not s:
             return
@@ -122,6 +130,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_delete_mj_button_clicked(self):
+        """Remove a multiple joint."""
         row = self.multiple_list.currentRow()
         if not row>-1:
             return

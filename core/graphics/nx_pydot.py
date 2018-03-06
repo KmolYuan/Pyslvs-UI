@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Painting function of NetworkX."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QImage,
@@ -41,24 +31,34 @@ from networkx import (
     random_layout
 )
 from typing import Dict, Tuple
+inf = float('inf')
 
-EngineList = (
-    "NetworkX - circular",
-    "NetworkX - shell",
-    "NetworkX - spring",
-    "NetworkX - spectral",
-    "Graphviz - dot",
-    "Graphviz - neato",
-    "Graphviz - fdp",
-    "Graphviz - twopi",
-    "Graphviz - circo",
-    "NetworkX - random"
+_nx_engine = (
+    "circular",
+    "shell",
+    "spring",
+    "spectral",
+    "random",
 )
+_graphviz_engine = (
+    "dot",
+    "neato",
+    "fdp",
+    "twopi",
+    "circo",
+)
+
+EngineList = []
+for engine in _nx_engine:
+    EngineList.append("NetworkX - {}".format(engine))
+for engine in _graphviz_engine:
+    EngineList.append("Graphviz - {}".format(engine))
 
 class EngineError(Exception):
     pass
 
 def engine_picker(G: Graph, engine: str, node_mode: bool =False):
+    """Generate a position dict."""
     if not node_mode:
         G_ = Graph()
         nodes = {i:edge for i, edge in edges_view(G)}
@@ -71,28 +71,44 @@ def engine_picker(G: Graph, engine: str, node_mode: bool =False):
         H = G_
     else:
         H = G
-    if type(engine)==str:
-        if engine=="random":
-            E = {k:(x*200, y*200) for k, (x, y) in random_layout(H).items()}
-        elif engine=="shell":
-            E = shell_layout(H, scale=100)
-        elif engine=="circular":
-            E = circular_layout(H, scale=100)
-        elif engine=="spring":
-            E = spring_layout(H, scale=100)
-        elif engine=="spectral":
-            E = spectral_layout(H, scale=100)
-        else:
-            try:
-                E = nx_pydot.graphviz_layout(H, prog=engine)
-            except:
-                raise EngineError("No Graphviz")
-        pos = {k:(round(float(x), 4), round(float(y), 4)) for k, (x, y) in E.items()}
-        x_cen = (max(x for x, y in pos.values())+min(x for x, y in pos.values()))/2
-        y_cen = (max(y for x, y in pos.values())+min(y for x, y in pos.values()))/2
-        pos = {k:(x-x_cen, y-y_cen) for k, (x, y) in pos.items()}
+    if type(engine) != str:
+        return engine
+    if engine=="random":
+        E = {k:(x*200, y*200) for k, (x, y) in random_layout(H).items()}
+    elif engine=="shell":
+        E = shell_layout(H, scale=100)
+    elif engine=="circular":
+        E = circular_layout(H, scale=100)
+    elif engine=="spring":
+        E = spring_layout(H, scale=100)
+    elif engine=="spectral":
+        E = spectral_layout(H, scale=100)
     else:
-        pos = engine
+        try:
+            E = nx_pydot.graphviz_layout(H, prog=engine)
+        except:
+            raise EngineError("No Graphviz")
+    x_max = -inf
+    x_min = inf
+    y_max = -inf
+    y_min = inf
+    for x, y in E.values():
+        x = round(float(x), 4)
+        y = round(float(y), 4)
+        if x > x_max:
+            x_max = x
+        if x < x_min:
+            x_min = x
+        if y > y_max:
+            y_max = y
+        if y < y_min:
+            y_min = y
+    x_cen = (x_max + x_min)/2
+    y_cen = (y_max + y_min)/2
+    pos = {node: (
+        round(float(x), 4) - x_cen,
+        round(float(y), 4) - y_cen
+    ) for node, (x, y) in E.items()}
     return pos
 
 def graph(
@@ -101,12 +117,19 @@ def graph(
     engine: [str, Dict[int, Tuple[float, float]]],
     node_mode: bool =False,
     except_node: int =None
-):
+) -> QIcon:
+    """Draw a linkage graph."""
     try:
         pos = engine_picker(G, engine, node_mode)
     except EngineError as e:
         raise e
-    width_ = max(max(x for x, y in pos.values()), max(y for x, y in pos.values()))*2*1.2
+    width_ = -inf
+    for x, y in pos.values():
+        if abs(x) > width_:
+            width_ = x
+        if abs(y) > width_:
+            width_ = y
+    width_ *= 2 * 1.2
     image = QImage(QSize(width_, width_), QImage.Format_ARGB32_Premultiplied)
     image.fill(Qt.transparent)
     painter = QPainter(image)
@@ -117,7 +140,10 @@ def graph(
     painter.setPen(pen)
     if node_mode:
         for l1, l2 in G.edges:
-            painter.drawLine(QPointF(pos[l1][0], -pos[l1][1]), QPointF(pos[l2][0], -pos[l2][1]))
+            painter.drawLine(
+                QPointF(pos[l1][0], -pos[l1][1]),
+                QPointF(pos[l2][0], -pos[l2][1])
+            )
     else:
         painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         for link in G.nodes:

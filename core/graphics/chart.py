@@ -1,21 +1,14 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Chart dialog of Pyslvs.
+
+This part is using PyQtChart module.
+"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QChart,
@@ -23,11 +16,13 @@ from core.QtModules import (
     Qt,
     QFont,
 )
-"""This part is using PyQtChart module."""
 
-class dataChart(QChart):
+class DataChart(QChart):
+    
+    """A axis setted Qt chart widget."""
+    
     def __init__(self, Title, axisX, axisY, parent=None):
-        super(dataChart, self).__init__(parent)
+        super(DataChart, self).__init__(parent)
         self.setTitle(Title)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         legend = self.legend()

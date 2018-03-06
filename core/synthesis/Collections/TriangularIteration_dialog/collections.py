@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""The option dialog to load the structure data."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QDialog,
@@ -28,6 +18,7 @@ from core.QtModules import (
 )
 from core.graphics import PreviewCanvas, replace_by_dict
 from copy import deepcopy
+from typing import Tuple
 from .Ui_collections import Ui_Dialog
 
 mechanismParams_4Bar = {
@@ -61,7 +52,8 @@ mechanismParams_8Bar = {
     'Follower': {'B': None},
     'Target': {'H': None},
     'Link_Expression': "ground[A,B];[A,C];[C,D];[C,F];[B,D,E];[B,F];[E,G];[F,G,H]",
-    'Expression': "PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
+    'Expression': "PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);" +
+        "PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
     'constraint': [('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')],
     'Graph': ((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5), (3, 7), (4, 6), (6, 7)),
     'name_dict': {
@@ -106,8 +98,11 @@ mechanismParams_BallLifter = {
         'N': None,
         'H': None
     },
-    'Link_Expression': "ground[A,B,D,I,L];[A,C];[C,J,K];[C,E,F];[I,J];[K,M,N];[L,M];[D,E];[F,G,H];[B,G]",
-    'Expression': "PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,D](E);PLLP[C,L3,L4,E](F);PLLP[F,L5,L6,B](G);PLLP[F,L7,L8,G](H);PLLP[I,L9,L10,C](J);PLLP[J,L11,L12,C](K);PLLP[K,L13,L14,L](M);PLLP[K,L15,L16,M](N)",
+    'Link_Expression': "ground[A,B,D,I,L];[A,C];[C,J,K];[C,E,F];[I,J];" +
+        "[K,M,N];[L,M];[D,E];[F,G,H];[B,G]",
+    'Expression': "PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,D](E);PLLP[C,L3,L4,E](F);" +
+        "PLLP[F,L5,L6,B](G);PLLP[F,L7,L8,G](H);PLLP[I,L9,L10,C](J);" +
+        "PLLP[J,L11,L12,C](K);PLLP[K,L13,L14,L](M);PLLP[K,L15,L16,M](N)",
     'pos': {
         0: (36.5, -59.5),
         1: (10.0, -94.12),
@@ -126,7 +121,8 @@ mechanismParams_BallLifter = {
         14: (44.12, 107.65)
     },
     'constraint': [('A', 'C', 'J', 'I'), ('A', 'C', 'E', 'D')],
-    'Graph': ((0, 1), (0, 4), (0, 6), (0, 7), (0, 9), (1, 2), (1, 3), (2, 4), (2, 5), (3, 7), (3, 8), (5, 6), (8, 9)),
+    'Graph': ((0, 1), (0, 4), (0, 6), (0, 7), (0, 9), (1, 2), (1, 3), (2, 4),
+        (2, 5), (3, 7), (3, 8), (5, 6), (8, 9)),
     'name_dict': {
         'A': 'P0',
         'B': 'P4',
@@ -149,6 +145,12 @@ mechanismParams_BallLifter = {
 }
 
 class CollectionsDialog(QDialog, Ui_Dialog):
+    
+    """Option dialog.
+    
+    Load the settings after closed.
+    """
+    
     def __init__(self, parent):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
@@ -159,19 +161,21 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         )
         self.collections = parent.collections
         self.name_loaded = ""
-        #Canvas
-        def get_solutions_func():
+        
+        def get_solutions_func() -> Tuple[str]:
+            """Return solutions to preview canvas."""
             try:
                 return replace_by_dict(self.collections[self.name_loaded])
             except KeyError:
-                if self.name_loaded=="Four bar linkage mechanism":
+                if self.name_loaded == "Four bar linkage mechanism":
                     return replace_by_dict(mechanismParams_4Bar)
-                elif self.name_loaded=="Eight bar linkage mechanism":
+                elif self.name_loaded == "Eight bar linkage mechanism":
                     return replace_by_dict(mechanismParams_8Bar)
-                elif self.name_loaded=="Ball lifter linkage mechanism":
+                elif self.name_loaded == "Ball lifter linkage mechanism":
                     return replace_by_dict(mechanismParams_BallLifter)
                 else:
                     return tuple()
+        
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)
@@ -193,23 +197,37 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.canOpen()
     
     def canOpen(self):
-        self.buttonBox.button(QDialogButtonBox.Open).setEnabled(self.collections_list.currentRow()>-1)
+        """Set the button box to enable when data is already."""
+        self.buttonBox.button(QDialogButtonBox.Open) \
+        .setEnabled(self.collections_list.currentRow() > -1)
     
     def hasCollection(self):
+        """Set the buttons to enable when user choose a data."""
         hasCollection = bool(self.collections)
-        for button in [self.rename_button, self.copy_button, self.delete_button]:
+        for button in [
+            self.rename_button,
+            self.copy_button,
+            self.delete_button
+        ]:
             button.setEnabled(hasCollection)
     
     @pyqtSlot()
     def on_rename_button_clicked(self):
+        """Show up a string input to change the data name."""
         row = self.collections_list.currentRow()
         if not row>-1:
             return
-        name, ok = QInputDialog.getText(self, "Profile name", "Please enter the profile name:")
+        name, ok = QInputDialog.getText(self,
+            "Profile name",
+            "Please enter the profile name:"
+        )
         if not ok:
             return
         if not name:
-            QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
+            QMessageBox.warning(self,
+                "Profile name",
+                "Can not use blank string to rename."
+            )
             return
         item = self.collections_list.item(row)
         self.collections[name] = self.collections.pop(item.text())
@@ -217,14 +235,21 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_copy_button_clicked(self):
+        """Ask a name to copy a data."""
         row = self.collections_list.currentRow()
         if not row>-1:
             return
-        name, ok = QInputDialog.getText(self, "Profile name", "Please enter a new profile name:")
+        name, ok = QInputDialog.getText(self,
+            "Profile name",
+            "Please enter a new profile name:"
+        )
         if not ok:
             return
         if not name:
-            QMessageBox.warning(self, "Profile name", "Can not use blank string to rename.")
+            QMessageBox.warning(self,
+                "Profile name",
+                "Can not use blank string to rename."
+            )
             return
         name_old = self.collections_list.item(row).text()
         self.collections[name] = self.collections[name_old].copy()
@@ -232,54 +257,67 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     def on_delete_button_clicked(self):
+        """Delete a data."""
         row = self.collections_list.currentRow()
         if not row>-1:
             return
-        reply = QMessageBox.question(self, "Delete", "Do you want to delete this structure?",
-            (QMessageBox.Yes | QMessageBox.No), QMessageBox.Yes)
-        if reply==QMessageBox.Yes:
-            item = self.collections_list.takeItem(row)
-            del self.collections[item.text()]
-            self.PreviewCanvas.clear()
-            self.hasCollection()
+        reply = QMessageBox.question(self,
+            "Delete",
+            "Do you want to delete this structure?",
+            (QMessageBox.Yes | QMessageBox.No),
+            QMessageBox.Yes
+        )
+        if reply != QMessageBox.Yes:
+            return
+        item = self.collections_list.takeItem(row)
+        del self.collections[item.text()]
+        self.PreviewCanvas.clear()
+        self.hasCollection()
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
     def choose_common(self, p0=None):
+        """Update preview canvas for common data."""
         text = self.common_list.currentItem().text()
-        if text:
-            self.name_loaded = text
-            if text=="Four bar linkage mechanism":
-                self.mechanismParams = deepcopy(mechanismParams_4Bar)
-            elif text=="Eight bar linkage mechanism":
-                self.mechanismParams = deepcopy(mechanismParams_8Bar)
-            elif self.name_loaded=="Ball lifter linkage mechanism":
-                self.mechanismParams = deepcopy(mechanismParams_BallLifter)
-            self.PreviewCanvas.from_profile(self.mechanismParams)
+        if not text:
+            return
+        self.name_loaded = text
+        if text == "Four bar linkage mechanism":
+            self.mechanismParams = deepcopy(mechanismParams_4Bar)
+        elif text == "Eight bar linkage mechanism":
+            self.mechanismParams = deepcopy(mechanismParams_8Bar)
+        elif self.name_loaded == "Ball lifter linkage mechanism":
+            self.mechanismParams = deepcopy(mechanismParams_BallLifter)
+        self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
     def choose_collections(self, p0=None):
+        """Update preview canvas for a workbook data."""
         text = self.collections_list.currentItem().text()
-        if text:
-            self.name_loaded = text
-            self.mechanismParams = self.collections[self.name_loaded]
-            self.PreviewCanvas.from_profile(self.mechanismParams)
+        if not text:
+            return
+        self.name_loaded = text
+        self.mechanismParams = self.collections[self.name_loaded]
+        self.PreviewCanvas.from_profile(self.mechanismParams)
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def load_common(self, p0=None):
+        """Load a common data and close."""
         self.choose_common(self.common_list.currentItem().text())
         self.accept()
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
     def load_collections(self, p0=None):
+        """Load a workbook data and close."""
         self.choose_collections(self.collections_list.currentItem().text())
         self.accept()
     
     @pyqtSlot(bool)
     def on_switch_name_clicked(self, checked):
+        """Switch name dict of preview canvas."""
         if checked:
             self.PreviewCanvas.setNameDict({})
         else:

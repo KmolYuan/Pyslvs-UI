@@ -49,7 +49,7 @@ ifeq ($(OS),Windows_NT)
 --add-binary="core/libs/pyslvs_algorithm/rga.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs_algorithm/tinycadlib.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs_topologic/topologic.$(CPPYTHON)-win_amd64.pyd;."
-	$(eval PYSLVSVERSION = $(shell python -c "from core.info.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))"))
+	$(eval PYSLVSVERSION = $(shell python -c "from core.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))"))
 	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
 	$(eval SYSVERSION = $(shell python -c "import platform; print(platform.machine().lower())"))
 	rename .\dist\launch_pyslvs.exe pyslvs-$(PYSLVSVERSION).$(COMPILERVERSION)-$(SYSVERSION).exe

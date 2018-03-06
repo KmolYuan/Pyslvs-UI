@@ -346,7 +346,7 @@
                     </property>
                     <property name="icon">
                      <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+                      <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
                     </property>
                    </widget>
                   </item>
@@ -393,26 +393,6 @@
                       <width>20</width>
                       <height>20</height>
                      </size>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="series">
-                    <property name="toolTip">
-                     <string>Formula</string>
-                    </property>
-                    <property name="statusTip">
-                     <string>Generat points from formula.</string>
-                    </property>
-                    <property name="text">
-                     <string/>
-                    </property>
-                    <property name="icon">
-                     <iconset resource="../../../icons.qrc">
-                      <normaloff>:/icons/formula.png</normaloff>:/icons/formula.png</iconset>
-                    </property>
-                    <property name="autoDefault">
-                     <bool>false</bool>
                     </property>
                    </widget>
                   </item>

@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""The preview dialog of dimensional synthesis result."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
     QTimer,
@@ -38,11 +28,14 @@ from .Ui_preview import Ui_Dialog
 inf = float('inf')
 
 class DynamicCanvas(BaseCanvas):
+    
+    """Custom canvas for preview algorithm result."""
+    
     def __init__(self, mechanism, Path, parent=None):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
-        self.solvingPath = self.mechanism['Target']
+        self.targetPath = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
         self.exp_symbol = []
@@ -61,6 +54,7 @@ class DynamicCanvas(BaseCanvas):
         timer.start()
     
     def zoom_to_fit_limit(self):
+        """Limitations of four side."""
         x_right = inf
         x_left = -inf
         y_top = -inf
@@ -90,7 +84,7 @@ class DynamicCanvas(BaseCanvas):
                 if y > y_top:
                     y_top = y
         #Solving paths
-        for path in self.solvingPath.values():
+        for path in self.targetPath.values():
             for x, y in path:
                 if x < x_right:
                     x_right = x
@@ -103,6 +97,7 @@ class DynamicCanvas(BaseCanvas):
         return x_right, x_left, y_top, y_bottom
     
     def paintEvent(self, event):
+        """Drawing functions."""
         width = self.width()
         height = self.height()
         x_right, x_left, y_top, y_bottom = self.zoom_to_fit_limit()
@@ -143,7 +138,7 @@ class DynamicCanvas(BaseCanvas):
         #Draw path.
         self.drawPath()
         #Draw solving path.
-        self.drawSlvsPath()
+        self.drawTargetPath()
         #Draw points.
         for i, name in enumerate(self.exp_symbol):
             coordinate = self.Point[i]
@@ -165,6 +160,10 @@ class DynamicCanvas(BaseCanvas):
         name: str,
         points: Tuple[int]
     ):
+        """Draw linkage function.
+        
+        The link color will be the default color.
+        """
         color = colorQt('Blue')
         pen = QPen(color)
         pen.setWidth(self.linkWidth)
@@ -184,11 +183,23 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             self.painter.setFont(QFont('Arial', self.fontSize))
             text = "[{}]".format(name)
-            cenX = sum(self.Point[i][0] for i in points if self.Point[i])/len(points)
-            cenY = sum(self.Point[i][1] for i in points if self.Point[i])/len(points)
-            self.painter.drawText(QPointF(cenX*self.zoom, cenY*-self.zoom), text)
+            cenX = sum(
+                self.Point[i][0]
+                for i in points if self.Point[i]
+            )
+            cenY = sum(
+                self.Point[i][1]
+                for i in points if self.Point[i]
+            )
+            cenX *= self.zoom / len(points)
+            cenY *= -self.zoom / len(points)
+            self.painter.drawText(QPointF(cenX, cenY), text)
     
     def drawPath(self):
+        """Draw a path.
+        
+        A simple function than main canvas.
+        """
         pen = QPen()
         Path = self.Path.path
         for i, path in enumerate(Path):
@@ -202,11 +213,18 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot()
     def change_index(self):
+        """A slot to change the path index."""
         self.index += 1
         self.index %= 360
         self.update()
 
 class PreviewDialog(QDialog, Ui_Dialog):
+    
+    """Preview dialog has some informations.
+    
+    We will not be able to change result settings here.
+    """
+    
     def __init__(self, mechanism, Path, parent=None):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)

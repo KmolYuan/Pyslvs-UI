@@ -1,21 +1,11 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+"""Python-Solvespace wrapper."""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from typing import Tuple
 from math import (
@@ -25,11 +15,21 @@ from math import (
 )
 from core.libs import (
     #System base
-    System, groupNum, Slvs_MakeQuaternion,
+    System,
+    groupNum,
+    Slvs_MakeQuaternion,
     #Entities & Constraint
-    Point3d, Workplane, Normal3d, Point2d, LineSegment2d, Constraint,
+    Point3d,
+    Workplane,
+    Normal3d,
+    Point2d,
+    LineSegment2d,
+    Constraint,
     #Result flags
-    SLVS_RESULT_OKAY, SLVS_RESULT_INCONSISTENT, SLVS_RESULT_DIDNT_CONVERGE, SLVS_RESULT_TOO_MANY_UNKNOWNS
+    SLVS_RESULT_OKAY,
+    SLVS_RESULT_INCONSISTENT,
+    SLVS_RESULT_DIDNT_CONVERGE,
+    SLVS_RESULT_TOO_MANY_UNKNOWNS
 )
 
 class SlvsException(Exception):
@@ -40,8 +40,13 @@ def slvsProcess(
     Link: Tuple['VLink'],
     constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float],]
 ):
-    pointCount = sum([len(vpoint.c) for vpoint in Point])
-    sliderCount = sum([1 for vpoint in Point if vpoint.type==1 or vpoint.type==2])
+    """Use element module to convert into solvespace expression."""
+    pointCount = 0
+    sliderCount = 0
+    for vpoint in Point:
+        pointCount += len(vpoint.c)
+        if (vpoint.type == 1) or (vpoint.type == 2):
+            sliderCount += 1
     constraintCount = len(constraints)
     Sys = System(pointCount*2 + sliderCount*2 + constraintCount*2 + 12)
     Sys.default_group = groupNum(1)
@@ -72,12 +77,18 @@ def slvsProcess(
         #This is the point recorded in the table.
         if vpoint.type==0:
             #Has only one coordinate
-            Slvs_Points.append(Point2d(Workplane1, Sys.add_param(vpoint.cx), Sys.add_param(vpoint.cy)))
+            Slvs_Points.append(Point2d(
+                Workplane1,
+                Sys.add_param(vpoint.cx),
+                Sys.add_param(vpoint.cy)
+            ))
         elif vpoint.type==1 or vpoint.type==2:
             #Has one more pointer
-            Slvs_Points.append(
-                tuple(Point2d(Workplane1, Sys.add_param(cx), Sys.add_param(cy)) for cx, cy in vpoint.c)
-            )
+            Slvs_Points.append(tuple(Point2d(
+                Workplane1,
+                Sys.add_param(cx),
+                Sys.add_param(cy)
+            ) for cx, cy in vpoint.c))
     #Topology of PMKS points.
     LinkIndex = lambda l: [vlink.name for vlink in Link].index(l)
     for i, vpoint in enumerate(Point):
@@ -105,7 +116,9 @@ def slvsProcess(
                     relate_vpoint = Point[relateNum]
                     p_main = Slvs_Points[i][vpoint.links.index(linkName)]
                     if relate_vpoint.type==1 or relate_vpoint.type==2:
-                        p_link_assist = Slvs_Points[relateNum][relate_vpoint.links.index(linkName)]
+                        p_link_assist = Slvs_Points[relateNum][
+                            relate_vpoint.links.index(linkName)
+                        ]
                     else:
                         p_link_assist = Slvs_Points[relateNum]
                     l_link = LineSegment2d(Workplane1, p_main, p_link_assist)
@@ -167,7 +180,11 @@ def slvsProcess(
                     abs(connect_1[0]-2*connect_2[0]),
                 ) < 0.01:
                     #Collinear.
-                    Constraint.on(Workplane1, p_base, LineSegment2d(Workplane1, connect_1[1], connect_2[1]))
+                    Constraint.on(
+                        Workplane1,
+                        p_base,
+                        LineSegment2d(Workplane1, connect_1[1], connect_2[1])
+                    )
                     ConnectTo(*connect_1)
                 else:
                     #Normal status.
@@ -209,9 +226,18 @@ def slvsProcess(
         resultList = []
         for p in Slvs_Points:
             if type(p)==Point2d:
-                resultList.append((round(p.u().value, 4), round(p.v().value, 4)))
+                resultList.append((
+                    round(p.u().value, 4),
+                    round(p.v().value, 4)
+                ))
             else:
-                resultList.append(tuple((round(c.u().value, 4), round(c.v().value, 4)) for c in p))
+                tmp_list = []
+                for c in p:
+                    tmp_list.append((
+                        round(c.u().value, 4),
+                        round(c.v().value, 4)
+                    ))
+                resultList.append(tuple(tmp_list))
         return resultList, int(Sys.dof)
     else:
         if result_flag==SLVS_RESULT_INCONSISTENT:

@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System. 
-##Copyright (C) 2016-2018 Yuan Chang [pyslvs@gmail.com]
 
+"""'DimensionalSynthesis_dialog' module contains
+contains the dialog of this tab.
 """
-"DimensionalSynthesis_dialog" module contains contains the dialog of this page.
-"""
+
+__author__ = "Yuan Chang"
+__copyright__ = "Copyright (C) 2016-2018"
+__license__ = "AGPL"
+__email__ = "pyslvs@gmail.com"
 
 from .options import (
     GeneticPrams,
@@ -16,7 +19,6 @@ from .options import (
 )
 from .path_adjust import Path_adjust_show
 from .progress import Progress_show
-from .series import Series_show
 from .preview import PreviewDialog
 from .chart import ChartDialog
 
@@ -29,7 +31,6 @@ __all__ = [
     'Options_show',
     'Path_adjust_show',
     'Progress_show',
-    'Series_show',
     'PreviewDialog',
     'ChartDialog'
 ]
