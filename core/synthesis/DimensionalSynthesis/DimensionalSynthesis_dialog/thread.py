@@ -127,14 +127,7 @@ class WorkerThread(QThread):
     def generateProcess(self):
         """Execute algorithm and sort out the result."""
         fitnessParameter, time_and_fitness = self.fun.run()
-        return(
-            fitnessParameter,
-            tuple((
-                int(e.split(',')[0]),
-                float(e.split(',')[1]),
-                float(e.split(',')[2])
-            ) for e in time_and_fitness.split(';')[0:-1])
-        )
+        return(fitnessParameter, time_and_fitness)
     
     def stop(self):
         """Stop the algorithm."""

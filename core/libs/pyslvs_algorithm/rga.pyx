@@ -127,8 +127,8 @@ cdef class Genetic(object):
         # setup benchmark
         self.timeS = time()
         self.timeE = 0
-        self.fitnessTime = ''
-        self.fitnessParameter = ''
+        self.fitnessTime = []
+        self.fitnessParameter = []
     
     cdef int random(self, int k)except *:
         return int(randV()*k)
@@ -208,7 +208,7 @@ cdef class Genetic(object):
     
     cdef void report(self)except *:
         self.timeE = time()
-        self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.chromElite.f, self.timeE - self.timeS)
+        self.fitnessTime.append((self.gen, self.chromElite.f, self.timeE - self.timeS))
     
     cdef void select(self)except *:
         """

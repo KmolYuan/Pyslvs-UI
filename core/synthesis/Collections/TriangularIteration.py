@@ -199,10 +199,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         reply = QMessageBox.question(self,
             "New profile",
             "Triangular iteration should be added structure diagrams " +
-            "from structure collections.\n"+
-            "Do you want to create a new profile?",
-            (QMessageBox.Yes | QMessageBox.No),
-            QMessageBox.Yes
+            "from structure collections.\n" +
+            "Do you want to create a new profile?"
         )
         if reply == QMessageBox.Yes:
             self.clearPanel()
@@ -549,11 +547,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 "Please setting the driver joint(s)."
             )
             return
-        reply = QMessageBox.question(self, "Auto configure",
+        reply = QMessageBox.question(self,
+            "Auto configure",
             "This function can detect the structure to configure the solutions.\n" +
-            "The current settings will be cleared.",
-            (QMessageBox.Yes | QMessageBox.No),
-            QMessageBox.Yes
+            "The current settings will be cleared."
         )
         if reply == QMessageBox.Yes and self.on_Expression_clear_clicked():
             self.auto_configure_expression()
@@ -622,9 +619,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             return True
         reply = QMessageBox.information(self,
             "Clear the solutions",
-            "Are you sure to clear the solutions?",
-            (QMessageBox.Yes | QMessageBox.No),
-            QMessageBox.Yes
+            "Are you sure to clear the solutions?"
         )
         if reply == QMessageBox.Yes:
             self.PreviewWindow.setGrounded(self.grounded_list.currentRow())

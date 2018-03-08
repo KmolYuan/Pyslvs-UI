@@ -114,7 +114,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     def clear_settings(self):
         """Clear sub-widgets that contain the setting."""
-        self.on_path_clear_clicked()
+        self.on_path_clear_clicked(ask=False)
         self.path.clear()
         self.mechanismParams.clear()
         self.PreviewCanvas.clear()
@@ -162,8 +162,15 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.currentPathChanged()
     
     @pyqtSlot()
-    def on_path_clear_clicked(self):
+    def on_path_clear_clicked(self, ask: bool =True):
         """Clear the current target path."""
+        if ask:
+            reply = QMessageBox.question(self,
+                "Clear path",
+                "Are you sure to clear the current path?"
+            )
+            if reply != QMessageBox.Yes:
+                return
         self.currentPath().clear()
         self.path_list.clear()
         self.currentPathChanged()

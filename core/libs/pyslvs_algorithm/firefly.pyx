@@ -71,7 +71,7 @@ cdef class Firefly(object):
     cdef np.ndarray lb, ub
     cdef np.ndarray fireflys
     cdef Chromosome genbest, bestFirefly
-    cdef object fitnessTime, fitnessParameter
+    cdef object fitnessTime
     
     def __init__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
         """
@@ -138,8 +138,7 @@ cdef class Firefly(object):
         # setup benchmark
         self.timeS = time()
         self.timeE = 0
-        self.fitnessTime = ''
-        self.fitnessParameter = ''
+        self.fitnessTime = []
     
     cdef void init(self):
         cdef int i, j
@@ -201,7 +200,7 @@ cdef class Firefly(object):
     
     cdef void report(self):
         self.timeE = time()
-        self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.bestFirefly.f, self.timeE - self.timeS)
+        self.fitnessTime.append((self.gen, self.bestFirefly.f, self.timeE - self.timeS))
     
     cdef void calculate_new_alpha(self):
         self.alpha = self.alpha0 * log10(self.genbest.f + 1)

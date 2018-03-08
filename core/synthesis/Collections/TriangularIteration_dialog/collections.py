@@ -263,9 +263,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             return
         reply = QMessageBox.question(self,
             "Delete",
-            "Do you want to delete this structure?",
-            (QMessageBox.Yes | QMessageBox.No),
-            QMessageBox.Yes
+            "Do you want to delete this structure?"
         )
         if reply != QMessageBox.Yes:
             return

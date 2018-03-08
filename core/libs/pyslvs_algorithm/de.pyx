@@ -62,7 +62,7 @@ cdef class DiffertialEvolution(object):
     cdef np.ndarray lb, ub, pop
     cdef object func, progress_fun, interrupt_fun
     cdef Chromosome lastgenbest, currentbest
-    cdef object fitnessTime, fitnessParameter
+    cdef object fitnessTime
     
     def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
         """
@@ -135,8 +135,7 @@ cdef class DiffertialEvolution(object):
         # setup benchmark
         self.timeS = time()
         self.timeE = 0
-        self.fitnessTime = ''
-        self.fitnessParameter = ''
+        self.fitnessTime = []
     
     cdef void checkParameter(self):
         """
@@ -285,7 +284,7 @@ cdef class DiffertialEvolution(object):
         report current generation status
         """
         self.timeE = time()
-        self.fitnessTime += '%d,%.4f,%.2f;'%(self.gen, self.lastgenbest.f, self.timeE - self.timeS)
+        self.fitnessTime.append((self.gen, self.lastgenbest.f, self.timeE - self.timeS))
     
     cdef bool overbound(self, Chromosome member):
         """
