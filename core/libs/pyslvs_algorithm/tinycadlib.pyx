@@ -30,6 +30,7 @@ from cpython cimport bool
 nan = float("nan")
 
 cdef class Coordinate(object):
+    
     cdef public double x
     cdef public double y
     

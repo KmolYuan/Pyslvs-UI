@@ -38,6 +38,7 @@ cdef enum limit:
     maxTime
 
 cdef class Chromosome(object):
+    
     cdef public int n
     cdef public double f
     cdef public np.ndarray v
@@ -62,6 +63,7 @@ cdef class Chromosome(object):
         self.f = obj.f
 
 cdef class Firefly(object):
+    
     cdef limit option
     cdef int D, n, maxGen, maxTime, rpt, gen
     cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE, minFit

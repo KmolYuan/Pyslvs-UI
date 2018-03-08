@@ -59,6 +59,7 @@ cdef class Chromosome(object):
             self.cp(obj)
 
 cdef class Genetic(object):
+    
     cdef limit option
     cdef int nParm, nPop, maxGen, maxTime, gen, rpt
     cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE, minFit
@@ -76,7 +77,7 @@ cdef class Genetic(object):
             'pMute',
             'pWin',
             'bDelta',
-            'maxGen' or 'minFit',
+            'maxGen' or 'minFit' or 'maxTime',
             'report'
         }
         """
@@ -117,9 +118,9 @@ cdef class Genetic(object):
         self.chromElite = Chromosome(self.nParm)
         self.chromBest = Chromosome(self.nParm)
         # low bound
-        self.minLimit = np.array(self.func.get_lower())
+        self.minLimit = self.func.get_lower()
         # up bound
-        self.maxLimit = np.array(self.func.get_upper())
+        self.maxLimit = self.func.get_upper()
         # maxgen and gen
         self.gen = 0
         

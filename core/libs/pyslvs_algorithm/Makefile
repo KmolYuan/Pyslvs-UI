@@ -5,11 +5,11 @@ build: *.pyx
 ifeq ($(OS),Windows_NT)
 	-rename __init__.py .__init__.py
 	python setup.py build_ext --inplace
-	rename .__init__.py __init__.py
+	-rename .__init__.py __init__.py
 else
 	-mv __init__.py .__init__.py
 	python3 setup.py build_ext --inplace
-	mv .__init__.py __init__.py
+	-mv .__init__.py __init__.py
 endif
 
 test: build

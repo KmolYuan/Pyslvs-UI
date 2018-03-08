@@ -29,6 +29,7 @@ from cpython cimport bool
 
 #NetworkX-like graph class.
 cdef class Graph(object):
+    
     cdef public object edges, nodes, adj
     
     def __cinit__(self, object edges):
@@ -102,6 +103,7 @@ cdef class GMState
 #James P. Crutchfield, principal investigator.
 #Complexity Sciences Center and Physics Department, UC Davis.
 cdef class GraphMatcher(object):
+    
     cdef public Graph G1, G2
     cdef object G1_nodes, G2_nodes, mapping
     cdef public object core_1, core_2, inout_1, inout_2
@@ -301,6 +303,7 @@ cdef class GraphMatcher(object):
         return True
 
 cdef class GMState(object):
+    
     cdef GraphMatcher GM
     cdef int G1_node, G2_node, depth
     

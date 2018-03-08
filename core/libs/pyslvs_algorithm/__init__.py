@@ -15,4 +15,10 @@ from .de import DiffertialEvolution
 from .tinycadlib import expr_parser
 from .planarlinkage import build_planar
 
-__all__ = ['Genetic', 'Firefly', 'DiffertialEvolution', 'expr_parser', 'build_planar']
+__all__ = [
+    'Genetic',
+    'Firefly',
+    'DiffertialEvolution',
+    'expr_parser',
+    'build_planar'
+]
