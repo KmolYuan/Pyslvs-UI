@@ -152,7 +152,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         if not row>-1:
             self.on_Combine_number_clicked()
             row = self.Expression_number.currentRow()
-        if self.Expression_number.currentItem().links is None:
+        if self.Expression_number.currentItem() is None:
             return
         answer = self.combineType(row)
         if answer:

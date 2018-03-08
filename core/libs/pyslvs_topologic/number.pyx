@@ -31,20 +31,20 @@ cdef int Max(int NL, int NJ):
 cpdef object NumberSynthesis(int NL, int NJ):
     cdef object result = []
     cdef int Mmax = Max(NL, NJ)
-    if Mmax>1:
-        Mmax = Max(NL, NJ)
-    else:
+    if Mmax == -1:
         return "incorrect mechanism."
-    cdef int i, p, s
+    cdef int i, p
     cdef object symbols, answer
     for symbols in product(range(NL + 1), repeat=(Mmax - 2)):
         NLMmax = NL - sum(symbols)
         if NLMmax < 0:
             continue
         answer = symbols + (NLMmax,)
-        s = 0
-        for i, p in enumerate(answer):
-            s += (i+2)*p
-        if s == 2*NJ:
+        if sum_factors(answer, len(answer)) == 2*NJ:
             result.append(answer)
     return tuple(result)
+
+cdef int sum_factors(object factors, int index):
+    if index == 0:
+        return 0
+    return (index + 1)*factors[index - 1] + sum_factors(factors, index - 1)

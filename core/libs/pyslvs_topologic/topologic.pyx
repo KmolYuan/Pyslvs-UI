@@ -17,18 +17,16 @@
 ##along with this program; if not, write to the Free Software
 ##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from itertools import (
-    combinations,
-    product
-)
+from itertools import combinations, product
 import sys
 import numpy as np
 cimport numpy as np
 from time import time
 from cpython cimport bool
 
-#NetworkX-like graph class.
 cdef class Graph(object):
+    
+    """NetworkX-like graph class."""
     
     cdef public object edges, nodes, adj
     
@@ -93,16 +91,18 @@ cdef class Graph(object):
 #Declared GMState.
 cdef class GMState
 
-#GraphMatcher and GMState class from NetworkX.
-#Copyright (C) 2007-2009 by the NetworkX maintainers
-#All rights reserved.
-#BSD license.
-#
-#This work was originally coded by Christopher Ellison
-#as part of the Computational Mechanics Python (CMPy) project.
-#James P. Crutchfield, principal investigator.
-#Complexity Sciences Center and Physics Department, UC Davis.
 cdef class GraphMatcher(object):
+    
+    """GraphMatcher and GMState class from NetworkX.
+    Copyright (C) 2007-2009 by the NetworkX maintainers
+    All rights reserved.
+    BSD license.
+    
+    This work was originally coded by Christopher Ellison
+    as part of the Computational Mechanics Python (CMPy) project.
+    James P. Crutchfield, principal investigator.
+    Complexity Sciences Center and Physics Department, UC Davis.
+    """
     
     cdef public Graph G1, G2
     cdef object G1_nodes, G2_nodes, mapping
@@ -407,8 +407,8 @@ cdef bool test(Graph G, object answer):
             return True
     return False
 
-cdef object emptyFunc(str j, int i):
-    return None
+cdef void emptyFunc(str j, int i):
+    pass
 
 cdef bool returnFalse():
     return False
@@ -419,20 +419,27 @@ cdef object connection_get(int i, object connection):
 
 #Linkage Topological Component
 cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, object stopFunc=returnFalse):
+    
+    """
+    link_num = [L2, L3, L4, ...]
+    """
+    
     cdef double t0 = time()
-    cdef np.ndarray links = np.zeros((sum(link_num),), dtype=np.int8)
-    cdef int i, j, t, name, joint_count
-    for i in range(sum(link_num)):
+    cdef int joint_count = sum(link_num)
+    cdef np.ndarray links = np.zeros((joint_count,), dtype=np.int32)
+    cdef int i, j, t, name, link_joint_count
+    for i in range(joint_count):
         name = i
-        joint_count = 0
+        link_joint_count = 0
         for j, t in enumerate(link_num):
             if i < t:
-                joint_count = j+2
+                link_joint_count = j+2
                 break
             i -= t
-        links[name] = joint_count
+        links[name] = link_joint_count
+    
     #connection = [(1, 2), (1, 3), ..., (2, 3), (2, 4), ...]
-    cdef object connection = tuple(combinations(range(sum(link_num)), 2))
+    cdef object connection = tuple(combinations(range(joint_count), 2))
     #ALL results.
     cdef object edges_combinations = []
     cdef int link, count, n
@@ -450,6 +457,7 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
             if stopFunc():
                 return None, time()-t0
             G = compose(G, H)
+            #Out of limit.
             error = False
             for n in G.nodes:
                 if len(G.neighbors(n))>links[n]:
@@ -457,10 +465,12 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
                     break
             if error:
                 continue
+            #Has triangles.
             if degenerate and G.has_triangles():
                 continue
             match_.append(G)
         edges_combinations = match_
+    
     setjobFunc("Verify the graphs...", len(edges_combinations))
     cdef object answer = []
     for G in edges_combinations:
