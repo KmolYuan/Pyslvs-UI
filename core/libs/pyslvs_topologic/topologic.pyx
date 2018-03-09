@@ -394,23 +394,19 @@ cdef object compose(Graph G, Graph H):
         tmp_edges.append((l1, l2))
     return Graph(tmp_edges)
 
-cdef bool test(Graph G, object answer):
+cdef bool is_isomorphic(Graph G, Graph H):
+    cdef GraphMatcher GM_GH = GraphMatcher(G, H)
+    return GM_GH.is_isomorphic()
+
+cdef bool verify(Graph G, object answer):
     if not G.is_connected():
         #is not connected
         return True
     cdef Graph H
-    cdef GraphMatcher GM_GH
     for H in answer:
-        GM_GH = GraphMatcher(G, H)
-        if GM_GH.is_isomorphic():
+        if is_isomorphic(G, H):
             #is isomorphic
             return True
-    return False
-
-cdef void emptyFunc(str j, int i):
-    pass
-
-cdef bool returnFalse():
     return False
 
 cdef object connection_get(int i, object connection):
@@ -418,8 +414,12 @@ cdef object connection_get(int i, object connection):
     return [c for c in connection if (i in c)]
 
 #Linkage Topological Component
-cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, object stopFunc=returnFalse):
-    
+cpdef topo(
+    object link_num,
+    bool degenerate=True,
+    object setjobFunc=None,
+    object stopFunc=None
+):
     """
     link_num = [L2, L3, L4, ...]
     """
@@ -443,18 +443,23 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
     #ALL results.
     cdef object edges_combinations = []
     cdef int link, count, n
-    cdef object match, match_
+    cdef object match, matched
     cdef Graph G, H
+    cdef GraphMatcher GM_GH
     cdef bool error
     for link, count in enumerate(links):
         match = [Graph(m) for m in combinations(connection_get(link, connection), count)]
         if not edges_combinations:
             edges_combinations = match
             continue
-        match_ = []
-        setjobFunc("Match link #{} / {}".format(link, len(links)-1), len(edges_combinations)*len(match))
+        if setjobFunc:
+            setjobFunc(
+                "Match link #{} / {}".format(link, len(links)-1),
+                len(edges_combinations)*len(match)
+            )
+        matched = []
         for G, H in product(edges_combinations, match):
-            if stopFunc():
+            if stopFunc and stopFunc():
                 return None, time()-t0
             G = compose(G, H)
             #Out of limit.
@@ -468,15 +473,17 @@ cpdef topo(object link_num, bool degenerate=True, object setjobFunc=emptyFunc, o
             #Has triangles.
             if degenerate and G.has_triangles():
                 continue
-            match_.append(G)
-        edges_combinations = match_
+            matched.append(G)
+        edges_combinations = matched
     
-    setjobFunc("Verify the graphs...", len(edges_combinations))
+    if setjobFunc:
+        setjobFunc("Verify the graphs...", len(edges_combinations))
     cdef object answer = []
     for G in edges_combinations:
-        if stopFunc():
-            return None, time()-t0
-        if test(G, answer):
+        if stopFunc and stopFunc():
+            return answer, time()-t0
+        if verify(G, answer):
             continue
         answer.append(G)
+    
     return answer, time()-t0
