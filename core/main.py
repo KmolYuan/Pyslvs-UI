@@ -1242,22 +1242,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
-        """Add variable with '->' sign."""
-        row = self.inputs_points.currentRow()
-        text = '->'.join([
-            self.Entities_Point.item(self.inputs_points.currentRow(), 0).text(),
+        """Add inputs variable from click button."""
+        self.add_inputs_variable(
+            self.inputs_points.currentRow(),
             self.inputs_baseLinks.currentItem().text(),
-            self.inputs_driveLinks.currentItem().text(),
-            "{:.02f}".format(self.getLinkAngle(
-                row,
-                self.inputs_driveLinks.currentItem().text()
-            ))
+            self.inputs_driveLinks.currentItem().text()
+        )
+    
+    def add_inputs_variable(self,
+        point: int,
+        base_link: str,
+        drive_links: str
+    ):
+        """Add variable with '->' sign."""
+        if self.inputs_variable.count() >= self.DOF:
+            return
+        name = 'Point{}'.format(point)
+        text = '->'.join([
+            name,
+            base_link,
+            drive_links,
+            "{:.02f}".format(self.getLinkAngle(point, drive_links))
         ])
-        if (
-            (self.inputs_variable.count() < self.DOF) and
-            (not self.inputs_variable.findItems(text, Qt.MatchExactly))
-        ):
-            self.inputs_variable.addItem(text)
+        for variable in self.get_inputs_variables():
+            if name == variable[0]:
+                return
+        self.inputs_variable.addItem(text)
+    
+    def add_inputs_variables(self,
+        variables: Tuple[Tuple[int, str, str]]
+    ):
+        """Add from database."""
+        for variable in variables:
+            self.add_inputs_variable(*variable)
+    
+    @pyqtSlot()
+    def on_inputs_variable_remove_clicked(self):
+        """Remove and reset angle."""
+        row = self.inputs_variable.currentRow()
+        if not row > -1:
+            return
+        self.inputs_variable_stop.click()
+        self.inputs_variable.takeItem(row)
+        self.Entities_Point.getBackPosition()
+        self.resolve()
     
     def getLinkAngle(self, row: int, link: Tuple[str]) -> float:
         """Get the angle of base link and drive link."""
@@ -1269,16 +1297,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         drive = Point[relate[relate.index(row)-1]]
         return base.slopeAngle(drive)
     
-    @pyqtSlot()
-    def on_inputs_variable_remove_clicked(self):
-        """Remove and reset angle."""
-        row = self.inputs_variable.currentRow()
-        if not row>-1:
-            return
-        self.inputs_variable_stop.click()
-        self.inputs_variable.takeItem(row)
-        self.Entities_Point.getBackPosition()
-        self.resolve()
+    def get_inputs_variables(self) -> Tuple[int, str, str, float]:
+        """A generator use to get variables."""
+        for row in range(self.inputs_variable.count()):
+            variable = self.inputs_variable.item(row).text().split('->')
+            variable[0] = int(variable[0].replace('Point', ''))
+            variable[3] = float(variable[3])
+            yield tuple(variable)
     
     def inputs_variable_autocheck(self):
         """Auto check the points and type."""
@@ -1289,15 +1314,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 i
             )
             self.inputs_points.addItem(text)
-        for i in range(self.inputs_variable.count()):
-            itemText = self.inputs_variable.item(i).text().split('->')
-            row = int(itemText[0].replace('Point', ''))
+        for i, variable in enumerate(self.get_inputs_variables()):
+            row = variable[0]
             try:
                 links = self.Entities_Point.item(row, 1).text()
-            except:
+            except AttributeError:
                 links = ''
             #If this is not origin point any more.
-            if (itemText[1] not in links) or (itemText[2] not in links):
+            if (variable[1] not in links) or (variable[2] not in links):
                 self.inputs_variable.takeItem(i)
         self.variableValueReset()
     
@@ -1313,8 +1337,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.inputs_variable_play.setEnabled(rotatable)
         self.inputs_variable_speed.setEnabled(rotatable)
         self.inputs_Degree.setValue(float(
-            self.inputs_variable.currentItem().text().split('->')[-1])*100.
-            if enabled else 0.
+            self.inputs_variable.currentItem().text().split('->')[-1])*100
+            if enabled else 0
         )
     
     def variableValueUpdate(self, value):
@@ -1323,7 +1347,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         value /= 100.
         if item:
             itemText = item.text().split('->')
-            itemText[-1] = str(value)
+            itemText[-1] = "{:.04f}".format(value)
             item.setText('->'.join(itemText))
             self.resolve()
         interval = self.inputs_record_interval.value()
@@ -1340,14 +1364,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.inputs_variable_play.setChecked(False)
             self.inputs_playShaft.stop()
         self.Entities_Point.getBackPosition()
-        for i in range(self.inputs_variable.count()):
-            itemText = self.inputs_variable.item(i).text().split('->')
-            row = int(itemText[0].replace('Point', ''))
+        for i, variable in enumerate(self.get_inputs_variables()):
+            point = variable[0]
             text = '->'.join([
-                itemText[0],
-                itemText[1],
-                itemText[2],
-                "{:.02f}".format(self.getLinkAngle(row, itemText[2]))
+                'Point{}'.format(point),
+                variable[1],
+                variable[2],
+                "{:.02f}".format(self.getLinkAngle(point, variable[2]))
             ])
             self.inputs_variable.item(i).setText(text)
         self.on_inputs_variable_currentRowChanged()
@@ -1355,14 +1378,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def variableConstraints(self):
         """Generate constraint symbols."""
-        constraints = []
-        for i in range(self.inputs_variable.count()):
-            item = self.inputs_variable.item(i)
-            itemText = item.text().split('->')
-            itemText[0] = int(itemText[0].replace('Point', ''))
-            itemText[3] = float(itemText[-1])
-            constraints.append(tuple(itemText))
-        return tuple(constraints)
+        return list(self.get_inputs_variables())
 
     @pyqtSlot(bool)
     def on_inputs_variable_play_toggled(self, toggled):

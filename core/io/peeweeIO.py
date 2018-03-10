@@ -92,6 +92,8 @@ class CommitModel(Model):
     
     triangledata = BlobField()
     
+    inputsdata = BlobField()
+    
     algorithmdata = BlobField()
     
     class Meta:
@@ -174,9 +176,11 @@ class FileWidget(QWidget, Ui_Form):
         
         self.CollectDataFunc #Call to get collections data.
         self.TriangleDataFunc #Call to get triangle data.
+        self.InputsDataFunc #Call to get inputs variables data.
         self.AlgorithmDataFunc #Call to get algorithm data.
         self.loadCollectFunc #Call to load collections data.
         self.loadTriangleFunc #Call to load triangle data.
+        self.loadInputsFunc #Call to load inputs variables data.
         self.loadAlgorithmFunc #Call after loaded algorithm results.
         """
         #Close database when destroyed.
@@ -291,13 +295,14 @@ class FileWidget(QWidget, Ui_Form):
                 'mechanism':compress("M[{}]".format(", ".join(
                     vpoint.expr for vpoint in pointData
                 ))),
-                'linkcolor':compress(linkcolor),
-                'storage':compress(self.storageDataFunc()),
-                'pathdata':compress(self.pathData),
-                'collectiondata':compress(self.CollectDataFunc()),
-                'triangledata':compress(self.TriangleDataFunc()),
-                'algorithmdata':compress(self.AlgorithmDataFunc()),
-                'branch':branch_model
+                'linkcolor': compress(linkcolor),
+                'storage': compress(self.storageDataFunc()),
+                'pathdata': compress(self.pathData),
+                'collectiondata': compress(self.CollectDataFunc()),
+                'triangledata': compress(self.TriangleDataFunc()),
+                'inputsdata': compress(self.InputsDataFunc()),
+                'algorithmdata': compress(self.AlgorithmDataFunc()),
+                'branch': branch_model
             }
             try:
                 args['previous'] = (
@@ -483,6 +488,8 @@ class FileWidget(QWidget, Ui_Form):
         self.loadCollectFunc(decompress(commit.collectiondata))
         #Load triangledata.
         self.loadTriangleFunc(decompress(commit.triangledata))
+        #Load inputsdata.
+        self.loadInputsFunc(decompress(commit.inputsdata))
         #Load algorithmdata.
         self.loadAlgorithmFunc(decompress(commit.algorithmdata))
         #Workbook loaded.

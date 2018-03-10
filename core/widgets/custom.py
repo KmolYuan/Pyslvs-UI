@@ -49,11 +49,17 @@ def appearance(self):
     self.Entities_Point.cellDoubleClicked.connect(
         self.on_action_Edit_Point_triggered
     )
-    self.Entities_Point.deleteRequest.connect(self.on_action_Delete_Point_triggered)
+    self.Entities_Point.deleteRequest.connect(
+        self.on_action_Delete_Point_triggered
+    )
     self.Entities_Point_Layout.addWidget(self.Entities_Point)
     self.Entities_Link = LinkTableWidget(self.Entities_Link_Widget)
-    self.Entities_Link.cellDoubleClicked.connect(self.on_action_Edit_Link_triggered)
-    self.Entities_Link.deleteRequest.connect(self.on_action_Delete_Link_triggered)
+    self.Entities_Link.cellDoubleClicked.connect(
+        self.on_action_Edit_Link_triggered
+    )
+    self.Entities_Link.deleteRequest.connect(
+        self.on_action_Delete_Link_triggered
+    )
     self.Entities_Link_Layout.addWidget(self.Entities_Link)
     #Selection label on status bar right side.
     selectionLabel = SelectionLabel(self)
@@ -110,7 +116,11 @@ def appearance(self):
         ("Rotate mode", "freemove_on"),
         ("Reflect mode", "freemove_on"),
     ]):
-        action = QAction(QIcon(QPixmap(":/icons/{}.png".format(icon))), text, self)
+        action = QAction(
+            QIcon(QPixmap(":/icons/{}.png".format(icon))),
+            text,
+            self
+        )
         action.triggered.connect(freeMoveMode_func(i, action.icon()))
         action.setShortcut("Ctrl+{}".format(i+1))
         action.setShortcutContext(Qt.WindowShortcut)
@@ -120,7 +130,9 @@ def appearance(self):
     self.FileWidget = FileWidget(self)
     self.SCMLayout.addWidget(self.FileWidget)
     self.FileWidget.commit_add.clicked.connect(self.on_action_Save_triggered)
-    self.FileWidget.branch_add.clicked.connect(self.on_action_Save_branch_triggered)
+    self.FileWidget.branch_add.clicked.connect(
+        self.on_action_Save_branch_triggered
+    )
     self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
     #Number and type synthesis
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
@@ -144,13 +156,19 @@ def appearance(self):
     ) #Call to get collections data.
     self.FileWidget.TriangleDataFunc = (
         self.CollectionTabPage.TriangleDataFunc
-    ) #Call to get collections data.
+    ) #Call to get triangle data.
+    self.FileWidget.InputsDataFunc = (
+        lambda: tuple(variable[:-1] for variable in self.get_inputs_variables())
+    ) #Call to get inputs variables data.
     self.FileWidget.loadCollectFunc = (
         self.CollectionTabPage.CollectionsStructure.addCollections
     ) #Call to load collections data.
     self.FileWidget.loadTriangleFunc = (
         self.CollectionTabPage.CollectionsTriangularIteration.addCollections
-    ) #Call to load collections data.
+    ) #Call to load triangle data.
+    self.FileWidget.loadInputsFunc = (
+        self.add_inputs_variables
+    ) #Call to load inputs variables data.
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(
@@ -219,7 +237,9 @@ def appearance(self):
     self.LinkageTransparency.valueChanged.connect(
         self.DynamicCanvasView.setTransparency
     )
-    self.MarginFactor.valueChanged.connect(self.DynamicCanvasView.setMarginFactor)
+    self.MarginFactor.valueChanged.connect(
+        self.DynamicCanvasView.setMarginFactor
+    )
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)
     self.MainSplitter.setStretchFactor(1, 15)
@@ -228,15 +248,19 @@ def appearance(self):
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMenu)
     #zoom_to_fit function connections.
-    self.action_Zoom_to_fit.triggered.connect(self.DynamicCanvasView.zoom_to_fit)
+    self.action_Zoom_to_fit.triggered.connect(
+        self.DynamicCanvasView.zoom_to_fit
+    )
     self.ResetCanvas.clicked.connect(self.DynamicCanvasView.zoom_to_fit)
     #Zoom text button
     Zoom_menu = QMenu(self)
+    
     def zoom_level(level):
         @pyqtSlot()
         def func():
             self.ZoomBar.setValue(level)
         return func
+    
     for level in range(
         self.ZoomBar.minimum() - self.ZoomBar.minimum()%100 + 100,
         500 + 1,
@@ -392,7 +416,9 @@ def context_menu(self):
     #New Link
     self.popMenu_canvas.addAction(self.action_New_Link)
     self.action_canvas_context_fix_add = QAction("Add [fixed]", self)
-    self.action_canvas_context_fix_add.triggered.connect(self.addPointGroup_fixed)
+    self.action_canvas_context_fix_add.triggered.connect(
+        self.addPointGroup_fixed
+    )
     self.popMenu_canvas.addAction(self.action_canvas_context_fix_add)
     self.action_canvas_context_path = QAction("Add [target path]", self)
     self.action_canvas_context_path.triggered.connect(
