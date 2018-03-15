@@ -43,17 +43,24 @@ def convex_hull(points: Sequence[Tuple[float, float]]):
     according to Graham's scan algorithm.
     """
     
-    def cmp(a, b):
+    def cmp(a: float, b: float) -> int:
         return (a > b) - (a < b)
     
-    def turn(p, q, r):
+    def turn(
+        p: Tuple[float, float],
+        q: Tuple[float, float],
+        r: Tuple[float, float]
+    ):
         return cmp(
             (q[0] - p[0])*(r[1] - p[1]) -
             (r[0] - p[0])*(q[1] - p[1]),
             0
         )
     
-    def _keep_left(hull, r):
+    def _keep_left(
+        hull: Sequence[Tuple[float, float]],
+        r: Tuple[float, float]
+    ):
         while (len(hull) > 1) and (turn(hull[-2], hull[-1], r) != 1):
             hull.pop()
         if not len(hull) or hull[-1] != r:
