@@ -271,7 +271,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookNoSave()
         else:
             self.workbookSaved()
-        self.inputs_variable_autocheck()
+        self.inputs_variable_reload()
         self.resolve()
     
     def resolve(self):
@@ -1118,6 +1118,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Point,
             isRename=True
         ))
+        self.inputs_variable_excluding(row)
         self.CommandStack.endMacro()
     
     @pyqtSlot()
@@ -1134,7 +1135,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.deleteLink(row)
     
     def deleteLink(self, row: int):
-        """Push delete link command to stack."""
+        """Push delete link command to stack.
+        
+        Remove link will not remove the points.
+        """
         if not row>0:
             return
         Args = list(self.Entities_Link.rowTexts(row, True))
@@ -1318,7 +1322,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             variable[3] = float(variable[3])
             yield tuple(variable)
     
-    def inputs_variable_autocheck(self):
+    def inputs_variable_reload(self):
         """Auto check the points and type."""
         self.inputs_points.clear()
         for i in range(self.Entities_Point.rowCount()):
@@ -1327,19 +1331,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 i
             )
             self.inputs_points.addItem(text)
-        for i, variable in enumerate(self.get_inputs_variables()):
-            row = variable[0]
-            try:
-                links = self.Entities_Point.item(row, 1).text()
-            except AttributeError:
-                links = ''
-            #If this is not origin point any more.
-            #TODO: Merge to delete point command.
-            if (variable[1] not in links) or (variable[2] not in links):
-                self.CommandStack.beginMacro("Remove variable of Point{}".format(i))
-                self.CommandStack.push(DeleteVariable(row, self.inputs_variable))
-                self.CommandStack.endMacro()
         self.variableValueReset()
+    
+    def inputs_variable_excluding(self, row):
+        for i, variable in enumerate(self.get_inputs_variables()):
+            row_ = variable[0]
+            #If this is not origin point any more.
+            if row != row_:
+                continue
+            self.CommandStack.beginMacro("Remove variable of Point{}".format(row))
+            self.CommandStack.push(DeleteVariable(i, self.inputs_variable))
+            self.CommandStack.endMacro()
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row: int =None):
