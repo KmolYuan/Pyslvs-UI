@@ -35,6 +35,7 @@ from core.io import (
     AddPath, DeletePath,
     AddStorage, DeleteStorage,
     AddStorageName, ClearStorageName,
+    AddVariable, DeleteVariable,
     Qt_images, slvs2D, dxfSketch, XStream,
     PMKS_parser, PMKSArgsTransformer, get_from_parenthesis
 )
@@ -62,7 +63,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
         #Undo Stack
-        self.FileState = QUndoStack()
+        self.CommandStack = QUndoStack()
         self.setLocate(
             QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
@@ -471,14 +472,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     if linkName not in linkNames:
                         self.addLink(linkName, 'Blue')
                 rowCount = self.Entities_Point.rowCount()
-                self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-                self.FileState.push(AddTable(self.Entities_Point))
-                self.FileState.push(EditPointTable(
+                self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
+                self.CommandStack.push(AddTable(self.Entities_Point))
+                self.CommandStack.push(EditPointTable(
                     rowCount,
                     self.Entities_Point,
                     self.Entities_Link, pointArgs
                 ))
-                self.FileState.endMacro()
+                self.CommandStack.endMacro()
     
     def emptyLinkGroup(self, linkcolor):
         """Use to add empty link when loading database."""
@@ -719,9 +720,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Return the row count of new point.
         """
         rowCount = self.Entities_Point.rowCount()
-        self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-        self.FileState.push(AddTable(self.Entities_Point))
-        self.FileState.push(EditPointTable(
+        self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
+        self.CommandStack.push(AddTable(self.Entities_Point))
+        self.CommandStack.push(EditPointTable(
             rowCount,
             self.Entities_Point,
             self.Entities_Link,
@@ -733,13 +734,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 y
             ]
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
         return rowCount
     
     def add_points_by_graph(self, G, pos, ground_link: [None, int]):
         """Add points by networkx graph and position dict."""
         base_count = self.Entities_Point.rowCount()
-        self.FileState.beginMacro(
+        self.CommandStack.beginMacro(
             "Merge mechanism kit from {Number and Type Synthesis}"
         )
         for x, y in pos.values():
@@ -757,7 +758,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             if link == ground_link:
                 ground = self.Entities_Link.rowCount()-1
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
         if ground_link is not None:
             self.constrainLink(ground)
     
@@ -769,15 +770,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def addLink(self, name, color, points=()):
         """Push a new link command to stack."""
         linkArgs = [name, color, ','.join('Point{}'.format(i) for i in points)]
-        self.FileState.beginMacro("Add {{Link: {}}}".format(name))
-        self.FileState.push(AddTable(self.Entities_Link))
-        self.FileState.push(EditLinkTable(
+        self.CommandStack.beginMacro("Add {{Link: {}}}".format(name))
+        self.CommandStack.push(AddTable(self.Entities_Link))
+        self.CommandStack.push(EditLinkTable(
             self.Entities_Link.rowCount() - 1,
             self.Entities_Link,
             self.Entities_Point,
             linkArgs
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     def getLinkSerialNumber(self) -> str:
         """Return a new serial number name of link."""
@@ -827,19 +828,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             dlg.Y_coordinate.value()
         ]
         if row is False:
-            self.FileState.beginMacro("Add {{Point{}}}".format(rowCount))
-            self.FileState.push(AddTable(self.Entities_Point))
+            self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
+            self.CommandStack.push(AddTable(self.Entities_Point))
             row = rowCount
         else:
             row = dlg.Point.currentIndex()
-            self.FileState.beginMacro("Edit {{Point{}}}".format(rowCount))
-        self.FileState.push(EditPointTable(
+            self.CommandStack.beginMacro("Edit {{Point{}}}".format(rowCount))
+        self.CommandStack.push(EditPointTable(
             row,
             self.Entities_Point,
             self.Entities_Link,
             Args
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     def lockPoint(self):
         """Turn a group of points to fixed on ground or not."""
@@ -854,24 +855,26 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     newLinks.remove('ground')
             Args = list(self.Entities_Point.rowTexts(row, True))
             Args[0] = ','.join(filter(lambda a: a!='', newLinks))
-            self.FileState.beginMacro("Edit {{Point{}}}".format(row))
-            self.FileState.push(EditPointTable(
+            self.CommandStack.beginMacro("Edit {{Point{}}}".format(row))
+            self.CommandStack.push(EditPointTable(
                 row,
                 self.Entities_Point,
                 self.Entities_Link,
                 Args
             ))
-            self.FileState.endMacro()
+            self.CommandStack.endMacro()
     
     def toMultipleJoint(self, index: int, points: Tuple[int]):
         """Merge points into a multiple joint.
         @index: The index of main joint in the sequence.
         """
         row = points[index]
-        self.FileState.beginMacro("Merge {{{}}} as multiple joint {{{}}}".format(
-            ", ".join('Point{}'.format(p) for p in points),
-            'Point{}'.format(row)
-        ))
+        self.CommandStack.beginMacro(
+            "Merge {{{}}} as multiple joint {{{}}}".format(
+                ", ".join('Point{}'.format(p) for p in points),
+                'Point{}'.format(row)
+            )
+        )
         Links = lambda i: list(filter(
             lambda a: a!='',
             self.Entities_Point.item(i, 1).text().split(',')
@@ -886,13 +889,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.deletePoint(p)
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[0] = ','.join(newLinks)
-        self.FileState.push(EditPointTable(
+        self.CommandStack.push(EditPointTable(
             row,
             self.Entities_Point,
             self.Entities_Link,
             Args
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     def clonePoint(self):
         """Clone a point (with orange color)."""
@@ -900,35 +903,35 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[2] = 'Orange'
         rowCount = self.Entities_Point.rowCount()
-        self.FileState.beginMacro(
+        self.CommandStack.beginMacro(
             "Clone {{Point{}}} as {{Point{}}}".format(row, rowCount)
         )
-        self.FileState.push(AddTable(self.Entities_Point))
-        self.FileState.push(EditPointTable(
+        self.CommandStack.push(AddTable(self.Entities_Point))
+        self.CommandStack.push(EditPointTable(
             rowCount,
             self.Entities_Point,
             self.Entities_Link,
             Args
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot(tuple)
     def freemove_setCoordinate(self, coordinates):
         """Free move function."""
-        self.FileState.beginMacro("Moved {{{}}}".format(", ".join(
+        self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
             "Point{}".format(c[0]) for c in coordinates
         )))
         for row, (x, y) in coordinates:
             Args = list(self.Entities_Point.rowTexts(row, True))
             Args[3] = x
             Args[4] = y
-            self.FileState.push(EditPointTable(
+            self.CommandStack.push(EditPointTable(
                 row,
                 self.Entities_Point,
                 self.Entities_Link,
                 Args
             ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def on_action_New_Link_triggered(self):
@@ -948,13 +951,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 return
             #If link has some new point, add the new points to link.
             elif ps_set and (sr_set > ps_set):
-                self.FileState.beginMacro("Edit {{Link: {}}}".format(vlink.name))
+                self.CommandStack.beginMacro(
+                    "Edit {{Link: {}}}".format(vlink.name)
+                )
                 for row_, vlink_ in enumerate(link_data):
                     Args = [vlink_.name, vlink_.colorSTR, ','.join(
                         'Point{}'.format(p)
                         for p in vlink_.points if p not in selectedRows
                     )]
-                    self.FileState.push(EditLinkTable(
+                    self.CommandStack.push(EditLinkTable(
                         row_,
                         self.Entities_Link,
                         self.Entities_Point,
@@ -963,13 +968,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 Args = [vlink.name, vlink.colorSTR, ','.join(
                     'Point{}'.format(p) for p in selectedRows
                 )]
-                self.FileState.push(EditLinkTable(
+                self.CommandStack.push(EditLinkTable(
                     row,
                     self.Entities_Link,
                     self.Entities_Point,
                     Args
                 ))
-                self.FileState.endMacro()
+                self.CommandStack.endMacro()
                 return
         self.addLinkGroup(selectedRows)
     
@@ -999,42 +1004,44 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
         ]
         if row is False:
-            self.FileState.beginMacro("Add {{Link: {}}}".format(name))
-            self.FileState.push(AddTable(self.Entities_Link))
+            self.CommandStack.beginMacro("Add {{Link: {}}}".format(name))
+            self.CommandStack.push(AddTable(self.Entities_Link))
             row = self.Entities_Link.rowCount()-1
         else:
             row = dlg.Link.currentIndex()
-            self.FileState.beginMacro("Edit {{Link: {}}}".format(name))
-        self.FileState.push(EditLinkTable(
+            self.CommandStack.beginMacro("Edit {{Link: {}}}".format(name))
+        self.CommandStack.push(EditLinkTable(
             row,
             self.Entities_Link,
             self.Entities_Point,
             Args
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def releaseGround(self):
         """Clone ground to a new link, then make ground no points."""
         name = self.getLinkSerialNumber()
         Args = [name, 'Blue', self.Entities_Link.item(0, 2).text()]
-        self.FileState.beginMacro("Release ground to {{Link: {}}}".format(name))
+        self.CommandStack.beginMacro(
+            "Release ground to {{Link: {}}}".format(name)
+        )
         #Free all points.
-        self.FileState.push(EditLinkTable(
+        self.CommandStack.push(EditLinkTable(
             0,
             self.Entities_Link,
             self.Entities_Point,
             ['ground', 'White', '']
         ))
         #Create new link.
-        self.FileState.push(AddTable(self.Entities_Link))
-        self.FileState.push(EditLinkTable(
+        self.CommandStack.push(AddTable(self.Entities_Link))
+        self.CommandStack.push(EditLinkTable(
             self.Entities_Link.rowCount() - 1,
             self.Entities_Link,
             self.Entities_Point,
             Args
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def constrainLink(self, row=None):
@@ -1052,27 +1059,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             set(self.Entities_Link.item(row, 2).text().split(','))
         )
         groundArgs = ['ground', 'White', ','.join(e for e in newPoints if e)]
-        self.FileState.beginMacro("Constrain {{Link: {}}} to ground".format(name))
+        self.CommandStack.beginMacro(
+            "Constrain {{Link: {}}} to ground".format(name)
+        )
         #Turn to ground.
-        self.FileState.push(EditLinkTable(
+        self.CommandStack.push(EditLinkTable(
             0,
             self.Entities_Link,
             self.Entities_Point,
             groundArgs
         ))
         #Free all points and delete the link.
-        self.FileState.push(EditLinkTable(
+        self.CommandStack.push(EditLinkTable(
             row,
             self.Entities_Link,
             self.Entities_Point,
             linkArgs
         ))
-        self.FileState.push(DeleteTable(
+        self.CommandStack.push(DeleteTable(
             row,
             self.Entities_Link,
             isRename=False
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def on_action_Delete_Point_triggered(self):
@@ -1091,25 +1100,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Push delete point command to stack."""
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[0] = ''
-        self.FileState.beginMacro("Delete {{Point{}}}".format(row))
-        self.FileState.push(EditPointTable(
+        self.CommandStack.beginMacro("Delete {{Point{}}}".format(row))
+        self.CommandStack.push(EditPointTable(
             row,
             self.Entities_Point,
             self.Entities_Link,
             Args
         ))
         for i in range(self.Entities_Link.rowCount()):
-            self.FileState.push(FixSequenceNumber(
+            self.CommandStack.push(FixSequenceNumber(
                 self.Entities_Link,
                 i,
                 row
             ))
-        self.FileState.push(DeleteTable(
+        self.CommandStack.push(DeleteTable(
             row,
             self.Entities_Point,
             isRename=True
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def on_action_Delete_Link_triggered(self):
@@ -1130,21 +1139,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         Args = list(self.Entities_Link.rowTexts(row, True))
         Args[2] = ''
-        self.FileState.beginMacro("Delete {{Link: {}}}".format(
+        self.CommandStack.beginMacro("Delete {{Link: {}}}".format(
             self.Entities_Link.item(row, 0).text()
         ))
-        self.FileState.push(EditLinkTable(
+        self.CommandStack.push(EditLinkTable(
             row,
             self.Entities_Link,
             self.Entities_Point,
             Args
         ))
-        self.FileState.push(DeleteTable(
+        self.CommandStack.push(DeleteTable(
             row,
             self.Entities_Link,
             isRename=False
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):
@@ -1267,7 +1276,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for variable in self.get_inputs_variables():
             if name == variable[0]:
                 return
-        self.inputs_variable.addItem(text)
+        self.CommandStack.beginMacro("Add variable of {}".format(name))
+        self.CommandStack.push(AddVariable(text, self.inputs_variable))
+        self.CommandStack.endMacro()
     
     def add_inputs_variables(self,
         variables: Tuple[Tuple[int, str, str]]
@@ -1283,7 +1294,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not row > -1:
             return
         self.inputs_variable_stop.click()
-        self.inputs_variable.takeItem(row)
+        self.CommandStack.beginMacro("Remove variable of Point{}".format(row))
+        self.CommandStack.push(DeleteVariable(row, self.inputs_variable))
+        self.CommandStack.endMacro()
         self.Entities_Point.getBackPosition()
         self.resolve()
     
@@ -1321,8 +1334,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             except AttributeError:
                 links = ''
             #If this is not origin point any more.
+            #TODO: Merge to delete point command.
             if (variable[1] not in links) or (variable[2] not in links):
-                self.inputs_variable.takeItem(i)
+                self.CommandStack.beginMacro("Remove variable of Point{}".format(i))
+                self.CommandStack.push(DeleteVariable(row, self.inputs_variable))
+                self.CommandStack.endMacro()
         self.variableValueReset()
     
     @pyqtSlot(int)
@@ -1431,14 +1447,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def addPath(self, name: str, path: Tuple[Tuple[float, float]]):
         """Add path function."""
-        self.FileState.beginMacro("Add {{Path: {}}}".format(name))
-        self.FileState.push(AddPath(
+        self.CommandStack.beginMacro("Add {{Path: {}}}".format(name))
+        self.CommandStack.push(AddPath(
             self.inputs_record,
             name,
             self.FileWidget.pathData,
             path
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count() - 1)
     
     def loadPaths(self, paths: Tuple[Tuple[Tuple[float, float]]]):
@@ -1452,15 +1468,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.inputs_record.currentRow()
         if not row>-1:
             return
-        self.FileState.beginMacro("Delete {{Path: {}}}".format(
+        self.CommandStack.beginMacro("Delete {{Path: {}}}".format(
             self.inputs_record.item(row).text()
         ))
-        self.FileState.push(DeletePath(
+        self.CommandStack.push(DeletePath(
             row,
             self.inputs_record,
             self.FileWidget.pathData
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count() - 1)
         self.reload_canvas()
     
@@ -1567,7 +1583,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for name in get_from_parenthesis(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
-        self.FileState.beginMacro(
+        self.CommandStack.beginMacro(
             "Merge mechanism kit from {Dimensional Synthesis}"
         )
         tmp_dict = {}
@@ -1584,7 +1600,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             if i==0:
                 self.constrainLink(self.Entities_Link.rowCount()-1)
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
         #Add the path.
         i = 0
         while "Algorithm_path_{}".format(i) in self.FileWidget.pathData:
@@ -1637,14 +1653,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         name = self.mechanism_storage_name_tag.text()
         if not name:
             name = self.mechanism_storage_name_tag.placeholderText()
-        self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
+        self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
         self.addStorage(name, "M[{}]".format(", ".join(
             vpoint.expr for vpoint in self.Entities_Point.data()
         )))
-        self.FileState.push(ClearStorageName(
+        self.CommandStack.push(ClearStorageName(
             self.mechanism_storage_name_tag
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def on_mechanism_storage_copy_clicked(self):
@@ -1690,15 +1706,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def addStorage(self, name, expr, clear=True):
         """Add storage data function."""
-        self.FileState.beginMacro("Add {{Mechanism: {}}}".format(name))
+        self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
         if clear:
             self.storage_clear()
-        self.FileState.push(AddStorage(
+        self.CommandStack.push(AddStorage(
             name,
             self.mechanism_storage,
             expr
         ))
-        self.FileState.endMacro()
+        self.CommandStack.endMacro()
         i = 0
         exprs = []
         for i in range(self.mechanism_storage.count()):
@@ -1715,11 +1731,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.mechanism_storage.currentRow()
         if not row>-1:
             return
-        self.FileState.beginMacro("Delete {{Mechanism: {}}}".format(
+        self.CommandStack.beginMacro("Delete {{Mechanism: {}}}".format(
             self.mechanism_storage.item(row).text()
         ))
-        self.FileState.push(DeleteStorage(row, self.mechanism_storage))
-        self.FileState.endMacro()
+        self.CommandStack.push(DeleteStorage(row, self.mechanism_storage))
+        self.CommandStack.endMacro()
     
     @pyqtSlot(QListWidgetItem)
     def on_mechanism_storage_itemDoubleClicked(self, item):
@@ -1741,20 +1757,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             )
             if reply == QMessageBox.Ok:
                 name = item.text()
-                self.FileState.beginMacro(
+                self.CommandStack.beginMacro(
                     "Restore from {{Mechanism: {}}}".format(name)
                 )
                 self.storage_clear()
                 self.parseExpression(item.expr)
-                self.FileState.push(DeleteStorage(
+                self.CommandStack.push(DeleteStorage(
                     self.mechanism_storage.row(item),
                     self.mechanism_storage
                 ))
-                self.FileState.push(AddStorageName(
+                self.CommandStack.push(AddStorageName(
                     name,
                     self.mechanism_storage_name_tag
                 ))
-                self.FileState.endMacro()
+                self.CommandStack.endMacro()
     
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         """Load storage data from database."""

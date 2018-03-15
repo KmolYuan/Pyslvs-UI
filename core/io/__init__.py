@@ -13,7 +13,8 @@ from .undoRedo import (
     EditPointTable, EditLinkTable,
     AddPath, DeletePath,
     AddStorage, DeleteStorage,
-    AddStorageName, ClearStorageName
+    AddStorageName, ClearStorageName,
+    AddVariable, DeleteVariable,
 )
 from .images import Qt_images
 from .slvsIO import slvs2D
@@ -47,6 +48,8 @@ __all__ = [
     'DeleteStorage',
     'AddStorageName',
     'ClearStorageName',
+    'AddVariable',
+    'DeleteVariable',
     'Qt_images',
     'slvs2D',
     'dxfSketch',

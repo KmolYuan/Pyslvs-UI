@@ -426,3 +426,37 @@ class ClearStorageName(QUndoCommand):
     def undo(self):
         """Set the name text."""
         self.widget.setText(self.name)
+
+class AddVariable(QUndoCommand):
+    
+    """Add a variable to list widget."""
+    
+    def __init__(self, text: str, widget: QListWidget):
+        QUndoCommand.__init__(self)
+        self.item = QListWidgetItem(text)
+        self.widget = widget
+    
+    def redo(self):
+        """Add to widget."""
+        self.widget.addItem(self.item)
+    
+    def undo(self):
+        """Take out the item."""
+        self.widget.takeItem(self.widget.row(self.item))
+
+class DeleteVariable(QUndoCommand):
+    
+    """Remove the variable item."""
+    
+    def __init__(self, row: int, widget: QListWidget):
+        QUndoCommand.__init__(self)
+        self.item = widget.item(row)
+        self.widget = widget
+    
+    def redo(self):
+        """Take out the item."""
+        self.widget.takeItem(self.widget.row(self.item))
+    
+    def undo(self):
+        """Add to widget."""
+        self.widget.addItem(self.item)

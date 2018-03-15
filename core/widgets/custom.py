@@ -281,14 +281,14 @@ def undo_redo(self):
     + Undo view widget.
     + Hot keys.
     """
-    self.FileState.setUndoLimit(self.UndoLimit.value())
-    self.UndoLimit.valueChanged.connect(self.FileState.setUndoLimit)
-    self.FileState.indexChanged.connect(self.commandReload)
-    self.undoView = QUndoView(self.FileState)
+    self.CommandStack.setUndoLimit(self.UndoLimit.value())
+    self.UndoLimit.valueChanged.connect(self.CommandStack.setUndoLimit)
+    self.CommandStack.indexChanged.connect(self.commandReload)
+    self.undoView = QUndoView(self.CommandStack)
     self.undoView.setEmptyLabel("~ Start Pyslvs")
     self.UndoRedoLayout.addWidget(self.undoView)
-    self.action_Redo = self.FileState.createRedoAction(self, "Redo")
-    self.action_Undo = self.FileState.createUndoAction(self, "Undo")
+    self.action_Redo = self.CommandStack.createRedoAction(self, "Redo")
+    self.action_Undo = self.CommandStack.createUndoAction(self, "Undo")
     self.action_Redo.setShortcut("Ctrl+Shift+Z")
     self.action_Redo.setStatusTip("Backtracking undo action.")
     self.action_Redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
