@@ -166,7 +166,7 @@ cdef class build_planar(object):
     cpdef int get_nParm(self):
         return len(self.upper)
     
-    cdef object get_data_dict(self, object v):
+    cdef object get_data_dict(self, np.ndarray v):
         cdef str name, L
         cdef object tmp_dict = {}
         cdef int vi = 0
@@ -201,7 +201,7 @@ cdef class build_planar(object):
         if fun=='PLPP':
             return Coordinate(*PLPP(*params))
     
-    cdef double run(self, object v):
+    cdef double run(self, np.ndarray v):
         """
         v:
         [Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]
@@ -254,18 +254,20 @@ cdef class build_planar(object):
                 fitness += path[k][i].distance(self.target[k][i])
         return fitness
     
-    cpdef object get_coordinates(self, object v):
+    cpdef object get_coordinates(self, np.ndarray v):
+        """Return the last answer."""
         cdef str k
         cdef object e, value
         cdef object final_dict = self.get_data_dict(v)
-        final_dict['a0'] = np.deg2rad(v[self.VARS])
+        for j in range(len(self.Driver_list)):
+            final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
         for e in self.Exp:
             #target
             final_dict[e[1]] = self.from_formula(e, final_dict)
         for k, value in final_dict.items():
-            if type(value)==Coordinate:
+            if type(value) == Coordinate:
                 final_dict[k] = (value.x, value.y)
         return final_dict
     
-    def __call__(self, object v):
+    def __call__(self, np.ndarray v):
         return self.run(v)

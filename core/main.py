@@ -1297,6 +1297,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.inputs_variable.currentRow()
         if not row > -1:
             return
+        reply = QMessageBox.question(self,
+            "Remove variable",
+            "Do you want to remove this variable?"
+        )
+        if reply != QMessageBox.Yes:
+            return
         self.inputs_variable_stop.click()
         self.CommandStack.beginMacro("Remove variable of Point{}".format(row))
         self.CommandStack.push(DeleteVariable(row, self.inputs_variable))
