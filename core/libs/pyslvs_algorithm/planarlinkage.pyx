@@ -246,7 +246,10 @@ cdef class build_planar(object):
         for k in range(len(self.targetPoint)):
             for i in range(self.POINTS):
                 for j in range(self.POINTS):
-                    if path[k][j].distance(self.target[k][i])<path[k][i].distance(self.target[k][i]):
+                    if (
+                        path[k][j].distance(self.target[k][i]) <
+                        path[k][i].distance(self.target[k][i])
+                    ):
                         path[k][i], path[k][j] = path[k][j], path[k][i]
         #sum the fitness
         for k in range(len(self.targetPoint)):
@@ -267,6 +270,10 @@ cdef class build_planar(object):
         for k, value in final_dict.items():
             if type(value) == Coordinate:
                 final_dict[k] = (value.x, value.y)
+        for i in range(self.POINTS):
+            final_dict['a{}'.format(j)] = []
+            for j in range(len(self.Driver_list)):
+                final_dict['a{}'.format(j)].append(np.deg2rad(v[self.VARS + i*len(self.Driver_list) + j]))
         return final_dict
     
     def __call__(self, np.ndarray v):
