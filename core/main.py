@@ -715,24 +715,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Add a point (fixed)."""
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
     
-    def addPoint(self, x, y, fixed=False, color=None) -> int:
+    def addPoint(self,
+        x: float,
+        y: float,
+        fixed: bool =False,
+        color: str =None
+    ) -> int:
         """Add an ordinary point.
         Return the row count of new point.
         """
         rowCount = self.Entities_Point.rowCount()
+        if fixed:
+            links = 'ground'
+            if color is None:
+                color = 'Blue'
+        else:
+            links = ''
+            if color is None:
+                color = 'Green'
         self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
         self.CommandStack.push(AddTable(self.Entities_Point))
         self.CommandStack.push(EditPointTable(
             rowCount,
             self.Entities_Point,
             self.Entities_Link,
-            [
-                'ground' if fixed else '',
-                'R',
-                color if color else ('Blue' if fixed else 'Green'),
-                x,
-                y
-            ]
+            [links, 'R', color, x, y]
         ))
         self.CommandStack.endMacro()
         return rowCount
@@ -1139,7 +1146,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         Remove link will not remove the points.
         """
-        if not row>0:
+        if not row > 0:
             return
         Args = list(self.Entities_Link.rowTexts(row, True))
         Args[2] = ''
@@ -1222,7 +1229,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_points_currentRowChanged(self, row: int):
         """Change the point row from input widget."""
         self.inputs_baseLinks.clear()
-        if not row>-1:
+        if not row > -1:
             return
         if row not in self.Entities_Point.selectedRows():
             self.Entities_Point.setSelections((row,), False)
@@ -1235,7 +1242,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_inputs_baseLinks_currentRowChanged(self, row: int):
         """Set the drive links from base link."""
         self.inputs_driveLinks.clear()
-        if not row>-1:
+        if not row > -1:
             return
         inputs_point = self.inputs_points.currentRow()
         linkNames = self.Entities_Point.item(inputs_point, 1).text().split(',')
@@ -1247,7 +1254,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_inputs_driveLinks_currentRowChanged(self, row: int):
         """Set enable of 'add variable' button."""
-        if not row>-1:
+        if not row > -1:
             self.inputs_variable_add.setEnabled(False)
             return
         typeText = self.inputs_points.currentItem().text().split(" ")[0]
@@ -1501,19 +1508,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             (QMessageBox.Save | QMessageBox.Close),
             QMessageBox.Close
         )
-        if reply == QMessageBox.Save:
-            fileName = self.outputTo(
-                "path data",
-                ["Comma-Separated Values (*.csv)", "Text file (*.txt)"]
-            )
-            if fileName:
-                with open(fileName, 'w', newline='') as stream:
-                    writer = csv.writer(stream)
-                    for point in data:
-                        for coordinate in point:
-                            writer.writerow(coordinate)
-                        writer.writerow(())
-                print("Output path data: {}".format(fileName))
+        if reply != QMessageBox.Save:
+            return
+        fileName = self.outputTo(
+            "path data",
+            ["Comma-Separated Values (*.csv)", "Text file (*.txt)"]
+        )
+        if not fileName:
+            return
+        with open(fileName, 'w', newline='') as stream:
+            writer = csv.writer(stream)
+            for point in data:
+                for coordinate in point:
+                    writer.writerow(coordinate)
+                writer.writerow(())
+        print("Output path data: {}".format(fileName))
     
     @pyqtSlot(QPoint)
     def on_inputs_record_context_menu(self, point):
@@ -1755,30 +1764,30 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Restore the storage data."""
         if item is None:
             item = self.mechanism_storage.currentItem()
-        if item:
-            reply = QMessageBox.question(self,
-                "Storage",
-                "Restore mechanism will overwrite the canvas." +
-                "\nDo you want to continue?",
-                (QMessageBox.Ok | QMessageBox.Cancel),
-                QMessageBox.Ok
-            )
-            if reply == QMessageBox.Ok:
-                name = item.text()
-                self.CommandStack.beginMacro(
-                    "Restore from {{Mechanism: {}}}".format(name)
-                )
-                self.storage_clear()
-                self.parseExpression(item.expr)
-                self.CommandStack.push(DeleteStorage(
-                    self.mechanism_storage.row(item),
-                    self.mechanism_storage
-                ))
-                self.CommandStack.push(AddStorageName(
-                    name,
-                    self.mechanism_storage_name_tag
-                ))
-                self.CommandStack.endMacro()
+        if not item:
+            return
+        reply = QMessageBox.question(self,
+            "Storage",
+            "Restore mechanism will overwrite the canvas." +
+            "\nDo you want to continue?"
+        )
+        if reply != QMessageBox.Yes:
+            return
+        name = item.text()
+        self.CommandStack.beginMacro(
+            "Restore from {{Mechanism: {}}}".format(name)
+        )
+        self.storage_clear()
+        self.parseExpression(item.expr)
+        self.CommandStack.push(DeleteStorage(
+            self.mechanism_storage.row(item),
+            self.mechanism_storage
+        ))
+        self.CommandStack.push(AddStorageName(
+            name,
+            self.mechanism_storage_name_tag
+        ))
+        self.CommandStack.endMacro()
     
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         """Load storage data from database."""
