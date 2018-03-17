@@ -15,8 +15,6 @@ from core.QtModules import (
     QIcon,
     QPixmap,
     QPushButton,
-    QDial,
-    QTimer,
     QUndoView,
 )
 from core.info import VERSION
@@ -32,13 +30,37 @@ from .table import (
     LinkTableWidget,
     SelectionLabel
 )
-from .rotatable import RotatableView
+from .inputs import InputsWidget
 
 def initCustomWidgets(self):
     """Start up custom widgets."""
-    appearance(self)
     undo_redo(self)
+    appearance(self)
     context_menu(self)
+
+def undo_redo(self):
+    """Undo list settings.
+    
+    + Undo stack.
+    + Undo view widget.
+    + Hot keys.
+    """
+    self.CommandStack.setUndoLimit(self.UndoLimit.value())
+    self.UndoLimit.valueChanged.connect(self.CommandStack.setUndoLimit)
+    self.CommandStack.indexChanged.connect(self.commandReload)
+    self.undoView = QUndoView(self.CommandStack)
+    self.undoView.setEmptyLabel("~ Start Pyslvs")
+    self.UndoRedoLayout.addWidget(self.undoView)
+    self.action_Redo = self.CommandStack.createRedoAction(self, "Redo")
+    self.action_Undo = self.CommandStack.createUndoAction(self, "Undo")
+    self.action_Redo.setShortcut("Ctrl+Shift+Z")
+    self.action_Redo.setStatusTip("Backtracking undo action.")
+    self.action_Redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
+    self.action_Undo.setShortcut("Ctrl+Z")
+    self.action_Undo.setStatusTip("Recover last action.")
+    self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
+    self.menu_Edit.addAction(self.action_Undo)
+    self.menu_Edit.addAction(self.action_Redo)
 
 def appearance(self):
     """Start up and initialize custom widgets."""
@@ -69,21 +91,14 @@ def appearance(self):
     self.statusBar.addPermanentWidget(selectionLabel)
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
-    self.FreeMoveMode.toggled.connect(self.variableValueReset)
     self.DynamicCanvasView.mouse_getSelection.connect(
         self.Entities_Point.setSelections
-    )
-    self.DynamicCanvasView.mouse_getSelection.connect(
-        self.inputs_points_setSelection
     )
     self.DynamicCanvasView.mouse_freemoveSelection.connect(
         self.freemove_setCoordinate
     )
     self.DynamicCanvasView.mouse_noSelection.connect(
         self.Entities_Point.clearSelection
-    )
-    self.DynamicCanvasView.mouse_noSelection.connect(
-        self.inputs_points_clearSelection
     )
     CleanSelectionAction = QAction("Clean selection", self)
     CleanSelectionAction.triggered.connect(self.Entities_Point.clearSelection)
@@ -134,7 +149,17 @@ def appearance(self):
         self.on_action_Save_branch_triggered
     )
     self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
-    #Number and type synthesis
+    #Inputs widget.
+    self.InputsWidget = InputsWidget(self)
+    self.inputs_tab_layout.addWidget(self.InputsWidget)
+    self.FreeMoveMode.toggled.connect(self.InputsWidget.variableValueReset)
+    self.DynamicCanvasView.mouse_getSelection.connect(
+        self.InputsWidget.inputs_points_setSelection
+    )
+    self.DynamicCanvasView.mouse_noSelection.connect(
+        self.InputsWidget.inputs_points_clearSelection
+    )
+    #Number and type synthesis.
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
     self.SynthesisTab.addTab(
         self.NumberAndTypeSynthesis,
@@ -157,9 +182,10 @@ def appearance(self):
     self.FileWidget.TriangleDataFunc = (
         self.CollectionTabPage.TriangleDataFunc
     ) #Call to get triangle data.
-    self.FileWidget.InputsDataFunc = (
-        lambda: tuple(variable[:-1] for variable in self.get_inputs_variables())
-    ) #Call to get inputs variables data.
+    self.FileWidget.InputsDataFunc = (lambda: tuple(
+        variable[:-1]
+        for variable in self.InputsWidget.get_inputs_variables()
+    )) #Call to get inputs variables data.
     self.FileWidget.loadCollectFunc = (
         self.CollectionTabPage.CollectionsStructure.addCollections
     ) #Call to load collections data.
@@ -167,8 +193,14 @@ def appearance(self):
         self.CollectionTabPage.CollectionsTriangularIteration.addCollections
     ) #Call to load triangle data.
     self.FileWidget.loadInputsFunc = (
-        self.add_inputs_variables
+        self.InputsWidget.add_inputs_variables
     ) #Call to load inputs variables data.
+    self.FileWidget.loadPathFunc = (
+        self.InputsWidget.loadPaths
+    ) #Call after loaded paths.
+    self.FileWidget.pathDataFunc = (
+        lambda: self.InputsWidget.pathData
+    ) #Call to get path data.
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(
@@ -208,15 +240,6 @@ def appearance(self):
     SelectAllAction.setShortcut("Ctrl+A")
     SelectAllAction.setShortcutContext(Qt.WindowShortcut)
     self.addAction(SelectAllAction)
-    #Add inputs QDial.
-    self.inputs_Degree = QDial()
-    self.inputs_Degree.setEnabled(False)
-    self.inputs_Degree.valueChanged.connect(self.variableValueUpdate)
-    self.inputs_dial_layout.addWidget(RotatableView(self.inputs_Degree))
-    self.inputs_playShaft = QTimer(self)
-    self.inputs_playShaft.setInterval(10)
-    self.inputs_playShaft.timeout.connect(self.inputs_change_index)
-    self.inputs_variable_stop.clicked.connect(self.variableValueReset)
     #While value change, update the canvas widget.
     self.Entities_Point.rowSelectionChanged.connect(
         self.DynamicCanvasView.changePointsSelection
@@ -273,30 +296,6 @@ def appearance(self):
     action.triggered.connect(self.zoom_customize)
     Zoom_menu.addAction(action)
     self.ZoomText.setMenu(Zoom_menu)
-
-def undo_redo(self):
-    """Undo list settings.
-    
-    + Undo stack.
-    + Undo view widget.
-    + Hot keys.
-    """
-    self.CommandStack.setUndoLimit(self.UndoLimit.value())
-    self.UndoLimit.valueChanged.connect(self.CommandStack.setUndoLimit)
-    self.CommandStack.indexChanged.connect(self.commandReload)
-    self.undoView = QUndoView(self.CommandStack)
-    self.undoView.setEmptyLabel("~ Start Pyslvs")
-    self.UndoRedoLayout.addWidget(self.undoView)
-    self.action_Redo = self.CommandStack.createRedoAction(self, "Redo")
-    self.action_Undo = self.CommandStack.createUndoAction(self, "Undo")
-    self.action_Redo.setShortcut("Ctrl+Shift+Z")
-    self.action_Redo.setStatusTip("Backtracking undo action.")
-    self.action_Redo.setIcon(QIcon(QPixmap(":/icons/redo.png")))
-    self.action_Undo.setShortcut("Ctrl+Z")
-    self.action_Undo.setStatusTip("Recover last action.")
-    self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
-    self.menu_Edit.addAction(self.action_Undo)
-    self.menu_Edit.addAction(self.action_Redo)
 
 def context_menu(self):
     '''Entities_Point context menu
@@ -432,12 +431,3 @@ def context_menu(self):
     self.popMenu_canvas.addAction(self.action_point_context_copyPoint)
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_context_delete)
-    '''Inputs record context menu
-    
-    + Copy data from Point{}
-    + ...
-    '''
-    self.inputs_record.customContextMenuRequested.connect(
-        self.on_inputs_record_context_menu
-    )
-    self.popMenu_inputs_record = QMenu(self)

@@ -170,7 +170,6 @@ class FileWidget(QWidget, Ui_Form):
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
         self.loadStorageFunc = parent.loadStorage
-        self.loadPathFunc = parent.loadPaths
         """Mentioned in 'core.widgets.custom',
         because DimensionalSynthesis created after FileWidget.
         
@@ -178,10 +177,12 @@ class FileWidget(QWidget, Ui_Form):
         self.TriangleDataFunc #Call to get triangle data.
         self.InputsDataFunc #Call to get inputs variables data.
         self.AlgorithmDataFunc #Call to get algorithm data.
+        self.pathDataFunc #Call to get path data.
         self.loadCollectFunc #Call to load collections data.
         self.loadTriangleFunc #Call to load triangle data.
         self.loadInputsFunc #Call to load inputs variables data.
         self.loadAlgorithmFunc #Call after loaded algorithm results.
+        self.loadPathFunc #Call after loaded paths.
         """
         #Close database when destroyed.
         self.destroyed.connect(self.colseDatabase)
@@ -194,7 +195,6 @@ class FileWidget(QWidget, Ui_Form):
         """Clear all the things that dependent on database."""
         #peewee Quary(CommitModel) type
         self.history_commit = None
-        self.pathData = {}
         self.Script = ""
         self.fileName = QFileInfo("Untitled")
         self.lastTime = datetime.datetime.now()
@@ -297,7 +297,7 @@ class FileWidget(QWidget, Ui_Form):
                 ))),
                 'linkcolor': compress(linkcolor),
                 'storage': compress(self.storageDataFunc()),
-                'pathdata': compress(self.pathData),
+                'pathdata': compress(self.pathDataFunc()),
                 'collectiondata': compress(self.CollectDataFunc()),
                 'triangledata': compress(self.TriangleDataFunc()),
                 'inputsdata': compress(self.InputsDataFunc()),
