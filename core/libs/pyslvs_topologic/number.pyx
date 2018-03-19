@@ -40,11 +40,12 @@ cpdef object NumberSynthesis(int NL, int NJ):
         if NLMmax < 0:
             continue
         answer = symbols + (NLMmax,)
-        if sum_factors(answer, len(answer)) == 2*NJ:
+        if sum_factors(answer) == 2*NJ:
             result.append(answer)
     return tuple(result)
 
-cdef int sum_factors(object factors, int index):
-    if index == 0:
-        return 0
-    return (index + 1)*factors[index - 1] + sum_factors(factors, index - 1)
+cdef int sum_factors(object factors):
+    cdef int factor = 0
+    for i, f in enumerate(factors):
+        factor += f*(i + 2)
+    return factor

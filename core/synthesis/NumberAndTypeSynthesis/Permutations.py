@@ -57,13 +57,25 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(2)
         self.graph_link_as_node.clicked.connect(self.on_reload_atlas_clicked)
-        self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
-        self.Topologic_result.customContextMenuRequested.connect(self.Topologic_result_context_menu)
+        self.graph_engine.currentIndexChanged.connect(
+            self.on_reload_atlas_clicked
+        )
+        self.Topologic_result.customContextMenuRequested.connect(
+            self.Topologic_result_context_menu
+        )
         self.popMenu_topo = QMenu(self)
-        self.add_collection = QAction(QIcon(QPixmap(":/icons/collections.png")), "Add to collections", self)
+        self.add_collection = QAction(
+            QIcon(QPixmap(":/icons/collections.png")),
+            "Add to collections",
+            self
+        )
         self.copy_edges = QAction("Copy edges", self)
         self.copy_image = QAction("Copy image", self)
-        self.popMenu_topo.addActions([self.add_collection, self.copy_edges, self.copy_image])
+        self.popMenu_topo.addActions([
+            self.add_collection,
+            self.copy_edges,
+            self.copy_image
+        ])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
     
@@ -83,16 +95,22 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         if jointData and linkData:
-            self.Expression_edges.setText(str(list(v_to_graph(jointData, linkData).edges)))
+            self.Expression_edges.setText(str(v_to_graph(jointData, linkData)))
         else:
             self.Expression_edges.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
         self.keep_dof.setChecked(False)
         self.NL_input.setValue(
             sum(len(vlink.points)>1 for vlink in linkData)+
-            sum(len(vpoint.links)-1 for vpoint in jointData if vpoint.type==2 and len(vpoint.links)>1)
+            sum(
+                len(vpoint.links)-1 for vpoint in jointData
+                if (vpoint.type == 2) and (len(vpoint.links) > 1)
+            )
         )
-        self.NJ_input.setValue(sum((len(vpoint.links)-1 + int(vpoint.type==2)) for vpoint in jointData if len(vpoint.links)>1))
+        self.NJ_input.setValue(sum(
+            (len(vpoint.links)-1 + int(vpoint.type == 2))
+            for vpoint in jointData if len(vpoint.links)>1
+        ))
         self.keep_dof.setChecked(keep_dof_checked)
     
     def adjust_NJ_NL_dof(self):
@@ -197,7 +215,13 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
     def combineType(self, row: int):
         """Combine and show progress dialog."""
         item = self.Expression_number.item(row)
-        progdlg = QProgressDialog("Analysis of the topology...", "Cancel", 0, 100, self)
+        progdlg = QProgressDialog(
+            "Analysis of the topology...",
+            "Cancel",
+            0,
+            100,
+            self
+        )
         progdlg.setWindowTitle("Type synthesis - ({})".format(item.text()))
         progdlg.setMinimumSize(QSize(500, 120))
         progdlg.setModal(True)
@@ -211,9 +235,13 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             progdlg.setLabelText(job)
             progdlg.setValue(0)
             progdlg.setMaximum(maximum+1)
-        answer, time = topo(item.links, not self.graph_degenerate.isChecked(), setjobFunc, stopFunc)
+        answer, time = topo(
+            item.links,
+            not self.graph_degenerate.isChecked(),
+            setjobFunc,
+            stopFunc
+        )
         progdlg.setValue(progdlg.maximum())
-        print("Type synthesis {} {:.04f} [s].".format("find in" if answer else "break at", time))
         if answer:
             return [Graph(G.edges) for G in answer]
     
@@ -224,7 +252,13 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()
         if self.answer:
-            progdlg = QProgressDialog("Drawing atlas...", "Cancel", 0, len(self.answer), self)
+            progdlg = QProgressDialog(
+                "Drawing atlas...",
+                "Cancel",
+                0,
+                len(self.answer),
+                self
+            )
             progdlg.setWindowTitle("Type synthesis")
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)

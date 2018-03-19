@@ -10,7 +10,7 @@ __email__ = "pyslvs@gmail.com"
 from math import sqrt, degrees, atan2
 from networkx import Graph
 from core.graphics import colorQt
-from typing import Tuple
+from typing import Tuple, List
 
 class VPoint:
     
@@ -186,7 +186,10 @@ class VLink:
     def __repr__(self):
         return "VLink('{l.name}', {l.points})".format(l=self)
 
-def v_to_graph(jointData: Tuple[VPoint], linkData: Tuple[VLink]):
+def v_to_graph(
+    jointData: Tuple[VPoint],
+    linkData: Tuple[VLink]
+) -> List[Tuple[int, int]]:
     """Get generalization chain."""
     G = Graph()
     #Links name for RP joint.
@@ -208,9 +211,12 @@ def v_to_graph(jointData: Tuple[VPoint], linkData: Tuple[VLink]):
                 else:
                     G.add_edge(i, m)
             used_point.append(p)
-    return G
+    return list(G.edges)
 
-def v_to_slvs(jointData: Tuple[VPoint], linkData: Tuple[VLink]):
+def v_to_slvs(
+    jointData: Tuple[VPoint],
+    linkData: Tuple[VLink]
+) -> Tuple[Tuple[int, int]]:
     """Solvespace edges."""
     edges = []
     for vlink in linkData:

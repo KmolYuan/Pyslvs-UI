@@ -34,8 +34,13 @@ from core.io import (
     EditPointTable, EditLinkTable,
     AddStorage, DeleteStorage,
     AddStorageName, ClearStorageName,
-    Qt_images, slvs2D, dxfSketch, XStream,
-    PMKS_parser, PMKSArgsTransformer, get_from_parenthesis
+    Qt_images,
+    slvs2D,
+    dxfSketch,
+    XStream,
+    PMKS_parser,
+    PMKSArgsTransformer,
+    get_from_parenthesis,
 )
 from core.widgets import initCustomWidgets
 from core.entities import edit_point_show, edit_link_show

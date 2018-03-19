@@ -55,6 +55,16 @@ cdef class Graph(object):
                 neighbors.append(l1)
         return tuple(neighbors)
     
+    cpdef Graph compose(self, Graph H):
+        """edges: ((l1, l2), ...)"""
+        cdef object tmp_edges = list(self.edges)
+        cdef int l1, l2
+        for l1, l2 in H.edges:
+            if ((l1, l2) in tmp_edges) or ((l2, l1) in tmp_edges):
+                continue
+            tmp_edges.append((l1, l2))
+        return Graph(tmp_edges)
+    
     cpdef bool has_triangles(self):
         cdef int i, n1, n2
         cdef object neighbors1, neighbors2
@@ -77,6 +87,10 @@ cdef class Graph(object):
             index += 1
         return len(nodes)==len(self.nodes)
     
+    cpdef bool is_isomorphic(self, Graph H):
+        cdef GraphMatcher GM_GH = GraphMatcher(self, H)
+        return GM_GH.is_isomorphic()
+    
     cpdef object degree(self):
         return [(n, len(neighbors)) for n, neighbors in self.adj.items()]
     
@@ -87,9 +101,6 @@ cdef class Graph(object):
     
     def __len__(self):
         return len(self.nodes)
-
-#Declared GMState.
-cdef class GMState
 
 cdef class GraphMatcher(object):
     
@@ -394,17 +405,13 @@ cdef object compose(Graph G, Graph H):
         tmp_edges.append((l1, l2))
     return Graph(tmp_edges)
 
-cdef bool is_isomorphic(Graph G, Graph H):
-    cdef GraphMatcher GM_GH = GraphMatcher(G, H)
-    return GM_GH.is_isomorphic()
-
 cdef bool verify(Graph G, object answer):
     if not G.is_connected():
         #is not connected
         return True
     cdef Graph H
     for H in answer:
-        if is_isomorphic(G, H):
+        if G.is_isomorphic(H):
             #is isomorphic
             return True
     return False
@@ -443,7 +450,7 @@ cpdef topo(
     #ALL results.
     cdef object edges_combinations = []
     cdef int link, count, n
-    cdef object match, matched
+    cdef object match, matched, m
     cdef Graph G, H
     cdef GraphMatcher GM_GH
     cdef bool error
@@ -461,11 +468,11 @@ cpdef topo(
         for G, H in product(edges_combinations, match):
             if stopFunc and stopFunc():
                 return None, time()-t0
-            G = compose(G, H)
+            G = G.compose(H)
             #Out of limit.
             error = False
             for n in G.nodes:
-                if len(G.neighbors(n))>links[n]:
+                if len(G.neighbors(n)) > links[n]:
                     error = True
                     break
             if error:
