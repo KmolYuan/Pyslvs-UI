@@ -396,15 +396,6 @@ cdef class GMState(object):
                 if vector[node] == self.depth:
                     del vector[node]
 
-cdef object compose(Graph G, Graph H):
-    cdef object tmp_edges = list(G.edges)
-    cdef int l1, l2
-    for l1, l2 in H.edges:
-        if ((l1, l2) in tmp_edges) or ((l2, l1) in tmp_edges):
-            continue
-        tmp_edges.append((l1, l2))
-    return Graph(tmp_edges)
-
 cdef bool verify(Graph G, object answer):
     if not G.is_connected():
         #is not connected

@@ -617,7 +617,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         """Clear the solutions. Return true if success."""
         if not self.Expression_list.count():
             return True
-        reply = QMessageBox.information(self,
+        reply = QMessageBox.question(self,
             "Clear the solutions",
             "Are you sure to clear the solutions?"
         )
