@@ -78,6 +78,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         ])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
+        self.clear()
     
     def clear(self):
         """Clear all sub-widgets."""
@@ -87,6 +88,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.Topologic_result.clear()
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
+        self.NL_input_old_value = 0
+        self.NJ_input_old_value = 0
         self.DOF.setValue(1)
     
     @pyqtSlot()
@@ -114,31 +117,53 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.keep_dof.setChecked(keep_dof_checked)
     
     def adjust_NJ_NL_dof(self):
-        """Update NJ and NL values."""
+        """Update NJ and NL values.
+        
+        If user don't want to keep the DOF:
+        Change DOF and exit.
+        """
         if not self.keep_dof.isChecked():
             self.DOF.setValue(
                 3 * (self.NL_input.value() - 1) -
                 2 * self.NJ_input.value()
             )
             return
+        """Prepare the input value.
+        
+        + N2: Get the user's adjusted value.
+        + NL_func: Get the another value of parameters (N1) by
+            degrees of freedom formula.
+        + is_above: Is value increase or decrease?
+        """
         if self.sender() == self.NJ_input:
             N2 = self.NJ_input.value()
             NL_func = lambda: float(((self.DOF.value() + 2*N2) / 3) + 1)
+            is_above = N2 > self.NJ_input_old_value
         else:
             N2 = self.NL_input.value()
             NL_func = lambda: float((3*(N2-1) - self.DOF.value()) / 2)
+            is_above = N2 > self.NL_input_old_value
         N1 = NL_func()
         while not N1.is_integer():
-            N2 += 1
+            N2 += 1 if is_above else -1
             N1 = NL_func()
-            if N2 == 0:
+            if (N1 == 0) or (N2 == 0):
                 break
-        if self.sender() == self.NJ_input:
-            self.NJ_input.setValue(N2)
-            self.NL_input.setValue(N1)
-        else:
+        """Return the result values.
+        
+        + Value of widgets.
+        + Setting old value record.
+        """
+        if self.sender() == self.NL_input:
             self.NJ_input.setValue(N1)
             self.NL_input.setValue(N2)
+            self.NJ_input_old_value = N1
+            self.NL_input_old_value = N2
+        else:
+            self.NJ_input.setValue(N2)
+            self.NL_input.setValue(N1)
+            self.NJ_input_old_value = N2
+            self.NL_input_old_value = N1
     
     @pyqtSlot()
     def on_Combine_number_clicked(self):
