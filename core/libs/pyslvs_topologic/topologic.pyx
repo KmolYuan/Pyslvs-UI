@@ -74,14 +74,14 @@ cdef class Graph(object):
         return False
     
     cpdef bool has_triangles(self):
-        cdef int i, n1, n2
-        cdef object neighbors1, neighbors2
-        for neighbors1 in self.adj.values():
-            for n1, n2 in combinations(neighbors1, 2):
-                for n, neighbors2 in self.adj.items():
-                    if n1==n and (n2 in neighbors2):
-                        return True
-                    if n2==n and (n1 in neighbors2):
+        cdef int n1, n2
+        cdef object neighbors
+        for neighbors in self.adj.values():
+            for n1 in neighbors:
+                for n2 in neighbors:
+                    if n1 == n2:
+                        continue
+                    if n1 in self.adj[n2]:
                         return True
         return False
     
@@ -411,7 +411,6 @@ cdef bool verify(Graph G, object answer):
     cdef Graph H
     for H in answer:
         if G.is_isomorphic(H):
-            #is isomorphic
             return True
     return False
 
@@ -452,7 +451,6 @@ cpdef topo(
     cdef object match, matched, m
     cdef Graph G, H
     cdef GraphMatcher GM_GH
-    cdef bool error
     for link, count in enumerate(links):
         match = [Graph(m) for m in combinations(connection_get(link, connection), count)]
         if not edges_combinations:
