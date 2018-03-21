@@ -353,6 +353,16 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
+          <widget class="QLabel" name="time_title_label">
+           <property name="text">
+            <string>Find in:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="time_label"/>
+         </item>
+         <item>
           <spacer name="horizontalSpacer_3">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>

@@ -43,9 +43,10 @@ cdef class Graph(object):
         self.nodes = tuple(nodes)
         #adj
         cdef int n
-        self.adj = {n:self.neighbors(n) for n in self.nodes}
+        self.adj = {n: self.neighbors(n) for n in self.nodes}
     
     cpdef object neighbors(self, int n):
+        """Neighbors except the node."""
         cdef object neighbors = []
         cdef int l1, l2
         for l1, l2 in self.edges:
@@ -485,5 +486,4 @@ cpdef topo(
         if verify(G, answer):
             continue
         answer.append(G)
-    
     return answer, time()-t0

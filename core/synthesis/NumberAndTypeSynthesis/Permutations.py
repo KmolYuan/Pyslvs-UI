@@ -86,6 +86,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.Expression_edges.clear()
         self.Expression_number.clear()
         self.Topologic_result.clear()
+        self.time_label.setText("")
         self.NL_input.setValue(0)
         self.NJ_input.setValue(0)
         self.NL_input_old_value = 0
@@ -266,6 +267,10 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             setjobFunc,
             stopFunc
         )
+        self.time_label.setText("{}:{:.2f}".format(
+            int(time // 60),
+            time % 60
+        ))
         progdlg.setValue(progdlg.maximum())
         if answer:
             return [Graph(G.edges) for G in answer]

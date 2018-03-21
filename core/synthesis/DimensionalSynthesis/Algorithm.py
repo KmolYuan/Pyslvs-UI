@@ -400,13 +400,11 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         print("Finished.")
     
-    def setTime(self, time_spand: int):
+    def setTime(self, time: float):
         """Set the time label."""
-        sec = round(time_spand % 60, 2)
-        mins = int(time_spand / 60)
         self.timeShow.setText(
-            "<html><head/><body><p><span style=\"font-size:16pt\">"+
-            "{}[min] {:.02f}[s]".format(mins, sec)+
+            "<html><head/><body><p><span style=\"font-size:16pt\">" +
+            "{}[min] {:.02f}[s]".format(int(time // 60), time % 60) +
             "</span></p></body></html>"
         )
     
