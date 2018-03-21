@@ -65,6 +65,13 @@ cdef class Graph(object):
             tmp_edges.append((l1, l2))
         return Graph(tmp_edges)
     
+    cpdef bool out_of_limit(self, np.ndarray limit):
+        cdef int n
+        for n in self.adj:
+            if len(self.adj[n]) > limit[n]:
+                return True
+        return False
+    
     cpdef bool has_triangles(self):
         cdef int i, n1, n2
         cdef object neighbors1, neighbors2
@@ -461,12 +468,7 @@ cpdef topo(
                 return None, time()-t0
             G = G.compose(H)
             #Out of limit.
-            error = False
-            for n in G.nodes:
-                if len(G.neighbors(n)) > links[n]:
-                    error = True
-                    break
-            if error:
+            if G.out_of_limit(links):
                 continue
             #Has triangles.
             if degenerate and G.has_triangles():
