@@ -45,7 +45,7 @@ cdef class Graph(object):
         cdef int n
         self.adj = {n: self.neighbors(n) for n in self.nodes}
     
-    cpdef object neighbors(self, int n):
+    cdef object neighbors(self, int n):
         """Neighbors except the node."""
         cdef object neighbors = []
         cdef int l1, l2
@@ -274,15 +274,15 @@ cdef class GraphMatcher(object):
         # node m' is a neighbor of m, and vice versa. Also, the number of
         # edges must be equal.
         cdef object neighbor
-        for neighbor in self.G1.neighbors(G1_node):
+        for neighbor in self.G1.adj[G1_node]:
             if neighbor in self.core_1:
-                if not (self.core_1[neighbor] in self.G2.neighbors(G2_node)):
+                if not (self.core_1[neighbor] in self.G2.adj[G2_node]):
                     return False
                 elif self.G1.number_of_edges(neighbor, G1_node)!=self.G2.number_of_edges(self.core_1[neighbor], G2_node):
                     return False
-        for neighbor in self.G2.neighbors(G2_node):
+        for neighbor in self.G2.adj[G2_node]:
             if neighbor in self.core_2:
-                if not (self.core_2[neighbor] in self.G1.neighbors(G1_node)):
+                if not (self.core_2[neighbor] in self.G1.adj[G1_node]):
                     return False
                 elif self.G1.number_of_edges(self.core_2[neighbor], G1_node) != self.G2.number_of_edges(neighbor, G2_node):
                     return False
@@ -292,11 +292,11 @@ cdef class GraphMatcher(object):
         # The number of neighbors of n that are in T_1^{inout} is equal to the
         # number of neighbors of m that are in T_2^{inout}, and vice versa.
         cdef int num1 = 0
-        for neighbor in self.G1.neighbors(G1_node):
+        for neighbor in self.G1.adj[G1_node]:
             if (neighbor in self.inout_1) and (neighbor not in self.core_1):
                 num1 += 1
         cdef int num2 = 0
-        for neighbor in self.G2.neighbors(G2_node):
+        for neighbor in self.G2.adj[G2_node]:
             if (neighbor in self.inout_2) and (neighbor not in self.core_2):
                 num2 += 1
         if not (num1 == num2):
@@ -308,11 +308,11 @@ cdef class GraphMatcher(object):
         # T_1^{inout} is equal to the number of neighbors of m
         # that are neither in core_2 nor T_2^{inout}.
         num1 = 0
-        for neighbor in self.G1.neighbors(G1_node):
+        for neighbor in self.G1.adj[G1_node]:
             if neighbor not in self.inout_1:
                 num1 += 1
         num2 = 0
-        for neighbor in self.G2.neighbors(G2_node):
+        for neighbor in self.G2.adj[G2_node]:
             if neighbor not in self.inout_2:
                 num2 += 1
         if not (num1 == num2):
@@ -374,7 +374,7 @@ cdef class GMState(object):
             # Updates for T_1^{inout}
             new_nodes = set([])
             for node in GM.core_1:
-                new_nodes.update([neighbor for neighbor in GM.G1.neighbors(node) if neighbor not in GM.core_1])
+                new_nodes.update([neighbor for neighbor in GM.G1.adj[node] if neighbor not in GM.core_1])
             for node in new_nodes:
                 if node not in GM.inout_1:
                     GM.inout_1[node] = self.depth
@@ -382,7 +382,7 @@ cdef class GMState(object):
             # Updates for T_2^{inout}
             new_nodes = set([])
             for node in GM.core_2:
-                new_nodes.update([neighbor for neighbor in GM.G2.neighbors(node) if neighbor not in GM.core_2])
+                new_nodes.update([neighbor for neighbor in GM.G2.adj[node] if neighbor not in GM.core_2])
             for node in new_nodes:
                 if node not in GM.inout_2:
                     GM.inout_2[node] = self.depth

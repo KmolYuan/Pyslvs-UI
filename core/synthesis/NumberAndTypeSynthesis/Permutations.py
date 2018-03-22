@@ -267,7 +267,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             setjobFunc,
             stopFunc
         )
-        self.time_label.setText("{}:{:.2f}".format(
+        self.time_label.setText("{}[min] {:.2f}[s]".format(
             int(time // 60),
             time % 60
         ))
