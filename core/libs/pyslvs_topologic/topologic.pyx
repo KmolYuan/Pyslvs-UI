@@ -106,9 +106,6 @@ cdef class Graph(object):
         if v in self.adj[u]:
             return 1
         return 0
-    
-    def __len__(self):
-        return len(self.nodes)
 
 cdef class GraphMatcher(object):
     
@@ -136,7 +133,7 @@ cdef class GraphMatcher(object):
         
         # Set recursion limit.
         cdef int old_recursion_limit = sys.getrecursionlimit()
-        cdef int expected_max_recursion_level = len(self.G2)
+        cdef int expected_max_recursion_level = len(self.G2.nodes)
         if old_recursion_limit < 1.5 * expected_max_recursion_level:
             # Give some breathing room.
             sys.setrecursionlimit(int(1.5 * expected_max_recursion_level))
@@ -201,7 +198,7 @@ cdef class GraphMatcher(object):
         # For now, I just copy the code.
         
         # Check global properties
-        if len(self.G1)!=len(self.G2):
+        if len(self.G1.nodes) != len(self.G2.nodes):
             return False
         
         # Check local properties
@@ -227,7 +224,7 @@ cdef class GraphMatcher(object):
         cdef int G1_node, G2_node
         cdef GMState newstate
         cdef object mapping
-        if len(self.core_1) == len(self.G2):
+        if len(self.core_1) == len(self.G2.nodes):
             # Save the final mapping, otherwise garbage collection deletes it.
             self.mapping = self.core_1.copy()
             # The mapping is complete.
@@ -277,7 +274,7 @@ cdef class GraphMatcher(object):
             if neighbor in self.core_1:
                 if not (self.core_1[neighbor] in self.G2.adj[G2_node]):
                     return False
-                elif self.G1.number_of_edges(neighbor, G1_node)!=self.G2.number_of_edges(self.core_1[neighbor], G2_node):
+                elif self.G1.number_of_edges(neighbor, G1_node) != self.G2.number_of_edges(self.core_1[neighbor], G2_node):
                     return False
         for neighbor in self.G2.adj[G2_node]:
             if neighbor in self.core_2:
