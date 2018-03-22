@@ -121,7 +121,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         """Update NJ and NL values.
         
         If user don't want to keep the DOF:
-        Change DOF and exit.
+        Change the DOF then exit.
         """
         if not self.keep_dof.isChecked():
             self.DOF.setValue(

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>787</height>
+    <width>431</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,33 +21,24 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="graph_engine_text">
-       <property name="text">
-        <string>Engine: </string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="graph_engine">
+      <widget class="QPushButton" name="add_by_files_button">
        <property name="statusTip">
-        <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
-       </property>
-       <property name="currentIndex">
-        <number>-1</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="reload_atlas">
-       <property name="toolTip">
-        <string>Add to collection.</string>
-       </property>
-       <property name="text">
-        <string/>
+        <string>Add the chain by edge expression from text files.</string>
        </property>
        <property name="icon">
         <iconset resource="../../../icons.qrc">
-         <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+         <normaloff>:/icons/loadfile.png</normaloff>:/icons/loadfile.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="add_by_edges_button">
+       <property name="statusTip">
+        <string>Add the chain by edge expression.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/collection-structure.png</normaloff>:/icons/collection-structure.png</iconset>
        </property>
       </widget>
      </item>
@@ -64,27 +55,28 @@
        </property>
       </spacer>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
-      <widget class="QPushButton" name="add_by_files_button">
+      <widget class="QPushButton" name="clear_button">
        <property name="statusTip">
-        <string>Add the chain by edge expression from text files.</string>
+        <string>Delete all of structures.</string>
        </property>
-       <property name="text">
-        <string>Append by text files</string>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="add_by_edges_button">
-       <property name="statusTip">
-        <string>Add the chain by edge expression.</string>
+      <widget class="QPushButton" name="delete_button">
+       <property name="enabled">
+        <bool>false</bool>
        </property>
-       <property name="text">
-        <string>Add by edges</string>
+       <property name="statusTip">
+        <string>Delete this structure.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
        </property>
       </widget>
      </item>
@@ -136,9 +128,6 @@
            <property name="statusTip">
             <string>Save the atlas to image file.</string>
            </property>
-           <property name="text">
-            <string>Save atlas</string>
-           </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
              <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
@@ -150,44 +139,53 @@
            <property name="statusTip">
             <string>Save the edges of atlas to text file.</string>
            </property>
-           <property name="text">
-            <string>Save edges</string>
-           </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QPushButton" name="clear_button">
-           <property name="text">
-            <string>Clear all</string>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+             <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="delete_button">
-           <property name="enabled">
-            <bool>false</bool>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
            </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="graph_engine_text">
+           <property name="text">
+            <string>Engine: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="graph_engine">
            <property name="statusTip">
-            <string>Delete this chain.</string>
+            <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
+           </property>
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="reload_atlas">
+           <property name="toolTip">
+            <string>Add to collection.</string>
            </property>
            <property name="text">
-            <string>Delete</string>
+            <string/>
            </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+             <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
            </property>
           </widget>
          </item>

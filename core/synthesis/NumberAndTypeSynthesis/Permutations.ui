@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>394</width>
-    <height>582</height>
+    <width>471</width>
+    <height>671</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <iconset resource="../../../icons.qrc">
     <normaloff>:/icons/NumberAndTypeSynthesis.png</normaloff>:/icons/NumberAndTypeSynthesis.png</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_5">
+  <layout class="QVBoxLayout" name="verticalLayout_7">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
@@ -170,42 +170,36 @@
           </layout>
          </item>
          <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="keep_dof">
-           <property name="statusTip">
-            <string>Keep the degrees of freedom when adjusting numbers.</string>
-           </property>
-           <property name="text">
-            <string>Keep the DOF</string>
-           </property>
-          </widget>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QCheckBox" name="keep_dof">
+             <property name="statusTip">
+              <string>Keep the degrees of freedom when adjusting numbers.</string>
+             </property>
+             <property name="text">
+              <string>Keep the DOF</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="Combine_number">
+             <property name="statusTip">
+              <string>Find the possible number of different joints.</string>
+             </property>
+             <property name="text">
+              <string>Number Synthesis</string>
+             </property>
+             <property name="autoDefault">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QPushButton" name="Combine_number">
-         <property name="statusTip">
-          <string>Find the possible number of different joints.</string>
-         </property>
-         <property name="text">
-          <string>Number Synthesis</string>
-         </property>
-         <property name="autoDefault">
-          <bool>true</bool>
-         </property>
-        </widget>
        </item>
        <item>
         <widget class="QListWidget" name="Expression_number"/>
@@ -215,50 +209,94 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
-          <widget class="QLabel" name="graph_engine_text">
-           <property name="text">
-            <string>Engine: </string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="graph_engine">
-           <property name="statusTip">
-            <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="reload_atlas">
-           <property name="toolTip">
-            <string>Re-layout</string>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLabel" name="graph_engine_text">
+               <property name="text">
+                <string>Engine: </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="graph_engine">
+               <property name="statusTip">
+                <string>Layout engine from NetworkX and Pydot (Graphviz).</string>
+               </property>
+               <property name="currentIndex">
+                <number>-1</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="reload_atlas">
+               <property name="toolTip">
+                <string>Re-layout</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../icons.qrc">
+                 <normaloff>:/icons/dataupdate.png</normaloff>:/icons/dataupdate.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QPushButton" name="Combine_type_all">
+               <property name="maximumSize">
+                <size>
+                 <width>100</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="statusTip">
+                <string>Find the structure of mechanism from all numbers.</string>
+               </property>
+               <property name="text">
+                <string>Find all</string>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="Combine_type">
+               <property name="statusTip">
+                <string>Find the structure of mechanism from specified numbers.</string>
+               </property>
+               <property name="text">
+                <string>Type Synthesis</string>
+               </property>
+               <property name="autoDefault">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -282,43 +320,17 @@
              </property>
             </widget>
            </item>
+           <item>
+            <widget class="QCheckBox" name="save_edges_auto">
+             <property name="statusTip">
+              <string>Re-synthesis when save actions.</string>
+             </property>
+             <property name="text">
+              <string>Re-synthesis</string>
+             </property>
+            </widget>
+           </item>
           </layout>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QPushButton" name="Combine_type_all">
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="statusTip">
-            <string>Find the structure of mechanism from all numbers.</string>
-           </property>
-           <property name="text">
-            <string>Find all</string>
-           </property>
-           <property name="autoDefault">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="Combine_type">
-           <property name="statusTip">
-            <string>Find the structure of mechanism from specified numbers.</string>
-           </property>
-           <property name="text">
-            <string>Type Synthesis</string>
-           </property>
-           <property name="autoDefault">
-            <bool>true</bool>
-           </property>
-          </widget>
          </item>
         </layout>
        </item>
@@ -351,7 +363,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
           <widget class="QLabel" name="time_title_label">
            <property name="text">
@@ -363,39 +375,9 @@
           <widget class="QLabel" name="time_label"/>
          </item>
          <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="save_edges_auto">
-           <property name="statusTip">
-            <string>Re-synthesis when save actions.</string>
-           </property>
-           <property name="text">
-            <string>Re-synthesis</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
           <widget class="QPushButton" name="save_atlas">
            <property name="statusTip">
             <string>Save the atlas to image file.</string>
-           </property>
-           <property name="text">
-            <string>Save atlas</string>
            </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
@@ -408,14 +390,24 @@
            <property name="statusTip">
             <string>Save the edges of atlas to text file.</string>
            </property>
-           <property name="text">
-            <string>Save edges</string>
-           </property>
            <property name="icon">
             <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/properties.png</normaloff>:/icons/properties.png</iconset>
+             <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
            </property>
           </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item>
           <widget class="QPushButton" name="Edges_to_altas">
