@@ -172,12 +172,11 @@ cdef class GraphMatcher(object):
     def candidate_pairs_iter(self):
         """Iterator over candidate pairs of nodes in G1 and G2."""
         cdef int node
-        # All computations are done using the current state!
-        cdef object G1_nodes = self.G1_nodes
-        cdef object G2_nodes = self.G2_nodes
         # First we compute the inout-terminal sets.
-        cdef object T1_inout = [node for node in G1_nodes if (node in self.inout_1) and (node not in self.core_1)]
-        cdef object T2_inout = [node for node in G2_nodes if (node in self.inout_2) and (node not in self.core_2)]
+        cdef object s1 = set(self.inout_1) - set(self.core_1)
+        cdef object s2 = set(self.inout_2) - set(self.core_2)
+        cdef object T1_inout = [node for node in self.G1_nodes if (node in s1)]
+        cdef object T2_inout = [node for node in self.G2_nodes if (node in s2)]
         # If T1_inout and T2_inout are both nonempty.
         # P(s) = T1_inout x {min T2_inout}
         if T1_inout and T2_inout:
@@ -192,7 +191,7 @@ cdef class GraphMatcher(object):
             # First we determine the candidate node for G2
             for node in self.G1.nodes:
                 if node not in self.core_1:
-                    yield node, min(G2_nodes - set(self.core_2))
+                    yield node, min(self.G2_nodes - set(self.core_2))
         # For all other cases, we don't have any candidate pairs.
     
     #Returns True if G1 and G2 are isomorphic graphs.
