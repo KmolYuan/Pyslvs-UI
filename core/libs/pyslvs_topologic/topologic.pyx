@@ -91,8 +91,8 @@ cdef class Graph(object):
         cdef GraphMatcher GM_GH = GraphMatcher(self, H)
         return GM_GH.is_isomorphic()
     
-    cpdef object degree(self):
-        return [(n, len(neighbors)) for n, neighbors in self.adj.items()]
+    cpdef object links(self):
+        return sorted([len(neighbors) for neighbors in self.adj.values()])
     
     cpdef int number_of_edges(self, int u, int v):
         if v in self.adj[u]:
@@ -198,7 +198,7 @@ cdef class GraphMatcher(object):
             return False
         
         # Check local properties
-        if sorted([d for n, d in self.G1.degree()]) != sorted([d for n, d in self.G2.degree()]):
+        if self.G1.links() != self.G2.links():
             return False
         try:
             next(self.isomorphisms_iter())
