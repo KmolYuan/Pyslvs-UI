@@ -73,7 +73,7 @@ class PreviewWindow(PreviewCanvas):
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
-            if sqrt((mx - x)**2 + (my - y)**2)<=5:
+            if sqrt((mx - x)**2 + (my - y)**2) <= 5:
                 self.set_joint_number.emit(node)
                 self.pressed = True
                 break

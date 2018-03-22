@@ -20,6 +20,11 @@
 from itertools import product
 
 cdef int Max(int NL, int NJ):
+    """
+    + NL <= NJ and NJ <= (2*NL - 3)
+    + (2*NL - 3) <= NJ and NJ <= (NL*(NL - 1)/2)
+    + other exceptions (return -1).
+    """
     if NL <= NJ and NJ <= (2*NL - 3):
         return NJ - NL + 2
     if NL == NJ == 0:
@@ -45,6 +50,9 @@ cpdef object NumberSynthesis(int NL, int NJ):
     return tuple(result)
 
 cdef int sum_factors(object factors):
+    """
+    F0*N2 + F1*N3 + F2*N4 + ... + Fn*N(n+2)
+    """
     cdef int factor = 0
     for i, f in enumerate(factors):
         factor += f*(i + 2)

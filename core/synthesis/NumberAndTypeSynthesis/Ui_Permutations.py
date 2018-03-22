@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\NumberAndTypeSynthesis\Permutations.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -164,6 +164,12 @@ class Ui_Form(object):
         self.verticalLayout_3.addWidget(self.Topologic_result)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        self.time_title_label = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.time_title_label.setObjectName("time_title_label")
+        self.horizontalLayout_7.addWidget(self.time_title_label)
+        self.time_label = QtWidgets.QLabel(self.verticalLayoutWidget_2)
+        self.time_label.setObjectName("time_label")
+        self.horizontalLayout_7.addWidget(self.time_label)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem2)
         self.save_edges_auto = QtWidgets.QCheckBox(self.verticalLayoutWidget_2)
@@ -223,6 +229,7 @@ class Ui_Form(object):
         self.Combine_type_all.setText(_translate("Form", "Find all"))
         self.Combine_type.setStatusTip(_translate("Form", "Find the structure of mechanism from specified numbers."))
         self.Combine_type.setText(_translate("Form", "Type Synthesis"))
+        self.time_title_label.setText(_translate("Form", "Find in:"))
         self.save_edges_auto.setStatusTip(_translate("Form", "Re-synthesis when save actions."))
         self.save_edges_auto.setText(_translate("Form", "Re-synthesis"))
         self.save_atlas.setStatusTip(_translate("Form", "Save the atlas to image file."))

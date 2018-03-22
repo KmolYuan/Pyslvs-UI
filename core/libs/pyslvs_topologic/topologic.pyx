@@ -43,9 +43,10 @@ cdef class Graph(object):
         self.nodes = tuple(nodes)
         #adj
         cdef int n
-        self.adj = {n:self.neighbors(n) for n in self.nodes}
+        self.adj = {n: self.neighbors(n) for n in self.nodes}
     
     cpdef object neighbors(self, int n):
+        """Neighbors except the node."""
         cdef object neighbors = []
         cdef int l1, l2
         for l1, l2 in self.edges:
@@ -65,15 +66,22 @@ cdef class Graph(object):
             tmp_edges.append((l1, l2))
         return Graph(tmp_edges)
     
+    cpdef bool out_of_limit(self, np.ndarray limit):
+        cdef int n
+        for n in self.adj:
+            if len(self.adj[n]) > limit[n]:
+                return True
+        return False
+    
     cpdef bool has_triangles(self):
-        cdef int i, n1, n2
-        cdef object neighbors1, neighbors2
-        for neighbors1 in self.adj.values():
-            for n1, n2 in combinations(neighbors1, 2):
-                for n, neighbors2 in self.adj.items():
-                    if n1==n and (n2 in neighbors2):
-                        return True
-                    if n2==n and (n1 in neighbors2):
+        cdef int n1, n2
+        cdef object neighbors
+        for neighbors in self.adj.values():
+            for n1 in neighbors:
+                for n2 in neighbors:
+                    if n1 == n2:
+                        continue
+                    if n1 in self.adj[n2]:
                         return True
         return False
     
@@ -403,7 +411,6 @@ cdef bool verify(Graph G, object answer):
     cdef Graph H
     for H in answer:
         if G.is_isomorphic(H):
-            #is isomorphic
             return True
     return False
 
@@ -444,7 +451,6 @@ cpdef topo(
     cdef object match, matched, m
     cdef Graph G, H
     cdef GraphMatcher GM_GH
-    cdef bool error
     for link, count in enumerate(links):
         match = [Graph(m) for m in combinations(connection_get(link, connection), count)]
         if not edges_combinations:
@@ -461,12 +467,7 @@ cpdef topo(
                 return None, time()-t0
             G = G.compose(H)
             #Out of limit.
-            error = False
-            for n in G.nodes:
-                if len(G.neighbors(n)) > links[n]:
-                    error = True
-                    break
-            if error:
+            if G.out_of_limit(links):
                 continue
             #Has triangles.
             if degenerate and G.has_triangles():
@@ -483,5 +484,4 @@ cpdef topo(
         if verify(G, answer):
             continue
         answer.append(G)
-    
     return answer, time()-t0
