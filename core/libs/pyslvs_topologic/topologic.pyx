@@ -16,15 +16,16 @@ cdef class Graph(object):
     
     """NetworkX-like graph class."""
     
-    cdef object nodes, adj
-    cdef public object edges
+    cdef tuple nodes
+    cdef dict adj
+    cdef public tuple edges
     
     def __cinit__(self, object edges):
         #edges
         """edges: ((l1, l2), ...)"""
         self.edges = tuple(edges)
         #nodes
-        cdef object nodes = []
+        cdef list nodes = []
         for p1, p2 in self.edges:
             if p1 not in nodes:
                 nodes.append(p1)
@@ -35,9 +36,9 @@ cdef class Graph(object):
         cdef int n
         self.adj = {n: self.neighbors(n) for n in self.nodes}
     
-    cdef object neighbors(self, int n):
+    cdef tuple neighbors(self, int n):
         """Neighbors except the node."""
-        cdef object neighbors = []
+        cdef list neighbors = []
         cdef int l1, l2
         for l1, l2 in self.edges:
             if n==l1:
@@ -58,7 +59,7 @@ cdef class Graph(object):
     
     cpdef bool has_triangles(self):
         cdef int n1, n2
-        cdef object neighbors
+        cdef tuple neighbors
         for neighbors in self.adj.values():
             for n1 in neighbors:
                 for n2 in neighbors:
@@ -70,7 +71,7 @@ cdef class Graph(object):
     
     cpdef bool is_connected(self):
         cdef int index = 0
-        cdef object nodes = [self.nodes[index]]
+        cdef list nodes = [self.nodes[index]]
         while index < len(nodes):
             for neighbor in self.adj[nodes[index]]:
                 if neighbor not in nodes:
@@ -82,7 +83,7 @@ cdef class Graph(object):
         cdef GraphMatcher GM_GH = GraphMatcher(self, H)
         return GM_GH.is_isomorphic()
     
-    cpdef object links(self):
+    cpdef list links(self):
         return sorted([len(neighbors) for neighbors in self.adj.values()])
     
     cpdef int number_of_edges(self, int u, int v):
@@ -103,9 +104,9 @@ cdef class GraphMatcher(object):
     Complexity Sciences Center and Physics Department, UC Davis.
     """
     
-    cdef public Graph G1, G2
-    cdef object G1_nodes, G2_nodes, mapping
-    cdef public object core_1, core_2, inout_1, inout_2
+    cdef Graph G1, G2
+    cdef set G1_nodes, G2_nodes
+    cdef dict core_1, core_2, inout_1, inout_2, mapping
     cdef GMState state
     
     def __cinit__(self, Graph G1, Graph G2):
@@ -153,10 +154,10 @@ cdef class GraphMatcher(object):
         """Iterator over candidate pairs of nodes in G1 and G2."""
         cdef int node
         # First we compute the inout-terminal sets.
-        cdef object s1 = set(self.inout_1) - set(self.core_1)
-        cdef object s2 = set(self.inout_2) - set(self.core_2)
-        cdef object T1_inout = [node for node in self.G1_nodes if (node in s1)]
-        cdef object T2_inout = [node for node in self.G2_nodes if (node in s2)]
+        cdef set s1 = set(self.inout_1) - set(self.core_1)
+        cdef set s2 = set(self.inout_2) - set(self.core_2)
+        cdef list T1_inout = [node for node in self.G1_nodes if (node in s1)]
+        cdef list T2_inout = [node for node in self.G2_nodes if (node in s2)]
         # If T1_inout and T2_inout are both nonempty.
         # P(s) = T1_inout x {min T2_inout}
         if T1_inout and T2_inout:
@@ -198,6 +199,7 @@ cdef class GraphMatcher(object):
     def isomorphisms_iter(self):
         # Declare that we are looking for a graph-graph isomorphism.
         self.initialize()
+        cdef dict mapping
         for mapping in self.match():
             yield mapping
     
@@ -206,7 +208,7 @@ cdef class GraphMatcher(object):
     def match(self):
         cdef int G1_node, G2_node
         cdef GMState newstate
-        cdef object mapping
+        cdef dict mapping
         if len(self.core_1) == len(self.G2.nodes):
             # Save the final mapping, otherwise garbage collection deletes it.
             self.mapping = self.core_1.copy()
@@ -252,7 +254,7 @@ cdef class GraphMatcher(object):
         # For each neighbor n' of n in the partial mapping, the corresponding
         # node m' is a neighbor of m, and vice versa. Also, the number of
         # edges must be equal.
-        cdef object neighbor
+        cdef int neighbor
         for neighbor in self.G1.adj[G1_node]:
             if neighbor in self.core_1:
                 if not (self.core_1[neighbor] in self.G2.adj[G2_node]):
@@ -325,9 +327,8 @@ cdef class GMState(object):
             GM.core_2 = {}
             GM.inout_1 = {}
             GM.inout_2 = {}
-        cdef object new_nodes
-        cdef object neighbor
-        cdef int node
+        cdef set new_nodes
+        cdef int node, neighbor
         # Watch out! G1_node == 0 should evaluate to True.
         if G1_node!=-1 and G2_node!=-1:
             # Add the node pair to the isomorphism mapping.
@@ -376,14 +377,14 @@ cdef class GMState(object):
         
         # Now we revert the other two vectors.
         # Thus, we delete all entries which have this depth level.
-        cdef object vector
+        cdef dict vector
         cdef int node
         for vector in (self.GM.inout_1, self.GM.inout_2):
             for node in list(vector):
                 if vector[node] == self.depth:
                     del vector[node]
 
-cdef bool verify(Graph G, object answer):
+cdef bool verify(Graph G, list answer):
     if not G.is_connected():
         #is not connected
         return True
@@ -393,8 +394,8 @@ cdef bool verify(Graph G, object answer):
             return True
     return False
 
-cdef object connection_get(int i, object connection):
-    cdef object c
+cdef list connection_get(int i, tuple connection):
+    cdef tuple c
     return [c for c in connection if (i in c)]
 
 #Linkage Topological Component
@@ -430,11 +431,12 @@ cpdef topo(
         links[name] = link_joint_count
     
     #connection = [(1, 2), (1, 3), ..., (2, 3), (2, 4), ...]
-    cdef object connection = tuple(combinations(range(joint_count), 2))
+    cdef tuple connection = tuple(combinations(range(joint_count), 2))
     #ALL results.
-    cdef object edges_combinations = []
+    cdef list edges_combinations = []
     cdef int link, count, n
-    cdef object match, matched, m
+    cdef list match, matched
+    cdef tuple m
     cdef Graph G, H
     cdef GraphMatcher GM_GH
     for link, count in enumerate(links):
@@ -463,7 +465,7 @@ cpdef topo(
     
     if setjobFunc:
         setjobFunc("Verify the graphs...", len(edges_combinations))
-    cdef object answer = []
+    cdef list answer = []
     for G in edges_combinations:
         if stopFunc and stopFunc():
             return answer, time()-t0

@@ -50,9 +50,9 @@ cdef class DiffertialEvolution(object):
     cdef np.ndarray lb, ub, pop
     cdef object func, progress_fun, interrupt_fun
     cdef Chromosome lastgenbest, currentbest
-    cdef object fitnessTime
+    cdef list fitnessTime
     
-    def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+    def __cinit__(self, object func, dict settings, object progress_fun=None, object interrupt_fun=None):
         """
         settings = {
             'strategy',
@@ -317,7 +317,7 @@ cdef class DiffertialEvolution(object):
             if self.gen % 10 == 0:
                 self.report()
     
-    cpdef object run(self):
+    cpdef tuple run(self):
         """
         run the algorithm...
         """

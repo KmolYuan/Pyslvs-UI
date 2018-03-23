@@ -59,9 +59,9 @@ cdef class Firefly(object):
     cdef np.ndarray lb, ub
     cdef np.ndarray fireflys
     cdef Chromosome genbest, bestFirefly
-    cdef object fitnessTime
+    cdef list fitnessTime
     
-    def __init__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+    def __init__(self, object func, dict settings, object progress_fun=None, object interrupt_fun=None):
         """
         settings = {
             'n',
@@ -211,7 +211,7 @@ cdef class Firefly(object):
             if self.gen % 10 == 0:
                 self.report()
     
-    cpdef object run(self):
+    cpdef tuple run(self):
         self.init()
         self.evaluate()
         self.bestFirefly.assign(self.fireflys[0])

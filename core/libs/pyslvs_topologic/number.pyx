@@ -22,12 +22,12 @@ cdef int Max(int NL, int NJ):
     return -1
 
 cpdef object NumberSynthesis(int NL, int NJ):
-    cdef object result = []
+    cdef list result = []
     cdef int Mmax = Max(NL, NJ)
     if Mmax == -1:
         return "incorrect mechanism."
     cdef int i, p
-    cdef object symbols, answer
+    cdef tuple symbols, answer
     for symbols in product(range(NL + 1), repeat=(Mmax - 2)):
         NLMmax = NL - sum(symbols)
         if NLMmax < 0:
@@ -37,7 +37,7 @@ cpdef object NumberSynthesis(int NL, int NJ):
             result.append(answer)
     return tuple(result)
 
-cdef int sum_factors(object factors):
+cdef int sum_factors(tuple factors):
     """
     F0*N2 + F1*N3 + F2*N4 + ... + Fn*N(n+2)
     """

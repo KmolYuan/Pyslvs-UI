@@ -55,9 +55,9 @@ cdef class Genetic(object):
     cdef np.ndarray chrom, newChrom, babyChrom
     cdef Chromosome chromElite, chromBest
     cdef np.ndarray maxLimit, minLimit
-    cdef object fitnessTime, fitnessParameter
+    cdef list fitnessTime
     
-    def __cinit__(self, object func, object settings, object progress_fun=None, object interrupt_fun=None):
+    def __cinit__(self, object func, dict settings, object progress_fun=None, object interrupt_fun=None):
         """
         settings = {
             'nPop',
@@ -116,7 +116,6 @@ cdef class Genetic(object):
         self.timeS = time()
         self.timeE = 0
         self.fitnessTime = []
-        self.fitnessParameter = []
     
     cdef int random(self, int k)except *:
         return int(randV()*k)
@@ -229,7 +228,7 @@ cdef class Genetic(object):
             if self.gen % 10 == 0:
                 self.report()
     
-    cpdef object run(self):
+    cpdef tuple run(self):
         """
         // **** Init and run GA for maxGen times
         // **** mxg : maximum generation

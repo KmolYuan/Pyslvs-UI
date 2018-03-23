@@ -33,7 +33,7 @@ cdef class build_planar(object):
     cdef object Driver, Follower, Driver_list, Follower_list
     cdef np.ndarray Exp, target, upper, lower
     
-    def __cinit__(self, object mechanismParams):
+    def __cinit__(self, dict mechanismParams):
         '''
         mechanismParams = {
             'Target',
