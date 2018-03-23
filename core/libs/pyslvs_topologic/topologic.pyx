@@ -1,21 +1,9 @@
 # -*- coding: utf-8 -*-
-##Pyslvs - Open Source Planar Linkage Mechanism Simulation and Mechanical Synthesis System.
-##Copyright (C) 2016-2018 Yuan Chang
-##E-mail: pyslvs@gmail.com
-##
-##This program is free software; you can redistribute it and/or modify
-##it under the terms of the GNU Affero General Public License as published by
-##the Free Software Foundation; either version 3 of the License, or
-##(at your option) any later version.
-##
-##This program is distributed in the hope that it will be useful,
-##but WITHOUT ANY WARRANTY; without even the implied warranty of
-##MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-##GNU Affero General Public License for more details.
-##
-##You should have received a copy of the GNU Affero General Public License
-##along with this program; if not, write to the Free Software
-##Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+# __author__ = "Yuan Chang"
+# __copyright__ = "Copyright (C) 2016-2018"
+# __license__ = "AGPL"
+# __email__ = "pyslvs@gmail.com"
 
 from itertools import combinations, product
 import sys
@@ -28,10 +16,12 @@ cdef class Graph(object):
     
     """NetworkX-like graph class."""
     
-    cdef public object edges, nodes, adj
+    cdef object nodes, adj
+    cdef public object edges
     
     def __cinit__(self, object edges):
         #edges
+        """edges: ((l1, l2), ...)"""
         self.edges = tuple(edges)
         #nodes
         cdef object nodes = []
@@ -57,14 +47,7 @@ cdef class Graph(object):
         return tuple(neighbors)
     
     cpdef Graph compose(self, Graph H):
-        """edges: ((l1, l2), ...)"""
-        cdef object tmp_edges = list(self.edges)
-        cdef int l1, l2
-        for l1, l2 in H.edges:
-            if ((l1, l2) in tmp_edges) or ((l2, l1) in tmp_edges):
-                continue
-            tmp_edges.append((l1, l2))
-        return Graph(tmp_edges)
+        return Graph(set(self.edges) | set(H.edges))
     
     cpdef bool out_of_limit(self, np.ndarray limit):
         cdef int n
@@ -93,7 +76,7 @@ cdef class Graph(object):
                 if neighbor not in nodes:
                     nodes.append(neighbor)
             index += 1
-        return len(nodes)==len(self.nodes)
+        return len(nodes) == len(self.nodes)
     
     cpdef bool is_isomorphic(self, Graph H):
         cdef GraphMatcher GM_GH = GraphMatcher(self, H)
