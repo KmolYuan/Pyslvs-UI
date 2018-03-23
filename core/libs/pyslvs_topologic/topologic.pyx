@@ -423,6 +423,13 @@ cpdef topo(
 ):
     """
     link_num = [L2, L3, L4, ...]
+    links = [
+        [0]: joint_number_of_L0,
+        [1]: joint_number_of_L1,
+        [2]: joint_number_of_L2,
+        [3]: joint_number_of_L3,
+        ...
+    ]
     """
     
     cdef double t0 = time()
