@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\TriangularIteration.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -243,7 +243,7 @@ class Ui_Form(object):
         self.verticalLayout_9.setObjectName("verticalLayout_9")
         self.Expression_clear = QtWidgets.QPushButton(self.layoutWidget1)
         icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap(":/icons/delete.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon8.addPixmap(QtGui.QPixmap(":/icons/clean.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.Expression_clear.setIcon(icon8)
         self.Expression_clear.setObjectName("Expression_clear")
         self.verticalLayout_9.addWidget(self.Expression_clear)

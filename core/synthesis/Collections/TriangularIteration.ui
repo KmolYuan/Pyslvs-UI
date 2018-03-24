@@ -461,7 +461,7 @@
                    </property>
                    <property name="icon">
                     <iconset resource="../../../icons.qrc">
-                     <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+                     <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
                    </property>
                   </widget>
                  </item>
