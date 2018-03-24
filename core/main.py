@@ -1297,6 +1297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         self.Entities_Point.clear()
         self.Entities_Link.clear()
+        self.InputsWidget.inputs_variable_excluding()
     
     @pyqtSlot()
     def on_mechanism_storage_add_clicked(self):

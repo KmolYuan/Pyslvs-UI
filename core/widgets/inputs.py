@@ -173,11 +173,16 @@ class InputsWidget(QWidget, Ui_Form):
             if enabled else 0
         )
     
-    def inputs_variable_excluding(self, row: int):
+    def inputs_variable_excluding(self, row: int =None):
+        """Remove variable if the point was been deleted.
+        
+        Default: all.
+        """
+        one_row = row is not None
         for i, variable in enumerate(self.get_inputs_variables()):
             row_ = variable[0]
             #If this is not origin point any more.
-            if row != row_:
+            if one_row and (row != row_):
                 continue
             self.CommandStack.beginMacro("Remove variable of Point{}".format(row))
             self.CommandStack.push(DeleteVariable(i, self.inputs_variable))
@@ -202,7 +207,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.Entities_Point.getBackPosition()
         self.resolve()
     
-    def getLinkAngle(self, row: int, link: Tuple[str]) -> float:
+    def getLinkAngle(self, row: int, link: str) -> float:
         """Get the angle of base link and drive link."""
         Point = self.Entities_Point.data()
         Link = self.Entities_Link.data()
