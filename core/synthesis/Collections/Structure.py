@@ -88,11 +88,9 @@ class CollectionsStructure(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Delete",
-            "Sure to remove all your collections?",
-            (QMessageBox.Apply | QMessageBox.Cancel),
-            QMessageBox.Apply
+            "Sure to remove all your collections?"
         )
-        if reply != QMessageBox.Apply:
+        if reply != QMessageBox.Yes:
             return
         self.clear()
         self.unsaveFunc()
@@ -325,11 +323,9 @@ class CollectionsStructure(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Delete",
-            "Sure to remove #{} from your collections?".format(row),
-            (QMessageBox.Apply | QMessageBox.Cancel),
-            QMessageBox.Apply
+            "Sure to remove #{} from your collections?".format(row)
         )
-        if reply != QMessageBox.Apply:
+        if reply != QMessageBox.Yes:
             return
         self.clearSelection()
         self.collection_list.takeItem(row)
@@ -396,9 +392,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             ground_link = int(text.replace(" constrainted", "").split("_")[1])
         reply = QMessageBox.question(self,
             "Message",
-            "Merge \"{}\" chain to your canvas?".format(text),
-            (QMessageBox.Apply | QMessageBox.Cancel),
-            QMessageBox.Apply
+            "Merge \"{}\" chain to your canvas?".format(text)
         )
-        if reply == QMessageBox.Apply:
+        if reply == QMessageBox.Yes:
             self.add_points_by_graph(G, self.ground_engine, ground_link)

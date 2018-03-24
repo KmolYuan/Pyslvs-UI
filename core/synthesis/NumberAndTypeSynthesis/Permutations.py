@@ -235,15 +235,12 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         if break_point:
             reply = QMessageBox.question(self,
                 "Type synthesis - abort",
-                "Do you want to keep the results?",
-                (QMessageBox.Apply | QMessageBox.Cancel),
-                QMessageBox.Apply
+                "Do you want to keep the results?"
             )
-        else:
-            reply = QMessageBox.Apply
-        if reply == QMessageBox.Apply:
-            self.answer = answers
-            self.on_reload_atlas_clicked()
+            if reply != QMessageBox.Yes:
+                return
+        self.answer = answers
+        self.on_reload_atlas_clicked()
     
     def combineType(self, row: int):
         """Combine and show progress dialog."""

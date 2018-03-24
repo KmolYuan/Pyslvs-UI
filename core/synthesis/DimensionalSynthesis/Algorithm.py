@@ -435,11 +435,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Delete",
-            "Delete this result from list?",
-            (QMessageBox.Apply | QMessageBox.Cancel),
-            QMessageBox.Apply
+            "Delete this result from list?"
         )
-        if reply != QMessageBox.Apply:
+        if reply != QMessageBox.Yes:
             return
         del self.mechanism_data[row]
         self.Result_list.takeItem(row)
@@ -475,11 +473,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Merge",
-            "Merge this result to your canvas?",
-            (QMessageBox.Apply | QMessageBox.Cancel),
-            QMessageBox.Apply
+            "Merge this result to your canvas?"
         )
-        if reply == QMessageBox.Apply:
+        if reply == QMessageBox.Yes:
             self.mergeResult.emit(row, self.get_path(row))
     
     def get_path(self, row: int):
