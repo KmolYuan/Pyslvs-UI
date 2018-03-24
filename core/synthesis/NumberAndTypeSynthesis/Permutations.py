@@ -52,6 +52,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.splitter.setStretchFactor(0, 2)
         self.splitter.setStretchFactor(1, 15)
         self.answer = []
+        self.save_edges_auto_label.setStatusTip(self.save_edges_auto.statusTip())
         self.NL_input.valueChanged.connect(self.adjust_NJ_NL_dof)
         self.NJ_input.valueChanged.connect(self.adjust_NJ_NL_dof)
         self.graph_engine.addItems(EngineList)
@@ -63,6 +64,12 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.Topologic_result.customContextMenuRequested.connect(
             self.Topologic_result_context_menu
         )
+        """Context menu
+        
+        + Add to collections
+        + Copy edges
+        + Copy image
+        """
         self.popMenu_topo = QMenu(self)
         self.add_collection = QAction(
             QIcon(QPixmap(":/icons/collections.png")),

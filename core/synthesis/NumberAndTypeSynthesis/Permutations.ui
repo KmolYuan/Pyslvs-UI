@@ -78,8 +78,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>60</width>
-         <height>60</height>
+         <width>50</width>
+         <height>50</height>
         </size>
        </property>
        <property name="autoDefault">
@@ -320,16 +320,6 @@
              </property>
             </widget>
            </item>
-           <item>
-            <widget class="QCheckBox" name="save_edges_auto">
-             <property name="statusTip">
-              <string>Re-synthesis when save actions.</string>
-             </property>
-             <property name="text">
-              <string>Re-synthesis</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
         </layout>
@@ -375,6 +365,19 @@
           <widget class="QLabel" name="time_label"/>
          </item>
          <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
           <widget class="QPushButton" name="save_atlas">
            <property name="statusTip">
             <string>Save the atlas to image file.</string>
@@ -397,19 +400,6 @@
           </widget>
          </item>
          <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="QPushButton" name="Edges_to_altas">
            <property name="statusTip">
             <string>Load the edges data from text file, then save them to image files.</string>
@@ -417,9 +407,19 @@
            <property name="text">
             <string>Edges to atlas</string>
            </property>
-           <property name="icon">
-            <iconset resource="../../../icons.qrc">
-             <normaloff>:/icons/picture.png</normaloff>:/icons/picture.png</iconset>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="save_edges_auto">
+           <property name="statusTip">
+            <string>Re-synthesis when using save actions.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="save_edges_auto_label">
+           <property name="text">
+            <string>&lt;img src=&quot;:icons/dataupdate.png&quot; width=&quot;20&quot;&gt;</string>
            </property>
           </widget>
          </item>
