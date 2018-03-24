@@ -157,7 +157,8 @@ When the structure profile is complete, is time to doing dimensional synthesis!
 
 Generate a mechanism with path requirement by random variables.
 
-The structure settings is get from triangular iteration.
++ The structure settings is get from triangular iteration.
++ There also have algorithm options, such like constrains or probability.
 
 ![](images/Dimensional_Synthesis.png)
 
@@ -174,8 +175,6 @@ Three kinds of task target:
 + Stop at the maximum generation.
 + Get the minimum fitness value.
 + Stop at the maximum time.
-
-This function also has batch tasking option and a simple TCP ZMQ connecting mode.
 
 # Modules Requirement
 
