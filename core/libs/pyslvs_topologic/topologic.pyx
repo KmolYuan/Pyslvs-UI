@@ -248,7 +248,7 @@ cdef class GraphMatcher(object):
         # self-loops for G2_node. Without this check, we would fail on
         # R_neighbor at the next recursion level. But it is good to prune the
         # search tree now.
-        if self.G1.number_of_edges(G1_node, G1_node)!=self.G2.number_of_edges(G2_node, G2_node):
+        if self.G1.number_of_edges(G1_node, G1_node) != self.G2.number_of_edges(G2_node, G2_node):
             return False
         # R_neighbor
         # For each neighbor n' of n in the partial mapping, the corresponding
@@ -280,7 +280,7 @@ cdef class GraphMatcher(object):
         for neighbor in self.G2.adj[G2_node]:
             if (neighbor in self.inout_2) and (neighbor not in self.core_2):
                 num2 += 1
-        if not (num1 == num2):
+        if num1 != num2:
             return False
         
         ### Look ahead 2
@@ -296,11 +296,7 @@ cdef class GraphMatcher(object):
         for neighbor in self.G2.adj[G2_node]:
             if neighbor not in self.inout_2:
                 num2 += 1
-        if not (num1 == num2):
-            return False
-        
-        # Otherwise, this node pair is syntactically feasible!
-        return True
+        return num1 == num2
 
 cdef class GMState(object):
     
@@ -408,10 +404,7 @@ cpdef topo(
     """
     link_num = [L2, L3, L4, ...]
     links = [
-        [0]: joint_number_of_L0,
-        [1]: joint_number_of_L1,
-        [2]: joint_number_of_L2,
-        [3]: joint_number_of_L3,
+        [number_code]: joint_number,
         ...
     ]
     """
