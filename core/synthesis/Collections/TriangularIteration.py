@@ -28,6 +28,7 @@ from typing import (
     Dict,
     List,
     Tuple,
+    Sequence,
     Set,
     Any
 )
@@ -126,9 +127,9 @@ class PreviewWindow(PreviewCanvas):
             if (links1 & links2) and (not self.getStatus(node2) != reliable):
                 yield node2
     
-    def sort_nodes(self, nodes):
-        """Sort the nodes by position."""
-        return tuple(sorted(nodes, key=lambda n: self.pos[n][0], reverse=True))
+    def sort_nodes(self, nodes: Sequence[int]):
+        """Sort the nodes by x value of position."""
+        return sorted(nodes, key=lambda n: self.pos[n][0], reverse=True)
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
 
@@ -558,6 +559,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def auto_configure_expression(self):
         """Auto configuration algorithm."""
         friends = self.PreviewWindow.friends
+        sort_nodes = self.PreviewWindow.sort_nodes
         #PLAP solutions.
         for item in list_items(self.Driver_list):
             node = int(item.text().replace('P', ''))
@@ -568,7 +570,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 point1,
                 'L{}'.format(self.getParam()),
                 'a{}'.format(self.getParam(angle=True)),
-                'P{}'.format(next(friends(node, reliable=True))),
+                'P{}'.format(sort_nodes(friends(node, reliable=True))[0]),
                 point2
             ))
         #PLLP solutions.
@@ -584,7 +586,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 continue
             rf = friends(node, reliable=True)
             try:
-                two_friend = self.PreviewWindow.sort_nodes((next(rf), next(rf)))
+                two_friend = sort_nodes((next(rf), next(rf)))
             except StopIteration:
                 pass
             else:
