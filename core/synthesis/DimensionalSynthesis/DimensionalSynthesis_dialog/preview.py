@@ -47,6 +47,9 @@ class DynamicCanvas(BaseCanvas):
                 if name not in self.exp_symbol:
                     self.exp_symbol.append(name)
         self.exp_symbol = sorted(self.exp_symbol)
+        #Error
+        self.ERROR = False
+        self.no_error = 0
         #Timer start.
         timer = QTimer(self)
         timer.setInterval(10)
@@ -114,21 +117,21 @@ class DynamicCanvas(BaseCanvas):
         self.oy = height / 2 + (y_top + y_bottom) / 2 *self.zoom
         super(DynamicCanvas, self).paintEvent(event)
         #Points that in the current angle section.
+        """First check."""
+        for path in self.Path.path:
+            if not path:
+                continue
+            x, y = path[self.index]
+            if isnan(x):
+                self.index, self.no_error = self.no_error, self.index
+                self.ERROR = True
         self.Point = []
         for i, name in enumerate(self.exp_symbol):
             if (name in self.mechanism['Driver']) or (name in self.mechanism['Follower']):
                 self.Point.append(self.mechanism[name])
             else:
-                try:
-                    x, y = self.Path.path[i][self.index]
-                except IndexError:
-                    self.index += 1
-                    return
-                else:
-                    if isnan(x):
-                        self.index += 1
-                        return
-                    self.Point.append((x, y))
+                x, y = self.Path.path[i][self.index]
+                self.Point.append((x, y))
         #Draw links.
         for i, exp in enumerate(self.links):
             if i == 0:
@@ -155,6 +158,11 @@ class DynamicCanvas(BaseCanvas):
                     fixed = True
                 self.drawPoint(i, coordinate[0], coordinate[1], fixed, color)
         self.painter.end()
+        if self.ERROR:
+            self.ERROR = False
+            self.index, self.no_error = self.no_error, self.index
+        else:
+            self.no_error = self.index
     
     def drawLink(self,
         name: str,
