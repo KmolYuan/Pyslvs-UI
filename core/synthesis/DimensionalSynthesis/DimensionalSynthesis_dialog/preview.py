@@ -131,7 +131,7 @@ class DynamicCanvas(BaseCanvas):
                     self.Point.append((x, y))
         #Draw links.
         for i, exp in enumerate(self.links):
-            if i==0:
+            if i == 0:
                 continue
             name = "link_{}".format(i)
             self.drawLink(name, tuple(self.exp_symbol.index(tag) for tag in exp))

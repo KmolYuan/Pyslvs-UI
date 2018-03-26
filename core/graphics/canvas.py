@@ -288,14 +288,23 @@ class BaseCanvas(QWidget):
     
     def drawCurve(self, path):
         pointPath = QPainterPath()
+        error = False
         for i, (x, y) in enumerate(path):
             if isnan(x):
-                continue
+                error = True
+                self.painter.drawPath(pointPath)
+                pointPath = QPainterPath()
             else:
+                x *= self.zoom
+                y *= -self.zoom
                 if i==0:
-                    pointPath.moveTo(x*self.zoom, y*-self.zoom)
+                    pointPath.moveTo(x, y)
+                    continue
+                if error:
+                    pointPath.moveTo(x, y)
+                    error = False
                 else:
-                    pointPath.lineTo(QPointF(x*self.zoom, y*-self.zoom))
+                    pointPath.lineTo(x, y)
         self.painter.drawPath(pointPath)
     
     def drawDot(self, path):

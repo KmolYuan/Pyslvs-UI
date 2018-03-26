@@ -464,6 +464,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return
         dlg = PreviewDialog(self.mechanism_data[row], self.get_path(row), self)
         dlg.show()
+        dlg.exec_()
     
     @pyqtSlot()
     def on_mergeButton_clicked(self):
@@ -482,28 +483,26 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Using result data to generate paths of mechanism."""
         Result = self.mechanism_data[row]
         expr_angles, expr_links, expr_points = triangle_class(Result['Expression'])
-        if len(expr_angles)>1:
-            return tuple()
-        print(Result['a0'])
         '''
         expr_angles: ('a0', ...)
         expr_links: ('L0', 'L1', 'L2', ...)
         expr_points: ('A', 'B', 'C', 'D', 'E', ...)
         '''
-        Paths = tuple([] for i in range(len(expr_points)))
-        for a in range(360 + 1):
-            data_dict = {e: Result[e] for e in expr_links}
-            data_dict.update({e: Result[e] for e in Result['Driver']})
-            data_dict.update({e: Result[e] for e in Result['Follower']})
-            data_dict.update({expr_angles[0]: radians(a)})
-            expr_parser(Result['Expression'], data_dict)
-            for i, e in enumerate(expr_points):
-                x, y = data_dict[e]
-                if x!=nan:
-                    Paths[i].append((x, y))
+        paths = tuple([] for i in range(len(expr_points)))
+        for angle in expr_angles:
+            for a in range(360 + 1):
+                data_dict = {e: Result[e] for e in expr_links}
+                data_dict.update({e: Result[e] for e in Result['Driver']})
+                data_dict.update({e: Result[e] for e in Result['Follower']})
+                data_dict.update({angle: radians(a)})
+                expr_parser(Result['Expression'], data_dict)
+                for i, e in enumerate(expr_points):
+                    x, y = data_dict[e]
+                    if x != nan:
+                        paths[i].append((x, y))
         return tuple(
-            tuple(path) if len(set(path))>1 else ()
-            for path in Paths
+            tuple(path) if len(set(path)) > 1 else ()
+            for path in paths
         )
     
     @pyqtSlot()
@@ -511,6 +510,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         """Show up the chart dialog."""
         dlg = ChartDialog("Convergence Value", self.mechanism_data, self)
         dlg.show()
+        dlg.exec_()
     
     @pyqtSlot()
     def on_Result_clipboard_clicked(self):
