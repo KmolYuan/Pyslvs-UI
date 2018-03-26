@@ -25,12 +25,20 @@ cdef str get_from_parenthesis(str s, str front, str back):
 cdef str get_front_of_parenthesis(str s, str front):
     return s[:s.find(front)]
 
+cdef list path_error(list path, tuple target):
+    cdef list tmp_list = []
+    cdef int i
+    for i in range(len(path)):
+        tmp_list.append(path[i].distance(target[i]))
+    return tmp_list
+
 #This class used to verified kinematics of the linkage mechanism.
 cdef class build_planar(object):
     
     cdef int POINTS, VARS
-    cdef object constraint, targetPoint, Link
-    cdef object Driver, Follower, Driver_list, Follower_list
+    cdef list constraint, Link, Driver_list, Follower_list
+    cdef tuple targetPoint
+    cdef dict Driver, Follower
     cdef np.ndarray Exp, target, upper, lower
     
     def __cinit__(self, dict mechanismParams):
@@ -208,7 +216,7 @@ cdef class build_planar(object):
         cdef double fitness = 0
         cdef int i, j, k
         cdef str name
-        cdef object e
+        cdef object e, target_coordinate
         for i in range(self.POINTS):
             #a0: random angle to generate target point.
             #match to path points.
@@ -231,25 +239,18 @@ cdef class build_planar(object):
             if not legal_crank(*[test_dict[name] for name in constraint]):
                 return FAILURE
         #swap
+        cdef list errors
         for k in range(len(self.targetPoint)):
-            for i in range(self.POINTS):
-                for j in range(self.POINTS):
-                    if (
-                        path[k][j].distance(self.target[k][i]) <
-                        path[k][i].distance(self.target[k][i])
-                    ):
-                        path[k][i], path[k][j] = path[k][j], path[k][i]
-        #sum the fitness
-        for k in range(len(self.targetPoint)):
-            for i in range(self.POINTS):
-                fitness += path[k][i].distance(self.target[k][i])
+            errors = path_error(path[k], self.target[k])
+            path[k] = [e for _, e in sorted(zip(errors, path[k]))]
+            fitness += sum(path_error(path[k], self.target[k]))
         return fitness
     
     cpdef object get_coordinates(self, np.ndarray v):
         """Return the last answer."""
         cdef str k
         cdef object e, value
-        cdef object final_dict = self.get_data_dict(v)
+        cdef dict final_dict = self.get_data_dict(v)
         for j in range(len(self.Driver_list)):
             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
         for e in self.Exp:
@@ -258,10 +259,12 @@ cdef class build_planar(object):
         for k, value in final_dict.items():
             if type(value) == Coordinate:
                 final_dict[k] = (value.x, value.y)
-        for i in range(self.POINTS):
-            final_dict['a{}'.format(j)] = []
-            for j in range(len(self.Driver_list)):
-                final_dict['a{}'.format(j)].append(np.deg2rad(v[self.VARS + i*len(self.Driver_list) + j]))
+        cdef list tmp_list
+        for j in range(len(self.Driver_list)):
+            tmp_list = []
+            for i in range(self.POINTS):
+                tmp_list.append(v[self.VARS + i*len(self.Driver_list) + j])
+            final_dict['a{}'.format(j)] = tuple(tmp_list)
         return final_dict
     
     def __call__(self, np.ndarray v):

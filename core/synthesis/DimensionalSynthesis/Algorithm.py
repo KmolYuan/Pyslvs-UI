@@ -484,6 +484,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         expr_angles, expr_links, expr_points = triangle_class(Result['Expression'])
         if len(expr_angles)>1:
             return tuple()
+        print(Result['a0'])
         '''
         expr_angles: ('a0', ...)
         expr_links: ('L0', 'L1', 'L2', ...)
