@@ -12,7 +12,7 @@ cimport numpy as np
 from time import time
 from cpython cimport bool
 
-cdef class Graph(object):
+cdef class Graph:
     
     """NetworkX-like graph class."""
     
@@ -91,7 +91,7 @@ cdef class Graph(object):
             return 1
         return 0
 
-cdef class GraphMatcher(object):
+cdef class GraphMatcher:
     
     """GraphMatcher and GMState class from NetworkX.
     Copyright (C) 2007-2009 by the NetworkX maintainers
@@ -298,7 +298,7 @@ cdef class GraphMatcher(object):
                 num2 += 1
         return num1 == num2
 
-cdef class GMState(object):
+cdef class GMState:
     
     cdef GraphMatcher GM
     cdef int G1_node, G2_node, depth

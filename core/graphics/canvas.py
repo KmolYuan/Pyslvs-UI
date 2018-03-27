@@ -327,10 +327,7 @@ class PreviewCanvas(BaseCanvas):
         #A function should return a tuple of function expression.
         #Like: ("PLAP[P1,a0,L0,P2](P3)", "PLLP[P1,a0,L0,P2](P3)", ...)
         self.get_solutions = get_solutions_func
-        self.clear()
-    
-    def clear(self):
-        """Clear the attributes.
+        """Attributes.
         
         + Origin graph
         + Customize points: Dict[str, int]
@@ -338,7 +335,6 @@ class PreviewCanvas(BaseCanvas):
         + Positions: Dict[int, Tuple[float, float]]
         + Joint status: Dict[int, bool]
         + Name dict: Dict['P0', 'A']
-        + Special marks
         """
         self.G = Graph()
         self.cus = {}
@@ -346,6 +342,19 @@ class PreviewCanvas(BaseCanvas):
         self.pos = {}
         self.status = {}
         self.name_dict = {}
+        self.clear()
+    
+    def clear(self):
+        """Clear the attributes.
+        
+        + Special marks
+        """
+        self.G = Graph()
+        self.cus.clear()
+        self.same.clear()
+        self.pos.clear()
+        self.status.clear()
+        self.name_dict.clear()
         self.grounded = -1
         self.Driver = -1
         self.Target = -1

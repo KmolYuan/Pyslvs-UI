@@ -17,7 +17,7 @@ from cpython cimport bool
 
 nan = float("nan")
 
-cdef class Coordinate(object):
+cdef class Coordinate:
     
     cdef public double x
     cdef public double y

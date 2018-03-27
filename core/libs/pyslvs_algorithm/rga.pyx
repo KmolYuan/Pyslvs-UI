@@ -24,7 +24,7 @@ cdef enum limit:
     minFit,
     maxTime
 
-cdef class Chromosome(object):
+cdef class Chromosome:
     cdef public int n
     cdef public double f
     cdef public np.ndarray v
@@ -46,7 +46,7 @@ cdef class Chromosome(object):
         if self.is_not_self(obj):
             self.cp(obj)
 
-cdef class Genetic(object):
+cdef class Genetic:
     
     cdef limit option
     cdef int nParm, nPop, maxGen, maxTime, gen, rpt

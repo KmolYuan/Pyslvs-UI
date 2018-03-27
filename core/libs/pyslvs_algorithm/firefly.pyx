@@ -25,7 +25,7 @@ cdef enum limit:
     minFit,
     maxTime
 
-cdef class Chromosome(object):
+cdef class Chromosome:
     
     cdef public int n
     cdef public double f
@@ -51,7 +51,7 @@ cdef class Chromosome(object):
         self.v[:] = obj.v
         self.f = obj.f
 
-cdef class Firefly(object):
+cdef class Firefly:
     
     cdef limit option
     cdef int D, n, maxGen, maxTime, rpt, gen

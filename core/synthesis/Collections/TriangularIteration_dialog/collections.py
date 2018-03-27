@@ -55,7 +55,8 @@ mechanismParams_8Bar = {
     'Expression': "PLAP[A,L0,a0,B](C);PLLP[B,L2,L1,C](D);PLLP[B,L4,L3,D](E);" +
         "PLLP[C,L5,L6,B](F);PLLP[F,L8,L7,E](G);PLLP[F,L9,L10,G](H)",
     'constraint': [('A', 'B', 'C', 'D'), ('A', 'B', 'C', 'F')],
-    'Graph': ((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5), (3, 7), (4, 6), (6, 7)),
+    'Graph': ((0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5),
+        (3, 7), (4, 6), (6, 7)),
     'name_dict': {
         'A': 'P0',
         'B': 'P1',
@@ -69,7 +70,7 @@ mechanismParams_8Bar = {
         'J': 'P4',
         'K': 'P6'
     },
-    'pos':{
+    'pos': {
         0: (30.5, 10.5),
         1: (-14.5, 10.5),
         2: (-18.5, 0.),
@@ -82,8 +83,8 @@ mechanismParams_8Bar = {
         9: (-37.5, -48.5),
         10: (32.5, -107.5)
     },
-    'cus':{'P10': 7},
-    'same':{2: 1, 4: 3, 6: 7}
+    'cus': {'P10': 7},
+    'same': {2: 1, 4: 3, 6: 7}
 }
 
 mechanismParams_BallLifter = {

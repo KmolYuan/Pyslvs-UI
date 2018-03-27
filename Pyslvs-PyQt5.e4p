@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-03-17, 15:06:21 -->
+<!-- Saved: 2018-03-27, 15:44:15 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -58,6 +58,7 @@
     <Source>core/libs/pyslvs_topologic/number.pyx</Source>
     <Source>core/libs/pyslvs_topologic/setup.py</Source>
     <Source>core/libs/pyslvs_topologic/topologic.pyx</Source>
+    <Source>core/libs/pyslvs_topologic/triangulation.pyx</Source>
     <Source>core/libs/python_solvespace/__init__.py</Source>
     <Source>core/main.py</Source>
     <Source>core/synthesis/Collections/Structure.py</Source>

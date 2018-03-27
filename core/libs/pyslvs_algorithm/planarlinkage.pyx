@@ -32,8 +32,9 @@ cdef list path_error(list path, tuple target):
         tmp_list.append(path[i].distance(target[i]))
     return tmp_list
 
-#This class used to verified kinematics of the linkage mechanism.
-cdef class build_planar(object):
+cdef class build_planar:
+    
+    """This class used to verified kinematics of the linkage mechanism."""
     
     cdef int POINTS, VARS
     cdef list constraint, Link, Driver_list, Follower_list

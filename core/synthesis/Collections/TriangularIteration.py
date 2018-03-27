@@ -455,14 +455,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if not dlg.exec_():
             return
         point = self.joint_name.currentText()
-        self.addSolution(point, (
+        self.addSolution(
             "PLAP",
             dlg.point_A.currentText(),
             'L{}'.format(self.getParam()),
             'a{}'.format(self.getParam(angle=True)),
             dlg.point_B.currentText(),
             point
-        ))
+        )
     
     @pyqtSlot()
     def on_PLLP_solution_clicked(self):
@@ -473,21 +473,21 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             return
         point = self.joint_name.currentText()
         link_num = self.getParam()
-        self.addSolution(point, (
+        self.addSolution(
             "PLLP",
             dlg.point_A.currentText(),
             'L{}'.format(link_num),
             'L{}'.format(link_num + 1),
             dlg.point_B.currentText(),
             point
-        ))
+        )
     
-    def addSolution(self, point: str, expr: Tuple[str]):
+    def addSolution(self, *expr: Tuple[str]):
         """Add a solution."""
         item = QListWidgetItem()
         self.Expression_list.addItem(item)
         item.setText("{}[{},{},{},{}]({})".format(*expr))
-        self.PreviewWindow.setStatus(point, True)
+        self.PreviewWindow.setStatus(expr[-1], True)
         self.hasSolution()
         self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
     
@@ -567,14 +567,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             node = int(item.text().replace('P', ''))
             point1 = 'P{}'.format(node)
             point2 = 'P{}'.format(next(friends(node)))
-            self.addSolution(point2, (
+            self.addSolution(
                 "PLAP",
                 point1,
                 'L{}'.format(self.getParam()),
                 'a{}'.format(self.getParam(angle=True)),
                 'P{}'.format(sort_nodes(friends(node, reliable=True))[0]),
                 point2
-            ))
+            )
         #PLLP solutions.
         node = 0
         while not self.PreviewWindow.isAllLock():
@@ -595,14 +595,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 #Add solution.
                 link_num = self.getParam()
                 point = 'P{}'.format(node)
-                self.addSolution(point, (
+                self.addSolution(
                     "PLLP",
                     'P{}'.format(two_friend[0]),
                     'L{}'.format(link_num),
                     'L{}'.format(link_num + 1),
                     'P{}'.format(two_friend[1]),
                     point
-                ))
+                )
             node += 1
     
     @pyqtSlot()
