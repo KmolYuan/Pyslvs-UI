@@ -19,6 +19,7 @@ from core.QtModules import (
 )
 from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
+from core.libs import auto_configure
 import pprint
 from math import sqrt
 from networkx import Graph
@@ -28,7 +29,6 @@ from typing import (
     Dict,
     List,
     Tuple,
-    Sequence,
     Set,
     Any
 )
@@ -103,35 +103,6 @@ class PreviewWindow(PreviewCanvas):
         else:
             self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
         self.update()
-    
-    def friends(self, node1: int, reliable: bool =False) -> int:
-        """Return a generator yield the nodes
-        that has solution on the same link.
-        """
-        #All edges of all nodes.
-        edges = dict(edges_view(self.G))
-        for n, l in self.cus.items():
-            edges[int(n.replace('P', ''))] = (l,)
-        #Reverse dict of 'self.same'.
-        same_r = {v: k for k, v in self.same.items()}
-        #for all link of node1.
-        links1 = set(edges[node1])
-        if node1 in same_r:
-            links1.update(edges[same_r[node1]])
-        #for all link.
-        for node2 in edges:
-            if (node1 == node2) or (node2 in self.same):
-                continue
-            links2 = set(edges[node2])
-            if node2 in same_r:
-                links2.update(edges[same_r[node2]])
-            #Reference by intersection and status.
-            if (links1 & links2) and (not self.getStatus(node2) != reliable):
-                yield node2
-    
-    def sort_nodes(self, nodes: Sequence[int]):
-        """Sort the nodes by x value of position."""
-        return sorted(nodes, key=lambda n: self.pos[n][0], reverse=True)
 
 warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
 
@@ -555,55 +526,23 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             "This function can detect the structure to configure the solutions.\n" +
             "The current settings will be cleared."
         )
-        if reply == QMessageBox.Yes and self.on_Expression_clear_clicked():
-            self.auto_configure_expression()
-    
-    def auto_configure_expression(self):
-        """Auto configuration algorithm."""
-        friends = self.PreviewWindow.friends
-        sort_nodes = self.PreviewWindow.sort_nodes
-        #PLAP solutions.
-        for item in list_items(self.Driver_list):
-            node = int(item.text().replace('P', ''))
-            point1 = 'P{}'.format(node)
-            point2 = 'P{}'.format(next(friends(node)))
-            self.addSolution(
-                "PLAP",
-                point1,
-                'L{}'.format(self.getParam()),
-                'a{}'.format(self.getParam(angle=True)),
-                'P{}'.format(sort_nodes(friends(node, reliable=True))[0]),
-                point2
-            )
-        #PLLP solutions.
-        node = 0
-        while not self.PreviewWindow.isAllLock():
-            if node not in self.PreviewWindow.pos:
-                node = 0
-                continue
-            status = self.PreviewWindow.getStatus(node)
-            #Set the solution.
-            if status:
-                node += 1
-                continue
-            rf = friends(node, reliable=True)
-            try:
-                two_friend = sort_nodes((next(rf), next(rf)))
-            except StopIteration:
-                pass
-            else:
-                #Add solution.
-                link_num = self.getParam()
-                point = 'P{}'.format(node)
-                self.addSolution(
-                    "PLLP",
-                    'P{}'.format(two_friend[0]),
-                    'L{}'.format(link_num),
-                    'L{}'.format(link_num + 1),
-                    'P{}'.format(two_friend[1]),
-                    point
-                )
-            node += 1
+        if reply != QMessageBox.Yes or not self.on_Expression_clear_clicked():
+            return
+        expr = auto_configure(
+            self.PreviewWindow.G,
+            self.PreviewWindow.cus,
+            self.PreviewWindow.same,
+            self.PreviewWindow.status,
+            self.PreviewWindow.pos,
+            [item.text() for item in list_items(self.Driver_list)]
+        )
+        for e in expr:
+            item = QListWidgetItem()
+            self.Expression_list.addItem(item)
+            item.setText("{}[{},{},{},{}]({})".format(*e))
+        self.hasSolution()
+        self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
+        self.PreviewWindow.update()
     
     @pyqtSlot()
     def on_Expression_pop_clicked(self):

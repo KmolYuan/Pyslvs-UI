@@ -12,9 +12,13 @@ from .pyslvs_algorithm import (
     Firefly,
     DiffertialEvolution,
     expr_parser,
-    build_planar
+    build_planar,
 )
-from .pyslvs_topologic import NumberSynthesis, topo
+from .pyslvs_topologic import (
+    NumberSynthesis,
+    topo,
+    auto_configure,
+)
 #Solvespace API.
 from .python_solvespace.slvs import (
     System,
@@ -40,6 +44,7 @@ __all__ = [
     'build_planar',
     'NumberSynthesis',
     'topo',
+    'auto_configure',
     'System',
     'groupNum',
     'Slvs_MakeQuaternion',

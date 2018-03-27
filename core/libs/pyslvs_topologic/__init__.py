@@ -11,5 +11,10 @@ __email__ = "pyslvs@gmail.com"
 
 from .number import NumberSynthesis
 from .topologic import topo
+from .triangulation import auto_configure
 
-__all__ = ['NumberSynthesis', 'topo']
+__all__ = [
+    'NumberSynthesis',
+    'topo',
+    'auto_configure',
+]
