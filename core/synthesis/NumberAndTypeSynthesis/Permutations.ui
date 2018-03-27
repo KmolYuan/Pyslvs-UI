@@ -316,7 +316,7 @@
               <string>Keep degenerate chains in the result.</string>
              </property>
              <property name="text">
-              <string>Degenerate chains</string>
+              <string>Three edges loop</string>
              </property>
             </widget>
            </item>
@@ -404,8 +404,15 @@
            <property name="statusTip">
             <string>Load the edges data from text file, then save them to image files.</string>
            </property>
-           <property name="text">
-            <string>Edges to atlas</string>
+           <property name="icon">
+            <iconset resource="../../../icons.qrc">
+             <normaloff>:/icons/edges_to_atlas.png</normaloff>:/icons/edges_to_atlas.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>40</width>
+             <height>16</height>
+            </size>
            </property>
           </widget>
          </item>
