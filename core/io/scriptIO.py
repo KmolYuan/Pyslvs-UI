@@ -66,7 +66,9 @@ class VPoint:
         return self.__c
     
     def distance(self, p):
-        return round(sqrt((self.cx-p.cx)**2 + (self.cy-p.cy)**2), 4)
+        x = self.cx - p.cx
+        y = self.cy - p.cy
+        return round(sqrt(x*x + y*y), 4)
 
 class VLink:
     __slots__ = ('name', 'points')

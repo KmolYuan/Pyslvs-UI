@@ -123,7 +123,9 @@ class VPoint:
             self.__c = ((self.x, self.y),)
     
     def distance(self, p):
-        return round(sqrt((self.x-p.x)**2 + (self.y-p.y)**2), 4)
+        x = self.x - p.x
+        y = self.y - p.y
+        return round(sqrt(x*x + y*y), 4)
     
     def slopeAngle(self, p):
         return round(degrees(atan2(p.y-self.y, p.x-self.x)), 4)

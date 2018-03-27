@@ -39,10 +39,11 @@ cdef class Chromosome(object):
         self.f = 0
     
     cdef double distance(self, Chromosome obj):
-        cdef double dist
-        dist = 0
+        cdef double dist = 0
+        cdef double diff
         for i in range(self.n):
-            dist += (self.v[i] - obj.v[i])**2
+            diff = self.v[i] - obj.v[i]
+            dist += diff * diff
         return sqrt(dist)
     
     cpdef void assign(self, Chromosome obj):
@@ -154,17 +155,16 @@ cdef class Firefly(object):
             firefly.f = self.func(firefly.v)
     
     cdef bool movefly(self, Chromosome me, Chromosome she):
-        cdef double r, beta
+        if me.f <= she.f:
+            return False
+        cdef double r = me.distance(she)
+        cdef double beta = (self.beta0 - self.betaMin)*exp(-self.gamma*r*r)+self.betaMin
         cdef int i
-        if me.f > she.f:
-            r = me.distance(she)
-            beta = (self.beta0-self.betaMin)*exp(-self.gamma*(r**2))+self.betaMin
-            for i in range(me.n):
-                scale = self.ub[i] - self.lb[i]
-                me.v[i] += beta * (she.v[i] - me.v[i]) + self.alpha*(randV()-0.5) * scale
-                me.v[i] = self.check(i, me.v[i])
-            return True
-        return False
+        for i in range(me.n):
+            scale = self.ub[i] - self.lb[i]
+            me.v[i] += beta * (she.v[i] - me.v[i]) + self.alpha*(randV()-0.5) * scale
+            me.v[i] = self.check(i, me.v[i])
+        return True
     
     cdef double check(self, int i, double v):
         if v > self.ub[i]:

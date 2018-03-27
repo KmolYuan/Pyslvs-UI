@@ -70,7 +70,9 @@ class Selector:
     
     def distance(self, x: float, y: float):
         """Return the distance of selector."""
-        return round(sqrt((self.x - x)**2 + (self.y - y)**2), 2)
+        x = self.x - x
+        y = self.y - y
+        return round(sqrt(x*x + y*y), 2)
     
     def inRect(self, x: float, y: float) -> bool:
         """Return if input coordinate is in the rectangle."""
@@ -597,7 +599,10 @@ class DynamicCanvas(BaseCanvas):
                         mouse_y = y - self.Selector.y/-self.zoom
                         for row in self.pointsSelection:
                             vpoint = self.Point[row]
-                            vpoint.move((mouse_x + vpoint.x, mouse_y + vpoint.y))
+                            vpoint.move((
+                                mouse_x + vpoint.x,
+                                mouse_y + vpoint.y
+                            ))
                     elif self.freemove == 2:
                         #Free move rotate function.
                         alpha = atan2(y, x) - atan2(
@@ -606,9 +611,12 @@ class DynamicCanvas(BaseCanvas):
                         )
                         for row in self.pointsSelection:
                             vpoint = self.Point[row]
-                            r = sqrt(vpoint.x**2 + vpoint.y**2)
+                            r = sqrt(vpoint.x*vpoint.x + vpoint.y*vpoint.y)
                             beta = atan2(vpoint.y, vpoint.x)
-                            vpoint.move((r*cos(alpha + beta), r*sin(alpha + beta)))
+                            vpoint.move((
+                                r*cos(alpha + beta),
+                                r*sin(alpha + beta)
+                            ))
                     elif self.freemove == 3:
                         #Free move reflect function.
                         factor_x = 1 if x > 0 else -1
