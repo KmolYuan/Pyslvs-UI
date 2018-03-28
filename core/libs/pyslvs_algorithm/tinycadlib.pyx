@@ -19,8 +19,9 @@ nan = float("nan")
 
 cdef class Coordinate:
     
-    cdef public double x
-    cdef public double y
+    """A class to store the coordinate."""
+    
+    cdef public double x, y
     
     def __cinit__(self, double x, double y):
         self.x = x
@@ -33,6 +34,7 @@ cdef class Coordinate:
         return isnan(self.x) or isnan(self.y)
 
 cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
+    """Point on circle by angle."""
     cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
     if inverse:
         return (A.x + L0*sin(b0 - a0), A.y + L0*cos(b0 - a0))
@@ -40,6 +42,7 @@ cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=
         return (A.x + L0*sin(b0 + a0), A.y + L0*cos(b0 + a0))
 
 cpdef tuple PLLP(Coordinate A, double L0, double R0, Coordinate B, bool inverse=False):
+    """Two intersection points of two circles."""
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
     cdef double d = A.distance(B)
@@ -84,7 +87,7 @@ cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     cdef double L0 = A.distance(B)
     cdef double L1 = B.distance(C)
     cdef double L2 = A.distance(C)
-    return L1+L2>L0 and L0+L2>L1 and L0+L1>L2
+    return L1+L2 > L0 and L0+L2 > L1 and L0+L1 > L2
 
 cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
     '''
@@ -97,17 +100,22 @@ cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
     cdef double follower = B.distance(D)
     cdef double ground = A.distance(B)
     cdef double connector = C.distance(D)
-    return (driver + connector <= ground + follower) or (driver + ground <= connector + follower)
+    return (
+        (driver + connector <= ground + follower) or
+        (driver + ground <= connector + follower)
+    )
 
 cdef str get_from_parenthesis(str s, str front, str back):
+    """Get the string that is inside of parenthesis."""
     return s[s.find(front)+1:s.find(back)]
 
 cdef str get_front_of_parenthesis(str s, str front):
+    """Get the string that is front of parenthesis."""
     return s[:s.find(front)]
 
-#Use to generate path data.
 cpdef void expr_parser(str exprs, dict data_list):
-    '''
+    '''Use to generate path data.
+    
     exprs: "PLAP[A,a0,L1,B](C);PLLP[C,L1,L2,B](D);..."
     data_list: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
     '''
