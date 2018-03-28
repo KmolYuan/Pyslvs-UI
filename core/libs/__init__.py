@@ -17,6 +17,7 @@ from .pyslvs_algorithm import (
 from .pyslvs_topologic import (
     NumberSynthesis,
     topo,
+    Graph,
     auto_configure,
 )
 #Solvespace API.
@@ -44,6 +45,7 @@ __all__ = [
     'build_planar',
     'NumberSynthesis',
     'topo',
+    'Graph',
     'auto_configure',
     'System',
     'groupNum',

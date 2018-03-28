@@ -1,6 +1,6 @@
 #Pyslvs Makefile
 
-all: build run
+all: build
 
 help:
 	@echo ---Pyslvs Makefile Help---
@@ -59,15 +59,6 @@ else
 	@bash ./appimage_recipe.sh
 endif
 	@echo ---Done---
-
-run: build
-ifeq ($(OS),Windows_NT)
-	$(eval EXE = $(shell dir dist /b))
-	@./dist/$(EXE) --test
-else
-	$(eval APPIMAGE = $(shell ls -1 out))
-	@./out/$(APPIMAGE) --test
-endif
 
 clean:
 ifeq ($(OS),Windows_NT)

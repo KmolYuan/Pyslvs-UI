@@ -14,22 +14,18 @@ from core import (
     INFO,
     PyslvsSplash,
 )
+from PyQt5.QtWidgets import QApplication
 
 if __name__=='__main__':
     for info in INFO:
         print(info)
     print('-' * 7)
-    if ARGUMENTS.test:
-        print("All modules are loaded.")
-        exit(0)
-    else:
-        from PyQt5.QtWidgets import QApplication
-        QApp = QApplication([])
-        if ARGUMENTS.fusion:
-            QApp.setStyle('fusion')
-        splash = PyslvsSplash()
-        splash.show()
-        run = MainWindow(ARGUMENTS)
-        run.show()
-        splash.finish(run)
-        exit(QApp.exec())
+    QApp = QApplication([])
+    if ARGUMENTS.fusion:
+        QApp.setStyle('fusion')
+    splash = PyslvsSplash()
+    splash.show()
+    run = MainWindow(ARGUMENTS)
+    run.show()
+    splash.finish(run)
+    exit(QApp.exec())
