@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-03-28, 14:28:25 -->
+<!-- Saved: 2018-03-28, 16:33:25 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -96,8 +96,6 @@
     <Source>core/synthesis/NumberAndTypeSynthesis/Ui_Permutations.py</Source>
     <Source>core/synthesis/NumberAndTypeSynthesis/__init__.py</Source>
     <Source>core/synthesis/__init__.py</Source>
-    <Source>core/testing/__init__.py</Source>
-    <Source>core/testing/utils.py</Source>
     <Source>core/widgets/Ui_inputs.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
@@ -108,6 +106,7 @@
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>preview_rc.py</Source>
+    <Source>test_pyslvs.py</Source>
   </Sources>
   <Forms>
     <Form>core/entities/edit_link.ui</Form>
@@ -132,10 +131,12 @@
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
   </Forms>
+  <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
     <Resource>preview.qrc</Resource>
   </Resources>
+  <Interfaces/>
   <Others>
     <Other>.travis.yml</Other>
     <Other>Makefile</Other>

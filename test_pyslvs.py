@@ -9,19 +9,15 @@ __email__ = "pyslvs@gmail.com"
 
 import unittest
 from unittest import TestCase
-import sys
-import os
 
 """For necessary modules."""
-
-sys.path.append(os.path.abspath('..'))
 
 class LibsTest(TestCase):
     
     """Testing Cython libs."""
     
     def test_topo(self):
-        from libs import topo, Graph
+        from core.libs import topo, Graph
         G = Graph([(0, 1), (0, 4), (1, 5), (2, 3), (2, 4), (3, 5), (4, 5)])
         H = Graph([(0, 2), (0, 4), (1, 3), (1, 4), (2, 5), (3, 5), (4, 5)])
         I = Graph([(0, 1), (0, 2), (1, 4), (2, 5), (3, 4), (3, 5), (4, 5)])
@@ -31,7 +27,7 @@ class LibsTest(TestCase):
         self.assertEqual(len(answer), 2)
     
     def test_triangulation(self):
-        from libs import auto_configure
+        from core.libs import auto_configure
         from networkx import Graph
         #Test for 8-bar linkage.
         G = Graph([(0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5),
