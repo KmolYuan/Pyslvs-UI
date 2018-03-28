@@ -62,16 +62,17 @@ Previews in Windows 8.1 theme:
 
 ## How to startup
 
-Open GUI by Python:
+Here's some command line options for Pyslvs.
 
 ```bash
-python3 launch_pyslvs.py
-```
+# Open GUI by Python:
+python launch_pyslvs.py
 
-Or see the help:
+# Or see the help:
+python launch_pyslvs.py --help
 
-```bash
-python3 launch_pyslvs.py --help
+# Run the unit test:
+python test_pyslvs.py
 ```
 
 ## Symbolic
