@@ -158,7 +158,7 @@ def graph(
         if node_mode:
             color = colorNum(len(list(G.neighbors(k)))-1)
         else:
-            if except_node in tuple(G.edges)[k]:
+            if except_node in dict(edges_view(G))[k]:
                 color = colorQt('Green')
             else:
                 color = colorQt('Blue')

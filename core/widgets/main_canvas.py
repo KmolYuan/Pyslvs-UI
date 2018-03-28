@@ -280,14 +280,6 @@ class DynamicCanvas(BaseCanvas):
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.drawFrame()
-        if self.Selector.RectangularSelection:
-            pen = QPen(Qt.gray)
-            pen.setWidth(1)
-            self.painter.setPen(pen)
-            self.painter.drawRect(QRectF(
-                QPointF(self.Selector.x, self.Selector.y),
-                QPointF(self.Selector.sx, self.Selector.sy)
-            ))
         #Draw links.
         for vlink in self.Link[1:]:
             self.drawLink(vlink)
@@ -301,6 +293,15 @@ class DynamicCanvas(BaseCanvas):
         #Draw points.
         for i, vpoint in enumerate(self.Point):
             self.drawPoint(i, vpoint)
+        #Rectangular selection
+        if self.Selector.RectangularSelection:
+            pen = QPen(Qt.gray)
+            pen.setWidth(1)
+            self.painter.setPen(pen)
+            self.painter.drawRect(QRectF(
+                QPointF(self.Selector.x, self.Selector.y),
+                QPointF(self.Selector.sx, self.Selector.sy)
+            ))
         self.painter.end()
         self.width_old = width
         self.height_old = height
