@@ -135,6 +135,9 @@ class DynamicCanvas(BaseCanvas):
         self.setZoomValue = setZoomValue
         #Default margin factor
         self.marginFactor = 0.95
+        #Widget size
+        self.width_old = self.width()
+        self.height_old = self.height()
     
     def update_figure(self,
         Point: Tuple[VPoint],
