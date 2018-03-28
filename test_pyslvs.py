@@ -16,7 +16,12 @@ class LibsTest(TestCase):
     
     """Testing Cython libs."""
     
-    def test_topo(self):
+    def test_topologic(self):
+        """Testing 'topologic' libraries.
+        
+        + 'topo' function.
+        + 'Graph' class.
+        """
         from core.libs import topo, Graph
         G = Graph([(0, 1), (0, 4), (1, 5), (2, 3), (2, 4), (3, 5), (4, 5)])
         H = Graph([(0, 2), (0, 4), (1, 3), (1, 4), (2, 5), (3, 5), (4, 5)])
@@ -27,6 +32,10 @@ class LibsTest(TestCase):
         self.assertEqual(len(answer), 2)
     
     def test_triangulation(self):
+        """Testing 'triangulation' libraries.
+        
+        + 'auto_configure' function.
+        """
         from core.libs import auto_configure
         from networkx import Graph
         #Test for 8-bar linkage.
@@ -68,10 +77,12 @@ class LibsTest(TestCase):
         expr = auto_configure(G, status, pos, Driver_list, cus, same)
         self.assertEqual(len(expr), 6)
         for i, e in enumerate(expr):
-            if i==0:
+            if i == 0:
                 self.assertEqual(e[0], 'PLAP')
             else:
                 self.assertEqual(e[0], 'PLLP')
+        for node, n_status in status.items():
+            self.assertFalse((not n_status) and (node not in same))
 
 if __name__=='__main__':
     unittest.main()
