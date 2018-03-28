@@ -19,17 +19,11 @@ cdef bool isAllLock(dict status, dict same):
             return False
     return True
 
-def getParam():
-    cdef int i = 0
-    while True:
-        yield i
-        i += 1
-
 def friends(
     object G,
+    dict status,
     dict cus,
     dict same,
-    dict status,
     int node1,
     bool reliable=False
 ):
@@ -66,33 +60,35 @@ cdef list sort_nodes(object nodes, dict pos):
 
 cpdef list auto_configure(
     object G,
-    dict cus,
-    dict same,
     dict status,
     dict pos,
-    object Driver_list
+    object Driver_list,
+    dict cus={},
+    dict same={}
 ):
     """Auto configuration algorithm."""
     #Expression
     cdef list expr = []
-    cdef object link_symbol = getParam()
-    cdef object angle_symbol = getParam()
+    cdef int link_symbol = 0
+    cdef int angle_symbol = 0
     #PLAP solutions.
     cdef int node, target_node
     cdef str name, point1, point2
     for name in Driver_list:
         node = int(name.replace('P', ''))
-        target_node = next(friends(G, cus, same, status, node))
+        target_node = next(friends(G, status, cus, same, node))
         point1 = 'P{}'.format(node)
         point2 = 'P{}'.format(target_node)
         expr.append((
             "PLAP",
             point1,
-            'L{}'.format(next(link_symbol)),
-            'a{}'.format(next(angle_symbol)),
-            'P{}'.format(sort_nodes(friends(G, cus, same, status, node, reliable=True), pos)[0]),
+            'L{}'.format(link_symbol),
+            'a{}'.format(angle_symbol),
+            'P{}'.format(sort_nodes(friends(G, status, cus, same, node, reliable=True), pos)[0]),
             point2
         ))
+        link_symbol += 1
+        angle_symbol += 1
         status[target_node] = True
     #PLLP solutions.
     node = 0
@@ -114,7 +110,7 @@ cpdef list auto_configure(
             if skip_times >= all_points_count:
                 break
             continue
-        rf = friends(G, cus, same, status, node, reliable=True)
+        rf = friends(G, status, cus, same, node, reliable=True)
         try:
             two_friend = sort_nodes((next(rf), next(rf)), pos)
         except StopIteration:
@@ -125,11 +121,12 @@ cpdef list auto_configure(
             expr.append((
                 "PLLP",
                 'P{}'.format(two_friend[0]),
-                'L{}'.format(next(link_symbol)),
-                'L{}'.format(next(link_symbol)),
+                'L{}'.format(link_symbol),
+                'L{}'.format(link_symbol + 1),
                 'P{}'.format(two_friend[1]),
                 point
             ))
+            link_symbol += 2
             status[node] = True
         node += 1
         skip_times = 0

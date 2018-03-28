@@ -530,11 +530,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             return
         expr = auto_configure(
             self.PreviewWindow.G,
-            self.PreviewWindow.cus,
-            self.PreviewWindow.same,
             self.PreviewWindow.status,
             self.PreviewWindow.pos,
-            [item.text() for item in list_items(self.Driver_list)]
+            [item.text() for item in list_items(self.Driver_list)],
+            self.PreviewWindow.cus,
+            self.PreviewWindow.same,
         )
         for e in expr:
             item = QListWidgetItem()
