@@ -18,6 +18,7 @@ before_install:
 
 script:
   - sudo apt -y install desktop-file-utils zenity
+  - python ./core/testing/utils
   - make
 
 before_cache:
