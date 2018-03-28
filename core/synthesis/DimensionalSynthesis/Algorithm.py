@@ -103,6 +103,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         #Signals
         self.Result_list.clicked.connect(self.hasResult)
         self.clear_button.clicked.connect(self.clear_settings)
+        self.path_clear.clicked.connect(self.clear_path)
         self.clear()
     
     def clear(self):
@@ -114,7 +115,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     def clear_settings(self):
         """Clear sub-widgets that contain the setting."""
-        self.on_path_clear_clicked(ask=False)
+        self.clear_path(ask=False)
         self.path.clear()
         self.mechanismParams.clear()
         self.PreviewCanvas.clear()
@@ -162,7 +163,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.currentPathChanged()
     
     @pyqtSlot()
-    def on_path_clear_clicked(self, ask: bool =True):
+    def clear_path(self, ask: bool =True):
         """Clear the current target path."""
         if ask:
             reply = QMessageBox.question(self,
@@ -261,7 +262,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         dlg.show()
         if not dlg.exec_():
             return
-        self.on_path_clear_clicked()
+        self.clear_path(ask=False)
         for e in dlg.r_path:
             self.add_point(e[0], e[1])
         self.currentPathChanged()

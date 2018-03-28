@@ -63,10 +63,11 @@ class InputsWidget(QWidget, Ui_Form):
             self.on_inputs_record_context_menu
         )
         self.popMenu_inputs_record = QMenu(self)
+        self.pathData = {}
         self.clear()
     
     def clear(self):
-        self.pathData = {}
+        self.pathData.clear()
         self.inputs_record.clear()
         self.inputs_variable.clear()
     
