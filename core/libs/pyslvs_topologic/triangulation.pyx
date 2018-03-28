@@ -35,23 +35,34 @@ def friends(
     """
     #All edges of all nodes.
     cdef dict edges = edges_view(G)
+    cdef str n
+    cdef int l
     for n, l in cus.items():
         edges[int(n.replace('P', ''))] = (l,)
     #Reverse dict of 'same'.
-    cdef dict same_r = {v: k for k, v in same.items()}
-    #for all link of node1.
+    cdef int v, k
+    cdef dict same_r = {}
+    for k, v in same.items():
+        if v in same_r:
+            same_r[v].append(k)
+        else:
+            same_r[v] = [k]
+    #For all link of node1.
     cdef set links1 = set(edges[node1])
+    #Second links of node1.
     cdef set links2
-    cdef int node2
+    cdef int node2, node3
     if node1 in same_r:
-        links1.update(edges[same_r[node1]])
+        for node2 in same_r[node1]:
+            links1.update(edges[node2])
     #for all link.
     for node2 in edges:
         if (node1 == node2) or (node2 in same):
             continue
         links2 = set(edges[node2])
         if node2 in same_r:
-            links2.update(edges[same_r[node2]])
+            for node3 in same_r[node2]:
+                links2.update(edges[node3])
         #Reference by intersection and status.
         if (links1 & links2) and (
             (status[node2] or (node2 in same)) == reliable
