@@ -65,7 +65,7 @@ class LibsTest(TestCase):
             14: (44.12, 107.65)
         }
         Driver_list = ['P0']
-        expr = auto_configure(G, cus, same, status, pos, Driver_list)
+        expr = auto_configure(G, status, pos, Driver_list, cus, same)
         self.assertEqual(len(expr), 6)
         for i, e in enumerate(expr):
             if i==0:

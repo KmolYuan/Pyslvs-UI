@@ -9,13 +9,16 @@ from cpython cimport bool
 
 cdef dict edges_view(object G):
     """This list can keep the numbering be consistent."""
+    cdef int n
+    cdef object e
     return {n: tuple(e) for n, e in enumerate(sorted(sorted(e) for e in G.edges))}
 
 cdef bool isAllLock(dict status, dict same):
+    """Test is all status done."""
     cdef int node
     cdef bool n_status
     for node, n_status in status.items():
-        if not n_status and node not in same:
+        if (not n_status) and (node not in same):
             return False
     return True
 
@@ -55,7 +58,8 @@ def friends(
         ):
             yield node2
 
-cdef list sort_nodes(object nodes, dict pos):
+cdef list sort_pos(object nodes, dict pos):
+    """Sort points by position."""
     return sorted(nodes, key=lambda n: pos[n][0], reverse=True)
 
 cpdef list auto_configure(
@@ -84,7 +88,7 @@ cpdef list auto_configure(
             point1,
             'L{}'.format(link_symbol),
             'a{}'.format(angle_symbol),
-            'P{}'.format(sort_nodes(friends(G, status, cus, same, node, reliable=True), pos)[0]),
+            'P{}'.format(sort_pos(friends(G, status, cus, same, node, reliable=True), pos)[0]),
             point2
         ))
         link_symbol += 1
@@ -112,7 +116,7 @@ cpdef list auto_configure(
             continue
         rf = friends(G, status, cus, same, node, reliable=True)
         try:
-            two_friend = sort_nodes((next(rf), next(rf)), pos)
+            two_friend = sort_pos((next(rf), next(rf)), pos)
         except StopIteration:
             pass
         else:
