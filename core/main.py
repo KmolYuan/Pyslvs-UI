@@ -27,7 +27,7 @@ from core.QtModules import (
     QProgressDialog,
 )
 from core.info import PyslvsAbout, check_update
-from core.graphics import slvsProcess, SlvsException
+from core.graphics import slvsProcess, SlvsException, edges_view
 from core.io import (
     Script_Dialog,
     AddTable, DeleteTable, FixSequenceNumber,
@@ -749,19 +749,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.beginMacro(
             "Merge mechanism kit from {Number and Type Synthesis}"
         )
-        for x, y in pos.values():
+        for i in range(len(pos)):
+            x, y = pos[i]
             self.addPoint(x, y)
         for link in G.nodes:
-            self.addLink(
-                self.getLinkSerialNumber(),
-                'Blue',
-                [
-                    base_count + i for i in [
-                        list(G.edges).index(edge)
-                        for edge in G.edges if (link in edge)
-                    ]
-                ]
-            )
+            self.addLink(self.getLinkSerialNumber(), 'Blue', [
+                base_count + n
+                for n, edge in edges_view(G) if (link in edge)
+            ])
             if link == ground_link:
                 ground = self.Entities_Link.rowCount()-1
         self.CommandStack.endMacro()
@@ -1430,6 +1425,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_action_Check_update_triggered(self):
         """Check for update."""
         progdlg = QProgressDialog("Checking update ...", "Cancel", 0, 3, self)
+        progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
         progdlg.setWindowTitle("Check for update")
         progdlg.resize(400, progdlg.height())
         progdlg.setModal(True)

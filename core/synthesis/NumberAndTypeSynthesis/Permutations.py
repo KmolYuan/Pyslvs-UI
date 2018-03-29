@@ -30,13 +30,15 @@ from core.QtModules import (
     QFileInfo,
 )
 from networkx import Graph
-from core.io import Qt_images, v_to_graph
+from core.io import Qt_images
 from core.libs import NumberSynthesis, topo
 from core.graphics import (
     graph,
     EngineList,
-    EngineError
+    EngineError,
+    v_to_graph,
 )
+from typing import List
 from .Ui_Permutations import Ui_Form
 
 class NumberAndTypeSynthesis(QWidget, Ui_Form):
@@ -242,7 +244,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         self.answer = answers
         self.on_reload_atlas_clicked()
     
-    def combineType(self, row: int):
+    def combineType(self, row: int) -> List[Graph]:
         """Combine and show progress dialog."""
         item = self.Expression_number.item(row)
         progdlg = QProgressDialog(
@@ -252,6 +254,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             100,
             self
         )
+        progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
         progdlg.setWindowTitle("Type synthesis - ({})".format(item.text()))
         progdlg.setMinimumSize(QSize(500, 120))
         progdlg.setModal(True)
@@ -293,6 +296,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
                 len(self.answer),
                 self
             )
+            progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
             progdlg.setWindowTitle("Type synthesis")
             progdlg.resize(400, progdlg.height())
             progdlg.setModal(True)

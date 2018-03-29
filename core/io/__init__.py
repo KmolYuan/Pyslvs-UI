@@ -30,8 +30,7 @@ from .larkParser import (
 )
 from .elements import (
     VPoint,
-    VLink,
-    v_to_graph
+    VLink
 )
 from .peeweeIO import FileWidget
 
@@ -62,6 +61,5 @@ __all__ = [
     'get_front_of_parenthesis',
     'VPoint',
     'VLink',
-    'v_to_graph',
     'FileWidget'
 ]

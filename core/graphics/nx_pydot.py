@@ -57,18 +57,21 @@ for engine in _graphviz_engine:
 class EngineError(Exception):
     pass
 
+def reversed_graph(G: Graph) -> Graph:
+    G_ = Graph()
+    nodes = dict(edges_view(G))
+    for i, (l1, l2) in nodes.items():
+        for j, edge in nodes.items():
+            if i == j:
+                continue
+            if (l1 in edge) or (l2 in edge):
+                G_.add_edge(i, j)
+    return G_
+
 def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     """Generate a position dict."""
     if not node_mode:
-        G_ = Graph()
-        nodes = {i:edge for i, edge in edges_view(G)}
-        for i, (l1, l2) in nodes.items():
-            for j, edge in nodes.items():
-                if i==j:
-                    continue
-                if (l1 in edge) or (l2 in edge):
-                    G_.add_edge(i, j)
-        H = G_
+        H = reversed_graph(G)
     else:
         H = G
     if type(engine) != str:
