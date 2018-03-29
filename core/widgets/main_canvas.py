@@ -136,8 +136,8 @@ class DynamicCanvas(BaseCanvas):
         #Default margin factor
         self.marginFactor = 0.95
         #Widget size
-        self.width_old = self.width()
-        self.height_old = self.height()
+        self.width_old = None
+        self.height_old = None
     
     def update_figure(self,
         Point: Tuple[VPoint],
@@ -266,7 +266,10 @@ class DynamicCanvas(BaseCanvas):
         """Drawing functions."""
         width = self.width()
         height = self.height()
-        if self.width_old != width or self.height_old != height:
+        if ((self.width_old is not None) and (
+            (self.width_old != width) or
+            (self.height_old != height)
+        )):
             self.ox += (width - self.width_old) / 2
             self.oy += (height - self.height_old) / 2
         super(DynamicCanvas, self).paintEvent(event)
@@ -274,20 +277,20 @@ class DynamicCanvas(BaseCanvas):
         if self.freemove:
             #Draw a colored frame for free move mode.
             pen = QPen()
-            if self.freemove==1:
+            if self.freemove == 1:
                 pen.setColor(QColor(161, 105, 229))
-            elif self.freemove==2:
+            elif self.freemove == 2:
                 pen.setColor(QColor(219, 162, 6))
-            elif self.freemove==3:
+            elif self.freemove == 3:
                 pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
             self.drawFrame()
-        #Draw links.
+        #Draw links except ground.
         for vlink in self.Link[1:]:
             self.drawLink(vlink)
         #Draw path.
-        if self.Path.show>-2:
+        if self.Path.show > -2:
             self.drawPath()
         #Draw solving path.
         if self.showTargetPath:
@@ -306,6 +309,7 @@ class DynamicCanvas(BaseCanvas):
                 QPointF(self.Selector.sx, self.Selector.sy)
             ))
         self.painter.end()
+        #Record the widget size.
         self.width_old = width
         self.height_old = height
     
