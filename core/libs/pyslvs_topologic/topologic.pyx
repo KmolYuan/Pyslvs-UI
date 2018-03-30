@@ -433,6 +433,7 @@ cpdef topo(
     cdef Graph G, H
     cdef GraphMatcher GM_GH
     for link, count in enumerate(links):
+        #Other of joints that the link connect with.
         match = [Graph(m) for m in combinations(connection_get(link, connection), count)]
         if not edges_combinations:
             edges_combinations = match

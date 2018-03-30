@@ -31,7 +31,7 @@ from core.graphics import (
     graph,
     engine_picker,
     EngineList,
-    EngineError
+    EngineError,
 )
 from networkx import (
     Graph,
@@ -62,7 +62,9 @@ class CollectionsStructure(QWidget, Ui_Form):
         self.collections_grounded = []
         self.graph_engine.addItems(EngineList)
         self.graph_engine.setCurrentIndex(2)
-        self.graph_engine.currentIndexChanged.connect(self.on_reload_atlas_clicked)
+        self.graph_engine.currentIndexChanged.connect(
+            self.on_reload_atlas_clicked
+        )
     
     def clearSelection(self):
         """Clear the selection preview data."""
@@ -123,6 +125,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             len(self.collections),
             self
         )
+        progdlg.setAttribute(Qt.WA_DeleteOnClose, True)
         progdlg.setWindowTitle("Type synthesis")
         progdlg.resize(400, progdlg.height())
         progdlg.setModal(True)
@@ -146,7 +149,9 @@ class CollectionsStructure(QWidget, Ui_Form):
                 break
             else:
                 self.collections_layouts.append(engine)
-                item.setToolTip(str(G.edges))
+                item.setToolTip(
+                    "{}\nUse the right-click menu to operate.".format(G.edges)
+                )
                 self.collection_list.addItem(item)
                 progdlg.setValue(i+1)
     
@@ -358,18 +363,22 @@ class CollectionsStructure(QWidget, Ui_Form):
         item.setIcon(icon)
         self.collections_grounded.append(G)
         self.grounded_list.addItem(item)
+        
+        def isomorphic(G: Graph, l: List[Graph]) -> bool:
+            for H in l:
+                if is_isomorphic(G, H):
+                    return True
+            return False
+        
         for node in G.nodes:
             G_ = Graph(G)
             G_.remove_node(node)
-            error = False
-            for H in self.collections_grounded:
-                if is_isomorphic(G_, H):
-                    error = True
-            if error:
+            if isomorphic(G_, self.collections_grounded):
                 continue
-            item = QListWidgetItem("link_{} constrainted".format(node))
+            item = QListWidgetItem("link_{}".format(node))
             icon = graph(
-                G, self.grounded_list.iconSize().width(),
+                G,
+                self.grounded_list.iconSize().width(),
                 self.ground_engine,
                 except_node=node
             )
@@ -389,10 +398,14 @@ class CollectionsStructure(QWidget, Ui_Form):
         if text == "Released":
             ground_link = None
         else:
-            ground_link = int(text.replace(" constrainted", "").split("_")[1])
+            ground_link = int(text.split("_")[1])
         reply = QMessageBox.question(self,
             "Message",
             "Merge \"{}\" chain to your canvas?".format(text)
         )
         if reply == QMessageBox.Yes:
-            self.add_points_by_graph(G, self.ground_engine, ground_link)
+            self.add_points_by_graph(
+                G,
+                self.ground_engine,
+                ground_link
+            )

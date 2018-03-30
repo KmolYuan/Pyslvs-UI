@@ -21,7 +21,7 @@ from core.QtModules import (
     pyqtSlot,
 )
 from core.graphics import colorQt, colorPath
-from core.io import triangle_expr
+from core.io import triangle_expr, VLink, VPoint
 from networkx import Graph
 from math import (
     radians,
@@ -32,6 +32,7 @@ from math import (
 )
 from typing import (
     Dict,
+    List,
     Tuple,
     Sequence,
     Any
@@ -77,8 +78,8 @@ def convex_hull(points: Sequence[Tuple[float, float]]):
 
 def edges_view(G: Graph) -> [int, tuple]:
     """This generator can keep the numbering be consistent."""
-    for n, e in enumerate(sorted(sorted(e) for e in G.edges)):
-        yield n, tuple(e)
+    for n, edge in enumerate(sorted(sorted(e) for e in G.edges)):
+        yield (n, tuple(edge))
 
 def replace_by_dict(d: dict) -> Tuple[str]:
     """A function use to translate the expression."""
@@ -91,6 +92,33 @@ def replace_by_dict(d: dict) -> Tuple[str]:
                 params[i] = nd[p]
         tmp_list.append("{}[{}]({})".format(func, ','.join(params), nd[target]))
     return tuple(tmp_list)
+
+def v_to_graph(
+    jointData: Tuple[VPoint],
+    linkData: Tuple[VLink]
+) -> List[Tuple[int, int]]:
+    """Get generalization chain."""
+    G = Graph()
+    #Links name for RP joint.
+    k = len(linkData)
+    used_point = []
+    for i, vlink in enumerate(linkData):
+        for p in vlink.points:
+            if p in used_point:
+                continue
+            match = [
+                m for m, vlink_ in enumerate(linkData)
+                if (i != m) and (p in vlink_.points)
+            ]
+            for m in match:
+                if jointData[p].type==2:
+                    G.add_edge(i, k)
+                    G.add_edge(k, m)
+                    k += 1
+                else:
+                    G.add_edge(i, m)
+            used_point.append(p)
+    return [edge for n, edge in edges_view(G.edges)]
 
 class Path:
     
