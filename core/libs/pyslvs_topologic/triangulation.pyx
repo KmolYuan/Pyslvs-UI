@@ -57,16 +57,18 @@ def friends(
             links1.update(edges[node2])
     #for all link.
     for node2 in edges:
-        if (node1 == node2) or (node2 in same):
+        if (
+            (node1 == node2) or
+            (node2 in same) or
+            (status[node2] != reliable)
+        ):
             continue
         links2 = set(edges[node2])
         if node2 in same_r:
             for node3 in same_r[node2]:
                 links2.update(edges[node3])
         #Reference by intersection and status.
-        if (links1 & links2) and (
-            (status[node2] or (node2 in same)) == reliable
-        ):
+        if links1 & links2:
             yield node2
 
 cdef list sort_pos(object nodes, dict pos):
