@@ -750,8 +750,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "Merge mechanism kit from {Number and Type Synthesis}"
         )
         for i in range(len(pos)):
-            x, y = pos[i]
-            self.addPoint(x, y)
+            self.addPoint(*pos[i])
         for link in G.nodes:
             self.addLink(self.getLinkSerialNumber(), 'Blue', [
                 base_count + n

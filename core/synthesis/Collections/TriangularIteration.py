@@ -127,7 +127,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ),
             self
         )
-        self.PreviewWindow.set_joint_number.connect(self.joint_name.setCurrentIndex)
+        self.PreviewWindow.set_joint_number.connect(
+            self.joint_name.setCurrentIndex
+        )
         self.main_layout.insertWidget(0, self.PreviewWindow)
         self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
         #Signals
@@ -294,23 +296,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.Follower_list.addItem(self.Driver_list.takeItem(row))
         self.setWarning(self.Driver_label, not bool(self.Driver_list.count()))
     
-    def symbols(self) -> Set[List[str]]:
-        """Return all symbols."""
-        expr_list = set([])
-        for expr in self.Expression.text().split(';'):
-            param_list = get_from_parenthesis(expr, '[', ']').split(',')
-            param_list.append(get_from_parenthesis(expr, '(', ')'))
-            expr_list.update(param_list)
-        return expr_list
-    
-    def getParam(self, angle: bool =False) -> int:
-        """Get the link / angle parameter number."""
-        i = 0
-        p = '{}{{}}'.format('a' if angle else 'L')
-        while p.format(i) in self.symbols():
-            i += 1
-        return i
-    
     def get_currentMechanismParams(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.set_parm_bind()
@@ -373,7 +358,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 self.Follower_list.setCurrentRow(row)
                 self.Driver_add.click()
         self.Target_list.addItems([mapping[e] for e in params['Target']])
-        self.setWarning(self.Target_label, not self.Target_list.count()>0)
+        self.setWarning(self.Target_label, not self.Target_list.count() > 0)
         #Constraints
         self.constraint_list.addItems([
             ", ".join(mapping[e] for e in c) for c in params['constraint']
@@ -393,7 +378,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Expression_list.addItem(item)
             item.setText(expr)
             self.PreviewWindow.setStatus(mapping[target], True)
-        self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
+        self.setWarning(
+            self.Expression_list_label,
+            not self.PreviewWindow.isAllLock()
+        )
     
     @pyqtSlot()
     def on_constraints_button_clicked(self):
@@ -417,6 +405,23 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         for target in list_texts(dlg.targets_list):
             self.Target_list.addItem(target)
         self.setWarning(self.Target_label, not self.Target_list.count()>0)
+    
+    def symbols(self) -> Set[List[str]]:
+        """Return all symbols."""
+        expr_list = set([])
+        for expr in self.Expression.text().split(';'):
+            param_list = get_from_parenthesis(expr, '[', ']').split(',')
+            param_list.append(get_from_parenthesis(expr, '(', ')'))
+            expr_list.update(param_list)
+        return expr_list
+    
+    def getParam(self, angle: bool =False) -> int:
+        """Get the link / angle parameter number."""
+        i = 0
+        p = '{}{{}}'.format('a' if angle else 'L')
+        while p.format(i) in self.symbols():
+            i += 1
+        return i
     
     @pyqtSlot()
     def on_PLAP_solution_clicked(self):
@@ -460,7 +465,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         item.setText("{}[{},{},{},{}]({})".format(*expr))
         self.PreviewWindow.setStatus(expr[-1], True)
         self.hasSolution()
-        self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
+        self.setWarning(
+            self.Expression_list_label,
+            not self.PreviewWindow.isAllLock()
+        )
     
     @pyqtSlot(QListWidgetItem)
     def set_parm_bind(self, item=None):
@@ -493,7 +501,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 #Links from grounded list.
                 for name in gs.replace('(', '').replace(')', '').split(", "):
                     if self.PreviewWindow.isMultiple(name):
-                        name = 'P{}'.format(self.PreviewWindow.same[int(name.replace('P', ''))])
+                        name = 'P{}'.format(
+                            self.PreviewWindow.same[int(name.replace('P', ''))]
+                        )
                     link_expr.append(self.parm_bind[name])
             except KeyError:
                 continue
@@ -523,10 +533,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             return
         reply = QMessageBox.question(self,
             "Auto configure",
-            "This function can detect the structure to configure the solutions.\n" +
+            "This function can detect the structure " +
+            "to configure the solutions.\n" +
             "The current settings will be cleared."
         )
-        if reply != QMessageBox.Yes or not self.on_Expression_clear_clicked():
+        if (
+            (reply != QMessageBox.Yes) or
+            (not self.on_Expression_clear_clicked())
+        ):
             return
         expr = auto_configure(
             self.PreviewWindow.G,
@@ -541,7 +555,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.Expression_list.addItem(item)
             item.setText("{}[{},{},{},{}]({})".format(*e))
         self.hasSolution()
-        self.setWarning(self.Expression_list_label, not self.PreviewWindow.isAllLock())
+        self.setWarning(
+            self.Expression_list_label,
+            not self.PreviewWindow.isAllLock()
+        )
         self.PreviewWindow.update()
     
     @pyqtSlot()
@@ -552,7 +569,10 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             return
         expr = self.Expression_list.item(count-1).text()
         self.Expression_list.takeItem(count-1)
-        self.PreviewWindow.setStatus(get_from_parenthesis(expr, '(', ')'), False)
+        self.PreviewWindow.setStatus(
+            get_from_parenthesis(expr, '(', ')'),
+            False
+        )
         self.set_parm_bind()
     
     @pyqtSlot()
@@ -564,12 +584,13 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             "Clear the solutions",
             "Are you sure to clear the solutions?"
         )
-        if reply == QMessageBox.Yes:
-            self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
-            self.Expression_list.clear()
-            self.Expression.clear()
-            self.hasSolution()
-        return reply == QMessageBox.Yes
+        if reply != QMessageBox.Yes:
+            return False
+        self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
+        self.Expression_list.clear()
+        self.Expression.clear()
+        self.hasSolution()
+        return True
     
     @pyqtSlot()
     def on_save_button_clicked(self):
@@ -582,13 +603,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 "Profile name",
                 "Please enter the profile name:"
             )
-        if ok:
-            i = 0
-            while (name not in self.collections) and (not name):
-                name = "Structure_{}".format(i)
-            self.collections[name] = self.get_currentMechanismParams()
-            self.profile_name = name
-            self.unsaveFunc()
+        if not ok:
+            return
+        i = 0
+        while (name not in self.collections) and (not name):
+            name = "Structure_{}".format(i)
+        self.collections[name] = self.get_currentMechanismParams()
+        self.profile_name = name
+        self.unsaveFunc()
     
     @pyqtSlot()
     def on_clipboard_button_clicked(self):
