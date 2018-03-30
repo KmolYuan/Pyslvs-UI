@@ -90,11 +90,10 @@ cpdef list auto_configure(
     cdef int angle_symbol = 0
     #PLAP solutions.
     cdef int node, target_node
-    cdef str name, point1, point2
-    for name in Driver_list:
-        node = int(name.replace('P', ''))
+    cdef str point1, point2
+    for point1 in Driver_list:
+        node = int(point1.replace('P', ''))
         target_node = next(friends(G, status, cus, same, node))
-        point1 = 'P{}'.format(node)
         point2 = 'P{}'.format(target_node)
         expr.append((
             "PLAP",
