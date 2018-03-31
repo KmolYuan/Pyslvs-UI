@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\entities\edit_link.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/entities/edit_link.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,13 +11,11 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(314, 325)
-        Dialog.setMinimumSize(QtCore.QSize(314, 325))
-        Dialog.setMaximumSize(QtCore.QSize(314, 325))
+        Dialog.resize(314, 392)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/link.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
-        Dialog.setSizeGripEnabled(False)
+        Dialog.setSizeGripEnabled(True)
         Dialog.setModal(True)
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(Dialog)
         self.horizontalLayout_3.setContentsMargins(6, 6, 6, 6)
@@ -90,7 +88,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Link"))
         self.name_label.setText(_translate("Dialog", "Name:"))
-        self.color_label.setText(_translate("Dialog", "Color:"))
+        self.color_label.setText(_translate("Dialog", "Emphatic Color:"))
         self.point_label.setText(_translate("Dialog", "Points:"))
         self.label.setText(_translate("Dialog", ">>"))
 

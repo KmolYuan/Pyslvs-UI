@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>314</width>
-    <height>325</height>
+    <height>392</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <normaloff>:/icons/link.png</normaloff>:/icons/link.png</iconset>
   </property>
   <property name="sizeGripEnabled">
-   <bool>false</bool>
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -58,7 +58,7 @@
      <item>
       <widget class="QLabel" name="color_label">
        <property name="text">
-        <string>Color:</string>
+        <string>Emphatic Color:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

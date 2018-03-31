@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
+    <width>336</width>
     <height>474</height>
    </rect>
   </property>
@@ -16,6 +16,9 @@
   <property name="windowIcon">
    <iconset resource="../../icons.qrc">
     <normaloff>:/icons/bearing.png</normaloff>:/icons/bearing.png</iconset>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <property name="modal">
    <bool>true</bool>
