@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-03-28, 16:33:25 -->
+<!-- Saved: 2018-03-31, 12:56:46 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -35,6 +35,7 @@
     <Source>core/io/Ui_dxfType.py</Source>
     <Source>core/io/Ui_peeweeIO.py</Source>
     <Source>core/io/Ui_script.py</Source>
+    <Source>core/io/Ui_workbook_overview.py</Source>
     <Source>core/io/__init__.py</Source>
     <Source>core/io/dxfIO.py</Source>
     <Source>core/io/elements.py</Source>
@@ -46,6 +47,7 @@
     <Source>core/io/scriptIO.py</Source>
     <Source>core/io/slvsIO.py</Source>
     <Source>core/io/undoRedo.py</Source>
+    <Source>core/io/workbook_overview.py</Source>
     <Source>core/libs/__init__.py</Source>
     <Source>core/libs/pyslvs_algorithm/__init__.py</Source>
     <Source>core/libs/pyslvs_algorithm/de.pyx</Source>
@@ -115,6 +117,7 @@
     <Form>core/io/dxfType.ui</Form>
     <Form>core/io/peeweeIO.ui</Form>
     <Form>core/io/script.ui</Form>
+    <Form>core/io/workbook_overview.ui</Form>
     <Form>core/main.ui</Form>
     <Form>core/synthesis/Collections/Structure.ui</Form>
     <Form>core/synthesis/Collections/TriangularIteration.ui</Form>
@@ -131,12 +134,10 @@
     <Form>core/synthesis/NumberAndTypeSynthesis/Permutations.ui</Form>
     <Form>core/widgets/inputs.ui</Form>
   </Forms>
-  <Translations/>
   <Resources>
     <Resource>icons.qrc</Resource>
     <Resource>preview.qrc</Resource>
   </Resources>
-  <Interfaces/>
   <Others>
     <Other>.travis.yml</Other>
     <Other>Makefile</Other>

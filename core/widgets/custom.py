@@ -164,7 +164,7 @@ def appearance(self):
     self.SynthesisTab.addTab(
         self.NumberAndTypeSynthesis,
         self.NumberAndTypeSynthesis.windowIcon(),
-        "Structure"
+        "Structural"
     )
     #Synthesis collections
     self.CollectionTabPage = Collections(self)

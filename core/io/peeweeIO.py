@@ -20,8 +20,6 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-from .Ui_peeweeIO import Ui_Form
-from .example import example_list
 import zlib
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
 decompress = lambda obj: eval(zlib.decompress(obj).decode())
@@ -35,6 +33,11 @@ from peewee import (
     ForeignKeyField,
     DateTimeField
 )
+from .workbook_overview import WorkbookOverview
+from .Ui_peeweeIO import Ui_Form
+from .example import example_list
+
+"""We need a not-a-number symbol for eval function."""
 nan = float('nan')
 
 """Create a empty Sqlite database object."""
@@ -495,6 +498,10 @@ class FileWidget(QWidget, Ui_Form):
         #Workbook loaded.
         self.isSavedFunc()
         print("The specified phase has been loaded.")
+        #Show overview dialog.
+        dlg = WorkbookOverview(self, commit)
+        dlg.show()
+        dlg.exec_()
     
     def importCommit(self, commit: CommitModel):
         """Just load the expression. (No clear step!)"""
@@ -535,11 +542,9 @@ class FileWidget(QWidget, Ui_Form):
             return True
         reply = QMessageBox.question(self,
             "Message",
-            "Are you sure to load?\nAny changes won't be saved.",
-            (QMessageBox.Ok | QMessageBox.Cancel),
-            QMessageBox.Ok
+            "Are you sure to load?\nAny changes won't be saved."
         )
-        return reply == QMessageBox.Ok
+        return reply == QMessageBox.Yes
     
     @pyqtSlot(str)
     def on_commit_search_text_textEdited(self, text: str):
@@ -565,15 +570,16 @@ class FileWidget(QWidget, Ui_Form):
         if not self.BranchList.currentRow() > -1:
             return
         branch_name = self.BranchList.currentItem().text()
-        if branch_name != self.branch_current.text():
-            leastCommit = (
-                self.history_commit
-                .join(BranchModel)
-                .where(BranchModel.name == branch_name)
-                .order_by(-CommitModel.date)
-                .get()
-            )
-            self.loadCommit(leastCommit)
+        if branch_name == self.branch_current.text():
+            return
+        leastCommit = (
+            self.history_commit
+            .join(BranchModel)
+            .where(BranchModel.name == branch_name)
+            .order_by(-CommitModel.date)
+            .get()
+        )
+        self.loadCommit(leastCommit)
     
     @pyqtSlot()
     def on_branch_delete_clicked(self):
@@ -581,33 +587,33 @@ class FileWidget(QWidget, Ui_Form):
         if not self.BranchList.currentRow() > -1:
             return
         branch_name = self.BranchList.currentItem().text()
-        if branch_name != self.branch_current.text():
-            fileName = self.fileName.absoluteFilePath()
-            #Connect on database to remove all the commit in this branch.
-            with db.atomic():
-                branch_quary = (
-                    BranchModel
-                    .select()
-                    .where(BranchModel.name == branch_name)
-                )
-                (
-                    CommitModel
-                    .delete()
-                    .where(CommitModel.branch.in_(branch_quary))
-                    .execute()
-                )
-                (
-                    BranchModel
-                    .delete()
-                    .where(BranchModel.name == branch_name)
-                    .execute()
-                )
-            db.close()
-            print("Branch {} was deleted.".format(branch_name))
-            #Reload database.
-            self.read(fileName)
-        else:
+        if branch_name == self.branch_current.text():
             QMessageBox.warning(self,
                 "Warning",
                 "Cannot delete current branch."
             )
+            return
+        fileName = self.fileName.absoluteFilePath()
+        #Connect on database to remove all the commit in this branch.
+        with db.atomic():
+            branch_quary = (
+                BranchModel
+                .select()
+                .where(BranchModel.name == branch_name)
+            )
+            (
+                CommitModel
+                .delete()
+                .where(CommitModel.branch.in_(branch_quary))
+                .execute()
+            )
+            (
+                BranchModel
+                .delete()
+                .where(BranchModel.name == branch_name)
+                .execute()
+            )
+        db.close()
+        print("Branch {} was deleted.".format(branch_name))
+        #Reload database.
+        self.read(fileName)
