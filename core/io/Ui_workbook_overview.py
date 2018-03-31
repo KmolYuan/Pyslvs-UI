@@ -34,7 +34,7 @@ class Ui_Dialog(object):
         icon.addPixmap(QtGui.QPixmap(":/icons/mechanism.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page0, icon, "")
         self.page1 = QtWidgets.QWidget()
-        self.page1.setGeometry(QtCore.QRect(0, 0, 424, 329))
+        self.page1.setGeometry(QtCore.QRect(0, 0, 171, 121))
         self.page1.setObjectName("page1")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.page1)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -61,7 +61,7 @@ class Ui_Dialog(object):
         icon1.addPixmap(QtGui.QPixmap(":/icons/motor.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page1, icon1, "")
         self.page2 = QtWidgets.QWidget()
-        self.page2.setGeometry(QtCore.QRect(0, 0, 424, 329))
+        self.page2.setGeometry(QtCore.QRect(0, 0, 259, 121))
         self.page2.setObjectName("page2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.page2)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -88,7 +88,7 @@ class Ui_Dialog(object):
         icon2.addPixmap(QtGui.QPixmap(":/icons/collections.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.toolBox.addItem(self.page2, icon2, "")
         self.page3 = QtWidgets.QWidget()
-        self.page3.setGeometry(QtCore.QRect(0, 0, 424, 329))
+        self.page3.setGeometry(QtCore.QRect(0, 0, 98, 119))
         self.page3.setObjectName("page3")
         self.verticalLayout_7 = QtWidgets.QVBoxLayout(self.page3)
         self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
@@ -119,7 +119,6 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.storage_label.setText(_translate("Dialog", "Storage:"))
         self.toolBox.setItemText(self.toolBox.indexOf(self.page0), _translate("Dialog", "Mechanism"))
         self.variables_label.setText(_translate("Dialog", "Variables:"))

@@ -589,7 +589,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         if fileName:
             suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
-            print("Formate: {}".format(suffix))
+            print("Format: {}".format(suffix))
             if QFileInfo(fileName).suffix()!=suffix[1:]:
                 fileName += suffix
             self.setLocate(QFileInfo(fileName).absolutePath())
@@ -626,7 +626,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             fileName_s, suffix = QFileDialog.getOpenFileName(self, *args)
         if fileName_s:
             suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
-            print("Formate: {}".format(suffix))
+            print("Format: {}".format(suffix))
             if type(fileName_s)==str:
                 self.setLocate(QFileInfo(fileName_s).absolutePath())
             else:

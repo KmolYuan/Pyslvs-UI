@@ -219,7 +219,13 @@ class InputsWidget(QWidget, Ui_Form):
         return base.slopeAngle(drive)
     
     def get_inputs_variables(self) -> Tuple[int, str, str, float]:
-        """A generator use to get variables."""
+        """A generator use to get variables.
+        
+        [0]: point num
+        [1]: base link
+        [2]: drive link
+        [3]: angle
+        """
         for row in range(self.inputs_variable.count()):
             variable = self.inputs_variable.item(row).text().split('->')
             variable[0] = int(variable[0].replace('Point', ''))

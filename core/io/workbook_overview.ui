@@ -10,9 +10,6 @@
     <height>544</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Dialog</string>
-  </property>
   <property name="sizeGripEnabled">
    <bool>true</bool>
   </property>
@@ -56,8 +53,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>424</width>
-        <height>329</height>
+        <width>171</width>
+        <height>121</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -103,8 +100,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>424</width>
-        <height>329</height>
+        <width>259</width>
+        <height>121</height>
        </rect>
       </property>
       <attribute name="icon">
@@ -150,8 +147,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>424</width>
-        <height>329</height>
+        <width>98</width>
+        <height>119</height>
        </rect>
       </property>
       <attribute name="icon">

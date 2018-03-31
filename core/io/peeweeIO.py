@@ -21,8 +21,6 @@ from core.QtModules import (
     QTableWidgetItem,
 )
 import zlib
-compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
-decompress = lambda obj: eval(zlib.decompress(obj).decode())
 import os
 import datetime
 from peewee import (
@@ -36,6 +34,10 @@ from peewee import (
 from .workbook_overview import WorkbookOverview
 from .Ui_peeweeIO import Ui_Form
 from .example import example_list
+
+"""Use to encode the Python script."""
+compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)
+decompress = lambda obj: eval(zlib.decompress(obj).decode())
 
 """We need a not-a-number symbol for eval function."""
 nan = float('nan')
@@ -499,7 +501,7 @@ class FileWidget(QWidget, Ui_Form):
         self.isSavedFunc()
         print("The specified phase has been loaded.")
         #Show overview dialog.
-        dlg = WorkbookOverview(self, commit)
+        dlg = WorkbookOverview(self, commit, decompress)
         dlg.show()
         dlg.exec_()
     

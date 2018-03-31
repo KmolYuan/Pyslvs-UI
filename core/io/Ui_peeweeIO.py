@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\peeweeIO.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/io/peeweeIO.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -12,6 +12,9 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(497, 653)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(":/icons/git.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Form.setWindowIcon(icon)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(Form)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.CommitTable_text = QtWidgets.QLabel(Form)
@@ -69,8 +72,6 @@ class Ui_Form(object):
         self.branch_current.setObjectName("branch_current")
         self.verticalLayout.addWidget(self.branch_current)
         self.branch_checkout = QtWidgets.QPushButton(Form)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/icons/git.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.branch_checkout.setIcon(icon)
         self.branch_checkout.setObjectName("branch_checkout")
         self.verticalLayout.addWidget(self.branch_checkout)
