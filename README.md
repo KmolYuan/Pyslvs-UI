@@ -368,13 +368,13 @@ There's two options to choose SDK:
 
 1. Using Microsoft Visual Studio. You can get it from [here][visualstudio-link], then startup the Visual Studio Community and install Windows SDK.
 1. Using [Msys 2][msys]. It is based on MinGW 64-bit version.
+1. Just using [MinGW 64-bit][mingw64].
 
 [visualstudio-link]: https://www.visualstudio.com/downloads/
 [msys]: http://www.msys2.org/
+[mingw64]: https://sourceforge.net/projects/mingw-w64/
 
-After the actual test, Microsoft Visual Studio SDK will take a large of file size in your disk, but the executable file will smaller than Msys.
-
-One benefit of Msys is that it is portable.
+When using MinGW, you can refer the steps of this article: <https://stackoverflow.com/questions/34135280/valueerror-unknown-ms-compiler-version-1900>
 
 # Stand-alone Executable File
 
