@@ -39,7 +39,6 @@ from typing import (
     Dict,
     Callable
 )
-inf = float('inf')
 
 class Selector:
     
@@ -244,9 +243,7 @@ class DynamicCanvas(BaseCanvas):
         -3: Auto preview.
         -2: Hide all paths.
         -1: Show all paths.
-        1: Show path 1.
-        2: Show path 2.
-        ...
+        i: Show path i.
         """
         self.Path.show = p
         self.update()
@@ -291,10 +288,13 @@ class DynamicCanvas(BaseCanvas):
         for vlink in self.Link[1:]:
             self.drawLink(vlink)
         #Draw path.
-        if self.Path.show > -2:
+        if self.Path.show == -3:
+            """TODO: Auto preview.
+            
+            Set 'self.Path.path' to preview path.
+            """
+        if self.Path.show != -2:
             self.drawPath()
-        elif self.Path.show == -3:
-            """TODO: Auto preview."""
         #Draw solving path.
         if self.showTargetPath:
             self.drawSlvsRanges()
@@ -427,25 +427,28 @@ class DynamicCanvas(BaseCanvas):
         else:
             Path = self.Path.path
         for i, path in enumerate(Path):
-            if self.Path.show!=i and self.Path.show!=-1:
+            if (
+                self.Path.show != i and
+                self.Path.show != -1 or
+                len(path) <= 1
+            ):
                 continue
-            if len(set(path))>1:
-                try:
-                    color = self.Point[i].color
-                except:
-                    color = colorQt('Green')
-                pen.setColor(color)
-                pen.setWidth(self.pathWidth)
-                self.painter.setPen(pen)
-                if self.Path.curve:
-                    self.drawCurve(path)
-                else:
-                    self.drawDot(path)
+            try:
+                color = self.Point[i].color
+            except:
+                color = colorQt('Green')
+            pen.setColor(color)
+            pen.setWidth(self.pathWidth)
+            self.painter.setPen(pen)
+            if self.Path.curve:
+                self.drawCurve(path)
+            else:
+                self.drawDot(path)
     
     def drawSlvsRanges(self):
         """Draw solving range."""
         pen = QPen()
-        self.painter.setFont(QFont("Arial", self.fontSize+5))
+        self.painter.setFont(QFont("Arial", self.fontSize + 5))
         pen.setWidth(5)
         for i, (tag, rect) in enumerate(self.ranges.items()):
             range_color = QColor(colorNum(i+1))
@@ -454,8 +457,8 @@ class DynamicCanvas(BaseCanvas):
             range_color.setAlpha(255)
             pen.setColor(range_color)
             self.painter.setPen(pen)
-            cx = rect.x()*self.zoom
-            cy = rect.y()*-self.zoom
+            cx = rect.x() * self.zoom
+            cy = rect.y() * -self.zoom
             if rect.width():
                 self.painter.drawRect(QRectF(
                     cx,
@@ -660,6 +663,7 @@ class DynamicCanvas(BaseCanvas):
     
     def zoom_to_fit_limit(self):
         """Limitations of four side."""
+        inf = float('inf')
         x_right = inf
         x_left = -inf
         y_top = -inf
@@ -675,9 +679,9 @@ class DynamicCanvas(BaseCanvas):
             if vpoint.cy > y_top:
                 y_top = vpoint.cy
         #Paths
-        if self.Path.show>-2:
+        if self.Path.show != -2:
             for i, path in enumerate(self.Path.path):
-                if self.Path.show!=-1 and self.Path.show!=i:
+                if self.Path.show != -1 and self.Path.show != i:
                     continue
                 for x, y in path:
                     if x < x_right:
@@ -723,6 +727,7 @@ class DynamicCanvas(BaseCanvas):
         width = width if not width==0 else 1
         height = height if not height==0 else 1
         x_right, x_left, y_top, y_bottom = self.zoom_to_fit_limit()
+        inf = float('inf')
         if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
             self.zoom_change.emit(200)
             self.ox = width/2
