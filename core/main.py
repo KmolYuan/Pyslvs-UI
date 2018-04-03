@@ -87,18 +87,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def setLocate(self, locate: str):
         """Set environment variables."""
-        if locate!=self.env:
-            self.env = locate
-            print("~Set workplace to: [\"{}\"]".format(self.env))
+        if locate == self.env:
+            return
+        self.env = locate
+        print("~Set workplace to: [\"{}\"]".format(self.env))
     
     def dragEnterEvent(self, event):
         """Drag file in to our window."""
         mimeData = event.mimeData()
-        if mimeData.hasUrls():
-            for url in mimeData.urls():
-                fileName = url.toLocalFile()
-                if QFileInfo(fileName).suffix() in ('pyslvs', 'db'):
-                    event.acceptProposedAction()
+        if not mimeData.hasUrls():
+            return
+        for url in mimeData.urls():
+            fileName = url.toLocalFile()
+            if QFileInfo(fileName).suffix() in ('pyslvs', 'db'):
+                event.acceptProposedAction()
     
     def dropEvent(self, event):
         """Drop file in to our window."""
@@ -232,37 +234,34 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Close event to avoid user close the window accidentally."""
         if self.checkFileChanged():
             event.ignore()
-        else:
-            if self.InputsWidget.inputs_playShaft.isActive():
-                self.InputsWidget.inputs_playShaft.stop()
-            XStream.back()
-            self.setAttribute(Qt.WA_DeleteOnClose)
-            print("Exit.")
-            event.accept()
+            return
+        if self.InputsWidget.inputs_playShaft.isActive():
+            self.InputsWidget.inputs_playShaft.stop()
+        XStream.back()
+        self.setAttribute(Qt.WA_DeleteOnClose)
+        print("Exit.")
+        event.accept()
     
     def checkFileChanged(self) -> bool:
         """If the user has not saved the change.
         
-        Return True if user want to Discard the operation.
+        Return True if user want to "discard" the operation.
         """
-        if self.FileWidget.changed:
-            reply = QMessageBox.question(
-                self,
-                "Message",
-                "Are you sure to quit?\nAny changes won't be saved.",
-                (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel),
-                QMessageBox.Save
-            )
-            if reply == QMessageBox.Save:
-                self.on_action_Save_triggered()
-                if self.FileWidget.changed:
-                    return True
-                else:
-                    return False
-            elif reply == QMessageBox.Discard:
-                return False
-            return True
-        return False
+        if not self.FileWidget.changed:
+            return False
+        reply = QMessageBox.question(
+            self,
+            "Message",
+            "Are you sure to quit?\nAny changes won't be saved.",
+            (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel),
+            QMessageBox.Save
+        )
+        if reply == QMessageBox.Save:
+            self.on_action_Save_triggered()
+            return self.FileWidget.changed
+        elif reply == QMessageBox.Discard:
+            return False
+        return True
     
     @pyqtSlot(int)
     def commandReload(self, index=0):
@@ -302,12 +301,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def reload_canvas(self):
         """Reload Canvas, without resolving."""
-        item_path = self.InputsWidget.inputs_record.currentItem()
         self.DynamicCanvasView.update_figure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
-            self.InputsWidget.pathData.get(item_path.text().split(':')[0], ())
-            if item_path else tuple()
+            self.InputsWidget.currentPath()
         )
     
     def workbookNoSave(self):

@@ -445,3 +445,8 @@ class InputsWidget(QWidget, Ui_Form):
         if self.inputs_record_show.isChecked():
             self.DynamicCanvasView.setPathShow(-1)
         self.reload_canvas()
+    
+    def currentPath(self):
+        """Return current path data to main canvas."""
+        item = self.inputs_record.currentText()
+        return self.pathData.get(item.text().split(':')[0], ()) if item else ()
