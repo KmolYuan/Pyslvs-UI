@@ -314,7 +314,7 @@ self.dll_libraries=[]
 self.dll_libraries = get_msvcr()
 ```
 
-Commit `self.dll_libraries = get_msvcr()`.
+Note out `self.dll_libraries = get_msvcr()`.
 
 And then adjust source code about Virtual Studio. Find this code in `where_your_python\include\pyconfig.h`.
 
