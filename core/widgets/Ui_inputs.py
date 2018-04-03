@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/widgets/inputs.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\widgets\inputs.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -115,8 +115,8 @@ class Ui_Form(object):
         self.inputs_variable_play = QtWidgets.QPushButton(self.inputs_variable_groupBox)
         self.inputs_variable_play.setEnabled(False)
         icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         icon2.addPixmap(QtGui.QPixmap(":/icons/play.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon2.addPixmap(QtGui.QPixmap(":/icons/pause.png"), QtGui.QIcon.Active, QtGui.QIcon.On)
         self.inputs_variable_play.setIcon(icon2)
         self.inputs_variable_play.setCheckable(True)
         self.inputs_variable_play.setObjectName("inputs_variable_play")
@@ -163,6 +163,8 @@ class Ui_Form(object):
         self.inputs_record = QtWidgets.QListWidget(self.inputs_record_groupBox)
         self.inputs_record.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.inputs_record.setObjectName("inputs_record")
+        item = QtWidgets.QListWidgetItem()
+        self.inputs_record.addItem(item)
         self.horizontalLayout_8.addWidget(self.inputs_record)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -184,6 +186,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.inputs_record_groupBox)
 
         self.retranslateUi(Form)
+        self.inputs_record.setCurrentRow(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -216,6 +219,11 @@ class Ui_Form(object):
         self.inputs_record_show.setStatusTip(_translate("Form", "Show path data on the canvas."))
         self.inputs_record_show.setText(_translate("Form", "Show path data"))
         self.inputs_record.setStatusTip(_translate("Form", "All recorded path data of this workbook."))
+        __sortingEnabled = self.inputs_record.isSortingEnabled()
+        self.inputs_record.setSortingEnabled(False)
+        item = self.inputs_record.item(0)
+        item.setText(_translate("Form", "Auto preview"))
+        self.inputs_record.setSortingEnabled(__sortingEnabled)
         self.inputs_record_record.setStatusTip(_translate("Form", "Start / Stop record."))
         self.inputs_record_remove.setStatusTip(_translate("Form", "Delete the specified path data."))
 

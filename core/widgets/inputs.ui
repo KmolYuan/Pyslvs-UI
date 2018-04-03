@@ -352,6 +352,14 @@
           <property name="statusTip">
            <string>All recorded path data of this workbook.</string>
           </property>
+          <property name="currentRow">
+           <number>0</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>Auto preview</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item>

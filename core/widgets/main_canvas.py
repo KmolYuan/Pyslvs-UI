@@ -241,6 +241,7 @@ class DynamicCanvas(BaseCanvas):
     def setPathShow(self, p: int):
         """Update path present mode.
         
+        -3: Auto preview.
         -2: Hide all paths.
         -1: Show all paths.
         1: Show path 1.
@@ -292,6 +293,8 @@ class DynamicCanvas(BaseCanvas):
         #Draw path.
         if self.Path.show > -2:
             self.drawPath()
+        elif self.Path.show == -3:
+            """TODO: Auto preview."""
         #Draw solving path.
         if self.showTargetPath:
             self.drawSlvsRanges()

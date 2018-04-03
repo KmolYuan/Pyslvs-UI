@@ -128,11 +128,7 @@ class Path:
     
     def __init__(self):
         self.path = ()
-        """Show options.
-        
-        -1: show all
-        -2: hide path.
-        """
+        #Show mode parameter.
         self.show = -1
         #Display mode: The path will be the curve, otherwise the points.
         self.curve = True

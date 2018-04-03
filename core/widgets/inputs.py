@@ -64,11 +64,11 @@ class InputsWidget(QWidget, Ui_Form):
         )
         self.popMenu_inputs_record = QMenu(self)
         self.pathData = {}
-        self.clear()
     
     def clear(self):
         self.pathData.clear()
-        self.inputs_record.clear()
+        for i in range(self.inputs_record.count() - 1):
+            self.inputs_record.takeItem(1)
         self.inputs_variable.clear()
     
     @pyqtSlot(tuple)
@@ -447,6 +447,18 @@ class InputsWidget(QWidget, Ui_Form):
         self.reload_canvas()
     
     def currentPath(self):
-        """Return current path data to main canvas."""
-        item = self.inputs_record.currentText()
-        return self.pathData.get(item.text().split(':')[0], ()) if item else ()
+        """Return current path data to main canvas.
+        
+        + No path.
+        + Show path data.
+        + Auto preview.
+        """
+        row = self.inputs_record.currentRow()
+        if row == -1:
+            return ()
+        elif row > 0:
+            name = self.inputs_record.item(row).text()
+            return self.pathData.get(name.split(':')[0], ())
+        elif row == 0:
+            self.DynamicCanvasView.setPathShow(-3)
+            return ()
