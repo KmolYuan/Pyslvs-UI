@@ -297,6 +297,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFview.setVisible(False)
             self.reload_canvas()
         else:
+            """TODO: Update triangle expression here."""
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
@@ -606,8 +607,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ))
         QMessageBox.information(self,
             title,
-            "Successfully converted:\n{}".format(fileName),
-            QMessageBox.Ok
+            "Successfully converted:\n{}".format(fileName)
         )
         print("Successful saved: [\"{}\"]".format(fileName))
     
