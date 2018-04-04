@@ -118,7 +118,7 @@ def v_to_graph(
                 else:
                     G.add_edge(i, m)
             used_point.append(p)
-    return [edge for n, edge in edges_view(G.edges)]
+    return [edge for n, edge in edges_view(G)]
 
 class Path:
     

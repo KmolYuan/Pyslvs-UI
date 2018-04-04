@@ -27,7 +27,12 @@ from core.QtModules import (
     QProgressDialog,
 )
 from core.info import PyslvsAbout, check_update
-from core.graphics import slvsProcess, SlvsException, edges_view
+from core.graphics import (
+    slvsProcess,
+    SlvsException,
+    edges_view,
+    v_to_graph,
+)
 from core.io import (
     Script_Dialog,
     AddTable, DeleteTable, FixSequenceNumber,
@@ -1155,6 +1160,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             isRename=False
         ))
         self.CommandStack.endMacro()
+    
+    def getGraph(self):
+        """Return edges data for NetworkX graph class."""
+        return v_to_graph(
+            self.Entities_Point.data(),
+            self.Entities_Link.data()
+        )
     
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):

@@ -36,7 +36,6 @@ from core.graphics import (
     graph,
     EngineList,
     EngineError,
-    v_to_graph,
 )
 from typing import List
 from .Ui_Permutations import Ui_Form
@@ -87,6 +86,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         ])
         self.jointDataFunc = parent.Entities_Point.data
         self.linkDataFunc = parent.Entities_Link.data
+        self.getGraph = parent.getGraph
         self.clear()
     
     def clear(self):
@@ -108,7 +108,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         jointData = self.jointDataFunc()
         linkData = self.linkDataFunc()
         if jointData and linkData:
-            self.Expression_edges.setText(str(v_to_graph(jointData, linkData)))
+            self.Expression_edges.setText(str(self.getGraph()))
         else:
             self.Expression_edges.setText("")
         keep_dof_checked = self.keep_dof.isChecked()
