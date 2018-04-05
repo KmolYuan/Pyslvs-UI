@@ -49,7 +49,9 @@ from core.io import (
 )
 from core.widgets import initCustomWidgets
 from core.entities import edit_point_show, edit_link_show
+from core.libs import auto_configure
 from typing import Tuple, List
+from networkx import Graph
 from .Ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -269,9 +271,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return True
     
     @pyqtSlot(int)
-    def commandReload(self, index=0):
+    def commandReload(self, index):
         """The time of withdrawal and redo action."""
-        if index!=self.FileWidget.Stack:
+        if index != self.FileWidget.Stack:
             self.workbookNoSave()
         else:
             self.workbookSaved()
@@ -285,8 +287,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.Entities_Point.data(),
                 self.Entities_Link.data(),
                 list(self.InputsWidget.get_inputs_variables())
-                if not self.FreeMoveMode.isChecked()
-                else tuple()
+                if not self.FreeMoveMode.isChecked() else ()
             )
         except SlvsException as e:
             if self.showConsoleError.isChecked():
@@ -295,15 +296,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
-            self.reload_canvas()
         else:
-            """TODO: Update triangle expression here."""
+            """TODO: Update triangle expression here.
+            
+            self.expr = auto_configure(
+                Graph(self.getGraph()),
+                status,
+                pos,
+                driver,
+                cus,
+                same
+            )
+            """
+            #print(dict(edges_view(Graph(self.getGraph()))))
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
-            self.reload_canvas()
+        self.reload_canvas()
     
     def reload_canvas(self):
         """Reload Canvas, without resolving."""
@@ -788,7 +799,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Link.item(row, 0).text()
             for row in range(self.Entities_Link.rowCount())
         ]
-        i = 0
+        i = 1
         while "link_{}".format(i) in names:
             i += 1
         return "link_{}".format(i)
