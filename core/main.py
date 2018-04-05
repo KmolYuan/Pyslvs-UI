@@ -31,7 +31,6 @@ from core.graphics import (
     slvsProcess,
     SlvsException,
     edges_view,
-    v_to_graph,
 )
 from core.io import (
     Script_Dialog,
@@ -50,7 +49,11 @@ from core.io import (
 from core.widgets import initCustomWidgets
 from core.entities import edit_point_show, edit_link_show
 from core.libs import auto_configure
-from typing import Tuple, List
+from typing import (
+    Tuple,
+    List,
+    Dict,
+)
 from networkx import Graph
 from .Ui_main import Ui_MainWindow
 
@@ -297,24 +300,79 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
         else:
-            """TODO: Update triangle expression here.
-            
-            self.expr = auto_configure(
-                Graph(self.getGraph()),
-                status,
-                pos,
-                driver,
-                cus,
-                same
-            )
-            """
-            #print(dict(edges_view(Graph(self.getGraph()))))
+            self.expr = self.getTriangleExpression()
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText(str(self.DOF))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
         self.reload_canvas()
+    
+    def getGraph(self) -> List[Tuple[int, int]]:
+        """Return edges data for NetworkX graph class.
+        
+        + VLinks will become graph nodes.
+        """
+        jointData = self.Entities_Point.data()
+        linkData = self.Entities_Link.data()
+        G = Graph()
+        #Links name for RP joint.
+        k = len(linkData)
+        used_point = set()
+        for i, vlink in enumerate(linkData):
+            for p in vlink.points:
+                if p in used_point:
+                    continue
+                match = [
+                    m for m, vlink_ in enumerate(linkData)
+                    if (i != m) and (p in vlink_.points)
+                ]
+                for m in match:
+                    if jointData[p].type==2:
+                        G.add_edge(i, k)
+                        G.add_edge(k, m)
+                        k += 1
+                    else:
+                        G.add_edge(i, m)
+                used_point.add(p)
+        return [edge for n, edge in edges_view(G)]
+    
+    def getTriangleExpression(self) -> str:
+        """TODO: Update triangle expression here.
+        
+        + All joints wil not multiple joints,
+            so the number will follow edges_view generator.
+        """
+        #print(self.getGraph())
+        """
+        jointData = self.Entities_Point.data()
+        linkData = self.Entities_Link.data()
+        G = Graph(self.getGraph())
+        #First, set grounded joints.
+        status = {}
+        for i, edges in edges_view(G):
+            status[i] = 0 in edges
+        #Customize joints.
+        for i, vpoint in enumerate(jointData):
+            if len(vpoint.links) > 1:
+                continue
+            linkData.index(vpoint.links[0])
+        
+        return auto_configure(
+            Graph(self.getGraph()),
+            status,
+            pos,
+            driver,
+            cus,
+            same
+        )
+        """
+        
+        return ""
+    
+    def getStatus(self) -> Dict[int, bool]:
+        """Return joint status for auto configure function."""
+        return {i: ('ground' in p.links) for i, p in self.Entities_Point.data()}
     
     def reload_canvas(self):
         """Reload Canvas, without resolving."""
@@ -1171,13 +1229,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             isRename=False
         ))
         self.CommandStack.endMacro()
-    
-    def getGraph(self):
-        """Return edges data for NetworkX graph class."""
-        return v_to_graph(
-            self.Entities_Point.data(),
-            self.Entities_Link.data()
-        )
     
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):
