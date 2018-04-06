@@ -313,22 +313,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         + VLinks will become graph nodes.
         """
-        jointData = self.Entities_Point.data()
-        linkData = self.Entities_Link.data()
+        joint_data = self.Entities_Point.data()
+        link_data = self.Entities_Link.data()
         G = Graph()
         #Links name for RP joint.
-        k = len(linkData)
+        k = len(link_data)
         used_point = set()
-        for i, vlink in enumerate(linkData):
+        for i, vlink in enumerate(link_data):
             for p in vlink.points:
                 if p in used_point:
                     continue
                 match = [
-                    m for m, vlink_ in enumerate(linkData)
+                    m for m, vlink_ in enumerate(link_data)
                     if (i != m) and (p in vlink_.points)
                 ]
                 for m in match:
-                    if jointData[p].type==2:
+                    if joint_data[p].type==2:
                         G.add_edge(i, k)
                         G.add_edge(k, m)
                         k += 1
@@ -338,27 +338,71 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         return [edge for n, edge in edges_view(G)]
     
     def getTriangleExpression(self) -> str:
-        """TODO: Update triangle expression here.
+        """Update triangle expression here.
         
-        + All joints wil not multiple joints,
+        All joints wil not multiple joints,
             so the number will follow edges_view generator.
-        """
-        #print(self.getGraph())
-        """
-        jointData = self.Entities_Point.data()
-        linkData = self.Entities_Link.data()
-        G = Graph(self.getGraph())
-        #First, set grounded joints.
-        status = {}
-        for i, edges in edges_view(G):
-            status[i] = 0 in edges
-        #Customize joints.
-        for i, vpoint in enumerate(jointData):
-            if len(vpoint.links) > 1:
-                continue
-            linkData.index(vpoint.links[0])
         
-        return auto_configure(
+        + NetworkX graph.
+        + Point number mapping.
+        + Set grounded joints status to true.
+        + Multiple joints.
+        + Customize joints.
+        """
+        inputs = [v[0] for v in self.InputsWidget.get_inputs_variables()]
+        if not inputs:
+            return ""
+        
+        """Prepare data."""
+        link_names = [vlink.name for vlink in self.Entities_Link.data()]
+        joint_links = []
+        joint_pos = []
+        for vpoint in self.Entities_Point.data():
+            joint_links.append(tuple(
+                link_names.index(link) for link in vpoint.links
+            ))
+            joint_pos.append((vpoint.cx, vpoint.cy))
+        
+        G = Graph(self.getGraph())
+        G_map = [edge for n, edge in edges_view(G)]
+        mapping = {}
+        status = {}
+        pos = {}
+        same = {}
+        cus = {}
+        cus_num = len(G_map)
+        
+        for n, links in enumerate(joint_links):
+            #Remove unassociated joints.
+            if not links:
+                continue
+            #Mapping: Including multiple joints.
+            for n_, links_ in enumerate(G_map):
+                #TODO: Multiple joints (same) data.
+                if set(links) >= set(links_):
+                    mapping[n] = n_
+            if n not in mapping:
+                mapping[n] = cus_num
+                cus_num += 1
+            #Status: Grounded.
+            status[mapping[n]] = 0 in links
+            #Position.
+            pos[mapping[n]] = joint_pos[n]
+            #Customize joints will belongs only one linkage.
+            if len(links) == 1:
+                cus['P{}'.format(mapping[n])] = links[0]
+        
+        #Driver list.
+        driver = ['P{}'.format(mapping[v]) for v in inputs]
+        
+        print(mapping)
+        print(status)
+        print(pos)
+        print(driver)
+        print(cus)
+        print(same)
+        
+        expr = auto_configure(
             Graph(self.getGraph()),
             status,
             pos,
@@ -366,9 +410,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             cus,
             same
         )
-        """
-        
-        return ""
+        print(expr)
+        return expr
     
     def getStatus(self) -> Dict[int, bool]:
         """Return joint status for auto configure function."""

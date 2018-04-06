@@ -35,14 +35,13 @@ class LibsTest(TestCase):
         """Testing 'triangulation' libraries.
         
         + 'auto_configure' function.
+        + Start at P0. (Can not use A ... Z letter.)
         """
         from core.libs import auto_configure
         from networkx import Graph
         #Test for 8-bar linkage.
         G = Graph([(0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5),
             (3, 7), (4, 6), (6, 7)])
-        cus = {'P10': 7}
-        same = {2: 1, 4: 3, 6: 7}
         status = {
             0: True,
             1: True,
@@ -74,6 +73,8 @@ class LibsTest(TestCase):
             14: (44.12, 107.65)
         }
         Driver_list = ['P0']
+        cus = {'P10': 7}
+        same = {2: 1, 4: 3, 6: 7}
         expr = auto_configure(G, status, pos, Driver_list, cus, same)
         self.assertEqual(len(expr), 6)
         for i, e in enumerate(expr):
