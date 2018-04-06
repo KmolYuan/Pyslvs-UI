@@ -74,7 +74,7 @@ class LibsTest(TestCase):
         }
         Driver_list = ['P0']
         cus = {'P10': 7}
-        same = {2: 1, 4: 3, 6: 7}
+        same = {2: 1, 4: 3, 7: 6}
         expr = auto_configure(G, status, pos, Driver_list, cus, same)
         self.assertEqual(len(expr), 6)
         for i, e in enumerate(expr):

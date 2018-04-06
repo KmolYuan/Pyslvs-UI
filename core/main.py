@@ -285,12 +285,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def resolve(self):
         """Resolve: Use Solvespace lib."""
+        inputs = list(self.InputsWidget.get_inputs_variables())
         try:
             result, DOF = slvsProcess(
                 self.Entities_Point.data(),
                 self.Entities_Link.data(),
-                list(self.InputsWidget.get_inputs_variables())
-                if not self.FreeMoveMode.isChecked() else ()
+                inputs if not self.FreeMoveMode.isChecked() else ()
             )
         except SlvsException as e:
             if self.showConsoleError.isChecked():
@@ -299,13 +299,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
+            self.expr = ""
         else:
-            self.expr = self.getTriangleExpression()
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
-            self.DOFview.setText(str(self.DOF))
+            self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
+            self.expr = self.getTriangleExpression()
         self.reload_canvas()
     
     def getGraph(self) -> List[Tuple[int, int]]:
@@ -350,7 +351,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         + Customize joints.
         """
         inputs = [v[0] for v in self.InputsWidget.get_inputs_variables()]
-        if not inputs:
+        if (len(inputs) == 0) or (self.DOF != 0):
             return ""
         
         """Prepare data."""
@@ -378,9 +379,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 continue
             #Mapping: Including multiple joints.
             for n_, links_ in enumerate(G_map):
-                #TODO: Multiple joints (same) data.
+                #Multiple joints (same) data.
                 if set(links) >= set(links_):
-                    mapping[n] = n_
+                    if n in mapping:
+                        same[n_] = mapping[n]
+                    else:
+                        mapping[n] = n_
             if n not in mapping:
                 mapping[n] = cus_num
                 cus_num += 1
@@ -392,17 +396,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if len(links) == 1:
                 cus['P{}'.format(mapping[n])] = links[0]
         
+        #Fill up status and pos.
+        for n in same:
+            if n not in status:
+                status[n] = 0 in G_map[n]
+            if n not in pos:
+                pos[n] = pos[same[n]]
+        
         #Driver list.
         driver = ['P{}'.format(mapping[v]) for v in inputs]
         
-        print(mapping)
-        print(status)
-        print(pos)
-        print(driver)
-        print(cus)
-        print(same)
-        
-        expr = auto_configure(
+        return auto_configure(
             Graph(self.getGraph()),
             status,
             pos,
@@ -410,8 +414,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             cus,
             same
         )
-        print(expr)
-        return expr
     
     def getStatus(self) -> Dict[int, bool]:
         """Return joint status for auto configure function."""

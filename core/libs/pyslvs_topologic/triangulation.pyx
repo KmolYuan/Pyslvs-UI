@@ -117,9 +117,8 @@ cpdef list auto_configure(
         if node not in pos:
             node = 0
             continue
-        n_status = status[node] or (node in same)
-        #Set the solution.
-        if n_status:
+        #Check the solution.
+        if status[node] or (node in same):
             node += 1
             skip_times += 1
             #If re-scan again.
