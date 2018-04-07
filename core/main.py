@@ -1367,6 +1367,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         while "Algorithm_path_{}".format(i) in self.InputsWidget.pathData:
             i += 1
         self.InputsWidget.addPath("Algorithm_path_{}".format(i), path)
+        self.DynamicCanvasView.zoomToFit()
     
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):
