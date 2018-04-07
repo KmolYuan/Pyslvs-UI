@@ -104,6 +104,11 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
+        #Functions from the main window.
+        self.getTriangleExpression = parent.getTriangleExpression
+        self.getTriangleMapping = parent.getTriangleMapping
+        self.hasInput = parent.hasInput
+        #The current mouse coordinates.
         self.Selector = Selector()
         #Entities.
         self.Point = tuple()
@@ -288,11 +293,8 @@ class DynamicCanvas(BaseCanvas):
         for vlink in self.Link[1:]:
             self.drawLink(vlink)
         #Draw path.
-        if self.Path.show == -3:
-            """TODO: Auto preview.
-            
-            Set 'self.Path.path' to preview path.
-            """
+        if self.hasInput() and (self.Path.show == -3):
+            self.setAutoPreviewPath()
         if self.Path.show != -2:
             self.drawPath()
         #Draw solving path.
@@ -411,13 +413,29 @@ class DynamicCanvas(BaseCanvas):
         if qpoints:
             self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
-        if self.showPointMark and vlink.name!='ground' and qpoints:
-            pen.setColor(Qt.darkGray)
-            self.painter.setPen(pen)
-            text = '[{}]'.format(vlink.name)
-            cenX = sum([p[0] for p in points])/len(points)
-            cenY = sum([p[1] for p in points])/len(points)
-            self.painter.drawText(QPointF(cenX, cenY), text)
+        if (
+            (not self.showPointMark) or
+            (vlink.name == 'ground') or
+            (not qpoints)
+        ):
+            return
+        pen.setColor(Qt.darkGray)
+        self.painter.setPen(pen)
+        cenX = sum(p[0] for p in points) / len(points)
+        cenY = sum(p[1] for p in points) / len(points)
+        self.painter.drawText(QPointF(cenX, cenY), '[{}]'.format(vlink.name))
+    
+    def setAutoPreviewPath(self):
+        """TODO: Auto preview.
+        
+        Set 'self.Path.path' to preview path.
+        """
+        expr = self.getTriangleExpression()
+        mapping = self.getTriangleMapping()
+        print(expr)
+        print(mapping)
+        path = []
+        self.Path.path = path
     
     def drawPath(self):
         """Draw paths. Recording first."""
@@ -428,9 +446,9 @@ class DynamicCanvas(BaseCanvas):
             Path = self.Path.path
         for i, path in enumerate(Path):
             if (
-                self.Path.show != i and
-                self.Path.show != -1 or
-                len(path) <= 1
+                (self.Path.show != i) and
+                (self.Path.show != -1) or
+                (len(path) <= 1)
             ):
                 continue
             try:
@@ -738,7 +756,7 @@ class DynamicCanvas(BaseCanvas):
         y_diff = y_top - y_bottom
         x_diff = x_diff if x_diff!=0 else 1
         y_diff = y_diff if y_diff!=0 else 1
-        if width / x_diff < height / y_diff:
+        if (width / x_diff) < (height / y_diff):
             factor = width / x_diff
         else:
             factor = height / y_diff

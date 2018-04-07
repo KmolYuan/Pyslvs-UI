@@ -299,14 +299,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
-            self.expr = ""
+            self.triangle_mapping = {}
+            self.triangle_expr = ""
         else:
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
-            self.expr = self.getTriangleExpression()
+            self.setTriangleExpression()
         self.reload_canvas()
     
     def getGraph(self) -> List[Tuple[int, int]]:
@@ -338,7 +339,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 used_point.add(p)
         return [edge for n, edge in edges_view(G)]
     
-    def getTriangleExpression(self) -> str:
+    def setTriangleExpression(self) -> str:
         """Update triangle expression here.
         
         All joints wil not multiple joints,
@@ -352,7 +353,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         inputs = [v[0] for v in self.InputsWidget.get_inputs_variables()]
         if (len(inputs) == 0) or (self.DOF != 0):
-            return ""
+            self.triangle_mapping = {}
+            self.triangle_expr = ""
+            return
         
         """Prepare data."""
         link_names = [vlink.name for vlink in self.Entities_Link.data()]
@@ -405,19 +408,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         #Driver list.
         driver = ['P{}'.format(mapping[v]) for v in inputs]
-        
-        return auto_configure(
-            Graph(self.getGraph()),
-            status,
-            pos,
-            driver,
-            cus,
-            same
-        )
+        self.triangle_mapping = mapping
+        self.triangle_expr = auto_configure(G, status, pos, driver, cus, same)
     
-    def getStatus(self) -> Dict[int, bool]:
-        """Return joint status for auto configure function."""
-        return {i: ('ground' in p.links) for i, p in self.Entities_Point.data()}
+    def getTriangleExpression(self) -> str:
+        """Return triangle expression for main canvas."""
+        return self.triangle_expr
+    
+    def getTriangleMapping(self) -> Dict[int, int]:
+        """Return joints mapping for main canvas."""
+        return self.triangle_mapping
+    
+    def hasInput(self) -> bool:
+        """Wrapper for 'self.InputsWidget.hasInput' function."""
+        return self.InputsWidget.hasInput()
     
     def reload_canvas(self):
         """Reload Canvas, without resolving."""
@@ -600,9 +604,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def emptyLinkGroup(self, linkcolor):
         """Use to add empty link when loading database."""
         for name, color in linkcolor.items():
-            if name == 'ground':
-                continue
-            self.addLink(name, color)
+            if name != 'ground':
+                self.addLink(name, color)
     
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
