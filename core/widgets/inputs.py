@@ -232,13 +232,9 @@ class InputsWidget(QWidget, Ui_Form):
             variable[3] = float(variable[3])
             yield tuple(variable)
     
-    def hasInput(self) -> bool:
-        """Use to show there has any input variable."""
-        try:
-            next(self.getInputsVariables())
-            return True
-        except StopIteration:
-            return False
+    def inputCount(self) -> int:
+        """Use to show input variable count."""
+        return self.inputs_variable.count()
     
     def variableReload(self):
         """Auto check the points and type."""

@@ -26,6 +26,7 @@ from core.graphics import (
     colorNum
 )
 from core.io import VPoint, VLink
+from core.libs import expr_parser
 from math import (
     sin,
     cos,
@@ -37,7 +38,8 @@ from typing import (
     List,
     Tuple,
     Dict,
-    Callable
+    Sequence,
+    Callable,
 )
 
 class Selector:
@@ -107,7 +109,7 @@ class DynamicCanvas(BaseCanvas):
         #Functions from the main window.
         self.getTriangleExpression = parent.getTriangleExpression
         self.getTriangleMapping = parent.getTriangleMapping
-        self.hasInput = parent.hasInput
+        self.rightInput = parent.rightInput
         #The current mouse coordinates.
         self.Selector = Selector()
         #Entities.
@@ -293,7 +295,7 @@ class DynamicCanvas(BaseCanvas):
         for vlink in self.Link[1:]:
             self.__drawLink(vlink)
         #Draw path.
-        if self.hasInput() and (self.Path.show == -3):
+        if (self.Path.show == -3) and self.rightInput():
             self.__setAutoPreviewPath()
         if self.Path.show != -2:
             self.__drawPath()
@@ -449,16 +451,33 @@ class DynamicCanvas(BaseCanvas):
         self.painter.drawText(QPointF(cenX, cenY), '[{}]'.format(vlink.name))
     
     def __setAutoPreviewPath(self):
-        """TODO: Auto preview.
+        """Auto preview function.
         
         Set 'self.Path.path' to preview path.
+        Maybe this part will transform into Cython function.
         """
         expr = self.getTriangleExpression()
+        expr_str = ';'.join("{}[{},{},{},{}]({})".format(*e) for e in expr)
         mapping = self.getTriangleMapping()
-        print(expr)
+        
+        #TODO: Collecting mechanism dimensions.
+        #PLAP[P0,L0,a0,P1](P2);PLLP[P1,L1,L2,P2](P3);PLLP[P3,L3,L4,P2](P4)
+        data_base = {}
+        for i, vpoint in enumerate(self.Point):
+            if 'ground' in vpoint.links:
+                data_base['P{}'.format(mapping[i])] = (vpoint.cx, vpoint.cy)
+        
         print(mapping)
-        path = []
-        self.Path.path = path
+        print(expr_str)
+        print(data_base)
+        
+        def coordinates(angle: Sequence[float]):
+            """TODO: Returns path data back."""
+            data_dict = data_base
+            expr_parser(expr_str, data_dict)
+            return data_dict
+        
+        self.Path.path = []
     
     def __drawPath(self):
         """Draw paths. Recording first."""
@@ -666,7 +685,7 @@ class DynamicCanvas(BaseCanvas):
                         )
                         for row in self.pointsSelection:
                             vpoint = self.Point[row]
-                            r = sqrt(vpoint.x*vpoint.x + vpoint.y*vpoint.y)
+                            r = sqrt(vpoint.x * vpoint.x + vpoint.y * vpoint.y)
                             beta = atan2(vpoint.y, vpoint.x)
                             vpoint.move((
                                 r*cos(alpha + beta),
@@ -674,11 +693,11 @@ class DynamicCanvas(BaseCanvas):
                             ))
                     elif self.freemove == 3:
                         #Free move reflect function.
-                        factor_x = 1 if x > 0 else -1
-                        factor_y = 1 if y > 0 else -1
+                        fx = 1 if x > 0 else -1
+                        fy = 1 if y > 0 else -1
                         for row in self.pointsSelection:
                             vpoint = self.Point[row]
-                            vpoint.move((vpoint.x * factor_x, vpoint.y * factor_y))
+                            vpoint.move((vpoint.x * fx, vpoint.y * fy))
             else:
                 #Rectangular selection
                 self.Selector.RectangularSelection = True

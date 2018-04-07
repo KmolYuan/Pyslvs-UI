@@ -118,18 +118,18 @@ cpdef list auto_configure(
             node = 0
             continue
         #Check the solution.
+        #If re-scan again.
+        if skip_times >= all_points_count:
+            break
         if status[node] or (node in same):
             node += 1
             skip_times += 1
-            #If re-scan again.
-            if skip_times >= all_points_count:
-                break
             continue
         rf = friends(G, status, cus, same, node, reliable=True)
         try:
             two_friend = sort_pos((next(rf), next(rf)), pos)
         except StopIteration:
-            pass
+            skip_times += 1
         else:
             #Add solution.
             point = 'P{}'.format(node)
@@ -143,6 +143,6 @@ cpdef list auto_configure(
             ))
             link_symbol += 2
             status[node] = True
+            skip_times = 0
         node += 1
-        skip_times = 0
     return expr

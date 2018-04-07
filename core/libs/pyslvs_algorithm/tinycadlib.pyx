@@ -113,11 +113,11 @@ cdef str get_front_of_parenthesis(str s, str front):
     """Get the string that is front of parenthesis."""
     return s[:s.find(front)]
 
-cpdef void expr_parser(str exprs, dict data_list):
+cpdef void expr_parser(str exprs, dict data_dict):
     '''Use to generate path data.
     
     exprs: "PLAP[A,a0,L1,B](C);PLLP[C,L1,L2,B](D);..."
-    data_list: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
+    data_dict: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
     '''
     cdef str expr, f, name
     cdef list params
@@ -129,14 +129,14 @@ cpdef void expr_parser(str exprs, dict data_list):
         target = get_from_parenthesis(expr, '(', ')')
         args = []
         for name in params:
-            p = data_list[name]
+            p = data_dict[name]
             if type(p)==tuple or type(p)==list:
                 args.append(Coordinate(*p))
             else:
                 args.append(p)
         if f=='PLAP':
-            data_list[target] = PLAP(*args)
+            data_dict[target] = PLAP(*args)
         elif f=='PLLP':
-            data_list[target] = PLLP(*args)
+            data_dict[target] = PLLP(*args)
         elif f=='PLPP':
-            data_list[target] = PLPP(*args)
+            data_dict[target] = PLPP(*args)

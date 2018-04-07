@@ -298,6 +298,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setToolTip(str(e))
             self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
+            self.DOF = -float('inf')
             self.DOFview.setVisible(False)
             self.triangle_mapping = {}
             self.triangle_expr = ""
@@ -351,13 +352,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         + Multiple joints.
         + Customize joints.
         """
-        inputs = [v[0] for v in self.InputsWidget.getInputsVariables()]
-        if (len(inputs) == 0) or (self.DOF != 0):
-            self.triangle_mapping = {}
-            self.triangle_expr = ""
-            return
-        
-        """Prepare data."""
+        #Prepare data.
         link_names = [vlink.name for vlink in self.Entities_Link.data()]
         joint_links = []
         joint_pos = []
@@ -407,7 +402,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 pos[n] = pos[same[n]]
         
         #Driver list.
-        driver = ['P{}'.format(mapping[v]) for v in inputs]
+        driver = [
+            'P{}'.format(mapping[v[0]])
+            for v in self.InputsWidget.getInputsVariables()
+        ]
         self.triangle_mapping = mapping
         self.triangle_expr = auto_configure(G, status, pos, driver, cus, same)
     
@@ -419,9 +417,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Return joints mapping for main canvas."""
         return self.triangle_mapping
     
-    def hasInput(self) -> bool:
-        """Wrapper for 'self.InputsWidget.hasInput' function."""
-        return self.InputsWidget.hasInput()
+    def rightInput(self) -> bool:
+        """Is input same as DOF?"""
+        return (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
     
     def reloadCanvas(self):
         """Update main canvas data, without resolving."""
