@@ -39,7 +39,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
             self.link_choose.addItem(parent.grounded_list.item(row).text())
         for name, link in self.cus.items():
             self.custom_list.addItem("{} -> {}".format(name, link))
-        self.reload_quote_choose()
+        self.__reloadQuoteChoose()
         self.quote_choose.setCurrentIndex(0)
         for s, qs in self.same.items():
             self.multiple_list.addItem("{} -> {}".format(
@@ -47,7 +47,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
                 'P{}'.format(qs)
             ))
     
-    def reload_quote_choose(self):
+    def __reloadQuoteChoose(self):
         """Reload joints from 'pos' dict."""
         s_old = self.quote_choose.currentText()
         self.quote_choose.clear()
@@ -126,7 +126,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
         quote = int(qs.replace('P', ''))
         self.same[joint] = quote
         self.multiple_list.addItem("{} -> {}".format(s, qs))
-        self.reload_quote_choose()
+        self.__reloadQuoteChoose()
     
     @pyqtSlot()
     def on_delete_mj_button_clicked(self):
@@ -138,4 +138,4 @@ class CustomsDialog(QDialog, Ui_Dialog):
         joint = int(name.replace('P', ''))
         self.same.pop(joint)
         self.multiple_list.takeItem(row)
-        self.reload_quote_choose()
+        self.__reloadQuoteChoose()

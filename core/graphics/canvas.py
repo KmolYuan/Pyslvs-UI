@@ -170,30 +170,7 @@ class BaseCanvas(QWidget):
         self.painter.end()
         """
     
-    def drawFrame(self):
-        """Draw a outer frame."""
-        positive_x = self.width() - self.ox
-        positive_y = -self.oy
-        negative_x = -self.ox
-        negative_y = self.height() - self.oy
-        self.painter.drawLine(
-            QPointF(negative_x, positive_y),
-            QPointF(positive_x, positive_y)
-        )
-        self.painter.drawLine(
-            QPointF(negative_x, negative_y),
-            QPointF(positive_x, negative_y)
-        )
-        self.painter.drawLine(
-            QPointF(negative_x, positive_y),
-            QPointF(negative_x, negative_y)
-        )
-        self.painter.drawLine(
-            QPointF(positive_x, positive_y),
-            QPointF(positive_x, negative_y)
-        )
-    
-    def drawPoint(self,
+    def __drawPoint(self,
         i: int,
         cx,
         cy,
@@ -229,7 +206,7 @@ class BaseCanvas(QWidget):
             text += ":({:.02f}, {:.02f})".format(cx, cy)
         self.painter.drawText(QPointF(x+6, y-6), text)
     
-    def drawTargetPath(self):
+    def __drawTargetPath(self):
         """Draw solving path."""
         pen = QPen()
         pen.setWidth(self.pathWidth)
@@ -239,7 +216,7 @@ class BaseCanvas(QWidget):
             pen.setColor(Pen)
             self.painter.setPen(pen)
             self.painter.setBrush(Brush)
-            if len(path)>1:
+            if len(path) > 1:
                 pointPath = QPainterPath()
                 for i, (x, y) in enumerate(path):
                     x *= self.zoom
@@ -250,7 +227,7 @@ class BaseCanvas(QWidget):
                         pointPath.moveTo(x, y)
                     else:
                         x2, y2 = path[i-1]
-                        self.drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
+                        self.__drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
                         pointPath.lineTo(QPointF(x, y))
                 self.painter.drawPath(pointPath)
                 for x, y in path:
@@ -259,7 +236,7 @@ class BaseCanvas(QWidget):
                     self.painter.drawEllipse(
                         QPointF(x*self.zoom, y*-self.zoom), 3, 3
                     )
-            elif len(path)==1:
+            elif len(path) == 1:
                 x = path[0][0]*self.zoom
                 y = path[0][1]*-self.zoom
                 self.painter.drawText(QPointF(x+6, y-6), name)
@@ -268,7 +245,7 @@ class BaseCanvas(QWidget):
                 self.painter.drawEllipse(QPointF(x, y), 3, 3)
         self.painter.setBrush(Qt.NoBrush)
     
-    def drawArrow(self, x1: float, y1: float, x2: float, y2: float):
+    def __drawArrow(self, x1: float, y1: float, x2: float, y2: float):
         """Front point -> Back point"""
         a = atan2(y2 - y1, x2 - x1)
         x1 = (x1 + x2) / 2 - 7.5*cos(a)
@@ -282,7 +259,7 @@ class BaseCanvas(QWidget):
             QPointF(x1 + 15*cos(a - radians(20)), y1 + 15*sin(a - radians(20)))
         )
     
-    def drawCurve(self, path):
+    def __drawCurve(self, path: Sequence[Tuple[float, float]]):
         pointPath = QPainterPath()
         error = False
         for i, (x, y) in enumerate(path):
@@ -303,12 +280,11 @@ class BaseCanvas(QWidget):
                     pointPath.lineTo(x, y)
         self.painter.drawPath(pointPath)
     
-    def drawDot(self, path):
+    def __drawDot(self, path: Sequence[Tuple[float, float]]):
         for x, y in path:
             if isnan(x):
                 continue
-            else:
-                self.painter.drawPoint(QPointF(x*self.zoom, y*-self.zoom))
+            self.painter.__drawPoint(QPointF(x*self.zoom, y*-self.zoom))
 
 class PreviewCanvas(BaseCanvas):
     
@@ -368,7 +344,7 @@ class PreviewCanvas(BaseCanvas):
         else:
             self.zoom = height / sq_w
         super(PreviewCanvas, self).paintEvent(event)
-        self.drawLimit(sq_w)
+        self.__drawLimit(sq_w)
         pen = QPen()
         pen.setWidth(self.r)
         self.painter.setPen(pen)
@@ -421,7 +397,7 @@ class PreviewCanvas(BaseCanvas):
             solutions = ';'.join(self.get_solutions())
             if solutions:
                 for func, args, target in triangle_expr(solutions):
-                    self.drawSolution(func, args, target)
+                    self.__drawSolution(func, args, target)
         #Text of node.
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
@@ -437,7 +413,7 @@ class PreviewCanvas(BaseCanvas):
             ), name)
         self.painter.end()
     
-    def drawLimit(self, sq_w: int):
+    def __drawLimit(self, sq_w: int):
         """Center square."""
         limit = sq_w / 2 * self.zoom
         self.painter.drawLine(QPointF(-limit, limit), QPointF(limit, limit))
@@ -445,7 +421,7 @@ class PreviewCanvas(BaseCanvas):
         self.painter.drawLine(QPointF(-limit, -limit), QPointF(limit, -limit))
         self.painter.drawLine(QPointF(limit, -limit), QPointF(limit, limit))
     
-    def drawSolution(self, func: str, args: Tuple[str], target: str):
+    def __drawSolution(self, func: str, args: Tuple[str], target: str):
         """Draw the solution triangle."""
         params = [args[0], args[-1]]
         params.append(target)
@@ -461,7 +437,7 @@ class PreviewCanvas(BaseCanvas):
         for n in (0, 1):
             x, y = self.pos[int(params[-1].replace('P', ''))]
             x2, y2 = self.pos[int(params[n].replace('P', ''))]
-            self.drawArrow(
+            self._BaseCanvas__drawArrow(
                 x*self.zoom, y*-self.zoom, x2*self.zoom, y2*-self.zoom
             )
         color.setAlpha(30)
@@ -507,7 +483,7 @@ class PreviewCanvas(BaseCanvas):
         """Get status. If multiple joints, return true."""
         return self.status[point] or (point in self.same)
     
-    def setNameDict(self, name_dict: dict):
+    def setNameDict(self, name_dict: Dict[str, str]):
         """Show as letter names."""
         self.name_dict = {v: k for k, v in name_dict.items()}
         self.update()

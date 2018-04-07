@@ -83,15 +83,15 @@ class Options_show(QDialog, Ui_Dialog):
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.algorithm = algorithm
         self.settings_tab.setTabText(1, self.algorithm.value)
-        self.init_PLTable()
-        self.init_APTable()
+        self.__initPLTable()
+        self.__initAPTable()
         for table in [self.APTable, self.PLTable]:
             table.setColumnWidth(0, 200)
             table.setColumnWidth(1, 90)
-        self.setArgs(settings)
-        self.isOk()
+        self.__setArgs(settings)
+        self.__isOk()
     
-    def init_PLTable(self):
+    def __initPLTable(self):
         """Initialize the linkage table widgets."""
         
         def writeTable(
@@ -135,9 +135,9 @@ class Options_show(QDialog, Ui_Dialog):
                 data("Input angle", 'AMin', 'minimum')
             ])
         for i in range(self.PLTable.rowCount()):
-            self.PLTable.cellWidget(i, 1).valueChanged.connect(self.isOk)
+            self.PLTable.cellWidget(i, 1).valueChanged.connect(self.__isOk)
     
-    def init_APTable(self):
+    def __initAPTable(self):
         """Initialize the algorithm table widgets."""
         
         def writeTable(
@@ -204,7 +204,7 @@ class Options_show(QDialog, Ui_Dialog):
                 ]
             )
     
-    def setArgs(self, PLnAP: Dict[str, Any]):
+    def __setArgs(self, PLnAP: Dict[str, Any]):
         """Set arguments by settings dict."""
         if 'maxGen' in PLnAP:
             self.maxGen.setValue(PLnAP['maxGen'])
@@ -245,7 +245,7 @@ class Options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int)
     @pyqtSlot(float)
-    def isOk(self, r=None):
+    def __isOk(self, r=None):
         """Set buttons enable if values ok."""
         n = True
         pre = 0
@@ -265,4 +265,4 @@ class Options_show(QDialog, Ui_Dialog):
             d['algorithmPrams'] = GeneticPrams.copy()
         elif self.algorithm == AlgorithmType.Firefly:
             d['algorithmPrams'] = FireflyPrams.copy()
-        self.setArgs(d)
+        self.__setArgs(d)

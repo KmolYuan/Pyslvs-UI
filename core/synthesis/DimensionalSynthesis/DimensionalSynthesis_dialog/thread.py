@@ -72,7 +72,7 @@ class WorkerThread(QThread):
             mechanismObj,
             self.settings,
             progress_fun=self.progress_update.emit,
-            interrupt_fun=self.isStoped,
+            interrupt_fun=self.__isStoped,
         )
         T0 = timeit.default_timer()
         self.currentLoop = 0
@@ -85,17 +85,17 @@ class WorkerThread(QThread):
                 #Cancel the remaining tasks.
                 print("Canceled.")
                 continue
-            mechanism, time_spand = self.algorithm()
+            mechanism, time_spand = self.__algorithm()
             self.result.emit(mechanism, time_spand)
         T1 = timeit.default_timer()
         totalTime = round(T1-T0, 2)
         print("total cost time: {} [s]".format(totalTime))
         self.done.emit()
     
-    def algorithm(self) -> [Dict[str, Any], float]:
+    def __algorithm(self) -> [Dict[str, Any], float]:
         """Get the algorithm result."""
         t0 = timeit.default_timer()
-        fitnessParameter, time_and_fitness = self.generateProcess()
+        fitnessParameter, time_and_fitness = self.__generateProcess()
         t1 = timeit.default_timer()
         time_spand = round(t1 - t0, 2)
         cpu = numpy.distutils.cpuinfo.cpu.info[0]
@@ -124,16 +124,16 @@ class WorkerThread(QThread):
         print("cost time: {} [s]".format(time_spand))
         return mechanism, time_spand
     
-    def generateProcess(self):
+    def __generateProcess(self):
         """Execute algorithm and sort out the result."""
         fitnessParameter, time_and_fitness = self.fun.run()
         return(fitnessParameter, time_and_fitness)
+    
+    def __isStoped(self) -> bool:
+        """Return stop status for Cython function."""
+        return self.stoped
     
     def stop(self):
         """Stop the algorithm."""
         with QMutexLocker(self.mutex):
             self.stoped = True
-    
-    def isStoped(self):
-        """Return stop status for Cython function."""
-        return self.stoped

@@ -55,7 +55,7 @@ class CollectionsStructure(QWidget, Ui_Form):
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
         self.inputFrom = parent.inputFrom
-        self.add_points_by_graph = parent.add_points_by_graph
+        self.addPointsByGraph = parent.addPointsByGraph
         self.unsaveFunc = parent.workbookNoSave
         self.collections = []
         self.collections_layouts = []
@@ -66,7 +66,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             self.on_reload_atlas_clicked
         )
     
-    def clearSelection(self):
+    def __clearSelection(self):
         """Clear the selection preview data."""
         self.grounded_list.clear()
         self.selection_window.clear()
@@ -81,7 +81,7 @@ class CollectionsStructure(QWidget, Ui_Form):
         self.triangle_button.setEnabled(False)
         self.collections.clear()
         self.collection_list.clear()
-        self.clearSelection()
+        self.__clearSelection()
     
     @pyqtSlot()
     def on_clear_button_clicked(self):
@@ -332,7 +332,7 @@ class CollectionsStructure(QWidget, Ui_Form):
         )
         if reply != QMessageBox.Yes:
             return
-        self.clearSelection()
+        self.__clearSelection()
         self.collection_list.takeItem(row)
         del self.collections[row]
         self.unsaveFunc()
@@ -404,7 +404,7 @@ class CollectionsStructure(QWidget, Ui_Form):
             "Merge \"{}\" chain to your canvas?".format(text)
         )
         if reply == QMessageBox.Yes:
-            self.add_points_by_graph(
+            self.addPointsByGraph(
                 G,
                 self.ground_engine,
                 ground_link

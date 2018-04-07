@@ -50,7 +50,7 @@ class BaseTableWidget(QTableWidget):
     def rowTexts(self, row: int, noName: bool =False):
         """Get the whole row of texts."""
         texts = []
-        for column in self.effective_range(noName):
+        for column in self.effectiveRange(noName):
             item = self.item(row, column)
             if item is None:
                 texts.append('')
@@ -96,7 +96,7 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(4, 60)
         self.setColumnWidth(5, 60)
         self.setColumnWidth(6, 130)
-        self.itemSelectionChanged.connect(self.emitSelectionChanged)
+        self.itemSelectionChanged.connect(self.__emitSelectionChanged)
     
     def data(self, index=-1) -> Tuple[VPoint]:
         """Get the digitization of all table data."""
@@ -141,7 +141,7 @@ class PointTableWidget(BaseTableWidget):
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
-    def rename(self, row):
+    def rename(self, row: int):
         """When index changed, the points need to rename."""
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
@@ -149,7 +149,15 @@ class PointTableWidget(BaseTableWidget):
     def currentPosition(self, row: int) -> Tuple[float, float]:
         """Get the current coordinate from a point."""
         Type = self.item(row, 2).text().split(':')
-        coordinates = tuple(tuple(float(p) for p in coordinate.split(", ")) for coordinate in self.item(row, 6).text().replace('(', '').replace(')', '').split("; "))
+        coordinates = tuple(
+            tuple(float(p) for p in coordinate.split(", "))
+            for coordinate in (
+                self.item(row, 6).text()
+                .replace('(', '')
+                .replace(')', '')
+                .split("; ")
+            )
+        )
         if Type[0]=='P' or Type[0]=='RP':
             link_count = len(self.item(row, 1).text().split(','))
             if len(coordinates)!=link_count:
@@ -182,14 +190,14 @@ class PointTableWidget(BaseTableWidget):
         keyboardModifiers = QApplication.keyboardModifiers()
         if keyDetect:
             if keyboardModifiers == Qt.ShiftModifier:
-                self.setRangesSelected(selections, continueSelect=True, UnSelect=False)
+                self.__setSelectedRanges(selections, continueSelect=True, UnSelect=False)
             elif keyboardModifiers == Qt.ControlModifier:
-                self.setRangesSelected(selections, continueSelect=True, UnSelect=True)
+                self.__setSelectedRanges(selections, continueSelect=True, UnSelect=True)
             else:
-                self.setRangesSelected(selections, continueSelect=False, UnSelect=False)
+                self.__setSelectedRanges(selections, continueSelect=False, UnSelect=False)
         else:
             continueSelect = (keyboardModifiers == Qt.ShiftModifier)
-            self.setRangesSelected(selections, continueSelect=continueSelect, UnSelect=False)
+            self.__setSelectedRanges(selections, continueSelect=continueSelect, UnSelect=False)
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows) > 1:
@@ -200,7 +208,7 @@ class PointTableWidget(BaseTableWidget):
                 distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
         self.selectionLabelUpdate.emit(selectedRows, tuple(distance))
     
-    def setRangesSelected(self,
+    def __setSelectedRanges(self,
         selections: Tuple[int],
         continueSelect: bool,
         UnSelect: bool
@@ -217,7 +225,7 @@ class PointTableWidget(BaseTableWidget):
                 isSelected if UnSelect else True)
             self.scrollToItem(self.item(row, 0))
     
-    def effective_range(self, noName: bool):
+    def effectiveRange(self, noName: bool):
         """Row range that can be delete."""
         if noName:
             return range(1, self.columnCount()-1)
@@ -225,7 +233,7 @@ class PointTableWidget(BaseTableWidget):
             return range(self.columnCount())
     
     @pyqtSlot()
-    def emitSelectionChanged(self):
+    def __emitSelectionChanged(self):
         """Let canvas to show the point selections."""
         self.rowSelectionChanged.emit(self.selectedRows())
     
@@ -280,7 +288,7 @@ class LinkTableWidget(BaseTableWidget):
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
-    def effective_range(self, noName: bool):
+    def effectiveRange(self, noName: bool):
         """Row range that can be delete."""
         return range(self.columnCount())
     

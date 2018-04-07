@@ -51,11 +51,11 @@ class SolutionsDialog(QDialog, Ui_Dialog):
             if mode=='PLLP':
                 self.point_A.addItem('P{}'.format(node))
             self.point_B.addItem('P{}'.format(node))
-        self.point_A.currentIndexChanged.connect(self.isOk)
-        self.point_B.currentIndexChanged.connect(self.isOk)
-        self.isOk()
+        self.point_A.currentIndexChanged.connect(self.__isOk)
+        self.point_B.currentIndexChanged.connect(self.__isOk)
+        self.__isOk()
     
-    def isOk(self):
+    def __isOk(self):
         """Make button box enable if the settings is already."""
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
             self.point_A.currentText()!=self.point_B.currentText() and

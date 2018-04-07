@@ -143,7 +143,7 @@ class DynamicCanvas(BaseCanvas):
         self.width_old = None
         self.height_old = None
     
-    def update_figure(self,
+    def updateFigure(self,
         Point: Tuple[VPoint],
         Link: Tuple[VLink],
         path: List[Tuple[float, float]]
@@ -254,7 +254,7 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     @pyqtSlot(dict)
-    def update_ranges(self,
+    def updateRanges(self,
         ranges: Dict[str, Tuple[float, float, float]]
     ):
         """Update the ranges of dimensional synthesis."""
@@ -288,22 +288,22 @@ class DynamicCanvas(BaseCanvas):
                 pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
-            self.drawFrame()
+            self.__drawFrame()
         #Draw links except ground.
         for vlink in self.Link[1:]:
-            self.drawLink(vlink)
+            self.__drawLink(vlink)
         #Draw path.
         if self.hasInput() and (self.Path.show == -3):
-            self.setAutoPreviewPath()
+            self.__setAutoPreviewPath()
         if self.Path.show != -2:
-            self.drawPath()
+            self.__drawPath()
         #Draw solving path.
         if self.showTargetPath:
-            self.drawSlvsRanges()
-            self.drawTargetPath()
+            self.__drawSlvsRanges()
+            self._BaseCanvas__drawTargetPath()
         #Draw points.
         for i, vpoint in enumerate(self.Point):
-            self.drawPoint(i, vpoint)
+            self.__drawPoint(i, vpoint)
         #Rectangular selection
         if self.Selector.RectangularSelection:
             pen = QPen(Qt.gray)
@@ -318,7 +318,30 @@ class DynamicCanvas(BaseCanvas):
         self.width_old = width
         self.height_old = height
     
-    def drawPoint(self, i: int, vpoint: VPoint):
+    def __drawFrame(self):
+        """Draw a outer frame."""
+        positive_x = self.width() - self.ox
+        positive_y = -self.oy
+        negative_x = -self.ox
+        negative_y = self.height() - self.oy
+        self.painter.drawLine(
+            QPointF(negative_x, positive_y),
+            QPointF(positive_x, positive_y)
+        )
+        self.painter.drawLine(
+            QPointF(negative_x, negative_y),
+            QPointF(positive_x, negative_y)
+        )
+        self.painter.drawLine(
+            QPointF(negative_x, positive_y),
+            QPointF(negative_x, negative_y)
+        )
+        self.painter.drawLine(
+            QPointF(positive_x, positive_y),
+            QPointF(positive_x, negative_y)
+        )
+    
+    def __drawPoint(self, i: int, vpoint: VPoint):
         """Draw a point."""
         if vpoint.type==1 or vpoint.type==2:
             #Draw slider
@@ -326,7 +349,7 @@ class DynamicCanvas(BaseCanvas):
             for j, (cx, cy) in enumerate(silder_points):
                 if vpoint.type==1:
                     if j==0:
-                        super(DynamicCanvas, self).drawPoint(
+                        self._BaseCanvas__drawPoint(
                             i, cx, cy,
                             vpoint.links[j] == 'ground',
                             vpoint.color
@@ -342,7 +365,7 @@ class DynamicCanvas(BaseCanvas):
                         ))
                 elif vpoint.type==2:
                     if j==0:
-                        super(DynamicCanvas, self).drawPoint(
+                        self._BaseCanvas__drawPoint(
                             i, cx, cy,
                             vpoint.links[j] == 'ground',
                             vpoint.color
@@ -351,7 +374,7 @@ class DynamicCanvas(BaseCanvas):
                         #Turn off point mark.
                         showPointMark = self.showPointMark
                         self.showPointMark = False
-                        super(DynamicCanvas, self).drawPoint(
+                        self._BaseCanvas__drawPoint(
                             i, cx, cy,
                             vpoint.links[j] == 'ground',
                             vpoint.color
@@ -373,7 +396,7 @@ class DynamicCanvas(BaseCanvas):
                     QPointF(p_right[0] * self.zoom, p_right[1] * -self.zoom)
                 )
         else:
-            super(DynamicCanvas, self).drawPoint(
+            self._BaseCanvas__drawPoint(
                 i, vpoint.cx, vpoint.cy,
                 'ground' in vpoint.links,
                 vpoint.color
@@ -389,7 +412,7 @@ class DynamicCanvas(BaseCanvas):
                 24, 24
             )
     
-    def drawLink(self, vlink: VLink):
+    def __drawLink(self, vlink: VLink):
         """Draw a link."""
         points = []
         for i in vlink.points:
@@ -425,7 +448,7 @@ class DynamicCanvas(BaseCanvas):
         cenY = sum(p[1] for p in points) / len(points)
         self.painter.drawText(QPointF(cenX, cenY), '[{}]'.format(vlink.name))
     
-    def setAutoPreviewPath(self):
+    def __setAutoPreviewPath(self):
         """TODO: Auto preview.
         
         Set 'self.Path.path' to preview path.
@@ -437,7 +460,7 @@ class DynamicCanvas(BaseCanvas):
         path = []
         self.Path.path = path
     
-    def drawPath(self):
+    def __drawPath(self):
         """Draw paths. Recording first."""
         pen = QPen()
         if hasattr(self, 'PathRecord'):
@@ -459,11 +482,11 @@ class DynamicCanvas(BaseCanvas):
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
             if self.Path.curve:
-                self.drawCurve(path)
+                self._BaseCanvas__drawCurve(path)
             else:
-                self.drawDot(path)
+                self._BaseCanvas__drawDot(path)
     
-    def drawSlvsRanges(self):
+    def __drawSlvsRanges(self):
         """Draw solving range."""
         pen = QPen()
         self.painter.setFont(QFont("Arial", self.fontSize + 5))
@@ -529,7 +552,7 @@ class DynamicCanvas(BaseCanvas):
             self.mouse_browse_track.emit(x, y)
         if event.buttons() == Qt.LeftButton:
             self.Selector.LeftButtonDrag = True
-            self.mouseSelectedPoint()
+            self.__mouseSelectedPoint()
             if self.Selector.selection:
                 self.mouse_getSelection.emit(tuple(self.Selector.selection), True)
     
@@ -540,30 +563,30 @@ class DynamicCanvas(BaseCanvas):
         + Left button: Edit point function.
         """
         if event.button() == Qt.MidButton:
-            self.zoom_to_fit()
+            self.zoomToFit()
         if event.buttons() == Qt.LeftButton:
             self.Selector.x = event.x() - self.ox
             self.Selector.y = event.y() - self.oy
-            self.mouseSelectedPoint()
+            self.__mouseSelectedPoint()
             if self.Selector.selection:
                 self.mouse_getSelection.emit((self.Selector.selection[0],), True)
                 self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
     
-    def mouseSelectedPoint(self):
+    def __mouseSelectedPoint(self):
         """Select one point."""
-        self.selectedPointFunc(
+        self.__selectedPointFunc(
             self.Selector.selection,
             lambda *args: self.Selector.distance(*args) < self.selectionRadius
         )
     
-    def RectangularSelectedPoint(self):
+    def __rectangularSelectedPoint(self):
         """Select points by rectangle."""
-        self.selectedPointFunc(
+        self.__selectedPointFunc(
             self.Selector.selection_rect,
             self.Selector.inRect
         )
     
-    def selectedPointFunc(self,
+    def __selectedPointFunc(self,
         selection: List[int],
         inSelection: Callable[[float, float], bool]
     ):
@@ -661,7 +684,7 @@ class DynamicCanvas(BaseCanvas):
                 self.Selector.RectangularSelection = True
                 self.Selector.sx = event.x() - self.ox
                 self.Selector.sy = event.y() - self.oy
-                self.RectangularSelectedPoint()
+                self.__rectangularSelectedPoint()
                 km = QApplication.keyboardModifiers()
                 if self.Selector.selection_rect:
                     if km == Qt.ControlModifier or km == Qt.ShiftModifier:
@@ -679,7 +702,7 @@ class DynamicCanvas(BaseCanvas):
             self.update()
         self.mouse_track.emit(x, y)
     
-    def zoom_to_fit_limit(self):
+    def __zoomToFitLimit(self):
         """Limitations of four side."""
         inf = float('inf')
         x_right = inf
@@ -738,13 +761,13 @@ class DynamicCanvas(BaseCanvas):
                 y_top = y_t
         return x_right, x_left, y_top, y_bottom
     
-    def zoom_to_fit(self):
+    def zoomToFit(self):
         """Zoom to fit function."""
         width = self.width()
         height = self.height()
         width = width if not width==0 else 1
         height = height if not height==0 else 1
-        x_right, x_left, y_top, y_bottom = self.zoom_to_fit_limit()
+        x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
         inf = float('inf')
         if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
             self.zoom_change.emit(200)

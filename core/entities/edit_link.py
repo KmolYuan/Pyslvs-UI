@@ -19,7 +19,7 @@ from core.QtModules import (
 from core.graphics import colorName, colorIcons
 from .Ui_edit_link import Ui_Dialog as edit_link_Dialog
 
-class edit_link_show(QDialog, edit_link_Dialog):
+class EditLink_show(QDialog, edit_link_Dialog):
     
     """Option dialog.
     
@@ -27,7 +27,7 @@ class edit_link_show(QDialog, edit_link_Dialog):
     """
     
     def __init__(self, Points, Links, pos=False, parent=None):
-        super(edit_link_show, self).__init__(parent)
+        super(EditLink_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Points = Points
@@ -48,21 +48,23 @@ class edit_link_show(QDialog, edit_link_Dialog):
             for vlink in self.Links:
                 self.Link.insertItem(i, icon, vlink.name)
             self.Link.setCurrentIndex(pos)
-        self.name_edit.textChanged.connect(self.isOk)
-        self.isOk()
+        self.name_edit.textChanged.connect(self.__isOk)
+        self.__isOk()
     
     @pyqtSlot(str)
-    def isOk(self, p0=None):
+    def __isOk(self, p0=None):
         """Set button box enable if options are ok."""
-        name = self.name_edit.text()
-        names = [
-            vlink.name
-            for i, vlink in enumerate(self.Links)
-            if i != self.Link.currentIndex()
-        ]
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
-            name.isidentifier() and (not name in names)
+            self.__legalName(self.name_edit.text())
         )
+    
+    def __legalName(self, name: str) -> bool:
+        if not name.isidentifier():
+            return False
+        for i, vlink in enumerate(self.Links):
+            if (i != self.Link.currentIndex()) and (name == vlink.name):
+                return False
+        return True
     
     @pyqtSlot(int)
     def on_Link_currentIndexChanged(self, index):

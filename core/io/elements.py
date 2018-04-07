@@ -34,8 +34,11 @@ class VPoint:
         x: float =0.,
         y: float =0.
     ):
-        self.set(links, type, angle, color, x, y)
-        self.reset()
+        self.__set(links, type, angle, color, x, y)
+        if (self.type == 1) or (self.type == 2):
+            self.__c = tuple((self.x, self.y) for i in range(len(self.links)))
+        else:
+            self.__c = ((self.x, self.y),)
     
     @property
     def links(self):
@@ -98,7 +101,7 @@ class VPoint:
         """Get the coordinates of all pin."""
         return self.__c
     
-    def set(self, links, type, angle, color, x, y):
+    def __set(self, links, type, angle, color, x, y):
         self.__links = tuple(filter(lambda a: a!='', links.split(',')))
         self.__type = type
         self.__angle = angle
@@ -106,20 +109,8 @@ class VPoint:
         self.__x = x
         self.__y = y
     
-    def round(self, d=8):
-        self.__c = tuple(
-            tuple(round(p, d) for p in coordinate)
-            for coordinate in self.__c
-        )
-    
     def move(self, *coordinates):
         self.__c = tuple(coordinates)
-    
-    def reset(self):
-        if (self.type == 1) or (self.type == 2):
-            self.__c = tuple((self.x, self.y) for i in range(len(self.links)))
-        else:
-            self.__c = ((self.x, self.y),)
     
     def distance(self, p):
         x = self.x - p.x
@@ -149,7 +140,7 @@ class VLink:
     __slots__ = ('__name', '__color', '__points')
     
     def __init__(self, name: str, color: str, points: Tuple[int]):
-        self.set(name, color, points)
+        self.__set(name, color, points)
     
     @property
     def name(self) -> str:
@@ -176,7 +167,7 @@ class VLink:
     def setPoints(self, points: Tuple[int]):
         self.__points = points
     
-    def set(self, name, color, points):
+    def __set(self, name, color, points):
         self.__name = name
         self.__color = color
         self.__points = points

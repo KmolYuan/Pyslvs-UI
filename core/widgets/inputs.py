@@ -40,7 +40,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.Entities_Link = parent.Entities_Link
         self.DynamicCanvasView = parent.DynamicCanvasView
         self.resolve = parent.resolve
-        self.reload_canvas = parent.reload_canvas
+        self.reloadCanvas = parent.reloadCanvas
         self.outputTo = parent.outputTo
         self.ConflictGuide = parent.ConflictGuide
         self.DOF = lambda: parent.DOF
@@ -48,12 +48,12 @@ class InputsWidget(QWidget, Ui_Form):
         #self widgets.
         self.inputs_Degree = QDial()
         self.inputs_Degree.setEnabled(False)
-        self.inputs_Degree.valueChanged.connect(self.variableValueUpdate)
+        self.inputs_Degree.valueChanged.connect(self.__variableValueUpdate)
         self.inputs_dial_layout.addWidget(RotatableView(self.inputs_Degree))
         self.inputs_variable_stop.clicked.connect(self.variableValueReset)
         self.inputs_playShaft = QTimer(self)
         self.inputs_playShaft.setInterval(10)
-        self.inputs_playShaft.timeout.connect(self.inputs_change_index)
+        self.inputs_playShaft.timeout.connect(self.__changeIndex)
         '''Inputs record context menu
         
         + Copy data from Point{}
@@ -72,7 +72,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.inputs_variable.clear()
     
     @pyqtSlot(tuple)
-    def inputs_points_setSelection(self, selections):
+    def setSelection(self, selections):
         """Set one selection from canvas."""
         self.inputs_points.setCurrentRow(
             selections[0]
@@ -81,7 +81,7 @@ class InputsWidget(QWidget, Ui_Form):
         )
     
     @pyqtSlot()
-    def inputs_points_clearSelection(self):
+    def clearSelection(self):
         """Clear the points selection."""
         self.inputs_points.setCurrentRow(-1)
     
@@ -123,13 +123,13 @@ class InputsWidget(QWidget, Ui_Form):
     @pyqtSlot()
     def on_inputs_variable_add_clicked(self):
         """Add inputs variable from click button."""
-        self.add_inputs_variable(
+        self.__addInputsVariable(
             self.inputs_points.currentRow(),
             self.inputs_baseLinks.currentItem().text(),
             self.inputs_driveLinks.currentItem().text()
         )
     
-    def add_inputs_variable(self,
+    def __addInputsVariable(self,
         point: int,
         base_link: str,
         drive_links: str
@@ -142,21 +142,21 @@ class InputsWidget(QWidget, Ui_Form):
             name,
             base_link,
             drive_links,
-            "{:.02f}".format(self.getLinkAngle(point, drive_links))
+            "{:.02f}".format(self.__getLinkAngle(point, drive_links))
         ])
-        for variable in self.get_inputs_variables():
+        for variable in self.getInputsVariables():
             if name == variable[0]:
                 return
         self.CommandStack.beginMacro("Add variable of {}".format(name))
         self.CommandStack.push(AddVariable(text, self.inputs_variable))
         self.CommandStack.endMacro()
     
-    def add_inputs_variables(self,
+    def addInputsVariables(self,
         variables: Tuple[Tuple[int, str, str]]
     ):
         """Add from database."""
         for variable in variables:
-            self.add_inputs_variable(*variable)
+            self.__addInputsVariable(*variable)
     
     @pyqtSlot(int)
     def on_inputs_variable_currentRowChanged(self, row: int =None):
@@ -174,13 +174,13 @@ class InputsWidget(QWidget, Ui_Form):
             if enabled else 0
         )
     
-    def inputs_variable_excluding(self, row: int =None):
+    def variableExcluding(self, row: int =None):
         """Remove variable if the point was been deleted.
         
         Default: all.
         """
         one_row = row is not None
-        for i, variable in enumerate(self.get_inputs_variables()):
+        for i, variable in enumerate(self.getInputsVariables()):
             row_ = variable[0]
             #If this is not origin point any more.
             if one_row and (row != row_):
@@ -208,7 +208,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.Entities_Point.getBackPosition()
         self.resolve()
     
-    def getLinkAngle(self, row: int, link: str) -> float:
+    def __getLinkAngle(self, row: int, link: str) -> float:
         """Get the angle of base link and drive link."""
         Point = self.Entities_Point.data()
         Link = self.Entities_Link.data()
@@ -218,7 +218,7 @@ class InputsWidget(QWidget, Ui_Form):
         drive = Point[relate[relate.index(row)-1]]
         return base.slopeAngle(drive)
     
-    def get_inputs_variables(self) -> Tuple[int, str, str, float]:
+    def getInputsVariables(self) -> Tuple[int, str, str, float]:
         """A generator use to get variables.
         
         [0]: point num
@@ -235,12 +235,12 @@ class InputsWidget(QWidget, Ui_Form):
     def hasInput(self) -> bool:
         """Use to show there has any input variable."""
         try:
-            next(self.get_inputs_variables())
+            next(self.getInputsVariables())
             return True
         except StopIteration:
             return False
     
-    def inputs_variable_reload(self):
+    def variableReload(self):
         """Auto check the points and type."""
         self.inputs_points.clear()
         for i in range(self.Entities_Point.rowCount()):
@@ -251,7 +251,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.inputs_points.addItem(text)
         self.variableValueReset()
     
-    def variableValueUpdate(self, value):
+    def __variableValueUpdate(self, value):
         """Update the value when rotating QDial."""
         item = self.inputs_variable.currentItem()
         value /= 100.
@@ -274,13 +274,13 @@ class InputsWidget(QWidget, Ui_Form):
             self.inputs_variable_play.setChecked(False)
             self.inputs_playShaft.stop()
         self.Entities_Point.getBackPosition()
-        for i, variable in enumerate(self.get_inputs_variables()):
+        for i, variable in enumerate(self.getInputsVariables()):
             point = variable[0]
             text = '->'.join([
                 'Point{}'.format(point),
                 variable[1],
                 variable[2],
-                "{:.02f}".format(self.getLinkAngle(point, variable[2]))
+                "{:.02f}".format(self.__getLinkAngle(point, variable[2]))
             ])
             self.inputs_variable.item(i).setText(text)
         self.on_inputs_variable_currentRowChanged()
@@ -296,7 +296,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.inputs_playShaft.stop()
     
     @pyqtSlot()
-    def inputs_change_index(self):
+    def __changeIndex(self):
         """QTimer change index."""
         index = self.inputs_Degree.value()
         speed = self.inputs_variable_speed.value()
@@ -368,7 +368,7 @@ class InputsWidget(QWidget, Ui_Form):
         ))
         self.CommandStack.endMacro()
         self.inputs_record.setCurrentRow(self.inputs_record.count() - 1)
-        self.reload_canvas()
+        self.reloadCanvas()
     
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
@@ -452,7 +452,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Reload the canvas when switch the path."""
         if self.inputs_record_show.isChecked():
             self.DynamicCanvasView.setPathShow(-1)
-        self.reload_canvas()
+        self.reloadCanvas()
     
     def currentPath(self):
         """Return current path data to main canvas.

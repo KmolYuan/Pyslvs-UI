@@ -56,7 +56,7 @@ class DynamicCanvas(BaseCanvas):
         timer.timeout.connect(self.change_index)
         timer.start()
     
-    def zoom_to_fit_limit(self):
+    def __zoomToFitLimit(self):
         """Limitations of four side."""
         x_right = inf
         x_left = -inf
@@ -103,7 +103,7 @@ class DynamicCanvas(BaseCanvas):
         """Drawing functions."""
         width = self.width()
         height = self.height()
-        x_right, x_left, y_top, y_bottom = self.zoom_to_fit_limit()
+        x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
         x_diff = x_left - x_right
         y_diff = y_top - y_bottom
         x_diff = x_diff if x_diff!=0 else 1
@@ -141,22 +141,23 @@ class DynamicCanvas(BaseCanvas):
         #Draw path.
         self.drawPath()
         #Draw solving path.
-        self.drawTargetPath()
+        self._BaseCanvas__drawTargetPath()
         #Draw points.
         for i, name in enumerate(self.exp_symbol):
-            coordinate = self.Point[i]
-            if coordinate:
-                color = colorQt('Green')
-                fixed = False
-                if name in self.mechanism['Target']:
-                    color = colorQt('Dark-Orange')
-                elif name in self.mechanism['Driver']:
-                    color = colorQt('Red')
-                    fixed = True
-                elif name in self.mechanism['Follower']:
-                    color = colorQt('Blue')
-                    fixed = True
-                self.drawPoint(i, coordinate[0], coordinate[1], fixed, color)
+            if not self.Point[i]:
+                continue
+            x, y = self.Point[i]
+            color = colorQt('Green')
+            fixed = False
+            if name in self.mechanism['Target']:
+                color = colorQt('Dark-Orange')
+            elif name in self.mechanism['Driver']:
+                color = colorQt('Red')
+                fixed = True
+            elif name in self.mechanism['Follower']:
+                color = colorQt('Blue')
+                fixed = True
+            self._BaseCanvas__drawPoint(i, x, y, fixed, color)
         self.painter.end()
         if self.ERROR:
             self.ERROR = False
@@ -217,7 +218,7 @@ class DynamicCanvas(BaseCanvas):
             pen.setColor(color)
             pen.setWidth(self.pathWidth)
             self.painter.setPen(pen)
-            self.drawCurve(path)
+            self._BaseCanvas__drawCurve(path)
     
     @pyqtSlot()
     def change_index(self):

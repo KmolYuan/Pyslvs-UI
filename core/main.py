@@ -47,7 +47,7 @@ from core.io import (
     get_from_parenthesis,
 )
 from core.widgets import initCustomWidgets
-from core.entities import edit_point_show, edit_link_show
+from core.entities import EditPoint_show, EditLink_show
 from core.libs import auto_configure
 from typing import (
     Tuple,
@@ -76,7 +76,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.on_connectConsoleButton_clicked()
         #Undo Stack
         self.CommandStack = QUndoStack()
-        self.setLocate(
+        self.__setLocate(
             QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
@@ -92,10 +92,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def show(self):
         """Adjust the canvas size after display."""
         super(MainWindow, self).show()
-        self.DynamicCanvasView.zoom_to_fit()
+        self.DynamicCanvasView.zoomToFit()
         self.DimensionalSynthesis.updateRange()
     
-    def setLocate(self, locate: str):
+    def __setLocate(self, locate: str):
         """Set environment variables."""
         if locate == self.env:
             return
@@ -119,7 +119,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.acceptProposedAction()
     
     @pyqtSlot(float, float)
-    def context_menu_mouse_pos(self, x, y):
+    def mousePos(self, x, y):
         """Mouse position on canvas."""
         self.mouse_pos_x = x
         self.mouse_pos_y = y
@@ -127,7 +127,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
         """Entities_Point context menu."""
-        self.enablePointContext()
+        self.__enablePointContext()
         self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
         self.action_New_Link.setVisible(True)
         self.popMenu_point_merge.clear()
@@ -135,20 +135,20 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(QPoint)
     def on_link_context_menu(self, point):
         """Entities_Link context menu."""
-        self.enableLinkContext()
+        self.__enableLinkContext()
         self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
     
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
         """DynamicCanvasView context menu."""
-        self.enablePointContext()
+        self.__enablePointContext()
         tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
         self.action_canvas_context_path.setVisible(tabText == "Dimensional")
         self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
         self.action_New_Link.setVisible(True)
         self.popMenu_point_merge.clear()
     
-    def enablePointContext(self):
+    def __enablePointContext(self):
         """Adjust the status of QActions.
         
         What ever we have least one point or not,
@@ -186,13 +186,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.popMenu_point_merge.menuAction().setVisible(selectionCount>1)
         #Generate a merge function.
         def mjFunc(i):
-            return lambda: self.toMultipleJoint(i, selectedRows)
+            return lambda: self.__toMultipleJoint(i, selectedRows)
         for i, p in enumerate(selectedRows):
             action = QAction("Base on Point{}".format(p), self)
             action.triggered.connect(mjFunc(i))
             self.popMenu_point_merge.addAction(action)
     
-    def enableLinkContext(self):
+    def __enableLinkContext(self):
         """Enable / disable link's QAction, same as point table."""
         selectionCount = len(self.Entities_Link.selectedRows())
         row = self.Entities_Link.currentRow()
@@ -205,7 +205,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_link_context_constrain.setVisible(row>0 and selected_one)
     
     @pyqtSlot()
-    def enableMenu(self):
+    def enableMechanismActions(self):
         """Enable / disable 'mechanism' menu."""
         pointSelection = self.Entities_Point.selectedRows()
         linkSelection = self.Entities_Link.selectedRows()
@@ -225,16 +225,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_Delete_Link.setEnabled(LINK_SELECTED)
     
     @pyqtSlot()
-    def tableCopy_Points(self):
+    def copyPointsTable(self):
         """Copy text from point table."""
-        self.tableCopy(self.Entities_Point)
+        self.__copyTableData(self.Entities_Point)
     
     @pyqtSlot()
-    def tableCopy_Links(self):
+    def copyLinksTable(self):
         """Copy text from link table."""
-        self.tableCopy(self.Entities_Link)
+        self.__copyTableData(self.Entities_Link)
     
-    def tableCopy(self, table):
+    def __copyTableData(self, table):
         """Copy item text to clipboard."""
         text = table.currentItem().text()
         if text:
@@ -242,7 +242,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def closeEvent(self, event):
         """Close event to avoid user close the window accidentally."""
-        if self.checkFileChanged():
+        if self.__checkFileChanged():
             event.ignore()
             return
         if self.InputsWidget.inputs_playShaft.isActive():
@@ -252,7 +252,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Exit.")
         event.accept()
     
-    def checkFileChanged(self) -> bool:
+    def __checkFileChanged(self) -> bool:
         """If the user has not saved the change.
         
         Return True if user want to "discard" the operation.
@@ -280,12 +280,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookNoSave()
         else:
             self.workbookSaved()
-        self.InputsWidget.inputs_variable_reload()
+        self.InputsWidget.variableReload()
         self.resolve()
     
     def resolve(self):
         """Resolve: Use Solvespace lib."""
-        inputs = list(self.InputsWidget.get_inputs_variables())
+        inputs = list(self.InputsWidget.getInputsVariables())
         try:
             result, DOF = slvsProcess(
                 self.Entities_Point.data(),
@@ -307,8 +307,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
-            self.setTriangleExpression()
-        self.reload_canvas()
+            self.__setTriangleExpression()
+        self.reloadCanvas()
     
     def getGraph(self) -> List[Tuple[int, int]]:
         """Return edges data for NetworkX graph class.
@@ -339,7 +339,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 used_point.add(p)
         return [edge for n, edge in edges_view(G)]
     
-    def setTriangleExpression(self) -> str:
+    def __setTriangleExpression(self) -> str:
         """Update triangle expression here.
         
         All joints wil not multiple joints,
@@ -351,7 +351,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         + Multiple joints.
         + Customize joints.
         """
-        inputs = [v[0] for v in self.InputsWidget.get_inputs_variables()]
+        inputs = [v[0] for v in self.InputsWidget.getInputsVariables()]
         if (len(inputs) == 0) or (self.DOF != 0):
             self.triangle_mapping = {}
             self.triangle_expr = ""
@@ -423,9 +423,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Wrapper for 'self.InputsWidget.hasInput' function."""
         return self.InputsWidget.hasInput()
     
-    def reload_canvas(self):
-        """Reload Canvas, without resolving."""
-        self.DynamicCanvasView.update_figure(
+    def reloadCanvas(self):
+        """Update main canvas data, without resolving."""
+        self.DynamicCanvasView.updateFigure(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             self.InputsWidget.currentPath()
@@ -458,17 +458,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
         """Open website: http://mde.tw"""
-        self.OpenURL("http://mde.tw")
+        self.__openURL("http://mde.tw")
     
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self):
         """Open website: http://www.pyslvs.com/blog/index.html"""
-        self.OpenURL("http://www.pyslvs.com/blog/index.html")
+        self.__openURL("http://www.pyslvs.com/blog/index.html")
     
     @pyqtSlot()
     def on_action_github_repository_triggered(self):
         """Open website: Github repository."""
-        self.OpenURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
+        self.__openURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
     
     @pyqtSlot()
     def on_action_About_Pyslvs_triggered(self):
@@ -481,7 +481,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Open Qt about."""
         QMessageBox.aboutQt(self)
     
-    def OpenURL(self, URL):
+    def __openURL(self, URL):
         """Use to open link."""
         QDesktopServices.openUrl(QUrl(URL))
     
@@ -497,7 +497,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Return true if successed.
         """
         if self.FileWidget.loadExample():
-            self.DynamicCanvasView.zoom_to_fit()
+            self.DynamicCanvasView.zoomToFit()
     
     @pyqtSlot()
     def on_action_Import_Example_triggered(self):
@@ -507,11 +507,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Workbook_triggered(self):
         """Create (Clean) a new workbook."""
-        if self.checkFileChanged():
+        if self.__checkFileChanged():
             return
         self.clear()
         self.FileWidget.reset()
-        self.FileWidget.colseDatabase()
+        self.FileWidget.closeDatabase()
         print("Created a new workbook.")
     
     def clear(self):
@@ -590,7 +590,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 for linkName in links:
                     #If link name not exist.
                     if linkName not in linkNames:
-                        self.addLink(linkName, 'Blue')
+                        self.__addLink(linkName, 'Blue')
                 rowCount = self.Entities_Point.rowCount()
                 self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
                 self.CommandStack.push(AddTable(self.Entities_Point))
@@ -601,16 +601,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 ))
                 self.CommandStack.endMacro()
     
-    def emptyLinkGroup(self, linkcolor):
+    def AddEmptyLinkGroup(self, linkcolor: Dict[str, str]):
         """Use to add empty link when loading database."""
         for name, color in linkcolor.items():
             if name != 'ground':
-                self.addLink(name, color)
+                self.__addLink(name, color)
     
     @pyqtSlot()
     def on_action_Load_Workbook_triggered(self):
         """Load workbook."""
-        if self.checkFileChanged():
+        if self.__checkFileChanged():
             return
         fileName = self.inputFrom(
             "Workbook database",
@@ -619,12 +619,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not fileName:
             return
         self.FileWidget.read(fileName)
-        self.DynamicCanvasView.zoom_to_fit()
+        self.DynamicCanvasView.zoomToFit()
     
     @pyqtSlot()
     def on_action_Import_Workbook_triggered(self):
         """Import from workbook."""
-        if self.checkFileChanged():
+        if self.__checkFileChanged():
             return
         fileName = self.inputFrom(
             "Workbook database (Import)",
@@ -712,7 +712,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("Format: {}".format(suffix))
             if QFileInfo(fileName).suffix()!=suffix[1:]:
                 fileName += suffix
-            self.setLocate(QFileInfo(fileName).absolutePath())
+            self.__setLocate(QFileInfo(fileName).absolutePath())
         return fileName
     
     def saveReplyBox(self, title: str, fileName: str):
@@ -747,9 +747,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Format: {}".format(suffix))
             if type(fileName_s)==str:
-                self.setLocate(QFileInfo(fileName_s).absolutePath())
+                self.__setLocate(QFileInfo(fileName_s).absolutePath())
             else:
-                self.setLocate(QFileInfo(fileName_s[0]).absolutePath())
+                self.__setLocate(QFileInfo(fileName_s[0]).absolutePath())
         return fileName_s
     
     @pyqtSlot()
@@ -784,7 +784,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.Save
         )
         if reply == QMessageBox.Open:
-            self.OpenURL(url)
+            self.__openURL(url)
         elif reply == QMessageBox.Save:
             QApplication.clipboard().setText(url)
     
@@ -817,23 +817,23 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         sd.show()
     
     @pyqtSlot()
-    def qAddPointGroup(self):
+    def qAddNormalPoint(self):
         """Add point group using alt key."""
         tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
         if tabText == "Dimensional":
-            self.dimensional_synthesis_add_rightClick()
+            self.addTargetPoint()
         else:
-            self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
+            self.__addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
     
-    def addPointGroup(self):
+    def addNormalPoint(self):
         """Add a point (not fixed)."""
-        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
+        self.__addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
     
-    def addPointGroup_fixed(self):
+    def addFixedPoint(self):
         """Add a point (fixed)."""
-        self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
+        self.__addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
     
-    def addPoint(self,
+    def __addPoint(self,
         x: float,
         y: float,
         fixed: bool =False,
@@ -862,16 +862,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.endMacro()
         return rowCount
     
-    def add_points_by_graph(self, G, pos, ground_link: [None, int]):
+    def addPointsByGraph(self, G, pos, ground_link: [None, int]):
         """Add points by networkx graph and position dict."""
         base_count = self.Entities_Point.rowCount()
         self.CommandStack.beginMacro(
             "Merge mechanism kit from {Number and Type Synthesis}"
         )
         for i in range(len(pos)):
-            self.addPoint(*pos[i])
+            self.__addPoint(*pos[i])
         for link in G.nodes:
-            self.addLink(self.getLinkSerialNumber(), 'Blue', [
+            self.__addLink(self.__getLinkSerialNumber(), 'Blue', [
                 base_count + n
                 for n, edge in edges_view(G) if (link in edge)
             ])
@@ -882,11 +882,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.constrainLink(ground)
     
     @pyqtSlot(list)
-    def addLinkGroup(self, points):
+    def __addNormalLink(self, points):
         """Add a link."""
-        self.addLink(self.getLinkSerialNumber(), 'Blue', points)
+        self.__addLink(self.__getLinkSerialNumber(), 'Blue', points)
     
-    def addLink(self, name, color, points=()):
+    def __addLink(self, name, color, points=()):
         """Push a new link command to stack."""
         linkArgs = [name, color, ','.join('Point{}'.format(i) for i in points)]
         self.CommandStack.beginMacro("Add {{Link: {}}}".format(name))
@@ -899,7 +899,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ))
         self.CommandStack.endMacro()
     
-    def getLinkSerialNumber(self) -> str:
+    def __getLinkSerialNumber(self) -> str:
         """Return a new serial number name of link."""
         names = [
             self.Entities_Link.item(row, 0).text()
@@ -913,17 +913,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def on_action_New_Point_triggered(self):
         """Create a point with arguments."""
-        self.editPoint()
+        self.__editPoint()
     
     @pyqtSlot()
     def on_action_Edit_Point_triggered(self):
         """Edit a point with arguments."""
         row = self.Entities_Point.currentRow()
-        self.editPoint(row if row>-1 else 0)
+        self.__editPoint(row if row>-1 else 0)
     
-    def editPoint(self, row=False):
+    def __editPoint(self, row=False):
         """Edit point function."""
-        dlg = edit_point_show(
+        dlg = EditPoint_show(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             row,
@@ -983,7 +983,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ))
             self.CommandStack.endMacro()
     
-    def toMultipleJoint(self, index: int, points: Tuple[int]):
+    def __toMultipleJoint(self, index: int, points: Tuple[int]):
         """Merge points into a multiple joint.
         @index: The index of main joint in the sequence.
         """
@@ -1005,7 +1005,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for l in Links(p):
                 if l not in newLinks:
                     newLinks.append(l)
-            self.deletePoint(p)
+            self.__deletePoint(p)
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[0] = ','.join(newLinks)
         self.CommandStack.push(EditPointTable(
@@ -1035,7 +1035,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.endMacro()
     
     @pyqtSlot(tuple)
-    def freemove_setCoordinate(self, coordinates):
+    def setFreemoved(self, coordinates):
         """Free move function."""
         self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
             "Point{}".format(c[0]) for c in coordinates
@@ -1057,7 +1057,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Create a link with arguments."""
         selectedRows = self.Entities_Point.selectedRows()
         if not len(selectedRows)>1:
-            self.editLink()
+            self.__editLink()
             return
         #Search to found that there is any point is not idle.
         link_data = self.Entities_Link.data()
@@ -1066,7 +1066,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ps_set = set(vlink.points)
             #If link are exist, edit the link.
             if sr_set == ps_set:
-                self.editLink(row)
+                self.__editLink(row)
                 return
             #If link has some new point, add the new points to link.
             elif ps_set and (sr_set > ps_set):
@@ -1095,16 +1095,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 ))
                 self.CommandStack.endMacro()
                 return
-        self.addLinkGroup(selectedRows)
+        self.__addNormalLink(selectedRows)
     
     @pyqtSlot()
     def on_action_Edit_Link_triggered(self):
         """Edit a link with arguments."""
-        self.editLink(self.Entities_Link.currentRow())
+        self.__editLink(self.Entities_Link.currentRow())
     
-    def editLink(self, row=False):
+    def __editLink(self, row=False):
         """Edit link function."""
-        dlg = edit_link_show(
+        dlg = EditLink_show(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             row,
@@ -1140,7 +1140,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot()
     def releaseGround(self):
         """Clone ground to a new link, then make ground no points."""
-        name = self.getLinkSerialNumber()
+        name = self.__getLinkSerialNumber()
         Args = [name, 'Blue', self.Entities_Link.item(0, 2).text()]
         self.CommandStack.beginMacro(
             "Release ground to {{Link: {}}}".format(name)
@@ -1213,9 +1213,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 row = p-i
             else:
                 row = p
-            self.deletePoint(row)
+            self.__deletePoint(row)
     
-    def deletePoint(self, row: int):
+    def __deletePoint(self, row: int):
         """Push delete point command to stack."""
         Args = list(self.Entities_Point.rowTexts(row, True))
         Args[0] = ''
@@ -1237,7 +1237,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Point,
             isRename=True
         ))
-        self.InputsWidget.inputs_variable_excluding(row)
+        self.InputsWidget.variableExcluding(row)
         self.CommandStack.endMacro()
     
     @pyqtSlot()
@@ -1251,9 +1251,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for i, p in enumerate(selections)
         )
         for row in selections:
-            self.deleteLink(row)
+            self.__deleteLink(row)
     
-    def deleteLink(self, row: int):
+    def __deleteLink(self, row: int):
         """Push delete link command to stack.
         
         Remove link will not remove the points.
@@ -1293,7 +1293,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ZoomText.setText('{}%'.format(value))
     
     @pyqtSlot()
-    def zoom_customize(self):
+    def customizeZoom(self):
         """Customize zoom value."""
         value, ok = QInputDialog.getInt(self,
             "Zoom",
@@ -1330,12 +1330,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.SynthesisTab.tabText(index)=="Dimensional"
         )
     
-    def dimensional_synthesis_add_rightClick(self):
+    def addTargetPoint(self):
         """Use context menu to add a target path coordinate."""
-        self.DimensionalSynthesis.add_point(self.mouse_pos_x, self.mouse_pos_y)
+        self.DimensionalSynthesis.addPoint(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple)
-    def dimensional_synthesis_mergeResult(self, row, path):
+    def mergeResult(self, row, path):
         """Merge result function of dimensional synthesis."""
         Result = self.DimensionalSynthesis.mechanism_data[row]
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
@@ -1349,13 +1349,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         )
         tmp_dict = {}
         for tag in sorted(exp_symbol):
-            tmp_dict[tag] = self.addPoint(
+            tmp_dict[tag] = self.__addPoint(
                 Result[tag][0],
                 Result[tag][1],
                 color=("Dark-Orange" if (tag in Result['Target']) else None)
             )
         for i, exp in enumerate(Result['Link_Expression'].split(';')):
-            self.addLinkGroup(
+            self.__addNormalLink(
                 tmp_dict[name]
                 for name in get_from_parenthesis(exp, '[', ']').split(',')
             )
@@ -1372,8 +1372,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def on_connectConsoleButton_clicked(self):
         """Turn the OS command line (stdout) log to console."""
         print("Connect to GUI console.")
-        XStream.stdout().messageWritten.connect(self.appendToConsole)
-        XStream.stderr().messageWritten.connect(self.appendToConsole)
+        XStream.stdout().messageWritten.connect(self.__appendToConsole)
+        XStream.stderr().messageWritten.connect(self.__appendToConsole)
         self.connectConsoleButton.setEnabled(False)
         self.disconnectConsoleButton.setEnabled(True)
         print("Connect to GUI console.")
@@ -1388,7 +1388,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Disconnect from GUI console.")
     
     @pyqtSlot(str)
-    def appendToConsole(self, log):
+    def __appendToConsole(self, log):
         """After inserted the text, move cursor to end."""
         self.consoleWidgetBrowser.moveCursor(QTextCursor.End)
         self.consoleWidgetBrowser.insertPlainText(log)
@@ -1402,13 +1402,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.showMaximized()
     
-    def storage_clear(self):
+    def __clearStorage(self):
         """After saved storage,
         clean all the item of two table widgets.
         """
         self.Entities_Point.clear()
         self.Entities_Link.clear()
-        self.InputsWidget.inputs_variable_excluding()
+        self.InputsWidget.variableExcluding()
     
     @pyqtSlot()
     def on_mechanism_storage_add_clicked(self):
@@ -1416,7 +1416,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if not name:
             name = self.mechanism_storage_name_tag.placeholderText()
         self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
-        self.addStorage(name, "M[{}]".format(", ".join(
+        self.__addStorage(name, "M[{}]".format(", ".join(
             vpoint.expr for vpoint in self.Entities_Point.data()
         )))
         self.CommandStack.push(ClearStorageName(
@@ -1464,13 +1464,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             while "Prototype_{}".format(i) in nameList:
                 i += 1
             name = "Prototype_{}".format(i)
-        self.addStorage(name, expr, clear=False)
+        self.__addStorage(name, expr, clear=False)
     
-    def addStorage(self, name, expr, clear=True):
+    def __addStorage(self, name, expr, clear=True):
         """Add storage data function."""
         self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
         if clear:
-            self.storage_clear()
+            self.__clearStorage()
         self.CommandStack.push(AddStorage(
             name,
             self.mechanism_storage,
@@ -1522,7 +1522,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.beginMacro(
             "Restore from {{Mechanism: {}}}".format(name)
         )
-        self.storage_clear()
+        self.__clearStorage()
         self.parseExpression(item.expr)
         self.CommandStack.push(DeleteStorage(
             self.mechanism_storage.row(item),
@@ -1537,7 +1537,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
         """Load storage data from database."""
         for name, expr in exprs:
-            self.addStorage(name, expr, clear=False)
+            self.__addStorage(name, expr, clear=False)
     
     @pyqtSlot()
     def on_action_Check_update_triggered(self):
@@ -1563,4 +1563,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.Ok
         )
         if reply == QMessageBox.Ok:
-            self.OpenURL(url)
+            self.__openURL(url)

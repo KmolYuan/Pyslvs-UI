@@ -18,7 +18,7 @@ from core.QtModules import (
 from core.graphics import colorName, colorIcons
 from .Ui_edit_point import Ui_Dialog as edit_point_Dialog
 
-class edit_point_show(QDialog, edit_point_Dialog):
+class EditPoint_show(QDialog, edit_point_Dialog):
     
     """Option dialog.
     
@@ -26,7 +26,7 @@ class edit_point_show(QDialog, edit_point_Dialog):
     """
     
     def __init__(self, Points, Links, pos=False, parent=None):
-        super(edit_point_show, self).__init__(parent)
+        super(EditPoint_show, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()

@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .edit_link import edit_link_show
-from .edit_point import edit_point_show
+from .edit_link import EditLink_show
+from .edit_point import EditPoint_show
 
-__all__ = ['edit_link_show', 'edit_point_show']
+__all__ = ['EditLink_show', 'EditPoint_show']

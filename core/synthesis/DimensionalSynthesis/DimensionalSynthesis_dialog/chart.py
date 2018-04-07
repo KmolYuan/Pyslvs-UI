@@ -48,12 +48,12 @@ class ChartDialog(QDialog):
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(6, 6, 6, 6)
         self.tabWidget = QTabWidget(self)
-        self.setChart("Fitness / Generation Chart", 0, 1)
-        self.setChart("Generation / Time Chart", 2, 0)
-        self.setChart("Fitness / Time Chart", 2, 1)
+        self.__setChart("Fitness / Generation Chart", 0, 1)
+        self.__setChart("Generation / Time Chart", 2, 0)
+        self.__setChart("Fitness / Time Chart", 2, 1)
         main_layout.addWidget(self.tabWidget)
     
-    def setChart(self, tabName: str, posX: int, posY: int):
+    def __setChart(self, tabName: str, posX: int, posY: int):
         '''Setting charts by data index.
         
         posX / posY: [0] / [1] / [2]

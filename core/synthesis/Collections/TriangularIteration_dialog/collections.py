@@ -185,24 +185,25 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         #Splitter
         self.main_splitter.setSizes([200, 200])
         #Signals
-        self.common_list.currentTextChanged.connect(self.choose_common)
-        self.common_list.itemClicked.connect(self.choose_common)
-        self.common_load.clicked.connect(self.load_common)
-        self.common_list.itemDoubleClicked.connect(self.load_common)
-        self.collections_list.currentTextChanged.connect(self.choose_collections)
-        self.collections_list.itemClicked.connect(self.choose_collections)
-        self.buttonBox.accepted.connect(self.load_collections)
-        self.collections_list.itemDoubleClicked.connect(self.load_collections)
-        self.collections_list.currentRowChanged.connect(self.canOpen)
-        self.hasCollection()
-        self.canOpen()
+        self.common_list.currentTextChanged.connect(self.__chooseCommon)
+        self.common_list.itemClicked.connect(self.__chooseCommon)
+        self.common_load.clicked.connect(self.__loadCommon)
+        self.common_list.itemDoubleClicked.connect(self.__loadCommon)
+        self.collections_list.currentTextChanged.connect(self.__chooseCollections)
+        self.collections_list.itemClicked.connect(self.__chooseCollections)
+        self.buttonBox.accepted.connect(self.__loadCollections)
+        self.collections_list.itemDoubleClicked.connect(self.__loadCollections)
+        self.collections_list.currentRowChanged.connect(self.__canOpen)
+        self.__hasCollection()
+        self.__canOpen()
     
-    def canOpen(self):
+    def __canOpen(self):
         """Set the button box to enable when data is already."""
-        self.buttonBox.button(QDialogButtonBox.Open) \
-        .setEnabled(self.collections_list.currentRow() > -1)
+        self.buttonBox.button(QDialogButtonBox.Open).setEnabled(
+            self.collections_list.currentRow() > -1
+        )
     
-    def hasCollection(self):
+    def __hasCollection(self):
         """Set the buttons to enable when user choose a data."""
         hasCollection = bool(self.collections)
         for button in [
@@ -271,11 +272,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         item = self.collections_list.takeItem(row)
         del self.collections[item.text()]
         self.PreviewCanvas.clear()
-        self.hasCollection()
+        self.__hasCollection()
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
-    def choose_common(self, p0=None):
+    def __chooseCommon(self, p0=None):
         """Update preview canvas for common data."""
         text = self.common_list.currentItem().text()
         if not text:
@@ -291,7 +292,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
-    def choose_collections(self, p0=None):
+    def __chooseCollections(self, p0=None):
         """Update preview canvas for a workbook data."""
         text = self.collections_list.currentItem().text()
         if not text:
@@ -302,16 +303,16 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
-    def load_common(self, p0=None):
+    def __loadCommon(self, p0=None):
         """Load a common data and close."""
-        self.choose_common(self.common_list.currentItem().text())
+        self.__chooseCommon(self.common_list.currentItem().text())
         self.accept()
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
-    def load_collections(self, p0=None):
+    def __loadCollections(self, p0=None):
         """Load a workbook data and close."""
-        self.choose_collections(self.collections_list.currentItem().text())
+        self.__chooseCollections(self.collections_list.currentItem().text())
         self.accept()
     
     @pyqtSlot(bool)
