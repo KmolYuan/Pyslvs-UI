@@ -454,10 +454,8 @@ class DynamicCanvas(BaseCanvas):
         
         Set 'self.Path.path' to preview path by using Cython function.
         """
-        expr = self.getTriangleExpression()
-        expr_str = ';'.join("{}[{},{},{},{}]({})".format(*e) for e in expr)
         self.Path.path = expr_path(
-            expr_str,
+            self.getTriangleExpression(),
             self.getTriangleMapping(),
             [(vpoint.cx, vpoint.cy) for vpoint in self.Point]
         )

@@ -28,7 +28,9 @@ cdef class Coordinate:
         self.y = y
     
     cpdef double distance(self, Coordinate obj):
-        return sqrt(pow(self.x-obj.x, 2) + pow(self.y-obj.y, 2))
+        cdef double x = self.x - obj.x
+        cdef double y = self.y - obj.y
+        return sqrt(x*x + y*y)
     
     cpdef bool isnan(self):
         return isnan(self.x) or isnan(self.y)
@@ -141,15 +143,53 @@ cpdef void expr_parser(str exprs, dict data_dict):
             data_dict[target] = PLLP(*args)
         elif f=='PLPP':
             data_dict[target] = PLPP(*args)
+    """'data_dict' has been updated."""
 
-cpdef list expr_path(str exprs, dict mapping, object pos):
+cdef double distance(tuple c1, tuple c2):
+    cdef double x = c1[0] - c2[0]
+    cdef double y = c1[1] - c2[1]
+    return sqrt(x*x + y*y)
+
+cpdef list expr_path(list exprs, dict mapping, list pos):
     """TODO: Auto preview function.
     
-    exprs: "PLAP[P0,L0,a0,P1](P2);PLLP[P1,L1,L2,P2](P3);..."
-    mapping: {0: 0, 1: 2, 2: 3, 3: 4, ...}
+    exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
+    mapping: {0: 'P0', 1: 'P2', 2: 'P3', 3: 'P4', ...}
     pos: [(x0, y0), (x1, y1), (x2, y2), ...]
     """
-    print(exprs)
-    print(mapping)
-    print(pos)
+    
+    cdef int n
+    cdef str m
+    cdef dict mapping_r = {m: n for n, m in mapping.items()}
+    cdef set targets = set()
+    cdef tuple expr
+    cdef int dof = 0
+    cdef dict data_dict = {}
+    
+    for expr in exprs:
+        #Link 1: expr[2]
+        data_dict[expr[2]] = distance(pos[mapping_r[expr[1]]], pos[mapping_r[expr[-1]]])
+        if expr[0] == 'PLAP':
+            #Inputs
+            dof += 1
+        else:
+            #Link 2: expr[3]
+            data_dict[expr[3]] = distance(pos[mapping_r[expr[4]]], pos[mapping_r[expr[-1]]])
+        #Targets
+        targets.add(expr[-1])
+    
+    for i, c in enumerate(pos):
+        if mapping[i] not in targets:
+            data_dict[mapping[i]] = c
+    
+    print(data_dict)
+    
+    cdef str expr_str = ';'.join(["{}[{},{},{},{}]({})".format(*expr) for expr in exprs])
+    
+    #For each input angle (5 degree?).
+    #expr_parser(expr_str, data_dict)
+    
+    """
+    return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
+    """
     return []
