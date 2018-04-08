@@ -12,6 +12,7 @@ from .pyslvs_algorithm import (
     Firefly,
     DiffertialEvolution,
     expr_parser,
+    expr_path,
     build_planar,
 )
 from .pyslvs_topologic import (
@@ -42,6 +43,7 @@ __all__ = [
     'Firefly',
     'DiffertialEvolution',
     'expr_parser',
+    'expr_path',
     'build_planar',
     'NumberSynthesis',
     'topo',

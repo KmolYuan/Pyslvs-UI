@@ -26,7 +26,7 @@ from core.graphics import (
     colorNum
 )
 from core.io import VPoint, VLink
-from core.libs import expr_parser
+from core.libs import expr_path
 from math import (
     sin,
     cos,
@@ -38,7 +38,6 @@ from typing import (
     List,
     Tuple,
     Dict,
-    Sequence,
     Callable,
 )
 
@@ -453,31 +452,15 @@ class DynamicCanvas(BaseCanvas):
     def __setAutoPreviewPath(self):
         """Auto preview function.
         
-        Set 'self.Path.path' to preview path.
-        Maybe this part will transform into Cython function.
+        Set 'self.Path.path' to preview path by using Cython function.
         """
         expr = self.getTriangleExpression()
         expr_str = ';'.join("{}[{},{},{},{}]({})".format(*e) for e in expr)
-        mapping = self.getTriangleMapping()
-        
-        #TODO: Collecting mechanism dimensions.
-        #PLAP[P0,L0,a0,P1](P2);PLLP[P1,L1,L2,P2](P3);PLLP[P3,L3,L4,P2](P4)
-        data_base = {}
-        for i, vpoint in enumerate(self.Point):
-            if 'ground' in vpoint.links:
-                data_base['P{}'.format(mapping[i])] = (vpoint.cx, vpoint.cy)
-        
-        print(mapping)
-        print(expr_str)
-        print(data_base)
-        
-        def coordinates(angle: Sequence[float]):
-            """TODO: Returns path data back."""
-            data_dict = data_base
-            expr_parser(expr_str, data_dict)
-            return data_dict
-        
-        self.Path.path = []
+        self.Path.path = expr_path(
+            expr_str,
+            self.getTriangleMapping(),
+            [(vpoint.cx, vpoint.cy) for vpoint in self.Point]
+        )
     
     def __drawPath(self):
         """Draw paths. Recording first."""
