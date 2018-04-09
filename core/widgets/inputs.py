@@ -132,23 +132,26 @@ class InputsWidget(QWidget, Ui_Form):
     def __addInputsVariable(self,
         point: int,
         base_link: str,
-        drive_links: str
+        drive_link: str
     ):
         """Add variable with '->' sign."""
-        if self.inputs_variable.count() >= self.DOF():
+        if not self.DOF() > 0:
             return
         name = 'Point{}'.format(point)
-        text = '->'.join([
+        vars = [
             name,
             base_link,
-            drive_links,
-            "{:.02f}".format(self.__getLinkAngle(point, drive_links))
-        ])
-        for variable in self.getInputsVariables():
-            if name == variable[0]:
+            drive_link,
+            "{:.02f}".format(self.__getLinkAngle(point, drive_link))
+        ]
+        for n, base, drive, a in self.getInputsVariables():
+            if {base_link, drive_link} == {base, drive}:
                 return
         self.CommandStack.beginMacro("Add variable of {}".format(name))
-        self.CommandStack.push(AddVariable(text, self.inputs_variable))
+        self.CommandStack.push(AddVariable(
+            '->'.join(vars),
+            self.inputs_variable
+        ))
         self.CommandStack.endMacro()
     
     def addInputsVariables(self,
