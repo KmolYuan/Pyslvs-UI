@@ -120,7 +120,7 @@ cpdef void expr_parser(str exprs, dict data_dict):
     '''Use to generate path data.
     
     exprs: "PLAP[A,a0,L1,B](C);PLLP[C,L1,L2,B](D);..."
-        or "PLAP[P0,L0,a0,P1](P2);PLLP[P1,L1,L2,P2](P3);..."
+        or "PLAP[P0,L0,a0,P1](P2);PLLP[P2,L1,L2,P1](P3);..."
     data_dict: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
     '''
     cdef str expr, f, name
@@ -221,7 +221,7 @@ cpdef list expr_path(list exprs, dict mapping, list pos):
     
     cdef double a = 0
     for i in range(dof):
-        data_dict['a{}'.format(a)] = a
+        data_dict['a{}'.format(i)] = a
     
     cdef str expr_str = ';'.join(["{}[{},{},{},{}]({})".format(*expr) for expr in exprs])
     cdef list path = [[] for i in range(len(mapping))]

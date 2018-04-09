@@ -406,6 +406,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             'P{}'.format(mapping[v[0]])
             for v in self.InputsWidget.getInputsVariables()
         ]
+        print((G.edges, status, pos, driver, cus, same))
         #Add 'P' tag with symbols of joint.
         self.triangle_mapping = {n: 'P{}'.format(m) for n, m in mapping.items()}
         self.triangle_expr = auto_configure(G, status, pos, driver, cus, same)
