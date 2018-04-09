@@ -106,13 +106,12 @@ class DynamicCanvas(BaseCanvas):
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")
         #Functions from the main window.
-        self.getTriangleExpression = parent.getTriangleExpression
-        self.getTriangleMapping = parent.getTriangleMapping
+        self.getTriangle = parent.getTriangle
         self.rightInput = parent.rightInput
         #The current mouse coordinates.
         self.Selector = Selector()
         #Entities.
-        self.Point = tuple()
+        self.Points = tuple()
         self.Link = tuple()
         #Point selection.
         self.selectionRadius = 10
@@ -153,7 +152,7 @@ class DynamicCanvas(BaseCanvas):
         path: List[Tuple[float, float]]
     ):
         """Update with Point and Link data."""
-        self.Point = Point
+        self.Points = Point
         self.Link = Link
         self.Path.path = path
         self.update()
@@ -308,7 +307,7 @@ class DynamicCanvas(BaseCanvas):
             self.__drawSlvsRanges()
             self._BaseCanvas__drawTargetPath()
         #Draw points.
-        for i, vpoint in enumerate(self.Point):
+        for i, vpoint in enumerate(self.Points):
             self.__drawPoint(i, vpoint)
         #Rectangular selection
         if self.Selector.RectangularSelection:
@@ -422,7 +421,7 @@ class DynamicCanvas(BaseCanvas):
         """Draw a link."""
         points = []
         for i in vlink.points:
-            vpoint = self.Point[i]
+            vpoint = self.Points[i]
             if vpoint.type==1 or vpoint.type==2:
                 coordinate = vpoint.c[vpoint.links.index(vlink.name)]
                 x = coordinate[0] * self.zoom
@@ -460,10 +459,9 @@ class DynamicCanvas(BaseCanvas):
         if hasattr(self, 'PathRecord'):
             Path = self.PathRecord
         elif self.autoPath and self.rightInput():
+            expr, mapping = self.getTriangle(self.Points)
             Path = expr_path(
-                self.getTriangleExpression(),
-                self.getTriangleMapping(),
-                [(vpoint.cx, vpoint.cy) for vpoint in self.Point]
+                expr, mapping, [(vpoint.cx, vpoint.cy) for vpoint in self.Points]
             )
         else:
             Path = self.Path.path
@@ -475,7 +473,7 @@ class DynamicCanvas(BaseCanvas):
             ):
                 continue
             try:
-                color = self.Point[i].color
+                color = self.Points[i].color
             except:
                 color = colorQt('Green')
             pen.setColor(color)
@@ -517,11 +515,11 @@ class DynamicCanvas(BaseCanvas):
     
     def recordStart(self, limit: int):
         """Start a limit from main window."""
-        self.PathRecord = [deque([], limit) for i in range(len(self.Point))]
+        self.PathRecord = [deque([], limit) for i in range(len(self.Points))]
     
     def recordPath(self):
         """Recording path."""
-        for i, vpoint in enumerate(self.Point):
+        for i, vpoint in enumerate(self.Points):
             self.PathRecord[i].append((vpoint.cx, vpoint.cy))
     
     def getRecordPath(self):
@@ -592,7 +590,7 @@ class DynamicCanvas(BaseCanvas):
     ):
         """Select point(s) function."""
         selection.clear()
-        for i, vpoint in enumerate(self.Point):
+        for i, vpoint in enumerate(self.Points):
             if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 if i not in selection:
                     selection.append(i)
@@ -624,7 +622,7 @@ class DynamicCanvas(BaseCanvas):
             #Edit point coordinates.
             elif self.freemove:
                 self.mouse_freemoveSelection.emit(tuple(
-                    (row, (self.Point[row].cx, self.Point[row].cy))
+                    (row, (self.Points[row].cx, self.Points[row].cy))
                     for row in self.pointsSelection
                 ))
         self.Selector.selection_rect.clear()
@@ -653,7 +651,7 @@ class DynamicCanvas(BaseCanvas):
                         mouse_x = x - self.Selector.x/self.zoom
                         mouse_y = y - self.Selector.y/-self.zoom
                         for row in self.pointsSelection:
-                            vpoint = self.Point[row]
+                            vpoint = self.Points[row]
                             vpoint.move((
                                 mouse_x + vpoint.x,
                                 mouse_y + vpoint.y
@@ -665,7 +663,7 @@ class DynamicCanvas(BaseCanvas):
                             self.Selector.x / self.zoom
                         )
                         for row in self.pointsSelection:
-                            vpoint = self.Point[row]
+                            vpoint = self.Points[row]
                             r = sqrt(vpoint.x * vpoint.x + vpoint.y * vpoint.y)
                             beta = atan2(vpoint.y, vpoint.x)
                             vpoint.move((
@@ -677,7 +675,7 @@ class DynamicCanvas(BaseCanvas):
                         fx = 1 if x > 0 else -1
                         fy = 1 if y > 0 else -1
                         for row in self.pointsSelection:
-                            vpoint = self.Point[row]
+                            vpoint = self.Points[row]
                             vpoint.move((vpoint.x * fx, vpoint.y * fy))
             else:
                 #Rectangular selection
@@ -710,7 +708,7 @@ class DynamicCanvas(BaseCanvas):
         y_top = -inf
         y_bottom = inf
         #Points
-        for vpoint in self.Point:
+        for vpoint in self.Points:
             if vpoint.cx < x_right:
                 x_right = vpoint.cx
             if vpoint.cx > x_left:

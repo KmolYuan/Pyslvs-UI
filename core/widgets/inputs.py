@@ -369,7 +369,11 @@ class InputsWidget(QWidget, Ui_Form):
     @pyqtSlot(QListWidgetItem)
     def on_inputs_record_itemDoubleClicked(self, item):
         """View path data."""
-        data = self.pathData[item.text().split(":")[0]]
+        name = item.text().split(":")[0]
+        try:
+            data = self.pathData[name]
+        except KeyError:
+            return
         reply = QMessageBox.question(
             self,
             "Path data",
@@ -406,12 +410,11 @@ class InputsWidget(QWidget, Ui_Form):
         if row > -1:
             action = self.popMenu_inputs_record.addAction("Show all")
             action.index = -1
-            data = self.pathData[
-                self.inputs_record
-                .item(row)
-                .text()
-                .split(":")[0]
-            ]
+            name = self.inputs_record.item(row).text().split(":")[0]
+            try:
+                data = self.pathData[name]
+            except KeyError:
+                return
             for action_text in ("Show", "Copy data from"):
                 self.popMenu_inputs_record.addSeparator()
                 for i in range(len(data)):

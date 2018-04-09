@@ -38,6 +38,7 @@ from core.io import (
     EditPointTable, EditLinkTable,
     AddStorage, DeleteStorage,
     AddStorageName, ClearStorageName,
+    VPoint,
     Qt_images,
     slvs2D,
     dxfSketch,
@@ -300,15 +301,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setVisible(True)
             self.DOF = -float('inf')
             self.DOFview.setVisible(False)
-            self.triangle_mapping = {}
-            self.triangle_expr = ""
         else:
             self.Entities_Point.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
             self.ConflictGuide.setVisible(False)
             self.DOFview.setVisible(True)
-            self.__setTriangleExpression()
         self.reloadCanvas()
     
     def getGraph(self) -> List[Tuple[int, int]]:
@@ -340,7 +338,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 used_point.add(p)
         return [edge for n, edge in edges_view(G)]
     
-    def __setTriangleExpression(self) -> str:
+    def getTriangle(self, vpoints: Tuple[VPoint]) -> [str, Dict[int, int]]:
         """Update triangle expression here.
         
         All joints wil not multiple joints,
@@ -356,7 +354,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         link_names = [vlink.name for vlink in self.Entities_Link.data()]
         joint_links = []
         joint_pos = []
-        for vpoint in self.Entities_Point.data():
+        for vpoint in vpoints:
             joint_links.append(tuple(
                 link_names.index(link) for link in vpoint.links
             ))
@@ -407,16 +405,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for v in self.InputsWidget.getInputsVariables()
         ]
         #Add 'P' tag with symbols of joint.
-        self.triangle_mapping = {n: 'P{}'.format(m) for n, m in mapping.items()}
-        self.triangle_expr = auto_configure(G, status, pos, driver, cus, same)
-    
-    def getTriangleExpression(self) -> str:
-        """Return triangle expression for main canvas."""
-        return self.triangle_expr
-    
-    def getTriangleMapping(self) -> Dict[int, int]:
-        """Return joints mapping for main canvas."""
-        return self.triangle_mapping
+        return (
+            auto_configure(G, status, pos, driver, cus, same),
+            {n: 'P{}'.format(m) for n, m in mapping.items()}
+        )
     
     def rightInput(self) -> bool:
         """Is input same as DOF?"""
