@@ -6,13 +6,14 @@
 # __email__ = "pyslvs@gmail.com"
 
 from libc.math cimport (
-    pow,
     sqrt,
     isnan,
     sin,
     cos,
     atan2
 )
+import numpy as np
+cimport numpy as np
 from cpython cimport bool
 
 nan = float("nan")
@@ -57,8 +58,8 @@ cpdef tuple PLLP(Coordinate A, double L0, double R0, Coordinate B, bool inverse=
     #Circles are coincident and there are an infinite number of solutions.
     if d==0 and L0==R0:
         return (nan, nan)
-    cdef double a = (pow(L0, 2) - pow(R0, 2) + pow(d, 2))/(2*d)
-    cdef double h = sqrt(pow(L0, 2) - pow(a, 2))
+    cdef double a = (L0*L0 - R0*R0 + d*d)/(2*d)
+    cdef double h = sqrt(L0*L0 - a*a)
     cdef double xm = A.x + a*dx/d
     cdef double ym = A.y + a*dy/d
     if inverse:
@@ -146,12 +147,46 @@ cpdef void expr_parser(str exprs, dict data_dict):
     """'data_dict' has been updated."""
 
 cdef double distance(tuple c1, tuple c2):
+    """Calculate the distance between two tuple coordinates."""
     cdef double x = c1[0] - c2[0]
     cdef double y = c1[1] - c2[1]
     return sqrt(x*x + y*y)
 
+cdef void rotate(
+    int input_angle,
+    str expr_str,
+    dict data_dict,
+    dict mapping_r,
+    list path,
+    bool reverse=False
+):
+    """Add path coordinates.
+    
+    + Rotate the input joints.
+    + Collect the coordinates of all joints.
+    """
+    cdef str param = 'a{}'.format(input_angle)
+    cdef double a
+    if not reverse:
+        for a in range(0, 361, 5):
+            data_dict[param] = np.deg2rad(a)
+            expr_parser(expr_str, data_dict)
+            rotate_collect(data_dict, mapping_r, path)
+    else:
+        for a in range(360, -1, -5):
+            data_dict[param] = np.deg2rad(a)
+            expr_parser(expr_str, data_dict)
+            rotate_collect(data_dict, mapping_r, path)
+
+cdef void rotate_collect(dict data_dict, dict mapping_r, list path):
+    """Collecting."""
+    cdef str m
+    cdef int n
+    for m, n in mapping_r.items():
+        path[n].append(data_dict[m])
+
 cpdef list expr_path(list exprs, dict mapping, list pos):
-    """TODO: Auto preview function.
+    """Auto preview function.
     
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
     mapping: {0: 'P0', 1: 'P2', 2: 'P3', 3: 'P4', ...}
@@ -178,18 +213,32 @@ cpdef list expr_path(list exprs, dict mapping, list pos):
         #Targets
         targets.add(expr[-1])
     
+    cdef int i
+    cdef tuple c
     for i, c in enumerate(pos):
         if mapping[i] not in targets:
             data_dict[mapping[i]] = c
     
-    print(data_dict)
+    cdef double a = 0
+    for i in range(dof):
+        data_dict['a{}'.format(a)] = a
     
     cdef str expr_str = ';'.join(["{}[{},{},{},{}]({})".format(*expr) for expr in exprs])
+    cdef list path = [[] for i in range(len(mapping))]
     
-    #For each input angle (5 degree?).
-    #expr_parser(expr_str, data_dict)
-    
+    #For each input joint.
+    for i in range(dof):
+        rotate(i, expr_str, data_dict, mapping_r, path)
+    if dof > 1:
+        #Rotate back.
+        for i in range(dof):
+            rotate(i, expr_str, data_dict, mapping_r, path, True)
     """
     return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
     """
-    return []
+    for i in range(len(path)):
+        if len(set(path[i])) <= 1:
+            path[i] = ()
+        else:
+            path[i] = tuple(path[i])
+    return path

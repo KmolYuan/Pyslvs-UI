@@ -459,10 +459,12 @@ class InputsWidget(QWidget, Ui_Form):
         """
         row = self.inputs_record.currentRow()
         if row == -1:
+            self.DynamicCanvasView.setAutoPath(False)
             return ()
         elif row > 0:
+            self.DynamicCanvasView.setAutoPath(False)
             name = self.inputs_record.item(row).text()
             return self.pathData.get(name.split(':')[0], ())
         elif row == 0:
-            self.DynamicCanvasView.setPathShow(-3)
+            self.DynamicCanvasView.setAutoPath(True)
             return ()

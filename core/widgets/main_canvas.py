@@ -131,6 +131,9 @@ class DynamicCanvas(BaseCanvas):
         3: reflect.
         """
         self.freemove = 0
+        #Auto preview function.
+        self.autoPath = True
+        #Set zoom bar.
         def setZoomValue(a):
             """Set zoom bar function."""
             parent.ZoomBar.setValue(
@@ -246,12 +249,16 @@ class DynamicCanvas(BaseCanvas):
     def setPathShow(self, p: int):
         """Update path present mode.
         
-        -3: Auto preview.
         -2: Hide all paths.
         -1: Show all paths.
         i: Show path i.
         """
         self.Path.show = p
+        self.update()
+    
+    def setAutoPath(self, autoPath: bool):
+        """Enable auto preview function."""
+        self.autoPath = autoPath
         self.update()
     
     @pyqtSlot(dict)
@@ -294,8 +301,6 @@ class DynamicCanvas(BaseCanvas):
         for vlink in self.Link[1:]:
             self.__drawLink(vlink)
         #Draw path.
-        if (self.Path.show == -3) and self.rightInput():
-            self.__setAutoPreviewPath()
         if self.Path.show != -2:
             self.__drawPath()
         #Draw solving path.
@@ -449,22 +454,17 @@ class DynamicCanvas(BaseCanvas):
         cenY = sum(p[1] for p in points) / len(points)
         self.painter.drawText(QPointF(cenX, cenY), '[{}]'.format(vlink.name))
     
-    def __setAutoPreviewPath(self):
-        """Auto preview function.
-        
-        Set 'self.Path.path' to preview path by using Cython function.
-        """
-        self.Path.path = expr_path(
-            self.getTriangleExpression(),
-            self.getTriangleMapping(),
-            [(vpoint.cx, vpoint.cy) for vpoint in self.Point]
-        )
-    
     def __drawPath(self):
         """Draw paths. Recording first."""
         pen = QPen()
         if hasattr(self, 'PathRecord'):
             Path = self.PathRecord
+        elif self.autoPath and self.rightInput():
+            Path = expr_path(
+                self.getTriangleExpression(),
+                self.getTriangleMapping(),
+                [(vpoint.cx, vpoint.cy) for vpoint in self.Point]
+            )
         else:
             Path = self.Path.path
         for i, path in enumerate(Path):
