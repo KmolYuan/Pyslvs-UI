@@ -23,7 +23,7 @@ cdef bool isAllLock(dict status, dict same):
     return True
 
 def friends(
-    object G,
+    dict edges,
     dict status,
     dict cus,
     dict same,
@@ -34,7 +34,6 @@ def friends(
     that has solution on the same link.
     """
     #All edges of all nodes.
-    cdef dict edges = edges_view(G)
     cdef str n
     cdef int l
     for n, l in cus.items():
@@ -75,6 +74,11 @@ cdef list sort_pos(object nodes, dict pos):
     """Sort points by position."""
     return sorted(nodes, key=lambda n: pos[n][0], reverse=True)
 
+cdef bool clockwise(tuple c1, tuple c2, tuple c3):
+    """Check orientation of three points."""
+    cdef int val = (c2[1] - c1[1])*(c3[0] - c2[0]) - (c2[0] - c1[0])*(c3[1] - c2[1])
+    return (val == 0) or (val > 0)
+
 cpdef list auto_configure(
     object G,
     dict status,
@@ -86,22 +90,23 @@ cpdef list auto_configure(
     """Auto configuration algorithm."""
     #Expression
     cdef list expr = []
+    cdef dict edges = edges_view(G)
     cdef int link_symbol = 0
     cdef int angle_symbol = 0
     #PLAP solutions.
     cdef int node, target_node
-    cdef str point1, point2
+    cdef str point1, point2, point3
     for point1 in Driver_list:
         node = int(point1.replace('P', ''))
-        target_node = next(friends(G, status, cus, same, node))
-        point2 = 'P{}'.format(target_node)
+        target_node = next(friends(edges, status, cus, same, node))
+        point3 = 'P{}'.format(target_node)
         expr.append((
             "PLAP",
             point1,
             'L{}'.format(link_symbol),
             'a{}'.format(angle_symbol),
-            'P{}'.format(sort_pos(friends(G, status, cus, same, node, reliable=True), pos)[0]),
-            point2
+            'P{}'.format(sort_pos(friends(edges, status, cus, same, node, reliable=True), pos)[0]),
+            point3
         ))
         link_symbol += 1
         angle_symbol += 1
@@ -112,7 +117,7 @@ cpdef list auto_configure(
     cdef int all_points_count = len(pos)
     cdef bool n_status
     cdef object rf
-    cdef list two_friend
+    cdef int friend_a, friend_b
     while not isAllLock(status, same):
         if node not in pos:
             node = 0
@@ -125,21 +130,25 @@ cpdef list auto_configure(
             node += 1
             skip_times += 1
             continue
-        rf = friends(G, status, cus, same, node, reliable=True)
+        rf = friends(edges, status, cus, same, node, reliable=True)
         try:
-            two_friend = sort_pos((next(rf), next(rf)), pos)
+            friend_a = next(rf)
+            friend_b = next(rf)
         except StopIteration:
             skip_times += 1
         else:
+            #TODO: Clockwise.
+            if not clockwise(pos[friend_a], pos[node], pos[friend_b]):
+                friend_a, friend_b = friend_b, friend_a
             #Add solution.
-            point = 'P{}'.format(node)
+            point3 = 'P{}'.format(node)
             expr.append((
                 "PLLP",
-                'P{}'.format(two_friend[0]),
+                'P{}'.format(friend_a),
                 'L{}'.format(link_symbol),
                 'L{}'.format(link_symbol + 1),
-                'P{}'.format(two_friend[1]),
-                point
+                'P{}'.format(friend_b),
+                point3
             ))
             link_symbol += 2
             status[node] = True
