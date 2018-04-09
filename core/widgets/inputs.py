@@ -352,7 +352,7 @@ class InputsWidget(QWidget, Ui_Form):
     def on_inputs_record_remove_clicked(self):
         """Remove path data."""
         row = self.inputs_record.currentRow()
-        if not row>-1:
+        if not row > 0:
             return
         self.CommandStack.beginMacro("Delete {{Path: {}}}".format(
             self.inputs_record.item(row).text()
