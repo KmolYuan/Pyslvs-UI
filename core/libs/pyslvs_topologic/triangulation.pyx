@@ -59,6 +59,7 @@ def friends(
         if (
             (node1 == node2) or
             (node2 in same) or
+            (node2 not in status) or
             (status[node2] != reliable)
         ):
             continue
