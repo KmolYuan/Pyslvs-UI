@@ -49,7 +49,7 @@ from core.io import (
 )
 from core.widgets import initCustomWidgets
 from core.entities import EditPoint_show, EditLink_show
-from core.libs import auto_configure
+from core.libs import graph_configure
 from typing import (
     Tuple,
     List,
@@ -406,7 +406,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         ]
         #Add 'P' tag with symbols of joint.
         return (
-            auto_configure(G, status, pos, driver, cus, same),
+            graph_configure(G, status, pos, driver, cus, same),
             {n: 'P{}'.format(m) for n, m in mapping.items()}
         )
     

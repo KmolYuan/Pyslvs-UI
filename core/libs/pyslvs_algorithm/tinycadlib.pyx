@@ -185,6 +185,26 @@ cdef void rotate_collect(dict data_dict, dict mapping_r, list path):
     for m, n in mapping_r.items():
         path[n].append(data_dict[m])
 
+cdef list return_path(str expr_str, dict data_dict, dict mapping_r, int dof):
+    cdef list path = [[] for i in range(len(mapping_r))]
+    #For each input joint.
+    cdef int i
+    for i in range(dof):
+        rotate(i, expr_str, data_dict, mapping_r, path)
+    if dof > 1:
+        #Rotate back.
+        for i in range(dof):
+            rotate(i, expr_str, data_dict, mapping_r, path, True)
+    """
+    return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
+    """
+    for i in range(len(path)):
+        if len(set(path[i])) <= 1:
+            path[i] = ()
+        else:
+            path[i] = tuple(path[i])
+    return path
+
 cpdef list expr_path(list exprs, dict mapping, list pos):
     """Auto preview function.
     
@@ -227,21 +247,4 @@ cpdef list expr_path(list exprs, dict mapping, list pos):
         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
         for expr in exprs
     ])
-    cdef list path = [[] for i in range(len(mapping))]
-    
-    #For each input joint.
-    for i in range(dof):
-        rotate(i, expr_str, data_dict, mapping_r, path)
-    if dof > 1:
-        #Rotate back.
-        for i in range(dof):
-            rotate(i, expr_str, data_dict, mapping_r, path, True)
-    """
-    return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
-    """
-    for i in range(len(path)):
-        if len(set(path[i])) <= 1:
-            path[i] = ()
-        else:
-            path[i] = tuple(path[i])
-    return path
+    return return_path(expr_str, data_dict, mapping_r, dof)

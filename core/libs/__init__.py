@@ -19,7 +19,8 @@ from .pyslvs_topologic import (
     NumberSynthesis,
     topo,
     Graph,
-    auto_configure,
+    graph_configure,
+    vpoints_configure,
 )
 #Solvespace API.
 from .python_solvespace.slvs import (
@@ -48,7 +49,8 @@ __all__ = [
     'NumberSynthesis',
     'topo',
     'Graph',
-    'auto_configure',
+    'graph_configure',
+    'vpoints_configure',
     'System',
     'groupNum',
     'Slvs_MakeQuaternion',

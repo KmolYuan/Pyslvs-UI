@@ -19,7 +19,7 @@ from core.QtModules import (
 )
 from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
-from core.libs import auto_configure
+from core.libs import graph_configure
 import pprint
 from math import sqrt
 from networkx import Graph
@@ -542,7 +542,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             (not self.on_Expression_clear_clicked())
         ):
             return
-        exprs = auto_configure(
+        exprs = graph_configure(
             self.PreviewWindow.G,
             self.PreviewWindow.status,
             self.PreviewWindow.pos,

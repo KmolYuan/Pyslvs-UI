@@ -80,7 +80,7 @@ cdef bool clockwise(tuple c1, tuple c2, tuple c3):
     cdef int val = (c2[1] - c1[1])*(c3[0] - c2[0]) - (c2[0] - c1[0])*(c3[1] - c2[1])
     return (val == 0) or (val > 0)
 
-cpdef list auto_configure(
+cpdef list graph_configure(
     object G,
     dict status,
     dict pos,
@@ -93,7 +93,7 @@ cpdef list auto_configure(
     From NetworkX graph and settings.
     """
     #Expression
-    cdef list expr = []
+    cdef list exprs = []
     cdef dict edges = edges_view(G)
     cdef int link_symbol = 0
     cdef int angle_symbol = 0
@@ -104,7 +104,7 @@ cpdef list auto_configure(
         node = int(point1.replace('P', ''))
         target_node = next(friends(edges, status, cus, same, node))
         point3 = 'P{}'.format(target_node)
-        expr.append((
+        exprs.append((
             "PLAP",
             point1,
             'L{}'.format(link_symbol),
@@ -146,7 +146,7 @@ cpdef list auto_configure(
                 friend_a, friend_b = friend_b, friend_a
             #Add solution.
             point3 = 'P{}'.format(node)
-            expr.append((
+            exprs.append((
                 "PLLP",
                 'P{}'.format(friend_a),
                 'L{}'.format(link_symbol),
@@ -158,4 +158,14 @@ cpdef list auto_configure(
             status[node] = True
             skip_times = 0
         node += 1
-    return expr
+    """
+    exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
+    """
+    return exprs
+
+cpdef list vpoints_configure(object points):
+    """Auto configuration algorithm.
+    
+    For VPoint list: [vpoint0, vpoint1, ...]
+    """
+    return []
