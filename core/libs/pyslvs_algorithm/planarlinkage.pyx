@@ -8,7 +8,6 @@
 from tinycadlib import (
     PLAP,
     PLLP,
-    PLPP,
     legal_crank,
     legal_triangle,
     Coordinate
@@ -195,8 +194,6 @@ cdef class build_planar:
             return Coordinate(*PLAP(*params))
         if fun=='PLLP':
             return Coordinate(*PLLP(*params))
-        if fun=='PLPP':
-            return Coordinate(*PLPP(*params))
     
     cdef double run(self, np.ndarray v):
         """
