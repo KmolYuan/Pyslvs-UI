@@ -462,7 +462,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         """Add a solution."""
         item = QListWidgetItem()
         self.Expression_list.addItem(item)
-        item.setText("{}[{},{},{},{}]({})".format(*expr))
+        item.setText("{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1]))
         self.PreviewWindow.setStatus(expr[-1], True)
         self.__hasSolution()
         self.__setWarning(
@@ -542,7 +542,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             (not self.on_Expression_clear_clicked())
         ):
             return
-        expr = auto_configure(
+        exprs = auto_configure(
             self.PreviewWindow.G,
             self.PreviewWindow.status,
             self.PreviewWindow.pos,
@@ -550,10 +550,12 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.PreviewWindow.cus,
             self.PreviewWindow.same,
         )
-        for e in expr:
+        for expr in exprs:
             item = QListWidgetItem()
             self.Expression_list.addItem(item)
-            item.setText("{}[{},{},{},{}]({})".format(*e))
+            item.setText(
+                "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
+            )
         self.__hasSolution()
         self.__setWarning(
             self.Expression_list_label,

@@ -562,7 +562,7 @@ class DynamicCanvas(BaseCanvas):
         """
         if event.button() == Qt.MidButton:
             self.zoomToFit()
-        if event.buttons() == Qt.LeftButton:
+        if (event.buttons() == Qt.LeftButton) and (not self.freemove):
             self.Selector.x = event.x() - self.ox
             self.Selector.y = event.y() - self.oy
             self.__mouseSelectedPoint()

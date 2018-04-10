@@ -88,7 +88,10 @@ cpdef list auto_configure(
     dict cus={},
     dict same={}
 ):
-    """Auto configuration algorithm."""
+    """Auto configuration algorithm.
+    
+    From NetworkX graph and settings.
+    """
     #Expression
     cdef list expr = []
     cdef dict edges = edges_view(G)
@@ -138,7 +141,7 @@ cpdef list auto_configure(
         except StopIteration:
             skip_times += 1
         else:
-            #TODO: Clockwise.
+            #Clockwise.
             if not clockwise(pos[friend_a], pos[node], pos[friend_b]):
                 friend_a, friend_b = friend_b, friend_a
             #Add solution.

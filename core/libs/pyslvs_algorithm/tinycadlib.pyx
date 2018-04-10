@@ -223,7 +223,10 @@ cpdef list expr_path(list exprs, dict mapping, list pos):
     for i in range(dof):
         data_dict['a{}'.format(i)] = a
     
-    cdef str expr_str = ';'.join(["{}[{},{},{},{}]({})".format(*expr) for expr in exprs])
+    cdef str expr_str = ';'.join([
+        "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
+        for expr in exprs
+    ])
     cdef list path = [[] for i in range(len(mapping))]
     
     #For each input joint.
