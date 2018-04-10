@@ -211,7 +211,7 @@ cpdef list vpoints_configure(object vpoints, object inputs):
     for node, vpoint in enumerate(vpoints):
         status[node] = False
         for link in vpoint.links:
-            if 'ground' == link:
+            if ('ground' == link) and (vpoint.type == 0):
                 status[node] = True
             #Add as vlink.
             if link not in vlinks:

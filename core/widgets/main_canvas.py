@@ -140,9 +140,9 @@ class DynamicCanvas(BaseCanvas):
                 parent.ScaleFactor.value() * a / abs(a)
             )
         self.setZoomValue = setZoomValue
-        #Default margin factor
+        #Default margin factor.
         self.marginFactor = 0.95
-        #Widget size
+        #Widget size.
         self.width_old = None
         self.height_old = None
     

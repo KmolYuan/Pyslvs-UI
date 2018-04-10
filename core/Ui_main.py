@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -246,7 +246,7 @@ class Ui_MainWindow(object):
         self.Font_size.setMinimum(1)
         self.Font_size.setMaximum(30)
         self.Font_size.setSingleStep(5)
-        self.Font_size.setProperty("value", 10)
+        self.Font_size.setProperty("value", 15)
         self.Font_size.setObjectName("Font_size")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.Font_size)
         self.PathWidth_label = QtWidgets.QLabel(self.CanvasSettingsGroupBox)
@@ -487,7 +487,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 30))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")

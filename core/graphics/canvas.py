@@ -125,7 +125,7 @@ class BaseCanvas(QWidget):
         self.linkWidth = 3
         self.pathWidth = 3
         #Font size.
-        self.fontSize = 10
+        self.fontSize = 15
         #Show point mark or dimension.
         self.showPointMark = True
         self.showDimension = True
