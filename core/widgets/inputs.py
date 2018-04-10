@@ -137,6 +137,9 @@ class InputsWidget(QWidget, Ui_Form):
         """Add variable with '->' sign."""
         if not self.DOF() > 0:
             return
+        for vlink in self.Entities_Link.data():
+            if (vlink.name in {base_link, drive_link}) and (len(vlink.points) < 2):
+                return
         name = 'Point{}'.format(point)
         vars = [
             name,

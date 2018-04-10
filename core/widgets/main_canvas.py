@@ -456,13 +456,13 @@ class DynamicCanvas(BaseCanvas):
     def __drawPath(self):
         """Draw paths. Recording first."""
         pen = QPen()
-        if hasattr(self, 'PathRecord'):
-            Path = self.PathRecord
-        elif self.autoPath and self.rightInput():
+        if self.autoPath and self.rightInput():
             expr, mapping = self.getTriangle(self.Points)
-            Path = expr_path(
+            self.Path.path = expr_path(
                 expr, mapping, [(vpoint.cx, vpoint.cy) for vpoint in self.Points]
             )
+        if hasattr(self, 'PathRecord'):
+            Path = self.PathRecord
         else:
             Path = self.Path.path
         for i, path in enumerate(Path):

@@ -13,7 +13,7 @@ cdef dict edges_view(object G):
     cdef object e
     return {n: tuple(e) for n, e in enumerate(sorted(sorted(e) for e in G.edges))}
 
-cdef bool isAllLock(dict status, dict same):
+cdef bool isAllLock(dict status, dict same={}):
     """Test is all status done."""
     cdef int node
     cdef bool n_status
@@ -117,13 +117,13 @@ cpdef list graph_configure(
         status[target_node] = True
     #PLLP solutions.
     node = 0
+    cdef int friend_a, friend_b
     cdef int skip_times = 0
-    cdef int all_points_count = len(pos)
+    cdef int all_points_count = len(status)
     cdef bool n_status
     cdef object rf
-    cdef int friend_a, friend_b
     while not isAllLock(status, same):
-        if node not in pos:
+        if node not in status:
             node = 0
             continue
         #Check the solution.
@@ -163,9 +163,130 @@ cpdef list graph_configure(
     """
     return exprs
 
-cpdef list vpoints_configure(object points):
+# ===========================
+
+cdef int get_friend(int node, object vpoints, dict vlinks):
+    cdef str link
+    cdef set points
+    for link in vpoints[node].links:
+        if len(vlinks[link]) < 2:
+            continue
+        points = vlinks[link].copy()
+        points.remove(node)
+        return points.pop()
+
+cdef tuple pos(int node, object vpoints):
+    """Get position from VPoint."""
+    return (vpoints[node].cx, vpoints[node].cy)
+
+def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
+    """Same as 'friends' generator."""
+    cdef str link
+    cdef set points
+    cdef int friend
+    for link in vpoints[node].links:
+        if len(vlinks[link]) < 2:
+            continue
+        points = vlinks[link].copy()
+        points.remove(node)
+        for friend in points:
+            if status[friend]:
+                yield friend
+
+cpdef list vpoints_configure(object vpoints, object inputs):
     """Auto configuration algorithm.
     
-    For VPoint list: [vpoint0, vpoint1, ...]
+    For VPoint list.
+    vpoints: [vpoint0, vpoint1, ...]
+    inputs: [(p0, p1), (p0, p2), ...]
+    
+    Data:
+    status: Dict[int, bool]
     """
-    return []
+    cdef dict status = {}
+    cdef dict vlinks = {}
+    cdef int node
+    cdef object vpoint
+    cdef str link
+    for node, vpoint in enumerate(vpoints):
+        status[node] = False
+        for link in vpoint.links:
+            if 'ground' == link:
+                status[node] = True
+            #Add as vlink.
+            if link not in vlinks:
+                vlinks[link] = {node}
+            else:
+                vlinks[link].add(node)
+    
+    cdef list exprs = []
+    cdef int link_symbol = 0
+    cdef int angle_symbol = 0
+    #PLAP
+    cdef int base
+    for base, node in inputs:
+        exprs.append((
+            'PLAP',
+            'P{}'.format(base),
+            'L{}'.format(link_symbol),
+            'a{}'.format(angle_symbol),
+            'P{}'.format(get_friend(base, vpoints, vlinks)),
+            'P{}'.format(node)
+        ))
+        status[node] = True
+        link_symbol += 1
+        angle_symbol += 1
+    #PLLP
+    node = 0
+    cdef int friend_a, friend_b
+    cdef int skip_times = 0
+    cdef int all_points_count = len(status)
+    cdef object rf
+    while isAllLock(status):
+        if node not in status:
+            node = 0
+            continue
+        #Check the solution.
+        #If re-scan again.
+        if skip_times >= all_points_count:
+            break
+        if status[node]:
+            node += 1
+            skip_times += 1
+            continue
+        rf = get_reliable_friend(node, vpoints, vlinks, status)
+        if vpoints[node].type == 0:
+            """R joint."""
+            try:
+                friend_a = next(rf)
+                friend_b = next(rf)
+            except StopIteration:
+                skip_times += 1
+            else:
+                #Clockwise.
+                if not clockwise(
+                    pos(friend_a, vpoints),
+                    pos(node, vpoints),
+                    pos(friend_b, vpoints)
+                ):
+                    friend_a, friend_b = friend_b, friend_a
+                exprs.append((
+                    'PLLP',
+                    'P{}'.format(friend_a),
+                    'L{}'.format(link_symbol),
+                    'L{}'.format(link_symbol + 1),
+                    'P{}'.format(friend_b),
+                    'P{}'.format(node)
+                ))
+                link_symbol += 2
+                status[node] = True
+                skip_times = 0
+        elif vpoints[node].type == 1:
+            """TODO: P joint."""
+        elif vpoints[node].type == 2:
+            """TODO: RP joint."""
+        node += 1
+    """
+    exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
+    """
+    return exprs

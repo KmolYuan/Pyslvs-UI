@@ -10,7 +10,9 @@ __email__ = "pyslvs@gmail.com"
 import unittest
 from unittest import TestCase
 
-"""For necessary modules."""
+#For necessary modules.
+from core.libs import topo
+from core.libs import graph_configure
 
 class LibsTest(TestCase):
     
@@ -22,7 +24,7 @@ class LibsTest(TestCase):
         + 'topo' function.
         + 'Graph' class.
         """
-        from core.libs import topo, Graph
+        from core.libs import Graph
         G = Graph([(0, 1), (0, 4), (1, 5), (2, 3), (2, 4), (3, 5), (4, 5)])
         H = Graph([(0, 2), (0, 4), (1, 3), (1, 4), (2, 5), (3, 5), (4, 5)])
         I = Graph([(0, 1), (0, 2), (1, 4), (2, 5), (3, 4), (3, 5), (4, 5)])
@@ -31,13 +33,12 @@ class LibsTest(TestCase):
         answer, time = topo([4, 2], degenerate=True)
         self.assertEqual(len(answer), 2)
     
-    def test_triangulation(self):
+    def test_triangulation1(self):
         """Testing 'triangulation' libraries.
         
         + 'graph_configure' function.
         + Start at P0. (Can not use A ... Z letter.)
         """
-        from core.libs import graph_configure
         from networkx import Graph
         #Test for 8-bar linkage.
         G = Graph([(0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5),

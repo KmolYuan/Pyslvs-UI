@@ -38,27 +38,27 @@ cdef class Coordinate:
 
 cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
     """Point on circle by angle."""
-    cdef double b0 = atan2((B.y - A.y), (B.x - A.x))
+    cdef double b0 = 0 #atan2((B.y - A.y), (B.x - A.x))
     if inverse:
         return (A.x + L0*sin(b0 - a0), A.y + L0*cos(b0 - a0))
     else:
         return (A.x + L0*sin(b0 + a0), A.y + L0*cos(b0 + a0))
 
-cpdef tuple PLLP(Coordinate A, double L0, double R0, Coordinate B, bool inverse=False):
+cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=False):
     """Two intersection points of two circles."""
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
     cdef double d = A.distance(B)
     #No solutions, the circles are separate.
-    if d > L0 + R0:
+    if d > L0 + L1:
         return (nan, nan)
     #No solutions because one circle is contained within the other.
-    if d < abs(L0 - R0):
+    if d < abs(L0 - L1):
         return (nan, nan)
     #Circles are coincident and there are an infinite number of solutions.
-    if d==0 and L0==R0:
+    if (d == 0) and (L0 == L1):
         return (nan, nan)
-    cdef double a = (L0*L0 - R0*R0 + d*d)/(2*d)
+    cdef double a = (L0*L0 - L1*L1 + d*d)/(2*d)
     cdef double h = sqrt(L0*L0 - a*a)
     cdef double xm = A.x + a*dx/d
     cdef double ym = A.y + a*dy/d
@@ -68,6 +68,7 @@ cpdef tuple PLLP(Coordinate A, double L0, double R0, Coordinate B, bool inverse=
         return (xm - h*dy/d, ym + h*dx/d)
 
 cpdef tuple PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inverse=False):
+    """Use in RP joint."""
     cdef double x1 = A.x
     cdef double y1 = A.y
     cdef double x2 = B.x
@@ -84,6 +85,10 @@ cpdef tuple PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inver
             ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)),
             (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
         )
+
+cpdef tuple PXY(Coordinate A, double X0, double Y0):
+    """Use in P joint."""
+    return (A.x + X0, A.y + Y0)
 
 cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     #L0, L1, L2 is triangle
