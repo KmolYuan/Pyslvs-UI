@@ -49,7 +49,7 @@ from core.io import (
 )
 from core.widgets import initCustomWidgets
 from core.entities import EditPoint_show, EditLink_show
-from core.libs import graph_configure
+from core.libs import vpoints_configure
 from typing import (
     Tuple,
     List,
@@ -91,7 +91,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.FileWidget.read(self.args.r)
     
     def show(self):
-        """Adjust the canvas size after display."""
+        """Overloaded function.
+        
+        Adjust the canvas size after display.
+        """
         super(MainWindow, self).show()
         self.DynamicCanvasView.zoomToFit()
         self.DimensionalSynthesis.updateRange()
@@ -338,77 +341,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 used_point.add(p)
         return [edge for n, edge in edges_view(G)]
     
-    def getTriangle(self, vpoints: Tuple[VPoint]) -> [str, Dict[int, int]]:
+    def getTriangle(self, vpoints: Tuple[VPoint]) -> List[Tuple[str]]:
         """Update triangle expression here.
         
-        All joints wil not multiple joints,
-            so the number will follow edges_view generator.
-        
-        + NetworkX graph.
-        + Point number mapping.
-        + Set grounded joints status to true.
-        + Multiple joints.
-        + Customize joints.
+        Special function for VPoints.
         """
-        #Prepare data.
-        link_names = [vlink.name for vlink in self.Entities_Link.data()]
-        joint_links = []
-        joint_pos = []
-        for vpoint in vpoints:
-            joint_links.append(tuple(
-                link_names.index(link) for link in vpoint.links
-            ))
-            joint_pos.append((vpoint.cx, vpoint.cy))
-        
-        G = Graph(self.getGraph())
-        G_map = [edge for n, edge in edges_view(G)]
-        mapping = {}
-        status = {}
-        pos = {}
-        same = {}
-        cus = {}
-        cus_num = len(G_map)
-        
-        for n, links in enumerate(joint_links):
-            #Remove unassociated joints.
-            if not links:
-                continue
-            #Mapping: Including multiple joints.
-            for n_, links_ in enumerate(G_map):
-                #Multiple joints (same) data.
-                if set(links) >= set(links_):
-                    if n in mapping:
-                        same[n_] = mapping[n]
-                    else:
-                        mapping[n] = n_
-            if n not in mapping:
-                mapping[n] = cus_num
-                cus_num += 1
-            #Status: Grounded.
-            status[mapping[n]] = 0 in links
-            #Position.
-            pos[mapping[n]] = joint_pos[n]
-            #Customize joints will belongs only one linkage.
-            if len(links) == 1:
-                cus['P{}'.format(mapping[n])] = links[0]
-        
-        #Fill up status and pos.
-        for n in same:
-            if n not in status:
-                status[n] = 0 in G_map[n]
-            if n not in pos:
-                pos[n] = pos[same[n]]
-        
-        #Driver list.
-        driver = [
-            'P{}'.format(mapping[v[0]])
-            for v in self.InputsWidget.getInputsVariables()
-        ]
-        #Add 'P' tag with symbols of joint.
-        return (
-            graph_configure(G, status, pos, driver, cus, same),
-            {n: 'P{}'.format(m) for n, m in mapping.items()}
-        )
+        return vpoints_configure(vpoints, tuple(self.InputsWidget.inputPair()))
     
     def rightInput(self) -> bool:
         """Is input same as DOF?"""

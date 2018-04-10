@@ -242,7 +242,7 @@ cpdef list vpoints_configure(object vpoints, object inputs):
     cdef int skip_times = 0
     cdef int all_points_count = len(status)
     cdef object rf
-    while isAllLock(status):
+    while not isAllLock(status):
         if node not in status:
             node = 0
             continue

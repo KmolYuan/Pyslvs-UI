@@ -242,6 +242,17 @@ class InputsWidget(QWidget, Ui_Form):
         """Use to show input variable count."""
         return self.inputs_variable.count()
     
+    def inputPair(self) -> Tuple[int, int]:
+        """Back as point number code."""
+        vlinks = {
+            vlink.name: set(vlink.points)
+            for vlink in self.Entities_Link.data()
+        }
+        for vars in self.getInputsVariables():
+            points = vlinks[vars[2]].copy()
+            points.remove(vars[0])
+            yield (vars[0], points.pop())
+    
     def variableReload(self):
         """Auto check the points and type."""
         self.inputs_points.clear()
