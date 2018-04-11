@@ -177,20 +177,3 @@ class VLink:
     
     def __repr__(self):
         return "VLink('{l.name}', {l.points})".format(l=self)
-
-def v_to_slvs(
-    jointData: Tuple[VPoint],
-    linkData: Tuple[VLink]
-) -> Tuple[Tuple[int, int]]:
-    """Solvespace edges."""
-    edges = []
-    for vlink in linkData:
-        if vlink.name=='ground':
-            continue
-        for i, p in enumerate(vlink.points):
-            if i==0:
-                continue
-            edges.append((vlink.points[0], p))
-            if i>1:
-                edges.append((vlink.points[i-1], p))
-    return tuple(edges)

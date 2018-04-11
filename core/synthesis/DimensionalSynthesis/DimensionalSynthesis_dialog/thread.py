@@ -18,7 +18,11 @@ import platform
 import numpy
 import numpy.distutils.cpuinfo
 from psutil import virtual_memory
-from typing import Dict, Any
+from typing import (
+    Tuple,
+    Dict,
+    Any,
+)
 from core.libs import (
     Genetic,
     Firefly,
@@ -92,7 +96,7 @@ class WorkerThread(QThread):
         print("total cost time: {} [s]".format(totalTime))
         self.done.emit()
     
-    def __algorithm(self) -> [Dict[str, Any], float]:
+    def __algorithm(self) -> Tuple[Dict[str, Any], float]:
         """Get the algorithm result."""
         t0 = timeit.default_timer()
         fitnessParameter, time_and_fitness = self.__generateProcess()

@@ -75,7 +75,7 @@ def convex_hull(points: Sequence[Tuple[float, float]]):
         for x, y in (l.extend(u[i] for i in range(1, len(u) - 1)) or l)
     ]
 
-def edges_view(G: Graph) -> [int, tuple]:
+def edges_view(G: Graph) -> Tuple[int, Tuple[int, int]]:
     """This generator can keep the numbering be consistent."""
     for n, edge in enumerate(sorted(sorted(e) for e in G.edges)):
         yield (n, tuple(edge))

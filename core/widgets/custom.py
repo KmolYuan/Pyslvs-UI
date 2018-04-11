@@ -110,7 +110,7 @@ def appearance(self):
         self.on_action_Edit_Point_triggered
     )
     self.DynamicCanvasView.zoom_change.connect(self.ZoomBar.setValue)
-    self.DynamicCanvasView.mouse_track.connect(self.mousePos)
+    self.DynamicCanvasView.mouse_track.connect(self.setMousePos)
     self.DynamicCanvasView.mouse_browse_track.connect(
         selectionLabel.updateMousePosition
     )

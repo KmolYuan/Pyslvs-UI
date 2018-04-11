@@ -26,11 +26,11 @@ from .larkParser import (
     triangle_expr,
     triangle_class,
     get_from_parenthesis,
-    get_front_of_parenthesis
+    get_front_of_parenthesis,
 )
 from .elements import (
     VPoint,
-    VLink
+    VLink,
 )
 from .peeweeIO import FileWidget
 

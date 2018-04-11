@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.acceptProposedAction()
     
     @pyqtSlot(float, float)
-    def mousePos(self, x, y):
+    def setMousePos(self, x, y):
         """Mouse position on canvas."""
         self.mouse_pos_x = x
         self.mouse_pos_y = y
@@ -204,11 +204,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.Entities_Link.currentRow()
         self.action_link_context_add.setVisible(selectionCount <= 0)
         selected_one = selectionCount == 1
-        self.action_link_context_edit.setEnabled(row>-1 and selected_one)
-        self.action_link_context_delete.setEnabled(row>0 and selected_one)
-        self.action_link_context_copydata.setEnabled(row>-1 and selected_one)
-        self.action_link_context_release.setVisible(row==0 and selected_one)
-        self.action_link_context_constrain.setVisible(row>0 and selected_one)
+        self.action_link_context_edit.setEnabled((row > -1) and selected_one)
+        self.action_link_context_delete.setEnabled((row > 0) and selected_one)
+        self.action_link_context_copydata.setEnabled((row > -1) and selected_one)
+        self.action_link_context_release.setVisible((row == 0) and selected_one)
+        self.action_link_context_constrain.setVisible((row > 0) and selected_one)
     
     @pyqtSlot()
     def enableMechanismActions(self):
@@ -361,6 +361,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.Entities_Link.data(),
             self.InputsWidget.currentPath()
         )
+    
+    def v_to_slvs(self) -> Tuple[Tuple[int, int]]:
+        """Solvespace edges."""
+        for vlink in self.Entities_Link.data():
+            if vlink.name=='ground':
+                continue
+            for i, p in enumerate(vlink.points):
+                if i==0:
+                    continue
+                yield (vlink.points[0], p)
+                if i>1:
+                    yield (vlink.points[i-1], p)
     
     def workbookNoSave(self):
         """Workbook not saved signal."""
@@ -599,6 +611,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         slvs2D(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
+            self.v_to_slvs,
             fileName
         )
         self.saveReplyBox("Solvespace sketch", fileName)
@@ -615,6 +628,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         dxfSketch(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
+            self.v_to_slvs,
             fileName
         )
         self.saveReplyBox("Drawing Exchange Format", fileName)

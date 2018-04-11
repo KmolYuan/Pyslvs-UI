@@ -7,7 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .elements import v_to_slvs
+from .elements import VPoint, VLink
+from typing import Tuple, Sequence, Callable
 
 script_group = ['''\
 ±²³SolveSpaceREVa
@@ -95,8 +96,13 @@ entity_normal_xyz = lambda n, p, reversed=False: '\n'.join([
     "AddEntity"
 ])
 
-def slvs2D(VPoints, VLinks, fileName):
-    edges = v_to_slvs(VPoints, VLinks)
+def slvs2D(
+    VPoints: Sequence[VPoint],
+    VLinks: Sequence[VLink],
+    v_to_slvs: Callable[[], Tuple[int, int]],
+    fileName: str
+):
+    edges = tuple(v_to_slvs())
     script_param = ['\n\n'.join([
         '\n\n'.join("Param.h.v.={:08x}\nAddParam".format(0x10010+n) for n in range(3)),
         "Param.h.v.={:08x}\nParam.val={:.020f}\nAddParam".format(0x10020, 1),

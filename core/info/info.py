@@ -13,15 +13,16 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from sys import version_info
-import platform
-import argparse
-import requests
 from core.QtModules import (
     QProgressDialog,
     qVersion,
     PYQT_VERSION_STR
 )
+from sys import version_info
+import platform
+import argparse
+import requests
+from typing import Tuple
 Qt_Version = qVersion().strip()
 PyQt_Version = PYQT_VERSION_STR.strip()
 
@@ -104,7 +105,7 @@ parser.add_argument(
 )
 ARGUMENTS = parser.parse_args()
 
-def check_update(progdlg: QProgressDialog) -> [str, bool]:
+def check_update(progdlg: QProgressDialog) -> Tuple[str, bool]:
     """Check for update."""
     m = progdlg.maximum()
     from core.QtModules import QCoreApplication
