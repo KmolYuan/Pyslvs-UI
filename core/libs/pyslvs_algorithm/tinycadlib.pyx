@@ -35,7 +35,13 @@ cdef class VPoint:
         double y,
         object color_func
     ):
-        self.links = tuple(filter(lambda a: a!='', links.split(',')))
+        cdef list tmp_list = []
+        cdef str name
+        for name in links.split(','):
+            if not name:
+                continue
+            tmp_list.append(name)
+        self.links = tuple(tmp_list)
         self.type = type_int
         self.typeSTR = ('R', 'P', 'RP')[type_int]
         self.angle = angle
@@ -57,16 +63,8 @@ cdef class VPoint:
     def cy(self):
         return self.c[0][1]
     
-    cpdef void move(self, tuple coordinates):
-        cdef int i
-        cdef list tmp_list
-        if (self.type == 1) or (self.type == 2):
-            tmp_list = []
-            for i in range(len(self.links)):
-                tmp_list.append(coordinates)
-            self.c = tuple(tmp_list)
-        else:
-            self.c = (coordinates,)
+    def move(self, *coordinates):
+        self.c = tuple(coordinates)
     
     cpdef double distance(self, VPoint p):
         cdef double x = self.x - p.x
