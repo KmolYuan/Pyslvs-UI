@@ -7,13 +7,13 @@
 
 from cpython cimport bool
 
-cdef dict edges_view(object G):
+cdef inline dict edges_view(object G):
     """This list can keep the numbering be consistent."""
     cdef int n
     cdef object e
     return {n: tuple(e) for n, e in enumerate(sorted(sorted(e) for e in G.edges))}
 
-cdef bool isAllLock(dict status, dict same={}):
+cdef inline bool isAllLock(dict status, dict same={}):
     """Test is all status done."""
     cdef int node
     cdef bool n_status
@@ -71,11 +71,11 @@ def friends(
         if links1 & links2:
             yield node2
 
-cdef list sort_pos(object nodes, dict pos):
+cdef inline list sort_pos(object nodes, dict pos):
     """Sort points by position."""
     return sorted(nodes, key=lambda n: pos[n][0], reverse=True)
 
-cdef bool clockwise(tuple c1, tuple c2, tuple c3):
+cdef inline bool clockwise(tuple c1, tuple c2, tuple c3):
     """Check orientation of three points."""
     cdef int val = (c2[1] - c1[1])*(c3[0] - c2[0]) - (c2[0] - c1[0])*(c3[1] - c2[1])
     return (val == 0) or (val > 0)
@@ -175,7 +175,7 @@ cdef int get_friend(int node, object vpoints, dict vlinks):
         points.remove(node)
         return points.pop()
 
-cdef tuple pos(int node, object vpoints):
+cdef inline tuple pos(int node, object vpoints):
     """Get position from VPoint."""
     return (vpoints[node].cx, vpoints[node].cy)
 

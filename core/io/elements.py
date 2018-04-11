@@ -97,7 +97,7 @@ class VPoint:
         return self.__c[0][1]
     
     @property
-    def c(self) -> Tuple[Tuple[float, float]]:
+    def c(self) -> Tuple[Tuple[float, float], ...]:
         """Get the coordinates of all pin."""
         return self.__c
     
@@ -139,7 +139,7 @@ class VLink:
     
     __slots__ = ('__name', '__color', '__points')
     
-    def __init__(self, name: str, color: str, points: Tuple[int]):
+    def __init__(self, name: str, color: str, points: Tuple[int, ...]):
         self.__set(name, color, points)
     
     @property
@@ -161,10 +161,10 @@ class VLink:
         self.__color = color
     
     @property
-    def points(self) -> Tuple[int]:
+    def points(self) -> Tuple[int, ...]:
         return self.__points
     
-    def setPoints(self, points: Tuple[int]):
+    def setPoints(self, points: Tuple[int, ...]):
         self.__points = points
     
     def __set(self, name, color, points):

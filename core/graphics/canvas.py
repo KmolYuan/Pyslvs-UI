@@ -80,7 +80,7 @@ def edges_view(G: Graph) -> Tuple[int, Tuple[int, int]]:
     for n, edge in enumerate(sorted(sorted(e) for e in G.edges)):
         yield (n, tuple(edge))
 
-def replace_by_dict(d: dict) -> Tuple[str]:
+def replace_by_dict(d: dict) -> Tuple[str, ...]:
     """A function use to translate the expression."""
     nd = d['name_dict']
     tmp_list = []

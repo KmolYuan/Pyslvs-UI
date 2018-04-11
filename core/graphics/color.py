@@ -41,7 +41,7 @@ color_list = {
     'Dark-Pink': QColor(225, 20, 147),
 }
 
-def colorName() -> Tuple[str]:
+def colorName() -> Tuple[str, ...]:
     """Get color names."""
     return tuple(sorted(color_list.keys()))
 

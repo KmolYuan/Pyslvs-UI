@@ -129,14 +129,14 @@ cdef class Firefly:
         self.timeE = 0
         self.fitnessTime = []
     
-    cdef void init(self):
+    cdef inline void init(self):
         cdef int i, j
         for i in range(self.n):
             # init the Chromosome
             for j in range(self.D):
                 self.fireflys[i].v[j] = randV()*(self.ub[j] - self.lb[j]) + self.lb[j];
     
-    cdef void movefireflies(self):
+    cdef inline void movefireflies(self):
         cdef int i, j, k
         cdef bool is_move
         for i in range(self.n):
@@ -149,12 +149,12 @@ cdef class Firefly:
                     self.fireflys[i].v[k] += self.alpha * (randV() - 0.5) * scale
                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])
     
-    cdef void evaluate(self):
+    cdef inline void evaluate(self):
         cdef Chromosome firefly
         for firefly in self.fireflys:
             firefly.f = self.func(firefly.v)
     
-    cdef bool movefly(self, Chromosome me, Chromosome she):
+    cdef inline bool movefly(self, Chromosome me, Chromosome she):
         if me.f <= she.f:
             return False
         cdef double r = me.distance(she)
@@ -166,7 +166,7 @@ cdef class Firefly:
             me.v[i] = self.check(i, me.v[i])
         return True
     
-    cdef double check(self, int i, double v):
+    cdef inline double check(self, int i, double v):
         if v > self.ub[i]:
             return self.ub[i]
         elif v < self.lb[i]:
@@ -174,7 +174,7 @@ cdef class Firefly:
         else:
             return v
     
-    cdef Chromosome findFirefly(self):
+    cdef inline Chromosome findFirefly(self):
         cdef int i
         cdef int index = 0
         cdef Chromosome chrom
@@ -186,14 +186,14 @@ cdef class Firefly:
                 f = chrom.f
         return self.fireflys[index]
     
-    cdef void report(self):
+    cdef inline void report(self):
         self.timeE = time()
         self.fitnessTime.append((self.gen, self.bestFirefly.f, self.timeE - self.timeS))
     
-    cdef void calculate_new_alpha(self):
+    cdef inline void calculate_new_alpha(self):
         self.alpha = self.alpha0 * log10(self.genbest.f + 1)
     
-    cdef void generation_process(self):
+    cdef inline void generation_process(self):
         self.movefireflies()
         self.evaluate()
         # adjust alpha, depend on fitness value

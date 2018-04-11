@@ -29,7 +29,7 @@ def get_list(item: QListWidget) -> List[str]:
 def list_items(
     widget: QListWidget,
     returnRow: bool =False
-) -> Tuple[[int], QListWidgetItem]:
+) -> Tuple[int, QListWidgetItem]:
     """A generator to get items from list widget."""
     for row in range(widget.count()):
         if returnRow:

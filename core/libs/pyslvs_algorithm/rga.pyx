@@ -117,13 +117,13 @@ cdef class Genetic:
         self.timeE = 0
         self.fitnessTime = []
     
-    cdef int random(self, int k)except *:
+    cdef inline int random(self, int k):
         return int(randV()*k)
     
-    cdef double randVal(self, double low, double high)except *:
+    cdef inline double randVal(self, double low, double high):
         return randV()*(high-low)+low
     
-    cdef double check(self, int i, double v)except *:
+    cdef inline double check(self, int i, double v):
         """
         If a variable is out of bound,
         replace it with a random value
@@ -132,7 +132,7 @@ cdef class Genetic:
             return self.randVal(self.minLimit[i], self.maxLimit[i])
         return v
     
-    cdef void crossOver(self)except *:
+    cdef inline void crossOver(self):
         cdef int i, s, j
         for i in range(0, self.nPop-1, 2):
             # crossover
@@ -158,7 +158,7 @@ cdef class Genetic:
                 self.chrom[i].assign(self.babyChrom[0])
                 self.chrom[i+1].assign(self.babyChrom[1])
     
-    cdef double delta(self, double y)except *:
+    cdef inline double delta(self, double y):
         cdef double r
         if self.maxGen > 0:
             r = self.gen / self.maxGen
@@ -166,7 +166,7 @@ cdef class Genetic:
             r = 1
         return y*randV()*pow(1.0 - r, self.bDelta)
     
-    cdef void fitness(self)except *:
+    cdef inline void fitness(self):
         cdef int j
         for j in range(self.nPop):
             self.chrom[j].f = self.func(self.chrom[j].v)
@@ -177,13 +177,13 @@ cdef class Genetic:
         if (self.chromBest.f < self.chromElite.f):
             self.chromElite.assign(self.chromBest)
     
-    cdef void initialPop(self)except *:
+    cdef inline void initialPop(self):
         cdef int i, j
         for j in range(self.nPop):
             for i in range(self.nParm):
                 self.chrom[j].v[i] = self.randVal(self.minLimit[i], self.maxLimit[i])
     
-    cdef void mutate(self)except *:
+    cdef inline void mutate(self):
         cdef int i, s
         for i in range(self.nPop):
             if randV() < self.pMute:
@@ -193,11 +193,11 @@ cdef class Genetic:
                 else:
                     self.chrom[i].v[s] -= self.delta(self.chrom[i].v[s]-self.minLimit[s])
     
-    cdef void report(self)except *:
+    cdef inline void report(self):
         self.timeE = time()
         self.fitnessTime.append((self.gen, self.chromElite.f, self.timeE - self.timeS))
     
-    cdef void select(self)except *:
+    cdef inline void select(self):
         """
         roulette wheel selection
         """
@@ -216,7 +216,7 @@ cdef class Genetic:
         j = self.random(self.nPop)
         self.chrom[j].assign(self.chromElite)
     
-    cdef void generation_process(self):
+    cdef inline void generation_process(self):
         self.select()
         self.crossOver()
         self.mutate()

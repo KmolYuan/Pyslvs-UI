@@ -36,7 +36,7 @@ cdef class Graph:
         cdef int n
         self.adj = {n: self.neighbors(n) for n in self.nodes}
     
-    cdef tuple neighbors(self, int n):
+    cdef inline tuple neighbors(self, int n):
         """Neighbors except the node."""
         cdef list neighbors = []
         cdef int l1, l2
@@ -126,7 +126,7 @@ cdef class GraphMatcher:
         self.initialize()
     
     #Reinitializes the state of the algorithm.
-    cdef void initialize(self):
+    cdef inline void initialize(self):
         # core_1[n] contains the index of the node paired with n, which is m,
         #           provided n is in the mapping.
         # core_2[m] contains the index of the node paired with m, which is n,
@@ -225,7 +225,7 @@ cdef class GraphMatcher:
                     newstate.restore()
     
     #Returns True if adding (G1_node, G2_node) is syntactically feasible.
-    cdef bool syntactic_feasibility(self, int G1_node, int G2_node):
+    cdef inline bool syntactic_feasibility(self, int G1_node, int G2_node):
         # The VF2 algorithm was designed to work with graphs having, at most,
         # one edge connecting any two nodes.  This is not the case when
         # dealing with an MultiGraphs.
@@ -380,7 +380,7 @@ cdef class GMState:
                 if vector[node] == self.depth:
                     del vector[node]
 
-cdef bool verify(Graph G, list answer):
+cdef inline bool verify(Graph G, list answer):
     if not G.is_connected():
         #is not connected
         return True
@@ -390,7 +390,7 @@ cdef bool verify(Graph G, list answer):
             return True
     return False
 
-cdef list connection_get(int i, tuple connection):
+cdef inline list connection_get(int i, tuple connection):
     cdef tuple c
     return [c for c in connection if (i in c)]
 

@@ -928,7 +928,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ))
             self.CommandStack.endMacro()
     
-    def __toMultipleJoint(self, index: int, points: Tuple[int]):
+    def __toMultipleJoint(self, index: int, points: Tuple[int, ...]):
         """Merge points into a multiple joint.
         @index: The index of main joint in the sequence.
         """

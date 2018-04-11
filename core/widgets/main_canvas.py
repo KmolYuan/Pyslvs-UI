@@ -231,7 +231,7 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(tuple)
     def changePointsSelection(self,
-        pointsSelection: Tuple[int]
+        pointsSelection: Tuple[int, ...]
     ):
         """Update the selected points."""
         self.pointsSelection = pointsSelection

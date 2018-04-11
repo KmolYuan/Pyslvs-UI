@@ -38,7 +38,7 @@ class SlvsException(Exception):
 def slvsProcess(
     Point: Tuple['VPoint'],
     Link: Tuple['VLink'],
-    constraints: Tuple[Tuple[int, "Base_link", "Drive_link", float],]
+    constraints: Tuple[Tuple[int, str, str, float], ...]
 ):
     """Use element module to convert into solvespace expression."""
     pointCount = 0

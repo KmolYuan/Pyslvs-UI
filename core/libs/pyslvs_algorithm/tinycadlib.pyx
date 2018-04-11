@@ -16,8 +16,6 @@ import numpy as np
 cimport numpy as np
 from cpython cimport bool
 
-nan = float("nan")
-
 cdef class Coordinate:
     
     """A class to store the coordinate."""
@@ -50,6 +48,7 @@ cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=
     cdef double dy = B.y - A.y
     cdef double d = A.distance(B)
     #No solutions, the circles are separate.
+    cdef double nan = float("nan")
     if d > L0 + L1:
         return (nan, nan)
     #No solutions because one circle is contained within the other.
@@ -86,14 +85,14 @@ cpdef tuple PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inver
             (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
         )
 
-cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
+cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     #L0, L1, L2 is triangle
     cdef double L0 = A.distance(B)
     cdef double L1 = B.distance(C)
     cdef double L2 = A.distance(C)
-    return L1+L2 > L0 and L0+L2 > L1 and L0+L1 > L2
+    return (L1+L2 > L0) and (L0+L2 > L1) and (L0+L1 > L2)
 
-cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
+cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
     '''
     verify the fourbar is satisfied the Gruebler's Equation, s + g <= p + q
         C - D
@@ -109,11 +108,11 @@ cpdef bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
         (driver + ground <= connector + follower)
     )
 
-cdef str get_from_parenthesis(str s, str front, str back):
+cdef inline str get_from_parenthesis(str s, str front, str back):
     """Get the string that is inside of parenthesis."""
     return s[s.find(front)+1:s.find(back)]
 
-cdef str get_front_of_parenthesis(str s, str front):
+cdef inline str get_front_of_parenthesis(str s, str front):
     """Get the string that is front of parenthesis."""
     return s[:s.find(front)]
 
@@ -147,11 +146,18 @@ cpdef void expr_parser(str exprs, dict data_dict):
             data_dict[target] = PLPP(*args)
     """'data_dict' has been updated."""
 
-cdef double distance(tuple c1, tuple c2):
+cdef inline double distance(tuple c1, tuple c2):
     """Calculate the distance between two tuple coordinates."""
     cdef double x = c1[0] - c2[0]
     cdef double y = c1[1] - c2[1]
     return sqrt(x*x + y*y)
+
+cdef inline void rotate_collect(dict data_dict, dict mapping_r, list path):
+    """Collecting."""
+    cdef str m
+    cdef int n
+    for m, n in mapping_r.items():
+        path[n].append(data_dict[m])
 
 cdef void rotate(
     int input_angle,
@@ -178,13 +184,6 @@ cdef void rotate(
             data_dict[param] = np.deg2rad(a)
             expr_parser(expr_str, data_dict)
             rotate_collect(data_dict, mapping_r, path)
-
-cdef void rotate_collect(dict data_dict, dict mapping_r, list path):
-    """Collecting."""
-    cdef str m
-    cdef int n
-    for m, n in mapping_r.items():
-        path[n].append(data_dict[m])
 
 cdef list return_path(str expr_str, dict data_dict, dict mapping_r, int dof):
     cdef int i
