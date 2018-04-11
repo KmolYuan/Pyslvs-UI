@@ -86,10 +86,6 @@ cpdef tuple PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inver
             (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
         )
 
-cpdef tuple PXY(Coordinate A, double X0, double Y0):
-    """Use in P joint."""
-    return (A.x + X0, A.y + Y0)
-
 cpdef bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     #L0, L1, L2 is triangle
     cdef double L0 = A.distance(B)
@@ -191,9 +187,9 @@ cdef void rotate_collect(dict data_dict, dict mapping_r, list path):
         path[n].append(data_dict[m])
 
 cdef list return_path(str expr_str, dict data_dict, dict mapping_r, int dof):
+    cdef int i
     cdef list path = [[] for i in range(len(mapping_r))]
     #For each input joint.
-    cdef int i
     for i in range(dof):
         rotate(i, expr_str, data_dict, mapping_r, path)
     if dof > 1:
@@ -228,13 +224,19 @@ cpdef list expr_path(list exprs, dict mapping, list pos):
     
     for expr in exprs:
         #Link 1: expr[2]
-        data_dict[expr[2]] = distance(pos[mapping_r[expr[1]]], pos[mapping_r[expr[-1]]])
+        data_dict[expr[2]] = distance(
+            pos[mapping_r[expr[1]]],
+            pos[mapping_r[expr[-1]]]
+        )
         if expr[0] == 'PLAP':
             #Inputs
             dof += 1
         else:
             #Link 2: expr[3]
-            data_dict[expr[3]] = distance(pos[mapping_r[expr[4]]], pos[mapping_r[expr[-1]]])
+            data_dict[expr[3]] = distance(
+                pos[mapping_r[expr[4]]],
+                pos[mapping_r[expr[-1]]]
+            )
         #Targets
         targets.add(expr[-1])
     

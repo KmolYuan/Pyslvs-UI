@@ -59,7 +59,7 @@ from networkx import Graph
 from .Ui_main import Ui_MainWindow
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-
+    
     """The main window of Pyslvs.
     
     Inherited from QMainWindow.
@@ -183,14 +183,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.action_point_context_copyPoint,
             self.action_point_context_copydata
         ):
-            action.setVisible(row>-1)
-            action.setEnabled(selectionCount==1)
+            action.setVisible(row > -1)
+            action.setEnabled(selectionCount == 1)
         #If two or more points selected.
-        self.action_New_Link.setVisible(selectionCount>1)
-        self.popMenu_point_merge.menuAction().setVisible(selectionCount>1)
-        #Generate a merge function.
+        self.action_New_Link.setVisible(selectionCount > 1)
+        self.popMenu_point_merge.menuAction().setVisible(selectionCount > 1)
+        
         def mjFunc(i):
+            """Generate a merge function."""
             return lambda: self.__toMultipleJoint(i, selectedRows)
+        
         for i, p in enumerate(selectedRows):
             action = QAction("Base on Point{}".format(p), self)
             action.triggered.connect(mjFunc(i))
@@ -219,7 +221,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         LINK_SELECTED = (
             bool(linkSelection) and
             (0 not in linkSelection) and
-            not ONE_LINK
+            (not ONE_LINK)
         )
         #Edit
         self.action_Edit_Point.setEnabled(ONE_POINT)
