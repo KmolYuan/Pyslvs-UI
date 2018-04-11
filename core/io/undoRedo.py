@@ -216,7 +216,7 @@ class EditLinkTable(QUndoCommand):
         '''
         self.Args = tuple(Args)
         self.OldArgs = self.LinkTable.rowTexts(row)
-        #Points: Tuple[int, ...]
+        #Points: Tuple[int]
         newPoints = self.Args[2].split(',')
         oldPoints = self.OldArgs[2].split(',')
         newPoints = set(

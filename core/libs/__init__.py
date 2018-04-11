@@ -13,6 +13,8 @@ from .pyslvs_algorithm import (
     DiffertialEvolution,
     expr_parser,
     expr_path,
+    VPoint,
+    VLink,
     build_planar,
 )
 from .pyslvs_topologic import (
@@ -45,6 +47,8 @@ __all__ = [
     'DiffertialEvolution',
     'expr_parser',
     'expr_path',
+    'VPoint',
+    'VLink',
     'build_planar',
     'NumberSynthesis',
     'topo',

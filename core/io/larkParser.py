@@ -70,7 +70,7 @@ class PMKSArgsTransformer(Transformer):
     """Usage: tree = parser.parse(expr)
     
     pointsArgs = ArgsTransformer().transform(tree)
-    pointsArgs: Dict[str: value, ...]
+    pointsArgs: Dict[str: value]
     """
     
     type = lambda self, n: str(n[0])

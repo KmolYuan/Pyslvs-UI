@@ -167,7 +167,7 @@ class DynamicCanvas(BaseCanvas):
     
     def drawLink(self,
         name: str,
-        points: Tuple[int, ...]
+        points: Tuple[int]
     ):
         """Draw linkage function.
         

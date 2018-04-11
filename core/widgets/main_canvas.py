@@ -25,8 +25,11 @@ from core.graphics import (
     colorQt,
     colorNum
 )
-from core.io import VPoint, VLink
-from core.libs import expr_path
+from core.libs import (
+    expr_path,
+    VPoint,
+    VLink,
+)
 from math import (
     sin,
     cos,
@@ -231,7 +234,7 @@ class DynamicCanvas(BaseCanvas):
     
     @pyqtSlot(tuple)
     def changePointsSelection(self,
-        pointsSelection: Tuple[int, ...]
+        pointsSelection: Tuple[int]
     ):
         """Update the selected points."""
         self.pointsSelection = pointsSelection

@@ -7,12 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
-from math import (
-    radians,
-    cos,
-    sin
-)
 from core.libs import (
     #System base
     System,
@@ -29,16 +23,25 @@ from core.libs import (
     SLVS_RESULT_OKAY,
     SLVS_RESULT_INCONSISTENT,
     SLVS_RESULT_DIDNT_CONVERGE,
-    SLVS_RESULT_TOO_MANY_UNKNOWNS
+    SLVS_RESULT_TOO_MANY_UNKNOWNS,
+    #Typing
+    VPoint,
+    VLink,
 )
+from math import (
+    radians,
+    cos,
+    sin
+)
+from typing import Tuple
 
 class SlvsException(Exception):
     pass
 
 def slvsProcess(
-    Point: Tuple['VPoint'],
-    Link: Tuple['VLink'],
-    constraints: Tuple[Tuple[int, str, str, float], ...]
+    Point: Tuple[VPoint],
+    Link: Tuple[VLink],
+    constraints: Tuple[Tuple[int, str, str, float]]
 ):
     """Use element module to convert into solvespace expression."""
     pointCount = 0

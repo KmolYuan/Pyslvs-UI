@@ -10,17 +10,115 @@ from libc.math cimport (
     isnan,
     sin,
     cos,
-    atan2
+    atan2,
 )
 import numpy as np
 cimport numpy as np
 from cpython cimport bool
 
+cdef class VPoint:
+    
+    """Symbol of joints."""
+    
+    cdef readonly tuple links, c
+    cdef readonly int type
+    cdef readonly object color
+    cdef readonly str colorSTR, typeSTR
+    cdef readonly double x, y, angle
+    
+    def __cinit__(self,
+        str links,
+        int type_int,
+        double angle,
+        str color_str,
+        double x,
+        double y,
+        object color_func
+    ):
+        self.links = tuple(filter(lambda a: a!='', links.split(',')))
+        self.type = type_int
+        self.typeSTR = ('R', 'P', 'RP')[type_int]
+        self.angle = angle
+        self.colorSTR = color_str
+        self.color = color_func(color_str)
+        self.x = x
+        self.y = y
+        cdef int i
+        if (self.type == 1) or (self.type == 2):
+            self.c = tuple((self.x, self.y) for i in range(len(self.links)))
+        else:
+            self.c = ((self.x, self.y),)
+    
+    @property
+    def cx(self):
+        return self.c[0][0]
+    
+    @property
+    def cy(self):
+        return self.c[0][1]
+    
+    cpdef void move(self, tuple coordinates):
+        cdef int i
+        cdef list tmp_list
+        if (self.type == 1) or (self.type == 2):
+            tmp_list = []
+            for i in range(len(self.links)):
+                tmp_list.append(coordinates)
+            self.c = tuple(tmp_list)
+        else:
+            self.c = (coordinates,)
+    
+    cpdef double distance(self, VPoint p):
+        cdef double x = self.x - p.x
+        cdef double y = self.y - p.y
+        return round(sqrt(x*x + y*y), 4)
+    
+    cpdef double slopeAngle(self, VPoint p):
+        return round(np.rad2deg(atan2(p.y-self.y, p.x-self.x)), 4)
+    
+    @property
+    def expr(self):
+        return "J[{}, color[{}], P[{}], L[{}]]".format(
+            "{}, A[{}]".format(self.typeSTR, self.angle)
+            if self.typeSTR!='R' else 'R',
+            self.colorSTR,
+            "{}, {}".format(self.x, self.y),
+            ", ".join(l for l in self.links)
+        )
+    
+    def __repr__(self):
+        return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)
+
+cdef class VLink:
+    
+    """Symbol of linkages."""
+    
+    cdef readonly str name, colorSTR
+    cdef readonly object color
+    cdef readonly tuple points
+    
+    def __cinit__(self,
+        str name,
+        str color_str,
+        tuple points,
+        object color_func
+    ):
+        self.name = name
+        self.colorSTR = color_str
+        self.color = color_func(color_str)
+        self.points = points
+    
+    def __contains__(self, int point):
+        return point in self.points
+    
+    def __repr__(self):
+        return "VLink('{l.name}', {l.points})".format(l=self)
+
 cdef class Coordinate:
     
     """A class to store the coordinate."""
     
-    cdef public double x, y
+    cdef readonly double x, y
     
     def __cinit__(self, double x, double y):
         self.x = x

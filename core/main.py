@@ -38,7 +38,6 @@ from core.io import (
     EditPointTable, EditLinkTable,
     AddStorage, DeleteStorage,
     AddStorageName, ClearStorageName,
-    VPoint,
     Qt_images,
     slvs2D,
     dxfSketch,
@@ -49,7 +48,7 @@ from core.io import (
 )
 from core.widgets import initCustomWidgets
 from core.entities import EditPoint_show, EditLink_show
-from core.libs import vpoints_configure
+from core.libs import vpoints_configure, VPoint
 from typing import (
     Tuple,
     List,
@@ -928,7 +927,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ))
             self.CommandStack.endMacro()
     
-    def __toMultipleJoint(self, index: int, points: Tuple[int, ...]):
+    def __toMultipleJoint(self, index: int, points: Tuple[int]):
         """Merge points into a multiple joint.
         @index: The index of main joint in the sequence.
         """

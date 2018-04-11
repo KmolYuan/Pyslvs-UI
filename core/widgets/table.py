@@ -21,8 +21,8 @@ from core.QtModules import (
     QTableWidgetSelectionRange,
     QLabel,
 )
-from core.graphics import colorIcons
-from core.io import VPoint, VLink
+from core.graphics import colorIcons, colorQt
+from core.libs import VPoint, VLink
 from typing import Tuple
 
 class BaseTableWidget(QTableWidget):
@@ -58,7 +58,7 @@ class BaseTableWidget(QTableWidget):
                 texts.append(item.text())
         return tuple(texts)
     
-    def selectedRows(self) -> Tuple[int, ...]:
+    def selectedRows(self) -> Tuple[int]:
         """Get what row is been selected."""
         tmp_set = set([])
         for r in self.selectedRanges():
@@ -98,7 +98,7 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(6, 130)
         self.itemSelectionChanged.connect(self.__emitSelectionChanged)
     
-    def data(self, index=-1) -> Tuple[VPoint, ...]:
+    def data(self, index=-1) -> Tuple[VPoint]:
         """Get the digitization of all table data."""
         def get(row):
             Links = self.item(row, 1).text()
@@ -115,7 +115,7 @@ class PointTableWidget(BaseTableWidget):
             elif Type[0]=='P' or Type[0]=='RP':
                 angle = float(Type[1])
                 Type = {'P':1, 'RP':2}[Type[0]]
-            vpoint = VPoint(Links, Type, angle, color, x, y)
+            vpoint = VPoint(Links, Type, angle, color, x, y, colorQt)
             vpoint.move(*self.currentPosition(row))
             return vpoint
         if index==-1:
@@ -184,7 +184,7 @@ class PointTableWidget(BaseTableWidget):
         ))
     
     @pyqtSlot(tuple, bool)
-    def setSelections(self, selections: Tuple[int, ...], keyDetect: bool):
+    def setSelections(self, selections: Tuple[int], keyDetect: bool):
         """Auto select function, get the signal from canvas."""
         self.setFocus()
         keyboardModifiers = QApplication.keyboardModifiers()
@@ -209,7 +209,7 @@ class PointTableWidget(BaseTableWidget):
         self.selectionLabelUpdate.emit(selectedRows, tuple(distance))
     
     def __setSelectedRanges(self,
-        selections: Tuple[int, ...],
+        selections: Tuple[int],
         continueSelect: bool,
         UnSelect: bool
     ):
@@ -261,7 +261,7 @@ class LinkTableWidget(BaseTableWidget):
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 130)
     
-    def data(self) -> Tuple[VLink, ...]:
+    def data(self) -> Tuple[VLink]:
         """Get the digitization of all table data."""
         data = []
         for row in range(self.rowCount()):
@@ -271,7 +271,7 @@ class LinkTableWidget(BaseTableWidget):
                 points = tuple(int(p.replace('Point', '')) for p in self.item(row, 2).text().split(','))
             except:
                 points = ()
-            data.append(VLink(name, color, points))
+            data.append(VLink(name, color, points, colorQt))
         return tuple(data)
     
     def editArgs(self,
@@ -309,8 +309,8 @@ class SelectionLabel(QLabel):
     @pyqtSlot()
     @pyqtSlot(tuple, tuple)
     def updateSelectPoint(self,
-        points: Tuple[int, ...] =(),
-        distance: Tuple[float, ...] =()
+        points: Tuple[int] =(),
+        distance: Tuple[float] =()
     ):
         """Get points and distance from Point table widget."""
         text = ""

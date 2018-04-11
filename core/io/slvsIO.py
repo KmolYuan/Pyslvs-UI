@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .elements import VPoint, VLink
+from core.libs import VPoint, VLink
 from typing import Tuple, Sequence, Callable
 
 script_group = ['''\

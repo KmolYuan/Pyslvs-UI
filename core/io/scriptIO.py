@@ -22,8 +22,8 @@ from core.QtModules import (
     QApplication,
 )
 from core.info import VERSION
+from core.libs import VPoint, VLink
 from typing import List
-from .elements import VPoint, VLink
 from .Ui_script import Ui_Info_Dialog
 
 script_title = '''\
