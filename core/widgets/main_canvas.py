@@ -111,6 +111,7 @@ class DynamicCanvas(BaseCanvas):
         #Functions from the main window.
         self.getTriangle = parent.getTriangle
         self.rightInput = parent.rightInput
+        self.pathInterval = parent.pathInterval
         #The current mouse coordinates.
         self.Selector = Selector()
         #Entities.
@@ -463,7 +464,8 @@ class DynamicCanvas(BaseCanvas):
             self.Path.path = expr_path(
                 self.getTriangle(self.Points),
                 {n: 'P{}'.format(n) for n in range(len(self.Points))},
-                [(vpoint.cx, vpoint.cy) for vpoint in self.Points]
+                [(vpoint.cx, vpoint.cy) for vpoint in self.Points],
+                self.pathInterval()
             )
         if hasattr(self, 'PathRecord'):
             Path = self.PathRecord

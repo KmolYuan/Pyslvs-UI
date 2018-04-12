@@ -255,12 +255,13 @@ cdef inline void rotate_collect(dict data_dict, dict mapping_r, list path):
     for m, n in mapping_r.items():
         path[n].append(data_dict[m])
 
-cdef void rotate(
+cdef inline void rotate(
     int input_angle,
     str expr_str,
     dict data_dict,
     dict mapping_r,
     list path,
+    double interval,
     bool reverse=False
 ):
     """Add path coordinates.
@@ -268,29 +269,34 @@ cdef void rotate(
     + Rotate the input joints.
     + Collect the coordinates of all joints.
     """
+    
     cdef str param = 'a{}'.format(input_angle)
-    cdef double a
-    if not reverse:
-        for a in range(0, 361, 5):
-            data_dict[param] = np.deg2rad(a)
-            expr_parser(expr_str, data_dict)
-            rotate_collect(data_dict, mapping_r, path)
-    else:
-        for a in range(360, -1, -5):
-            data_dict[param] = np.deg2rad(a)
-            expr_parser(expr_str, data_dict)
-            rotate_collect(data_dict, mapping_r, path)
+    cdef double a = 0
+    if reverse:
+        a = 360
+        interval = -interval
+    while 0 <= a <= 360:
+        data_dict[param] = np.deg2rad(a)
+        expr_parser(expr_str, data_dict)
+        rotate_collect(data_dict, mapping_r, path)
+        a += interval
 
-cdef list return_path(str expr_str, dict data_dict, dict mapping_r, int dof):
+cdef inline list return_path(
+    str expr_str,
+    dict data_dict,
+    dict mapping_r,
+    int dof,
+    double interval
+):
     cdef int i
     cdef list path = [[] for i in range(len(mapping_r))]
     #For each input joint.
     for i in range(dof):
-        rotate(i, expr_str, data_dict, mapping_r, path)
+        rotate(i, expr_str, data_dict, mapping_r, path, interval)
     if dof > 1:
         #Rotate back.
         for i in range(dof):
-            rotate(i, expr_str, data_dict, mapping_r, path, True)
+            rotate(i, expr_str, data_dict, mapping_r, path, interval, True)
     """
     return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
     """
@@ -301,7 +307,7 @@ cdef list return_path(str expr_str, dict data_dict, dict mapping_r, int dof):
             path[i] = tuple(path[i])
     return path
 
-cpdef list expr_path(list exprs, dict mapping, list pos):
+cpdef list expr_path(list exprs, dict mapping, list pos, double interval):
     """Auto preview function.
     
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
@@ -349,4 +355,4 @@ cpdef list expr_path(list exprs, dict mapping, list pos):
         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
         for expr in exprs
     ])
-    return return_path(expr_str, data_dict, mapping_r, dof)
+    return return_path(expr_str, data_dict, mapping_r, dof, interval)

@@ -353,6 +353,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """Is input same as DOF?"""
         return (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
     
+    def pathInterval(self) -> float:
+        """Wrapper use to get path interval."""
+        return self.InputsWidget.inputs_record_interval.value()
+    
     def reloadCanvas(self):
         """Update main canvas data, without resolving."""
         self.DynamicCanvasView.updateFigure(
