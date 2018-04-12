@@ -13,6 +13,10 @@ from .rga import Genetic
 from .firefly import Firefly
 from .de import DiffertialEvolution
 from .tinycadlib import (
+    Coordinate,
+    PLAP,
+    PLLP,
+    PLPP,
     expr_parser,
     expr_path,
     VPoint,
@@ -24,6 +28,10 @@ __all__ = [
     'Genetic',
     'Firefly',
     'DiffertialEvolution',
+    'Coordinate',
+    'PLAP',
+    'PLLP',
+    'PLPP',
     'expr_parser',
     'expr_path',
     'VPoint',

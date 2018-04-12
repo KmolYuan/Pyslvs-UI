@@ -11,10 +11,16 @@ from libc.math cimport (
     sin,
     cos,
     atan2,
+    hypot,
 )
 import numpy as np
 cimport numpy as np
 from cpython cimport bool
+
+cdef double nan = float('nan')
+
+cdef inline double distance(double x1, double y1, double x2, double y2):
+    return hypot(x2 - x1, y2 - y1)
 
 cdef class VPoint:
     
@@ -67,9 +73,7 @@ cdef class VPoint:
         self.c = tuple(coordinates)
     
     cpdef double distance(self, VPoint p):
-        cdef double x = self.x - p.x
-        cdef double y = self.y - p.y
-        return round(sqrt(x*x + y*y), 4)
+        return distance(self.x, self.y, p.x, p.y)
     
     cpdef double slopeAngle(self, VPoint p):
         return round(np.rad2deg(atan2(p.y-self.y, p.x-self.x)), 4)
@@ -122,10 +126,8 @@ cdef class Coordinate:
         self.x = x
         self.y = y
     
-    cpdef double distance(self, Coordinate obj):
-        cdef double x = self.x - obj.x
-        cdef double y = self.y - obj.y
-        return sqrt(x*x + y*y)
+    cpdef double distance(self, Coordinate p):
+        return distance(self.x, self.y, p.x, p.y)
     
     cpdef bool isnan(self):
         return isnan(self.x) or isnan(self.y)
@@ -143,13 +145,15 @@ cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
     cdef double d = A.distance(B)
+    
     #No solutions, the circles are separate.
-    cdef double nan = float("nan")
     if d > L0 + L1:
         return (nan, nan)
+    
     #No solutions because one circle is contained within the other.
     if d < abs(L0 - L1):
         return (nan, nan)
+    
     #Circles are coincident and there are an infinite number of solutions.
     if (d == 0) and (L0 == L1):
         return (nan, nan)
@@ -157,29 +161,37 @@ cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=
     cdef double h = sqrt(L0*L0 - a*a)
     cdef double xm = A.x + a*dx/d
     cdef double ym = A.y + a*dy/d
+    
     if inverse:
         return (xm + h*dy/d, ym - h*dx/d)
     else:
         return (xm - h*dy/d, ym + h*dx/d)
 
 cpdef tuple PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inverse=False):
-    """Use in RP joint."""
-    cdef double x1 = A.x
-    cdef double y1 = A.y
-    cdef double x2 = B.x
-    cdef double y2 = B.y
-    cdef double x3 = C.x
-    cdef double y3 = C.y
+    """Two intersection points of a line and a circle."""
+    cdef double line_mag = B.distance(C)
+    cdef double dx = C.x - B.x
+    cdef double dy = C.y - B.y
+    cdef double u = ((A.x - B.x)*dx + (A.y - B.y)*dy) / (line_mag*line_mag)
+    cdef Coordinate I = Coordinate(B.x + u*dx, B.y + u*dy)
+    
+    #Test distance between point A and intersection.
+    cdef double d = A.distance(I)
+    if d > L0:
+        #No intersection.
+        return (nan, nan)
+    elif d == L0:
+        #One intersection point.
+        return (I.x, I.y)
+    
+    #Two intersection points.
+    d = sqrt(L0*L0 - d*d)
+    dx *= d / line_mag
+    dy *= d / line_mag
     if inverse:
-        return (
-            ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)),
-            (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (y2 - y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
-        )
+        return (I.x - dx, I.y - dy)
     else:
-        return (
-            ((x2-x3)*(x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2)) - (x2*y3 - y2*x3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2))/((y2 - y3)*(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)),
-            (x1*x2*y2 - x1*x2*y3 - x1*y2*x3 + x1*x3*y3 + y1*y2**2 - 2*y1*y2*y3 + y1*y3**2 + x2**2*y3 - x2*y2*x3 - x2*x3*y3 + y2*x3**2 + (-y2 + y3)*sqrt(L0**2*x2**2 - 2*L0**2*x2*x3 + L0**2*y2**2 - 2*L0**2*y2*y3 + L0**2*x3**2 + L0**2*y3**2 - x1**2*y2**2 + 2*x1**2*y2*y3 - x1**2*y3**2 + 2*x1*y1*x2*y2 - 2*x1*y1*x2*y3 - 2*x1*y1*y2*x3 + 2*x1*y1*x3*y3 - 2*x1*x2*y2*y3 + 2*x1*x2*y3**2 + 2*x1*y2**2*x3 - 2*x1*y2*x3*y3 - y1**2*x2**2 + 2*y1**2*x2*x3 - y1**2*x3**2 + 2*y1*x2**2*y3 - 2*y1*x2*y2*x3 - 2*y1*x2*x3*y3 + 2*y1*y2*x3**2 - x2**2*y3**2 + 2*x2*y2*x3*y3 - y2**2*x3**2))/(x2**2 - 2*x2*x3 + y2**2 - 2*y2*y3 + x3**2 + y3**2)
-        )
+        return (I.x + dx, I.y + dy)
 
 cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     #L0, L1, L2 is triangle
@@ -242,11 +254,9 @@ cpdef void expr_parser(str exprs, dict data_dict):
             data_dict[target] = PLPP(*args)
     """'data_dict' has been updated."""
 
-cdef inline double distance(tuple c1, tuple c2):
+cdef inline double tuple_distance(tuple c1, tuple c2):
     """Calculate the distance between two tuple coordinates."""
-    cdef double x = c1[0] - c2[0]
-    cdef double y = c1[1] - c2[1]
-    return sqrt(x*x + y*y)
+    return distance(c1[0], c1[1], c2[0], c2[1])
 
 cdef inline void rotate_collect(dict data_dict, dict mapping_r, list path):
     """Collecting."""
@@ -325,7 +335,7 @@ cpdef list expr_path(list exprs, dict mapping, list pos, double interval):
     
     for expr in exprs:
         #Link 1: expr[2]
-        data_dict[expr[2]] = distance(
+        data_dict[expr[2]] = tuple_distance(
             pos[mapping_r[expr[1]]],
             pos[mapping_r[expr[-1]]]
         )
@@ -334,7 +344,7 @@ cpdef list expr_path(list exprs, dict mapping, list pos, double interval):
             dof += 1
         else:
             #Link 2: expr[3]
-            data_dict[expr[3]] = distance(
+            data_dict[expr[3]] = tuple_distance(
                 pos[mapping_r[expr[4]]],
                 pos[mapping_r[expr[-1]]]
             )

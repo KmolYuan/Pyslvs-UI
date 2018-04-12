@@ -11,12 +11,41 @@ import unittest
 from unittest import TestCase
 
 #For necessary modules.
-from core.libs import topo
-from core.libs import graph_configure
+from math import sqrt, radians, isclose
+from core.libs import (
+    Coordinate,
+    PLAP,
+    PLLP,
+    PLPP,
+    topo,
+    graph_configure,
+)
 
 class LibsTest(TestCase):
     
     """Testing Cython libs."""
+    
+    def test_PLAP(self):
+        A = Coordinate(0, 0)
+        B = Coordinate(50, 0)
+        x, y = PLAP(A, 50*sqrt(2), radians(45), B)
+        self.assertTrue(isclose(x, 50))
+        self.assertTrue(isclose(y, 50))
+    
+    def test_PLLP(self):
+        A = Coordinate(-30, 0)
+        B = Coordinate(30, 0)
+        x, y = PLLP(A, 50, 50, B)
+        self.assertTrue(isclose(x, 0))
+        self.assertTrue(isclose(y, 40))
+    
+    def test_PLPP(self):
+        A = Coordinate(0, 0)
+        B = Coordinate(0, -3)
+        C = Coordinate(3/2, 0)
+        x, y = PLPP(A, sqrt(5), B, C)
+        self.assertTrue(isclose(x, 2))
+        self.assertTrue(isclose(y, 1))
     
     def test_topologic(self):
         """Testing 'topologic' libraries.
