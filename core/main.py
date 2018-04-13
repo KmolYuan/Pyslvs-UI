@@ -303,7 +303,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ConflictGuide.setToolTip(str(e))
             self.ConflictGuide.setStatusTip("Error: {}".format(e))
             self.ConflictGuide.setVisible(True)
-            self.DOF = -float('inf')
             self.DOFview.setVisible(False)
         else:
             self.Entities_Point.updateCurrentPosition(result)

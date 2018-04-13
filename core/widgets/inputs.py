@@ -44,6 +44,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.outputTo = parent.outputTo
         self.ConflictGuide = parent.ConflictGuide
         self.DOF = lambda: parent.DOF
+        self.rightInput = parent.rightInput
         self.CommandStack = parent.CommandStack
         #self widgets.
         self.dial = QDial()
@@ -54,6 +55,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.inputs_playShaft = QTimer(self)
         self.inputs_playShaft.setInterval(10)
         self.inputs_playShaft.timeout.connect(self.__changeIndex)
+        self.variable_list.currentRowChanged.connect(self.__dialOk)
         '''Inputs record context menu
         
         + Copy data from Point{}
@@ -165,20 +167,22 @@ class InputsWidget(QWidget, Ui_Form):
             self.__addInputsVariable(*variable)
     
     @pyqtSlot(int)
-    def on_variable_list_currentRowChanged(self, row: int =None):
+    def __dialOk(self, p0=None):
         """Set the angle of base link and drive link."""
-        if row is None:
-            row = self.variable_list.currentRow()
+        row = self.variable_list.currentRow()
         enabled = row > -1
-        rotatable = enabled and not self.FreeMoveMode.isChecked()
+        rotatable = (
+            enabled and
+            not self.FreeMoveMode.isChecked() and
+            self.rightInput()
+        )
         self.dial.setEnabled(rotatable)
         self.oldVariableValue = self.dial.value() / 100.
         self.variable_play.setEnabled(rotatable)
         self.variable_speed.setEnabled(rotatable)
         self.dial.setValue(float(
-            self.variable_list.currentItem().text().split('->')[-1])*100
-            if enabled else 0
-        )
+            self.variable_list.currentItem().text().split('->')[-1]
+        )*100 if enabled else 0)
     
     def variableExcluding(self, row: int =None):
         """Remove variable if the point was been deleted.
@@ -296,7 +300,7 @@ class InputsWidget(QWidget, Ui_Form):
                 "{:.02f}".format(self.__getLinkAngle(point, variable[2]))
             ])
             self.variable_list.item(i).setText(text)
-        self.on_variable_list_currentRowChanged()
+        self.__dialOk()
         self.resolve()
     
     @pyqtSlot(bool)
