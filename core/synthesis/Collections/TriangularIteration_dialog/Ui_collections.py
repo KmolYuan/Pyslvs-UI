@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\Collections\TriangularIteration_dialog\collections.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/Collections/TriangularIteration_dialog/collections.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -31,9 +31,6 @@ class Ui_Dialog(object):
         self.preview_box.setObjectName("preview_box")
         self.preview_layout = QtWidgets.QVBoxLayout(self.preview_box)
         self.preview_layout.setObjectName("preview_layout")
-        self.switch_name = QtWidgets.QCheckBox(self.preview_box)
-        self.switch_name.setObjectName("switch_name")
-        self.preview_layout.addWidget(self.switch_name)
         self.show_solutions = QtWidgets.QCheckBox(self.preview_box)
         self.show_solutions.setChecked(True)
         self.show_solutions.setObjectName("show_solutions")
@@ -124,7 +121,6 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Profile collections"))
         self.preview_box.setTitle(_translate("Dialog", "Preview"))
-        self.switch_name.setText(_translate("Dialog", "Name numbering"))
         self.show_solutions.setText(_translate("Dialog", "Show solutions"))
         self.common_label.setText(_translate("Dialog", "Common:"))
         __sortingEnabled = self.common_list.isSortingEnabled()

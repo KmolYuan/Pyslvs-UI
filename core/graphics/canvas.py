@@ -82,14 +82,9 @@ def edges_view(G: Graph) -> Tuple[int, Tuple[int, int]]:
 
 def replace_by_dict(d: dict) -> Tuple[str]:
     """A function use to translate the expression."""
-    nd = d['name_dict']
     tmp_list = []
     for func, args, target in triangle_expr(d['Expression']):
-        params = list(args)
-        for i, p in enumerate(params):
-            if p in nd:
-                params[i] = nd[p]
-        tmp_list.append("{}[{}]({})".format(func, ','.join(params), nd[target]))
+        tmp_list.append("{}[{}]({})".format(func, ','.join(args), target))
     return tuple(tmp_list)
 
 class Path:
@@ -313,7 +308,6 @@ class PreviewCanvas(BaseCanvas):
         self.same = {}
         self.pos = {}
         self.status = {}
-        self.name_dict = {}
         self.clear()
     
     def clear(self):
@@ -326,7 +320,6 @@ class PreviewCanvas(BaseCanvas):
         self.same.clear()
         self.pos.clear()
         self.status.clear()
-        self.name_dict.clear()
         self.grounded = -1
         self.Driver = -1
         self.Target = -1
@@ -404,13 +397,10 @@ class PreviewCanvas(BaseCanvas):
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
-            name = 'P{}'.format(node)
-            if self.name_dict:
-                name = self.name_dict[name]
             self.painter.drawText(QPointF(
                 x*self.zoom + 2*self.r,
                 y*-self.zoom
-            ), name)
+            ), 'P{}'.format(node))
         self.painter.end()
     
     def __drawLimit(self, sq_w: int):
@@ -483,43 +473,33 @@ class PreviewCanvas(BaseCanvas):
         """Get status. If multiple joints, return true."""
         return self.status[point] or (point in self.same)
     
-    def setNameDict(self, name_dict: Dict[str, str]):
-        """Show as letter names."""
-        self.name_dict = {v: k for k, v in name_dict.items()}
-        self.update()
-    
     @pyqtSlot(bool)
     def setShowSolutions(self, status: bool):
         """Switch solutions."""
         self.showSolutions = status
         self.update()
     
-    def from_profile(self, params: Dict[str, Any], setNameDict: bool =True):
+    def from_profile(self, params: Dict[str, Any]):
         """Simple load by dict object."""
-        mapping = params['name_dict']
-        #Name dict.
-        if setNameDict:
-            self.setNameDict(mapping)
         #Add customize joints.
         G = Graph(params['Graph'])
         self.setGraph(G, params['pos'])
         self.cus = params['cus']
         self.same = params['same']
         #Grounded setting.
-        if setNameDict:
-            Driver = [mapping[e] for e in params['Driver']]
-            Follower = [mapping[e] for e in params['Follower']]
-            for row, link in enumerate(G.nodes):
-                points = set(
-                    'P{}'.format(n)
-                    for n, edge in edges_view(G) if link in edge
-                )
-                if set(Driver + Follower) <= points:
-                    self.setGrounded(row)
-                    break
+        Driver = set(params['Driver'])
+        Follower = set(params['Follower'])
+        for row, link in enumerate(G.nodes):
+            points = set(
+                'P{}'.format(n)
+                for n, edge in edges_view(G) if link in edge
+            )
+            if (Driver | Follower) <= points:
+                self.setGrounded(row)
+                break
         #Expression
         for func, args, target in triangle_expr(params['Expression']):
-            self.setStatus(params['name_dict'][target], True)
+            self.setStatus(target, True)
     
     def isAllLock(self) -> bool:
         """Is all joint has solution."""

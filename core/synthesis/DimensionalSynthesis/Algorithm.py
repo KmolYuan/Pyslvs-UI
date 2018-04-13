@@ -589,18 +589,18 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if prefix:
                 s.setPrefix("±")
             return s
-        nd = {k: int(v.replace('P', '')) for k, v in params['name_dict'].items()}
         for row, name in enumerate(sorted(gj)):
             coord = gj[name]
             self.ground_joints.setItem(row, 0, QTableWidgetItem(name))
             self.ground_joints.setItem(row, 1,
                 QTableWidgetItem('Driver' if name in params['Driver'] else 'Follower')
             )
+            x, y = params['pos'][int(name.replace('P', ''))]
             self.ground_joints.setCellWidget(row, 2,
-                spinbox(coord[0] if coord else params['pos'][nd[name]][0])
+                spinbox(coord[0] if coord else x)
             )
             self.ground_joints.setCellWidget(row, 3,
-                spinbox(coord[1] if coord else params['pos'][nd[name]][1])
+                spinbox(coord[1] if coord else y)
             )
             self.ground_joints.setCellWidget(row, 4,
                 spinbox(coord[2] if coord else 50., True)
@@ -643,7 +643,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             'Expression',
             'constraint',
             'Graph',
-            'name_dict',
             'pos',
             'cus',
             'same'

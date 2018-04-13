@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/NumberAndTypeSynthesis/Permutations.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.10
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -217,7 +217,7 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.Expression_joint_text.setText(_translate("Form", "Generalized expression:"))
         self.Expression_copy.setStatusTip(_translate("Form", "Copy expression."))
-        self.Expression_add_collection.setToolTip(_translate("Form", "Add to collection."))
+        self.Expression_add_collection.setStatusTip(_translate("Form", "Add to collection."))
         self.ReloadMechanism.setStatusTip(_translate("Form", "Analyze current mechanism from canvas."))
         self.NJ_text.setToolTip(_translate("Form", "Number of joints"))
         self.NJ_text.setText(_translate("Form", "NJ (?)"))

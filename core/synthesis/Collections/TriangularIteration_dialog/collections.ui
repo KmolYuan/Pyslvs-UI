@@ -41,13 +41,6 @@
       </property>
       <layout class="QVBoxLayout" name="preview_layout">
        <item>
-        <widget class="QCheckBox" name="switch_name">
-         <property name="text">
-          <string>Name numbering</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QCheckBox" name="show_solutions">
          <property name="text">
           <string>Show solutions</string>

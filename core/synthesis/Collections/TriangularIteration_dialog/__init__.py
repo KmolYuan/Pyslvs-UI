@@ -12,7 +12,7 @@ __email__ = "pyslvs@gmail.com"
 from .collections import CollectionsDialog
 from .constraints import ConstraintsDialog, list_items
 from .customs import CustomsDialog
-from .targets import TargetsDialog, list_texts, combo_texts
+from .targets import TargetsDialog, list_texts
 from .solutions import SolutionsDialog
 
 __all__ = [
@@ -22,7 +22,6 @@ __all__ = [
     'TargetsDialog',
     'SolutionsDialog',
     'list_texts',
-    'combo_texts',
     'list_items',
 ]
 

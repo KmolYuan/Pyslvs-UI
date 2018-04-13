@@ -23,8 +23,6 @@ from core.libs import graph_configure
 import pprint
 from math import sqrt
 from networkx import Graph
-from string import ascii_uppercase
-from itertools import product
 from typing import (
     Dict,
     List,
@@ -39,22 +37,9 @@ from .TriangularIteration_dialog import (
     TargetsDialog,
     SolutionsDialog,
     list_texts,
-    combo_texts,
     list_items,
 )
 from .Ui_TriangularIteration import Ui_Form
-
-def letter_names():
-    """This is a generator to get a
-    non-numeric and non-repeat name string.
-    
-    ('A', 'B', ..., 'AA', 'AB', ..., 'AAA', 'AAB', ...)
-    """
-    i = 0
-    while True:
-        i += 1
-        for e in product(ascii_uppercase, repeat=i):
-            yield ''.join(e)
 
 class PreviewWindow(PreviewCanvas):
     
@@ -118,7 +103,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.addToCollection = CollectionsStructure.addCollection
         '''
         self.collections = {}
-        self.parm_bind = {}
         #Canvas
         self.PreviewWindow = PreviewWindow(
             lambda: tuple(
@@ -152,7 +136,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.clear()
         self.joint_name.clear()
         self.Expression_list.clear()
-        self.parm_bind.clear()
         self.grounded_list.clear()
         self.Driver_list.clear()
         self.Follower_list.clear()
@@ -306,24 +289,21 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             'pos':self.PreviewWindow.pos.copy(),
             'cus':self.PreviewWindow.cus.copy(),
             'same':self.PreviewWindow.same.copy(),
-            'name_dict':{v:k for k, v in self.parm_bind.items()},
             #Mechanism params.
             'Driver':{
-                self.parm_bind[s]:None for s in list_texts(self.Driver_list)
+                s: None for s in list_texts(self.Driver_list)
                 if not self.PreviewWindow.isMultiple(s)
             },
             'Follower':{
-                self.parm_bind[s]:None for s in list_texts(self.Follower_list)
+                s: None for s in list_texts(self.Follower_list)
                 if not self.PreviewWindow.isMultiple(s)
             },
             'Target':{
-                self.parm_bind[s]:None for s in list_texts(self.Target_list)
+                s: None for s in list_texts(self.Target_list)
             },
             'Link_Expression':self.Link_Expression.text(),
             'Expression':self.Expression.text(),
-            'constraint':[tuple(
-                self.parm_bind[name] for name in s.split(", ")
-            ) for s in list_texts(self.constraint_list)]
+            'constraint':[tuple(s.split(", ")) for s in list_texts(self.constraint_list)],
         }
     
     @pyqtSlot()
@@ -335,21 +315,20 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             return
         self.profile_name = dlg.name_loaded
         params = dlg.mechanismParams
-        mapping = params['name_dict']
         #Add customize joints.
         G = Graph(params['Graph'])
         self.setGraph(G, params['pos'])
         self.PreviewWindow.cus = params['cus']
         self.PreviewWindow.same = params['same']
         #Grounded setting.
-        Driver = [mapping[e] for e in params['Driver']]
-        Follower = [mapping[e] for e in params['Follower']]
+        Driver = set(params['Driver'])
+        Follower = set(params['Follower'])
         for row, link in enumerate(G.nodes):
             points = set(
                 'P{}'.format(n)
                 for n, edge in edges_view(G) if link in edge
             )
-            if set(Driver + Follower) <= points:
+            if (Driver | Follower) <= points:
                 self.grounded_list.setCurrentRow(row)
                 break
         #Driver, Follower, Target
@@ -357,27 +336,18 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             if self.Follower_list.item(row).text() in Driver:
                 self.Follower_list.setCurrentRow(row)
                 self.Driver_add.click()
-        self.Target_list.addItems([mapping[e] for e in params['Target']])
+        self.Target_list.addItems(list(params['Target']))
         self.__setWarning(self.Target_label, not self.Target_list.count() > 0)
         #Constraints
         self.constraint_list.addItems([
-            ", ".join(mapping[e] for e in c) for c in params['constraint']
+            ", ".join(c) for c in params['constraint']
         ])
         #Expression
         for expr in params['Expression'].split(';'):
-            params = get_from_parenthesis(expr, '[', ']').split(',')
-            target = get_from_parenthesis(expr, '(', ')')
-            params.append(target)
-            for p in params:
-                try:
-                    #Try to avoid replace function name.
-                    expr = mapping[p].join(expr.rsplit(p, 1))
-                except KeyError:
-                    continue
             item = QListWidgetItem()
             self.Expression_list.addItem(item)
             item.setText(expr)
-            self.PreviewWindow.setStatus(mapping[target], True)
+            self.PreviewWindow.setStatus(get_from_parenthesis(expr, '(', ')'), True)
         self.__setWarning(
             self.Expression_list_label,
             not self.PreviewWindow.isAllLock()
@@ -473,28 +443,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot(QListWidgetItem)
     def __setParmBind(self, item=None):
         """Set parameters binding."""
-        self.parm_bind.clear()
-        expr_list = []
-        #At this time, we should turn the points number to letter names.
-        ln = letter_names()
-        #Set functional expression.
-        for expr in list_texts(self.Expression_list):
-            params = get_from_parenthesis(expr, '[', ']').split(',')
-            params.append(get_from_parenthesis(expr, '(', ')'))
-            for name in params:
-                if 'P' in name:
-                    #Find out with who was shown earlier.
-                    if name not in self.parm_bind:
-                        self.parm_bind[name] = next(ln)
-                    expr = expr.replace(name, self.parm_bind[name])
-            expr_list.append(expr)
-        #If there has any joints not named yet.
-        for name in combo_texts(self.joint_name):
-            if name not in self.parm_bind:
-                self.parm_bind[name] = next(ln)
-        #Set link expression.
+        self.Expression.setText(';'.join(list_texts(self.Expression_list)))
         link_expr_list = []
-        self.Expression.setText(';'.join(expr_list))
         for row, gs in list_texts(self.grounded_list, True):
             try:
                 link_expr = []
@@ -504,14 +454,14 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                         name = 'P{}'.format(
                             self.PreviewWindow.same[int(name.replace('P', ''))]
                         )
-                    link_expr.append(self.parm_bind[name])
+                    link_expr.append(name)
             except KeyError:
                 continue
             else:
                 #Customize joints.
                 for joint, link in self.PreviewWindow.cus.items():
                     if row==link:
-                        link_expr.append(self.parm_bind[joint])
+                        link_expr.append(joint)
                 link_expr_str = ','.join(sorted(set(link_expr)))
                 if row==self.grounded_list.currentRow():
                     link_expr_list.insert(0, link_expr_str)

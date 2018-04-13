@@ -51,7 +51,7 @@
          </item>
          <item>
           <widget class="QPushButton" name="Expression_add_collection">
-           <property name="toolTip">
+           <property name="statusTip">
             <string>Add to collection.</string>
            </property>
            <property name="text">
