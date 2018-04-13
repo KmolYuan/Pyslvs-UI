@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Firefly Algorithm."""
+
 # __author__ = "Yuan Chang"
 # __copyright__ = "Copyright (C) 2016-2018"
 # __license__ = "AGPL"

@@ -63,32 +63,39 @@ cdef class VPoint:
     
     @property
     def cx(self):
+        """X value of frist current coordinate."""
         return self.c[0][0]
     
     @property
     def cy(self):
+        """Y value of frist current coordinate."""
         return self.c[0][1]
     
     def move(self, *coordinates):
+        """Change coordinates of this point."""
         self.c = tuple(coordinates)
     
     cpdef double distance(self, VPoint p):
+        """Distance."""
         return distance(self.x, self.y, p.x, p.y)
     
     cpdef double slopeAngle(self, VPoint p):
-        return round(np.rad2deg(atan2(p.y-self.y, p.x-self.x)), 4)
+        """Angle between horizontal line and two point."""
+        return np.rad2deg(atan2(p.y-self.y, p.x-self.x))
     
     @property
     def expr(self):
+        """Expression."""
         return "J[{}, color[{}], P[{}], L[{}]]".format(
             "{}, A[{}]".format(self.typeSTR, self.angle)
-            if self.typeSTR!='R' else 'R',
+            if self.typeSTR != 'R' else 'R',
             self.colorSTR,
             "{}, {}".format(self.x, self.y),
             ", ".join(l for l in self.links)
         )
     
     def __repr__(self):
+        """Use to generate script."""
         return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)
 
 cdef class VLink:
@@ -111,10 +118,12 @@ cdef class VLink:
         self.points = points
     
     def __contains__(self, int point):
+        """Check if point number is in the link."""
         return point in self.points
     
     def __repr__(self):
-        return "VLink('{l.name}', {l.points})".format(l=self)
+        """Use to generate script."""
+        return "VLink('{l.name}', {l.points}, colorQt)".format(l=self)
 
 cdef class Coordinate:
     
@@ -127,18 +136,19 @@ cdef class Coordinate:
         self.y = y
     
     cpdef double distance(self, Coordinate p):
+        """Distance."""
         return distance(self.x, self.y, p.x, p.y)
     
     cpdef bool isnan(self):
-        return isnan(self.x) or isnan(self.y)
+        """Test this coordinate is a error-occured answer."""
+        return isnan(self.x)
 
 cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
     """Point on circle by angle."""
-    cdef double b0 = 0 #atan2((B.y - A.y), (B.x - A.x))
     if inverse:
-        return (A.x + L0*sin(b0 - a0), A.y + L0*cos(b0 - a0))
+        return (A.x + L0*sin(-a0), A.y + L0*cos(-a0))
     else:
-        return (A.x + L0*sin(b0 + a0), A.y + L0*cos(b0 + a0))
+        return (A.x + L0*sin(a0), A.y + L0*cos(a0))
 
 cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=False):
     """Two intersection points of two circles."""
@@ -231,6 +241,8 @@ cpdef void expr_parser(str exprs, dict data_dict):
         or "PLAP[P0,L0,a0,P1](P2);PLLP[P2,L1,L2,P1](P3);..."
     data_dict: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
     '''
+    #Remove all the spaces in the expression.
+    exprs = exprs.replace(" ", '')
     cdef str expr, f, name
     cdef list params
     cdef object p
@@ -258,18 +270,18 @@ cdef inline double tuple_distance(tuple c1, tuple c2):
     """Calculate the distance between two tuple coordinates."""
     return distance(c1[0], c1[1], c2[0], c2[1])
 
-cdef inline void rotate_collect(dict data_dict, dict mapping_r, list path):
+cdef inline void rotate_collect(dict data_dict, dict mapping, list path):
     """Collecting."""
-    cdef str m
     cdef int n
-    for m, n in mapping_r.items():
+    cdef str m
+    for n, m in mapping.items():
         path[n].append(data_dict[m])
 
 cdef inline void rotate(
     int input_angle,
     str expr_str,
     dict data_dict,
-    dict mapping_r,
+    dict mapping,
     list path,
     double interval,
     bool reverse=False
@@ -279,7 +291,6 @@ cdef inline void rotate(
     + Rotate the input joints.
     + Collect the coordinates of all joints.
     """
-    
     cdef str param = 'a{}'.format(input_angle)
     cdef double a = 0
     if reverse:
@@ -288,25 +299,26 @@ cdef inline void rotate(
     while 0 <= a <= 360:
         data_dict[param] = np.deg2rad(a)
         expr_parser(expr_str, data_dict)
-        rotate_collect(data_dict, mapping_r, path)
+        rotate_collect(data_dict, mapping, path)
         a += interval
 
 cdef inline list return_path(
     str expr_str,
     dict data_dict,
-    dict mapping_r,
+    dict mapping,
     int dof,
     double interval
 ):
+    """Return as paths."""
     cdef int i
-    cdef list path = [[] for i in range(len(mapping_r))]
+    cdef list path = [[] for i in range(len(mapping))]
     #For each input joint.
     for i in range(dof):
-        rotate(i, expr_str, data_dict, mapping_r, path, interval)
+        rotate(i, expr_str, data_dict, mapping, path, interval)
     if dof > 1:
         #Rotate back.
         for i in range(dof):
-            rotate(i, expr_str, data_dict, mapping_r, path, interval, True)
+            rotate(i, expr_str, data_dict, mapping, path, interval, True)
     """
     return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
     """
@@ -317,14 +329,20 @@ cdef inline list return_path(
             path[i] = tuple(path[i])
     return path
 
-cpdef list expr_path(list exprs, dict mapping, list pos, double interval):
-    """Auto preview function.
+cdef inline str expr_join(object exprs):
+    """Use to append a list of symbols into a string."""
+    return ';'.join([
+        "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
+        for expr in exprs
+    ])
+
+cdef tuple data_collecting(object exprs, dict mapping, object pos):
+    """Input data:
     
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
     mapping: {0: 'P0', 1: 'P2', 2: 'P3', 3: 'P4', ...}
     pos: [(x0, y0), (x1, y1), (x2, y2), ...]
     """
-    
     cdef int n
     cdef str m
     cdef dict mapping_r = {m: n for n, m in mapping.items()}
@@ -342,7 +360,7 @@ cpdef list expr_path(list exprs, dict mapping, list pos, double interval):
         if expr[0] == 'PLAP':
             #Inputs
             dof += 1
-        else:
+        elif expr[0] == 'PLLP':
             #Link 2: expr[3]
             data_dict[expr[3]] = tuple_distance(
                 pos[mapping_r[expr[4]]],
@@ -357,12 +375,18 @@ cpdef list expr_path(list exprs, dict mapping, list pos, double interval):
         if mapping[i] not in targets:
             data_dict[mapping[i]] = c
     
+    return data_dict, dof
+
+cpdef list expr_path(object exprs, dict mapping, object pos, double interval):
+    """Auto preview function."""
+    cdef dict data_dict
+    cdef int dof
+    data_dict, dof = data_collecting(exprs, mapping, pos)
+    
+    #Angles.
     cdef double a = 0
+    cdef int i
     for i in range(dof):
         data_dict['a{}'.format(i)] = a
     
-    cdef str expr_str = ';'.join([
-        "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
-        for expr in exprs
-    ])
-    return return_path(expr_str, data_dict, mapping_r, dof, interval)
+    return return_path(expr_join(exprs), data_dict, mapping, dof, interval)

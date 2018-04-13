@@ -59,6 +59,7 @@ class EditLink_show(QDialog, edit_link_Dialog):
         )
     
     def __legalName(self, name: str) -> bool:
+        """Return this name is usable or not."""
         if not name.isidentifier():
             return False
         for i, vlink in enumerate(self.Links):

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""The functional object of the validation in algorithm."""
+
 # __author__ = "Yuan Chang"
 # __copyright__ = "Copyright (C) 2016-2018"
 # __license__ = "AGPL"
@@ -25,6 +27,7 @@ cdef str get_front_of_parenthesis(str s, str front):
     return s[:s.find(front)]
 
 cdef list path_error(list path, tuple target):
+    """A list of each error value."""
     cdef list tmp_list = []
     cdef int i
     for i in range(len(path)):
@@ -39,7 +42,7 @@ cdef class build_planar:
     cdef list constraint, Link, Driver_list, Follower_list
     cdef tuple targetPoint
     cdef dict Driver, Follower
-    cdef np.ndarray Exp, target, upper, lower
+    cdef np.ndarray exprs, target, upper, lower
     
     def __cinit__(self, dict mechanismParams):
         '''
@@ -88,7 +91,7 @@ cdef class build_planar:
         Link: L0, L1, L2, L3, ...
         Driver_list: The name of the point in "self.Driver" (Sorted).
         Follower_list: The name of the point in "self.Follower" (Sorted).
-        Exp:
+        exprs:
             {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
             {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
@@ -97,10 +100,10 @@ cdef class build_planar:
         self.Link = []
         self.Driver_list = []
         self.Follower_list = []
-        self.Exp = np.ndarray((len(ExpressionL),), dtype=np.object)
+        self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
         for i, expr in enumerate(ExpressionL):
             params = get_from_parenthesis(expr, '[', ']')
-            self.Exp[i] = (
+            self.exprs[i] = (
                 #[0]: relate
                 get_front_of_parenthesis(expr, '['),
                 #[1]: target
@@ -115,7 +118,7 @@ cdef class build_planar:
                     self.Driver_list.append(p)
                 if (p in self.Follower) and (p not in self.Follower_list):
                     self.Follower_list.append(p)
-        #The number of all variables (chromsome).
+        #The number of all variables (except angles).
         self.VARS = 2*len(self.Driver_list) + 2*len(self.Follower_list) + len(self.Link)
         
         """Limitations.
@@ -160,11 +163,13 @@ cdef class build_planar:
         return self.lower
     
     cpdef int get_nParm(self):
+        """Return size of chromosome."""
         return len(self.upper)
     
-    cdef object get_data_dict(self, np.ndarray v):
+    cdef inline dict get_data_dict(self, np.ndarray v):
+        """Create and return data dict."""
         cdef str name, L
-        cdef object tmp_dict = {}
+        cdef dict tmp_dict = {}
         cdef int vi = 0
         #driving
         for name in self.Driver_list:
@@ -180,7 +185,8 @@ cdef class build_planar:
             vi += 1
         return tmp_dict
     
-    cdef np.ndarray get_path_array(self):
+    cdef inline np.ndarray get_path_array(self):
+        """Create and return path array."""
         cdef np.ndarray path = np.ndarray((len(self.targetPoint),), dtype=np.object)
         cdef int i
         for i in range(len(self.targetPoint)):
@@ -188,6 +194,7 @@ cdef class build_planar:
         return path
     
     cdef object from_formula(self, object expression_dict, object data_dict):
+        """Formulas using PLAP and PLLP."""
         cdef str fun = expression_dict[0]
         cdef object params = tuple(data_dict[p] for p in expression_dict[2])
         if fun=='PLAP':
@@ -220,7 +227,7 @@ cdef class build_planar:
             #match to path points.
             for j in range(len(self.Driver_list)):
                 test_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + i*len(self.Driver_list) + j])
-            for e in self.Exp:
+            for e in self.exprs:
                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
                 target_coordinate = self.from_formula(e, test_dict)
                 if target_coordinate.isnan():
@@ -251,7 +258,7 @@ cdef class build_planar:
         cdef dict final_dict = self.get_data_dict(v)
         for j in range(len(self.Driver_list)):
             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
-        for e in self.Exp:
+        for e in self.exprs:
             #target
             final_dict[e[1]] = self.from_formula(e, final_dict)
         for k, value in final_dict.items():
@@ -266,4 +273,5 @@ cdef class build_planar:
         return final_dict
     
     def __call__(self, np.ndarray v):
+        """Python callable object."""
         return self.run(v)
