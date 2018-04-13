@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="inputs_points_groupBox">
+    <widget class="QGroupBox" name="joint_groupBox">
      <property name="title">
       <string>Inputs</string>
      </property>
@@ -38,14 +38,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
-         <widget class="QLabel" name="inputs_points_lable">
+         <widget class="QLabel" name="joint_list_lable">
           <property name="text">
            <string>Points</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="inputs_points">
+         <widget class="QListWidget" name="joint_list">
           <property name="statusTip">
            <string>Choose a point to be a revolute joint.</string>
           </property>
@@ -66,14 +66,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_15">
         <item>
-         <widget class="QLabel" name="inputs_baseLinks_lable">
+         <widget class="QLabel" name="base_link_list_lable">
           <property name="text">
            <string>Base link</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="inputs_baseLinks">
+         <widget class="QListWidget" name="base_link_list">
           <property name="statusTip">
            <string>Coordinate reference.</string>
           </property>
@@ -94,14 +94,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_16">
         <item>
-         <widget class="QLabel" name="inputs_driveLinks_lable">
+         <widget class="QLabel" name="drive_link_list_lable">
           <property name="text">
            <string>Drive link</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="inputs_driveLinks">
+         <widget class="QListWidget" name="drive_link_list">
           <property name="statusTip">
            <string>Coordinate movement reference.</string>
           </property>
@@ -111,7 +111,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="inputs_variable_add">
+         <widget class="QPushButton" name="variable_list_add">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -130,7 +130,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="inputs_variable_groupBox">
+    <widget class="QGroupBox" name="variable_groupBox">
      <property name="title">
       <string>Variables</string>
      </property>
@@ -138,7 +138,7 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_10">
         <item>
-         <widget class="QListWidget" name="inputs_variable">
+         <widget class="QListWidget" name="variable_list">
           <property name="statusTip">
            <string>All the variable of this mechanism.</string>
           </property>
@@ -150,7 +150,7 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QPushButton" name="inputs_variable_remove">
+           <widget class="QPushButton" name="variable_remove">
             <property name="statusTip">
              <string>Delete the specified variable.</string>
             </property>
@@ -185,14 +185,14 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_4">
               <item>
-               <widget class="QLabel" name="inputs_variable_speed_label">
+               <widget class="QLabel" name="variable_speed_label">
                 <property name="text">
                  <string>Speed:</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="inputs_variable_speed">
+               <widget class="QSpinBox" name="variable_speed">
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
@@ -236,7 +236,7 @@
           <item>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QPushButton" name="inputs_variable_play">
+             <widget class="QPushButton" name="variable_play">
               <property name="enabled">
                <bool>false</bool>
               </property>
@@ -254,7 +254,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="inputs_variable_stop">
+             <widget class="QPushButton" name="variable_stop">
               <property name="statusTip">
                <string>Stop the auto driver and return to original place.</string>
               </property>
@@ -281,7 +281,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="inputs_record_groupBox">
+    <widget class="QGroupBox" name="record_groupBox">
      <property name="title">
       <string>Records</string>
      </property>
@@ -289,14 +289,14 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_6">
         <item>
-         <widget class="QLabel" name="inputs_record_interval_text">
+         <widget class="QLabel" name="record_interval_label">
           <property name="text">
            <string>Interval: </string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QDoubleSpinBox" name="inputs_record_interval">
+         <widget class="QDoubleSpinBox" name="record_interval">
           <property name="statusTip">
            <string>Each coordinate will be recorded after this angle value.</string>
           </property>
@@ -328,7 +328,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="QCheckBox" name="inputs_record_show">
+         <widget class="QCheckBox" name="record_show">
           <property name="statusTip">
            <string>Show path data on the canvas.</string>
           </property>
@@ -345,7 +345,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
-         <widget class="QListWidget" name="inputs_record">
+         <widget class="QListWidget" name="record_list">
           <property name="contextMenuPolicy">
            <enum>Qt::CustomContextMenu</enum>
           </property>
@@ -365,7 +365,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QPushButton" name="inputs_record_record">
+           <widget class="QPushButton" name="record_start">
             <property name="statusTip">
              <string>Start / Stop record.</string>
             </property>
@@ -392,7 +392,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="inputs_record_remove">
+           <widget class="QPushButton" name="record_remove">
             <property name="statusTip">
              <string>Delete the specified path data.</string>
             </property>

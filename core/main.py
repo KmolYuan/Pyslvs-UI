@@ -355,7 +355,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def pathInterval(self) -> float:
         """Wrapper use to get path interval."""
-        return self.InputsWidget.inputs_record_interval.value()
+        return self.InputsWidget.record_interval.value()
     
     def reloadCanvas(self):
         """Update main canvas data, without resolving."""

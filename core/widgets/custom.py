@@ -123,7 +123,7 @@ def appearance(self):
         def func():
             self.FreeMoveMode.setIcon(qicon)
             self.DynamicCanvasView.setFreeMove(j)
-            self.InputsWidget.inputs_variable_stop.click()
+            self.InputsWidget.variable_stop.click()
         return func
     for i, (text, icon) in enumerate([
         ("View mode", "freemove_off"),
