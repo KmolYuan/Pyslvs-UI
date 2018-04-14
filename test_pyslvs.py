@@ -41,6 +41,12 @@ class LibsTest(TestCase):
         x, y = PLLP(A, 50, 50, B)
         self.assertTrue(isclose(x, 0))
         self.assertTrue(isclose(y, 40))
+        x, y = PLLP(A, 30, 30, B)
+        self.assertTrue(isclose(x, 0))
+        self.assertTrue(isclose(y, 0))
+        x, y = PLLP(A, 90, 30, B)
+        self.assertTrue(isclose(x, 60))
+        self.assertTrue(isclose(y, 0))
     
     def test_PLPP(self):
         A = Coordinate(0, 0)

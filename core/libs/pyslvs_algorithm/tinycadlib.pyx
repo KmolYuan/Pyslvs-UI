@@ -145,6 +145,10 @@ cdef class Coordinate:
     cpdef bool isnan(self):
         """Test this coordinate is a error-occured answer."""
         return isnan(self.x)
+    
+    def __repr__(self):
+        """Debug printing."""
+        return "Coordinate({p.x}, {p.y})".format(p=self)
 
 cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
     """Point on circle by angle."""
@@ -255,7 +259,12 @@ cpdef void expr_parser(str exprs, dict data_dict):
         target = get_from_parenthesis(expr, '(', ')')
         args = []
         for name in params:
-            p = data_dict[name]
+            if name == 'T':
+                p = True
+            elif name == 'F':
+                p = False
+            else:
+                p = data_dict[name]
             if type(p) == tuple:
                 args.append(Coordinate(*p))
             else:
@@ -298,10 +307,12 @@ cdef inline void rotate(
     if reverse:
         a = 360
         interval = -interval
+    cdef dict copy_dict
     while 0 <= a <= 360:
         data_dict[param] = np.deg2rad(a)
-        expr_parser(expr_str, data_dict)
-        rotate_collect(data_dict, mapping, path)
+        copy_dict = data_dict.copy()
+        expr_parser(expr_str, copy_dict)
+        rotate_collect(copy_dict, mapping, path)
         a += interval
 
 cdef inline list return_path(

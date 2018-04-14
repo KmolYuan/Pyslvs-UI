@@ -257,7 +257,8 @@ cpdef list vpoints_configure(object vpoints, object inputs):
         angle_symbol += 1
     #PLLP
     node = 0
-    cdef int friend_a, friend_b, friend_c
+    cdef int friend_a, friend_b, friend_c, friend_d
+    cdef bool not_grounded
     cdef int skip_times = 0
     cdef int all_points_count = len(status)
     cdef double tmp_x, tmp_y, angle
@@ -305,9 +306,13 @@ cpdef list vpoints_configure(object vpoints, object inputs):
             """TODO: P joint."""
         elif vpoints[node].type == 2:
             """RP joint."""
+            not_grounded = 'ground' != vpoint.links[0]
+            f1 = get_base_friend(node, vpoints, vlinks, status)
             try:
                 friend_a = next(get_notbase_friend(node, vpoints, vlinks, status))
-                friend_b = next(get_base_friend(node, vpoints, vlinks, status))
+                friend_b = next(f1)
+                if not_grounded:
+                    friend_d = next(f1)
             except StopIteration:
                 skip_times += 1
             else:
@@ -330,6 +335,24 @@ cpdef list vpoints_configure(object vpoints, object inputs):
                 angle = np.deg2rad(vpoints[node].angle)
                 tmp_x += cos(angle)
                 tmp_y += sin(angle)
+                
+                if not_grounded:
+                    if not clockwise(
+                        pos(friend_b, vpoints),
+                        (tmp_x, tmp_y),
+                        pos(friend_d, vpoints)
+                    ):
+                        friend_b, friend_d = friend_d, friend_b
+                    exprs.append((
+                        'PLLP',
+                        'P{}'.format(friend_b),
+                        'L{}'.format(link_symbol),
+                        'L{}'.format(link_symbol + 1),
+                        'P{}'.format(friend_d),
+                        'P{}'.format(node)
+                    ))
+                    link_symbol += 2
+                
                 if not clockwise(
                     pos(friend_b, vpoints),
                     (tmp_x, tmp_y),
