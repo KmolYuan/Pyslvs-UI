@@ -434,6 +434,7 @@ class AddVariable(QUndoCommand):
     def __init__(self, text: str, widget: QListWidget):
         QUndoCommand.__init__(self)
         self.item = QListWidgetItem(text)
+        self.item.setToolTip(text)
         self.widget = widget
     
     def redo(self):

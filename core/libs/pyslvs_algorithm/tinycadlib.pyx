@@ -43,6 +43,7 @@ cdef class VPoint:
     ):
         cdef list tmp_list = []
         cdef str name
+        links = links.replace(" ", '')
         for name in links.split(','):
             if not name:
                 continue
@@ -391,3 +392,23 @@ cpdef list expr_path(object exprs, dict mapping, object pos, double interval):
         data_dict['a{}'.format(i)] = a
     
     return return_path(expr_join(exprs), data_dict, mapping, dof, interval)
+
+cpdef list expr_solving(object exprs, dict mapping, object pos, object angles):
+    """Solving function."""
+    cdef dict data_dict
+    cdef int dof
+    data_dict, dof = data_collecting(exprs, mapping, pos)
+    
+    #Angles.
+    cdef double a
+    cdef int i
+    for i, a in enumerate(angles):
+        data_dict['a{}'.format(i)] = np.deg2rad(a)
+    
+    expr_parser(expr_join(exprs), data_dict)
+    
+    cdef list solved_points = []
+    for i in range(len(pos)):
+        solved_points.append(data_dict[mapping[i]])
+    
+    return solved_points

@@ -18,6 +18,8 @@ from core.libs import (
     PLAP,
     PLLP,
     PLPP,
+    vpoints_configure,
+    expr_solving,
     topo,
     graph_configure,
 )
@@ -117,7 +119,28 @@ class LibsTest(TestCase):
             self.assertFalse((not n_status) and (node not in same))
     
     def test_solving(self):
-        """TODO: Test triangular formula solving."""
+        """Test triangular formula solving.
+        
+        + Jansen's linkage (Single).
+        """
+        vpoints = [
+            VPoint("ground, link_1", 0, 0., 'Green', 0., 0.),
+            VPoint("link_1, link_2, link_4", 0, 0., 'Green', 9.61, 11.52),
+            VPoint("ground, link_3, link_5", 0, 0., 'Blue', -38.0, -7.8),
+            VPoint("link_2, link_3", 0, 0., 'Green', -35.24, 33.61),
+            VPoint("link_3, link_6", 0, 0., 'Green', -77.75, -2.54),
+            VPoint("link_4, link_5, link_7", 0, 0., 'Green', -20.1, -42.79),
+            VPoint("link_6, link_7", 0, 0., 'Green', -56.05, -35.42),
+            VPoint("link_7", 0, 0., 'Green', -22.22, -91.74),
+        ]
+        x, y = expr_solving(
+            vpoints_configure(vpoints, [(0, 1)]),
+            {n: 'P{}'.format(n) for n in range(len(vpoints))},
+            [(vpoint.cx, vpoint.cy) for vpoint in vpoints],
+            [0.]
+        )[-1]
+        self.assertTrue(isclose(x, -7.694642920025711))
+        self.assertTrue(isclose(y, -90.38984918590147))
 
 if __name__=='__main__':
     unittest.main()
