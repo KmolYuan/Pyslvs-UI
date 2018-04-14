@@ -13,6 +13,7 @@ from unittest import TestCase
 #For necessary modules.
 from math import sqrt, radians, isclose
 from core.libs import (
+    VPoint,
     Coordinate,
     PLAP,
     PLLP,
@@ -114,6 +115,9 @@ class LibsTest(TestCase):
                 self.assertEqual(e[0], 'PLLP')
         for node, n_status in status.items():
             self.assertFalse((not n_status) and (node not in same))
+    
+    def test_solving(self):
+        """TODO: Test triangular formula solving."""
 
 if __name__=='__main__':
     unittest.main()

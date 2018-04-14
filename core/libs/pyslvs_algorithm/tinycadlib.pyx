@@ -39,7 +39,7 @@ cdef class VPoint:
         str color_str,
         double x,
         double y,
-        object color_func
+        object color_func=None
     ):
         cdef list tmp_list = []
         cdef str name
@@ -52,7 +52,8 @@ cdef class VPoint:
         self.typeSTR = ('R', 'P', 'RP')[type_int]
         self.angle = angle
         self.colorSTR = color_str
-        self.color = color_func(color_str)
+        if color_func:
+            self.color = color_func(color_str)
         self.x = x
         self.y = y
         cdef int i
@@ -110,11 +111,12 @@ cdef class VLink:
         str name,
         str color_str,
         tuple points,
-        object color_func
+        object color_func=None
     ):
         self.name = name
         self.colorSTR = color_str
-        self.color = color_func(color_str)
+        if color_func:
+            self.color = color_func(color_str)
         self.points = points
     
     def __contains__(self, int point):
