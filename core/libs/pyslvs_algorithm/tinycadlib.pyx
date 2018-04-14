@@ -256,15 +256,15 @@ cpdef void expr_parser(str exprs, dict data_dict):
         args = []
         for name in params:
             p = data_dict[name]
-            if type(p)==tuple or type(p)==list:
+            if type(p) == tuple:
                 args.append(Coordinate(*p))
             else:
                 args.append(p)
-        if f=='PLAP':
+        if f == 'PLAP':
             data_dict[target] = PLAP(*args)
-        elif f=='PLLP':
+        elif f == 'PLLP':
             data_dict[target] = PLLP(*args)
-        elif f=='PLPP':
+        elif f == 'PLPP':
             data_dict[target] = PLPP(*args)
     """'data_dict' has been updated."""
 
@@ -338,21 +338,40 @@ cdef inline str expr_join(object exprs):
         for expr in exprs
     ])
 
-cdef tuple data_collecting(object exprs, dict mapping, object pos):
+cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
     """Input data:
     
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]
     mapping: {0: 'P0', 1: 'P2', 2: 'P3', 3: 'P4', ...}
+    vpoints: [VPoint0, VPoint1, VPoint2, ...]
     pos: [(x0, y0), (x1, y1), (x2, y2), ...]
     """
-    cdef int n
+    cdef int i
     cdef str m
-    cdef dict mapping_r = {m: n for n, m in mapping.items()}
-    cdef set targets = set()
-    cdef tuple expr
-    cdef int dof = 0
-    cdef dict data_dict = {}
+    cdef dict mapping_r = {m: i for i, m in mapping.items()}
     
+    cdef VPoint vpoint
+    cdef list pos = [(vpoint.cx, vpoint.cy) for vpoint in vpoints]
+    cdef double angle
+    
+    #Add slider coordinates.
+    for i, vpoint in enumerate(vpoints):
+        #PLPP dependents.
+        if vpoint.type == 2:
+            angle = np.deg2rad(vpoint.angle)
+            pos.append((vpoint.cx + cos(angle), vpoint.cy + sin(angle)))
+            mapping_r['S{}'.format(i)] = len(pos) - 1
+    
+    cdef int dof = 0
+    cdef tuple expr
+    cdef dict data_dict = {}
+    cdef set targets = set()
+    
+    """Add data to 'data_dict'.
+    
+    + Add 'L' (link) parameters.
+    + Counting DOF and targets.
+    """
     for expr in exprs:
         #Link 1: expr[2]
         data_dict[expr[2]] = tuple_distance(
@@ -368,22 +387,24 @@ cdef tuple data_collecting(object exprs, dict mapping, object pos):
                 pos[mapping_r[expr[4]]],
                 pos[mapping_r[expr[-1]]]
             )
+        elif expr[0] == 'PLPP':
+            #PLPP[P1, L0, P2, S2](P2)
+            #So we should get P2 first.
+            data_dict[expr[3]] = pos[mapping_r[expr[3]]]
         #Targets
         targets.add(expr[-1])
     
-    cdef int i
-    cdef tuple c
-    for i, c in enumerate(pos):
+    for i in range(len(vpoints)):
         if mapping[i] not in targets:
-            data_dict[mapping[i]] = c
+            data_dict[mapping[i]] = pos[i]
     
     return data_dict, dof
 
-cpdef list expr_path(object exprs, dict mapping, object pos, double interval):
+cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval):
     """Auto preview function."""
     cdef dict data_dict
     cdef int dof
-    data_dict, dof = data_collecting(exprs, mapping, pos)
+    data_dict, dof = data_collecting(exprs, mapping, vpoints)
     
     #Angles.
     cdef double a = 0
@@ -393,11 +414,11 @@ cpdef list expr_path(object exprs, dict mapping, object pos, double interval):
     
     return return_path(expr_join(exprs), data_dict, mapping, dof, interval)
 
-cpdef list expr_solving(object exprs, dict mapping, object pos, object angles):
+cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angles):
     """Solving function."""
     cdef dict data_dict
     cdef int dof
-    data_dict, dof = data_collecting(exprs, mapping, pos)
+    data_dict, dof = data_collecting(exprs, mapping, vpoints)
     
     #Angles.
     cdef double a
@@ -408,7 +429,7 @@ cpdef list expr_solving(object exprs, dict mapping, object pos, object angles):
     expr_parser(expr_join(exprs), data_dict)
     
     cdef list solved_points = []
-    for i in range(len(pos)):
+    for i in range(len(vpoints)):
         solved_points.append(data_dict[mapping[i]])
     
     return solved_points

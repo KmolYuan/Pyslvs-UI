@@ -147,7 +147,7 @@ class InputsWidget(QWidget, Ui_Form):
             name,
             base_link,
             drive_link,
-            "{:.04f}".format(self.__getLinkAngle(point, drive_link))
+            "{:.02f}".format(self.__getLinkAngle(point, drive_link))
         ]
         for n, base, drive, a in self.getInputsVariables():
             if {base_link, drive_link} == {base, drive}:
@@ -274,7 +274,7 @@ class InputsWidget(QWidget, Ui_Form):
         value /= 100.
         if item:
             itemText = item.text().split('->')
-            itemText[-1] = "{:.04f}".format(value)
+            itemText[-1] = "{:.02f}".format(value)
             item.setText('->'.join(itemText))
             self.resolve()
         interval = self.record_interval.value()
@@ -297,7 +297,7 @@ class InputsWidget(QWidget, Ui_Form):
                 'Point{}'.format(point),
                 variable[1],
                 variable[2],
-                "{:.04f}".format(self.__getLinkAngle(point, variable[2]))
+                "{:.02f}".format(self.__getLinkAngle(point, variable[2]))
             ])
             self.variable_list.item(i).setText(text)
         self.__dialOk()

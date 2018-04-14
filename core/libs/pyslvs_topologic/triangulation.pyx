@@ -7,6 +7,9 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
+from libc.math cimport sin, cos
+import numpy as np
+cimport numpy as np
 from cpython cimport bool
 
 cdef inline dict edges_view(object G):
@@ -195,6 +198,20 @@ def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
             if status[friend]:
                 yield friend
 
+def get_notbase_friend(int node, object vpoints, dict vlinks, dict status):
+    if len(vpoints[node].links) < 2:
+        raise StopIteration
+    cdef int friend
+    for friend in vlinks[vpoints[node].links[1]]:
+        yield friend
+
+def get_base_friend(int node, object vpoints, dict vlinks, dict status):
+    if len(vpoints[node].links) < 1:
+        raise StopIteration
+    cdef int friend
+    for friend in vlinks[vpoints[node].links[0]]:
+        yield friend
+
 cpdef list vpoints_configure(object vpoints, object inputs):
     """Auto configuration algorithm.
     
@@ -240,10 +257,11 @@ cpdef list vpoints_configure(object vpoints, object inputs):
         angle_symbol += 1
     #PLLP
     node = 0
-    cdef int friend_a, friend_b
+    cdef int friend_a, friend_b, friend_c
     cdef int skip_times = 0
     cdef int all_points_count = len(status)
-    cdef object rf
+    cdef double tmp_x, tmp_y, angle
+    cdef object f1
     while not isAllLock(status):
         if node not in status:
             node = 0
@@ -256,12 +274,12 @@ cpdef list vpoints_configure(object vpoints, object inputs):
             node += 1
             skip_times += 1
             continue
-        rf = get_reliable_friend(node, vpoints, vlinks, status)
         if vpoints[node].type == 0:
             """R joint."""
+            f1 = get_reliable_friend(node, vpoints, vlinks, status)
             try:
-                friend_a = next(rf)
-                friend_b = next(rf)
+                friend_a = next(f1)
+                friend_b = next(f1)
             except StopIteration:
                 skip_times += 1
             else:
@@ -286,7 +304,57 @@ cpdef list vpoints_configure(object vpoints, object inputs):
         elif vpoints[node].type == 1:
             """TODO: P joint."""
         elif vpoints[node].type == 2:
-            """TODO: RP joint."""
+            """RP joint."""
+            try:
+                friend_a = next(get_notbase_friend(node, vpoints, vlinks, status))
+                friend_b = next(get_base_friend(node, vpoints, vlinks, status))
+            except StopIteration:
+                skip_times += 1
+            else:
+                """PLPP triangular.
+                
+                [PLLP]
+                Set 'S' (slider) point to define second point of slider.
+                + A 'friend' from base link.
+                + Get distance from me and friend.
+                
+                [PLPP]
+                Re-define coordinate of target point by self and 'S' point.
+                + A 'friend' from other link.
+                + Solving.
+                """
+                #Copy as 'friend_c'.
+                friend_c = node
+                #'S' point.
+                tmp_x, tmp_y = pos(node, vpoints)
+                angle = np.deg2rad(vpoints[node].angle)
+                tmp_x += cos(angle)
+                tmp_y += sin(angle)
+                if not clockwise(
+                    pos(friend_b, vpoints),
+                    (tmp_x, tmp_y),
+                    pos(friend_c, vpoints)
+                ):
+                    friend_b, friend_c = friend_c, friend_b
+                exprs.append((
+                    'PLLP',
+                    'P{}'.format(friend_b),
+                    'L{}'.format(link_symbol),
+                    'L{}'.format(link_symbol + 1),
+                    'P{}'.format(friend_c),
+                    'S{}'.format(node)
+                ))
+                exprs.append((
+                    'PLPP',
+                    'P{}'.format(friend_a),
+                    'L{}'.format(link_symbol + 2),
+                    'P{}'.format(node),
+                    'S{}'.format(node),
+                    'P{}'.format(node)
+                ))
+                link_symbol += 3
+                status[node] = True
+                skip_times = 0
         node += 1
     """
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]

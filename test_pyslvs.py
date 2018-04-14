@@ -136,7 +136,7 @@ class LibsTest(TestCase):
         x, y = expr_solving(
             vpoints_configure(vpoints, [(0, 1)]),
             {n: 'P{}'.format(n) for n in range(len(vpoints))},
-            [(vpoint.cx, vpoint.cy) for vpoint in vpoints],
+            vpoints,
             [0.]
         )[-1]
         self.assertTrue(isclose(x, -7.694642920025711))
