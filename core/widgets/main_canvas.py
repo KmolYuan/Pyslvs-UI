@@ -116,7 +116,7 @@ class DynamicCanvas(BaseCanvas):
         self.Selector = Selector()
         #Entities.
         self.Points = tuple()
-        self.Link = tuple()
+        self.Links = tuple()
         #Point selection.
         self.selectionRadius = 10
         self.pointsSelection = ()
@@ -151,13 +151,13 @@ class DynamicCanvas(BaseCanvas):
         self.height_old = None
     
     def updateFigure(self,
-        Point: Tuple[VPoint],
-        Link: Tuple[VLink],
+        Points: Tuple[VPoint],
+        Links: Tuple[VLink],
         path: List[Tuple[float, float]]
     ):
-        """Update with Point and Link data."""
-        self.Points = Point
-        self.Link = Link
+        """Update with Point and Links data."""
+        self.Points = Points
+        self.Links = Links
         self.Path.path = path
         self.update()
     
@@ -301,7 +301,7 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             self.__drawFrame()
         #Draw links except ground.
-        for vlink in self.Link[1:]:
+        for vlink in self.Links[1:]:
             self.__drawLink(vlink)
         #Draw path.
         if self.Path.show != -2:
@@ -682,7 +682,12 @@ class DynamicCanvas(BaseCanvas):
                         fy = 1 if y > 0 else -1
                         for row in self.pointsSelection:
                             vpoint = self.Points[row]
-                            vpoint.move((vpoint.x * fx, vpoint.y * fy))
+                            if vpoint.type == 0:
+                                vpoint.move((vpoint.x * fx, vpoint.y * fy))
+                            else:
+                                vpoint.move(*[
+                                    (vpoint.x * fx, vpoint.y * fy)
+                                ]*len(vpoint.links))
             else:
                 #Rectangular selection
                 self.Selector.RectangularSelection = True

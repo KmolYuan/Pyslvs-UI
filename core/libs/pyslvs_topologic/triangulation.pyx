@@ -306,7 +306,7 @@ cpdef list vpoints_configure(object vpoints, object inputs):
             """TODO: P joint."""
         elif vpoints[node].type == 2:
             """RP joint."""
-            not_grounded = 'ground' != vpoint.links[0]
+            not_grounded = 'ground' != vpoints[node].links[0]
             f1 = get_base_friend(node, vpoints, vlinks, status)
             try:
                 friend_a = next(get_notbase_friend(node, vpoints, vlinks, status))

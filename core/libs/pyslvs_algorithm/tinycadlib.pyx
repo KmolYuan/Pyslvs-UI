@@ -81,9 +81,29 @@ cdef class VPoint:
         """Distance."""
         return distance(self.x, self.y, p.x, p.y)
     
-    cpdef double slopeAngle(self, VPoint p):
-        """Angle between horizontal line and two point."""
-        return np.rad2deg(atan2(p.y-self.y, p.x-self.x))
+    cpdef double slopeAngle(self, VPoint p, int num1=-1, int num2=-1):
+        """Angle between horizontal line and two point.
+        
+        num1: me.
+        num2: other side.
+        """
+        cdef double y1
+        cdef double x1
+        cdef double y2
+        cdef double x2
+        if num1 == -1:
+            y2 = self.y
+            x2 = self.x
+        else:
+            y2 = self.c[num2][1]
+            x2 = self.c[num2][0]
+        if num2 == -1:
+            y1 = p.y
+            x1 = p.x
+        else:
+            y1 = p.c[num2][1]
+            x1 = p.c[num2][0]
+        return np.rad2deg(atan2(y1 - y2, x1 - x2))
     
     @property
     def expr(self):
@@ -349,6 +369,13 @@ cdef inline str expr_join(object exprs):
         for expr in exprs
     ])
 
+cdef inline int base_friend(int node, object vpoints):
+    cdef int i
+    cdef VPoint vpoint
+    for i, vpoint in enumerate(vpoints):
+        if vpoints[node].links[0] in vpoint.links:
+            return i
+
 cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
     """Input data:
     
@@ -362,15 +389,26 @@ cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
     cdef dict mapping_r = {m: i for i, m in mapping.items()}
     
     cdef VPoint vpoint
-    cdef list pos = [(vpoint.cx, vpoint.cy) for vpoint in vpoints]
-    cdef double angle
+    cdef list pos = []
+    for vpoint in vpoints:
+        if vpoint.type == 0:
+            pos.append((vpoint.cx, vpoint.cy))
+        else:
+            pos.append((vpoint.c[1][0], vpoint.c[1][1]))
     
+    cdef int bf
+    cdef double angle
     #Add slider coordinates.
     for i, vpoint in enumerate(vpoints):
         #PLPP dependents.
         if vpoint.type == 2:
-            angle = np.deg2rad(vpoint.angle)
-            pos.append((vpoint.cx + cos(angle), vpoint.cy + sin(angle)))
+            bf = base_friend(i, vpoints)
+            angle = np.deg2rad(
+                vpoint.angle +
+                vpoint.slopeAngle(vpoints[bf], 1, 0) -
+                vpoint.slopeAngle(vpoints[bf])
+            )
+            pos.append((vpoint.c[1][0] + cos(angle), vpoint.c[1][1] + sin(angle)))
             mapping_r['S{}'.format(i)] = len(pos) - 1
     
     cdef int dof = 0
@@ -408,7 +446,6 @@ cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
     for i in range(len(vpoints)):
         if mapping[i] not in targets:
             data_dict[mapping[i]] = pos[i]
-    
     return data_dict, dof
 
 cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval):
