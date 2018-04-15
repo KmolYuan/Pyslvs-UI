@@ -459,257 +459,292 @@
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
-              <widget class="QGroupBox" name="CanvasSettingsGroupBox">
-               <property name="title">
-                <string>Canvas settings</string>
+              <widget class="QScrollArea" name="settings_scrollarea">
+               <property name="widgetResizable">
+                <bool>true</bool>
                </property>
-               <layout class="QFormLayout" name="formLayout">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="LineWidth_label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Line width</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSpinBox" name="LineWidth">
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>10</number>
-                  </property>
-                  <property name="value">
-                   <number>3</number>
-                  </property>
-                  <property name="displayIntegerBase">
-                   <number>10</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="Font_size_label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Font size</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QSpinBox" name="Font_size">
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>30</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>5</number>
-                  </property>
-                  <property name="value">
-                   <number>15</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="PathWidth_label">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Path width</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="3" column="1">
-                 <widget class="QSpinBox" name="PathWidth">
-                  <property name="minimum">
-                   <number>1</number>
-                  </property>
-                  <property name="maximum">
-                   <number>5</number>
-                  </property>
-                  <property name="value">
-                   <number>3</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="0">
-                 <widget class="QLabel" name="ScaleFactor_label">
-                  <property name="text">
-                   <string>Scale factor</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="4" column="1">
-                 <widget class="QSpinBox" name="ScaleFactor">
-                  <property name="minimum">
-                   <number>5</number>
-                  </property>
-                  <property name="maximum">
-                   <number>100</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>5</number>
-                  </property>
-                  <property name="value">
-                   <number>10</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="0">
-                 <widget class="QLabel" name="label">
-                  <property name="text">
-                   <string>Selection radius</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="5" column="1">
-                 <widget class="QSpinBox" name="SelectionRadius">
-                  <property name="minimum">
-                   <number>3</number>
-                  </property>
-                  <property name="maximum">
-                   <number>10</number>
-                  </property>
-                  <property name="value">
-                   <number>10</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="0">
-                 <widget class="QLabel" name="label_2">
-                  <property name="text">
-                   <string>Linkage transparency</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="6" column="1">
-                 <widget class="QSpinBox" name="LinkageTransparency">
-                  <property name="suffix">
-                   <string> %</string>
-                  </property>
-                  <property name="maximum">
-                   <number>80</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>10</number>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="0">
-                 <widget class="QLabel" name="label_4">
-                  <property name="text">
-                   <string>Margin of &quot;zoom to fit&quot;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="7" column="1">
-                 <widget class="QSpinBox" name="MarginFactor">
-                  <property name="suffix">
-                   <string>%</string>
-                  </property>
-                  <property name="maximum">
-                   <number>30</number>
-                  </property>
-                  <property name="singleStep">
-                   <number>5</number>
-                  </property>
-                  <property name="value">
-                   <number>5</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
+               <widget class="QWidget" name="scrollAreaWidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>453</width>
+                  <height>729</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <item>
+                  <widget class="QGroupBox" name="settings_ui_groupbox">
+                   <property name="title">
+                    <string>User interface</string>
+                   </property>
+                   <layout class="QFormLayout" name="formLayout">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="LineWidth_label">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>Line width</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QSpinBox" name="LineWidth">
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>10</number>
+                      </property>
+                      <property name="value">
+                       <number>3</number>
+                      </property>
+                      <property name="displayIntegerBase">
+                       <number>10</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="0">
+                     <widget class="QLabel" name="Font_size_label">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>Font size</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="1" column="1">
+                     <widget class="QSpinBox" name="Font_size">
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>30</number>
+                      </property>
+                      <property name="singleStep">
+                       <number>5</number>
+                      </property>
+                      <property name="value">
+                       <number>15</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="0">
+                     <widget class="QLabel" name="PathWidth_label">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="text">
+                       <string>Path width</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="3" column="1">
+                     <widget class="QSpinBox" name="PathWidth">
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>5</number>
+                      </property>
+                      <property name="value">
+                       <number>3</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="0">
+                     <widget class="QLabel" name="ScaleFactor_label">
+                      <property name="text">
+                       <string>Scale factor</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="4" column="1">
+                     <widget class="QSpinBox" name="ScaleFactor">
+                      <property name="minimum">
+                       <number>5</number>
+                      </property>
+                      <property name="maximum">
+                       <number>100</number>
+                      </property>
+                      <property name="singleStep">
+                       <number>5</number>
+                      </property>
+                      <property name="value">
+                       <number>10</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="0">
+                     <widget class="QLabel" name="label">
+                      <property name="text">
+                       <string>Selection radius</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="5" column="1">
+                     <widget class="QSpinBox" name="SelectionRadius">
+                      <property name="minimum">
+                       <number>3</number>
+                      </property>
+                      <property name="maximum">
+                       <number>10</number>
+                      </property>
+                      <property name="value">
+                       <number>10</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="6" column="0">
+                     <widget class="QLabel" name="label_2">
+                      <property name="text">
+                       <string>Linkage transparency</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="6" column="1">
+                     <widget class="QSpinBox" name="LinkageTransparency">
+                      <property name="suffix">
+                       <string> %</string>
+                      </property>
+                      <property name="maximum">
+                       <number>80</number>
+                      </property>
+                      <property name="singleStep">
+                       <number>10</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="7" column="0">
+                     <widget class="QLabel" name="label_4">
+                      <property name="text">
+                       <string>Margin of &quot;zoom to fit&quot;</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="7" column="1">
+                     <widget class="QSpinBox" name="MarginFactor">
+                      <property name="suffix">
+                       <string>%</string>
+                      </property>
+                      <property name="maximum">
+                       <number>30</number>
+                      </property>
+                      <property name="singleStep">
+                       <number>5</number>
+                      </property>
+                      <property name="value">
+                       <number>5</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="settings_history_groupbox">
+                   <property name="title">
+                    <string>History</string>
+                   </property>
+                   <layout class="QFormLayout" name="formLayout_2">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="UndoLimit_label">
+                      <property name="text">
+                       <string>Undo limit</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QSpinBox" name="UndoLimit">
+                      <property name="suffix">
+                       <string> times</string>
+                      </property>
+                      <property name="minimum">
+                       <number>5</number>
+                      </property>
+                      <property name="value">
+                       <number>32</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="settings_kernels_groupBox">
+                   <property name="title">
+                    <string>Kernels</string>
+                   </property>
+                   <layout class="QFormLayout" name="formLayout_3">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_5">
+                      <property name="text">
+                       <string>Planar solving:</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QComboBox" name="comboBox">
+                      <item>
+                       <property name="text">
+                        <string>Python-Solvespace</string>
+                       </property>
+                      </item>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QGroupBox" name="settings_misc_groupBox">
+                   <property name="title">
+                    <string>Misc</string>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                    <item>
+                     <widget class="QCheckBox" name="windowTitle_fullpath">
+                      <property name="text">
+                       <string>Show full file path on window title.</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QCheckBox" name="showConsoleError">
+                      <property name="text">
+                       <string>Show the Solvespace error in the console.</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="verticalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>20</width>
+                     <height>619</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </widget>
               </widget>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="groupBox">
-               <property name="title">
-                <string>Console</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_7">
-                <item>
-                 <widget class="QCheckBox" name="showConsoleError">
-                  <property name="text">
-                   <string>Show the Solvespace error in the console.</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="groupBox_2">
-               <property name="title">
-                <string>History</string>
-               </property>
-               <layout class="QFormLayout" name="formLayout_2">
-                <item row="0" column="0">
-                 <widget class="QLabel" name="UndoLimit_label">
-                  <property name="text">
-                   <string>Undo limit</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSpinBox" name="UndoLimit">
-                  <property name="suffix">
-                   <string> times</string>
-                  </property>
-                  <property name="minimum">
-                   <number>5</number>
-                  </property>
-                  <property name="value">
-                   <number>32</number>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QGroupBox" name="groupBox_3">
-               <property name="title">
-                <string>Window</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_17">
-                <item>
-                 <widget class="QCheckBox" name="windowTitle_fullpath">
-                  <property name="text">
-                   <string>Show full file path on window title.</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>619</height>
-                </size>
-               </property>
-              </spacer>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_10">
