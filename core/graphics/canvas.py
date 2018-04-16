@@ -357,11 +357,10 @@ class PreviewCanvas(BaseCanvas):
             #Customize points.
             for name, link_ in self.cus.items():
                 if link==link_:
-                    num = int(name.replace('P', ''))
-                    x, y = self.pos[num]
+                    x, y = self.pos[int(name.replace('P', ''))]
                     points.append((x*self.zoom, y*-self.zoom))
             self.painter.drawPolygon(*convex_hull(points))
-        self.painter.setFont(QFont("Arial", self.fontSize*1.5))
+        self.painter.setFont(QFont("Arial", self.fontSize))
         #Nodes
         for node, (x, y) in self.pos.items():
             if node in self.same:

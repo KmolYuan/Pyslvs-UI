@@ -580,6 +580,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             gj.update(params[key])
         self.ground_joints.setRowCount(0)
         self.ground_joints.setRowCount(len(gj))
+        
         def spinbox(v, prefix=False):
             s = QDoubleSpinBox(self)
             s.setMinimum(-1000000.0)
@@ -589,6 +590,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             if prefix:
                 s.setPrefix("±")
             return s
+        
         for row, name in enumerate(sorted(gj)):
             coord = gj[name]
             self.ground_joints.setItem(row, 0, QTableWidgetItem(name))

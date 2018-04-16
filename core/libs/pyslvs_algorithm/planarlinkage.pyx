@@ -232,9 +232,6 @@ cdef class build_planar:
                 target_coordinate = self.from_formula(e, test_dict)
                 if target_coordinate.isnan():
                     return FAILURE
-                #params
-                if not legal_triangle(target_coordinate, test_dict[e[2][0]], test_dict[e[2][-1]]):
-                    return FAILURE
                 #target
                 test_dict[e[1]] = target_coordinate
             for i, name in enumerate(self.targetPoint):
