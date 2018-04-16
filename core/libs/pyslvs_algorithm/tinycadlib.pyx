@@ -258,9 +258,9 @@ cpdef tuple PLPP(
         return (I.x, I.y)
     
     #Two intersection points.
-    d = sqrt(L0*L0 - d*d)
-    dx *= d / line_mag
-    dy *= d / line_mag
+    d = sqrt(L0*L0 - d*d) / line_mag
+    dx *= d 
+    dy *= d
     if inverse:
         return (I.x - dx, I.y - dy)
     else:
