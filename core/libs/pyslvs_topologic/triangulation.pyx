@@ -170,16 +170,6 @@ cpdef list graph_configure(
 
 # ===========================
 
-cdef int get_friend(int node, object vpoints, dict vlinks):
-    cdef str link
-    cdef set points
-    for link in vpoints[node].links:
-        if len(vlinks[link]) < 2:
-            continue
-        points = vlinks[link].copy()
-        points.remove(node)
-        return points.pop()
-
 cdef inline tuple pos(int node, object vpoints):
     """Get position from VPoint."""
     return (vpoints[node].cx, vpoints[node].cy)
@@ -249,7 +239,6 @@ cpdef list vpoints_configure(object vpoints, object inputs):
             'P{}'.format(base),
             'L{}'.format(link_symbol),
             'a{}'.format(angle_symbol),
-            'P{}'.format(get_friend(base, vpoints, vlinks)),
             'P{}'.format(node)
         ))
         status[node] = True

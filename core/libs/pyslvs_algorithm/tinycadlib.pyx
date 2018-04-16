@@ -180,14 +180,27 @@ cdef class Coordinate:
         """Debug printing."""
         return "Coordinate({p.x}, {p.y})".format(p=self)
 
-cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
+cpdef tuple PLAP(
+    Coordinate A,
+    double L0,
+    double a0,
+    Coordinate B=None,
+    bool inverse=False
+):
     """Point on circle by angle."""
+    cdef double a1 = atan2(B.y - A.y, B.x - A.x) if B else 0
     if inverse:
-        return (A.x + L0*cos(-a0), A.y + L0*sin(-a0))
+        return (A.x + L0*cos(a1 - a0), A.y + L0*sin(a1 - a0))
     else:
-        return (A.x + L0*cos(a0), A.y + L0*sin(a0))
+        return (A.x + L0*cos(a1 + a0), A.y + L0*sin(a1 + a0))
 
-cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=False):
+cpdef tuple PLLP(
+    Coordinate A,
+    double L0,
+    double L1,
+    Coordinate B,
+    bool inverse=False
+):
     """Two intersection points of two circles."""
     cdef double dx = B.x - A.x
     cdef double dy = B.y - A.y
@@ -214,7 +227,13 @@ cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=
     else:
         return (xm - h*dy/d, ym + h*dx/d)
 
-cpdef tuple PLPP(Coordinate A, double L0, Coordinate B, Coordinate C, bool inverse=False):
+cpdef tuple PLPP(
+    Coordinate A,
+    double L0,
+    Coordinate B,
+    Coordinate C,
+    bool inverse=False
+):
     """Two intersection points of a line and a circle."""
     cdef double line_mag = B.distance(C)
     cdef double dx = C.x - B.x
