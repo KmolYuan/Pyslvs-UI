@@ -718,18 +718,8 @@ class DynamicCanvas(BaseCanvas):
         x_left = -inf
         y_top = -inf
         y_bottom = inf
-        #Points
-        for vpoint in self.Points:
-            if vpoint.cx < x_right:
-                x_right = vpoint.cx
-            if vpoint.cx > x_left:
-                x_left = vpoint.cx
-            if vpoint.cy < y_bottom:
-                y_bottom = vpoint.cy
-            if vpoint.cy > y_top:
-                y_top = vpoint.cy
         #Paths
-        if self.Path.show != -2:
+        if self.Path.path and (self.Path.show != -2):
             for i, path in enumerate(self.Path.path):
                 if self.Path.show != -1 and self.Path.show != i:
                     continue
@@ -742,6 +732,17 @@ class DynamicCanvas(BaseCanvas):
                         y_bottom = y
                     if y > y_top:
                         y_top = y
+        else:
+            #Points
+            for vpoint in self.Points:
+                if vpoint.cx < x_right:
+                    x_right = vpoint.cx
+                if vpoint.cx > x_left:
+                    x_left = vpoint.cx
+                if vpoint.cy < y_bottom:
+                    y_bottom = vpoint.cy
+                if vpoint.cy > y_top:
+                    y_top = vpoint.cy
         #Solving paths
         if self.showTargetPath:
             for path in self.targetPath.values():
