@@ -84,8 +84,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         initCustomWidgets(self)
         self.resolve()
         #Expression & DOF value.
-        self.vpoints_old = ()
-        self.exprs_old = ()
         self.DOF = 0
         #Load workbook from argument.
         if self.args.r:
@@ -348,15 +346,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         Special function for VPoints.
         """
-        if self.vpoints_old == vpoints:
-            return self.exprs_old
-        self.vpoints_old = vpoints
-        self.exprs_old = vpoints_configure(
+        exprs = vpoints_configure(
             vpoints,
             tuple(self.InputsWidget.inputPair())
         )
-        self.Entities_Expr.setExpr(self.exprs_old)
-        return self.exprs_old
+        self.Entities_Expr.setExpr(exprs)
+        return exprs
     
     def rightInput(self) -> bool:
         """Is input same as DOF?"""

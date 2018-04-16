@@ -124,7 +124,14 @@ cdef class VPoint:
         """
         if (op != 2) and (op != 3):
             raise TypeError("Only allow to compare two VPoints.")
-        return (p1.x == p2.x) and (p1.y == p2.y) and (op == 2)
+        return (
+            (op == 2) and
+            (p1.x == p2.x) and
+            (p1.y == p2.y) and
+            (p1.cx == p2.cx) and
+            (p1.cy == p2.cy) and
+            (p1.angle == p2.angle)
+        )
     
     def __repr__(self):
         """Use to generate script."""
