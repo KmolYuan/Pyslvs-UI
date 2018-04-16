@@ -116,6 +116,16 @@ cdef class VPoint:
             ", ".join(l for l in self.links)
         )
     
+    def __richcmp__(VPoint p1, VPoint p2, int op):
+        """Equal comparison.
+        
+        op == 2: __eq__
+        op == 3: __ne__
+        """
+        if (op != 2) and (op != 3):
+            raise TypeError("Only allow to compare two VPoints.")
+        return (p1.x == p2.x) and (p1.y == p2.y) and (op == 2)
+    
     def __repr__(self):
         """Use to generate script."""
         return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)

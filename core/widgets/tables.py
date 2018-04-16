@@ -23,7 +23,7 @@ from core.QtModules import (
 )
 from core.graphics import colorIcons, colorQt
 from core.libs import VPoint, VLink
-from typing import Tuple
+from typing import Tuple, List
 
 class BaseTableWidget(QTableWidget):
     
@@ -297,6 +297,26 @@ class LinkTableWidget(BaseTableWidget):
         super(LinkTableWidget, self).clear()
         self.setRowCount(1)
         self.editArgs(0, 'ground', 'White', '')
+
+class ExprTableWidget(BaseTableWidget):
+    
+    """Expression table."""
+    
+    def __init__(self, parent=None):
+        super(ExprTableWidget, self).__init__(
+            0,
+            ('p0', 'p1', 'p2', 'p3'),
+            parent
+        )
+        for column in range(5):
+            self.setColumnWidth(column, 60)
+    
+    def setExpr(self, exprs: List[Tuple[str]]):
+        self.clear()
+        self.setRowCount(len(exprs))
+        for row, expr in enumerate(exprs):
+            for column, e in enumerate(expr):
+                self.setItem(row, column, QTableWidgetItem(e))
 
 class SelectionLabel(QLabel):
     

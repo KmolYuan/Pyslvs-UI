@@ -25,10 +25,11 @@ from core.synthesis import (
     DimensionalSynthesis
 )
 from .main_canvas import DynamicCanvas
-from .table import (
+from .tables import (
     PointTableWidget,
     LinkTableWidget,
-    SelectionLabel
+    ExprTableWidget,
+    SelectionLabel,
 )
 from .inputs import InputsWidget
 
@@ -66,6 +67,7 @@ def appearance(self):
     """Start up and initialize custom widgets."""
     #Version label
     self.version_label.setText("v{}.{}.{} ({})".format(*VERSION))
+    
     #Entities tables.
     self.Entities_Point = PointTableWidget(self.Entities_Point_Widget)
     self.Entities_Point.cellDoubleClicked.connect(
@@ -83,12 +85,16 @@ def appearance(self):
         self.on_action_Delete_Link_triggered
     )
     self.Entities_Link_Layout.addWidget(self.Entities_Link)
+    self.Entities_Expr = ExprTableWidget(self.Expression_Widget)
+    self.Expression_Layout.addWidget(self.Entities_Expr)
+    
     #Selection label on status bar right side.
     selectionLabel = SelectionLabel(self)
     self.Entities_Point.selectionLabelUpdate.connect(
         selectionLabel.updateSelectPoint
     )
     self.statusBar.addPermanentWidget(selectionLabel)
+    
     #QPainter canvas window
     self.DynamicCanvasView = DynamicCanvas(self)
     self.DynamicCanvasView.mouse_getSelection.connect(
@@ -116,6 +122,7 @@ def appearance(self):
     )
     self.canvasSplitter.insertWidget(0, self.DynamicCanvasView)
     self.canvasSplitter.setSizes([600, 10, 30])
+    
     #Menu of free move mode.
     FreeMoveMode_menu = QMenu(self)
     def freeMoveMode_func(j, qicon):
@@ -141,6 +148,7 @@ def appearance(self):
         action.setShortcutContext(Qt.WindowShortcut)
         FreeMoveMode_menu.addAction(action)
     self.FreeMoveMode.setMenu(FreeMoveMode_menu)
+    
     #File table settings.
     self.FileWidget = FileWidget(self)
     self.SCMLayout.addWidget(self.FileWidget)
@@ -149,6 +157,7 @@ def appearance(self):
         self.on_action_Save_branch_triggered
     )
     self.action_Stash.triggered.connect(self.FileWidget.on_commit_stash_clicked)
+    
     #Inputs widget.
     self.InputsWidget = InputsWidget(self)
     self.inputs_tab_layout.addWidget(self.InputsWidget)
@@ -159,6 +168,7 @@ def appearance(self):
     self.DynamicCanvasView.mouse_noSelection.connect(
         self.InputsWidget.clearSelection
     )
+    
     #Number and type synthesis.
     self.NumberAndTypeSynthesis = NumberAndTypeSynthesis(self)
     self.SynthesisTab.addTab(
@@ -166,6 +176,7 @@ def appearance(self):
         self.NumberAndTypeSynthesis.windowIcon(),
         "Structural"
     )
+    
     #Synthesis collections
     self.CollectionTabPage = Collections(self)
     self.SynthesisTab.addTab(
@@ -201,6 +212,7 @@ def appearance(self):
     self.FileWidget.pathDataFunc = (
         lambda: self.InputsWidget.pathData
     ) #Call to get path data.
+    
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
     self.DimensionalSynthesis.fixPointRange.connect(
@@ -221,11 +233,14 @@ def appearance(self):
         self.DimensionalSynthesis.windowIcon(),
         "Dimensional"
     )
+    
     #Console dock will hide when startup.
     self.ConsoleWidget.hide()
+    
     #Connect to GUI button switching.
     self.disconnectConsoleButton.setEnabled(not self.args.debug_mode)
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
+    
     #Select all button on the Point and Link tab as corner widget.
     SelectAllButton = QPushButton()
     SelectAllButton.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
@@ -238,6 +253,7 @@ def appearance(self):
     SelectAllAction.setShortcut("Ctrl+A")
     SelectAllAction.setShortcutContext(Qt.WindowShortcut)
     self.addAction(SelectAllAction)
+    
     #While value change, update the canvas widget.
     self.Entities_Point.rowSelectionChanged.connect(
         self.DynamicCanvasView.changePointsSelection
@@ -261,18 +277,22 @@ def appearance(self):
     self.MarginFactor.valueChanged.connect(
         self.DynamicCanvasView.setMarginFactor
     )
+    
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)
     self.MainSplitter.setStretchFactor(1, 15)
     self.MechanismPanelSplitter.setSizes([500, 200])
     self.synthesis_splitter.setSizes([100, 500])
+    
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMechanismActions)
+    
     #'zoom to fit' function connections.
     self.action_Zoom_to_fit.triggered.connect(
         self.DynamicCanvasView.zoomToFit
     )
     self.ResetCanvas.clicked.connect(self.DynamicCanvasView.zoomToFit)
+    
     #Zoom text button
     Zoom_menu = QMenu(self)
     

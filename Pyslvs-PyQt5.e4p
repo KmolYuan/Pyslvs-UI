@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-04-13, 18:20:40 -->
+<!-- Saved: 2018-04-16, 11:05:18 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -103,7 +103,7 @@
     <Source>core/widgets/inputs.py</Source>
     <Source>core/widgets/main_canvas.py</Source>
     <Source>core/widgets/rotatable.py</Source>
-    <Source>core/widgets/table.py</Source>
+    <Source>core/widgets/tables.py</Source>
     <Source>icons_rc.py</Source>
     <Source>launch_pyslvs.py</Source>
     <Source>preview_rc.py</Source>
