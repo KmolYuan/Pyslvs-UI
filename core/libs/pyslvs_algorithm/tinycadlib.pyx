@@ -183,9 +183,9 @@ cdef class Coordinate:
 cpdef tuple PLAP(Coordinate A, double L0, double a0, Coordinate B, bool inverse=False):
     """Point on circle by angle."""
     if inverse:
-        return (A.x + L0*sin(-a0), A.y + L0*cos(-a0))
+        return (A.x + L0*cos(-a0), A.y + L0*sin(-a0))
     else:
-        return (A.x + L0*sin(a0), A.y + L0*cos(a0))
+        return (A.x + L0*cos(a0), A.y + L0*sin(a0))
 
 cpdef tuple PLLP(Coordinate A, double L0, double L1, Coordinate B, bool inverse=False):
     """Two intersection points of two circles."""
