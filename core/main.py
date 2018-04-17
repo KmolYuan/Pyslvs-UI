@@ -355,7 +355,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def rightInput(self) -> bool:
         """Is input same as DOF?"""
-        return (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
+        inputs = (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
+        if not inputs:
+            self.Entities_Expr.clear()
+        return inputs
     
     def pathInterval(self) -> float:
         """Wrapper use to get path interval."""
@@ -474,6 +477,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DimensionalSynthesis.clear()
         self.Entities_Point.clear()
         self.Entities_Link.clear()
+        self.Entities_Expr.clear()
         self.resolve()
     
     @pyqtSlot()
