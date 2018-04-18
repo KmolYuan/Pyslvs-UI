@@ -27,7 +27,8 @@ cdef class VPoint:
     
     """Symbol of joints."""
     
-    cdef readonly tuple links, c
+    cdef readonly tuple links
+    cdef readonly np.ndarray c
     cdef readonly int type
     cdef readonly object color
     cdef readonly str colorSTR, typeSTR
@@ -58,16 +59,17 @@ cdef class VPoint:
             self.color = color_func(color_str)
         self.x = x
         self.y = y
-        cdef int i
+        self.c = np.ndarray(2, dtype=np.object)
         if (self.type == 1) or (self.type == 2):
             """Slider current coordinates.
             
             + [0]: Current node on slot.
             + [1]: Pin.
             """
-            self.c = ((self.x, self.y), (self.x, self.y))
+            self.c[0] = (self.x, self.y)
+            self.c[1] = (self.x, self.y)
         else:
-            self.c = ((self.x, self.y),)
+            self.c[0] = (self.x, self.y)
     
     @property
     def cx(self):
@@ -82,7 +84,7 @@ cdef class VPoint:
     cpdef void move(self, tuple c1, tuple c2=None):
         """Change coordinates of this point."""
         self.c[0] = c1
-        self.c[1] = c2 if c2 else c1
+        self.c[1] = c2
     
     cpdef double distance(self, VPoint p):
         """Distance."""
@@ -111,6 +113,9 @@ cdef class VPoint:
             y1 = p.c[num2][1]
             x1 = p.c[num2][0]
         return np.rad2deg(atan2(y1 - y2, x1 - x2))
+    
+    cpdef bool grounded(self):
+        return 'ground' in self.links
     
     @property
     def expr(self):

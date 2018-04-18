@@ -29,7 +29,7 @@ from core.libs import VPoint, VLink
 from math import (
     radians,
     cos,
-    sin
+    sin,
 )
 from typing import Tuple
 
@@ -42,6 +42,7 @@ def slvsProcess(
     constraints: Tuple[Tuple[int, str, str, float]]
 ):
     """Use element module to convert into solvespace expression."""
+    #Limitation of Solvespacce kernel system.
     pointCount = 0
     sliderCount = 0
     for vpoint in Point:
@@ -49,6 +50,8 @@ def slvsProcess(
         if (vpoint.type == 1) or (vpoint.type == 2):
             sliderCount += 1
     constraintCount = len(constraints)
+    
+    #Create CAD system.
     Sys = System(pointCount*2 + sliderCount*2 + constraintCount*2 + 12)
     Sys.default_group = groupNum(1)
     p0 = Sys.add_param(0.)
@@ -72,114 +75,139 @@ def slvsProcess(
     #Name 'ground' is a horizontal line through (0, 0).
     ground = LineSegment2d(Workplane1, Origin2D, hp)
     Sys.default_group = groupNum(2)
-    Slvs_Points = []
-    #Append all points first.
+    solved_points = []
+    
     for vpoint in Point:
-        #This is the point recorded in the table.
-        if vpoint.type==0:
+        """Append all points first.
+        
+        This is the point recorded in the table.
+        """
+        if vpoint.type == 0:
             #Has only one coordinate
-            Slvs_Points.append(Point2d(
+            solved_points.append(Point2d(
                 Workplane1,
                 Sys.add_param(vpoint.cx),
                 Sys.add_param(vpoint.cy)
             ))
-        elif vpoint.type==1 or vpoint.type==2:
+        elif (vpoint.type == 1) or (vpoint.type == 2):
             #Has one more pointer
-            Slvs_Points.append(tuple(Point2d(
-                Workplane1,
-                Sys.add_param(cx),
-                Sys.add_param(cy)
-            ) for cx, cy in vpoint.c))
-    #Topology of PMKS points.
-    LinkIndex = lambda l: [vlink.name for vlink in Link].index(l)
+            tmp_list = []
+            for cx, cy in vpoint.c:
+                tmp_list.append(Point2d(
+                    Workplane1,
+                    Sys.add_param(cx),
+                    Sys.add_param(cy)
+                ))
+            solved_points.append(tuple(tmp_list))
+    
+    def LinkIndex(name: str) -> int:
+        """Topology of PMKS points."""
+        for i, vlink in enumerate(Link):
+            if name == vlink.name:
+                return i
+    
     for i, vpoint in enumerate(Point):
-        #P and RP Joint: If the point has a sliding degree of freedom.
-        if vpoint.type==1 or vpoint.type==2:
-            #Make auxiliary line as a slider slot (The length is 10.0).
-            p_base = Slvs_Points[i][0]
-            p_assist = Point2d(Workplane1,
+        """P and RP Joint:
+        
+        If the point has a sliding degree of freedom.
+        """
+        if (vpoint.type == 1) or (vpoint.type == 2):
+            """Make auxiliary line as a slider slot (The length is 10.0)."""
+            p_base = solved_points[i][0]
+            p_assist = Point2d(
+                Workplane1,
                 Sys.add_param(vpoint.cx + 10.*cos(radians(vpoint.angle))),
                 Sys.add_param(vpoint.cy + 10.*sin(radians(vpoint.angle)))
             )
             l_slot = LineSegment2d(Workplane1, p_base, p_assist)
             Constraint.distance(10., Workplane1, p_base, p_assist)
-            #Angle constraint function:
-            def relateWith(linkName):
-                if linkName=='ground':
-                    #Angle can not be zero.
-                    if vpoint.angle==0. or vpoint.angle==180.:
+            
+            def relateWith(linkName: str):
+                """Angle constraint function."""
+                if linkName == 'ground':
+                    """Angle can not be zero."""
+                    if (vpoint.angle == 0.) or (vpoint.angle == 180.):
                         Constraint.parallel(Workplane1, ground, l_slot)
                     else:
                         Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
+                    return
+                relate = Link[LinkIndex(linkName)].points
+                relateNum = relate[relate.index(i) - 1]
+                relate_vpoint = Point[relateNum]
+                p_main = solved_points[i][vpoint.links.index(linkName)]
+                if (relate_vpoint.type == 1) or (relate_vpoint.type == 2):
+                    p_link_assist = solved_points[relateNum][
+                        relate_vpoint.links.index(linkName)
+                    ]
                 else:
-                    relate = Link[LinkIndex(linkName)].points
-                    relateNum = relate[relate.index(i)-1]
-                    relate_vpoint = Point[relateNum]
-                    p_main = Slvs_Points[i][vpoint.links.index(linkName)]
-                    if relate_vpoint.type==1 or relate_vpoint.type==2:
-                        p_link_assist = Slvs_Points[relateNum][
-                            relate_vpoint.links.index(linkName)
-                        ]
-                    else:
-                        p_link_assist = Slvs_Points[relateNum]
-                    l_link = LineSegment2d(Workplane1, p_main, p_link_assist)
-                    angle_base = vpoint.slopeAngle(relate_vpoint)
-                    if angle_base==0. or angle_base==180.:
-                        Constraint.parallel(Workplane1, l_link, l_slot)
-                    else:
-                        Constraint.angle(Workplane1, angle_base, l_link, l_slot)
+                    p_link_assist = solved_points[relateNum]
+                l_link = LineSegment2d(Workplane1, p_main, p_link_assist)
+                angle_base = vpoint.slopeAngle(relate_vpoint)
+                if (angle_base == 0.) or (angle_base == 180.):
+                    Constraint.parallel(Workplane1, l_link, l_slot)
+                else:
+                    Constraint.angle(Workplane1, angle_base, l_link, l_slot)
+            
             #The slot has an angle with base link.
             relateWith(vpoint.links[0])
             #All point should on the slot.
-            for p in Slvs_Points[i][1:]:
+            for p in solved_points[i][1:]:
                 Constraint.on(Workplane1, p, l_slot)
             #P Joint: The point do not have freedom of rotation.
-            if vpoint.type==1:
+            if vpoint.type == 1:
                 for linkName in vpoint.links[1:]:
                     relateWith(linkName)
-        #Link to other points on the same link.
-        for linkOrder, linkName in enumerate(vpoint.links):
-            #If the joint is a slider, defined its base.
-            if vpoint.type==1 or vpoint.type==2:
-                p_base = Slvs_Points[i][linkOrder]
+        
+        for j, linkName in enumerate(vpoint.links):
+            """Link to other points on the same link.
+            
+            If the joint is a slider, defined its base.
+            """
+            if (vpoint.type == 1) or (vpoint.type == 2):
+                p_base = solved_points[i][j]
             else:
-                p_base = Slvs_Points[i]
+                p_base = solved_points[i]
+            
             #If this link is on the ground.
-            if linkName=='ground':
+            if linkName == 'ground':
                 Constraint.dragged(Workplane1, p_base)
                 continue
             relate = Link[LinkIndex(linkName)].points
             relateOrder = relate.index(i)
+            
             #Pass if this is the first point.
-            if relateOrder==0:
+            if relateOrder == 0:
                 continue
-            #Connect function, and return the distance.
+            
             def getConnection(index: int) -> (float, Point2d):
+                """Connect function, and return the distance."""
                 n = relate[index]
                 p = Point[n]
                 d = p.distance(vpoint)
-                if p.type==1 or p.type==2:
-                    p_contact = Slvs_Points[n][p.links.index(linkName)]
+                if (p.type == 1) or (p.type == 2):
+                    p_contact = solved_points[n][p.links.index(linkName)]
                 else:
-                    p_contact = Slvs_Points[n]
+                    p_contact = solved_points[n]
                 return (d, p_contact)
-            def ConnectTo(d, p_contact):
+            
+            def ConnectTo(d: float, p_contact: Point2d):
                 if d:
                     Constraint.distance(d, Workplane1, p_base, p_contact)
                 else:
                     Constraint.on(Workplane1, p_base, p_contact)
+            
             #Connection of the first point in this link.
             connect_1 = getConnection(0)
-            if relateOrder>1:
+            if relateOrder > 1:
                 #Conection of the previous point.
                 connect_2 = getConnection(relateOrder-1)
                 if bool(connect_1[0])!=bool(connect_2[0]):
                     #Same point. Just connect to same point.
                     ConnectTo(*(connect_1 if connect_1[0]==0. else connect_2))
                 elif min(
-                    abs(2*connect_1[0]-connect_2[0]),
-                    abs(connect_1[0]-2*connect_2[0]),
-                ) < 0.01:
+                    abs(2*connect_1[0] - connect_2[0]),
+                    abs(connect_1[0] - 2*connect_2[0]),
+                ) < 0.001:
                     #Collinear.
                     Constraint.on(
                         Workplane1,
@@ -193,19 +221,25 @@ def slvsProcess(
                     ConnectTo(*connect_2)
             else:
                 ConnectTo(*connect_1)
-    #The constraints of drive shaft.
+    
     for shaft, base_link, drive_link, angle in constraints:
-        #Base point as shaft center.
-        if Point[shaft].type!=0:
-            p_base = Slvs_Points[shaft][0]
+        """The constraints of drive shaft.
+        
+        Simulate the input variables to the mechanism.
+        The 'base points' are shaft center.
+        """
+        if Point[shaft].type != 0:
+            p_base = solved_points[shaft][0]
         else:
-            p_base = Slvs_Points[shaft]
+            p_base = solved_points[shaft]
+        
         #Base link slope angle.
-        if base_link!='ground':
+        if base_link != 'ground':
             relate_base = Link[LinkIndex(base_link)].points
             newRelateOrder_base = relate_base.index(shaft)-1
             angle -= Point[shaft].slopeAngle(Point[newRelateOrder_base])
             angle %= 360.
+        
         x = Sys.add_param(round(Point[shaft].cx + 10.*cos(radians(angle)), 8))
         y = Sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
         p_hand = Point2d(Workplane1, x, y)
@@ -215,36 +249,27 @@ def slvsProcess(
         #Make another virtual link that should follow "hand".
         relate_drive = Link[LinkIndex(drive_link)].points
         newRelateOrder_drive = relate_drive[relate_drive.index(shaft)-1]
-        if Point[newRelateOrder_drive].type!=0:
-            p_drive = Slvs_Points[newRelateOrder_drive][0]
+        if Point[newRelateOrder_drive].type != 0:
+            p_drive = solved_points[newRelateOrder_drive][0]
         else:
-            p_drive = Slvs_Points[newRelateOrder_drive]
+            p_drive = solved_points[newRelateOrder_drive]
         link = LineSegment2d(Workplane1, p_base, p_drive)
         Constraint.angle(Workplane1, .5, link, leader)
+    
     #Solve
     result_flag = Sys.solve()
-    if result_flag==SLVS_RESULT_OKAY:
+    if result_flag == SLVS_RESULT_OKAY:
         resultList = []
-        for p in Slvs_Points:
-            if type(p)==Point2d:
-                resultList.append((
-                    round(p.u().value, 4),
-                    round(p.v().value, 4)
-                ))
+        for p in solved_points:
+            if type(p) == Point2d:
+                resultList.append((p.u().value, p.v().value))
             else:
-                tmp_list = []
-                for c in p:
-                    tmp_list.append((
-                        round(c.u().value, 4),
-                        round(c.v().value, 4)
-                    ))
-                resultList.append(tuple(tmp_list))
-        return resultList, int(Sys.dof)
-    else:
-        if result_flag==SLVS_RESULT_INCONSISTENT:
-            error = "Inconsistent."
-        elif result_flag==SLVS_RESULT_DIDNT_CONVERGE:
-            error = "Did not converge."
-        elif result_flag==SLVS_RESULT_TOO_MANY_UNKNOWNS:
-            error = "Too many unknowns."
-        raise SlvsException(error)
+                resultList.append(tuple((c.u().value, c.v().value) for c in p))
+        return resultList, Sys.dof
+    elif result_flag == SLVS_RESULT_INCONSISTENT:
+        error = "Inconsistent."
+    elif result_flag == SLVS_RESULT_DIDNT_CONVERGE:
+        error = "Did not converge."
+    elif result_flag == SLVS_RESULT_TOO_MANY_UNKNOWNS:
+        error = "Too many unknowns."
+    raise SlvsException(error)

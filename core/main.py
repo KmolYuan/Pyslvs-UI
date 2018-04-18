@@ -55,6 +55,7 @@ from typing import (
     List,
     Dict,
 )
+from argparse import Namespace
 from networkx import Graph
 from .Ui_main import Ui_MainWindow
 
@@ -66,7 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     Exit with QApplication.
     """
     
-    def __init__(self, args, parent=None):
+    def __init__(self, args: Namespace, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.args = args
