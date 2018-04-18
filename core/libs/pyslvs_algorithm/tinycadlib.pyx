@@ -20,6 +20,7 @@ from cpython cimport bool
 cdef double nan = float('nan')
 
 cdef inline double distance(double x1, double y1, double x2, double y2):
+    """Distance of two cartesian coordinates."""
     return hypot(x2 - x1, y2 - y1)
 
 cdef class VPoint:
@@ -59,7 +60,12 @@ cdef class VPoint:
         self.y = y
         cdef int i
         if (self.type == 1) or (self.type == 2):
-            self.c = tuple((self.x, self.y) for i in range(len(self.links)))
+            """Slider current coordinates.
+            
+            + [0]: Current node on slot.
+            + [1]: Pin.
+            """
+            self.c = ((self.x, self.y), (self.x, self.y))
         else:
             self.c = ((self.x, self.y),)
     
@@ -73,9 +79,10 @@ cdef class VPoint:
         """Y value of frist current coordinate."""
         return self.c[0][1]
     
-    def move(self, *coordinates):
+    cpdef void move(self, tuple c1, tuple c2=None):
         """Change coordinates of this point."""
-        self.c = tuple(coordinates)
+        self.c[0] = c1
+        self.c[1] = c2 if c2 else c1
     
     cpdef double distance(self, VPoint p):
         """Distance."""

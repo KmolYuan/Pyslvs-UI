@@ -29,21 +29,9 @@ from .pyslvs_topologic import (
     graph_configure,
     vpoints_configure,
 )
-#Solvespace API.
-from .python_solvespace.slvs import (
-    System,
-    groupNum,
-    Slvs_MakeQuaternion,
-    Point3d,
-    Workplane,
-    Normal3d,
-    Point2d,
-    LineSegment2d,
-    Constraint,
-    SLVS_RESULT_OKAY,
-    SLVS_RESULT_INCONSISTENT,
-    SLVS_RESULT_DIDNT_CONVERGE,
-    SLVS_RESULT_TOO_MANY_UNKNOWNS,
+from .python_solvespace import (
+    slvsProcess,
+    SlvsException
 )
 
 __all__ = [
@@ -65,17 +53,6 @@ __all__ = [
     'Graph',
     'graph_configure',
     'vpoints_configure',
-    'System',
-    'groupNum',
-    'Slvs_MakeQuaternion',
-    'Point3d',
-    'Workplane',
-    'Normal3d',
-    'Point2d',
-    'LineSegment2d',
-    'Constraint',
-    'SLVS_RESULT_OKAY',
-    'SLVS_RESULT_INCONSISTENT',
-    'SLVS_RESULT_DIDNT_CONVERGE',
-    'SLVS_RESULT_TOO_MANY_UNKNOWNS',
+    'slvsProcess',
+    'SlvsException',
 ]

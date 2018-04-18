@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.libs import (
+from .slvs import (
     #System base
     System,
     groupNum,
@@ -24,10 +24,8 @@ from core.libs import (
     SLVS_RESULT_INCONSISTENT,
     SLVS_RESULT_DIDNT_CONVERGE,
     SLVS_RESULT_TOO_MANY_UNKNOWNS,
-    #Typing
-    VPoint,
-    VLink,
 )
+from core.libs import VPoint, VLink
 from math import (
     radians,
     cos,

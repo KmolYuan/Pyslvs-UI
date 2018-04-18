@@ -27,11 +27,7 @@ from core.QtModules import (
     QProgressDialog,
 )
 from core.info import PyslvsAbout, check_update
-from core.graphics import (
-    slvsProcess,
-    SlvsException,
-    edges_view,
-)
+from core.graphics import edges_view
 from core.io import (
     Script_Dialog,
     AddTable, DeleteTable, FixSequenceNumber,
@@ -48,7 +44,12 @@ from core.io import (
 )
 from core.widgets import initCustomWidgets
 from core.entities import EditPoint_show, EditLink_show
-from core.libs import vpoints_configure, VPoint
+from core.libs import (
+    slvsProcess,
+    SlvsException,
+    vpoints_configure,
+    VPoint,
+)
 from typing import (
     Tuple,
     List,

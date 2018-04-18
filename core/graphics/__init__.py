@@ -14,10 +14,6 @@ from .color import (
     colorQt,
     colorPath
 )
-from .planarSolving import (
-    slvsProcess,
-    SlvsException
-)
 from .chart import DataChart
 from .canvas import (
     BaseCanvas,
@@ -39,8 +35,6 @@ __all__ = [
     'colorIcons',
     'colorQt',
     'colorPath',
-    'slvsProcess',
-    'SlvsException',
     'DataChart',
     'BaseCanvas',
     'PreviewCanvas',

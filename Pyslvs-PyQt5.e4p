@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-04-16, 11:05:18 -->
+<!-- Saved: 2018-04-18, 16:06:07 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -27,7 +27,6 @@
     <Source>core/graphics/chart.py</Source>
     <Source>core/graphics/color.py</Source>
     <Source>core/graphics/nx_pydot.py</Source>
-    <Source>core/graphics/planarSolving.py</Source>
     <Source>core/info/Ui_about.py</Source>
     <Source>core/info/__init__.py</Source>
     <Source>core/info/about.py</Source>
@@ -61,6 +60,7 @@
     <Source>core/libs/pyslvs_topologic/topologic.pyx</Source>
     <Source>core/libs/pyslvs_topologic/triangulation.pyx</Source>
     <Source>core/libs/python_solvespace/__init__.py</Source>
+    <Source>core/libs/python_solvespace/planarSolving.py</Source>
     <Source>core/main.py</Source>
     <Source>core/synthesis/Collections/Structure.py</Source>
     <Source>core/synthesis/Collections/TriangularIteration.py</Source>
