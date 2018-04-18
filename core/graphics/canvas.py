@@ -265,8 +265,9 @@ class BaseCanvas(QWidget):
             else:
                 x *= self.zoom
                 y *= -self.zoom
-                if i==0:
+                if i == 0:
                     pointPath.moveTo(x, y)
+                    self.painter.drawEllipse(QPointF(x, y), 3, 3)
                     continue
                 if error:
                     pointPath.moveTo(x, y)
