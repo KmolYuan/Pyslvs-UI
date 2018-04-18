@@ -328,17 +328,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             for p in vlink.points:
                 if p in used_point:
                     continue
-                match = [
-                    m for m, vlink_ in enumerate(link_data)
-                    if (i != m) and (p in vlink_.points)
-                ]
-                for m in match:
-                    if joint_data[p].type==2:
-                        G.add_edge(i, k)
-                        G.add_edge(k, m)
-                        k += 1
-                    else:
+                for m, vlink_ in enumerate(link_data):
+                    if not ((i != m) and (p in vlink_.points)):
+                        continue
+                    if joint_data[p].type != 2:
                         G.add_edge(i, m)
+                        continue
+                    G.add_edge(i, k)
+                    G.add_edge(k, m)
+                    k += 1
                 used_point.add(p)
         return [edge for n, edge in edges_view(G)]
     
@@ -411,12 +409,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_Get_Help_triggered(self):
-        """Open website: http://mde.tw"""
+        """Open website: mde.tw"""
         self.__openURL("http://mde.tw")
     
     @pyqtSlot()
     def on_action_Pyslvs_com_triggered(self):
-        """Open website: http://www.pyslvs.com/blog/index.html"""
+        """Open website: pyslvs.com"""
         self.__openURL("http://www.pyslvs.com/blog/index.html")
     
     @pyqtSlot()
@@ -819,7 +817,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.CommandStack.endMacro()
         return rowCount
     
-    def addPointsByGraph(self, G, pos, ground_link: [None, int]):
+    def addPointsByGraph(self,
+        G: Graph,
+        pos: Dict[int, Tuple[float, float]],
+        ground_link: int
+    ):
         """Add points by networkx graph and position dict."""
         base_count = self.Entities_Point.rowCount()
         self.CommandStack.beginMacro(
