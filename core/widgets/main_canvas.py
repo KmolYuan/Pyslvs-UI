@@ -23,7 +23,7 @@ from core.graphics import (
     BaseCanvas,
     convex_hull,
     colorQt,
-    colorNum
+    colorNum,
 )
 from core.libs import (
     expr_path,
@@ -34,7 +34,7 @@ from math import (
     sin,
     cos,
     atan2,
-    sqrt
+    hypot,
 )
 from collections import deque
 from typing import (
@@ -73,9 +73,7 @@ class Selector:
     
     def distance(self, x: float, y: float):
         """Return the distance of selector."""
-        x = self.x - x
-        y = self.y - y
-        return round(sqrt(x*x + y*y), 2)
+        return hypot(x - self.x, y - self.y)
     
     def inRect(self, x: float, y: float) -> bool:
         """Return if input coordinate is in the rectangle."""
@@ -670,7 +668,7 @@ class DynamicCanvas(BaseCanvas):
                         )
                         for row in self.pointsSelection:
                             vpoint = self.Points[row]
-                            r = sqrt(vpoint.x * vpoint.x + vpoint.y * vpoint.y)
+                            r = hypot(vpoint.x, vpoint.y)
                             beta = atan2(vpoint.y, vpoint.x)
                             vpoint.move((
                                 r*cos(alpha + beta),

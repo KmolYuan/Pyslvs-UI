@@ -21,7 +21,7 @@ from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
 from core.libs import graph_configure
 import pprint
-from math import sqrt
+from math import hypot
 from networkx import Graph
 from typing import (
     Dict,
@@ -59,9 +59,7 @@ class PreviewWindow(PreviewCanvas):
         for node, (x, y) in self.pos.items():
             if node in self.same:
                 continue
-            x = mx - x
-            y = my - y
-            if sqrt(x*x + y*y) <= 5:
+            if hypot(x - mx, y - my) <= 5:
                 self.set_joint_number.emit(node)
                 self.pressed = True
                 break

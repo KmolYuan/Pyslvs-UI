@@ -31,9 +31,9 @@ script_title = '''\
 
 from math import (
     radians,
-    sqrt,
+    hypot,
     cos,
-    sin
+    sin,
 )
 from slvs import (
     #System base
@@ -66,9 +66,7 @@ class VPoint:
         return self.__c
     
     def distance(self, p):
-        x = self.cx - p.cx
-        y = self.cy - p.cy
-        return round(sqrt(x*x + y*y), 4)
+        return hypot(p.cx - self.cx, p.cy - self.cy)
 
 class VLink:
     __slots__ = ('name', 'points')

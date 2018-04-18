@@ -259,12 +259,10 @@ cpdef tuple PLPP(
     
     #Two intersection points.
     d = sqrt(L0*L0 - d*d) / line_mag
-    dx *= d 
-    dy *= d
     if inverse:
-        return (I.x - dx, I.y - dy)
+        return (I.x - dx*d, I.y - dy*d)
     else:
-        return (I.x + dx, I.y + dy)
+        return (I.x + dx*d, I.y + dy*d)
 
 cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     #L0, L1, L2 is triangle
