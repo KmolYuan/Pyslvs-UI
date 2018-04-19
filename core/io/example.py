@@ -10,6 +10,9 @@ __email__ = "pyslvs@gmail.com"
 #TODO: Add examples as expression.
 
 example_list = {
+    
+    "Arm": "M[J[R, color[Green], P[-34.25, -20.625], L[ground, link_1, link_2]], J[R, color[Green], P[29.75, 77.375], L[link_2, link_5, link_6]], J[R, color[Green], P[-54.0, 10.875], L[link_1, link_3]], J[R, color[Green], P[-86.25, -3.125], L[ground, link_4]], J[R, color[Green], P[-7.25, 94.625], L[link_4, link_5]], J[R, color[Green], P[57.0, 110.875], L[link_5, link_8]], J[R, color[Green], P[126.5, 56.125], L[link_7, link_8]], J[R, color[Green], P[114.5, 35.625], L[link_6, link_7]], J[R, color[Green], P[7.0, 131.125], L[link_3, link_6]], J[R, color[Green], P[163.5, 47.875], L[link_7]]]",
+    
     "Ball lifter (Double six bar linkage)": "M[" +
         "J[R, color[Green], P[10.2, 10.4], L[ground, link_1]], " +
         "J[R, color[Green], P[7.44, 20.01], L[link_1, link_2, link_6]], " +
@@ -38,12 +41,11 @@ example_list = {
     "Crank slider": "M[" +
         "J[R, color[Green], P[-67.38, 36.13], L[ground, link_1]], " +
         "J[R, color[Green], P[-68.925, 55.925], L[link_1, link_2]], " +
-        "J[RP, A[0.0], color[Green], P[11.88, 0.0], L[ground, link_2]], " +
+        "J[RP, A[0.0], color[Green], P[11.88, 0.0], L[ground, link_2, link_3]], " +
         "J[R, color[Green], P[50.775, 24.7908], L[link_3, link_4]], " +
         "J[R, color[Green], P[74.375, 7.625], L[ground, link_4]], " +
-        "J[R, color[Green], P[11.88, 0.0], L[link_2, link_3]], " +
-        "J[R, color[Green], P[93.1526, 56.4121], L[link_3]]]",
-    
+        "J[R, color[Green], P[95.19720966542752, 52.88050148698885], L[link_3]]" +
+        "]",
     
     "Jansen's linkage (Single)": "M[" +
         "J[R, color[Green], P[0.0, 0.0], L[ground, link_1]], " +
@@ -72,8 +74,4 @@ example_list = {
         "J[R, color[Green], P[64.84, -61.13], L[link_12, link_13]], " +
         "J[R, color[Green], P[4.79, -87.79], L[link_13]]" +
         "]",
-    
-    "Arm": "M[J[R, color[Green], P[-34.25, -20.625], L[ground, link_1, link_2]], J[R, color[Green], P[29.75, 77.375], L[link_2, link_5, link_6]], J[R, color[Green], P[-54.0, 10.875], L[link_1, link_3]], J[R, color[Green], P[-86.25, -3.125], L[ground, link_4]], J[R, color[Green], P[-7.25, 94.625], L[link_4, link_5]], J[R, color[Green], P[57.0, 110.875], L[link_5, link_8]], J[R, color[Green], P[126.5, 56.125], L[link_7, link_8]], J[R, color[Green], P[114.5, 35.625], L[link_6, link_7]], J[R, color[Green], P[7.0, 131.125], L[link_3, link_6]], J[R, color[Green], P[163.5, 47.875], L[link_7]]]",
-    
-    #"": "",
 }

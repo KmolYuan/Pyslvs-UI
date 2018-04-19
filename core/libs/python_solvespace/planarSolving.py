@@ -42,7 +42,7 @@ def slvsProcess(
     constraints: Tuple[Tuple[int, str, str, float]]
 ):
     """Use element module to convert into solvespace expression."""
-    #Limitation of Solvespacce kernel system.
+    #Limitation of Solvespacce kernel sys.
     pointCount = 0
     sliderCount = 0
     for vpoint in Point:
@@ -51,30 +51,30 @@ def slvsProcess(
             sliderCount += 1
     constraintCount = len(constraints)
     
-    #Create CAD system.
-    Sys = System(pointCount*2 + sliderCount*2 + constraintCount*2 + 12)
-    Sys.default_group = groupNum(1)
-    p0 = Sys.add_param(0.)
-    p1 = Sys.add_param(0.)
-    p2 = Sys.add_param(0.)
-    Origin = Point3d(p0, p1, p2)
+    #Create CAD sys.
+    sys = System(pointCount*2 + sliderCount*2 + constraintCount*2 + 12)
+    sys.default_group = groupNum(1)
+    p0 = sys.add_param(0.)
+    p1 = sys.add_param(0.)
+    p2 = sys.add_param(0.)
+    origin = Point3d(p0, p1, p2)
     qw, qx, qy, qz = Slvs_MakeQuaternion(1, 0, 0, 0, 1, 0)
-    p3 = Sys.add_param(qw)
-    p4 = Sys.add_param(qx)
-    p5 = Sys.add_param(qy)
-    p6 = Sys.add_param(qz)
-    Workplane1 = Workplane(Origin, Normal3d(p3, p4, p5, p6))
-    p7 = Sys.add_param(0.)
-    p8 = Sys.add_param(0.)
-    Origin2D = Point2d(Workplane1, p7, p8)
-    Constraint.dragged(Workplane1, Origin2D)
-    p9 = Sys.add_param(10.)
-    p10 = Sys.add_param(0.)
-    hp = Point2d(Workplane1, p9, p10)
-    Constraint.dragged(Workplane1, hp)
+    p3 = sys.add_param(qw)
+    p4 = sys.add_param(qx)
+    p5 = sys.add_param(qy)
+    p6 = sys.add_param(qz)
+    wp1 = Workplane(origin, Normal3d(p3, p4, p5, p6))
+    p7 = sys.add_param(0.)
+    p8 = sys.add_param(0.)
+    origin2d = Point2d(wp1, p7, p8)
+    Constraint.dragged(wp1, origin2d)
+    p9 = sys.add_param(10.)
+    p10 = sys.add_param(0.)
+    hp = Point2d(wp1, p9, p10)
+    Constraint.dragged(wp1, hp)
     #Name 'ground' is a horizontal line through (0, 0).
-    ground = LineSegment2d(Workplane1, Origin2D, hp)
-    Sys.default_group = groupNum(2)
+    ground = LineSegment2d(wp1, origin2d, hp)
+    sys.default_group = groupNum(2)
     solved_points = []
     
     for vpoint in Point:
@@ -83,22 +83,26 @@ def slvsProcess(
         This is the point recorded in the table.
         """
         if vpoint.type == 0:
-            #Has only one coordinate
+            #Has only one coordinate.
             solved_points.append(Point2d(
-                Workplane1,
-                Sys.add_param(vpoint.cx),
-                Sys.add_param(vpoint.cy)
+                wp1,
+                sys.add_param(vpoint.cx),
+                sys.add_param(vpoint.cy)
             ))
         elif (vpoint.type == 1) or (vpoint.type == 2):
-            #Has one more pointer
-            tmp_list = []
-            for cx, cy in vpoint.c:
-                tmp_list.append(Point2d(
-                    Workplane1,
-                    Sys.add_param(cx),
-                    Sys.add_param(cy)
-                ))
-            solved_points.append(tuple(tmp_list))
+            #Has two coordinates.
+            solved_points.append((
+                Point2d(
+                    wp1,
+                    sys.add_param(vpoint.c[0][0]),
+                    sys.add_param(vpoint.c[0][1])
+                ),
+                Point2d(
+                    wp1,
+                    sys.add_param(vpoint.c[1][0]),
+                    sys.add_param(vpoint.c[1][1])
+                ),
+            ))
     
     def LinkIndex(name: str) -> int:
         """Topology of PMKS points."""
@@ -115,44 +119,43 @@ def slvsProcess(
             """Make auxiliary line as a slider slot (The length is 10.0)."""
             p_base = solved_points[i][0]
             p_assist = Point2d(
-                Workplane1,
-                Sys.add_param(vpoint.cx + 10.*cos(radians(vpoint.angle))),
-                Sys.add_param(vpoint.cy + 10.*sin(radians(vpoint.angle)))
+                wp1,
+                sys.add_param(vpoint.cx + 10.*cos(radians(vpoint.angle))),
+                sys.add_param(vpoint.cy + 10.*sin(radians(vpoint.angle)))
             )
-            l_slot = LineSegment2d(Workplane1, p_base, p_assist)
-            Constraint.distance(10., Workplane1, p_base, p_assist)
+            l_slot = LineSegment2d(wp1, p_base, p_assist)
+            Constraint.distance(10., wp1, p_base, p_assist)
             
             def relateWith(linkName: str):
                 """Angle constraint function."""
                 if linkName == 'ground':
                     """Angle can not be zero."""
                     if (vpoint.angle == 0.) or (vpoint.angle == 180.):
-                        Constraint.parallel(Workplane1, ground, l_slot)
+                        Constraint.parallel(wp1, ground, l_slot)
                     else:
-                        Constraint.angle(Workplane1, vpoint.angle, ground, l_slot)
+                        Constraint.angle(wp1, vpoint.angle, ground, l_slot)
                     return
                 relate = Link[LinkIndex(linkName)].points
-                relateNum = relate[relate.index(i) - 1]
-                relate_vpoint = Point[relateNum]
+                relate_n = relate[relate.index(i) - 1]
+                relate_vp = Point[relate_n]
                 p_main = solved_points[i][vpoint.links.index(linkName)]
-                if (relate_vpoint.type == 1) or (relate_vpoint.type == 2):
-                    p_link_assist = solved_points[relateNum][
-                        relate_vpoint.links.index(linkName)
+                if (relate_vp.type == 1) or (relate_vp.type == 2):
+                    p_link_assist = solved_points[relate_n][
+                        0 if (linkName == relate_vp.links[0]) else 1
                     ]
                 else:
-                    p_link_assist = solved_points[relateNum]
-                l_link = LineSegment2d(Workplane1, p_main, p_link_assist)
-                angle_base = vpoint.slopeAngle(relate_vpoint)
+                    p_link_assist = solved_points[relate_n]
+                l_link = LineSegment2d(wp1, p_main, p_link_assist)
+                angle_base = vpoint.slopeAngle(relate_vp)
                 if (angle_base == 0.) or (angle_base == 180.):
-                    Constraint.parallel(Workplane1, l_link, l_slot)
+                    Constraint.parallel(wp1, l_link, l_slot)
                 else:
-                    Constraint.angle(Workplane1, angle_base, l_link, l_slot)
+                    Constraint.angle(wp1, angle_base, l_link, l_slot)
             
             #The slot has an angle with base link.
             relateWith(vpoint.links[0])
             #All point should on the slot.
-            for p in solved_points[i][1:]:
-                Constraint.on(Workplane1, p, l_slot)
+            Constraint.on(wp1, solved_points[i][1], l_slot)
             #P Joint: The point do not have freedom of rotation.
             if vpoint.type == 1:
                 for linkName in vpoint.links[1:]:
@@ -164,19 +167,19 @@ def slvsProcess(
             If the joint is a slider, defined its base.
             """
             if (vpoint.type == 1) or (vpoint.type == 2):
-                p_base = solved_points[i][j]
+                p_base = solved_points[i][0 if (j == 0) else 1]
             else:
                 p_base = solved_points[i]
             
             #If this link is on the ground.
             if linkName == 'ground':
-                Constraint.dragged(Workplane1, p_base)
+                Constraint.dragged(wp1, p_base)
                 continue
             relate = Link[LinkIndex(linkName)].points
-            relateOrder = relate.index(i)
+            relate_n = relate.index(i)
             
             #Pass if this is the first point.
-            if relateOrder == 0:
+            if relate_n == 0:
                 continue
             
             def getConnection(index: int) -> (float, Point2d):
@@ -185,22 +188,24 @@ def slvsProcess(
                 p = Point[n]
                 d = p.distance(vpoint)
                 if (p.type == 1) or (p.type == 2):
-                    p_contact = solved_points[n][p.links.index(linkName)]
+                    p_contact = solved_points[n][
+                        0 if (linkName == p.links[0]) else 1
+                    ]
                 else:
                     p_contact = solved_points[n]
                 return (d, p_contact)
             
             def ConnectTo(d: float, p_contact: Point2d):
                 if d:
-                    Constraint.distance(d, Workplane1, p_base, p_contact)
+                    Constraint.distance(d, wp1, p_base, p_contact)
                 else:
-                    Constraint.on(Workplane1, p_base, p_contact)
+                    Constraint.on(wp1, p_base, p_contact)
             
             #Connection of the first point in this link.
             connect_1 = getConnection(0)
-            if relateOrder > 1:
+            if relate_n > 1:
                 #Conection of the previous point.
-                connect_2 = getConnection(relateOrder-1)
+                connect_2 = getConnection(relate_n-1)
                 if bool(connect_1[0])!=bool(connect_2[0]):
                     #Same point. Just connect to same point.
                     ConnectTo(*(connect_1 if connect_1[0]==0. else connect_2))
@@ -210,9 +215,9 @@ def slvsProcess(
                 ) < 0.001:
                     #Collinear.
                     Constraint.on(
-                        Workplane1,
+                        wp1,
                         p_base,
-                        LineSegment2d(Workplane1, connect_1[1], connect_2[1])
+                        LineSegment2d(wp1, connect_1[1], connect_2[1])
                     )
                     ConnectTo(*connect_1)
                 else:
@@ -240,12 +245,12 @@ def slvsProcess(
             angle -= Point[shaft].slopeAngle(Point[newRelateOrder_base])
             angle %= 360.
         
-        x = Sys.add_param(round(Point[shaft].cx + 10.*cos(radians(angle)), 8))
-        y = Sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
-        p_hand = Point2d(Workplane1, x, y)
-        Constraint.dragged(Workplane1, p_hand)
+        x = sys.add_param(round(Point[shaft].cx + 10.*cos(radians(angle)), 8))
+        y = sys.add_param(round(Point[shaft].cy + 10.*sin(radians(angle)), 8))
+        p_hand = Point2d(wp1, x, y)
+        Constraint.dragged(wp1, p_hand)
         #The virtual link that dragged by "hand".
-        leader = LineSegment2d(Workplane1, p_base, p_hand)
+        leader = LineSegment2d(wp1, p_base, p_hand)
         #Make another virtual link that should follow "hand".
         relate_drive = Link[LinkIndex(drive_link)].points
         newRelateOrder_drive = relate_drive[relate_drive.index(shaft)-1]
@@ -253,19 +258,22 @@ def slvsProcess(
             p_drive = solved_points[newRelateOrder_drive][0]
         else:
             p_drive = solved_points[newRelateOrder_drive]
-        link = LineSegment2d(Workplane1, p_base, p_drive)
-        Constraint.angle(Workplane1, .5, link, leader)
+        link = LineSegment2d(wp1, p_base, p_drive)
+        Constraint.angle(wp1, .5, link, leader)
     
     #Solve
-    result_flag = Sys.solve()
+    result_flag = sys.solve()
     if result_flag == SLVS_RESULT_OKAY:
         resultList = []
         for p in solved_points:
             if type(p) == Point2d:
                 resultList.append((p.u().value, p.v().value))
             else:
-                resultList.append(tuple((c.u().value, c.v().value) for c in p))
-        return resultList, Sys.dof
+                resultList.append((
+                    (p[0].u().value, p[0].v().value),
+                    (p[1].u().value, p[1].v().value)
+                ))
+        return resultList, sys.dof
     elif result_flag == SLVS_RESULT_INCONSISTENT:
         error = "Inconsistent."
     elif result_flag == SLVS_RESULT_DIDNT_CONVERGE:

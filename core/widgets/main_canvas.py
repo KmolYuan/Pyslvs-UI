@@ -425,7 +425,9 @@ class DynamicCanvas(BaseCanvas):
         for i in vlink.points:
             vpoint = self.Points[i]
             if vpoint.type==1 or vpoint.type==2:
-                coordinate = vpoint.c[vpoint.links.index(vlink.name)]
+                coordinate = vpoint.c[
+                    0 if (vlink.name == vpoint.links[0]) else 1
+                ]
                 x = coordinate[0] * self.zoom
                 y = coordinate[1] * -self.zoom
             else:
@@ -683,9 +685,10 @@ class DynamicCanvas(BaseCanvas):
                             if vpoint.type == 0:
                                 vpoint.move((vpoint.x * fx, vpoint.y * fy))
                             else:
-                                vpoint.move(*[
+                                vpoint.move(
+                                    (vpoint.x * fx, vpoint.y * fy),
                                     (vpoint.x * fx, vpoint.y * fy)
-                                ]*len(vpoint.links))
+                                )
             else:
                 #Rectangular selection
                 self.Selector.RectangularSelection = True
