@@ -21,7 +21,7 @@ Website: <http://www.pyslvs.com/blog/index.html>
 
 1. [Modules Requirement](#modules-requirement)
 
-    + [Graphviz](#graphviz)
+    + [Graphviz (Optional)](#graphviz-optional)
     + [PyQt Stuff](#pyqt-stuff)
 
 1. [Kernels Requirement](#kernels-requirement)
@@ -48,7 +48,7 @@ Compatible with Python 3.5, PyQt 5.7 (for PyQtChart) and above.
 
 Cross-platform Development: Ubuntu and Windows (64-bit).
 
-You can install Graphviz optionally. See [here](#graphviz).
+You can install Graphviz optionally. See [here](#graphviz-optional).
 
 **Please note that the other platforms may be available but I have not tested before.**
 
@@ -199,7 +199,7 @@ Makefile tool: [MinGW] or [Msys 2][msys].
 > pip install -r requirements.txt
 ```
 
-## Graphviz
+## Graphviz (Optional)
 
 Graphviz tools provide some graph engine that can make the position of dots in atlas looks more pretty.
 
