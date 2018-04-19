@@ -18,7 +18,7 @@ help:
 
 .PHONY: help build build-kernel clean clean-kernel clean-all
 
-build-cython: core/libs/pyslvs_algorithm/*.pyx core/libs/pyslvs_topologic/*.pyx
+build-cython:
 	@echo ---Pyslvs generate Build---
 	$(MAKE) -C core/libs/pyslvs_algorithm
 	@echo ---Done---
@@ -26,10 +26,12 @@ build-cython: core/libs/pyslvs_algorithm/*.pyx core/libs/pyslvs_topologic/*.pyx
 	$(MAKE) -C core/libs/pyslvs_topologic
 	@echo ---Done---
 
-build-kernel: build-cython
+build-solvespace:
 	@echo ---Python solvespace Build---
 	$(MAKE) -C core/libs/python_solvespace
 	@echo ---Done---
+
+build-kernel: build-cython build-solvespace
 
 build: launch_pyslvs.py build-kernel
 	@echo ---Pyslvs Build---
