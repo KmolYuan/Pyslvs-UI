@@ -49,7 +49,8 @@ class InputsWidget(QWidget, Ui_Form):
         #self widgets.
         self.dial = QDial()
         self.dial.setEnabled(False)
-        self.dial.valueChanged.connect(self.__variableValueUpdate)
+        self.dial.valueChanged.connect(self.__updateVar)
+        self.dial_spinbox.valueChanged.connect(self.__setVar)
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
         self.variable_stop.clicked.connect(self.variableValueReset)
         self.inputs_playShaft = QTimer(self)
@@ -177,7 +178,8 @@ class InputsWidget(QWidget, Ui_Form):
             self.rightInput()
         )
         self.dial.setEnabled(rotatable)
-        self.oldVariableValue = self.dial.value() / 100.
+        self.dial_spinbox.setEnabled(rotatable)
+        self.oldVar = self.dial.value() / 100.
         self.variable_play.setEnabled(rotatable)
         self.variable_speed.setEnabled(rotatable)
         self.dial.setValue(float(
@@ -268,22 +270,27 @@ class InputsWidget(QWidget, Ui_Form):
             self.joint_list.addItem(text)
         self.variableValueReset()
     
-    def __variableValueUpdate(self, value):
+    @pyqtSlot(float)
+    def __setVar(self, value):
+        self.dial.setValue(int(value % 360 * 100))
+    
+    @pyqtSlot(int)
+    def __updateVar(self, value):
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
         value /= 100.
+        self.dial_spinbox.setValue(value)
         if item:
             itemText = item.text().split('->')
             itemText[-1] = "{:.02f}".format(value)
             item.setText('->'.join(itemText))
             self.resolve()
-        interval = self.record_interval.value()
         if (
             self.record_start.isChecked() and
-            abs(self.oldVariableValue - value) > interval
+            abs(self.oldVar - value) > self.record_interval.value()
         ):
             self.DynamicCanvasView.recordPath()
-            self.oldVariableValue = value
+            self.oldVar = value
     
     def variableValueReset(self):
         """Reset the value of QDial."""
@@ -307,6 +314,7 @@ class InputsWidget(QWidget, Ui_Form):
     def on_variable_play_toggled(self, toggled):
         """Triggered when play button was changed."""
         self.dial.setEnabled(not toggled)
+        self.dial_spinbox.setEnabled(not toggled)
         if toggled:
             self.inputs_playShaft.start()
         else:
