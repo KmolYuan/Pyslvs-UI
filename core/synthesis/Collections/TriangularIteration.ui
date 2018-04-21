@@ -159,14 +159,14 @@
            </layout>
           </item>
           <item>
-           <widget class="QLabel" name="status_label">
+           <widget class="QLabel" name="status_show_label">
             <property name="text">
              <string>Status:</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="status">
+           <widget class="QLabel" name="status_show">
             <property name="statusTip">
              <string>Each joint should have a solution to find out it's position.</string>
             </property>

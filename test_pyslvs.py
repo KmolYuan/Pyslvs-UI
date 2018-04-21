@@ -21,7 +21,6 @@ from core.libs import (
     vpoints_configure,
     expr_solving,
     topo,
-    graph_configure,
 )
 
 class LibsTest(TestCase):
@@ -70,59 +69,6 @@ class LibsTest(TestCase):
         self.assertFalse(G.is_isomorphic(I))
         answer, time = topo([4, 2], degenerate=True)
         self.assertEqual(len(answer), 2)
-    
-    def test_triangulation1(self):
-        """Testing 'triangulation' libraries.
-        
-        + 'graph_configure' function.
-        + Start at P0. (Can not use A ... Z letter.)
-        """
-        from networkx import Graph
-        #Test for 8-bar linkage.
-        G = Graph([(0, 1), (0, 4), (0, 5), (1, 2), (1, 3), (2, 4), (3, 5),
-            (3, 7), (4, 6), (6, 7)])
-        status = {
-            0: True,
-            1: True,
-            2: True,
-            3: False,
-            4: False,
-            5: False,
-            6: False,
-            7: False,
-            8: False,
-            9: False,
-            10: False
-        }
-        pos = {
-            0: (36.5, -59.5),
-            1: (10.0, -94.12),
-            2: (-28.5, -93.5),
-            3: (102.5, -43.5),
-            4: (77.5, -74.5),
-            5: (28.82, -22.35),
-            6: (23.5, 22.5),
-            7: (-18.5, -44.5),
-            8: (-75.5, -59.5),
-            9: (56.5, 29.5),
-            10: (68.5, 71.5),
-            11: (-47.06, -28.24),
-            12: (107.5, 42.5),
-            13: (-109.41, -49.41),
-            14: (44.12, 107.65)
-        }
-        driver_list = ['P0']
-        cus = {'P10': 7}
-        same = {2: 1, 4: 3, 7: 6}
-        expr = graph_configure(G, status, pos, driver_list, cus, same)
-        self.assertEqual(len(expr), 6)
-        for i, e in enumerate(expr):
-            if i == 0:
-                self.assertEqual(e[0], 'PLAP')
-            else:
-                self.assertEqual(e[0], 'PLLP')
-        for node, n_status in status.items():
-            self.assertFalse((not n_status) and (node not in same))
     
     def test_solving(self):
         """Test triangular formula solving.

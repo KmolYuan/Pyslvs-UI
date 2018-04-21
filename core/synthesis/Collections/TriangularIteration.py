@@ -293,7 +293,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if index is None:
             index = self.joint_name.currentIndex()
         if not index > -1:
-            self.status.setText("N/A")
+            self.status_show.setText("N/A")
             self.PLAP_solution.setEnabled(False)
             self.PLLP_solution.setEnabled(False)
             return
@@ -312,7 +312,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                     status_str = "From {}.".format(
                         get_front_of_parenthesis(expr, '[')
                     )
-        self.status.setText(status_str)
+        self.status_show.setText(status_str)
         self.PLAP_solution.setEnabled(not status)
         self.PLLP_solution.setEnabled(not status)
     
@@ -561,15 +561,19 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ev = dict(edges_view(G))
             for i, e in ev.items():
                 if i in same:
-                    continue
-                e = list(e)
-                if i in same_r:
-                    for j in same_r[i]:
-                        for link in ev[j]:
-                            if link not in e:
-                                e.append(link)
+                    link = ''
+                else:
+                    e = list(e)
+                    if i in same_r:
+                        for j in same_r[i]:
+                            for link in ev[j]:
+                                if link not in e:
+                                    e.append(link)
+                    link = ", ".join(
+                        (str(l) if (l != 0) else 'ground') for l in e
+                    )
                 tmp_list.append(VPoint(
-                    ", ".join((str(l) if (l != 0) else 'ground') for l in e),
+                    link,
                     0,
                     0.,
                     'Green',
@@ -583,6 +587,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                     'Green',
                     *pos[int(name.replace('P', ''))]
                 ))
+            print({i: v.links for i, v in enumerate(tmp_list)})
+            print(self.PreviewWindow.status)
             return tmp_list
         
         exprs = vpoints_configure(

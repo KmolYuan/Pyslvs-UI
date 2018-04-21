@@ -38,10 +38,8 @@ def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
     for link in vpoints[node].links:
         if len(vlinks[link]) < 2:
             continue
-        points = vlinks[link].copy()
-        points.remove(node)
-        for friend in points:
-            if status[friend]:
+        for friend in vlinks[link]:
+            if status[friend] and (friend != node):
                 yield friend
 
 def get_notbase_friend(int node, object vpoints, dict vlinks, dict status):
@@ -74,14 +72,17 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
     cdef str link
     for node, vpoint in enumerate(vpoints):
         status[node] = False
-        for link in vpoint.links:
-            if ('ground' == link) and (vpoint.type == 0):
-                status[node] = True
-            #Add as vlink.
-            if link not in vlinks:
-                vlinks[link] = {node}
-            else:
-                vlinks[link].add(node)
+        if vpoint.links:
+            for link in vpoint.links:
+                if ('ground' == link) and (vpoint.type == 0):
+                    status[node] = True
+                #Add as vlink.
+                if link not in vlinks:
+                    vlinks[link] = {node}
+                else:
+                    vlinks[link].add(node)
+        else:
+            status[node] = True
     
     cdef list exprs = []
     cdef int link_symbol = 0
@@ -104,7 +105,7 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
     cdef int friend_a, friend_b, friend_c, friend_d
     cdef bool not_grounded
     cdef int skip_times = 0
-    cdef int all_points_count = len(status)
+    cdef int around = len(status)
     cdef double tmp_x, tmp_y, angle
     cdef object f1
     while not isAllLock(status):
@@ -113,7 +114,7 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
             continue
         #Check the solution.
         #If re-scan again.
-        if skip_times >= all_points_count:
+        if skip_times >= around:
             break
         if status[node]:
             node += 1
