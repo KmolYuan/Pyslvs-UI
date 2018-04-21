@@ -26,7 +26,7 @@ mechanismParams_4Bar = {
     'Follower': {'P1': None},
     'Target': {'P4': None},
     'Link_Expression': "ground[P0,P1];[P0,P2];[P1,P3];[P2,P3,P4]",
-    'Expression': "PLAP[P0,L0,a0,P1](P2);PLLP[P2,L1,L2,P1](P3);PLLP[P2,L3,L4,P3](P4)",
+    'Expression': "PLAP[P0,L0,a0](P2);PLLP[P2,L1,L2,P1](P3);PLLP[P2,L3,L4,P3](P4)",
     'Graph': ((0, 1), (0, 2), (1, 3), (2, 3)),
     'constraint': [('P0', 'P1', 'P2', 'P3')],
     'pos': {
@@ -46,7 +46,7 @@ mechanismParams_8Bar = {
     'Target': {'P10': None},
     'Link_Expression': "ground[P0,P1];[P0,P3];[P3,P5];[P3,P6];[P1,P5,P8];" +
         "[P1,P6];[P8,P9];[P10,P6,P9]",
-    'Expression': "PLAP[P0,L0,a0,P1](P3);PLLP[P1,L1,L2,P3](P5);" +
+    'Expression': "PLAP[P0,L0,a0](P3);PLLP[P1,L1,L2,P3](P5);" +
         "PLLP[P3,L3,L4,P1](P6);PLLP[P1,L5,L6,P5](P8);PLLP[P6,L7,L8,P8](P9);" +
         "PLLP[P6,L9,L10,P9](P10)",
     'Graph': (
@@ -85,7 +85,7 @@ mechanismParams_BallLifter = {
     'Target': {'P13': None, 'P14': None},
     'Link_Expression': "ground[P0,P1,P2,P3,P4];[P0,P5];[P5,P7,P8];[P10,P5,P9];" +
         "[P1,P7];[P11,P13,P8];[P11,P2];[P3,P9];[P10,P12,P14];[P12,P4]",
-    'Expression': "PLAP[P0,L0,a0,P3](P5);PLLP[P1,L1,L2,P5](P7);" +
+    'Expression': "PLAP[P0,L0,a0](P5);PLLP[P1,L1,L2,P5](P7);" +
         "PLLP[P7,L3,L4,P5](P8);PLLP[P5,L5,L6,P3](P9);PLLP[P5,L7,L8,P9](P10);" +
         "PLLP[P8,L9,L10,P2](P11);PLLP[P4,L11,L12,P10](P12);" +
         "PLLP[P8,L13,L14,P11](P13);PLLP[P12,L15,L16,P10](P14)",

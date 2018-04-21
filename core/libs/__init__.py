@@ -26,7 +26,6 @@ from .pyslvs_topologic import (
     NumberSynthesis,
     topo,
     Graph,
-    graph_configure,
     vpoints_configure,
 )
 from .python_solvespace import (
@@ -51,7 +50,6 @@ __all__ = [
     'NumberSynthesis',
     'topo',
     'Graph',
-    'graph_configure',
     'vpoints_configure',
     'slvsProcess',
     'SlvsException',

@@ -555,7 +555,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 ))
                 self.CommandStack.endMacro()
     
-    def AddEmptyLinkGroup(self, linkcolor: Dict[str, str]):
+    def addEmptyLinkGroup(self, linkcolor: Dict[str, str]):
         """Use to add empty link when loading database."""
         for name, color in linkcolor.items():
             if name != 'ground':
@@ -945,6 +945,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def __toMultipleJoint(self, index: int, points: Tuple[int]):
         """Merge points into a multiple joint.
+        
         @index: The index of main joint in the sequence.
         """
         row = points[index]
@@ -954,26 +955,29 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 'Point{}'.format(row)
             )
         )
+        
         Links = lambda i: list(filter(
-            lambda a: a!='',
+            lambda a: a != '',
             self.Entities_Point.item(i, 1).text().split(',')
         ))
-        newLinks = Links(row)
+        
         for i, p in enumerate(points):
             if i == index:
                 continue
+            newLinks = Links(row)
             for l in Links(p):
+                #Add new links.
                 if l not in newLinks:
                     newLinks.append(l)
+            Args = list(self.Entities_Point.rowTexts(row, True))
+            Args[0] = ','.join(newLinks)
+            self.CommandStack.push(EditPointTable(
+                row,
+                self.Entities_Point,
+                self.Entities_Link,
+                Args
+            ))
             self.__deletePoint(p)
-        Args = list(self.Entities_Point.rowTexts(row, True))
-        Args[0] = ','.join(newLinks)
-        self.CommandStack.push(EditPointTable(
-            row,
-            self.Entities_Point,
-            self.Entities_Link,
-            Args
-        ))
         self.CommandStack.endMacro()
     
     def clonePoint(self):

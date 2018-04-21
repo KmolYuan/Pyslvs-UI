@@ -57,7 +57,7 @@ def convex_hull(points: Sequence[Tuple[float, float]]):
             0
         )
     
-    def _keep_left(
+    def keep_left(
         hull: Sequence[Tuple[float, float]],
         r: Tuple[float, float]
     ):
@@ -68,8 +68,8 @@ def convex_hull(points: Sequence[Tuple[float, float]]):
         return hull
     
     points = sorted(points)
-    l = reduce(_keep_left, points, [])
-    u = reduce(_keep_left, reversed(points), [])
+    l = reduce(keep_left, points, [])
+    u = reduce(keep_left, reversed(points), [])
     return [
         QPointF(x, y)
         for x, y in (l.extend(u[i] for i in range(1, len(u) - 1)) or l)
@@ -413,23 +413,28 @@ class PreviewCanvas(BaseCanvas):
     
     def __drawSolution(self, func: str, args: Tuple[str], target: str):
         """Draw the solution triangle."""
-        params = [args[0], args[-1]]
-        params.append(target)
         if func == 'PLLP':
             color = QColor(121, 171, 252)
-        else:
+            params = [args[0], args[-1]]
+        elif func == 'PLAP':
             color = QColor(249, 84, 216)
-        color.setAlpha(255)
+            params = [args[0]]
+        params.append(target)
         pen = QPen()
         pen.setColor(color)
         pen.setWidth(self.r)
         self.painter.setPen(pen)
-        for n in (0, 1):
+        
+        def drawArrow(n: int):
             x, y = self.pos[int(params[-1].replace('P', ''))]
             x2, y2 = self.pos[int(params[n].replace('P', ''))]
             self._BaseCanvas__drawArrow(
                 x*self.zoom, y*-self.zoom, x2*self.zoom, y2*-self.zoom
             )
+        
+        drawArrow(0)
+        if func == 'PLLP':
+            drawArrow(1)
         color.setAlpha(30)
         self.painter.setBrush(QBrush(color))
         qpoints = []

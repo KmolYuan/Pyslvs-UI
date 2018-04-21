@@ -32,9 +32,10 @@ from core.QtModules import (
 )
 from typing import (
     Sequence,
+    List,
     Dict,
     Tuple,
-    TypeVar
+    TypeVar,
 )
 table_data = TypeVar("table_data", str, int, float)
 
@@ -179,18 +180,20 @@ class EditPointTable(QUndoCommand):
         + Append the point that relate with these links.
         + Remove the point that irrelevant with these links.
         """
+        point_name = 'Point{}'.format(self.row)
         for row in items1:
             newPoints = self.LinkTable.item(row, 2).text().split(',')
-            newPoints.append('Point{}'.format(self.row))
-            item = QTableWidgetItem(','.join(noNoneString(newPoints)))
-            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            self.LinkTable.setItem(row, 2, item)
+            newPoints.append(point_name)
+            self.setCell(row, newPoints)
         for row in items2:
             newPoints = self.LinkTable.item(row, 2).text().split(',')
-            newPoints.remove('Point{}'.format(self.row))
-            item = QTableWidgetItem(','.join(noNoneString(newPoints)))
-            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            self.LinkTable.setItem(row, 2, item)
+            newPoints.remove(point_name)
+            self.setCell(row, newPoints)
+    
+    def setCell(self, row: int, points: List):
+        item = QTableWidgetItem(','.join(noNoneString(points)))
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        self.LinkTable.setItem(row, 2, item)
 
 class EditLinkTable(QUndoCommand):
     
@@ -271,16 +274,17 @@ class EditLinkTable(QUndoCommand):
         for row in items1:
             newLinks = self.PointTable.item(row, 1).text().split(',')
             newLinks.append(name)
-            item = QTableWidgetItem(','.join(noNoneString(newLinks)))
-            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            self.PointTable.setItem(row, 1, item)
+            self.setCell(row, newLinks)
         for row in items2:
             newLinks = self.PointTable.item(row, 1).text().split(',')
             if name:
                 newLinks.remove(name)
-            item = QTableWidgetItem(','.join(noNoneString(newLinks)))
-            item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            self.PointTable.setItem(row, 1, item)
+            self.setCell(row, newLinks)
+    
+    def setCell(self, row: int, links: List[str]):
+        item = QTableWidgetItem(','.join(noNoneString(links)))
+        item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
+        self.PointTable.setItem(row, 1, item)
 
 class AddPath(QUndoCommand):
     

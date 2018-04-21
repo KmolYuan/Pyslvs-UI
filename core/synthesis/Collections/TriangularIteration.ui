@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>456</width>
+    <width>427</width>
     <height>680</height>
    </rect>
   </property>
@@ -245,14 +245,14 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QLabel" name="Driver_label">
+              <widget class="QLabel" name="driver_label">
                <property name="text">
                 <string>Drivers:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="Driver_list">
+              <widget class="QListWidget" name="driver_list">
                <property name="statusTip">
                 <string>These joints will setup an revolute input. The number of them as same as DOF.</string>
                </property>
@@ -263,26 +263,20 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QPushButton" name="Driver_add">
-               <property name="maximumSize">
-                <size>
-                 <width>30</width>
-                 <height>16777215</height>
-                </size>
-               </property>
+              <widget class="QComboBox" name="driver_base"/>
+             </item>
+             <item>
+              <widget class="QComboBox" name="driver_rotator"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="driver_add">
                <property name="text">
                 <string>&lt;&lt;</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="Follower_add">
-               <property name="maximumSize">
-                <size>
-                 <width>30</width>
-                 <height>16777215</height>
-                </size>
-               </property>
+              <widget class="QPushButton" name="follower_add">
                <property name="text">
                 <string>&gt;&gt;</string>
                </property>
@@ -300,7 +294,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QListWidget" name="Follower_list">
+              <widget class="QListWidget" name="follower_list">
                <property name="statusTip">
                 <string>These joints are on the grounded link, the position of them will generate. So they are don't need to have a solution.</string>
                </property>
@@ -355,7 +349,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="Target_button">
+                <widget class="QPushButton" name="target_button">
                  <property name="text">
                   <string>Targets</string>
                  </property>
@@ -364,7 +358,7 @@
               </layout>
              </item>
              <item>
-              <widget class="QListWidget" name="Target_list">
+              <widget class="QListWidget" name="target_list">
                <property name="statusTip">
                 <string>Target points will match as the target path of dimensional synthesis.</string>
                </property>
@@ -431,7 +425,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="Expression_auto">
+                <widget class="QPushButton" name="expression_auto">
                  <property name="statusTip">
                   <string>Auto configure solutions.</string>
                  </property>
@@ -446,7 +440,7 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_8">
                <item>
-                <widget class="QListWidget" name="Expression_list">
+                <widget class="QListWidget" name="expression_list">
                  <property name="statusTip">
                   <string>Solutions to find all the positions of joints.</string>
                  </property>
@@ -455,7 +449,7 @@
                <item>
                 <layout class="QVBoxLayout" name="verticalLayout_9">
                  <item>
-                  <widget class="QPushButton" name="Expression_clear">
+                  <widget class="QPushButton" name="expression_clear">
                    <property name="statusTip">
                     <string>Clear all the solutions.</string>
                    </property>
@@ -479,7 +473,7 @@
                   </spacer>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="Expression_pop">
+                  <widget class="QPushButton" name="expression_pop">
                    <property name="statusTip">
                     <string>Remove the last solution.</string>
                    </property>
@@ -504,14 +498,14 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QLabel" name="Link_Expression_label">
+            <widget class="QLabel" name="link_expression_label">
              <property name="text">
               <string>Link expression:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="Link_Expression">
+            <widget class="QLineEdit" name="link_expr_show">
              <property name="statusTip">
               <string>Link relative expression.</string>
              </property>
@@ -525,14 +519,14 @@
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
-            <widget class="QLabel" name="Expression_label">
+            <widget class="QLabel" name="expression_label">
              <property name="text">
               <string>Expression:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="Expression">
+            <widget class="QLineEdit" name="expr_show">
              <property name="statusTip">
               <string>Triangular iteration expression.</string>
              </property>

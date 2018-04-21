@@ -171,7 +171,7 @@ class FileWidget(QWidget, Ui_Form):
         + Call after loaded paths.
         """
         self.isSavedFunc = parent.workbookSaved
-        self.linkGroupFunc = parent.AddEmptyLinkGroup
+        self.linkGroupFunc = parent.addEmptyLinkGroup
         self.parseFunc = parent.parseExpression
         self.clearFunc = parent.clear
         self.loadStorageFunc = parent.loadStorage

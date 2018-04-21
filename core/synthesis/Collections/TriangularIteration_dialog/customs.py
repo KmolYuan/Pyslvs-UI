@@ -81,7 +81,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     def on_delete_button_clicked(self):
         """Remove a custom joint."""
         row = self.custom_list.currentRow()
-        if not row>-1:
+        if not row > -1:
             return
         name = self.custom_list.item(row).text().split(" -> ")[0]
         num = int(name.replace('P', ''))
@@ -132,7 +132,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     def on_delete_mj_button_clicked(self):
         """Remove a multiple joint."""
         row = self.multiple_list.currentRow()
-        if not row>-1:
+        if not row > -1:
             return
         name = self.multiple_list.item(row).text().split(" -> ")[0]
         joint = int(name.replace('P', ''))

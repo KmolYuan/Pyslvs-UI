@@ -8,6 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
+    Qt,
     pyqtSignal,
     QWidget,
     pyqtSlot,
@@ -19,7 +20,7 @@ from core.QtModules import (
 )
 from core.graphics import PreviewCanvas, edges_view
 from core.io import get_from_parenthesis, get_front_of_parenthesis
-from core.libs import graph_configure
+from core.libs import vpoints_configure, VPoint
 import pprint
 from math import hypot
 from networkx import Graph
@@ -87,8 +88,6 @@ class PreviewWindow(PreviewCanvas):
             self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
         self.update()
 
-warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
-
 class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     """Triangular iteration widget."""
@@ -104,8 +103,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         #Canvas
         self.PreviewWindow = PreviewWindow(
             lambda: tuple(
-                self.Expression_list.item(row).text()
-                for row in range(self.Expression_list.count())
+                self.expression_list.item(row).text()
+                for row in range(self.expression_list.count())
             ),
             self
         )
@@ -116,7 +115,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.show_solutions.clicked.connect(self.PreviewWindow.setShowSolutions)
         #Signals
         self.joint_name.currentIndexChanged.connect(self.__hasSolution)
-        self.Expression_list.itemChanged.connect(self.__setParmBind)
+        self.expression_list.itemChanged.connect(self.__setParmBind)
         self.clear()
     
     def addCollections(self, collections: Dict[str, Dict[str, Any]]):
@@ -133,18 +132,18 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.profile_name = ""
         self.PreviewWindow.clear()
         self.joint_name.clear()
-        self.Expression_list.clear()
+        self.expression_list.clear()
         self.grounded_list.clear()
-        self.Driver_list.clear()
-        self.Follower_list.clear()
-        self.Target_list.clear()
+        self.driver_list.clear()
+        self.follower_list.clear()
+        self.target_list.clear()
         self.constraint_list.clear()
-        self.Link_Expression.clear()
-        self.Expression.clear()
+        self.link_expr_show.clear()
+        self.expr_show.clear()
         for label in [
             self.Expression_list_label,
             self.grounded_label,
-            self.Driver_label,
+            self.driver_label,
             self.Follower_label,
             self.Target_label
         ]:
@@ -164,6 +163,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     def __setWarning(self, label: QLabel, warning: bool):
         """Show a warning sign front of label."""
+        warning_icon = "<img width=\"15\" src=\":/icons/warning.png\"/> "
         label.setText(label.text().replace(warning_icon, ''))
         if warning:
             label.setText(warning_icon + label.text())
@@ -181,18 +181,17 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         """Set the graph to preview canvas."""
         self.clear()
         self.PreviewWindow.setGraph(G, pos)
-        joints = dict(edges_view(G))
+        ev = dict(edges_view(G))
         joints_count = set()
-        for links in joints.values():
-            for link in links:
-                joints_count.add(link)
-        grounds = [[] for i in range(len(joints_count))]
-        for joint, link in joints.items():
+        for l1, l2 in ev.values():
+            joints_count.update({l1, l2})
+        links = [[] for i in range(len(joints_count))]
+        for joint, link in ev.items():
             for node in link:
-                grounds[node].append(joint)
-        for ground in grounds:
+                links[node].append(joint)
+        for link in links:
             self.grounded_list.addItem("({})".format(", ".join(
-                'P{}'.format(node) for node in ground
+                'P{}'.format(node) for node in link
             )))
         #Point name as (P1, P2, P3, ...).
         for node in pos:
@@ -201,23 +200,92 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot(int)
     def on_grounded_list_currentRowChanged(self, row):
         """Change current grounded linkage."""
-        self.__setWarning(self.grounded_label, not row>-1)
+        has_choose = row > -1
+        self.__setWarning(self.grounded_label, not has_choose)
         self.PreviewWindow.setGrounded(row)
         self.__hasSolution()
-        self.Expression_list.clear()
-        self.Expression.clear()
-        self.Follower_list.clear()
-        self.Driver_list.clear()
-        if row > -1:
-            self.Follower_list.addItems(
+        self.expression_list.clear()
+        self.expr_show.clear()
+        self.follower_list.clear()
+        self.driver_list.clear()
+        self.driver_base.clear()
+        self.driver_rotator.clear()
+        if has_choose:
+            items = (
                 self.grounded_list.currentItem().text()
                 .replace('(', '')
                 .replace(')', '')
                 .split(", ")
             )
-        self.__setWarning(self.Follower_label, not row>-1)
-        self.__setWarning(self.Driver_label, True)
+            self.follower_list.addItems(items)
+            self.driver_base.addItems(items)
+        self.__setWarning(self.Follower_label, not has_choose)
+        self.__setWarning(self.driver_label, True)
         self.__setWarning(self.Expression_list_label, True)
+    
+    @pyqtSlot(str)
+    def on_driver_base_currentIndexChanged(self, name):
+        self.driver_rotator.clear()
+        if not name:
+            return
+        
+        def find_friends(node: int):
+            """Find all the nodes that are same link with input node."""
+            ev = dict(edges_view(self.PreviewWindow.G))
+            link = set(ev[node])
+            tmp_list = []
+            for node_, link_ in ev.items():
+                if node_ == node:
+                    continue
+                if set(link_) & link:
+                    tmp_list.append('P{}'.format(node_))
+            return tmp_list
+        
+        self.driver_rotator.addItems(find_friends(int(name.replace('P', ''))))
+    
+    @pyqtSlot()
+    def on_driver_add_clicked(self):
+        """Add a driver joint."""
+        d1 = self.driver_base.currentText()
+        d2 = self.driver_rotator.currentText()
+        if not (d1 and d2):
+            return
+        d1_d2 = "({}, {})".format(d1, d2)
+        for n in list_texts(self.driver_list):
+            if n == d1_d2:
+                return
+        self.__find_follower_to_remove(d1)
+        self.driver_list.addItem(d1_d2)
+        self.PreviewWindow.setDriver([
+            eval(n.replace('P', ''))[0] for n in list_texts(self.driver_list)
+        ])
+        self.__setWarning(self.driver_label, False)
+    
+    @pyqtSlot()
+    def on_follower_add_clicked(self):
+        """Add a follower joint."""
+        row = self.driver_list.currentRow()
+        if not row > -1:
+            return
+        if not self.on_expression_clear_clicked():
+            return
+        d1_d2 = self.driver_list.item(row).text()
+        d1, d2 = eval(d1_d2.replace('P', ''))
+        self.__find_follower_to_add('P{}'.format(d1))
+        self.driver_list.takeItem(row)
+        self.__setWarning(self.driver_label, not self.driver_list.count())
+    
+    def __find_follower_to_remove(self, name: str):
+        """Remove node if it is in the list."""
+        finds = self.follower_list.findItems(name, Qt.MatchExactly)
+        for d in finds:
+            self.follower_list.takeItem(self.follower_list.row(d))
+    
+    def __find_follower_to_add(self, name: str):
+        """Add name if it is not in the list."""
+        if self.follower_list.findItems(name, Qt.MatchExactly):
+            return
+        self.follower_list.addItem(name)
     
     @pyqtSlot(int)
     def __hasSolution(self, index=None):
@@ -236,7 +304,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             status_str = "Same as P{}.".format(self.PreviewWindow.same[index])
         else:
             status_str = "Grounded."
-            for expr in list_texts(self.Expression_list):
+            for expr in list_texts(self.expression_list):
                 if index == int(
                     get_from_parenthesis(expr, '(', ')')
                     .replace('P', '')
@@ -256,52 +324,34 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         dlg.exec_()
         self.PreviewWindow.update()
     
-    @pyqtSlot()
-    def on_Driver_add_clicked(self):
-        """Add a driver joint."""
-        row = self.Follower_list.currentRow()
-        if not row>-1:
-            return
-        self.Driver_list.addItem(self.Follower_list.takeItem(row))
-        self.PreviewWindow.setDriver([
-            int(n.replace('P', '')) for n in list_texts(self.Driver_list)
-        ])
-        self.__setWarning(self.Driver_label, False)
-    
-    @pyqtSlot()
-    def on_Follower_add_clicked(self):
-        """Add a follower joint."""
-        row = self.Driver_list.currentRow()
-        if not row>-1:
-            return
-        self.Follower_list.addItem(self.Driver_list.takeItem(row))
-        self.__setWarning(self.Driver_label, not bool(self.Driver_list.count()))
-    
     def __getCurrentMechanismParams(self) -> Dict[str, Any]:
         """Get the current mechanism parameters."""
         self.__setParmBind()
         return {
             #To keep the origin graph.
-            'Graph':tuple(self.PreviewWindow.G.edges),
+            'Graph': tuple(self.PreviewWindow.G.edges),
             #To keep the position of points.
-            'pos':self.PreviewWindow.pos.copy(),
-            'cus':self.PreviewWindow.cus.copy(),
-            'same':self.PreviewWindow.same.copy(),
+            'pos': self.PreviewWindow.pos.copy(),
+            'cus': self.PreviewWindow.cus.copy(),
+            'same': self.PreviewWindow.same.copy(),
             #Mechanism params.
-            'Driver':{
-                s: None for s in list_texts(self.Driver_list)
+            'Driver': {
+                s.split(',')[0][1:]: None for s in list_texts(self.driver_list)
                 if not self.PreviewWindow.isMultiple(s)
             },
-            'Follower':{
-                s: None for s in list_texts(self.Follower_list)
+            'Follower': {
+                s: None for s in list_texts(self.follower_list)
                 if not self.PreviewWindow.isMultiple(s)
             },
-            'Target':{
-                s: None for s in list_texts(self.Target_list)
+            'Target': {
+                s: None for s in list_texts(self.target_list)
             },
-            'Link_Expression':self.Link_Expression.text(),
-            'Expression':self.Expression.text(),
-            'constraint':[tuple(s.split(", ")) for s in list_texts(self.constraint_list)],
+            'Link_Expression': self.link_expr_show.text(),
+            'Expression': self.expr_show.text(),
+            'constraint': [
+                tuple(s.split(", "))
+                for s in list_texts(self.constraint_list)
+            ],
         }
     
     @pyqtSlot()
@@ -319,23 +369,27 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.cus = params['cus']
         self.PreviewWindow.same = params['same']
         #Grounded setting.
-        Driver = set(params['Driver'])
-        Follower = set(params['Follower'])
+        drivers = set(params['Driver'])
+        followers = set(params['Follower'])
         for row, link in enumerate(G.nodes):
             points = set(
                 'P{}'.format(n)
                 for n, edge in edges_view(G) if link in edge
             )
-            if (Driver | Follower) <= points:
+            if (drivers | followers) <= points:
                 self.grounded_list.setCurrentRow(row)
                 break
         #Driver, Follower, Target
-        for row in reversed(range(self.Follower_list.count())):
-            if self.Follower_list.item(row).text() in Driver:
-                self.Follower_list.setCurrentRow(row)
-                self.Driver_add.click()
-        self.Target_list.addItems(list(params['Target']))
-        self.__setWarning(self.Target_label, not self.Target_list.count() > 0)
+        for expr in params['Expression'].split(';'):
+            if get_front_of_parenthesis(expr, '[') != 'PLAP':
+                continue
+            base = get_from_parenthesis(expr, '[', ']').split(',')[0]
+            self.__find_follower_to_remove(base)
+            rotator = get_from_parenthesis(expr, '(', ')')
+            self.driver_list.addItem("({}, {})".format(base, rotator))
+        self.__setWarning(self.driver_label, not self.driver_list.count())
+        self.target_list.addItems(list(params['Target']))
+        self.__setWarning(self.Target_label, not self.target_list.count() > 0)
         #Constraints
         self.constraint_list.addItems([
             ", ".join(c) for c in params['constraint']
@@ -343,7 +397,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         #Expression
         for expr in params['Expression'].split(';'):
             item = QListWidgetItem()
-            self.Expression_list.addItem(item)
+            self.expression_list.addItem(item)
             item.setText(expr)
             self.PreviewWindow.setStatus(get_from_parenthesis(expr, '(', ')'), True)
         self.__setWarning(
@@ -363,21 +417,21 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.constraint_list.addItem(constraint)
     
     @pyqtSlot()
-    def on_Target_button_clicked(self):
+    def on_target_button_clicked(self):
         """Show up target joints dialog."""
         dlg = TargetsDialog(self)
         dlg.show()
         if not dlg.exec_():
             return
-        self.Target_list.clear()
+        self.target_list.clear()
         for target in list_texts(dlg.targets_list):
-            self.Target_list.addItem(target)
-        self.__setWarning(self.Target_label, not self.Target_list.count()>0)
+            self.target_list.addItem(target)
+        self.__setWarning(self.Target_label, not self.target_list.count()>0)
     
     def __symbols(self) -> Set[List[str]]:
         """Return all symbols."""
         expr_list = set([])
-        for expr in self.Expression.text().split(';'):
+        for expr in self.expr_show.text().split(';'):
             param_list = get_from_parenthesis(expr, '[', ']').split(',')
             param_list.append(get_from_parenthesis(expr, '(', ')'))
             expr_list.update(param_list)
@@ -404,7 +458,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             dlg.point_A.currentText(),
             'L{}'.format(self.__getParam()),
             'a{}'.format(self.__getParam(angle=True)),
-            dlg.point_B.currentText(),
             point
         )
     
@@ -429,7 +482,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     def __addSolution(self, *expr: Tuple[str]):
         """Add a solution."""
         item = QListWidgetItem()
-        self.Expression_list.addItem(item)
+        self.expression_list.addItem(item)
         item.setText("{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1]))
         self.PreviewWindow.setStatus(expr[-1], True)
         self.__hasSolution()
@@ -441,7 +494,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot(QListWidgetItem)
     def __setParmBind(self, item=None):
         """Set parameters binding."""
-        self.Expression.setText(';'.join(list_texts(self.Expression_list)))
+        self.expr_show.setText(';'.join(list_texts(self.expression_list)))
         link_expr_list = []
         for row, gs in list_texts(self.grounded_list, True):
             try:
@@ -465,15 +518,15 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                     link_expr_list.insert(0, link_expr_str)
                 else:
                     link_expr_list.append(link_expr_str)
-        self.Link_Expression.setText(';'.join(
+        self.link_expr_show.setText(';'.join(
             ('ground' if i==0 else '') + "[{}]".format(link)
             for i, link in enumerate(link_expr_list)
         ))
     
     @pyqtSlot()
-    def on_Expression_auto_clicked(self):
+    def on_expression_auto_clicked(self):
         """Auto configure the solutions."""
-        if not self.Driver_list.count():
+        if not self.driver_list.count():
             QMessageBox.information(self,
                 "Auto configure",
                 "Please setting the driver joint(s)."
@@ -487,20 +540,65 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         )
         if (
             (reply != QMessageBox.Yes) or
-            (not self.on_Expression_clear_clicked())
+            (not self.on_expression_clear_clicked())
         ):
             return
-        exprs = graph_configure(
-            self.PreviewWindow.G,
-            self.PreviewWindow.status,
-            self.PreviewWindow.pos,
-            [item.text() for item in list_items(self.Driver_list)],
-            self.PreviewWindow.cus,
-            self.PreviewWindow.same,
+        
+        def graph2vpoints(
+            G: Graph,
+            pos: Dict[int, Tuple[float, float]],
+            cus: Dict[str, int],
+            same: Dict[int, int]
+        ) -> Tuple[VPoint]:
+            """TODO: Change Networkx graph into VPoints."""
+            same_r = {}
+            for k, v in same.items():
+                if k in same_r:
+                    same_r[k].append(v)
+                else:
+                    same_r[k] = [v]
+            tmp_list = []
+            ev = dict(edges_view(G))
+            for i, e in ev.items():
+                if i in same:
+                    continue
+                e = list(e)
+                if i in same_r:
+                    for j in same_r[i]:
+                        for link in ev[j]:
+                            if link not in e:
+                                e.append(link)
+                tmp_list.append(VPoint(
+                    ", ".join((str(l) if (l != 0) else 'ground') for l in e),
+                    0,
+                    0.,
+                    'Green',
+                    *pos[i]
+                ))
+            for name in sorted(cus):
+                tmp_list.append(VPoint(
+                    str(cus[name]) if (cus[name] != 0) else 'ground',
+                    0,
+                    0.,
+                    'Green',
+                    *pos[int(name.replace('P', ''))]
+                ))
+            return tmp_list
+        
+        exprs = vpoints_configure(
+            graph2vpoints(
+                self.PreviewWindow.G,
+                self.PreviewWindow.pos,
+                self.PreviewWindow.cus,
+                self.PreviewWindow.same
+            ),
+            [eval(item.text().replace('P', ''))
+                for item in list_items(self.driver_list)],
+            self.PreviewWindow.status
         )
         for expr in exprs:
             item = QListWidgetItem()
-            self.Expression_list.addItem(item)
+            self.expression_list.addItem(item)
             item.setText(
                 "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
             )
@@ -512,13 +610,13 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.PreviewWindow.update()
     
     @pyqtSlot()
-    def on_Expression_pop_clicked(self):
+    def on_expression_pop_clicked(self):
         """Remove the last solution."""
-        count = self.Expression_list.count()
+        count = self.expression_list.count()
         if not count:
             return
-        expr = self.Expression_list.item(count-1).text()
-        self.Expression_list.takeItem(count-1)
+        expr = self.expression_list.item(count-1).text()
+        self.expression_list.takeItem(count-1)
         self.PreviewWindow.setStatus(
             get_from_parenthesis(expr, '(', ')'),
             False
@@ -526,9 +624,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.__setParmBind()
     
     @pyqtSlot()
-    def on_Expression_clear_clicked(self) -> bool:
+    def on_expression_clear_clicked(self) -> bool:
         """Clear the solutions. Return true if success."""
-        if not self.Expression_list.count():
+        if not self.expression_list.count():
             return True
         reply = QMessageBox.question(self,
             "Clear the solutions",
@@ -537,8 +635,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if reply != QMessageBox.Yes:
             return False
         self.PreviewWindow.setGrounded(self.grounded_list.currentRow())
-        self.Expression_list.clear()
-        self.Expression.clear()
+        self.expression_list.clear()
+        self.expr_show.clear()
         self.__hasSolution()
         return True
     

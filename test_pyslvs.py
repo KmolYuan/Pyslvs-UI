@@ -111,10 +111,10 @@ class LibsTest(TestCase):
             13: (-109.41, -49.41),
             14: (44.12, 107.65)
         }
-        Driver_list = ['P0']
+        driver_list = ['P0']
         cus = {'P10': 7}
         same = {2: 1, 4: 3, 7: 6}
-        expr = graph_configure(G, status, pos, Driver_list, cus, same)
+        expr = graph_configure(G, status, pos, driver_list, cus, same)
         self.assertEqual(len(expr), 6)
         for i, e in enumerate(expr):
             if i == 0:

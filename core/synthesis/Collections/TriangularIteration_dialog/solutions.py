@@ -30,14 +30,15 @@ class SolutionsDialog(QDialog, Ui_Dialog):
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("{} solution".format(mode))
-        if mode=='PLAP':
+        if mode == 'PLAP':
             self.main_label.setText(
                 "Two known points A (Driver) and B, " +
                 "with angle β and length L0 to find out the coordinate of point C."
             )
-            for row in range(parent.Driver_list.count()):
-                self.point_A.addItem(parent.Driver_list.item(row).text())
-        elif mode=='PLLP':
+            for row in range(parent.driver_list.count()):
+                self.point_A.addItem(parent.driver_list.item(row).text())
+            self.point_B.setEnable(False)
+        elif mode == 'PLLP':
             self.main_label.setText(
                 "Two known points A and B, " +
                 "with length L0 and R0 to find out the coordinate of point C."
@@ -50,7 +51,7 @@ class SolutionsDialog(QDialog, Ui_Dialog):
                 continue
             if mode=='PLLP':
                 self.point_A.addItem('P{}'.format(node))
-            self.point_B.addItem('P{}'.format(node))
+                self.point_B.addItem('P{}'.format(node))
         self.point_A.currentIndexChanged.connect(self.__isOk)
         self.point_B.currentIndexChanged.connect(self.__isOk)
         self.__isOk()

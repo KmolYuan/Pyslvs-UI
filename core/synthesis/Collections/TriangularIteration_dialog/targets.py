@@ -48,7 +48,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
                     .split(", ")
                 )):
                     self.other_list.addItem(text)
-        target_list = [text for text in list_texts(parent.Target_list)]
+        target_list = [text for text in list_texts(parent.target_list)]
         for row, text in list_texts(self.other_list, True):
             if text in target_list:
                 self.targets_list.addItem(self.other_list.takeItem(row))
