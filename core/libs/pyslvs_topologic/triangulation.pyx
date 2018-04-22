@@ -152,6 +152,13 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
         elif vpoints[node].type == 2:
             """RP joint."""
             f1 = get_base_friend(node, vpoints, vlinks, status)
+            #Copy as 'friend_c'.
+            friend_c = node
+            #'S' point.
+            tmp_x, tmp_y = pos[node]
+            angle = np.deg2rad(vpoints[node].angle)
+            tmp_x += cos(angle)
+            tmp_y += sin(angle)
             try:
                 friend_a = next(get_notbase_friend(node, vpoints, vlinks, status))
                 friend_b = next(f1)
@@ -188,14 +195,6 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
                 + A 'friend' from other link.
                 + Solving.
                 """
-                #Copy as 'friend_c'.
-                friend_c = node
-                #'S' point.
-                tmp_x, tmp_y = pos[node]
-                angle = np.deg2rad(vpoints[node].angle)
-                tmp_x += cos(angle)
-                tmp_y += sin(angle)
-                
                 if not clockwise(
                     pos[friend_b],
                     (tmp_x, tmp_y),
