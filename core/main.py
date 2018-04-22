@@ -40,7 +40,7 @@ from core.io import (
     XStream,
     PMKS_parser,
     PMKSArgsTransformer,
-    get_from_parenthesis,
+    from_parenthesis,
 )
 from core.widgets import initCustomWidgets
 from core.entities import EditPoint_show, EditLink_show
@@ -656,7 +656,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def outputTo(self, formatName: str, formatChoose: List[str]):
         """Simple to support mutiple format."""
-        suffix0 = get_from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
+        suffix0 = from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
         fileName, suffix = QFileDialog.getSaveFileName(
             self,
             "Save to {}...".format(formatName),
@@ -664,7 +664,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             ';;'.join(formatChoose)
         )
         if fileName:
-            suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
+            suffix = from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Format: {}".format(suffix))
             if QFileInfo(fileName).suffix()!=suffix[1:]:
                 fileName += suffix
@@ -700,7 +700,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             fileName_s, suffix = QFileDialog.getOpenFileName(self, *args)
         if fileName_s:
-            suffix = get_from_parenthesis(suffix, '(', ')').split('*')[-1]
+            suffix = from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Format: {}".format(suffix))
             if type(fileName_s)==str:
                 self.__setLocate(QFileInfo(fileName_s).absolutePath())
@@ -1305,7 +1305,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in Result['Link_Expression'].split(';'):
-            for name in get_from_parenthesis(exp, '[', ']').split(','):
+            for name in from_parenthesis(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
         self.CommandStack.beginMacro(
@@ -1321,7 +1321,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i, exp in enumerate(Result['Link_Expression'].split(';')):
             self.__addNormalLink(
                 tmp_dict[name]
-                for name in get_from_parenthesis(exp, '[', ']').split(',')
+                for name in from_parenthesis(exp, '[', ']').split(',')
             )
             if i==0:
                 self.constrainLink(self.Entities_Link.rowCount()-1)

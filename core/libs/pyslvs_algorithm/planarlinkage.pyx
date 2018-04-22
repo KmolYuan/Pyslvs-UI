@@ -20,10 +20,10 @@ cimport numpy as np
 #Large fitness
 cdef double FAILURE = 9487945
 
-cdef str get_from_parenthesis(str s, str front, str back):
+cdef str from_parenthesis(str s, str front, str back):
     return s[s.find(front)+1:s.find(back)]
 
-cdef str get_front_of_parenthesis(str s, str front):
+cdef str front_of_parenthesis(str s, str front):
     return s[:s.find(front)]
 
 cdef list path_error(list path, tuple target):
@@ -102,12 +102,12 @@ cdef class build_planar:
         self.follower_list = []
         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
         for i, expr in enumerate(ExpressionL):
-            params = get_from_parenthesis(expr, '[', ']')
+            params = from_parenthesis(expr, '[', ']')
             self.exprs[i] = (
                 #[0]: relate
-                get_front_of_parenthesis(expr, '['),
+                front_of_parenthesis(expr, '['),
                 #[1]: target
-                get_from_parenthesis(expr, '(', ')'),
+                from_parenthesis(expr, '(', ')'),
                 #[2]: params
                 params.split(',')
             )

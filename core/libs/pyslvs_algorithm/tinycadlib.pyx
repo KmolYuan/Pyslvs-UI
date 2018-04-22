@@ -299,11 +299,11 @@ cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordina
         (driver + ground <= connector + follower)
     )
 
-cdef inline str get_from_parenthesis(str s, str front, str back):
+cdef inline str from_parenthesis(str s, str front, str back):
     """Get the string that is inside of parenthesis."""
     return s[s.find(front)+1:s.find(back)]
 
-cdef inline str get_front_of_parenthesis(str s, str front):
+cdef inline str front_of_parenthesis(str s, str front):
     """Get the string that is front of parenthesis."""
     return s[:s.find(front)]
 
@@ -320,9 +320,9 @@ cpdef void expr_parser(str exprs, dict data_dict):
     cdef object p
     cdef list args
     for expr in exprs.split(';'):
-        f = get_front_of_parenthesis(expr, '[')
-        params = get_from_parenthesis(expr, '[', ']').split(',')
-        target = get_from_parenthesis(expr, '(', ')')
+        f = front_of_parenthesis(expr, '[')
+        params = from_parenthesis(expr, '[', ']').split(',')
+        target = from_parenthesis(expr, '(', ')')
         args = []
         for name in params:
             if name == 'T':

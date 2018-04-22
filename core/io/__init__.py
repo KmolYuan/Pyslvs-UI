@@ -25,8 +25,8 @@ from .larkParser import (
     PMKSArgsTransformer,
     triangle_expr,
     triangle_class,
-    get_from_parenthesis,
-    get_front_of_parenthesis,
+    from_parenthesis,
+    front_of_parenthesis,
 )
 from .peeweeIO import FileWidget
 
@@ -53,7 +53,7 @@ __all__ = [
     'PMKSArgsTransformer',
     'triangle_expr',
     'triangle_class',
-    'get_from_parenthesis',
-    'get_front_of_parenthesis',
+    'from_parenthesis',
+    'front_of_parenthesis',
     'FileWidget'
 ]

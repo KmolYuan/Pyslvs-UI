@@ -21,7 +21,7 @@ from core.graphics import (
     BaseCanvas,
     colorQt
 )
-from core.io import get_from_parenthesis, triangle_expr
+from core.io import from_parenthesis, triangle_expr
 from math import isnan
 from typing import Tuple
 from .Ui_preview import Ui_Dialog
@@ -41,7 +41,7 @@ class DynamicCanvas(BaseCanvas):
         self.exp_symbol = []
         self.links = []
         for exp in self.mechanism['Link_Expression'].split(';'):
-            tags = get_from_parenthesis(exp, '[', ']').split(',')
+            tags = from_parenthesis(exp, '[', ']').split(',')
             self.links.append(tuple(tags))
             for name in tags:
                 if name not in self.exp_symbol:
