@@ -164,25 +164,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         row = self.Entities_Point.currentRow()
         #If connecting with the ground.
         if selectionCount:
-            fixed = all(
+            self.action_point_context_lock.setChecked(all(
                 'ground' in self.Entities_Point.item(row, 1).text()
                 for row in self.Entities_Point.selectedRows()
-            )
-            self.action_point_context_lock.setChecked(fixed)
+            ))
         #If no any points selected.
         for action in (
             self.action_point_context_add,
             self.action_canvas_context_add,
-            self.action_canvas_context_fix_add
+            self.action_canvas_context_fix_add,
         ):
-            action.setVisible(selectionCount<=0)
-        self.action_point_context_lock.setVisible(row>-1)
-        self.action_point_context_delete.setVisible(row>-1)
+            action.setVisible(selectionCount <= 0)
+        self.action_point_context_lock.setVisible(row > -1)
+        self.action_point_context_delete.setVisible(row > -1)
         #If a point selected.
         for action in (
             self.action_point_context_edit,
             self.action_point_context_copyPoint,
-            self.action_point_context_copydata
+            self.action_point_context_copydata,
+            self.action_point_context_copyCoord,
         ):
             action.setVisible(row > -1)
             action.setEnabled(selectionCount == 1)
@@ -246,6 +246,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         text = table.currentItem().text()
         if text:
             QApplication.clipboard().setText(text)
+    
+    def copyCoord(self):
+        """Copy the current coordinate of the point."""
+        pos = self.Entities_Point.currentPosition(self.Entities_Point.currentRow())
+        text = str(pos[0] if (len(pos) == 1) else pos)
+        QApplication.clipboard().setText(text)
     
     def closeEvent(self, event):
         """Close event to avoid user close the window accidentally."""

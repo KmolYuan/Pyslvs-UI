@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
-"""The custom widgets of main window."""
+"""The custom widgets of main window.
+
++ Sub eidgets.
++ Context menus.
+"""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -35,11 +39,11 @@ from .inputs import InputsWidget
 
 def initCustomWidgets(self):
     """Start up custom widgets."""
-    undo_redo(self)
-    appearance(self)
-    context_menu(self)
+    __undo_redo(self)
+    __appearance(self)
+    __context_menu(self)
 
-def undo_redo(self):
+def __undo_redo(self):
     """Undo list settings.
     
     + Undo stack.
@@ -63,7 +67,7 @@ def undo_redo(self):
     self.menu_Edit.addAction(self.action_Undo)
     self.menu_Edit.addAction(self.action_Redo)
 
-def appearance(self):
+def __appearance(self):
     """Start up and initialize custom widgets."""
     #Version label
     self.version_label.setText("v{}.{}.{} ({})".format(*VERSION))
@@ -315,10 +319,12 @@ def appearance(self):
     Zoom_menu.addAction(action)
     self.ZoomText.setMenu(Zoom_menu)
 
-def context_menu(self):
+def __context_menu(self):
     '''Entities_Point context menu
     
     + Add
+    ///////
+    + New Linkage
     + Edit
     + Fixed [v]
     + Multiple joint
@@ -357,6 +363,9 @@ def context_menu(self):
     self.action_point_context_copydata = QAction("&Copy table data", self)
     self.action_point_context_copydata.triggered.connect(self.copyPointsTable)
     self.popMenu_point.addAction(self.action_point_context_copydata)
+    self.action_point_context_copyCoord = QAction("&Copy coordinate", self)
+    self.action_point_context_copyCoord.triggered.connect(self.copyCoord)
+    self.popMenu_point.addAction(self.action_point_context_copyCoord)
     self.action_point_context_copyPoint = QAction("C&lone", self)
     self.action_point_context_copyPoint.triggered.connect(self.clonePoint)
     self.popMenu_point.addAction(self.action_point_context_copyPoint)
@@ -408,6 +417,8 @@ def context_menu(self):
     '''DynamicCanvasView context menu
     
     + Add
+    ///////
+    + New Linkage
     + Add [fixed]
     + Add [target path]
     ///////
@@ -418,6 +429,7 @@ def context_menu(self):
       - Point1
       - ...
     + Clone
+    + Copy coordinate
     -------
     + Delete
     '''
@@ -446,6 +458,7 @@ def context_menu(self):
     self.popMenu_canvas.addAction(self.action_point_context_edit)
     self.popMenu_canvas.addAction(self.action_point_context_lock)
     self.popMenu_canvas.addMenu(self.popMenu_point_merge)
+    self.popMenu_canvas.addAction(self.action_point_context_copyCoord)
     self.popMenu_canvas.addAction(self.action_point_context_copyPoint)
     self.popMenu_canvas.addSeparator()
     self.popMenu_canvas.addAction(self.action_point_context_delete)

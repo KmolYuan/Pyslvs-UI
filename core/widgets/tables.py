@@ -116,7 +116,7 @@ class PointTableWidget(BaseTableWidget):
                 angle = float(Type[1])
                 Type = {'P':1, 'RP':2}[Type[0]]
             vpoint = VPoint(Links, Type, angle, color, x, y, colorQt)
-            vpoint.move(*self.__currentPosition(row))
+            vpoint.move(*self.currentPosition(row))
             return vpoint
         if index==-1:
             data = []
@@ -146,7 +146,7 @@ class PointTableWidget(BaseTableWidget):
         for j in range(row, self.rowCount()):
             self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
     
-    def __currentPosition(self, row: int) -> List[Tuple[float, float]]:
+    def currentPosition(self, row: int) -> List[Tuple[float, float]]:
         """Get the current coordinate from a point."""
         Type = self.item(row, 2).text().split(':')
         coords = eval("[{}]".format(self.item(row, 6).text().replace(';', ',')))

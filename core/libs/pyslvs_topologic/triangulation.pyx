@@ -26,10 +26,6 @@ cdef inline bool clockwise(tuple c1, tuple c2, tuple c3):
     cdef int val = (c2[1] - c1[1])*(c3[0] - c2[0]) - (c2[0] - c1[0])*(c3[1] - c2[1])
     return (val == 0) or (val > 0)
 
-cdef inline tuple pos(int node, object vpoints):
-    """Get position from VPoint."""
-    return (vpoints[node].cx, vpoints[node].cy)
-
 def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
     """Return a generator yield the nodes that has solution on the same link."""
     cdef str link
@@ -66,9 +62,13 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
     Data:
     status: Dict[int, bool]
     """
+    cdef object vpoint
+    cdef list pos = []
+    for vpoint in vpoints:
+        pos.append(vpoint.c[0] if (vpoint.type == 0) else vpoint.c[1])
+    
     cdef dict vlinks = {}
     cdef int node
-    cdef object vpoint
     cdef str link
     for node, vpoint in enumerate(vpoints):
         status[node] = False
@@ -100,7 +100,7 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
         status[node] = True
         link_symbol += 1
         angle_symbol += 1
-    #PLLP
+    #PLLP, PLPP
     node = 0
     cdef int friend_a, friend_b, friend_c, friend_d
     cdef bool not_grounded
@@ -131,9 +131,9 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
             else:
                 #Clockwise.
                 if not clockwise(
-                    pos(friend_a, vpoints),
-                    pos(node, vpoints),
-                    pos(friend_b, vpoints)
+                    pos[friend_a],
+                    pos[node],
+                    pos[friend_b]
                 ):
                     friend_a, friend_b = friend_b, friend_a
                 exprs.append((
@@ -151,13 +151,28 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
             """TODO: P joint."""
         elif vpoints[node].type == 2:
             """RP joint."""
-            not_grounded = 'ground' != vpoints[node].links[0]
             f1 = get_base_friend(node, vpoints, vlinks, status)
             try:
                 friend_a = next(get_notbase_friend(node, vpoints, vlinks, status))
                 friend_b = next(f1)
-                if not_grounded:
+                if 'ground' != vpoints[node].links[0]:
+                    """Slot is not grounded."""
                     friend_d = next(f1)
+                    if not clockwise(
+                        pos[friend_b],
+                        (tmp_x, tmp_y),
+                        pos[friend_d]
+                    ):
+                        friend_b, friend_d = friend_d, friend_b
+                    exprs.append((
+                        'PLLP',
+                        'P{}'.format(friend_b),
+                        'L{}'.format(link_symbol),
+                        'L{}'.format(link_symbol + 1),
+                        'P{}'.format(friend_d),
+                        'P{}'.format(node),
+                    ))
+                    link_symbol += 2
             except StopIteration:
                 skip_times += 1
             else:
@@ -176,32 +191,15 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
                 #Copy as 'friend_c'.
                 friend_c = node
                 #'S' point.
-                tmp_x, tmp_y = pos(node, vpoints)
+                tmp_x, tmp_y = pos[node]
                 angle = np.deg2rad(vpoints[node].angle)
                 tmp_x += cos(angle)
                 tmp_y += sin(angle)
                 
-                if not_grounded:
-                    if not clockwise(
-                        pos(friend_b, vpoints),
-                        (tmp_x, tmp_y),
-                        pos(friend_d, vpoints)
-                    ):
-                        friend_b, friend_d = friend_d, friend_b
-                    exprs.append((
-                        'PLLP',
-                        'P{}'.format(friend_b),
-                        'L{}'.format(link_symbol),
-                        'L{}'.format(link_symbol + 1),
-                        'P{}'.format(friend_d),
-                        'P{}'.format(node),
-                    ))
-                    link_symbol += 2
-                
                 if not clockwise(
-                    pos(friend_b, vpoints),
+                    pos[friend_b],
                     (tmp_x, tmp_y),
-                    pos(friend_c, vpoints)
+                    pos[friend_c]
                 ):
                     friend_b, friend_c = friend_c, friend_b
                 exprs.append((
