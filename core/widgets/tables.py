@@ -295,7 +295,7 @@ class ExprTableWidget(BaseTableWidget):
     def __init__(self, parent=None):
         super(ExprTableWidget, self).__init__(
             0,
-            ('p0', 'p1', 'p2', 'p3', 'p4'),
+            ('p0', 'p1', 'p2', 'p3', 'target'),
             parent
         )
         for column in range(6):
@@ -305,7 +305,8 @@ class ExprTableWidget(BaseTableWidget):
         self.clear()
         self.setRowCount(len(exprs))
         for row, expr in enumerate(exprs):
-            for column, e in enumerate(expr):
+            self.setItem(row, 5, QTableWidgetItem(expr[-1]))
+            for column, e in enumerate(expr[:-1]):
                 self.setItem(row, column, QTableWidgetItem(e))
 
 class SelectionLabel(QLabel):
