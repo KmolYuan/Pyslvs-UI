@@ -140,11 +140,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.link_expr_show.clear()
         self.expr_show.clear()
         for label in [
-            self.Expression_list_label,
+            self.expression_list_label,
             self.grounded_label,
             self.driver_label,
-            self.Follower_label,
-            self.Target_label
+            self.follower_label,
+            self.target_label
         ]:
             self.__setWarning(label, True)
     
@@ -198,7 +198,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     @pyqtSlot(int)
     def on_grounded_list_currentRowChanged(self, row):
-        """Change current grounded linkage."""
+        """Change current grounded linkage. Reset all settings."""
         has_choose = row > -1
         self.__setWarning(self.grounded_label, not has_choose)
         self.PreviewWindow.setGrounded(row)
@@ -218,9 +218,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             )
             self.follower_list.addItems(items)
             self.driver_base.addItems(items)
-        self.__setWarning(self.Follower_label, not has_choose)
+        self.__setWarning(self.follower_label, not has_choose)
         self.__setWarning(self.driver_label, True)
-        self.__setWarning(self.Expression_list_label, True)
+        self.__setWarning(self.expression_list_label, True)
     
     @pyqtSlot(str)
     def on_driver_base_currentIndexChanged(self, name):
@@ -336,7 +336,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             #Mechanism params.
             'Driver': {
                 s.split(',')[0][1:]: None for s in list_texts(self.driver_list)
-                if not self.PreviewWindow.isMultiple(s)
+                if not self.PreviewWindow.isMultiple(s.split(',')[0][1:])
             },
             'Follower': {
                 s: None for s in list_texts(self.follower_list)
@@ -388,7 +388,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.driver_list.addItem("({}, {})".format(base, rotator))
         self.__setWarning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
-        self.__setWarning(self.Target_label, not self.target_list.count() > 0)
+        self.__setWarning(self.target_label, not self.target_list.count() > 0)
         #Constraints
         self.constraint_list.addItems([
             ", ".join(c) for c in params['constraint']
@@ -403,7 +403,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.__addSolution(*params)
             self.PreviewWindow.setStatus(target, True)
         self.__setWarning(
-            self.Expression_list_label,
+            self.expression_list_label,
             not self.PreviewWindow.isAllLock()
         )
     
@@ -428,7 +428,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.target_list.clear()
         for target in list_texts(dlg.targets_list):
             self.target_list.addItem(target)
-        self.__setWarning(self.Target_label, not self.target_list.count()>0)
+        self.__setWarning(self.target_label, not self.target_list.count()>0)
     
     def __symbols(self) -> Set[List[str]]:
         """Return all symbols."""
@@ -490,7 +490,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.__setParmBind()
         self.__hasSolution()
         self.__setWarning(
-            self.Expression_list_label,
+            self.expression_list_label,
             not self.PreviewWindow.isAllLock()
         )
     
@@ -605,7 +605,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             self.__addSolution(*expr)
         self.__hasSolution()
         self.__setWarning(
-            self.Expression_list_label,
+            self.expression_list_label,
             not self.PreviewWindow.isAllLock()
         )
         self.PreviewWindow.update()

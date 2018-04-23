@@ -269,6 +269,19 @@
               <widget class="QComboBox" name="driver_rotator"/>
              </item>
              <item>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
               <widget class="QPushButton" name="driver_add">
                <property name="text">
                 <string>&lt;&lt;</string>
@@ -287,7 +300,7 @@
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
-              <widget class="QLabel" name="Follower_label">
+              <widget class="QLabel" name="follower_label">
                <property name="text">
                 <string>Followers:</string>
                </property>
@@ -339,7 +352,7 @@
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="Target_label">
+                <widget class="QLabel" name="target_label">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -405,7 +418,7 @@
                 </widget>
                </item>
                <item>
-                <widget class="QLabel" name="Expression_list_label">
+                <widget class="QLabel" name="expression_list_label">
                  <property name="text">
                   <string>Solutions:</string>
                  </property>
