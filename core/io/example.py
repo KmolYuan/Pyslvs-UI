@@ -11,6 +11,7 @@ __email__ = "pyslvs@gmail.com"
 
 example_list = {
     
+    #TODO: 2 DOF example.
     "Arm": "M[J[R, color[Green], P[-34.25, -20.625], L[ground, link_1, link_2]], J[R, color[Green], P[29.75, 77.375], L[link_2, link_5, link_6]], J[R, color[Green], P[-54.0, 10.875], L[link_1, link_3]], J[R, color[Green], P[-86.25, -3.125], L[ground, link_4]], J[R, color[Green], P[-7.25, 94.625], L[link_4, link_5]], J[R, color[Green], P[57.0, 110.875], L[link_5, link_8]], J[R, color[Green], P[126.5, 56.125], L[link_7, link_8]], J[R, color[Green], P[114.5, 35.625], L[link_6, link_7]], J[R, color[Green], P[7.0, 131.125], L[link_3, link_6]], J[R, color[Green], P[163.5, 47.875], L[link_7]]]",
     
     "Ball lifter (Double six bar linkage)": "M[" +
