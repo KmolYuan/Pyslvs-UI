@@ -55,6 +55,7 @@ from typing import (
     List,
     Dict,
 )
+from itertools import chain
 from argparse import Namespace
 from networkx import Graph
 from .Ui_main import Ui_MainWindow
@@ -938,7 +939,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             else:
                 if 'ground' in newLinks:
                     newLinks.remove('ground')
-            Args = list(self.Entities_Point.rowTexts(row, True))
+            Args = self.Entities_Point.rowTexts(row)
             Args[0] = ','.join(filter(lambda a: a!='', newLinks))
             self.CommandStack.beginMacro("Edit {{Point{}}}".format(row))
             self.CommandStack.push(EditPointTable(
@@ -975,7 +976,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 #Add new links.
                 if l not in newLinks:
                     newLinks.append(l)
-            Args = list(self.Entities_Point.rowTexts(row, True))
+            Args = self.Entities_Point.rowTexts(row)
             Args[0] = ','.join(newLinks)
             self.CommandStack.push(EditPointTable(
                 row,
@@ -989,7 +990,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def clonePoint(self):
         """Clone a point (with orange color)."""
         row = self.Entities_Point.currentRow()
-        Args = list(self.Entities_Point.rowTexts(row, True))
+        Args = self.Entities_Point.rowTexts(row)
         Args[2] = 'Orange'
         rowCount = self.Entities_Point.rowCount()
         self.CommandStack.beginMacro(
@@ -1011,7 +1012,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             "Point{}".format(c[0]) for c in coordinates
         )))
         for row, (x, y) in coordinates:
-            Args = list(self.Entities_Point.rowTexts(row, True))
+            Args = self.Entities_Point.rowTexts(row)
             Args[3] = x
             Args[4] = y
             self.CommandStack.push(EditPointTable(
@@ -1024,48 +1025,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     @pyqtSlot()
     def on_action_New_Link_triggered(self):
-        """Create a link with arguments."""
-        selectedRows = self.Entities_Point.selectedRows()
-        if not len(selectedRows)>1:
+        """Create a link with arguments.
+        
+        + Last than one point:
+            
+            - Create a new link
+        
+        + Search method:
+            
+            - Find the intersection between points that was
+                including any link.
+            - Add the points that is not in the intersection
+                to the link.
+        
+        + If no, just create a new link by selected points.
+        """
+        rows = self.Entities_Point.selectedRows()
+        if not len(rows) > 1:
             self.__editLink()
             return
-        #Search to found that there is any point is not idle.
-        link_data = self.Entities_Link.data()
-        for row, vlink in enumerate(link_data):
-            sr_set = set(selectedRows)
-            ps_set = set(vlink.points)
-            #If link are exist, edit the link.
-            if sr_set == ps_set:
-                self.__editLink(row)
-                return
-            #If link has some new point, add the new points to link.
-            elif ps_set and (sr_set > ps_set):
-                self.CommandStack.beginMacro(
-                    "Edit {{Link: {}}}".format(vlink.name)
-                )
-                for row_, vlink_ in enumerate(link_data):
-                    Args = [vlink_.name, vlink_.colorSTR, ','.join(
-                        'Point{}'.format(p)
-                        for p in vlink_.points if p not in selectedRows
-                    )]
-                    self.CommandStack.push(EditLinkTable(
-                        row_,
-                        self.Entities_Link,
-                        self.Entities_Point,
-                        Args
-                    ))
-                Args = [vlink.name, vlink.colorSTR, ','.join(
-                    'Point{}'.format(p) for p in selectedRows
-                )]
-                self.CommandStack.push(EditLinkTable(
-                    row,
-                    self.Entities_Link,
-                    self.Entities_Point,
-                    Args
-                ))
-                self.CommandStack.endMacro()
-                return
-        self.__addNormalLink(selectedRows)
+        links_all = list(chain(*(
+            self.Entities_Point.getLinks(row) for row in rows
+        )))
+        count_0 = False
+        for p in set(links_all):
+            if links_all.count(p) > 1:
+                count_0 = True
+                break
+        if (not links_all) or (not count_0):
+            self.__addNormalLink(rows)
+            return
+        name = max(set(links_all), key=links_all.count)
+        row = self.Entities_Link.findName(name)
+        self.CommandStack.beginMacro("Edit {{Link: {}}}".format(name))
+        Args = self.Entities_Link.rowTexts(row)
+        points = set(self.Entities_Link.getPoints(row))
+        points.update(rows)
+        Args[2] = ','.join('Point{}'.format(p) for p in points)
+        self.CommandStack.push(EditLinkTable(
+            row,
+            self.Entities_Link,
+            self.Entities_Point,
+            Args
+        ))
+        self.CommandStack.endMacro()
     
     @pyqtSlot()
     def on_action_Edit_Link_triggered(self):
@@ -1187,7 +1190,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def __deletePoint(self, row: int):
         """Push delete point command to stack."""
-        Args = list(self.Entities_Point.rowTexts(row, True))
+        Args = self.Entities_Point.rowTexts(row)
         Args[0] = ''
         self.CommandStack.beginMacro("Delete {{Point{}}}".format(row))
         self.CommandStack.push(EditPointTable(
@@ -1230,7 +1233,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         if not row > 0:
             return
-        Args = list(self.Entities_Link.rowTexts(row, True))
+        Args = self.Entities_Link.rowTexts(row)
         Args[2] = ''
         self.CommandStack.beginMacro("Delete {{Link: {}}}".format(
             self.Entities_Link.item(row, 0).text()

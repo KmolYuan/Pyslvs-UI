@@ -35,7 +35,7 @@ from typing import (
     List,
     Dict,
     Tuple,
-    Any
+    Any,
 )
 from .DimensionalSynthesis_dialog import (
     GeneticPrams,
@@ -47,7 +47,7 @@ from .DimensionalSynthesis_dialog import (
     Path_adjust_show,
     Progress_show,
     PreviewDialog,
-    ChartDialog
+    ChartDialog,
 )
 from .Ui_Algorithm import Ui_Form
 nan = float('nan')
@@ -73,12 +73,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.unsaveFunc = parent.workbookNoSave
         self.Settings = deepcopy(defaultSettings)
         self.__setAlgorithmToDefault()
-        #Canvas
+        
         def get_solutions_func():
+            """For preview canvas."""
             try:
                 return replace_by_dict(self.mechanismParams)
             except KeyError:
                 return tuple()
+        
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
         self.show_solutions.clicked.connect(self.PreviewCanvas.setShowSolutions)

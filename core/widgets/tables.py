@@ -37,7 +37,10 @@ class BaseTableWidget(QTableWidget):
         parent=None
     ):
         super(BaseTableWidget, self).__init__(parent)
-        self.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
+        self.setSizePolicy(QSizePolicy(
+            QSizePolicy.Expanding,
+            QSizePolicy.Expanding
+        ))
         self.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
@@ -47,23 +50,23 @@ class BaseTableWidget(QTableWidget):
         for i, e in enumerate(('Name',) + HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
-    def rowTexts(self, row: int, noName: bool =False):
+    def rowTexts(self, row: int, *, hasName: bool =True) -> List[str]:
         """Get the whole row of texts."""
         texts = []
-        for column in self.effectiveRange(noName):
+        for column in self.effectiveRange(hasName):
             item = self.item(row, column)
             if item is None:
                 texts.append('')
             else:
                 texts.append(item.text())
-        return tuple(texts)
+        return texts
     
-    def selectedRows(self) -> Tuple[int]:
+    def selectedRows(self) -> List[int]:
         """Get what row is been selected."""
         tmp_set = set([])
         for r in self.selectedRanges():
-            tmp_set.update([i for i in range(r.topRow(), r.bottomRow()+1)])
-        return tuple(sorted(tmp_set))
+            tmp_set.update([i for i in range(r.topRow(), r.bottomRow() + 1)])
+        return sorted(tmp_set)
     
     def keyPressEvent(self, event):
         """Hit the delete key,
@@ -84,11 +87,18 @@ class PointTableWidget(BaseTableWidget):
     """Custom table widget for points."""
     
     name = 'Point'
-    rowSelectionChanged = pyqtSignal(tuple)
-    selectionLabelUpdate = pyqtSignal(tuple, tuple)
+    rowSelectionChanged = pyqtSignal(list)
+    selectionLabelUpdate = pyqtSignal(list, list)
     
     def __init__(self, parent=None):
-        super(PointTableWidget, self).__init__(0, ('Links', 'Type', 'Color', 'X', 'Y', 'Current'), parent)
+        super(PointTableWidget, self).__init__(0, (
+            'Links',
+            'Type',
+            'Color',
+            'X',
+            'Y',
+            'Current'
+        ), parent)
         self.setColumnWidth(0, 60)
         self.setColumnWidth(1, 130)
         self.setColumnWidth(2, 60)
@@ -131,13 +141,22 @@ class PointTableWidget(BaseTableWidget):
         Links: str,
         Type: str,
         Color: str,
-        X, Y
+        x,
+        y
     ):
         """Edite a point."""
-        for i, e in enumerate(['Point{}'.format(row), Links, Type, Color, X, Y, "({}, {})".format(X, Y)]):
+        for i, e in enumerate([
+            'Point{}'.format(row),
+            Links,
+            Type,
+            Color,
+            x,
+            y,
+            "({}, {})".format(x, y)
+        ]):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
-            if i==3:
+            if i == 3:
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
@@ -196,7 +215,7 @@ class PointTableWidget(BaseTableWidget):
                 if i==len(selectedRows)-1:
                     break
                 distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
-        self.selectionLabelUpdate.emit(selectedRows, tuple(distance))
+        self.selectionLabelUpdate.emit(selectedRows, distance)
     
     def __setSelectedRanges(self,
         selections: Tuple[int],
@@ -215,12 +234,18 @@ class PointTableWidget(BaseTableWidget):
                 isSelected if UnSelect else True)
             self.scrollToItem(self.item(row, 0))
     
-    def effectiveRange(self, noName: bool):
+    def getLinks(self, row: int) -> List[str]:
+        item = self.item(row, 1)
+        if not item:
+            return []
+        return [s for s in item.text().split(',') if s]
+    
+    def effectiveRange(self, hasName: bool):
         """Row range that can be delete."""
-        if noName:
-            return range(1, self.columnCount()-1)
-        else:
+        if hasName:
             return range(self.columnCount())
+        else:
+            return range(1, self.columnCount()-1)
     
     @pyqtSlot()
     def __emitSelectionChanged(self):
@@ -234,7 +259,7 @@ class PointTableWidget(BaseTableWidget):
         signal to clean the selection.
         """
         super(PointTableWidget, self).clearSelection()
-        self.selectionLabelUpdate.emit((), ())
+        self.selectionLabelUpdate.emit([], [])
 
 class LinkTableWidget(BaseTableWidget):
     
@@ -278,7 +303,23 @@ class LinkTableWidget(BaseTableWidget):
                 item.setIcon(colorIcons(e))
             self.setItem(row, i, item)
     
-    def effectiveRange(self, noName: bool):
+    def findName(self, name: str) -> int:
+        """Return row index by input name."""
+        for row in range(self.rowCount()):
+            item = self.item(row, 0)
+            if not item:
+                continue
+            if item.text() == name:
+                return row
+    
+    def getPoints(self, row: int) -> List[int]:
+        """Get all point names."""
+        item = self.item(row, 2)
+        if not item:
+            return []
+        return [int(s.replace('Point', '')) for s in item.text().split(',') if s]
+    
+    def effectiveRange(self, hasName: bool):
         """Row range that can be delete."""
         return range(self.columnCount())
     
@@ -318,10 +359,10 @@ class SelectionLabel(QLabel):
         self.updateSelectPoint()
     
     @pyqtSlot()
-    @pyqtSlot(tuple, tuple)
+    @pyqtSlot(list, list)
     def updateSelectPoint(self,
-        points: Tuple[int] =(),
-        distance: Tuple[float] =()
+        points: List[int] =[],
+        distance: List[float] =[]
     ):
         """Get points and distance from Point table widget."""
         text = ""

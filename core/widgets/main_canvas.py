@@ -231,7 +231,7 @@ class DynamicCanvas(BaseCanvas):
         self.marginFactor = 1 - marginFactor / 100
         self.update()
     
-    @pyqtSlot(tuple)
+    @pyqtSlot(list)
     def changePointsSelection(self,
         pointsSelection: Tuple[int]
     ):
