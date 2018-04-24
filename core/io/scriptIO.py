@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import List
 from core.QtModules import (
     QSyntaxHighlighter,
     QTextCharFormat,
@@ -23,8 +24,8 @@ from core.QtModules import (
 )
 from core.info import VERSION
 from core.libs import VPoint, VLink
-from typing import List
 from .Ui_script import Ui_Info_Dialog
+
 
 script_title = '''\
 #This script is generate by Pyslvs {}.

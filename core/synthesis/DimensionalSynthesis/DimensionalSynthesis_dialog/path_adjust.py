@@ -7,15 +7,16 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+import numpy as np
+from typing import Sequence
 from core.QtModules import (
     QDialog,
     Qt,
     pyqtSlot,
     QMessageBox,
 )
-import numpy as np
-from typing import Sequence
 from .Ui_path_adjust import Ui_Dialog
+
 
 class Path_adjust_show(QDialog, Ui_Dialog):
     

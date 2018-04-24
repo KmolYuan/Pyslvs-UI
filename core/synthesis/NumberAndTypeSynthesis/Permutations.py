@@ -7,6 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from networkx import Graph
+from typing import List
 from core.QtModules import (
     QWidget,
     QMenu,
@@ -29,7 +31,7 @@ from core.QtModules import (
     QInputDialog,
     QFileInfo,
 )
-from networkx import Graph
+
 from core.io import Qt_images
 from core.libs import NumberSynthesis, topo
 from core.graphics import (
@@ -37,8 +39,8 @@ from core.graphics import (
     EngineList,
     EngineError,
 )
-from typing import List
 from .Ui_Permutations import Ui_Form
+
 
 class NumberAndTypeSynthesis(QWidget, Ui_Form):
     

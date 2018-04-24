@@ -8,11 +8,12 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
+    Qt,
     QGraphicsView,
     QGraphicsScene,
     QSize,
-    Qt,
 )
+
 
 class RotatableView(QGraphicsView):
     

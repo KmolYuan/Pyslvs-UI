@@ -7,6 +7,16 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+import pprint
+from math import hypot
+from networkx import Graph
+from typing import (
+    Dict,
+    List,
+    Tuple,
+    Set,
+    Any
+)
 from core.QtModules import (
     Qt,
     pyqtSignal,
@@ -21,16 +31,6 @@ from core.QtModules import (
 from core.graphics import PreviewCanvas, edges_view
 from core.io import from_parenthesis, front_of_parenthesis
 from core.libs import vpoints_configure, VPoint
-import pprint
-from math import hypot
-from networkx import Graph
-from typing import (
-    Dict,
-    List,
-    Tuple,
-    Set,
-    Any
-)
 from .TriangularIteration_dialog import (
     CollectionsDialog,
     ConstraintsDialog,
@@ -41,6 +41,7 @@ from .TriangularIteration_dialog import (
     list_items,
 )
 from .Ui_TriangularIteration import Ui_Form
+
 
 class PreviewWindow(PreviewCanvas):
     

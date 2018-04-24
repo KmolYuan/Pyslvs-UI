@@ -17,9 +17,10 @@ from core.QtModules import (
     QDialogButtonBox,
 )
 from core.graphics import colorName, colorIcons
-from .Ui_edit_link import Ui_Dialog as edit_link_Dialog
+from .Ui_edit_link import Ui_Dialog
 
-class EditLink_show(QDialog, edit_link_Dialog):
+
+class EditLinkDialog(QDialog, Ui_Dialog):
     
     """Option dialog.
     
@@ -27,7 +28,7 @@ class EditLink_show(QDialog, edit_link_Dialog):
     """
     
     def __init__(self, Points, Links, pos=False, parent=None):
-        super(EditLink_show, self).__init__(parent)
+        super(EditLinkDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         self.Points = Points
@@ -54,6 +55,7 @@ class EditLink_show(QDialog, edit_link_Dialog):
     @pyqtSlot(str)
     def __isOk(self, p0=None):
         """Set button box enable if options are ok."""
+        del p0
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
             self.__legalName(self.name_edit.text())
         )

@@ -7,6 +7,11 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from networkx import (
+    Graph,
+    is_isomorphic
+)
+from typing import List, Tuple
 from core.QtModules import (
     QWidget,
     pyqtSignal,
@@ -33,12 +38,8 @@ from core.graphics import (
     EngineList,
     EngineError,
 )
-from networkx import (
-    Graph,
-    is_isomorphic
-)
-from typing import List, Tuple
 from .Ui_Structure import Ui_Form
+
 
 class TestError(Exception):
     pass

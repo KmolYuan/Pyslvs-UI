@@ -7,6 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from math import isnan
+from typing import Tuple
 from core.QtModules import (
     QTimer,
     QPen,
@@ -22,9 +24,9 @@ from core.graphics import (
     colorQt
 )
 from core.io import from_parenthesis, triangle_expr
-from math import isnan
-from typing import Tuple
 from .Ui_preview import Ui_Dialog
+
+
 inf = float('inf')
 
 class DynamicCanvas(BaseCanvas):

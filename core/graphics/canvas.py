@@ -7,21 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import (
-    QPointF,
-    QWidget,
-    QSizePolicy,
-    QPainter,
-    QBrush,
-    Qt,
-    QPen,
-    QColor,
-    QFont,
-    QPainterPath,
-    pyqtSlot,
-)
-from core.graphics import colorQt, colorPath
-from core.io import triangle_expr
 from networkx import Graph
 from math import (
     radians,
@@ -37,6 +22,22 @@ from typing import (
     Any
 )
 from functools import reduce
+from core.QtModules import (
+    QPointF,
+    QWidget,
+    QSizePolicy,
+    QPainter,
+    QBrush,
+    Qt,
+    QPen,
+    QColor,
+    QFont,
+    QPainterPath,
+    pyqtSlot,
+)
+from core.graphics import colorQt, colorPath
+from core.io import triangle_expr
+
 
 def convex_hull(points: Sequence[Tuple[float, float]]):
     """Returns points on convex hull in CCW order
@@ -281,6 +282,38 @@ class BaseCanvas(QWidget):
             if isnan(x):
                 continue
             self.painter.__drawPoint(QPointF(x*self.zoom, y*-self.zoom))
+    
+    def __drawSolution(self, func: str, args: Tuple[str], target: str):
+        """Draw the solution triangle."""
+        if func == 'PLLP':
+            color = QColor(121, 171, 252)
+            params = [args[0], args[-1]]
+        elif func == 'PLAP':
+            color = QColor(249, 84, 216)
+            params = [args[0]]
+        params.append(target)
+        pen = QPen()
+        pen.setColor(color)
+        pen.setWidth(self.r)
+        self.painter.setPen(pen)
+        
+        def drawArrow(n: int):
+            x, y = self.pos[int(params[-1].replace('P', ''))]
+            x2, y2 = self.pos[int(params[n].replace('P', ''))]
+            self._BaseCanvas__drawArrow(
+                x*self.zoom, y*-self.zoom, x2*self.zoom, y2*-self.zoom
+            )
+        
+        drawArrow(0)
+        if func == 'PLLP':
+            drawArrow(1)
+        color.setAlpha(30)
+        self.painter.setBrush(QBrush(color))
+        qpoints = []
+        for name in params:
+            x, y = self.pos[int(name.replace('P', ''))]
+            qpoints.append(QPointF(x*self.zoom, y*-self.zoom))
+        self.painter.drawPolygon(*qpoints)
 
 class PreviewCanvas(BaseCanvas):
     
@@ -390,7 +423,7 @@ class PreviewCanvas(BaseCanvas):
             solutions = ';'.join(self.get_solutions())
             if solutions:
                 for func, args, target in triangle_expr(solutions):
-                    self.__drawSolution(func, args, target)
+                    self._BaseCanvas__drawSolution(func, args, target)
         #Text of node.
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
@@ -410,38 +443,6 @@ class PreviewCanvas(BaseCanvas):
         self.painter.drawLine(QPointF(-limit, limit), QPointF(-limit, -limit))
         self.painter.drawLine(QPointF(-limit, -limit), QPointF(limit, -limit))
         self.painter.drawLine(QPointF(limit, -limit), QPointF(limit, limit))
-    
-    def __drawSolution(self, func: str, args: Tuple[str], target: str):
-        """Draw the solution triangle."""
-        if func == 'PLLP':
-            color = QColor(121, 171, 252)
-            params = [args[0], args[-1]]
-        elif func == 'PLAP':
-            color = QColor(249, 84, 216)
-            params = [args[0]]
-        params.append(target)
-        pen = QPen()
-        pen.setColor(color)
-        pen.setWidth(self.r)
-        self.painter.setPen(pen)
-        
-        def drawArrow(n: int):
-            x, y = self.pos[int(params[-1].replace('P', ''))]
-            x2, y2 = self.pos[int(params[n].replace('P', ''))]
-            self._BaseCanvas__drawArrow(
-                x*self.zoom, y*-self.zoom, x2*self.zoom, y2*-self.zoom
-            )
-        
-        drawArrow(0)
-        if func == 'PLLP':
-            drawArrow(1)
-        color.setAlpha(30)
-        self.painter.setBrush(QBrush(color))
-        qpoints = []
-        for name in params:
-            x, y = self.pos[int(name.replace('P', ''))]
-            qpoints.append(QPointF(x*self.zoom, y*-self.zoom))
-        self.painter.drawPolygon(*qpoints)
     
     def setGraph(self, G: Graph, pos: Dict[int, Tuple[float, float]]):
         """Set the graph from NetworkX graph type."""

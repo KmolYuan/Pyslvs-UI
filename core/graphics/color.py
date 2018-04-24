@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Tuple
 from core.QtModules import (
     QColor,
     Qt,
@@ -14,7 +15,7 @@ from core.QtModules import (
     QPixmap,
     QSize,
 )
-from typing import Tuple
+
 
 """Color dictionary."""
 color_list = {

@@ -7,6 +7,14 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from networkx import Graph
+from typing import (
+    Tuple,
+    List,
+    Dict,
+)
+from itertools import chain
+from argparse import Namespace
 from core.QtModules import (
     QMainWindow,
     QUndoStack,
@@ -42,25 +50,18 @@ from core.io import (
     PMKSArgsTransformer,
     from_parenthesis,
 )
-from core.widgets import initCustomWidgets
-from core.entities import EditPoint_show, EditLink_show
+from core.widgets import CustomizedMainWindow
+from core.entities import EditPointDialog, EditLinkDialog
 from core.libs import (
     slvsProcess,
     SlvsException,
     vpoints_configure,
     VPoint,
 )
-from typing import (
-    Tuple,
-    List,
-    Dict,
-)
-from itertools import chain
-from argparse import Namespace
-from networkx import Graph
 from .Ui_main import Ui_MainWindow
 
-class MainWindow(QMainWindow, Ui_MainWindow):
+
+class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
     
     """The main window of Pyslvs.
     
@@ -84,7 +85,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         #Initialize custom UI.
-        initCustomWidgets(self)
+        self.initCustomWidgets()
         self.resolve()
         #Expression & DOF value.
         self.DOF = 0
@@ -890,7 +891,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def __editPoint(self, row=False):
         """Edit point function."""
-        dlg = EditPoint_show(
+        dlg = EditPointDialog(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             row,
@@ -1077,7 +1078,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def __editLink(self, row=False):
         """Edit link function."""
-        dlg = EditLink_show(
+        dlg = EditLinkDialog(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             row,

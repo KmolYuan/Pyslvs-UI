@@ -19,6 +19,13 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import (
+    Sequence,
+    List,
+    Dict,
+    Tuple,
+    TypeVar,
+)
 from core.QtModules import (
     QUndoCommand,
     QTableWidget,
@@ -30,13 +37,8 @@ from core.QtModules import (
     QPixmap,
     Qt
 )
-from typing import (
-    Sequence,
-    List,
-    Dict,
-    Tuple,
-    TypeVar,
-)
+
+
 table_data = TypeVar("table_data", str, int, float)
 
 noNoneString = lambda l: [e for e in l if e]

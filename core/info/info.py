@@ -13,16 +13,18 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import (
-    QProgressDialog,
-    qVersion,
-    PYQT_VERSION_STR
-)
 from sys import version_info
 import platform
 import argparse
 import requests
 from typing import Tuple
+from core.QtModules import (
+    QProgressDialog,
+    qVersion,
+    PYQT_VERSION_STR
+)
+
+
 Qt_Version = qVersion().strip()
 PyQt_Version = PYQT_VERSION_STR.strip()
 

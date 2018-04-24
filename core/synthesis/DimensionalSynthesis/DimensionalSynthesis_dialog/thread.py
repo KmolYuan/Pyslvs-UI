@@ -7,12 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import (
-    QThread,
-    pyqtSignal,
-    QMutex,
-    QMutexLocker,
-)
 import timeit
 import platform
 import numpy
@@ -23,6 +17,12 @@ from typing import (
     Dict,
     Any,
 )
+from core.QtModules import (
+    QThread,
+    pyqtSignal,
+    QMutex,
+    QMutexLocker,
+)
 from core.libs import (
     Genetic,
     Firefly,
@@ -30,6 +30,7 @@ from core.libs import (
 )
 from core.libs import build_planar
 from .options import AlgorithmType
+
 
 class WorkerThread(QThread):
     

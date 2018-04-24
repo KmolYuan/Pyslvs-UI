@@ -16,9 +16,10 @@ from core.QtModules import (
     pyqtSlot,
 )
 from core.graphics import colorName, colorIcons
-from .Ui_edit_point import Ui_Dialog as edit_point_Dialog
+from .Ui_edit_point import Ui_Dialog
 
-class EditPoint_show(QDialog, edit_point_Dialog):
+
+class EditPointDialog(QDialog, Ui_Dialog):
     
     """Option dialog.
     
@@ -26,7 +27,7 @@ class EditPoint_show(QDialog, edit_point_Dialog):
     """
     
     def __init__(self, Points, Links, pos=False, parent=None):
-        super(EditPoint_show, self).__init__(parent)
+        super(EditPointDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()

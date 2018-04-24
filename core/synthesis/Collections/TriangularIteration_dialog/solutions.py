@@ -15,6 +15,7 @@ from core.QtModules import (
 )
 from .Ui_solutions import Ui_Dialog
 
+
 class SolutionsDialog(QDialog, Ui_Dialog):
     
     """Option dialog.

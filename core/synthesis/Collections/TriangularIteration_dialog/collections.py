@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Tuple
 from core.QtModules import (
     QDialog,
     Qt,
@@ -18,8 +19,8 @@ from core.QtModules import (
 )
 from core.graphics import PreviewCanvas, replace_by_dict
 from copy import deepcopy
-from typing import Tuple
 from .Ui_collections import Ui_Dialog
+
 
 mechanismParams_4Bar = {
     'Driver': {'P0': None},

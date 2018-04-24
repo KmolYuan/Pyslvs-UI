@@ -7,17 +7,18 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import (
-    QWidget,
-    QDialog,
-    QListWidgetItem,
-)
 from typing import (
     List,
     Callable,
     Any,
 )
+from core.QtModules import (
+    QWidget,
+    QDialog,
+    QListWidgetItem,
+)
 from .Ui_workbook_overview import Ui_Dialog
+
 
 class WorkbookOverview(QDialog, Ui_Dialog):
     

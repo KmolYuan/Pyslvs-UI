@@ -9,6 +9,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Tuple, List
 from core.QtModules import (
     QTableWidget,
     pyqtSignal,
@@ -23,7 +24,7 @@ from core.QtModules import (
 )
 from core.graphics import colorIcons, colorQt
 from core.libs import VPoint, VLink
-from typing import Tuple, List
+
 
 class BaseTableWidget(QTableWidget):
     

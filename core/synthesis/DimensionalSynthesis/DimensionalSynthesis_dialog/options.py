@@ -7,6 +7,13 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from enum import Enum
+from typing import (
+    List,
+    Tuple,
+    Dict,
+    Any
+)
 from core.QtModules import (
     QDialog,
     Qt,
@@ -17,14 +24,8 @@ from core.QtModules import (
     QDialogButtonBox,
 )
 from core.info import html
-from enum import Enum
-from typing import (
-    List,
-    Tuple,
-    Dict,
-    Any
-)
 from .Ui_options import Ui_Dialog
+
 
 GeneticPrams = {
     'nPop': 500,

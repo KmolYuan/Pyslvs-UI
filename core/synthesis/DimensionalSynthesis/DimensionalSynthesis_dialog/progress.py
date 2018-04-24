@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import Dict, Any
 from core.QtModules import (
     QDialog,
     Qt,
@@ -16,7 +17,7 @@ from core.QtModules import (
 from .Ui_progress import Ui_Dialog
 from .thread import WorkerThread
 from .options import AlgorithmType
-from typing import Dict, Any
+
 
 class Progress_show(QDialog, Ui_Dialog):
     

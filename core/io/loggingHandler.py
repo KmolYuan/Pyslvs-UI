@@ -7,9 +7,10 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from core.QtModules import QObject, pyqtSignal
 import sys
 import logging
+from core.QtModules import QObject, pyqtSignal
+
 
 class QtHandler(logging.Handler):
     

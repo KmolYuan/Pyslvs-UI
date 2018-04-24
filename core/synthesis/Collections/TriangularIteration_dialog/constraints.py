@@ -7,6 +7,8 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from networkx import Graph
+from typing import Tuple, List
 from core.QtModules import (
     QDialog,
     QListWidget,
@@ -15,9 +17,8 @@ from core.QtModules import (
     pyqtSlot,
 )
 from core.graphics import edges_view
-from networkx import Graph
-from typing import Tuple, List
 from .Ui_constraints import Ui_Dialog
+
 
 def get_list(item: QListWidget) -> List[str]:
     """A generator to get symbols from list widget."""

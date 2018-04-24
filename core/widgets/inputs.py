@@ -2,6 +2,8 @@
 
 """The widget of 'Inputs' tab."""
 
+import csv
+from typing import Tuple
 from core.QtModules import (
     pyqtSlot,
     QWidget,
@@ -18,10 +20,9 @@ from core.io import (
     AddVariable, DeleteVariable,
     AddPath, DeletePath,
 )
-import csv
-from typing import Tuple
 from .rotatable import RotatableView
 from .Ui_inputs import Ui_Form
+
 
 class InputsWidget(QWidget, Ui_Form):
     

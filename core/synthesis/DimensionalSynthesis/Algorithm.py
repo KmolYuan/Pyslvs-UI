@@ -7,6 +7,18 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+import csv
+import openpyxl
+import pprint
+from math import radians
+from copy import deepcopy
+from re import split as charSplit
+from typing import (
+    List,
+    Dict,
+    Tuple,
+    Any,
+)
 from core.QtModules import (
     QWidget,
     pyqtSignal,
@@ -25,18 +37,6 @@ from core.graphics import PreviewCanvas, replace_by_dict
 from core.io import triangle_class
 from core.libs import expr_parser
 from core.synthesis import CollectionsDialog
-import csv
-import openpyxl
-import pprint
-from math import radians
-from copy import deepcopy
-from re import split as charSplit
-from typing import (
-    List,
-    Dict,
-    Tuple,
-    Any,
-)
 from .DimensionalSynthesis_dialog import (
     GeneticPrams,
     FireflyPrams,
@@ -50,6 +50,8 @@ from .DimensionalSynthesis_dialog import (
     ChartDialog,
 )
 from .Ui_Algorithm import Ui_Form
+
+
 nan = float('nan')
 
 class DimensionalSynthesis(QWidget, Ui_Form):

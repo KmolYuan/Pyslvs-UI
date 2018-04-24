@@ -14,6 +14,7 @@ from core.QtModules import (
 )
 from .Ui_targets import Ui_Dialog
 
+
 def list_texts(widget, returnRow=False):
     """Generator to get the text from list widget."""
     for row in range(widget.count()):

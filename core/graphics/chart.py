@@ -17,6 +17,7 @@ from core.QtModules import (
     QFont,
 )
 
+
 class DataChart(QChart):
     
     """A axis setted Qt chart widget."""

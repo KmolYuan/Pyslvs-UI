@@ -7,6 +7,17 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+import zlib
+import os
+import datetime
+from peewee import (
+    SqliteDatabase,
+    Model,
+    CharField,
+    BlobField,
+    ForeignKeyField,
+    DateTimeField,
+)
 from core.QtModules import (
     QPushButton,
     pyqtSignal,
@@ -20,20 +31,10 @@ from core.QtModules import (
     QMessageBox,
     QTableWidgetItem,
 )
-import zlib
-import os
-import datetime
-from peewee import (
-    SqliteDatabase,
-    Model,
-    CharField,
-    BlobField,
-    ForeignKeyField,
-    DateTimeField,
-)
 from .workbook_overview import WorkbookOverview
 from .example import example_list
 from .Ui_peeweeIO import Ui_Form
+
 
 """Use to encode the Python script."""
 compress = lambda obj: zlib.compress(bytes(repr(obj), encoding="utf8"), 5)

@@ -16,6 +16,7 @@ from core.QtModules import (
 from .info import VERSION, INFO, ARGUMENTS
 from .Ui_about import Ui_About_Dialog
 
+
 """Turn simple string to html format."""
 html = lambda s: "<html><head/><body>{}</body></html>".format(s.replace('\n', '<br/>'))
 title = lambda name, *s: '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3><h3>'.join(s)) if s else '')

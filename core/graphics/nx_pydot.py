@@ -7,6 +7,16 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from networkx import (
+    Graph,
+    nx_pydot,
+    shell_layout,
+    circular_layout,
+    spring_layout,
+    spectral_layout,
+    random_layout
+)
+from typing import Dict, Tuple
 from core.QtModules import (
     QImage,
     QSize,
@@ -21,16 +31,8 @@ from core.QtModules import (
 )
 from .color import colorQt, colorNum
 from .canvas import convex_hull, edges_view
-from networkx import (
-    Graph,
-    nx_pydot,
-    shell_layout,
-    circular_layout,
-    spring_layout,
-    spectral_layout,
-    random_layout
-)
-from typing import Dict, Tuple
+
+
 inf = float('inf')
 
 _nx_engine = (

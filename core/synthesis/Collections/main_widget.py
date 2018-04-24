@@ -17,6 +17,7 @@ from core.QtModules import (
 from .Structure import CollectionsStructure
 from .TriangularIteration import CollectionsTriangularIteration
 
+
 class Collections(QWidget):
     
     """Just a widget contains a sub tab widget."""

@@ -14,6 +14,7 @@ __email__ = "pyslvs@gmail.com"
 from lark import Lark, Transformer
 from core.graphics import colorName
 
+
 """Get from parenthesis."""
 from_parenthesis = lambda s, front, back: s[s.find(front)+1:s.find(back)]
 front_of_parenthesis = lambda s, front: s[:s.find(front)]

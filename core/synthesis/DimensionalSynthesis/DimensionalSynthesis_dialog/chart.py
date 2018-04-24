@@ -26,6 +26,7 @@ from core.QtModules import (
 )
 from core.graphics import DataChart
 
+
 class ChartDialog(QDialog):
     
     """There are three charts are in the dialog.

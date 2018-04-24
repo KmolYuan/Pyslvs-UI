@@ -7,6 +7,19 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from math import (
+    sin,
+    cos,
+    atan2,
+    hypot,
+)
+from collections import deque
+from typing import (
+    List,
+    Tuple,
+    Dict,
+    Callable,
+)
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
@@ -30,19 +43,7 @@ from core.libs import (
     VPoint,
     VLink,
 )
-from math import (
-    sin,
-    cos,
-    atan2,
-    hypot,
-)
-from collections import deque
-from typing import (
-    List,
-    Tuple,
-    Dict,
-    Callable,
-)
+
 
 class Selector:
     
