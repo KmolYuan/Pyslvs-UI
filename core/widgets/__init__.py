@@ -9,6 +9,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .custom import CustomizedMainWindow
+from .custom import CustomizeFunc
+from .custom_storage import StorageFunc
+from .custom_io import IOFunc
 
-__all__ = ['CustomizedMainWindow']
+__all__ = [
+    'CustomizeFunc',
+    'StorageFunc',
+    'IOFunc',
+]

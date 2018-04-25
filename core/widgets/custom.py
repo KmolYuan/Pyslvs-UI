@@ -38,7 +38,7 @@ from .tables import (
 from .inputs import InputsWidget
 
 
-class CustomizedMainWindow:
+class CustomizeFunc:
     
     """Customize main window on startup."""
     
