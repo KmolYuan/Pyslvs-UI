@@ -190,14 +190,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_importCSV_clicked(self):
         """Paste path data from a text file."""
-        fileName = self.inputFrom(
+        file_name = self.inputFrom(
             "Path data",
             ["Text File (*.txt)", "CSV File (*.csv)"]
         )
-        if not fileName:
+        if not file_name:
             return
         data = []
-        with open(fileName, newline='') as stream:
+        with open(file_name, newline='') as stream:
             reader = csv.reader(stream, delimiter=' ', quotechar='|')
             for row in reader:
                 data += ' '.join(row).split(',')
@@ -222,13 +222,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_importXLSX_clicked(self):
         """Paste path data from a Excel file."""
-        fileName = self.inputFrom(
+        file_name = self.inputFrom(
             "Excel file",
             ["Microsoft Office Excel (*.xlsx *.xlsm *.xltx *.xltm)"]
         )
-        if not fileName:
+        if not file_name:
             return
-        wb = openpyxl.load_workbook(fileName)
+        wb = openpyxl.load_workbook(file_name)
         ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
         data = []
         #Keep finding until there is no value.

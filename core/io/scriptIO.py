@@ -398,9 +398,9 @@ class Script_Dialog(QDialog, Ui_Info_Dialog):
     @pyqtSlot()
     def on_save_clicked(self):
         """Save to .py file."""
-        fileName = self.outputTo("Python script", ["Python3 Script(*.py)"])
-        if not fileName:
+        file_name = self.outputTo("Python script", ["Python3 Script(*.py)"])
+        if not file_name:
             return
-        with open(fileName, 'w', newline="") as f:
+        with open(file_name, 'w', newline="") as f:
             f.write(self.script.toPlainText())
-        self.saveReplyBox("Python script", fileName)
+        self.saveReplyBox("Python script", file_name)

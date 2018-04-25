@@ -415,19 +415,19 @@ class InputsWidget(QWidget, Ui_Form):
         )
         if reply != QMessageBox.Save:
             return
-        fileName = self.outputTo(
+        file_name = self.outputTo(
             "path data",
             ["Comma-Separated Values (*.csv)", "Text file (*.txt)"]
         )
-        if not fileName:
+        if not file_name:
             return
-        with open(fileName, 'w', newline='') as stream:
+        with open(file_name, 'w', newline='') as stream:
             writer = csv.writer(stream)
             for point in data:
                 for coordinate in point:
                     writer.writerow(coordinate)
                 writer.writerow(())
-        print("Output path data: {}".format(fileName))
+        print("Output path data: {}".format(file_name))
     
     @pyqtSlot(QPoint)
     def on_record_list_context_menu(self, point):

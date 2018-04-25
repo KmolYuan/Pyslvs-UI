@@ -101,7 +101,7 @@ def slvs2D(
     VPoints: Sequence[VPoint],
     VLinks: Sequence[VLink],
     v_to_slvs: Callable[[], Tuple[int, int]],
-    fileName: str
+    file_name: str
 ):
     edges = tuple(v_to_slvs())
     script_param = ['\n\n'.join([
@@ -184,7 +184,7 @@ def slvs2D(
         script_constraint.append(Constraint_comment(constraint_num, "Point{}".format(i), vpoint.cx, vpoint.cy))
         constraint_num += 1
     #Write file
-    with open(fileName, 'w', encoding="iso-8859-15") as f:
+    with open(file_name, 'w', encoding="iso-8859-15") as f:
         f.write('\n\n'.join('\n\n'.join(script) for script in [
             script_group,
             script_param,

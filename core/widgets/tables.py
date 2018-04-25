@@ -81,9 +81,7 @@ class BaseTableWidget(QTableWidget):
             self.deleteRequest.emit()
     
     def clear(self):
-        """Overload clear function,
-        just removed all items.
-        """
+        """Overrided the clear function, just removed all items."""
         for row in range(self.rowCount()):
             self.removeRow(0)
 
@@ -259,7 +257,7 @@ class PointTableWidget(BaseTableWidget):
     
     @pyqtSlot()
     def clearSelection(self):
-        """Overwrite the 'clearSelection' slot,
+        """Overrided the 'clearSelection' slot,
         so it will emit "selectionLabelUpdate"
         signal to clean the selection.
         """

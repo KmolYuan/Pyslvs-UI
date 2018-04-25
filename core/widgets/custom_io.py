@@ -59,11 +59,11 @@ class IOFunc:
     @pyqtSlot()
     def on_windowTitle_fullpath_clicked(self):
         """Set the option 'window title will show the fullpath'."""
-        fileName = self.FileWidget.fileName
+        file_name = self.FileWidget.file_name
         self.setWindowTitle("Pyslvs - {}".format(
-            fileName.absoluteFilePath()
+            file_name.absoluteFilePath()
             if self.windowTitle_fullpath.isChecked()
-            else fileName.fileName()
+            else file_name.fileName()
         ) + (" (not yet saved)" if self.FileWidget.changed else ''))
     
     @pyqtSlot()
@@ -224,13 +224,13 @@ class IOFunc:
         """Load workbook."""
         if self.checkFileChanged():
             return
-        fileName = self.inputFrom(
+        file_name = self.inputFrom(
             "Workbook database",
             ["Pyslvs workbook (*.pyslvs)"]
         )
-        if not fileName:
+        if not file_name:
             return
-        self.FileWidget.read(fileName)
+        self.FileWidget.read(file_name)
         self.DynamicCanvasView.zoomToFit()
     
     @pyqtSlot()
@@ -238,30 +238,30 @@ class IOFunc:
         """Import from workbook."""
         if self.checkFileChanged():
             return
-        fileName = self.inputFrom(
+        file_name = self.inputFrom(
             "Workbook database (Import)",
             ["Pyslvs workbook (*.pyslvs)"]
         )
-        if not fileName:
+        if not file_name:
             return
-        self.FileWidget.importMechanism(fileName)
+        self.FileWidget.importMechanism(file_name)
     
     @pyqtSlot()
     def on_action_Save_triggered(self, isBranch=False):
         """Save action."""
-        fileName = self.FileWidget.fileName.absoluteFilePath()
-        if self.FileWidget.fileName.suffix()=='pyslvs':
-            self.FileWidget.save(fileName, isBranch)
+        file_name = self.FileWidget.file_name.absoluteFilePath()
+        if self.FileWidget.file_name.suffix()=='pyslvs':
+            self.FileWidget.save(file_name, isBranch)
         else:
             self.on_action_Save_as_triggered(isBranch)
     
     @pyqtSlot()
     def on_action_Save_as_triggered(self, isBranch=False):
         """Save as action."""
-        fileName = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
-        if fileName:
-            self.FileWidget.save(fileName, isBranch)
-            self.saveReplyBox("Workbook", fileName)
+        file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
+        if file_name:
+            self.FileWidget.save(file_name, isBranch)
+            self.saveReplyBox("Workbook", file_name)
     
     @pyqtSlot()
     def on_action_Save_branch_triggered(self):
@@ -283,76 +283,76 @@ class IOFunc:
     @pyqtSlot()
     def on_action_Output_to_Solvespace_triggered(self):
         """Solvespace 2d save function."""
-        fileName = self.outputTo(
+        file_name = self.outputTo(
             "Solvespace sketch",
             ["Solvespace module(*.slvs)"]
         )
-        if not fileName:
+        if not file_name:
             return
         slvs2D(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             self.__v_to_slvs,
-            fileName
+            file_name
         )
-        self.saveReplyBox("Solvespace sketch", fileName)
+        self.saveReplyBox("Solvespace sketch", file_name)
     
     @pyqtSlot()
     def on_action_Output_to_DXF_triggered(self):
         """DXF 2d save function."""
-        fileName = self.outputTo(
+        file_name = self.outputTo(
             "Drawing Exchange Format",
             ["Drawing Exchange Format(*.dxf)"]
         )
-        if not fileName:
+        if not file_name:
             return
         dxfSketch(
             self.Entities_Point.data(),
             self.Entities_Link.data(),
             self.__v_to_slvs,
-            fileName
+            file_name
         )
-        self.saveReplyBox("Drawing Exchange Format", fileName)
+        self.saveReplyBox("Drawing Exchange Format", file_name)
     
     @pyqtSlot()
     def on_action_Output_to_Picture_triggered(self):
         """Picture save function."""
-        fileName = self.outputTo("picture", Qt_images)
-        if not fileName:
+        file_name = self.outputTo("picture", Qt_images)
+        if not file_name:
             return
         pixmap = self.DynamicCanvasView.grab()
-        pixmap.save(fileName, format=QFileInfo(fileName).suffix())
-        self.saveReplyBox("Picture", fileName)
+        pixmap.save(file_name, format=QFileInfo(file_name).suffix())
+        self.saveReplyBox("Picture", file_name)
     
     def outputTo(self, formatName: str, formatChoose: List[str]):
         """Simple to support mutiple format."""
         suffix0 = from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
-        fileName, suffix = QFileDialog.getSaveFileName(
+        file_name, suffix = QFileDialog.getSaveFileName(
             self,
             "Save to {}...".format(formatName),
-            self.env+'/'+self.FileWidget.fileName.baseName()+suffix0,
+            self.env+'/'+self.FileWidget.file_name.baseName()+suffix0,
             ';;'.join(formatChoose)
         )
-        if fileName:
+        if file_name:
             suffix = from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Format: {}".format(suffix))
-            if QFileInfo(fileName).suffix()!=suffix[1:]:
-                fileName += suffix
-            self.setLocate(QFileInfo(fileName).absolutePath())
-        return fileName
+            if QFileInfo(file_name).suffix()!=suffix[1:]:
+                file_name += suffix
+            self.setLocate(QFileInfo(file_name).absolutePath())
+        return file_name
     
-    def saveReplyBox(self, title: str, fileName: str):
+    def saveReplyBox(self, title: str, file_name: str):
         """Show message when successfully saved."""
-        size = QFileInfo(fileName).size()
+        size = QFileInfo(file_name).size()
         print("Size: {}".format(
             "{} MB".format(round(size/1024/1024, 2))
             if size/1024//1024 else "{} KB".format(round(size/1024, 2))
         ))
         QMessageBox.information(self,
             title,
-            "Successfully converted:\n{}".format(fileName)
+            "Successfully converted:\n{}".format(file_name)
         )
-        print("Successful saved: [\"{}\"]".format(fileName))
+        print("Successful saved: [\"{}\"]".format(file_name))
     
     def inputFrom(self,
         formatName: str,
@@ -366,17 +366,17 @@ class IOFunc:
             ';;'.join(formatChoose)
         )
         if multiple:
-            fileName_s, suffix = QFileDialog.getOpenFileNames(self, *args)
+            file_name_s, suffix = QFileDialog.getOpenFileNames(self, *args)
         else:
-            fileName_s, suffix = QFileDialog.getOpenFileName(self, *args)
-        if fileName_s:
+            file_name_s, suffix = QFileDialog.getOpenFileName(self, *args)
+        if file_name_s:
             suffix = from_parenthesis(suffix, '(', ')').split('*')[-1]
             print("Format: {}".format(suffix))
-            if type(fileName_s)==str:
-                self.setLocate(QFileInfo(fileName_s).absolutePath())
+            if type(file_name_s)==str:
+                self.setLocate(QFileInfo(file_name_s).absolutePath())
             else:
-                self.setLocate(QFileInfo(fileName_s[0]).absolutePath())
-        return fileName_s
+                self.setLocate(QFileInfo(file_name_s[0]).absolutePath())
+        return file_name_s
     
     @pyqtSlot()
     def on_action_Output_to_PMKS_triggered(self):
@@ -413,6 +413,15 @@ class IOFunc:
             self.__openURL(url)
         elif reply == QMessageBox.Save:
             QApplication.clipboard().setText(url)
+    
+    @pyqtSlot()
+    def on_action_Output_to_Picture_clipboard_triggered(self):
+        """Capture the canvas image to clipboard."""
+        QApplication.clipboard().setPixmap(self.DynamicCanvasView.grab())
+        QMessageBox.information(self,
+            "Captured!",
+            "Canvas widget picture is copy to clipboard."
+        )
     
     @pyqtSlot()
     def on_action_Output_to_Expression_triggered(self):

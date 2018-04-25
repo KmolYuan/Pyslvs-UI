@@ -206,16 +206,16 @@ class CollectionsStructure(QWidget, Ui_Form):
     @pyqtSlot()
     def on_add_by_files_button_clicked(self):
         """Append atlas by text files."""
-        fileNames = self.inputFrom(
+        file_names = self.inputFrom(
             "Edges data",
             ["Text File (*.txt)"],
             multiple=True
         )
-        if not fileNames:
+        if not file_names:
             return
         read_data = []
-        for fileName in fileNames:
-            with open(fileName, 'r') as f:
+        for file_name in file_names:
+            with open(file_name, 'r') as f:
                 read_data += f.read().split('\n')
         collections = []
         for edges in read_data:
@@ -245,8 +245,8 @@ class CollectionsStructure(QWidget, Ui_Form):
         )
         if not ok:
             return
-        fileName = self.outputTo("Atlas image", Qt_images)
-        if not fileName:
+        file_name = self.outputTo("Atlas image", Qt_images)
+        if not file_name:
             return
         icon_size = self.collection_list.iconSize()
         width = icon_size.width()
@@ -268,8 +268,8 @@ class CollectionsStructure(QWidget, Ui_Form):
         painter.end()
         pixmap = QPixmap()
         pixmap.convertFromImage(image_main)
-        pixmap.save(fileName, format=QFileInfo(fileName).suffix())
-        self.saveReplyBox("Atlas", fileName)
+        pixmap.save(file_name, format=QFileInfo(file_name).suffix())
+        self.saveReplyBox("Atlas", file_name)
     
     @pyqtSlot()
     def on_save_edges_clicked(self):
@@ -277,12 +277,12 @@ class CollectionsStructure(QWidget, Ui_Form):
         count = self.collection_list.count()
         if not count:
             return
-        fileName = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
-        if not fileName:
+        file_name = self.outputTo("Atlas edges expression", ["Text file (*.txt)"])
+        if not file_name:
             return
-        with open(fileName, 'w') as f:
+        with open(file_name, 'w') as f:
             f.write('\n'.join(str(G.edges) for G in self.collections))
-        self.saveReplyBox("edges expression", fileName)
+        self.saveReplyBox("edges expression", file_name)
     
     @pyqtSlot(QListWidgetItem, QListWidgetItem)
     def on_collection_list_currentItemChanged(self, item, p0):
