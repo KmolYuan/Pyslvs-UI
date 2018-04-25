@@ -135,7 +135,7 @@ class EditPointTable(QUndoCommand):
         row: int,
         PointTable: QTableWidgetItem,
         LinkTable: QTableWidgetItem,
-        Args: Sequence[table_data]
+        args: Sequence[table_data]
     ):
         QUndoCommand.__init__(self)
         self.PointTable = PointTable
@@ -147,10 +147,10 @@ class EditPointTable(QUndoCommand):
         Color: str,
         X, Y
         '''
-        self.Args = tuple(Args)
-        self.OldArgs = self.PointTable.rowTexts(row)[1:-1]
+        self.args = tuple(args)
+        self.OldArgs = self.PointTable.rowTexts(row)
         #Tuple[str] -> Set[str]
-        newLinks = set(self.Args[0].split(','))
+        newLinks = set(self.args[0].split(','))
         oldLinks = set(self.OldArgs[0].split(','))
         self.NewLinkItems = []
         self.OldLinkItems = []
@@ -165,7 +165,7 @@ class EditPointTable(QUndoCommand):
     
     def redo(self):
         """Write arguments then rewrite the dependents."""
-        self.PointTable.editArgs(self.row, *self.Args)
+        self.PointTable.editArgs(self.row, *self.args)
         self.writeRows(self.NewLinkItems, self.OldLinkItems)
     
     def undo(self):
@@ -208,7 +208,7 @@ class EditLinkTable(QUndoCommand):
         row: int,
         LinkTable: QTableWidgetItem,
         PointTable: QTableWidgetItem,
-        Args: Sequence[table_data]
+        args: Sequence[table_data]
     ):
         QUndoCommand.__init__(self)
         self.LinkTable = LinkTable
@@ -219,10 +219,10 @@ class EditLinkTable(QUndoCommand):
         color: str,
         points: str
         '''
-        self.Args = tuple(Args)
-        self.OldArgs = self.LinkTable.rowTexts(row)
+        self.args = tuple(args)
+        self.OldArgs = self.LinkTable.rowTexts(row, hasName=True)
         #Points: Tuple[int]
-        newPoints = self.Args[2].split(',')
+        newPoints = self.args[2].split(',')
         oldPoints = self.OldArgs[2].split(',')
         newPoints = set(
             int(index.replace('Point', ''))
@@ -237,14 +237,14 @@ class EditLinkTable(QUndoCommand):
     
     def redo(self):
         """Write arguments then rewrite the dependents."""
-        self.LinkTable.editArgs(self.row, *self.Args)
-        self.rename(self.Args, self.OldArgs)
-        self.writeRows(self.Args[0], self.NewPointItems, self.OldPointItems)
+        self.LinkTable.editArgs(self.row, *self.args)
+        self.rename(self.args, self.OldArgs)
+        self.writeRows(self.args[0], self.NewPointItems, self.OldPointItems)
     
     def undo(self):
         """Rewrite the dependents then write arguments."""
         self.writeRows(self.OldArgs[0], self.OldPointItems, self.NewPointItems)
-        self.rename(self.OldArgs, self.Args)
+        self.rename(self.OldArgs, self.args)
         self.LinkTable.editArgs(self.row, *self.OldArgs)
     
     def rename(self, Args1: Tuple[str], Args2: Tuple[str]):

@@ -330,7 +330,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
         joint_data = self.Entities_Point.data()
         link_data = self.Entities_Link.data()
         G = Graph()
-        #Links name for RP joint.
+        #links name for RP joint.
         k = len(link_data)
         used_point = set()
         for i, vlink in enumerate(link_data):
@@ -504,12 +504,11 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             )
             return
         try:
-            textList = list(filter(lambda s: s not in ('', " ", '\n'),
-                tuple(filter(
-                    lambda s: 'mech=' in s,
-                    URL.split('?')[-1].split('&')
-                ))[0].replace('mech=', '').split('|')
-            ))
+            for s in URL.split('?')[-1].split('&'):
+                if 'mech=' in s:
+                    expr = s.replace('mech=', '').split('|')
+                    break
+            textList = [s for s in expr if s not in ('', " ", '\n')]
             expression = []
             while textList:
                 item = textList.pop(0).split(',')[:-1]
@@ -525,7 +524,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
                     ", ".join(links)
                 ))
             expression = "M[{}]".format(", ".join(expression))
-        except Exception as e:
+        except:
             QMessageBox.warning(self,
                 "Loading failed",
                 "Your link is in an incorrect format."
@@ -536,7 +535,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
     def parseExpression(self, expr):
         """Parse expression."""
         try:
-            pointsArgs = PMKSArgsTransformer().transform(PMKS_parser.parse(expr))
+            args_list = PMKSArgsTransformer().transform(PMKS_parser.parse(expr))
         except Exception as e:
             print(e)
             QMessageBox.warning(self,
@@ -544,11 +543,11 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
                 "Your expression is in an incorrect format."
             )
         else:
-            for pointArgs in pointsArgs:
+            for args in args_list:
                 linkNames = tuple(
                     vlink.name for vlink in self.Entities_Link.data()
                 )
-                links = pointArgs[0].split(',')
+                links = args[0].split(',')
                 for linkName in links:
                     #If link name not exist.
                     if linkName not in linkNames:
@@ -559,7 +558,8 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
                 self.CommandStack.push(EditPointTable(
                     rowCount,
                     self.Entities_Point,
-                    self.Entities_Link, pointArgs
+                    self.Entities_Link,
+                    args
                 ))
                 self.CommandStack.endMacro()
     
@@ -904,7 +904,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
         Type = dlg.Type.currentText().split()[0]
         if Type!='R':
             Type += ":{}".format(dlg.Angle.value()%360)
-        Args = [
+        args = [
             ','.join(
                 dlg.selected.item(link).text()
                 for link in range(dlg.selected.count())
@@ -925,7 +925,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             row,
             self.Entities_Point,
             self.Entities_Link,
-            Args
+            args
         ))
         self.CommandStack.endMacro()
     
@@ -940,14 +940,14 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             else:
                 if 'ground' in newLinks:
                     newLinks.remove('ground')
-            Args = self.Entities_Point.rowTexts(row)
-            Args[0] = ','.join(filter(lambda a: a!='', newLinks))
+            args = self.Entities_Point.rowTexts(row)
+            args[0] = ','.join(s for s in newLinks if s)
             self.CommandStack.beginMacro("Edit {{Point{}}}".format(row))
             self.CommandStack.push(EditPointTable(
                 row,
                 self.Entities_Point,
                 self.Entities_Link,
-                Args
+                args
             ))
             self.CommandStack.endMacro()
     
@@ -963,27 +963,22 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
                 'Point{}'.format(row)
             )
         )
-        
-        Links = lambda i: list(filter(
-            lambda a: a != '',
-            self.Entities_Point.item(i, 1).text().split(',')
-        ))
-        
+        points_data = self.Entities_Point.data()
         for i, p in enumerate(points):
             if i == index:
                 continue
-            newLinks = Links(row)
-            for l in Links(p):
+            newLinks = points_data[row].links
+            for l in points_data[p].links:
                 #Add new links.
                 if l not in newLinks:
                     newLinks.append(l)
-            Args = self.Entities_Point.rowTexts(row)
-            Args[0] = ','.join(newLinks)
+            args = self.Entities_Point.rowTexts(row)
+            args[0] = ','.join(newLinks)
             self.CommandStack.push(EditPointTable(
                 row,
                 self.Entities_Point,
                 self.Entities_Link,
-                Args
+                args
             ))
             self.__deletePoint(p)
         self.CommandStack.endMacro()
@@ -991,8 +986,8 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
     def clonePoint(self):
         """Clone a point (with orange color)."""
         row = self.Entities_Point.currentRow()
-        Args = self.Entities_Point.rowTexts(row)
-        Args[2] = 'Orange'
+        args = self.Entities_Point.rowTexts(row)
+        args[2] = 'Orange'
         rowCount = self.Entities_Point.rowCount()
         self.CommandStack.beginMacro(
             "Clone {{Point{}}} as {{Point{}}}".format(row, rowCount)
@@ -1002,7 +997,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             rowCount,
             self.Entities_Point,
             self.Entities_Link,
-            Args
+            args
         ))
         self.CommandStack.endMacro()
     
@@ -1013,14 +1008,14 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             "Point{}".format(c[0]) for c in coordinates
         )))
         for row, (x, y) in coordinates:
-            Args = self.Entities_Point.rowTexts(row)
-            Args[3] = x
-            Args[4] = y
+            args = self.Entities_Point.rowTexts(row)
+            args[3] = x
+            args[4] = y
             self.CommandStack.push(EditPointTable(
                 row,
                 self.Entities_Point,
                 self.Entities_Link,
-                Args
+                args
             ))
         self.CommandStack.endMacro()
     
@@ -1059,15 +1054,15 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
         name = max(set(links_all), key=links_all.count)
         row = self.Entities_Link.findName(name)
         self.CommandStack.beginMacro("Edit {{Link: {}}}".format(name))
-        Args = self.Entities_Link.rowTexts(row)
+        args = self.Entities_Link.rowTexts(row, hasName=True)
         points = set(self.Entities_Link.getPoints(row))
         points.update(rows)
-        Args[2] = ','.join('Point{}'.format(p) for p in points)
+        args[2] = ','.join('Point{}'.format(p) for p in points)
         self.CommandStack.push(EditLinkTable(
             row,
             self.Entities_Link,
             self.Entities_Point,
-            Args
+            args
         ))
         self.CommandStack.endMacro()
     
@@ -1088,7 +1083,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
         if not dlg.exec_():
             return
         name = dlg.name_edit.text()
-        Args = [
+        args = [
             name,
             dlg.Color.currentText(),
             ','.join(
@@ -1107,7 +1102,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             row,
             self.Entities_Link,
             self.Entities_Point,
-            Args
+            args
         ))
         self.CommandStack.endMacro()
     
@@ -1115,7 +1110,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
     def releaseGround(self):
         """Clone ground to a new link, then make ground no points."""
         name = self.__getLinkSerialNumber()
-        Args = [name, 'Blue', self.Entities_Link.item(0, 2).text()]
+        args = [name, 'Blue', self.Entities_Link.item(0, 2).text()]
         self.CommandStack.beginMacro(
             "Release ground to {{Link: {}}}".format(name)
         )
@@ -1132,7 +1127,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             self.Entities_Link.rowCount() - 1,
             self.Entities_Link,
             self.Entities_Point,
-            Args
+            args
         ))
         self.CommandStack.endMacro()
     
@@ -1191,14 +1186,14 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
     
     def __deletePoint(self, row: int):
         """Push delete point command to stack."""
-        Args = self.Entities_Point.rowTexts(row)
-        Args[0] = ''
+        args = self.Entities_Point.rowTexts(row)
+        args[0] = ''
         self.CommandStack.beginMacro("Delete {{Point{}}}".format(row))
         self.CommandStack.push(EditPointTable(
             row,
             self.Entities_Point,
             self.Entities_Link,
-            Args
+            args
         ))
         for i in range(self.Entities_Link.rowCount()):
             self.CommandStack.push(FixSequenceNumber(
@@ -1234,8 +1229,8 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
         """
         if not row > 0:
             return
-        Args = self.Entities_Link.rowTexts(row)
-        Args[2] = ''
+        args = self.Entities_Link.rowTexts(row, hasName=True)
+        args[2] = ''
         self.CommandStack.beginMacro("Delete {{Link: {}}}".format(
             self.Entities_Link.item(row, 0).text()
         ))
@@ -1243,7 +1238,7 @@ class MainWindow(QMainWindow, Ui_MainWindow, CustomizedMainWindow):
             row,
             self.Entities_Link,
             self.Entities_Point,
-            Args
+            args
         ))
         self.CommandStack.push(DeleteTable(
             row,

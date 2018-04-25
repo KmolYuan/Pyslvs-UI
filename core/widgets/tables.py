@@ -51,8 +51,12 @@ class BaseTableWidget(QTableWidget):
         for i, e in enumerate(('Name',) + HorizontalHeaderItems):
             self.setHorizontalHeaderItem(i, QTableWidgetItem(e))
     
-    def rowTexts(self, row: int, *, hasName: bool =True) -> List[str]:
-        """Get the whole row of texts."""
+    def rowTexts(self, row: int, *, hasName: bool = False) -> List[str]:
+        """Get the whole row of texts.
+        
+        + Edit point: hasName = False
+        + Edit link: hasName = True
+        """
         texts = []
         for column in self.effectiveRange(hasName):
             item = self.item(row, column)
@@ -142,8 +146,8 @@ class PointTableWidget(BaseTableWidget):
         Links: str,
         Type: str,
         Color: str,
-        x,
-        y
+        x: float,
+        y: float
     ):
         """Edite a point."""
         for i, e in enumerate([
@@ -355,8 +359,8 @@ class SelectionLabel(QLabel):
     
     """This QLabel can show distance in status bar."""
     
-    def __init__(self, *Args):
-        super(SelectionLabel, self).__init__(*Args)
+    def __init__(self, *args):
+        super(SelectionLabel, self).__init__(*args)
         self.updateSelectPoint()
     
     @pyqtSlot()

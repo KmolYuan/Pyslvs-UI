@@ -7,6 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from typing import List
 from core.QtModules import (
     QDialog,
     Qt,
@@ -16,6 +17,7 @@ from core.QtModules import (
     pyqtSlot,
 )
 from core.graphics import colorName, colorIcons
+from core.libs import VPoint, VLink
 from .Ui_edit_point import Ui_Dialog
 
 
@@ -26,33 +28,38 @@ class EditPointDialog(QDialog, Ui_Dialog):
     Only edit the target path after closed.
     """
     
-    def __init__(self, Points, Links, pos=False, parent=None):
+    def __init__(self,
+        points: List[VPoint],
+        links: List[VLink],
+        pos: bool = False,
+        parent=None
+    ):
         super(EditPointDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)
         icon = self.windowIcon()
         self.LinkIcon = QIcon(QPixmap(":/icons/link.png"))
-        self.Points = Points
-        self.Links = Links
+        self.points = points
+        self.links = links
         for i, e in enumerate(colorName()):
             self.Color.insertItem(i, colorIcons(e), e)
-        for vlink in Links:
+        for vlink in links:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
         if pos is False:
-            self.Point.addItem(icon, 'Point{}'.format(len(Points)))
+            self.Point.addItem(icon, 'Point{}'.format(len(points)))
             self.Point.setEnabled(False)
             self.Color.setCurrentIndex(self.Color.findText('Green'))
         else:
-            for i in range(len(Points)):
+            for i in range(len(points)):
                 self.Point.insertItem(i, icon, 'Point{}'.format(i))
             self.Point.setCurrentIndex(pos)
     
     @pyqtSlot(int)
     def on_Point_currentIndexChanged(self, index):
         """Load the parameters of the point."""
-        if not len(self.Points) > index:
+        if not len(self.points) > index:
             return
-        vpoint = self.Points[index]
+        vpoint = self.points[index]
         self.X_coordinate.setValue(vpoint.x)
         self.Y_coordinate.setValue(vpoint.y)
         self.Color.setCurrentIndex(self.Color.findText(vpoint.colorSTR))
@@ -62,7 +69,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.selected.clear()
         for linkName in vpoint.links:
             self.selected.addItem(QListWidgetItem(self.LinkIcon, linkName))
-        for vlink in self.Links:
+        for vlink in self.links:
             if vlink.name in vpoint.links:
                 continue
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
