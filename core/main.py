@@ -72,7 +72,7 @@ class MainWindow(
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
         #Undo Stack
-        self.CommandStack = QUndoStack()
+        self.CommandStack = QUndoStack(self)
         self.setLocate(
             QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
@@ -92,7 +92,7 @@ class MainWindow(
         Adjust the canvas size after display.
         """
         super(MainWindow, self).show()
-        self.DynamicCanvasView.zoomToFit()
+        self.MainCanvas.zoomToFit()
         self.DimensionalSynthesis.updateRange()
     
     def setLocate(self, locate: str):
@@ -126,7 +126,7 @@ class MainWindow(
     
     @pyqtSlot(QPoint)
     def on_point_context_menu(self, point):
-        """Entities_Point context menu."""
+        """EntitiesPoint context menu."""
         self.__enablePointContext()
         self.popMenu_point.exec_(self.Entities_Point_Widget.mapToGlobal(point))
         self.action_New_Link.setVisible(True)
@@ -134,17 +134,17 @@ class MainWindow(
     
     @pyqtSlot(QPoint)
     def on_link_context_menu(self, point):
-        """Entities_Link context menu."""
+        """EntitiesLink context menu."""
         self.__enableLinkContext()
         self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
     
     @pyqtSlot(QPoint)
     def on_canvas_context_menu(self, point):
-        """DynamicCanvasView context menu."""
+        """MainCanvas context menu."""
         self.__enablePointContext()
         tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
         self.action_canvas_context_path.setVisible(tabText == "Dimensional")
-        self.popMenu_canvas.exec_(self.DynamicCanvasView.mapToGlobal(point))
+        self.popMenu_canvas.exec_(self.MainCanvas.mapToGlobal(point))
         self.action_New_Link.setVisible(True)
         self.popMenu_point_merge.clear()
     
@@ -154,14 +154,14 @@ class MainWindow(
         What ever we have least one point or not,
         need to enable / disable QAction.
         """
-        selectedRows = self.Entities_Point.selectedRows()
+        selectedRows = self.EntitiesPoint.selectedRows()
         selectionCount = len(selectedRows)
-        row = self.Entities_Point.currentRow()
+        row = self.EntitiesPoint.currentRow()
         #If connecting with the ground.
         if selectionCount:
             self.action_point_context_lock.setChecked(all(
-                'ground' in self.Entities_Point.item(row, 1).text()
-                for row in self.Entities_Point.selectedRows()
+                'ground' in self.EntitiesPoint.item(row, 1).text()
+                for row in self.EntitiesPoint.selectedRows()
             ))
         #If no any points selected.
         for action in (
@@ -196,8 +196,8 @@ class MainWindow(
     
     def __enableLinkContext(self):
         """Enable / disable link's QAction, same as point table."""
-        selectionCount = len(self.Entities_Link.selectedRows())
-        row = self.Entities_Link.currentRow()
+        selectionCount = len(self.EntitiesLink.selectedRows())
+        row = self.EntitiesLink.currentRow()
         self.action_link_context_add.setVisible(selectionCount <= 0)
         selected_one = selectionCount == 1
         self.action_link_context_edit.setEnabled((row > -1) and selected_one)
@@ -209,8 +209,8 @@ class MainWindow(
     @pyqtSlot()
     def enableMechanismActions(self):
         """Enable / disable 'mechanism' menu."""
-        pointSelection = self.Entities_Point.selectedRows()
-        linkSelection = self.Entities_Link.selectedRows()
+        pointSelection = self.EntitiesPoint.selectedRows()
+        linkSelection = self.EntitiesLink.selectedRows()
         ONE_POINT = len(pointSelection) == 1
         ONE_LINK = len(linkSelection) == 1
         POINT_SELECTED = bool(pointSelection)
@@ -229,12 +229,12 @@ class MainWindow(
     @pyqtSlot()
     def copyPointsTable(self):
         """Copy text from point table."""
-        self.__copyTableData(self.Entities_Point)
+        self.__copyTableData(self.EntitiesPoint)
     
     @pyqtSlot()
     def copyLinksTable(self):
         """Copy text from link table."""
-        self.__copyTableData(self.Entities_Link)
+        self.__copyTableData(self.EntitiesLink)
     
     def __copyTableData(self, table):
         """Copy item text to clipboard."""
@@ -244,7 +244,7 @@ class MainWindow(
     
     def copyCoord(self):
         """Copy the current coordinate of the point."""
-        pos = self.Entities_Point.currentPosition(self.Entities_Point.currentRow())
+        pos = self.EntitiesPoint.currentPosition(self.EntitiesPoint.currentRow())
         text = str(pos[0] if (len(pos) == 1) else pos)
         QApplication.clipboard().setText(text)
     
@@ -296,8 +296,8 @@ class MainWindow(
         inputs = list(self.InputsWidget.getInputsVariables())
         try:
             result, DOF = slvsProcess(
-                self.Entities_Point.data(),
-                self.Entities_Link.data(),
+                self.EntitiesPoint.data(),
+                self.EntitiesLink.data(),
                 inputs if not self.FreeMoveMode.isChecked() else ()
             )
         except SlvsException as e:
@@ -308,7 +308,7 @@ class MainWindow(
             self.ConflictGuide.setVisible(True)
             self.DOFview.setVisible(False)
         else:
-            self.Entities_Point.updateCurrentPosition(result)
+            self.EntitiesPoint.updateCurrentPosition(result)
             self.DOF = DOF
             self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
             self.ConflictGuide.setVisible(False)
@@ -320,8 +320,8 @@ class MainWindow(
         
         + VLinks will become graph nodes.
         """
-        joint_data = self.Entities_Point.data()
-        link_data = self.Entities_Link.data()
+        joint_data = self.EntitiesPoint.data()
+        link_data = self.EntitiesLink.data()
         G = Graph()
         #links name for RP joint.
         k = len(link_data)
@@ -367,9 +367,9 @@ class MainWindow(
     
     def reloadCanvas(self):
         """Update main canvas data, without resolving."""
-        self.DynamicCanvasView.updateFigure(
-            self.Entities_Point.data(),
-            self.Entities_Link.data(),
+        self.MainCanvas.updateFigure(
+            self.EntitiesPoint.data(),
+            self.EntitiesLink.data(),
             self.InputsWidget.currentPath()
         )
     
@@ -407,12 +407,12 @@ class MainWindow(
     @pyqtSlot()
     def on_action_Path_style_triggered(self):
         """Set path style as curve (true) or dots (false)."""
-        self.DynamicCanvasView.setCurveMode(self.action_Path_style.isChecked())
+        self.MainCanvas.setCurveMode(self.action_Path_style.isChecked())
     
     @pyqtSlot(int)
     def on_SynthesisTab_currentChanged(self, index):
         """Dimensional synthesis information will show on the canvas."""
-        self.DynamicCanvasView.setShowTargetPath(
+        self.MainCanvas.setShowTargetPath(
             self.SynthesisTab.tabText(index)=="Dimensional"
         )
     
@@ -446,14 +446,14 @@ class MainWindow(
                 for name in from_parenthesis(exp, '[', ']').split(',')
             )
             if i == 0:
-                self.constrainLink(self.Entities_Link.rowCount()-1)
+                self.constrainLink(self.EntitiesLink.rowCount()-1)
         self.CommandStack.endMacro()
         #Add the path.
         i = 0
         while "Algorithm_path_{}".format(i) in self.InputsWidget.pathData:
             i += 1
         self.InputsWidget.addPath("Algorithm_path_{}".format(i), path)
-        self.DynamicCanvasView.zoomToFit()
+        self.MainCanvas.zoomToFit()
     
     @pyqtSlot()
     def on_connectConsoleButton_clicked(self):
@@ -488,3 +488,9 @@ class MainWindow(
             self.showFullScreen()
         else:
             self.showMaximized()
+    
+    @pyqtSlot(int)
+    def on_EntitiesTab_currentChanged(self, index):
+        self.MainCanvas.setSolutionShow(
+            self.EntitiesTab.tabText(index) == "Formulas"
+        )

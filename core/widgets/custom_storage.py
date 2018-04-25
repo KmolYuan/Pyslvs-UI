@@ -32,8 +32,8 @@ class StorageFunc:
         """After saved storage,
         clean all the item of two table widgets.
         """
-        self.Entities_Point.clear()
-        self.Entities_Link.clear()
+        self.EntitiesPoint.clear()
+        self.EntitiesLink.clear()
         self.InputsWidget.variableExcluding()
     
     @pyqtSlot()
@@ -43,7 +43,7 @@ class StorageFunc:
             name = self.mechanism_storage_name_tag.placeholderText()
         self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
         self.__addStorage(name, "M[{}]".format(", ".join(
-            vpoint.expr for vpoint in self.Entities_Point.data()
+            vpoint.expr for vpoint in self.EntitiesPoint.data()
         )))
         self.CommandStack.push(ClearStorageName(
             self.mechanism_storage_name_tag

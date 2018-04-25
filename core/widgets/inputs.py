@@ -37,9 +37,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.setupUi(self)
         #parent's pointer.
         self.FreeMoveMode = parent.FreeMoveMode
-        self.Entities_Point = parent.Entities_Point
-        self.Entities_Link = parent.Entities_Link
-        self.DynamicCanvasView = parent.DynamicCanvasView
+        self.EntitiesPoint = parent.EntitiesPoint
+        self.EntitiesLink = parent.EntitiesLink
+        self.MainCanvas = parent.MainCanvas
         self.resolve = parent.resolve
         self.reloadCanvas = parent.reloadCanvas
         self.outputTo = parent.outputTo
@@ -80,7 +80,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Set one selection from canvas."""
         self.joint_list.setCurrentRow(
             selections[0]
-            if selections[0] in self.Entities_Point.selectedRows()
+            if selections[0] in self.EntitiesPoint.selectedRows()
             else -1
         )
     
@@ -95,9 +95,9 @@ class InputsWidget(QWidget, Ui_Form):
         self.base_link_list.clear()
         if not row > -1:
             return
-        if row not in self.Entities_Point.selectedRows():
-            self.Entities_Point.setSelections((row,), False)
-        for linkName in self.Entities_Point.item(row, 1).text().split(','):
+        if row not in self.EntitiesPoint.selectedRows():
+            self.EntitiesPoint.setSelections((row,), False)
+        for linkName in self.EntitiesPoint.item(row, 1).text().split(','):
             if not linkName:
                 continue
             self.base_link_list.addItem(linkName)
@@ -109,7 +109,7 @@ class InputsWidget(QWidget, Ui_Form):
         if not row > -1:
             return
         inputs_point = self.joint_list.currentRow()
-        linkNames = self.Entities_Point.item(inputs_point, 1).text().split(',')
+        linkNames = self.EntitiesPoint.item(inputs_point, 1).text().split(',')
         for linkName in linkNames:
             if linkName == self.base_link_list.currentItem().text():
                 continue
@@ -141,7 +141,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Add variable with '->' sign."""
         if not self.DOF() > 0:
             return
-        for vlink in self.Entities_Link.data():
+        for vlink in self.EntitiesLink.data():
             if (vlink.name in {base_link, drive_link}) and (len(vlink.points) < 2):
                 return
         name = 'Point{}'.format(point)
@@ -218,13 +218,13 @@ class InputsWidget(QWidget, Ui_Form):
         self.CommandStack.beginMacro("Remove variable of Point{}".format(row))
         self.CommandStack.push(DeleteVariable(row, self.variable_list))
         self.CommandStack.endMacro()
-        self.Entities_Point.getBackPosition()
+        self.EntitiesPoint.getBackPosition()
         self.resolve()
     
     def __getLinkAngle(self, row: int, link: str) -> float:
         """Get the angle of base link and drive link."""
-        Point = self.Entities_Point.data()
-        Link = self.Entities_Link.data()
+        Point = self.EntitiesPoint.data()
+        Link = self.EntitiesLink.data()
         LinkIndex = [vlink.name for vlink in Link]
         relate = Link[LinkIndex.index(link)].points
         base = Point[row]
@@ -253,7 +253,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Back as point number code."""
         vlinks = {
             vlink.name: set(vlink.points)
-            for vlink in self.Entities_Link.data()
+            for vlink in self.EntitiesLink.data()
         }
         for vars in self.getInputsVariables():
             points = vlinks[vars[2]].copy()
@@ -263,9 +263,9 @@ class InputsWidget(QWidget, Ui_Form):
     def variableReload(self):
         """Auto check the points and type."""
         self.joint_list.clear()
-        for i in range(self.Entities_Point.rowCount()):
+        for i in range(self.EntitiesPoint.rowCount()):
             text = "[{}] Point{}".format(
-                self.Entities_Point.item(i, 2).text(),
+                self.EntitiesPoint.item(i, 2).text(),
                 i
             )
             self.joint_list.addItem(text)
@@ -290,7 +290,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.record_start.isChecked() and
             abs(self.oldVar - value) > self.record_interval.value()
         ):
-            self.DynamicCanvasView.recordPath()
+            self.MainCanvas.recordPath()
             self.oldVar = value
     
     def variableValueReset(self):
@@ -298,7 +298,7 @@ class InputsWidget(QWidget, Ui_Form):
         if self.inputs_playShaft.isActive():
             self.variable_play.setChecked(False)
             self.inputs_playShaft.stop()
-        self.Entities_Point.getBackPosition()
+        self.EntitiesPoint.getBackPosition()
         for i, variable in enumerate(self.getInputsVariables()):
             point = variable[0]
             text = '->'.join([
@@ -341,11 +341,11 @@ class InputsWidget(QWidget, Ui_Form):
     def on_record_start_toggled(self, toggled):
         """Save to file path data."""
         if toggled:
-            self.DynamicCanvasView.recordStart(int(
+            self.MainCanvas.recordStart(int(
                 360 / self.record_interval.value()
             ))
             return
-        path = self.DynamicCanvasView.getRecordPath()
+        path = self.MainCanvas.getRecordPath()
         name, ok = QInputDialog.getText(self,
             "Recording completed!",
             "Please input name tag:"
@@ -464,7 +464,7 @@ class InputsWidget(QWidget, Ui_Form):
             elif "Show" in action.text():
                 if action.index==-1:
                     self.record_show.setChecked(True)
-                self.DynamicCanvasView.setPathShow(action.index)
+                self.MainCanvas.setPathShow(action.index)
         self.popMenu_record_list.clear()
     
     @pyqtSlot()
@@ -474,13 +474,13 @@ class InputsWidget(QWidget, Ui_Form):
             show = -1
         else:
             show = -2
-        self.DynamicCanvasView.setPathShow(show)
+        self.MainCanvas.setPathShow(show)
     
     @pyqtSlot(int)
     def on_record_list_currentRowChanged(self, row):
         """Reload the canvas when switch the path."""
         if self.record_show.isChecked():
-            self.DynamicCanvasView.setPathShow(-1)
+            self.MainCanvas.setPathShow(-1)
         self.reloadCanvas()
     
     def currentPath(self):
@@ -492,12 +492,12 @@ class InputsWidget(QWidget, Ui_Form):
         """
         row = self.record_list.currentRow()
         if row == -1:
-            self.DynamicCanvasView.setAutoPath(False)
+            self.MainCanvas.setAutoPath(False)
             return ()
         elif row > 0:
-            self.DynamicCanvasView.setAutoPath(False)
+            self.MainCanvas.setAutoPath(False)
             name = self.record_list.item(row).text()
             return self.pathData.get(name.split(':')[0], ())
         elif row == 0:
-            self.DynamicCanvasView.setAutoPath(True)
+            self.MainCanvas.setAutoPath(True)
             return ()

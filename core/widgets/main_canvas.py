@@ -20,6 +20,7 @@ from typing import (
     Dict,
     Callable,
 )
+from enum import Enum
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
@@ -83,6 +84,15 @@ class Selector:
             min(self.y, self.sy) <= y <= max(self.y, self.sy)
         )
 
+class FreeMode(Enum):
+    
+    """Free move mode."""
+    
+    NoFreeMove = 0
+    Translate = 1
+    Rotate = 2
+    Reflect = 3
+
 class DynamicCanvas(BaseCanvas):
     
     """The canvas in main window.
@@ -125,24 +135,16 @@ class DynamicCanvas(BaseCanvas):
         self.ranges = {}
         #Set showDimension to False.
         self.showDimension = False
-        """Free move mode.
-        
-        0: no free move.
-        1: translate.
-        2: rotate.
-        3: reflect.
-        """
-        self.freemove = 0
+        #Free move mode.
+        self.freemove = FreeMode.NoFreeMove
         #Auto preview function.
-        self.autoPath = True
-        #Set zoom bar.
-        def setZoomValue(a):
-            """Set zoom bar function."""
-            parent.ZoomBar.setValue(
-                parent.ZoomBar.value() +
-                parent.ScaleFactor.value() * a / abs(a)
-            )
-        self.setZoomValue = setZoomValue
+        self.autoPathShow = True
+        #Show solution.
+        self.solutionShow = False
+        #Dependent functions to set zoom bar.
+        self.__setZoom = parent.ZoomBar.setValue
+        self.__zoom = parent.ZoomBar.value
+        self.__zoomFactor = parent.ScaleFactor.value
         #Default margin factor.
         self.marginFactor = 0.95
         #Widget size.
@@ -161,43 +163,43 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     @pyqtSlot(int)
-    def setLinkWidth(self, linkWidth):
+    def setLinkWidth(self, linkWidth: int):
         """Update width of linkages."""
         self.linkWidth = linkWidth
         self.update()
     
     @pyqtSlot(int)
-    def setPathWidth(self, pathWidth):
+    def setPathWidth(self, pathWidth: int):
         """Update width of linkages."""
         self.pathWidth = pathWidth
         self.update()
     
     @pyqtSlot(bool)
-    def setPointMark(self, showPointMark):
+    def setPointMark(self, showPointMark: bool):
         """Update show point mark or not."""
         self.showPointMark = showPointMark
         self.update()
     
     @pyqtSlot(bool)
-    def setShowDimension(self, showDimension):
+    def setShowDimension(self, showDimension: bool):
         """Update show dimension or not."""
         self.showDimension = showDimension
         self.update()
     
     @pyqtSlot(bool)
-    def setCurveMode(self, curve):
+    def setCurveMode(self, curve: bool):
         """Update show as curve mode or not."""
         self.Path.curve = curve
         self.update()
     
     @pyqtSlot(int)
-    def setFontSize(self, fontSize):
+    def setFontSize(self, fontSize: int):
         """Update font size."""
         self.fontSize = fontSize
         self.update()
     
     @pyqtSlot(int)
-    def setZoom(self, zoom):
+    def setZoom(self, zoom: int):
         """Update zoom factor."""
         self.zoom = zoom / 100 * self.rate
         self.update()
@@ -209,16 +211,16 @@ class DynamicCanvas(BaseCanvas):
     
     def setFreeMove(self, freemove: int):
         """Update freemove mode number."""
-        self.freemove = freemove
+        self.freemove = FreeMode(freemove)
         self.update()
     
     @pyqtSlot(int)
-    def setSelectionRadius(self, selectionRadius):
+    def setSelectionRadius(self, selectionRadius: int):
         """Update radius of point selector."""
         self.selectionRadius = selectionRadius
     
     @pyqtSlot(int)
-    def setTransparency(self, transparency):
+    def setTransparency(self, transparency: int):
         """Update transparency.
         
         0%: opaque.
@@ -227,14 +229,14 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     @pyqtSlot(int)
-    def setMarginFactor(self, marginFactor):
+    def setMarginFactor(self, marginFactor: int):
         """Update margin factor when zoom to fit."""
         self.marginFactor = 1 - marginFactor / 100
         self.update()
     
     @pyqtSlot(list)
     def changePointsSelection(self,
-        pointsSelection: Tuple[int]
+        pointsSelection: List[int]
     ):
         """Update the selected points."""
         self.pointsSelection = pointsSelection
@@ -258,9 +260,13 @@ class DynamicCanvas(BaseCanvas):
         self.Path.show = p
         self.update()
     
-    def setAutoPath(self, autoPath: bool):
+    def setAutoPath(self, autoPathShow: bool):
         """Enable auto preview function."""
-        self.autoPath = autoPath
+        self.autoPathShow = autoPathShow
+        self.update()
+    
+    def setSolutionShow(self, solutionShow: bool):
+        self.solutionShow = solutionShow
         self.update()
     
     @pyqtSlot(dict)
@@ -287,14 +293,14 @@ class DynamicCanvas(BaseCanvas):
             self.oy += (height - self.height_old) / 2
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.setFont(QFont('Arial', self.fontSize))
-        if self.freemove:
+        if self.freemove != FreeMode.NoFreeMove:
             #Draw a colored frame for free move mode.
             pen = QPen()
-            if self.freemove == 1:
+            if self.freemove == FreeMode.Translate:
                 pen.setColor(QColor(161, 105, 229))
-            elif self.freemove == 2:
+            elif self.freemove == FreeMode.Rotate:
                 pen.setColor(QColor(219, 162, 6))
-            elif self.freemove == 3:
+            elif self.freemove == FreeMode.Reflect:
                 pen.setColor(QColor(79, 249, 193))
             pen.setWidth(8)
             self.painter.setPen(pen)
@@ -461,18 +467,28 @@ class DynamicCanvas(BaseCanvas):
     def __drawPath(self):
         """Draw paths. Recording first."""
         pen = QPen()
-        if self.autoPath and self.rightInput():
+        if self.autoPathShow and self.rightInput():
+            """Replace to auto preview path."""
+            exprs = self.getTriangle(self.Points)
             self.Path.path = expr_path(
-                self.getTriangle(self.Points),
+                exprs,
                 {n: 'P{}'.format(n) for n in range(len(self.Points))},
                 self.Points,
                 self.pathInterval()
             )
-        if hasattr(self, 'PathRecord'):
-            Path = self.PathRecord
+            if self.solutionShow:
+                for expr in exprs:
+                    self._BaseCanvas__drawSolution(
+                        expr[0],
+                        expr[1:-1],
+                        expr[-1],
+                        self.Points
+                    )
+        if hasattr(self, 'path_record'):
+            paths = self.path_record
         else:
-            Path = self.Path.path
-        for i, path in enumerate(Path):
+            paths = self.Path.path
+        for i, path in enumerate(paths):
             if (
                 (self.Path.show != i) and
                 (self.Path.show != -1) or
@@ -522,25 +538,28 @@ class DynamicCanvas(BaseCanvas):
     
     def recordStart(self, limit: int):
         """Start a limit from main window."""
-        self.PathRecord = [deque([], limit) for i in range(len(self.Points))]
+        self.path_record = [deque([], limit) for i in range(len(self.Points))]
     
     def recordPath(self):
         """Recording path."""
         for i, vpoint in enumerate(self.Points):
-            self.PathRecord[i].append((vpoint.cx, vpoint.cy))
+            self.path_record[i].append((vpoint.cx, vpoint.cy))
     
     def getRecordPath(self):
         """Return paths."""
         path = tuple(
-            tuple(path) if len(set(path))>1 else ()
-            for path in self.PathRecord
+            tuple(path) if (len(set(path)) > 1) else ()
+            for path in self.path_record
         )
-        del self.PathRecord
+        del self.path_record
         return path
     
     def wheelEvent(self, event):
         """Set zoom bar value by mouse wheel."""
-        self.setZoomValue(event.angleDelta().y())
+        value = event.angleDelta().y()
+        self.__setZoom(
+            self.__zoom() + (self.__zoomFactor() * value) / abs(value)
+        )
     
     def mousePressEvent(self, event):
         """Press event.
@@ -567,9 +586,10 @@ class DynamicCanvas(BaseCanvas):
         + Middle button: Zoom to fit.
         + Left button: Edit point function.
         """
-        if event.button() == Qt.MidButton:
+        button = event.button()
+        if button == Qt.MidButton:
             self.zoomToFit()
-        if (event.buttons() == Qt.LeftButton) and (not self.freemove):
+        if (button == Qt.LeftButton) and (self.freemove != FreeMode.NoFreeMove):
             self.Selector.x = event.x() - self.ox
             self.Selector.y = event.y() - self.oy
             self.__mouseSelectedPoint()
@@ -627,7 +647,7 @@ class DynamicCanvas(BaseCanvas):
                 ):
                     self.mouse_noSelection.emit()
             #Edit point coordinates.
-            elif self.freemove:
+            elif (self.freemove != FreeMode.NoFreeMove):
                 self.mouse_freemoveSelection.emit(tuple(
                     (row, (self.Points[row].cx, self.Points[row].cy))
                     for row in self.pointsSelection
@@ -651,9 +671,9 @@ class DynamicCanvas(BaseCanvas):
             self.oy = event.y() - self.Selector.y
             self.update()
         elif self.Selector.LeftButtonDrag:
-            if self.freemove:
+            if self.freemove != FreeMode.NoFreeMove:
                 if self.pointsSelection:
-                    if self.freemove==1:
+                    if self.freemove == FreeMode.Translate:
                         #Free move translate function.
                         mouse_x = x - self.Selector.x/self.zoom
                         mouse_y = y - self.Selector.y/-self.zoom
@@ -663,7 +683,7 @@ class DynamicCanvas(BaseCanvas):
                                 mouse_x + vpoint.x,
                                 mouse_y + vpoint.y
                             ))
-                    elif self.freemove == 2:
+                    elif self.freemove == FreeMode.Rotate:
                         #Free move rotate function.
                         alpha = atan2(y, x) - atan2(
                             self.Selector.y / -self.zoom,
@@ -677,10 +697,10 @@ class DynamicCanvas(BaseCanvas):
                                 r*cos(alpha + beta),
                                 r*sin(alpha + beta)
                             ))
-                    elif self.freemove == 3:
+                    elif self.freemove == FreeMode.Reflect:
                         #Free move reflect function.
-                        fx = 1 if x > 0 else -1
-                        fy = 1 if y > 0 else -1
+                        fx = 1 if (x > 0) else -1
+                        fy = 1 if (y > 0) else -1
                         for row in self.pointsSelection:
                             vpoint = self.Points[row]
                             if vpoint.type == 0:
@@ -791,8 +811,8 @@ class DynamicCanvas(BaseCanvas):
             return
         x_diff = x_left - x_right
         y_diff = y_top - y_bottom
-        x_diff = x_diff if x_diff!=0 else 1
-        y_diff = y_diff if y_diff!=0 else 1
+        x_diff = x_diff if (x_diff != 0) else 1
+        y_diff = y_diff if (y_diff != 0) else 1
         if (width / x_diff) < (height / y_diff):
             factor = width / x_diff
         else:

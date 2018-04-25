@@ -145,6 +145,16 @@ cdef class VPoint:
             (p1.angle == p2.angle)
         )
     
+    def __getitem__(self, int i):
+        """Get coordinate like this:
+        
+        x, y = VPoint(10, 20)
+        """
+        if self.type == 0:
+            return self.c[0][i]
+        else:
+            return self.c[1][i]
+    
     def __repr__(self):
         """Use to generate script."""
         return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)

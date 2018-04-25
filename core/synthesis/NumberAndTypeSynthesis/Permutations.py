@@ -86,8 +86,8 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             self.copy_edges,
             self.copy_image
         ])
-        self.jointDataFunc = parent.Entities_Point.data
-        self.linkDataFunc = parent.Entities_Link.data
+        self.jointDataFunc = parent.EntitiesPoint.data
+        self.linkDataFunc = parent.EntitiesLink.data
         self.getGraph = parent.getGraph
         self.clear()
     

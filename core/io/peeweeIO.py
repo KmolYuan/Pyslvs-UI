@@ -156,8 +156,8 @@ class FileWidget(QWidget, Ui_Form):
         + Get current point data.
         + Get current link data.
         """
-        self.pointDataFunc = parent.Entities_Point.data
-        self.linkDataFunc = parent.Entities_Link.data
+        self.pointDataFunc = parent.EntitiesPoint.data
+        self.linkDataFunc = parent.EntitiesLink.data
         self.storageDataFunc = lambda: tuple((
             parent.mechanism_storage.item(row).text(),
             parent.mechanism_storage.item(row).expr

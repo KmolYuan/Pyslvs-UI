@@ -312,7 +312,7 @@ class LinkTableWidget(BaseTableWidget):
             item = self.item(row, 0)
             if not item:
                 continue
-            if item.text() == name:
+            if name == item.text():
                 return row
     
     def getPoints(self, row: int) -> List[int]:
@@ -344,14 +344,18 @@ class ExprTableWidget(BaseTableWidget):
         )
         for column in range(6):
             self.setColumnWidth(column, 60)
+        self.exprs = []
     
     def setExpr(self, exprs: List[Tuple[str]]):
+        if exprs == self.exprs:
+            return
         self.clear()
         self.setRowCount(len(exprs))
         for row, expr in enumerate(exprs):
             self.setItem(row, 5, QTableWidgetItem(expr[-1]))
             for column, e in enumerate(expr[:-1]):
                 self.setItem(row, column, QTableWidgetItem(e))
+        self.exprs = exprs
 
 class SelectionLabel(QLabel):
     

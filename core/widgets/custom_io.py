@@ -108,7 +108,7 @@ class IOFunc:
         Return true if successed.
         """
         if self.FileWidget.loadExample():
-            self.DynamicCanvasView.zoomToFit()
+            self.MainCanvas.zoomToFit()
     
     @pyqtSlot()
     def on_action_Import_Example_triggered(self):
@@ -133,8 +133,8 @@ class IOFunc:
         self.NumberAndTypeSynthesis.clear()
         self.InputsWidget.clear()
         self.DimensionalSynthesis.clear()
-        self.Entities_Point.clear()
-        self.Entities_Link.clear()
+        self.EntitiesPoint.clear()
+        self.EntitiesLink.clear()
         self.Entities_Expr.clear()
         self.resolve()
     
@@ -195,20 +195,20 @@ class IOFunc:
         else:
             for args in args_list:
                 linkNames = tuple(
-                    vlink.name for vlink in self.Entities_Link.data()
+                    vlink.name for vlink in self.EntitiesLink.data()
                 )
                 links = args[0].split(',')
                 for linkName in links:
                     #If link name not exist.
                     if linkName not in linkNames:
                         self.addLink(linkName, 'Blue')
-                rowCount = self.Entities_Point.rowCount()
+                rowCount = self.EntitiesPoint.rowCount()
                 self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
-                self.CommandStack.push(AddTable(self.Entities_Point))
+                self.CommandStack.push(AddTable(self.EntitiesPoint))
                 self.CommandStack.push(EditPointTable(
                     rowCount,
-                    self.Entities_Point,
-                    self.Entities_Link,
+                    self.EntitiesPoint,
+                    self.EntitiesLink,
                     args
                 ))
                 self.CommandStack.endMacro()
@@ -231,7 +231,7 @@ class IOFunc:
         if not file_name:
             return
         self.FileWidget.read(file_name)
-        self.DynamicCanvasView.zoomToFit()
+        self.MainCanvas.zoomToFit()
     
     @pyqtSlot()
     def on_action_Import_Workbook_triggered(self):
@@ -270,7 +270,7 @@ class IOFunc:
     
     def __v_to_slvs(self) -> Tuple[Tuple[int, int]]:
         """Solvespace edges."""
-        for vlink in self.Entities_Link.data():
+        for vlink in self.EntitiesLink.data():
             if vlink.name=='ground':
                 continue
             for i, p in enumerate(vlink.points):
@@ -290,8 +290,8 @@ class IOFunc:
         if not file_name:
             return
         slvs2D(
-            self.Entities_Point.data(),
-            self.Entities_Link.data(),
+            self.EntitiesPoint.data(),
+            self.EntitiesLink.data(),
             self.__v_to_slvs,
             file_name
         )
@@ -307,8 +307,8 @@ class IOFunc:
         if not file_name:
             return
         dxfSketch(
-            self.Entities_Point.data(),
-            self.Entities_Link.data(),
+            self.EntitiesPoint.data(),
+            self.EntitiesLink.data(),
             self.__v_to_slvs,
             file_name
         )
@@ -320,7 +320,7 @@ class IOFunc:
         file_name = self.outputTo("picture", Qt_images)
         if not file_name:
             return
-        pixmap = self.DynamicCanvasView.grab()
+        pixmap = self.MainCanvas.grab()
         pixmap.save(file_name, format=QFileInfo(file_name).suffix())
         self.saveReplyBox("Picture", file_name)
     
@@ -383,13 +383,13 @@ class IOFunc:
         """Output to PMKS as URL."""
         url = "http://designengrlab.github.io/PMKS/pmks.html?mech="
         urlTable = []
-        for row in range(self.Entities_Point.rowCount()):
-            TypeAndAngle = self.Entities_Point.item(row, 2).text().split(':')
+        for row in range(self.EntitiesPoint.rowCount()):
+            TypeAndAngle = self.EntitiesPoint.item(row, 2).text().split(':')
             pointData = [
-                self.Entities_Point.item(row, 1).text(),
+                self.EntitiesPoint.item(row, 1).text(),
                 TypeAndAngle[0],
-                self.Entities_Point.item(row, 4).text(),
-                self.Entities_Point.item(row, 5).text(),
+                self.EntitiesPoint.item(row, 4).text(),
+                self.EntitiesPoint.item(row, 5).text(),
             ]
             if len(TypeAndAngle)==2:
                 pointData.append(TypeAndAngle[1])
@@ -417,7 +417,7 @@ class IOFunc:
     @pyqtSlot()
     def on_action_Output_to_Picture_clipboard_triggered(self):
         """Capture the canvas image to clipboard."""
-        QApplication.clipboard().setPixmap(self.DynamicCanvasView.grab())
+        QApplication.clipboard().setPixmap(self.MainCanvas.grab())
         QMessageBox.information(self,
             "Captured!",
             "Canvas widget picture is copy to clipboard."
@@ -426,7 +426,7 @@ class IOFunc:
     @pyqtSlot()
     def on_action_Output_to_Expression_triggered(self):
         """Output as expression."""
-        data = self.Entities_Point.data()
+        data = self.EntitiesPoint.data()
         expr = "M[{}]".format(", ".join(vpoint.expr for vpoint in data))
         text = (
             "You can copy the expression and import to another workbook:" +
@@ -445,8 +445,8 @@ class IOFunc:
     def on_action_See_Python_Scripts_triggered(self):
         """Output to Python script for Jupyter notebook."""
         dlg = Script_Dialog(
-            self.Entities_Point.data(),
-            self.Entities_Link.data(),
+            self.EntitiesPoint.data(),
+            self.EntitiesLink.data(),
             self
         )
         dlg.show()
