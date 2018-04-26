@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import Tuple, Sequence, Callable
-from core.libs import VPoint, VLink
+from core.libs import VPoint
 
 
 script_group = ['''\
@@ -99,7 +99,6 @@ entity_normal_xyz = lambda n, p, reversed=False: '\n'.join([
 
 def slvs2D(
     VPoints: Sequence[VPoint],
-    VLinks: Sequence[VLink],
     v_to_slvs: Callable[[], Tuple[int, int]],
     file_name: str
 ):

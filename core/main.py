@@ -11,6 +11,7 @@ from networkx import Graph
 from typing import (
     Tuple,
     List,
+    Dict,
 )
 from argparse import Namespace
 from core.QtModules import (
@@ -26,17 +27,19 @@ from core.QtModules import (
     QMessageBox,
     QInputDialog,
     QTextCursor,
+    QListWidgetItem,
 )
 from core.graphics import edges_view
 from core.io import (
     XStream,
     from_parenthesis,
 )
+#Method wrappers.
 from core.widgets import (
-    CustomizeFunc,
-    IOFunc,
-    EntitiesCmds,
-    StorageFunc,
+    initCustomWidgets,
+    _io,
+    _entities,
+    _storage,
 )
 from core.libs import (
     slvsProcess,
@@ -47,19 +50,15 @@ from core.libs import (
 from .Ui_main import Ui_MainWindow
 
 
-class MainWindow(
-    QMainWindow,
-    Ui_MainWindow,
-    CustomizeFunc,
-    IOFunc,
-    EntitiesCmds,
-    StorageFunc,
-):
+class MainWindow(QMainWindow, Ui_MainWindow):
     
     """The main window of Pyslvs.
     
     Inherited from QMainWindow.
     Exit with QApplication.
+    
+    The main window is too much method that I will split it
+    into wrapper function as 'widgets.custom_xxx' module.
     """
     
     def __init__(self, args: Namespace, parent=None):
@@ -78,7 +77,7 @@ class MainWindow(
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         #Initialize custom UI.
-        self.initCustomWidgets()
+        initCustomWidgets(self)
         self.resolve()
         #Expression & DOF value.
         self.DOF = 0
@@ -187,7 +186,7 @@ class MainWindow(
         
         def mjFunc(i):
             """Generate a merge function."""
-            return lambda: self.__toMultipleJoint(i, selectedRows)
+            return lambda: _entities.toMultipleJoint(self, i, selectedRows)
         
         for i, p in enumerate(selectedRows):
             action = QAction("Base on Point{}".format(p), self)
@@ -261,25 +260,7 @@ class MainWindow(
         event.accept()
     
     def checkFileChanged(self) -> bool:
-        """If the user has not saved the change.
-        
-        Return True if user want to "discard" the operation.
-        """
-        if not self.FileWidget.changed:
-            return False
-        reply = QMessageBox.question(
-            self,
-            "Message",
-            "Are you sure to quit?\nAny changes won't be saved.",
-            (QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel),
-            QMessageBox.Save
-        )
-        if reply == QMessageBox.Save:
-            self.on_action_Save_triggered()
-            return self.FileWidget.changed
-        elif reply == QMessageBox.Discard:
-            return False
-        return True
+        return _io.checkFileChanged(self)
     
     @pyqtSlot(int)
     def commandReload(self, index):
@@ -494,3 +475,232 @@ class MainWindow(
         self.MainCanvas.setSolutionShow(
             self.EntitiesTab.tabText(index) == "Formulas"
         )
+    
+    def workbookNoSave(self):
+        _io.workbookNoSave(self)
+    
+    def workbookSaved(self):
+        _io.workbookSaved(self)
+    
+    @pyqtSlot()
+    def on_windowTitle_fullpath_clicked(self):
+        _io.on_windowTitle_fullpath_clicked(self)
+    
+    @pyqtSlot()
+    def on_action_Get_Help_triggered(self):
+        _io.on_action_Get_Help_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Pyslvs_com_triggered(self):
+        _io.on_action_Pyslvs_com_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_github_repository_triggered(self):
+        _io.on_action_github_repository_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_About_Pyslvs_triggered(self):
+        _io.on_action_About_Pyslvs_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_About_Qt_triggered(self):
+        """Open Qt about."""
+        QMessageBox.aboutQt(self)
+    
+    @pyqtSlot()
+    def on_action_Console_triggered(self):
+        _io.on_action_Console_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Example_triggered(self):
+        _io.on_action_Example_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Import_Example_triggered(self):
+        _io.on_action_Import_Example_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_New_Workbook_triggered(self):
+        _io.on_action_New_Workbook_triggered(self)
+    
+    def clear(self):
+        _io.clear(self)
+    
+    @pyqtSlot()
+    def on_action_Import_PMKS_server_triggered(self):
+        _io.on_action_Import_PMKS_server_triggered(self)
+    
+    def parseExpression(self, expr: str):
+        _io.parseExpression(self, expr)
+    
+    def addEmptyLinkGroup(self, linkcolor: Dict[str, str]):
+        _io.addEmptyLinkGroup(self, linkcolor)
+    
+    @pyqtSlot()
+    def on_action_Load_Workbook_triggered(self):
+        _io.on_action_Load_Workbook_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Import_Workbook_triggered(self):
+        _io.on_action_Import_Workbook_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Save_triggered(self, isBranch: bool = False):
+        _io.on_action_Save_triggered(self, isBranch)
+    
+    @pyqtSlot()
+    def on_action_Save_as_triggered(self, isBranch: bool = False):
+        _io.on_action_Save_as_triggered(self, isBranch)
+    
+    @pyqtSlot()
+    def on_action_Save_branch_triggered(self):
+        _io.on_action_Save_branch_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Output_to_Solvespace_triggered(self):
+        _io.on_action_Output_to_Solvespace_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Output_to_DXF_triggered(self):
+        _io.on_action_Output_to_DXF_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Output_to_Picture_triggered(self):
+        _io.on_action_Output_to_Picture_triggered(self)
+    
+    def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
+        return _io.outputTo(self, formatName, formatChoose)
+    
+    def saveReplyBox(self, title: str, file_name: str):
+        _io.saveReplyBox(self, title, file_name)
+    
+    def inputFrom(self,
+        formatName: str,
+        formatChoose: List[str],
+        multiple: bool = False
+    ) -> str:
+        return _io.inputFrom(self, formatName, formatChoose, multiple)
+    
+    @pyqtSlot()
+    def on_action_Output_to_PMKS_triggered(self):
+        _io.on_action_Output_to_PMKS_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Output_to_Picture_clipboard_triggered(self):
+        _io.on_action_Output_to_Picture_clipboard_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Output_to_Expression_triggered(self):
+        _io.on_action_Output_to_Expression_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_See_Python_Scripts_triggered(self):
+        _io.on_action_See_Python_Scripts_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Check_update_triggered(self):
+        _io.on_action_Check_update_triggered(self)
+    
+    @pyqtSlot()
+    def qAddNormalPoint(self):
+        _entities.qAddNormalPoint(self)
+    
+    def addNormalPoint(self):
+        _entities.addNormalPoint(self)
+    
+    def addFixedPoint(self):
+        _entities.addFixedPoint(self)
+    
+    def addPoint(self,
+        x: float,
+        y: float,
+        fixed: bool = False,
+        color: str = None
+    ) -> int:
+        return _entities.addPoint(self, x, y, fixed, color)
+    
+    def addPointsByGraph(self,
+        G: Graph,
+        pos: Dict[int, Tuple[float, float]],
+        ground_link: int
+    ):
+        _entities.addPointsByGraph(self, G, pos, ground_link)
+    
+    @pyqtSlot(list)
+    def addNormalLink(self, points: List[int]):
+        _entities.addNormalLink(self, points)
+    
+    def addLink(self, name: str, color: str, points: Tuple[int] = ()):
+        _entities.addLink(self, name, color, points)
+    
+    @pyqtSlot()
+    def on_action_New_Point_triggered(self):
+        _entities.on_action_New_Point_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Edit_Point_triggered(self):
+        _entities.on_action_Edit_Point_triggered(self)
+    
+    def lockPoints(self):
+        _entities.lockPoints(self)
+    
+    def toMultipleJoint(self, index: int, points: Tuple[int]):
+        _entities.toMultipleJoint(self, index, points)
+    
+    def clonePoint(self):
+        _entities.clonePoint(self)
+    
+    @pyqtSlot(tuple)
+    def setFreemoved(self, coordinates: Tuple[Tuple[float, float]]):
+        _entities.setFreemoved(self, coordinates)
+    
+    @pyqtSlot()
+    def on_action_New_Link_triggered(self):
+        _entities.on_action_New_Link_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Edit_Link_triggered(self):
+        _entities.on_action_Edit_Link_triggered(self)
+    
+    @pyqtSlot()
+    def releaseGround(self):
+        _entities.releaseGround(self)
+    
+    @pyqtSlot()
+    def constrainLink(self, row: int = None):
+        _entities.constrainLink(self, row)
+    
+    @pyqtSlot()
+    def on_action_Delete_Point_triggered(self):
+        _entities.on_action_Delete_Point_triggered(self)
+    
+    @pyqtSlot()
+    def on_action_Delete_Link_triggered(self):
+        _entities.on_action_Delete_Link_triggered(self)
+    
+    @pyqtSlot()
+    def on_mechanism_storage_add_clicked(self):
+        _storage.on_mechanism_storage_add_clicked(self)
+    
+    @pyqtSlot()
+    def on_mechanism_storage_copy_clicked(self):
+        _storage.on_mechanism_storage_copy_clicked(self)
+    
+    @pyqtSlot()
+    def on_mechanism_storage_paste_clicked(self):
+        _storage.on_mechanism_storage_paste_clicked(self)
+    
+    @pyqtSlot()
+    def on_mechanism_storage_delete_clicked(self):
+        _storage.on_mechanism_storage_delete_clicked(self)
+    
+    @pyqtSlot(QListWidgetItem)
+    def on_mechanism_storage_itemDoubleClicked(self, item):
+        _storage.on_mechanism_storage_itemDoubleClicked(self, item)
+    
+    @pyqtSlot()
+    def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
+        _storage.on_mechanism_storage_restore_clicked(self, item)
+    
+    def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
+        _storage.loadStorage(self, exprs)

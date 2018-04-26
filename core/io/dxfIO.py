@@ -9,12 +9,11 @@ __email__ = "pyslvs@gmail.com"
 
 from dxfwrite import DXFEngine as dxf
 from typing import Tuple, Sequence, Callable
-from core.libs import VPoint, VLink
+from core.libs import VPoint
 
 
 def dxfSketch(
     VPointList: Sequence[VPoint],
-    VLinkList: Sequence[VLink],
     v_to_slvs: Callable[[], Tuple[int, int]],
     file_name: str
 ):

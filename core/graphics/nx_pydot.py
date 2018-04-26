@@ -51,10 +51,10 @@ _graphviz_engine = (
 )
 
 EngineList = []
-for engine in _nx_engine:
-    EngineList.append("NetworkX - {}".format(engine))
-for engine in _graphviz_engine:
-    EngineList.append("Graphviz - {}".format(engine))
+for engine_name in _nx_engine:
+    EngineList.append("NetworkX - {}".format(engine_name))
+for engine_name in _graphviz_engine:
+    EngineList.append("Graphviz - {}".format(engine_name))
 
 class EngineError(Exception):
     pass

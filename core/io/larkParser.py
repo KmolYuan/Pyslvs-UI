@@ -41,7 +41,7 @@ common_WS = '''
 
 common = common_NUMBER + common_CNAME + common_WS
 
-COLOR_LIST = " | ".join("\"{}\"".format(color) for color in reversed(colorName()))
+COLOR_LIST = " | ".join("\"{}\"".format(color) for color in reversed(colorName))
 
 #Usage: tree = parser.parse(expr)
 PMKS_parser = Lark(
@@ -93,7 +93,7 @@ class PMKSArgsTransformer(Transformer):
         """
         hasAngle = args[0]!='R'
         color = args[2] if hasAngle else args[1]
-        if color not in colorName():
+        if color not in colorName:
             color = 'Blue'
         elif 'ground' in args[-1]:
             color = 'Green'

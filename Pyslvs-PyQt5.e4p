@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-04-25, 16:06:02 -->
+<!-- Saved: 2018-04-26, 20:36:03 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -344,31 +344,31 @@
               <string>enableBasic</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableClasses</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableDesign</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableExceptions</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableFormat</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableImports</string>
@@ -380,49 +380,49 @@
               <string>enableLogging</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableMetrics</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableMiscellaneous</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableNewstyle</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableSimilarities</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableStringFormat</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableTypecheck</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enableVariables</string>
             </key>
             <value>
-              <bool>True</bool>
+              <bool>False</bool>
             </value>
             <key>
               <string>enabledMessages</string>

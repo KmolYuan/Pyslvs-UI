@@ -219,15 +219,15 @@ class BaseCanvas(QWidget):
             self.painter.setBrush(Brush)
             if len(path) > 1:
                 pointPath = QPainterPath()
-                for i, (x, y) in enumerate(path):
+                for j, (x, y) in enumerate(path):
                     x *= self.zoom
                     y *= -self.zoom
                     self.painter.drawEllipse(QPointF(x, y), RADIUS, RADIUS)
-                    if i == 0:
+                    if j == 0:
                         self.painter.drawText(QPointF(x+6, y-6), name)
                         pointPath.moveTo(x, y)
                     else:
-                        x2, y2 = path[i-1]
+                        x2, y2 = path[j-1]
                         self.__drawArrow(x, y, x2*self.zoom, y2*-self.zoom)
                         pointPath.lineTo(QPointF(x, y))
                 self.painter.drawPath(pointPath)
@@ -526,8 +526,8 @@ class PreviewCanvas(BaseCanvas):
                 self.setGrounded(row)
                 break
         #Expression
-        for func, args, target in triangle_expr(params['Expression']):
-            self.setStatus(target, True)
+        for params in triangle_expr(params['Expression']):
+            self.setStatus(params[-1], True)
     
     def isAllLock(self) -> bool:
         """Is all joint has solution."""

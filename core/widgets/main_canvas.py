@@ -601,7 +601,7 @@ class DynamicCanvas(BaseCanvas):
         """Select one point."""
         self.__selectedPointFunc(
             self.Selector.selection,
-            lambda *args: self.Selector.distance(*args) < self.selectionRadius
+            lambda x, y: self.Selector.distance(x, y) < self.selectionRadius
         )
     
     def __rectangularSelectedPoint(self):

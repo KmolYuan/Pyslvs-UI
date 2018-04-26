@@ -9,14 +9,14 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .custom import CustomizeFunc
-from .custom_io import IOFunc
-from .custom_entities import EntitiesCmds
-from .custom_storage import StorageFunc
+from .custom import initCustomWidgets
+from . import custom_io as _io
+from . import custom_entities as _entities
+from . import custom_storage as _storage
 
 __all__ = [
-    'CustomizeFunc',
-    'IOFunc',
-    'EntitiesCmds',
-    'StorageFunc',
+    'initCustomWidgets',
+    '_io',
+    '_entities',
+    '_storage',
 ]

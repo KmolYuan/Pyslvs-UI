@@ -41,7 +41,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.LinkIcon = QIcon(QPixmap(":/icons/link.png"))
         self.points = points
         self.links = links
-        for i, e in enumerate(colorName()):
+        for i, e in enumerate(colorName):
             self.Color.insertItem(i, colorIcons(e), e)
         for vlink in links:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))

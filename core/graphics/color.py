@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
 from core.QtModules import (
     QColor,
     Qt,
@@ -42,22 +41,20 @@ color_list = {
     'Dark-Pink': QColor(225, 20, 147),
 }
 
-def colorName() -> Tuple[str]:
-    """Get color names."""
-    return tuple(sorted(color_list.keys()))
+colorName = tuple(sorted(color_list.keys()))
 
-def colorQt(colorName: str) -> QColor:
+def colorQt(name: str) -> QColor:
     """Get color by name."""
-    return color_list.get(colorName, color_list['Blue'])
+    return color_list.get(name, color_list['Blue'])
 
 def colorNum(colorIndex: int) -> QColor:
     """Get color by index."""
-    return color_list[colorName()[colorIndex % len(color_list)]]
+    return color_list[colorName[colorIndex % len(color_list)]]
 
-def colorIcons(colorName: str, size: int =20) -> QIcon:
+def colorIcons(name: str, size: int =20) -> QIcon:
     """Get color block as QIcon by name."""
     colorBlock = QPixmap(QSize(size, size))
-    colorBlock.fill(colorQt(colorName))
+    colorBlock.fill(colorQt(name))
     return QIcon(colorBlock)
 
 """Target path color.
