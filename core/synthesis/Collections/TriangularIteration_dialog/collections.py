@@ -22,7 +22,7 @@ from copy import deepcopy
 from .Ui_collections import Ui_Dialog
 
 
-mechanismParams_4Bar = {
+mech_params_4Bar = {
     'Driver': {'P0': None},
     'Follower': {'P1': None},
     'Target': {'P4': None},
@@ -41,7 +41,7 @@ mechanismParams_4Bar = {
     'same': {},
 }
 
-mechanismParams_8Bar = {
+mech_params_8Bar = {
     'Driver': {'P0': None},
     'Follower': {'P1': None},
     'Target': {'P10': None},
@@ -80,7 +80,7 @@ mechanismParams_8Bar = {
     'same': {2: 1, 4: 3, 7: 6},
 }
 
-mechanismParams_BallLifter = {
+mech_params_BallLifter = {
     'Driver': {'P0': None},
     'Follower': {'P1': None, 'P2': None, 'P3': None, 'P4': None},
     'Target': {'P13': None, 'P14': None},
@@ -151,11 +151,11 @@ class CollectionsDialog(QDialog, Ui_Dialog):
                 return replace_by_dict(self.collections[self.name_loaded])
             except KeyError:
                 if self.name_loaded == "Four bar linkage mechanism":
-                    return replace_by_dict(mechanismParams_4Bar)
+                    return replace_by_dict(mech_params_4Bar)
                 elif self.name_loaded == "Eight bar linkage mechanism":
-                    return replace_by_dict(mechanismParams_8Bar)
+                    return replace_by_dict(mech_params_8Bar)
                 elif self.name_loaded == "Ball lifter linkage mechanism":
-                    return replace_by_dict(mechanismParams_BallLifter)
+                    return replace_by_dict(mech_params_BallLifter)
                 else:
                     return tuple()
         
@@ -265,12 +265,12 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             return
         self.name_loaded = text
         if text == "Four bar linkage mechanism":
-            self.mechanismParams = deepcopy(mechanismParams_4Bar)
+            self.mech_params = deepcopy(mech_params_4Bar)
         elif text == "Eight bar linkage mechanism":
-            self.mechanismParams = deepcopy(mechanismParams_8Bar)
+            self.mech_params = deepcopy(mech_params_8Bar)
         elif self.name_loaded == "Ball lifter linkage mechanism":
-            self.mechanismParams = deepcopy(mechanismParams_BallLifter)
-        self.PreviewCanvas.from_profile(self.mechanismParams)
+            self.mech_params = deepcopy(mech_params_BallLifter)
+        self.PreviewCanvas.from_profile(self.mech_params)
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
@@ -280,8 +280,8 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         if not text:
             return
         self.name_loaded = text
-        self.mechanismParams = self.collections[self.name_loaded]
-        self.PreviewCanvas.from_profile(self.mechanismParams)
+        self.mech_params = self.collections[self.name_loaded]
+        self.PreviewCanvas.from_profile(self.mech_params)
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)

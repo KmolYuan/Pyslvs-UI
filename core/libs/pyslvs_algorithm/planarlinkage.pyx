@@ -44,9 +44,9 @@ cdef class build_planar:
     cdef dict Driver, Follower
     cdef np.ndarray exprs, target, upper, lower
     
-    def __cinit__(self, dict mechanismParams):
+    def __cinit__(self, dict mech_params):
         '''
-        mechanismParams = {
+        mech_params = {
             'Target',
             'Driver',
             'Follower',
@@ -59,33 +59,33 @@ cdef class build_planar:
         '''
         cdef object value
         cdef int l
-        cdef object check_tuple = tuple(len(value) for value in mechanismParams['Target'].values())
+        cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())
         if not all([l==check_tuple[0] for l in check_tuple]):
             raise ValueError("Target path should be in the same size.")
         #counting how many action to satisfied require point
         self.POINTS = check_tuple[0]
         #driving point, string
-        self.Driver = mechanismParams['Driver']
+        self.Driver = mech_params['Driver']
         #folower point, string
-        self.Follower = mechanismParams['Follower']
+        self.Follower = mech_params['Follower']
         #target point name
         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
         cdef double x, y
-        self.targetPoint = tuple(mechanismParams['Target'])
-        self.target = np.ndarray((len(mechanismParams['Target']),), dtype=np.object)
+        self.targetPoint = tuple(mech_params['Target'])
+        self.target = np.ndarray((len(mech_params['Target']),), dtype=np.object)
         cdef int i
-        for i, value in enumerate(mechanismParams['Target'].values()):
+        for i, value in enumerate(mech_params['Target'].values()):
             self.target[i] = tuple(Coordinate(x, y) for x, y in value)
         
         #constraint
-        self.constraint = mechanismParams['constraint']
+        self.constraint = mech_params['constraint']
         
         """
         Expression
         
         ['A', 'B', 'C', 'D', 'E', 'L0', 'L1', 'L2', 'L3', 'L4', 'a0']
         """
-        cdef object ExpressionL = mechanismParams['Expression'].split(';')
+        cdef object ExpressionL = mech_params['Expression'].split(';')
         
         '''
         Link: L0, L1, L2, L3, ...
@@ -139,8 +139,8 @@ cdef class build_planar:
             for i in [0, 1]:
                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
-            tmp_upper.append(mechanismParams[name])
-        tmp_upper += [mechanismParams['AMax']]*len(self.driver_list)*self.POINTS
+            tmp_upper.append(mech_params[name])
+        tmp_upper += [mech_params['AMax']]*len(self.driver_list)*self.POINTS
         self.upper = np.array(tmp_upper, dtype=np.float32)
         
         #lower
@@ -152,8 +152,8 @@ cdef class build_planar:
             for i in [0, 1]:
                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
         for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):
-            tmp_lower.append(mechanismParams[name])
-        tmp_lower += [mechanismParams['AMin']]*len(self.driver_list)*self.POINTS
+            tmp_lower.append(mech_params[name])
+        tmp_lower += [mech_params['AMin']]*len(self.driver_list)*self.POINTS
         self.lower = np.array(tmp_lower, dtype=np.float32)
     
     cpdef np.ndarray get_upper(self):

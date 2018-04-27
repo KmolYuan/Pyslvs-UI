@@ -129,7 +129,7 @@ def _appearance(self):
     self.canvasSplitter.setSizes([600, 10, 30])
     
     #Menu of free move mode.
-    FreeMoveMode_menu = QMenu(self)
+    free_move_mode_menu = QMenu(self)
     def freeMoveMode_func(j, qicon):
         @pyqtSlot()
         def func():
@@ -151,8 +151,8 @@ def _appearance(self):
         action.triggered.connect(freeMoveMode_func(i, action.icon()))
         action.setShortcut("Ctrl+{}".format(i+1))
         action.setShortcutContext(Qt.WindowShortcut)
-        FreeMoveMode_menu.addAction(action)
-    self.FreeMoveMode.setMenu(FreeMoveMode_menu)
+        free_move_mode_menu.addAction(action)
+    self.FreeMoveMode.setMenu(free_move_mode_menu)
     
     #File table settings.
     self.FileWidget = FileWidget(self)
@@ -220,13 +220,6 @@ def _appearance(self):
     
     #Dimensional synthesis
     self.DimensionalSynthesis = DimensionalSynthesis(self)
-    self.DimensionalSynthesis.fixPointRange.connect(
-        self.MainCanvas.updateRanges
-    )
-    self.DimensionalSynthesis.pathChanged.connect(
-        self.MainCanvas.setSolvingPath
-    )
-    self.DimensionalSynthesis.mergeResult.connect(self.mergeResult)
     self.FileWidget.AlgorithmDataFunc = (
         lambda: self.DimensionalSynthesis.mechanism_data
     ) #Call to get algorithm data.

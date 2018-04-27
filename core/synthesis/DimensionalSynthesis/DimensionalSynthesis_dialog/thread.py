@@ -42,14 +42,14 @@ class WorkerThread(QThread):
     
     def __init__(self,
         type_num: AlgorithmType,
-        mechanismParams: Dict[str, Any],
+        mech_params: Dict[str, Any],
         settings: Dict[str, Any]
     ):
         super(WorkerThread, self).__init__(None)
         self.stoped = False
         self.mutex = QMutex()
         self.type_num = type_num
-        self.mechanismParams = mechanismParams
+        self.mech_params = mech_params
         self.settings = settings
         self.loop = 1
     
@@ -61,12 +61,12 @@ class WorkerThread(QThread):
         """Start the algorithm loop."""
         with QMutexLocker(self.mutex):
             self.stoped = False
-        for name, path in self.mechanismParams['Target'].items():
+        for name, path in self.mech_params['Target'].items():
             print("- [{}]: {}".format(name, tuple(
                 (round(x, 2), round(y, 2))
                 for x, y in path
             )))
-        mechanismObj = build_planar(self.mechanismParams)
+        mechanismObj = build_planar(self.mech_params)
         if self.type_num == AlgorithmType.RGA:
             foo = Genetic
         elif self.type_num == AlgorithmType.Firefly:
@@ -124,7 +124,7 @@ class WorkerThread(QThread):
             'TimeAndFitness': time_and_fitness
         }
         mechanism['Algorithm'] = self.type_num.value
-        mechanism.update(self.mechanismParams)
+        mechanism.update(self.mech_params)
         mechanism.update(fitnessParameter)
         print("cost time: {} [s]".format(time_spand))
         return mechanism, time_spand

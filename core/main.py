@@ -259,9 +259,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print("Exit.")
         event.accept()
     
-    def checkFileChanged(self) -> bool:
-        return _io.checkFileChanged(self)
-    
     @pyqtSlot(int)
     def commandReload(self, index):
         """The time of withdrawal and redo action."""
@@ -481,6 +478,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def workbookSaved(self):
         _io.workbookSaved(self)
+    
+    def checkFileChanged(self) -> bool:
+        return _io.checkFileChanged(self)
     
     @pyqtSlot()
     def on_windowTitle_fullpath_clicked(self):

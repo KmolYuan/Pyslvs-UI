@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>465</width>
+    <width>485</width>
     <height>722</height>
    </rect>
   </property>
@@ -40,13 +40,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="profile_name">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="save_button">
             <property name="statusTip">
              <string>Save the structure profile back to the database.</string>
@@ -54,6 +47,13 @@
             <property name="icon">
              <iconset resource="../../../icons.qrc">
               <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="profile_name">
+            <property name="readOnly">
+             <bool>true</bool>
             </property>
            </widget>
           </item>

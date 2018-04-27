@@ -90,6 +90,49 @@ def replace_by_dict(d: dict) -> Tuple[str]:
         tmp_list.append("{}[{}]({})".format(func, ','.join(args), target))
     return tuple(tmp_list)
 
+def graph2vpoints(
+    G: Graph,
+    pos: Dict[int, Tuple[float, float]],
+    cus: Dict[str, int],
+    same: Dict[int, int]
+) -> Tuple[VPoint]:
+    """Change Networkx graph into VPoints."""
+    same_r = {}
+    for k, v in same.items():
+        if v in same_r:
+            same_r[v].append(k)
+        else:
+            same_r[v] = [k]
+    tmp_list = []
+    ev = dict(edges_view(G))
+    for i, e in ev.items():
+        if i in same:
+            link = ''
+        else:
+            e = set(e)
+            if i in same_r:
+                for j in same_r[i]:
+                    e.update(set(ev[j]))
+            link = ", ".join(
+                (str(l) if (l != 0) else 'ground') for l in e
+            )
+        tmp_list.append(VPoint(
+            link,
+            0,
+            0.,
+            'Green',
+            *pos[i]
+        ))
+    for name in sorted(cus):
+        tmp_list.append(VPoint(
+            str(cus[name]) if (cus[name] != 0) else 'ground',
+            0,
+            0.,
+            'Green',
+            *pos[int(name.replace('P', ''))]
+        ))
+    return tmp_list
+
 #Radius of canvas dot.
 RADIUS = 3
 
@@ -528,6 +571,7 @@ class PreviewCanvas(BaseCanvas):
         #Expression
         for params in triangle_expr(params['Expression']):
             self.setStatus(params[-1], True)
+        self.update()
     
     def isAllLock(self) -> bool:
         """Is all joint has solution."""

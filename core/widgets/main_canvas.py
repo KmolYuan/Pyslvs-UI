@@ -242,7 +242,6 @@ class DynamicCanvas(BaseCanvas):
         self.pointsSelection = pointsSelection
         self.update()
     
-    @pyqtSlot(dict)
     def setSolvingPath(self,
         targetPath: Dict[str, Tuple[Tuple[float, float]]]
     ):
@@ -269,7 +268,6 @@ class DynamicCanvas(BaseCanvas):
         self.solutionShow = solutionShow
         self.update()
     
-    @pyqtSlot(dict)
     def updateRanges(self,
         ranges: Dict[str, Tuple[float, float, float]]
     ):

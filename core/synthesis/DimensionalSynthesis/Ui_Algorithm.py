@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/synthesis/DimensionalSynthesis/Algorithm.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\synthesis\DimensionalSynthesis\Algorithm.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(465, 722)
+        Form.resize(485, 722)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/DimensionalSynthesis.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -36,16 +36,16 @@ class Ui_Form(object):
         self.load_profile.setIcon(icon1)
         self.load_profile.setObjectName("load_profile")
         self.horizontalLayout_7.addWidget(self.load_profile)
-        self.profile_name = QtWidgets.QLineEdit(self.layoutWidget)
-        self.profile_name.setReadOnly(True)
-        self.profile_name.setObjectName("profile_name")
-        self.horizontalLayout_7.addWidget(self.profile_name)
         self.save_button = QtWidgets.QPushButton(self.layoutWidget)
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap(":/icons/savefile.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.save_button.setIcon(icon2)
         self.save_button.setObjectName("save_button")
         self.horizontalLayout_7.addWidget(self.save_button)
+        self.profile_name = QtWidgets.QLineEdit(self.layoutWidget)
+        self.profile_name.setReadOnly(True)
+        self.profile_name.setObjectName("profile_name")
+        self.horizontalLayout_7.addWidget(self.profile_name)
         self.clear_button = QtWidgets.QPushButton(self.layoutWidget)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icons/clean.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)

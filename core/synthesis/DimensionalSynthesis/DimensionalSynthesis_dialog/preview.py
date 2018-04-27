@@ -37,6 +37,11 @@ class DynamicCanvas(BaseCanvas):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
+        self.length = 0
+        for path in self.Path.path:
+            l = len(path)
+            if l > self.length:
+                self.length = l
         self.targetPath = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
@@ -54,9 +59,8 @@ class DynamicCanvas(BaseCanvas):
         self.no_error = 0
         #Timer start.
         timer = QTimer(self)
-        timer.setInterval(10)
         timer.timeout.connect(self.change_index)
-        timer.start()
+        timer.start(17)
     
     def __zoomToFitLimit(self):
         """Limitations of four side."""
@@ -226,7 +230,7 @@ class DynamicCanvas(BaseCanvas):
     def change_index(self):
         """A slot to change the path index."""
         self.index += 1
-        self.index %= 360
+        self.index %= self.length
         self.update()
 
 class PreviewDialog(QDialog, Ui_Dialog):

@@ -15,7 +15,7 @@ from typing import (
     List,
     Tuple,
     Set,
-    Any
+    Any,
 )
 from core.QtModules import (
     Qt,
@@ -28,9 +28,13 @@ from core.QtModules import (
     QLabel,
     QApplication,
 )
-from core.graphics import PreviewCanvas, edges_view
+from core.graphics import (
+    PreviewCanvas,
+    edges_view,
+    graph2vpoints,
+)
 from core.io import from_parenthesis, front_of_parenthesis
-from core.libs import vpoints_configure, VPoint
+from core.libs import vpoints_configure
 from .TriangularIteration_dialog import (
     CollectionsDialog,
     ConstraintsDialog,
@@ -362,7 +366,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         if not dlg.exec_():
             return
         self.profile_name = dlg.name_loaded
-        params = dlg.mechanismParams
+        params = dlg.mech_params
         #Add customize joints.
         G = Graph(params['Graph'])
         self.setGraph(G, params['pos'])
@@ -547,50 +551,6 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             (not self.on_expression_clear_clicked())
         ):
             return
-        
-        def graph2vpoints(
-            G: Graph,
-            pos: Dict[int, Tuple[float, float]],
-            cus: Dict[str, int],
-            same: Dict[int, int]
-        ) -> Tuple[VPoint]:
-            """Change Networkx graph into VPoints."""
-            same_r = {}
-            for k, v in same.items():
-                if v in same_r:
-                    same_r[v].append(k)
-                else:
-                    same_r[v] = [k]
-            tmp_list = []
-            ev = dict(edges_view(G))
-            for i, e in ev.items():
-                if i in same:
-                    link = ''
-                else:
-                    e = set(e)
-                    if i in same_r:
-                        for j in same_r[i]:
-                            e.update(set(ev[j]))
-                    link = ", ".join(
-                        (str(l) if (l != 0) else 'ground') for l in e
-                    )
-                tmp_list.append(VPoint(
-                    link,
-                    0,
-                    0.,
-                    'Green',
-                    *pos[i]
-                ))
-            for name in sorted(cus):
-                tmp_list.append(VPoint(
-                    str(cus[name]) if (cus[name] != 0) else 'ground',
-                    0,
-                    0.,
-                    'Green',
-                    *pos[int(name.replace('P', ''))]
-                ))
-            return tmp_list
-        
         exprs = vpoints_configure(
             graph2vpoints(
                 self.PreviewWindow.G,

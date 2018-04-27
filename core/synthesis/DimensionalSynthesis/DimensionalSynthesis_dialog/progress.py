@@ -29,7 +29,7 @@ class Progress_show(QDialog, Ui_Dialog):
     
     def __init__(self,
         type_num: AlgorithmType,
-        mechanismParams: Dict[str, Any],
+        mech_params: Dict[str, Any],
         setting: Dict[str, Any],
         parent=None
     ):
@@ -64,7 +64,7 @@ class Progress_show(QDialog, Ui_Dialog):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.__setTime)
         #Worker thread.
-        self.work = WorkerThread(type_num, mechanismParams, setting)
+        self.work = WorkerThread(type_num, mech_params, setting)
         self.work.progress_update.connect(self.__setProgress)
         self.work.result.connect(self.__getResult)
         self.work.done.connect(self.__finish)

@@ -24,7 +24,6 @@ from .larkParser import (
     PMKS_parser,
     PMKSArgsTransformer,
     triangle_expr,
-    triangle_class,
     from_parenthesis,
     front_of_parenthesis,
 )
@@ -52,7 +51,6 @@ __all__ = [
     'PMKS_parser',
     'PMKSArgsTransformer',
     'triangle_expr',
-    'triangle_class',
     'from_parenthesis',
     'front_of_parenthesis',
     'FileWidget'
