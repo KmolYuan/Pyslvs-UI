@@ -7,14 +7,16 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
+from .QtModules import QApplication
+from .main import MainWindow
 from .info import (
     ARGUMENTS,
     INFO,
     PyslvsSplash
 )
-from .main import MainWindow
 
 __all__ = [
+    'QApplication',
     'MainWindow',
     'ARGUMENTS',
     'INFO',
