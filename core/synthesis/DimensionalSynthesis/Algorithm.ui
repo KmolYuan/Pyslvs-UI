@@ -16,6 +16,50 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_9">
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
+     <item>
+      <widget class="QPushButton" name="load_profile">
+       <property name="statusTip">
+        <string>Load profile from triangular iteration database.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="save_button">
+       <property name="statusTip">
+        <string>Save the structure profile back to the database.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="profile_name">
+       <property name="readOnly">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="clear_button">
+       <property name="statusTip">
+        <string>Clear the current profile and settings.</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../icons.qrc">
+         <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QSplitter" name="splitter_3">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -26,50 +70,6 @@
       </property>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout_6">
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <item>
-           <widget class="QPushButton" name="load_profile">
-            <property name="statusTip">
-             <string>Load profile from triangular iteration database.</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../icons.qrc">
-              <normaloff>:/icons/collections.png</normaloff>:/icons/collections.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="save_button">
-            <property name="statusTip">
-             <string>Save the structure profile back to the database.</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../icons.qrc">
-              <normaloff>:/icons/savefile.png</normaloff>:/icons/savefile.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="profile_name">
-            <property name="readOnly">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="clear_button">
-            <property name="statusTip">
-             <string>Clear the current profile and settings.</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../../icons.qrc">
-              <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_17">
           <item>
