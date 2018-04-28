@@ -284,38 +284,6 @@ def lockPoints(self):
         ))
         self.CommandStack.endMacro()
 
-def toMultipleJoint(self, index: int, points: Tuple[int]):
-    """Merge points into a multiple joint.
-    
-    @index: The index of main joint in the sequence.
-    """
-    row = points[index]
-    self.CommandStack.beginMacro(
-        "Merge {{{}}} as multiple joint {{{}}}".format(
-            ", ".join('Point{}'.format(p) for p in points),
-            'Point{}'.format(row)
-        )
-    )
-    points_data = self.EntitiesPoint.data()
-    for i, p in enumerate(points):
-        if i == index:
-            continue
-        newLinks = points_data[row].links
-        for l in points_data[p].links:
-            #Add new links.
-            if l not in newLinks:
-                newLinks.append(l)
-        args = self.EntitiesPoint.rowTexts(row)
-        args[0] = ','.join(newLinks)
-        self.CommandStack.push(EditPointTable(
-            row,
-            self.EntitiesPoint,
-            self.EntitiesLink,
-            args
-        ))
-        _deletePoint(self, p)
-    self.CommandStack.endMacro()
-
 def clonePoint(self):
     """Clone a point (with orange color)."""
     row = self.EntitiesPoint.currentRow()

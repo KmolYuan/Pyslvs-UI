@@ -58,8 +58,6 @@ from .DimensionalSynthesis_dialog import (
 from .Ui_Algorithm import Ui_Form
 
 
-nan = float('nan')
-
 class DimensionalSynthesis(QWidget, Ui_Form):
     
     """Dimensional synthesis widget."""
@@ -105,7 +103,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.type2.clicked.connect(self.__setAlgorithmToDefault)
         #Signals
         self.Result_list.clicked.connect(self.__hasResult)
-        self.clear_button.clicked.connect(self.__clearSettings)
         self.path_clear.clicked.connect(self.__clearPath)
         self.clear()
     
@@ -132,6 +129,16 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.Link_Expression.clear()
         self.updateRange()
         self.__isAbleToGenerate()
+    
+    def on_clear_button_clicked(self):
+        if self.profile_name.text() == "No setting":
+            return
+        reply = QMessageBox.question(
+            "Clear setting",
+            "Do you want to clear the setting?"
+        )
+        if reply == QMessageBox.Yes:
+            self.__clearSettings()
     
     def loadResults(self,
         mechanism_data: List[Dict[str, Any]]
