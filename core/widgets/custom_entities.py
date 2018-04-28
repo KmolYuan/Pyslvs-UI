@@ -34,8 +34,8 @@ from core.io import (
 def _editPoint(self, row: int = False):
     """Edit point function."""
     dlg = EditPointDialog(
-        self.EntitiesPoint.data(),
-        self.EntitiesLink.data(),
+        self.EntitiesPoint.dataTuple(),
+        self.EntitiesLink.dataTuple(),
         row,
         self
     )
@@ -74,8 +74,8 @@ def _editPoint(self, row: int = False):
 def _editLink(self, row=False):
     """Edit link function."""
     dlg = EditLinkDialog(
-        self.EntitiesPoint.data(),
-        self.EntitiesLink.data(),
+        self.EntitiesPoint.dataTuple(),
+        self.EntitiesLink.dataTuple(),
         row,
         self
     )

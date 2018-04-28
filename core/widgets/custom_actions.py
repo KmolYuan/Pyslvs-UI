@@ -93,7 +93,7 @@ def _toMultipleJoint(self, index: int, points: Tuple[int]):
             'Point{}'.format(row)
         )
     )
-    points_data = self.EntitiesPoint.data()
+    points_data = self.EntitiesPoint.dataTuple()
     for i, p in enumerate(points):
         if i == index:
             continue

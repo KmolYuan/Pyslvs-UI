@@ -9,7 +9,11 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple, List
+from typing import (
+    TypeVar,
+    Tuple,
+    List,
+)
 from core.QtModules import (
     QTableWidget,
     pyqtSignal,
@@ -66,6 +70,10 @@ class BaseTableWidget(QTableWidget):
                 texts.append(item.text())
         return texts
     
+    def dataTuple(self) -> Tuple[TypeVar("Element", VPoint, VLink)]:
+        """Return data set as a container."""
+        return tuple(self.data())
+    
     def selectedRows(self) -> List[int]:
         """Get what row is been selected."""
         tmp_set = set([])
@@ -111,9 +119,9 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(6, 130)
         self.itemSelectionChanged.connect(self.__emitSelectionChanged)
     
-    def data(self, index=-1) -> Tuple[VPoint]:
-        """Get the digitization of all table data."""
-        def get(row):
+    def data(self) -> VPoint:
+        """Yield the digitization of all table data."""
+        for row in range(self.rowCount()):
             Links = self.item(row, 1).text()
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
@@ -130,14 +138,7 @@ class PointTableWidget(BaseTableWidget):
                 Type = {'P':1, 'RP':2}[Type[0]]
             vpoint = VPoint(Links, Type, angle, color, x, y, colorQt)
             vpoint.move(*self.currentPosition(row))
-            return vpoint
-        if index==-1:
-            data = []
-            for row in range(self.rowCount()):
-                data.append(get(row))
-            return tuple(data)
-        else:
-            return get(index)
+            yield vpoint
     
     def editArgs(self,
         row: int,
@@ -213,7 +214,7 @@ class PointTableWidget(BaseTableWidget):
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows) > 1:
-            data = self.data()
+            data = self.dataTuple()
             for i, row in enumerate(selectedRows):
                 if i==len(selectedRows)-1:
                     break
@@ -279,18 +280,17 @@ class LinkTableWidget(BaseTableWidget):
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 130)
     
-    def data(self) -> Tuple[VLink]:
-        """Get the digitization of all table data."""
-        data = []
+    def data(self) -> VLink:
+        """Yield the digitization of all table data."""
         for row in range(self.rowCount()):
             name = self.item(row, 0).text()
             color = self.item(row, 1).text()
-            try:
-                points = tuple(int(p.replace('Point', '')) for p in self.item(row, 2).text().split(','))
-            except:
-                points = ()
-            data.append(VLink(name, color, points, colorQt))
-        return tuple(data)
+            points = []
+            for p in self.item(row, 2).text().split(','):
+                if not p:
+                    continue
+                points.append(int(p.replace('Point', '')))
+            yield VLink(name, color, tuple(points), colorQt)
     
     def editArgs(self,
         row: int,

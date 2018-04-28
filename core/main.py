@@ -143,8 +143,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         inputs = list(self.InputsWidget.getInputsVariables())
         try:
             result, DOF = slvsProcess(
-                self.EntitiesPoint.data(),
-                self.EntitiesLink.data(),
+                self.EntitiesPoint.dataTuple(),
+                self.EntitiesLink.dataTuple(),
                 inputs if not self.FreeMoveMode.isChecked() else ()
             )
         except SlvsException as e:
@@ -167,8 +167,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         
         + VLinks will become graph nodes.
         """
-        joint_data = self.EntitiesPoint.data()
-        link_data = self.EntitiesLink.data()
+        joint_data = self.EntitiesPoint.dataTuple()
+        link_data = self.EntitiesLink.dataTuple()
         G = Graph()
         #links name for RP joint.
         k = len(link_data)
@@ -215,8 +215,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def reloadCanvas(self):
         """Update main canvas data, without resolving."""
         self.MainCanvas.updateFigure(
-            self.EntitiesPoint.data(),
-            self.EntitiesLink.data(),
+            self.EntitiesPoint.dataTuple(),
+            self.EntitiesLink.dataTuple(),
             self.InputsWidget.currentPath()
         )
     

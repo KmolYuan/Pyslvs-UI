@@ -223,12 +223,12 @@ class InputsWidget(QWidget, Ui_Form):
     
     def __getLinkAngle(self, row: int, link: str) -> float:
         """Get the angle of base link and drive link."""
-        Point = self.EntitiesPoint.data()
-        Link = self.EntitiesLink.data()
-        LinkIndex = [vlink.name for vlink in Link]
-        relate = Link[LinkIndex.index(link)].points
-        base = Point[row]
-        drive = Point[relate[relate.index(row)-1]]
+        points = self.EntitiesPoint.dataTuple()
+        links = self.EntitiesLink.dataTuple()
+        link_names = [vlink.name for vlink in links]
+        relate = links[link_names.index(link)].points
+        base = points[row]
+        drive = points[relate[relate.index(row)-1]]
         return base.slopeAngle(drive)
     
     def getInputsVariables(self) -> Tuple[int, str, str, float]:

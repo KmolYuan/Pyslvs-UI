@@ -47,7 +47,7 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
     
     def v_to_slvs() -> Tuple[Tuple[int, int]]:
         for vlink in self.EntitiesLink.data():
-            if vlink.name=='ground':
+            if vlink.name == 'ground':
                 continue
             for i, p in enumerate(vlink.points):
                 if i==0:
@@ -269,7 +269,7 @@ def on_action_Output_to_Solvespace_triggered(self):
     if not file_name:
         return
     slvs2D(
-        self.EntitiesPoint.data(),
+        self.EntitiesPoint.dataTuple(),
         _v_to_slvs(self),
         file_name
     )
@@ -284,7 +284,7 @@ def on_action_Output_to_DXF_triggered(self):
     if not file_name:
         return
     dxfSketch(
-        self.EntitiesPoint.data(),
+        self.EntitiesPoint.dataTuple(),
         _v_to_slvs(self),
         file_name
     )
@@ -398,8 +398,9 @@ def on_action_Output_to_Picture_clipboard_triggered(self):
 
 def on_action_Output_to_Expression_triggered(self):
     """Output as expression."""
-    data = self.EntitiesPoint.data()
-    expr = "M[{}]".format(", ".join(vpoint.expr for vpoint in data))
+    expr = "M[{}]".format(", ".join(
+        vpoint.expr for vpoint in self.EntitiesPoint.data()
+    ))
     text = (
         "You can copy the expression and import to another workbook:" +
         "\n\n{}\n\nClick the save button to copy it.".format(expr)
@@ -416,8 +417,8 @@ def on_action_Output_to_Expression_triggered(self):
 def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
     dlg = Script_Dialog(
-        self.EntitiesPoint.data(),
-        self.EntitiesLink.data(),
+        self.EntitiesPoint.dataTuple(),
+        self.EntitiesLink.dataTuple(),
         self
     )
     dlg.show()
