@@ -526,6 +526,6 @@ def resetOptions(self):
         if type(widget) == QSpinBox:
             widget.setValue(option[-1])
         elif type(widget) == QComboBox:
-            widget.setIndex(option[-1])
+            widget.setCurrentIndex(option[-1])
         elif type(widget) == QCheckBox:
             widget.setChecked(option[-1])
