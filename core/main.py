@@ -27,25 +27,20 @@ from core.QtModules import (
     QTextCursor,
     QListWidgetItem,
 )
-from core.graphics import edges_view
 from core.io import (
     XStream,
-    from_parenthesis,
+    strbetween,
 )
 #Method wrappers.
 from core.widgets import (
     initCustomWidgets,
+    _solver,
     _actions,
     _io,
     _entities,
     _storage,
 )
-from core.libs import (
-    slvsProcess,
-    SlvsException,
-    vpoints_configure,
-    VPoint,
-)
+from core.libs import VPoint
 from .Ui_main import Ui_MainWindow
 
 
@@ -139,86 +134,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.resolve()
     
     def resolve(self):
-        """Resolve: Use Solvespace lib."""
-        inputs = list(self.InputsWidget.getInputsVariables())
-        try:
-            result, DOF = slvsProcess(
-                self.EntitiesPoint.dataTuple(),
-                self.EntitiesLink.dataTuple(),
-                inputs if not self.FreeMoveMode.isChecked() else ()
-            )
-        except SlvsException as e:
-            if self.showConsoleError.isChecked():
-                print(e)
-            self.ConflictGuide.setToolTip(str(e))
-            self.ConflictGuide.setStatusTip("Error: {}".format(e))
-            self.ConflictGuide.setVisible(True)
-            self.DOFview.setVisible(False)
-        else:
-            self.EntitiesPoint.updateCurrentPosition(result)
-            self.DOF = DOF
-            self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
-            self.ConflictGuide.setVisible(False)
-            self.DOFview.setVisible(True)
-        self.reloadCanvas()
+        _solver.resolve(self)
     
     def getGraph(self) -> List[Tuple[int, int]]:
-        """Return edges data for NetworkX graph class.
-        
-        + VLinks will become graph nodes.
-        """
-        joint_data = self.EntitiesPoint.dataTuple()
-        link_data = self.EntitiesLink.dataTuple()
-        G = Graph()
-        #links name for RP joint.
-        k = len(link_data)
-        used_point = set()
-        for i, vlink in enumerate(link_data):
-            for p in vlink.points:
-                if p in used_point:
-                    continue
-                for m, vlink_ in enumerate(link_data):
-                    if not ((i != m) and (p in vlink_.points)):
-                        continue
-                    if joint_data[p].type != 2:
-                        G.add_edge(i, m)
-                        continue
-                    G.add_edge(i, k)
-                    G.add_edge(k, m)
-                    k += 1
-                used_point.add(p)
-        return [edge for n, edge in edges_view(G)]
+        return _solver.getGraph(self)
     
     def getTriangle(self, vpoints: Tuple[VPoint]) -> List[Tuple[str]]:
-        """Update triangle expression here.
-        
-        Special function for VPoints.
-        """
-        exprs = vpoints_configure(
-            vpoints,
-            tuple(self.InputsWidget.inputPair())
-        )
-        self.Entities_Expr.setExpr(exprs)
-        return exprs
+        return _solver.getTriangle(self, vpoints)
     
     def rightInput(self) -> bool:
-        """Is input same as DOF?"""
-        inputs = (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
-        if not inputs:
-            self.Entities_Expr.clear()
-        return inputs
+        return _solver.rightInput(self)
     
     def pathInterval(self) -> float:
-        """Wrapper use to get path interval."""
-        return self.InputsWidget.record_interval.value()
+        return _solver.pathInterval(self)
     
     def reloadCanvas(self):
-        """Update main canvas data, without resolving."""
-        self.MainCanvas.updateFigure(
-            self.EntitiesPoint.dataTuple(),
-            self.EntitiesLink.dataTuple(),
-            self.InputsWidget.currentPath()
-        )
+        _solver.reloadCanvas(self)
     
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value: int):
@@ -274,7 +205,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
         exp_symbol = []
         for exp in Result['Link_Expression'].split(';'):
-            for name in from_parenthesis(exp, '[', ']').split(','):
+            for name in strbetween(exp, '[', ']').split(','):
                 if name not in exp_symbol:
                     exp_symbol.append(name)
         self.CommandStack.beginMacro(
@@ -290,7 +221,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         for i, exp in enumerate(Result['Link_Expression'].split(';')):
             self.addNormalLink(
                 tmp_dict[name]
-                for name in from_parenthesis(exp, '[', ']').split(',')
+                for name in strbetween(exp, '[', ']').split(',')
             )
             if i == 0:
                 self.constrainLink(self.EntitiesLink.rowCount()-1)

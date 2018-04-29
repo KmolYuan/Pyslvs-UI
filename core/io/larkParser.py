@@ -15,12 +15,12 @@ from lark import Lark, Transformer
 from core.graphics import colorName
 
 
-"""Get from parenthesis."""
-from_parenthesis = lambda s, front, back: s[s.find(front)+1:s.find(back)]
-front_of_parenthesis = lambda s, front: s[:s.find(front)]
+_COLOR_LIST = " | ".join('"{}"'.format(color) for color in reversed(colorName))
 
-#Common grammar
-common_NUMBER = '''
+#Usage: tree = parser.parse(expr)
+PMKS_parser = Lark(
+    #Number
+    '''
     DIGIT: "0".."9"
     INT: DIGIT+
     SIGNED_INT: ["+"|"-"] INT
@@ -28,24 +28,19 @@ common_NUMBER = '''
     _EXP: ("e"|"E") SIGNED_INT
     FLOAT: INT _EXP | DECIMAL _EXP?
     NUMBER: FLOAT | INT
-'''
-common_CNAME = '''
+    '''
+    #Letters
+    '''
     LCASE_LETTER: "a".."z"
     UCASE_LETTER: "A".."Z"
     LETTER: UCASE_LETTER | LCASE_LETTER
     CNAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
-'''
-common_WS = '''
+    '''
+    #White space
+    '''
     WS: /[ \\t\\f\\r\\n]/+
-'''
-
-common = common_NUMBER + common_CNAME + common_WS
-
-COLOR_LIST = " | ".join("\"{}\"".format(color) for color in reversed(colorName))
-
-#Usage: tree = parser.parse(expr)
-PMKS_parser = Lark(
-    common +
+    '''
+    
     '''
     type: JOINTTYPE+
     name: CNAME
@@ -60,7 +55,7 @@ PMKS_parser = Lark(
     mechanism: "M[" [joint ("," joint)*] "]"
     
     JOINTTYPE: "RP" | "R" | "P"
-    COLOR    : '''+COLOR_LIST+'''
+    COLOR    : ''' + _COLOR_LIST + '''
     
     %ignore WS
     ''', start='mechanism'
@@ -109,58 +104,3 @@ class PMKSArgsTransformer(Transformer):
     
     link = lambda self, a: tuple(a)
     mechanism = lambda self, j: j
-
-"""Triangle expression parser.
-
-tree = triangle_parser.parse("PLAP[A,L0,a0,B](C);PLLP[C,L1,L2,B](D);PLLP[C,L3,L4,D](E)")
-"""
-triangle_parser = Lark(
-    common +
-    '''
-    FUNCTIONTYPE: "PLAP" | "PLLP" | "PLPP"
-    letter      : UCASE_LETTER+
-    
-    function    : FUNCTIONTYPE+
-    link        : "L" INT
-    angle       : "a" INT
-    joint1      : "P" INT
-    joint2      : letter (letter)*
-    joint       : joint1 | joint2
-    
-    param       : angle | link | joint
-    params      : param ("," param)*
-    expr        : function "[" params "]" "(" joint ")"
-    exprs       : expr (";" expr)*
-    
-    %ignore WS
-    ''', start='exprs'
-)
-
-class TriangleArgsTransformer(Transformer):
-    
-    """Turn into tuple format.
-    
-    TriangleArgsTransformer().transform(tree)
-    """
-    
-    letter = lambda self, n: str(n[0])
-    joint1 = lambda self, n: 'P{}'.format(n[0])
-    joint2 = letter
-    joint = letter
-    link = lambda self, n: 'L{}'.format(n[0])
-    angle = lambda self, n: 'a{}'.format(n[0])
-    function = letter
-    param = letter
-    params = lambda self, a: tuple(a)
-    expr = params
-    exprs = params
-
-def triangle_expr(expr):
-    """Triangular iteration expression.
-    
-    ('PLAP', ('A', 'L0', 'a0', 'B'), 'C'),
-    ('PLLP', ('C', 'L1', 'L2', 'B'), 'D'), ...
-    """
-    tf = TriangleArgsTransformer()
-    for func, args, target in tf.transform(triangle_parser.parse(expr)):
-        yield func, args, target

@@ -7,7 +7,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import Graph
 from math import (
     radians,
     sin,
@@ -23,6 +22,7 @@ from typing import (
     TypeVar,
 )
 from functools import reduce
+from networkx import Graph
 from core.QtModules import (
     QPointF,
     QWidget,
@@ -36,9 +36,9 @@ from core.QtModules import (
     QPainterPath,
     pyqtSlot,
 )
-from core.graphics import colorQt, colorPath
-from core.io import triangle_expr
+from core import io
 from core.libs import VPoint
+from . import colorQt, colorPath
 
 
 def convex_hull(points: Sequence[Tuple[float, float]]):
@@ -82,13 +82,6 @@ def edges_view(G: Graph) -> Tuple[int, Tuple[int, int]]:
     """This generator can keep the numbering be consistent."""
     for n, edge in enumerate(sorted(sorted(e) for e in G.edges)):
         yield (n, tuple(edge))
-
-def replace_by_dict(d: dict) -> Tuple[str]:
-    """A function use to translate the expression."""
-    tmp_list = []
-    for func, args, target in triangle_expr(d['Expression']):
-        tmp_list.append("{}[{}]({})".format(func, ','.join(args), target))
-    return tuple(tmp_list)
 
 def graph2vpoints(
     G: Graph,
@@ -487,8 +480,13 @@ class PreviewCanvas(BaseCanvas):
         if self.showSolutions:
             solutions = ';'.join(self.get_solutions())
             if solutions:
-                for func, args, target in triangle_expr(solutions):
-                    self._BaseCanvas__drawSolution(func, args, target, self.pos)
+                for expr in solutions.split(';'):
+                    self._BaseCanvas__drawSolution(
+                        io.strbefore(expr, '['),
+                        io.strbetween(expr, '[', ']').split(','),
+                        io.strbetween(expr, '(', ')'),
+                        self.pos
+                    )
         #Text of node.
         pen.setColor(Qt.black)
         self.painter.setPen(pen)
@@ -569,8 +567,8 @@ class PreviewCanvas(BaseCanvas):
                 self.setGrounded(row)
                 break
         #Expression
-        for params in triangle_expr(params['Expression']):
-            self.setStatus(params[-1], True)
+        for expr in params['Expression'].split(';'):
+            self.setStatus(io.strbetween(expr, '(', ')'), True)
         self.update()
     
     def isAllLock(self) -> bool:

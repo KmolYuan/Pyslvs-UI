@@ -16,16 +16,13 @@ from .undoRedo import (
     AddStorageName, ClearStorageName,
     AddVariable, DeleteVariable,
 )
-from .images import Qt_images
+from .images import QTIMAGES
 from .slvsIO import slvs2D
 from .dxfIO import dxfSketch
 from .loggingHandler import XStream
 from .larkParser import (
     PMKS_parser,
     PMKSArgsTransformer,
-    triangle_expr,
-    from_parenthesis,
-    front_of_parenthesis,
 )
 from .peeweeIO import FileWidget
 
@@ -44,14 +41,18 @@ __all__ = [
     'ClearStorageName',
     'AddVariable',
     'DeleteVariable',
-    'Qt_images',
+    'QTIMAGES',
     'slvs2D',
     'dxfSketch',
     'XStream',
     'PMKS_parser',
     'PMKSArgsTransformer',
-    'triangle_expr',
-    'from_parenthesis',
-    'front_of_parenthesis',
+    'strbetween',
+    'strbefore',
     'FileWidget'
 ]
+
+
+"""Get from parenthesis."""
+strbetween = lambda s, front, back: s[(s.find(front) + 1):s.find(back)]
+strbefore = lambda s, front: s[:s.find(front)]

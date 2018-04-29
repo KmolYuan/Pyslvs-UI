@@ -17,7 +17,7 @@ from core.QtModules import (
     QMessageBox,
     QListWidgetItem,
 )
-from core.graphics import PreviewCanvas, replace_by_dict
+from core.graphics import PreviewCanvas
 from copy import deepcopy
 from .Ui_collections import Ui_Dialog
 
@@ -148,14 +148,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         def get_solutions_func() -> Tuple[str]:
             """Return solutions to preview canvas."""
             try:
-                return replace_by_dict(self.collections[self.name_loaded])
+                return self.collections[self.name_loaded]
             except KeyError:
                 if self.name_loaded == "Four bar linkage mechanism":
-                    return replace_by_dict(mech_params_4Bar)
+                    return mech_params_4Bar
                 elif self.name_loaded == "Eight bar linkage mechanism":
-                    return replace_by_dict(mech_params_8Bar)
+                    return mech_params_8Bar
                 elif self.name_loaded == "Ball lifter linkage mechanism":
-                    return replace_by_dict(mech_params_BallLifter)
+                    return mech_params_BallLifter
                 else:
                     return tuple()
         

@@ -31,7 +31,7 @@ from core.QtModules import (
     QFileInfo,
     QApplication,
 )
-from core.io import Qt_images
+from core.io import QTIMAGES
 from core.graphics import (
     graph,
     engine_picker,
@@ -245,7 +245,7 @@ class CollectionsStructure(QWidget, Ui_Form):
         )
         if not ok:
             return
-        file_name = self.outputTo("Atlas image", Qt_images)
+        file_name = self.outputTo("Atlas image", QTIMAGES)
         if not file_name:
             return
         icon_size = self.collection_list.iconSize()

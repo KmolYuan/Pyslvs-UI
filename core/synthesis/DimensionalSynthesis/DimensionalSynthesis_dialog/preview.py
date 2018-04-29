@@ -23,7 +23,7 @@ from core.graphics import (
     BaseCanvas,
     colorQt
 )
-from core.io import from_parenthesis, triangle_expr
+from core.io import strbetween
 from .Ui_preview import Ui_Dialog
 
 
@@ -48,7 +48,7 @@ class DynamicCanvas(BaseCanvas):
         self.exp_symbol = []
         self.links = []
         for exp in self.mechanism['Link_Expression'].split(';'):
-            tags = from_parenthesis(exp, '[', ']').split(',')
+            tags = strbetween(exp, '[', ']').split(',')
             self.links.append(tuple(tags))
             for name in tags:
                 if name not in self.exp_symbol:
@@ -254,8 +254,8 @@ class PreviewDialog(QDialog, Ui_Dialog):
         self.left_layout.insertWidget(0, previewWidget)
         #Basic information
         link_tags = []
-        for func, args, target in triangle_expr(self.mechanism['Expression']):
-            for p in args:
+        for expr in self.mechanism['Expression'].split(';'):
+            for p in strbetween(expr, '[', ']').split(','):
                 if ('L' in p) and (p not in link_tags):
                     link_tags.append(p)
         self.basic_label.setText("\n".join(

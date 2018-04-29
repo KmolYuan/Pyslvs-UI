@@ -33,8 +33,8 @@ from core.io import (
     EditPointTable,
     slvs2D,
     dxfSketch,
-    Qt_images,
-    from_parenthesis,
+    QTIMAGES,
+    strbetween,
 )
 
 
@@ -292,7 +292,7 @@ def on_action_Output_to_DXF_triggered(self):
 
 def on_action_Output_to_Picture_triggered(self):
     """Picture save function."""
-    file_name = self.outputTo("picture", Qt_images)
+    file_name = self.outputTo("picture", QTIMAGES)
     if not file_name:
         return
     pixmap = self.MainCanvas.grab()
@@ -301,7 +301,7 @@ def on_action_Output_to_Picture_triggered(self):
 
 def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
     """Simple to support mutiple format."""
-    suffix0 = from_parenthesis(formatChoose[0], '(', ')').split('*')[-1]
+    suffix0 = strbetween(formatChoose[0], '(', ')').split('*')[-1]
     file_name, suffix = QFileDialog.getSaveFileName(
         self,
         "Save to {}...".format(formatName),
@@ -309,7 +309,7 @@ def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
         ';;'.join(formatChoose)
     )
     if file_name:
-        suffix = from_parenthesis(suffix, '(', ')').split('*')[-1]
+        suffix = strbetween(suffix, '(', ')').split('*')[-1]
         print("Format: {}".format(suffix))
         if QFileInfo(file_name).suffix()!=suffix[1:]:
             file_name += suffix
@@ -345,7 +345,7 @@ def inputFrom(self,
     else:
         file_name_s, suffix = QFileDialog.getOpenFileName(self, *args)
     if file_name_s:
-        suffix = from_parenthesis(suffix, '(', ')').split('*')[-1]
+        suffix = strbetween(suffix, '(', ')').split('*')[-1]
         print("Format: {}".format(suffix))
         if type(file_name_s)==str:
             self.setLocate(QFileInfo(file_name_s).absolutePath())

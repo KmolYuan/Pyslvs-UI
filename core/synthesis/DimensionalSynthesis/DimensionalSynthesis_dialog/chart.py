@@ -55,13 +55,13 @@ class ChartDialog(QDialog):
         main_layout.addWidget(self.tabWidget)
     
     def __setChart(self, tabName: str, posX: int, posY: int):
-        '''Setting charts by data index.
+        """Setting charts by data index.
         
         posX / posY: [0] / [1] / [2]
         TimeAndFitness: List[List[Tuple[gen, fitness, time]]]
-        '''
+        """
         if self.mechanism_data:
-            if type(self.mechanism_data[0]['TimeAndFitness'][0])==float:
+            if type(self.mechanism_data[0]['TimeAndFitness'][0]) == float:
                 TimeAndFitness = [
                     [(data['lastGen']*i/len(data['TimeAndFitness']), Tnf, 0)
                     for i, Tnf in enumerate(data['TimeAndFitness'])]

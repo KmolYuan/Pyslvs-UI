@@ -20,7 +20,6 @@ from .canvas import (
     PreviewCanvas,
     convex_hull,
     edges_view,
-    replace_by_dict,
     graph2vpoints,
 )
 from .nx_pydot import (
@@ -41,7 +40,6 @@ __all__ = [
     'PreviewCanvas',
     'convex_hull',
     'edges_view',
-    'replace_by_dict',
     'graph2vpoints',
     'graph',
     'engine_picker',

@@ -32,7 +32,7 @@ from core.QtModules import (
     QFileInfo,
 )
 
-from core.io import Qt_images
+from core.io import QTIMAGES
 from core.libs import NumberSynthesis, topo
 from core.graphics import (
     graph,
@@ -406,7 +406,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
             )
             if not ok:
                 return
-            file_name = self.outputTo("Atlas image", Qt_images)
+            file_name = self.outputTo("Atlas image", QTIMAGES)
             if file_name:
                 reply = QMessageBox.question(self,
                     "Type synthesis",
@@ -430,7 +430,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
         if not ok:
             return
         if not file_name:
-            file_name = self.outputTo("Atlas image", Qt_images)
+            file_name = self.outputTo("Atlas image", QTIMAGES)
         if not file_name:
             return
         width = self.Topologic_result.iconSize().width()

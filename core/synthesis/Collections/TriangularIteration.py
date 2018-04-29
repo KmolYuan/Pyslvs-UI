@@ -33,7 +33,7 @@ from core.graphics import (
     edges_view,
     graph2vpoints,
 )
-from core.io import from_parenthesis, front_of_parenthesis
+from core.io import strbetween, strbefore
 from core.libs import vpoints_configure
 from .TriangularIteration_dialog import (
     CollectionsDialog,
@@ -310,11 +310,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             status_str = "Grounded."
             for expr in list_texts(self.expression_list):
                 if index == int(
-                    from_parenthesis(expr, '(', ')')
+                    strbetween(expr, '(', ')')
                     .replace('P', '')
                 ):
                     status_str = "From {}.".format(
-                        front_of_parenthesis(expr, '[')
+                        strbefore(expr, '[')
                     )
         self.status_show.setText(status_str)
         self.PLAP_solution.setEnabled(not status)
@@ -385,11 +385,11 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
                 break
         #Driver, Follower, Target
         for expr in params['Expression'].split(';'):
-            if front_of_parenthesis(expr, '[') != 'PLAP':
+            if strbefore(expr, '[') != 'PLAP':
                 continue
-            base = from_parenthesis(expr, '[', ']').split(',')[0]
+            base = strbetween(expr, '[', ']').split(',')[0]
             self.__find_follower_to_remove(base)
-            rotator = from_parenthesis(expr, '(', ')')
+            rotator = strbetween(expr, '(', ')')
             self.driver_list.addItem("({}, {})".format(base, rotator))
         self.__setWarning(self.driver_label, not self.driver_list.count())
         self.target_list.addItems(list(params['Target']))
@@ -400,9 +400,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         ])
         #Expression
         for expr in params['Expression'].split(';'):
-            func = front_of_parenthesis(expr, '[')
-            target = from_parenthesis(expr, '(', ')')
-            params = from_parenthesis(expr, '[', ']').split(',')
+            func = strbefore(expr, '[')
+            target = strbetween(expr, '(', ')')
+            params = strbetween(expr, '[', ']').split(',')
             params.insert(0, func)
             params.append(target)
             self.__addSolution(*params)
@@ -439,8 +439,8 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         """Return all symbols."""
         expr_list = set([])
         for expr in self.expr_show.text().split(';'):
-            param_list = from_parenthesis(expr, '[', ']').split(',')
-            param_list.append(from_parenthesis(expr, '(', ')'))
+            param_list = strbetween(expr, '[', ']').split(',')
+            param_list.append(strbetween(expr, '(', ')'))
             expr_list.update(param_list)
         return expr_list
     
@@ -580,7 +580,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         expr = self.expression_list.item(count-1).text()
         self.expression_list.takeItem(count-1)
         self.PreviewWindow.setStatus(
-            from_parenthesis(expr, '(', ')'),
+            strbetween(expr, '(', ')'),
             False
         )
         self.__setParmBind()

@@ -34,12 +34,11 @@ from core.QtModules import (
 )
 from core.graphics import (
     PreviewCanvas,
-    replace_by_dict,
     graph2vpoints,
 )
 from core.io import (
-    from_parenthesis,
-    front_of_parenthesis,
+    strbetween,
+    strbefore,
 )
 from core.libs import expr_path
 from core.synthesis import CollectionsDialog
@@ -82,9 +81,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         def get_solutions_func():
             """For preview canvas."""
             try:
-                return replace_by_dict(self.mech_params)
+                return self.mech_params
             except KeyError:
-                return tuple()
+                return ()
         
         self.PreviewCanvas = PreviewCanvas(get_solutions_func, self)
         self.preview_layout.addWidget(self.PreviewCanvas)
@@ -505,9 +504,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         )
         exprs = []
         for expr in Result['Expression'].split(';'):
-            func = front_of_parenthesis(expr, '[')
-            params = from_parenthesis(expr, '[', ']').split(',')
-            target = from_parenthesis(expr, '(', ')')
+            func = strbefore(expr, '[')
+            params = strbetween(expr, '[', ']').split(',')
+            target = strbetween(expr, '(', ')')
             params.insert(0, func)
             params.append(target)
             exprs.append(tuple(params))
