@@ -282,7 +282,6 @@ def _appearance(self):
     self.jointsize_option.valueChanged.connect(
         self.MainCanvas.setJointSize
     )
-    self.settings_clear.clicked.connect(self.settings.clear)
     self.settings_reset.clicked.connect(self.resetOptions)
     
     #Splitter stretch factor.

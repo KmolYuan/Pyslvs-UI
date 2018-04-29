@@ -798,17 +798,6 @@
                      </property>
                     </spacer>
                    </item>
-                   <item>
-                    <widget class="QPushButton" name="settings_clear">
-                     <property name="text">
-                      <string>Clear local settings</string>
-                     </property>
-                     <property name="icon">
-                      <iconset resource="../icons.qrc">
-                       <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
-                     </property>
-                    </widget>
-                   </item>
                   </layout>
                  </item>
                 </layout>
