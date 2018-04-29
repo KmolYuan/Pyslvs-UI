@@ -60,21 +60,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.args = args
         self.env = ""
+        self.setLocate(
+            QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
+            QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
+        )
         #Console widget.
         self.showConsoleError.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
         #Undo Stack
         self.CommandStack = QUndoStack(self)
-        self.setLocate(
-            QFileInfo(self.args.i).canonicalFilePath() if self.args.i else
-            QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
-        )
         #Initialize custom UI.
         initCustomWidgets(self)
         self.resolve()
-        #Expression & DOF value.
-        self.DOF = 0
         #Load workbook from argument.
         if self.args.r:
             self.FileWidget.read(self.args.r)
@@ -86,7 +84,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         super(MainWindow, self).show()
         self.MainCanvas.zoomToFit()
-        self.DimensionalSynthesis.updateRange()
     
     def setLocate(self, locate: str):
         """Set environment variables."""

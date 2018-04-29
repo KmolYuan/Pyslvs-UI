@@ -25,7 +25,7 @@ def resolve(self):
     """Resolve: Use Solvespace lib."""
     inputs = list(self.InputsWidget.getInputsVariables())
     try:
-        result, DOF = slvsProcess(
+        result, dof = slvsProcess(
             self.EntitiesPoint.dataTuple(),
             self.EntitiesLink.dataTuple(),
             inputs if not self.FreeMoveMode.isChecked() else ()
@@ -39,7 +39,7 @@ def resolve(self):
         self.DOFview.setVisible(False)
     else:
         self.EntitiesPoint.updateCurrentPosition(result)
-        self.DOF = DOF
+        self.DOF = dof
         self.DOFview.setText("{} ({})".format(self.DOF, len(inputs)))
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)

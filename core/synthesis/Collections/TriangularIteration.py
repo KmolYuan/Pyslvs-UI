@@ -107,7 +107,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.collections = {}
         #Canvas
         self.PreviewWindow = PreviewWindow(
-            lambda: tuple(
+            lambda: ';'.join(
                 self.expression_list.item(row).text()
                 for row in range(self.expression_list.count())
             ),

@@ -148,14 +148,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         def get_solutions_func() -> Tuple[str]:
             """Return solutions to preview canvas."""
             try:
-                return self.collections[self.name_loaded]
+                return self.collections[self.name_loaded]['Expression']
             except KeyError:
                 if self.name_loaded == "Four bar linkage mechanism":
-                    return mech_params_4Bar
+                    return mech_params_4Bar['Expression']
                 elif self.name_loaded == "Eight bar linkage mechanism":
-                    return mech_params_8Bar
+                    return mech_params_8Bar['Expression']
                 elif self.name_loaded == "Ball lifter linkage mechanism":
-                    return mech_params_BallLifter
+                    return mech_params_BallLifter['Expression']
                 else:
                     return tuple()
         

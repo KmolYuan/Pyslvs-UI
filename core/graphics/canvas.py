@@ -19,6 +19,7 @@ from typing import (
     Tuple,
     Sequence,
     Any,
+    Callable,
     TypeVar,
 )
 from functools import reduce
@@ -100,6 +101,7 @@ def graph2vpoints(
     ev = dict(edges_view(G))
     for i, e in ev.items():
         if i in same:
+            #Do not connect to anyone!
             link = ''
         else:
             e = set(e)
@@ -380,12 +382,12 @@ class PreviewCanvas(BaseCanvas):
     
     """A preview canvas use to show structure diagram."""
     
-    def __init__(self, get_solutions_func, parent):
+    def __init__(self, get_solutions: Callable[[], str], parent):
         super(PreviewCanvas, self).__init__(parent)
         self.showSolutions = True
         #A function should return a tuple of function expression.
         #Like: ("PLAP[P1,a0,L0,P2](P3)", "PLLP[P1,a0,L0,P2](P3)", ...)
-        self.get_solutions = get_solutions_func
+        self.get_solutions = get_solutions
         """Attributes.
         
         + Origin graph
@@ -478,7 +480,7 @@ class PreviewCanvas(BaseCanvas):
             self.painter.setPen(pen)
         #Solutions
         if self.showSolutions:
-            solutions = ';'.join(self.get_solutions())
+            solutions = self.get_solutions()
             if solutions:
                 for expr in solutions.split(';'):
                     self._BaseCanvas__drawSolution(

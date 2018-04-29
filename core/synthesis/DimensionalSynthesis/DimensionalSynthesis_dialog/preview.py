@@ -27,8 +27,6 @@ from core.io import strbetween
 from .Ui_preview import Ui_Dialog
 
 
-inf = float('inf')
-
 class DynamicCanvas(BaseCanvas):
     
     """Custom canvas for preview algorithm result."""
@@ -45,15 +43,17 @@ class DynamicCanvas(BaseCanvas):
         self.targetPath = self.mechanism['Target']
         self.index = 0
         #exp_symbol = ('A', 'B', 'C', 'D', 'E')
-        self.exp_symbol = []
+        self.exp_symbol = set()
         self.links = []
         for exp in self.mechanism['Link_Expression'].split(';'):
-            tags = strbetween(exp, '[', ']').split(',')
-            self.links.append(tuple(tags))
-            for name in tags:
-                if name not in self.exp_symbol:
-                    self.exp_symbol.append(name)
-        self.exp_symbol = sorted(self.exp_symbol)
+            names = strbetween(exp, '[', ']').split(',')
+            self.links.append(tuple(names))
+            for name in names:
+                self.exp_symbol.add(name)
+        self.exp_symbol = sorted(
+            self.exp_symbol,
+            key = lambda e: int(e.replace('P', ''))
+        )
         #Error
         self.ERROR = False
         self.no_error = 0
@@ -64,6 +64,7 @@ class DynamicCanvas(BaseCanvas):
     
     def __zoomToFitLimit(self):
         """Limitations of four side."""
+        inf = float('inf')
         x_right = inf
         x_left = -inf
         y_top = -inf

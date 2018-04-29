@@ -81,7 +81,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         def get_solutions_func():
             """For preview canvas."""
             try:
-                return self.mech_params
+                return self.mech_params['Expression']
             except KeyError:
                 return ()
         
@@ -103,7 +103,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         #Signals
         self.Result_list.clicked.connect(self.__hasResult)
         self.path_clear.clicked.connect(self.__clearPath)
-        self.clear()
     
     def clear(self):
         """Clear all sub-widgets."""
@@ -127,12 +126,13 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.Expression.clear()
         self.Link_Expression.clear()
         self.updateRange()
-        self.__isAbleToGenerate()
+        self.__ableToGenerate()
     
     def on_clear_button_clicked(self):
         if self.profile_name.text() == "No setting":
             return
         reply = QMessageBox.question(
+            self,
             "Clear setting",
             "Do you want to clear the setting?"
         )
@@ -150,10 +150,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __currentPathChanged(self):
         """Call the canvas to update to current target path."""
         self.setSolvingPath({
-            name: tuple(path)
-            for name, path in self.path.items()
+            name: tuple(path) for name, path in self.path.items()
         })
-        self.__isAbleToGenerate()
+        self.__ableToGenerate()
     
     def currentPath(self) -> List[Tuple[float, float]]:
         """Return the pointer of current target path."""
@@ -336,7 +335,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path_list.takeItem(row)
         self.__currentPathChanged()
     
-    def __isAbleToGenerate(self):
+    def __ableToGenerate(self):
         """Set button enable if all the data are already."""
         self.pointNum.setText(
             "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">" +
@@ -499,8 +498,9 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __getPath(self, row: int):
         """Using result data to generate paths of mechanism."""
         Result = self.mechanism_data[row]
-        point_names = sorted(
-            tag for tag in Result if tag.replace('P', '').isdigit()
+        point_index = sorted(
+            int(tag.replace('P', ''))
+            for tag in Result if tag.replace('P', '').isdigit()
         )
         exprs = []
         for expr in Result['Expression'].split(';'):
@@ -510,17 +510,24 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             params.insert(0, func)
             params.append(target)
             exprs.append(tuple(params))
-        return expr_path(
-            tuple(exprs),
-            {int(name.replace('P', '')): name for name in point_names},
-            graph2vpoints(
-                Graph(Result['Graph']),
-                [Result[key] for key in point_names],
-                Result['cus'],
-                Result['same']
-            ),
-            3
+        pos = {}
+        for name in Result['pos']:
+            try:
+                pos[name] = Result['P{}'.format(name)]
+            except KeyError:
+                pos[name] = Result['pos'][name]
+        vpoints = graph2vpoints(
+            Graph(Result['Graph']),
+            pos,
+            Result['cus'],
+            Result['same']
         )
+        return [path for i, path in enumerate(expr_path(
+            tuple(exprs),
+            {n: 'P{}'.format(n) for n in range(len(vpoints))},
+            vpoints,
+            3
+        )) if (i in point_index)]
     
     @pyqtSlot()
     def on_Result_chart_clicked(self):
@@ -620,8 +627,8 @@ class DimensionalSynthesis(QWidget, Ui_Form):
                 s.valueChanged.connect(self.updateRange)
         self.PreviewCanvas.from_profile(params)
         self.mech_params = params
-        self.__isAbleToGenerate()
         self.updateRange()
+        self.__ableToGenerate()
     
     @pyqtSlot()
     def on_Result_load_settings_clicked(self):
@@ -749,7 +756,6 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     
     @pyqtSlot(float)
     def updateRange(self, p0=None):
-        del p0
         """Update range values to main canvas."""
         
         def t(x, y):
