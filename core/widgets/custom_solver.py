@@ -31,7 +31,7 @@ def resolve(self):
             inputs if not self.freemode_button.isChecked() else ()
         )
     except SlvsException as e:
-        if self.showConsoleError.isChecked():
+        if self.consoleerror_option.isChecked():
             print(e)
         self.ConflictGuide.setToolTip(str(e))
         self.ConflictGuide.setStatusTip("Error: {}".format(e))

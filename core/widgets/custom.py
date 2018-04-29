@@ -12,13 +12,14 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from core.QtModules import (
-    QAction,
-    Qt,
-    QMenu,
     pyqtSlot,
+    Qt,
+    QAction,
+    QMenu,
     QIcon,
     QPixmap,
     QPushButton,
+    QSettings,
     QUndoView,
 )
 from core.info import VERSION
@@ -51,8 +52,8 @@ def _undo_redo(self):
     + Undo view widget.
     + Hot keys.
     """
-    self.CommandStack.setUndoLimit(self.UndoLimit.value())
-    self.UndoLimit.valueChanged.connect(self.CommandStack.setUndoLimit)
+    self.CommandStack.setUndoLimit(self.undolimit_option.value())
+    self.undolimit_option.valueChanged.connect(self.CommandStack.setUndoLimit)
     self.CommandStack.indexChanged.connect(self.commandReload)
     self.undoView = QUndoView(self.CommandStack)
     self.undoView.setEmptyLabel("~ Start Pyslvs")
@@ -255,6 +256,7 @@ def _appearance(self):
     self.addAction(select_all_action)
     
     #While value change, update the canvas widget.
+    self.settings = QSettings('Kmol', 'Pyslvs')
     self.EntitiesPoint.rowSelectionChanged.connect(
         self.MainCanvas.changePointsSelection
     )
@@ -271,7 +273,7 @@ def _appearance(self):
     self.selectionradius_option.valueChanged.connect(
         self.MainCanvas.setSelectionRadius
     )
-    self.linkagetransparency_option.valueChanged.connect(
+    self.linktrans_option.valueChanged.connect(
         self.MainCanvas.setTransparency
     )
     self.marginfactor_option.valueChanged.connect(
@@ -280,6 +282,8 @@ def _appearance(self):
     self.jointsize_option.valueChanged.connect(
         self.MainCanvas.setJointSize
     )
+    self.settings_clear.clicked.connect(self.settings.clear)
+    self.settings_reset.clicked.connect(self.resetOptions)
     
     #Splitter stretch factor.
     self.MainSplitter.setStretchFactor(0, 4)

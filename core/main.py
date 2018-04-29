@@ -65,13 +65,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QStandardPaths.writableLocation(QStandardPaths.DesktopLocation)
         )
         #Console widget.
-        self.showConsoleError.setChecked(self.args.w)
+        self.consoleerror_option.setChecked(self.args.w)
         if not self.args.debug_mode:
             self.on_connectConsoleButton_clicked()
         #Undo Stack
         self.CommandStack = QUndoStack(self)
         #Initialize custom UI.
         initCustomWidgets(self)
+        self.restoreSettings()
         self.resolve()
         #Load workbook from argument.
         if self.args.r:
@@ -115,6 +116,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         if self.InputsWidget.inputs_playShaft.isActive():
             self.InputsWidget.inputs_playShaft.stop()
+        self.saveSettings()
         XStream.back()
         self.setAttribute(Qt.WA_DeleteOnClose)
         print("Exit.")
@@ -300,6 +302,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     
     def copyCoord(self):
         _actions.copyCoord(self)
+    
+    def restoreSettings(self):
+        _io.restoreSettings(self)
+    
+    def saveSettings(self):
+        _io.saveSettings(self)
+    
+    def resetOptions(self):
+        _io.resetOptions(self)
     
     def workbookNoSave(self):
         _io.workbookNoSave(self)

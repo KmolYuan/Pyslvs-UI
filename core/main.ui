@@ -497,8 +497,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>453</width>
-                  <height>729</height>
+                  <width>452</width>
+                  <height>723</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -625,7 +625,7 @@
                      </widget>
                     </item>
                     <item row="6" column="1">
-                     <widget class="QSpinBox" name="linkagetransparency_option">
+                     <widget class="QSpinBox" name="linktrans_option">
                       <property name="suffix">
                        <string> %</string>
                       </property>
@@ -697,7 +697,7 @@
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QSpinBox" name="UndoLimit">
+                     <widget class="QSpinBox" name="undolimit_option">
                       <property name="suffix">
                        <string> times</string>
                       </property>
@@ -719,14 +719,14 @@
                    </property>
                    <layout class="QFormLayout" name="formLayout_3">
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_5">
+                     <widget class="QLabel" name="planarsolver_label">
                       <property name="text">
                        <string>Planar solving:</string>
                       </property>
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QComboBox" name="comboBox">
+                     <widget class="QComboBox" name="planarsolver_option">
                       <item>
                        <property name="text">
                         <string>Python-Solvespace</string>
@@ -744,14 +744,14 @@
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_7">
                     <item>
-                     <widget class="QCheckBox" name="windowTitle_fullpath">
+                     <widget class="QCheckBox" name="titlefullpath_option">
                       <property name="text">
                        <string>Show full file path on window title.</string>
                       </property>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QCheckBox" name="showConsoleError">
+                     <widget class="QCheckBox" name="consoleerror_option">
                       <property name="text">
                        <string>Show the Solvespace error in the console.</string>
                       </property>
@@ -773,12 +773,57 @@
                    </property>
                   </spacer>
                  </item>
+                 <item>
+                  <layout class="QHBoxLayout" name="horizontalLayout">
+                   <item>
+                    <widget class="QCheckBox" name="dontsave_option">
+                     <property name="text">
+                      <string>Do not save Pyslvs option.</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="settings_clear">
+                     <property name="text">
+                      <string>Clear local settings</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../icons.qrc">
+                       <normaloff>:/icons/clean.png</normaloff>:/icons/clean.png</iconset>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
                 </layout>
                </widget>
               </widget>
              </item>
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <item>
+                <widget class="QPushButton" name="settings_reset">
+                 <property name="text">
+                  <string>Restore Defaults</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <spacer name="horizontalSpacer_4">
                  <property name="orientation">
@@ -1142,7 +1187,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>30</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
