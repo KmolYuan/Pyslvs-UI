@@ -28,7 +28,7 @@ def resolve(self):
         result, dof = slvsProcess(
             self.EntitiesPoint.dataTuple(),
             self.EntitiesLink.dataTuple(),
-            inputs if not self.FreeMoveMode.isChecked() else ()
+            inputs if not self.freemode_button.isChecked() else ()
         )
     except SlvsException as e:
         if self.showConsoleError.isChecked():

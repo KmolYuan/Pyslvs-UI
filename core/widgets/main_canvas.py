@@ -144,7 +144,7 @@ class DynamicCanvas(BaseCanvas):
         #Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
-        self.__zoomFactor = parent.ScaleFactor.value
+        self.__zoomFactor = parent.scalefactor_option.value
         #Default margin factor.
         self.marginFactor = 0.95
         #Widget size.
@@ -232,6 +232,12 @@ class DynamicCanvas(BaseCanvas):
     def setMarginFactor(self, marginFactor: int):
         """Update margin factor when zoom to fit."""
         self.marginFactor = 1 - marginFactor / 100
+        self.update()
+    
+    @pyqtSlot(int)
+    def setJointSize(self, jointsize: int):
+        """Update size for each joint."""
+        self.jointsize = jointsize
         self.update()
     
     @pyqtSlot(list)

@@ -497,32 +497,26 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>436</width>
-                  <height>731</height>
+                  <width>453</width>
+                  <height>729</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
                  <item>
                   <widget class="QGroupBox" name="settings_ui_groupbox">
                    <property name="title">
-                    <string>User interface</string>
+                    <string>Main canvas</string>
                    </property>
                    <layout class="QFormLayout" name="formLayout">
                     <item row="0" column="0">
-                     <widget class="QLabel" name="LineWidth_label">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
+                     <widget class="QLabel" name="linewidth_label">
                       <property name="text">
                        <string>Line width</string>
                       </property>
                      </widget>
                     </item>
                     <item row="0" column="1">
-                     <widget class="QSpinBox" name="LineWidth">
+                     <widget class="QSpinBox" name="linewidth_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -538,20 +532,14 @@
                      </widget>
                     </item>
                     <item row="1" column="0">
-                     <widget class="QLabel" name="Font_size_label">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
+                     <widget class="QLabel" name="fontsize_label">
                       <property name="text">
                        <string>Font size</string>
                       </property>
                      </widget>
                     </item>
                     <item row="1" column="1">
-                     <widget class="QSpinBox" name="Font_size">
+                     <widget class="QSpinBox" name="fontsize_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -567,20 +555,14 @@
                      </widget>
                     </item>
                     <item row="3" column="0">
-                     <widget class="QLabel" name="PathWidth_label">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
+                     <widget class="QLabel" name="pathwidth_label">
                       <property name="text">
                        <string>Path width</string>
                       </property>
                      </widget>
                     </item>
                     <item row="3" column="1">
-                     <widget class="QSpinBox" name="PathWidth">
+                     <widget class="QSpinBox" name="pathwidth_option">
                       <property name="minimum">
                        <number>1</number>
                       </property>
@@ -593,14 +575,14 @@
                      </widget>
                     </item>
                     <item row="4" column="0">
-                     <widget class="QLabel" name="ScaleFactor_label">
+                     <widget class="QLabel" name="scalefactor_label">
                       <property name="text">
                        <string>Scale factor</string>
                       </property>
                      </widget>
                     </item>
                     <item row="4" column="1">
-                     <widget class="QSpinBox" name="ScaleFactor">
+                     <widget class="QSpinBox" name="scalefactor_option">
                       <property name="minimum">
                        <number>5</number>
                       </property>
@@ -616,14 +598,14 @@
                      </widget>
                     </item>
                     <item row="5" column="0">
-                     <widget class="QLabel" name="label">
+                     <widget class="QLabel" name="selectionradius_label">
                       <property name="text">
                        <string>Selection radius</string>
                       </property>
                      </widget>
                     </item>
                     <item row="5" column="1">
-                     <widget class="QSpinBox" name="SelectionRadius">
+                     <widget class="QSpinBox" name="selectionradius_option">
                       <property name="minimum">
                        <number>3</number>
                       </property>
@@ -636,14 +618,14 @@
                      </widget>
                     </item>
                     <item row="6" column="0">
-                     <widget class="QLabel" name="label_2">
+                     <widget class="QLabel" name="linkagetransparency_label">
                       <property name="text">
                        <string>Linkage transparency</string>
                       </property>
                      </widget>
                     </item>
                     <item row="6" column="1">
-                     <widget class="QSpinBox" name="LinkageTransparency">
+                     <widget class="QSpinBox" name="linkagetransparency_option">
                       <property name="suffix">
                        <string> %</string>
                       </property>
@@ -656,14 +638,14 @@
                      </widget>
                     </item>
                     <item row="7" column="0">
-                     <widget class="QLabel" name="label_4">
+                     <widget class="QLabel" name="marginfactor_label">
                       <property name="text">
                        <string>Margin of &quot;zoom to fit&quot;</string>
                       </property>
                      </widget>
                     </item>
                     <item row="7" column="1">
-                     <widget class="QSpinBox" name="MarginFactor">
+                     <widget class="QSpinBox" name="marginfactor_option">
                       <property name="suffix">
                        <string>%</string>
                       </property>
@@ -672,6 +654,26 @@
                       </property>
                       <property name="singleStep">
                        <number>5</number>
+                      </property>
+                      <property name="value">
+                       <number>5</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="8" column="0">
+                     <widget class="QLabel" name="jointsize_label">
+                      <property name="text">
+                       <string>Joint annotation size (diameter)</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="8" column="1">
+                     <widget class="QSpinBox" name="jointsize_option">
+                      <property name="minimum">
+                       <number>1</number>
+                      </property>
+                      <property name="maximum">
+                       <number>100</number>
                       </property>
                       <property name="value">
                        <number>5</number>
@@ -942,7 +944,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="FreeMoveMode">
+              <widget class="QPushButton" name="freemode_button">
                <property name="statusTip">
                 <string>This mode allows all point coordinates to be edited by drag and drop.</string>
                </property>
@@ -1140,7 +1142,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -160,6 +160,8 @@ class BaseCanvas(QWidget):
         #Canvas zoom rate.
         self.rate = 2
         self.zoom = 2 * self.rate
+        #Joint size.
+        self.jointsize = 5
         #Canvas line width.
         self.linkWidth = 3
         self.pathWidth = 3
@@ -233,7 +235,7 @@ class BaseCanvas(QWidget):
             )
             self.painter.drawEllipse(QPointF(x, y), width, width)
         else:
-            self.painter.drawEllipse(QPointF(x, y), 5, 5)
+            self.painter.drawEllipse(QPointF(x, y), self.jointsize, self.jointsize)
         if not self.showPointMark:
             return
         pen.setColor(Qt.darkGray)

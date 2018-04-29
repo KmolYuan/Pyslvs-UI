@@ -131,11 +131,13 @@ def _appearance(self):
     #Menu of free move mode.
     free_move_mode_menu = QMenu(self)
     def freeMoveMode_func(j, qicon):
+        
         @pyqtSlot()
         def func():
-            self.FreeMoveMode.setIcon(qicon)
+            self.freemode_button.setIcon(qicon)
             self.MainCanvas.setFreeMove(j)
             self.InputsWidget.variable_stop.click()
+        
         return func
     for i, (text, icon) in enumerate([
         ("View mode", "freemove_off"),
@@ -152,7 +154,7 @@ def _appearance(self):
         action.setShortcut("Ctrl+{}".format(i+1))
         action.setShortcutContext(Qt.WindowShortcut)
         free_move_mode_menu.addAction(action)
-    self.FreeMoveMode.setMenu(free_move_mode_menu)
+    self.freemode_button.setMenu(free_move_mode_menu)
     
     #File table settings.
     self.FileWidget = FileWidget(self)
@@ -166,7 +168,7 @@ def _appearance(self):
     #Inputs widget.
     self.InputsWidget = InputsWidget(self)
     self.inputs_tab_layout.addWidget(self.InputsWidget)
-    self.FreeMoveMode.toggled.connect(self.InputsWidget.variableValueReset)
+    self.freemode_button.toggled.connect(self.InputsWidget.variableValueReset)
     self.MainCanvas.mouse_getSelection.connect(
         self.InputsWidget.setSelection
     )
@@ -240,40 +242,43 @@ def _appearance(self):
     self.connectConsoleButton.setEnabled(self.args.debug_mode)
     
     #Select all button on the Point and Link tab as corner widget.
-    SelectAllButton = QPushButton()
-    SelectAllButton.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
-    SelectAllButton.setToolTip("Select all")
-    SelectAllButton.setStatusTip("Select all item of point table.")
-    SelectAllButton.clicked.connect(self.EntitiesPoint.selectAll)
-    self.EntitiesTab.setCornerWidget(SelectAllButton)
-    SelectAllAction = QAction("Select all point", self)
-    SelectAllAction.triggered.connect(self.EntitiesPoint.selectAll)
-    SelectAllAction.setShortcut("Ctrl+A")
-    SelectAllAction.setShortcutContext(Qt.WindowShortcut)
-    self.addAction(SelectAllAction)
+    select_all_button = QPushButton()
+    select_all_button.setIcon(QIcon(QPixmap(":/icons/select_all.png")))
+    select_all_button.setToolTip("Select all")
+    select_all_button.setStatusTip("Select all item of point table.")
+    select_all_button.clicked.connect(self.EntitiesPoint.selectAll)
+    self.EntitiesTab.setCornerWidget(select_all_button)
+    select_all_action = QAction("Select all point", self)
+    select_all_action.triggered.connect(self.EntitiesPoint.selectAll)
+    select_all_action.setShortcut("Ctrl+A")
+    select_all_action.setShortcutContext(Qt.WindowShortcut)
+    self.addAction(select_all_action)
     
     #While value change, update the canvas widget.
     self.EntitiesPoint.rowSelectionChanged.connect(
         self.MainCanvas.changePointsSelection
     )
     self.ZoomBar.valueChanged.connect(self.MainCanvas.setZoom)
-    self.LineWidth.valueChanged.connect(self.MainCanvas.setLinkWidth)
-    self.PathWidth.valueChanged.connect(self.MainCanvas.setPathWidth)
-    self.Font_size.valueChanged.connect(self.MainCanvas.setFontSize)
+    self.linewidth_option.valueChanged.connect(self.MainCanvas.setLinkWidth)
+    self.pathwidth_option.valueChanged.connect(self.MainCanvas.setPathWidth)
+    self.fontsize_option.valueChanged.connect(self.MainCanvas.setFontSize)
     self.action_Display_Point_Mark.toggled.connect(
         self.MainCanvas.setPointMark
     )
     self.action_Display_Dimensions.toggled.connect(
         self.MainCanvas.setShowDimension
     )
-    self.SelectionRadius.valueChanged.connect(
+    self.selectionradius_option.valueChanged.connect(
         self.MainCanvas.setSelectionRadius
     )
-    self.LinkageTransparency.valueChanged.connect(
+    self.linkagetransparency_option.valueChanged.connect(
         self.MainCanvas.setTransparency
     )
-    self.MarginFactor.valueChanged.connect(
+    self.marginfactor_option.valueChanged.connect(
         self.MainCanvas.setMarginFactor
+    )
+    self.jointsize_option.valueChanged.connect(
+        self.MainCanvas.setJointSize
     )
     
     #Splitter stretch factor.
