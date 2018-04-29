@@ -117,3 +117,6 @@ out/
 #Eric cache
 .eric6project/
 _eric6project/
+
+#PyCharm cache
+.idea/
