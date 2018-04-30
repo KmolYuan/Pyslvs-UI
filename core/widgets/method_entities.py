@@ -318,12 +318,12 @@ def clonePoint(self):
     self.CommandStack.endMacro()
 
 
-def setFreemoved(self, coordinates: Tuple[Tuple[float, float]]):
+def setFreemoved(self, coords: Tuple[Tuple[int, Tuple[float, float]]]):
     """Free move function."""
     self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
-        "Point{}".format(c[0]) for c in coordinates
+        "Point{}".format(c[0]) for c in coords
     )))
-    for row, (x, y) in coordinates:
+    for row, (x, y) in coords:
         args = self.EntitiesPoint.rowTexts(row)
         args[3] = x
         args[4] = y
@@ -478,3 +478,10 @@ def on_action_Delete_Link_triggered(self):
     )
     for row in selections:
         _deleteLink(self, row)
+
+def setCoordsAsCurrent(self):
+    """Update points position as current coordinate."""
+    self.setFreemoved(tuple(
+        (row, self.EntitiesPoint.currentPosition(row)[0])
+        for row in range(self.EntitiesPoint.rowCount())
+    ))

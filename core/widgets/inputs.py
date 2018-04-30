@@ -5,6 +5,7 @@
 import csv
 from typing import Tuple
 from core.QtModules import (
+    pyqtSignal,
     pyqtSlot,
     QWidget,
     QDial,
@@ -32,10 +33,12 @@ class InputsWidget(QWidget, Ui_Form):
     + Path recording.
     """
     
+    aboutToResolve = pyqtSignal()
+    
     def __init__(self, parent):
         super(InputsWidget, self).__init__(parent)
         self.setupUi(self)
-        #parent's pointer.
+        #parent's function pointer.
         self.freemode_button = parent.freemode_button
         self.EntitiesPoint = parent.EntitiesPoint
         self.EntitiesLink = parent.EntitiesLink
@@ -47,22 +50,30 @@ class InputsWidget(QWidget, Ui_Form):
         self.DOF = lambda: parent.DOF
         self.rightInput = parent.rightInput
         self.CommandStack = parent.CommandStack
+        self.setCoordsAsCurrent = parent.setCoordsAsCurrent
+        
         #self widgets.
         self.dial = QDial()
+        self.dial.setStatusTip("Input widget of rotatable joint.")
         self.dial.setEnabled(False)
         self.dial.valueChanged.connect(self.__updateVar)
         self.dial_spinbox.valueChanged.connect(self.__setVar)
         self.inputs_dial_layout.addWidget(RotatableView(self.dial))
+        
         self.variable_stop.clicked.connect(self.variableValueReset)
+        
         self.inputs_playShaft = QTimer(self)
         self.inputs_playShaft.setInterval(10)
         self.inputs_playShaft.timeout.connect(self.__changeIndex)
+        
         self.variable_list.currentRowChanged.connect(self.__dialOk)
-        '''Inputs record context menu
+        self.update_pos.clicked.connect(self.setCoordsAsCurrent)
+        
+        """Inputs record context menu
         
         + Copy data from Point{}
         + ...
-        '''
+        """
         self.record_list.customContextMenuRequested.connect(
             self.on_record_list_context_menu
         )
@@ -280,12 +291,14 @@ class InputsWidget(QWidget, Ui_Form):
         """Update the value when rotating QDial."""
         item = self.variable_list.currentItem()
         value /= 100.
+        self.dial_spinbox.blockSignals(True)
         self.dial_spinbox.setValue(value)
+        self.dial_spinbox.blockSignals(False)
         if item:
             itemText = item.text().split('->')
             itemText[-1] = "{:.02f}".format(value)
             item.setText('->'.join(itemText))
-            self.resolve()
+            self.aboutToResolve.emit()
         if (
             self.record_start.isChecked() and
             abs(self.oldVar - value) > self.record_interval.value()
@@ -320,6 +333,8 @@ class InputsWidget(QWidget, Ui_Form):
             self.inputs_playShaft.start()
         else:
             self.inputs_playShaft.stop()
+            if self.update_pos_option.isChecked():
+                self.setCoordsAsCurrent()
     
     @pyqtSlot()
     def __changeIndex(self):

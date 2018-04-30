@@ -171,9 +171,9 @@ class PointTableWidget(BaseTableWidget):
     
     def currentPosition(self, row: int) -> List[Tuple[float, float]]:
         """Get the current coordinate from a point."""
-        Type = self.item(row, 2).text().split(':')
+        type_str = self.item(row, 2).text().split(':')
         coords = eval("[{}]".format(self.item(row, 6).text().replace(';', ',')))
-        if (len(coords) < 2) and ((Type[0] == 'P') or (Type[0] == 'RP')):
+        if (len(coords) < 2) and ((type_str[0] == 'P') or (type_str[0] == 'RP')):
             self.item(row, 6).setText("({0}, {1}); ({0}, {1})".format(*coords[0]))
             coords.append(coords[0])
         return coords

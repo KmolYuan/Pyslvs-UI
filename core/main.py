@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
 
-"""This module contain all the functions we needed."""
+"""This module contains the declaration of main window.
+
++ class MainWindow:
+    
+    + Events and overrided method.
+    + Solver method.
+    + Actions method.
+    + IO method.
+    + Entities method.
+    + Storage method.
+"""
 
 __author__ = "Yuan Chang"
 __copyright__ = "Copyright (C) 2016-2018"
@@ -132,6 +142,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.InputsWidget.variableReload()
         self.resolve()
     
+    @pyqtSlot()
     def resolve(self):
         _solver.resolve(self)
     
@@ -487,8 +498,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         _entities.clonePoint(self)
     
     @pyqtSlot(tuple)
-    def setFreemoved(self, coordinates: Tuple[Tuple[float, float]]):
+    def setFreemoved(self, coordinates: Tuple[Tuple[int, Tuple[float, float]]]):
         _entities.setFreemoved(self, coordinates)
+    
+    def setCoordsAsCurrent(self):
+        _entities.setCoordsAsCurrent(self)
     
     @pyqtSlot()
     def on_action_New_Link_triggered(self):

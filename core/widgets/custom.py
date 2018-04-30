@@ -151,6 +151,7 @@ def _appearance(self):
     self.InputsWidget = InputsWidget(self)
     self.inputs_tab_layout.addWidget(self.InputsWidget)
     self.freemode_button.toggled.connect(self.InputsWidget.variableValueReset)
+    self.InputsWidget.aboutToResolve.connect(self.resolve)
     self.MainCanvas.mouse_getSelection.connect(
         self.InputsWidget.setSelection
     )
