@@ -68,6 +68,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.path = {}
         #A pointer reference of 'collections'.
         self.collections = parent.CollectionTabPage.CollectionsTriangularIteration.collections
+        self.vpointdata = parent.EntitiesPoint.data
         #Data and functions.
         self.mechanism_data = []
         self.inputFrom = parent.inputFrom
@@ -571,11 +572,10 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     @pyqtSlot()
     def on_load_profile_clicked(self):
         """Load profile from collections dialog."""
-        dlg = CollectionsDialog(self)
+        dlg = CollectionsDialog(self.vpointdata, self)
         dlg.show()
-        if not dlg.exec_():
-            return
-        self.__setProfile(dlg.name_loaded, dlg.mech_params)
+        if dlg.exec_():
+            self.__setProfile(dlg.name(), dlg.params())
     
     def __setProfile(self, profile_name: str, params: Dict[str, Any]):
         """Set profile to sub-widgets."""

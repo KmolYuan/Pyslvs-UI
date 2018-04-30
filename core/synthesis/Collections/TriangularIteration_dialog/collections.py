@@ -7,7 +7,13 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import Tuple
+from copy import deepcopy
+from typing import (
+    Tuple,
+    Dict,
+    Callable,
+    Any,
+)
 from core.QtModules import (
     QDialog,
     Qt,
@@ -18,7 +24,7 @@ from core.QtModules import (
     QListWidgetItem,
 )
 from core.graphics import PreviewCanvas
-from copy import deepcopy
+from core.libs import VPoint
 from .Ui_collections import Ui_Dialog
 
 
@@ -135,7 +141,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Load the settings after closed.
     """
     
-    def __init__(self, parent):
+    def __init__(self, vpoints: Callable[[], Tuple[VPoint]], parent):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(
@@ -144,18 +150,19 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             Qt.WindowMaximizeButtonHint
         )
         self.collections = parent.collections
-        self.name_loaded = ""
+        self.vpoints = vpoints
+        self.__name_loaded = ""
         
         def get_solutions_func() -> Tuple[str]:
             """Return solutions to preview canvas."""
             try:
-                return self.collections[self.name_loaded]['Expression']
+                return self.collections[self.__name_loaded]['Expression']
             except KeyError:
-                if self.name_loaded == "Four bar linkage mechanism":
+                if self.__name_loaded == "Four bar linkage mechanism":
                     return mech_params_4Bar['Expression']
-                elif self.name_loaded == "Eight bar linkage mechanism":
+                elif self.__name_loaded == "Eight bar linkage mechanism":
                     return mech_params_8Bar['Expression']
-                elif self.name_loaded == "Ball lifter linkage mechanism":
+                elif self.__name_loaded == "Ball lifter linkage mechanism":
                     return mech_params_BallLifter['Expression']
                 else:
                     return tuple()
@@ -195,6 +202,12 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.delete_button
         ]:
             button.setEnabled(hasCollection)
+    
+    def name(self) -> str:
+        return self.__name_loaded
+    
+    def params(self) -> Dict[str, Any]:
+        return self.__mech_params
     
     @pyqtSlot()
     def on_rename_button_clicked(self):
@@ -264,14 +277,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         text = self.common_list.currentItem().text()
         if not text:
             return
-        self.name_loaded = text
+        self.__name_loaded = text
         if text == "Four bar linkage mechanism":
-            self.mech_params = deepcopy(mech_params_4Bar)
+            self.__mech_params = deepcopy(mech_params_4Bar)
         elif text == "Eight bar linkage mechanism":
-            self.mech_params = deepcopy(mech_params_8Bar)
-        elif self.name_loaded == "Ball lifter linkage mechanism":
-            self.mech_params = deepcopy(mech_params_BallLifter)
-        self.PreviewCanvas.from_profile(self.mech_params)
+            self.__mech_params = deepcopy(mech_params_8Bar)
+        elif self.__name_loaded == "Ball lifter linkage mechanism":
+            self.__mech_params = deepcopy(mech_params_BallLifter)
+        self.PreviewCanvas.from_profile(self.__mech_params)
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
@@ -280,9 +293,9 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         text = self.collections_list.currentItem().text()
         if not text:
             return
-        self.name_loaded = text
-        self.mech_params = self.collections[self.name_loaded]
-        self.PreviewCanvas.from_profile(self.mech_params)
+        self.__name_loaded = text
+        self.__mech_params = self.collections[self.__name_loaded]
+        self.PreviewCanvas.from_profile(self.__mech_params)
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
