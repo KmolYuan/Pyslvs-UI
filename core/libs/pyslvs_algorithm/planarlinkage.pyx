@@ -17,14 +17,18 @@ from tinycadlib import (
 import numpy as np
 cimport numpy as np
 
+
 #Large fitness
 cdef double FAILURE = 9487945
 
-cdef str strbetween(str s, str front, str back):
+
+cdef inline str strbetween(str s, str front, str back):
     return s[s.find(front)+1:s.find(back)]
 
-cdef str strbefore(str s, str front):
+
+cdef inline str strbefore(str s, str front):
     return s[:s.find(front)]
+
 
 cdef list path_error(list path, tuple target):
     """A list of each error value."""
@@ -33,6 +37,7 @@ cdef list path_error(list path, tuple target):
     for i in range(len(path)):
         tmp_list.append(path[i].distance(target[i]))
     return tmp_list
+
 
 cdef class build_planar:
     

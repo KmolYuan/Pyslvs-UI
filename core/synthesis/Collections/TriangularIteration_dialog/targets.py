@@ -23,10 +23,12 @@ def list_texts(widget, returnRow=False):
         else:
             yield widget.item(row).text()
 
+
 def combo_texts(widget):
     """Generator to get the text from combobox widget."""
     for row in range(widget.count()):
         yield widget.itemText(row)
+
 
 class TargetsDialog(QDialog, Ui_Dialog):
     

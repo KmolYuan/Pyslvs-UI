@@ -23,6 +23,7 @@ title = lambda name, *s: '<h2>{}</h2>'.format(name)+('<h3>{}</h3>'.format('</h3>
 content = lambda *s: '<p>{}</p>'.format('</p><p>'.join(s))
 orderList = lambda *s: '<ul><li>{}</li></ul>'.format('</li><li>'.join(s))
 
+
 class PyslvsSplash(QSplashScreen):
     
     """Qt splash show up when startup."""
@@ -30,6 +31,7 @@ class PyslvsSplash(QSplashScreen):
     def __init__(self, parent=None):
         super(PyslvsSplash, self).__init__(parent, QPixmap(":/icons/Splash.png"))
         self.showMessage("Version {}.{}.{}({})".format(*VERSION), (Qt.AlignBottom|Qt.AlignRight))
+
 
 class PyslvsAbout(QDialog, Ui_About_Dialog):
     

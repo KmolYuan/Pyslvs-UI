@@ -56,6 +56,7 @@ defaultSettings = {
     'algorithmPrams': DifferentialPrams
 }
 
+
 class AlgorithmType(Enum):
     
     """Enum type of algorithms."""
@@ -66,6 +67,7 @@ class AlgorithmType(Enum):
     RGA = "Real-coded Genetic Algorithm"
     Firefly = "Firefly Algorithm"
     DE = "Differential Evolution"
+
 
 class Options_show(QDialog, Ui_Dialog):
     

@@ -234,6 +234,7 @@ class DynamicCanvas(BaseCanvas):
         self.index %= self.length
         self.update()
 
+
 class PreviewDialog(QDialog, Ui_Dialog):
     
     """Preview dialog has some informations.

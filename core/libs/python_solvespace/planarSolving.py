@@ -33,8 +33,10 @@ from math import (
 )
 from typing import Tuple
 
+
 class SlvsException(Exception):
     pass
+
 
 def slvsProcess(
     Point: Tuple[VPoint],

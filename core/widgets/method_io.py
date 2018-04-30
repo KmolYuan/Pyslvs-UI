@@ -47,6 +47,7 @@ def _openURL(url: str):
     """Use to open link."""
     QDesktopServices.openUrl(QUrl(url))
 
+
 def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
     """Solvespace edges."""
     
@@ -62,6 +63,7 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
                     yield (vlink.points[i-1], p)
     
     return v_to_slvs
+
 
 def _settings(self) -> Tuple[Tuple[QWidget, TypeVar('limit', int, bool)]]:
     """Give the settings of all option widgets."""
@@ -82,6 +84,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, TypeVar('limit', int, bool)]]:
         (self.dontsave_option, True),
     )
 
+
 def workbookNoSave(self):
     """Workbook not saved signal."""
     self.FileWidget.changed = True
@@ -91,10 +94,12 @@ def workbookNoSave(self):
         not_yet_saved
     )
 
+
 def workbookSaved(self):
     """Workbook saved signal."""
     self.FileWidget.changed = False
     self.on_windowTitle_fullpath_clicked()
+
 
 def on_windowTitle_fullpath_clicked(self):
     """Set the option 'window title will show the fullpath'."""
@@ -105,27 +110,33 @@ def on_windowTitle_fullpath_clicked(self):
         else file_name.fileName()
     ) + (" (not yet saved)" if self.FileWidget.changed else ''))
 
+
 def on_action_Get_Help_triggered(self):
     """Open website: mde.tw"""
     _openURL("http://mde.tw")
+
 
 def on_action_Pyslvs_com_triggered(self):
     """Open website: pyslvs.com"""
     _openURL("http://www.pyslvs.com/blog/index.html")
 
+
 def on_action_github_repository_triggered(self):
     """Open website: Github repository."""
     _openURL("https://github.com/KmolYuan/Pyslvs-PyQt5")
+
 
 def on_action_About_Pyslvs_triggered(self):
     """Open Pyslvs about."""
     about = PyslvsAbout(self)
     about.show()
 
+
 def on_action_Console_triggered(self):
     """Open GUI console."""
     self.OptionTab.setCurrentIndex(2)
     self.History_tab.setCurrentIndex(1)
+
 
 def on_action_Example_triggered(self):
     """Load examples from 'FileWidget'.
@@ -134,9 +145,11 @@ def on_action_Example_triggered(self):
     if self.FileWidget.loadExample():
         self.MainCanvas.zoomToFit()
 
+
 def on_action_Import_Example_triggered(self):
     """Import a example and merge it to canvas."""
-    self.FileWidget.loadExample(isImport=True)
+    self.FileWidget.loadExample(isImport = True)
+
 
 def on_action_New_Workbook_triggered(self):
     """Create (Clean) a new workbook."""
@@ -146,6 +159,7 @@ def on_action_New_Workbook_triggered(self):
     self.FileWidget.reset()
     self.FileWidget.closeDatabase()
     print("Created a new workbook.")
+
 
 def clear(self):
     """Clear to create commit stage."""
@@ -159,6 +173,7 @@ def clear(self):
     self.EntitiesLink.clear()
     self.Entities_Expr.clear()
     self.resolve()
+
 
 def on_action_Import_PMKS_server_triggered(self):
     """Load PMKS URL and turn it to expression."""
@@ -203,6 +218,7 @@ def on_action_Import_PMKS_server_triggered(self):
     else:
         self.parseExpression(expression)
 
+
 def parseExpression(self, expr: str):
     """Parse expression."""
     try:
@@ -234,11 +250,13 @@ def parseExpression(self, expr: str):
             ))
             self.CommandStack.endMacro()
 
+
 def addEmptyLinkGroup(self, linkcolor: Dict[str, str]):
     """Use to add empty link when loading database."""
     for name, color in linkcolor.items():
         if name != 'ground':
             self.addLink(name, color)
+
 
 def on_action_Load_Workbook_triggered(self):
     """Load workbook."""
@@ -253,6 +271,7 @@ def on_action_Load_Workbook_triggered(self):
     self.FileWidget.read(file_name)
     self.MainCanvas.zoomToFit()
 
+
 def on_action_Import_Workbook_triggered(self):
     """Import from workbook."""
     if self.checkFileChanged():
@@ -265,6 +284,7 @@ def on_action_Import_Workbook_triggered(self):
         return
     self.FileWidget.importMechanism(file_name)
 
+
 def on_action_Save_triggered(self, isBranch: bool):
     """Save action."""
     file_name = self.FileWidget.file_name.absoluteFilePath()
@@ -273,6 +293,7 @@ def on_action_Save_triggered(self, isBranch: bool):
     else:
         self.on_action_Save_as_triggered(isBranch)
 
+
 def on_action_Save_as_triggered(self, isBranch: bool):
     """Save as action."""
     file_name = self.outputTo("workbook", ["Pyslvs workbook (*.pyslvs)"])
@@ -280,9 +301,11 @@ def on_action_Save_as_triggered(self, isBranch: bool):
         self.FileWidget.save(file_name, isBranch)
         self.saveReplyBox("Workbook", file_name)
 
+
 def on_action_Save_branch_triggered(self):
     """Save as new branch action."""
     self.on_action_Save_triggered(True)
+
 
 def on_action_Output_to_Solvespace_triggered(self):
     """Solvespace 2d save function."""
@@ -299,6 +322,7 @@ def on_action_Output_to_Solvespace_triggered(self):
     )
     self.saveReplyBox("Solvespace sketch", file_name)
 
+
 def on_action_Output_to_DXF_triggered(self):
     """DXF 2d save function."""
     file_name = self.outputTo(
@@ -314,6 +338,7 @@ def on_action_Output_to_DXF_triggered(self):
     )
     self.saveReplyBox("Drawing Exchange Format", file_name)
 
+
 def on_action_Output_to_Picture_triggered(self):
     """Picture save function."""
     file_name = self.outputTo("picture", QTIMAGES)
@@ -322,6 +347,7 @@ def on_action_Output_to_Picture_triggered(self):
     pixmap = self.MainCanvas.grab()
     pixmap.save(file_name, format=QFileInfo(file_name).suffix())
     self.saveReplyBox("Picture", file_name)
+
 
 def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
     """Simple to support mutiple format."""
@@ -340,6 +366,7 @@ def outputTo(self, formatName: str, formatChoose: List[str]) -> str:
         self.setLocate(QFileInfo(file_name).absolutePath())
     return file_name
 
+
 def saveReplyBox(self, title: str, file_name: str):
     """Show message when successfully saved."""
     size = QFileInfo(file_name).size()
@@ -352,6 +379,7 @@ def saveReplyBox(self, title: str, file_name: str):
         "Successfully converted:\n{}".format(file_name)
     )
     print("Successful saved: [\"{}\"]".format(file_name))
+
 
 def inputFrom(self,
     formatName: str,
@@ -376,6 +404,7 @@ def inputFrom(self,
         else:
             self.setLocate(QFileInfo(file_name_s[0]).absolutePath())
     return file_name_s
+
 
 def on_action_Output_to_PMKS_triggered(self):
     """Output to PMKS as URL."""
@@ -412,6 +441,7 @@ def on_action_Output_to_PMKS_triggered(self):
     elif reply == QMessageBox.Save:
         QApplication.clipboard().setText(url)
 
+
 def on_action_Output_to_Picture_clipboard_triggered(self):
     """Capture the canvas image to clipboard."""
     QApplication.clipboard().setPixmap(self.MainCanvas.grab())
@@ -419,6 +449,7 @@ def on_action_Output_to_Picture_clipboard_triggered(self):
         "Captured!",
         "Canvas widget picture is copy to clipboard."
     )
+
 
 def on_action_Output_to_Expression_triggered(self):
     """Output as expression."""
@@ -438,6 +469,7 @@ def on_action_Output_to_Expression_triggered(self):
     if reply == QMessageBox.Save:
         QApplication.clipboard().setText(expr)
 
+
 def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
     dlg = Script_Dialog(
@@ -446,6 +478,7 @@ def on_action_See_Python_Scripts_triggered(self):
         self
     )
     dlg.show()
+
 
 def on_action_Check_update_triggered(self):
     """Check for update."""
@@ -472,6 +505,7 @@ def on_action_Check_update_triggered(self):
     if reply == QMessageBox.Ok:
         _openURL(url)
 
+
 def checkFileChanged(self) -> bool:
     """If the user has not saved the change.
     
@@ -493,6 +527,7 @@ def checkFileChanged(self) -> bool:
         return False
     return True
 
+
 def restoreSettings(self):
     """Restore Pyslvs settings."""
     for option in _settings(self):
@@ -511,6 +546,7 @@ def restoreSettings(self):
                 self.settings.value(name, option[-1], type=bool)
             )
 
+
 def saveSettings(self):
     """Save Pyslvs settings (auto save when close event)."""
     if self.dontsave_option.isChecked():
@@ -525,6 +561,7 @@ def saveSettings(self):
             self.settings.setValue(name, widget.currentIndex())
         elif type(widget) == QCheckBox:
             self.settings.setValue(name, widget.isChecked())
+
 
 def resetOptions(self):
     """Reset options with default value."""

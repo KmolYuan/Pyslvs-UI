@@ -21,6 +21,7 @@ from core.libs import (
     VPoint,
 )
 
+
 def resolve(self):
     """Resolve: Use Solvespace lib."""
     inputs = list(self.InputsWidget.getInputsVariables())
@@ -44,6 +45,7 @@ def resolve(self):
         self.ConflictGuide.setVisible(False)
         self.DOFview.setVisible(True)
     self.reloadCanvas()
+
 
 def getGraph(self) -> List[Tuple[int, int]]:
     """Return edges data for NetworkX graph class.
@@ -72,6 +74,7 @@ def getGraph(self) -> List[Tuple[int, int]]:
             used_point.add(p)
     return [edge for n, edge in edges_view(G)]
 
+
 def getTriangle(self, vpoints: Tuple[VPoint]) -> List[Tuple[str]]:
     """Update triangle expression here.
 
@@ -84,6 +87,7 @@ def getTriangle(self, vpoints: Tuple[VPoint]) -> List[Tuple[str]]:
     self.Entities_Expr.setExpr(exprs)
     return exprs
 
+
 def rightInput(self) -> bool:
     """Is input same as DOF?"""
     inputs = (self.InputsWidget.inputCount() != 0) and (self.DOF == 0)
@@ -91,9 +95,11 @@ def rightInput(self) -> bool:
         self.Entities_Expr.clear()
     return inputs
 
+
 def pathInterval(self) -> float:
     """Wrapper use to get path interval."""
     return self.InputsWidget.record_interval.value()
+
 
 def reloadCanvas(self):
     """Update main canvas data, without resolving."""

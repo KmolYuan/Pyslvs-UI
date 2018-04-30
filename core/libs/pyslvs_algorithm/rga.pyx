@@ -18,15 +18,19 @@ from cpython cimport bool
 from libc.stdlib cimport rand, RAND_MAX, srand
 srand(int(time()))
 
+
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
+
 
 cdef enum limit:
     maxGen,
     minFit,
     maxTime
 
+
 cdef class Chromosome:
+    
     cdef public int n
     cdef public double f
     cdef public np.ndarray v
@@ -47,6 +51,7 @@ cdef class Chromosome:
     cpdef void assign(self, Chromosome obj):
         if self.is_not_self(obj):
             self.cp(obj)
+
 
 cdef class Genetic:
     

@@ -44,9 +44,11 @@ def initCustomWidgets(self):
     """Start up custom widgets."""
     _undo_redo(self)
     _appearance(self)
+    _freemove(self)
     _options(self)
     _zoom(self)
     _context_menu(self)
+
 
 def _undo_redo(self):
     """Undo list settings.
@@ -74,6 +76,7 @@ def _undo_redo(self):
     self.action_Undo.setIcon(QIcon(QPixmap(":/icons/undo.png")))
     self.menu_Edit.addAction(self.action_Undo)
     self.menu_Edit.addAction(self.action_Redo)
+
 
 def _appearance(self):
     """Start up and initialize custom widgets."""
@@ -134,37 +137,6 @@ def _appearance(self):
     )
     self.canvasSplitter.insertWidget(0, self.MainCanvas)
     self.canvasSplitter.setSizes([600, 10, 30])
-    
-    #Menu of free move mode.
-    free_move_mode_menu = QMenu(self)
-    def freeMoveMode_func(j, qicon):
-        
-        @pyqtSlot()
-        def func():
-            self.freemode_button.setIcon(qicon)
-            self.MainCanvas.setFreeMove(j)
-            self.InputsWidget.variable_stop.click()
-        
-        return func
-    for i, (text, icon) in enumerate([
-        ("View mode", "freemove_off"),
-        ("Translate mode", "freemove_on"),
-        ("Rotate mode", "freemove_on"),
-        ("Reflect mode", "freemove_on"),
-    ]):
-        action = QAction(
-            QIcon(QPixmap(":/icons/{}.png".format(icon))),
-            text,
-            self
-        )
-        action.triggered.connect(freeMoveMode_func(i, action.icon()))
-        action.setShortcuts([
-            QKeySequence("Ctrl+{}".format(i+1)),
-            QKeySequence("Shift+{}".format(i+1)),
-        ])
-        action.setShortcutContext(Qt.WindowShortcut)
-        free_move_mode_menu.addAction(action)
-    self.freemode_button.setMenu(free_move_mode_menu)
     
     #File table settings.
     self.FileWidget = FileWidget(self)
@@ -273,6 +245,42 @@ def _appearance(self):
     #Enable mechanism menu actions when shows.
     self.menu_Mechanism.aboutToShow.connect(self.enableMechanismActions)
 
+
+def _freemove(self):
+    """Menu of free move mode."""
+    free_move_mode_menu = QMenu(self)
+    
+    def freeMoveMode_func(j: int, qicon: QIcon):
+        
+        @pyqtSlot()
+        def func():
+            self.freemode_button.setIcon(qicon)
+            self.MainCanvas.setFreeMove(j)
+            self.InputsWidget.variable_stop.click()
+        
+        return func
+    
+    for i, (text, icon) in enumerate((
+        ("View mode", "freemove_off"),
+        ("Translate mode", "freemove_on"),
+        ("Rotate mode", "freemove_on"),
+        ("Reflect mode", "freemove_on"),
+    )):
+        action = QAction(
+            QIcon(QPixmap(":/icons/{}.png".format(icon))),
+            text,
+            self
+        )
+        action.triggered.connect(freeMoveMode_func(i, action.icon()))
+        action.setShortcuts([
+            QKeySequence("Ctrl+{}".format(i+1)),
+            QKeySequence("Shift+{}".format(i+1)),
+        ])
+        action.setShortcutContext(Qt.WindowShortcut)
+        free_move_mode_menu.addAction(action)
+    self.freemode_button.setMenu(free_move_mode_menu)
+
+
 def _options(self):
     """Signal connection for option widgets.
     
@@ -309,6 +317,7 @@ def _options(self):
     )
     self.settings_reset.clicked.connect(self.resetOptions)
 
+
 def _zoom(self):
     """Zoom functions.
     
@@ -337,6 +346,7 @@ def _zoom(self):
     action.triggered.connect(self.customizeZoom)
     zoom_menu.addAction(action)
     self.zoom_button.setMenu(zoom_menu)
+
 
 def _context_menu(self):
     """EntitiesPoint context menu

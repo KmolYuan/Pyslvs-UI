@@ -16,16 +16,20 @@ from libc.stdlib cimport rand, RAND_MAX, srand
 #from libc.time cimport time
 from time import time
 
+
 #Make sure it is 'random'.
 srand(int(time()))
 
+
 cdef double randV():
     return rand()/(RAND_MAX*1.01)
+
 
 cdef enum limit:
     maxGen,
     minFit,
     maxTime
+
 
 cdef class Chromosome:
     
@@ -52,6 +56,7 @@ cdef class Chromosome:
         self.n = obj.n
         self.v[:] = obj.v
         self.f = obj.f
+
 
 cdef class Firefly:
     

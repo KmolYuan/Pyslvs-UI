@@ -71,6 +71,7 @@ def _editPoint(self, row: int = False):
     ))
     self.CommandStack.endMacro()
 
+
 def _editLink(self, row=False):
     """Edit link function."""
     dlg = EditLinkDialog(
@@ -106,6 +107,7 @@ def _editLink(self, row=False):
     ))
     self.CommandStack.endMacro()
 
+
 def _getLinkSerialNumber(self) -> str:
     """Return a new serial number name of link."""
     names = [
@@ -116,6 +118,7 @@ def _getLinkSerialNumber(self) -> str:
     while "link_{}".format(i) in names:
         i += 1
     return "link_{}".format(i)
+
 
 def _deleteLink(self, row: int):
     """Push delete link command to stack.
@@ -142,6 +145,7 @@ def _deleteLink(self, row: int):
     ))
     self.CommandStack.endMacro()
 
+
 def _deletePoint(self, row: int):
     """Push delete point command to stack."""
     args = self.EntitiesPoint.rowTexts(row)
@@ -167,6 +171,7 @@ def _deletePoint(self, row: int):
     self.InputsWidget.variableExcluding(row)
     self.CommandStack.endMacro()
 
+
 def qAddNormalPoint(self):
     """Add point group using alt key."""
     tabText = self.SynthesisTab.tabText(self.SynthesisTab.currentIndex())
@@ -175,13 +180,16 @@ def qAddNormalPoint(self):
     else:
         self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
 
+
 def addNormalPoint(self):
     """Add a point (not fixed)."""
     self.addPoint(self.mouse_pos_x, self.mouse_pos_y, False)
 
+
 def addFixedPoint(self):
     """Add a point (fixed)."""
     self.addPoint(self.mouse_pos_x, self.mouse_pos_y, True)
+
 
 def addPoint(self,
     x: float,
@@ -212,6 +220,7 @@ def addPoint(self,
     self.CommandStack.endMacro()
     return rowCount
 
+
 def addPointsByGraph(self,
     G: Graph,
     pos: Dict[int, Tuple[float, float]],
@@ -235,9 +244,11 @@ def addPointsByGraph(self,
     if ground_link is not None:
         self.constrainLink(ground)
 
+
 def addNormalLink(self, points: List[int]):
     """Add a link."""
     self.addLink(_getLinkSerialNumber(self), 'Blue', points)
+
 
 def addLink(self, name: str, color: str, points: Tuple[int]):
     """Push a new link command to stack."""
@@ -252,15 +263,18 @@ def addLink(self, name: str, color: str, points: Tuple[int]):
     ))
     self.CommandStack.endMacro()
 
+
 def on_action_New_Point_triggered(self):
     """Create a point with arguments."""
     _editPoint(self)
+
 
 @pyqtSlot()
 def on_action_Edit_Point_triggered(self):
     """Edit a point with arguments."""
     row = self.EntitiesPoint.currentRow()
     _editPoint(self, row if (row > -1) else 0)
+
 
 def lockPoints(self):
     """Turn a group of points to fixed on ground or not."""
@@ -284,6 +298,7 @@ def lockPoints(self):
         ))
         self.CommandStack.endMacro()
 
+
 def clonePoint(self):
     """Clone a point (with orange color)."""
     row = self.EntitiesPoint.currentRow()
@@ -302,6 +317,7 @@ def clonePoint(self):
     ))
     self.CommandStack.endMacro()
 
+
 def setFreemoved(self, coordinates: Tuple[Tuple[float, float]]):
     """Free move function."""
     self.CommandStack.beginMacro("Moved {{{}}}".format(", ".join(
@@ -318,6 +334,7 @@ def setFreemoved(self, coordinates: Tuple[Tuple[float, float]]):
             args
         ))
     self.CommandStack.endMacro()
+
 
 @pyqtSlot()
 def on_action_New_Link_triggered(self):
@@ -366,9 +383,11 @@ def on_action_New_Link_triggered(self):
     ))
     self.CommandStack.endMacro()
 
+
 def on_action_Edit_Link_triggered(self):
     """Edit a link with arguments."""
     _editLink(self, self.EntitiesLink.currentRow())
+
 
 def releaseGround(self):
     """Clone ground to a new link, then make ground no points."""
@@ -394,7 +413,8 @@ def releaseGround(self):
     ))
     self.CommandStack.endMacro()
 
-def constrainLink(self, row=None):
+
+def constrainLink(self, row: int = None):
     """Turn a link to ground, then delete this link."""
     if row is None:
         row = self.EntitiesLink.currentRow()
@@ -433,6 +453,7 @@ def constrainLink(self, row=None):
     ))
     self.CommandStack.endMacro()
 
+
 def on_action_Delete_Point_triggered(self):
     """Delete the selected points.
     Be sure that the points will has new position after deleted.
@@ -444,6 +465,7 @@ def on_action_Delete_Point_triggered(self):
         else:
             row = p
         _deletePoint(self, row)
+
 
 def on_action_Delete_Link_triggered(self):
     """Delete the selected links.

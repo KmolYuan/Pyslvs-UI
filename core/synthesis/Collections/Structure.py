@@ -44,6 +44,7 @@ from .Ui_Structure import Ui_Form
 class TestError(Exception):
     pass
 
+
 class CollectionsStructure(QWidget, Ui_Form):
     
     """Structure widget."""

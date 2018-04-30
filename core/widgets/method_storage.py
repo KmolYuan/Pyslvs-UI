@@ -31,6 +31,7 @@ def _clearStorage(self):
     self.EntitiesLink.clear()
     self.InputsWidget.variableExcluding()
 
+
 def _addStorage(self, name, expr, clear=True):
     """Add storage data function."""
     self.CommandStack.beginMacro("Add {{Mechanism: {}}}".format(name))
@@ -52,6 +53,7 @@ def _addStorage(self, name, expr, clear=True):
         "Prototype_{}".format(i)
     )
 
+
 def on_mechanism_storage_add_clicked(self):
     name = self.mechanism_storage_name_tag.text()
     if not name:
@@ -65,11 +67,13 @@ def on_mechanism_storage_add_clicked(self):
     ))
     self.CommandStack.endMacro()
 
+
 def on_mechanism_storage_copy_clicked(self):
     """Copy the expression from a storage data."""
     item = self.mechanism_storage.currentItem()
     if item:
         QApplication.clipboard().setText(item.expr)
+
 
 def on_mechanism_storage_paste_clicked(self):
     """Add the storage data from string."""
@@ -105,6 +109,7 @@ def on_mechanism_storage_paste_clicked(self):
         name = "Prototype_{}".format(i)
     _addStorage(self, name, expr, clear=False)
 
+
 def on_mechanism_storage_delete_clicked(self):
     """Delete the storage data."""
     row = self.mechanism_storage.currentRow()
@@ -116,9 +121,11 @@ def on_mechanism_storage_delete_clicked(self):
     self.CommandStack.push(DeleteStorage(row, self.mechanism_storage))
     self.CommandStack.endMacro()
 
+
 def on_mechanism_storage_itemDoubleClicked(self, item: QListWidgetItem):
     """Restore the storage data as below."""
     self.on_mechanism_storage_restore_clicked(item)
+
 
 def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
     """Restore the storage data."""
@@ -148,6 +155,7 @@ def on_mechanism_storage_restore_clicked(self, item: QListWidgetItem = None):
         self.mechanism_storage_name_tag
     ))
     self.CommandStack.endMacro()
+
 
 def loadStorage(self, exprs: Tuple[Tuple[str, str]]):
     """Load storage data from database."""

@@ -17,7 +17,7 @@ from core.QtModules import (
 
 
 """Color dictionary."""
-color_list = {
+_color_list = {
     'Red': QColor(172, 68, 68),
     'Green': QColor(110, 190, 30),
     'Blue': QColor(68, 120, 172),
@@ -41,15 +41,19 @@ color_list = {
     'Dark-Pink': QColor(225, 20, 147),
 }
 
-colorName = tuple(sorted(color_list.keys()))
+
+colorName = tuple(sorted(_color_list.keys()))
+
 
 def colorQt(name: str) -> QColor:
     """Get color by name."""
-    return color_list.get(name, color_list['Blue'])
+    return _color_list.get(name, _color_list['Blue'])
+
 
 def colorNum(colorIndex: int) -> QColor:
     """Get color by index."""
-    return color_list[colorName[colorIndex % len(color_list)]]
+    return _color_list[colorName[colorIndex % len(_color_list)]]
+
 
 def colorIcons(name: str, size: int =20) -> QIcon:
     """Get color block as QIcon by name."""
@@ -57,11 +61,12 @@ def colorIcons(name: str, size: int =20) -> QIcon:
     colorBlock.fill(colorQt(name))
     return QIcon(colorBlock)
 
+
 """Target path color.
 
 (Pen, Dot, Brush)
 """
-path_color = (
+_path_color = (
     #Blue - Green
     (QColor(69, 247, 232), QColor(3, 163, 120), QColor(74, 178, 176, 30)),
     #Yellow - Green
@@ -72,6 +77,7 @@ path_color = (
     (QColor(115, 0, 145), QColor(220, 104, 249), QColor(198, 137, 214, 30))
 )
 
+
 def colorPath(colorIndex: int) -> QColor:
     """Get path colors."""
-    return path_color[colorIndex % len(path_color)]
+    return _path_color[colorIndex % len(_path_color)]

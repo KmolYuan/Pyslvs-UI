@@ -17,11 +17,14 @@ import numpy as np
 cimport numpy as np
 from cpython cimport bool
 
+
 cdef double nan = float('nan')
+
 
 cdef inline double distance(double x1, double y1, double x2, double y2):
     """Distance of two cartesian coordinates."""
     return hypot(x2 - x1, y2 - y1)
+
 
 cdef class VPoint:
     
@@ -159,6 +162,7 @@ cdef class VPoint:
         """Use to generate script."""
         return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)
 
+
 cdef class VLink:
     
     """Symbol of linkages."""
@@ -187,6 +191,7 @@ cdef class VLink:
         """Use to generate script."""
         return "VLink('{l.name}', {l.points}, colorQt)".format(l=self)
 
+
 cdef class Coordinate:
     
     """A class to store the coordinate."""
@@ -209,6 +214,7 @@ cdef class Coordinate:
         """Debug printing."""
         return "Coordinate({p.x}, {p.y})".format(p=self)
 
+
 cpdef tuple PLAP(
     Coordinate A,
     double L0,
@@ -222,6 +228,7 @@ cpdef tuple PLAP(
         return (A.x + L0*cos(a1 - a0), A.y + L0*sin(a1 - a0))
     else:
         return (A.x + L0*cos(a1 + a0), A.y + L0*sin(a1 + a0))
+
 
 cpdef tuple PLLP(
     Coordinate A,
@@ -256,6 +263,7 @@ cpdef tuple PLLP(
     else:
         return (xm - h*dy/d, ym + h*dx/d)
 
+
 cpdef tuple PLPP(
     Coordinate A,
     double L0,
@@ -286,6 +294,7 @@ cpdef tuple PLPP(
     else:
         return (I.x + dx*d, I.y + dy*d)
 
+
 cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
     #L0, L1, L2 is triangle
     cdef double L0 = A.distance(B)
@@ -309,13 +318,16 @@ cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordina
         (driver + ground <= connector + follower)
     )
 
+
 cdef inline str strbetween(str s, str front, str back):
     """Get the string that is inside of parenthesis."""
     return s[s.find(front)+1:s.find(back)]
 
+
 cdef inline str strbefore(str s, str front):
     """Get the string that is front of parenthesis."""
     return s[:s.find(front)]
+
 
 cpdef void expr_parser(str exprs, dict data_dict):
     '''Use to generate path data.
@@ -353,9 +365,11 @@ cpdef void expr_parser(str exprs, dict data_dict):
             data_dict[target] = PLPP(*args)
     """'data_dict' has been updated."""
 
+
 cdef inline double tuple_distance(tuple c1, tuple c2):
     """Calculate the distance between two tuple coordinates."""
     return distance(c1[0], c1[1], c2[0], c2[1])
+
 
 cdef inline void rotate_collect(dict data_dict, dict mapping, list path):
     """Collecting."""
@@ -363,6 +377,7 @@ cdef inline void rotate_collect(dict data_dict, dict mapping, list path):
     cdef str m
     for n, m in mapping.items():
         path[n].append(data_dict[m])
+
 
 cdef inline void rotate(
     int input_angle,
@@ -391,6 +406,7 @@ cdef inline void rotate(
         rotate_collect(copy_dict, mapping, path)
         a += interval
 
+
 cdef inline list return_path(
     str expr_str,
     dict data_dict,
@@ -418,6 +434,7 @@ cdef inline list return_path(
             path[i] = tuple(path[i])
     return path
 
+
 cdef inline str expr_join(object exprs):
     """Use to append a list of symbols into a string."""
     return ';'.join([
@@ -425,12 +442,14 @@ cdef inline str expr_join(object exprs):
         for expr in exprs
     ])
 
+
 cdef inline int base_friend(int node, object vpoints):
     cdef int i
     cdef VPoint vpoint
     for i, vpoint in enumerate(vpoints):
         if vpoints[node].links[0] in vpoint.links:
             return i
+
 
 cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
     """Input data:
@@ -504,6 +523,7 @@ cdef tuple data_collecting(object exprs, dict mapping, object vpoints):
             data_dict[mapping[i]] = pos[i]
     return data_dict, dof
 
+
 cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval):
     """Auto preview function."""
     cdef dict data_dict
@@ -517,6 +537,7 @@ cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval
         data_dict['a{}'.format(i)] = a
     
     return return_path(expr_join(exprs), data_dict, mapping, dof, interval)
+
 
 cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angles):
     """Solving function."""

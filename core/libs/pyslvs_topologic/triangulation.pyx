@@ -12,6 +12,7 @@ import numpy as np
 cimport numpy as np
 from cpython cimport bool
 
+
 cdef inline bool isAllLock(dict status, dict same={}):
     """Test is all status done."""
     cdef int node
@@ -21,10 +22,12 @@ cdef inline bool isAllLock(dict status, dict same={}):
             return False
     return True
 
+
 cdef inline bool clockwise(tuple c1, tuple c2, tuple c3):
     """Check orientation of three points."""
     cdef double val = (c2[1] - c1[1])*(c3[0] - c2[0]) - (c2[0] - c1[0])*(c3[1] - c2[1])
     return ((val == 0) or (val > 0))
+
 
 def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
     """Return a generator yield the nodes that has solution on the same link."""
@@ -38,6 +41,7 @@ def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
             if status[friend] and (friend != node):
                 yield friend
 
+
 def get_notbase_friend(int node, object vpoints, dict vlinks, dict status):
     if len(vpoints[node].links) < 2:
         raise StopIteration
@@ -45,12 +49,14 @@ def get_notbase_friend(int node, object vpoints, dict vlinks, dict status):
     for friend in vlinks[vpoints[node].links[1]]:
         yield friend
 
+
 def get_base_friend(int node, object vpoints, dict vlinks, dict status):
     if len(vpoints[node].links) < 1:
         raise StopIteration
     cdef int friend
     for friend in vlinks[vpoints[node].links[0]]:
         yield friend
+
 
 cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
     """Auto configuration algorithm.

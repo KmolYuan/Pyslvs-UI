@@ -46,6 +46,7 @@ nan = float('nan')
 """Create a empty Sqlite database object."""
 db = SqliteDatabase(None)
 
+
 class UserModel(Model):
     
     """Show who commited the workbook."""
@@ -55,6 +56,7 @@ class UserModel(Model):
     class Meta:
         database = db
 
+
 class BranchModel(Model):
     
     """The branch in this workbook."""
@@ -63,6 +65,7 @@ class BranchModel(Model):
     
     class Meta:
         database = db
+
 
 class CommitModel(Model):
     
@@ -105,6 +108,7 @@ class CommitModel(Model):
     class Meta:
         database = db
 
+
 class LoadCommitButton(QPushButton):
     
     """The button of load commit."""
@@ -112,7 +116,11 @@ class LoadCommitButton(QPushButton):
     loaded = pyqtSignal(int)
     
     def __init__(self, id, parent):
-        super(LoadCommitButton, self).__init__(QIcon(QPixmap(":icons/dataupdate.png")), " #{}".format(id), parent)
+        super(LoadCommitButton, self).__init__(
+            QIcon(QPixmap(":icons/dataupdate.png")),
+            " #{}".format(id),
+            parent
+        )
         self.setToolTip("Reset to commit #{}.".format(id))
         self.id = id
     
@@ -124,6 +132,7 @@ class LoadCommitButton(QPushButton):
     def isLoaded(self, id: int):
         """Set enable if this commit is been loaded."""
         self.setEnabled(id != self.id)
+
 
 class FileWidget(QWidget, Ui_Form):
     

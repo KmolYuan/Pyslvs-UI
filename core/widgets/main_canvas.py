@@ -84,6 +84,7 @@ class Selector:
             min(self.y, self.sy) <= y <= max(self.y, self.sy)
         )
 
+
 class FreeMode(Enum):
     
     """Free move mode."""
@@ -92,6 +93,7 @@ class FreeMode(Enum):
     Translate = 1
     Rotate = 2
     Reflect = 3
+
 
 class DynamicCanvas(BaseCanvas):
     

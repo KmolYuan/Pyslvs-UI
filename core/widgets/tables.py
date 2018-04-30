@@ -93,6 +93,7 @@ class BaseTableWidget(QTableWidget):
         for row in range(self.rowCount()):
             self.removeRow(0)
 
+
 class PointTableWidget(BaseTableWidget):
     
     """Custom table widget for points."""
@@ -264,6 +265,7 @@ class PointTableWidget(BaseTableWidget):
         super(PointTableWidget, self).clearSelection()
         self.selectionLabelUpdate.emit([], [])
 
+
 class LinkTableWidget(BaseTableWidget):
     
     """Custom table widget for link."""
@@ -329,6 +331,7 @@ class LinkTableWidget(BaseTableWidget):
         self.setRowCount(1)
         self.editArgs(0, 'ground', 'White', '')
 
+
 class ExprTableWidget(BaseTableWidget):
     
     """Expression table."""
@@ -353,6 +356,7 @@ class ExprTableWidget(BaseTableWidget):
             for column, e in enumerate(expr[:-1]):
                 self.setItem(row, column, QTableWidgetItem(e))
         self.exprs = exprs
+
 
 class SelectionLabel(QLabel):
     

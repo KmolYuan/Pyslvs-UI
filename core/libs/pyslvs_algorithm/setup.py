@@ -3,6 +3,7 @@ import distutils.sysconfig
 from Cython.Build import cythonize
 import numpy
 
+
 cfg_vars = distutils.sysconfig.get_config_vars()
 for key, value in cfg_vars.items():
     if type(value) == str:

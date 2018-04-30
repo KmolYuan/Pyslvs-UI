@@ -27,7 +27,7 @@ from core.libs import VPoint, VLink
 from .Ui_script import Ui_Info_Dialog
 
 
-script_title = '''\
+_script_title = '''\
 #This script is generate by Pyslvs {}.
 
 from math import (
@@ -279,15 +279,17 @@ if __name__=="__main__":
     print("Coordinates: {{}}\\nDOF: {{}}".format(*slvsProcess(Point, Link, constraints)))
 '''
 
+
 def slvsProcessScript(
     VPointList: List[VPoint],
     VLinkList: List[VLink]
 ):
-    return script_title.format(
+    return _script_title.format(
         "v{}.{}.{} ({})".format(*VERSION),
         [vpoint for vpoint in VPointList],
         [vlink for vlink in VLinkList]
     )
+
 
 class HighlightRule:
     
@@ -301,6 +303,7 @@ class HighlightRule:
     ):
         self.pattern = pattern
         self.format = format
+
 
 class KeywordSyntax(QSyntaxHighlighter):
     
@@ -363,6 +366,7 @@ class KeywordSyntax(QSyntaxHighlighter):
                 index = text.find(expression.pattern(), index + length)
         self.setCurrentBlockState(0)
 
+
 class HighlightTextEdit(QTextEdit):
     
     """Script preview widget."""
@@ -372,7 +376,8 @@ class HighlightTextEdit(QTextEdit):
         self.setWordWrapMode(QTextOption.NoWrap)
         self.setStyleSheet("font: 10pt \"Bitstream Vera Sans Mono\";")
         KeywordSyntax(self)
-    
+
+
 class Script_Dialog(QDialog, Ui_Info_Dialog):
     
     """Dialog of script preview."""

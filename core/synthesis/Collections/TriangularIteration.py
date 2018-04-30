@@ -93,6 +93,7 @@ class PreviewWindow(PreviewCanvas):
             self.pos[row] = (self.pos[row][0], 120 if -120 <= my else -120)
         self.update()
 
+
 class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     """Triangular iteration widget."""

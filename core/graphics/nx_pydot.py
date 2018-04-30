@@ -33,8 +33,6 @@ from .color import colorQt, colorNum
 from .canvas import convex_hull, edges_view
 
 
-inf = float('inf')
-
 _nx_engine = (
     "circular",
     "shell",
@@ -49,15 +47,16 @@ _graphviz_engine = (
     "twopi",
     "circo",
 )
-
 EngineList = []
 for engine_name in _nx_engine:
     EngineList.append("NetworkX - {}".format(engine_name))
 for engine_name in _graphviz_engine:
     EngineList.append("Graphviz - {}".format(engine_name))
 
+
 class EngineError(Exception):
     pass
+
 
 def reversed_graph(G: Graph) -> Graph:
     G_ = Graph()
@@ -70,6 +69,7 @@ def reversed_graph(G: Graph) -> Graph:
                 G_.add_edge(i, j)
     return G_
 
+
 def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     """Generate a position dict."""
     if not node_mode:
@@ -78,21 +78,22 @@ def engine_picker(G: Graph, engine: str, node_mode: bool =False):
         H = G
     if type(engine) != str:
         return engine
-    if engine=="random":
-        E = {k:(x*200, y*200) for k, (x, y) in random_layout(H).items()}
-    elif engine=="shell":
+    if engine == "random":
+        E = {k: (x*200, y*200) for k, (x, y) in random_layout(H).items()}
+    elif engine == "shell":
         E = shell_layout(H, scale=100)
-    elif engine=="circular":
+    elif engine == "circular":
         E = circular_layout(H, scale=100)
-    elif engine=="spring":
+    elif engine == "spring":
         E = spring_layout(H, scale=100)
-    elif engine=="spectral":
+    elif engine == "spectral":
         E = spectral_layout(H, scale=100)
     else:
         try:
             E = nx_pydot.graphviz_layout(H, prog=engine)
         except:
             raise EngineError("No Graphviz")
+    inf = float('inf')
     x_max = -inf
     x_min = inf
     y_max = -inf
@@ -116,6 +117,7 @@ def engine_picker(G: Graph, engine: str, node_mode: bool =False):
     ) for node, (x, y) in E.items()}
     return pos
 
+
 def graph(
     G: Graph,
     width: int,
@@ -128,7 +130,7 @@ def graph(
         pos = engine_picker(G, engine, node_mode)
     except EngineError as e:
         raise e
-    width_ = -inf
+    width_ = -float('inf')
     for x, y in pos.values():
         if abs(x) > width_:
             width_ = x

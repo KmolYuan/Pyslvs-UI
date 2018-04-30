@@ -63,6 +63,7 @@ def _enablePointContext(self):
         action.triggered.connect(mjFunc(i))
         self.popMenu_point_merge.addAction(action)
 
+
 def _enableLinkContext(self):
     """Enable / disable link's QAction, same as point table."""
     selectionCount = len(self.EntitiesLink.selectedRows())
@@ -75,11 +76,13 @@ def _enableLinkContext(self):
     self.action_link_context_release.setVisible((row == 0) and selected_one)
     self.action_link_context_constrain.setVisible((row > 0) and selected_one)
 
+
 def _copyTableData(self, table):
     """Copy item text to clipboard."""
     text = table.currentItem().text()
     if text:
         QApplication.clipboard().setText(text)
+
 
 def _toMultipleJoint(self, index: int, points: Tuple[int]):
     """Merge points into a multiple joint.
@@ -113,10 +116,12 @@ def _toMultipleJoint(self, index: int, points: Tuple[int]):
         _deletePoint(self, p)
     self.CommandStack.endMacro()
 
+
 def setMousePos(self, x: float, y: float):
     """Mouse position on canvas."""
     self.mouse_pos_x = x
     self.mouse_pos_y = y
+
 
 def on_point_context_menu(self, point: QPoint):
     """EntitiesPoint context menu."""
@@ -125,10 +130,12 @@ def on_point_context_menu(self, point: QPoint):
     self.action_New_Link.setVisible(True)
     self.popMenu_point_merge.clear()
 
+
 def on_link_context_menu(self, point: QPoint):
     """EntitiesLink context menu."""
     _enableLinkContext(self)
     self.popMenu_link.exec_(self.Entities_Link_Widget.mapToGlobal(point))
+
 
 def on_canvas_context_menu(self, point: QPoint):
     """MainCanvas context menu."""
@@ -138,6 +145,7 @@ def on_canvas_context_menu(self, point: QPoint):
     self.popMenu_canvas.exec_(self.MainCanvas.mapToGlobal(point))
     self.action_New_Link.setVisible(True)
     self.popMenu_point_merge.clear()
+
 
 def enableMechanismActions(self):
     """Enable / disable 'mechanism' menu."""
@@ -158,13 +166,16 @@ def enableMechanismActions(self):
     self.action_Delete_Point.setEnabled(POINT_SELECTED)
     self.action_Delete_Link.setEnabled(LINK_SELECTED)
 
+
 def copyPointsTable(self):
     """Copy text from point table."""
     _copyTableData(self, self.EntitiesPoint)
 
+
 def copyLinksTable(self):
     """Copy text from link table."""
     _copyTableData(self, self.EntitiesLink)
+
 
 def copyCoord(self):
     """Copy the current coordinate of the point."""

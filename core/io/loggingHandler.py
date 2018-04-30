@@ -26,6 +26,7 @@ class QtHandler(logging.Handler):
             return
         XStream.stdout().write('{}\n'.format(record))
 
+
 logger = logging.getLogger(__name__)
 handler = QtHandler()
 handler.setFormatter(logging.Formatter("%(asctime)s | %(message)s"))
@@ -33,6 +34,7 @@ logger.addHandler(handler)
 
 SYS_STDOUT = sys.stdout
 SYS_STDERR = sys.stderr
+
 
 class XStream(QObject):
     

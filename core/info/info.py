@@ -53,59 +53,59 @@ POWERBY = (
     "Pydot"
 )
 
-"""--help arguments"""
-
+#--help arguments
 parser = argparse.ArgumentParser(
-    description=("Pyslvs - Open Source Planar Linkage Mechanism Simulation" +
+    description = ("Pyslvs - Open Source Planar Linkage Mechanism Simulation" +
         "and Mechanical Synthesis System."),
-    epilog="Power by {}.".format(", ".join(POWERBY))
+    epilog = "Power by {}.".format(", ".join(POWERBY))
 )
 parser.add_argument(
     '-v',
     '--version',
-    action='version',
-    help="show version infomations and exit",
-    version=INFO[0]
+    action = 'version',
+    help = "show version infomations and exit",
+    version = INFO[0]
 )
 parser.add_argument(
     'r',
-    metavar='FILE PATH',
-    default=False,
-    nargs='?',
-    type=str,
-    help="read workbook from the file path"
+    metavar = 'FILE PATH',
+    default = False,
+    nargs = '?',
+    type = str,
+    help = "read workbook from the file path"
 )
 parser.add_argument(
     '-i',
-    metavar='START PATH',
-    default=False,
-    nargs='?',
-    type=str,
-    help="start Pyslvs in the specified path"
+    metavar = 'START PATH',
+    default = False,
+    nargs = '?',
+    type = str,
+    help = "start Pyslvs in the specified path"
 )
 parser.add_argument(
     '-w',
-    action='store_true',
-    help="show rebuild warning of canvas"
+    action = 'store_true',
+    help = "show rebuild warning of canvas"
 )
 parser.add_argument(
     '-f',
     '--fusion',
-    action='store_true',
-    help="run Pyslvs in Fusion style"
+    action = 'store_true',
+    help = "run Pyslvs in Fusion style"
 )
 parser.add_argument(
     '--full-screen',
-    action='store_true',
-    help="start Pyslvs with full-screen mode"
+    action = 'store_true',
+    help = "start Pyslvs with full-screen mode"
 )
 parser.add_argument(
     '-d',
     '--debug-mode',
-    action='store_true',
-    help="do not connect to GUI console when opening"
+    action = 'store_true',
+    help = "do not connect to GUI console when opening"
 )
 ARGUMENTS = parser.parse_args()
+
 
 def check_update(progdlg: QProgressDialog) -> Tuple[str, bool]:
     """Check for update."""

@@ -127,6 +127,7 @@ mech_params_BallLifter = {
     'same': {6: 5},
 }
 
+
 class CollectionsDialog(QDialog, Ui_Dialog):
     
     """Option dialog.

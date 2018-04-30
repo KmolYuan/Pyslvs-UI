@@ -14,6 +14,7 @@ cimport numpy as np
 from time import time
 from cpython cimport bool
 
+
 cdef class Graph:
     
     """NetworkX-like graph class."""
@@ -92,6 +93,7 @@ cdef class Graph:
         if v in self.adj[u]:
             return 1
         return 0
+
 
 cdef class GraphMatcher:
     
@@ -300,6 +302,7 @@ cdef class GraphMatcher:
                 num2 += 1
         return num1 == num2
 
+
 cdef class GMState:
     
     cdef GraphMatcher GM
@@ -382,6 +385,7 @@ cdef class GMState:
                 if vector[node] == self.depth:
                     del vector[node]
 
+
 cdef inline bool verify(Graph G, list answer):
     if not G.is_connected():
         #is not connected
@@ -392,9 +396,11 @@ cdef inline bool verify(Graph G, list answer):
             return True
     return False
 
+
 cdef inline list connection_get(int i, tuple connection):
     cdef tuple c
     return [c for c in connection if (i in c)]
+
 
 #Linkage Topological Component
 cpdef topo(

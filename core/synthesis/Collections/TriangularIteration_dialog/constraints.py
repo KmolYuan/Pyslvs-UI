@@ -27,6 +27,7 @@ def get_list(item: QListWidget) -> List[str]:
     for e in item.text().split(", "):
         yield e
 
+
 def list_items(
     widget: QListWidget,
     returnRow: bool =False
@@ -37,6 +38,7 @@ def list_items(
             yield row, widget.item(row)
         else:
             yield widget.item(row)
+
 
 def four_bar_loops(G: Graph) -> Tuple[int, int, int, int]:
     """A generator to find out the four bar loops."""
@@ -77,6 +79,7 @@ def four_bar_loops(G: Graph) -> Tuple[int, int, int, int]:
                         loop = [node, nb1, nb2, nb3]
                         result.update(loop)
                         yield loop_set(*loop)
+
 
 class ConstraintsDialog(QDialog, Ui_Dialog):
     
