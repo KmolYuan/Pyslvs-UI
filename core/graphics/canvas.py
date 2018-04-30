@@ -347,8 +347,9 @@ class BaseCanvas(QWidget):
             color = QColor(94, 255, 185)
             params = [args[0]]
         params.append(target)
-        pen = QPen()
-        pen.setColor(color)
+        
+        color.setAlpha(150)
+        pen = QPen(color)
         pen.setWidth(RADIUS)
         self.painter.setPen(pen)
         
