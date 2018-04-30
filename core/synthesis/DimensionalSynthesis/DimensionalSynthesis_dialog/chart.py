@@ -36,14 +36,14 @@ class ChartDialog(QDialog):
     + Fitness / Time Chart.
     """
     
-    def __init__(self, Title, mechanism_data=[], parent=None):
+    def __init__(self, title, mechanism_data, parent):
         super(ChartDialog, self).__init__(parent)
         self.setWindowTitle("Chart")
         self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint)
         self.setSizeGripEnabled(True)
         self.setModal(True)
         self.setMinimumSize(QSize(800, 600))
-        self.Title = Title
+        self.title = title
         self.mechanism_data = mechanism_data
         #Widgets
         main_layout = QVBoxLayout(self)
@@ -57,18 +57,18 @@ class ChartDialog(QDialog):
     def __setChart(self, tabName: str, posX: int, posY: int):
         """Setting charts by data index.
         
-        posX / posY: [0] / [1] / [2]
+        posX / posY: [0], [1], [2]
         TimeAndFitness: List[List[Tuple[gen, fitness, time]]]
         """
         if self.mechanism_data:
             if type(self.mechanism_data[0]['TimeAndFitness'][0]) == float:
-                TimeAndFitness = [
-                    [(data['lastGen']*i/len(data['TimeAndFitness']), Tnf, 0)
-                    for i, Tnf in enumerate(data['TimeAndFitness'])]
-                    for data in self.mechanism_data]
+                plot = [[
+                    (data['lastGen']*i/len(data['TimeAndFitness']), tnf, 0)
+                    for i, tnf in enumerate(data['TimeAndFitness'])
+                ] for data in self.mechanism_data]
             else:
                 #Just copy from mechanism_data
-                TimeAndFitness = [[Tnf for Tnf in data['TimeAndFitness']] for data in self.mechanism_data]
+                plot = [[tnf for tnf in data['TimeAndFitness']] for data in self.mechanism_data]
         axisX = QCategoryAxis()
         axisY = QValueAxis()
         axisX.setLabelsPosition(QCategoryAxis.AxisLabelsPositionOnValue)
@@ -76,31 +76,35 @@ class ChartDialog(QDialog):
         axisY.setTickCount(11)
         #X maxima
         if self.mechanism_data:
-            maximaX = int(max([max([Tnf[posX] for Tnf in data]) for data in TimeAndFitness])*100)
+            maximaX = int(max([max([tnf[posX] for tnf in data]) for data in plot])*100)
             axisX.setMax(maximaX)
-            i10 = int(maximaX/10)
+            i10 = int(maximaX / 10)
             if i10:
-                for i in range(0, maximaX+1, i10):
+                for i in range(0, maximaX + 1, i10):
                     axisX.append(str(i/100), i)
             else:
                 for i in range(0, 1000, 100):
                     axisX.append(str(i/100), i)
         #Y maxima
         if self.mechanism_data:
-            maximaY = max([max([Tnf[posY] for Tnf in data]) for data in TimeAndFitness])+10
+            maximaY = max(max([tnf[posY] for tnf in data]) for data in plot) + 10
         else:
             maximaY = 100
-        maximaY -= maximaY%10
+        maximaY -= maximaY % 10
         axisY.setRange(0., maximaY)
-        chart = DataChart(self.Title, axisX, axisY)
+        chart = DataChart(self.title, axisX, axisY)
         #Append datasets
         for data in self.mechanism_data:
             line = QLineSeries()
             scatter = QScatterSeries()
             gen = data['lastGen']
-            Tnf = TimeAndFitness[self.mechanism_data.index(data)]
-            points = Tnf[:-1] if Tnf[-1]==Tnf[-2] else Tnf
-            line.setName("{}({} gen): {}".format(data['Algorithm'], gen, data['Expression']))
+            tnf = plot[self.mechanism_data.index(data)]
+            points = tnf[:-1] if (tnf[-1] == tnf[-2]) else tnf
+            line.setName("{}({} gen): {}".format(
+                data['Algorithm'],
+                gen,
+                data['Expression']
+            ))
             scatter.setMarkerSize(7)
             scatter.setColor(QColor(110, 190, 30))
             for i, e in enumerate(points):
@@ -108,7 +112,7 @@ class ChartDialog(QDialog):
                 x = e[posX]*100
                 line.append(QPointF(x, y))
                 scatter.append(QPointF(x, y))
-            for series in [line, scatter]:
+            for series in (line, scatter):
                 chart.addSeries(series)
                 series.attachAxis(axisX)
                 series.attachAxis(axisY)

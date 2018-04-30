@@ -97,7 +97,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     
     """Triangular iteration widget."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(CollectionsTriangularIteration, self).__init__(parent)
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave

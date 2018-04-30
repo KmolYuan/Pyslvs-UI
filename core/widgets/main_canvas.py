@@ -113,7 +113,7 @@ class DynamicCanvas(BaseCanvas):
     mouse_getDoubleClickEdit = pyqtSignal(int)
     zoom_change = pyqtSignal(int)
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(DynamicCanvas, self).__init__(parent)
         self.setMouseTracking(True)
         self.setStatusTip("Use mouse wheel or middle button to look around.")

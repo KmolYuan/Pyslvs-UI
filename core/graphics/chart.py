@@ -22,8 +22,8 @@ class DataChart(QChart):
     
     """A axis setted Qt chart widget."""
     
-    def __init__(self, Title, axisX, axisY, parent=None):
-        super(DataChart, self).__init__(parent)
+    def __init__(self, Title, axisX, axisY):
+        super(DataChart, self).__init__()
         self.setTitle(Title)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         legend = self.legend()

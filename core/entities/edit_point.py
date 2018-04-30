@@ -31,8 +31,8 @@ class EditPointDialog(QDialog, Ui_Dialog):
     def __init__(self,
         points: List[VPoint],
         links: List[VLink],
-        pos: bool = False,
-        parent=None
+        pos: bool,
+        parent
     ):
         super(EditPointDialog, self).__init__(parent)
         self.setupUi(self)

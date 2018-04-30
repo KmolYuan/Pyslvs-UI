@@ -39,7 +39,7 @@ class BaseTableWidget(QTableWidget):
     def __init__(self,
         RowCount: int,
         HorizontalHeaderItems: Tuple[str],
-        parent=None
+        parent
     ):
         super(BaseTableWidget, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(
@@ -97,11 +97,10 @@ class PointTableWidget(BaseTableWidget):
     
     """Custom table widget for points."""
     
-    name = 'Point'
     rowSelectionChanged = pyqtSignal(list)
     selectionLabelUpdate = pyqtSignal(list, list)
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(PointTableWidget, self).__init__(0, (
             'Links',
             'Type',
@@ -167,7 +166,7 @@ class PointTableWidget(BaseTableWidget):
     def rename(self, row: int):
         """When index changed, the points need to rename."""
         for j in range(row, self.rowCount()):
-            self.setItem(j, 0, QTableWidgetItem(self.name+str(j)))
+            self.setItem(j, 0, QTableWidgetItem('Point{}'.format(j)))
     
     def currentPosition(self, row: int) -> List[Tuple[float, float]]:
         """Get the current coordinate from a point."""
@@ -269,9 +268,7 @@ class LinkTableWidget(BaseTableWidget):
     
     """Custom table widget for link."""
     
-    name = 'Line'
-    
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(LinkTableWidget, self).__init__(1, ('Color', 'Points'), parent)
         self.setDragDropMode(QAbstractItemView.DropOnly)
         self.setAcceptDrops(True)
@@ -336,7 +333,7 @@ class ExprTableWidget(BaseTableWidget):
     
     """Expression table."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(ExprTableWidget, self).__init__(
             0,
             ('p0', 'p1', 'p2', 'p3', 'target'),
@@ -368,8 +365,8 @@ class SelectionLabel(QLabel):
     @pyqtSlot()
     @pyqtSlot(list, list)
     def updateSelectPoint(self,
-        points: List[int] =[],
-        distance: List[float] =[]
+        points: List[int] = [],
+        distance: List[float] = []
     ):
         """Get points and distance from Point table widget."""
         text = ""

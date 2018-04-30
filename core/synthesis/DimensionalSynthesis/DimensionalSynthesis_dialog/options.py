@@ -77,7 +77,7 @@ class Options_show(QDialog, Ui_Dialog):
     def __init__(self,
         algorithm: AlgorithmType,
         settings: Dict[str, Any],
-        parent=None
+        parent
     ):
         super(Options_show, self).__init__(parent)
         self.setupUi(self)

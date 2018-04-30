@@ -35,7 +35,7 @@ class TargetsDialog(QDialog, Ui_Dialog):
     Only edit the settings after closed.
     """
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(TargetsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)

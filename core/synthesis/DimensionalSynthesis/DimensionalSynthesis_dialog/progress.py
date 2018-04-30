@@ -31,7 +31,7 @@ class Progress_show(QDialog, Ui_Dialog):
         type_num: AlgorithmType,
         mech_params: Dict[str, Any],
         setting: Dict[str, Any],
-        parent=None
+        parent
     ):
         super(Progress_show, self).__init__(parent)
         self.setupUi(self)

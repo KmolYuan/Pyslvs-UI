@@ -27,7 +27,7 @@ class CustomsDialog(QDialog, Ui_Dialog):
     Settings will be edited in each operation.
     """
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(CustomsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)

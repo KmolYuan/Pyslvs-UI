@@ -35,7 +35,7 @@ class PyslvsAbout(QDialog, Ui_About_Dialog):
     
     """Pyslvs about dialog."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(PyslvsAbout, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(self.windowFlags() & ~Qt.WindowContextHelpButtonHint)

@@ -497,8 +497,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>452</width>
-                  <height>723</height>
+                  <width>439</width>
+                  <height>744</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -523,9 +523,6 @@
                       <property name="maximum">
                        <number>10</number>
                       </property>
-                      <property name="value">
-                       <number>3</number>
-                      </property>
                       <property name="displayIntegerBase">
                        <number>10</number>
                       </property>
@@ -549,9 +546,6 @@
                       <property name="singleStep">
                        <number>5</number>
                       </property>
-                      <property name="value">
-                       <number>15</number>
-                      </property>
                      </widget>
                     </item>
                     <item row="3" column="0">
@@ -568,9 +562,6 @@
                       </property>
                       <property name="maximum">
                        <number>5</number>
-                      </property>
-                      <property name="value">
-                       <number>3</number>
                       </property>
                      </widget>
                     </item>
@@ -592,9 +583,6 @@
                       <property name="singleStep">
                        <number>5</number>
                       </property>
-                      <property name="value">
-                       <number>10</number>
-                      </property>
                      </widget>
                     </item>
                     <item row="5" column="0">
@@ -610,9 +598,6 @@
                        <number>3</number>
                       </property>
                       <property name="maximum">
-                       <number>10</number>
-                      </property>
-                      <property name="value">
                        <number>10</number>
                       </property>
                      </widget>
@@ -655,9 +640,6 @@
                       <property name="singleStep">
                        <number>5</number>
                       </property>
-                      <property name="value">
-                       <number>5</number>
-                      </property>
                      </widget>
                     </item>
                     <item row="8" column="0">
@@ -674,9 +656,6 @@
                       </property>
                       <property name="maximum">
                        <number>100</number>
-                      </property>
-                      <property name="value">
-                       <number>5</number>
                       </property>
                      </widget>
                     </item>
@@ -703,9 +682,6 @@
                       </property>
                       <property name="minimum">
                        <number>5</number>
-                      </property>
-                      <property name="value">
-                       <number>32</number>
                       </property>
                      </widget>
                     </item>
@@ -779,9 +755,6 @@
                     <widget class="QCheckBox" name="dontsave_option">
                      <property name="text">
                       <string>Do not save Pyslvs option.</string>
-                     </property>
-                     <property name="checked">
-                      <bool>true</bool>
                      </property>
                     </widget>
                    </item>
@@ -1176,7 +1149,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>26</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

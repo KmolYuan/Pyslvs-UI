@@ -22,7 +22,7 @@ class Collections(QWidget):
     
     """Just a widget contains a sub tab widget."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(Collections, self).__init__(parent)
         layout = QVBoxLayout(self)
         tabWidget = QTabWidget(self)

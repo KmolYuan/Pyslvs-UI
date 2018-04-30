@@ -28,7 +28,7 @@ from core.QtModules import (
 Qt_Version = qVersion().strip()
 PyQt_Version = PYQT_VERSION_STR.strip()
 
-VERSION = (18, 4, 0, 'release')
+VERSION = (18, 5, 0, 'dev')
 
 INFO = (
     "Pyslvs {}.{}.{}({})".format(*VERSION),

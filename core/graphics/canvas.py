@@ -148,7 +148,7 @@ class BaseCanvas(QWidget):
     
     """The subclass can draw a blank canvas more easier."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(BaseCanvas, self).__init__(parent)
         self.setSizePolicy(QSizePolicy(
             QSizePolicy.Expanding,

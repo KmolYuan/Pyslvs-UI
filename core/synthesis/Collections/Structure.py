@@ -50,7 +50,7 @@ class CollectionsStructure(QWidget, Ui_Form):
     
     layout_sender = pyqtSignal(Graph, dict)
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(CollectionsStructure, self).__init__(parent)
         self.setupUi(self)
         self.outputTo = parent.outputTo

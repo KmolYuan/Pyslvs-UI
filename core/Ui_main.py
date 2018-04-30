@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
+# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -233,7 +233,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 452, 723))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 439, 744))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -247,7 +247,6 @@ class Ui_MainWindow(object):
         self.linewidth_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
         self.linewidth_option.setMinimum(1)
         self.linewidth_option.setMaximum(10)
-        self.linewidth_option.setProperty("value", 3)
         self.linewidth_option.setDisplayIntegerBase(10)
         self.linewidth_option.setObjectName("linewidth_option")
         self.formLayout.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.linewidth_option)
@@ -258,7 +257,6 @@ class Ui_MainWindow(object):
         self.fontsize_option.setMinimum(1)
         self.fontsize_option.setMaximum(30)
         self.fontsize_option.setSingleStep(5)
-        self.fontsize_option.setProperty("value", 15)
         self.fontsize_option.setObjectName("fontsize_option")
         self.formLayout.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.fontsize_option)
         self.pathwidth_label = QtWidgets.QLabel(self.settings_ui_groupbox)
@@ -267,7 +265,6 @@ class Ui_MainWindow(object):
         self.pathwidth_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
         self.pathwidth_option.setMinimum(1)
         self.pathwidth_option.setMaximum(5)
-        self.pathwidth_option.setProperty("value", 3)
         self.pathwidth_option.setObjectName("pathwidth_option")
         self.formLayout.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.pathwidth_option)
         self.scalefactor_label = QtWidgets.QLabel(self.settings_ui_groupbox)
@@ -277,7 +274,6 @@ class Ui_MainWindow(object):
         self.scalefactor_option.setMinimum(5)
         self.scalefactor_option.setMaximum(100)
         self.scalefactor_option.setSingleStep(5)
-        self.scalefactor_option.setProperty("value", 10)
         self.scalefactor_option.setObjectName("scalefactor_option")
         self.formLayout.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.scalefactor_option)
         self.selectionradius_label = QtWidgets.QLabel(self.settings_ui_groupbox)
@@ -286,7 +282,6 @@ class Ui_MainWindow(object):
         self.selectionradius_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
         self.selectionradius_option.setMinimum(3)
         self.selectionradius_option.setMaximum(10)
-        self.selectionradius_option.setProperty("value", 10)
         self.selectionradius_option.setObjectName("selectionradius_option")
         self.formLayout.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.selectionradius_option)
         self.linkagetransparency_label = QtWidgets.QLabel(self.settings_ui_groupbox)
@@ -303,7 +298,6 @@ class Ui_MainWindow(object):
         self.marginfactor_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
         self.marginfactor_option.setMaximum(30)
         self.marginfactor_option.setSingleStep(5)
-        self.marginfactor_option.setProperty("value", 5)
         self.marginfactor_option.setObjectName("marginfactor_option")
         self.formLayout.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.marginfactor_option)
         self.jointsize_label = QtWidgets.QLabel(self.settings_ui_groupbox)
@@ -312,7 +306,6 @@ class Ui_MainWindow(object):
         self.jointsize_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
         self.jointsize_option.setMinimum(1)
         self.jointsize_option.setMaximum(100)
-        self.jointsize_option.setProperty("value", 5)
         self.jointsize_option.setObjectName("jointsize_option")
         self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.jointsize_option)
         self.verticalLayout_3.addWidget(self.settings_ui_groupbox)
@@ -325,7 +318,6 @@ class Ui_MainWindow(object):
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.UndoLimit_label)
         self.undolimit_option = QtWidgets.QSpinBox(self.settings_history_groupbox)
         self.undolimit_option.setMinimum(5)
-        self.undolimit_option.setProperty("value", 32)
         self.undolimit_option.setObjectName("undolimit_option")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.undolimit_option)
         self.verticalLayout_3.addWidget(self.settings_history_groupbox)
@@ -357,7 +349,6 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.dontsave_option = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.dontsave_option.setChecked(True)
         self.dontsave_option.setObjectName("dontsave_option")
         self.horizontalLayout.addWidget(self.dontsave_option)
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -524,7 +515,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 26))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 30))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")

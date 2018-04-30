@@ -306,7 +306,7 @@ class KeywordSyntax(QSyntaxHighlighter):
     
     """Syntax highlighter."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(KeywordSyntax, self).__init__(parent)
         keyword = QTextCharFormat()
         keyword.setForeground(QBrush(Qt.darkBlue, Qt.SolidPattern))
@@ -367,7 +367,7 @@ class HighlightTextEdit(QTextEdit):
     
     """Script preview widget."""
     
-    def __init__(self, parent=None):
+    def __init__(self, parent):
         super(HighlightTextEdit, self).__init__(parent)
         self.setWordWrapMode(QTextOption.NoWrap)
         self.setStyleSheet("font: 10pt \"Bitstream Vera Sans Mono\";")

@@ -31,7 +31,7 @@ class DynamicCanvas(BaseCanvas):
     
     """Custom canvas for preview algorithm result."""
     
-    def __init__(self, mechanism, Path, parent=None):
+    def __init__(self, mechanism, Path, parent):
         super(DynamicCanvas, self).__init__(parent)
         self.mechanism = mechanism
         self.Path.path = Path
@@ -241,7 +241,7 @@ class PreviewDialog(QDialog, Ui_Dialog):
     We will not be able to change result settings here.
     """
     
-    def __init__(self, mechanism, Path, parent=None):
+    def __init__(self, mechanism, Path, parent):
         super(PreviewDialog, self).__init__(parent)
         self.setupUi(self)
         self.mechanism = mechanism
