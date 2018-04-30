@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-04-29, 14:56:41 -->
+<!-- Saved: 2018-04-30, 20:06:24 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -100,13 +100,13 @@
     <Source>core/widgets/Ui_inputs.py</Source>
     <Source>core/widgets/__init__.py</Source>
     <Source>core/widgets/custom.py</Source>
-    <Source>core/widgets/custom_actions.py</Source>
-    <Source>core/widgets/custom_entities.py</Source>
-    <Source>core/widgets/custom_io.py</Source>
-    <Source>core/widgets/custom_solver.py</Source>
-    <Source>core/widgets/custom_storage.py</Source>
     <Source>core/widgets/inputs.py</Source>
     <Source>core/widgets/main_canvas.py</Source>
+    <Source>core/widgets/method_actions.py</Source>
+    <Source>core/widgets/method_entities.py</Source>
+    <Source>core/widgets/method_io.py</Source>
+    <Source>core/widgets/method_solver.py</Source>
+    <Source>core/widgets/method_storage.py</Source>
     <Source>core/widgets/rotatable.py</Source>
     <Source>core/widgets/tables.py</Source>
     <Source>icons_rc.py</Source>

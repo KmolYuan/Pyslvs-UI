@@ -15,13 +15,13 @@ from typing import (
 )
 from argparse import Namespace
 from core.QtModules import (
+    Qt,
+    pyqtSlot,
     QMainWindow,
     QUndoStack,
     QFileInfo,
     QStandardPaths,
-    pyqtSlot,
     QPoint,
-    Qt,
     QMessageBox,
     QInputDialog,
     QTextCursor,
@@ -55,8 +55,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     into wrapper function as 'widgets.custom_xxx' module.
     """
     
-    def __init__(self, args: Namespace, parent=None):
-        super(MainWindow, self).__init__(parent)
+    def __init__(self, args: Namespace):
+        super(MainWindow, self).__init__()
         self.setupUi(self)
         self.args = args
         self.env = ""
@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.accept()
     
     @pyqtSlot(int)
-    def commandReload(self, index):
+    def commandReload(self, index: int):
         """The time of withdrawal and redo action."""
         if index != self.FileWidget.Stack:
             self.workbookNoSave()
@@ -170,13 +170,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.ZoomBar.setValue(value)
     
     @pyqtSlot(bool)
-    def on_action_Display_Dimensions_toggled(self, toggled):
+    def on_action_Display_Dimensions_toggled(self, toggled: bool):
         """If turn on dimension labels, turn on the point marks."""
         if toggled:
             self.action_Display_Point_Mark.setChecked(True)
     
     @pyqtSlot(bool)
-    def on_action_Display_Point_Mark_toggled(self, toggled):
+    def on_action_Display_Point_Mark_toggled(self, toggled: bool):
         """If no point marks, turn off the dimension labels."""
         if not toggled:
             self.action_Display_Dimensions.setChecked(False)
@@ -187,7 +187,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.MainCanvas.setCurveMode(self.action_Path_style.isChecked())
     
     @pyqtSlot(int)
-    def on_SynthesisTab_currentChanged(self, index):
+    def on_SynthesisTab_currentChanged(self, index: int):
         """Dimensional synthesis information will show on the canvas."""
         self.MainCanvas.setShowTargetPath(
             self.SynthesisTab.tabText(index)=="Dimensional"
@@ -198,7 +198,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.DimensionalSynthesis.addPoint(self.mouse_pos_x, self.mouse_pos_y)
     
     @pyqtSlot(int, tuple)
-    def mergeResult(self, row, path):
+    def mergeResult(self, row: int, path: Tuple[Tuple[float, float]]):
         """Merge result function of dimensional synthesis."""
         Result = self.DimensionalSynthesis.mechanism_data[row]
         #exp_symbol = ['A', 'B', 'C', 'D', 'E']
@@ -267,7 +267,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.showMaximized()
     
     @pyqtSlot(int)
-    def on_EntitiesTab_currentChanged(self, index):
+    def on_EntitiesTab_currentChanged(self, index: int):
         self.MainCanvas.setSolutionShow(
             self.EntitiesTab.tabText(index) == "Formulas"
         )
