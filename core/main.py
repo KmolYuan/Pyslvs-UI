@@ -153,7 +153,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     @pyqtSlot(int)
     def on_ZoomBar_valueChanged(self, value: int):
         """Reset the text when zoom bar changed."""
-        self.ZoomText.setText('{}%'.format(value))
+        self.zoom_button.setText('{}%'.format(value))
     
     @pyqtSlot()
     def customizeZoom(self):

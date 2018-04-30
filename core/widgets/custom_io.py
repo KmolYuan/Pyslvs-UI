@@ -12,10 +12,12 @@ from typing import (
     List,
     Dict,
     Callable,
+    TypeVar,
 )
 from core.QtModules import (
     Qt,
     QApplication,
+    QWidget,
     QMessageBox,
     QDesktopServices,
     QUrl,
@@ -53,15 +55,15 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
             if vlink.name == 'ground':
                 continue
             for i, p in enumerate(vlink.points):
-                if i==0:
+                if i == 0:
                     continue
                 yield (vlink.points[0], p)
-                if i>1:
+                if i > 1:
                     yield (vlink.points[i-1], p)
     
     return v_to_slvs
 
-def _settings(self):
+def _settings(self) -> Tuple[Tuple[QWidget, TypeVar('limit', int, bool)]]:
     """Give the settings of all option widgets."""
     return (
         (self.linewidth_option, 3),

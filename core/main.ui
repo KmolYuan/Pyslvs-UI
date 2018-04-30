@@ -915,7 +915,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="ZoomText">
+              <widget class="QPushButton" name="zoom_button">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
