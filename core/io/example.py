@@ -10,11 +10,10 @@ __email__ = "pyslvs@gmail.com"
 #TODO: Add examples as expression.
 
 example_list = {
-    
     #TODO: 2 DOF example.
     "Arm": "M[J[R, color[Green], P[-34.25, -20.625], L[ground, link_1, link_2]], J[R, color[Green], P[29.75, 77.375], L[link_2, link_5, link_6]], J[R, color[Green], P[-54.0, 10.875], L[link_1, link_3]], J[R, color[Green], P[-86.25, -3.125], L[ground, link_4]], J[R, color[Green], P[-7.25, 94.625], L[link_4, link_5]], J[R, color[Green], P[57.0, 110.875], L[link_5, link_8]], J[R, color[Green], P[126.5, 56.125], L[link_7, link_8]], J[R, color[Green], P[114.5, 35.625], L[link_6, link_7]], J[R, color[Green], P[7.0, 131.125], L[link_3, link_6]], J[R, color[Green], P[163.5, 47.875], L[link_7]]]",
     
-    "Ball lifter (Double six bar linkage)": "M[" +
+    "Ball lifter (Double)": "M[" +
         "J[R, color[Green], P[10.2, 10.4], L[ground, link_1]], " +
         "J[R, color[Green], P[7.44, 20.01], L[link_1, link_2, link_6]], " +
         "J[R, color[Green], P[-10.52, 11.21], L[link_2, link_3]], " +
@@ -29,6 +28,29 @@ example_list = {
         "J[R, color[Green], P[23.8, 0.0], L[ground, link_9]], " +
         "J[R, color[Green], P[35.64, 40.55], L[link_8, link_9]], " +
         "J[R, color[Green], P[8.73, 80.39], L[link_8]]" +
+        "]",
+    
+    "Ball lifter (Triple)": "M[" +
+        "J[R, color[Green], P[10.2, 10.4], L[ground, link_1]], " +
+        "J[R, color[Green], P[7.44, 20.01], L[link_1, link_2, link_6, link_10]], " +
+        "J[R, color[Green], P[-10.52, 11.21], L[link_2, link_3]], " +
+        "J[R, color[Green], P[-28.48, 2.42], L[link_2, link_4]], " +
+        "J[R, color[Green], P[-6.6, 0.0], L[ground, link_3]], " +
+        "J[R, color[Green], P[-12.8, 0.0], L[ground, link_5]], " +
+        "J[R, color[Green], P[-19.11, 32.24], L[link_4, link_5]], " +
+        "J[R, color[Green], P[-64.12, 4.61], L[link_4]], " +
+        "J[R, color[Green], P[43.78, 20.17], L[ground, link_7]], " +
+        "J[R, color[Green], P[13.9, 38.46], L[link_6, link_7]], " +
+        "J[R, color[Green], P[21.05, 62.93], L[link_6, link_8]], " +
+        "J[R, color[Green], P[23.8, 0.0], L[ground, link_9]], " +
+        "J[R, color[Green], P[39.15, 41.95], L[link_8, link_9]], " +
+        "J[R, color[Green], P[10.29, 92.17], L[link_8]], " +
+        "J[R, color[Green], P[73.44, 61.74], L[link_10, link_11]], " +
+        "J[R, color[Green], P[63.67, 0.0], L[ground, link_11]], " +
+        "J[R, color[Green], P[101.58, 72.34], L[link_10, link_12]], " +
+        "J[R, color[Green], P[92.30, -1.63], L[link_13, ground]], " +
+        "J[R, color[Green], P[111.74, 70.43], L[link_12, link_13]], " +
+        "J[R, color[Green], P[7.50, 93.44], L[link_12]]" +
         "]",
     
     "Crank rocker": "M[" +

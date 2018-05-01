@@ -458,7 +458,9 @@ def on_action_Output_to_Expression_triggered(self):
     ))
     text = (
         "You can copy the expression and import to another workbook:" +
-        "\n\n{}\n\nClick the save button to copy it.".format(expr)
+        "\n\n{}\n\nClick the save button to copy it.".format(
+            expr if (len(expr) <= 30) else (expr[30:] + '...')
+        )
     )
     reply = QMessageBox.question(self,
         "Pyslvs Expression",
