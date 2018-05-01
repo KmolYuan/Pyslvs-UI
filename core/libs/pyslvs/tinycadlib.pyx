@@ -159,6 +159,10 @@ cdef class VLink:
     
     """Symbol of linkages."""
     
+    cdef readonly str name, colorSTR
+    cdef readonly object color
+    cdef readonly tuple points
+    
     def __cinit__(self,
         str name,
         str color_str,
