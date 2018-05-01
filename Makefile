@@ -69,8 +69,12 @@ else
 	-rm -f -r out
 endif
 
-clean-kernel:
+clean-cython:
 	$(MAKE) -C core/libs/pyslvs clean
+
+clean-solvespace:
 	$(MAKE) -C core/libs/python_solvespace clean
 
-clean-all: clean-kernel clean
+clean-kernel: clean-cython clean-solvespace
+
+clean-all: clean clean-kernel
