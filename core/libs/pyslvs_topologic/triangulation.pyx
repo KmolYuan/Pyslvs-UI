@@ -7,6 +7,7 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
+from typing import Sequence
 from libc.math cimport sin, cos
 import numpy as np
 cimport numpy as np
@@ -29,10 +30,21 @@ cdef inline bool clockwise(tuple c1, tuple c2, tuple c3):
     return ((val == 0) or (val > 0))
 
 
-def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
-    """Return a generator yield the nodes that has solution on the same link."""
+ctypedef fused sequence:
+    list
+    tuple
+
+
+def _get_reliable_friend(
+    node: int,
+    vpoints: Sequence[object],
+    vlinks: dict,
+    status: dict
+) -> int:
+    """Return a generator yield the nodes
+        that has solution on the same link.
+    """
     cdef str link
-    cdef set points
     cdef int friend
     for link in vpoints[node].links:
         if len(vlinks[link]) < 2:
@@ -42,7 +54,13 @@ def get_reliable_friend(int node, object vpoints, dict vlinks, dict status):
                 yield friend
 
 
-def get_notbase_friend(int node, object vpoints, dict vlinks, dict status):
+def _get_notbase_friend(
+    node: int,
+    vpoints: Sequence[object],
+    vlinks: dict,
+    status: dict
+) -> int:
+    """Get a friend from constrained nodes."""
     if len(vpoints[node].links) < 2:
         raise StopIteration
     cdef int friend
@@ -50,7 +68,13 @@ def get_notbase_friend(int node, object vpoints, dict vlinks, dict status):
         yield friend
 
 
-def get_base_friend(int node, object vpoints, dict vlinks, dict status):
+def _get_base_friend(
+    node: int,
+    vpoints: Sequence[object],
+    vlinks: dict,
+    status: dict
+) -> int:
+    """Get the constrained node of same linkage."""
     if len(vpoints[node].links) < 1:
         raise StopIteration
     cdef int friend
@@ -58,7 +82,16 @@ def get_base_friend(int node, object vpoints, dict vlinks, dict status):
         yield friend
 
 
-cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
+cdef inline int get_input_base(int node, sequence inputs):
+    """Get the base node for input pairs."""
+    cdef int base, node_
+    for base, node_ in inputs:
+        if node == node_:
+            return base
+    return -1
+
+
+cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status={}):
     """Auto configuration algorithm.
     
     For VPoint list.
@@ -93,20 +126,23 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
     cdef list exprs = []
     cdef int link_symbol = 0
     cdef int angle_symbol = 0
-    #PLAP
+    
     cdef int base
+    cdef set input_targets = {node for base, node in inputs}
+    
     for base, node in inputs:
-        exprs.append((
-            'PLAP',
-            'P{}'.format(base),
-            'L{}'.format(link_symbol),
-            'a{}'.format(angle_symbol),
-            'P{}'.format(node),
-        ))
-        status[node] = True
-        link_symbol += 1
-        angle_symbol += 1
-    #PLLP, PLPP
+        if status[base]:
+            exprs.append((
+                'PLAP',
+                'P{}'.format(base),
+                'L{}'.format(link_symbol),
+                'a{}'.format(angle_symbol),
+                'P{}'.format(node),
+            ))
+            status[node] = True
+            link_symbol += 1
+            angle_symbol += 1
+    
     node = 0
     cdef int friend_a, friend_b, friend_c, friend_d
     cdef bool not_grounded
@@ -115,48 +151,75 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
     cdef double tmp_x, tmp_y, angle
     cdef object f1
     while not isAllLock(status):
+        
         if node not in status:
             node = 0
             continue
+        
         #Check the solution.
         #If re-scan again.
         if skip_times >= around:
             break
+        
         if status[node]:
             node += 1
             skip_times += 1
             continue
+        
         if vpoints[node].type == 0:
-            """R joint."""
-            f1 = get_reliable_friend(node, vpoints, vlinks, status)
-            try:
-                friend_a = next(f1)
-                friend_b = next(f1)
-            except StopIteration:
-                skip_times += 1
+            """R joint.
+            
+            + Is input node?
+            + Normal revolute joint.
+            """
+            
+            if node in input_targets:
+                base = get_input_base(node, inputs)
+                if status[base]:
+                    exprs.append((
+                        'PLAP',
+                        'P{}'.format(base),
+                        'L{}'.format(link_symbol),
+                        'a{}'.format(angle_symbol),
+                        'P{}'.format(node),
+                    ))
+                    status[node] = True
+                    link_symbol += 1
+                    angle_symbol += 1
+                else:
+                    skip_times += 1
             else:
-                if not clockwise(
-                    pos[friend_a],
-                    pos[node],
-                    pos[friend_b]
-                ):
-                    friend_a, friend_b = friend_b, friend_a
-                exprs.append((
-                    'PLLP',
-                    'P{}'.format(friend_a),
-                    'L{}'.format(link_symbol),
-                    'L{}'.format(link_symbol + 1),
-                    'P{}'.format(friend_b),
-                    'P{}'.format(node),
-                ))
-                link_symbol += 2
-                status[node] = True
-                skip_times = 0
+                f1 = _get_reliable_friend(node, vpoints, vlinks, status)
+                try:
+                    friend_a = next(f1)
+                    friend_b = next(f1)
+                except StopIteration:
+                    skip_times += 1
+                else:
+                    if not clockwise(
+                        pos[friend_a],
+                        pos[node],
+                        pos[friend_b]
+                    ):
+                        friend_a, friend_b = friend_b, friend_a
+                    exprs.append((
+                        'PLLP',
+                        'P{}'.format(friend_a),
+                        'L{}'.format(link_symbol),
+                        'L{}'.format(link_symbol + 1),
+                        'P{}'.format(friend_b),
+                        'P{}'.format(node),
+                    ))
+                    status[node] = True
+                    link_symbol += 2
+                    skip_times = 0
+        
         elif vpoints[node].type == 1:
             """TODO: P joint."""
+        
         elif vpoints[node].type == 2:
             """RP joint."""
-            f1 = get_base_friend(node, vpoints, vlinks, status)
+            f1 = _get_base_friend(node, vpoints, vlinks, status)
             #Copy as 'friend_c'.
             friend_c = node
             #'S' point.
@@ -165,7 +228,7 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
             tmp_x += cos(angle)
             tmp_y += sin(angle)
             try:
-                friend_a = next(get_notbase_friend(node, vpoints, vlinks, status))
+                friend_a = next(_get_notbase_friend(node, vpoints, vlinks, status))
                 friend_b = next(f1)
                 if 'ground' != vpoints[node].links[0]:
                     """Slot is not grounded."""
@@ -222,9 +285,10 @@ cpdef list vpoints_configure(object vpoints, object inputs, dict status={}):
                     'S{}'.format(node),
                     'P{}'.format(node),
                 ))
-                link_symbol += 3
                 status[node] = True
+                link_symbol += 3
                 skip_times = 0
+        
         node += 1
     """
     exprs: [('PLAP', 'P0', 'L0', 'a0', 'P1', 'P2'), ...]

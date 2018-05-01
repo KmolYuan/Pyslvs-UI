@@ -35,7 +35,7 @@ cdef class Chromosome:
     cdef public double f
     cdef public np.ndarray v
     
-    def __cinit__(self, int n):
+    def __cinit__(self, n: int):
         # dimension
         self.n = n
         # the gene
@@ -59,7 +59,12 @@ cdef class DiffertialEvolution:
     cdef Chromosome lastgenbest, currentbest
     cdef list fitnessTime
     
-    def __cinit__(self, object func, dict settings, object progress_fun=None, object interrupt_fun=None):
+    def __cinit__(self,
+        func: object,
+        settings: dict,
+        progress_fun: object = None,
+        interrupt_fun: object = None
+    ):
         """
         settings = {
             'strategy',

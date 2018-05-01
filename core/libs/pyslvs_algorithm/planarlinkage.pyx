@@ -49,7 +49,7 @@ cdef class build_planar:
     cdef dict Driver, Follower
     cdef np.ndarray exprs, target, upper, lower
     
-    def __cinit__(self, dict mech_params):
+    def __cinit__(self, mech_params: dict):
         '''
         mech_params = {
             'Target',
@@ -274,6 +274,6 @@ cdef class build_planar:
             final_dict['a{}'.format(j)] = tuple(tmp_list)
         return final_dict
     
-    def __call__(self, np.ndarray v):
+    def __call__(self, v: np.ndarray):
         """Python callable object."""
         return self.run(v)

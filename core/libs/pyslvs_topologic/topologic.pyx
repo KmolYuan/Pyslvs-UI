@@ -7,6 +7,7 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
+from typing import Sequence, Tuple
 from itertools import combinations, product
 import sys
 import numpy as np
@@ -23,7 +24,7 @@ cdef class Graph:
     cdef dict adj
     cdef public tuple edges
     
-    def __cinit__(self, object edges):
+    def __cinit__(self, edges: Sequence[Tuple[int, int]]):
         #edges
         """edges: ((l1, l2), ...)"""
         self.edges = tuple(edges)
@@ -113,7 +114,7 @@ cdef class GraphMatcher:
     cdef dict core_1, core_2, inout_1, inout_2, mapping
     cdef GMState state
     
-    def __cinit__(self, Graph G1, Graph G2):
+    def __cinit__(self, G1: Graph, G2: Graph):
         self.G1 = G1
         self.G2 = G2
         self.G1_nodes = set(G1.nodes)
@@ -200,7 +201,7 @@ cdef class GraphMatcher:
     
     #Generator isomorphisms_iter()
     #Generator over isomorphisms between G1 and G2.
-    def isomorphisms_iter(self):
+    def isomorphisms_iter(self) -> dict:
         # Declare that we are looking for a graph-graph isomorphism.
         self.initialize()
         cdef dict mapping
@@ -209,7 +210,7 @@ cdef class GraphMatcher:
     
     #Generator match()
     #Extends the isomorphism mapping.
-    def match(self):
+    def match(self) -> dict:
         cdef int G1_node, G2_node
         cdef GMState newstate
         cdef dict mapping
@@ -308,7 +309,11 @@ cdef class GMState:
     cdef GraphMatcher GM
     cdef int G1_node, G2_node, depth
     
-    def __cinit__(self, GraphMatcher GM, int G1_node=-1, int G2_node=-1):
+    def __cinit__(self,
+        GM: GraphMatcher,
+        G1_node: int = -1,
+        G2_node: int = -1
+    ):
         """Initializes GMState object.
         
         Pass in the GraphMatcher to which this GMState belongs and the

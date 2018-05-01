@@ -37,7 +37,7 @@ cdef class Chromosome:
     cdef public double f
     cdef public np.ndarray v
     
-    def __cinit__(self, n):
+    def __cinit__(self, n: int):
         self.n = n
         #self.v = <double *>malloc(n*cython.sizeof(double))
         self.v = np.zeros(n)
@@ -69,7 +69,12 @@ cdef class Firefly:
     cdef Chromosome genbest, bestFirefly
     cdef list fitnessTime
     
-    def __init__(self, object func, dict settings, object progress_fun=None, object interrupt_fun=None):
+    def __init__(self,
+        func: object,
+        settings: dict,
+        progress_fun: object = None,
+        interrupt_fun: object = None
+    ):
         """
         settings = {
             'n',

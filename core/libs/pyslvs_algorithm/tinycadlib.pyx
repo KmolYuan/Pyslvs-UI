@@ -38,13 +38,13 @@ cdef class VPoint:
     cdef readonly double x, y, angle
     
     def __cinit__(self,
-        str links,
-        int type_int,
-        double angle,
-        str color_str,
-        double x,
-        double y,
-        object color_func=None
+        links: str,
+        type_int: int,
+        angle: double,
+        color_str: str,
+        x: double,
+        y: double,
+        color_func: object = None
     ):
         cdef list tmp_list = []
         cdef str name
@@ -131,7 +131,7 @@ cdef class VPoint:
             ", ".join(l for l in self.links)
         )
     
-    def __richcmp__(VPoint p1, VPoint p2, int op):
+    def __richcmp__(p1: VPoint, p2: VPoint, op: int):
         """Equal comparison.
         
         op == 2: __eq__
@@ -148,7 +148,7 @@ cdef class VPoint:
             (p1.angle == p2.angle)
         )
     
-    def __getitem__(self, int i):
+    def __getitem__(self, i: int):
         """Get coordinate like this:
         
         x, y = VPoint(10, 20)
@@ -183,7 +183,7 @@ cdef class VLink:
             self.color = color_func(color_str)
         self.points = points
     
-    def __contains__(self, int point):
+    def __contains__(self, point: int):
         """Check if point number is in the link."""
         return point in self.points
     
