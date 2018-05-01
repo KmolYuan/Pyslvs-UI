@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-"""'pyslvs_algorithm' module contains
-algorithm libraries to do triangular formula and dimentional synthesis.
+"""'pyslvs' module contains
+
++ Algorithm libraries to do triangular formula and dimentional synthesis.
++ Number synthesis and type synthesis libraries.
 """
 
 __author__ = "Yuan Chang"
@@ -24,6 +26,9 @@ from .tinycadlib import (
     VLink,
 )
 from .planarlinkage import build_planar
+from .number import NumberSynthesis
+from .topologic import topo, Graph
+from .triangulation import vpoints_configure
 
 __all__ = [
     'Genetic',
@@ -39,4 +44,8 @@ __all__ = [
     'VPoint',
     'VLink',
     'build_planar',
+    'NumberSynthesis',
+    'topo',
+    'Graph',
+    'vpoints_configure',
 ]

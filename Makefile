@@ -19,11 +19,8 @@ help:
 .PHONY: help build build-kernel clean clean-kernel clean-all
 
 build-cython:
-	@echo ---Pyslvs generate Build---
-	$(MAKE) -C core/libs/pyslvs_algorithm
-	@echo ---Done---
-	@echo ---Pyslvs topologic Build---
-	$(MAKE) -C core/libs/pyslvs_topologic
+	@echo ---Pyslvs libraries Build---
+	$(MAKE) -C core/libs/pyslvs
 	@echo ---Done---
 
 build-solvespace:
@@ -45,11 +42,11 @@ ifeq ($(OS),Windows_NT)
 	pyinstaller -F $< -i ./icons/main.ico \
 --path="$(PYQTPATH)\Qt\bin" \
 --add-binary="core/libs/python_solvespace/libslvs.so;." \
---add-binary="core/libs/pyslvs_algorithm/de.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs_algorithm/firefly.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs_algorithm/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs_algorithm/rga.$(CPPYTHON)-win_amd64.pyd;." \
---add-binary="core/libs/pyslvs_algorithm/tinycadlib.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/de.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/firefly.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/planarlinkage.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/rga.$(CPPYTHON)-win_amd64.pyd;." \
+--add-binary="core/libs/pyslvs/tinycadlib.$(CPPYTHON)-win_amd64.pyd;." \
 --add-binary="core/libs/pyslvs_topologic/topologic.$(CPPYTHON)-win_amd64.pyd;."
 	$(eval PYSLVSVERSION = $(shell python -c "from core.info import VERSION; print(\"{}.{}.{}\".format(*VERSION))"))
 	$(eval COMPILERVERSION = $(shell python -c "import platform; print(''.join(platform.python_compiler().split(\" \")[:2]).replace('.', '').lower())"))
@@ -73,8 +70,7 @@ else
 endif
 
 clean-kernel:
-	$(MAKE) -C core/libs/pyslvs_algorithm clean
-	$(MAKE) -C core/libs/pyslvs_topologic clean
+	$(MAKE) -C core/libs/pyslvs clean
 	$(MAKE) -C core/libs/python_solvespace clean
 
 clean-all: clean-kernel clean

@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .pyslvs_algorithm import (
+from .pyslvs import (
     Genetic,
     Firefly,
     DiffertialEvolution,
@@ -21,8 +21,6 @@ from .pyslvs_algorithm import (
     VPoint,
     VLink,
     build_planar,
-)
-from .pyslvs_topologic import (
     NumberSynthesis,
     topo,
     Graph,

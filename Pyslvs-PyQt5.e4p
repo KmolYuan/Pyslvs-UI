@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-04-30, 20:06:24 -->
+<!-- Saved: 2018-05-01, 16:43:42 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -47,18 +47,16 @@
     <Source>core/io/undoRedo.py</Source>
     <Source>core/io/workbook_overview.py</Source>
     <Source>core/libs/__init__.py</Source>
-    <Source>core/libs/pyslvs_algorithm/__init__.py</Source>
-    <Source>core/libs/pyslvs_algorithm/de.pyx</Source>
-    <Source>core/libs/pyslvs_algorithm/firefly.pyx</Source>
-    <Source>core/libs/pyslvs_algorithm/planarlinkage.pyx</Source>
-    <Source>core/libs/pyslvs_algorithm/rga.pyx</Source>
-    <Source>core/libs/pyslvs_algorithm/setup.py</Source>
-    <Source>core/libs/pyslvs_algorithm/tinycadlib.pyx</Source>
-    <Source>core/libs/pyslvs_topologic/__init__.py</Source>
-    <Source>core/libs/pyslvs_topologic/number.pyx</Source>
-    <Source>core/libs/pyslvs_topologic/setup.py</Source>
-    <Source>core/libs/pyslvs_topologic/topologic.pyx</Source>
-    <Source>core/libs/pyslvs_topologic/triangulation.pyx</Source>
+    <Source>core/libs/pyslvs/__init__.py</Source>
+    <Source>core/libs/pyslvs/de.pyx</Source>
+    <Source>core/libs/pyslvs/firefly.pyx</Source>
+    <Source>core/libs/pyslvs/number.pyx</Source>
+    <Source>core/libs/pyslvs/planarlinkage.pyx</Source>
+    <Source>core/libs/pyslvs/rga.pyx</Source>
+    <Source>core/libs/pyslvs/setup.py</Source>
+    <Source>core/libs/pyslvs/tinycadlib.pyx</Source>
+    <Source>core/libs/pyslvs/topologic.pyx</Source>
+    <Source>core/libs/pyslvs/triangulation.pyx</Source>
     <Source>core/libs/python_solvespace/__init__.py</Source>
     <Source>core/libs/python_solvespace/planarSolving.py</Source>
     <Source>core/main.py</Source>
@@ -147,8 +145,6 @@
     <Other>Makefile</Other>
     <Other>README.md</Other>
     <Other>appimage_recipe.sh</Other>
-    <Other>core/libs/pyslvs_algorithm/Makefile</Other>
-    <Other>core/libs/pyslvs_topologic/Makefile</Other>
     <Other>core/libs/python_solvespace/Makefile</Other>
     <Other>requirements.txt</Other>
   </Others>
