@@ -15,7 +15,11 @@ from time import time
 from cpython cimport bool
 
 #https://stackoverflow.com/questions/25974975/cython-c-array-initialization
-from libc.stdlib cimport rand, RAND_MAX, srand
+from libc.stdlib cimport (
+    rand,
+    RAND_MAX,
+    srand,
+)
 srand(int(time()))
 
 

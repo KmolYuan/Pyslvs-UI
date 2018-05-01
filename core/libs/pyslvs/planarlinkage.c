@@ -576,6 +576,7 @@ static CYTHON_INLINE float __PYX_NAN() {
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
+#include "pythread.h"
 #include "numpy/arrayobject.h"
 #include "numpy/ufuncobject.h"
 #ifdef _OPENMP
@@ -807,6 +808,9 @@ static const char *__pyx_f[] = {
   "stringsource",
   "__init__.pxd",
   "type.pxd",
+  "bool.pxd",
+  "complex.pxd",
+  "tinycadlib.pxd",
 };
 
 /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":730
@@ -1023,6 +1027,9 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
 
 
 /*--- Type declarations ---*/
+struct __pyx_obj_10tinycadlib_VPoint;
+struct __pyx_obj_10tinycadlib_VLink;
+struct __pyx_obj_10tinycadlib_Coordinate;
 struct __pyx_obj_13planarlinkage_build_planar;
 struct __pyx_obj_13planarlinkage___pyx_scope_struct____cinit__;
 struct __pyx_obj_13planarlinkage___pyx_scope_struct_1_genexpr;
@@ -1065,8 +1072,128 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
+struct __pyx_opt_args_10tinycadlib_6VPoint_move;
+struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle;
+struct __pyx_opt_args_10tinycadlib_PLAP;
+struct __pyx_opt_args_10tinycadlib_PLLP;
+struct __pyx_opt_args_10tinycadlib_PLPP;
 
-/* "planarlinkage.pyx":42
+/* "tinycadlib.pxd":23
+ *     cdef readonly double x, y, angle
+ * 
+ *     cpdef void move(self, tuple, tuple c2 = *)             # <<<<<<<<<<<<<<
+ *     cpdef double distance(self, VPoint)
+ *     cpdef double slopeAngle(self, VPoint, int num1 = *, int num2 = *)
+ */
+struct __pyx_opt_args_10tinycadlib_6VPoint_move {
+  int __pyx_n;
+  PyObject *c2;
+};
+
+/* "tinycadlib.pxd":25
+ *     cpdef void move(self, tuple, tuple c2 = *)
+ *     cpdef double distance(self, VPoint)
+ *     cpdef double slopeAngle(self, VPoint, int num1 = *, int num2 = *)             # <<<<<<<<<<<<<<
+ *     cpdef bool grounded(self)
+ * 
+ */
+struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle {
+  int __pyx_n;
+  int num1;
+  int num2;
+};
+
+/* "tinycadlib.pxd":42
+ * 
+ * 
+ * cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)             # <<<<<<<<<<<<<<
+ * cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)
+ * cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)
+ */
+struct __pyx_opt_args_10tinycadlib_PLAP {
+  int __pyx_n;
+  struct __pyx_obj_10tinycadlib_Coordinate *B;
+  PyBoolObject *inverse;
+};
+
+/* "tinycadlib.pxd":43
+ * 
+ * cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)
+ * cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)             # <<<<<<<<<<<<<<
+ * cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)
+ * 
+ */
+struct __pyx_opt_args_10tinycadlib_PLLP {
+  int __pyx_n;
+  PyBoolObject *inverse;
+};
+
+/* "tinycadlib.pxd":44
+ * cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)
+ * cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)
+ * cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)             # <<<<<<<<<<<<<<
+ * 
+ * cpdef bool legal_triangle(Coordinate, Coordinate, Coordinate)
+ */
+struct __pyx_opt_args_10tinycadlib_PLPP {
+  int __pyx_n;
+  PyBoolObject *inverse;
+};
+
+/* "tinycadlib.pxd":14
+ * 
+ * 
+ * cdef class VPoint:             # <<<<<<<<<<<<<<
+ *     cdef readonly tuple links
+ *     cdef readonly ndarray c
+ */
+struct __pyx_obj_10tinycadlib_VPoint {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_10tinycadlib_VPoint *__pyx_vtab;
+  PyObject *links;
+  PyArrayObject *c;
+  int type;
+  PyObject *color;
+  PyObject *colorSTR;
+  PyObject *typeSTR;
+  double x;
+  double y;
+  double angle;
+};
+
+
+/* "tinycadlib.pxd":29
+ * 
+ * 
+ * cdef class VLink:             # <<<<<<<<<<<<<<
+ *     cdef readonly str name, colorSTR
+ *     cdef readonly object color
+ */
+struct __pyx_obj_10tinycadlib_VLink {
+  PyObject_HEAD
+  PyObject *name;
+  PyObject *colorSTR;
+  PyObject *color;
+  PyObject *points;
+};
+
+
+/* "tinycadlib.pxd":35
+ * 
+ * 
+ * cdef class Coordinate:             # <<<<<<<<<<<<<<
+ *     cdef readonly double x, y
+ * 
+ */
+struct __pyx_obj_10tinycadlib_Coordinate {
+  PyObject_HEAD
+  struct __pyx_vtabstruct_10tinycadlib_Coordinate *__pyx_vtab;
+  double x;
+  double y;
+};
+
+
+/* "planarlinkage.pyx":36
  * 
  * 
  * cdef class build_planar:             # <<<<<<<<<<<<<<
@@ -1092,7 +1219,7 @@ struct __pyx_obj_13planarlinkage_build_planar {
 };
 
 
-/* "planarlinkage.pyx":52
+/* "planarlinkage.pyx":46
  *     cdef np.ndarray exprs, target, upper, lower
  * 
  *     def __cinit__(self, mech_params: dict):             # <<<<<<<<<<<<<<
@@ -1106,11 +1233,11 @@ struct __pyx_obj_13planarlinkage___pyx_scope_struct____cinit__ {
 };
 
 
-/* "planarlinkage.pyx":67
- *         cdef object value
+/* "planarlinkage.pyx":61
+ *         cdef dict value
  *         cdef int l
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())             # <<<<<<<<<<<<<<
- *         if not all([l==check_tuple[0] for l in check_tuple]):
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())             # <<<<<<<<<<<<<<
+ *         if not all([l == check_tuple[0] for l in check_tuple]):
  *             raise ValueError("Target path should be in the same size.")
  */
 struct __pyx_obj_13planarlinkage___pyx_scope_struct_1_genexpr {
@@ -1123,7 +1250,7 @@ struct __pyx_obj_13planarlinkage___pyx_scope_struct_1_genexpr {
 };
 
 
-/* "planarlinkage.pyx":83
+/* "planarlinkage.pyx":77
  *         cdef int i
  *         for i, value in enumerate(mech_params['Target'].values()):
  *             self.target[i] = tuple(Coordinate(x, y) for x, y in value)             # <<<<<<<<<<<<<<
@@ -1137,29 +1264,30 @@ struct __pyx_obj_13planarlinkage___pyx_scope_struct_2_genexpr {
   PyObject *__pyx_v_y;
   PyObject *__pyx_t_0;
   Py_ssize_t __pyx_t_1;
-  PyObject *(*__pyx_t_2)(PyObject *);
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
 };
 
 
-/* "planarlinkage.pyx":201
+/* "planarlinkage.pyx":195
  *         return path
  * 
- *     cdef object from_formula(self, object expression_dict, object data_dict):             # <<<<<<<<<<<<<<
+ *     cdef Coordinate from_formula(self, tuple expr, dict data_dict):             # <<<<<<<<<<<<<<
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]
+ *         cdef str fun = expr[0]
  */
 struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula {
   PyObject_HEAD
   PyObject *__pyx_v_data_dict;
-  PyObject *__pyx_v_expression_dict;
+  PyObject *__pyx_v_expr;
 };
 
 
-/* "planarlinkage.pyx":204
+/* "planarlinkage.pyx":198
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])             # <<<<<<<<<<<<<<
- *         if fun=='PLAP':
+ *         cdef str fun = expr[0]
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])             # <<<<<<<<<<<<<<
+ *         if fun == 'PLAP':
  *             return Coordinate(*PLAP(*params))
  */
 struct __pyx_obj_13planarlinkage___pyx_scope_struct_4_genexpr {
@@ -1173,7 +1301,38 @@ struct __pyx_obj_13planarlinkage___pyx_scope_struct_4_genexpr {
 
 
 
-/* "planarlinkage.pyx":42
+/* "tinycadlib.pxd":14
+ * 
+ * 
+ * cdef class VPoint:             # <<<<<<<<<<<<<<
+ *     cdef readonly tuple links
+ *     cdef readonly ndarray c
+ */
+
+struct __pyx_vtabstruct_10tinycadlib_VPoint {
+  void (*move)(struct __pyx_obj_10tinycadlib_VPoint *, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_6VPoint_move *__pyx_optional_args);
+  double (*distance)(struct __pyx_obj_10tinycadlib_VPoint *, struct __pyx_obj_10tinycadlib_VPoint *, int __pyx_skip_dispatch);
+  double (*slopeAngle)(struct __pyx_obj_10tinycadlib_VPoint *, struct __pyx_obj_10tinycadlib_VPoint *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle *__pyx_optional_args);
+  PyBoolObject *(*grounded)(struct __pyx_obj_10tinycadlib_VPoint *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_10tinycadlib_VPoint *__pyx_vtabptr_10tinycadlib_VPoint;
+
+
+/* "tinycadlib.pxd":35
+ * 
+ * 
+ * cdef class Coordinate:             # <<<<<<<<<<<<<<
+ *     cdef readonly double x, y
+ * 
+ */
+
+struct __pyx_vtabstruct_10tinycadlib_Coordinate {
+  double (*distance)(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch);
+};
+static struct __pyx_vtabstruct_10tinycadlib_Coordinate *__pyx_vtabptr_10tinycadlib_Coordinate;
+
+
+/* "planarlinkage.pyx":36
  * 
  * 
  * cdef class build_planar:             # <<<<<<<<<<<<<<
@@ -1187,7 +1346,7 @@ struct __pyx_vtabstruct_13planarlinkage_build_planar {
   int (*get_nParm)(struct __pyx_obj_13planarlinkage_build_planar *, int __pyx_skip_dispatch);
   PyObject *(*get_data_dict)(struct __pyx_obj_13planarlinkage_build_planar *, PyArrayObject *);
   PyArrayObject *(*get_path_array)(struct __pyx_obj_13planarlinkage_build_planar *);
-  PyObject *(*from_formula)(struct __pyx_obj_13planarlinkage_build_planar *, PyObject *, PyObject *);
+  struct __pyx_obj_10tinycadlib_Coordinate *(*from_formula)(struct __pyx_obj_13planarlinkage_build_planar *, PyObject *, PyObject *);
   double (*run)(struct __pyx_obj_13planarlinkage_build_planar *, PyArrayObject *);
   PyObject *(*get_coordinates)(struct __pyx_obj_13planarlinkage_build_planar *, PyArrayObject *, int __pyx_skip_dispatch);
 };
@@ -1269,38 +1428,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
-#else
-#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
-#endif
-
-/* PyObjectCall.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
-#else
-#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
-/* UnpackUnboundCMethod.proto */
-typedef struct {
-    PyObject *type;
-    PyObject **method_name;
-    PyCFunction func;
-    PyObject *method;
-    int flag;
-} __Pyx_CachedCFunction;
-
-/* CallUnboundCMethod1.proto */
-static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
-#else
-#define __Pyx_CallUnboundCMethod1(cfunc, self, arg)  __Pyx__CallUnboundCMethod1(cfunc, self, arg)
-#endif
-
 /* ListAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -1358,6 +1485,13 @@ static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, 
 #endif
 #endif
 
+/* PyObjectCall.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
+#else
+#define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
+#endif
+
 /* PyObjectCallMethO.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
@@ -1405,20 +1539,44 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-/* RaiseTooManyValuesToUnpack.proto */
-static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+/* IterFinish.proto */
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+/* PyObjectCallMethod0.proto */
+static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
 
 /* RaiseNeedMoreValuesToUnpack.proto */
 static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
 
-/* IterFinish.proto */
-static CYTHON_INLINE int __Pyx_IterFinish(void);
+/* RaiseTooManyValuesToUnpack.proto */
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
 
 /* UnpackItemEndCheck.proto */
 static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
 
-/* GetModuleGlobalName.proto */
-static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
+/* RaiseNoneIterError.proto */
+static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
+
+/* UnpackTupleError.proto */
+static void __Pyx_UnpackTupleError(PyObject *, Py_ssize_t index);
+
+/* UnpackTuple2.proto */
+#define __Pyx_unpack_tuple2(tuple, value1, value2, is_tuple, has_known_size, decref_tuple)\
+    (likely(is_tuple || PyTuple_Check(tuple)) ?\
+        (likely(has_known_size || PyTuple_GET_SIZE(tuple) == 2) ?\
+            __Pyx_unpack_tuple2_exact(tuple, value1, value2, decref_tuple) :\
+            (__Pyx_UnpackTupleError(tuple, 2), -1)) :\
+        __Pyx_unpack_tuple2_generic(tuple, value1, value2, has_known_size, decref_tuple))
+static CYTHON_INLINE int __Pyx_unpack_tuple2_exact(
+    PyObject* tuple, PyObject** value1, PyObject** value2, int decref_tuple);
+static int __Pyx_unpack_tuple2_generic(
+    PyObject* tuple, PyObject** value1, PyObject** value2, int has_known_size, int decref_tuple);
+
+/* dict_iter.proto */
+static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* dict, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_is_dict);
+static CYTHON_INLINE int __Pyx_dict_iter_next(PyObject* dict_or_iter, Py_ssize_t orig_length, Py_ssize_t* ppos,
+                                              PyObject** pkey, PyObject** pvalue, PyObject** pitem, int is_dict);
 
 /* ListCompAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
@@ -1476,6 +1634,9 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
+/* GetModuleGlobalName.proto */
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
+
 /* SetItemInt.proto */
 #define __Pyx_SetItemInt(o, i, v, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
     (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
@@ -1485,6 +1646,23 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v);
 static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
                                                int is_list, int wraparound, int boundscheck);
+
+/* UnpackUnboundCMethod.proto */
+typedef struct {
+    PyObject *type;
+    PyObject **method_name;
+    PyCFunction func;
+    PyObject *method;
+    int flag;
+} __Pyx_CachedCFunction;
+
+/* CallUnboundCMethod1.proto */
+static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg);
+#else
+#define __Pyx_CallUnboundCMethod1(cfunc, self, arg)  __Pyx__CallUnboundCMethod1(cfunc, self, arg)
+#endif
 
 /* PySequenceContains.proto */
 static CYTHON_INLINE int __Pyx_PySequence_ContainsTF(PyObject* item, PyObject* seq, int eq) {
@@ -1514,13 +1692,6 @@ static CYTHON_INLINE int __Pyx_PyDict_ContainsTF(PyObject* item, PyObject* dict,
     return unlikely(result < 0) ? result : (result == (eq == Py_EQ));
 }
 
-/* PyObjectCallMethod1.proto */
-static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
-static PyObject* __Pyx__PyObject_CallMethod1(PyObject* method, PyObject* arg);
-
-/* append.proto */
-static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
-
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
@@ -1528,6 +1699,13 @@ static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
+
+/* PyObjectCallMethod1.proto */
+static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
+static PyObject* __Pyx__PyObject_CallMethod1(PyObject* method, PyObject* arg);
+
+/* append.proto */
+static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
 
 /* ObjectGetItem.proto */
 #if CYTHON_USE_TYPE_SLOTS
@@ -1558,9 +1736,6 @@ static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObje
 #else
 #define __Pyx_CallUnboundCMethod0(cfunc, self)  __Pyx__CallUnboundCMethod0(cfunc, self)
 #endif
-
-/* RaiseNoneIterError.proto */
-static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
 
 /* SaveResetException.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1609,11 +1784,11 @@ static int __Pyx_SetVtable(PyObject *dict, void *vtable);
 /* SetupReduce.proto */
 static int __Pyx_setup_reduce(PyObject* type_obj);
 
+/* GetVTable.proto */
+static void* __Pyx_GetVtable(PyObject *dict);
+
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-/* ImportFrom.proto */
-static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
 /* CLineInTraceback.proto */
 #ifdef CYTHON_CLINE_IN_TRACEBACK
@@ -1858,6 +2033,9 @@ static PyObject *__Pyx_ImportModule(const char *name);
 /* TypeImport.proto */
 static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class_name, size_t size, int strict);
 
+/* FunctionImport.proto */
+static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig);
+
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
@@ -1866,28 +2044,92 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_lower(struct __
 static int __pyx_f_13planarlinkage_12build_planar_get_nParm(struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_dict(struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyArrayObject *__pyx_v_v); /* proto*/
 static CYTHON_INLINE PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_path_array(struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self); /* proto*/
-static PyObject *__pyx_f_13planarlinkage_12build_planar_from_formula(CYTHON_UNUSED struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyObject *__pyx_v_expression_dict, PyObject *__pyx_v_data_dict); /* proto*/
+static struct __pyx_obj_10tinycadlib_Coordinate *__pyx_f_13planarlinkage_12build_planar_from_formula(CYTHON_UNUSED struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyObject *__pyx_v_expr, PyObject *__pyx_v_data_dict); /* proto*/
 static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyArrayObject *__pyx_v_v); /* proto*/
 static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyArrayObject *__pyx_v_v, int __pyx_skip_dispatch); /* proto*/
 
-/* Module declarations from 'cpython.buffer' */
-
-/* Module declarations from 'libc.string' */
-
-/* Module declarations from 'libc.stdio' */
+/* Module declarations from 'cpython.version' */
 
 /* Module declarations from '__builtin__' */
 
 /* Module declarations from 'cpython.type' */
 static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
 
-/* Module declarations from 'cpython' */
+/* Module declarations from 'libc.string' */
+
+/* Module declarations from 'libc.stdio' */
 
 /* Module declarations from 'cpython.object' */
 
 /* Module declarations from 'cpython.ref' */
 
+/* Module declarations from 'cpython.exc' */
+
+/* Module declarations from 'cpython.module' */
+
 /* Module declarations from 'cpython.mem' */
+
+/* Module declarations from 'cpython.tuple' */
+
+/* Module declarations from 'cpython.list' */
+
+/* Module declarations from 'cpython.sequence' */
+
+/* Module declarations from 'cpython.mapping' */
+
+/* Module declarations from 'cpython.iterator' */
+
+/* Module declarations from 'cpython.number' */
+
+/* Module declarations from 'cpython.int' */
+
+/* Module declarations from '__builtin__' */
+
+/* Module declarations from 'cpython.bool' */
+static PyTypeObject *__pyx_ptype_7cpython_4bool_bool = 0;
+
+/* Module declarations from 'cpython.long' */
+
+/* Module declarations from 'cpython.float' */
+
+/* Module declarations from '__builtin__' */
+
+/* Module declarations from 'cpython.complex' */
+static PyTypeObject *__pyx_ptype_7cpython_7complex_complex = 0;
+
+/* Module declarations from 'cpython.string' */
+
+/* Module declarations from 'cpython.unicode' */
+
+/* Module declarations from 'cpython.dict' */
+
+/* Module declarations from 'cpython.instance' */
+
+/* Module declarations from 'cpython.function' */
+
+/* Module declarations from 'cpython.method' */
+
+/* Module declarations from 'cpython.weakref' */
+
+/* Module declarations from 'cpython.getargs' */
+
+/* Module declarations from 'cpython.pythread' */
+
+/* Module declarations from 'cpython.pystate' */
+
+/* Module declarations from 'cpython.cobject' */
+
+/* Module declarations from 'cpython.oldbuffer' */
+
+/* Module declarations from 'cpython.set' */
+
+/* Module declarations from 'cpython.buffer' */
+
+/* Module declarations from 'cpython.bytes' */
+
+/* Module declarations from 'cpython.pycapsule' */
+
+/* Module declarations from 'cpython' */
 
 /* Module declarations from 'numpy' */
 
@@ -1899,6 +2141,17 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
+/* Module declarations from 'tinycadlib' */
+static PyTypeObject *__pyx_ptype_10tinycadlib_VPoint = 0;
+static PyTypeObject *__pyx_ptype_10tinycadlib_VLink = 0;
+static PyTypeObject *__pyx_ptype_10tinycadlib_Coordinate = 0;
+static PyObject *(*__pyx_f_10tinycadlib_PLAP)(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLAP *__pyx_optional_args); /*proto*/
+static PyObject *(*__pyx_f_10tinycadlib_PLLP)(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLLP *__pyx_optional_args); /*proto*/
+static PyBoolObject *(*__pyx_f_10tinycadlib_legal_triangle)(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch); /*proto*/
+static PyBoolObject *(*__pyx_f_10tinycadlib_legal_crank)(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *(*__pyx_f_10tinycadlib_strbetween)(PyObject *, PyObject *, PyObject *); /*proto*/
+static PyObject *(*__pyx_f_10tinycadlib_strbefore)(PyObject *, PyObject *); /*proto*/
+
 /* Module declarations from 'planarlinkage' */
 static PyTypeObject *__pyx_ptype_13planarlinkage_build_planar = 0;
 static PyTypeObject *__pyx_ptype_13planarlinkage___pyx_scope_struct____cinit__ = 0;
@@ -1907,8 +2160,6 @@ static PyTypeObject *__pyx_ptype_13planarlinkage___pyx_scope_struct_2_genexpr = 
 static PyTypeObject *__pyx_ptype_13planarlinkage___pyx_scope_struct_3_from_formula = 0;
 static PyTypeObject *__pyx_ptype_13planarlinkage___pyx_scope_struct_4_genexpr = 0;
 static double __pyx_v_13planarlinkage_FAILURE;
-static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_strbetween(PyObject *, PyObject *, PyObject *); /*proto*/
-static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_strbefore(PyObject *, PyObject *); /*proto*/
 static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *, PyObject *); /*proto*/
 #define __Pyx_MODULE_NAME "planarlinkage"
 extern int __pyx_module_is_main_planarlinkage;
@@ -1950,7 +2201,6 @@ static const char __pyx_k_LMin[] = "LMin";
 static const char __pyx_k_PLAP[] = "PLAP";
 static const char __pyx_k_PLLP[] = "PLLP";
 static const char __pyx_k_args[] = "args";
-static const char __pyx_k_find[] = "find";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_send[] = "send";
@@ -1985,19 +2235,16 @@ static const char __pyx_k_get_lower[] = "get_lower";
 static const char __pyx_k_get_nParm[] = "get_nParm";
 static const char __pyx_k_get_upper[] = "get_upper";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
-static const char __pyx_k_Coordinate[] = "Coordinate";
 static const char __pyx_k_Expression[] = "Expression";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_constraint[] = "constraint";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
-static const char __pyx_k_tinycadlib[] = "tinycadlib";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_legal_crank[] = "legal_crank";
 static const char __pyx_k_mech_params[] = "mech_params";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_planarlinkage[] = "planarlinkage";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
-static const char __pyx_k_legal_triangle[] = "legal_triangle";
 static const char __pyx_k_get_coordinates[] = "get_coordinates";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
@@ -2008,7 +2255,7 @@ static const char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype cod
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static const char __pyx_k_Target_path_should_be_in_the_sam[] = "Target path should be in the same size.";
-static const char __pyx_k_The_functional_object_of_the_val[] = "The functional object of the validation in algorithm.";
+static const char __pyx_k_The_callable_classes_of_the_vali[] = "The callable classes of the validation in algorithm.";
 static const char __pyx_k_build_planar_from_formula_locals[] = "build_planar.from_formula.<locals>.genexpr";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
 static const char __pyx_k_no_default___reduce___due_to_non[] = "no default __reduce__ due to non-trivial __cinit__";
@@ -2016,7 +2263,6 @@ static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath
 static const char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
 static PyObject *__pyx_n_s_AMax;
 static PyObject *__pyx_n_s_AMin;
-static PyObject *__pyx_n_s_Coordinate;
 static PyObject *__pyx_n_s_Driver;
 static PyObject *__pyx_n_s_Expression;
 static PyObject *__pyx_n_s_FMax;
@@ -2058,7 +2304,6 @@ static PyObject *__pyx_n_s_deg2rad;
 static PyObject *__pyx_n_s_distance;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_enumerate;
-static PyObject *__pyx_n_s_find;
 static PyObject *__pyx_n_s_float32;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_genexpr;
@@ -2071,7 +2316,6 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_isnan;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_legal_crank;
-static PyObject *__pyx_n_s_legal_triangle;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_mech_params;
 static PyObject *__pyx_n_s_name;
@@ -2096,7 +2340,6 @@ static PyObject *__pyx_n_s_split;
 static PyObject *__pyx_n_s_sum;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
-static PyObject *__pyx_n_s_tinycadlib;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_v;
 static PyObject *__pyx_n_s_values;
@@ -2123,7 +2366,6 @@ static PyObject *__pyx_tp_new_13planarlinkage___pyx_scope_struct_2_genexpr(PyTyp
 static PyObject *__pyx_tp_new_13planarlinkage___pyx_scope_struct_3_from_formula(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_13planarlinkage___pyx_scope_struct_4_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items = {0, &__pyx_n_s_items, 0, 0, 0};
-static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_find = {0, &__pyx_n_s_find, 0, 0, 0};
 static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_split = {0, &__pyx_n_s_split, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -2147,129 +2389,7 @@ static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_tuple__23;
 /* Late includes */
 
-/* "planarlinkage.pyx":25
- * 
- * 
- * cdef inline str strbetween(str s, str front, str back):             # <<<<<<<<<<<<<<
- *     return s[s.find(front)+1:s.find(back)]
- * 
- */
-
-static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_strbetween(PyObject *__pyx_v_s, PyObject *__pyx_v_front, PyObject *__pyx_v_back) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  Py_ssize_t __pyx_t_3;
-  Py_ssize_t __pyx_t_4;
-  __Pyx_RefNannySetupContext("strbetween", 0);
-
-  /* "planarlinkage.pyx":26
- * 
- * cdef inline str strbetween(str s, str front, str back):
- *     return s[s.find(front)+1:s.find(back)]             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  if (unlikely(__pyx_v_s == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 26, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_front); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_back); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PySequence_GetSlice(__pyx_v_s, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = ((PyObject*)__pyx_t_2);
-  __pyx_t_2 = 0;
-  goto __pyx_L0;
-
-  /* "planarlinkage.pyx":25
- * 
- * 
- * cdef inline str strbetween(str s, str front, str back):             # <<<<<<<<<<<<<<
- *     return s[s.find(front)+1:s.find(back)]
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("planarlinkage.strbetween", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "planarlinkage.pyx":29
- * 
- * 
- * cdef inline str strbefore(str s, str front):             # <<<<<<<<<<<<<<
- *     return s[:s.find(front)]
- * 
- */
-
-static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_strbefore(PyObject *__pyx_v_s, PyObject *__pyx_v_front) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  Py_ssize_t __pyx_t_2;
-  __Pyx_RefNannySetupContext("strbefore", 0);
-
-  /* "planarlinkage.pyx":30
- * 
- * cdef inline str strbefore(str s, str front):
- *     return s[:s.find(front)]             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  if (unlikely(__pyx_v_s == Py_None)) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 30, __pyx_L1_error)
-  }
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_front); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PySequence_GetSlice(__pyx_v_s, 0, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = ((PyObject*)__pyx_t_1);
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "planarlinkage.pyx":29
- * 
- * 
- * cdef inline str strbefore(str s, str front):             # <<<<<<<<<<<<<<
- *     return s[:s.find(front)]
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("planarlinkage.strbefore", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "planarlinkage.pyx":33
+/* "planarlinkage.pyx":27
  * 
  * 
  * cdef list path_error(list path, tuple target):             # <<<<<<<<<<<<<<
@@ -2293,19 +2413,19 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
   int __pyx_t_9;
   __Pyx_RefNannySetupContext("path_error", 0);
 
-  /* "planarlinkage.pyx":35
+  /* "planarlinkage.pyx":29
  * cdef list path_error(list path, tuple target):
  *     """A list of each error value."""
  *     cdef list tmp_list = []             # <<<<<<<<<<<<<<
  *     cdef int i
  *     for i in range(len(path)):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_tmp_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":37
+  /* "planarlinkage.pyx":31
  *     cdef list tmp_list = []
  *     cdef int i
  *     for i in range(len(path)):             # <<<<<<<<<<<<<<
@@ -2314,14 +2434,14 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
  */
   if (unlikely(__pyx_v_path == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 37, __pyx_L1_error)
+    __PYX_ERR(0, 31, __pyx_L1_error)
   }
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_path); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_path); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 31, __pyx_L1_error)
   __pyx_t_3 = __pyx_t_2;
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "planarlinkage.pyx":38
+    /* "planarlinkage.pyx":32
  *     cdef int i
  *     for i in range(len(path)):
  *         tmp_list.append(path[i].distance(target[i]))             # <<<<<<<<<<<<<<
@@ -2330,18 +2450,18 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
  */
     if (unlikely(__pyx_v_path == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 38, __pyx_L1_error)
+      __PYX_ERR(0, 32, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_distance); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_distance); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(__pyx_v_target == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 38, __pyx_L1_error)
+      __PYX_ERR(0, 32, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_target, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_target, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2354,14 +2474,14 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
       }
     }
     if (!__pyx_t_7) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -2370,30 +2490,30 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[2] = {__pyx_t_7, __pyx_t_5};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 38, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 32, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
         __Pyx_GIVEREF(__pyx_t_5);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_5);
         __pyx_t_5 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 32, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_tmp_list, __pyx_t_1); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 38, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_tmp_list, __pyx_t_1); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(0, 32, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "planarlinkage.pyx":39
+  /* "planarlinkage.pyx":33
  *     for i in range(len(path)):
  *         tmp_list.append(path[i].distance(target[i]))
  *     return tmp_list             # <<<<<<<<<<<<<<
@@ -2405,7 +2525,7 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
   __pyx_r = __pyx_v_tmp_list;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":33
+  /* "planarlinkage.pyx":27
  * 
  * 
  * cdef list path_error(list path, tuple target):             # <<<<<<<<<<<<<<
@@ -2429,7 +2549,7 @@ static PyObject *__pyx_f_13planarlinkage_path_error(PyObject *__pyx_v_path, PyOb
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":52
+/* "planarlinkage.pyx":46
  *     cdef np.ndarray exprs, target, upper, lower
  * 
  *     def __cinit__(self, mech_params: dict):             # <<<<<<<<<<<<<<
@@ -2463,7 +2583,7 @@ static int __pyx_pw_13planarlinkage_12build_planar_1__cinit__(PyObject *__pyx_v_
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 52, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 46, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -2474,13 +2594,13 @@ static int __pyx_pw_13planarlinkage_12build_planar_1__cinit__(PyObject *__pyx_v_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 52, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 46, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("planarlinkage.build_planar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mech_params), (&PyDict_Type), 1, "mech_params", 1))) __PYX_ERR(0, 52, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mech_params), (&PyDict_Type), 1, "mech_params", 1))) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_r = __pyx_pf_13planarlinkage_12build_planar___cinit__(((struct __pyx_obj_13planarlinkage_build_planar *)__pyx_v_self), __pyx_v_mech_params);
 
   /* function exit code */
@@ -2493,11 +2613,11 @@ static int __pyx_pw_13planarlinkage_12build_planar_1__cinit__(PyObject *__pyx_v_
 }
 static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "planarlinkage.pyx":67
- *         cdef object value
+/* "planarlinkage.pyx":61
+ *         cdef dict value
  *         cdef int l
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())             # <<<<<<<<<<<<<<
- *         if not all([l==check_tuple[0] for l in check_tuple]):
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())             # <<<<<<<<<<<<<<
+ *         if not all([l == check_tuple[0] for l in check_tuple]):
  *             raise ValueError("Target path should be in the same size.")
  */
 
@@ -2510,7 +2630,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_9__cinit___genexpr(PyOb
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_13planarlinkage___pyx_scope_struct_1_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 67, __pyx_L1_error)
+    __PYX_ERR(0, 61, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2518,7 +2638,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_9__cinit___genexpr(PyOb
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_cinit___locals_genexpr, __pyx_n_s_planarlinkage); if (unlikely(!gen)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_cinit___locals_genexpr, __pyx_n_s_planarlinkage); if (unlikely(!gen)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -2554,15 +2674,15 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 67, __pyx_L1_error)
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_mech_params)) { __Pyx_RaiseClosureNameError("mech_params"); __PYX_ERR(0, 67, __pyx_L1_error) }
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_mech_params)) { __Pyx_RaiseClosureNameError("mech_params"); __PYX_ERR(0, 61, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 67, __pyx_L1_error)
+    __PYX_ERR(0, 61, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_values); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_values); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -2576,10 +2696,10 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
     }
   }
   if (__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -2587,9 +2707,9 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
     __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 61, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -2597,17 +2717,17 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
       if (likely(PyList_CheckExact(__pyx_t_3))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -2617,7 +2737,7 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 67, __pyx_L1_error)
+          else __PYX_ERR(0, 61, __pyx_L1_error)
         }
         break;
       }
@@ -2627,8 +2747,8 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_value, __pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_value); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 67, __pyx_L1_error)
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+    __pyx_t_6 = PyObject_Length(__pyx_cur_scope->__pyx_v_value); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 61, __pyx_L1_error)
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -2648,7 +2768,7 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
     __Pyx_XGOTREF(__pyx_t_3);
     __pyx_t_4 = __pyx_cur_scope->__pyx_t_1;
     __pyx_t_5 = __pyx_cur_scope->__pyx_t_2;
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 67, __pyx_L1_error)
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 61, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
@@ -2671,7 +2791,7 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___2generator(_
 }
 static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "planarlinkage.pyx":83
+/* "planarlinkage.pyx":77
  *         cdef int i
  *         for i, value in enumerate(mech_params['Target'].values()):
  *             self.target[i] = tuple(Coordinate(x, y) for x, y in value)             # <<<<<<<<<<<<<<
@@ -2688,7 +2808,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_9__cinit___3genexpr(PyO
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_13planarlinkage___pyx_scope_struct_2_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 83, __pyx_L1_error)
+    __PYX_ERR(0, 77, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2696,7 +2816,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_9__cinit___3genexpr(PyO
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_cinit___locals_genexpr, __pyx_n_s_planarlinkage); if (unlikely(!gen)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_cinit___locals_genexpr, __pyx_n_s_planarlinkage); if (unlikely(!gen)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -2718,13 +2838,14 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1(
   PyObject *__pyx_r = NULL;
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
-  PyObject *(*__pyx_t_3)(PyObject *);
-  PyObject *__pyx_t_4 = NULL;
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *(*__pyx_t_8)(PyObject *);
-  int __pyx_t_9;
+  PyObject *__pyx_t_8 = NULL;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *(*__pyx_t_10)(PyObject *);
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("genexpr", 0);
   switch (__pyx_generator->resume_label) {
@@ -2735,154 +2856,95 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1(
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 83, __pyx_L1_error)
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value)) { __Pyx_RaiseClosureNameError("value"); __PYX_ERR(0, 83, __pyx_L1_error) }
-  if (likely(PyList_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value)) || PyTuple_CheckExact(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value)) {
-    __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_value; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
-    __pyx_t_3 = NULL;
-  } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_2 = 0;
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value)) { __Pyx_RaiseClosureNameError("value"); __PYX_ERR(0, 77, __pyx_L1_error) }
+  if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+    __PYX_ERR(0, 77, __pyx_L1_error)
   }
-  for (;;) {
-    if (likely(!__pyx_t_3)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
-        #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-      } else {
-        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
-        #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        #endif
-      }
-    } else {
-      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
-      if (unlikely(!__pyx_t_4)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 83, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_4);
-    }
-    if ((likely(PyTuple_CheckExact(__pyx_t_4))) || (PyList_CheckExact(__pyx_t_4))) {
-      PyObject* sequence = __pyx_t_4;
+  __pyx_t_5 = __Pyx_dict_iterator(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_value, 1, ((PyObject *)NULL), (&__pyx_t_3), (&__pyx_t_4)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_1);
+  __pyx_t_1 = __pyx_t_5;
+  __pyx_t_5 = 0;
+  while (1) {
+    __pyx_t_6 = __Pyx_dict_iter_next(__pyx_t_1, __pyx_t_3, &__pyx_t_2, &__pyx_t_5, NULL, NULL, __pyx_t_4);
+    if (unlikely(__pyx_t_6 == 0)) break;
+    if (unlikely(__pyx_t_6 == -1)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if ((likely(PyTuple_CheckExact(__pyx_t_5))) || (PyList_CheckExact(__pyx_t_5))) {
+      PyObject* sequence = __pyx_t_5;
       Py_ssize_t size = __Pyx_PySequence_SIZE(sequence);
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 83, __pyx_L1_error)
+        __PYX_ERR(0, 77, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
-        __pyx_t_5 = PyTuple_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyTuple_GET_ITEM(sequence, 1); 
+        __pyx_t_7 = PyTuple_GET_ITEM(sequence, 0); 
+        __pyx_t_8 = PyTuple_GET_ITEM(sequence, 1); 
       } else {
-        __pyx_t_5 = PyList_GET_ITEM(sequence, 0); 
-        __pyx_t_6 = PyList_GET_ITEM(sequence, 1); 
+        __pyx_t_7 = PyList_GET_ITEM(sequence, 0); 
+        __pyx_t_8 = PyList_GET_ITEM(sequence, 1); 
       }
-      __Pyx_INCREF(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(__pyx_t_8);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
       #endif
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
+      __pyx_t_9 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 77, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_9);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_10 = Py_TYPE(__pyx_t_9)->tp_iternext;
+      index = 0; __pyx_t_7 = __pyx_t_10(__pyx_t_9); if (unlikely(!__pyx_t_7)) goto __pyx_L6_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_7);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
-      index = 0; __pyx_t_5 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_5)) goto __pyx_L6_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_5);
-      index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L6_unpacking_failed;
-      __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
-      __pyx_t_8 = NULL;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      index = 1; __pyx_t_8 = __pyx_t_10(__pyx_t_9); if (unlikely(!__pyx_t_8)) goto __pyx_L6_unpacking_failed;
+      __Pyx_GOTREF(__pyx_t_8);
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_10(__pyx_t_9), 2) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
+      __pyx_t_10 = NULL;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       goto __pyx_L7_unpacking_done;
       __pyx_L6_unpacking_failed:;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_8 = NULL;
+      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      __pyx_t_10 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 83, __pyx_L1_error)
+      __PYX_ERR(0, 77, __pyx_L1_error)
       __pyx_L7_unpacking_done:;
     }
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_x);
-    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_x, __pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_x, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_7);
+    __pyx_t_7 = 0;
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_y);
-    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_y, __pyx_t_6);
-    __Pyx_GIVEREF(__pyx_t_6);
-    __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_Coordinate); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 83, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = NULL;
-    __pyx_t_9 = 0;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
-        __pyx_t_9 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_cur_scope->__pyx_v_x, __pyx_cur_scope->__pyx_v_y};
-      __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_cur_scope->__pyx_v_x, __pyx_cur_scope->__pyx_v_y};
-      __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_4);
-    } else
-    #endif
-    {
-      __pyx_t_7 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      if (__pyx_t_5) {
-        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      }
-      __Pyx_INCREF(__pyx_cur_scope->__pyx_v_x);
-      __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_x);
-      PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_9, __pyx_cur_scope->__pyx_v_x);
-      __Pyx_INCREF(__pyx_cur_scope->__pyx_v_y);
-      __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_y);
-      PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_9, __pyx_cur_scope->__pyx_v_y);
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 83, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_r = __pyx_t_4;
-    __pyx_t_4 = 0;
+    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_y, __pyx_t_8);
+    __Pyx_GIVEREF(__pyx_t_8);
+    __pyx_t_8 = 0;
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_INCREF(__pyx_cur_scope->__pyx_v_x);
+    __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_x);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_cur_scope->__pyx_v_x);
+    __Pyx_INCREF(__pyx_cur_scope->__pyx_v_y);
+    __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_y);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_cur_scope->__pyx_v_y);
+    __pyx_t_8 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_5, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_r = __pyx_t_8;
+    __pyx_t_8 = 0;
     __Pyx_XGIVEREF(__pyx_t_1);
     __pyx_cur_scope->__pyx_t_0 = __pyx_t_1;
     __pyx_cur_scope->__pyx_t_1 = __pyx_t_2;
     __pyx_cur_scope->__pyx_t_2 = __pyx_t_3;
+    __pyx_cur_scope->__pyx_t_3 = __pyx_t_4;
     __Pyx_XGIVEREF(__pyx_r);
     __Pyx_RefNannyFinishContext();
     __Pyx_Coroutine_ResetAndClearException(__pyx_generator);
@@ -2895,7 +2957,8 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1(
     __Pyx_XGOTREF(__pyx_t_1);
     __pyx_t_2 = __pyx_cur_scope->__pyx_t_1;
     __pyx_t_3 = __pyx_cur_scope->__pyx_t_2;
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_4 = __pyx_cur_scope->__pyx_t_3;
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 77, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
@@ -2905,10 +2968,10 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1(
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_9);
   __Pyx_AddTraceback("genexpr", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
@@ -2919,7 +2982,7 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_9__cinit___5generator1(
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":52
+/* "planarlinkage.pyx":46
  *     cdef np.ndarray exprs, target, upper, lower
  * 
  *     def __cinit__(self, mech_params: dict):             # <<<<<<<<<<<<<<
@@ -2944,24 +3007,23 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   Py_ssize_t __pyx_t_3;
-  PyObject *(*__pyx_t_4)(PyObject *);
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
+  int __pyx_t_8;
   int __pyx_t_9;
-  int __pyx_t_10;
+  PyObject *(*__pyx_t_10)(PyObject *);
   Py_ssize_t __pyx_t_11;
-  PyObject *(*__pyx_t_12)(PyObject *);
+  int __pyx_t_12;
   int __pyx_t_13;
-  int __pyx_t_14;
-  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_14;
   __Pyx_RefNannySetupContext("__cinit__", 0);
   __pyx_cur_scope = (struct __pyx_obj_13planarlinkage___pyx_scope_struct____cinit__ *)__pyx_tp_new_13planarlinkage___pyx_scope_struct____cinit__(__pyx_ptype_13planarlinkage___pyx_scope_struct____cinit__, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_13planarlinkage___pyx_scope_struct____cinit__ *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 52, __pyx_L1_error)
+    __PYX_ERR(0, 46, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -2969,127 +3031,97 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_mech_params);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_mech_params);
 
-  /* "planarlinkage.pyx":67
- *         cdef object value
+  /* "planarlinkage.pyx":61
+ *         cdef dict value
  *         cdef int l
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())             # <<<<<<<<<<<<<<
- *         if not all([l==check_tuple[0] for l in check_tuple]):
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())             # <<<<<<<<<<<<<<
+ *         if not all([l == check_tuple[0] for l in check_tuple]):
  *             raise ValueError("Target path should be in the same size.")
  */
-  __pyx_t_1 = __pyx_pf_13planarlinkage_12build_planar_9__cinit___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_13planarlinkage_12build_planar_9__cinit___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_check_tuple = __pyx_t_2;
+  __pyx_v_check_tuple = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":68
+  /* "planarlinkage.pyx":62
  *         cdef int l
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())
- *         if not all([l==check_tuple[0] for l in check_tuple]):             # <<<<<<<<<<<<<<
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())
+ *         if not all([l == check_tuple[0] for l in check_tuple]):             # <<<<<<<<<<<<<<
  *             raise ValueError("Target path should be in the same size.")
  *         #counting how many action to satisfied require point
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (likely(PyList_CheckExact(__pyx_v_check_tuple)) || PyTuple_CheckExact(__pyx_v_check_tuple)) {
-    __pyx_t_1 = __pyx_v_check_tuple; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
-    __pyx_t_4 = NULL;
-  } else {
-    __pyx_t_3 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_check_tuple); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
-  }
+  __pyx_t_1 = __pyx_v_check_tuple; __Pyx_INCREF(__pyx_t_1); __pyx_t_3 = 0;
   for (;;) {
-    if (likely(!__pyx_t_4)) {
-      if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
-        #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        #endif
-      } else {
-        if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
-        #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        #endif
-      }
-    } else {
-      __pyx_t_5 = __pyx_t_4(__pyx_t_1);
-      if (unlikely(!__pyx_t_5)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 68, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_5);
-    }
-    __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_v_l = __pyx_t_6;
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_l); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_check_tuple, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = PyObject_RichCompare(__pyx_t_5, __pyx_t_7, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
+    #else
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    #endif
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_v_l = __pyx_t_5;
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_l); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_check_tuple, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_4, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 62, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_7))) __PYX_ERR(0, 62, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 68, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_all, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_all, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_10 = ((!__pyx_t_9) != 0);
-  if (unlikely(__pyx_t_10)) {
+  __pyx_t_9 = ((!__pyx_t_8) != 0);
+  if (unlikely(__pyx_t_9)) {
 
-    /* "planarlinkage.pyx":69
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())
- *         if not all([l==check_tuple[0] for l in check_tuple]):
+    /* "planarlinkage.pyx":63
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())
+ *         if not all([l == check_tuple[0] for l in check_tuple]):
  *             raise ValueError("Target path should be in the same size.")             # <<<<<<<<<<<<<<
  *         #counting how many action to satisfied require point
  *         self.POINTS = check_tuple[0]
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(0, 69, __pyx_L1_error)
+    __PYX_ERR(0, 63, __pyx_L1_error)
 
-    /* "planarlinkage.pyx":68
+    /* "planarlinkage.pyx":62
  *         cdef int l
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())
- *         if not all([l==check_tuple[0] for l in check_tuple]):             # <<<<<<<<<<<<<<
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())
+ *         if not all([l == check_tuple[0] for l in check_tuple]):             # <<<<<<<<<<<<<<
  *             raise ValueError("Target path should be in the same size.")
  *         #counting how many action to satisfied require point
  */
   }
 
-  /* "planarlinkage.pyx":71
+  /* "planarlinkage.pyx":65
  *             raise ValueError("Target path should be in the same size.")
  *         #counting how many action to satisfied require point
  *         self.POINTS = check_tuple[0]             # <<<<<<<<<<<<<<
  *         #driving point, string
  *         self.Driver = mech_params['Driver']
  */
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_check_tuple, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_check_tuple, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 71, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 65, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self->POINTS = __pyx_t_6;
+  __pyx_v_self->POINTS = __pyx_t_5;
 
-  /* "planarlinkage.pyx":73
+  /* "planarlinkage.pyx":67
  *         self.POINTS = check_tuple[0]
  *         #driving point, string
  *         self.Driver = mech_params['Driver']             # <<<<<<<<<<<<<<
@@ -3098,18 +3130,18 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 73, __pyx_L1_error)
+    __PYX_ERR(0, 67, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Driver); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Driver); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 73, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->Driver);
   __Pyx_DECREF(__pyx_v_self->Driver);
   __pyx_v_self->Driver = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":75
+  /* "planarlinkage.pyx":69
  *         self.Driver = mech_params['Driver']
  *         #folower point, string
  *         self.Follower = mech_params['Follower']             # <<<<<<<<<<<<<<
@@ -3118,18 +3150,18 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 75, __pyx_L1_error)
+    __PYX_ERR(0, 69, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Follower); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Follower); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 75, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 69, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->Follower);
   __Pyx_DECREF(__pyx_v_self->Follower);
   __pyx_v_self->Follower = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":79
+  /* "planarlinkage.pyx":73
  *         #[Coordinate(x0, y0), Coordinate(x1, y1), Coordinate(x2, y2), ...]
  *         cdef double x, y
  *         self.targetPoint = tuple(mech_params['Target'])             # <<<<<<<<<<<<<<
@@ -3138,11 +3170,11 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 79, __pyx_L1_error)
+    __PYX_ERR(0, 73, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -3151,7 +3183,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   __pyx_v_self->targetPoint = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":80
+  /* "planarlinkage.pyx":74
  *         cdef double x, y
  *         self.targetPoint = tuple(mech_params['Target'])
  *         self.target = np.ndarray((len(mech_params['Target']),), dtype=np.object)             # <<<<<<<<<<<<<<
@@ -3160,58 +3192,58 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 80, __pyx_L1_error)
+    __PYX_ERR(0, 74, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_object); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 74, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_object); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 80, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GIVEREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v_self->target);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->target));
-  __pyx_v_self->target = ((PyArrayObject *)__pyx_t_7);
-  __pyx_t_7 = 0;
+  __pyx_v_self->target = ((PyArrayObject *)__pyx_t_6);
+  __pyx_t_6 = 0;
 
-  /* "planarlinkage.pyx":82
+  /* "planarlinkage.pyx":76
  *         self.target = np.ndarray((len(mech_params['Target']),), dtype=np.object)
  *         cdef int i
  *         for i, value in enumerate(mech_params['Target'].values()):             # <<<<<<<<<<<<<<
  *             self.target[i] = tuple(Coordinate(x, y) for x, y in value)
  * 
  */
-  __pyx_t_6 = 0;
+  __pyx_t_5 = 0;
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 82, __pyx_L1_error)
+    __PYX_ERR(0, 76, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Target); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_values); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_values); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -3225,76 +3257,77 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
     }
   }
   if (__pyx_t_1) {
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
   }
-  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_7)) || PyTuple_CheckExact(__pyx_t_7)) {
-    __pyx_t_2 = __pyx_t_7; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
-    __pyx_t_4 = NULL;
+  if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
+    __pyx_t_2 = __pyx_t_6; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
+    __pyx_t_10 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 82, __pyx_L1_error)
+    __pyx_t_10 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 76, __pyx_L1_error)
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   for (;;) {
-    if (likely(!__pyx_t_4)) {
+    if (likely(!__pyx_t_10)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_7); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
+        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_6); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 76, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_7); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_6); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 76, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 82, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 76, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
         #endif
       }
     } else {
-      __pyx_t_7 = __pyx_t_4(__pyx_t_2);
-      if (unlikely(!__pyx_t_7)) {
+      __pyx_t_6 = __pyx_t_10(__pyx_t_2);
+      if (unlikely(!__pyx_t_6)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 82, __pyx_L1_error)
+          else __PYX_ERR(0, 76, __pyx_L1_error)
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GOTREF(__pyx_t_6);
     }
+    if (!(likely(PyDict_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 76, __pyx_L1_error)
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_value);
-    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_value, __pyx_t_7);
-    __Pyx_GIVEREF(__pyx_t_7);
-    __pyx_t_7 = 0;
-    __pyx_v_i = __pyx_t_6;
-    __pyx_t_6 = (__pyx_t_6 + 1);
+    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_value, ((PyObject*)__pyx_t_6));
+    __Pyx_GIVEREF(__pyx_t_6);
+    __pyx_t_6 = 0;
+    __pyx_v_i = __pyx_t_5;
+    __pyx_t_5 = (__pyx_t_5 + 1);
 
-    /* "planarlinkage.pyx":83
+    /* "planarlinkage.pyx":77
  *         cdef int i
  *         for i, value in enumerate(mech_params['Target'].values()):
  *             self.target[i] = tuple(Coordinate(x, y) for x, y in value)             # <<<<<<<<<<<<<<
  * 
  *         #constraint
  */
-    __pyx_t_7 = __pyx_pf_13planarlinkage_12build_planar_9__cinit___3genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 83, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __pyx_t_6 = __pyx_pf_13planarlinkage_12build_planar_9__cinit___3genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 77, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->target), __pyx_v_i, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 83, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->target), __pyx_v_i, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 77, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "planarlinkage.pyx":82
+    /* "planarlinkage.pyx":76
  *         self.target = np.ndarray((len(mech_params['Target']),), dtype=np.object)
  *         cdef int i
  *         for i, value in enumerate(mech_params['Target'].values()):             # <<<<<<<<<<<<<<
@@ -3304,7 +3337,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":86
+  /* "planarlinkage.pyx":80
  * 
  *         #constraint
  *         self.constraint = mech_params['constraint']             # <<<<<<<<<<<<<<
@@ -3313,47 +3346,48 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 86, __pyx_L1_error)
+    __PYX_ERR(0, 80, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_constraint); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_constraint); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 86, __pyx_L1_error)
+  if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 80, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->constraint);
   __Pyx_DECREF(__pyx_v_self->constraint);
   __pyx_v_self->constraint = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":93
+  /* "planarlinkage.pyx":87
  *         ['A', 'B', 'C', 'D', 'E', 'L0', 'L1', 'L2', 'L3', 'L4', 'a0']
  *         """
- *         cdef object ExpressionL = mech_params['Expression'].split(';')             # <<<<<<<<<<<<<<
+ *         cdef list ExpressionL = mech_params['Expression'].split(';')             # <<<<<<<<<<<<<<
  * 
  *         '''
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 93, __pyx_L1_error)
+    __PYX_ERR(0, 87, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Expression); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_Expression); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_split); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_split); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_ExpressionL = __pyx_t_2;
+  if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_v_ExpressionL = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":105
+  /* "planarlinkage.pyx":99
  *         '''
  *         cdef str expr, params
  *         self.Link = []             # <<<<<<<<<<<<<<
  *         self.driver_list = []
  *         self.follower_list = []
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 105, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->Link);
@@ -3361,14 +3395,14 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   __pyx_v_self->Link = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":106
+  /* "planarlinkage.pyx":100
  *         cdef str expr, params
  *         self.Link = []
  *         self.driver_list = []             # <<<<<<<<<<<<<<
  *         self.follower_list = []
  *         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->driver_list);
@@ -3376,14 +3410,14 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   __pyx_v_self->driver_list = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":107
+  /* "planarlinkage.pyx":101
  *         self.Link = []
  *         self.driver_list = []
  *         self.follower_list = []             # <<<<<<<<<<<<<<
  *         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
  *         for i, expr in enumerate(ExpressionL):
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 107, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 101, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->follower_list);
@@ -3391,241 +3425,215 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   __pyx_v_self->follower_list = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":108
+  /* "planarlinkage.pyx":102
  *         self.driver_list = []
  *         self.follower_list = []
  *         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)             # <<<<<<<<<<<<<<
  *         for i, expr in enumerate(ExpressionL):
  *             params = strbetween(expr, '[', ']')
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_ExpressionL); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 108, __pyx_L1_error)
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (unlikely(__pyx_v_ExpressionL == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
+    __PYX_ERR(0, 102, __pyx_L1_error)
+  }
+  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_ExpressionL); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_object); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_object); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_8) < 0) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 108, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GIVEREF(__pyx_t_8);
+  __Pyx_GIVEREF(__pyx_t_7);
   __Pyx_GOTREF(__pyx_v_self->exprs);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->exprs));
-  __pyx_v_self->exprs = ((PyArrayObject *)__pyx_t_8);
-  __pyx_t_8 = 0;
+  __pyx_v_self->exprs = ((PyArrayObject *)__pyx_t_7);
+  __pyx_t_7 = 0;
 
-  /* "planarlinkage.pyx":109
+  /* "planarlinkage.pyx":103
  *         self.follower_list = []
  *         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
  *         for i, expr in enumerate(ExpressionL):             # <<<<<<<<<<<<<<
  *             params = strbetween(expr, '[', ']')
  *             self.exprs[i] = (
  */
-  __pyx_t_6 = 0;
-  if (likely(PyList_CheckExact(__pyx_v_ExpressionL)) || PyTuple_CheckExact(__pyx_v_ExpressionL)) {
-    __pyx_t_8 = __pyx_v_ExpressionL; __Pyx_INCREF(__pyx_t_8); __pyx_t_3 = 0;
-    __pyx_t_4 = NULL;
-  } else {
-    __pyx_t_3 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_v_ExpressionL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 109, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_4 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 109, __pyx_L1_error)
-  }
+  __pyx_t_5 = 0;
+  __pyx_t_7 = __pyx_v_ExpressionL; __Pyx_INCREF(__pyx_t_7); __pyx_t_3 = 0;
   for (;;) {
-    if (likely(!__pyx_t_4)) {
-      if (likely(PyList_CheckExact(__pyx_t_8))) {
-        if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_8)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
-        #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-      } else {
-        if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_8)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 109, __pyx_L1_error)
-        #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        #endif
-      }
-    } else {
-      __pyx_t_1 = __pyx_t_4(__pyx_t_8);
-      if (unlikely(!__pyx_t_1)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 109, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_1);
-    }
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 109, __pyx_L1_error)
+    if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_7)) break;
+    #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    __pyx_t_1 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+    #else
+    __pyx_t_1 = PySequence_ITEM(__pyx_t_7, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    #endif
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_expr, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
-    __pyx_v_i = __pyx_t_6;
-    __pyx_t_6 = (__pyx_t_6 + 1);
+    __pyx_v_i = __pyx_t_5;
+    __pyx_t_5 = (__pyx_t_5 + 1);
 
-    /* "planarlinkage.pyx":110
+    /* "planarlinkage.pyx":104
  *         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
  *         for i, expr in enumerate(ExpressionL):
  *             params = strbetween(expr, '[', ']')             # <<<<<<<<<<<<<<
  *             self.exprs[i] = (
  *                 #[0]: relate
  */
-    __pyx_t_1 = __pyx_f_13planarlinkage_strbetween(__pyx_v_expr, __pyx_kp_s__4, __pyx_kp_s__5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_10tinycadlib_strbetween(__pyx_v_expr, __pyx_kp_s__4, __pyx_kp_s__5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_params, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "planarlinkage.pyx":113
+    /* "planarlinkage.pyx":107
  *             self.exprs[i] = (
  *                 #[0]: relate
  *                 strbefore(expr, '['),             # <<<<<<<<<<<<<<
  *                 #[1]: target
  *                 strbetween(expr, '(', ')'),
  */
-    __pyx_t_1 = __pyx_f_13planarlinkage_strbefore(__pyx_v_expr, __pyx_kp_s__4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_10tinycadlib_strbefore(__pyx_v_expr, __pyx_kp_s__4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
 
-    /* "planarlinkage.pyx":115
+    /* "planarlinkage.pyx":109
  *                 strbefore(expr, '['),
  *                 #[1]: target
  *                 strbetween(expr, '(', ')'),             # <<<<<<<<<<<<<<
  *                 #[2]: params
- *                 params.split(',')
+ *                 params.split(','),
  */
-    __pyx_t_2 = __pyx_f_13planarlinkage_strbetween(__pyx_v_expr, __pyx_kp_s__6, __pyx_kp_s__7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_10tinycadlib_strbetween(__pyx_v_expr, __pyx_kp_s__6, __pyx_kp_s__7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
 
-    /* "planarlinkage.pyx":117
+    /* "planarlinkage.pyx":111
  *                 strbetween(expr, '(', ')'),
  *                 #[2]: params
- *                 params.split(',')             # <<<<<<<<<<<<<<
+ *                 params.split(','),             # <<<<<<<<<<<<<<
  *             )
  *             for p in params.split(','):
  */
-    __pyx_t_7 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_params, __pyx_kp_s__8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_params, __pyx_kp_s__8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
 
-    /* "planarlinkage.pyx":113
+    /* "planarlinkage.pyx":107
  *             self.exprs[i] = (
  *                 #[0]: relate
  *                 strbefore(expr, '['),             # <<<<<<<<<<<<<<
  *                 #[1]: target
  *                 strbetween(expr, '(', ')'),
  */
-    __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 113, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = PyTuple_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_1);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_2);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_2);
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_5, 2, __pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_4, 2, __pyx_t_6);
     __pyx_t_1 = 0;
     __pyx_t_2 = 0;
-    __pyx_t_7 = 0;
+    __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":111
+    /* "planarlinkage.pyx":105
  *         for i, expr in enumerate(ExpressionL):
  *             params = strbetween(expr, '[', ']')
  *             self.exprs[i] = (             # <<<<<<<<<<<<<<
  *                 #[0]: relate
  *                 strbefore(expr, '['),
  */
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->exprs), __pyx_v_i, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 111, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->exprs), __pyx_v_i, __pyx_t_4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 105, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "planarlinkage.pyx":119
- *                 params.split(',')
+    /* "planarlinkage.pyx":113
+ *                 params.split(','),
  *             )
  *             for p in params.split(','):             # <<<<<<<<<<<<<<
  *                 if ('L' in p) and ('L' != p):
  *                     self.Link.append(p)
  */
-    __pyx_t_5 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_params, __pyx_kp_s__8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
-      __pyx_t_7 = __pyx_t_5; __Pyx_INCREF(__pyx_t_7); __pyx_t_11 = 0;
-      __pyx_t_12 = NULL;
+    __pyx_t_4 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_params, __pyx_kp_s__8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (likely(PyList_CheckExact(__pyx_t_4)) || PyTuple_CheckExact(__pyx_t_4)) {
+      __pyx_t_6 = __pyx_t_4; __Pyx_INCREF(__pyx_t_6); __pyx_t_11 = 0;
+      __pyx_t_10 = NULL;
     } else {
-      __pyx_t_11 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_12 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 119, __pyx_L1_error)
+      __pyx_t_11 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_t_4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 113, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_10 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 113, __pyx_L1_error)
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     for (;;) {
-      if (likely(!__pyx_t_12)) {
-        if (likely(PyList_CheckExact(__pyx_t_7))) {
-          if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_7)) break;
+      if (likely(!__pyx_t_10)) {
+        if (likely(PyList_CheckExact(__pyx_t_6))) {
+          if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_11); __Pyx_INCREF(__pyx_t_5); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_4); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_7, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
-          if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
+          if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_11); __Pyx_INCREF(__pyx_t_5); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 119, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_4); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
           #else
-          __pyx_t_5 = PySequence_ITEM(__pyx_t_7, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
       } else {
-        __pyx_t_5 = __pyx_t_12(__pyx_t_7);
-        if (unlikely(!__pyx_t_5)) {
+        __pyx_t_4 = __pyx_t_10(__pyx_t_6);
+        if (unlikely(!__pyx_t_4)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 119, __pyx_L1_error)
+            else __PYX_ERR(0, 113, __pyx_L1_error)
           }
           break;
         }
-        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GOTREF(__pyx_t_4);
       }
-      __Pyx_XDECREF_SET(__pyx_v_p, __pyx_t_5);
-      __pyx_t_5 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_p, __pyx_t_4);
+      __pyx_t_4 = 0;
 
-      /* "planarlinkage.pyx":120
+      /* "planarlinkage.pyx":114
  *             )
  *             for p in params.split(','):
  *                 if ('L' in p) and ('L' != p):             # <<<<<<<<<<<<<<
  *                     self.Link.append(p)
  *                 if (p in self.Driver) and (p not in self.driver_list):
  */
-      __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_L, __pyx_v_p, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
-      __pyx_t_13 = (__pyx_t_9 != 0);
-      if (__pyx_t_13) {
+      __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_L, __pyx_v_p, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
+      __pyx_t_12 = (__pyx_t_8 != 0);
+      if (__pyx_t_12) {
       } else {
-        __pyx_t_10 = __pyx_t_13;
+        __pyx_t_9 = __pyx_t_12;
         goto __pyx_L13_bool_binop_done;
       }
-      __pyx_t_13 = (__Pyx_PyString_Equals(__pyx_n_s_L, __pyx_v_p, Py_NE)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
-      __pyx_t_10 = __pyx_t_13;
+      __pyx_t_12 = (__Pyx_PyString_Equals(__pyx_n_s_L, __pyx_v_p, Py_NE)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 114, __pyx_L1_error)
+      __pyx_t_9 = __pyx_t_12;
       __pyx_L13_bool_binop_done:;
-      if (__pyx_t_10) {
+      if (__pyx_t_9) {
 
-        /* "planarlinkage.pyx":121
+        /* "planarlinkage.pyx":115
  *             for p in params.split(','):
  *                 if ('L' in p) and ('L' != p):
  *                     self.Link.append(p)             # <<<<<<<<<<<<<<
@@ -3634,11 +3642,11 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
         if (unlikely(__pyx_v_self->Link == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-          __PYX_ERR(0, 121, __pyx_L1_error)
+          __PYX_ERR(0, 115, __pyx_L1_error)
         }
-        __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_self->Link, __pyx_v_p); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_self->Link, __pyx_v_p); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 115, __pyx_L1_error)
 
-        /* "planarlinkage.pyx":120
+        /* "planarlinkage.pyx":114
  *             )
  *             for p in params.split(','):
  *                 if ('L' in p) and ('L' != p):             # <<<<<<<<<<<<<<
@@ -3647,7 +3655,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       }
 
-      /* "planarlinkage.pyx":122
+      /* "planarlinkage.pyx":116
  *                 if ('L' in p) and ('L' != p):
  *                     self.Link.append(p)
  *                 if (p in self.Driver) and (p not in self.driver_list):             # <<<<<<<<<<<<<<
@@ -3656,22 +3664,22 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       if (unlikely(__pyx_v_self->Driver == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 122, __pyx_L1_error)
+        __PYX_ERR(0, 116, __pyx_L1_error)
       }
-      __pyx_t_13 = (__Pyx_PyDict_ContainsTF(__pyx_v_p, __pyx_v_self->Driver, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
-      __pyx_t_9 = (__pyx_t_13 != 0);
-      if (__pyx_t_9) {
+      __pyx_t_12 = (__Pyx_PyDict_ContainsTF(__pyx_v_p, __pyx_v_self->Driver, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+      __pyx_t_8 = (__pyx_t_12 != 0);
+      if (__pyx_t_8) {
       } else {
-        __pyx_t_10 = __pyx_t_9;
+        __pyx_t_9 = __pyx_t_8;
         goto __pyx_L16_bool_binop_done;
       }
-      __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_v_p, __pyx_v_self->driver_list, Py_NE)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
-      __pyx_t_13 = (__pyx_t_9 != 0);
-      __pyx_t_10 = __pyx_t_13;
+      __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_v_p, __pyx_v_self->driver_list, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
+      __pyx_t_12 = (__pyx_t_8 != 0);
+      __pyx_t_9 = __pyx_t_12;
       __pyx_L16_bool_binop_done:;
-      if (__pyx_t_10) {
+      if (__pyx_t_9) {
 
-        /* "planarlinkage.pyx":123
+        /* "planarlinkage.pyx":117
  *                     self.Link.append(p)
  *                 if (p in self.Driver) and (p not in self.driver_list):
  *                     self.driver_list.append(p)             # <<<<<<<<<<<<<<
@@ -3680,11 +3688,11 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
         if (unlikely(__pyx_v_self->driver_list == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-          __PYX_ERR(0, 123, __pyx_L1_error)
+          __PYX_ERR(0, 117, __pyx_L1_error)
         }
-        __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_self->driver_list, __pyx_v_p); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 123, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_self->driver_list, __pyx_v_p); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 117, __pyx_L1_error)
 
-        /* "planarlinkage.pyx":122
+        /* "planarlinkage.pyx":116
  *                 if ('L' in p) and ('L' != p):
  *                     self.Link.append(p)
  *                 if (p in self.Driver) and (p not in self.driver_list):             # <<<<<<<<<<<<<<
@@ -3693,7 +3701,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       }
 
-      /* "planarlinkage.pyx":124
+      /* "planarlinkage.pyx":118
  *                 if (p in self.Driver) and (p not in self.driver_list):
  *                     self.driver_list.append(p)
  *                 if (p in self.Follower) and (p not in self.follower_list):             # <<<<<<<<<<<<<<
@@ -3702,22 +3710,22 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       if (unlikely(__pyx_v_self->Follower == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-        __PYX_ERR(0, 124, __pyx_L1_error)
+        __PYX_ERR(0, 118, __pyx_L1_error)
       }
-      __pyx_t_13 = (__Pyx_PyDict_ContainsTF(__pyx_v_p, __pyx_v_self->Follower, Py_EQ)); if (unlikely(__pyx_t_13 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
-      __pyx_t_9 = (__pyx_t_13 != 0);
-      if (__pyx_t_9) {
+      __pyx_t_12 = (__Pyx_PyDict_ContainsTF(__pyx_v_p, __pyx_v_self->Follower, Py_EQ)); if (unlikely(__pyx_t_12 < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __pyx_t_8 = (__pyx_t_12 != 0);
+      if (__pyx_t_8) {
       } else {
-        __pyx_t_10 = __pyx_t_9;
+        __pyx_t_9 = __pyx_t_8;
         goto __pyx_L19_bool_binop_done;
       }
-      __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_v_p, __pyx_v_self->follower_list, Py_NE)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
-      __pyx_t_13 = (__pyx_t_9 != 0);
-      __pyx_t_10 = __pyx_t_13;
+      __pyx_t_8 = (__Pyx_PySequence_ContainsTF(__pyx_v_p, __pyx_v_self->follower_list, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __pyx_t_12 = (__pyx_t_8 != 0);
+      __pyx_t_9 = __pyx_t_12;
       __pyx_L19_bool_binop_done:;
-      if (__pyx_t_10) {
+      if (__pyx_t_9) {
 
-        /* "planarlinkage.pyx":125
+        /* "planarlinkage.pyx":119
  *                     self.driver_list.append(p)
  *                 if (p in self.Follower) and (p not in self.follower_list):
  *                     self.follower_list.append(p)             # <<<<<<<<<<<<<<
@@ -3726,11 +3734,11 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
         if (unlikely(__pyx_v_self->follower_list == Py_None)) {
           PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-          __PYX_ERR(0, 125, __pyx_L1_error)
+          __PYX_ERR(0, 119, __pyx_L1_error)
         }
-        __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_self->follower_list, __pyx_v_p); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 125, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_self->follower_list, __pyx_v_p); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 119, __pyx_L1_error)
 
-        /* "planarlinkage.pyx":124
+        /* "planarlinkage.pyx":118
  *                 if (p in self.Driver) and (p not in self.driver_list):
  *                     self.driver_list.append(p)
  *                 if (p in self.Follower) and (p not in self.follower_list):             # <<<<<<<<<<<<<<
@@ -3739,17 +3747,17 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       }
 
-      /* "planarlinkage.pyx":119
- *                 params.split(',')
+      /* "planarlinkage.pyx":113
+ *                 params.split(','),
  *             )
  *             for p in params.split(','):             # <<<<<<<<<<<<<<
  *                 if ('L' in p) and ('L' != p):
  *                     self.Link.append(p)
  */
     }
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":109
+    /* "planarlinkage.pyx":103
  *         self.follower_list = []
  *         self.exprs = np.ndarray((len(ExpressionL),), dtype=np.object)
  *         for i, expr in enumerate(ExpressionL):             # <<<<<<<<<<<<<<
@@ -3757,98 +3765,98 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  *             self.exprs[i] = (
  */
   }
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "planarlinkage.pyx":127
+  /* "planarlinkage.pyx":121
  *                     self.follower_list.append(p)
  *         #The number of all variables (except angles).
  *         self.VARS = 2*len(self.driver_list) + 2*len(self.follower_list) + len(self.Link)             # <<<<<<<<<<<<<<
  * 
  *         """Limitations.
  */
-  __pyx_t_8 = __pyx_v_self->driver_list;
-  __Pyx_INCREF(__pyx_t_8);
-  if (unlikely(__pyx_t_8 == Py_None)) {
+  __pyx_t_7 = __pyx_v_self->driver_list;
+  __Pyx_INCREF(__pyx_t_7);
+  if (unlikely(__pyx_t_7 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 127, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
   }
-  __pyx_t_3 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __pyx_v_self->follower_list;
-  __Pyx_INCREF(__pyx_t_8);
-  if (unlikely(__pyx_t_8 == Py_None)) {
+  __pyx_t_3 = PyList_GET_SIZE(__pyx_t_7); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = __pyx_v_self->follower_list;
+  __Pyx_INCREF(__pyx_t_7);
+  if (unlikely(__pyx_t_7 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 127, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
   }
-  __pyx_t_11 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __pyx_v_self->Link;
-  __Pyx_INCREF(__pyx_t_8);
-  if (unlikely(__pyx_t_8 == Py_None)) {
+  __pyx_t_11 = PyList_GET_SIZE(__pyx_t_7); if (unlikely(__pyx_t_11 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = __pyx_v_self->Link;
+  __Pyx_INCREF(__pyx_t_7);
+  if (unlikely(__pyx_t_7 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 127, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
   }
-  __pyx_t_15 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_v_self->VARS = (((2 * __pyx_t_3) + (2 * __pyx_t_11)) + __pyx_t_15);
+  __pyx_t_14 = PyList_GET_SIZE(__pyx_t_7); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_v_self->VARS = (((2 * __pyx_t_3) + (2 * __pyx_t_11)) + __pyx_t_14);
 
-  /* "planarlinkage.pyx":139
+  /* "planarlinkage.pyx":133
  * 
  *         #upper
- *         cdef object tmp_upper = []             # <<<<<<<<<<<<<<
+ *         cdef list tmp_upper = []             # <<<<<<<<<<<<<<
  *         for name in self.driver_list:
  *             for i in [0, 1]:
  */
-  __pyx_t_8 = PyList_New(0); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 139, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_v_tmp_upper = __pyx_t_8;
-  __pyx_t_8 = 0;
+  __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_v_tmp_upper = ((PyObject*)__pyx_t_7);
+  __pyx_t_7 = 0;
 
-  /* "planarlinkage.pyx":140
+  /* "planarlinkage.pyx":134
  *         #upper
- *         cdef object tmp_upper = []
+ *         cdef list tmp_upper = []
  *         for name in self.driver_list:             # <<<<<<<<<<<<<<
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  */
   if (unlikely(__pyx_v_self->driver_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 140, __pyx_L1_error)
+    __PYX_ERR(0, 134, __pyx_L1_error)
   }
-  __pyx_t_8 = __pyx_v_self->driver_list; __Pyx_INCREF(__pyx_t_8); __pyx_t_15 = 0;
+  __pyx_t_7 = __pyx_v_self->driver_list; __Pyx_INCREF(__pyx_t_7); __pyx_t_14 = 0;
   for (;;) {
-    if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_8)) break;
+    if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_7)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_7 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_15); __Pyx_INCREF(__pyx_t_7); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
+    __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_14); __Pyx_INCREF(__pyx_t_6); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 134, __pyx_L1_error)
     #else
-    __pyx_t_7 = PySequence_ITEM(__pyx_t_8, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 134, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 140, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_7));
-    __pyx_t_7 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 134, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_6));
+    __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":141
- *         cdef object tmp_upper = []
+    /* "planarlinkage.pyx":135
+ *         cdef list tmp_upper = []
  *         for name in self.driver_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:
  */
-    __pyx_t_7 = __pyx_tuple__9; __Pyx_INCREF(__pyx_t_7); __pyx_t_11 = 0;
+    __pyx_t_6 = __pyx_tuple__9; __Pyx_INCREF(__pyx_t_6); __pyx_t_11 = 0;
     for (;;) {
       if (__pyx_t_11 >= 2) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_11); __Pyx_INCREF(__pyx_t_5); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 141, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_4); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
       #else
-      __pyx_t_5 = PySequence_ITEM(__pyx_t_7, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 141, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_4 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
       #endif
-      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 141, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_v_i = __pyx_t_6;
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_4); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_v_i = __pyx_t_5;
 
-      /* "planarlinkage.pyx":142
+      /* "planarlinkage.pyx":136
  *         for name in self.driver_list:
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)             # <<<<<<<<<<<<<<
@@ -3857,53 +3865,53 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       if (unlikely(__pyx_v_self->Driver == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 142, __pyx_L1_error)
+        __PYX_ERR(0, 136, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 142, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (unlikely(__pyx_v_self->Driver == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 142, __pyx_L1_error)
+        __PYX_ERR(0, 136, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 142, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_4, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_int_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 142, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_int_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_14 = __Pyx_PyObject_Append(__pyx_v_tmp_upper, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_tmp_upper, __pyx_t_1); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 136, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "planarlinkage.pyx":141
- *         cdef object tmp_upper = []
+      /* "planarlinkage.pyx":135
+ *         cdef list tmp_upper = []
  *         for name in self.driver_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:
  */
     }
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":140
+    /* "planarlinkage.pyx":134
  *         #upper
- *         cdef object tmp_upper = []
+ *         cdef list tmp_upper = []
  *         for name in self.driver_list:             # <<<<<<<<<<<<<<
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  */
   }
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "planarlinkage.pyx":143
+  /* "planarlinkage.pyx":137
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:             # <<<<<<<<<<<<<<
@@ -3912,42 +3920,42 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_v_self->follower_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 143, __pyx_L1_error)
+    __PYX_ERR(0, 137, __pyx_L1_error)
   }
-  __pyx_t_8 = __pyx_v_self->follower_list; __Pyx_INCREF(__pyx_t_8); __pyx_t_15 = 0;
+  __pyx_t_7 = __pyx_v_self->follower_list; __Pyx_INCREF(__pyx_t_7); __pyx_t_14 = 0;
   for (;;) {
-    if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_8)) break;
+    if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_7)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_7 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_15); __Pyx_INCREF(__pyx_t_7); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_14); __Pyx_INCREF(__pyx_t_6); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 137, __pyx_L1_error)
     #else
-    __pyx_t_7 = PySequence_ITEM(__pyx_t_8, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 143, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_7));
-    __pyx_t_7 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 137, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_6));
+    __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":144
+    /* "planarlinkage.pyx":138
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
  */
-    __pyx_t_7 = __pyx_tuple__10; __Pyx_INCREF(__pyx_t_7); __pyx_t_11 = 0;
+    __pyx_t_6 = __pyx_tuple__10; __Pyx_INCREF(__pyx_t_6); __pyx_t_11 = 0;
     for (;;) {
       if (__pyx_t_11 >= 2) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_11); __Pyx_INCREF(__pyx_t_1); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 144, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_11); __Pyx_INCREF(__pyx_t_1); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
       #else
-      __pyx_t_1 = PySequence_ITEM(__pyx_t_7, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #endif
-      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 138, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_v_i = __pyx_t_6;
+      __pyx_v_i = __pyx_t_5;
 
-      /* "planarlinkage.pyx":145
+      /* "planarlinkage.pyx":139
  *         for name in self.follower_list:
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)             # <<<<<<<<<<<<<<
@@ -3956,33 +3964,33 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       if (unlikely(__pyx_v_self->Follower == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 139, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 145, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (unlikely(__pyx_v_self->Follower == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 145, __pyx_L1_error)
+        __PYX_ERR(0, 139, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_14 = __Pyx_PyObject_Append(__pyx_v_tmp_upper, __pyx_t_2); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 145, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_tmp_upper, __pyx_t_2); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "planarlinkage.pyx":144
+      /* "planarlinkage.pyx":138
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
@@ -3990,9 +3998,9 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
  */
     }
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":143
+    /* "planarlinkage.pyx":137
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:             # <<<<<<<<<<<<<<
@@ -4000,62 +4008,62 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
  */
   }
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "planarlinkage.pyx":146
+  /* "planarlinkage.pyx":140
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):             # <<<<<<<<<<<<<<
  *             tmp_upper.append(mech_params[name])
  *         tmp_upper += [mech_params['AMax']]*len(self.driver_list)*self.POINTS
  */
-  __pyx_t_8 = PyList_New(3); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 146, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = PyList_New(3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_INCREF(__pyx_n_s_IMax);
   __Pyx_GIVEREF(__pyx_n_s_IMax);
-  PyList_SET_ITEM(__pyx_t_8, 0, __pyx_n_s_IMax);
+  PyList_SET_ITEM(__pyx_t_7, 0, __pyx_n_s_IMax);
   __Pyx_INCREF(__pyx_n_s_LMax);
   __Pyx_GIVEREF(__pyx_n_s_LMax);
-  PyList_SET_ITEM(__pyx_t_8, 1, __pyx_n_s_LMax);
+  PyList_SET_ITEM(__pyx_t_7, 1, __pyx_n_s_LMax);
   __Pyx_INCREF(__pyx_n_s_FMax);
   __Pyx_GIVEREF(__pyx_n_s_FMax);
-  PyList_SET_ITEM(__pyx_t_8, 2, __pyx_n_s_FMax);
-  __pyx_t_7 = __pyx_v_self->Link;
-  __Pyx_INCREF(__pyx_t_7);
-  if (unlikely(__pyx_t_7 == Py_None)) {
+  PyList_SET_ITEM(__pyx_t_7, 2, __pyx_n_s_FMax);
+  __pyx_t_6 = __pyx_v_self->Link;
+  __Pyx_INCREF(__pyx_t_6);
+  if (unlikely(__pyx_t_6 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 146, __pyx_L1_error)
+    __PYX_ERR(0, 140, __pyx_L1_error)
   }
-  __pyx_t_15 = PyList_GET_SIZE(__pyx_t_7); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 146, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyList_New(1 * (((__pyx_t_15 - 3)<0) ? 0:(__pyx_t_15 - 3))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 146, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_14 = PyList_GET_SIZE(__pyx_t_6); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 140, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyList_New(1 * (((__pyx_t_14 - 3)<0) ? 0:(__pyx_t_14 - 3))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < (__pyx_t_15 - 3); __pyx_temp++) {
+    for (__pyx_temp=0; __pyx_temp < (__pyx_t_14 - 3); __pyx_temp++) {
       __Pyx_INCREF(__pyx_n_s_LMax);
       __Pyx_GIVEREF(__pyx_n_s_LMax);
-      PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_n_s_LMax);
+      PyList_SET_ITEM(__pyx_t_6, __pyx_temp, __pyx_n_s_LMax);
     }
   }
-  __pyx_t_2 = PyNumber_Add(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __pyx_t_2; __Pyx_INCREF(__pyx_t_7); __pyx_t_15 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __pyx_t_2; __Pyx_INCREF(__pyx_t_6); __pyx_t_14 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
-    if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_7)) break;
+    if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_6)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_15); __Pyx_INCREF(__pyx_t_2); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 146, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_14); __Pyx_INCREF(__pyx_t_2); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
     #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_7, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_6, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 146, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":147
+    /* "planarlinkage.pyx":141
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
  *             tmp_upper.append(mech_params[name])             # <<<<<<<<<<<<<<
@@ -4064,14 +4072,14 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
     if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 147, __pyx_L1_error)
+      __PYX_ERR(0, 141, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_v_name); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_14 = __Pyx_PyObject_Append(__pyx_v_tmp_upper, __pyx_t_2); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 147, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_tmp_upper, __pyx_t_2); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 141, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":146
+    /* "planarlinkage.pyx":140
  *             for i in [0, 1]:
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):             # <<<<<<<<<<<<<<
@@ -4079,9 +4087,9 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  *         tmp_upper += [mech_params['AMax']]*len(self.driver_list)*self.POINTS
  */
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "planarlinkage.pyx":148
+  /* "planarlinkage.pyx":142
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
  *             tmp_upper.append(mech_params[name])
  *         tmp_upper += [mech_params['AMax']]*len(self.driver_list)*self.POINTS             # <<<<<<<<<<<<<<
@@ -4090,116 +4098,117 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 148, __pyx_L1_error)
+    __PYX_ERR(0, 142, __pyx_L1_error)
   }
-  __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_AMax); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_AMax); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_2 = __pyx_v_self->driver_list;
   __Pyx_INCREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 148, __pyx_L1_error)
+    __PYX_ERR(0, 142, __pyx_L1_error)
   }
-  __pyx_t_15 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_14 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyList_New(1 * ((__pyx_t_15<0) ? 0:__pyx_t_15)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1 * ((__pyx_t_14<0) ? 0:__pyx_t_14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_15; __pyx_temp++) {
-      __Pyx_INCREF(__pyx_t_7);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyList_SET_ITEM(__pyx_t_2, __pyx_temp, __pyx_t_7);
+    for (__pyx_temp=0; __pyx_temp < __pyx_t_14; __pyx_temp++) {
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_GIVEREF(__pyx_t_6);
+      PyList_SET_ITEM(__pyx_t_2, __pyx_temp, __pyx_t_6);
     }
   }
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->POINTS); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_self->POINTS); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = PyNumber_Multiply(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = PyNumber_Multiply(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_tmp_upper, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyNumber_InPlaceAdd(__pyx_v_tmp_upper, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 148, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF_SET(__pyx_v_tmp_upper, __pyx_t_7);
-  __pyx_t_7 = 0;
+  if (!(likely(PyList_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 142, __pyx_L1_error)
+  __Pyx_DECREF_SET(__pyx_v_tmp_upper, ((PyObject*)__pyx_t_6));
+  __pyx_t_6 = 0;
 
-  /* "planarlinkage.pyx":149
+  /* "planarlinkage.pyx":143
  *             tmp_upper.append(mech_params[name])
  *         tmp_upper += [mech_params['AMax']]*len(self.driver_list)*self.POINTS
  *         self.upper = np.array(tmp_upper, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *         #lower
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_array); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF(__pyx_v_tmp_upper);
   __Pyx_GIVEREF(__pyx_v_tmp_upper);
-  PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_v_tmp_upper);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_tmp_upper);
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 149, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_5);
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 143, __pyx_L1_error)
+  __Pyx_GIVEREF(__pyx_t_4);
   __Pyx_GOTREF(__pyx_v_self->upper);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->upper));
-  __pyx_v_self->upper = ((PyArrayObject *)__pyx_t_5);
-  __pyx_t_5 = 0;
+  __pyx_v_self->upper = ((PyArrayObject *)__pyx_t_4);
+  __pyx_t_4 = 0;
 
-  /* "planarlinkage.pyx":152
+  /* "planarlinkage.pyx":146
  * 
  *         #lower
- *         cdef object tmp_lower = []             # <<<<<<<<<<<<<<
+ *         cdef list tmp_lower = []             # <<<<<<<<<<<<<<
  *         for name in self.driver_list:
  *             for i in [0, 1]:
  */
-  __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 152, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_v_tmp_lower = __pyx_t_5;
-  __pyx_t_5 = 0;
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_tmp_lower = ((PyObject*)__pyx_t_4);
+  __pyx_t_4 = 0;
 
-  /* "planarlinkage.pyx":153
+  /* "planarlinkage.pyx":147
  *         #lower
- *         cdef object tmp_lower = []
+ *         cdef list tmp_lower = []
  *         for name in self.driver_list:             # <<<<<<<<<<<<<<
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  */
   if (unlikely(__pyx_v_self->driver_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 153, __pyx_L1_error)
+    __PYX_ERR(0, 147, __pyx_L1_error)
   }
-  __pyx_t_5 = __pyx_v_self->driver_list; __Pyx_INCREF(__pyx_t_5); __pyx_t_15 = 0;
+  __pyx_t_4 = __pyx_v_self->driver_list; __Pyx_INCREF(__pyx_t_4); __pyx_t_14 = 0;
   for (;;) {
-    if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_5)) break;
+    if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_4)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_15); __Pyx_INCREF(__pyx_t_2); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_14); __Pyx_INCREF(__pyx_t_2); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
     #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 153, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":154
- *         cdef object tmp_lower = []
+    /* "planarlinkage.pyx":148
+ *         cdef list tmp_lower = []
  *         for name in self.driver_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
@@ -4209,16 +4218,16 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
     for (;;) {
       if (__pyx_t_11 >= 2) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_11); __Pyx_INCREF(__pyx_t_7); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 154, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_11); __Pyx_INCREF(__pyx_t_6); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 148, __pyx_L1_error)
       #else
-      __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 154, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = PySequence_ITEM(__pyx_t_2, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 148, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       #endif
-      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_v_i = __pyx_t_6;
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 148, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_v_i = __pyx_t_5;
 
-      /* "planarlinkage.pyx":155
+      /* "planarlinkage.pyx":149
  *         for name in self.driver_list:
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)             # <<<<<<<<<<<<<<
@@ -4227,34 +4236,34 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       if (unlikely(__pyx_v_self->Driver == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 155, __pyx_L1_error)
+        __PYX_ERR(0, 149, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_7, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 155, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       if (unlikely(__pyx_v_self->Driver == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 155, __pyx_L1_error)
+        __PYX_ERR(0, 149, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_7, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->Driver, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_6, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_int_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_int_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Subtract(__pyx_t_8, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Subtract(__pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_14 = __Pyx_PyObject_Append(__pyx_v_tmp_lower, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 155, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_tmp_lower, __pyx_t_1); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 149, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "planarlinkage.pyx":154
- *         cdef object tmp_lower = []
+      /* "planarlinkage.pyx":148
+ *         cdef list tmp_lower = []
  *         for name in self.driver_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
@@ -4263,17 +4272,17 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":153
+    /* "planarlinkage.pyx":147
  *         #lower
- *         cdef object tmp_lower = []
+ *         cdef list tmp_lower = []
  *         for name in self.driver_list:             # <<<<<<<<<<<<<<
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  */
   }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "planarlinkage.pyx":156
+  /* "planarlinkage.pyx":150
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  *         for name in self.follower_list:             # <<<<<<<<<<<<<<
@@ -4282,22 +4291,22 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_v_self->follower_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 156, __pyx_L1_error)
+    __PYX_ERR(0, 150, __pyx_L1_error)
   }
-  __pyx_t_5 = __pyx_v_self->follower_list; __Pyx_INCREF(__pyx_t_5); __pyx_t_15 = 0;
+  __pyx_t_4 = __pyx_v_self->follower_list; __Pyx_INCREF(__pyx_t_4); __pyx_t_14 = 0;
   for (;;) {
-    if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_5)) break;
+    if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_4)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_15); __Pyx_INCREF(__pyx_t_2); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_2 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_14); __Pyx_INCREF(__pyx_t_2); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 150, __pyx_L1_error)
     #else
-    __pyx_t_2 = PySequence_ITEM(__pyx_t_5, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(__pyx_t_4, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 156, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 150, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":157
+    /* "planarlinkage.pyx":151
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  *         for name in self.follower_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
@@ -4308,16 +4317,16 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
     for (;;) {
       if (__pyx_t_11 >= 2) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_11); __Pyx_INCREF(__pyx_t_1); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_11); __Pyx_INCREF(__pyx_t_1); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 151, __pyx_L1_error)
       #else
-      __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       #endif
-      __pyx_t_6 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_6 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 151, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_v_i = __pyx_t_6;
+      __pyx_v_i = __pyx_t_5;
 
-      /* "planarlinkage.pyx":158
+      /* "planarlinkage.pyx":152
  *         for name in self.follower_list:
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)             # <<<<<<<<<<<<<<
@@ -4326,33 +4335,33 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
       if (unlikely(__pyx_v_self->Follower == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 158, __pyx_L1_error)
+        __PYX_ERR(0, 152, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 158, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (unlikely(__pyx_v_self->Follower == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 158, __pyx_L1_error)
+        __PYX_ERR(0, 152, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->Follower, __pyx_v_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 158, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_1, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_8, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyNumber_Divide(__pyx_t_7, __pyx_int_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 152, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyNumber_Subtract(__pyx_t_7, __pyx_t_1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 158, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __pyx_t_7 = PyNumber_Subtract(__pyx_t_6, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 152, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_14 = __Pyx_PyObject_Append(__pyx_v_tmp_lower, __pyx_t_8); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 158, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_tmp_lower, __pyx_t_7); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 152, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "planarlinkage.pyx":157
+      /* "planarlinkage.pyx":151
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  *         for name in self.follower_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
@@ -4362,7 +4371,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":156
+    /* "planarlinkage.pyx":150
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  *         for name in self.follower_list:             # <<<<<<<<<<<<<<
@@ -4370,62 +4379,62 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  *                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
  */
   }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "planarlinkage.pyx":159
+  /* "planarlinkage.pyx":153
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
  *         for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):             # <<<<<<<<<<<<<<
  *             tmp_lower.append(mech_params[name])
  *         tmp_lower += [mech_params['AMin']]*len(self.driver_list)*self.POINTS
  */
-  __pyx_t_5 = PyList_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 159, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_n_s_IMin);
   __Pyx_GIVEREF(__pyx_n_s_IMin);
-  PyList_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_IMin);
+  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_IMin);
   __Pyx_INCREF(__pyx_n_s_LMin);
   __Pyx_GIVEREF(__pyx_n_s_LMin);
-  PyList_SET_ITEM(__pyx_t_5, 1, __pyx_n_s_LMin);
+  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_n_s_LMin);
   __Pyx_INCREF(__pyx_n_s_FMin);
   __Pyx_GIVEREF(__pyx_n_s_FMin);
-  PyList_SET_ITEM(__pyx_t_5, 2, __pyx_n_s_FMin);
+  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_n_s_FMin);
   __pyx_t_2 = __pyx_v_self->Link;
   __Pyx_INCREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 159, __pyx_L1_error)
+    __PYX_ERR(0, 153, __pyx_L1_error)
   }
-  __pyx_t_15 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_14 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyList_New(1 * (((__pyx_t_15 - 3)<0) ? 0:(__pyx_t_15 - 3))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1 * (((__pyx_t_14 - 3)<0) ? 0:(__pyx_t_14 - 3))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 153, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < (__pyx_t_15 - 3); __pyx_temp++) {
+    for (__pyx_temp=0; __pyx_temp < (__pyx_t_14 - 3); __pyx_temp++) {
       __Pyx_INCREF(__pyx_n_s_LMin);
       __Pyx_GIVEREF(__pyx_n_s_LMin);
       PyList_SET_ITEM(__pyx_t_2, __pyx_temp, __pyx_n_s_LMin);
     }
   }
-  __pyx_t_8 = PyNumber_Add(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_7 = PyNumber_Add(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __pyx_t_8; __Pyx_INCREF(__pyx_t_2); __pyx_t_15 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_2 = __pyx_t_7; __Pyx_INCREF(__pyx_t_2); __pyx_t_14 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   for (;;) {
-    if (__pyx_t_15 >= PyList_GET_SIZE(__pyx_t_2)) break;
+    if (__pyx_t_14 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_8 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_15); __Pyx_INCREF(__pyx_t_8); __pyx_t_15++; if (unlikely(0 < 0)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_7 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_14); __Pyx_INCREF(__pyx_t_7); __pyx_t_14++; if (unlikely(0 < 0)) __PYX_ERR(0, 153, __pyx_L1_error)
     #else
-    __pyx_t_8 = PySequence_ITEM(__pyx_t_2, __pyx_t_15); __pyx_t_15++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 159, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_7 = PySequence_ITEM(__pyx_t_2, __pyx_t_14); __pyx_t_14++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 159, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_8));
-    __pyx_t_8 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 153, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_7));
+    __pyx_t_7 = 0;
 
-    /* "planarlinkage.pyx":160
+    /* "planarlinkage.pyx":154
  *                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
  *         for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):
  *             tmp_lower.append(mech_params[name])             # <<<<<<<<<<<<<<
@@ -4434,14 +4443,14 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
     if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 160, __pyx_L1_error)
+      __PYX_ERR(0, 154, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_v_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 160, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_14 = __Pyx_PyObject_Append(__pyx_v_tmp_lower, __pyx_t_8); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 160, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_v_name); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 154, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_tmp_lower, __pyx_t_7); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 154, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "planarlinkage.pyx":159
+    /* "planarlinkage.pyx":153
  *             for i in [0, 1]:
  *                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
  *         for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):             # <<<<<<<<<<<<<<
@@ -4451,7 +4460,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":161
+  /* "planarlinkage.pyx":155
  *         for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):
  *             tmp_lower.append(mech_params[name])
  *         tmp_lower += [mech_params['AMin']]*len(self.driver_list)*self.POINTS             # <<<<<<<<<<<<<<
@@ -4460,79 +4469,80 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
  */
   if (unlikely(__pyx_cur_scope->__pyx_v_mech_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 161, __pyx_L1_error)
+    __PYX_ERR(0, 155, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_AMin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_mech_params, __pyx_n_s_AMin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = __pyx_v_self->driver_list;
-  __Pyx_INCREF(__pyx_t_8);
-  if (unlikely(__pyx_t_8 == Py_None)) {
+  __pyx_t_7 = __pyx_v_self->driver_list;
+  __Pyx_INCREF(__pyx_t_7);
+  if (unlikely(__pyx_t_7 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 161, __pyx_L1_error)
+    __PYX_ERR(0, 155, __pyx_L1_error)
   }
-  __pyx_t_15 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = PyList_New(1 * ((__pyx_t_15<0) ? 0:__pyx_t_15)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_14 = PyList_GET_SIZE(__pyx_t_7); if (unlikely(__pyx_t_14 == ((Py_ssize_t)-1))) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = PyList_New(1 * ((__pyx_t_14<0) ? 0:__pyx_t_14)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   { Py_ssize_t __pyx_temp;
-    for (__pyx_temp=0; __pyx_temp < __pyx_t_15; __pyx_temp++) {
+    for (__pyx_temp=0; __pyx_temp < __pyx_t_14; __pyx_temp++) {
       __Pyx_INCREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_2);
-      PyList_SET_ITEM(__pyx_t_8, __pyx_temp, __pyx_t_2);
+      PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_t_2);
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->POINTS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->POINTS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = PyNumber_Multiply(__pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 161, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_4 = PyNumber_Multiply(__pyx_t_7, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_tmp_lower, __pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_tmp_lower, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF_SET(__pyx_v_tmp_lower, __pyx_t_2);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (!(likely(PyList_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 155, __pyx_L1_error)
+  __Pyx_DECREF_SET(__pyx_v_tmp_lower, ((PyObject*)__pyx_t_2));
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":162
+  /* "planarlinkage.pyx":156
  *             tmp_lower.append(mech_params[name])
  *         tmp_lower += [mech_params['AMin']]*len(self.driver_list)*self.POINTS
  *         self.lower = np.array(tmp_lower, dtype=np.float32)             # <<<<<<<<<<<<<<
  * 
  *     cpdef np.ndarray get_upper(self):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_tmp_lower);
   __Pyx_GIVEREF(__pyx_v_tmp_lower);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_tmp_lower);
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 162, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 156, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, __pyx_t_7) < 0) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, __pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_6) < 0) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 162, __pyx_L1_error)
-  __Pyx_GIVEREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (!(likely(((__pyx_t_6) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_6, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 156, __pyx_L1_error)
+  __Pyx_GIVEREF(__pyx_t_6);
   __Pyx_GOTREF(__pyx_v_self->lower);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->lower));
-  __pyx_v_self->lower = ((PyArrayObject *)__pyx_t_7);
-  __pyx_t_7 = 0;
+  __pyx_v_self->lower = ((PyArrayObject *)__pyx_t_6);
+  __pyx_t_6 = 0;
 
-  /* "planarlinkage.pyx":52
+  /* "planarlinkage.pyx":46
  *     cdef np.ndarray exprs, target, upper, lower
  * 
  *     def __cinit__(self, mech_params: dict):             # <<<<<<<<<<<<<<
@@ -4546,9 +4556,9 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("planarlinkage.build_planar.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
@@ -4565,7 +4575,7 @@ static int __pyx_pf_13planarlinkage_12build_planar___cinit__(struct __pyx_obj_13
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":164
+/* "planarlinkage.pyx":158
  *         self.lower = np.array(tmp_lower, dtype=np.float32)
  * 
  *     cpdef np.ndarray get_upper(self):             # <<<<<<<<<<<<<<
@@ -4586,7 +4596,7 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_upper(struct __
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_upper); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_upper); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_13planarlinkage_12build_planar_3get_upper)) {
       __Pyx_XDECREF(((PyObject *)__pyx_r));
@@ -4602,14 +4612,14 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_upper(struct __
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 158, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 164, __pyx_L1_error)
+      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 158, __pyx_L1_error)
       __pyx_r = ((PyArrayObject *)__pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4618,7 +4628,7 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_upper(struct __
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "planarlinkage.pyx":165
+  /* "planarlinkage.pyx":159
  * 
  *     cpdef np.ndarray get_upper(self):
  *         return self.upper             # <<<<<<<<<<<<<<
@@ -4630,7 +4640,7 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_upper(struct __
   __pyx_r = __pyx_v_self->upper;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":164
+  /* "planarlinkage.pyx":158
  *         self.lower = np.array(tmp_lower, dtype=np.float32)
  * 
  *     cpdef np.ndarray get_upper(self):             # <<<<<<<<<<<<<<
@@ -4671,7 +4681,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_2get_upper(struct __pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_upper", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_13planarlinkage_12build_planar_get_upper(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_13planarlinkage_12build_planar_get_upper(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 158, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4688,7 +4698,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_2get_upper(struct __pyx
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":167
+/* "planarlinkage.pyx":161
  *         return self.upper
  * 
  *     cpdef np.ndarray get_lower(self):             # <<<<<<<<<<<<<<
@@ -4709,7 +4719,7 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_lower(struct __
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_lower); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_lower); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_13planarlinkage_12build_planar_5get_lower)) {
       __Pyx_XDECREF(((PyObject *)__pyx_r));
@@ -4725,14 +4735,14 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_lower(struct __
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 161, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 167, __pyx_L1_error)
+      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 161, __pyx_L1_error)
       __pyx_r = ((PyArrayObject *)__pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4741,7 +4751,7 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_lower(struct __
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "planarlinkage.pyx":168
+  /* "planarlinkage.pyx":162
  * 
  *     cpdef np.ndarray get_lower(self):
  *         return self.lower             # <<<<<<<<<<<<<<
@@ -4753,7 +4763,7 @@ static PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_lower(struct __
   __pyx_r = __pyx_v_self->lower;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":167
+  /* "planarlinkage.pyx":161
  *         return self.upper
  * 
  *     cpdef np.ndarray get_lower(self):             # <<<<<<<<<<<<<<
@@ -4794,7 +4804,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_4get_lower(struct __pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_lower", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_13planarlinkage_12build_planar_get_lower(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 167, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_13planarlinkage_12build_planar_get_lower(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 161, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4811,7 +4821,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_4get_lower(struct __pyx
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":170
+/* "planarlinkage.pyx":164
  *         return self.lower
  * 
  *     cpdef int get_nParm(self):             # <<<<<<<<<<<<<<
@@ -4834,7 +4844,7 @@ static int __pyx_f_13planarlinkage_12build_planar_get_nParm(struct __pyx_obj_13p
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nParm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_nParm); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_13planarlinkage_12build_planar_7get_nParm)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -4849,14 +4859,14 @@ static int __pyx_f_13planarlinkage_12build_planar_get_nParm(struct __pyx_obj_13p
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 164, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_r = __pyx_t_5;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4865,7 +4875,7 @@ static int __pyx_f_13planarlinkage_12build_planar_get_nParm(struct __pyx_obj_13p
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "planarlinkage.pyx":172
+  /* "planarlinkage.pyx":166
  *     cpdef int get_nParm(self):
  *         """Return size of chromosome."""
  *         return len(self.upper)             # <<<<<<<<<<<<<<
@@ -4874,12 +4884,12 @@ static int __pyx_f_13planarlinkage_12build_planar_get_nParm(struct __pyx_obj_13p
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->upper);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_6 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 166, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_6;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":170
+  /* "planarlinkage.pyx":164
  *         return self.lower
  * 
  *     cpdef int get_nParm(self):             # <<<<<<<<<<<<<<
@@ -4920,7 +4930,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_6get_nParm(struct __pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_nParm", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_13planarlinkage_12build_planar_get_nParm(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_13planarlinkage_12build_planar_get_nParm(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 164, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4937,7 +4947,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_6get_nParm(struct __pyx
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":174
+/* "planarlinkage.pyx":168
  *         return len(self.upper)
  * 
  *     cdef inline dict get_data_dict(self, np.ndarray v):             # <<<<<<<<<<<<<<
@@ -4955,28 +4965,24 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   PyObject *__pyx_t_1 = NULL;
   Py_ssize_t __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
+  long __pyx_t_4;
   PyObject *__pyx_t_5 = NULL;
-  long __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("get_data_dict", 0);
 
-  /* "planarlinkage.pyx":177
+  /* "planarlinkage.pyx":171
  *         """Create and return data dict."""
  *         cdef str name, L
  *         cdef dict tmp_dict = {}             # <<<<<<<<<<<<<<
  *         cdef int vi = 0
  *         #driving
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_tmp_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":178
+  /* "planarlinkage.pyx":172
  *         cdef str name, L
  *         cdef dict tmp_dict = {}
  *         cdef int vi = 0             # <<<<<<<<<<<<<<
@@ -4985,7 +4991,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
   __pyx_v_vi = 0;
 
-  /* "planarlinkage.pyx":180
+  /* "planarlinkage.pyx":174
  *         cdef int vi = 0
  *         #driving
  *         for name in self.driver_list:             # <<<<<<<<<<<<<<
@@ -4994,88 +5000,48 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
   if (unlikely(__pyx_v_self->driver_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 180, __pyx_L1_error)
+    __PYX_ERR(0, 174, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->driver_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 180, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 174, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "planarlinkage.pyx":181
+    /* "planarlinkage.pyx":175
  *         #driving
  *         for name in self.driver_list:
  *             tmp_dict[name] = Coordinate(v[vi], v[vi+1])             # <<<<<<<<<<<<<<
  *             vi += 2
  *         #follower
  */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Coordinate); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 181, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_v_vi, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 181, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_v_vi, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_4 = (__pyx_v_vi + 1);
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_t_4, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = (__pyx_v_vi + 1);
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_t_6, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 181, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = NULL;
-    __pyx_t_9 = 0;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_8)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_8);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
-        __pyx_t_9 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_5, __pyx_t_7};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_5, __pyx_t_7};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 181, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_10);
-      if (__pyx_t_8) {
-        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_5);
-      PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_9, __pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_7);
-      __pyx_t_5 = 0;
-      __pyx_t_7 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 181, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_tmp_dict, __pyx_v_name, __pyx_t_3) < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 175, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_5);
+    __pyx_t_3 = 0;
+    __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_6, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 175, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__pyx_v_tmp_dict, __pyx_v_name, __pyx_t_5) < 0)) __PYX_ERR(0, 175, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "planarlinkage.pyx":182
+    /* "planarlinkage.pyx":176
  *         for name in self.driver_list:
  *             tmp_dict[name] = Coordinate(v[vi], v[vi+1])
  *             vi += 2             # <<<<<<<<<<<<<<
@@ -5084,7 +5050,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
     __pyx_v_vi = (__pyx_v_vi + 2);
 
-    /* "planarlinkage.pyx":180
+    /* "planarlinkage.pyx":174
  *         cdef int vi = 0
  *         #driving
  *         for name in self.driver_list:             # <<<<<<<<<<<<<<
@@ -5094,7 +5060,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":184
+  /* "planarlinkage.pyx":178
  *             vi += 2
  *         #follower
  *         for name in self.follower_list:             # <<<<<<<<<<<<<<
@@ -5103,88 +5069,48 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
   if (unlikely(__pyx_v_self->follower_list == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 184, __pyx_L1_error)
+    __PYX_ERR(0, 178, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->follower_list; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_5); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 178, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 184, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_3));
-    __pyx_t_3 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 178, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_5));
+    __pyx_t_5 = 0;
 
-    /* "planarlinkage.pyx":185
+    /* "planarlinkage.pyx":179
  *         #follower
  *         for name in self.follower_list:
  *             tmp_dict[name] = Coordinate(v[vi], v[vi+1])             # <<<<<<<<<<<<<<
  *             vi += 2
  *         #links
  */
-    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Coordinate); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 185, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_v_vi, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 185, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_6 = (__pyx_v_vi + 1);
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_t_6, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 185, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_5 = NULL;
-    __pyx_t_9 = 0;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_4, function);
-        __pyx_t_9 = 1;
-      }
-    }
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_10, __pyx_t_7};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_t_10, __pyx_t_7};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    } else
-    #endif
-    {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 185, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      if (__pyx_t_5) {
-        __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      }
-      __Pyx_GIVEREF(__pyx_t_10);
-      PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_9, __pyx_t_10);
-      __Pyx_GIVEREF(__pyx_t_7);
-      PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_9, __pyx_t_7);
-      __pyx_t_10 = 0;
-      __pyx_t_7 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 185, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_tmp_dict, __pyx_v_name, __pyx_t_3) < 0)) __PYX_ERR(0, 185, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_v_vi, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 179, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = (__pyx_v_vi + 1);
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_t_4, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 179, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 179, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_6);
+    __pyx_t_5 = 0;
+    __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 179, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (unlikely(PyDict_SetItem(__pyx_v_tmp_dict, __pyx_v_name, __pyx_t_6) < 0)) __PYX_ERR(0, 179, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":186
+    /* "planarlinkage.pyx":180
  *         for name in self.follower_list:
  *             tmp_dict[name] = Coordinate(v[vi], v[vi+1])
  *             vi += 2             # <<<<<<<<<<<<<<
@@ -5193,7 +5119,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
     __pyx_v_vi = (__pyx_v_vi + 2);
 
-    /* "planarlinkage.pyx":184
+    /* "planarlinkage.pyx":178
  *             vi += 2
  *         #follower
  *         for name in self.follower_list:             # <<<<<<<<<<<<<<
@@ -5203,7 +5129,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":188
+  /* "planarlinkage.pyx":182
  *             vi += 2
  *         #links
  *         for L in self.Link:             # <<<<<<<<<<<<<<
@@ -5212,34 +5138,34 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
   if (unlikely(__pyx_v_self->Link == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 188, __pyx_L1_error)
+    __PYX_ERR(0, 182, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->Link; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_6 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_6); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_6 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 188, __pyx_L1_error)
-    __Pyx_XDECREF_SET(__pyx_v_L, ((PyObject*)__pyx_t_3));
-    __pyx_t_3 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 182, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_L, ((PyObject*)__pyx_t_6));
+    __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":189
+    /* "planarlinkage.pyx":183
  *         #links
  *         for L in self.Link:
  *             tmp_dict[L] = v[vi]             # <<<<<<<<<<<<<<
  *             vi += 1
  *         return tmp_dict
  */
-    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_v_vi, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    if (unlikely(PyDict_SetItem(__pyx_v_tmp_dict, __pyx_v_L, __pyx_t_3) < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_v_vi, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (unlikely(PyDict_SetItem(__pyx_v_tmp_dict, __pyx_v_L, __pyx_t_6) < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "planarlinkage.pyx":190
+    /* "planarlinkage.pyx":184
  *         for L in self.Link:
  *             tmp_dict[L] = v[vi]
  *             vi += 1             # <<<<<<<<<<<<<<
@@ -5248,7 +5174,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
  */
     __pyx_v_vi = (__pyx_v_vi + 1);
 
-    /* "planarlinkage.pyx":188
+    /* "planarlinkage.pyx":182
  *             vi += 2
  *         #links
  *         for L in self.Link:             # <<<<<<<<<<<<<<
@@ -5258,7 +5184,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":191
+  /* "planarlinkage.pyx":185
  *             tmp_dict[L] = v[vi]
  *             vi += 1
  *         return tmp_dict             # <<<<<<<<<<<<<<
@@ -5270,7 +5196,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   __pyx_r = __pyx_v_tmp_dict;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":174
+  /* "planarlinkage.pyx":168
  *         return len(self.upper)
  * 
  *     cdef inline dict get_data_dict(self, np.ndarray v):             # <<<<<<<<<<<<<<
@@ -5282,11 +5208,8 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("planarlinkage.build_planar.get_data_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -5298,7 +5221,7 @@ static CYTHON_INLINE PyObject *__pyx_f_13planarlinkage_12build_planar_get_data_d
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":193
+/* "planarlinkage.pyx":187
  *         return tmp_dict
  * 
  *     cdef inline np.ndarray get_path_array(self):             # <<<<<<<<<<<<<<
@@ -5320,7 +5243,7 @@ static CYTHON_INLINE PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_p
   int __pyx_t_7;
   __Pyx_RefNannySetupContext("get_path_array", 0);
 
-  /* "planarlinkage.pyx":195
+  /* "planarlinkage.pyx":189
  *     cdef inline np.ndarray get_path_array(self):
  *         """Create and return path array."""
  *         cdef np.ndarray path = np.ndarray((len(self.targetPoint),), dtype=np.object)             # <<<<<<<<<<<<<<
@@ -5331,39 +5254,39 @@ static CYTHON_INLINE PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_p
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 195, __pyx_L1_error)
+    __PYX_ERR(0, 189, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
   __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_object); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_object); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 195, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 195, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_path = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "planarlinkage.pyx":197
+  /* "planarlinkage.pyx":191
  *         cdef np.ndarray path = np.ndarray((len(self.targetPoint),), dtype=np.object)
  *         cdef int i
  *         for i in range(len(self.targetPoint)):             # <<<<<<<<<<<<<<
@@ -5374,40 +5297,40 @@ static CYTHON_INLINE PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_p
   __Pyx_INCREF(__pyx_t_5);
   if (unlikely(__pyx_t_5 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 197, __pyx_L1_error)
+    __PYX_ERR(0, 191, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_5); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_5); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_6 = __pyx_t_2;
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "planarlinkage.pyx":198
+    /* "planarlinkage.pyx":192
  *         cdef int i
  *         for i in range(len(self.targetPoint)):
  *             path[i] = []             # <<<<<<<<<<<<<<
  *         return path
  * 
  */
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_path), __pyx_v_i, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 198, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_path), __pyx_v_i, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 192, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
 
-  /* "planarlinkage.pyx":199
+  /* "planarlinkage.pyx":193
  *         for i in range(len(self.targetPoint)):
  *             path[i] = []
  *         return path             # <<<<<<<<<<<<<<
  * 
- *     cdef object from_formula(self, object expression_dict, object data_dict):
+ *     cdef Coordinate from_formula(self, tuple expr, dict data_dict):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   __Pyx_INCREF(((PyObject *)__pyx_v_path));
   __pyx_r = __pyx_v_path;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":193
+  /* "planarlinkage.pyx":187
  *         return tmp_dict
  * 
  *     cdef inline np.ndarray get_path_array(self):             # <<<<<<<<<<<<<<
@@ -5431,11 +5354,11 @@ static CYTHON_INLINE PyArrayObject *__pyx_f_13planarlinkage_12build_planar_get_p
 }
 static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generator2(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "planarlinkage.pyx":204
+/* "planarlinkage.pyx":198
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])             # <<<<<<<<<<<<<<
- *         if fun=='PLAP':
+ *         cdef str fun = expr[0]
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])             # <<<<<<<<<<<<<<
+ *         if fun == 'PLAP':
  *             return Coordinate(*PLAP(*params))
  */
 
@@ -5448,7 +5371,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_12from_formula_genexpr(
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_13planarlinkage___pyx_scope_struct_4_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 204, __pyx_L1_error)
+    __PYX_ERR(0, 198, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -5456,7 +5379,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_12from_formula_genexpr(
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13planarlinkage_12build_planar_12from_formula_2generator2, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_build_planar_from_formula_locals, __pyx_n_s_planarlinkage); if (unlikely(!gen)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_13planarlinkage_12build_planar_12from_formula_2generator2, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_build_planar_from_formula_locals, __pyx_n_s_planarlinkage); if (unlikely(!gen)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -5490,17 +5413,21 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generat
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 204, __pyx_L1_error)
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_expression_dict)) { __Pyx_RaiseClosureNameError("expression_dict"); __PYX_ERR(0, 204, __pyx_L1_error) }
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_expression_dict, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 198, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_expr)) { __Pyx_RaiseClosureNameError("expr"); __PYX_ERR(0, 198, __pyx_L1_error) }
+  if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_expr == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(0, 198, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_expr, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 204, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 198, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -5508,17 +5435,17 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generat
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 198, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 204, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 198, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -5528,7 +5455,7 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generat
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 204, __pyx_L1_error)
+          else __PYX_ERR(0, 198, __pyx_L1_error)
         }
         break;
       }
@@ -5538,8 +5465,12 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generat
     __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_p, __pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_1);
     __pyx_t_1 = 0;
-    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_data_dict)) { __Pyx_RaiseClosureNameError("data_dict"); __PYX_ERR(0, 204, __pyx_L1_error) }
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_data_dict, __pyx_cur_scope->__pyx_v_p); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+    if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_data_dict)) { __Pyx_RaiseClosureNameError("data_dict"); __PYX_ERR(0, 198, __pyx_L1_error) }
+    if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_data_dict == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 198, __pyx_L1_error)
+    }
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_data_dict, __pyx_cur_scope->__pyx_v_p); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_r = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -5559,7 +5490,7 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generat
     __Pyx_XGOTREF(__pyx_t_2);
     __pyx_t_3 = __pyx_cur_scope->__pyx_t_1;
     __pyx_t_4 = __pyx_cur_scope->__pyx_t_2;
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 204, __pyx_L1_error)
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 198, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
@@ -5580,196 +5511,184 @@ static PyObject *__pyx_gb_13planarlinkage_12build_planar_12from_formula_2generat
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":201
+/* "planarlinkage.pyx":195
  *         return path
  * 
- *     cdef object from_formula(self, object expression_dict, object data_dict):             # <<<<<<<<<<<<<<
+ *     cdef Coordinate from_formula(self, tuple expr, dict data_dict):             # <<<<<<<<<<<<<<
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]
+ *         cdef str fun = expr[0]
  */
 
-static PyObject *__pyx_f_13planarlinkage_12build_planar_from_formula(CYTHON_UNUSED struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyObject *__pyx_v_expression_dict, PyObject *__pyx_v_data_dict) {
+static struct __pyx_obj_10tinycadlib_Coordinate *__pyx_f_13planarlinkage_12build_planar_from_formula(CYTHON_UNUSED struct __pyx_obj_13planarlinkage_build_planar *__pyx_v_self, PyObject *__pyx_v_expr, PyObject *__pyx_v_data_dict) {
   struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *__pyx_cur_scope;
   PyObject *__pyx_v_fun = 0;
   PyObject *__pyx_v_params = 0;
-  PyObject *__pyx_r = NULL;
+  struct __pyx_obj_10tinycadlib_Coordinate *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
   int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("from_formula", 0);
   __pyx_cur_scope = (struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *)__pyx_tp_new_13planarlinkage___pyx_scope_struct_3_from_formula(__pyx_ptype_13planarlinkage___pyx_scope_struct_3_from_formula, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 201, __pyx_L1_error)
+    __PYX_ERR(0, 195, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
-  __pyx_cur_scope->__pyx_v_expression_dict = __pyx_v_expression_dict;
-  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_expression_dict);
-  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_expression_dict);
+  __pyx_cur_scope->__pyx_v_expr = __pyx_v_expr;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_expr);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_expr);
   __pyx_cur_scope->__pyx_v_data_dict = __pyx_v_data_dict;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_data_dict);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_data_dict);
 
-  /* "planarlinkage.pyx":203
- *     cdef object from_formula(self, object expression_dict, object data_dict):
+  /* "planarlinkage.pyx":197
+ *     cdef Coordinate from_formula(self, tuple expr, dict data_dict):
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]             # <<<<<<<<<<<<<<
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])
- *         if fun=='PLAP':
+ *         cdef str fun = expr[0]             # <<<<<<<<<<<<<<
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])
+ *         if fun == 'PLAP':
  */
-  __pyx_t_1 = __Pyx_GetItemInt(__pyx_cur_scope->__pyx_v_expression_dict, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+  if (unlikely(__pyx_cur_scope->__pyx_v_expr == Py_None)) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+    __PYX_ERR(0, 197, __pyx_L1_error)
+  }
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_cur_scope->__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 203, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 197, __pyx_L1_error)
   __pyx_v_fun = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":204
+  /* "planarlinkage.pyx":198
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])             # <<<<<<<<<<<<<<
- *         if fun=='PLAP':
+ *         cdef str fun = expr[0]
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])             # <<<<<<<<<<<<<<
+ *         if fun == 'PLAP':
  *             return Coordinate(*PLAP(*params))
  */
-  __pyx_t_1 = __pyx_pf_13planarlinkage_12build_planar_12from_formula_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_1 = __pyx_pf_13planarlinkage_12build_planar_12from_formula_genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_params = __pyx_t_2;
+  __pyx_v_params = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":205
- *         cdef str fun = expression_dict[0]
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])
- *         if fun=='PLAP':             # <<<<<<<<<<<<<<
+  /* "planarlinkage.pyx":199
+ *         cdef str fun = expr[0]
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])
+ *         if fun == 'PLAP':             # <<<<<<<<<<<<<<
  *             return Coordinate(*PLAP(*params))
- *         if fun=='PLLP':
+ *         if fun == 'PLLP':
  */
-  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_fun, __pyx_n_s_PLAP, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_t_3 = (__Pyx_PyString_Equals(__pyx_v_fun, __pyx_n_s_PLAP, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 199, __pyx_L1_error)
   __pyx_t_4 = (__pyx_t_3 != 0);
   if (__pyx_t_4) {
 
-    /* "planarlinkage.pyx":206
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])
- *         if fun=='PLAP':
+    /* "planarlinkage.pyx":200
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])
+ *         if fun == 'PLAP':
  *             return Coordinate(*PLAP(*params))             # <<<<<<<<<<<<<<
- *         if fun=='PLLP':
+ *         if fun == 'PLLP':
  *             return Coordinate(*PLLP(*params))
  */
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Coordinate); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __Pyx_XDECREF(((PyObject *)__pyx_r));
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLAP); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLAP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_v_params, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PySequence_Tuple(__pyx_v_params); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 206, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PySequence_Tuple(__pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 206, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 206, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_r = __pyx_t_6;
-    __pyx_t_6 = 0;
-    goto __pyx_L0;
-
-    /* "planarlinkage.pyx":205
- *         cdef str fun = expression_dict[0]
- *         cdef object params = tuple(data_dict[p] for p in expression_dict[2])
- *         if fun=='PLAP':             # <<<<<<<<<<<<<<
- *             return Coordinate(*PLAP(*params))
- *         if fun=='PLLP':
- */
-  }
-
-  /* "planarlinkage.pyx":207
- *         if fun=='PLAP':
- *             return Coordinate(*PLAP(*params))
- *         if fun=='PLLP':             # <<<<<<<<<<<<<<
- *             return Coordinate(*PLLP(*params))
- * 
- */
-  __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_v_fun, __pyx_n_s_PLLP, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 207, __pyx_L1_error)
-  __pyx_t_3 = (__pyx_t_4 != 0);
-  if (__pyx_t_3) {
-
-    /* "planarlinkage.pyx":208
- *             return Coordinate(*PLAP(*params))
- *         if fun=='PLLP':
- *             return Coordinate(*PLLP(*params))             # <<<<<<<<<<<<<<
- * 
- *     cdef double run(self, np.ndarray v):
- */
-    __Pyx_XDECREF(__pyx_r);
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_Coordinate); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 208, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLLP); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 208, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_v_params); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 208, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 208, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_r = __pyx_t_1;
+    __pyx_r = ((struct __pyx_obj_10tinycadlib_Coordinate *)__pyx_t_1);
     __pyx_t_1 = 0;
     goto __pyx_L0;
 
-    /* "planarlinkage.pyx":207
- *         if fun=='PLAP':
+    /* "planarlinkage.pyx":199
+ *         cdef str fun = expr[0]
+ *         cdef tuple params = tuple(data_dict[p] for p in expr[2])
+ *         if fun == 'PLAP':             # <<<<<<<<<<<<<<
  *             return Coordinate(*PLAP(*params))
- *         if fun=='PLLP':             # <<<<<<<<<<<<<<
- *             return Coordinate(*PLLP(*params))
- * 
+ *         if fun == 'PLLP':
  */
   }
 
   /* "planarlinkage.pyx":201
+ *         if fun == 'PLAP':
+ *             return Coordinate(*PLAP(*params))
+ *         if fun == 'PLLP':             # <<<<<<<<<<<<<<
+ *             return Coordinate(*PLLP(*params))
+ * 
+ */
+  __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_v_fun, __pyx_n_s_PLLP, Py_EQ)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_3 = (__pyx_t_4 != 0);
+  if (__pyx_t_3) {
+
+    /* "planarlinkage.pyx":202
+ *             return Coordinate(*PLAP(*params))
+ *         if fun == 'PLLP':
+ *             return Coordinate(*PLLP(*params))             # <<<<<<<<<<<<<<
+ * 
+ *     cdef double run(self, np.ndarray v):
+ */
+    __Pyx_XDECREF(((PyObject *)__pyx_r));
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLLP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_params, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_r = ((struct __pyx_obj_10tinycadlib_Coordinate *)__pyx_t_2);
+    __pyx_t_2 = 0;
+    goto __pyx_L0;
+
+    /* "planarlinkage.pyx":201
+ *         if fun == 'PLAP':
+ *             return Coordinate(*PLAP(*params))
+ *         if fun == 'PLLP':             # <<<<<<<<<<<<<<
+ *             return Coordinate(*PLLP(*params))
+ * 
+ */
+  }
+
+  /* "planarlinkage.pyx":195
  *         return path
  * 
- *     cdef object from_formula(self, object expression_dict, object data_dict):             # <<<<<<<<<<<<<<
+ *     cdef Coordinate from_formula(self, tuple expr, dict data_dict):             # <<<<<<<<<<<<<<
  *         """Formulas using PLAP and PLLP."""
- *         cdef str fun = expression_dict[0]
+ *         cdef str fun = expr[0]
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  __pyx_r = ((struct __pyx_obj_10tinycadlib_Coordinate *)Py_None); __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("planarlinkage.build_planar.from_formula", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_fun);
   __Pyx_XDECREF(__pyx_v_params);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
-  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_XGIVEREF((PyObject *)__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":210
+/* "planarlinkage.pyx":204
  *             return Coordinate(*PLLP(*params))
  * 
  *     cdef double run(self, np.ndarray v):             # <<<<<<<<<<<<<<
@@ -5786,7 +5705,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   int __pyx_v_k;
   PyObject *__pyx_v_name = 0;
   PyObject *__pyx_v_e = 0;
-  PyObject *__pyx_v_target_coordinate = 0;
+  struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_target_coordinate = 0;
   PyObject *__pyx_v_constraint = NULL;
   PyObject *__pyx_v_errors = 0;
   CYTHON_UNUSED PyObject *__pyx_v__ = NULL;
@@ -5814,31 +5733,31 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   double __pyx_t_20;
   __Pyx_RefNannySetupContext("run", 0);
 
-  /* "planarlinkage.pyx":222
+  /* "planarlinkage.pyx":216
  *         """
  *         # all variable
- *         cdef object test_dict = self.get_data_dict(v)             # <<<<<<<<<<<<<<
+ *         cdef dict test_dict = self.get_data_dict(v)             # <<<<<<<<<<<<<<
  *         cdef np.ndarray path = self.get_path_array()
  *         # calculate the target point, and sum all error.
  */
-  __pyx_t_1 = __pyx_f_13planarlinkage_12build_planar_get_data_dict(__pyx_v_self, __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_13planarlinkage_12build_planar_get_data_dict(__pyx_v_self, __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_v_test_dict = __pyx_t_1;
+  __pyx_v_test_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":223
+  /* "planarlinkage.pyx":217
  *         # all variable
- *         cdef object test_dict = self.get_data_dict(v)
+ *         cdef dict test_dict = self.get_data_dict(v)
  *         cdef np.ndarray path = self.get_path_array()             # <<<<<<<<<<<<<<
  *         # calculate the target point, and sum all error.
  *         #My fitness
  */
-  __pyx_t_1 = ((PyObject *)__pyx_f_13planarlinkage_12build_planar_get_path_array(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 223, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_13planarlinkage_12build_planar_get_path_array(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_path = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":226
+  /* "planarlinkage.pyx":220
  *         # calculate the target point, and sum all error.
  *         #My fitness
  *         cdef double fitness = 0             # <<<<<<<<<<<<<<
@@ -5847,9 +5766,9 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
  */
   __pyx_v_fitness = 0.0;
 
-  /* "planarlinkage.pyx":230
- *         cdef str name
- *         cdef object e, target_coordinate
+  /* "planarlinkage.pyx":225
+ *         cdef tuple e
+ *         cdef Coordinate target_coordinate
  *         for i in range(self.POINTS):             # <<<<<<<<<<<<<<
  *             #a0: random angle to generate target point.
  *             #match to path points.
@@ -5859,7 +5778,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "planarlinkage.pyx":233
+    /* "planarlinkage.pyx":228
  *             #a0: random angle to generate target point.
  *             #match to path points.
  *             for j in range(len(self.driver_list)):             # <<<<<<<<<<<<<<
@@ -5870,36 +5789,36 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
     __Pyx_INCREF(__pyx_t_1);
     if (unlikely(__pyx_t_1 == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-      __PYX_ERR(0, 233, __pyx_L1_error)
+      __PYX_ERR(0, 228, __pyx_L1_error)
     }
-    __pyx_t_5 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 233, __pyx_L1_error)
+    __pyx_t_5 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 228, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_6 = __pyx_t_5;
     for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
       __pyx_v_j = __pyx_t_7;
 
-      /* "planarlinkage.pyx":234
+      /* "planarlinkage.pyx":229
  *             #match to path points.
  *             for j in range(len(self.driver_list)):
  *                 test_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + i*len(self.driver_list) + j])             # <<<<<<<<<<<<<<
  *             for e in self.exprs:
- *                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+ *                 #target
  */
-      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_8 = __pyx_v_self->driver_list;
       __Pyx_INCREF(__pyx_t_8);
       if (unlikely(__pyx_t_8 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 234, __pyx_L1_error)
+        __PYX_ERR(0, 229, __pyx_L1_error)
       }
-      __pyx_t_10 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_10 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __pyx_t_11 = ((__pyx_v_self->VARS + (__pyx_v_i * __pyx_t_10)) + __pyx_v_j);
-      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_t_11, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_v), __pyx_t_11, Py_ssize_t, 1, PyInt_FromSsize_t, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_12 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
@@ -5912,14 +5831,14 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         }
       }
       if (!__pyx_t_12) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_9)) {
           PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_8};
-          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5928,28 +5847,32 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
           PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_8};
-          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         } else
         #endif
         {
-          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_13);
           __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_12); __pyx_t_12 = NULL;
           __Pyx_GIVEREF(__pyx_t_8);
           PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_8);
           __pyx_t_8 = 0;
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 234, __pyx_L1_error)
+      if (unlikely(__pyx_v_test_dict == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 229, __pyx_L1_error)
+      }
+      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 234, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __pyx_t_12 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
@@ -5962,14 +5885,14 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         }
       }
       if (!__pyx_t_12) {
-        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 234, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 229, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_9);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_13)) {
           PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_8};
-          __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5978,61 +5901,61 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_13)) {
           PyObject *__pyx_temp[2] = {__pyx_t_12, __pyx_t_8};
-          __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_13, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         } else
         #endif
         {
-          __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_14);
           __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __pyx_t_12 = NULL;
           __Pyx_GIVEREF(__pyx_t_8);
           PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_8);
           __pyx_t_8 = 0;
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_14, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 234, __pyx_L1_error)
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_14, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 229, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_test_dict, __pyx_t_9, __pyx_t_1) < 0)) __PYX_ERR(0, 234, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_test_dict, __pyx_t_9, __pyx_t_1) < 0)) __PYX_ERR(0, 229, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
 
-    /* "planarlinkage.pyx":235
+    /* "planarlinkage.pyx":230
  *             for j in range(len(self.driver_list)):
  *                 test_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + i*len(self.driver_list) + j])
  *             for e in self.exprs:             # <<<<<<<<<<<<<<
- *                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+ *                 #target
  *                 target_coordinate = self.from_formula(e, test_dict)
  */
     if (likely(PyList_CheckExact(((PyObject *)__pyx_v_self->exprs))) || PyTuple_CheckExact(((PyObject *)__pyx_v_self->exprs))) {
       __pyx_t_1 = ((PyObject *)__pyx_v_self->exprs); __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
       __pyx_t_15 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_self->exprs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_self->exprs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_15 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 235, __pyx_L1_error)
+      __pyx_t_15 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 230, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_15)) {
         if (likely(PyList_CheckExact(__pyx_t_1))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_9 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_9); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 235, __pyx_L1_error)
+          __pyx_t_9 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_9); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 230, __pyx_L1_error)
           #else
-          __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 235, __pyx_L1_error)
+          __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 230, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_9); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 235, __pyx_L1_error)
+          __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_9); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 230, __pyx_L1_error)
           #else
-          __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 235, __pyx_L1_error)
+          __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 230, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           #endif
         }
@@ -6042,35 +5965,36 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 235, __pyx_L1_error)
+            else __PYX_ERR(0, 230, __pyx_L1_error)
           }
           break;
         }
         __Pyx_GOTREF(__pyx_t_9);
       }
-      __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_9);
+      if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 230, __pyx_L1_error)
+      __Pyx_XDECREF_SET(__pyx_v_e, ((PyObject*)__pyx_t_9));
       __pyx_t_9 = 0;
 
-      /* "planarlinkage.pyx":237
+      /* "planarlinkage.pyx":232
  *             for e in self.exprs:
- *                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+ *                 #target
  *                 target_coordinate = self.from_formula(e, test_dict)             # <<<<<<<<<<<<<<
  *                 if target_coordinate.isnan():
  *                     return FAILURE
  */
-      __pyx_t_9 = ((struct __pyx_vtabstruct_13planarlinkage_build_planar *)__pyx_v_self->__pyx_vtab)->from_formula(__pyx_v_self, __pyx_v_e, __pyx_v_test_dict); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 237, __pyx_L1_error)
+      __pyx_t_9 = ((PyObject *)((struct __pyx_vtabstruct_13planarlinkage_build_planar *)__pyx_v_self->__pyx_vtab)->from_formula(__pyx_v_self, __pyx_v_e, __pyx_v_test_dict)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __Pyx_XDECREF_SET(__pyx_v_target_coordinate, __pyx_t_9);
+      __Pyx_XDECREF_SET(__pyx_v_target_coordinate, ((struct __pyx_obj_10tinycadlib_Coordinate *)__pyx_t_9));
       __pyx_t_9 = 0;
 
-      /* "planarlinkage.pyx":238
- *                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+      /* "planarlinkage.pyx":233
+ *                 #target
  *                 target_coordinate = self.from_formula(e, test_dict)
  *                 if target_coordinate.isnan():             # <<<<<<<<<<<<<<
  *                     return FAILURE
- *                 #target
+ *                 else:
  */
-      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_target_coordinate, __pyx_n_s_isnan); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_target_coordinate), __pyx_n_s_isnan); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 233, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
       __pyx_t_14 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
@@ -6083,62 +6007,72 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         }
       }
       if (__pyx_t_14) {
-        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_14); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 238, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_14); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 233, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       } else {
-        __pyx_t_9 = __Pyx_PyObject_CallNoArg(__pyx_t_13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 238, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_CallNoArg(__pyx_t_13); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 233, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 238, __pyx_L1_error)
+      __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 233, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       if (__pyx_t_16) {
 
-        /* "planarlinkage.pyx":239
+        /* "planarlinkage.pyx":234
  *                 target_coordinate = self.from_formula(e, test_dict)
  *                 if target_coordinate.isnan():
  *                     return FAILURE             # <<<<<<<<<<<<<<
- *                 #target
- *                 test_dict[e[1]] = target_coordinate
+ *                 else:
+ *                     test_dict[e[1]] = target_coordinate
  */
         __pyx_r = __pyx_v_13planarlinkage_FAILURE;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         goto __pyx_L0;
 
-        /* "planarlinkage.pyx":238
- *                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+        /* "planarlinkage.pyx":233
+ *                 #target
  *                 target_coordinate = self.from_formula(e, test_dict)
  *                 if target_coordinate.isnan():             # <<<<<<<<<<<<<<
  *                     return FAILURE
- *                 #target
+ *                 else:
  */
       }
 
-      /* "planarlinkage.pyx":241
+      /* "planarlinkage.pyx":236
  *                     return FAILURE
- *                 #target
- *                 test_dict[e[1]] = target_coordinate             # <<<<<<<<<<<<<<
+ *                 else:
+ *                     test_dict[e[1]] = target_coordinate             # <<<<<<<<<<<<<<
  *             for i, name in enumerate(self.targetPoint):
  *                 path[i].append(test_dict[name])
  */
-      __pyx_t_9 = __Pyx_GetItemInt(__pyx_v_e, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 241, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_9);
-      if (unlikely(PyObject_SetItem(__pyx_v_test_dict, __pyx_t_9, __pyx_v_target_coordinate) < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      /*else*/ {
+        if (unlikely(__pyx_v_test_dict == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 236, __pyx_L1_error)
+        }
+        if (unlikely(__pyx_v_e == Py_None)) {
+          PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+          __PYX_ERR(0, 236, __pyx_L1_error)
+        }
+        __pyx_t_9 = __Pyx_GetItemInt_Tuple(__pyx_v_e, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 236, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_9);
+        if (unlikely(PyDict_SetItem(__pyx_v_test_dict, __pyx_t_9, ((PyObject *)__pyx_v_target_coordinate)) < 0)) __PYX_ERR(0, 236, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
+      }
 
-      /* "planarlinkage.pyx":235
+      /* "planarlinkage.pyx":230
  *             for j in range(len(self.driver_list)):
  *                 test_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + i*len(self.driver_list) + j])
  *             for e in self.exprs:             # <<<<<<<<<<<<<<
- *                 #PLLP(test_dict['B'], test_dict['L1'], test_dict['L2'], test_dict['D'])
+ *                 #target
  *                 target_coordinate = self.from_formula(e, test_dict)
  */
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "planarlinkage.pyx":242
- *                 #target
- *                 test_dict[e[1]] = target_coordinate
+    /* "planarlinkage.pyx":237
+ *                 else:
+ *                     test_dict[e[1]] = target_coordinate
  *             for i, name in enumerate(self.targetPoint):             # <<<<<<<<<<<<<<
  *                 path[i].append(test_dict[name])
  *         #constraint
@@ -6148,35 +6082,39 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
     for (;;) {
       if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_9); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_9); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 237, __pyx_L1_error)
       #else
-      __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 242, __pyx_L1_error)
+      __pyx_t_9 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 237, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       #endif
-      if (!(likely(PyString_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 242, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 237, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_9));
       __pyx_t_9 = 0;
       __pyx_v_i = __pyx_t_7;
       __pyx_t_7 = (__pyx_t_7 + 1);
 
-      /* "planarlinkage.pyx":243
- *                 test_dict[e[1]] = target_coordinate
+      /* "planarlinkage.pyx":238
+ *                     test_dict[e[1]] = target_coordinate
  *             for i, name in enumerate(self.targetPoint):
  *                 path[i].append(test_dict[name])             # <<<<<<<<<<<<<<
  *         #constraint
  *         for constraint in self.constraint:
  */
-      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 243, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_13 = __Pyx_PyObject_Dict_GetItem(__pyx_v_test_dict, __pyx_v_name); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 243, __pyx_L1_error)
+      if (unlikely(__pyx_v_test_dict == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 238, __pyx_L1_error)
+      }
+      __pyx_t_13 = __Pyx_PyDict_GetItem(__pyx_v_test_dict, __pyx_v_name); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
-      __pyx_t_17 = __Pyx_PyObject_Append(__pyx_t_9, __pyx_t_13); if (unlikely(__pyx_t_17 == ((int)-1))) __PYX_ERR(0, 243, __pyx_L1_error)
+      __pyx_t_17 = __Pyx_PyObject_Append(__pyx_t_9, __pyx_t_13); if (unlikely(__pyx_t_17 == ((int)-1))) __PYX_ERR(0, 238, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
 
-      /* "planarlinkage.pyx":242
- *                 #target
- *                 test_dict[e[1]] = target_coordinate
+      /* "planarlinkage.pyx":237
+ *                 else:
+ *                     test_dict[e[1]] = target_coordinate
  *             for i, name in enumerate(self.targetPoint):             # <<<<<<<<<<<<<<
  *                 path[i].append(test_dict[name])
  *         #constraint
@@ -6185,7 +6123,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "planarlinkage.pyx":245
+  /* "planarlinkage.pyx":240
  *                 path[i].append(test_dict[name])
  *         #constraint
  *         for constraint in self.constraint:             # <<<<<<<<<<<<<<
@@ -6194,55 +6132,55 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
  */
   if (unlikely(__pyx_v_self->constraint == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 245, __pyx_L1_error)
+    __PYX_ERR(0, 240, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_self->constraint; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
   for (;;) {
     if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_13 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_13); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 245, __pyx_L1_error)
+    __pyx_t_13 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_13); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
     #else
-    __pyx_t_13 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 245, __pyx_L1_error)
+    __pyx_t_13 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 240, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_constraint, __pyx_t_13);
     __pyx_t_13 = 0;
 
-    /* "planarlinkage.pyx":246
+    /* "planarlinkage.pyx":241
  *         #constraint
  *         for constraint in self.constraint:
  *             if not legal_crank(*[test_dict[name] for name in constraint]):             # <<<<<<<<<<<<<<
  *                 return FAILURE
  *         #swap
  */
-    __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_legal_crank); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_legal_crank); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_9 = PyList_New(0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_9 = PyList_New(0); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     if (likely(PyList_CheckExact(__pyx_v_constraint)) || PyTuple_CheckExact(__pyx_v_constraint)) {
       __pyx_t_14 = __pyx_v_constraint; __Pyx_INCREF(__pyx_t_14); __pyx_t_6 = 0;
       __pyx_t_15 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_14 = PyObject_GetIter(__pyx_v_constraint); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __pyx_t_6 = -1; __pyx_t_14 = PyObject_GetIter(__pyx_v_constraint); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_15 = Py_TYPE(__pyx_t_14)->tp_iternext; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 246, __pyx_L1_error)
+      __pyx_t_15 = Py_TYPE(__pyx_t_14)->tp_iternext; if (unlikely(!__pyx_t_15)) __PYX_ERR(0, 241, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_15)) {
         if (likely(PyList_CheckExact(__pyx_t_14))) {
           if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_14)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_14, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_14, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_14, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 246, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_14, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 241, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         } else {
           if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_14)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_14, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_14, __pyx_t_6); __Pyx_INCREF(__pyx_t_8); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
           #else
-          __pyx_t_8 = PySequence_ITEM(__pyx_t_14, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 246, __pyx_L1_error)
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_14, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 241, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           #endif
         }
@@ -6252,34 +6190,38 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 246, __pyx_L1_error)
+            else __PYX_ERR(0, 241, __pyx_L1_error)
           }
           break;
         }
         __Pyx_GOTREF(__pyx_t_8);
       }
-      if (!(likely(PyString_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 246, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_8));
       __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_Dict_GetItem(__pyx_v_test_dict, __pyx_v_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 246, __pyx_L1_error)
+      if (unlikely(__pyx_v_test_dict == Py_None)) {
+        PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+        __PYX_ERR(0, 241, __pyx_L1_error)
+      }
+      __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_test_dict, __pyx_v_name); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_9, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 246, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_9, (PyObject*)__pyx_t_8))) __PYX_ERR(0, 241, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_14 = PySequence_Tuple(__pyx_t_9); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_14 = PySequence_Tuple(__pyx_t_9); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_14, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_14, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_16 = __Pyx_PyObject_IsTrue(__pyx_t_9); if (unlikely(__pyx_t_16 < 0)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_18 = ((!__pyx_t_16) != 0);
     if (__pyx_t_18) {
 
-      /* "planarlinkage.pyx":247
+      /* "planarlinkage.pyx":242
  *         for constraint in self.constraint:
  *             if not legal_crank(*[test_dict[name] for name in constraint]):
  *                 return FAILURE             # <<<<<<<<<<<<<<
@@ -6290,7 +6232,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       goto __pyx_L0;
 
-      /* "planarlinkage.pyx":246
+      /* "planarlinkage.pyx":241
  *         #constraint
  *         for constraint in self.constraint:
  *             if not legal_crank(*[test_dict[name] for name in constraint]):             # <<<<<<<<<<<<<<
@@ -6299,7 +6241,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
  */
     }
 
-    /* "planarlinkage.pyx":245
+    /* "planarlinkage.pyx":240
  *                 path[i].append(test_dict[name])
  *         #constraint
  *         for constraint in self.constraint:             # <<<<<<<<<<<<<<
@@ -6309,7 +6251,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":250
+  /* "planarlinkage.pyx":245
  *         #swap
  *         cdef list errors
  *         for k in range(len(self.targetPoint)):             # <<<<<<<<<<<<<<
@@ -6320,46 +6262,46 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 250, __pyx_L1_error)
+    __PYX_ERR(0, 245, __pyx_L1_error)
   }
-  __pyx_t_5 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 250, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 245, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_6 = __pyx_t_5;
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_6; __pyx_t_2+=1) {
     __pyx_v_k = __pyx_t_2;
 
-    /* "planarlinkage.pyx":251
+    /* "planarlinkage.pyx":246
  *         cdef list errors
  *         for k in range(len(self.targetPoint)):
  *             errors = path_error(path[k], self.target[k])             # <<<<<<<<<<<<<<
  *             path[k] = [e for _, e in sorted(zip(errors, path[k]))]
  *             fitness += sum(path_error(path[k], self.target[k]))
  */
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 251, __pyx_L1_error)
-    __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->target), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 251, __pyx_L1_error)
+    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->target), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 251, __pyx_L1_error)
-    __pyx_t_14 = __pyx_f_13planarlinkage_path_error(((PyObject*)__pyx_t_1), ((PyObject*)__pyx_t_9)); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 251, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_14 = __pyx_f_13planarlinkage_path_error(((PyObject*)__pyx_t_1), ((PyObject*)__pyx_t_9)); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_XDECREF_SET(__pyx_v_errors, ((PyObject*)__pyx_t_14));
     __pyx_t_14 = 0;
 
-    /* "planarlinkage.pyx":252
+    /* "planarlinkage.pyx":247
  *         for k in range(len(self.targetPoint)):
  *             errors = path_error(path[k], self.target[k])
  *             path[k] = [e for _, e in sorted(zip(errors, path[k]))]             # <<<<<<<<<<<<<<
  *             fitness += sum(path_error(path[k], self.target[k]))
  *         return fitness
  */
-    __pyx_t_14 = PyList_New(0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_14 = PyList_New(0); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_INCREF(__pyx_v_errors);
     __Pyx_GIVEREF(__pyx_v_errors);
@@ -6367,27 +6309,27 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_1);
     __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __pyx_t_13 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_13 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_9 = ((PyObject*)__pyx_t_13);
     __pyx_t_13 = 0;
-    __pyx_t_17 = PyList_Sort(__pyx_t_9); if (unlikely(__pyx_t_17 == ((int)-1))) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_17 = PyList_Sort(__pyx_t_9); if (unlikely(__pyx_t_17 == ((int)-1))) __PYX_ERR(0, 247, __pyx_L1_error)
     if (unlikely(__pyx_t_9 == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 252, __pyx_L1_error)
+      __PYX_ERR(0, 247, __pyx_L1_error)
     }
     __pyx_t_13 = __pyx_t_9; __Pyx_INCREF(__pyx_t_13); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     for (;;) {
       if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_13)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_9 = PyList_GET_ITEM(__pyx_t_13, __pyx_t_11); __Pyx_INCREF(__pyx_t_9); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 252, __pyx_L1_error)
+      __pyx_t_9 = PyList_GET_ITEM(__pyx_t_13, __pyx_t_11); __Pyx_INCREF(__pyx_t_9); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
       #else
-      __pyx_t_9 = PySequence_ITEM(__pyx_t_13, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 252, __pyx_L1_error)
+      __pyx_t_9 = PySequence_ITEM(__pyx_t_13, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       #endif
       if ((likely(PyTuple_CheckExact(__pyx_t_9))) || (PyList_CheckExact(__pyx_t_9))) {
@@ -6396,7 +6338,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 252, __pyx_L1_error)
+          __PYX_ERR(0, 247, __pyx_L1_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -6409,15 +6351,15 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         __Pyx_INCREF(__pyx_t_1);
         __Pyx_INCREF(__pyx_t_8);
         #else
-        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 247, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 252, __pyx_L1_error)
+        __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 247, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         #endif
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_12 = PyObject_GetIter(__pyx_t_9); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 252, __pyx_L1_error)
+        __pyx_t_12 = PyObject_GetIter(__pyx_t_9); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 247, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __pyx_t_19 = Py_TYPE(__pyx_t_12)->tp_iternext;
@@ -6425,7 +6367,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         __Pyx_GOTREF(__pyx_t_1);
         index = 1; __pyx_t_8 = __pyx_t_19(__pyx_t_12); if (unlikely(!__pyx_t_8)) goto __pyx_L21_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_8);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_19(__pyx_t_12), 2) < 0) __PYX_ERR(0, 252, __pyx_L1_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_19(__pyx_t_12), 2) < 0) __PYX_ERR(0, 247, __pyx_L1_error)
         __pyx_t_19 = NULL;
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         goto __pyx_L22_unpacking_done;
@@ -6433,61 +6375,62 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __pyx_t_19 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 252, __pyx_L1_error)
+        __PYX_ERR(0, 247, __pyx_L1_error)
         __pyx_L22_unpacking_done:;
       }
+      if (!(likely(PyTuple_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 247, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v__, __pyx_t_1);
       __pyx_t_1 = 0;
-      __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_8);
+      __Pyx_XDECREF_SET(__pyx_v_e, ((PyObject*)__pyx_t_8));
       __pyx_t_8 = 0;
-      if (unlikely(__Pyx_ListComp_Append(__pyx_t_14, (PyObject*)__pyx_v_e))) __PYX_ERR(0, 252, __pyx_L1_error)
+      if (unlikely(__Pyx_ListComp_Append(__pyx_t_14, (PyObject*)__pyx_v_e))) __PYX_ERR(0, 247, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, __pyx_t_14, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 252, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, __pyx_t_14, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-    /* "planarlinkage.pyx":253
+    /* "planarlinkage.pyx":248
  *             errors = path_error(path[k], self.target[k])
  *             path[k] = [e for _, e in sorted(zip(errors, path[k]))]
  *             fitness += sum(path_error(path[k], self.target[k]))             # <<<<<<<<<<<<<<
  *         return fitness
  * 
  */
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_fitness); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_fitness); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
-    __pyx_t_13 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_GetItemInt(((PyObject *)__pyx_v_path), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
-    if (!(likely(PyList_CheckExact(__pyx_t_13))||((__pyx_t_13) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_13)->tp_name), 0))) __PYX_ERR(0, 253, __pyx_L1_error)
-    __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->target), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 253, __pyx_L1_error)
+    if (!(likely(PyList_CheckExact(__pyx_t_13))||((__pyx_t_13) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_13)->tp_name), 0))) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->target), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 253, __pyx_L1_error)
-    __pyx_t_8 = __pyx_f_13planarlinkage_path_error(((PyObject*)__pyx_t_13), ((PyObject*)__pyx_t_9)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 253, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_9))||((__pyx_t_9) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_9)->tp_name), 0))) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_8 = __pyx_f_13planarlinkage_path_error(((PyObject*)__pyx_t_13), ((PyObject*)__pyx_t_9)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_14, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_14, __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-    __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_20 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L1_error)
+    __pyx_t_20 = __pyx_PyFloat_AsDouble(__pyx_t_8); if (unlikely((__pyx_t_20 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __pyx_v_fitness = __pyx_t_20;
   }
 
-  /* "planarlinkage.pyx":254
+  /* "planarlinkage.pyx":249
  *             path[k] = [e for _, e in sorted(zip(errors, path[k]))]
  *             fitness += sum(path_error(path[k], self.target[k]))
  *         return fitness             # <<<<<<<<<<<<<<
  * 
- *     cpdef object get_coordinates(self, np.ndarray v):
+ *     cpdef dict get_coordinates(self, np.ndarray v):
  */
   __pyx_r = __pyx_v_fitness;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":210
+  /* "planarlinkage.pyx":204
  *             return Coordinate(*PLLP(*params))
  * 
  *     cdef double run(self, np.ndarray v):             # <<<<<<<<<<<<<<
@@ -6510,7 +6453,7 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   __Pyx_XDECREF((PyObject *)__pyx_v_path);
   __Pyx_XDECREF(__pyx_v_name);
   __Pyx_XDECREF(__pyx_v_e);
-  __Pyx_XDECREF(__pyx_v_target_coordinate);
+  __Pyx_XDECREF((PyObject *)__pyx_v_target_coordinate);
   __Pyx_XDECREF(__pyx_v_constraint);
   __Pyx_XDECREF(__pyx_v_errors);
   __Pyx_XDECREF(__pyx_v__);
@@ -6518,10 +6461,10 @@ static double __pyx_f_13planarlinkage_12build_planar_run(struct __pyx_obj_13plan
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":256
+/* "planarlinkage.pyx":251
  *         return fitness
  * 
- *     cpdef object get_coordinates(self, np.ndarray v):             # <<<<<<<<<<<<<<
+ *     cpdef dict get_coordinates(self, np.ndarray v):             # <<<<<<<<<<<<<<
  *         """Return the last answer."""
  *         cdef str k
  */
@@ -6556,7 +6499,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_coordinates); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_coordinates); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_13planarlinkage_12build_planar_9get_coordinates)) {
       __Pyx_XDECREF(__pyx_r);
@@ -6572,13 +6515,13 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_v)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_v)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_v)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -6586,25 +6529,26 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_v)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 256, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 251, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(((PyObject *)__pyx_v_v));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_v));
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_v));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 256, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_r = __pyx_t_2;
+      if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_r = ((PyObject*)__pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       goto __pyx_L0;
@@ -6612,20 +6556,20 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "planarlinkage.pyx":260
- *         cdef str k
- *         cdef object e, value
+  /* "planarlinkage.pyx":256
+ *         cdef tuple e
+ *         cdef object value
  *         cdef dict final_dict = self.get_data_dict(v)             # <<<<<<<<<<<<<<
  *         for j in range(len(self.driver_list)):
  *             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
  */
-  __pyx_t_1 = __pyx_f_13planarlinkage_12build_planar_get_data_dict(__pyx_v_self, __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 260, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_13planarlinkage_12build_planar_get_data_dict(__pyx_v_self, __pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_final_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":261
- *         cdef object e, value
+  /* "planarlinkage.pyx":257
+ *         cdef object value
  *         cdef dict final_dict = self.get_data_dict(v)
  *         for j in range(len(self.driver_list)):             # <<<<<<<<<<<<<<
  *             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
@@ -6635,22 +6579,22 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 261, __pyx_L1_error)
+    __PYX_ERR(0, 257, __pyx_L1_error)
   }
-  __pyx_t_6 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_6 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 257, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 261, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 257, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 261, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 257, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
@@ -6658,17 +6602,17 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 261, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 257, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 257, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 261, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 257, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 257, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -6678,7 +6622,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 261, __pyx_L1_error)
+          else __PYX_ERR(0, 257, __pyx_L1_error)
         }
         break;
       }
@@ -6687,24 +6631,24 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
     __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":262
+    /* "planarlinkage.pyx":258
  *         cdef dict final_dict = self.get_data_dict(v)
  *         for j in range(len(self.driver_list)):
  *             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])             # <<<<<<<<<<<<<<
  *         for e in self.exprs:
  *             #target
  */
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->VARS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->VARS); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_4 = PyNumber_Add(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_v), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_v), __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -6718,14 +6662,14 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6734,20 +6678,20 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_4); __pyx_t_4 = NULL;
         __Pyx_GIVEREF(__pyx_t_3);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_3);
         __pyx_t_3 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
@@ -6755,9 +6699,9 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(__pyx_v_final_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 262, __pyx_L1_error)
+      __PYX_ERR(0, 258, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -6770,13 +6714,13 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       }
     }
     if (!__pyx_t_3) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_j); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_j); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_j};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
@@ -6784,30 +6728,30 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_j};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else
       #endif
       {
-        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
         __Pyx_INCREF(__pyx_v_j);
         __Pyx_GIVEREF(__pyx_v_j);
         PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_j);
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 258, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_t_5, __pyx_t_2) < 0)) __PYX_ERR(0, 262, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_t_5, __pyx_t_2) < 0)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":261
- *         cdef object e, value
+    /* "planarlinkage.pyx":257
+ *         cdef object value
  *         cdef dict final_dict = self.get_data_dict(v)
  *         for j in range(len(self.driver_list)):             # <<<<<<<<<<<<<<
  *             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
@@ -6816,7 +6760,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":263
+  /* "planarlinkage.pyx":259
  *         for j in range(len(self.driver_list)):
  *             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
  *         for e in self.exprs:             # <<<<<<<<<<<<<<
@@ -6827,26 +6771,26 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
     __pyx_t_1 = ((PyObject *)__pyx_v_self->exprs); __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_self->exprs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_self->exprs)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 259, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 259, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_7)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 259, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 259, __pyx_L1_error)
         #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 263, __pyx_L1_error)
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 259, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         #endif
       }
@@ -6856,35 +6800,40 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 263, __pyx_L1_error)
+          else __PYX_ERR(0, 259, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_2);
     }
-    __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_2);
+    if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 259, __pyx_L1_error)
+    __Pyx_XDECREF_SET(__pyx_v_e, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":265
+    /* "planarlinkage.pyx":261
  *         for e in self.exprs:
  *             #target
  *             final_dict[e[1]] = self.from_formula(e, final_dict)             # <<<<<<<<<<<<<<
  *         for k, value in final_dict.items():
  *             if type(value) == Coordinate:
  */
-    __pyx_t_2 = ((struct __pyx_vtabstruct_13planarlinkage_build_planar *)__pyx_v_self->__pyx_vtab)->from_formula(__pyx_v_self, __pyx_v_e, __pyx_v_final_dict); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 265, __pyx_L1_error)
+    __pyx_t_2 = ((PyObject *)((struct __pyx_vtabstruct_13planarlinkage_build_planar *)__pyx_v_self->__pyx_vtab)->from_formula(__pyx_v_self, __pyx_v_e, __pyx_v_final_dict)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 261, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     if (unlikely(__pyx_v_final_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 265, __pyx_L1_error)
+      __PYX_ERR(0, 261, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_e, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
+    if (unlikely(__pyx_v_e == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(0, 261, __pyx_L1_error)
+    }
+    __pyx_t_5 = __Pyx_GetItemInt_Tuple(__pyx_v_e, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 261, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_t_5, __pyx_t_2) < 0)) __PYX_ERR(0, 265, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_t_5, __pyx_t_2) < 0)) __PYX_ERR(0, 261, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-    /* "planarlinkage.pyx":263
+    /* "planarlinkage.pyx":259
  *         for j in range(len(self.driver_list)):
  *             final_dict['a{}'.format(j)] = np.deg2rad(v[self.VARS + j])
  *         for e in self.exprs:             # <<<<<<<<<<<<<<
@@ -6894,7 +6843,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":266
+  /* "planarlinkage.pyx":262
  *             #target
  *             final_dict[e[1]] = self.from_formula(e, final_dict)
  *         for k, value in final_dict.items():             # <<<<<<<<<<<<<<
@@ -6903,17 +6852,17 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
  */
   if (unlikely(__pyx_v_final_dict == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 266, __pyx_L1_error)
+    __PYX_ERR(0, 262, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_final_dict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_final_dict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 262, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -6921,17 +6870,17 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 262, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_1); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 262, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 266, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 262, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -6941,7 +6890,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 266, __pyx_L1_error)
+          else __PYX_ERR(0, 262, __pyx_L1_error)
         }
         break;
       }
@@ -6953,7 +6902,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 266, __pyx_L1_error)
+        __PYX_ERR(0, 262, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -6966,15 +6915,15 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_8);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 262, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 262, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
+      __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 262, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_9 = Py_TYPE(__pyx_t_4)->tp_iternext;
@@ -6982,7 +6931,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_8 = __pyx_t_9(__pyx_t_4); if (unlikely(!__pyx_t_8)) goto __pyx_L9_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_8);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_4), 2) < 0) __PYX_ERR(0, 266, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_4), 2) < 0) __PYX_ERR(0, 262, __pyx_L1_error)
       __pyx_t_9 = NULL;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       goto __pyx_L10_unpacking_done;
@@ -6990,57 +6939,54 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_9 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 266, __pyx_L1_error)
+      __PYX_ERR(0, 262, __pyx_L1_error)
       __pyx_L10_unpacking_done:;
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 266, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 262, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_k, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_8);
     __pyx_t_8 = 0;
 
-    /* "planarlinkage.pyx":267
+    /* "planarlinkage.pyx":263
  *             final_dict[e[1]] = self.from_formula(e, final_dict)
  *         for k, value in final_dict.items():
  *             if type(value) == Coordinate:             # <<<<<<<<<<<<<<
  *                 final_dict[k] = (value.x, value.y)
  *         cdef list tmp_list
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_Coordinate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_8 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_value)), __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_1 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_value)), ((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 263, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 267, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_10) {
 
-      /* "planarlinkage.pyx":268
+      /* "planarlinkage.pyx":264
  *         for k, value in final_dict.items():
  *             if type(value) == Coordinate:
  *                 final_dict[k] = (value.x, value.y)             # <<<<<<<<<<<<<<
  *         cdef list tmp_list
  *         for j in range(len(self.driver_list)):
  */
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_x); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_y); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 264, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 264, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GIVEREF(__pyx_t_8);
-      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_8);
       __Pyx_GIVEREF(__pyx_t_1);
-      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
-      __pyx_t_8 = 0;
+      PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_8);
+      PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_8);
       __pyx_t_1 = 0;
+      __pyx_t_8 = 0;
       if (unlikely(__pyx_v_final_dict == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 268, __pyx_L1_error)
+        __PYX_ERR(0, 264, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_v_k, __pyx_t_5) < 0)) __PYX_ERR(0, 268, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_v_k, __pyx_t_5) < 0)) __PYX_ERR(0, 264, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "planarlinkage.pyx":267
+      /* "planarlinkage.pyx":263
  *             final_dict[e[1]] = self.from_formula(e, final_dict)
  *         for k, value in final_dict.items():
  *             if type(value) == Coordinate:             # <<<<<<<<<<<<<<
@@ -7049,7 +6995,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
  */
     }
 
-    /* "planarlinkage.pyx":266
+    /* "planarlinkage.pyx":262
  *             #target
  *             final_dict[e[1]] = self.from_formula(e, final_dict)
  *         for k, value in final_dict.items():             # <<<<<<<<<<<<<<
@@ -7059,7 +7005,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":270
+  /* "planarlinkage.pyx":266
  *                 final_dict[k] = (value.x, value.y)
  *         cdef list tmp_list
  *         for j in range(len(self.driver_list)):             # <<<<<<<<<<<<<<
@@ -7070,22 +7016,22 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   __Pyx_INCREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 270, __pyx_L1_error)
+    __PYX_ERR(0, 266, __pyx_L1_error)
   }
-  __pyx_t_6 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_t_6 = PyList_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
     __pyx_t_2 = __pyx_t_5; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 266, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   for (;;) {
@@ -7093,17 +7039,17 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -7113,7 +7059,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 270, __pyx_L1_error)
+          else __PYX_ERR(0, 266, __pyx_L1_error)
         }
         break;
       }
@@ -7122,109 +7068,109 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
     __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "planarlinkage.pyx":271
+    /* "planarlinkage.pyx":267
  *         cdef list tmp_list
  *         for j in range(len(self.driver_list)):
  *             tmp_list = []             # <<<<<<<<<<<<<<
  *             for i in range(self.POINTS):
  *                 tmp_list.append(v[self.VARS + i*len(self.driver_list) + j])
  */
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_tmp_list, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "planarlinkage.pyx":272
+    /* "planarlinkage.pyx":268
  *         for j in range(len(self.driver_list)):
  *             tmp_list = []
  *             for i in range(self.POINTS):             # <<<<<<<<<<<<<<
  *                 tmp_list.append(v[self.VARS + i*len(self.driver_list) + j])
  *             final_dict['a{}'.format(j)] = tuple(tmp_list)
  */
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_self->POINTS); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_self->POINTS); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_5); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
-      __pyx_t_5 = __pyx_t_1; __Pyx_INCREF(__pyx_t_5); __pyx_t_11 = 0;
+    if (likely(PyList_CheckExact(__pyx_t_8)) || PyTuple_CheckExact(__pyx_t_8)) {
+      __pyx_t_5 = __pyx_t_8; __Pyx_INCREF(__pyx_t_5); __pyx_t_11 = 0;
       __pyx_t_12 = NULL;
     } else {
-      __pyx_t_11 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_11 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 268, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_12 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 272, __pyx_L1_error)
+      __pyx_t_12 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 268, __pyx_L1_error)
     }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     for (;;) {
       if (likely(!__pyx_t_12)) {
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_11 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_1); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+          __pyx_t_8 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_8); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 268, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
           #endif
         } else {
           if (__pyx_t_11 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_1); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_11); __Pyx_INCREF(__pyx_t_8); __pyx_t_11++; if (unlikely(0 < 0)) __PYX_ERR(0, 268, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 272, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_1);
+          __pyx_t_8 = PySequence_ITEM(__pyx_t_5, __pyx_t_11); __pyx_t_11++; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 268, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_8);
           #endif
         }
       } else {
-        __pyx_t_1 = __pyx_t_12(__pyx_t_5);
-        if (unlikely(!__pyx_t_1)) {
+        __pyx_t_8 = __pyx_t_12(__pyx_t_5);
+        if (unlikely(!__pyx_t_8)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 272, __pyx_L1_error)
+            else __PYX_ERR(0, 268, __pyx_L1_error)
           }
           break;
         }
-        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_GOTREF(__pyx_t_8);
       }
-      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-      __pyx_t_1 = 0;
+      __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_8);
+      __pyx_t_8 = 0;
 
-      /* "planarlinkage.pyx":273
+      /* "planarlinkage.pyx":269
  *             tmp_list = []
  *             for i in range(self.POINTS):
  *                 tmp_list.append(v[self.VARS + i*len(self.driver_list) + j])             # <<<<<<<<<<<<<<
  *             final_dict['a{}'.format(j)] = tuple(tmp_list)
  *         return final_dict
  */
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->VARS); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_8 = __pyx_v_self->driver_list;
-      __Pyx_INCREF(__pyx_t_8);
-      if (unlikely(__pyx_t_8 == Py_None)) {
+      __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_self->VARS); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_1 = __pyx_v_self->driver_list;
+      __Pyx_INCREF(__pyx_t_1);
+      if (unlikely(__pyx_t_1 == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-        __PYX_ERR(0, 273, __pyx_L1_error)
+        __PYX_ERR(0, 269, __pyx_L1_error)
       }
-      __pyx_t_13 = PyList_GET_SIZE(__pyx_t_8); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_4 = PyNumber_Multiply(__pyx_v_i, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyNumber_Add(__pyx_t_1, __pyx_t_4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_13 = PyList_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_13 == ((Py_ssize_t)-1))) __PYX_ERR(0, 269, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_8, __pyx_v_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 273, __pyx_L1_error)
+      __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_4 = PyNumber_Multiply(__pyx_v_i, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 269, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyNumber_Add(__pyx_t_8, __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_v), __pyx_t_4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_tmp_list, __pyx_t_8); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 273, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_v_j); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_v), __pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_tmp_list, __pyx_t_1); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 269, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "planarlinkage.pyx":272
+      /* "planarlinkage.pyx":268
  *         for j in range(len(self.driver_list)):
  *             tmp_list = []
  *             for i in range(self.POINTS):             # <<<<<<<<<<<<<<
@@ -7234,69 +7180,69 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "planarlinkage.pyx":274
+    /* "planarlinkage.pyx":270
  *             for i in range(self.POINTS):
  *                 tmp_list.append(v[self.VARS + i*len(self.driver_list) + j])
  *             final_dict['a{}'.format(j)] = tuple(tmp_list)             # <<<<<<<<<<<<<<
  *         return final_dict
  * 
  */
-    __pyx_t_5 = PyList_AsTuple(__pyx_v_tmp_list); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
+    __pyx_t_5 = PyList_AsTuple(__pyx_v_tmp_list); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (unlikely(__pyx_v_final_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 274, __pyx_L1_error)
+      __PYX_ERR(0, 270, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 274, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = NULL;
+    __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
-      if (likely(__pyx_t_1)) {
+      __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_8)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    if (!__pyx_t_1) {
-      __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_j); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 274, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_8);
+    if (!__pyx_t_8) {
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_j); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_j};
-        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 274, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_GOTREF(__pyx_t_8);
+        PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_v_j};
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-        PyObject *__pyx_temp[2] = {__pyx_t_1, __pyx_v_j};
-        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 274, __pyx_L1_error)
-        __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_GOTREF(__pyx_t_8);
+        PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_v_j};
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __Pyx_GOTREF(__pyx_t_1);
       } else
       #endif
       {
-        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 270, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1); __pyx_t_1 = NULL;
+        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __pyx_t_8 = NULL;
         __Pyx_INCREF(__pyx_v_j);
         __Pyx_GIVEREF(__pyx_v_j);
         PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_j);
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 274, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 270, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_t_8, __pyx_t_5) < 0)) __PYX_ERR(0, 274, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+    if (unlikely(PyDict_SetItem(__pyx_v_final_dict, __pyx_t_1, __pyx_t_5) < 0)) __PYX_ERR(0, 270, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "planarlinkage.pyx":270
+    /* "planarlinkage.pyx":266
  *                 final_dict[k] = (value.x, value.y)
  *         cdef list tmp_list
  *         for j in range(len(self.driver_list)):             # <<<<<<<<<<<<<<
@@ -7306,7 +7252,7 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "planarlinkage.pyx":275
+  /* "planarlinkage.pyx":271
  *                 tmp_list.append(v[self.VARS + i*len(self.driver_list) + j])
  *             final_dict['a{}'.format(j)] = tuple(tmp_list)
  *         return final_dict             # <<<<<<<<<<<<<<
@@ -7318,10 +7264,10 @@ static PyObject *__pyx_f_13planarlinkage_12build_planar_get_coordinates(struct _
   __pyx_r = __pyx_v_final_dict;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":256
+  /* "planarlinkage.pyx":251
  *         return fitness
  * 
- *     cpdef object get_coordinates(self, np.ndarray v):             # <<<<<<<<<<<<<<
+ *     cpdef dict get_coordinates(self, np.ndarray v):             # <<<<<<<<<<<<<<
  *         """Return the last answer."""
  *         cdef str k
  */
@@ -7356,7 +7302,7 @@ static PyObject *__pyx_pw_13planarlinkage_12build_planar_9get_coordinates(PyObje
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_coordinates (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_v), __pyx_ptype_5numpy_ndarray, 1, "v", 0))) __PYX_ERR(0, 256, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_v), __pyx_ptype_5numpy_ndarray, 1, "v", 0))) __PYX_ERR(0, 251, __pyx_L1_error)
   __pyx_r = __pyx_pf_13planarlinkage_12build_planar_8get_coordinates(((struct __pyx_obj_13planarlinkage_build_planar *)__pyx_v_self), ((PyArrayObject *)__pyx_v_v));
 
   /* function exit code */
@@ -7374,7 +7320,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_8get_coordinates(struct
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_coordinates", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_13planarlinkage_12build_planar_get_coordinates(__pyx_v_self, __pyx_v_v, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 256, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_13planarlinkage_12build_planar_get_coordinates(__pyx_v_self, __pyx_v_v, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7391,7 +7337,7 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_8get_coordinates(struct
   return __pyx_r;
 }
 
-/* "planarlinkage.pyx":277
+/* "planarlinkage.pyx":273
  *         return final_dict
  * 
  *     def __call__(self, v: np.ndarray):             # <<<<<<<<<<<<<<
@@ -7429,7 +7375,7 @@ static PyObject *__pyx_pw_13planarlinkage_12build_planar_11__call__(PyObject *__
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(0, 277, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__call__") < 0)) __PYX_ERR(0, 273, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -7440,13 +7386,13 @@ static PyObject *__pyx_pw_13planarlinkage_12build_planar_11__call__(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__call__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 277, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__call__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 273, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("planarlinkage.build_planar.__call__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_v), __pyx_ptype_5numpy_ndarray, 1, "v", 0))) __PYX_ERR(0, 277, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_v), __pyx_ptype_5numpy_ndarray, 1, "v", 0))) __PYX_ERR(0, 273, __pyx_L1_error)
   __pyx_r = __pyx_pf_13planarlinkage_12build_planar_10__call__(((struct __pyx_obj_13planarlinkage_build_planar *)__pyx_v_self), __pyx_v_v);
 
   /* function exit code */
@@ -7464,19 +7410,19 @@ static PyObject *__pyx_pf_13planarlinkage_12build_planar_10__call__(struct __pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "planarlinkage.pyx":279
+  /* "planarlinkage.pyx":275
  *     def __call__(self, v: np.ndarray):
  *         """Python callable object."""
  *         return self.run(v)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_13planarlinkage_build_planar *)__pyx_v_self->__pyx_vtab)->run(__pyx_v_self, __pyx_v_v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(((struct __pyx_vtabstruct_13planarlinkage_build_planar *)__pyx_v_self->__pyx_vtab)->run(__pyx_v_self, __pyx_v_v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "planarlinkage.pyx":277
+  /* "planarlinkage.pyx":273
  *         return final_dict
  * 
  *     def __call__(self, v: np.ndarray):             # <<<<<<<<<<<<<<
@@ -10310,7 +10256,7 @@ static int __pyx_tp_clear_13planarlinkage___pyx_scope_struct____cinit__(PyObject
   p->__pyx_v_mech_params = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_value);
-  p->__pyx_v_value = Py_None; Py_INCREF(Py_None);
+  p->__pyx_v_value = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -10604,7 +10550,7 @@ static void __pyx_tp_dealloc_13planarlinkage___pyx_scope_struct_3_from_formula(P
   struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *p = (struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *)o;
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_v_data_dict);
-  Py_CLEAR(p->__pyx_v_expression_dict);
+  Py_CLEAR(p->__pyx_v_expr);
   if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_13planarlinkage___pyx_scope_struct_3_from_formula < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula)))) {
     __pyx_freelist_13planarlinkage___pyx_scope_struct_3_from_formula[__pyx_freecount_13planarlinkage___pyx_scope_struct_3_from_formula++] = ((struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *)o);
   } else {
@@ -10618,8 +10564,8 @@ static int __pyx_tp_traverse_13planarlinkage___pyx_scope_struct_3_from_formula(P
   if (p->__pyx_v_data_dict) {
     e = (*v)(p->__pyx_v_data_dict, a); if (e) return e;
   }
-  if (p->__pyx_v_expression_dict) {
-    e = (*v)(p->__pyx_v_expression_dict, a); if (e) return e;
+  if (p->__pyx_v_expr) {
+    e = (*v)(p->__pyx_v_expr, a); if (e) return e;
   }
   return 0;
 }
@@ -10628,10 +10574,10 @@ static int __pyx_tp_clear_13planarlinkage___pyx_scope_struct_3_from_formula(PyOb
   PyObject* tmp;
   struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *p = (struct __pyx_obj_13planarlinkage___pyx_scope_struct_3_from_formula *)o;
   tmp = ((PyObject*)p->__pyx_v_data_dict);
-  p->__pyx_v_data_dict = Py_None; Py_INCREF(Py_None);
+  p->__pyx_v_data_dict = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->__pyx_v_expression_dict);
-  p->__pyx_v_expression_dict = Py_None; Py_INCREF(Py_None);
+  tmp = ((PyObject*)p->__pyx_v_expr);
+  p->__pyx_v_expr = ((PyObject*)Py_None); Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -10815,7 +10761,7 @@ static PyModuleDef_Slot __pyx_moduledef_slots[] = {
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
     "planarlinkage",
-    __pyx_k_The_functional_object_of_the_val, /* m_doc */
+    __pyx_k_The_callable_classes_of_the_vali, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
   #else
@@ -10836,7 +10782,6 @@ static struct PyModuleDef __pyx_moduledef = {
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_AMax, __pyx_k_AMax, sizeof(__pyx_k_AMax), 0, 0, 1, 1},
   {&__pyx_n_s_AMin, __pyx_k_AMin, sizeof(__pyx_k_AMin), 0, 0, 1, 1},
-  {&__pyx_n_s_Coordinate, __pyx_k_Coordinate, sizeof(__pyx_k_Coordinate), 0, 0, 1, 1},
   {&__pyx_n_s_Driver, __pyx_k_Driver, sizeof(__pyx_k_Driver), 0, 0, 1, 1},
   {&__pyx_n_s_Expression, __pyx_k_Expression, sizeof(__pyx_k_Expression), 0, 0, 1, 1},
   {&__pyx_n_s_FMax, __pyx_k_FMax, sizeof(__pyx_k_FMax), 0, 0, 1, 1},
@@ -10878,7 +10823,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_distance, __pyx_k_distance, sizeof(__pyx_k_distance), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
-  {&__pyx_n_s_find, __pyx_k_find, sizeof(__pyx_k_find), 0, 0, 1, 1},
   {&__pyx_n_s_float32, __pyx_k_float32, sizeof(__pyx_k_float32), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_genexpr, __pyx_k_genexpr, sizeof(__pyx_k_genexpr), 0, 0, 1, 1},
@@ -10891,7 +10835,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_isnan, __pyx_k_isnan, sizeof(__pyx_k_isnan), 0, 0, 1, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_legal_crank, __pyx_k_legal_crank, sizeof(__pyx_k_legal_crank), 0, 0, 1, 1},
-  {&__pyx_n_s_legal_triangle, __pyx_k_legal_triangle, sizeof(__pyx_k_legal_triangle), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_mech_params, __pyx_k_mech_params, sizeof(__pyx_k_mech_params), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
@@ -10916,7 +10859,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
-  {&__pyx_n_s_tinycadlib, __pyx_k_tinycadlib, sizeof(__pyx_k_tinycadlib), 0, 0, 1, 1},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
   {&__pyx_n_s_v, __pyx_k_v, sizeof(__pyx_k_v), 0, 0, 1, 1},
   {&__pyx_n_s_values, __pyx_k_values, sizeof(__pyx_k_values), 0, 0, 1, 1},
@@ -10926,12 +10868,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 37, __pyx_L1_error)
-  __pyx_builtin_all = __Pyx_GetBuiltinName(__pyx_n_s_all); if (!__pyx_builtin_all) __PYX_ERR(0, 68, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 69, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 82, __pyx_L1_error)
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 252, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 253, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_builtin_all = __Pyx_GetBuiltinName(__pyx_n_s_all); if (!__pyx_builtin_all) __PYX_ERR(0, 62, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 76, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 248, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 810, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 1000, __pyx_L1_error)
@@ -10944,69 +10886,69 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "planarlinkage.pyx":69
- *         cdef object check_tuple = tuple(len(value) for value in mech_params['Target'].values())
- *         if not all([l==check_tuple[0] for l in check_tuple]):
+  /* "planarlinkage.pyx":63
+ *         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())
+ *         if not all([l == check_tuple[0] for l in check_tuple]):
  *             raise ValueError("Target path should be in the same size.")             # <<<<<<<<<<<<<<
  *         #counting how many action to satisfied require point
  *         self.POINTS = check_tuple[0]
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Target_path_should_be_in_the_sam); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 69, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Target_path_should_be_in_the_sam); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 63, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
-  /* "planarlinkage.pyx":93
+  /* "planarlinkage.pyx":87
  *         ['A', 'B', 'C', 'D', 'E', 'L0', 'L1', 'L2', 'L3', 'L4', 'a0']
  *         """
- *         cdef object ExpressionL = mech_params['Expression'].split(';')             # <<<<<<<<<<<<<<
+ *         cdef list ExpressionL = mech_params['Expression'].split(';')             # <<<<<<<<<<<<<<
  * 
  *         '''
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s__2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 93, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s__2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "planarlinkage.pyx":141
- *         cdef object tmp_upper = []
+  /* "planarlinkage.pyx":135
+ *         cdef list tmp_upper = []
  *         for name in self.driver_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:
  */
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "planarlinkage.pyx":144
+  /* "planarlinkage.pyx":138
  *                 tmp_upper.append(self.Driver[name][i] + self.Driver[name][2]/2)
  *         for name in self.follower_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_upper.append(self.Follower[name][i] + self.Follower[name][2]/2)
  *         for name in ['IMax', 'LMax', 'FMax'] + ['LMax']*(len(self.Link)-3):
  */
-  __pyx_tuple__10 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "planarlinkage.pyx":154
- *         cdef object tmp_lower = []
+  /* "planarlinkage.pyx":148
+ *         cdef list tmp_lower = []
  *         for name in self.driver_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  *         for name in self.follower_list:
  */
-  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 154, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "planarlinkage.pyx":157
+  /* "planarlinkage.pyx":151
  *                 tmp_lower.append(self.Driver[name][i] - self.Driver[name][2]/2)
  *         for name in self.follower_list:
  *             for i in [0, 1]:             # <<<<<<<<<<<<<<
  *                 tmp_lower.append(self.Follower[name][i] - self.Follower[name][2]/2)
  *         for name in ['IMin', 'LMin', 'FMin'] + ['LMin']*(len(self.Link)-3):
  */
-  __pyx_tuple__12 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(2, __pyx_int_0, __pyx_int_1); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
@@ -11134,7 +11076,6 @@ static int __Pyx_InitCachedConstants(void) {
 
 static int __Pyx_InitGlobals(void) {
   __pyx_umethod_PyDict_Type_items.type = (PyObject*)&PyDict_Type;
-  __pyx_umethod_PyString_Type_find.type = (PyObject*)&PyString_Type;
   __pyx_umethod_PyString_Type_split.type = (PyObject*)&PyString_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -11187,17 +11128,17 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_13planarlinkage_build_planar.get_nParm = (int (*)(struct __pyx_obj_13planarlinkage_build_planar *, int __pyx_skip_dispatch))__pyx_f_13planarlinkage_12build_planar_get_nParm;
   __pyx_vtable_13planarlinkage_build_planar.get_data_dict = (PyObject *(*)(struct __pyx_obj_13planarlinkage_build_planar *, PyArrayObject *))__pyx_f_13planarlinkage_12build_planar_get_data_dict;
   __pyx_vtable_13planarlinkage_build_planar.get_path_array = (PyArrayObject *(*)(struct __pyx_obj_13planarlinkage_build_planar *))__pyx_f_13planarlinkage_12build_planar_get_path_array;
-  __pyx_vtable_13planarlinkage_build_planar.from_formula = (PyObject *(*)(struct __pyx_obj_13planarlinkage_build_planar *, PyObject *, PyObject *))__pyx_f_13planarlinkage_12build_planar_from_formula;
+  __pyx_vtable_13planarlinkage_build_planar.from_formula = (struct __pyx_obj_10tinycadlib_Coordinate *(*)(struct __pyx_obj_13planarlinkage_build_planar *, PyObject *, PyObject *))__pyx_f_13planarlinkage_12build_planar_from_formula;
   __pyx_vtable_13planarlinkage_build_planar.run = (double (*)(struct __pyx_obj_13planarlinkage_build_planar *, PyArrayObject *))__pyx_f_13planarlinkage_12build_planar_run;
   __pyx_vtable_13planarlinkage_build_planar.get_coordinates = (PyObject *(*)(struct __pyx_obj_13planarlinkage_build_planar *, PyArrayObject *, int __pyx_skip_dispatch))__pyx_f_13planarlinkage_12build_planar_get_coordinates;
-  if (PyType_Ready(&__pyx_type_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_type_13planarlinkage_build_planar.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13planarlinkage_build_planar.tp_dictoffset && __pyx_type_13planarlinkage_build_planar.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13planarlinkage_build_planar.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_13planarlinkage_build_planar, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(0, 42, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_13planarlinkage_build_planar, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(0, 36, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_13planarlinkage_12build_planar_10__call__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_13planarlinkage_12build_planar_10__call__.doc = __pyx_doc_13planarlinkage_12build_planar_10__call__;
@@ -11205,35 +11146,35 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_13planarlinkage_build_planar.tp_dict, __pyx_vtabptr_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "build_planar", (PyObject *)&__pyx_type_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_13planarlinkage_build_planar.tp_dict, __pyx_vtabptr_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "build_planar", (PyObject *)&__pyx_type_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_13planarlinkage_build_planar) < 0) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_ptype_13planarlinkage_build_planar = &__pyx_type_13planarlinkage_build_planar;
-  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct____cinit__) < 0) __PYX_ERR(0, 52, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct____cinit__) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_type_13planarlinkage___pyx_scope_struct____cinit__.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13planarlinkage___pyx_scope_struct____cinit__.tp_dictoffset && __pyx_type_13planarlinkage___pyx_scope_struct____cinit__.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13planarlinkage___pyx_scope_struct____cinit__.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_13planarlinkage___pyx_scope_struct____cinit__ = &__pyx_type_13planarlinkage___pyx_scope_struct____cinit__;
-  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   __pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr.tp_dictoffset && __pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_13planarlinkage___pyx_scope_struct_1_genexpr = &__pyx_type_13planarlinkage___pyx_scope_struct_1_genexpr;
-  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr) < 0) __PYX_ERR(0, 83, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr) < 0) __PYX_ERR(0, 77, __pyx_L1_error)
   __pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr.tp_dictoffset && __pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_13planarlinkage___pyx_scope_struct_2_genexpr = &__pyx_type_13planarlinkage___pyx_scope_struct_2_genexpr;
-  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula) < 0) __PYX_ERR(0, 201, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula) < 0) __PYX_ERR(0, 195, __pyx_L1_error)
   __pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula.tp_dictoffset && __pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_13planarlinkage___pyx_scope_struct_3_from_formula = &__pyx_type_13planarlinkage___pyx_scope_struct_3_from_formula;
-  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_4_genexpr) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_13planarlinkage___pyx_scope_struct_4_genexpr) < 0) __PYX_ERR(0, 198, __pyx_L1_error)
   __pyx_type_13planarlinkage___pyx_scope_struct_4_genexpr.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_13planarlinkage___pyx_scope_struct_4_genexpr.tp_dictoffset && __pyx_type_13planarlinkage___pyx_scope_struct_4_genexpr.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_13planarlinkage___pyx_scope_struct_4_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
@@ -11257,11 +11198,18 @@ static int __Pyx_modinit_type_import_code(void) {
   sizeof(PyHeapTypeObject),
   #endif
   0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(3, 9, __pyx_L1_error)
+  __pyx_ptype_7cpython_4bool_bool = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "bool", sizeof(PyBoolObject), 0); if (unlikely(!__pyx_ptype_7cpython_4bool_bool)) __PYX_ERR(4, 8, __pyx_L1_error)
+  __pyx_ptype_7cpython_7complex_complex = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "complex", sizeof(PyComplexObject), 0); if (unlikely(!__pyx_ptype_7cpython_7complex_complex)) __PYX_ERR(5, 15, __pyx_L1_error)
   __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(2, 164, __pyx_L1_error)
   __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(2, 186, __pyx_L1_error)
   __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(2, 190, __pyx_L1_error)
   __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(2, 199, __pyx_L1_error)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(2, 872, __pyx_L1_error)
+  __pyx_ptype_10tinycadlib_VPoint = __Pyx_ImportType("tinycadlib", "VPoint", sizeof(struct __pyx_obj_10tinycadlib_VPoint), 1); if (unlikely(!__pyx_ptype_10tinycadlib_VPoint)) __PYX_ERR(6, 14, __pyx_L1_error)
+  __pyx_vtabptr_10tinycadlib_VPoint = (struct __pyx_vtabstruct_10tinycadlib_VPoint*)__Pyx_GetVtable(__pyx_ptype_10tinycadlib_VPoint->tp_dict); if (unlikely(!__pyx_vtabptr_10tinycadlib_VPoint)) __PYX_ERR(6, 14, __pyx_L1_error)
+  __pyx_ptype_10tinycadlib_VLink = __Pyx_ImportType("tinycadlib", "VLink", sizeof(struct __pyx_obj_10tinycadlib_VLink), 1); if (unlikely(!__pyx_ptype_10tinycadlib_VLink)) __PYX_ERR(6, 29, __pyx_L1_error)
+  __pyx_ptype_10tinycadlib_Coordinate = __Pyx_ImportType("tinycadlib", "Coordinate", sizeof(struct __pyx_obj_10tinycadlib_Coordinate), 1); if (unlikely(!__pyx_ptype_10tinycadlib_Coordinate)) __PYX_ERR(6, 35, __pyx_L1_error)
+  __pyx_vtabptr_10tinycadlib_Coordinate = (struct __pyx_vtabstruct_10tinycadlib_Coordinate*)__Pyx_GetVtable(__pyx_ptype_10tinycadlib_Coordinate->tp_dict); if (unlikely(!__pyx_vtabptr_10tinycadlib_Coordinate)) __PYX_ERR(6, 35, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -11279,10 +11227,23 @@ static int __Pyx_modinit_variable_import_code(void) {
 
 static int __Pyx_modinit_function_import_code(void) {
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__Pyx_modinit_function_import_code", 0);
   /*--- Function import code ---*/
+  __pyx_t_1 = __Pyx_ImportModule("tinycadlib"); if (!__pyx_t_1) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "PLAP", (void (**)(void))&__pyx_f_10tinycadlib_PLAP, "PyObject *(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLAP *__pyx_optional_args)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "PLLP", (void (**)(void))&__pyx_f_10tinycadlib_PLLP, "PyObject *(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLLP *__pyx_optional_args)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "legal_triangle", (void (**)(void))&__pyx_f_10tinycadlib_legal_triangle, "PyBoolObject *(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "legal_crank", (void (**)(void))&__pyx_f_10tinycadlib_legal_crank, "PyBoolObject *(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "strbetween", (void (**)(void))&__pyx_f_10tinycadlib_strbetween, "PyObject *(PyObject *, PyObject *, PyObject *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "strbefore", (void (**)(void))&__pyx_f_10tinycadlib_strbefore, "PyObject *(PyObject *, PyObject *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_RefNannyFinishContext();
   return 0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_RefNannyFinishContext();
+  return -1;
 }
 
 
@@ -11360,7 +11321,6 @@ static int __pyx_pymod_exec_planarlinkage(PyObject *__pyx_pyinit_module)
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannyDeclarations
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m && __pyx_m == __pyx_pyinit_module) return 0;
@@ -11412,7 +11372,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("planarlinkage", __pyx_methods, __pyx_k_The_functional_object_of_the_val, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("planarlinkage", __pyx_methods, __pyx_k_The_callable_classes_of_the_vali, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -11453,82 +11413,25 @@ if (!__Pyx_RefNanny) {
   if (unlikely(__Pyx_modinit_type_init_code() != 0)) goto __pyx_L1_error;
   if (unlikely(__Pyx_modinit_type_import_code() != 0)) goto __pyx_L1_error;
   (void)__Pyx_modinit_variable_import_code();
-  (void)__Pyx_modinit_function_import_code();
+  if (unlikely(__Pyx_modinit_function_import_code() != 0)) goto __pyx_L1_error;
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "planarlinkage.pyx":11
- * 
- * from tinycadlib import (
- *     PLAP,             # <<<<<<<<<<<<<<
- *     PLLP,
- *     legal_crank,
- */
-  __pyx_t_1 = PyList_New(5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_PLAP);
-  __Pyx_GIVEREF(__pyx_n_s_PLAP);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_PLAP);
-  __Pyx_INCREF(__pyx_n_s_PLLP);
-  __Pyx_GIVEREF(__pyx_n_s_PLLP);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_PLLP);
-  __Pyx_INCREF(__pyx_n_s_legal_crank);
-  __Pyx_GIVEREF(__pyx_n_s_legal_crank);
-  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_legal_crank);
-  __Pyx_INCREF(__pyx_n_s_legal_triangle);
-  __Pyx_GIVEREF(__pyx_n_s_legal_triangle);
-  PyList_SET_ITEM(__pyx_t_1, 3, __pyx_n_s_legal_triangle);
-  __Pyx_INCREF(__pyx_n_s_Coordinate);
-  __Pyx_GIVEREF(__pyx_n_s_Coordinate);
-  PyList_SET_ITEM(__pyx_t_1, 4, __pyx_n_s_Coordinate);
-
-  /* "planarlinkage.pyx":10
- * # __email__ = "pyslvs@gmail.com"
- * 
- * from tinycadlib import (             # <<<<<<<<<<<<<<
- *     PLAP,
- *     PLLP,
- */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_tinycadlib, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_PLAP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PLAP, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_PLLP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PLLP, __pyx_t_1) < 0) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_legal_crank); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_legal_crank, __pyx_t_1) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_legal_triangle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_legal_triangle, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Coordinate); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Coordinate, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "planarlinkage.pyx":17
- *     Coordinate
+  /* "planarlinkage.pyx":19
+ *     strbefore,
  * )
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
  * 
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "planarlinkage.pyx":22
+  /* "planarlinkage.pyx":24
  * 
  * #Large fitness
  * cdef double FAILURE = 9487945             # <<<<<<<<<<<<<<
@@ -11540,12 +11443,12 @@ if (!__Pyx_RefNanny) {
   /* "planarlinkage.pyx":1
  * # -*- coding: utf-8 -*-             # <<<<<<<<<<<<<<
  * 
- * """The functional object of the validation in algorithm."""
+ * """The callable classes of the validation in algorithm."""
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":1008
  *         raise ImportError("numpy.core.umath failed to import")
@@ -11560,7 +11463,6 @@ if (!__Pyx_RefNanny) {
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init planarlinkage", 0, __pyx_lineno, __pyx_filename);
@@ -11623,220 +11525,6 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
             "name '%.200s' is not defined", PyString_AS_STRING(name));
 #endif
     }
-    return result;
-}
-
-/* PyIntBinop */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a + b);
-            if (likely((x^a) >= 0 || (x^b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_add(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-#ifdef HAVE_LONG_LONG
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-#endif
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
-            }
-        }
-                x = a + b;
-            return PyLong_FromLong(x);
-#ifdef HAVE_LONG_LONG
-        long_long:
-                llx = lla + llb;
-            return PyLong_FromLongLong(llx);
-#endif
-        
-        
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("add", return NULL)
-            result = ((double)a) + (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-}
-#endif
-
-/* PyObjectCall */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* UnpackUnboundCMethod */
-static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
-    PyObject *method;
-    method = __Pyx_PyObject_GetAttrStr(target->type, *target->method_name);
-    if (unlikely(!method))
-        return -1;
-    target->method = method;
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION >= 3
-    if (likely(__Pyx_TypeCheck(method, &PyMethodDescr_Type)))
-    #endif
-    {
-        PyMethodDescrObject *descr = (PyMethodDescrObject*) method;
-        target->func = descr->d_method->ml_meth;
-        target->flag = descr->d_method->ml_flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST);
-    }
-#endif
-    return 0;
-}
-
-/* CallUnboundCMethod1 */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg) {
-    if (likely(cfunc->func)) {
-        int flag = cfunc->flag;
-        if (flag == METH_O) {
-            return (*(cfunc->func))(self, arg);
-        } else if (PY_VERSION_HEX >= 0x030600B1 && flag == METH_FASTCALL) {
-            if (PY_VERSION_HEX >= 0x030700A0) {
-                return (*(__Pyx_PyCFunctionFast)cfunc->func)(self, &arg, 1);
-            } else {
-                return (*(__Pyx_PyCFunctionFastWithKeywords)cfunc->func)(self, &arg, 1, NULL);
-            }
-        } else if (PY_VERSION_HEX >= 0x030700A0 && flag == (METH_FASTCALL | METH_KEYWORDS)) {
-            return (*(__Pyx_PyCFunctionFastWithKeywords)cfunc->func)(self, &arg, 1, NULL);
-        }
-    }
-    return __Pyx__CallUnboundCMethod1(cfunc, self, arg);
-}
-#endif
-static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg){
-    PyObject *args, *result = NULL;
-    if (unlikely(!cfunc->func && !cfunc->method) && unlikely(__Pyx_TryUnpackUnboundCMethod(cfunc) < 0)) return NULL;
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (cfunc->func && (cfunc->flag & METH_VARARGS)) {
-        args = PyTuple_New(1);
-        if (unlikely(!args)) goto bad;
-        Py_INCREF(arg);
-        PyTuple_SET_ITEM(args, 0, arg);
-        if (cfunc->flag & METH_KEYWORDS)
-            result = (*(PyCFunctionWithKeywords)cfunc->func)(self, args, NULL);
-        else
-            result = (*cfunc->func)(self, args);
-    } else {
-        args = PyTuple_New(2);
-        if (unlikely(!args)) goto bad;
-        Py_INCREF(self);
-        PyTuple_SET_ITEM(args, 0, self);
-        Py_INCREF(arg);
-        PyTuple_SET_ITEM(args, 1, arg);
-        result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
-    }
-#else
-    args = PyTuple_Pack(2, self, arg);
-    if (unlikely(!args)) goto bad;
-    result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
-#endif
-bad:
-    Py_XDECREF(args);
     return result;
 }
 
@@ -12068,6 +11756,26 @@ done:
     return result;
 }
 #endif
+#endif
+
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
 #endif
 
 /* PyObjectCallMethO */
@@ -12338,19 +12046,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
 }
 #endif
 
-/* RaiseTooManyValuesToUnpack */
-  static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
-    PyErr_Format(PyExc_ValueError,
-                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
-}
-
-/* RaiseNeedMoreValuesToUnpack */
-  static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
-    PyErr_Format(PyExc_ValueError,
-                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
-                 index, (index == 1) ? "" : "s");
-}
-
 /* IterFinish */
   static CYTHON_INLINE int __Pyx_IterFinish(void) {
 #if CYTHON_FAST_THREAD_STATE
@@ -12386,6 +12081,41 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
 #endif
 }
 
+/* PyObjectCallMethod0 */
+  static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
+    PyObject *method, *result = NULL;
+    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
+    if (unlikely(!method)) goto bad;
+#if CYTHON_UNPACK_METHODS
+    if (likely(PyMethod_Check(method))) {
+        PyObject *self = PyMethod_GET_SELF(method);
+        if (likely(self)) {
+            PyObject *function = PyMethod_GET_FUNCTION(method);
+            result = __Pyx_PyObject_CallOneArg(function, self);
+            Py_DECREF(method);
+            return result;
+        }
+    }
+#endif
+    result = __Pyx_PyObject_CallNoArg(method);
+    Py_DECREF(method);
+bad:
+    return result;
+}
+
+/* RaiseNeedMoreValuesToUnpack */
+  static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+    PyErr_Format(PyExc_ValueError,
+                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
+                 index, (index == 1) ? "" : "s");
+}
+
+/* RaiseTooManyValuesToUnpack */
+  static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+    PyErr_Format(PyExc_ValueError,
+                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
+}
+
 /* UnpackItemEndCheck */
   static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
     if (unlikely(retval)) {
@@ -12398,35 +12128,189 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
     return 0;
 }
 
-/* GetModuleGlobalName */
-  static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
-    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
-    if (likely(result)) {
-        Py_INCREF(result);
-    } else if (unlikely(PyErr_Occurred())) {
-        result = NULL;
+/* RaiseNoneIterError */
+  static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
+    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
+}
+
+/* UnpackTupleError */
+  static void __Pyx_UnpackTupleError(PyObject *t, Py_ssize_t index) {
+    if (t == Py_None) {
+      __Pyx_RaiseNoneNotIterableError();
+    } else if (PyTuple_GET_SIZE(t) < index) {
+      __Pyx_RaiseNeedMoreValuesError(PyTuple_GET_SIZE(t));
     } else {
-#else
-    result = PyDict_GetItem(__pyx_d, name);
-    if (likely(result)) {
-        Py_INCREF(result);
-    } else {
-#endif
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    if (!result) {
-        PyErr_Clear();
-#endif
-        result = __Pyx_GetBuiltinName(name);
+      __Pyx_RaiseTooManyValuesError(index);
     }
-    return result;
+}
+
+/* UnpackTuple2 */
+  static CYTHON_INLINE int __Pyx_unpack_tuple2_exact(
+        PyObject* tuple, PyObject** pvalue1, PyObject** pvalue2, int decref_tuple) {
+    PyObject *value1 = NULL, *value2 = NULL;
+#if CYTHON_COMPILING_IN_PYPY
+    value1 = PySequence_ITEM(tuple, 0);  if (unlikely(!value1)) goto bad;
+    value2 = PySequence_ITEM(tuple, 1);  if (unlikely(!value2)) goto bad;
+#else
+    value1 = PyTuple_GET_ITEM(tuple, 0);  Py_INCREF(value1);
+    value2 = PyTuple_GET_ITEM(tuple, 1);  Py_INCREF(value2);
+#endif
+    if (decref_tuple) {
+        Py_DECREF(tuple);
+    }
+    *pvalue1 = value1;
+    *pvalue2 = value2;
+    return 0;
+#if CYTHON_COMPILING_IN_PYPY
+bad:
+    Py_XDECREF(value1);
+    Py_XDECREF(value2);
+    if (decref_tuple) { Py_XDECREF(tuple); }
+    return -1;
+#endif
+}
+static int __Pyx_unpack_tuple2_generic(PyObject* tuple, PyObject** pvalue1, PyObject** pvalue2,
+                                       int has_known_size, int decref_tuple) {
+    Py_ssize_t index;
+    PyObject *value1 = NULL, *value2 = NULL, *iter = NULL;
+    iternextfunc iternext;
+    iter = PyObject_GetIter(tuple);
+    if (unlikely(!iter)) goto bad;
+    if (decref_tuple) { Py_DECREF(tuple); tuple = NULL; }
+    iternext = Py_TYPE(iter)->tp_iternext;
+    value1 = iternext(iter); if (unlikely(!value1)) { index = 0; goto unpacking_failed; }
+    value2 = iternext(iter); if (unlikely(!value2)) { index = 1; goto unpacking_failed; }
+    if (!has_known_size && unlikely(__Pyx_IternextUnpackEndCheck(iternext(iter), 2))) goto bad;
+    Py_DECREF(iter);
+    *pvalue1 = value1;
+    *pvalue2 = value2;
+    return 0;
+unpacking_failed:
+    if (!has_known_size && __Pyx_IterFinish() == 0)
+        __Pyx_RaiseNeedMoreValuesError(index);
+bad:
+    Py_XDECREF(iter);
+    Py_XDECREF(value1);
+    Py_XDECREF(value2);
+    if (decref_tuple) { Py_XDECREF(tuple); }
+    return -1;
+}
+
+/* dict_iter */
+  static CYTHON_INLINE PyObject* __Pyx_dict_iterator(PyObject* iterable, int is_dict, PyObject* method_name,
+                                                   Py_ssize_t* p_orig_length, int* p_source_is_dict) {
+    is_dict = is_dict || likely(PyDict_CheckExact(iterable));
+    *p_source_is_dict = is_dict;
+    if (is_dict) {
+#if !CYTHON_COMPILING_IN_PYPY
+        *p_orig_length = PyDict_Size(iterable);
+        Py_INCREF(iterable);
+        return iterable;
+#elif PY_MAJOR_VERSION >= 3
+        static PyObject *py_items = NULL, *py_keys = NULL, *py_values = NULL;
+        PyObject **pp = NULL;
+        if (method_name) {
+            const char *name = PyUnicode_AsUTF8(method_name);
+            if (strcmp(name, "iteritems") == 0) pp = &py_items;
+            else if (strcmp(name, "iterkeys") == 0) pp = &py_keys;
+            else if (strcmp(name, "itervalues") == 0) pp = &py_values;
+            if (pp) {
+                if (!*pp) {
+                    *pp = PyUnicode_FromString(name + 4);
+                    if (!*pp)
+                        return NULL;
+                }
+                method_name = *pp;
+            }
+        }
+#endif
+    }
+    *p_orig_length = 0;
+    if (method_name) {
+        PyObject* iter;
+        iterable = __Pyx_PyObject_CallMethod0(iterable, method_name);
+        if (!iterable)
+            return NULL;
+#if !CYTHON_COMPILING_IN_PYPY
+        if (PyTuple_CheckExact(iterable) || PyList_CheckExact(iterable))
+            return iterable;
+#endif
+        iter = PyObject_GetIter(iterable);
+        Py_DECREF(iterable);
+        return iter;
+    }
+    return PyObject_GetIter(iterable);
+}
+static CYTHON_INLINE int __Pyx_dict_iter_next(
+        PyObject* iter_obj, CYTHON_NCP_UNUSED Py_ssize_t orig_length, CYTHON_NCP_UNUSED Py_ssize_t* ppos,
+        PyObject** pkey, PyObject** pvalue, PyObject** pitem, int source_is_dict) {
+    PyObject* next_item;
+#if !CYTHON_COMPILING_IN_PYPY
+    if (source_is_dict) {
+        PyObject *key, *value;
+        if (unlikely(orig_length != PyDict_Size(iter_obj))) {
+            PyErr_SetString(PyExc_RuntimeError, "dictionary changed size during iteration");
+            return -1;
+        }
+        if (unlikely(!PyDict_Next(iter_obj, ppos, &key, &value))) {
+            return 0;
+        }
+        if (pitem) {
+            PyObject* tuple = PyTuple_New(2);
+            if (unlikely(!tuple)) {
+                return -1;
+            }
+            Py_INCREF(key);
+            Py_INCREF(value);
+            PyTuple_SET_ITEM(tuple, 0, key);
+            PyTuple_SET_ITEM(tuple, 1, value);
+            *pitem = tuple;
+        } else {
+            if (pkey) {
+                Py_INCREF(key);
+                *pkey = key;
+            }
+            if (pvalue) {
+                Py_INCREF(value);
+                *pvalue = value;
+            }
+        }
+        return 1;
+    } else if (PyTuple_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyTuple_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyTuple_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else if (PyList_CheckExact(iter_obj)) {
+        Py_ssize_t pos = *ppos;
+        if (unlikely(pos >= PyList_GET_SIZE(iter_obj))) return 0;
+        *ppos = pos + 1;
+        next_item = PyList_GET_ITEM(iter_obj, pos);
+        Py_INCREF(next_item);
+    } else
+#endif
+    {
+        next_item = PyIter_Next(iter_obj);
+        if (unlikely(!next_item)) {
+            return __Pyx_IterFinish();
+        }
+    }
+    if (pitem) {
+        *pitem = next_item;
+    } else if (pkey && pvalue) {
+        if (__Pyx_unpack_tuple2(next_item, pkey, pvalue, source_is_dict, source_is_dict, 1))
+            return -1;
+    } else if (pkey) {
+        *pkey = next_item;
+    } else {
+        *pvalue = next_item;
+    }
+    return 1;
 }
 
 /* PyErrFetchRestore */
-      #if CYTHON_FAST_THREAD_STATE
+  #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
     PyObject *tmp_type, *tmp_value, *tmp_tb;
     tmp_type = tstate->curexc_type;
@@ -12450,7 +12334,7 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 #endif
 
 /* RaiseException */
-      #if PY_MAJOR_VERSION < 3
+  #if PY_MAJOR_VERSION < 3
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb,
                         CYTHON_UNUSED PyObject *cause) {
     __Pyx_PyThreadState_declare
@@ -12608,6 +12492,33 @@ bad:
 }
 #endif
 
+/* GetModuleGlobalName */
+  static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    if (likely(result)) {
+        Py_INCREF(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        result = NULL;
+    } else {
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    if (likely(result)) {
+        Py_INCREF(result);
+    } else {
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    if (!result) {
+        PyErr_Clear();
+#endif
+        result = __Pyx_GetBuiltinName(name);
+    }
+    return result;
+}
+
 /* SetItemInt */
       static int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v) {
     int r;
@@ -12654,6 +12565,78 @@ static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObje
     }
 #endif
     return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
+}
+
+/* UnpackUnboundCMethod */
+        static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
+    PyObject *method;
+    method = __Pyx_PyObject_GetAttrStr(target->type, *target->method_name);
+    if (unlikely(!method))
+        return -1;
+    target->method = method;
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION >= 3
+    if (likely(__Pyx_TypeCheck(method, &PyMethodDescr_Type)))
+    #endif
+    {
+        PyMethodDescrObject *descr = (PyMethodDescrObject*) method;
+        target->func = descr->d_method->ml_meth;
+        target->flag = descr->d_method->ml_flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST);
+    }
+#endif
+    return 0;
+}
+
+/* CallUnboundCMethod1 */
+        #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg) {
+    if (likely(cfunc->func)) {
+        int flag = cfunc->flag;
+        if (flag == METH_O) {
+            return (*(cfunc->func))(self, arg);
+        } else if (PY_VERSION_HEX >= 0x030600B1 && flag == METH_FASTCALL) {
+            if (PY_VERSION_HEX >= 0x030700A0) {
+                return (*(__Pyx_PyCFunctionFast)cfunc->func)(self, &arg, 1);
+            } else {
+                return (*(__Pyx_PyCFunctionFastWithKeywords)cfunc->func)(self, &arg, 1, NULL);
+            }
+        } else if (PY_VERSION_HEX >= 0x030700A0 && flag == (METH_FASTCALL | METH_KEYWORDS)) {
+            return (*(__Pyx_PyCFunctionFastWithKeywords)cfunc->func)(self, &arg, 1, NULL);
+        }
+    }
+    return __Pyx__CallUnboundCMethod1(cfunc, self, arg);
+}
+#endif
+static PyObject* __Pyx__CallUnboundCMethod1(__Pyx_CachedCFunction* cfunc, PyObject* self, PyObject* arg){
+    PyObject *args, *result = NULL;
+    if (unlikely(!cfunc->func && !cfunc->method) && unlikely(__Pyx_TryUnpackUnboundCMethod(cfunc) < 0)) return NULL;
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (cfunc->func && (cfunc->flag & METH_VARARGS)) {
+        args = PyTuple_New(1);
+        if (unlikely(!args)) goto bad;
+        Py_INCREF(arg);
+        PyTuple_SET_ITEM(args, 0, arg);
+        if (cfunc->flag & METH_KEYWORDS)
+            result = (*(PyCFunctionWithKeywords)cfunc->func)(self, args, NULL);
+        else
+            result = (*cfunc->func)(self, args);
+    } else {
+        args = PyTuple_New(2);
+        if (unlikely(!args)) goto bad;
+        Py_INCREF(self);
+        PyTuple_SET_ITEM(args, 0, self);
+        Py_INCREF(arg);
+        PyTuple_SET_ITEM(args, 1, arg);
+        result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
+    }
+#else
+    args = PyTuple_Pack(2, self, arg);
+    if (unlikely(!args)) goto bad;
+    result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
+#endif
+bad:
+    Py_XDECREF(args);
+    return result;
 }
 
 /* BytesEquals */
@@ -12802,6 +12785,61 @@ return_ne:
 #endif
 }
 
+/* ExtTypeTest */
+        static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    if (likely(__Pyx_TypeCheck(obj, type)))
+        return 1;
+    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
+                 Py_TYPE(obj)->tp_name, type->tp_name);
+    return 0;
+}
+
+/* WriteUnraisableException */
+        static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback, CYTHON_UNUSED int nogil) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_PyThreadState_declare
+#ifdef WITH_THREAD
+    PyGILState_STATE state;
+    if (nogil)
+        state = PyGILState_Ensure();
+#ifdef _MSC_VER
+    else state = (PyGILState_STATE)-1;
+#endif
+#endif
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
+#ifdef WITH_THREAD
+    if (nogil)
+        PyGILState_Release(state);
+#endif
+}
+
 /* PyObjectCallMethod1 */
         static PyObject* __Pyx__PyObject_CallMethod1(PyObject* method, PyObject* arg) {
     PyObject *result = NULL;
@@ -12866,61 +12904,6 @@ static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name
     return 0;
 }
 
-/* ExtTypeTest */
-        static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    if (likely(__Pyx_TypeCheck(obj, type)))
-        return 1;
-    PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
-                 Py_TYPE(obj)->tp_name, type->tp_name);
-    return 0;
-}
-
-/* WriteUnraisableException */
-        static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
-                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
-                                  int full_traceback, CYTHON_UNUSED int nogil) {
-    PyObject *old_exc, *old_val, *old_tb;
-    PyObject *ctx;
-    __Pyx_PyThreadState_declare
-#ifdef WITH_THREAD
-    PyGILState_STATE state;
-    if (nogil)
-        state = PyGILState_Ensure();
-#ifdef _MSC_VER
-    else state = (PyGILState_STATE)-1;
-#endif
-#endif
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
-    if (full_traceback) {
-        Py_XINCREF(old_exc);
-        Py_XINCREF(old_val);
-        Py_XINCREF(old_tb);
-        __Pyx_ErrRestore(old_exc, old_val, old_tb);
-        PyErr_PrintEx(1);
-    }
-    #if PY_MAJOR_VERSION < 3
-    ctx = PyString_FromString(name);
-    #else
-    ctx = PyUnicode_FromString(name);
-    #endif
-    __Pyx_ErrRestore(old_exc, old_val, old_tb);
-    if (!ctx) {
-        PyErr_WriteUnraisable(Py_None);
-    } else {
-        PyErr_WriteUnraisable(ctx);
-        Py_DECREF(ctx);
-    }
-#ifdef WITH_THREAD
-    if (nogil)
-        PyGILState_Release(state);
-#endif
-}
-
 /* ObjectGetItem */
         #if CYTHON_USE_TYPE_SLOTS
 static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
@@ -12975,11 +12958,6 @@ bad:
         return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyDict_Type_items, d);
     else
         return PyDict_Items(d);
-}
-
-/* RaiseNoneIterError */
-        static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
-    PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
 }
 
 /* SaveResetException */
@@ -13260,6 +13238,26 @@ GOOD:
     return ret;
 }
 
+/* GetVTable */
+          static void* __Pyx_GetVtable(PyObject *dict) {
+    void* ptr;
+    PyObject *ob = PyObject_GetItem(dict, __pyx_n_s_pyx_vtable);
+    if (!ob)
+        goto bad;
+#if PY_VERSION_HEX >= 0x02070000
+    ptr = PyCapsule_GetPointer(ob, 0);
+#else
+    ptr = PyCObject_AsVoidPtr(ob);
+#endif
+    if (!ptr && !PyErr_Occurred())
+        PyErr_SetString(PyExc_RuntimeError, "invalid vtable found for imported type");
+    Py_DECREF(ob);
+    return ptr;
+bad:
+    Py_XDECREF(ob);
+    return NULL;
+}
+
 /* Import */
           static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
     PyObject *empty_list = 0;
@@ -13323,20 +13321,6 @@ bad:
     Py_XDECREF(empty_list);
     Py_XDECREF(empty_dict);
     return module;
-}
-
-/* ImportFrom */
-          static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
-    PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
-    if (unlikely(!value) && PyErr_ExceptionMatches(PyExc_AttributeError)) {
-        PyErr_Format(PyExc_ImportError,
-        #if PY_MAJOR_VERSION < 3
-            "cannot import name %.230s", PyString_AS_STRING(name));
-        #else
-            "cannot import name %S", name);
-        #endif
-    }
-    return value;
 }
 
 /* CLineInTraceback */
@@ -15486,6 +15470,60 @@ bad:
     Py_XDECREF(py_module);
     Py_XDECREF(result);
     return NULL;
+}
+#endif
+
+/* FunctionImport */
+              #ifndef __PYX_HAVE_RT_ImportFunction
+#define __PYX_HAVE_RT_ImportFunction
+static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig) {
+    PyObject *d = 0;
+    PyObject *cobj = 0;
+    union {
+        void (*fp)(void);
+        void *p;
+    } tmp;
+    d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
+    if (!d)
+        goto bad;
+    cobj = PyDict_GetItemString(d, funcname);
+    if (!cobj) {
+        PyErr_Format(PyExc_ImportError,
+            "%.200s does not export expected C function %.200s",
+                PyModule_GetName(module), funcname);
+        goto bad;
+    }
+#if PY_VERSION_HEX >= 0x02070000
+    if (!PyCapsule_IsValid(cobj, sig)) {
+        PyErr_Format(PyExc_TypeError,
+            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
+             PyModule_GetName(module), funcname, sig, PyCapsule_GetName(cobj));
+        goto bad;
+    }
+    tmp.p = PyCapsule_GetPointer(cobj, sig);
+#else
+    {const char *desc, *s1, *s2;
+    desc = (const char *)PyCObject_GetDesc(cobj);
+    if (!desc)
+        goto bad;
+    s1 = desc; s2 = sig;
+    while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
+    if (*s1 != *s2) {
+        PyErr_Format(PyExc_TypeError,
+            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
+             PyModule_GetName(module), funcname, sig, desc);
+        goto bad;
+    }
+    tmp.p = PyCObject_AsVoidPtr(cobj);}
+#endif
+    *f = tmp.fp;
+    if (!(*f))
+        goto bad;
+    Py_DECREF(d);
+    return 0;
+bad:
+    Py_XDECREF(d);
+    return -1;
 }
 #endif
 

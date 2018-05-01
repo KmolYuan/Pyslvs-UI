@@ -1067,7 +1067,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "firefly.pyx":28
+/* "firefly.pyx":32
  * 
  * 
  * cdef enum limit:             # <<<<<<<<<<<<<<
@@ -1080,7 +1080,7 @@ enum __pyx_t_7firefly_limit {
   __pyx_e_7firefly_maxTime
 };
 
-/* "firefly.pyx":34
+/* "firefly.pyx":38
  * 
  * 
  * cdef class Chromosome:             # <<<<<<<<<<<<<<
@@ -1096,7 +1096,7 @@ struct __pyx_obj_7firefly_Chromosome {
 };
 
 
-/* "firefly.pyx":61
+/* "firefly.pyx":65
  * 
  * 
  * cdef class Firefly:             # <<<<<<<<<<<<<<
@@ -1134,7 +1134,7 @@ struct __pyx_obj_7firefly_Firefly {
 
 
 
-/* "firefly.pyx":34
+/* "firefly.pyx":38
  * 
  * 
  * cdef class Chromosome:             # <<<<<<<<<<<<<<
@@ -1149,7 +1149,7 @@ struct __pyx_vtabstruct_7firefly_Chromosome {
 static struct __pyx_vtabstruct_7firefly_Chromosome *__pyx_vtabptr_7firefly_Chromosome;
 
 
-/* "firefly.pyx":61
+/* "firefly.pyx":65
  * 
  * 
  * cdef class Firefly:             # <<<<<<<<<<<<<<
@@ -2001,7 +2001,7 @@ static PyObject *__pyx_tuple__14;
 static PyObject *__pyx_codeobj__15;
 /* Late includes */
 
-/* "firefly.pyx":24
+/* "firefly.pyx":28
  * 
  * 
  * cdef double randV():             # <<<<<<<<<<<<<<
@@ -2016,7 +2016,7 @@ static double __pyx_f_7firefly_randV(void) {
   double __pyx_t_2;
   __Pyx_RefNannySetupContext("randV", 0);
 
-  /* "firefly.pyx":25
+  /* "firefly.pyx":29
  * 
  * cdef double randV():
  *     return rand()/(RAND_MAX*1.01)             # <<<<<<<<<<<<<<
@@ -2027,12 +2027,12 @@ static double __pyx_f_7firefly_randV(void) {
   __pyx_t_2 = (RAND_MAX * 1.01);
   if (unlikely(__pyx_t_2 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 25, __pyx_L1_error)
+    __PYX_ERR(0, 29, __pyx_L1_error)
   }
   __pyx_r = (__pyx_t_1 / __pyx_t_2);
   goto __pyx_L0;
 
-  /* "firefly.pyx":24
+  /* "firefly.pyx":28
  * 
  * 
  * cdef double randV():             # <<<<<<<<<<<<<<
@@ -2049,7 +2049,7 @@ static double __pyx_f_7firefly_randV(void) {
   return __pyx_r;
 }
 
-/* "firefly.pyx":40
+/* "firefly.pyx":44
  *     cdef public np.ndarray v
  * 
  *     def __cinit__(self, n: int):             # <<<<<<<<<<<<<<
@@ -2083,7 +2083,7 @@ static int __pyx_pw_7firefly_10Chromosome_1__cinit__(PyObject *__pyx_v_self, PyO
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 44, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -2094,7 +2094,7 @@ static int __pyx_pw_7firefly_10Chromosome_1__cinit__(PyObject *__pyx_v_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 40, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 44, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("firefly.Chromosome.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2117,26 +2117,26 @@ static int __pyx_pf_7firefly_10Chromosome___cinit__(struct __pyx_obj_7firefly_Ch
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "firefly.pyx":41
+  /* "firefly.pyx":45
  * 
  *     def __cinit__(self, n: int):
  *         self.n = n             # <<<<<<<<<<<<<<
  *         #self.v = <double *>malloc(n*cython.sizeof(double))
  *         self.v = np.zeros(n)
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_n); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_n); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L1_error)
   __pyx_v_self->n = __pyx_t_1;
 
-  /* "firefly.pyx":43
+  /* "firefly.pyx":47
  *         self.n = n
  *         #self.v = <double *>malloc(n*cython.sizeof(double))
  *         self.v = np.zeros(n)             # <<<<<<<<<<<<<<
  *         # the light intensity
  *         self.f = 0
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -2150,13 +2150,13 @@ static int __pyx_pf_7firefly_10Chromosome___cinit__(struct __pyx_obj_7firefly_Ch
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_n};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
@@ -2164,32 +2164,32 @@ static int __pyx_pf_7firefly_10Chromosome___cinit__(struct __pyx_obj_7firefly_Ch
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_n};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_n);
       __Pyx_GIVEREF(__pyx_v_n);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_n);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 47, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 43, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->v);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->v));
   __pyx_v_self->v = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "firefly.pyx":45
+  /* "firefly.pyx":49
  *         self.v = np.zeros(n)
  *         # the light intensity
  *         self.f = 0             # <<<<<<<<<<<<<<
@@ -2198,7 +2198,7 @@ static int __pyx_pf_7firefly_10Chromosome___cinit__(struct __pyx_obj_7firefly_Ch
  */
   __pyx_v_self->f = 0.0;
 
-  /* "firefly.pyx":40
+  /* "firefly.pyx":44
  *     cdef public np.ndarray v
  * 
  *     def __cinit__(self, n: int):             # <<<<<<<<<<<<<<
@@ -2221,7 +2221,7 @@ static int __pyx_pf_7firefly_10Chromosome___cinit__(struct __pyx_obj_7firefly_Ch
   return __pyx_r;
 }
 
-/* "firefly.pyx":47
+/* "firefly.pyx":51
  *         self.f = 0
  * 
  *     cdef double distance(self, Chromosome obj):             # <<<<<<<<<<<<<<
@@ -2244,7 +2244,7 @@ static double __pyx_f_7firefly_10Chromosome_distance(struct __pyx_obj_7firefly_C
   double __pyx_t_7;
   __Pyx_RefNannySetupContext("distance", 0);
 
-  /* "firefly.pyx":48
+  /* "firefly.pyx":52
  * 
  *     cdef double distance(self, Chromosome obj):
  *         cdef double dist = 0             # <<<<<<<<<<<<<<
@@ -2253,7 +2253,7 @@ static double __pyx_f_7firefly_10Chromosome_distance(struct __pyx_obj_7firefly_C
  */
   __pyx_v_dist = 0.0;
 
-  /* "firefly.pyx":50
+  /* "firefly.pyx":54
  *         cdef double dist = 0
  *         cdef double diff
  *         for i in range(self.n):             # <<<<<<<<<<<<<<
@@ -2265,26 +2265,26 @@ static double __pyx_f_7firefly_10Chromosome_distance(struct __pyx_obj_7firefly_C
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "firefly.pyx":51
+    /* "firefly.pyx":55
  *         cdef double diff
  *         for i in range(self.n):
  *             diff = self.v[i] - obj.v[i]             # <<<<<<<<<<<<<<
  *             dist += diff * diff
  *         return sqrt(dist)
  */
-    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_obj->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_obj->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 51, __pyx_L1_error)
+    __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 55, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_diff = __pyx_t_7;
 
-    /* "firefly.pyx":52
+    /* "firefly.pyx":56
  *         for i in range(self.n):
  *             diff = self.v[i] - obj.v[i]
  *             dist += diff * diff             # <<<<<<<<<<<<<<
@@ -2294,7 +2294,7 @@ static double __pyx_f_7firefly_10Chromosome_distance(struct __pyx_obj_7firefly_C
     __pyx_v_dist = (__pyx_v_dist + (__pyx_v_diff * __pyx_v_diff));
   }
 
-  /* "firefly.pyx":53
+  /* "firefly.pyx":57
  *             diff = self.v[i] - obj.v[i]
  *             dist += diff * diff
  *         return sqrt(dist)             # <<<<<<<<<<<<<<
@@ -2304,7 +2304,7 @@ static double __pyx_f_7firefly_10Chromosome_distance(struct __pyx_obj_7firefly_C
   __pyx_r = sqrt(__pyx_v_dist);
   goto __pyx_L0;
 
-  /* "firefly.pyx":47
+  /* "firefly.pyx":51
  *         self.f = 0
  * 
  *     cdef double distance(self, Chromosome obj):             # <<<<<<<<<<<<<<
@@ -2324,7 +2324,7 @@ static double __pyx_f_7firefly_10Chromosome_distance(struct __pyx_obj_7firefly_C
   return __pyx_r;
 }
 
-/* "firefly.pyx":55
+/* "firefly.pyx":59
  *         return sqrt(dist)
  * 
  *     cpdef void assign(self, Chromosome obj):             # <<<<<<<<<<<<<<
@@ -2347,7 +2347,7 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_assign); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_assign); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_7firefly_10Chromosome_3assign)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -2362,13 +2362,13 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_obj)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_obj)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_obj)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -2376,19 +2376,19 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_obj)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 59, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(((PyObject *)__pyx_v_obj));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_obj));
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_obj));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 55, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
@@ -2401,7 +2401,7 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "firefly.pyx":56
+  /* "firefly.pyx":60
  * 
  *     cpdef void assign(self, Chromosome obj):
  *         self.n = obj.n             # <<<<<<<<<<<<<<
@@ -2411,7 +2411,7 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
   __pyx_t_6 = __pyx_v_obj->n;
   __pyx_v_self->n = __pyx_t_6;
 
-  /* "firefly.pyx":57
+  /* "firefly.pyx":61
  *     cpdef void assign(self, Chromosome obj):
  *         self.n = obj.n
  *         self.v[:] = obj.v             # <<<<<<<<<<<<<<
@@ -2420,10 +2420,10 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_obj->v);
   __Pyx_INCREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetSlice(((PyObject *)__pyx_v_self->v), __pyx_t_1, 0, 0, NULL, NULL, &__pyx_slice_, 0, 0, 1) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (__Pyx_PyObject_SetSlice(((PyObject *)__pyx_v_self->v), __pyx_t_1, 0, 0, NULL, NULL, &__pyx_slice_, 0, 0, 1) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "firefly.pyx":58
+  /* "firefly.pyx":62
  *         self.n = obj.n
  *         self.v[:] = obj.v
  *         self.f = obj.f             # <<<<<<<<<<<<<<
@@ -2433,7 +2433,7 @@ static void __pyx_f_7firefly_10Chromosome_assign(struct __pyx_obj_7firefly_Chrom
   __pyx_t_7 = __pyx_v_obj->f;
   __pyx_v_self->f = __pyx_t_7;
 
-  /* "firefly.pyx":55
+  /* "firefly.pyx":59
  *         return sqrt(dist)
  * 
  *     cpdef void assign(self, Chromosome obj):             # <<<<<<<<<<<<<<
@@ -2460,7 +2460,7 @@ static PyObject *__pyx_pw_7firefly_10Chromosome_3assign(PyObject *__pyx_v_self, 
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("assign (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_obj), __pyx_ptype_7firefly_Chromosome, 1, "obj", 0))) __PYX_ERR(0, 55, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_obj), __pyx_ptype_7firefly_Chromosome, 1, "obj", 0))) __PYX_ERR(0, 59, __pyx_L1_error)
   __pyx_r = __pyx_pf_7firefly_10Chromosome_2assign(((struct __pyx_obj_7firefly_Chromosome *)__pyx_v_self), ((struct __pyx_obj_7firefly_Chromosome *)__pyx_v_obj));
 
   /* function exit code */
@@ -2478,7 +2478,7 @@ static PyObject *__pyx_pf_7firefly_10Chromosome_2assign(struct __pyx_obj_7firefl
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("assign", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_7firefly_10Chromosome_assign(__pyx_v_self, __pyx_v_obj, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_7firefly_10Chromosome_assign(__pyx_v_self, __pyx_v_obj, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2495,7 +2495,7 @@ static PyObject *__pyx_pf_7firefly_10Chromosome_2assign(struct __pyx_obj_7firefl
   return __pyx_r;
 }
 
-/* "firefly.pyx":36
+/* "firefly.pyx":40
  * cdef class Chromosome:
  * 
  *     cdef public int n             # <<<<<<<<<<<<<<
@@ -2522,7 +2522,7 @@ static PyObject *__pyx_pf_7firefly_10Chromosome_1n___get__(struct __pyx_obj_7fir
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2557,7 +2557,7 @@ static int __pyx_pf_7firefly_10Chromosome_1n_2__set__(struct __pyx_obj_7firefly_
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 36, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 40, __pyx_L1_error)
   __pyx_v_self->n = __pyx_t_1;
 
   /* function exit code */
@@ -2571,7 +2571,7 @@ static int __pyx_pf_7firefly_10Chromosome_1n_2__set__(struct __pyx_obj_7firefly_
   return __pyx_r;
 }
 
-/* "firefly.pyx":37
+/* "firefly.pyx":41
  * 
  *     cdef public int n
  *     cdef public double f             # <<<<<<<<<<<<<<
@@ -2598,7 +2598,7 @@ static PyObject *__pyx_pf_7firefly_10Chromosome_1f___get__(struct __pyx_obj_7fir
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->f); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->f); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2633,7 +2633,7 @@ static int __pyx_pf_7firefly_10Chromosome_1f_2__set__(struct __pyx_obj_7firefly_
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 41, __pyx_L1_error)
   __pyx_v_self->f = __pyx_t_1;
 
   /* function exit code */
@@ -2647,7 +2647,7 @@ static int __pyx_pf_7firefly_10Chromosome_1f_2__set__(struct __pyx_obj_7firefly_
   return __pyx_r;
 }
 
-/* "firefly.pyx":38
+/* "firefly.pyx":42
  *     cdef public int n
  *     cdef public double f
  *     cdef public np.ndarray v             # <<<<<<<<<<<<<<
@@ -2702,7 +2702,7 @@ static int __pyx_pf_7firefly_10Chromosome_1v_2__set__(struct __pyx_obj_7firefly_
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -2859,7 +2859,7 @@ static PyObject *__pyx_pf_7firefly_10Chromosome_6__setstate_cython__(CYTHON_UNUS
   return __pyx_r;
 }
 
-/* "firefly.pyx":72
+/* "firefly.pyx":76
  *     cdef list fitnessTime
  * 
  *     def __init__(self,             # <<<<<<<<<<<<<<
@@ -2885,7 +2885,7 @@ static int __pyx_pw_7firefly_7Firefly_1__init__(PyObject *__pyx_v_self, PyObject
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_func,&__pyx_n_s_settings,&__pyx_n_s_progress_fun,&__pyx_n_s_interrupt_fun,0};
     PyObject* values[4] = {0,0,0,0};
 
-    /* "firefly.pyx":75
+    /* "firefly.pyx":79
  *         func: object,
  *         settings: dict,
  *         progress_fun: object = None,             # <<<<<<<<<<<<<<
@@ -2894,7 +2894,7 @@ static int __pyx_pw_7firefly_7Firefly_1__init__(PyObject *__pyx_v_self, PyObject
  */
     values[2] = ((PyObject *)Py_None);
 
-    /* "firefly.pyx":76
+    /* "firefly.pyx":80
  *         settings: dict,
  *         progress_fun: object = None,
  *         interrupt_fun: object = None             # <<<<<<<<<<<<<<
@@ -2926,7 +2926,7 @@ static int __pyx_pw_7firefly_7Firefly_1__init__(PyObject *__pyx_v_self, PyObject
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_settings)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(0, 72, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, 1); __PYX_ERR(0, 76, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -2942,7 +2942,7 @@ static int __pyx_pw_7firefly_7Firefly_1__init__(PyObject *__pyx_v_self, PyObject
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 72, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 76, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2963,16 +2963,16 @@ static int __pyx_pw_7firefly_7Firefly_1__init__(PyObject *__pyx_v_self, PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 72, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 76, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("firefly.Firefly.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_settings), (&PyDict_Type), 1, "settings", 1))) __PYX_ERR(0, 74, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_settings), (&PyDict_Type), 1, "settings", 1))) __PYX_ERR(0, 78, __pyx_L1_error)
   __pyx_r = __pyx_pf_7firefly_7Firefly___init__(((struct __pyx_obj_7firefly_Firefly *)__pyx_v_self), __pyx_v_func, __pyx_v_settings, __pyx_v_progress_fun, __pyx_v_interrupt_fun);
 
-  /* "firefly.pyx":72
+  /* "firefly.pyx":76
  *     cdef list fitnessTime
  * 
  *     def __init__(self,             # <<<<<<<<<<<<<<
@@ -3006,7 +3006,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "firefly.pyx":90
+  /* "firefly.pyx":94
  *         """
  *         # object function
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -3019,14 +3019,14 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __Pyx_DECREF(__pyx_v_self->func);
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "firefly.pyx":92
+  /* "firefly.pyx":96
  *         self.func = func
  *         # D, the dimension of question and each firefly will random place position in this landscape
  *         self.D = self.func.get_nParm()             # <<<<<<<<<<<<<<
  *         # n, the population size of fireflies
  *         self.n = settings['n']
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_nParm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_nParm); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3039,18 +3039,18 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->D = __pyx_t_4;
 
-  /* "firefly.pyx":94
+  /* "firefly.pyx":98
  *         self.D = self.func.get_nParm()
  *         # n, the population size of fireflies
  *         self.n = settings['n']             # <<<<<<<<<<<<<<
@@ -3059,15 +3059,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 94, __pyx_L1_error)
+    __PYX_ERR(0, 98, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->n = __pyx_t_4;
 
-  /* "firefly.pyx":96
+  /* "firefly.pyx":100
  *         self.n = settings['n']
  *         # alpha, the step size
  *         self.alpha = settings['alpha']             # <<<<<<<<<<<<<<
@@ -3076,15 +3076,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 96, __pyx_L1_error)
+    __PYX_ERR(0, 100, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->alpha = __pyx_t_5;
 
-  /* "firefly.pyx":98
+  /* "firefly.pyx":102
  *         self.alpha = settings['alpha']
  *         # alpha0, use to calculate_new_alpha
  *         self.alpha0 = settings['alpha']             # <<<<<<<<<<<<<<
@@ -3093,15 +3093,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 98, __pyx_L1_error)
+    __PYX_ERR(0, 102, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_alpha); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 98, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->alpha0 = __pyx_t_5;
 
-  /* "firefly.pyx":100
+  /* "firefly.pyx":104
  *         self.alpha0 = settings['alpha']
  *         # betamin, the minimal attraction, must not less than this
  *         self.betaMin = settings['betaMin']             # <<<<<<<<<<<<<<
@@ -3110,15 +3110,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 100, __pyx_L1_error)
+    __PYX_ERR(0, 104, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_betaMin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_betaMin); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->betaMin = __pyx_t_5;
 
-  /* "firefly.pyx":102
+  /* "firefly.pyx":106
  *         self.betaMin = settings['betaMin']
  *         # beta0, the attraction of two firefly in 0 distance
  *         self.beta0 = settings['beta0']             # <<<<<<<<<<<<<<
@@ -3127,15 +3127,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 102, __pyx_L1_error)
+    __PYX_ERR(0, 106, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_beta0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_beta0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 106, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->beta0 = __pyx_t_5;
 
-  /* "firefly.pyx":104
+  /* "firefly.pyx":108
  *         self.beta0 = settings['beta0']
  *         # gamma
  *         self.gamma = settings['gamma']             # <<<<<<<<<<<<<<
@@ -3144,27 +3144,27 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 104, __pyx_L1_error)
+    __PYX_ERR(0, 108, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_gamma); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_gamma); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 104, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->gamma = __pyx_t_5;
 
-  /* "firefly.pyx":106
+  /* "firefly.pyx":110
  *         self.gamma = settings['gamma']
  *         # low bound
  *         self.lb = np.array(self.func.get_lower())             # <<<<<<<<<<<<<<
  *         # up bound
  *         self.ub = np.array(self.func.get_upper())
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_lower); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 106, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_lower); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -3177,10 +3177,10 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (__pyx_t_7) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3195,14 +3195,14 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3211,45 +3211,45 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 106, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 106, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->lb);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->lb));
   __pyx_v_self->lb = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "firefly.pyx":108
+  /* "firefly.pyx":112
  *         self.lb = np.array(self.func.get_lower())
  *         # up bound
  *         self.ub = np.array(self.func.get_upper())             # <<<<<<<<<<<<<<
  *         # all fireflies, depend on population n
  *         self.fireflys = np.ndarray((self.n,), dtype=np.object)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3262,10 +3262,10 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3280,14 +3280,14 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3296,61 +3296,61 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 108, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->ub);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->ub));
   __pyx_v_self->ub = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "firefly.pyx":110
+  /* "firefly.pyx":114
  *         self.ub = np.array(self.func.get_upper())
  *         # all fireflies, depend on population n
  *         self.fireflys = np.ndarray((self.n,), dtype=np.object)             # <<<<<<<<<<<<<<
  *         for i in range(self.n):
  *             self.fireflys[i] = Chromosome(self.D)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_object); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_object); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3360,7 +3360,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __pyx_v_self->fireflys = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "firefly.pyx":111
+  /* "firefly.pyx":115
  *         # all fireflies, depend on population n
  *         self.fireflys = np.ndarray((self.n,), dtype=np.object)
  *         for i in range(self.n):             # <<<<<<<<<<<<<<
@@ -3372,23 +3372,23 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "firefly.pyx":112
+    /* "firefly.pyx":116
  *         self.fireflys = np.ndarray((self.n,), dtype=np.object)
  *         for i in range(self.n):
  *             self.fireflys[i] = Chromosome(self.D)             # <<<<<<<<<<<<<<
  *         #Algorithm will stop when the limitation has happend.
  *         self.maxGen = 0
  */
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7firefly_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 112, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7firefly_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 112, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 116, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
 
-  /* "firefly.pyx":114
+  /* "firefly.pyx":118
  *             self.fireflys[i] = Chromosome(self.D)
  *         #Algorithm will stop when the limitation has happend.
  *         self.maxGen = 0             # <<<<<<<<<<<<<<
@@ -3397,7 +3397,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_v_self->maxGen = 0;
 
-  /* "firefly.pyx":115
+  /* "firefly.pyx":119
  *         #Algorithm will stop when the limitation has happend.
  *         self.maxGen = 0
  *         self.minFit = 0             # <<<<<<<<<<<<<<
@@ -3406,7 +3406,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_v_self->minFit = 0.0;
 
-  /* "firefly.pyx":116
+  /* "firefly.pyx":120
  *         self.maxGen = 0
  *         self.minFit = 0
  *         self.maxTime = 0             # <<<<<<<<<<<<<<
@@ -3415,7 +3415,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_v_self->maxTime = 0;
 
-  /* "firefly.pyx":117
+  /* "firefly.pyx":121
  *         self.minFit = 0
  *         self.maxTime = 0
  *         if 'maxGen' in settings:             # <<<<<<<<<<<<<<
@@ -3424,13 +3424,13 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 117, __pyx_L1_error)
+    __PYX_ERR(0, 121, __pyx_L1_error)
   }
-  __pyx_t_10 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxGen, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_t_10 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxGen, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 121, __pyx_L1_error)
   __pyx_t_11 = (__pyx_t_10 != 0);
   if (__pyx_t_11) {
 
-    /* "firefly.pyx":118
+    /* "firefly.pyx":122
  *         self.maxTime = 0
  *         if 'maxGen' in settings:
  *             self.option = maxGen             # <<<<<<<<<<<<<<
@@ -3439,7 +3439,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
     __pyx_v_self->option = __pyx_e_7firefly_maxGen;
 
-    /* "firefly.pyx":119
+    /* "firefly.pyx":123
  *         if 'maxGen' in settings:
  *             self.option = maxGen
  *             self.maxGen = settings['maxGen']             # <<<<<<<<<<<<<<
@@ -3448,15 +3448,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
     if (unlikely(__pyx_v_settings == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 119, __pyx_L1_error)
+      __PYX_ERR(0, 123, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxGen); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxGen); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_v_self->maxGen = __pyx_t_4;
 
-    /* "firefly.pyx":117
+    /* "firefly.pyx":121
  *         self.minFit = 0
  *         self.maxTime = 0
  *         if 'maxGen' in settings:             # <<<<<<<<<<<<<<
@@ -3466,7 +3466,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     goto __pyx_L5;
   }
 
-  /* "firefly.pyx":120
+  /* "firefly.pyx":124
  *             self.option = maxGen
  *             self.maxGen = settings['maxGen']
  *         elif 'minFit' in settings:             # <<<<<<<<<<<<<<
@@ -3475,13 +3475,13 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 120, __pyx_L1_error)
+    __PYX_ERR(0, 124, __pyx_L1_error)
   }
-  __pyx_t_11 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_minFit, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_11 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_minFit, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 124, __pyx_L1_error)
   __pyx_t_10 = (__pyx_t_11 != 0);
   if (__pyx_t_10) {
 
-    /* "firefly.pyx":121
+    /* "firefly.pyx":125
  *             self.maxGen = settings['maxGen']
  *         elif 'minFit' in settings:
  *             self.option = minFit             # <<<<<<<<<<<<<<
@@ -3490,7 +3490,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
     __pyx_v_self->option = __pyx_e_7firefly_minFit;
 
-    /* "firefly.pyx":122
+    /* "firefly.pyx":126
  *         elif 'minFit' in settings:
  *             self.option = minFit
  *             self.minFit = settings['minFit']             # <<<<<<<<<<<<<<
@@ -3499,15 +3499,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
     if (unlikely(__pyx_v_settings == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 122, __pyx_L1_error)
+      __PYX_ERR(0, 126, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_minFit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_minFit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 122, __pyx_L1_error)
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 126, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_v_self->minFit = __pyx_t_5;
 
-    /* "firefly.pyx":120
+    /* "firefly.pyx":124
  *             self.option = maxGen
  *             self.maxGen = settings['maxGen']
  *         elif 'minFit' in settings:             # <<<<<<<<<<<<<<
@@ -3517,7 +3517,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     goto __pyx_L5;
   }
 
-  /* "firefly.pyx":123
+  /* "firefly.pyx":127
  *             self.option = minFit
  *             self.minFit = settings['minFit']
  *         elif 'maxTime' in settings:             # <<<<<<<<<<<<<<
@@ -3526,13 +3526,13 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 123, __pyx_L1_error)
+    __PYX_ERR(0, 127, __pyx_L1_error)
   }
-  __pyx_t_10 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxTime, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_10 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxTime, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 127, __pyx_L1_error)
   __pyx_t_11 = (__pyx_t_10 != 0);
   if (likely(__pyx_t_11)) {
 
-    /* "firefly.pyx":124
+    /* "firefly.pyx":128
  *             self.minFit = settings['minFit']
  *         elif 'maxTime' in settings:
  *             self.option = maxTime             # <<<<<<<<<<<<<<
@@ -3541,7 +3541,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
     __pyx_v_self->option = __pyx_e_7firefly_maxTime;
 
-    /* "firefly.pyx":125
+    /* "firefly.pyx":129
  *         elif 'maxTime' in settings:
  *             self.option = maxTime
  *             self.maxTime = settings['maxTime']             # <<<<<<<<<<<<<<
@@ -3550,15 +3550,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
     if (unlikely(__pyx_v_settings == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 125, __pyx_L1_error)
+      __PYX_ERR(0, 129, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxTime); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxTime); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 125, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 129, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_v_self->maxTime = __pyx_t_4;
 
-    /* "firefly.pyx":123
+    /* "firefly.pyx":127
  *             self.option = minFit
  *             self.minFit = settings['minFit']
  *         elif 'maxTime' in settings:             # <<<<<<<<<<<<<<
@@ -3568,7 +3568,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     goto __pyx_L5;
   }
 
-  /* "firefly.pyx":127
+  /* "firefly.pyx":131
  *             self.maxTime = settings['maxTime']
  *         else:
  *             raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")             # <<<<<<<<<<<<<<
@@ -3576,15 +3576,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  *         self.rpt = settings['report']
  */
   /*else*/ {
-    __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_Raise(__pyx_t_7, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __PYX_ERR(0, 127, __pyx_L1_error)
+    __PYX_ERR(0, 131, __pyx_L1_error)
   }
   __pyx_L5:;
 
-  /* "firefly.pyx":129
+  /* "firefly.pyx":133
  *             raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")
  *         #Report function
  *         self.rpt = settings['report']             # <<<<<<<<<<<<<<
@@ -3593,15 +3593,15 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 129, __pyx_L1_error)
+    __PYX_ERR(0, 133, __pyx_L1_error)
   }
-  __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_report); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_report); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_7); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_self->rpt = __pyx_t_4;
 
-  /* "firefly.pyx":130
+  /* "firefly.pyx":134
  *         #Report function
  *         self.rpt = settings['report']
  *         self.progress_fun = progress_fun             # <<<<<<<<<<<<<<
@@ -3614,7 +3614,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __Pyx_DECREF(__pyx_v_self->progress_fun);
   __pyx_v_self->progress_fun = __pyx_v_progress_fun;
 
-  /* "firefly.pyx":131
+  /* "firefly.pyx":135
  *         self.rpt = settings['report']
  *         self.progress_fun = progress_fun
  *         self.interrupt_fun = interrupt_fun             # <<<<<<<<<<<<<<
@@ -3627,7 +3627,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __Pyx_DECREF(__pyx_v_self->interrupt_fun);
   __pyx_v_self->interrupt_fun = __pyx_v_interrupt_fun;
 
-  /* "firefly.pyx":133
+  /* "firefly.pyx":137
  *         self.interrupt_fun = interrupt_fun
  *         # generation of current
  *         self.gen = 0             # <<<<<<<<<<<<<<
@@ -3636,16 +3636,16 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_v_self->gen = 0;
 
-  /* "firefly.pyx":135
+  /* "firefly.pyx":139
  *         self.gen = 0
  *         # best firefly of geneation
  *         self.genbest = Chromosome(self.D)             # <<<<<<<<<<<<<<
  *         # best firefly so far
  *         self.bestFirefly = Chromosome(self.D)
  */
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7firefly_Chromosome), __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7firefly_Chromosome), __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_GIVEREF(__pyx_t_3);
@@ -3654,16 +3654,16 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __pyx_v_self->genbest = ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "firefly.pyx":137
+  /* "firefly.pyx":141
  *         self.genbest = Chromosome(self.D)
  *         # best firefly so far
  *         self.bestFirefly = Chromosome(self.D)             # <<<<<<<<<<<<<<
  * 
  *         # setup benchmark
  */
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7firefly_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_7firefly_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_7);
@@ -3672,14 +3672,14 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __pyx_v_self->bestFirefly = ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "firefly.pyx":140
+  /* "firefly.pyx":144
  * 
  *         # setup benchmark
  *         self.timeS = time()             # <<<<<<<<<<<<<<
  *         self.timeE = 0
  *         self.fitnessTime = []
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -3692,18 +3692,18 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (__pyx_t_1) {
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 140, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 144, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_self->timeS = __pyx_t_5;
 
-  /* "firefly.pyx":141
+  /* "firefly.pyx":145
  *         # setup benchmark
  *         self.timeS = time()
  *         self.timeE = 0             # <<<<<<<<<<<<<<
@@ -3712,14 +3712,14 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_v_self->timeE = 0.0;
 
-  /* "firefly.pyx":142
+  /* "firefly.pyx":146
  *         self.timeS = time()
  *         self.timeE = 0
  *         self.fitnessTime = []             # <<<<<<<<<<<<<<
  * 
  *     cdef inline void init(self):
  */
-  __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 146, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_7);
   __Pyx_GOTREF(__pyx_v_self->fitnessTime);
@@ -3727,7 +3727,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   __pyx_v_self->fitnessTime = ((PyObject*)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "firefly.pyx":72
+  /* "firefly.pyx":76
  *     cdef list fitnessTime
  * 
  *     def __init__(self,             # <<<<<<<<<<<<<<
@@ -3751,7 +3751,7 @@ static int __pyx_pf_7firefly_7Firefly___init__(struct __pyx_obj_7firefly_Firefly
   return __pyx_r;
 }
 
-/* "firefly.pyx":144
+/* "firefly.pyx":148
  *         self.fitnessTime = []
  * 
  *     cdef inline void init(self):             # <<<<<<<<<<<<<<
@@ -3775,7 +3775,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_init(struct __pyx_obj_7firef
   PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "firefly.pyx":146
+  /* "firefly.pyx":150
  *     cdef inline void init(self):
  *         cdef int i, j
  *         for i in range(self.n):             # <<<<<<<<<<<<<<
@@ -3787,7 +3787,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_init(struct __pyx_obj_7firef
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "firefly.pyx":148
+    /* "firefly.pyx":152
  *         for i in range(self.n):
  *             # init the Chromosome
  *             for j in range(self.D):             # <<<<<<<<<<<<<<
@@ -3799,45 +3799,45 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_init(struct __pyx_obj_7firef
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_j = __pyx_t_6;
 
-      /* "firefly.pyx":149
+      /* "firefly.pyx":153
  *             # init the Chromosome
  *             for j in range(self.D):
  *                 self.fireflys[i].v[j] = randV()*(self.ub[j] - self.lb[j]) + self.lb[j];             # <<<<<<<<<<<<<<
  * 
  *     cdef inline void movefireflies(self):
  */
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_f_7firefly_randV()); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_f_7firefly_randV()); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_10 = PyNumber_Subtract(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_10 = PyNumber_Subtract(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __pyx_t_9 = PyNumber_Multiply(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_9 = PyNumber_Multiply(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_7 = PyNumber_Add(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_v); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_v); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(__Pyx_SetItemInt(__pyx_t_9, __pyx_v_j, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 149, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_9, __pyx_v_j, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 153, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
 
-  /* "firefly.pyx":144
+  /* "firefly.pyx":148
  *         self.fitnessTime = []
  * 
  *     cdef inline void init(self):             # <<<<<<<<<<<<<<
@@ -3857,7 +3857,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_init(struct __pyx_obj_7firef
   __Pyx_RefNannyFinishContext();
 }
 
-/* "firefly.pyx":151
+/* "firefly.pyx":155
  *                 self.fireflys[i].v[j] = randV()*(self.ub[j] - self.lb[j]) + self.lb[j];
  * 
  *     cdef inline void movefireflies(self):             # <<<<<<<<<<<<<<
@@ -3888,7 +3888,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
   double __pyx_t_14;
   __Pyx_RefNannySetupContext("movefireflies", 0);
 
-  /* "firefly.pyx":154
+  /* "firefly.pyx":158
  *         cdef int i, j, k
  *         cdef bool is_move
  *         for i in range(self.n):             # <<<<<<<<<<<<<<
@@ -3900,7 +3900,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "firefly.pyx":155
+    /* "firefly.pyx":159
  *         cdef bool is_move
  *         for i in range(self.n):
  *             is_move = False             # <<<<<<<<<<<<<<
@@ -3910,7 +3910,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
     __Pyx_INCREF(Py_False);
     __Pyx_XDECREF_SET(__pyx_v_is_move, ((PyBoolObject *)Py_False));
 
-    /* "firefly.pyx":156
+    /* "firefly.pyx":160
  *         for i in range(self.n):
  *             is_move = False
  *             for j in range(self.n):             # <<<<<<<<<<<<<<
@@ -3922,43 +3922,43 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_j = __pyx_t_6;
 
-      /* "firefly.pyx":157
+      /* "firefly.pyx":161
  *             is_move = False
  *             for j in range(self.n):
  *                 is_move |= self.movefly(self.fireflys[i], self.fireflys[j])             # <<<<<<<<<<<<<<
  *             if not is_move:
  *                 for k in range(self.D):
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 157, __pyx_L1_error)
-      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+      if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 161, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 157, __pyx_L1_error)
-      __pyx_t_9 = ((PyObject *)__pyx_f_7firefly_7Firefly_movefly(__pyx_v_self, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_7), ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_8))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 157, __pyx_L1_error)
+      if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 161, __pyx_L1_error)
+      __pyx_t_9 = ((PyObject *)__pyx_f_7firefly_7Firefly_movefly(__pyx_v_self, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_7), ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_8))); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = PyNumber_InPlaceOr(((PyObject *)__pyx_v_is_move), __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 157, __pyx_L1_error)
+      __pyx_t_8 = PyNumber_InPlaceOr(((PyObject *)__pyx_v_is_move), __pyx_t_9); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-      if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_7cpython_4bool_bool))))) __PYX_ERR(0, 157, __pyx_L1_error)
+      if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_7cpython_4bool_bool))))) __PYX_ERR(0, 161, __pyx_L1_error)
       __Pyx_DECREF_SET(__pyx_v_is_move, ((PyBoolObject *)__pyx_t_8));
       __pyx_t_8 = 0;
     }
 
-    /* "firefly.pyx":158
+    /* "firefly.pyx":162
  *             for j in range(self.n):
  *                 is_move |= self.movefly(self.fireflys[i], self.fireflys[j])
  *             if not is_move:             # <<<<<<<<<<<<<<
  *                 for k in range(self.D):
  *                     scale = self.ub[k] - self.lb[k]
  */
-    __pyx_t_10 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_is_move)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 158, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_is_move)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 162, __pyx_L1_error)
     __pyx_t_11 = ((!__pyx_t_10) != 0);
     if (__pyx_t_11) {
 
-      /* "firefly.pyx":159
+      /* "firefly.pyx":163
  *                 is_move |= self.movefly(self.fireflys[i], self.fireflys[j])
  *             if not is_move:
  *                 for k in range(self.D):             # <<<<<<<<<<<<<<
@@ -3970,82 +3970,82 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
       for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
         __pyx_v_k = __pyx_t_6;
 
-        /* "firefly.pyx":160
+        /* "firefly.pyx":164
  *             if not is_move:
  *                 for k in range(self.D):
  *                     scale = self.ub[k] - self.lb[k]             # <<<<<<<<<<<<<<
  *                     self.fireflys[i].v[k] += self.alpha * (randV() - 0.5) * scale
  *                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])
  */
-        __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 164, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 164, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_7 = PyNumber_Subtract(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 160, __pyx_L1_error)
+        __pyx_t_7 = PyNumber_Subtract(__pyx_t_8, __pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 164, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_XDECREF_SET(__pyx_v_scale, __pyx_t_7);
         __pyx_t_7 = 0;
 
-        /* "firefly.pyx":161
+        /* "firefly.pyx":165
  *                 for k in range(self.D):
  *                     scale = self.ub[k] - self.lb[k]
  *                     self.fireflys[i].v[k] += self.alpha * (randV() - 0.5) * scale             # <<<<<<<<<<<<<<
  *                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])
  * 
  */
-        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_v); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_v); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_12 = __pyx_v_k;
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_9, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_9, __pyx_t_12, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = PyFloat_FromDouble((__pyx_v_self->alpha * (__pyx_f_7firefly_randV() - 0.5))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_8 = PyFloat_FromDouble((__pyx_v_self->alpha * (__pyx_f_7firefly_randV() - 0.5))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_13 = PyNumber_Multiply(__pyx_t_8, __pyx_v_scale); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_13 = PyNumber_Multiply(__pyx_t_8, __pyx_v_scale); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 161, __pyx_L1_error)
+        __pyx_t_8 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_13); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_9, __pyx_t_12, __pyx_t_8, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 161, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_9, __pyx_t_12, __pyx_t_8, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 165, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-        /* "firefly.pyx":162
+        /* "firefly.pyx":166
  *                     scale = self.ub[k] - self.lb[k]
  *                     self.fireflys[i].v[k] += self.alpha * (randV() - 0.5) * scale
  *                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])             # <<<<<<<<<<<<<<
  * 
  *     cdef inline void evaluate(self):
  */
-        __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_v); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_v); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_8, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_GetItemInt(__pyx_t_8, __pyx_v_k, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_14 = __pyx_PyFloat_AsDouble(__pyx_t_9); if (unlikely((__pyx_t_14 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = PyFloat_FromDouble(__pyx_f_7firefly_7Firefly_check(__pyx_v_self, __pyx_v_k, __pyx_t_14)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_9 = PyFloat_FromDouble(__pyx_f_7firefly_7Firefly_check(__pyx_v_self, __pyx_v_k, __pyx_t_14)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_v); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 162, __pyx_L1_error)
+        __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_v); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        if (unlikely(__Pyx_SetItemInt(__pyx_t_13, __pyx_v_k, __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 162, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(__pyx_t_13, __pyx_v_k, __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 166, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
 
-      /* "firefly.pyx":158
+      /* "firefly.pyx":162
  *             for j in range(self.n):
  *                 is_move |= self.movefly(self.fireflys[i], self.fireflys[j])
  *             if not is_move:             # <<<<<<<<<<<<<<
@@ -4055,7 +4055,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
     }
   }
 
-  /* "firefly.pyx":151
+  /* "firefly.pyx":155
  *                 self.fireflys[i].v[j] = randV()*(self.ub[j] - self.lb[j]) + self.lb[j];
  * 
  *     cdef inline void movefireflies(self):             # <<<<<<<<<<<<<<
@@ -4077,7 +4077,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_movefireflies(struct __pyx_o
   __Pyx_RefNannyFinishContext();
 }
 
-/* "firefly.pyx":164
+/* "firefly.pyx":168
  *                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])
  * 
  *     cdef inline void evaluate(self):             # <<<<<<<<<<<<<<
@@ -4098,7 +4098,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
   double __pyx_t_8;
   __Pyx_RefNannySetupContext("evaluate", 0);
 
-  /* "firefly.pyx":166
+  /* "firefly.pyx":170
  *     cdef inline void evaluate(self):
  *         cdef Chromosome firefly
  *         for firefly in self.fireflys:             # <<<<<<<<<<<<<<
@@ -4109,26 +4109,26 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
     __pyx_t_1 = ((PyObject *)__pyx_v_self->fireflys); __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_3 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_self->fireflys)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 166, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(((PyObject *)__pyx_v_self->fireflys)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 166, __pyx_L1_error)
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 166, __pyx_L1_error)
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 170, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 166, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 166, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 170, __pyx_L1_error)
         #else
-        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 166, __pyx_L1_error)
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         #endif
       }
@@ -4138,17 +4138,17 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 166, __pyx_L1_error)
+          else __PYX_ERR(0, 170, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_4);
     }
-    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 166, __pyx_L1_error)
+    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 170, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_firefly, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "firefly.pyx":167
+    /* "firefly.pyx":171
  *         cdef Chromosome firefly
  *         for firefly in self.fireflys:
  *             firefly.f = self.func(firefly.v)             # <<<<<<<<<<<<<<
@@ -4167,13 +4167,13 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_firefly->v)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, ((PyObject *)__pyx_v_firefly->v)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, ((PyObject *)__pyx_v_firefly->v)};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
@@ -4181,29 +4181,29 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, ((PyObject *)__pyx_v_firefly->v)};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_INCREF(((PyObject *)__pyx_v_firefly->v));
         __Pyx_GIVEREF(((PyObject *)__pyx_v_firefly->v));
         PyTuple_SET_ITEM(__pyx_t_7, 0+1, ((PyObject *)__pyx_v_firefly->v));
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 167, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 167, __pyx_L1_error)
+    __pyx_t_8 = __pyx_PyFloat_AsDouble(__pyx_t_4); if (unlikely((__pyx_t_8 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_v_firefly->f = __pyx_t_8;
 
-    /* "firefly.pyx":166
+    /* "firefly.pyx":170
  *     cdef inline void evaluate(self):
  *         cdef Chromosome firefly
  *         for firefly in self.fireflys:             # <<<<<<<<<<<<<<
@@ -4213,7 +4213,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "firefly.pyx":164
+  /* "firefly.pyx":168
  *                     self.fireflys[i].v[k] = self.check(k, self.fireflys[i].v[k])
  * 
  *     cdef inline void evaluate(self):             # <<<<<<<<<<<<<<
@@ -4235,7 +4235,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_evaluate(struct __pyx_obj_7f
   __Pyx_RefNannyFinishContext();
 }
 
-/* "firefly.pyx":169
+/* "firefly.pyx":173
  *             firefly.f = self.func(firefly.v)
  * 
  *     cdef inline bool movefly(self, Chromosome me, Chromosome she):             # <<<<<<<<<<<<<<
@@ -4264,7 +4264,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
   double __pyx_t_12;
   __Pyx_RefNannySetupContext("movefly", 0);
 
-  /* "firefly.pyx":170
+  /* "firefly.pyx":174
  * 
  *     cdef inline bool movefly(self, Chromosome me, Chromosome she):
  *         if me.f <= she.f:             # <<<<<<<<<<<<<<
@@ -4274,7 +4274,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
   __pyx_t_1 = ((__pyx_v_me->f <= __pyx_v_she->f) != 0);
   if (__pyx_t_1) {
 
-    /* "firefly.pyx":171
+    /* "firefly.pyx":175
  *     cdef inline bool movefly(self, Chromosome me, Chromosome she):
  *         if me.f <= she.f:
  *             return False             # <<<<<<<<<<<<<<
@@ -4286,7 +4286,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
     __pyx_r = ((PyBoolObject *)Py_False);
     goto __pyx_L0;
 
-    /* "firefly.pyx":170
+    /* "firefly.pyx":174
  * 
  *     cdef inline bool movefly(self, Chromosome me, Chromosome she):
  *         if me.f <= she.f:             # <<<<<<<<<<<<<<
@@ -4295,7 +4295,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
  */
   }
 
-  /* "firefly.pyx":172
+  /* "firefly.pyx":176
  *         if me.f <= she.f:
  *             return False
  *         cdef double r = me.distance(she)             # <<<<<<<<<<<<<<
@@ -4304,7 +4304,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
  */
   __pyx_v_r = ((struct __pyx_vtabstruct_7firefly_Chromosome *)__pyx_v_me->__pyx_vtab)->distance(__pyx_v_me, __pyx_v_she);
 
-  /* "firefly.pyx":173
+  /* "firefly.pyx":177
  *             return False
  *         cdef double r = me.distance(she)
  *         cdef double beta = (self.beta0 - self.betaMin)*exp(-self.gamma*r*r)+self.betaMin             # <<<<<<<<<<<<<<
@@ -4313,7 +4313,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
  */
   __pyx_v_beta = (((__pyx_v_self->beta0 - __pyx_v_self->betaMin) * exp((((-__pyx_v_self->gamma) * __pyx_v_r) * __pyx_v_r))) + __pyx_v_self->betaMin);
 
-  /* "firefly.pyx":175
+  /* "firefly.pyx":179
  *         cdef double beta = (self.beta0 - self.betaMin)*exp(-self.gamma*r*r)+self.betaMin
  *         cdef int i
  *         for i in range(me.n):             # <<<<<<<<<<<<<<
@@ -4325,25 +4325,25 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "firefly.pyx":176
+    /* "firefly.pyx":180
  *         cdef int i
  *         for i in range(me.n):
  *             scale = self.ub[i] - self.lb[i]             # <<<<<<<<<<<<<<
  *             me.v[i] += beta * (she.v[i] - me.v[i]) + self.alpha*(randV()-0.5) * scale
  *             me.v[i] = self.check(i, me.v[i])
  */
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 180, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 176, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Subtract(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 180, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF_SET(__pyx_v_scale, __pyx_t_7);
     __pyx_t_7 = 0;
 
-    /* "firefly.pyx":177
+    /* "firefly.pyx":181
  *         for i in range(me.n):
  *             scale = self.ub[i] - self.lb[i]
  *             me.v[i] += beta * (she.v[i] - me.v[i]) + self.alpha*(randV()-0.5) * scale             # <<<<<<<<<<<<<<
@@ -4353,57 +4353,57 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
     __Pyx_INCREF(((PyObject *)__pyx_v_me->v));
     __pyx_t_8 = __pyx_v_me->v;
     __pyx_t_9 = __pyx_v_i;
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_t_8), __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_t_8), __pyx_t_9, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_beta); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_beta); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_she->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_she->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_me->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_me->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_11 = PyNumber_Subtract(__pyx_t_5, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_11 = PyNumber_Subtract(__pyx_t_5, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    __pyx_t_10 = PyNumber_Multiply(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_10 = PyNumber_Multiply(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = PyFloat_FromDouble((__pyx_v_self->alpha * (__pyx_f_7firefly_randV() - 0.5))); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_11 = PyFloat_FromDouble((__pyx_v_self->alpha * (__pyx_f_7firefly_randV() - 0.5))); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    __pyx_t_6 = PyNumber_Multiply(__pyx_t_11, __pyx_v_scale); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Multiply(__pyx_t_11, __pyx_v_scale); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = PyNumber_Add(__pyx_t_10, __pyx_t_6); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_11 = PyNumber_Add(__pyx_t_10, __pyx_t_6); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_7, __pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_t_8), __pyx_t_9, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 177, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_t_8), __pyx_t_9, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(((PyObject *)__pyx_t_8)); __pyx_t_8 = 0;
 
-    /* "firefly.pyx":178
+    /* "firefly.pyx":182
  *             scale = self.ub[i] - self.lb[i]
  *             me.v[i] += beta * (she.v[i] - me.v[i]) + self.alpha*(randV()-0.5) * scale
  *             me.v[i] = self.check(i, me.v[i])             # <<<<<<<<<<<<<<
  *         return True
  * 
  */
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_me->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_me->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_12 = __pyx_PyFloat_AsDouble(__pyx_t_6); if (unlikely((__pyx_t_12 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_f_7firefly_7Firefly_check(__pyx_v_self, __pyx_v_i, __pyx_t_12)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 178, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_f_7firefly_7Firefly_check(__pyx_v_self, __pyx_v_i, __pyx_t_12)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_me->v), __pyx_v_i, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 178, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_me->v), __pyx_v_i, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
 
-  /* "firefly.pyx":179
+  /* "firefly.pyx":183
  *             me.v[i] += beta * (she.v[i] - me.v[i]) + self.alpha*(randV()-0.5) * scale
  *             me.v[i] = self.check(i, me.v[i])
  *         return True             # <<<<<<<<<<<<<<
@@ -4415,7 +4415,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
   __pyx_r = ((PyBoolObject *)Py_True);
   goto __pyx_L0;
 
-  /* "firefly.pyx":169
+  /* "firefly.pyx":173
  *             firefly.f = self.func(firefly.v)
  * 
  *     cdef inline bool movefly(self, Chromosome me, Chromosome she):             # <<<<<<<<<<<<<<
@@ -4440,7 +4440,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_7firefly_7Firefly_movefly(struct __py
   return __pyx_r;
 }
 
-/* "firefly.pyx":181
+/* "firefly.pyx":185
  *         return True
  * 
  *     cdef inline double check(self, int i, double v):             # <<<<<<<<<<<<<<
@@ -4458,39 +4458,39 @@ static CYTHON_INLINE double __pyx_f_7firefly_7Firefly_check(struct __pyx_obj_7fi
   double __pyx_t_5;
   __Pyx_RefNannySetupContext("check", 0);
 
-  /* "firefly.pyx":182
+  /* "firefly.pyx":186
  * 
  *     cdef inline double check(self, int i, double v):
  *         if v > self.ub[i]:             # <<<<<<<<<<<<<<
  *             return self.ub[i]
  *         elif v < self.lb[i]:
  */
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
 
-    /* "firefly.pyx":183
+    /* "firefly.pyx":187
  *     cdef inline double check(self, int i, double v):
  *         if v > self.ub[i]:
  *             return self.ub[i]             # <<<<<<<<<<<<<<
  *         elif v < self.lb[i]:
  *             return self.lb[i]
  */
-    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_5;
     goto __pyx_L0;
 
-    /* "firefly.pyx":182
+    /* "firefly.pyx":186
  * 
  *     cdef inline double check(self, int i, double v):
  *         if v > self.ub[i]:             # <<<<<<<<<<<<<<
@@ -4499,39 +4499,39 @@ static CYTHON_INLINE double __pyx_f_7firefly_7Firefly_check(struct __pyx_obj_7fi
  */
   }
 
-  /* "firefly.pyx":184
+  /* "firefly.pyx":188
  *         if v > self.ub[i]:
  *             return self.ub[i]
  *         elif v < self.lb[i]:             # <<<<<<<<<<<<<<
  *             return self.lb[i]
  *         else:
  */
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_4) {
 
-    /* "firefly.pyx":185
+    /* "firefly.pyx":189
  *             return self.ub[i]
  *         elif v < self.lb[i]:
  *             return self.lb[i]             # <<<<<<<<<<<<<<
  *         else:
  *             return v
  */
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 185, __pyx_L1_error)
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 189, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_r = __pyx_t_5;
     goto __pyx_L0;
 
-    /* "firefly.pyx":184
+    /* "firefly.pyx":188
  *         if v > self.ub[i]:
  *             return self.ub[i]
  *         elif v < self.lb[i]:             # <<<<<<<<<<<<<<
@@ -4540,7 +4540,7 @@ static CYTHON_INLINE double __pyx_f_7firefly_7Firefly_check(struct __pyx_obj_7fi
  */
   }
 
-  /* "firefly.pyx":187
+  /* "firefly.pyx":191
  *             return self.lb[i]
  *         else:
  *             return v             # <<<<<<<<<<<<<<
@@ -4552,7 +4552,7 @@ static CYTHON_INLINE double __pyx_f_7firefly_7Firefly_check(struct __pyx_obj_7fi
     goto __pyx_L0;
   }
 
-  /* "firefly.pyx":181
+  /* "firefly.pyx":185
  *         return True
  * 
  *     cdef inline double check(self, int i, double v):             # <<<<<<<<<<<<<<
@@ -4572,7 +4572,7 @@ static CYTHON_INLINE double __pyx_f_7firefly_7Firefly_check(struct __pyx_obj_7fi
   return __pyx_r;
 }
 
-/* "firefly.pyx":189
+/* "firefly.pyx":193
  *             return v
  * 
  *     cdef inline Chromosome findFirefly(self):             # <<<<<<<<<<<<<<
@@ -4596,7 +4596,7 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
   int __pyx_t_7;
   __Pyx_RefNannySetupContext("findFirefly", 0);
 
-  /* "firefly.pyx":191
+  /* "firefly.pyx":195
  *     cdef inline Chromosome findFirefly(self):
  *         cdef int i
  *         cdef int index = 0             # <<<<<<<<<<<<<<
@@ -4605,23 +4605,23 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
  */
   __pyx_v_index = 0;
 
-  /* "firefly.pyx":193
+  /* "firefly.pyx":197
  *         cdef int index = 0
  *         cdef Chromosome chrom
  *         cdef double f = self.fireflys[0].f             # <<<<<<<<<<<<<<
  *         for i in range(len(self.fireflys)):
  *             chrom = self.fireflys[i]
  */
-  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 197, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_f = __pyx_t_3;
 
-  /* "firefly.pyx":194
+  /* "firefly.pyx":198
  *         cdef Chromosome chrom
  *         cdef double f = self.fireflys[0].f
  *         for i in range(len(self.fireflys)):             # <<<<<<<<<<<<<<
@@ -4630,26 +4630,26 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->fireflys);
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_4 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 198, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = __pyx_t_4;
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "firefly.pyx":195
+    /* "firefly.pyx":199
  *         cdef double f = self.fireflys[0].f
  *         for i in range(len(self.fireflys)):
  *             chrom = self.fireflys[i]             # <<<<<<<<<<<<<<
  *             if chrom.f < f:
  *                 index = i
  */
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 195, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 195, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 199, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_chrom, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "firefly.pyx":196
+    /* "firefly.pyx":200
  *         for i in range(len(self.fireflys)):
  *             chrom = self.fireflys[i]
  *             if chrom.f < f:             # <<<<<<<<<<<<<<
@@ -4659,7 +4659,7 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
     __pyx_t_7 = ((__pyx_v_chrom->f < __pyx_v_f) != 0);
     if (__pyx_t_7) {
 
-      /* "firefly.pyx":197
+      /* "firefly.pyx":201
  *             chrom = self.fireflys[i]
  *             if chrom.f < f:
  *                 index = i             # <<<<<<<<<<<<<<
@@ -4668,7 +4668,7 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
  */
       __pyx_v_index = __pyx_v_i;
 
-      /* "firefly.pyx":198
+      /* "firefly.pyx":202
  *             if chrom.f < f:
  *                 index = i
  *                 f = chrom.f             # <<<<<<<<<<<<<<
@@ -4678,7 +4678,7 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
       __pyx_t_3 = __pyx_v_chrom->f;
       __pyx_v_f = __pyx_t_3;
 
-      /* "firefly.pyx":196
+      /* "firefly.pyx":200
  *         for i in range(len(self.fireflys)):
  *             chrom = self.fireflys[i]
  *             if chrom.f < f:             # <<<<<<<<<<<<<<
@@ -4688,7 +4688,7 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
     }
   }
 
-  /* "firefly.pyx":199
+  /* "firefly.pyx":203
  *                 index = i
  *                 f = chrom.f
  *         return self.fireflys[index]             # <<<<<<<<<<<<<<
@@ -4696,14 +4696,14 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
  *     cdef inline void report(self):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 199, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 203, __pyx_L1_error)
   __pyx_r = ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "firefly.pyx":189
+  /* "firefly.pyx":193
  *             return v
  * 
  *     cdef inline Chromosome findFirefly(self):             # <<<<<<<<<<<<<<
@@ -4724,7 +4724,7 @@ static CYTHON_INLINE struct __pyx_obj_7firefly_Chromosome *__pyx_f_7firefly_7Fir
   return __pyx_r;
 }
 
-/* "firefly.pyx":201
+/* "firefly.pyx":205
  *         return self.fireflys[index]
  * 
  *     cdef inline void report(self):             # <<<<<<<<<<<<<<
@@ -4742,14 +4742,14 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_report(struct __pyx_obj_7fir
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("report", 0);
 
-  /* "firefly.pyx":202
+  /* "firefly.pyx":206
  * 
  *     cdef inline void report(self):
  *         self.timeE = time()             # <<<<<<<<<<<<<<
  *         self.fitnessTime.append((self.gen, self.bestFirefly.f, self.timeE - self.timeS))
  * 
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -4762,18 +4762,18 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_report(struct __pyx_obj_7fir
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 206, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 202, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 206, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->timeE = __pyx_t_4;
 
-  /* "firefly.pyx":203
+  /* "firefly.pyx":207
  *     cdef inline void report(self):
  *         self.timeE = time()
  *         self.fitnessTime.append((self.gen, self.bestFirefly.f, self.timeE - self.timeS))             # <<<<<<<<<<<<<<
@@ -4782,15 +4782,15 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_report(struct __pyx_obj_7fir
  */
   if (unlikely(__pyx_v_self->fitnessTime == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-    __PYX_ERR(0, 203, __pyx_L1_error)
+    __PYX_ERR(0, 207, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->bestFirefly->f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->bestFirefly->f); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->timeE - __pyx_v_self->timeS)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->timeE - __pyx_v_self->timeS)); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
@@ -4801,10 +4801,10 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_report(struct __pyx_obj_7fir
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_self->fitnessTime, __pyx_t_5); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 203, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_self->fitnessTime, __pyx_t_5); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "firefly.pyx":201
+  /* "firefly.pyx":205
  *         return self.fireflys[index]
  * 
  *     cdef inline void report(self):             # <<<<<<<<<<<<<<
@@ -4824,7 +4824,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_report(struct __pyx_obj_7fir
   __Pyx_RefNannyFinishContext();
 }
 
-/* "firefly.pyx":205
+/* "firefly.pyx":209
  *         self.fitnessTime.append((self.gen, self.bestFirefly.f, self.timeE - self.timeS))
  * 
  *     cdef inline void calculate_new_alpha(self):             # <<<<<<<<<<<<<<
@@ -4836,7 +4836,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_calculate_new_alpha(struct _
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("calculate_new_alpha", 0);
 
-  /* "firefly.pyx":206
+  /* "firefly.pyx":210
  * 
  *     cdef inline void calculate_new_alpha(self):
  *         self.alpha = self.alpha0 * log10(self.genbest.f + 1)             # <<<<<<<<<<<<<<
@@ -4845,7 +4845,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_calculate_new_alpha(struct _
  */
   __pyx_v_self->alpha = (__pyx_v_self->alpha0 * log10((__pyx_v_self->genbest->f + 1.0)));
 
-  /* "firefly.pyx":205
+  /* "firefly.pyx":209
  *         self.fitnessTime.append((self.gen, self.bestFirefly.f, self.timeE - self.timeS))
  * 
  *     cdef inline void calculate_new_alpha(self):             # <<<<<<<<<<<<<<
@@ -4857,7 +4857,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_calculate_new_alpha(struct _
   __Pyx_RefNannyFinishContext();
 }
 
-/* "firefly.pyx":208
+/* "firefly.pyx":212
  *         self.alpha = self.alpha0 * log10(self.genbest.f + 1)
  * 
  *     cdef inline void generation_process(self):             # <<<<<<<<<<<<<<
@@ -4871,7 +4871,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("generation_process", 0);
 
-  /* "firefly.pyx":209
+  /* "firefly.pyx":213
  * 
  *     cdef inline void generation_process(self):
  *         self.movefireflies()             # <<<<<<<<<<<<<<
@@ -4880,7 +4880,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
   __pyx_f_7firefly_7Firefly_movefireflies(__pyx_v_self);
 
-  /* "firefly.pyx":210
+  /* "firefly.pyx":214
  *     cdef inline void generation_process(self):
  *         self.movefireflies()
  *         self.evaluate()             # <<<<<<<<<<<<<<
@@ -4889,19 +4889,19 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
   __pyx_f_7firefly_7Firefly_evaluate(__pyx_v_self);
 
-  /* "firefly.pyx":214
+  /* "firefly.pyx":218
  *         # if fitness value is larger, then alpha should larger
  *         # if fitness value is small, then alpha should smaller
  *         self.genbest.assign(self.findFirefly())             # <<<<<<<<<<<<<<
  *         if self.bestFirefly.f > self.genbest.f:
  *             self.bestFirefly.assign(self.genbest)
  */
-  __pyx_t_1 = ((PyObject *)__pyx_f_7firefly_7Firefly_findFirefly(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 214, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_7firefly_7Firefly_findFirefly(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   ((struct __pyx_vtabstruct_7firefly_Chromosome *)__pyx_v_self->genbest->__pyx_vtab)->assign(__pyx_v_self->genbest, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_1), 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "firefly.pyx":215
+  /* "firefly.pyx":219
  *         # if fitness value is small, then alpha should smaller
  *         self.genbest.assign(self.findFirefly())
  *         if self.bestFirefly.f > self.genbest.f:             # <<<<<<<<<<<<<<
@@ -4911,7 +4911,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
   __pyx_t_2 = ((__pyx_v_self->bestFirefly->f > __pyx_v_self->genbest->f) != 0);
   if (__pyx_t_2) {
 
-    /* "firefly.pyx":216
+    /* "firefly.pyx":220
  *         self.genbest.assign(self.findFirefly())
  *         if self.bestFirefly.f > self.genbest.f:
  *             self.bestFirefly.assign(self.genbest)             # <<<<<<<<<<<<<<
@@ -4923,7 +4923,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
     ((struct __pyx_vtabstruct_7firefly_Chromosome *)__pyx_v_self->bestFirefly->__pyx_vtab)->assign(__pyx_v_self->bestFirefly, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_1), 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "firefly.pyx":215
+    /* "firefly.pyx":219
  *         # if fitness value is small, then alpha should smaller
  *         self.genbest.assign(self.findFirefly())
  *         if self.bestFirefly.f > self.genbest.f:             # <<<<<<<<<<<<<<
@@ -4932,7 +4932,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
   }
 
-  /* "firefly.pyx":218
+  /* "firefly.pyx":222
  *             self.bestFirefly.assign(self.genbest)
  *         # self.bestFirefly.assign(gen_best)
  *         self.calculate_new_alpha()             # <<<<<<<<<<<<<<
@@ -4941,7 +4941,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
   __pyx_f_7firefly_7Firefly_calculate_new_alpha(__pyx_v_self);
 
-  /* "firefly.pyx":219
+  /* "firefly.pyx":223
  *         # self.bestFirefly.assign(gen_best)
  *         self.calculate_new_alpha()
  *         if self.rpt != 0:             # <<<<<<<<<<<<<<
@@ -4951,7 +4951,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
   __pyx_t_2 = ((__pyx_v_self->rpt != 0) != 0);
   if (__pyx_t_2) {
 
-    /* "firefly.pyx":220
+    /* "firefly.pyx":224
  *         self.calculate_new_alpha()
  *         if self.rpt != 0:
  *             if self.gen % self.rpt == 0:             # <<<<<<<<<<<<<<
@@ -4960,12 +4960,12 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
     if (unlikely(__pyx_v_self->rpt == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-      __PYX_ERR(0, 220, __pyx_L1_error)
+      __PYX_ERR(0, 224, __pyx_L1_error)
     }
     __pyx_t_2 = ((__Pyx_mod_int(__pyx_v_self->gen, __pyx_v_self->rpt) == 0) != 0);
     if (__pyx_t_2) {
 
-      /* "firefly.pyx":221
+      /* "firefly.pyx":225
  *         if self.rpt != 0:
  *             if self.gen % self.rpt == 0:
  *                 self.report()             # <<<<<<<<<<<<<<
@@ -4974,7 +4974,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
       __pyx_f_7firefly_7Firefly_report(__pyx_v_self);
 
-      /* "firefly.pyx":220
+      /* "firefly.pyx":224
  *         self.calculate_new_alpha()
  *         if self.rpt != 0:
  *             if self.gen % self.rpt == 0:             # <<<<<<<<<<<<<<
@@ -4983,7 +4983,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
     }
 
-    /* "firefly.pyx":219
+    /* "firefly.pyx":223
  *         # self.bestFirefly.assign(gen_best)
  *         self.calculate_new_alpha()
  *         if self.rpt != 0:             # <<<<<<<<<<<<<<
@@ -4993,7 +4993,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
     goto __pyx_L4;
   }
 
-  /* "firefly.pyx":223
+  /* "firefly.pyx":227
  *                 self.report()
  *         else:
  *             if self.gen % 10 == 0:             # <<<<<<<<<<<<<<
@@ -5004,7 +5004,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
     __pyx_t_2 = ((__Pyx_mod_long(__pyx_v_self->gen, 10) == 0) != 0);
     if (__pyx_t_2) {
 
-      /* "firefly.pyx":224
+      /* "firefly.pyx":228
  *         else:
  *             if self.gen % 10 == 0:
  *                 self.report()             # <<<<<<<<<<<<<<
@@ -5013,7 +5013,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
  */
       __pyx_f_7firefly_7Firefly_report(__pyx_v_self);
 
-      /* "firefly.pyx":223
+      /* "firefly.pyx":227
  *                 self.report()
  *         else:
  *             if self.gen % 10 == 0:             # <<<<<<<<<<<<<<
@@ -5024,7 +5024,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
   }
   __pyx_L4:;
 
-  /* "firefly.pyx":208
+  /* "firefly.pyx":212
  *         self.alpha = self.alpha0 * log10(self.genbest.f + 1)
  * 
  *     cdef inline void generation_process(self):             # <<<<<<<<<<<<<<
@@ -5041,7 +5041,7 @@ static CYTHON_INLINE void __pyx_f_7firefly_7Firefly_generation_process(struct __
   __Pyx_RefNannyFinishContext();
 }
 
-/* "firefly.pyx":226
+/* "firefly.pyx":230
  *                 self.report()
  * 
  *     cpdef tuple run(self):             # <<<<<<<<<<<<<<
@@ -5068,7 +5068,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_7firefly_7Firefly_3run)) {
       __Pyx_XDECREF(__pyx_r);
@@ -5084,14 +5084,14 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 226, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 226, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 230, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 226, __pyx_L1_error)
+      if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 230, __pyx_L1_error)
       __pyx_r = ((PyObject*)__pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -5100,7 +5100,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "firefly.pyx":227
+  /* "firefly.pyx":231
  * 
  *     cpdef tuple run(self):
  *         self.init()             # <<<<<<<<<<<<<<
@@ -5109,7 +5109,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_f_7firefly_7Firefly_init(__pyx_v_self);
 
-  /* "firefly.pyx":228
+  /* "firefly.pyx":232
  *     cpdef tuple run(self):
  *         self.init()
  *         self.evaluate()             # <<<<<<<<<<<<<<
@@ -5118,20 +5118,20 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_f_7firefly_7Firefly_evaluate(__pyx_v_self);
 
-  /* "firefly.pyx":229
+  /* "firefly.pyx":233
  *         self.init()
  *         self.evaluate()
  *         self.bestFirefly.assign(self.fireflys[0])             # <<<<<<<<<<<<<<
  *         self.report()
  *         while True:
  */
-  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 229, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->fireflys), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 229, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7firefly_Chromosome))))) __PYX_ERR(0, 233, __pyx_L1_error)
   ((struct __pyx_vtabstruct_7firefly_Chromosome *)__pyx_v_self->bestFirefly->__pyx_vtab)->assign(__pyx_v_self->bestFirefly, ((struct __pyx_obj_7firefly_Chromosome *)__pyx_t_1), 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "firefly.pyx":230
+  /* "firefly.pyx":234
  *         self.evaluate()
  *         self.bestFirefly.assign(self.fireflys[0])
  *         self.report()             # <<<<<<<<<<<<<<
@@ -5140,7 +5140,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_f_7firefly_7Firefly_report(__pyx_v_self);
 
-  /* "firefly.pyx":231
+  /* "firefly.pyx":235
  *         self.bestFirefly.assign(self.fireflys[0])
  *         self.report()
  *         while True:             # <<<<<<<<<<<<<<
@@ -5149,7 +5149,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
   while (1) {
 
-    /* "firefly.pyx":232
+    /* "firefly.pyx":236
  *         self.report()
  *         while True:
  *             self.gen += 1             # <<<<<<<<<<<<<<
@@ -5158,7 +5158,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
     __pyx_v_self->gen = (__pyx_v_self->gen + 1);
 
-    /* "firefly.pyx":233
+    /* "firefly.pyx":237
  *         while True:
  *             self.gen += 1
  *             if self.option == maxGen:             # <<<<<<<<<<<<<<
@@ -5168,7 +5168,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
     switch (__pyx_v_self->option) {
       case __pyx_e_7firefly_maxGen:
 
-      /* "firefly.pyx":234
+      /* "firefly.pyx":238
  *             self.gen += 1
  *             if self.option == maxGen:
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):             # <<<<<<<<<<<<<<
@@ -5186,7 +5186,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
       __pyx_L6_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "firefly.pyx":235
+        /* "firefly.pyx":239
  *             if self.option == maxGen:
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):
  *                     break             # <<<<<<<<<<<<<<
@@ -5195,7 +5195,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
         goto __pyx_L4_break;
 
-        /* "firefly.pyx":234
+        /* "firefly.pyx":238
  *             self.gen += 1
  *             if self.option == maxGen:
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):             # <<<<<<<<<<<<<<
@@ -5204,7 +5204,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       }
 
-      /* "firefly.pyx":233
+      /* "firefly.pyx":237
  *         while True:
  *             self.gen += 1
  *             if self.option == maxGen:             # <<<<<<<<<<<<<<
@@ -5213,7 +5213,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       break;
 
-      /* "firefly.pyx":236
+      /* "firefly.pyx":240
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):
  *                     break
  *             elif self.option == minFit:             # <<<<<<<<<<<<<<
@@ -5222,7 +5222,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       case __pyx_e_7firefly_minFit:
 
-      /* "firefly.pyx":237
+      /* "firefly.pyx":241
  *                     break
  *             elif self.option == minFit:
  *                 if self.bestFirefly.f <= self.minFit:             # <<<<<<<<<<<<<<
@@ -5232,7 +5232,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
       __pyx_t_5 = ((__pyx_v_self->bestFirefly->f <= __pyx_v_self->minFit) != 0);
       if (__pyx_t_5) {
 
-        /* "firefly.pyx":238
+        /* "firefly.pyx":242
  *             elif self.option == minFit:
  *                 if self.bestFirefly.f <= self.minFit:
  *                     break             # <<<<<<<<<<<<<<
@@ -5241,7 +5241,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
         goto __pyx_L4_break;
 
-        /* "firefly.pyx":237
+        /* "firefly.pyx":241
  *                     break
  *             elif self.option == minFit:
  *                 if self.bestFirefly.f <= self.minFit:             # <<<<<<<<<<<<<<
@@ -5250,7 +5250,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       }
 
-      /* "firefly.pyx":236
+      /* "firefly.pyx":240
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):
  *                     break
  *             elif self.option == minFit:             # <<<<<<<<<<<<<<
@@ -5259,7 +5259,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       break;
 
-      /* "firefly.pyx":239
+      /* "firefly.pyx":243
  *                 if self.bestFirefly.f <= self.minFit:
  *                     break
  *             elif self.option == maxTime:             # <<<<<<<<<<<<<<
@@ -5268,7 +5268,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       case __pyx_e_7firefly_maxTime:
 
-      /* "firefly.pyx":240
+      /* "firefly.pyx":244
  *                     break
  *             elif self.option == maxTime:
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):             # <<<<<<<<<<<<<<
@@ -5281,7 +5281,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         __pyx_t_5 = __pyx_t_6;
         goto __pyx_L10_bool_binop_done;
       }
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -5294,31 +5294,31 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->timeS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->timeS); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 244, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->maxTime); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->maxTime); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 244, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 244, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 240, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 244, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_5 = __pyx_t_6;
       __pyx_L10_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "firefly.pyx":241
+        /* "firefly.pyx":245
  *             elif self.option == maxTime:
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):
  *                     break             # <<<<<<<<<<<<<<
@@ -5327,7 +5327,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
         goto __pyx_L4_break;
 
-        /* "firefly.pyx":240
+        /* "firefly.pyx":244
  *                     break
  *             elif self.option == maxTime:
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):             # <<<<<<<<<<<<<<
@@ -5336,7 +5336,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       }
 
-      /* "firefly.pyx":239
+      /* "firefly.pyx":243
  *                 if self.bestFirefly.f <= self.minFit:
  *                     break
  *             elif self.option == maxTime:             # <<<<<<<<<<<<<<
@@ -5347,7 +5347,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
       default: break;
     }
 
-    /* "firefly.pyx":242
+    /* "firefly.pyx":246
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):
  *                     break
  *             self.generation_process()             # <<<<<<<<<<<<<<
@@ -5356,7 +5356,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
     __pyx_f_7firefly_7Firefly_generation_process(__pyx_v_self);
 
-    /* "firefly.pyx":244
+    /* "firefly.pyx":248
  *             self.generation_process()
  *             #progress
  *             if self.progress_fun is not None:             # <<<<<<<<<<<<<<
@@ -5367,18 +5367,18 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
 
-      /* "firefly.pyx":245
+      /* "firefly.pyx":249
  *             #progress
  *             if self.progress_fun is not None:
  *                 self.progress_fun(self.gen, "{:.04f}".format(self.bestFirefly.f))             # <<<<<<<<<<<<<<
  *             #interrupt
  *             if self.interrupt_fun is not None:
  */
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 249, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_04f, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_04f, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 249, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->bestFirefly->f); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->bestFirefly->f); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 249, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5391,14 +5391,14 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         }
       }
       if (!__pyx_t_8) {
-        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -5407,20 +5407,20 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         } else
         #endif
         {
-          __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 245, __pyx_L1_error)
+          __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 249, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_8); __pyx_t_8 = NULL;
           __Pyx_GIVEREF(__pyx_t_7);
           PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_7);
           __pyx_t_7 = 0;
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 245, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 249, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         }
@@ -5442,7 +5442,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_2, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5452,7 +5452,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_2, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5460,7 +5460,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 249, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         if (__pyx_t_9) {
           __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -5471,14 +5471,14 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_10, __pyx_t_3);
         __pyx_t_2 = 0;
         __pyx_t_3 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 245, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "firefly.pyx":244
+      /* "firefly.pyx":248
  *             self.generation_process()
  *             #progress
  *             if self.progress_fun is not None:             # <<<<<<<<<<<<<<
@@ -5487,7 +5487,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
     }
 
-    /* "firefly.pyx":247
+    /* "firefly.pyx":251
  *                 self.progress_fun(self.gen, "{:.04f}".format(self.bestFirefly.f))
  *             #interrupt
  *             if self.interrupt_fun is not None:             # <<<<<<<<<<<<<<
@@ -5498,7 +5498,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
     __pyx_t_5 = (__pyx_t_6 != 0);
     if (__pyx_t_5) {
 
-      /* "firefly.pyx":248
+      /* "firefly.pyx":252
  *             #interrupt
  *             if self.interrupt_fun is not None:
  *                 if self.interrupt_fun():             # <<<<<<<<<<<<<<
@@ -5517,18 +5517,18 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
         }
       }
       if (__pyx_t_7) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 248, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 252, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 248, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 252, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_5) {
 
-        /* "firefly.pyx":249
+        /* "firefly.pyx":253
  *             if self.interrupt_fun is not None:
  *                 if self.interrupt_fun():
  *                     break             # <<<<<<<<<<<<<<
@@ -5537,7 +5537,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
         goto __pyx_L4_break;
 
-        /* "firefly.pyx":248
+        /* "firefly.pyx":252
  *             #interrupt
  *             if self.interrupt_fun is not None:
  *                 if self.interrupt_fun():             # <<<<<<<<<<<<<<
@@ -5546,7 +5546,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
       }
 
-      /* "firefly.pyx":247
+      /* "firefly.pyx":251
  *                 self.progress_fun(self.gen, "{:.04f}".format(self.bestFirefly.f))
  *             #interrupt
  *             if self.interrupt_fun is not None:             # <<<<<<<<<<<<<<
@@ -5557,7 +5557,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
   }
   __pyx_L4_break:;
 
-  /* "firefly.pyx":250
+  /* "firefly.pyx":254
  *                 if self.interrupt_fun():
  *                     break
  *         self.report()             # <<<<<<<<<<<<<<
@@ -5565,13 +5565,13 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
  */
   __pyx_f_7firefly_7Firefly_report(__pyx_v_self);
 
-  /* "firefly.pyx":251
+  /* "firefly.pyx":255
  *                     break
  *         self.report()
  *         return self.func.get_coordinates(self.bestFirefly.v), self.fitnessTime             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_coordinates); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_coordinates); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -5584,13 +5584,13 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_self->bestFirefly->v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_self->bestFirefly->v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, ((PyObject *)__pyx_v_self->bestFirefly->v)};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -5598,25 +5598,25 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, ((PyObject *)__pyx_v_self->bestFirefly->v)};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_INCREF(((PyObject *)__pyx_v_self->bestFirefly->v));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_self->bestFirefly->v));
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, ((PyObject *)__pyx_v_self->bestFirefly->v));
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 251, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -5628,7 +5628,7 @@ static PyObject *__pyx_f_7firefly_7Firefly_run(struct __pyx_obj_7firefly_Firefly
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "firefly.pyx":226
+  /* "firefly.pyx":230
  *                 self.report()
  * 
  *     cpdef tuple run(self):             # <<<<<<<<<<<<<<
@@ -5672,7 +5672,7 @@ static PyObject *__pyx_pf_7firefly_7Firefly_2run(struct __pyx_obj_7firefly_Firef
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("run", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_7firefly_7Firefly_run(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_7firefly_7Firefly_run(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 230, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9782,7 +9782,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 50, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 54, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 229, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 810, __pyx_L1_error)
@@ -9796,14 +9796,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "firefly.pyx":57
+  /* "firefly.pyx":61
  *     cpdef void assign(self, Chromosome obj):
  *         self.n = obj.n
  *         self.v[:] = obj.v             # <<<<<<<<<<<<<<
  *         self.f = obj.f
  * 
  */
-  __pyx_slice_ = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice_)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_slice_ = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice_)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice_);
   __Pyx_GIVEREF(__pyx_slice_);
 
@@ -9826,14 +9826,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "firefly.pyx":127
+  /* "firefly.pyx":131
  *             self.maxTime = settings['maxTime']
  *         else:
  *             raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")             # <<<<<<<<<<<<<<
  *         #Report function
  *         self.rpt = settings['report']
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_Please_give_maxGen_minFit_or_max); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 127, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_Please_give_maxGen_minFit_or_max); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
@@ -9997,14 +9997,14 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtabptr_7firefly_Chromosome = &__pyx_vtable_7firefly_Chromosome;
   __pyx_vtable_7firefly_Chromosome.distance = (double (*)(struct __pyx_obj_7firefly_Chromosome *, struct __pyx_obj_7firefly_Chromosome *))__pyx_f_7firefly_10Chromosome_distance;
   __pyx_vtable_7firefly_Chromosome.assign = (void (*)(struct __pyx_obj_7firefly_Chromosome *, struct __pyx_obj_7firefly_Chromosome *, int __pyx_skip_dispatch))__pyx_f_7firefly_10Chromosome_assign;
-  if (PyType_Ready(&__pyx_type_7firefly_Chromosome) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_7firefly_Chromosome) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __pyx_type_7firefly_Chromosome.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_7firefly_Chromosome.tp_dictoffset && __pyx_type_7firefly_Chromosome.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_7firefly_Chromosome.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_7firefly_Chromosome.tp_dict, __pyx_vtabptr_7firefly_Chromosome) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "Chromosome", (PyObject *)&__pyx_type_7firefly_Chromosome) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7firefly_Chromosome) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_7firefly_Chromosome.tp_dict, __pyx_vtabptr_7firefly_Chromosome) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "Chromosome", (PyObject *)&__pyx_type_7firefly_Chromosome) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7firefly_Chromosome) < 0) __PYX_ERR(0, 38, __pyx_L1_error)
   __pyx_ptype_7firefly_Chromosome = &__pyx_type_7firefly_Chromosome;
   __pyx_vtabptr_7firefly_Firefly = &__pyx_vtable_7firefly_Firefly;
   __pyx_vtable_7firefly_Firefly.init = (void (*)(struct __pyx_obj_7firefly_Firefly *))__pyx_f_7firefly_7Firefly_init;
@@ -10017,14 +10017,14 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_7firefly_Firefly.calculate_new_alpha = (void (*)(struct __pyx_obj_7firefly_Firefly *))__pyx_f_7firefly_7Firefly_calculate_new_alpha;
   __pyx_vtable_7firefly_Firefly.generation_process = (void (*)(struct __pyx_obj_7firefly_Firefly *))__pyx_f_7firefly_7Firefly_generation_process;
   __pyx_vtable_7firefly_Firefly.run = (PyObject *(*)(struct __pyx_obj_7firefly_Firefly *, int __pyx_skip_dispatch))__pyx_f_7firefly_7Firefly_run;
-  if (PyType_Ready(&__pyx_type_7firefly_Firefly) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_7firefly_Firefly) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __pyx_type_7firefly_Firefly.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_7firefly_Firefly.tp_dictoffset && __pyx_type_7firefly_Firefly.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_7firefly_Firefly.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_7firefly_Firefly, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 61, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_7firefly_Firefly, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(0, 65, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_7firefly_7Firefly___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_7firefly_7Firefly___init__.doc = __pyx_doc_7firefly_7Firefly___init__;
@@ -10032,9 +10032,9 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_7firefly_Firefly.tp_dict, __pyx_vtabptr_7firefly_Firefly) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "Firefly", (PyObject *)&__pyx_type_7firefly_Firefly) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7firefly_Firefly) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_7firefly_Firefly.tp_dict, __pyx_vtabptr_7firefly_Firefly) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "Firefly", (PyObject *)&__pyx_type_7firefly_Firefly) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_7firefly_Firefly) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
   __pyx_ptype_7firefly_Firefly = &__pyx_type_7firefly_Firefly;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -10285,50 +10285,50 @@ if (!__Pyx_RefNanny) {
  * from array import array
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * from libc.stdlib cimport rand, RAND_MAX, srand
+ * from libc.stdlib cimport (
  */
   __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "firefly.pyx":17
- * from libc.stdlib cimport rand, RAND_MAX, srand
+  /* "firefly.pyx":21
+ * )
  * #from libc.time cimport time
  * from time import time             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_time);
   __Pyx_GIVEREF(__pyx_n_s_time);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_time);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_time, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_2) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_2) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "firefly.pyx":21
+  /* "firefly.pyx":25
  * 
  * #Make sure it is 'random'.
  * srand(int(time()))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyNumber_Int(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_unsigned_int(__pyx_t_1); if (unlikely((__pyx_t_3 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   srand(__pyx_t_3);
 

@@ -574,12 +574,12 @@ static CYTHON_INLINE float __PYX_NAN() {
 #define __PYX_HAVE__tinycadlib
 #define __PYX_HAVE_API__tinycadlib
 /* Early includes */
-#include <math.h>
 #include <string.h>
 #include <stdio.h>
+#include "pythread.h"
 #include "numpy/arrayobject.h"
 #include "numpy/ufuncobject.h"
-#include "pythread.h"
+#include <math.h>
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -806,6 +806,7 @@ static const char *__pyx_filename;
 
 static const char *__pyx_f[] = {
   "tinycadlib.pyx",
+  "tinycadlib.pxd",
   "stringsource",
   "__init__.pxd",
   "type.pxd",
@@ -1075,23 +1076,23 @@ struct __pyx_opt_args_10tinycadlib_PLLP;
 struct __pyx_opt_args_10tinycadlib_PLPP;
 struct __pyx_opt_args_10tinycadlib_rotate;
 
-/* "tinycadlib.pyx":87
- *         return self.c[0][1]
+/* "tinycadlib.pxd":23
+ *     cdef readonly double x, y, angle
  * 
- *     cpdef void move(self, tuple c1, tuple c2=None):             # <<<<<<<<<<<<<<
- *         """Change coordinates of this point."""
- *         self.c[0] = c1
+ *     cpdef void move(self, tuple, tuple c2 = *)             # <<<<<<<<<<<<<<
+ *     cpdef double distance(self, VPoint)
+ *     cpdef double slopeAngle(self, VPoint, int num1 = *, int num2 = *)
  */
 struct __pyx_opt_args_10tinycadlib_6VPoint_move {
   int __pyx_n;
   PyObject *c2;
 };
 
-/* "tinycadlib.pyx":96
- *         return distance(self.x, self.y, p.x, p.y)
- * 
- *     cpdef double slopeAngle(self, VPoint p, int num1=-1, int num2=-1):             # <<<<<<<<<<<<<<
- *         """Angle between horizontal line and two point.
+/* "tinycadlib.pxd":25
+ *     cpdef void move(self, tuple, tuple c2 = *)
+ *     cpdef double distance(self, VPoint)
+ *     cpdef double slopeAngle(self, VPoint, int num1 = *, int num2 = *)             # <<<<<<<<<<<<<<
+ *     cpdef bool grounded(self)
  * 
  */
 struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle {
@@ -1100,12 +1101,12 @@ struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle {
   int num2;
 };
 
-/* "tinycadlib.pyx":218
+/* "tinycadlib.pxd":42
  * 
  * 
- * cpdef tuple PLAP(             # <<<<<<<<<<<<<<
- *     Coordinate A,
- *     double L0,
+ * cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)             # <<<<<<<<<<<<<<
+ * cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)
+ * cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)
  */
 struct __pyx_opt_args_10tinycadlib_PLAP {
   int __pyx_n;
@@ -1113,31 +1114,31 @@ struct __pyx_opt_args_10tinycadlib_PLAP {
   PyBoolObject *inverse;
 };
 
-/* "tinycadlib.pyx":233
+/* "tinycadlib.pxd":43
  * 
+ * cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)
+ * cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)             # <<<<<<<<<<<<<<
+ * cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)
  * 
- * cpdef tuple PLLP(             # <<<<<<<<<<<<<<
- *     Coordinate A,
- *     double L0,
  */
 struct __pyx_opt_args_10tinycadlib_PLLP {
   int __pyx_n;
   PyBoolObject *inverse;
 };
 
-/* "tinycadlib.pyx":267
+/* "tinycadlib.pxd":44
+ * cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)
+ * cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)
+ * cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)             # <<<<<<<<<<<<<<
  * 
- * 
- * cpdef tuple PLPP(             # <<<<<<<<<<<<<<
- *     Coordinate A,
- *     double L0,
+ * cpdef bool legal_triangle(Coordinate, Coordinate, Coordinate)
  */
 struct __pyx_opt_args_10tinycadlib_PLPP {
   int __pyx_n;
   PyBoolObject *inverse;
 };
 
-/* "tinycadlib.pyx":382
+/* "tinycadlib.pyx":368
  * 
  * 
  * cdef inline void rotate(             # <<<<<<<<<<<<<<
@@ -1149,12 +1150,12 @@ struct __pyx_opt_args_10tinycadlib_rotate {
   PyBoolObject *reverse;
 };
 
-/* "tinycadlib.pyx":29
+/* "tinycadlib.pxd":14
  * 
  * 
  * cdef class VPoint:             # <<<<<<<<<<<<<<
- * 
- *     """Symbol of joints."""
+ *     cdef readonly tuple links
+ *     cdef readonly ndarray c
  */
 struct __pyx_obj_10tinycadlib_VPoint {
   PyObject_HEAD
@@ -1171,12 +1172,12 @@ struct __pyx_obj_10tinycadlib_VPoint {
 };
 
 
-/* "tinycadlib.pyx":166
+/* "tinycadlib.pxd":29
  * 
  * 
  * cdef class VLink:             # <<<<<<<<<<<<<<
- * 
- *     """Symbol of linkages."""
+ *     cdef readonly str name, colorSTR
+ *     cdef readonly object color
  */
 struct __pyx_obj_10tinycadlib_VLink {
   PyObject_HEAD
@@ -1187,12 +1188,12 @@ struct __pyx_obj_10tinycadlib_VLink {
 };
 
 
-/* "tinycadlib.pyx":195
+/* "tinycadlib.pxd":35
  * 
  * 
  * cdef class Coordinate:             # <<<<<<<<<<<<<<
+ *     cdef readonly double x, y
  * 
- *     """A class to store the coordinate."""
  */
 struct __pyx_obj_10tinycadlib_Coordinate {
   PyObject_HEAD
@@ -1202,7 +1203,7 @@ struct __pyx_obj_10tinycadlib_Coordinate {
 };
 
 
-/* "tinycadlib.pyx":124
+/* "tinycadlib.pyx":116
  * 
  *     @property
  *     def expr(self):             # <<<<<<<<<<<<<<
@@ -1215,7 +1216,7 @@ struct __pyx_obj_10tinycadlib___pyx_scope_struct____get__ {
 };
 
 
-/* "tinycadlib.pyx":131
+/* "tinycadlib.pyx":123
  *             self.colorSTR,
  *             "{}, {}".format(self.x, self.y),
  *             ", ".join(l for l in self.links)             # <<<<<<<<<<<<<<
@@ -1232,7 +1233,7 @@ struct __pyx_obj_10tinycadlib___pyx_scope_struct_1_genexpr {
 
 
 
-/* "tinycadlib.pyx":29
+/* "tinycadlib.pyx":28
  * 
  * 
  * cdef class VPoint:             # <<<<<<<<<<<<<<
@@ -1249,7 +1250,7 @@ struct __pyx_vtabstruct_10tinycadlib_VPoint {
 static struct __pyx_vtabstruct_10tinycadlib_VPoint *__pyx_vtabptr_10tinycadlib_VPoint;
 
 
-/* "tinycadlib.pyx":195
+/* "tinycadlib.pyx":183
  * 
  * 
  * cdef class Coordinate:             # <<<<<<<<<<<<<<
@@ -1259,7 +1260,6 @@ static struct __pyx_vtabstruct_10tinycadlib_VPoint *__pyx_vtabptr_10tinycadlib_V
 
 struct __pyx_vtabstruct_10tinycadlib_Coordinate {
   double (*distance)(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch);
-  PyBoolObject *(*isnan)(struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_10tinycadlib_Coordinate *__pyx_vtabptr_10tinycadlib_Coordinate;
 
@@ -1961,6 +1961,9 @@ static int __pyx_Generator_init(void);
 /* CheckBinaryVersion.proto */
 static int __Pyx_check_binary_version(void);
 
+/* FunctionExport.proto */
+static int __Pyx_ExportFunction(const char *name, void (*f)(void), const char *sig);
+
 /* PyIdentifierFromString.proto */
 #if !defined(__Pyx_PyIdentifier_FromString)
 #if PY_MAJOR_VERSION < 3
@@ -1984,22 +1987,21 @@ static double __pyx_f_10tinycadlib_6VPoint_distance(struct __pyx_obj_10tinycadli
 static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self, struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_p, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle *__pyx_optional_args); /* proto*/
 static PyBoolObject *__pyx_f_10tinycadlib_6VPoint_grounded(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 static double __pyx_f_10tinycadlib_10Coordinate_distance(struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_self, struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_p, int __pyx_skip_dispatch); /* proto*/
-static PyBoolObject *__pyx_f_10tinycadlib_10Coordinate_isnan(struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_self, int __pyx_skip_dispatch); /* proto*/
 
-/* Module declarations from 'libc.math' */
-
-/* Module declarations from 'cpython.buffer' */
-
-/* Module declarations from 'libc.string' */
-
-/* Module declarations from 'libc.stdio' */
+/* Module declarations from 'cpython.version' */
 
 /* Module declarations from '__builtin__' */
 
 /* Module declarations from 'cpython.type' */
 static PyTypeObject *__pyx_ptype_7cpython_4type_type = 0;
 
-/* Module declarations from 'cpython.version' */
+/* Module declarations from 'libc.string' */
+
+/* Module declarations from 'libc.stdio' */
+
+/* Module declarations from 'cpython.object' */
+
+/* Module declarations from 'cpython.ref' */
 
 /* Module declarations from 'cpython.exc' */
 
@@ -2061,15 +2063,13 @@ static PyTypeObject *__pyx_ptype_7cpython_7complex_complex = 0;
 
 /* Module declarations from 'cpython.set' */
 
+/* Module declarations from 'cpython.buffer' */
+
 /* Module declarations from 'cpython.bytes' */
 
 /* Module declarations from 'cpython.pycapsule' */
 
 /* Module declarations from 'cpython' */
-
-/* Module declarations from 'cpython.object' */
-
-/* Module declarations from 'cpython.ref' */
 
 /* Module declarations from 'numpy' */
 
@@ -2081,6 +2081,8 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
+/* Module declarations from 'libc.math' */
+
 /* Module declarations from 'tinycadlib' */
 static PyTypeObject *__pyx_ptype_10tinycadlib_VPoint = 0;
 static PyTypeObject *__pyx_ptype_10tinycadlib_VLink = 0;
@@ -2088,7 +2090,6 @@ static PyTypeObject *__pyx_ptype_10tinycadlib_Coordinate = 0;
 static PyTypeObject *__pyx_ptype_10tinycadlib___pyx_scope_struct____get__ = 0;
 static PyTypeObject *__pyx_ptype_10tinycadlib___pyx_scope_struct_1_genexpr = 0;
 static double __pyx_v_10tinycadlib_nan;
-static CYTHON_INLINE double __pyx_f_10tinycadlib_distance(double, double, double, double); /*proto*/
 static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLAP *__pyx_optional_args); /*proto*/
 static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLLP *__pyx_optional_args); /*proto*/
 static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordinate *, double, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLPP *__pyx_optional_args); /*proto*/
@@ -2096,6 +2097,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
 static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbetween(PyObject *, PyObject *, PyObject *); /*proto*/
 static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbefore(PyObject *, PyObject *); /*proto*/
+static CYTHON_INLINE double __pyx_f_10tinycadlib_distance(double, double, double, double); /*proto*/
 static void __pyx_f_10tinycadlib_expr_parser(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
 static CYTHON_INLINE double __pyx_f_10tinycadlib_tuple_distance(PyObject *, PyObject *); /*proto*/
 static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *, PyObject *, PyObject *); /*proto*/
@@ -2358,7 +2360,6 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_1c___get__(struct __pyx_obj_10tin
 static PyObject *__pyx_pf_10tinycadlib_6VPoint_4type___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10tinycadlib_6VPoint_5color___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10tinycadlib_6VPoint_8colorSTR___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_10tinycadlib_6VPoint_7typeSTR___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10tinycadlib_6VPoint_1x___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10tinycadlib_6VPoint_1y___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_10tinycadlib_6VPoint_5angle___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self); /* proto */
@@ -2426,7 +2427,7 @@ static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__31;
 /* Late includes */
 
-/* "tinycadlib.pyx":24
+/* "tinycadlib.pyx":23
  * 
  * 
  * cdef inline double distance(double x1, double y1, double x2, double y2):             # <<<<<<<<<<<<<<
@@ -2439,7 +2440,7 @@ static CYTHON_INLINE double __pyx_f_10tinycadlib_distance(double __pyx_v_x1, dou
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("distance", 0);
 
-  /* "tinycadlib.pyx":26
+  /* "tinycadlib.pyx":25
  * cdef inline double distance(double x1, double y1, double x2, double y2):
  *     """Distance of two cartesian coordinates."""
  *     return hypot(x2 - x1, y2 - y1)             # <<<<<<<<<<<<<<
@@ -2449,7 +2450,7 @@ static CYTHON_INLINE double __pyx_f_10tinycadlib_distance(double __pyx_v_x1, dou
   __pyx_r = hypot((__pyx_v_x2 - __pyx_v_x1), (__pyx_v_y2 - __pyx_v_y1));
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":24
+  /* "tinycadlib.pyx":23
  * 
  * 
  * cdef inline double distance(double x1, double y1, double x2, double y2):             # <<<<<<<<<<<<<<
@@ -2463,8 +2464,8 @@ static CYTHON_INLINE double __pyx_f_10tinycadlib_distance(double __pyx_v_x1, dou
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":40
- *     cdef readonly double x, y, angle
+/* "tinycadlib.pyx":32
+ *     """Symbol of joints."""
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
  *         links: str,
@@ -2488,7 +2489,7 @@ static int __pyx_pw_10tinycadlib_6VPoint_1__cinit__(PyObject *__pyx_v_self, PyOb
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_links,&__pyx_n_s_type_int,&__pyx_n_s_angle,&__pyx_n_s_color_str,&__pyx_n_s_x,&__pyx_n_s_y,&__pyx_n_s_color_func,0};
     PyObject* values[7] = {0,0,0,0,0,0,0};
 
-    /* "tinycadlib.pyx":47
+    /* "tinycadlib.pyx":39
  *         x: double,
  *         y: double,
  *         color_func: object = None             # <<<<<<<<<<<<<<
@@ -2526,31 +2527,31 @@ static int __pyx_pw_10tinycadlib_6VPoint_1__cinit__(PyObject *__pyx_v_self, PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_type_int)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 1); __PYX_ERR(0, 40, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 1); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_angle)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 2); __PYX_ERR(0, 40, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 2); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_color_str)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 3); __PYX_ERR(0, 40, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 3); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 4); __PYX_ERR(0, 40, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 4); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 5); __PYX_ERR(0, 40, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, 5); __PYX_ERR(0, 32, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
@@ -2560,7 +2561,7 @@ static int __pyx_pw_10tinycadlib_6VPoint_1__cinit__(PyObject *__pyx_v_self, PyOb
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 40, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 32, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2578,26 +2579,26 @@ static int __pyx_pw_10tinycadlib_6VPoint_1__cinit__(PyObject *__pyx_v_self, PyOb
     }
     __pyx_v_links = ((PyObject*)values[0]);
     __pyx_v_type_int = values[1];
-    __pyx_v_angle = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_angle == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 43, __pyx_L3_error)
+    __pyx_v_angle = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_angle == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 35, __pyx_L3_error)
     __pyx_v_color_str = ((PyObject*)values[3]);
-    __pyx_v_x = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 45, __pyx_L3_error)
-    __pyx_v_y = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 46, __pyx_L3_error)
+    __pyx_v_x = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 37, __pyx_L3_error)
+    __pyx_v_y = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 38, __pyx_L3_error)
     __pyx_v_color_func = values[6];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 40, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 32, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.VPoint.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_links), (&PyString_Type), 1, "links", 1))) __PYX_ERR(0, 41, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_color_str), (&PyString_Type), 1, "color_str", 1))) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_links), (&PyString_Type), 1, "links", 1))) __PYX_ERR(0, 33, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_color_str), (&PyString_Type), 1, "color_str", 1))) __PYX_ERR(0, 36, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_6VPoint___cinit__(((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_self), __pyx_v_links, __pyx_v_type_int, __pyx_v_angle, __pyx_v_color_str, __pyx_v_x, __pyx_v_y, __pyx_v_color_func);
 
-  /* "tinycadlib.pyx":40
- *     cdef readonly double x, y, angle
+  /* "tinycadlib.pyx":32
+ *     """Symbol of joints."""
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
  *         links: str,
@@ -2631,47 +2632,47 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
   __Pyx_RefNannySetupContext("__cinit__", 0);
   __Pyx_INCREF(__pyx_v_links);
 
-  /* "tinycadlib.pyx":49
+  /* "tinycadlib.pyx":41
  *         color_func: object = None
  *     ):
  *         cdef list tmp_list = []             # <<<<<<<<<<<<<<
  *         cdef str name
  *         links = links.replace(" ", '')
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_tmp_list = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":51
+  /* "tinycadlib.pyx":43
  *         cdef list tmp_list = []
  *         cdef str name
  *         links = links.replace(" ", '')             # <<<<<<<<<<<<<<
  *         for name in links.split(','):
  *             if not name:
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod2(&__pyx_umethod_PyString_Type_replace, __pyx_v_links, __pyx_kp_s_, __pyx_kp_s__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod2(&__pyx_umethod_PyString_Type_replace, __pyx_v_links, __pyx_kp_s_, __pyx_kp_s__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 51, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF_SET(__pyx_v_links, ((PyObject*)__pyx_t_1));
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":52
+  /* "tinycadlib.pyx":44
  *         cdef str name
  *         links = links.replace(" ", '')
  *         for name in links.split(','):             # <<<<<<<<<<<<<<
  *             if not name:
  *                 continue
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_links, __pyx_kp_s__3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_links, __pyx_kp_s__3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 44, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -2679,17 +2680,17 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 44, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 44, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -2699,28 +2700,28 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 52, __pyx_L1_error)
+          else __PYX_ERR(0, 44, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 52, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 44, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":53
+    /* "tinycadlib.pyx":45
  *         links = links.replace(" ", '')
  *         for name in links.split(','):
  *             if not name:             # <<<<<<<<<<<<<<
  *                 continue
  *             tmp_list.append(name)
  */
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_name); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_name); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 45, __pyx_L1_error)
     __pyx_t_6 = ((!__pyx_t_5) != 0);
     if (__pyx_t_6) {
 
-      /* "tinycadlib.pyx":54
+      /* "tinycadlib.pyx":46
  *         for name in links.split(','):
  *             if not name:
  *                 continue             # <<<<<<<<<<<<<<
@@ -2729,7 +2730,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
  */
       goto __pyx_L3_continue;
 
-      /* "tinycadlib.pyx":53
+      /* "tinycadlib.pyx":45
  *         links = links.replace(" ", '')
  *         for name in links.split(','):
  *             if not name:             # <<<<<<<<<<<<<<
@@ -2738,16 +2739,16 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
  */
     }
 
-    /* "tinycadlib.pyx":55
+    /* "tinycadlib.pyx":47
  *             if not name:
  *                 continue
  *             tmp_list.append(name)             # <<<<<<<<<<<<<<
  *         self.links = tuple(tmp_list)
  *         self.type = type_int
  */
-    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_tmp_list, __pyx_v_name); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_tmp_list, __pyx_v_name); if (unlikely(__pyx_t_7 == ((int)-1))) __PYX_ERR(0, 47, __pyx_L1_error)
 
-    /* "tinycadlib.pyx":52
+    /* "tinycadlib.pyx":44
  *         cdef str name
  *         links = links.replace(" ", '')
  *         for name in links.split(','):             # <<<<<<<<<<<<<<
@@ -2758,14 +2759,14 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":56
+  /* "tinycadlib.pyx":48
  *                 continue
  *             tmp_list.append(name)
  *         self.links = tuple(tmp_list)             # <<<<<<<<<<<<<<
  *         self.type = type_int
  *         self.typeSTR = ('R', 'P', 'RP')[type_int]
  */
-  __pyx_t_2 = PyList_AsTuple(__pyx_v_tmp_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_t_2 = PyList_AsTuple(__pyx_v_tmp_list); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->links);
@@ -2773,33 +2774,33 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
   __pyx_v_self->links = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":57
+  /* "tinycadlib.pyx":49
  *             tmp_list.append(name)
  *         self.links = tuple(tmp_list)
  *         self.type = type_int             # <<<<<<<<<<<<<<
  *         self.typeSTR = ('R', 'P', 'RP')[type_int]
  *         self.angle = angle
  */
-  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_v_type_int); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_v_type_int); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 49, __pyx_L1_error)
   __pyx_v_self->type = __pyx_t_8;
 
-  /* "tinycadlib.pyx":58
+  /* "tinycadlib.pyx":50
  *         self.links = tuple(tmp_list)
  *         self.type = type_int
  *         self.typeSTR = ('R', 'P', 'RP')[type_int]             # <<<<<<<<<<<<<<
  *         self.angle = angle
  *         self.colorSTR = color_str
  */
-  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_tuple__4, __pyx_v_type_int); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_tuple__4, __pyx_v_type_int); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 58, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->typeSTR);
   __Pyx_DECREF(__pyx_v_self->typeSTR);
   __pyx_v_self->typeSTR = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":59
+  /* "tinycadlib.pyx":51
  *         self.type = type_int
  *         self.typeSTR = ('R', 'P', 'RP')[type_int]
  *         self.angle = angle             # <<<<<<<<<<<<<<
@@ -2808,7 +2809,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
  */
   __pyx_v_self->angle = __pyx_v_angle;
 
-  /* "tinycadlib.pyx":60
+  /* "tinycadlib.pyx":52
  *         self.typeSTR = ('R', 'P', 'RP')[type_int]
  *         self.angle = angle
  *         self.colorSTR = color_str             # <<<<<<<<<<<<<<
@@ -2821,17 +2822,17 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
   __Pyx_DECREF(__pyx_v_self->colorSTR);
   __pyx_v_self->colorSTR = __pyx_v_color_str;
 
-  /* "tinycadlib.pyx":61
+  /* "tinycadlib.pyx":53
  *         self.angle = angle
  *         self.colorSTR = color_str
  *         if color_func:             # <<<<<<<<<<<<<<
  *             self.color = color_func(color_str)
  *         self.x = x
  */
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_color_func); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 61, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_color_func); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
   if (__pyx_t_6) {
 
-    /* "tinycadlib.pyx":62
+    /* "tinycadlib.pyx":54
  *         self.colorSTR = color_str
  *         if color_func:
  *             self.color = color_func(color_str)             # <<<<<<<<<<<<<<
@@ -2850,13 +2851,13 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
       }
     }
     if (!__pyx_t_9) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_color_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_color_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_1)) {
         PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_v_color_str};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -2864,19 +2865,19 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
         PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_v_color_str};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_9); __pyx_t_9 = NULL;
         __Pyx_INCREF(__pyx_v_color_str);
         __Pyx_GIVEREF(__pyx_v_color_str);
         PyTuple_SET_ITEM(__pyx_t_10, 0+1, __pyx_v_color_str);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_10, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       }
@@ -2888,7 +2889,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
     __pyx_v_self->color = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "tinycadlib.pyx":61
+    /* "tinycadlib.pyx":53
  *         self.angle = angle
  *         self.colorSTR = color_str
  *         if color_func:             # <<<<<<<<<<<<<<
@@ -2897,7 +2898,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
  */
   }
 
-  /* "tinycadlib.pyx":63
+  /* "tinycadlib.pyx":55
  *         if color_func:
  *             self.color = color_func(color_str)
  *         self.x = x             # <<<<<<<<<<<<<<
@@ -2906,7 +2907,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
  */
   __pyx_v_self->x = __pyx_v_x;
 
-  /* "tinycadlib.pyx":64
+  /* "tinycadlib.pyx":56
  *             self.color = color_func(color_str)
  *         self.x = x
  *         self.y = y             # <<<<<<<<<<<<<<
@@ -2915,23 +2916,23 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
  */
   __pyx_v_self->y = __pyx_v_y;
 
-  /* "tinycadlib.pyx":65
+  /* "tinycadlib.pyx":57
  *         self.x = x
  *         self.y = y
  *         self.c = np.ndarray(2, dtype=np.object)             # <<<<<<<<<<<<<<
  *         if (self.type == 1) or (self.type == 2):
  *             """Slider current coordinates.
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_object); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_object); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_tuple__5, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_tuple__5, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_GIVEREF(__pyx_t_10);
@@ -2940,7 +2941,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
   __pyx_v_self->c = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "tinycadlib.pyx":66
+  /* "tinycadlib.pyx":58
  *         self.y = y
  *         self.c = np.ndarray(2, dtype=np.object)
  *         if (self.type == 1) or (self.type == 2):             # <<<<<<<<<<<<<<
@@ -2951,18 +2952,18 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
     case 1:
     case 2:
 
-    /* "tinycadlib.pyx":72
+    /* "tinycadlib.pyx":64
  *             + [1]: Pin.
  *             """
  *             self.c[0] = (self.x, self.y)             # <<<<<<<<<<<<<<
  *             self.c[1] = (self.x, self.y)
  *         else:
  */
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_10);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_10);
@@ -2970,21 +2971,21 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
     __pyx_t_10 = 0;
     __pyx_t_2 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 0, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 0, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 64, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":73
+    /* "tinycadlib.pyx":65
  *             """
  *             self.c[0] = (self.x, self.y)
  *             self.c[1] = (self.x, self.y)             # <<<<<<<<<<<<<<
  *         else:
  *             self.c[0] = (self.x, self.y)
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 73, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_1);
@@ -2992,10 +2993,10 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
     PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_2);
     __pyx_t_1 = 0;
     __pyx_t_2 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 1, __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 1, __pyx_t_10, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 65, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
-    /* "tinycadlib.pyx":66
+    /* "tinycadlib.pyx":58
  *         self.y = y
  *         self.c = np.ndarray(2, dtype=np.object)
  *         if (self.type == 1) or (self.type == 2):             # <<<<<<<<<<<<<<
@@ -3005,18 +3006,18 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
     break;
     default:
 
-    /* "tinycadlib.pyx":75
+    /* "tinycadlib.pyx":67
  *             self.c[1] = (self.x, self.y)
  *         else:
  *             self.c[0] = (self.x, self.y)             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_10 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 75, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_10);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_10);
@@ -3024,13 +3025,13 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
     __pyx_t_10 = 0;
     __pyx_t_2 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 0, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 75, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 0, __pyx_t_1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 67, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     break;
   }
 
-  /* "tinycadlib.pyx":40
- *     cdef readonly double x, y, angle
+  /* "tinycadlib.pyx":32
+ *     """Symbol of joints."""
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
  *         links: str,
@@ -3055,7 +3056,7 @@ static int __pyx_pf_10tinycadlib_6VPoint___cinit__(struct __pyx_obj_10tinycadlib
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":78
+/* "tinycadlib.pyx":70
  * 
  *     @property
  *     def cx(self):             # <<<<<<<<<<<<<<
@@ -3083,7 +3084,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2cx___get__(struct __pyx_obj_10ti
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "tinycadlib.pyx":80
+  /* "tinycadlib.pyx":72
  *     def cx(self):
  *         """X value of frist current coordinate."""
  *         return self.c[0][0]             # <<<<<<<<<<<<<<
@@ -3091,16 +3092,16 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2cx___get__(struct __pyx_obj_10ti
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 80, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":78
+  /* "tinycadlib.pyx":70
  * 
  *     @property
  *     def cx(self):             # <<<<<<<<<<<<<<
@@ -3120,7 +3121,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2cx___get__(struct __pyx_obj_10ti
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":83
+/* "tinycadlib.pyx":75
  * 
  *     @property
  *     def cy(self):             # <<<<<<<<<<<<<<
@@ -3148,7 +3149,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2cy___get__(struct __pyx_obj_10ti
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "tinycadlib.pyx":85
+  /* "tinycadlib.pyx":77
  *     def cy(self):
  *         """Y value of frist current coordinate."""
  *         return self.c[0][1]             # <<<<<<<<<<<<<<
@@ -3156,16 +3157,16 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2cy___get__(struct __pyx_obj_10ti
  *     cpdef void move(self, tuple c1, tuple c2=None):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 77, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":83
+  /* "tinycadlib.pyx":75
  * 
  *     @property
  *     def cy(self):             # <<<<<<<<<<<<<<
@@ -3185,7 +3186,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2cy___get__(struct __pyx_obj_10ti
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":87
+/* "tinycadlib.pyx":79
  *         return self.c[0][1]
  * 
  *     cpdef void move(self, tuple c1, tuple c2=None):             # <<<<<<<<<<<<<<
@@ -3213,7 +3214,7 @@ static void __pyx_f_10tinycadlib_6VPoint_move(struct __pyx_obj_10tinycadlib_VPoi
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_move); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_move); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_10tinycadlib_6VPoint_3move)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -3232,7 +3233,7 @@ static void __pyx_f_10tinycadlib_6VPoint_move(struct __pyx_obj_10tinycadlib_VPoi
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_c1, __pyx_v_c2};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -3240,13 +3241,13 @@ static void __pyx_f_10tinycadlib_6VPoint_move(struct __pyx_obj_10tinycadlib_VPoi
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_c1, __pyx_v_c2};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3257,7 +3258,7 @@ static void __pyx_f_10tinycadlib_6VPoint_move(struct __pyx_obj_10tinycadlib_VPoi
         __Pyx_INCREF(__pyx_v_c2);
         __Pyx_GIVEREF(__pyx_v_c2);
         PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_c2);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -3269,25 +3270,25 @@ static void __pyx_f_10tinycadlib_6VPoint_move(struct __pyx_obj_10tinycadlib_VPoi
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":89
+  /* "tinycadlib.pyx":81
  *     cpdef void move(self, tuple c1, tuple c2=None):
  *         """Change coordinates of this point."""
  *         self.c[0] = c1             # <<<<<<<<<<<<<<
  *         self.c[1] = c2
  * 
  */
-  if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 0, __pyx_v_c1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 89, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 0, __pyx_v_c1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 81, __pyx_L1_error)
 
-  /* "tinycadlib.pyx":90
+  /* "tinycadlib.pyx":82
  *         """Change coordinates of this point."""
  *         self.c[0] = c1
  *         self.c[1] = c2             # <<<<<<<<<<<<<<
  * 
  *     cpdef double distance(self, VPoint p):
  */
-  if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 1, __pyx_v_c2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 90, __pyx_L1_error)
+  if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->c), 1, __pyx_v_c2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 82, __pyx_L1_error)
 
-  /* "tinycadlib.pyx":87
+  /* "tinycadlib.pyx":79
  *         return self.c[0][1]
  * 
  *     cpdef void move(self, tuple c1, tuple c2=None):             # <<<<<<<<<<<<<<
@@ -3345,7 +3346,7 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_3move(PyObject *__pyx_v_self, PyO
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "move") < 0)) __PYX_ERR(0, 87, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "move") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3361,14 +3362,14 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_3move(PyObject *__pyx_v_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("move", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 87, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("move", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.VPoint.move", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_c1), (&PyTuple_Type), 1, "c1", 1))) __PYX_ERR(0, 87, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_c2), (&PyTuple_Type), 1, "c2", 1))) __PYX_ERR(0, 87, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_c1), (&PyTuple_Type), 1, "c1", 1))) __PYX_ERR(0, 79, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_c2), (&PyTuple_Type), 1, "c2", 1))) __PYX_ERR(0, 79, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_6VPoint_2move(((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_self), __pyx_v_c1, __pyx_v_c2);
 
   /* function exit code */
@@ -3390,7 +3391,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2move(struct __pyx_obj_10tinycadl
   __pyx_t_1.__pyx_n = 1;
   __pyx_t_1.c2 = __pyx_v_c2;
   __pyx_vtabptr_10tinycadlib_VPoint->move(__pyx_v_self, __pyx_v_c1, 1, &__pyx_t_1); 
-  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_void_to_None(NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -3407,7 +3408,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_2move(struct __pyx_obj_10tinycadl
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":92
+/* "tinycadlib.pyx":84
  *         self.c[1] = c2
  * 
  *     cpdef double distance(self, VPoint p):             # <<<<<<<<<<<<<<
@@ -3430,7 +3431,7 @@ static double __pyx_f_10tinycadlib_6VPoint_distance(struct __pyx_obj_10tinycadli
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_distance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_distance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_10tinycadlib_6VPoint_5distance)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -3445,13 +3446,13 @@ static double __pyx_f_10tinycadlib_6VPoint_distance(struct __pyx_obj_10tinycadli
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_p)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -3459,25 +3460,25 @@ static double __pyx_f_10tinycadlib_6VPoint_distance(struct __pyx_obj_10tinycadli
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_p)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 92, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 84, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(((PyObject *)__pyx_v_p));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_p));
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_p));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 92, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 84, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L1_error)
+      __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 84, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_r = __pyx_t_6;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3486,17 +3487,17 @@ static double __pyx_f_10tinycadlib_6VPoint_distance(struct __pyx_obj_10tinycadli
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":94
+  /* "tinycadlib.pyx":86
  *     cpdef double distance(self, VPoint p):
  *         """Distance."""
  *         return distance(self.x, self.y, p.x, p.y)             # <<<<<<<<<<<<<<
  * 
- *     cpdef double slopeAngle(self, VPoint p, int num1=-1, int num2=-1):
+ *     cpdef double slopeAngle(self, VPoint p, int num1 = -1, int num2 = -1):
  */
   __pyx_r = __pyx_f_10tinycadlib_distance(__pyx_v_self->x, __pyx_v_self->y, __pyx_v_p->x, __pyx_v_p->y);
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":92
+  /* "tinycadlib.pyx":84
  *         self.c[1] = c2
  * 
  *     cpdef double distance(self, VPoint p):             # <<<<<<<<<<<<<<
@@ -3525,7 +3526,7 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_5distance(PyObject *__pyx_v_self,
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("distance (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_10tinycadlib_VPoint, 1, "p", 0))) __PYX_ERR(0, 92, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_10tinycadlib_VPoint, 1, "p", 0))) __PYX_ERR(0, 84, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_6VPoint_4distance(((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_self), ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_p));
 
   /* function exit code */
@@ -3543,7 +3544,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4distance(struct __pyx_obj_10tiny
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("distance", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_10tinycadlib_6VPoint_distance(__pyx_v_self, __pyx_v_p, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 92, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_10tinycadlib_6VPoint_distance(__pyx_v_self, __pyx_v_p, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3560,10 +3561,10 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4distance(struct __pyx_obj_10tiny
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":96
+/* "tinycadlib.pyx":88
  *         return distance(self.x, self.y, p.x, p.y)
  * 
- *     cpdef double slopeAngle(self, VPoint p, int num1=-1, int num2=-1):             # <<<<<<<<<<<<<<
+ *     cpdef double slopeAngle(self, VPoint p, int num1 = -1, int num2 = -1):             # <<<<<<<<<<<<<<
  *         """Angle between horizontal line and two point.
  * 
  */
@@ -3601,12 +3602,12 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_slopeAngle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_slopeAngle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_10tinycadlib_6VPoint_7slopeAngle)) {
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_num1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_num1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_num2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_num2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_5 = __pyx_t_1; __pyx_t_6 = NULL;
@@ -3624,7 +3625,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[4] = {__pyx_t_6, ((PyObject *)__pyx_v_p), __pyx_t_3, __pyx_t_4};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3634,7 +3635,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[4] = {__pyx_t_6, ((PyObject *)__pyx_v_p), __pyx_t_3, __pyx_t_4};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_7, 3+__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3642,7 +3643,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_8 = PyTuple_New(3+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         if (__pyx_t_6) {
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -3656,12 +3657,12 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
         PyTuple_SET_ITEM(__pyx_t_8, 2+__pyx_t_7, __pyx_t_4);
         __pyx_t_3 = 0;
         __pyx_t_4 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 96, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 88, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L1_error)
+      __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_r = __pyx_t_9;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3670,7 +3671,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":106
+  /* "tinycadlib.pyx":98
  *         cdef double y2
  *         cdef double x2
  *         if num1 == -1:             # <<<<<<<<<<<<<<
@@ -3680,7 +3681,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
   __pyx_t_10 = ((__pyx_v_num1 == -1L) != 0);
   if (__pyx_t_10) {
 
-    /* "tinycadlib.pyx":107
+    /* "tinycadlib.pyx":99
  *         cdef double x2
  *         if num1 == -1:
  *             y2 = self.y             # <<<<<<<<<<<<<<
@@ -3690,7 +3691,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     __pyx_t_9 = __pyx_v_self->y;
     __pyx_v_y2 = __pyx_t_9;
 
-    /* "tinycadlib.pyx":108
+    /* "tinycadlib.pyx":100
  *         if num1 == -1:
  *             y2 = self.y
  *             x2 = self.x             # <<<<<<<<<<<<<<
@@ -3700,7 +3701,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     __pyx_t_9 = __pyx_v_self->x;
     __pyx_v_x2 = __pyx_t_9;
 
-    /* "tinycadlib.pyx":106
+    /* "tinycadlib.pyx":98
  *         cdef double y2
  *         cdef double x2
  *         if num1 == -1:             # <<<<<<<<<<<<<<
@@ -3710,7 +3711,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     goto __pyx_L3;
   }
 
-  /* "tinycadlib.pyx":110
+  /* "tinycadlib.pyx":102
  *             x2 = self.x
  *         else:
  *             y2 = self.c[num2][1]             # <<<<<<<<<<<<<<
@@ -3718,34 +3719,34 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
  *         if num2 == -1:
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_y2 = __pyx_t_9;
 
-    /* "tinycadlib.pyx":111
+    /* "tinycadlib.pyx":103
  *         else:
  *             y2 = self.c[num2][1]
  *             x2 = self.c[num2][0]             # <<<<<<<<<<<<<<
  *         if num2 == -1:
  *             y1 = p.y
  */
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 103, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_x2 = __pyx_t_9;
   }
   __pyx_L3:;
 
-  /* "tinycadlib.pyx":112
+  /* "tinycadlib.pyx":104
  *             y2 = self.c[num2][1]
  *             x2 = self.c[num2][0]
  *         if num2 == -1:             # <<<<<<<<<<<<<<
@@ -3755,7 +3756,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
   __pyx_t_10 = ((__pyx_v_num2 == -1L) != 0);
   if (__pyx_t_10) {
 
-    /* "tinycadlib.pyx":113
+    /* "tinycadlib.pyx":105
  *             x2 = self.c[num2][0]
  *         if num2 == -1:
  *             y1 = p.y             # <<<<<<<<<<<<<<
@@ -3765,7 +3766,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     __pyx_t_9 = __pyx_v_p->y;
     __pyx_v_y1 = __pyx_t_9;
 
-    /* "tinycadlib.pyx":114
+    /* "tinycadlib.pyx":106
  *         if num2 == -1:
  *             y1 = p.y
  *             x1 = p.x             # <<<<<<<<<<<<<<
@@ -3775,7 +3776,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     __pyx_t_9 = __pyx_v_p->x;
     __pyx_v_x1 = __pyx_t_9;
 
-    /* "tinycadlib.pyx":112
+    /* "tinycadlib.pyx":104
  *             y2 = self.c[num2][1]
  *             x2 = self.c[num2][0]
  *         if num2 == -1:             # <<<<<<<<<<<<<<
@@ -3785,7 +3786,7 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     goto __pyx_L4;
   }
 
-  /* "tinycadlib.pyx":116
+  /* "tinycadlib.pyx":108
  *             x1 = p.x
  *         else:
  *             y1 = p.c[num2][1]             # <<<<<<<<<<<<<<
@@ -3793,46 +3794,46 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
  *         return np.rad2deg(atan2(y1 - y2, x1 - x2))
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_p->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_p->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_v_y1 = __pyx_t_9;
 
-    /* "tinycadlib.pyx":117
+    /* "tinycadlib.pyx":109
  *         else:
  *             y1 = p.c[num2][1]
  *             x1 = p.c[num2][0]             # <<<<<<<<<<<<<<
  *         return np.rad2deg(atan2(y1 - y2, x1 - x2))
  * 
  */
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_p->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_p->c), __pyx_v_num2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 117, __pyx_L1_error)
+    __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 109, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_x1 = __pyx_t_9;
   }
   __pyx_L4:;
 
-  /* "tinycadlib.pyx":118
+  /* "tinycadlib.pyx":110
  *             y1 = p.c[num2][1]
  *             x1 = p.c[num2][0]
  *         return np.rad2deg(atan2(y1 - y2, x1 - x2))             # <<<<<<<<<<<<<<
  * 
  *     cpdef bool grounded(self):
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_rad2deg); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_rad2deg); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyFloat_FromDouble(atan2((__pyx_v_y1 - __pyx_v_y2), (__pyx_v_x1 - __pyx_v_x2))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(atan2((__pyx_v_y1 - __pyx_v_y2), (__pyx_v_x1 - __pyx_v_x2))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -3845,14 +3846,14 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     }
   }
   if (!__pyx_t_8) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3861,34 +3862,34 @@ static double __pyx_f_10tinycadlib_6VPoint_slopeAngle(struct __pyx_obj_10tinycad
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_8); __pyx_t_8 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 110, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_9 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_9 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 110, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_9;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":96
+  /* "tinycadlib.pyx":88
  *         return distance(self.x, self.y, p.x, p.y)
  * 
- *     cpdef double slopeAngle(self, VPoint p, int num1=-1, int num2=-1):             # <<<<<<<<<<<<<<
+ *     cpdef double slopeAngle(self, VPoint p, int num1 = -1, int num2 = -1):             # <<<<<<<<<<<<<<
  *         """Angle between horizontal line and two point.
  * 
  */
@@ -3954,7 +3955,7 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_7slopeAngle(PyObject *__pyx_v_sel
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "slopeAngle") < 0)) __PYX_ERR(0, 96, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "slopeAngle") < 0)) __PYX_ERR(0, 88, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3969,25 +3970,25 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_7slopeAngle(PyObject *__pyx_v_sel
     }
     __pyx_v_p = ((struct __pyx_obj_10tinycadlib_VPoint *)values[0]);
     if (values[1]) {
-      __pyx_v_num1 = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_num1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
+      __pyx_v_num1 = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_num1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L3_error)
     } else {
       __pyx_v_num1 = ((int)-1);
     }
     if (values[2]) {
-      __pyx_v_num2 = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_num2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 96, __pyx_L3_error)
+      __pyx_v_num2 = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_num2 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 88, __pyx_L3_error)
     } else {
       __pyx_v_num2 = ((int)-1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("slopeAngle", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 96, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("slopeAngle", 0, 1, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 88, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.VPoint.slopeAngle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_10tinycadlib_VPoint, 1, "p", 0))) __PYX_ERR(0, 96, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_10tinycadlib_VPoint, 1, "p", 0))) __PYX_ERR(0, 88, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_6VPoint_6slopeAngle(((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_self), __pyx_v_p, __pyx_v_num1, __pyx_v_num2);
 
   /* function exit code */
@@ -4011,7 +4012,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_6slopeAngle(struct __pyx_obj_10ti
   __pyx_t_2.num1 = __pyx_v_num1;
   __pyx_t_2.num2 = __pyx_v_num2;
   __pyx_t_1 = __pyx_vtabptr_10tinycadlib_VPoint->slopeAngle(__pyx_v_self, __pyx_v_p, 1, &__pyx_t_2); 
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 96, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 88, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -4028,7 +4029,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_6slopeAngle(struct __pyx_obj_10ti
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":120
+/* "tinycadlib.pyx":112
  *         return np.rad2deg(atan2(y1 - y2, x1 - x2))
  * 
  *     cpdef bool grounded(self):             # <<<<<<<<<<<<<<
@@ -4050,7 +4051,7 @@ static PyBoolObject *__pyx_f_10tinycadlib_6VPoint_grounded(struct __pyx_obj_10ti
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_grounded); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_grounded); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_10tinycadlib_6VPoint_9grounded)) {
       __Pyx_XDECREF(((PyObject *)__pyx_r));
@@ -4066,14 +4067,14 @@ static PyBoolObject *__pyx_f_10tinycadlib_6VPoint_grounded(struct __pyx_obj_10ti
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7cpython_4bool_bool))))) __PYX_ERR(0, 120, __pyx_L1_error)
+      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7cpython_4bool_bool))))) __PYX_ERR(0, 112, __pyx_L1_error)
       __pyx_r = ((PyBoolObject *)__pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4082,7 +4083,7 @@ static PyBoolObject *__pyx_f_10tinycadlib_6VPoint_grounded(struct __pyx_obj_10ti
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":121
+  /* "tinycadlib.pyx":113
  * 
  *     cpdef bool grounded(self):
  *         return 'ground' in self.links             # <<<<<<<<<<<<<<
@@ -4090,15 +4091,15 @@ static PyBoolObject *__pyx_f_10tinycadlib_6VPoint_grounded(struct __pyx_obj_10ti
  *     @property
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_ground, __pyx_v_self->links, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 121, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 121, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_n_s_ground, __pyx_v_self->links, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 113, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 113, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 121, __pyx_L1_error)
+  if (!(likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 113, __pyx_L1_error)
   __pyx_r = ((PyBoolObject *)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":120
+  /* "tinycadlib.pyx":112
  *         return np.rad2deg(atan2(y1 - y2, x1 - x2))
  * 
  *     cpdef bool grounded(self):             # <<<<<<<<<<<<<<
@@ -4139,7 +4140,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_8grounded(struct __pyx_obj_10tiny
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("grounded", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_6VPoint_grounded(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_6VPoint_grounded(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4156,7 +4157,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_8grounded(struct __pyx_obj_10tiny
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":124
+/* "tinycadlib.pyx":116
  * 
  *     @property
  *     def expr(self):             # <<<<<<<<<<<<<<
@@ -4178,7 +4179,7 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_4expr_1__get__(PyObject *__pyx_v_
 }
 static PyObject *__pyx_gb_10tinycadlib_6VPoint_4expr_7__get___2generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "tinycadlib.pyx":131
+/* "tinycadlib.pyx":123
  *             self.colorSTR,
  *             "{}, {}".format(self.x, self.y),
  *             ", ".join(l for l in self.links)             # <<<<<<<<<<<<<<
@@ -4195,7 +4196,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr_7__get___genexpr(PyObject *
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_10tinycadlib___pyx_scope_struct_1_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 131, __pyx_L1_error)
+    __PYX_ERR(0, 123, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -4203,7 +4204,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr_7__get___genexpr(PyObject *
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_10tinycadlib_6VPoint_4expr_7__get___2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_VPoint___get___locals_genexpr, __pyx_n_s_tinycadlib); if (unlikely(!gen)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_10tinycadlib_6VPoint_4expr_7__get___2generator, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_VPoint___get___locals_genexpr, __pyx_n_s_tinycadlib); if (unlikely(!gen)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -4236,19 +4237,19 @@ static PyObject *__pyx_gb_10tinycadlib_6VPoint_4expr_7__get___2generator(__pyx_C
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 131, __pyx_L1_error)
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self)) { __Pyx_RaiseClosureNameError("self"); __PYX_ERR(0, 131, __pyx_L1_error) }
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 123, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self)) { __Pyx_RaiseClosureNameError("self"); __PYX_ERR(0, 123, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self->links == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 131, __pyx_L1_error)
+    __PYX_ERR(0, 123, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_cur_scope->__pyx_outer_scope->__pyx_v_self->links; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 123, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 131, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_l);
@@ -4271,7 +4272,7 @@ static PyObject *__pyx_gb_10tinycadlib_6VPoint_4expr_7__get___2generator(__pyx_C
     __pyx_cur_scope->__pyx_t_0 = 0;
     __Pyx_XGOTREF(__pyx_t_1);
     __pyx_t_2 = __pyx_cur_scope->__pyx_t_1;
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 131, __pyx_L1_error)
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 123, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
@@ -4292,7 +4293,7 @@ static PyObject *__pyx_gb_10tinycadlib_6VPoint_4expr_7__get___2generator(__pyx_C
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":124
+/* "tinycadlib.pyx":116
  * 
  *     @property
  *     def expr(self):             # <<<<<<<<<<<<<<
@@ -4320,7 +4321,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_10tinycadlib___pyx_scope_struct____get__ *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(0, 124, __pyx_L1_error)
+    __PYX_ERR(0, 116, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -4328,7 +4329,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   __Pyx_INCREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
 
-  /* "tinycadlib.pyx":126
+  /* "tinycadlib.pyx":118
  *     def expr(self):
  *         """Expression."""
  *         return "J[{}, color[{}], P[{}], L[{}]]".format(             # <<<<<<<<<<<<<<
@@ -4336,29 +4337,29 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
  *             if self.typeSTR != 'R' else 'R',
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_J_color_P_L, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_J_color_P_L, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 118, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "tinycadlib.pyx":128
+  /* "tinycadlib.pyx":120
  *         return "J[{}, color[{}], P[{}], L[{}]]".format(
  *             "{}, A[{}]".format(self.typeSTR, self.angle)
  *             if self.typeSTR != 'R' else 'R',             # <<<<<<<<<<<<<<
  *             self.colorSTR,
  *             "{}, {}".format(self.x, self.y),
  */
-  __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_self->typeSTR, __pyx_n_s_R, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 128, __pyx_L1_error)
+  __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_cur_scope->__pyx_v_self->typeSTR, __pyx_n_s_R, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 120, __pyx_L1_error)
   if ((__pyx_t_4 != 0)) {
 
-    /* "tinycadlib.pyx":127
+    /* "tinycadlib.pyx":119
  *         """Expression."""
  *         return "J[{}, color[{}], P[{}], L[{}]]".format(
  *             "{}, A[{}]".format(self.typeSTR, self.angle)             # <<<<<<<<<<<<<<
  *             if self.typeSTR != 'R' else 'R',
  *             self.colorSTR,
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_A, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_A, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_self->angle); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 127, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_self->angle); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     __pyx_t_9 = 0;
@@ -4375,7 +4376,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_cur_scope->__pyx_v_self->typeSTR, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -4384,14 +4385,14 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_cur_scope->__pyx_v_self->typeSTR, __pyx_t_7};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 119, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_8) {
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -4402,7 +4403,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
       __Pyx_GIVEREF(__pyx_t_7);
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_7);
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 127, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 119, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
@@ -4414,18 +4415,18 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
     __pyx_t_3 = __pyx_n_s_R;
   }
 
-  /* "tinycadlib.pyx":130
+  /* "tinycadlib.pyx":122
  *             if self.typeSTR != 'R' else 'R',
  *             self.colorSTR,
  *             "{}, {}".format(self.x, self.y),             # <<<<<<<<<<<<<<
  *             ", ".join(l for l in self.links)
  *         )
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__6, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__6, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_10 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_self->x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_10 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_self->x); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_self->y); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 130, __pyx_L1_error)
+  __pyx_t_7 = PyFloat_FromDouble(__pyx_cur_scope->__pyx_v_self->y); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __pyx_t_8 = NULL;
   __pyx_t_9 = 0;
@@ -4442,7 +4443,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_10, __pyx_t_7};
-    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -4452,7 +4453,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_10, __pyx_t_7};
-    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -4460,7 +4461,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   } else
   #endif
   {
-    __pyx_t_11 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_11 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     if (__pyx_t_8) {
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -4471,22 +4472,22 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
     PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_9, __pyx_t_7);
     __pyx_t_10 = 0;
     __pyx_t_7 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 130, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "tinycadlib.pyx":131
+  /* "tinycadlib.pyx":123
  *             self.colorSTR,
  *             "{}, {}".format(self.x, self.y),
  *             ", ".join(l for l in self.links)             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_6 = __pyx_pf_10tinycadlib_6VPoint_4expr_7__get___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_6 = __pyx_pf_10tinycadlib_6VPoint_4expr_7__get___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_11 = __Pyx_PyString_Join(__pyx_kp_s__7, __pyx_t_6); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 131, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyString_Join(__pyx_kp_s__7, __pyx_t_6); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -4504,7 +4505,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_t_3, __pyx_cur_scope->__pyx_v_self->colorSTR, __pyx_t_5, __pyx_t_11};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4515,7 +4516,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[5] = {__pyx_t_6, __pyx_t_3, __pyx_cur_scope->__pyx_v_self->colorSTR, __pyx_t_5, __pyx_t_11};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 4+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4524,7 +4525,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(4+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -4541,7 +4542,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
     __pyx_t_3 = 0;
     __pyx_t_5 = 0;
     __pyx_t_11 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -4550,7 +4551,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":124
+  /* "tinycadlib.pyx":116
  * 
  *     @property
  *     def expr(self):             # <<<<<<<<<<<<<<
@@ -4578,7 +4579,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4expr___get__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":134
+/* "tinycadlib.pyx":126
  *         )
  * 
  *     def __richcmp__(p1: VPoint, p2: VPoint, op: int):             # <<<<<<<<<<<<<<
@@ -4593,7 +4594,7 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_11__richcmp__(PyObject *__pyx_v_p
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__richcmp__ (wrapper)", 0);
-  __pyx_v_op = __Pyx_PyInt_From_int(__pyx_arg_op); if (unlikely(!__pyx_v_op)) __PYX_ERR(0, 134, __pyx_L3_error)
+  __pyx_v_op = __Pyx_PyInt_From_int(__pyx_arg_op); if (unlikely(!__pyx_v_op)) __PYX_ERR(0, 126, __pyx_L3_error)
   __Pyx_GOTREF(__pyx_v_op);
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -4601,7 +4602,7 @@ static PyObject *__pyx_pw_10tinycadlib_6VPoint_11__richcmp__(PyObject *__pyx_v_p
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p2), __pyx_ptype_10tinycadlib_VPoint, 1, "p2", 0))) __PYX_ERR(0, 134, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p2), __pyx_ptype_10tinycadlib_VPoint, 1, "p2", 0))) __PYX_ERR(0, 126, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_6VPoint_10__richcmp__(((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_p1), ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_p2), ((PyObject *)__pyx_v_op));
 
   /* function exit code */
@@ -4625,42 +4626,42 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
   PyObject *__pyx_t_6 = NULL;
   __Pyx_RefNannySetupContext("__richcmp__", 0);
 
-  /* "tinycadlib.pyx":140
+  /* "tinycadlib.pyx":132
  *         op == 3: __ne__
  *         """
  *         if (op != 2) and (op != 3):             # <<<<<<<<<<<<<<
  *             raise TypeError("Only allow to compare two VPoints.")
  *         return (
  */
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_op, __pyx_int_2, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_v_op, __pyx_int_2, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = PyObject_RichCompare(__pyx_v_op, __pyx_int_3, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 140, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_t_2 = PyObject_RichCompare(__pyx_v_op, __pyx_int_3, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1 = __pyx_t_3;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "tinycadlib.pyx":141
+    /* "tinycadlib.pyx":133
  *         """
  *         if (op != 2) and (op != 3):
  *             raise TypeError("Only allow to compare two VPoints.")             # <<<<<<<<<<<<<<
  *         return (
  *             (op == 2) and
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 141, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 133, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 141, __pyx_L1_error)
+    __PYX_ERR(0, 133, __pyx_L1_error)
 
-    /* "tinycadlib.pyx":140
+    /* "tinycadlib.pyx":132
  *         op == 3: __ne__
  *         """
  *         if (op != 2) and (op != 3):             # <<<<<<<<<<<<<<
@@ -4669,7 +4670,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
  */
   }
 
-  /* "tinycadlib.pyx":142
+  /* "tinycadlib.pyx":134
  *         if (op != 2) and (op != 3):
  *             raise TypeError("Only allow to compare two VPoints.")
  *         return (             # <<<<<<<<<<<<<<
@@ -4678,16 +4679,16 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "tinycadlib.pyx":143
+  /* "tinycadlib.pyx":135
  *             raise TypeError("Only allow to compare two VPoints.")
  *         return (
  *             (op == 2) and             # <<<<<<<<<<<<<<
  *             (p1.x == p2.x) and
  *             (p1.y == p2.y) and
  */
-  __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_v_op, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_EqObjC(__pyx_v_op, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 143, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 135, __pyx_L1_error)
   if (__pyx_t_1) {
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else {
@@ -4697,7 +4698,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
     goto __pyx_L6_bool_binop_done;
   }
 
-  /* "tinycadlib.pyx":144
+  /* "tinycadlib.pyx":136
  *         return (
  *             (op == 2) and
  *             (p1.x == p2.x) and             # <<<<<<<<<<<<<<
@@ -4707,14 +4708,14 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
   __pyx_t_1 = (__pyx_v_p1->x == __pyx_v_p2->x);
   if (__pyx_t_1) {
   } else {
-    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 144, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 136, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L6_bool_binop_done;
   }
 
-  /* "tinycadlib.pyx":145
+  /* "tinycadlib.pyx":137
  *             (op == 2) and
  *             (p1.x == p2.x) and
  *             (p1.y == p2.y) and             # <<<<<<<<<<<<<<
@@ -4724,28 +4725,28 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
   __pyx_t_1 = (__pyx_v_p1->y == __pyx_v_p2->y);
   if (__pyx_t_1) {
   } else {
-    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_2 = __pyx_t_4;
     __pyx_t_4 = 0;
     goto __pyx_L6_bool_binop_done;
   }
 
-  /* "tinycadlib.pyx":146
+  /* "tinycadlib.pyx":138
  *             (p1.x == p2.x) and
  *             (p1.y == p2.y) and
  *             (p1.cx == p2.cx) and             # <<<<<<<<<<<<<<
  *             (p1.cy == p2.cy) and
  *             (p1.angle == p2.angle)
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_cx); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_cx); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_cx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_cx); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 138, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 138, __pyx_L1_error)
   if (__pyx_t_1) {
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
@@ -4755,21 +4756,21 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
     goto __pyx_L6_bool_binop_done;
   }
 
-  /* "tinycadlib.pyx":147
+  /* "tinycadlib.pyx":139
  *             (p1.y == p2.y) and
  *             (p1.cx == p2.cx) and
  *             (p1.cy == p2.cy) and             # <<<<<<<<<<<<<<
  *             (p1.angle == p2.angle)
  *         )
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_cy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p1), __pyx_n_s_cy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_cy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_p2), __pyx_n_s_cy); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_6, __pyx_t_5, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
   if (__pyx_t_1) {
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else {
@@ -4779,7 +4780,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
     goto __pyx_L6_bool_binop_done;
   }
 
-  /* "tinycadlib.pyx":148
+  /* "tinycadlib.pyx":140
  *             (p1.cx == p2.cx) and
  *             (p1.cy == p2.cy) and
  *             (p1.angle == p2.angle)             # <<<<<<<<<<<<<<
@@ -4787,7 +4788,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
  * 
  */
   __pyx_t_1 = (__pyx_v_p1->angle == __pyx_v_p2->angle);
-  __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_2 = __pyx_t_4;
   __pyx_t_4 = 0;
@@ -4796,7 +4797,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":134
+  /* "tinycadlib.pyx":126
  *         )
  * 
  *     def __richcmp__(p1: VPoint, p2: VPoint, op: int):             # <<<<<<<<<<<<<<
@@ -4818,7 +4819,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_10__richcmp__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":151
+/* "tinycadlib.pyx":143
  *         )
  * 
  *     def __getitem__(self, i: int):             # <<<<<<<<<<<<<<
@@ -4851,7 +4852,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "tinycadlib.pyx":156
+  /* "tinycadlib.pyx":148
  *         x, y = VPoint(10, 20)
  *         """
  *         if self.type == 0:             # <<<<<<<<<<<<<<
@@ -4861,7 +4862,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
   __pyx_t_1 = ((__pyx_v_self->type == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "tinycadlib.pyx":157
+    /* "tinycadlib.pyx":149
  *         """
  *         if self.type == 0:
  *             return self.c[0][i]             # <<<<<<<<<<<<<<
@@ -4869,16 +4870,16 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
  *             return self.c[1][i]
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_t_2, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":156
+    /* "tinycadlib.pyx":148
  *         x, y = VPoint(10, 20)
  *         """
  *         if self.type == 0:             # <<<<<<<<<<<<<<
@@ -4887,7 +4888,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
  */
   }
 
-  /* "tinycadlib.pyx":159
+  /* "tinycadlib.pyx":151
  *             return self.c[0][i]
  *         else:
  *             return self.c[1][i]             # <<<<<<<<<<<<<<
@@ -4896,9 +4897,9 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 159, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_2;
@@ -4906,7 +4907,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
     goto __pyx_L0;
   }
 
-  /* "tinycadlib.pyx":151
+  /* "tinycadlib.pyx":143
  *         )
  * 
  *     def __getitem__(self, i: int):             # <<<<<<<<<<<<<<
@@ -4926,7 +4927,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_12__getitem__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":161
+/* "tinycadlib.pyx":153
  *             return self.c[1][i]
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -4959,7 +4960,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_14__repr__(struct __pyx_obj_10tin
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "tinycadlib.pyx":163
+  /* "tinycadlib.pyx":155
  *     def __repr__(self):
  *         """Use to generate script."""
  *         return "VPoint({p.links}, {p.type}, {p.angle}, {p.c})".format(p=self)             # <<<<<<<<<<<<<<
@@ -4967,12 +4968,12 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_14__repr__(struct __pyx_obj_10tin
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_VPoint_p_links_p_type_p_angle_p, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_VPoint_p_links_p_type_p_angle_p, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_p, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 163, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_p, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 155, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -4980,7 +4981,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_14__repr__(struct __pyx_obj_10tin
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":161
+  /* "tinycadlib.pyx":153
  *             return self.c[1][i]
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5001,11 +5002,11 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_14__repr__(struct __pyx_obj_10tin
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":33
- *     """Symbol of joints."""
+/* "tinycadlib.pxd":15
  * 
+ * cdef class VPoint:
  *     cdef readonly tuple links             # <<<<<<<<<<<<<<
- *     cdef readonly np.ndarray c
+ *     cdef readonly ndarray c
  *     cdef readonly int type
  */
 
@@ -5038,10 +5039,10 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_5links___get__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":34
- * 
+/* "tinycadlib.pxd":16
+ * cdef class VPoint:
  *     cdef readonly tuple links
- *     cdef readonly np.ndarray c             # <<<<<<<<<<<<<<
+ *     cdef readonly ndarray c             # <<<<<<<<<<<<<<
  *     cdef readonly int type
  *     cdef readonly object color
  */
@@ -5075,12 +5076,12 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_1c___get__(struct __pyx_obj_10tin
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":35
+/* "tinycadlib.pxd":17
  *     cdef readonly tuple links
- *     cdef readonly np.ndarray c
+ *     cdef readonly ndarray c
  *     cdef readonly int type             # <<<<<<<<<<<<<<
  *     cdef readonly object color
- *     cdef readonly str colorSTR, typeSTR
+ *     cdef readonly str colorSTR
  */
 
 /* Python wrapper */
@@ -5102,7 +5103,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4type___get__(struct __pyx_obj_10
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->type); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5119,12 +5120,12 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_4type___get__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":36
- *     cdef readonly np.ndarray c
+/* "tinycadlib.pxd":18
+ *     cdef readonly ndarray c
  *     cdef readonly int type
  *     cdef readonly object color             # <<<<<<<<<<<<<<
- *     cdef readonly str colorSTR, typeSTR
- *     cdef readonly double x, y, angle
+ *     cdef readonly str colorSTR
+ *     cdef str typeSTR
  */
 
 /* Python wrapper */
@@ -5156,12 +5157,12 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_5color___get__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":37
+/* "tinycadlib.pxd":19
  *     cdef readonly int type
  *     cdef readonly object color
- *     cdef readonly str colorSTR, typeSTR             # <<<<<<<<<<<<<<
+ *     cdef readonly str colorSTR             # <<<<<<<<<<<<<<
+ *     cdef str typeSTR
  *     cdef readonly double x, y, angle
- * 
  */
 
 /* Python wrapper */
@@ -5193,41 +5194,12 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_8colorSTR___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* Python wrapper */
-static PyObject *__pyx_pw_10tinycadlib_6VPoint_7typeSTR_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_10tinycadlib_6VPoint_7typeSTR_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_10tinycadlib_6VPoint_7typeSTR___get__(((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_10tinycadlib_6VPoint_7typeSTR___get__(struct __pyx_obj_10tinycadlib_VPoint *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_self->typeSTR);
-  __pyx_r = __pyx_v_self->typeSTR;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "tinycadlib.pyx":38
- *     cdef readonly object color
- *     cdef readonly str colorSTR, typeSTR
+/* "tinycadlib.pxd":21
+ *     cdef readonly str colorSTR
+ *     cdef str typeSTR
  *     cdef readonly double x, y, angle             # <<<<<<<<<<<<<<
  * 
- *     def __cinit__(self,
+ *     cpdef void move(self, tuple, tuple c2 = *)
  */
 
 /* Python wrapper */
@@ -5249,7 +5221,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_1x___get__(struct __pyx_obj_10tin
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5285,7 +5257,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_1y___get__(struct __pyx_obj_10tin
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5321,7 +5293,7 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_5angle___get__(struct __pyx_obj_1
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->angle); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->angle); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5369,11 +5341,11 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_16__reduce_cython__(CYTHON_UNUSED
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2, __pyx_L1_error)
+  __PYX_ERR(2, 2, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -5422,11 +5394,11 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_18__setstate_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 4, __pyx_L1_error)
+  __PYX_ERR(2, 4, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -5445,8 +5417,8 @@ static PyObject *__pyx_pf_10tinycadlib_6VPoint_18__setstate_cython__(CYTHON_UNUS
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":174
- *     cdef readonly tuple points
+/* "tinycadlib.pyx":162
+ *     """Symbol of linkages."""
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
  *         str name,
@@ -5467,7 +5439,7 @@ static int __pyx_pw_10tinycadlib_5VLink_1__cinit__(PyObject *__pyx_v_self, PyObj
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_name,&__pyx_n_s_color_str,&__pyx_n_s_points,&__pyx_n_s_color_func,0};
     PyObject* values[4] = {0,0,0,0};
 
-    /* "tinycadlib.pyx":178
+    /* "tinycadlib.pyx":166
  *         str color_str,
  *         tuple points,
  *         object color_func=None             # <<<<<<<<<<<<<<
@@ -5499,13 +5471,13 @@ static int __pyx_pw_10tinycadlib_5VLink_1__cinit__(PyObject *__pyx_v_self, PyObj
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_color_str)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 1); __PYX_ERR(0, 174, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 1); __PYX_ERR(0, 162, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_points)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 2); __PYX_ERR(0, 174, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 2); __PYX_ERR(0, 162, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -5515,7 +5487,7 @@ static int __pyx_pw_10tinycadlib_5VLink_1__cinit__(PyObject *__pyx_v_self, PyObj
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 174, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 162, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5535,19 +5507,19 @@ static int __pyx_pw_10tinycadlib_5VLink_1__cinit__(PyObject *__pyx_v_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 174, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 162, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.VLink.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_name), (&PyString_Type), 1, "name", 1))) __PYX_ERR(0, 175, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_color_str), (&PyString_Type), 1, "color_str", 1))) __PYX_ERR(0, 176, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_points), (&PyTuple_Type), 1, "points", 1))) __PYX_ERR(0, 177, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_name), (&PyString_Type), 1, "name", 1))) __PYX_ERR(0, 163, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_color_str), (&PyString_Type), 1, "color_str", 1))) __PYX_ERR(0, 164, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_points), (&PyTuple_Type), 1, "points", 1))) __PYX_ERR(0, 165, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_5VLink___cinit__(((struct __pyx_obj_10tinycadlib_VLink *)__pyx_v_self), __pyx_v_name, __pyx_v_color_str, __pyx_v_points, __pyx_v_color_func);
 
-  /* "tinycadlib.pyx":174
- *     cdef readonly tuple points
+  /* "tinycadlib.pyx":162
+ *     """Symbol of linkages."""
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
  *         str name,
@@ -5573,7 +5545,7 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "tinycadlib.pyx":180
+  /* "tinycadlib.pyx":168
  *         object color_func=None
  *     ):
  *         self.name = name             # <<<<<<<<<<<<<<
@@ -5586,7 +5558,7 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
   __Pyx_DECREF(__pyx_v_self->name);
   __pyx_v_self->name = __pyx_v_name;
 
-  /* "tinycadlib.pyx":181
+  /* "tinycadlib.pyx":169
  *     ):
  *         self.name = name
  *         self.colorSTR = color_str             # <<<<<<<<<<<<<<
@@ -5599,17 +5571,17 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
   __Pyx_DECREF(__pyx_v_self->colorSTR);
   __pyx_v_self->colorSTR = __pyx_v_color_str;
 
-  /* "tinycadlib.pyx":182
+  /* "tinycadlib.pyx":170
  *         self.name = name
  *         self.colorSTR = color_str
  *         if color_func:             # <<<<<<<<<<<<<<
  *             self.color = color_func(color_str)
  *         self.points = points
  */
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_color_func); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_color_func); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 170, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "tinycadlib.pyx":183
+    /* "tinycadlib.pyx":171
  *         self.colorSTR = color_str
  *         if color_func:
  *             self.color = color_func(color_str)             # <<<<<<<<<<<<<<
@@ -5628,13 +5600,13 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_color_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_color_str); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_color_str};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -5642,19 +5614,19 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_v_color_str};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
         __Pyx_INCREF(__pyx_v_color_str);
         __Pyx_GIVEREF(__pyx_v_color_str);
         PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_color_str);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
@@ -5666,7 +5638,7 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
     __pyx_v_self->color = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "tinycadlib.pyx":182
+    /* "tinycadlib.pyx":170
  *         self.name = name
  *         self.colorSTR = color_str
  *         if color_func:             # <<<<<<<<<<<<<<
@@ -5675,7 +5647,7 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
  */
   }
 
-  /* "tinycadlib.pyx":184
+  /* "tinycadlib.pyx":172
  *         if color_func:
  *             self.color = color_func(color_str)
  *         self.points = points             # <<<<<<<<<<<<<<
@@ -5688,8 +5660,8 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
   __Pyx_DECREF(__pyx_v_self->points);
   __pyx_v_self->points = __pyx_v_points;
 
-  /* "tinycadlib.pyx":174
- *     cdef readonly tuple points
+  /* "tinycadlib.pyx":162
+ *     """Symbol of linkages."""
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
  *         str name,
@@ -5711,7 +5683,7 @@ static int __pyx_pf_10tinycadlib_5VLink___cinit__(struct __pyx_obj_10tinycadlib_
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":186
+/* "tinycadlib.pyx":174
  *         self.points = points
  * 
  *     def __contains__(self, point: int):             # <<<<<<<<<<<<<<
@@ -5742,18 +5714,18 @@ static int __pyx_pf_10tinycadlib_5VLink_2__contains__(struct __pyx_obj_10tinycad
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__contains__", 0);
 
-  /* "tinycadlib.pyx":188
+  /* "tinycadlib.pyx":176
  *     def __contains__(self, point: int):
  *         """Check if point number is in the link."""
  *         return point in self.points             # <<<<<<<<<<<<<<
  * 
  *     def __repr__(self):
  */
-  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_point, __pyx_v_self->points, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PySequence_ContainsTF(__pyx_v_point, __pyx_v_self->points, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
   __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":186
+  /* "tinycadlib.pyx":174
  *         self.points = points
  * 
  *     def __contains__(self, point: int):             # <<<<<<<<<<<<<<
@@ -5770,7 +5742,7 @@ static int __pyx_pf_10tinycadlib_5VLink_2__contains__(struct __pyx_obj_10tinycad
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":190
+/* "tinycadlib.pyx":178
  *         return point in self.points
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5803,7 +5775,7 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_4__repr__(struct __pyx_obj_10tinyc
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "tinycadlib.pyx":192
+  /* "tinycadlib.pyx":180
  *     def __repr__(self):
  *         """Use to generate script."""
  *         return "VLink('{l.name}', {l.points}, colorQt)".format(l=self)             # <<<<<<<<<<<<<<
@@ -5811,12 +5783,12 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_4__repr__(struct __pyx_obj_10tinyc
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_VLink_l_name_l_points_colorQt, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_VLink_l_name_l_points_colorQt, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_l, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 192, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 192, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_l, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5824,7 +5796,7 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_4__repr__(struct __pyx_obj_10tinyc
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":190
+  /* "tinycadlib.pyx":178
  *         return point in self.points
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -5845,9 +5817,9 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_4__repr__(struct __pyx_obj_10tinyc
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":170
- *     """Symbol of linkages."""
+/* "tinycadlib.pxd":30
  * 
+ * cdef class VLink:
  *     cdef readonly str name, colorSTR             # <<<<<<<<<<<<<<
  *     cdef readonly object color
  *     cdef readonly tuple points
@@ -5911,8 +5883,8 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_8colorSTR___get__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":171
- * 
+/* "tinycadlib.pxd":31
+ * cdef class VLink:
  *     cdef readonly str name, colorSTR
  *     cdef readonly object color             # <<<<<<<<<<<<<<
  *     cdef readonly tuple points
@@ -5948,12 +5920,12 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_5color___get__(struct __pyx_obj_10
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":172
+/* "tinycadlib.pxd":32
  *     cdef readonly str name, colorSTR
  *     cdef readonly object color
  *     cdef readonly tuple points             # <<<<<<<<<<<<<<
  * 
- *     def __cinit__(self,
+ * 
  */
 
 /* Python wrapper */
@@ -6016,11 +5988,11 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_6__reduce_cython__(CYTHON_UNUSED s
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2, __pyx_L1_error)
+  __PYX_ERR(2, 2, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -6069,11 +6041,11 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_8__setstate_cython__(CYTHON_UNUSED
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 4, __pyx_L1_error)
+  __PYX_ERR(2, 4, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -6092,8 +6064,8 @@ static PyObject *__pyx_pf_10tinycadlib_5VLink_8__setstate_cython__(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":201
- *     cdef readonly double x, y
+/* "tinycadlib.pyx":187
+ *     """A class to store the coordinate."""
  * 
  *     def __cinit__(self, double x, double y):             # <<<<<<<<<<<<<<
  *         self.x = x
@@ -6131,11 +6103,11 @@ static int __pyx_pw_10tinycadlib_10Coordinate_1__cinit__(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_y)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(0, 201, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, 1); __PYX_ERR(0, 187, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 201, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(0, 187, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -6143,12 +6115,12 @@ static int __pyx_pw_10tinycadlib_10Coordinate_1__cinit__(PyObject *__pyx_v_self,
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_x = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L3_error)
-    __pyx_v_y = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 201, __pyx_L3_error)
+    __pyx_v_x = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_x == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 187, __pyx_L3_error)
+    __pyx_v_y = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_y == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 187, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 201, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 187, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.Coordinate.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6166,7 +6138,7 @@ static int __pyx_pf_10tinycadlib_10Coordinate___cinit__(struct __pyx_obj_10tinyc
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "tinycadlib.pyx":202
+  /* "tinycadlib.pyx":188
  * 
  *     def __cinit__(self, double x, double y):
  *         self.x = x             # <<<<<<<<<<<<<<
@@ -6175,7 +6147,7 @@ static int __pyx_pf_10tinycadlib_10Coordinate___cinit__(struct __pyx_obj_10tinyc
  */
   __pyx_v_self->x = __pyx_v_x;
 
-  /* "tinycadlib.pyx":203
+  /* "tinycadlib.pyx":189
  *     def __cinit__(self, double x, double y):
  *         self.x = x
  *         self.y = y             # <<<<<<<<<<<<<<
@@ -6184,8 +6156,8 @@ static int __pyx_pf_10tinycadlib_10Coordinate___cinit__(struct __pyx_obj_10tinyc
  */
   __pyx_v_self->y = __pyx_v_y;
 
-  /* "tinycadlib.pyx":201
- *     cdef readonly double x, y
+  /* "tinycadlib.pyx":187
+ *     """A class to store the coordinate."""
  * 
  *     def __cinit__(self, double x, double y):             # <<<<<<<<<<<<<<
  *         self.x = x
@@ -6198,7 +6170,7 @@ static int __pyx_pf_10tinycadlib_10Coordinate___cinit__(struct __pyx_obj_10tinyc
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":205
+/* "tinycadlib.pyx":191
  *         self.y = y
  * 
  *     cpdef double distance(self, Coordinate p):             # <<<<<<<<<<<<<<
@@ -6221,7 +6193,7 @@ static double __pyx_f_10tinycadlib_10Coordinate_distance(struct __pyx_obj_10tiny
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_distance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_distance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_10tinycadlib_10Coordinate_3distance)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -6236,13 +6208,13 @@ static double __pyx_f_10tinycadlib_10Coordinate_distance(struct __pyx_obj_10tiny
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_p)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_p)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -6250,25 +6222,25 @@ static double __pyx_f_10tinycadlib_10Coordinate_distance(struct __pyx_obj_10tiny
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_p)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 205, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 191, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(((PyObject *)__pyx_v_p));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_p));
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_p));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 205, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 205, __pyx_L1_error)
+      __pyx_t_6 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_6 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 191, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_r = __pyx_t_6;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6277,17 +6249,17 @@ static double __pyx_f_10tinycadlib_10Coordinate_distance(struct __pyx_obj_10tiny
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":207
+  /* "tinycadlib.pyx":193
  *     cpdef double distance(self, Coordinate p):
  *         """Distance."""
  *         return distance(self.x, self.y, p.x, p.y)             # <<<<<<<<<<<<<<
  * 
- *     cpdef bool isnan(self):
+ *     def isnan(self):
  */
   __pyx_r = __pyx_f_10tinycadlib_distance(__pyx_v_self->x, __pyx_v_self->y, __pyx_v_p->x, __pyx_v_p->y);
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":205
+  /* "tinycadlib.pyx":191
  *         self.y = y
  * 
  *     cpdef double distance(self, Coordinate p):             # <<<<<<<<<<<<<<
@@ -6316,7 +6288,7 @@ static PyObject *__pyx_pw_10tinycadlib_10Coordinate_3distance(PyObject *__pyx_v_
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("distance (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_10tinycadlib_Coordinate, 1, "p", 0))) __PYX_ERR(0, 205, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_p), __pyx_ptype_10tinycadlib_Coordinate, 1, "p", 0))) __PYX_ERR(0, 191, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_10Coordinate_2distance(((struct __pyx_obj_10tinycadlib_Coordinate *)__pyx_v_self), ((struct __pyx_obj_10tinycadlib_Coordinate *)__pyx_v_p));
 
   /* function exit code */
@@ -6334,7 +6306,7 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_2distance(struct __pyx_obj_1
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("distance", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_10tinycadlib_10Coordinate_distance(__pyx_v_self, __pyx_v_p, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 205, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_f_10tinycadlib_10Coordinate_distance(__pyx_v_self, __pyx_v_p, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6351,95 +6323,13 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_2distance(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":209
+/* "tinycadlib.pyx":195
  *         return distance(self.x, self.y, p.x, p.y)
  * 
- *     cpdef bool isnan(self):             # <<<<<<<<<<<<<<
+ *     def isnan(self):             # <<<<<<<<<<<<<<
  *         """Test this coordinate is a error-occured answer."""
- *         return isnan(self.x)
+ *         return np.isnan(self.x)
  */
-
-static PyObject *__pyx_pw_10tinycadlib_10Coordinate_5isnan(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static PyBoolObject *__pyx_f_10tinycadlib_10Coordinate_isnan(struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_self, int __pyx_skip_dispatch) {
-  PyBoolObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  __Pyx_RefNannySetupContext("isnan", 0);
-  /* Check if called by wrapper */
-  if (unlikely(__pyx_skip_dispatch)) ;
-  /* Check if overridden in Python */
-  else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_isnan); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_10tinycadlib_10Coordinate_5isnan)) {
-      __Pyx_XDECREF(((PyObject *)__pyx_r));
-      __Pyx_INCREF(__pyx_t_1);
-      __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-        }
-      }
-      if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 209, __pyx_L1_error)
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_7cpython_4bool_bool))))) __PYX_ERR(0, 209, __pyx_L1_error)
-      __pyx_r = ((PyBoolObject *)__pyx_t_2);
-      __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      goto __pyx_L0;
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
-
-  /* "tinycadlib.pyx":211
- *     cpdef bool isnan(self):
- *         """Test this coordinate is a error-occured answer."""
- *         return isnan(self.x)             # <<<<<<<<<<<<<<
- * 
- *     def __repr__(self):
- */
-  __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_1 = __Pyx_PyBool_FromLong(isnan(__pyx_v_self->x)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 211, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 211, __pyx_L1_error)
-  __pyx_r = ((PyBoolObject *)__pyx_t_1);
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "tinycadlib.pyx":209
- *         return distance(self.x, self.y, p.x, p.y)
- * 
- *     cpdef bool isnan(self):             # <<<<<<<<<<<<<<
- *         """Test this coordinate is a error-occured answer."""
- *         return isnan(self.x)
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("tinycadlib.Coordinate.isnan", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XGIVEREF((PyObject *)__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
 
 /* Python wrapper */
 static PyObject *__pyx_pw_10tinycadlib_10Coordinate_5isnan(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
@@ -6459,17 +6349,92 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_4isnan(struct __pyx_obj_10ti
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("isnan", 0);
+
+  /* "tinycadlib.pyx":197
+ *     def isnan(self):
+ *         """Test this coordinate is a error-occured answer."""
+ *         return np.isnan(self.x)             # <<<<<<<<<<<<<<
+ * 
+ *     def __repr__(self):
+ */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_10Coordinate_isnan(__pyx_v_self, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 209, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_isnan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+      PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else
+    #endif
+    {
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+      __Pyx_GIVEREF(__pyx_t_2);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_2);
+      __pyx_t_2 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
+  /* "tinycadlib.pyx":195
+ *         return distance(self.x, self.y, p.x, p.y)
+ * 
+ *     def isnan(self):             # <<<<<<<<<<<<<<
+ *         """Test this coordinate is a error-occured answer."""
+ *         return np.isnan(self.x)
+ */
+
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
   __Pyx_AddTraceback("tinycadlib.Coordinate.isnan", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -6478,8 +6443,8 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_4isnan(struct __pyx_obj_10ti
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":213
- *         return isnan(self.x)
+/* "tinycadlib.pyx":199
+ *         return np.isnan(self.x)
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         """Debug printing."""
@@ -6511,7 +6476,7 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_6__repr__(struct __pyx_obj_1
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "tinycadlib.pyx":215
+  /* "tinycadlib.pyx":201
  *     def __repr__(self):
  *         """Debug printing."""
  *         return "Coordinate({p.x}, {p.y})".format(p=self)             # <<<<<<<<<<<<<<
@@ -6519,12 +6484,12 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_6__repr__(struct __pyx_obj_1
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Coordinate_p_x_p_y, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Coordinate_p_x_p_y, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 215, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_p, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 215, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 215, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_p, ((PyObject *)__pyx_v_self)) < 0) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 201, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6532,8 +6497,8 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_6__repr__(struct __pyx_obj_1
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":213
- *         return isnan(self.x)
+  /* "tinycadlib.pyx":199
+ *         return np.isnan(self.x)
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
  *         """Debug printing."""
@@ -6553,12 +6518,12 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_6__repr__(struct __pyx_obj_1
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":199
- *     """A class to store the coordinate."""
+/* "tinycadlib.pxd":36
  * 
+ * cdef class Coordinate:
  *     cdef readonly double x, y             # <<<<<<<<<<<<<<
  * 
- *     def __cinit__(self, double x, double y):
+ *     cpdef double distance(self, Coordinate)
  */
 
 /* Python wrapper */
@@ -6580,7 +6545,7 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_1x___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->x); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6616,7 +6581,7 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_1y___get__(struct __pyx_obj_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->y); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 36, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6664,11 +6629,11 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_8__reduce_cython__(CYTHON_UN
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2, __pyx_L1_error)
+  __PYX_ERR(2, 2, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __reduce_cython__(self):             # <<<<<<<<<<<<<<
@@ -6717,11 +6682,11 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_10__setstate_cython__(CYTHON
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 4, __pyx_L1_error)
+  __PYX_ERR(2, 4, __pyx_L1_error)
 
   /* "(tree fragment)":3
  * def __reduce_cython__(self):
@@ -6740,7 +6705,7 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_10__setstate_cython__(CYTHON
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":218
+/* "tinycadlib.pyx":204
  * 
  * 
  * cpdef tuple PLAP(             # <<<<<<<<<<<<<<
@@ -6751,7 +6716,7 @@ static PyObject *__pyx_pf_10tinycadlib_10Coordinate_10__setstate_cython__(CYTHON
 static PyObject *__pyx_pw_10tinycadlib_1PLAP(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_A, double __pyx_v_L0, double __pyx_v_a0, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLAP *__pyx_optional_args) {
 
-  /* "tinycadlib.pyx":222
+  /* "tinycadlib.pyx":208
  *     double L0,
  *     double a0,
  *     Coordinate B=None,             # <<<<<<<<<<<<<<
@@ -6760,7 +6725,7 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
  */
   struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_B = ((struct __pyx_obj_10tinycadlib_Coordinate *)Py_None);
 
-  /* "tinycadlib.pyx":223
+  /* "tinycadlib.pyx":209
  *     double a0,
  *     Coordinate B=None,
  *     bool inverse=False             # <<<<<<<<<<<<<<
@@ -6786,14 +6751,14 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
     }
   }
 
-  /* "tinycadlib.pyx":226
+  /* "tinycadlib.pyx":212
  * ):
  *     """Point on circle by angle."""
  *     cdef double a1 = atan2(B.y - A.y, B.x - A.x) if B else 0             # <<<<<<<<<<<<<<
  *     if inverse:
  *         return (A.x + L0*cos(a1 - a0), A.y + L0*sin(a1 - a0))
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_B)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_B)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 212, __pyx_L1_error)
   if (__pyx_t_2) {
     __pyx_t_1 = atan2((__pyx_v_B->y - __pyx_v_A->y), (__pyx_v_B->x - __pyx_v_A->x));
   } else {
@@ -6801,17 +6766,17 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
   }
   __pyx_v_a1 = __pyx_t_1;
 
-  /* "tinycadlib.pyx":227
+  /* "tinycadlib.pyx":213
  *     """Point on circle by angle."""
  *     cdef double a1 = atan2(B.y - A.y, B.x - A.x) if B else 0
  *     if inverse:             # <<<<<<<<<<<<<<
  *         return (A.x + L0*cos(a1 - a0), A.y + L0*sin(a1 - a0))
  *     else:
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_inverse)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 227, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_inverse)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
   if (__pyx_t_2) {
 
-    /* "tinycadlib.pyx":228
+    /* "tinycadlib.pyx":214
  *     cdef double a1 = atan2(B.y - A.y, B.x - A.x) if B else 0
  *     if inverse:
  *         return (A.x + L0*cos(a1 - a0), A.y + L0*sin(a1 - a0))             # <<<<<<<<<<<<<<
@@ -6819,11 +6784,11 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
  *         return (A.x + L0*cos(a1 + a0), A.y + L0*sin(a1 + a0))
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_A->x + (__pyx_v_L0 * cos((__pyx_v_a1 - __pyx_v_a0))))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_A->x + (__pyx_v_L0 * cos((__pyx_v_a1 - __pyx_v_a0))))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_A->y + (__pyx_v_L0 * sin((__pyx_v_a1 - __pyx_v_a0))))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_A->y + (__pyx_v_L0 * sin((__pyx_v_a1 - __pyx_v_a0))))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 214, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
@@ -6835,7 +6800,7 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_5 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":227
+    /* "tinycadlib.pyx":213
  *     """Point on circle by angle."""
  *     cdef double a1 = atan2(B.y - A.y, B.x - A.x) if B else 0
  *     if inverse:             # <<<<<<<<<<<<<<
@@ -6844,7 +6809,7 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":230
+  /* "tinycadlib.pyx":216
  *         return (A.x + L0*cos(a1 - a0), A.y + L0*sin(a1 - a0))
  *     else:
  *         return (A.x + L0*cos(a1 + a0), A.y + L0*sin(a1 + a0))             # <<<<<<<<<<<<<<
@@ -6853,11 +6818,11 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_A->x + (__pyx_v_L0 * cos((__pyx_v_a1 + __pyx_v_a0))))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_A->x + (__pyx_v_L0 * cos((__pyx_v_a1 + __pyx_v_a0))))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_A->y + (__pyx_v_L0 * sin((__pyx_v_a1 + __pyx_v_a0))))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_A->y + (__pyx_v_L0 * sin((__pyx_v_a1 + __pyx_v_a0))))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 230, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
@@ -6870,7 +6835,7 @@ static PyObject *__pyx_f_10tinycadlib_PLAP(struct __pyx_obj_10tinycadlib_Coordin
     goto __pyx_L0;
   }
 
-  /* "tinycadlib.pyx":218
+  /* "tinycadlib.pyx":204
  * 
  * 
  * cpdef tuple PLAP(             # <<<<<<<<<<<<<<
@@ -6907,7 +6872,7 @@ static PyObject *__pyx_pw_10tinycadlib_1PLAP(PyObject *__pyx_self, PyObject *__p
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_A_2,&__pyx_n_s_L0,&__pyx_n_s_a0,&__pyx_n_s_B,&__pyx_n_s_inverse,0};
     PyObject* values[5] = {0,0,0,0,0};
 
-    /* "tinycadlib.pyx":222
+    /* "tinycadlib.pyx":208
  *     double L0,
  *     double a0,
  *     Coordinate B=None,             # <<<<<<<<<<<<<<
@@ -6916,7 +6881,7 @@ static PyObject *__pyx_pw_10tinycadlib_1PLAP(PyObject *__pyx_self, PyObject *__p
  */
     values[3] = (PyObject *)((struct __pyx_obj_10tinycadlib_Coordinate *)Py_None);
 
-    /* "tinycadlib.pyx":223
+    /* "tinycadlib.pyx":209
  *     double a0,
  *     Coordinate B=None,
  *     bool inverse=False             # <<<<<<<<<<<<<<
@@ -6950,13 +6915,13 @@ static PyObject *__pyx_pw_10tinycadlib_1PLAP(PyObject *__pyx_self, PyObject *__p
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLAP", 0, 3, 5, 1); __PYX_ERR(0, 218, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLAP", 0, 3, 5, 1); __PYX_ERR(0, 204, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_a0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLAP", 0, 3, 5, 2); __PYX_ERR(0, 218, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLAP", 0, 3, 5, 2); __PYX_ERR(0, 204, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -6972,7 +6937,7 @@ static PyObject *__pyx_pw_10tinycadlib_1PLAP(PyObject *__pyx_self, PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PLAP") < 0)) __PYX_ERR(0, 218, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PLAP") < 0)) __PYX_ERR(0, 204, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -6988,25 +6953,25 @@ static PyObject *__pyx_pw_10tinycadlib_1PLAP(PyObject *__pyx_self, PyObject *__p
       }
     }
     __pyx_v_A = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[0]);
-    __pyx_v_L0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_L0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 220, __pyx_L3_error)
-    __pyx_v_a0 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 221, __pyx_L3_error)
+    __pyx_v_L0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_L0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 206, __pyx_L3_error)
+    __pyx_v_a0 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_a0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 207, __pyx_L3_error)
     __pyx_v_B = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[3]);
     __pyx_v_inverse = ((PyBoolObject *)values[4]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PLAP", 0, 3, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 218, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PLAP", 0, 3, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 204, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.PLAP", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 219, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 222, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inverse), __pyx_ptype_7cpython_4bool_bool, 1, "inverse", 0))) __PYX_ERR(0, 223, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 205, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 208, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inverse), __pyx_ptype_7cpython_4bool_bool, 1, "inverse", 0))) __PYX_ERR(0, 209, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_PLAP(__pyx_self, __pyx_v_A, __pyx_v_L0, __pyx_v_a0, __pyx_v_B, __pyx_v_inverse);
 
-  /* "tinycadlib.pyx":218
+  /* "tinycadlib.pyx":204
  * 
  * 
  * cpdef tuple PLAP(             # <<<<<<<<<<<<<<
@@ -7033,7 +6998,7 @@ static PyObject *__pyx_pf_10tinycadlib_PLAP(CYTHON_UNUSED PyObject *__pyx_self, 
   __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.B = __pyx_v_B;
   __pyx_t_2.inverse = __pyx_v_inverse;
-  __pyx_t_1 = __pyx_f_10tinycadlib_PLAP(__pyx_v_A, __pyx_v_L0, __pyx_v_a0, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_PLAP(__pyx_v_A, __pyx_v_L0, __pyx_v_a0, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7050,7 +7015,7 @@ static PyObject *__pyx_pf_10tinycadlib_PLAP(CYTHON_UNUSED PyObject *__pyx_self, 
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":233
+/* "tinycadlib.pyx":219
  * 
  * 
  * cpdef tuple PLLP(             # <<<<<<<<<<<<<<
@@ -7061,7 +7026,7 @@ static PyObject *__pyx_pf_10tinycadlib_PLAP(CYTHON_UNUSED PyObject *__pyx_self, 
 static PyObject *__pyx_pw_10tinycadlib_3PLLP(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_A, double __pyx_v_L0, double __pyx_v_L1, struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_B, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLLP *__pyx_optional_args) {
 
-  /* "tinycadlib.pyx":238
+  /* "tinycadlib.pyx":224
  *     double L1,
  *     Coordinate B,
  *     bool inverse=False             # <<<<<<<<<<<<<<
@@ -7092,7 +7057,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     }
   }
 
-  /* "tinycadlib.pyx":241
+  /* "tinycadlib.pyx":227
  * ):
  *     """Two intersection points of two circles."""
  *     cdef double dx = B.x - A.x             # <<<<<<<<<<<<<<
@@ -7101,7 +7066,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_dx = (__pyx_v_B->x - __pyx_v_A->x);
 
-  /* "tinycadlib.pyx":242
+  /* "tinycadlib.pyx":228
  *     """Two intersection points of two circles."""
  *     cdef double dx = B.x - A.x
  *     cdef double dy = B.y - A.y             # <<<<<<<<<<<<<<
@@ -7110,7 +7075,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_dy = (__pyx_v_B->y - __pyx_v_A->y);
 
-  /* "tinycadlib.pyx":243
+  /* "tinycadlib.pyx":229
  *     cdef double dx = B.x - A.x
  *     cdef double dy = B.y - A.y
  *     cdef double d = A.distance(B)             # <<<<<<<<<<<<<<
@@ -7119,7 +7084,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_d = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_A->__pyx_vtab)->distance(__pyx_v_A, __pyx_v_B, 0);
 
-  /* "tinycadlib.pyx":246
+  /* "tinycadlib.pyx":232
  * 
  *     #No solutions, the circles are separate.
  *     if d > L0 + L1:             # <<<<<<<<<<<<<<
@@ -7129,7 +7094,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_1 = ((__pyx_v_d > (__pyx_v_L0 + __pyx_v_L1)) != 0);
   if (__pyx_t_1) {
 
-    /* "tinycadlib.pyx":247
+    /* "tinycadlib.pyx":233
  *     #No solutions, the circles are separate.
  *     if d > L0 + L1:
  *         return (nan, nan)             # <<<<<<<<<<<<<<
@@ -7137,11 +7102,11 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  *     #No solutions because one circle is contained within the other.
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 247, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 247, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 247, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -7153,7 +7118,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":246
+    /* "tinycadlib.pyx":232
  * 
  *     #No solutions, the circles are separate.
  *     if d > L0 + L1:             # <<<<<<<<<<<<<<
@@ -7162,7 +7127,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":250
+  /* "tinycadlib.pyx":236
  * 
  *     #No solutions because one circle is contained within the other.
  *     if d < abs(L0 - L1):             # <<<<<<<<<<<<<<
@@ -7172,7 +7137,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_1 = ((__pyx_v_d < fabs((__pyx_v_L0 - __pyx_v_L1))) != 0);
   if (__pyx_t_1) {
 
-    /* "tinycadlib.pyx":251
+    /* "tinycadlib.pyx":237
  *     #No solutions because one circle is contained within the other.
  *     if d < abs(L0 - L1):
  *         return (nan, nan)             # <<<<<<<<<<<<<<
@@ -7180,11 +7145,11 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  *     #Circles are coincident and there are an infinite number of solutions.
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 251, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 251, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 237, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
@@ -7196,7 +7161,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":250
+    /* "tinycadlib.pyx":236
  * 
  *     #No solutions because one circle is contained within the other.
  *     if d < abs(L0 - L1):             # <<<<<<<<<<<<<<
@@ -7205,7 +7170,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":254
+  /* "tinycadlib.pyx":240
  * 
  *     #Circles are coincident and there are an infinite number of solutions.
  *     if (d == 0) and (L0 == L1):             # <<<<<<<<<<<<<<
@@ -7223,7 +7188,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_L6_bool_binop_done:;
   if (__pyx_t_1) {
 
-    /* "tinycadlib.pyx":255
+    /* "tinycadlib.pyx":241
  *     #Circles are coincident and there are an infinite number of solutions.
  *     if (d == 0) and (L0 == L1):
  *         return (nan, nan)             # <<<<<<<<<<<<<<
@@ -7231,11 +7196,11 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  *     cdef double h = sqrt(L0*L0 - a*a)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 255, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 241, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -7247,7 +7212,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":254
+    /* "tinycadlib.pyx":240
  * 
  *     #Circles are coincident and there are an infinite number of solutions.
  *     if (d == 0) and (L0 == L1):             # <<<<<<<<<<<<<<
@@ -7256,7 +7221,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":256
+  /* "tinycadlib.pyx":242
  *     if (d == 0) and (L0 == L1):
  *         return (nan, nan)
  *     cdef double a = (L0*L0 - L1*L1 + d*d)/(2*d)             # <<<<<<<<<<<<<<
@@ -7267,11 +7232,11 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_7 = (2.0 * __pyx_v_d);
   if (unlikely(__pyx_t_7 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 256, __pyx_L1_error)
+    __PYX_ERR(0, 242, __pyx_L1_error)
   }
   __pyx_v_a = (__pyx_t_6 / __pyx_t_7);
 
-  /* "tinycadlib.pyx":257
+  /* "tinycadlib.pyx":243
  *         return (nan, nan)
  *     cdef double a = (L0*L0 - L1*L1 + d*d)/(2*d)
  *     cdef double h = sqrt(L0*L0 - a*a)             # <<<<<<<<<<<<<<
@@ -7280,7 +7245,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_h = sqrt(((__pyx_v_L0 * __pyx_v_L0) - (__pyx_v_a * __pyx_v_a)));
 
-  /* "tinycadlib.pyx":258
+  /* "tinycadlib.pyx":244
  *     cdef double a = (L0*L0 - L1*L1 + d*d)/(2*d)
  *     cdef double h = sqrt(L0*L0 - a*a)
  *     cdef double xm = A.x + a*dx/d             # <<<<<<<<<<<<<<
@@ -7290,11 +7255,11 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_7 = (__pyx_v_a * __pyx_v_dx);
   if (unlikely(__pyx_v_d == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 258, __pyx_L1_error)
+    __PYX_ERR(0, 244, __pyx_L1_error)
   }
   __pyx_v_xm = (__pyx_v_A->x + (__pyx_t_7 / __pyx_v_d));
 
-  /* "tinycadlib.pyx":259
+  /* "tinycadlib.pyx":245
  *     cdef double h = sqrt(L0*L0 - a*a)
  *     cdef double xm = A.x + a*dx/d
  *     cdef double ym = A.y + a*dy/d             # <<<<<<<<<<<<<<
@@ -7304,21 +7269,21 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_7 = (__pyx_v_a * __pyx_v_dy);
   if (unlikely(__pyx_v_d == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 259, __pyx_L1_error)
+    __PYX_ERR(0, 245, __pyx_L1_error)
   }
   __pyx_v_ym = (__pyx_v_A->y + (__pyx_t_7 / __pyx_v_d));
 
-  /* "tinycadlib.pyx":261
+  /* "tinycadlib.pyx":247
  *     cdef double ym = A.y + a*dy/d
  * 
  *     if inverse:             # <<<<<<<<<<<<<<
  *         return (xm + h*dy/d, ym - h*dx/d)
  *     else:
  */
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_inverse)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 261, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_inverse)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
   if (__pyx_t_1) {
 
-    /* "tinycadlib.pyx":262
+    /* "tinycadlib.pyx":248
  * 
  *     if inverse:
  *         return (xm + h*dy/d, ym - h*dx/d)             # <<<<<<<<<<<<<<
@@ -7329,18 +7294,18 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_7 = (__pyx_v_h * __pyx_v_dy);
     if (unlikely(__pyx_v_d == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 262, __pyx_L1_error)
+      __PYX_ERR(0, 248, __pyx_L1_error)
     }
-    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_xm + (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_xm + (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_7 = (__pyx_v_h * __pyx_v_dx);
     if (unlikely(__pyx_v_d == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 262, __pyx_L1_error)
+      __PYX_ERR(0, 248, __pyx_L1_error)
     }
-    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_ym - (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_ym - (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 262, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 248, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4);
@@ -7352,7 +7317,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":261
+    /* "tinycadlib.pyx":247
  *     cdef double ym = A.y + a*dy/d
  * 
  *     if inverse:             # <<<<<<<<<<<<<<
@@ -7361,7 +7326,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":264
+  /* "tinycadlib.pyx":250
  *         return (xm + h*dy/d, ym - h*dx/d)
  *     else:
  *         return (xm - h*dy/d, ym + h*dx/d)             # <<<<<<<<<<<<<<
@@ -7373,18 +7338,18 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_7 = (__pyx_v_h * __pyx_v_dy);
     if (unlikely(__pyx_v_d == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 264, __pyx_L1_error)
+      __PYX_ERR(0, 250, __pyx_L1_error)
     }
-    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_xm - (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 264, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble((__pyx_v_xm - (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_7 = (__pyx_v_h * __pyx_v_dx);
     if (unlikely(__pyx_v_d == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-      __PYX_ERR(0, 264, __pyx_L1_error)
+      __PYX_ERR(0, 250, __pyx_L1_error)
     }
-    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_ym + (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 264, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_ym + (__pyx_t_7 / __pyx_v_d))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 264, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 250, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2);
@@ -7397,7 +7362,7 @@ static PyObject *__pyx_f_10tinycadlib_PLLP(struct __pyx_obj_10tinycadlib_Coordin
     goto __pyx_L0;
   }
 
-  /* "tinycadlib.pyx":233
+  /* "tinycadlib.pyx":219
  * 
  * 
  * cpdef tuple PLLP(             # <<<<<<<<<<<<<<
@@ -7434,7 +7399,7 @@ static PyObject *__pyx_pw_10tinycadlib_3PLLP(PyObject *__pyx_self, PyObject *__p
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_A_2,&__pyx_n_s_L0,&__pyx_n_s_L1,&__pyx_n_s_B,&__pyx_n_s_inverse,0};
     PyObject* values[5] = {0,0,0,0,0};
 
-    /* "tinycadlib.pyx":238
+    /* "tinycadlib.pyx":224
  *     double L1,
  *     Coordinate B,
  *     bool inverse=False             # <<<<<<<<<<<<<<
@@ -7468,19 +7433,19 @@ static PyObject *__pyx_pw_10tinycadlib_3PLLP(PyObject *__pyx_self, PyObject *__p
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, 1); __PYX_ERR(0, 233, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, 1); __PYX_ERR(0, 219, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, 2); __PYX_ERR(0, 233, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, 2); __PYX_ERR(0, 219, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_B)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, 3); __PYX_ERR(0, 233, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, 3); __PYX_ERR(0, 219, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
@@ -7490,7 +7455,7 @@ static PyObject *__pyx_pw_10tinycadlib_3PLLP(PyObject *__pyx_self, PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PLLP") < 0)) __PYX_ERR(0, 233, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PLLP") < 0)) __PYX_ERR(0, 219, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7505,25 +7470,25 @@ static PyObject *__pyx_pw_10tinycadlib_3PLLP(PyObject *__pyx_self, PyObject *__p
       }
     }
     __pyx_v_A = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[0]);
-    __pyx_v_L0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_L0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 235, __pyx_L3_error)
-    __pyx_v_L1 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_L1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 236, __pyx_L3_error)
+    __pyx_v_L0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_L0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 221, __pyx_L3_error)
+    __pyx_v_L1 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_L1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 222, __pyx_L3_error)
     __pyx_v_B = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[3]);
     __pyx_v_inverse = ((PyBoolObject *)values[4]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 233, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PLLP", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 219, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.PLLP", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 234, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 237, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inverse), __pyx_ptype_7cpython_4bool_bool, 1, "inverse", 0))) __PYX_ERR(0, 238, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 220, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 223, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inverse), __pyx_ptype_7cpython_4bool_bool, 1, "inverse", 0))) __PYX_ERR(0, 224, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_2PLLP(__pyx_self, __pyx_v_A, __pyx_v_L0, __pyx_v_L1, __pyx_v_B, __pyx_v_inverse);
 
-  /* "tinycadlib.pyx":233
+  /* "tinycadlib.pyx":219
  * 
  * 
  * cpdef tuple PLLP(             # <<<<<<<<<<<<<<
@@ -7549,7 +7514,7 @@ static PyObject *__pyx_pf_10tinycadlib_2PLLP(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.inverse = __pyx_v_inverse;
-  __pyx_t_1 = __pyx_f_10tinycadlib_PLLP(__pyx_v_A, __pyx_v_L0, __pyx_v_L1, __pyx_v_B, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 233, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_PLLP(__pyx_v_A, __pyx_v_L0, __pyx_v_L1, __pyx_v_B, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7566,7 +7531,7 @@ static PyObject *__pyx_pf_10tinycadlib_2PLLP(CYTHON_UNUSED PyObject *__pyx_self,
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":267
+/* "tinycadlib.pyx":253
  * 
  * 
  * cpdef tuple PLPP(             # <<<<<<<<<<<<<<
@@ -7577,7 +7542,7 @@ static PyObject *__pyx_pf_10tinycadlib_2PLLP(CYTHON_UNUSED PyObject *__pyx_self,
 static PyObject *__pyx_pw_10tinycadlib_5PLPP(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_A, double __pyx_v_L0, struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_B, struct __pyx_obj_10tinycadlib_Coordinate *__pyx_v_C, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLPP *__pyx_optional_args) {
 
-  /* "tinycadlib.pyx":272
+  /* "tinycadlib.pyx":258
  *     Coordinate B,
  *     Coordinate C,
  *     bool inverse=False             # <<<<<<<<<<<<<<
@@ -7606,7 +7571,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
     }
   }
 
-  /* "tinycadlib.pyx":275
+  /* "tinycadlib.pyx":261
  * ):
  *     """Two intersection points of a line and a circle."""
  *     cdef double line_mag = B.distance(C)             # <<<<<<<<<<<<<<
@@ -7615,7 +7580,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_line_mag = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_B->__pyx_vtab)->distance(__pyx_v_B, __pyx_v_C, 0);
 
-  /* "tinycadlib.pyx":276
+  /* "tinycadlib.pyx":262
  *     """Two intersection points of a line and a circle."""
  *     cdef double line_mag = B.distance(C)
  *     cdef double dx = C.x - B.x             # <<<<<<<<<<<<<<
@@ -7624,7 +7589,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_dx = (__pyx_v_C->x - __pyx_v_B->x);
 
-  /* "tinycadlib.pyx":277
+  /* "tinycadlib.pyx":263
  *     cdef double line_mag = B.distance(C)
  *     cdef double dx = C.x - B.x
  *     cdef double dy = C.y - B.y             # <<<<<<<<<<<<<<
@@ -7633,7 +7598,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_dy = (__pyx_v_C->y - __pyx_v_B->y);
 
-  /* "tinycadlib.pyx":278
+  /* "tinycadlib.pyx":264
  *     cdef double dx = C.x - B.x
  *     cdef double dy = C.y - B.y
  *     cdef double u = ((A.x - B.x)*dx + (A.y - B.y)*dy) / (line_mag*line_mag)             # <<<<<<<<<<<<<<
@@ -7644,22 +7609,22 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_2 = (__pyx_v_line_mag * __pyx_v_line_mag);
   if (unlikely(__pyx_t_2 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 278, __pyx_L1_error)
+    __PYX_ERR(0, 264, __pyx_L1_error)
   }
   __pyx_v_u = (__pyx_t_1 / __pyx_t_2);
 
-  /* "tinycadlib.pyx":279
+  /* "tinycadlib.pyx":265
  *     cdef double dy = C.y - B.y
  *     cdef double u = ((A.x - B.x)*dx + (A.y - B.y)*dy) / (line_mag*line_mag)
  *     cdef Coordinate I = Coordinate(B.x + u*dx, B.y + u*dy)             # <<<<<<<<<<<<<<
  * 
  *     #Test distance between point A and intersection.
  */
-  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_B->x + (__pyx_v_u * __pyx_v_dx))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_B->x + (__pyx_v_u * __pyx_v_dx))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble((__pyx_v_B->y + (__pyx_v_u * __pyx_v_dy))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble((__pyx_v_B->y + (__pyx_v_u * __pyx_v_dy))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3);
@@ -7667,13 +7632,13 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
   PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 265, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_I = ((struct __pyx_obj_10tinycadlib_Coordinate *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "tinycadlib.pyx":282
+  /* "tinycadlib.pyx":268
  * 
  *     #Test distance between point A and intersection.
  *     cdef double d = A.distance(I)             # <<<<<<<<<<<<<<
@@ -7682,7 +7647,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   __pyx_v_d = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_A->__pyx_vtab)->distance(__pyx_v_A, __pyx_v_I, 0);
 
-  /* "tinycadlib.pyx":283
+  /* "tinycadlib.pyx":269
  *     #Test distance between point A and intersection.
  *     cdef double d = A.distance(I)
  *     if d > L0:             # <<<<<<<<<<<<<<
@@ -7692,7 +7657,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_6 = ((__pyx_v_d > __pyx_v_L0) != 0);
   if (__pyx_t_6) {
 
-    /* "tinycadlib.pyx":285
+    /* "tinycadlib.pyx":271
  *     if d > L0:
  *         #No intersection.
  *         return (nan, nan)             # <<<<<<<<<<<<<<
@@ -7700,11 +7665,11 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  *         #One intersection point.
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_10tinycadlib_nan); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 271, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
@@ -7716,7 +7681,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":283
+    /* "tinycadlib.pyx":269
  *     #Test distance between point A and intersection.
  *     cdef double d = A.distance(I)
  *     if d > L0:             # <<<<<<<<<<<<<<
@@ -7725,7 +7690,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":286
+  /* "tinycadlib.pyx":272
  *         #No intersection.
  *         return (nan, nan)
  *     elif d == L0:             # <<<<<<<<<<<<<<
@@ -7735,7 +7700,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_6 = ((__pyx_v_d == __pyx_v_L0) != 0);
   if (__pyx_t_6) {
 
-    /* "tinycadlib.pyx":288
+    /* "tinycadlib.pyx":274
  *     elif d == L0:
  *         #One intersection point.
  *         return (I.x, I.y)             # <<<<<<<<<<<<<<
@@ -7743,11 +7708,11 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  *     #Two intersection points.
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_I->x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 288, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_I->x); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_I->y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 288, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_I->y); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 288, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 274, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
@@ -7759,7 +7724,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":286
+    /* "tinycadlib.pyx":272
  *         #No intersection.
  *         return (nan, nan)
  *     elif d == L0:             # <<<<<<<<<<<<<<
@@ -7768,7 +7733,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":291
+  /* "tinycadlib.pyx":277
  * 
  *     #Two intersection points.
  *     d = sqrt(L0*L0 - d*d) / line_mag             # <<<<<<<<<<<<<<
@@ -7778,21 +7743,21 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
   __pyx_t_2 = sqrt(((__pyx_v_L0 * __pyx_v_L0) - (__pyx_v_d * __pyx_v_d)));
   if (unlikely(__pyx_v_line_mag == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(0, 291, __pyx_L1_error)
+    __PYX_ERR(0, 277, __pyx_L1_error)
   }
   __pyx_v_d = (__pyx_t_2 / __pyx_v_line_mag);
 
-  /* "tinycadlib.pyx":292
+  /* "tinycadlib.pyx":278
  *     #Two intersection points.
  *     d = sqrt(L0*L0 - d*d) / line_mag
  *     if inverse:             # <<<<<<<<<<<<<<
  *         return (I.x - dx*d, I.y - dy*d)
  *     else:
  */
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_inverse)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 292, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_inverse)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 278, __pyx_L1_error)
   if (__pyx_t_6) {
 
-    /* "tinycadlib.pyx":293
+    /* "tinycadlib.pyx":279
  *     d = sqrt(L0*L0 - d*d) / line_mag
  *     if inverse:
  *         return (I.x - dx*d, I.y - dy*d)             # <<<<<<<<<<<<<<
@@ -7800,11 +7765,11 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  *         return (I.x + dx*d, I.y + dy*d)
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_I->x - (__pyx_v_dx * __pyx_v_d))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 293, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble((__pyx_v_I->x - (__pyx_v_dx * __pyx_v_d))); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_I->y - (__pyx_v_dy * __pyx_v_d))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 293, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_I->y - (__pyx_v_dy * __pyx_v_d))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 293, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_4);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
@@ -7816,7 +7781,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
     __pyx_t_3 = 0;
     goto __pyx_L0;
 
-    /* "tinycadlib.pyx":292
+    /* "tinycadlib.pyx":278
  *     #Two intersection points.
  *     d = sqrt(L0*L0 - d*d) / line_mag
  *     if inverse:             # <<<<<<<<<<<<<<
@@ -7825,7 +7790,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   }
 
-  /* "tinycadlib.pyx":295
+  /* "tinycadlib.pyx":281
  *         return (I.x - dx*d, I.y - dy*d)
  *     else:
  *         return (I.x + dx*d, I.y + dy*d)             # <<<<<<<<<<<<<<
@@ -7834,11 +7799,11 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
  */
   /*else*/ {
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_I->x + (__pyx_v_dx * __pyx_v_d))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 295, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble((__pyx_v_I->x + (__pyx_v_dx * __pyx_v_d))); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 281, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_I->y + (__pyx_v_dy * __pyx_v_d))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 295, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble((__pyx_v_I->y + (__pyx_v_dy * __pyx_v_d))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 281, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 295, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 281, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3);
@@ -7851,7 +7816,7 @@ static PyObject *__pyx_f_10tinycadlib_PLPP(struct __pyx_obj_10tinycadlib_Coordin
     goto __pyx_L0;
   }
 
-  /* "tinycadlib.pyx":267
+  /* "tinycadlib.pyx":253
  * 
  * 
  * cpdef tuple PLPP(             # <<<<<<<<<<<<<<
@@ -7889,7 +7854,7 @@ static PyObject *__pyx_pw_10tinycadlib_5PLPP(PyObject *__pyx_self, PyObject *__p
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_A_2,&__pyx_n_s_L0,&__pyx_n_s_B,&__pyx_n_s_C,&__pyx_n_s_inverse,0};
     PyObject* values[5] = {0,0,0,0,0};
 
-    /* "tinycadlib.pyx":272
+    /* "tinycadlib.pyx":258
  *     Coordinate B,
  *     Coordinate C,
  *     bool inverse=False             # <<<<<<<<<<<<<<
@@ -7923,19 +7888,19 @@ static PyObject *__pyx_pw_10tinycadlib_5PLPP(PyObject *__pyx_self, PyObject *__p
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_L0)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, 1); __PYX_ERR(0, 267, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, 1); __PYX_ERR(0, 253, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_B)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, 2); __PYX_ERR(0, 267, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, 2); __PYX_ERR(0, 253, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_C)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, 3); __PYX_ERR(0, 267, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, 3); __PYX_ERR(0, 253, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
@@ -7945,7 +7910,7 @@ static PyObject *__pyx_pw_10tinycadlib_5PLPP(PyObject *__pyx_self, PyObject *__p
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PLPP") < 0)) __PYX_ERR(0, 267, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "PLPP") < 0)) __PYX_ERR(0, 253, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7960,26 +7925,26 @@ static PyObject *__pyx_pw_10tinycadlib_5PLPP(PyObject *__pyx_self, PyObject *__p
       }
     }
     __pyx_v_A = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[0]);
-    __pyx_v_L0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_L0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 269, __pyx_L3_error)
+    __pyx_v_L0 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_L0 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 255, __pyx_L3_error)
     __pyx_v_B = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[2]);
     __pyx_v_C = ((struct __pyx_obj_10tinycadlib_Coordinate *)values[3]);
     __pyx_v_inverse = ((PyBoolObject *)values[4]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 267, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("PLPP", 0, 4, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 253, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.PLPP", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 268, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 270, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_C), __pyx_ptype_10tinycadlib_Coordinate, 1, "C", 0))) __PYX_ERR(0, 271, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inverse), __pyx_ptype_7cpython_4bool_bool, 1, "inverse", 0))) __PYX_ERR(0, 272, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 254, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 256, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_C), __pyx_ptype_10tinycadlib_Coordinate, 1, "C", 0))) __PYX_ERR(0, 257, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_inverse), __pyx_ptype_7cpython_4bool_bool, 1, "inverse", 0))) __PYX_ERR(0, 258, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_4PLPP(__pyx_self, __pyx_v_A, __pyx_v_L0, __pyx_v_B, __pyx_v_C, __pyx_v_inverse);
 
-  /* "tinycadlib.pyx":267
+  /* "tinycadlib.pyx":253
  * 
  * 
  * cpdef tuple PLPP(             # <<<<<<<<<<<<<<
@@ -8005,7 +7970,7 @@ static PyObject *__pyx_pf_10tinycadlib_4PLPP(CYTHON_UNUSED PyObject *__pyx_self,
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.inverse = __pyx_v_inverse;
-  __pyx_t_1 = __pyx_f_10tinycadlib_PLPP(__pyx_v_A, __pyx_v_L0, __pyx_v_B, __pyx_v_C, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 267, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_PLPP(__pyx_v_A, __pyx_v_L0, __pyx_v_B, __pyx_v_C, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8022,7 +7987,7 @@ static PyObject *__pyx_pf_10tinycadlib_4PLPP(CYTHON_UNUSED PyObject *__pyx_self,
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":298
+/* "tinycadlib.pyx":284
  * 
  * 
  * cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):             # <<<<<<<<<<<<<<
@@ -8042,7 +8007,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("legal_triangle", 0);
 
-  /* "tinycadlib.pyx":300
+  /* "tinycadlib.pyx":286
  * cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
  *     #L0, L1, L2 is triangle
  *     cdef double L0 = A.distance(B)             # <<<<<<<<<<<<<<
@@ -8051,7 +8016,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
  */
   __pyx_v_L0 = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_A->__pyx_vtab)->distance(__pyx_v_A, __pyx_v_B, 0);
 
-  /* "tinycadlib.pyx":301
+  /* "tinycadlib.pyx":287
  *     #L0, L1, L2 is triangle
  *     cdef double L0 = A.distance(B)
  *     cdef double L1 = B.distance(C)             # <<<<<<<<<<<<<<
@@ -8060,7 +8025,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
  */
   __pyx_v_L1 = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_B->__pyx_vtab)->distance(__pyx_v_B, __pyx_v_C, 0);
 
-  /* "tinycadlib.pyx":302
+  /* "tinycadlib.pyx":288
  *     cdef double L0 = A.distance(B)
  *     cdef double L1 = B.distance(C)
  *     cdef double L2 = A.distance(C)             # <<<<<<<<<<<<<<
@@ -8069,7 +8034,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
  */
   __pyx_v_L2 = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_A->__pyx_vtab)->distance(__pyx_v_A, __pyx_v_C, 0);
 
-  /* "tinycadlib.pyx":303
+  /* "tinycadlib.pyx":289
  *     cdef double L1 = B.distance(C)
  *     cdef double L2 = A.distance(C)
  *     return (L1+L2 > L0) and (L0+L2 > L1) and (L0+L1 > L2)             # <<<<<<<<<<<<<<
@@ -8080,9 +8045,9 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
   __pyx_t_2 = ((__pyx_v_L1 + __pyx_v_L2) > __pyx_v_L0);
   if (__pyx_t_2) {
   } else {
-    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 303, __pyx_L1_error)
+    if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 289, __pyx_L1_error)
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L3_bool_binop_done;
@@ -8090,17 +8055,17 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
   __pyx_t_2 = ((__pyx_v_L0 + __pyx_v_L2) > __pyx_v_L1);
   if (__pyx_t_2) {
   } else {
-    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 303, __pyx_L1_error)
+    if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 289, __pyx_L1_error)
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L3_bool_binop_done;
   }
   __pyx_t_2 = ((__pyx_v_L0 + __pyx_v_L1) > __pyx_v_L2);
-  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 303, __pyx_L1_error)
+  if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 289, __pyx_L1_error)
   __pyx_t_1 = __pyx_t_3;
   __pyx_t_3 = 0;
   __pyx_L3_bool_binop_done:;
@@ -8108,7 +8073,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_triangle(struct __
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":298
+  /* "tinycadlib.pyx":284
  * 
  * 
  * cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):             # <<<<<<<<<<<<<<
@@ -8162,17 +8127,17 @@ static PyObject *__pyx_pw_10tinycadlib_7legal_triangle(PyObject *__pyx_self, PyO
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_B)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("legal_triangle", 1, 3, 3, 1); __PYX_ERR(0, 298, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("legal_triangle", 1, 3, 3, 1); __PYX_ERR(0, 284, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_C)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("legal_triangle", 1, 3, 3, 2); __PYX_ERR(0, 298, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("legal_triangle", 1, 3, 3, 2); __PYX_ERR(0, 284, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "legal_triangle") < 0)) __PYX_ERR(0, 298, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "legal_triangle") < 0)) __PYX_ERR(0, 284, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8187,15 +8152,15 @@ static PyObject *__pyx_pw_10tinycadlib_7legal_triangle(PyObject *__pyx_self, PyO
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("legal_triangle", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 298, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("legal_triangle", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 284, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.legal_triangle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 298, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 298, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_C), __pyx_ptype_10tinycadlib_Coordinate, 1, "C", 0))) __PYX_ERR(0, 298, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 284, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 284, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_C), __pyx_ptype_10tinycadlib_Coordinate, 1, "C", 0))) __PYX_ERR(0, 284, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_6legal_triangle(__pyx_self, __pyx_v_A, __pyx_v_B, __pyx_v_C);
 
   /* function exit code */
@@ -8213,7 +8178,7 @@ static PyObject *__pyx_pf_10tinycadlib_6legal_triangle(CYTHON_UNUSED PyObject *_
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("legal_triangle", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_legal_triangle(__pyx_v_A, __pyx_v_B, __pyx_v_C, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 298, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_legal_triangle(__pyx_v_A, __pyx_v_B, __pyx_v_C, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8230,7 +8195,7 @@ static PyObject *__pyx_pf_10tinycadlib_6legal_triangle(CYTHON_UNUSED PyObject *_
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":305
+/* "tinycadlib.pyx":291
  *     return (L1+L2 > L0) and (L0+L2 > L1) and (L0+L1 > L2)
  * 
  * cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):             # <<<<<<<<<<<<<<
@@ -8251,7 +8216,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("legal_crank", 0);
 
-  /* "tinycadlib.pyx":312
+  /* "tinycadlib.pyx":298
  *         A   B
  *     '''
  *     cdef double driver = A.distance(C)             # <<<<<<<<<<<<<<
@@ -8260,7 +8225,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
  */
   __pyx_v_driver = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_A->__pyx_vtab)->distance(__pyx_v_A, __pyx_v_C, 0);
 
-  /* "tinycadlib.pyx":313
+  /* "tinycadlib.pyx":299
  *     '''
  *     cdef double driver = A.distance(C)
  *     cdef double follower = B.distance(D)             # <<<<<<<<<<<<<<
@@ -8269,7 +8234,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
  */
   __pyx_v_follower = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_B->__pyx_vtab)->distance(__pyx_v_B, __pyx_v_D, 0);
 
-  /* "tinycadlib.pyx":314
+  /* "tinycadlib.pyx":300
  *     cdef double driver = A.distance(C)
  *     cdef double follower = B.distance(D)
  *     cdef double ground = A.distance(B)             # <<<<<<<<<<<<<<
@@ -8278,7 +8243,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
  */
   __pyx_v_ground = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_A->__pyx_vtab)->distance(__pyx_v_A, __pyx_v_B, 0);
 
-  /* "tinycadlib.pyx":315
+  /* "tinycadlib.pyx":301
  *     cdef double follower = B.distance(D)
  *     cdef double ground = A.distance(B)
  *     cdef double connector = C.distance(D)             # <<<<<<<<<<<<<<
@@ -8287,7 +8252,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
  */
   __pyx_v_connector = ((struct __pyx_vtabstruct_10tinycadlib_Coordinate *)__pyx_v_C->__pyx_vtab)->distance(__pyx_v_C, __pyx_v_D, 0);
 
-  /* "tinycadlib.pyx":316
+  /* "tinycadlib.pyx":302
  *     cdef double ground = A.distance(B)
  *     cdef double connector = C.distance(D)
  *     return (             # <<<<<<<<<<<<<<
@@ -8296,7 +8261,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
 
-  /* "tinycadlib.pyx":317
+  /* "tinycadlib.pyx":303
  *     cdef double connector = C.distance(D)
  *     return (
  *         (driver + connector <= ground + follower) or             # <<<<<<<<<<<<<<
@@ -8306,15 +8271,15 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
   __pyx_t_2 = ((__pyx_v_driver + __pyx_v_connector) <= (__pyx_v_ground + __pyx_v_follower));
   if (!__pyx_t_2) {
   } else {
-    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 317, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 317, __pyx_L1_error)
+    if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 303, __pyx_L1_error)
     __pyx_t_1 = __pyx_t_3;
     __pyx_t_3 = 0;
     goto __pyx_L3_bool_binop_done;
   }
 
-  /* "tinycadlib.pyx":318
+  /* "tinycadlib.pyx":304
  *     return (
  *         (driver + connector <= ground + follower) or
  *         (driver + ground <= connector + follower)             # <<<<<<<<<<<<<<
@@ -8322,9 +8287,9 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
  * 
  */
   __pyx_t_2 = ((__pyx_v_driver + __pyx_v_ground) <= (__pyx_v_connector + __pyx_v_follower));
-  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 318, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 304, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 318, __pyx_L1_error)
+  if (!(likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_7cpython_4bool_bool)))) __PYX_ERR(0, 304, __pyx_L1_error)
   __pyx_t_1 = __pyx_t_3;
   __pyx_t_3 = 0;
   __pyx_L3_bool_binop_done:;
@@ -8332,7 +8297,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_10tinycadlib_legal_crank(struct __pyx
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":305
+  /* "tinycadlib.pyx":291
  *     return (L1+L2 > L0) and (L0+L2 > L1) and (L0+L1 > L2)
  * 
  * cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):             # <<<<<<<<<<<<<<
@@ -8390,23 +8355,23 @@ static PyObject *__pyx_pw_10tinycadlib_9legal_crank(PyObject *__pyx_self, PyObje
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_B)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, 1); __PYX_ERR(0, 305, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, 1); __PYX_ERR(0, 291, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_C)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, 2); __PYX_ERR(0, 305, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, 2); __PYX_ERR(0, 291, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_D)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, 3); __PYX_ERR(0, 305, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, 3); __PYX_ERR(0, 291, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "legal_crank") < 0)) __PYX_ERR(0, 305, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "legal_crank") < 0)) __PYX_ERR(0, 291, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -8423,16 +8388,16 @@ static PyObject *__pyx_pw_10tinycadlib_9legal_crank(PyObject *__pyx_self, PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 305, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("legal_crank", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 291, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.legal_crank", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 305, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 305, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_C), __pyx_ptype_10tinycadlib_Coordinate, 1, "C", 0))) __PYX_ERR(0, 305, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_D), __pyx_ptype_10tinycadlib_Coordinate, 1, "D", 0))) __PYX_ERR(0, 305, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_A), __pyx_ptype_10tinycadlib_Coordinate, 1, "A", 0))) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_B), __pyx_ptype_10tinycadlib_Coordinate, 1, "B", 0))) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_C), __pyx_ptype_10tinycadlib_Coordinate, 1, "C", 0))) __PYX_ERR(0, 291, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_D), __pyx_ptype_10tinycadlib_Coordinate, 1, "D", 0))) __PYX_ERR(0, 291, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_8legal_crank(__pyx_self, __pyx_v_A, __pyx_v_B, __pyx_v_C, __pyx_v_D);
 
   /* function exit code */
@@ -8450,7 +8415,7 @@ static PyObject *__pyx_pf_10tinycadlib_8legal_crank(CYTHON_UNUSED PyObject *__py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("legal_crank", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_legal_crank(__pyx_v_A, __pyx_v_B, __pyx_v_C, __pyx_v_D, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 305, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_10tinycadlib_legal_crank(__pyx_v_A, __pyx_v_B, __pyx_v_C, __pyx_v_D, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8467,7 +8432,7 @@ static PyObject *__pyx_pf_10tinycadlib_8legal_crank(CYTHON_UNUSED PyObject *__py
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":322
+/* "tinycadlib.pyx":308
  * 
  * 
  * cdef inline str strbetween(str s, str front, str back):             # <<<<<<<<<<<<<<
@@ -8484,7 +8449,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbetween(PyObject *__pyx_v
   Py_ssize_t __pyx_t_4;
   __Pyx_RefNannySetupContext("strbetween", 0);
 
-  /* "tinycadlib.pyx":324
+  /* "tinycadlib.pyx":310
  * cdef inline str strbetween(str s, str front, str back):
  *     """Get the string that is inside of parenthesis."""
  *     return s[s.find(front)+1:s.find(back)]             # <<<<<<<<<<<<<<
@@ -8494,26 +8459,26 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbetween(PyObject *__pyx_v
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_s == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 324, __pyx_L1_error)
+    __PYX_ERR(0, 310, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_front); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_front); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_3 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_back); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_back); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyIndex_AsSsize_t(__pyx_t_2); if (unlikely((__pyx_t_4 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PySequence_GetSlice(__pyx_v_s, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 324, __pyx_L1_error)
+  __pyx_t_2 = PySequence_GetSlice(__pyx_v_s, __pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":322
+  /* "tinycadlib.pyx":308
  * 
  * 
  * cdef inline str strbetween(str s, str front, str back):             # <<<<<<<<<<<<<<
@@ -8533,7 +8498,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbetween(PyObject *__pyx_v
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":327
+/* "tinycadlib.pyx":313
  * 
  * 
  * cdef inline str strbefore(str s, str front):             # <<<<<<<<<<<<<<
@@ -8548,7 +8513,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbefore(PyObject *__pyx_v_
   Py_ssize_t __pyx_t_2;
   __Pyx_RefNannySetupContext("strbefore", 0);
 
-  /* "tinycadlib.pyx":329
+  /* "tinycadlib.pyx":315
  * cdef inline str strbefore(str s, str front):
  *     """Get the string that is front of parenthesis."""
  *     return s[:s.find(front)]             # <<<<<<<<<<<<<<
@@ -8558,19 +8523,19 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbefore(PyObject *__pyx_v_
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_s == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 329, __pyx_L1_error)
+    __PYX_ERR(0, 315, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_front); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_find, __pyx_v_s, __pyx_v_front); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyIndex_AsSsize_t(__pyx_t_1); if (unlikely((__pyx_t_2 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PySequence_GetSlice(__pyx_v_s, 0, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 329, __pyx_L1_error)
+  __pyx_t_1 = PySequence_GetSlice(__pyx_v_s, 0, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":327
+  /* "tinycadlib.pyx":313
  * 
  * 
  * cdef inline str strbefore(str s, str front):             # <<<<<<<<<<<<<<
@@ -8589,7 +8554,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_strbefore(PyObject *__pyx_v_
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":332
+/* "tinycadlib.pyx":318
  * 
  * 
  * cpdef void expr_parser(str exprs, dict data_dict):             # <<<<<<<<<<<<<<
@@ -8620,35 +8585,35 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
   __Pyx_RefNannySetupContext("expr_parser", 0);
   __Pyx_INCREF(__pyx_v_exprs);
 
-  /* "tinycadlib.pyx":339
+  /* "tinycadlib.pyx":325
  *     '''
  *     #Remove all the spaces in the expression.
  *     exprs = exprs.replace(" ", '')             # <<<<<<<<<<<<<<
  *     cdef str expr, f, name
  *     cdef list params
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod2(&__pyx_umethod_PyString_Type_replace, __pyx_v_exprs, __pyx_kp_s_, __pyx_kp_s__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod2(&__pyx_umethod_PyString_Type_replace, __pyx_v_exprs, __pyx_kp_s_, __pyx_kp_s__2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 339, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 325, __pyx_L1_error)
   __Pyx_DECREF_SET(__pyx_v_exprs, ((PyObject*)__pyx_t_1));
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":344
+  /* "tinycadlib.pyx":330
  *     cdef object p
  *     cdef list args
  *     for expr in exprs.split(';'):             # <<<<<<<<<<<<<<
  *         f = strbefore(expr, '[')
  *         params = strbetween(expr, '[', ']').split(',')
  */
-  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_exprs, __pyx_kp_s__15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_CallUnboundCMethod1(&__pyx_umethod_PyString_Type_split, __pyx_v_exprs, __pyx_kp_s__15); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 330, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 344, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 330, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -8656,17 +8621,17 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 330, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 330, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 330, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -8676,72 +8641,72 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 344, __pyx_L1_error)
+          else __PYX_ERR(0, 330, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 344, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 330, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_expr, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":345
+    /* "tinycadlib.pyx":331
  *     cdef list args
  *     for expr in exprs.split(';'):
  *         f = strbefore(expr, '[')             # <<<<<<<<<<<<<<
  *         params = strbetween(expr, '[', ']').split(',')
  *         target = strbetween(expr, '(', ')')
  */
-    __pyx_t_1 = __pyx_f_10tinycadlib_strbefore(__pyx_v_expr, __pyx_kp_s__16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 345, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_10tinycadlib_strbefore(__pyx_v_expr, __pyx_kp_s__16); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_f, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":346
+    /* "tinycadlib.pyx":332
  *     for expr in exprs.split(';'):
  *         f = strbefore(expr, '[')
  *         params = strbetween(expr, '[', ']').split(',')             # <<<<<<<<<<<<<<
  *         target = strbetween(expr, '(', ')')
  *         args = []
  */
-    __pyx_t_1 = __pyx_f_10tinycadlib_strbetween(__pyx_v_expr, __pyx_kp_s__16, __pyx_kp_s__17); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_10tinycadlib_strbetween(__pyx_v_expr, __pyx_kp_s__16, __pyx_kp_s__17); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_split); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_split); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 332, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 346, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 346, __pyx_L1_error)
+    if (!(likely(PyList_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "list", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 332, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_params, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":347
+    /* "tinycadlib.pyx":333
  *         f = strbefore(expr, '[')
  *         params = strbetween(expr, '[', ']').split(',')
  *         target = strbetween(expr, '(', ')')             # <<<<<<<<<<<<<<
  *         args = []
  *         for name in params:
  */
-    __pyx_t_1 = __pyx_f_10tinycadlib_strbetween(__pyx_v_expr, __pyx_kp_s__19, __pyx_kp_s__20); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_10tinycadlib_strbetween(__pyx_v_expr, __pyx_kp_s__19, __pyx_kp_s__20); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 333, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_target, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":348
+    /* "tinycadlib.pyx":334
  *         params = strbetween(expr, '[', ']').split(',')
  *         target = strbetween(expr, '(', ')')
  *         args = []             # <<<<<<<<<<<<<<
  *         for name in params:
  *             if name == 'T':
  */
-    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 348, __pyx_L1_error)
+    __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 334, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_args, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":349
+    /* "tinycadlib.pyx":335
  *         target = strbetween(expr, '(', ')')
  *         args = []
  *         for name in params:             # <<<<<<<<<<<<<<
@@ -8750,33 +8715,33 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
  */
     if (unlikely(__pyx_v_params == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-      __PYX_ERR(0, 349, __pyx_L1_error)
+      __PYX_ERR(0, 335, __pyx_L1_error)
     }
     __pyx_t_1 = __pyx_v_params; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
     for (;;) {
       if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-      __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 349, __pyx_L1_error)
+      __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 335, __pyx_L1_error)
       #else
-      __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 335, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       #endif
-      if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 349, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 335, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_name, ((PyObject*)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "tinycadlib.pyx":350
+      /* "tinycadlib.pyx":336
  *         args = []
  *         for name in params:
  *             if name == 'T':             # <<<<<<<<<<<<<<
  *                 p = True
  *             elif name == 'F':
  */
-      __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_name, __pyx_n_s_T, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 350, __pyx_L1_error)
+      __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_name, __pyx_n_s_T, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 336, __pyx_L1_error)
       __pyx_t_8 = (__pyx_t_7 != 0);
       if (__pyx_t_8) {
 
-        /* "tinycadlib.pyx":351
+        /* "tinycadlib.pyx":337
  *         for name in params:
  *             if name == 'T':
  *                 p = True             # <<<<<<<<<<<<<<
@@ -8786,7 +8751,7 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
         __Pyx_INCREF(Py_True);
         __Pyx_XDECREF_SET(__pyx_v_p, Py_True);
 
-        /* "tinycadlib.pyx":350
+        /* "tinycadlib.pyx":336
  *         args = []
  *         for name in params:
  *             if name == 'T':             # <<<<<<<<<<<<<<
@@ -8796,18 +8761,18 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
         goto __pyx_L7;
       }
 
-      /* "tinycadlib.pyx":352
+      /* "tinycadlib.pyx":338
  *             if name == 'T':
  *                 p = True
  *             elif name == 'F':             # <<<<<<<<<<<<<<
  *                 p = False
  *             else:
  */
-      __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_name, __pyx_n_s_F, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 352, __pyx_L1_error)
+      __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_name, __pyx_n_s_F, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 338, __pyx_L1_error)
       __pyx_t_7 = (__pyx_t_8 != 0);
       if (__pyx_t_7) {
 
-        /* "tinycadlib.pyx":353
+        /* "tinycadlib.pyx":339
  *                 p = True
  *             elif name == 'F':
  *                 p = False             # <<<<<<<<<<<<<<
@@ -8817,7 +8782,7 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
         __Pyx_INCREF(Py_False);
         __Pyx_XDECREF_SET(__pyx_v_p, Py_False);
 
-        /* "tinycadlib.pyx":352
+        /* "tinycadlib.pyx":338
  *             if name == 'T':
  *                 p = True
  *             elif name == 'F':             # <<<<<<<<<<<<<<
@@ -8827,7 +8792,7 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
         goto __pyx_L7;
       }
 
-      /* "tinycadlib.pyx":355
+      /* "tinycadlib.pyx":341
  *                 p = False
  *             else:
  *                 p = data_dict[name]             # <<<<<<<<<<<<<<
@@ -8837,43 +8802,43 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
       /*else*/ {
         if (unlikely(__pyx_v_data_dict == Py_None)) {
           PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-          __PYX_ERR(0, 355, __pyx_L1_error)
+          __PYX_ERR(0, 341, __pyx_L1_error)
         }
-        __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_data_dict, __pyx_v_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_data_dict, __pyx_v_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 341, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_XDECREF_SET(__pyx_v_p, __pyx_t_5);
         __pyx_t_5 = 0;
       }
       __pyx_L7:;
 
-      /* "tinycadlib.pyx":356
+      /* "tinycadlib.pyx":342
  *             else:
  *                 p = data_dict[name]
  *             if type(p) == tuple:             # <<<<<<<<<<<<<<
  *                 args.append(Coordinate(*p))
  *             else:
  */
-      __pyx_t_5 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_p)), ((PyObject *)(&PyTuple_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 356, __pyx_L1_error)
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 356, __pyx_L1_error)
+      __pyx_t_5 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_p)), ((PyObject *)(&PyTuple_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_7) {
 
-        /* "tinycadlib.pyx":357
+        /* "tinycadlib.pyx":343
  *                 p = data_dict[name]
  *             if type(p) == tuple:
  *                 args.append(Coordinate(*p))             # <<<<<<<<<<<<<<
  *             else:
  *                 args.append(p)
  */
-        __pyx_t_5 = __Pyx_PySequence_Tuple(__pyx_v_p); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 357, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PySequence_Tuple(__pyx_v_p); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 343, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 357, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_10tinycadlib_Coordinate), __pyx_t_5, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 343, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_args, __pyx_t_9); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 357, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_args, __pyx_t_9); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 343, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-        /* "tinycadlib.pyx":356
+        /* "tinycadlib.pyx":342
  *             else:
  *                 p = data_dict[name]
  *             if type(p) == tuple:             # <<<<<<<<<<<<<<
@@ -8883,7 +8848,7 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
         goto __pyx_L8;
       }
 
-      /* "tinycadlib.pyx":359
+      /* "tinycadlib.pyx":345
  *                 args.append(Coordinate(*p))
  *             else:
  *                 args.append(p)             # <<<<<<<<<<<<<<
@@ -8891,11 +8856,11 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
  *             data_dict[target] = PLAP(*args)
  */
       /*else*/ {
-        __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_args, __pyx_v_p); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 359, __pyx_L1_error)
+        __pyx_t_10 = __Pyx_PyList_Append(__pyx_v_args, __pyx_v_p); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 345, __pyx_L1_error)
       }
       __pyx_L8:;
 
-      /* "tinycadlib.pyx":349
+      /* "tinycadlib.pyx":335
  *         target = strbetween(expr, '(', ')')
  *         args = []
  *         for name in params:             # <<<<<<<<<<<<<<
@@ -8905,40 +8870,40 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":360
+    /* "tinycadlib.pyx":346
  *             else:
  *                 args.append(p)
  *         if f == 'PLAP':             # <<<<<<<<<<<<<<
  *             data_dict[target] = PLAP(*args)
  *         elif f == 'PLLP':
  */
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_f, __pyx_n_s_PLAP, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 360, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_f, __pyx_n_s_PLAP, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 346, __pyx_L1_error)
     __pyx_t_8 = (__pyx_t_7 != 0);
     if (__pyx_t_8) {
 
-      /* "tinycadlib.pyx":361
+      /* "tinycadlib.pyx":347
  *                 args.append(p)
  *         if f == 'PLAP':
  *             data_dict[target] = PLAP(*args)             # <<<<<<<<<<<<<<
  *         elif f == 'PLLP':
  *             data_dict[target] = PLLP(*args)
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLAP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 361, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLAP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 347, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_9 = PySequence_Tuple(__pyx_v_args); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 361, __pyx_L1_error)
+      __pyx_t_9 = PySequence_Tuple(__pyx_v_args); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 347, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 361, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 347, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       if (unlikely(__pyx_v_data_dict == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 361, __pyx_L1_error)
+        __PYX_ERR(0, 347, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_target, __pyx_t_5) < 0)) __PYX_ERR(0, 361, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_target, __pyx_t_5) < 0)) __PYX_ERR(0, 347, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "tinycadlib.pyx":360
+      /* "tinycadlib.pyx":346
  *             else:
  *                 args.append(p)
  *         if f == 'PLAP':             # <<<<<<<<<<<<<<
@@ -8948,40 +8913,40 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
       goto __pyx_L9;
     }
 
-    /* "tinycadlib.pyx":362
+    /* "tinycadlib.pyx":348
  *         if f == 'PLAP':
  *             data_dict[target] = PLAP(*args)
  *         elif f == 'PLLP':             # <<<<<<<<<<<<<<
  *             data_dict[target] = PLLP(*args)
  *         elif f == 'PLPP':
  */
-    __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_f, __pyx_n_s_PLLP, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 362, __pyx_L1_error)
+    __pyx_t_8 = (__Pyx_PyString_Equals(__pyx_v_f, __pyx_n_s_PLLP, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 348, __pyx_L1_error)
     __pyx_t_7 = (__pyx_t_8 != 0);
     if (__pyx_t_7) {
 
-      /* "tinycadlib.pyx":363
+      /* "tinycadlib.pyx":349
  *             data_dict[target] = PLAP(*args)
  *         elif f == 'PLLP':
  *             data_dict[target] = PLLP(*args)             # <<<<<<<<<<<<<<
  *         elif f == 'PLPP':
  *             data_dict[target] = PLPP(*args)
  */
-      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLLP); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 363, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLLP); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 349, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_9 = PySequence_Tuple(__pyx_v_args); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 363, __pyx_L1_error)
+      __pyx_t_9 = PySequence_Tuple(__pyx_v_args); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 349, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 363, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 349, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       if (unlikely(__pyx_v_data_dict == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 363, __pyx_L1_error)
+        __PYX_ERR(0, 349, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_target, __pyx_t_1) < 0)) __PYX_ERR(0, 363, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_target, __pyx_t_1) < 0)) __PYX_ERR(0, 349, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "tinycadlib.pyx":362
+      /* "tinycadlib.pyx":348
  *         if f == 'PLAP':
  *             data_dict[target] = PLAP(*args)
  *         elif f == 'PLLP':             # <<<<<<<<<<<<<<
@@ -8991,40 +8956,40 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
       goto __pyx_L9;
     }
 
-    /* "tinycadlib.pyx":364
+    /* "tinycadlib.pyx":350
  *         elif f == 'PLLP':
  *             data_dict[target] = PLLP(*args)
  *         elif f == 'PLPP':             # <<<<<<<<<<<<<<
  *             data_dict[target] = PLPP(*args)
  *     """'data_dict' has been updated."""
  */
-    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_f, __pyx_n_s_PLPP, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 364, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PyString_Equals(__pyx_v_f, __pyx_n_s_PLPP, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 350, __pyx_L1_error)
     __pyx_t_8 = (__pyx_t_7 != 0);
     if (__pyx_t_8) {
 
-      /* "tinycadlib.pyx":365
+      /* "tinycadlib.pyx":351
  *             data_dict[target] = PLLP(*args)
  *         elif f == 'PLPP':
  *             data_dict[target] = PLPP(*args)             # <<<<<<<<<<<<<<
  *     """'data_dict' has been updated."""
  * 
  */
-      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLPP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_PLPP); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 351, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_9 = PySequence_Tuple(__pyx_v_args); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 365, __pyx_L1_error)
+      __pyx_t_9 = PySequence_Tuple(__pyx_v_args); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 351, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 365, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 351, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       if (unlikely(__pyx_v_data_dict == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 365, __pyx_L1_error)
+        __PYX_ERR(0, 351, __pyx_L1_error)
       }
-      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_target, __pyx_t_5) < 0)) __PYX_ERR(0, 365, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_target, __pyx_t_5) < 0)) __PYX_ERR(0, 351, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "tinycadlib.pyx":364
+      /* "tinycadlib.pyx":350
  *         elif f == 'PLLP':
  *             data_dict[target] = PLLP(*args)
  *         elif f == 'PLPP':             # <<<<<<<<<<<<<<
@@ -9034,7 +8999,7 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
     }
     __pyx_L9:;
 
-    /* "tinycadlib.pyx":344
+    /* "tinycadlib.pyx":330
  *     cdef object p
  *     cdef list args
  *     for expr in exprs.split(';'):             # <<<<<<<<<<<<<<
@@ -9044,7 +9009,7 @@ static void __pyx_f_10tinycadlib_expr_parser(PyObject *__pyx_v_exprs, PyObject *
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":332
+  /* "tinycadlib.pyx":318
  * 
  * 
  * cpdef void expr_parser(str exprs, dict data_dict):             # <<<<<<<<<<<<<<
@@ -9104,11 +9069,11 @@ static PyObject *__pyx_pw_10tinycadlib_11expr_parser(PyObject *__pyx_self, PyObj
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_data_dict)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_parser", 1, 2, 2, 1); __PYX_ERR(0, 332, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_parser", 1, 2, 2, 1); __PYX_ERR(0, 318, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "expr_parser") < 0)) __PYX_ERR(0, 332, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "expr_parser") < 0)) __PYX_ERR(0, 318, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -9121,14 +9086,14 @@ static PyObject *__pyx_pw_10tinycadlib_11expr_parser(PyObject *__pyx_self, PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("expr_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 332, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("expr_parser", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 318, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.expr_parser", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_exprs), (&PyString_Type), 1, "exprs", 1))) __PYX_ERR(0, 332, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data_dict), (&PyDict_Type), 1, "data_dict", 1))) __PYX_ERR(0, 332, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_exprs), (&PyString_Type), 1, "exprs", 1))) __PYX_ERR(0, 318, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data_dict), (&PyDict_Type), 1, "data_dict", 1))) __PYX_ERR(0, 318, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_10expr_parser(__pyx_self, __pyx_v_exprs, __pyx_v_data_dict);
 
   /* function exit code */
@@ -9146,7 +9111,7 @@ static PyObject *__pyx_pf_10tinycadlib_10expr_parser(CYTHON_UNUSED PyObject *__p
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("expr_parser", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_10tinycadlib_expr_parser(__pyx_v_exprs, __pyx_v_data_dict, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_10tinycadlib_expr_parser(__pyx_v_exprs, __pyx_v_data_dict, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 318, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9163,7 +9128,7 @@ static PyObject *__pyx_pf_10tinycadlib_10expr_parser(CYTHON_UNUSED PyObject *__p
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":369
+/* "tinycadlib.pyx":355
  * 
  * 
  * cdef inline double tuple_distance(tuple c1, tuple c2):             # <<<<<<<<<<<<<<
@@ -9181,7 +9146,7 @@ static CYTHON_INLINE double __pyx_f_10tinycadlib_tuple_distance(PyObject *__pyx_
   double __pyx_t_5;
   __Pyx_RefNannySetupContext("tuple_distance", 0);
 
-  /* "tinycadlib.pyx":371
+  /* "tinycadlib.pyx":357
  * cdef inline double tuple_distance(tuple c1, tuple c2):
  *     """Calculate the distance between two tuple coordinates."""
  *     return distance(c1[0], c1[1], c2[0], c2[1])             # <<<<<<<<<<<<<<
@@ -9190,40 +9155,40 @@ static CYTHON_INLINE double __pyx_f_10tinycadlib_tuple_distance(PyObject *__pyx_
  */
   if (unlikely(__pyx_v_c1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 371, __pyx_L1_error)
+    __PYX_ERR(0, 357, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_2 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_c1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 371, __pyx_L1_error)
+    __PYX_ERR(0, 357, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c1, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_c2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 371, __pyx_L1_error)
+    __PYX_ERR(0, 357, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (unlikely(__pyx_v_c2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(0, 371, __pyx_L1_error)
+    __PYX_ERR(0, 357, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_c2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 357, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_f_10tinycadlib_distance(__pyx_t_2, __pyx_t_3, __pyx_t_4, __pyx_t_5);
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":369
+  /* "tinycadlib.pyx":355
  * 
  * 
  * cdef inline double tuple_distance(tuple c1, tuple c2):             # <<<<<<<<<<<<<<
@@ -9241,7 +9206,7 @@ static CYTHON_INLINE double __pyx_f_10tinycadlib_tuple_distance(PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":374
+/* "tinycadlib.pyx":360
  * 
  * 
  * cdef inline void rotate_collect(dict data_dict, dict mapping, list path):             # <<<<<<<<<<<<<<
@@ -9265,7 +9230,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("rotate_collect", 0);
 
-  /* "tinycadlib.pyx":378
+  /* "tinycadlib.pyx":364
  *     cdef int n
  *     cdef str m
  *     for n, m in mapping.items():             # <<<<<<<<<<<<<<
@@ -9274,17 +9239,17 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
  */
   if (unlikely(__pyx_v_mapping == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(0, 378, __pyx_L1_error)
+    __PYX_ERR(0, 364, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_mapping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_mapping); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 378, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 364, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 378, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 364, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -9292,17 +9257,17 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 378, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 364, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 378, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 364, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 378, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 364, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -9312,7 +9277,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 378, __pyx_L1_error)
+          else __PYX_ERR(0, 364, __pyx_L1_error)
         }
         break;
       }
@@ -9324,7 +9289,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(0, 378, __pyx_L1_error)
+        __PYX_ERR(0, 364, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -9337,15 +9302,15 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 378, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 364, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 378, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 364, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 378, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 364, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -9353,7 +9318,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(0, 378, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(0, 364, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L6_unpacking_done;
@@ -9361,17 +9326,17 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(0, 378, __pyx_L1_error)
+      __PYX_ERR(0, 364, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
-    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 378, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 364, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 378, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 364, __pyx_L1_error)
     __pyx_v_n = __pyx_t_9;
     __Pyx_XDECREF_SET(__pyx_v_m, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "tinycadlib.pyx":379
+    /* "tinycadlib.pyx":365
  *     cdef str m
  *     for n, m in mapping.items():
  *         path[n].append(data_dict[m])             # <<<<<<<<<<<<<<
@@ -9380,21 +9345,21 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
  */
     if (unlikely(__pyx_v_path == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 379, __pyx_L1_error)
+      __PYX_ERR(0, 365, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 379, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_data_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 379, __pyx_L1_error)
+      __PYX_ERR(0, 365, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_data_dict, __pyx_v_m); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 379, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_data_dict, __pyx_v_m); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_6); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 379, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_6); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 365, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "tinycadlib.pyx":378
+    /* "tinycadlib.pyx":364
  *     cdef int n
  *     cdef str m
  *     for n, m in mapping.items():             # <<<<<<<<<<<<<<
@@ -9404,7 +9369,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":374
+  /* "tinycadlib.pyx":360
  * 
  * 
  * cdef inline void rotate_collect(dict data_dict, dict mapping, list path):             # <<<<<<<<<<<<<<
@@ -9426,7 +9391,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "tinycadlib.pyx":382
+/* "tinycadlib.pyx":368
  * 
  * 
  * cdef inline void rotate(             # <<<<<<<<<<<<<<
@@ -9436,7 +9401,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate_collect(PyObject *__pyx_v_
 
 static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, PyObject *__pyx_v_expr_str, PyObject *__pyx_v_data_dict, PyObject *__pyx_v_mapping, PyObject *__pyx_v_path, double __pyx_v_interval, struct __pyx_opt_args_10tinycadlib_rotate *__pyx_optional_args) {
 
-  /* "tinycadlib.pyx":389
+  /* "tinycadlib.pyx":375
  *     list path,
  *     double interval,
  *     bool reverse=False             # <<<<<<<<<<<<<<
@@ -9462,16 +9427,16 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
     }
   }
 
-  /* "tinycadlib.pyx":396
+  /* "tinycadlib.pyx":382
  *     + Collect the coordinates of all joints.
  *     """
  *     cdef str param = 'a{}'.format(input_angle)             # <<<<<<<<<<<<<<
  *     cdef double a = 0
  *     if reverse:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_input_angle); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_input_angle); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -9484,14 +9449,14 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9500,30 +9465,30 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 382, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 396, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 382, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 396, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 382, __pyx_L1_error)
   __pyx_v_param = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":397
+  /* "tinycadlib.pyx":383
  *     """
  *     cdef str param = 'a{}'.format(input_angle)
  *     cdef double a = 0             # <<<<<<<<<<<<<<
@@ -9532,17 +9497,17 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
   __pyx_v_a = 0.0;
 
-  /* "tinycadlib.pyx":398
+  /* "tinycadlib.pyx":384
  *     cdef str param = 'a{}'.format(input_angle)
  *     cdef double a = 0
  *     if reverse:             # <<<<<<<<<<<<<<
  *         a = 360
  *         interval = -interval
  */
-  __pyx_t_6 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_reverse)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(((PyObject *)__pyx_v_reverse)); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(0, 384, __pyx_L1_error)
   if (__pyx_t_6) {
 
-    /* "tinycadlib.pyx":399
+    /* "tinycadlib.pyx":385
  *     cdef double a = 0
  *     if reverse:
  *         a = 360             # <<<<<<<<<<<<<<
@@ -9551,7 +9516,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
     __pyx_v_a = 360.0;
 
-    /* "tinycadlib.pyx":400
+    /* "tinycadlib.pyx":386
  *     if reverse:
  *         a = 360
  *         interval = -interval             # <<<<<<<<<<<<<<
@@ -9560,7 +9525,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
     __pyx_v_interval = (-__pyx_v_interval);
 
-    /* "tinycadlib.pyx":398
+    /* "tinycadlib.pyx":384
  *     cdef str param = 'a{}'.format(input_angle)
  *     cdef double a = 0
  *     if reverse:             # <<<<<<<<<<<<<<
@@ -9569,7 +9534,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
   }
 
-  /* "tinycadlib.pyx":402
+  /* "tinycadlib.pyx":388
  *         interval = -interval
  *     cdef dict copy_dict
  *     while 0 <= a <= 360:             # <<<<<<<<<<<<<<
@@ -9584,19 +9549,19 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
     __pyx_t_7 = (__pyx_t_6 != 0);
     if (!__pyx_t_7) break;
 
-    /* "tinycadlib.pyx":403
+    /* "tinycadlib.pyx":389
  *     cdef dict copy_dict
  *     while 0 <= a <= 360:
  *         data_dict[param] = np.deg2rad(a)             # <<<<<<<<<<<<<<
  *         copy_dict = data_dict.copy()
  *         expr_parser(expr_str, copy_dict)
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 403, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 403, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 403, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -9609,14 +9574,14 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
       }
     }
     if (!__pyx_t_3) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_2};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9625,20 +9590,20 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_2};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else
       #endif
       {
-        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 389, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
         __Pyx_GIVEREF(__pyx_t_2);
         PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_2);
         __pyx_t_2 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 403, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 389, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
@@ -9646,12 +9611,12 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(__pyx_v_data_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 403, __pyx_L1_error)
+      __PYX_ERR(0, 389, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_param, __pyx_t_1) < 0)) __PYX_ERR(0, 403, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_v_param, __pyx_t_1) < 0)) __PYX_ERR(0, 389, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":404
+    /* "tinycadlib.pyx":390
  *     while 0 <= a <= 360:
  *         data_dict[param] = np.deg2rad(a)
  *         copy_dict = data_dict.copy()             # <<<<<<<<<<<<<<
@@ -9660,14 +9625,14 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
     if (unlikely(__pyx_v_data_dict == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "copy");
-      __PYX_ERR(0, 404, __pyx_L1_error)
+      __PYX_ERR(0, 390, __pyx_L1_error)
     }
-    __pyx_t_1 = PyDict_Copy(__pyx_v_data_dict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 404, __pyx_L1_error)
+    __pyx_t_1 = PyDict_Copy(__pyx_v_data_dict); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 390, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_copy_dict, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "tinycadlib.pyx":405
+    /* "tinycadlib.pyx":391
  *         data_dict[param] = np.deg2rad(a)
  *         copy_dict = data_dict.copy()
  *         expr_parser(expr_str, copy_dict)             # <<<<<<<<<<<<<<
@@ -9676,7 +9641,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
     __pyx_f_10tinycadlib_expr_parser(__pyx_v_expr_str, __pyx_v_copy_dict, 0);
 
-    /* "tinycadlib.pyx":406
+    /* "tinycadlib.pyx":392
  *         copy_dict = data_dict.copy()
  *         expr_parser(expr_str, copy_dict)
  *         rotate_collect(copy_dict, mapping, path)             # <<<<<<<<<<<<<<
@@ -9685,7 +9650,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
  */
     __pyx_f_10tinycadlib_rotate_collect(__pyx_v_copy_dict, __pyx_v_mapping, __pyx_v_path);
 
-    /* "tinycadlib.pyx":407
+    /* "tinycadlib.pyx":393
  *         expr_parser(expr_str, copy_dict)
  *         rotate_collect(copy_dict, mapping, path)
  *         a += interval             # <<<<<<<<<<<<<<
@@ -9695,7 +9660,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
     __pyx_v_a = (__pyx_v_a + __pyx_v_interval);
   }
 
-  /* "tinycadlib.pyx":382
+  /* "tinycadlib.pyx":368
  * 
  * 
  * cdef inline void rotate(             # <<<<<<<<<<<<<<
@@ -9718,7 +9683,7 @@ static CYTHON_INLINE void __pyx_f_10tinycadlib_rotate(int __pyx_v_input_angle, P
   __Pyx_RefNannyFinishContext();
 }
 
-/* "tinycadlib.pyx":410
+/* "tinycadlib.pyx":396
  * 
  * 
  * cdef inline list return_path(             # <<<<<<<<<<<<<<
@@ -9743,32 +9708,32 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
   Py_ssize_t __pyx_t_10;
   __Pyx_RefNannySetupContext("return_path", 0);
 
-  /* "tinycadlib.pyx":419
+  /* "tinycadlib.pyx":405
  *     """Return as paths."""
  *     cdef int i
  *     cdef list path = [[] for i in range(len(mapping))]             # <<<<<<<<<<<<<<
  *     #For each input joint.
  *     for i in range(dof):
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 419, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_mapping == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 419, __pyx_L1_error)
+    __PYX_ERR(0, 405, __pyx_L1_error)
   }
-  __pyx_t_2 = PyDict_Size(__pyx_v_mapping); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 419, __pyx_L1_error)
+  __pyx_t_2 = PyDict_Size(__pyx_v_mapping); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 405, __pyx_L1_error)
   __pyx_t_3 = __pyx_t_2;
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 419, __pyx_L1_error)
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 419, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 405, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __pyx_v_path = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":421
+  /* "tinycadlib.pyx":407
  *     cdef list path = [[] for i in range(len(mapping))]
  *     #For each input joint.
  *     for i in range(dof):             # <<<<<<<<<<<<<<
@@ -9780,7 +9745,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "tinycadlib.pyx":422
+    /* "tinycadlib.pyx":408
  *     #For each input joint.
  *     for i in range(dof):
  *         rotate(i, expr_str, data_dict, mapping, path, interval)             # <<<<<<<<<<<<<<
@@ -9790,7 +9755,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
     __pyx_f_10tinycadlib_rotate(__pyx_v_i, __pyx_v_expr_str, __pyx_v_data_dict, __pyx_v_mapping, __pyx_v_path, __pyx_v_interval, NULL);
   }
 
-  /* "tinycadlib.pyx":423
+  /* "tinycadlib.pyx":409
  *     for i in range(dof):
  *         rotate(i, expr_str, data_dict, mapping, path, interval)
  *     if dof > 1:             # <<<<<<<<<<<<<<
@@ -9800,7 +9765,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
   __pyx_t_8 = ((__pyx_v_dof > 1) != 0);
   if (__pyx_t_8) {
 
-    /* "tinycadlib.pyx":425
+    /* "tinycadlib.pyx":411
  *     if dof > 1:
  *         #Rotate back.
  *         for i in range(dof):             # <<<<<<<<<<<<<<
@@ -9812,7 +9777,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
     for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_6; __pyx_t_7+=1) {
       __pyx_v_i = __pyx_t_7;
 
-      /* "tinycadlib.pyx":426
+      /* "tinycadlib.pyx":412
  *         #Rotate back.
  *         for i in range(dof):
  *             rotate(i, expr_str, data_dict, mapping, path, interval, True)             # <<<<<<<<<<<<<<
@@ -9824,7 +9789,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
       __pyx_f_10tinycadlib_rotate(__pyx_v_i, __pyx_v_expr_str, __pyx_v_data_dict, __pyx_v_mapping, __pyx_v_path, __pyx_v_interval, &__pyx_t_9); 
     }
 
-    /* "tinycadlib.pyx":423
+    /* "tinycadlib.pyx":409
  *     for i in range(dof):
  *         rotate(i, expr_str, data_dict, mapping, path, interval)
  *     if dof > 1:             # <<<<<<<<<<<<<<
@@ -9833,45 +9798,45 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
  */
   }
 
-  /* "tinycadlib.pyx":430
+  /* "tinycadlib.pyx":416
  *     return_path: [[each_joints]: [(x0, y0), (x1, y1), (x2, y2), ...], ...]
  *     """
  *     for i in range(len(path)):             # <<<<<<<<<<<<<<
  *         if len(set(path[i])) <= 1:
  *             path[i] = ()
  */
-  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_path); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 430, __pyx_L1_error)
+  __pyx_t_2 = PyList_GET_SIZE(__pyx_v_path); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 416, __pyx_L1_error)
   __pyx_t_3 = __pyx_t_2;
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "tinycadlib.pyx":431
+    /* "tinycadlib.pyx":417
  *     """
  *     for i in range(len(path)):
  *         if len(set(path[i])) <= 1:             # <<<<<<<<<<<<<<
  *             path[i] = ()
  *         else:
  */
-    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 431, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 417, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PySet_New(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 431, __pyx_L1_error)
+    __pyx_t_5 = PySet_New(__pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 417, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_10 = PySet_GET_SIZE(__pyx_t_5); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 431, __pyx_L1_error)
+    __pyx_t_10 = PySet_GET_SIZE(__pyx_t_5); if (unlikely(__pyx_t_10 == ((Py_ssize_t)-1))) __PYX_ERR(0, 417, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_8 = ((__pyx_t_10 <= 1) != 0);
     if (__pyx_t_8) {
 
-      /* "tinycadlib.pyx":432
+      /* "tinycadlib.pyx":418
  *     for i in range(len(path)):
  *         if len(set(path[i])) <= 1:
  *             path[i] = ()             # <<<<<<<<<<<<<<
  *         else:
  *             path[i] = tuple(path[i])
  */
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_path, __pyx_v_i, __pyx_empty_tuple, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 432, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_v_path, __pyx_v_i, __pyx_empty_tuple, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 418, __pyx_L1_error)
 
-      /* "tinycadlib.pyx":431
+      /* "tinycadlib.pyx":417
  *     """
  *     for i in range(len(path)):
  *         if len(set(path[i])) <= 1:             # <<<<<<<<<<<<<<
@@ -9881,7 +9846,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
       goto __pyx_L12;
     }
 
-    /* "tinycadlib.pyx":434
+    /* "tinycadlib.pyx":420
  *             path[i] = ()
  *         else:
  *             path[i] = tuple(path[i])             # <<<<<<<<<<<<<<
@@ -9889,18 +9854,18 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
  * 
  */
     /*else*/ {
-      __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 434, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt_List(__pyx_v_path, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 420, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 434, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PySequence_Tuple(__pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 420, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_path, __pyx_v_i, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 434, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_v_path, __pyx_v_i, __pyx_t_1, int, 1, __Pyx_PyInt_From_int, 1, 1, 1) < 0)) __PYX_ERR(0, 420, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
     __pyx_L12:;
   }
 
-  /* "tinycadlib.pyx":435
+  /* "tinycadlib.pyx":421
  *         else:
  *             path[i] = tuple(path[i])
  *     return path             # <<<<<<<<<<<<<<
@@ -9912,7 +9877,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
   __pyx_r = __pyx_v_path;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":410
+  /* "tinycadlib.pyx":396
  * 
  * 
  * cdef inline list return_path(             # <<<<<<<<<<<<<<
@@ -9933,7 +9898,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_return_path(PyObject *__pyx_
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":438
+/* "tinycadlib.pyx":424
  * 
  * 
  * cdef inline str expr_join(object exprs):             # <<<<<<<<<<<<<<
@@ -9959,7 +9924,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
   PyObject *__pyx_t_12 = NULL;
   __Pyx_RefNannySetupContext("expr_join", 0);
 
-  /* "tinycadlib.pyx":440
+  /* "tinycadlib.pyx":426
  * cdef inline str expr_join(object exprs):
  *     """Use to append a list of symbols into a string."""
  *     return ';'.join([             # <<<<<<<<<<<<<<
@@ -9967,10 +9932,10 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
  *         for expr in exprs
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "tinycadlib.pyx":442
+  /* "tinycadlib.pyx":428
  *     return ';'.join([
  *         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
  *         for expr in exprs             # <<<<<<<<<<<<<<
@@ -9981,26 +9946,26 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
     __pyx_t_2 = __pyx_v_exprs; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_exprs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 442, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_exprs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 428, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 442, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 428, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_4)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 442, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 428, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 442, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 428, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 442, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 428, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 442, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 428, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -10010,7 +9975,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 442, __pyx_L1_error)
+          else __PYX_ERR(0, 428, __pyx_L1_error)
         }
         break;
       }
@@ -10019,23 +9984,23 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
     __Pyx_XDECREF_SET(__pyx_v_expr, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "tinycadlib.pyx":441
+    /* "tinycadlib.pyx":427
  *     """Use to append a list of symbols into a string."""
  *     return ';'.join([
  *         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])             # <<<<<<<<<<<<<<
  *         for expr in exprs
  *     ])
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__21, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s__21, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 427, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 427, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyObject_GetSlice(__pyx_v_expr, 1, -1L, NULL, NULL, &__pyx_slice__22, 1, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetSlice(__pyx_v_expr, 1, -1L, NULL, NULL, &__pyx_slice__22, 1, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 427, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyString_Join(__pyx_kp_s__3, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 427, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 441, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 427, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __pyx_t_10 = NULL;
     __pyx_t_11 = 0;
@@ -10052,7 +10017,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[4] = {__pyx_t_10, __pyx_t_7, __pyx_t_9, __pyx_t_8};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -10063,7 +10028,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[4] = {__pyx_t_10, __pyx_t_7, __pyx_t_9, __pyx_t_8};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_11, 3+__pyx_t_11); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -10072,7 +10037,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
     } else
     #endif
     {
-      __pyx_t_12 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(3+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       if (__pyx_t_10) {
         __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -10086,15 +10051,15 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
       __pyx_t_7 = 0;
       __pyx_t_9 = 0;
       __pyx_t_8 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_12, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 441, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_12, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 427, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 440, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_5))) __PYX_ERR(0, 426, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "tinycadlib.pyx":442
+    /* "tinycadlib.pyx":428
  *     return ';'.join([
  *         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
  *         for expr in exprs             # <<<<<<<<<<<<<<
@@ -10104,22 +10069,22 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":440
+  /* "tinycadlib.pyx":426
  * cdef inline str expr_join(object exprs):
  *     """Use to append a list of symbols into a string."""
  *     return ';'.join([             # <<<<<<<<<<<<<<
  *         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])
  *         for expr in exprs
  */
-  __pyx_t_2 = __Pyx_PyString_Join(__pyx_kp_s__15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 440, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyString_Join(__pyx_kp_s__15, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 426, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 440, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 426, __pyx_L1_error)
   __pyx_r = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":438
+  /* "tinycadlib.pyx":424
  * 
  * 
  * cdef inline str expr_join(object exprs):             # <<<<<<<<<<<<<<
@@ -10147,7 +10112,7 @@ static CYTHON_INLINE PyObject *__pyx_f_10tinycadlib_expr_join(PyObject *__pyx_v_
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":446
+/* "tinycadlib.pyx":432
  * 
  * 
  * cdef inline int base_friend(int node, object vpoints):             # <<<<<<<<<<<<<<
@@ -10170,7 +10135,7 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("base_friend", 0);
 
-  /* "tinycadlib.pyx":449
+  /* "tinycadlib.pyx":435
  *     cdef int i
  *     cdef VPoint vpoint
  *     for i, vpoint in enumerate(vpoints):             # <<<<<<<<<<<<<<
@@ -10182,26 +10147,26 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
     __pyx_t_2 = __pyx_v_vpoints; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_vpoints); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 449, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_vpoints); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 435, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 449, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 435, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_4)) {
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 449, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 435, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 449, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 449, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 435, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 449, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -10211,39 +10176,39 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 449, __pyx_L1_error)
+          else __PYX_ERR(0, 435, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_5);
     }
-    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 449, __pyx_L1_error)
+    if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 435, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_vpoint, ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_t_5));
     __pyx_t_5 = 0;
     __pyx_v_i = __pyx_t_1;
     __pyx_t_1 = (__pyx_t_1 + 1);
 
-    /* "tinycadlib.pyx":450
+    /* "tinycadlib.pyx":436
  *     cdef VPoint vpoint
  *     for i, vpoint in enumerate(vpoints):
  *         if vpoints[node].links[0] in vpoint.links:             # <<<<<<<<<<<<<<
  *             return i
  * 
  */
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_vpoints, __pyx_v_node, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_vpoints, __pyx_v_node, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 436, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_links); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_links); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 436, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 436, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_vpoint->links, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 450, __pyx_L1_error)
+    __pyx_t_7 = (__Pyx_PySequence_ContainsTF(__pyx_t_5, __pyx_v_vpoint->links, Py_EQ)); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 436, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_8 = (__pyx_t_7 != 0);
     if (__pyx_t_8) {
 
-      /* "tinycadlib.pyx":451
+      /* "tinycadlib.pyx":437
  *     for i, vpoint in enumerate(vpoints):
  *         if vpoints[node].links[0] in vpoint.links:
  *             return i             # <<<<<<<<<<<<<<
@@ -10254,7 +10219,7 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       goto __pyx_L0;
 
-      /* "tinycadlib.pyx":450
+      /* "tinycadlib.pyx":436
  *     cdef VPoint vpoint
  *     for i, vpoint in enumerate(vpoints):
  *         if vpoints[node].links[0] in vpoint.links:             # <<<<<<<<<<<<<<
@@ -10263,7 +10228,7 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
  */
     }
 
-    /* "tinycadlib.pyx":449
+    /* "tinycadlib.pyx":435
  *     cdef int i
  *     cdef VPoint vpoint
  *     for i, vpoint in enumerate(vpoints):             # <<<<<<<<<<<<<<
@@ -10273,7 +10238,7 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "tinycadlib.pyx":446
+  /* "tinycadlib.pyx":432
  * 
  * 
  * cdef inline int base_friend(int node, object vpoints):             # <<<<<<<<<<<<<<
@@ -10296,7 +10261,7 @@ static CYTHON_INLINE int __pyx_f_10tinycadlib_base_friend(int __pyx_v_node, PyOb
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":454
+/* "tinycadlib.pyx":440
  * 
  * 
  * cdef tuple data_collecting(object exprs, dict mapping, object vpoints):             # <<<<<<<<<<<<<<
@@ -10338,7 +10303,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   int __pyx_t_17;
   __Pyx_RefNannySetupContext("data_collecting", 0);
 
-  /* "tinycadlib.pyx":464
+  /* "tinycadlib.pyx":450
  *     cdef int i
  *     cdef str m
  *     cdef dict mapping_r = {m: i for i, m in mapping.items()}             # <<<<<<<<<<<<<<
@@ -10346,21 +10311,21 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  *     cdef VPoint vpoint
  */
   { /* enter inner scope */
-    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 464, __pyx_L5_error)
+    __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 450, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_mapping == Py_None)) {
       PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-      __PYX_ERR(0, 464, __pyx_L5_error)
+      __PYX_ERR(0, 450, __pyx_L5_error)
     }
-    __pyx_t_2 = __Pyx_PyDict_Items(__pyx_v_mapping); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 464, __pyx_L5_error)
+    __pyx_t_2 = __Pyx_PyDict_Items(__pyx_v_mapping); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L5_error)
     __Pyx_GOTREF(__pyx_t_2);
     if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
       __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 464, __pyx_L5_error)
+      __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 450, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 464, __pyx_L5_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 450, __pyx_L5_error)
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -10368,17 +10333,17 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 464, __pyx_L5_error)
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 450, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 464, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 464, __pyx_L5_error)
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 450, __pyx_L5_error)
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 464, __pyx_L5_error)
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L5_error)
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -10388,7 +10353,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 464, __pyx_L5_error)
+            else __PYX_ERR(0, 450, __pyx_L5_error)
           }
           break;
         }
@@ -10400,7 +10365,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          __PYX_ERR(0, 464, __pyx_L5_error)
+          __PYX_ERR(0, 450, __pyx_L5_error)
         }
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -10413,15 +10378,15 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_t_7);
         #else
-        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 464, __pyx_L5_error)
+        __pyx_t_6 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 450, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 464, __pyx_L5_error)
+        __pyx_t_7 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 450, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 464, __pyx_L5_error)
+        __pyx_t_8 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 450, __pyx_L5_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_9 = Py_TYPE(__pyx_t_8)->tp_iternext;
@@ -10429,7 +10394,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         __Pyx_GOTREF(__pyx_t_6);
         index = 1; __pyx_t_7 = __pyx_t_9(__pyx_t_8); if (unlikely(!__pyx_t_7)) goto __pyx_L8_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_7);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 464, __pyx_L5_error)
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_9(__pyx_t_8), 2) < 0) __PYX_ERR(0, 450, __pyx_L5_error)
         __pyx_t_9 = NULL;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         goto __pyx_L9_unpacking_done;
@@ -10437,18 +10402,18 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __pyx_t_9 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        __PYX_ERR(0, 464, __pyx_L5_error)
+        __PYX_ERR(0, 450, __pyx_L5_error)
         __pyx_L9_unpacking_done:;
       }
-      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 464, __pyx_L5_error)
+      __pyx_t_10 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_10 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 450, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 464, __pyx_L5_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 450, __pyx_L5_error)
       __pyx_8genexpr1__pyx_v_i = __pyx_t_10;
       __Pyx_XDECREF_SET(__pyx_8genexpr1__pyx_v_m, ((PyObject*)__pyx_t_7));
       __pyx_t_7 = 0;
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_8genexpr1__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 464, __pyx_L5_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_8genexpr1__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 450, __pyx_L5_error)
       __Pyx_GOTREF(__pyx_t_2);
-      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr1__pyx_v_m, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 464, __pyx_L5_error)
+      if (unlikely(PyDict_SetItem(__pyx_t_1, (PyObject*)__pyx_8genexpr1__pyx_v_m, (PyObject*)__pyx_t_2))) __PYX_ERR(0, 450, __pyx_L5_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -10462,19 +10427,19 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   __pyx_v_mapping_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":467
+  /* "tinycadlib.pyx":453
  * 
  *     cdef VPoint vpoint
  *     cdef list pos = []             # <<<<<<<<<<<<<<
  *     for vpoint in vpoints:
  *         if vpoint.type == 0:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 467, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 453, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_pos = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":468
+  /* "tinycadlib.pyx":454
  *     cdef VPoint vpoint
  *     cdef list pos = []
  *     for vpoint in vpoints:             # <<<<<<<<<<<<<<
@@ -10485,26 +10450,26 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     __pyx_t_1 = __pyx_v_vpoints; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 468, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 468, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 454, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 468, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 454, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 468, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 454, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 468, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 454, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 468, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 454, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -10514,17 +10479,17 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 468, __pyx_L1_error)
+          else __PYX_ERR(0, 454, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_3);
     }
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 468, __pyx_L1_error)
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 454, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_vpoint, ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "tinycadlib.pyx":469
+    /* "tinycadlib.pyx":455
  *     cdef list pos = []
  *     for vpoint in vpoints:
  *         if vpoint.type == 0:             # <<<<<<<<<<<<<<
@@ -10534,18 +10499,18 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     __pyx_t_11 = ((__pyx_v_vpoint->type == 0) != 0);
     if (__pyx_t_11) {
 
-      /* "tinycadlib.pyx":470
+      /* "tinycadlib.pyx":456
  *     for vpoint in vpoints:
  *         if vpoint.type == 0:
  *             pos.append((vpoint.cx, vpoint.cy))             # <<<<<<<<<<<<<<
  *         else:
  *             pos.append((vpoint.c[1][0], vpoint.c[1][1]))
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_vpoint), __pyx_n_s_cx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 470, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_vpoint), __pyx_n_s_cx); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_vpoint), __pyx_n_s_cy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 470, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_vpoint), __pyx_n_s_cy); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 470, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3);
@@ -10553,10 +10518,10 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
       PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_2);
       __pyx_t_3 = 0;
       __pyx_t_2 = 0;
-      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_pos, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 470, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_pos, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 456, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "tinycadlib.pyx":469
+      /* "tinycadlib.pyx":455
  *     cdef list pos = []
  *     for vpoint in vpoints:
  *         if vpoint.type == 0:             # <<<<<<<<<<<<<<
@@ -10566,7 +10531,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
       goto __pyx_L13;
     }
 
-    /* "tinycadlib.pyx":472
+    /* "tinycadlib.pyx":458
  *             pos.append((vpoint.cx, vpoint.cy))
  *         else:
  *             pos.append((vpoint.c[1][0], vpoint.c[1][1]))             # <<<<<<<<<<<<<<
@@ -10574,17 +10539,17 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  *     cdef int bf
  */
     /*else*/ {
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 472, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_7, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_2);
@@ -10592,12 +10557,12 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
       PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_3);
       __pyx_t_2 = 0;
       __pyx_t_3 = 0;
-      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_pos, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 472, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_pos, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 458, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
     __pyx_L13:;
 
-    /* "tinycadlib.pyx":468
+    /* "tinycadlib.pyx":454
  *     cdef VPoint vpoint
  *     cdef list pos = []
  *     for vpoint in vpoints:             # <<<<<<<<<<<<<<
@@ -10607,7 +10572,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":477
+  /* "tinycadlib.pyx":463
  *     cdef double angle
  *     #Add slider coordinates.
  *     for i, vpoint in enumerate(vpoints):             # <<<<<<<<<<<<<<
@@ -10619,26 +10584,26 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     __pyx_t_1 = __pyx_v_vpoints; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 477, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 477, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 463, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 477, __pyx_L1_error)
+        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 463, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 477, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 463, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 477, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 463, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 477, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 463, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       }
@@ -10648,19 +10613,19 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 477, __pyx_L1_error)
+          else __PYX_ERR(0, 463, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_7);
     }
-    if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 477, __pyx_L1_error)
+    if (!(likely(((__pyx_t_7) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_7, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 463, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_vpoint, ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_t_7));
     __pyx_t_7 = 0;
     __pyx_v_i = __pyx_t_10;
     __pyx_t_10 = (__pyx_t_10 + 1);
 
-    /* "tinycadlib.pyx":479
+    /* "tinycadlib.pyx":465
  *     for i, vpoint in enumerate(vpoints):
  *         #PLPP dependents.
  *         if vpoint.type == 2:             # <<<<<<<<<<<<<<
@@ -10670,7 +10635,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     __pyx_t_11 = ((__pyx_v_vpoint->type == 2) != 0);
     if (__pyx_t_11) {
 
-      /* "tinycadlib.pyx":480
+      /* "tinycadlib.pyx":466
  *         #PLPP dependents.
  *         if vpoint.type == 2:
  *             bf = base_friend(i, vpoints)             # <<<<<<<<<<<<<<
@@ -10679,54 +10644,54 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
       __pyx_v_bf = __pyx_f_10tinycadlib_base_friend(__pyx_v_i, __pyx_v_vpoints);
 
-      /* "tinycadlib.pyx":481
+      /* "tinycadlib.pyx":467
  *         if vpoint.type == 2:
  *             bf = base_friend(i, vpoints)
  *             angle = np.deg2rad(             # <<<<<<<<<<<<<<
  *                 vpoint.angle +
  *                 vpoint.slopeAngle(vpoints[bf], 1, 0) -
  */
-      __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 481, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 467, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 481, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 467, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "tinycadlib.pyx":483
+      /* "tinycadlib.pyx":469
  *             angle = np.deg2rad(
  *                 vpoint.angle +
  *                 vpoint.slopeAngle(vpoints[bf], 1, 0) -             # <<<<<<<<<<<<<<
  *                 vpoint.slopeAngle(vpoints[bf])
  *             )
  */
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_vpoints, __pyx_v_bf, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 483, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_vpoints, __pyx_v_bf, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 469, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 483, __pyx_L1_error)
+      if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 469, __pyx_L1_error)
       __pyx_t_14.__pyx_n = 2;
       __pyx_t_14.num1 = 1;
       __pyx_t_14.num2 = 0;
       __pyx_t_13 = ((struct __pyx_vtabstruct_10tinycadlib_VPoint *)__pyx_v_vpoint->__pyx_vtab)->slopeAngle(__pyx_v_vpoint, ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_t_3), 0, &__pyx_t_14); 
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "tinycadlib.pyx":484
+      /* "tinycadlib.pyx":470
  *                 vpoint.angle +
  *                 vpoint.slopeAngle(vpoints[bf], 1, 0) -
  *                 vpoint.slopeAngle(vpoints[bf])             # <<<<<<<<<<<<<<
  *             )
  *             pos.append((vpoint.c[1][0] + cos(angle), vpoint.c[1][1] + sin(angle)))
  */
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_vpoints, __pyx_v_bf, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 484, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_vpoints, __pyx_v_bf, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 470, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 484, __pyx_L1_error)
+      if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_10tinycadlib_VPoint))))) __PYX_ERR(0, 470, __pyx_L1_error)
 
-      /* "tinycadlib.pyx":483
+      /* "tinycadlib.pyx":469
  *             angle = np.deg2rad(
  *                 vpoint.angle +
  *                 vpoint.slopeAngle(vpoints[bf], 1, 0) -             # <<<<<<<<<<<<<<
  *                 vpoint.slopeAngle(vpoints[bf])
  *             )
  */
-      __pyx_t_6 = PyFloat_FromDouble(((__pyx_v_vpoint->angle + __pyx_t_13) - ((struct __pyx_vtabstruct_10tinycadlib_VPoint *)__pyx_v_vpoint->__pyx_vtab)->slopeAngle(__pyx_v_vpoint, ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_t_3), 0, NULL))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 483, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(((__pyx_v_vpoint->angle + __pyx_t_13) - ((struct __pyx_vtabstruct_10tinycadlib_VPoint *)__pyx_v_vpoint->__pyx_vtab)->slopeAngle(__pyx_v_vpoint, ((struct __pyx_obj_10tinycadlib_VPoint *)__pyx_t_3), 0, NULL))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 469, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_3 = NULL;
@@ -10740,14 +10705,14 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         }
       }
       if (!__pyx_t_3) {
-        __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 481, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 467, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_7);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_2)) {
           PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_6};
-          __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 481, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 467, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -10756,67 +10721,67 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
           PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_6};
-          __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 481, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 467, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 481, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 467, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_3); __pyx_t_3 = NULL;
           __Pyx_GIVEREF(__pyx_t_6);
           PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_6);
           __pyx_t_6 = 0;
-          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 481, __pyx_L1_error)
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 467, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "tinycadlib.pyx":481
+      /* "tinycadlib.pyx":467
  *         if vpoint.type == 2:
  *             bf = base_friend(i, vpoints)
  *             angle = np.deg2rad(             # <<<<<<<<<<<<<<
  *                 vpoint.angle +
  *                 vpoint.slopeAngle(vpoints[bf], 1, 0) -
  */
-      __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 481, __pyx_L1_error)
+      __pyx_t_13 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_13 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 467, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_v_angle = __pyx_t_13;
 
-      /* "tinycadlib.pyx":486
+      /* "tinycadlib.pyx":472
  *                 vpoint.slopeAngle(vpoints[bf])
  *             )
  *             pos.append((vpoint.c[1][0] + cos(angle), vpoint.c[1][1] + sin(angle)))             # <<<<<<<<<<<<<<
  *             mapping_r['S{}'.format(i)] = len(pos) - 1
  * 
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_7, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyFloat_FromDouble(cos(__pyx_v_angle)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(cos(__pyx_v_angle)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_8 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_vpoint->c), 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_7, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_7, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyFloat_FromDouble(sin(__pyx_v_angle)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(sin(__pyx_v_angle)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_8);
       PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_8);
@@ -10824,22 +10789,22 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
       PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_6);
       __pyx_t_8 = 0;
       __pyx_t_6 = 0;
-      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_pos, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 486, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_pos, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 472, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "tinycadlib.pyx":487
+      /* "tinycadlib.pyx":473
  *             )
  *             pos.append((vpoint.c[1][0] + cos(angle), vpoint.c[1][1] + sin(angle)))
  *             mapping_r['S{}'.format(i)] = len(pos) - 1             # <<<<<<<<<<<<<<
  * 
  *     cdef int dof = 0
  */
-      __pyx_t_15 = PyList_GET_SIZE(__pyx_v_pos); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 487, __pyx_L1_error)
-      __pyx_t_7 = PyInt_FromSsize_t((__pyx_t_15 - 1)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 487, __pyx_L1_error)
+      __pyx_t_15 = PyList_GET_SIZE(__pyx_v_pos); if (unlikely(__pyx_t_15 == ((Py_ssize_t)-1))) __PYX_ERR(0, 473, __pyx_L1_error)
+      __pyx_t_7 = PyInt_FromSsize_t((__pyx_t_15 - 1)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 473, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_S, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 487, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_S, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 473, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 487, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 473, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_8))) {
@@ -10852,14 +10817,14 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         }
       }
       if (!__pyx_t_3) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 487, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 473, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_GOTREF(__pyx_t_6);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_8)) {
           PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_2};
-          __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 487, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 473, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -10868,30 +10833,30 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
           PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_2};
-          __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 487, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 473, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         } else
         #endif
         {
-          __pyx_t_16 = PyTuple_New(1+1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 487, __pyx_L1_error)
+          __pyx_t_16 = PyTuple_New(1+1); if (unlikely(!__pyx_t_16)) __PYX_ERR(0, 473, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_16);
           __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_t_3); __pyx_t_3 = NULL;
           __Pyx_GIVEREF(__pyx_t_2);
           PyTuple_SET_ITEM(__pyx_t_16, 0+1, __pyx_t_2);
           __pyx_t_2 = 0;
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_16, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 487, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_16, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 473, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
         }
       }
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_mapping_r, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 487, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_mapping_r, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 473, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "tinycadlib.pyx":479
+      /* "tinycadlib.pyx":465
  *     for i, vpoint in enumerate(vpoints):
  *         #PLPP dependents.
  *         if vpoint.type == 2:             # <<<<<<<<<<<<<<
@@ -10900,7 +10865,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     }
 
-    /* "tinycadlib.pyx":477
+    /* "tinycadlib.pyx":463
  *     cdef double angle
  *     #Add slider coordinates.
  *     for i, vpoint in enumerate(vpoints):             # <<<<<<<<<<<<<<
@@ -10910,7 +10875,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":489
+  /* "tinycadlib.pyx":475
  *             mapping_r['S{}'.format(i)] = len(pos) - 1
  * 
  *     cdef int dof = 0             # <<<<<<<<<<<<<<
@@ -10919,31 +10884,31 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
   __pyx_v_dof = 0;
 
-  /* "tinycadlib.pyx":491
+  /* "tinycadlib.pyx":477
  *     cdef int dof = 0
  *     cdef tuple expr
  *     cdef dict data_dict = {}             # <<<<<<<<<<<<<<
  *     cdef set targets = set()
  * 
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 491, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 477, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_data_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":492
+  /* "tinycadlib.pyx":478
  *     cdef tuple expr
  *     cdef dict data_dict = {}
  *     cdef set targets = set()             # <<<<<<<<<<<<<<
  * 
  *     """Add data to 'data_dict'.
  */
-  __pyx_t_1 = PySet_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 492, __pyx_L1_error)
+  __pyx_t_1 = PySet_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 478, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_targets = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":499
+  /* "tinycadlib.pyx":485
  *     + Counting DOF and targets.
  *     """
  *     for expr in exprs:             # <<<<<<<<<<<<<<
@@ -10954,26 +10919,26 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     __pyx_t_1 = __pyx_v_exprs; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_exprs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 499, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_exprs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 485, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 499, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 485, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_5)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 499, __pyx_L1_error)
+        __pyx_t_7 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 485, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 499, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 485, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 499, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_7); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 485, __pyx_L1_error)
         #else
-        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 499, __pyx_L1_error)
+        __pyx_t_7 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 485, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         #endif
       }
@@ -10983,17 +10948,17 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 499, __pyx_L1_error)
+          else __PYX_ERR(0, 485, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_7);
     }
-    if (!(likely(PyTuple_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 499, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 485, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_expr, ((PyObject*)__pyx_t_7));
     __pyx_t_7 = 0;
 
-    /* "tinycadlib.pyx":502
+    /* "tinycadlib.pyx":488
  *         #Link 1: expr[2]
  *         data_dict[expr[2]] = tuple_distance(
  *             pos[mapping_r[expr[1]]],             # <<<<<<<<<<<<<<
@@ -11002,19 +10967,19 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 502, __pyx_L1_error)
+      __PYX_ERR(0, 488, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 502, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 488, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 502, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 488, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 502, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 488, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (!(likely(PyTuple_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 502, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 488, __pyx_L1_error)
 
-    /* "tinycadlib.pyx":503
+    /* "tinycadlib.pyx":489
  *         data_dict[expr[2]] = tuple_distance(
  *             pos[mapping_r[expr[1]]],
  *             pos[mapping_r[expr[-1]]]             # <<<<<<<<<<<<<<
@@ -11023,40 +10988,40 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 503, __pyx_L1_error)
+      __PYX_ERR(0, 489, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 503, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 503, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 503, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    if (!(likely(PyTuple_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 503, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 489, __pyx_L1_error)
 
-    /* "tinycadlib.pyx":501
+    /* "tinycadlib.pyx":487
  *     for expr in exprs:
  *         #Link 1: expr[2]
  *         data_dict[expr[2]] = tuple_distance(             # <<<<<<<<<<<<<<
  *             pos[mapping_r[expr[1]]],
  *             pos[mapping_r[expr[-1]]]
  */
-    __pyx_t_8 = PyFloat_FromDouble(__pyx_f_10tinycadlib_tuple_distance(((PyObject*)__pyx_t_7), ((PyObject*)__pyx_t_6))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 501, __pyx_L1_error)
+    __pyx_t_8 = PyFloat_FromDouble(__pyx_f_10tinycadlib_tuple_distance(((PyObject*)__pyx_t_7), ((PyObject*)__pyx_t_6))); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 487, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 501, __pyx_L1_error)
+      __PYX_ERR(0, 487, __pyx_L1_error)
     }
-    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 501, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 487, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_8) < 0)) __PYX_ERR(0, 501, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_8) < 0)) __PYX_ERR(0, 487, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "tinycadlib.pyx":505
+    /* "tinycadlib.pyx":491
  *             pos[mapping_r[expr[-1]]]
  *         )
  *         if expr[0] == 'PLAP':             # <<<<<<<<<<<<<<
@@ -11065,15 +11030,15 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 505, __pyx_L1_error)
+      __PYX_ERR(0, 491, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 505, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 491, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_t_8, __pyx_n_s_PLAP, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 505, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_t_8, __pyx_n_s_PLAP, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 491, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_11) {
 
-      /* "tinycadlib.pyx":507
+      /* "tinycadlib.pyx":493
  *         if expr[0] == 'PLAP':
  *             #Inputs
  *             dof += 1             # <<<<<<<<<<<<<<
@@ -11082,7 +11047,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
       __pyx_v_dof = (__pyx_v_dof + 1);
 
-      /* "tinycadlib.pyx":505
+      /* "tinycadlib.pyx":491
  *             pos[mapping_r[expr[-1]]]
  *         )
  *         if expr[0] == 'PLAP':             # <<<<<<<<<<<<<<
@@ -11092,7 +11057,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
       goto __pyx_L19;
     }
 
-    /* "tinycadlib.pyx":508
+    /* "tinycadlib.pyx":494
  *             #Inputs
  *             dof += 1
  *         elif expr[0] == 'PLLP':             # <<<<<<<<<<<<<<
@@ -11101,15 +11066,15 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 508, __pyx_L1_error)
+      __PYX_ERR(0, 494, __pyx_L1_error)
     }
-    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 508, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_t_8, __pyx_n_s_PLLP, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 508, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_t_8, __pyx_n_s_PLLP, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 494, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (__pyx_t_11) {
 
-      /* "tinycadlib.pyx":511
+      /* "tinycadlib.pyx":497
  *             #Link 2: expr[3]
  *             data_dict[expr[3]] = tuple_distance(
  *                 pos[mapping_r[expr[4]]],             # <<<<<<<<<<<<<<
@@ -11118,19 +11083,19 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
       if (unlikely(__pyx_v_expr == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 511, __pyx_L1_error)
+        __PYX_ERR(0, 497, __pyx_L1_error)
       }
-      __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 511, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 4, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 497, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 511, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 497, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 511, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_6); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 497, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (!(likely(PyTuple_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 511, __pyx_L1_error)
+      if (!(likely(PyTuple_CheckExact(__pyx_t_8))||((__pyx_t_8) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_8)->tp_name), 0))) __PYX_ERR(0, 497, __pyx_L1_error)
 
-      /* "tinycadlib.pyx":512
+      /* "tinycadlib.pyx":498
  *             data_dict[expr[3]] = tuple_distance(
  *                 pos[mapping_r[expr[4]]],
  *                 pos[mapping_r[expr[-1]]]             # <<<<<<<<<<<<<<
@@ -11139,40 +11104,40 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
       if (unlikely(__pyx_v_expr == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 512, __pyx_L1_error)
+        __PYX_ERR(0, 498, __pyx_L1_error)
       }
-      __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 512, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 498, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 512, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 498, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 512, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 498, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (!(likely(PyTuple_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 512, __pyx_L1_error)
+      if (!(likely(PyTuple_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 498, __pyx_L1_error)
 
-      /* "tinycadlib.pyx":510
+      /* "tinycadlib.pyx":496
  *         elif expr[0] == 'PLLP':
  *             #Link 2: expr[3]
  *             data_dict[expr[3]] = tuple_distance(             # <<<<<<<<<<<<<<
  *                 pos[mapping_r[expr[4]]],
  *                 pos[mapping_r[expr[-1]]]
  */
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_f_10tinycadlib_tuple_distance(((PyObject*)__pyx_t_8), ((PyObject*)__pyx_t_6))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 510, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_f_10tinycadlib_tuple_distance(((PyObject*)__pyx_t_8), ((PyObject*)__pyx_t_6))); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 496, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       if (unlikely(__pyx_v_expr == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 510, __pyx_L1_error)
+        __PYX_ERR(0, 496, __pyx_L1_error)
       }
-      __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 510, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 496, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 510, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 496, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "tinycadlib.pyx":508
+      /* "tinycadlib.pyx":494
  *             #Inputs
  *             dof += 1
  *         elif expr[0] == 'PLLP':             # <<<<<<<<<<<<<<
@@ -11182,7 +11147,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
       goto __pyx_L19;
     }
 
-    /* "tinycadlib.pyx":514
+    /* "tinycadlib.pyx":500
  *                 pos[mapping_r[expr[-1]]]
  *             )
  *         elif expr[0] == 'PLPP':             # <<<<<<<<<<<<<<
@@ -11191,15 +11156,15 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 514, __pyx_L1_error)
+      __PYX_ERR(0, 500, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 514, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 500, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_t_7, __pyx_n_s_PLPP, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 514, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PyString_Equals(__pyx_t_7, __pyx_n_s_PLPP, Py_EQ)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 500, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_11) {
 
-      /* "tinycadlib.pyx":517
+      /* "tinycadlib.pyx":503
  *             #PLPP[P1, L0, P2, S2](P2)
  *             #So we should get P2 first.
  *             data_dict[expr[3]] = pos[mapping_r[expr[3]]]             # <<<<<<<<<<<<<<
@@ -11208,27 +11173,27 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
       if (unlikely(__pyx_v_expr == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 517, __pyx_L1_error)
+        __PYX_ERR(0, 503, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 517, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 503, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 517, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping_r, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 503, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 517, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetItem(__pyx_v_pos, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 503, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       if (unlikely(__pyx_v_expr == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 517, __pyx_L1_error)
+        __PYX_ERR(0, 503, __pyx_L1_error)
       }
-      __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 517, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, 3, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 503, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 517, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 503, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "tinycadlib.pyx":514
+      /* "tinycadlib.pyx":500
  *                 pos[mapping_r[expr[-1]]]
  *             )
  *         elif expr[0] == 'PLPP':             # <<<<<<<<<<<<<<
@@ -11238,7 +11203,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     }
     __pyx_L19:;
 
-    /* "tinycadlib.pyx":519
+    /* "tinycadlib.pyx":505
  *             data_dict[expr[3]] = pos[mapping_r[expr[3]]]
  *         #Targets
  *         targets.add(expr[-1])             # <<<<<<<<<<<<<<
@@ -11247,14 +11212,14 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_expr == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 519, __pyx_L1_error)
+      __PYX_ERR(0, 505, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 519, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt_Tuple(__pyx_v_expr, -1L, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 505, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_12 = PySet_Add(__pyx_v_targets, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 519, __pyx_L1_error)
+    __pyx_t_12 = PySet_Add(__pyx_v_targets, __pyx_t_7); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 505, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "tinycadlib.pyx":499
+    /* "tinycadlib.pyx":485
  *     + Counting DOF and targets.
  *     """
  *     for expr in exprs:             # <<<<<<<<<<<<<<
@@ -11264,19 +11229,19 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":521
+  /* "tinycadlib.pyx":507
  *         targets.add(expr[-1])
  * 
  *     for i in range(len(vpoints)):             # <<<<<<<<<<<<<<
  *         if mapping[i] not in targets:
  *             data_dict[mapping[i]] = pos[i]
  */
-  __pyx_t_4 = PyObject_Length(__pyx_v_vpoints); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 521, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_v_vpoints); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(0, 507, __pyx_L1_error)
   __pyx_t_15 = __pyx_t_4;
   for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_15; __pyx_t_10+=1) {
     __pyx_v_i = __pyx_t_10;
 
-    /* "tinycadlib.pyx":522
+    /* "tinycadlib.pyx":508
  * 
  *     for i in range(len(vpoints)):
  *         if mapping[i] not in targets:             # <<<<<<<<<<<<<<
@@ -11285,41 +11250,41 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  */
     if (unlikely(__pyx_v_mapping == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 522, __pyx_L1_error)
+      __PYX_ERR(0, 508, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 522, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 522, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_11 = (__Pyx_PySet_ContainsTF(__pyx_t_7, __pyx_v_targets, Py_NE)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 522, __pyx_L1_error)
+    __pyx_t_11 = (__Pyx_PySet_ContainsTF(__pyx_t_7, __pyx_v_targets, Py_NE)); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 508, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_17 = (__pyx_t_11 != 0);
     if (__pyx_t_17) {
 
-      /* "tinycadlib.pyx":523
+      /* "tinycadlib.pyx":509
  *     for i in range(len(vpoints)):
  *         if mapping[i] not in targets:
  *             data_dict[mapping[i]] = pos[i]             # <<<<<<<<<<<<<<
  *     return data_dict, dof
  * 
  */
-      __pyx_t_7 = __Pyx_GetItemInt_List(__pyx_v_pos, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 523, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt_List(__pyx_v_pos, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 509, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (unlikely(__pyx_v_mapping == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 523, __pyx_L1_error)
+        __PYX_ERR(0, 509, __pyx_L1_error)
       }
-      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 523, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 509, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 523, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 509, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 523, __pyx_L1_error)
+      if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_6, __pyx_t_7) < 0)) __PYX_ERR(0, 509, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "tinycadlib.pyx":522
+      /* "tinycadlib.pyx":508
  * 
  *     for i in range(len(vpoints)):
  *         if mapping[i] not in targets:             # <<<<<<<<<<<<<<
@@ -11329,7 +11294,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
     }
   }
 
-  /* "tinycadlib.pyx":524
+  /* "tinycadlib.pyx":510
  *         if mapping[i] not in targets:
  *             data_dict[mapping[i]] = pos[i]
  *     return data_dict, dof             # <<<<<<<<<<<<<<
@@ -11337,9 +11302,9 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_dof); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 524, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_dof); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 524, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 510, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_INCREF(__pyx_v_data_dict);
   __Pyx_GIVEREF(__pyx_v_data_dict);
@@ -11351,7 +11316,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":454
+  /* "tinycadlib.pyx":440
  * 
  * 
  * cdef tuple data_collecting(object exprs, dict mapping, object vpoints):             # <<<<<<<<<<<<<<
@@ -11383,7 +11348,7 @@ static PyObject *__pyx_f_10tinycadlib_data_collecting(PyObject *__pyx_v_exprs, P
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":527
+/* "tinycadlib.pyx":513
  * 
  * 
  * cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval):             # <<<<<<<<<<<<<<
@@ -11410,14 +11375,14 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("expr_path", 0);
 
-  /* "tinycadlib.pyx":531
+  /* "tinycadlib.pyx":517
  *     cdef dict data_dict
  *     cdef int dof
  *     data_dict, dof = data_collecting(exprs, mapping, vpoints)             # <<<<<<<<<<<<<<
  * 
  *     #Angles.
  */
-  __pyx_t_1 = __pyx_f_10tinycadlib_data_collecting(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 531, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_data_collecting(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(__pyx_t_1 != Py_None)) {
     PyObject* sequence = __pyx_t_1;
@@ -11425,7 +11390,7 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 531, __pyx_L1_error)
+      __PYX_ERR(0, 517, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
@@ -11433,23 +11398,23 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 531, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 531, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 531, __pyx_L1_error)
+    __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 517, __pyx_L1_error)
   }
-  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 531, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 531, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 517, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 517, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_data_dict = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   __pyx_v_dof = __pyx_t_4;
 
-  /* "tinycadlib.pyx":534
+  /* "tinycadlib.pyx":520
  * 
  *     #Angles.
  *     cdef double a = 0             # <<<<<<<<<<<<<<
@@ -11458,7 +11423,7 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
  */
   __pyx_v_a = 0.0;
 
-  /* "tinycadlib.pyx":536
+  /* "tinycadlib.pyx":522
  *     cdef double a = 0
  *     cdef int i
  *     for i in range(dof):             # <<<<<<<<<<<<<<
@@ -11470,22 +11435,22 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "tinycadlib.pyx":537
+    /* "tinycadlib.pyx":523
  *     cdef int i
  *     for i in range(dof):
  *         data_dict['a{}'.format(i)] = a             # <<<<<<<<<<<<<<
  * 
  *     return return_path(expr_join(exprs), data_dict, mapping, dof, interval)
  */
-    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 537, __pyx_L1_error)
+    __pyx_t_1 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 523, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (unlikely(__pyx_v_data_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 537, __pyx_L1_error)
+      __PYX_ERR(0, 523, __pyx_L1_error)
     }
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 537, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 523, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 537, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 523, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -11498,14 +11463,14 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
       }
     }
     if (!__pyx_t_8) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -11514,31 +11479,31 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
         PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 537, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 523, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_8); __pyx_t_8 = NULL;
         __Pyx_GIVEREF(__pyx_t_7);
         PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_7);
         __pyx_t_7 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 523, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_3, __pyx_t_1) < 0)) __PYX_ERR(0, 537, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_3, __pyx_t_1) < 0)) __PYX_ERR(0, 523, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":539
+  /* "tinycadlib.pyx":525
  *         data_dict['a{}'.format(i)] = a
  * 
  *     return return_path(expr_join(exprs), data_dict, mapping, dof, interval)             # <<<<<<<<<<<<<<
@@ -11546,16 +11511,16 @@ static PyObject *__pyx_f_10tinycadlib_expr_path(PyObject *__pyx_v_exprs, PyObjec
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10tinycadlib_expr_join(__pyx_v_exprs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 539, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_expr_join(__pyx_v_exprs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __pyx_f_10tinycadlib_return_path(((PyObject*)__pyx_t_1), __pyx_v_data_dict, __pyx_v_mapping, __pyx_v_dof, __pyx_v_interval); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 539, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_10tinycadlib_return_path(((PyObject*)__pyx_t_1), __pyx_v_data_dict, __pyx_v_mapping, __pyx_v_dof, __pyx_v_interval); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 525, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":527
+  /* "tinycadlib.pyx":513
  * 
  * 
  * cpdef list expr_path(object exprs, dict mapping, object vpoints, double interval):             # <<<<<<<<<<<<<<
@@ -11618,23 +11583,23 @@ static PyObject *__pyx_pw_10tinycadlib_13expr_path(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mapping)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, 1); __PYX_ERR(0, 527, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, 1); __PYX_ERR(0, 513, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vpoints)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, 2); __PYX_ERR(0, 527, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, 2); __PYX_ERR(0, 513, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_interval)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, 3); __PYX_ERR(0, 527, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, 3); __PYX_ERR(0, 513, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "expr_path") < 0)) __PYX_ERR(0, 527, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "expr_path") < 0)) __PYX_ERR(0, 513, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -11647,17 +11612,17 @@ static PyObject *__pyx_pw_10tinycadlib_13expr_path(PyObject *__pyx_self, PyObjec
     __pyx_v_exprs = values[0];
     __pyx_v_mapping = ((PyObject*)values[1]);
     __pyx_v_vpoints = values[2];
-    __pyx_v_interval = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_interval == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 527, __pyx_L3_error)
+    __pyx_v_interval = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_interval == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 513, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 527, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("expr_path", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 513, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.expr_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mapping), (&PyDict_Type), 1, "mapping", 1))) __PYX_ERR(0, 527, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mapping), (&PyDict_Type), 1, "mapping", 1))) __PYX_ERR(0, 513, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_12expr_path(__pyx_self, __pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints, __pyx_v_interval);
 
   /* function exit code */
@@ -11675,7 +11640,7 @@ static PyObject *__pyx_pf_10tinycadlib_12expr_path(CYTHON_UNUSED PyObject *__pyx
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("expr_path", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10tinycadlib_expr_path(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints, __pyx_v_interval, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 527, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_expr_path(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints, __pyx_v_interval, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 513, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -11692,7 +11657,7 @@ static PyObject *__pyx_pf_10tinycadlib_12expr_path(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "tinycadlib.pyx":542
+/* "tinycadlib.pyx":528
  * 
  * 
  * cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angles):             # <<<<<<<<<<<<<<
@@ -11724,14 +11689,14 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
   int __pyx_t_13;
   __Pyx_RefNannySetupContext("expr_solving", 0);
 
-  /* "tinycadlib.pyx":546
+  /* "tinycadlib.pyx":532
  *     cdef dict data_dict
  *     cdef int dof
  *     data_dict, dof = data_collecting(exprs, mapping, vpoints)             # <<<<<<<<<<<<<<
  * 
  *     #Angles.
  */
-  __pyx_t_1 = __pyx_f_10tinycadlib_data_collecting(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 546, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_data_collecting(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(__pyx_t_1 != Py_None)) {
     PyObject* sequence = __pyx_t_1;
@@ -11739,7 +11704,7 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(0, 546, __pyx_L1_error)
+      __PYX_ERR(0, 532, __pyx_L1_error)
     }
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
     __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
@@ -11747,23 +11712,23 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_3);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 546, __pyx_L1_error)
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 532, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 546, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 532, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 546, __pyx_L1_error)
+    __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(0, 532, __pyx_L1_error)
   }
-  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 546, __pyx_L1_error)
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 546, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 532, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 532, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_data_dict = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   __pyx_v_dof = __pyx_t_4;
 
-  /* "tinycadlib.pyx":551
+  /* "tinycadlib.pyx":537
  *     cdef double a
  *     cdef int i
  *     for i, a in enumerate(angles):             # <<<<<<<<<<<<<<
@@ -11775,26 +11740,26 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
     __pyx_t_1 = __pyx_v_angles; __Pyx_INCREF(__pyx_t_1); __pyx_t_5 = 0;
     __pyx_t_6 = NULL;
   } else {
-    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_angles); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 551, __pyx_L1_error)
+    __pyx_t_5 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_angles); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 537, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 551, __pyx_L1_error)
+    __pyx_t_6 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 537, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_6)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 551, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 537, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 551, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 551, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_5); __Pyx_INCREF(__pyx_t_3); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 537, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 551, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 537, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -11804,31 +11769,31 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 551, __pyx_L1_error)
+          else __PYX_ERR(0, 537, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_3);
     }
-    __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 551, __pyx_L1_error)
+    __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_3); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 537, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_v_a = __pyx_t_7;
     __pyx_v_i = __pyx_t_4;
     __pyx_t_4 = (__pyx_t_4 + 1);
 
-    /* "tinycadlib.pyx":552
+    /* "tinycadlib.pyx":538
  *     cdef int i
  *     for i, a in enumerate(angles):
  *         data_dict['a{}'.format(i)] = np.deg2rad(a)             # <<<<<<<<<<<<<<
  * 
  *     expr_parser(expr_join(exprs), data_dict)
  */
-    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deg2rad); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_2 = PyFloat_FromDouble(__pyx_v_a); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_8))) {
@@ -11841,14 +11806,14 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
       }
     }
     if (!__pyx_t_9) {
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_3);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_t_2};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11857,20 +11822,20 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_8)) {
         PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_t_2};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_8, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else
       #endif
       {
-        __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_9); __pyx_t_9 = NULL;
         __Pyx_GIVEREF(__pyx_t_2);
         PyTuple_SET_ITEM(__pyx_t_10, 0+1, __pyx_t_2);
         __pyx_t_2 = 0;
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       }
@@ -11878,11 +11843,11 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     if (unlikely(__pyx_v_data_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 552, __pyx_L1_error)
+      __PYX_ERR(0, 538, __pyx_L1_error)
     }
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_a, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
-    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 552, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_9 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_10))) {
@@ -11895,14 +11860,14 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
       }
     }
     if (!__pyx_t_9) {
-      __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 552, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 538, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_8);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_10)) {
         PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_t_2};
-        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11911,30 +11876,30 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
         PyObject *__pyx_temp[2] = {__pyx_t_9, __pyx_t_2};
-        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else
       #endif
       {
-        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_11);
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
         __Pyx_GIVEREF(__pyx_t_2);
         PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_2);
         __pyx_t_2 = 0;
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 552, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 538, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
       }
     }
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_8, __pyx_t_3) < 0)) __PYX_ERR(0, 552, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_data_dict, __pyx_t_8, __pyx_t_3) < 0)) __PYX_ERR(0, 538, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "tinycadlib.pyx":551
+    /* "tinycadlib.pyx":537
  *     cdef double a
  *     cdef int i
  *     for i, a in enumerate(angles):             # <<<<<<<<<<<<<<
@@ -11944,43 +11909,43 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":554
+  /* "tinycadlib.pyx":540
  *         data_dict['a{}'.format(i)] = np.deg2rad(a)
  * 
  *     expr_parser(expr_join(exprs), data_dict)             # <<<<<<<<<<<<<<
  * 
  *     cdef list solved_points = []
  */
-  __pyx_t_1 = __pyx_f_10tinycadlib_expr_join(__pyx_v_exprs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 554, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_expr_join(__pyx_v_exprs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 540, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_f_10tinycadlib_expr_parser(((PyObject*)__pyx_t_1), __pyx_v_data_dict, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":556
+  /* "tinycadlib.pyx":542
  *     expr_parser(expr_join(exprs), data_dict)
  * 
  *     cdef list solved_points = []             # <<<<<<<<<<<<<<
  *     for i in range(len(vpoints)):
  *         solved_points.append(data_dict[mapping[i]])
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 556, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 542, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_solved_points = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":557
+  /* "tinycadlib.pyx":543
  * 
  *     cdef list solved_points = []
  *     for i in range(len(vpoints)):             # <<<<<<<<<<<<<<
  *         solved_points.append(data_dict[mapping[i]])
  * 
  */
-  __pyx_t_5 = PyObject_Length(__pyx_v_vpoints); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 557, __pyx_L1_error)
+  __pyx_t_5 = PyObject_Length(__pyx_v_vpoints); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 543, __pyx_L1_error)
   __pyx_t_12 = __pyx_t_5;
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_12; __pyx_t_4+=1) {
     __pyx_v_i = __pyx_t_4;
 
-    /* "tinycadlib.pyx":558
+    /* "tinycadlib.pyx":544
  *     cdef list solved_points = []
  *     for i in range(len(vpoints)):
  *         solved_points.append(data_dict[mapping[i]])             # <<<<<<<<<<<<<<
@@ -11989,25 +11954,25 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
  */
     if (unlikely(__pyx_v_data_dict == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 558, __pyx_L1_error)
+      __PYX_ERR(0, 544, __pyx_L1_error)
     }
     if (unlikely(__pyx_v_mapping == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 558, __pyx_L1_error)
+      __PYX_ERR(0, 544, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 558, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 544, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 558, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_mapping, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 544, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_data_dict, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 558, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_data_dict, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 544, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_solved_points, __pyx_t_1); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 558, __pyx_L1_error)
+    __pyx_t_13 = __Pyx_PyList_Append(__pyx_v_solved_points, __pyx_t_1); if (unlikely(__pyx_t_13 == ((int)-1))) __PYX_ERR(0, 544, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "tinycadlib.pyx":560
+  /* "tinycadlib.pyx":546
  *         solved_points.append(data_dict[mapping[i]])
  * 
  *     return solved_points             # <<<<<<<<<<<<<<
@@ -12017,7 +11982,7 @@ static PyObject *__pyx_f_10tinycadlib_expr_solving(PyObject *__pyx_v_exprs, PyOb
   __pyx_r = __pyx_v_solved_points;
   goto __pyx_L0;
 
-  /* "tinycadlib.pyx":542
+  /* "tinycadlib.pyx":528
  * 
  * 
  * cpdef list expr_solving(object exprs, dict mapping, object vpoints, object angles):             # <<<<<<<<<<<<<<
@@ -12082,23 +12047,23 @@ static PyObject *__pyx_pw_10tinycadlib_15expr_solving(PyObject *__pyx_self, PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_mapping)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, 1); __PYX_ERR(0, 542, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, 1); __PYX_ERR(0, 528, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_vpoints)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, 2); __PYX_ERR(0, 542, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, 2); __PYX_ERR(0, 528, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_angles)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, 3); __PYX_ERR(0, 542, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, 3); __PYX_ERR(0, 528, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "expr_solving") < 0)) __PYX_ERR(0, 542, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "expr_solving") < 0)) __PYX_ERR(0, 528, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -12115,13 +12080,13 @@ static PyObject *__pyx_pw_10tinycadlib_15expr_solving(PyObject *__pyx_self, PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 542, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("expr_solving", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 528, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("tinycadlib.expr_solving", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mapping), (&PyDict_Type), 1, "mapping", 1))) __PYX_ERR(0, 542, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mapping), (&PyDict_Type), 1, "mapping", 1))) __PYX_ERR(0, 528, __pyx_L1_error)
   __pyx_r = __pyx_pf_10tinycadlib_14expr_solving(__pyx_self, __pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints, __pyx_v_angles);
 
   /* function exit code */
@@ -12139,7 +12104,7 @@ static PyObject *__pyx_pf_10tinycadlib_14expr_solving(CYTHON_UNUSED PyObject *__
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("expr_solving", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_10tinycadlib_expr_solving(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints, __pyx_v_angles, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 542, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_10tinycadlib_expr_solving(__pyx_v_exprs, __pyx_v_mapping, __pyx_v_vpoints, __pyx_v_angles, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 528, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -12272,11 +12237,11 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 229, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 229, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 229, __pyx_L1_error)
+    __PYX_ERR(3, 229, __pyx_L1_error)
 
     /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":227
  *             ndim = PyArray_NDIM(self)
@@ -12328,11 +12293,11 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 233, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 233, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 233, __pyx_L1_error)
+    __PYX_ERR(3, 233, __pyx_L1_error)
 
     /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":231
  *                 raise ValueError(u"ndarray is not C contiguous")
@@ -12585,11 +12550,11 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 263, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 263, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 263, __pyx_L1_error)
+      __PYX_ERR(3, 263, __pyx_L1_error)
 
       /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":261
  *             if not PyDataType_HASFIELDS(descr):
@@ -12796,17 +12761,17 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 info.format = f
  *                 return
  */
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 282, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_7 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(2, 282, __pyx_L1_error)
+      __pyx_t_7 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(3, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 282, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 282, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 282, __pyx_L1_error)
+      __PYX_ERR(3, 282, __pyx_L1_error)
       break;
     }
 
@@ -12873,7 +12838,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                                       info.format + _buffer_format_string_len,
  *                                       &offset)
  */
-    __pyx_t_8 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_8 == ((char *)NULL))) __PYX_ERR(2, 289, __pyx_L1_error)
+    __pyx_t_8 = __pyx_f_5numpy__util_dtypestring(__pyx_v_descr, (__pyx_v_info->format + 1), (__pyx_v_info->format + 0xFF), (&__pyx_v_offset)); if (unlikely(__pyx_t_8 == ((char *)NULL))) __PYX_ERR(3, 289, __pyx_L1_error)
     __pyx_v_f = __pyx_t_8;
 
     /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":292
@@ -13032,7 +12997,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew1(PyObject *__
  * cdef inline object PyArray_MultiIterNew2(a, b):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 776, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(1, ((void *)__pyx_v_a)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 776, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13079,7 +13044,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew2(PyObject *__
  * cdef inline object PyArray_MultiIterNew3(a, b, c):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 779, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(2, ((void *)__pyx_v_a), ((void *)__pyx_v_b)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 779, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13126,7 +13091,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew3(PyObject *__
  * cdef inline object PyArray_MultiIterNew4(a, b, c, d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 782, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(3, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 782, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13173,7 +13138,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew4(PyObject *__
  * cdef inline object PyArray_MultiIterNew5(a, b, c, d, e):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 785, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(4, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 785, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13220,7 +13185,7 @@ static CYTHON_INLINE PyObject *__pyx_f_5numpy_PyArray_MultiIterNew5(PyObject *__
  * cdef inline tuple PyDataType_SHAPE(dtype d):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 788, __pyx_L1_error)
+  __pyx_t_1 = PyArray_MultiIterNew(5, ((void *)__pyx_v_a), ((void *)__pyx_v_b), ((void *)__pyx_v_c), ((void *)__pyx_v_d), ((void *)__pyx_v_e)); if (unlikely(!__pyx_t_1)) __PYX_ERR(3, 788, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -13375,15 +13340,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
   if (unlikely(__pyx_v_descr->names == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(2, 805, __pyx_L1_error)
+    __PYX_ERR(3, 805, __pyx_L1_error)
   }
   __pyx_t_1 = __pyx_v_descr->names; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
   for (;;) {
     if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(2, 805, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(3, 805, __pyx_L1_error)
     #else
-    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 805, __pyx_L1_error)
+    __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 805, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_childname, __pyx_t_3);
@@ -13398,11 +13363,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  */
     if (unlikely(__pyx_v_descr->fields == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(2, 806, __pyx_L1_error)
+      __PYX_ERR(3, 806, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_descr->fields, __pyx_v_childname); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 806, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_descr->fields, __pyx_v_childname); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 806, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    if (!(likely(PyTuple_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(2, 806, __pyx_L1_error)
+    if (!(likely(PyTuple_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(3, 806, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_fields, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
@@ -13419,7 +13384,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(2, 807, __pyx_L1_error)
+        __PYX_ERR(3, 807, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       __pyx_t_3 = PyTuple_GET_ITEM(sequence, 0); 
@@ -13427,15 +13392,15 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_4);
       #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 807, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 807, __pyx_L1_error)
+      __pyx_t_4 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 807, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       #endif
     } else {
-      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(2, 807, __pyx_L1_error)
+      __Pyx_RaiseNoneNotIterableError(); __PYX_ERR(3, 807, __pyx_L1_error)
     }
-    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_dtype))))) __PYX_ERR(2, 807, __pyx_L1_error)
+    if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_dtype))))) __PYX_ERR(3, 807, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_child, ((PyArray_Descr *)__pyx_t_3));
     __pyx_t_3 = 0;
     __Pyx_XDECREF_SET(__pyx_v_new_offset, __pyx_t_4);
@@ -13448,12 +13413,12 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
  * 
  */
-    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 809, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 809, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyNumber_Subtract(__pyx_v_new_offset, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 809, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Subtract(__pyx_v_new_offset, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 809, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(2, 809, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(3, 809, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_6 = ((((__pyx_v_end - __pyx_v_f) - ((int)__pyx_t_5)) < 15) != 0);
     if (unlikely(__pyx_t_6)) {
@@ -13465,11 +13430,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 810, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 810, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 810, __pyx_L1_error)
+      __PYX_ERR(3, 810, __pyx_L1_error)
 
       /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":809
  *         child, new_offset = fields
@@ -13533,11 +13498,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 814, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 814, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __PYX_ERR(2, 814, __pyx_L1_error)
+      __PYX_ERR(3, 814, __pyx_L1_error)
 
       /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":812
  *             raise RuntimeError(u"Format string allocated too short, see comment in numpy.pxd")
@@ -13556,11 +13521,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             f += 1
  */
     while (1) {
-      __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 824, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int((__pyx_v_offset[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 824, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_v_new_offset, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 824, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_t_3, __pyx_v_new_offset, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 824, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 824, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 824, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (!__pyx_t_6) break;
 
@@ -13620,7 +13585,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             if end - f < 5:
  *                 raise RuntimeError(u"Format string allocated too short.")
  */
-      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_child->type_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 832, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_child->type_num); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 832, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_XDECREF_SET(__pyx_v_t, __pyx_t_4);
       __pyx_t_4 = 0;
@@ -13642,11 +13607,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 834, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 834, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __PYX_ERR(2, 834, __pyx_L1_error)
+        __PYX_ERR(3, 834, __pyx_L1_error)
 
         /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":833
  *         if not PyDataType_HASFIELDS(child):
@@ -13664,11 +13629,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_UBYTE:       f[0] =  66 #"B"
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_BYTE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 837, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_BYTE); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 837, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 837, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 837, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 837, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 837, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 98;
@@ -13682,11 +13647,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_SHORT:       f[0] = 104 #"h"
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UBYTE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 838, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UBYTE); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 838, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 838, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 838, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 838, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 838, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 66;
@@ -13700,11 +13665,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_USHORT:      f[0] =  72 #"H"
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_SHORT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 839, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_SHORT); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 839, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 839, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 839, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 839, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 839, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x68;
@@ -13718,11 +13683,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_INT:         f[0] = 105 #"i"
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_USHORT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 840, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_USHORT); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 840, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 840, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 840, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 840, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 840, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 72;
@@ -13736,11 +13701,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_UINT:        f[0] =  73 #"I"
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_INT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 841, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_INT); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 841, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 841, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 841, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 841, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 841, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x69;
@@ -13754,11 +13719,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_LONG:        f[0] = 108 #"l"
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UINT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 842, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_UINT); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 842, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 842, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 842, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 842, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 842, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 73;
@@ -13772,11 +13737,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_ULONG:       f[0] = 76  #"L"
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 843, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 843, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 843, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 843, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 843, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 843, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x6C;
@@ -13790,11 +13755,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_LONGLONG:    f[0] = 113 #"q"
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 844, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 844, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 844, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 844, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 844, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 844, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 76;
@@ -13808,11 +13773,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_ULONGLONG:   f[0] = 81  #"Q"
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGLONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 845, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGLONG); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 845, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 845, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 845, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 845, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 845, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x71;
@@ -13826,11 +13791,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_FLOAT:       f[0] = 102 #"f"
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONGLONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 846, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_ULONGLONG); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 846, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 846, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 846, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 846, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 846, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 81;
@@ -13844,11 +13809,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_DOUBLE:      f[0] = 100 #"d"
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_FLOAT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 847, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_FLOAT); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 847, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 847, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 847, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 847, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 847, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x66;
@@ -13862,11 +13827,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_LONGDOUBLE:  f[0] = 103 #"g"
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_DOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 848, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_DOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 848, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 848, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 848, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 848, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 848, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x64;
@@ -13880,11 +13845,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_CFLOAT:      f[0] = 90; f[1] = 102; f += 1 # Zf
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 849, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_LONGDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 849, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 849, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 849, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 849, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 849, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 0x67;
@@ -13898,11 +13863,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_CDOUBLE:     f[0] = 90; f[1] = 100; f += 1 # Zd
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CFLOAT); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 850, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CFLOAT); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 850, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 850, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 850, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 850, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 850, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -13918,11 +13883,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_CLONGDOUBLE: f[0] = 90; f[1] = 103; f += 1 # Zg
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 851, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CDOUBLE); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 851, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 851, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 851, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 851, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 851, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -13938,11 +13903,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             elif t == NPY_OBJECT:      f[0] = 79 #"O"
  *             else:
  */
-      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CLONGDOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 852, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_CLONGDOUBLE); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 852, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 852, __pyx_L1_error)
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v_t, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 852, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 852, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 852, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_6) {
         (__pyx_v_f[0]) = 90;
@@ -13958,11 +13923,11 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             else:
  *                 raise ValueError(u"unknown dtype code in numpy.pxd (%d)" % t)
  */
-      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_OBJECT); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 853, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyInt_From_enum__NPY_TYPES(NPY_OBJECT); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 853, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 853, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_t, __pyx_t_4, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 853, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(2, 853, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(3, 853, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (likely(__pyx_t_6)) {
         (__pyx_v_f[0]) = 79;
@@ -13977,14 +13942,14 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *         else:
  */
       /*else*/ {
-        __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 855, __pyx_L1_error)
+        __pyx_t_3 = PyUnicode_Format(__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_v_t); if (unlikely(!__pyx_t_3)) __PYX_ERR(3, 855, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 855, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_builtin_ValueError, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(3, 855, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __PYX_ERR(2, 855, __pyx_L1_error)
+        __PYX_ERR(3, 855, __pyx_L1_error)
       }
       __pyx_L15:;
 
@@ -14015,7 +13980,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  */
     /*else*/ {
-      __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_child, __pyx_v_f, __pyx_v_end, __pyx_v_offset); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(2, 860, __pyx_L1_error)
+      __pyx_t_9 = __pyx_f_5numpy__util_dtypestring(__pyx_v_child, __pyx_v_f, __pyx_v_end, __pyx_v_offset); if (unlikely(__pyx_t_9 == ((char *)NULL))) __PYX_ERR(3, 860, __pyx_L1_error)
       __pyx_v_f = __pyx_t_9;
     }
     __pyx_L13:;
@@ -14278,7 +14243,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.multiarray failed to import")
  */
-      __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 998, __pyx_L3_error)
+      __pyx_t_4 = _import_array(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(3, 998, __pyx_L3_error)
 
       /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":997
  * # Cython code.
@@ -14304,7 +14269,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_array", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 999, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(3, 999, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -14316,11 +14281,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1000, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1000, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(2, 1000, __pyx_L5_except_error)
+      __PYX_ERR(3, 1000, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -14407,7 +14372,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")
  */
-      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1004, __pyx_L3_error)
+      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(3, 1004, __pyx_L3_error)
 
       /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":1003
  * 
@@ -14433,7 +14398,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_umath", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 1005, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(3, 1005, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -14445,11 +14410,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1006, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1006, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(2, 1006, __pyx_L5_except_error)
+      __PYX_ERR(3, 1006, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -14536,7 +14501,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")
  */
-      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(2, 1010, __pyx_L3_error)
+      __pyx_t_4 = _import_umath(); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(3, 1010, __pyx_L3_error)
 
       /* "../../../../../../../usr/local/lib/python3.5/dist-packages/Cython/Includes/numpy/__init__.pxd":1009
  * 
@@ -14561,7 +14526,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
     __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])));
     if (__pyx_t_4) {
       __Pyx_AddTraceback("numpy.import_ufunc", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(2, 1011, __pyx_L5_except_error)
+      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_7) < 0) __PYX_ERR(3, 1011, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_7);
@@ -14571,11 +14536,11 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1012, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(3, 1012, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __PYX_ERR(2, 1012, __pyx_L5_except_error)
+      __PYX_ERR(3, 1012, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
     __pyx_L5_except_error:;
@@ -14727,10 +14692,6 @@ static PyObject *__pyx_getprop_10tinycadlib_6VPoint_colorSTR(PyObject *o, CYTHON
   return __pyx_pw_10tinycadlib_6VPoint_8colorSTR_1__get__(o);
 }
 
-static PyObject *__pyx_getprop_10tinycadlib_6VPoint_typeSTR(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_10tinycadlib_6VPoint_7typeSTR_1__get__(o);
-}
-
 static PyObject *__pyx_getprop_10tinycadlib_6VPoint_x(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_10tinycadlib_6VPoint_1x_1__get__(o);
 }
@@ -14762,7 +14723,6 @@ static struct PyGetSetDef __pyx_getsets_10tinycadlib_VPoint[] = {
   {(char *)"type", __pyx_getprop_10tinycadlib_6VPoint_type, 0, (char *)0, 0},
   {(char *)"color", __pyx_getprop_10tinycadlib_6VPoint_color, 0, (char *)0, 0},
   {(char *)"colorSTR", __pyx_getprop_10tinycadlib_6VPoint_colorSTR, 0, (char *)0, 0},
-  {(char *)"typeSTR", __pyx_getprop_10tinycadlib_6VPoint_typeSTR, 0, (char *)0, 0},
   {(char *)"x", __pyx_getprop_10tinycadlib_6VPoint_x, 0, (char *)0, 0},
   {(char *)"y", __pyx_getprop_10tinycadlib_6VPoint_y, 0, (char *)0, 0},
   {(char *)"angle", __pyx_getprop_10tinycadlib_6VPoint_angle, 0, (char *)0, 0},
@@ -15482,12 +15442,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 141, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 419, __pyx_L1_error)
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 449, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 229, __pyx_L1_error)
-  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 810, __pyx_L1_error)
-  __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 1000, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 133, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 405, __pyx_L1_error)
+  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 435, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(3, 229, __pyx_L1_error)
+  __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(3, 810, __pyx_L1_error)
+  __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(3, 1000, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -15497,36 +15457,36 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "tinycadlib.pyx":58
+  /* "tinycadlib.pyx":50
  *         self.links = tuple(tmp_list)
  *         self.type = type_int
  *         self.typeSTR = ('R', 'P', 'RP')[type_int]             # <<<<<<<<<<<<<<
  *         self.angle = angle
  *         self.colorSTR = color_str
  */
-  __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_R, __pyx_n_s_P, __pyx_n_s_RP); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(3, __pyx_n_s_R, __pyx_n_s_P, __pyx_n_s_RP); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 50, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "tinycadlib.pyx":65
+  /* "tinycadlib.pyx":57
  *         self.x = x
  *         self.y = y
  *         self.c = np.ndarray(2, dtype=np.object)             # <<<<<<<<<<<<<<
  *         if (self.type == 1) or (self.type == 2):
  *             """Slider current coordinates.
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 65, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_int_2); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "tinycadlib.pyx":141
+  /* "tinycadlib.pyx":133
  *         """
  *         if (op != 2) and (op != 3):
  *             raise TypeError("Only allow to compare two VPoints.")             # <<<<<<<<<<<<<<
  *         return (
  *             (op == 2) and
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Only_allow_to_compare_two_VPoint); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 141, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Only_allow_to_compare_two_VPoint); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -15536,7 +15496,7 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -15545,7 +15505,7 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
@@ -15555,7 +15515,7 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
@@ -15564,7 +15524,7 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
@@ -15574,7 +15534,7 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(1, 2, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
 
@@ -15583,29 +15543,29 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(1, 4, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
 
-  /* "tinycadlib.pyx":346
+  /* "tinycadlib.pyx":332
  *     for expr in exprs.split(';'):
  *         f = strbefore(expr, '[')
  *         params = strbetween(expr, '[', ']').split(',')             # <<<<<<<<<<<<<<
  *         target = strbetween(expr, '(', ')')
  *         args = []
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 346, __pyx_L1_error)
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s__3); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(0, 332, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
 
-  /* "tinycadlib.pyx":441
+  /* "tinycadlib.pyx":427
  *     """Use to append a list of symbols into a string."""
  *     return ';'.join([
  *         "{}[{}]({})".format(expr[0], ','.join(expr[1:-1]), expr[-1])             # <<<<<<<<<<<<<<
  *         for expr in exprs
  *     ])
  */
-  __pyx_slice__22 = PySlice_New(__pyx_int_1, __pyx_int_neg_1, Py_None); if (unlikely(!__pyx_slice__22)) __PYX_ERR(0, 441, __pyx_L1_error)
+  __pyx_slice__22 = PySlice_New(__pyx_int_1, __pyx_int_neg_1, Py_None); if (unlikely(!__pyx_slice__22)) __PYX_ERR(0, 427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__22);
   __Pyx_GIVEREF(__pyx_slice__22);
 
@@ -15616,7 +15576,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(2, 229, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(3, 229, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
 
@@ -15627,7 +15587,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(2, 233, __pyx_L1_error)
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(3, 233, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
 
@@ -15638,7 +15598,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(2, 263, __pyx_L1_error)
+  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__25)) __PYX_ERR(3, 263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
 
@@ -15649,7 +15609,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(2, 810, __pyx_L1_error)
+  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(3, 810, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
 
@@ -15660,7 +15620,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(2, 814, __pyx_L1_error)
+  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(3, 814, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__27);
   __Pyx_GIVEREF(__pyx_tuple__27);
 
@@ -15671,7 +15631,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(2, 834, __pyx_L1_error)
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(3, 834, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
 
@@ -15682,7 +15642,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(2, 1000, __pyx_L1_error)
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(3, 1000, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
 
@@ -15693,7 +15653,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(2, 1006, __pyx_L1_error)
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(3, 1006, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
 
@@ -15702,7 +15662,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(2, 1012, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(3, 1012, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__31);
   __Pyx_GIVEREF(__pyx_tuple__31);
   __Pyx_RefNannyFinishContext();
@@ -15755,8 +15715,18 @@ static int __Pyx_modinit_function_export_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_function_export_code", 0);
   /*--- Function export code ---*/
+  if (__Pyx_ExportFunction("PLAP", (void (*)(void))__pyx_f_10tinycadlib_PLAP, "PyObject *(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLAP *__pyx_optional_args)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("PLLP", (void (*)(void))__pyx_f_10tinycadlib_PLLP, "PyObject *(struct __pyx_obj_10tinycadlib_Coordinate *, double, double, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLLP *__pyx_optional_args)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("PLPP", (void (*)(void))__pyx_f_10tinycadlib_PLPP, "PyObject *(struct __pyx_obj_10tinycadlib_Coordinate *, double, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_PLPP *__pyx_optional_args)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("legal_triangle", (void (*)(void))__pyx_f_10tinycadlib_legal_triangle, "PyBoolObject *(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("legal_crank", (void (*)(void))__pyx_f_10tinycadlib_legal_crank, "PyBoolObject *(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("strbetween", (void (*)(void))__pyx_f_10tinycadlib_strbetween, "PyObject *(PyObject *, PyObject *, PyObject *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("strbefore", (void (*)(void))__pyx_f_10tinycadlib_strbefore, "PyObject *(PyObject *, PyObject *)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
+  __pyx_L1_error:;
+  __Pyx_RefNannyFinishContext();
+  return -1;
 }
 
 static int __Pyx_modinit_type_init_code(void) {
@@ -15768,14 +15738,14 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_10tinycadlib_VPoint.distance = (double (*)(struct __pyx_obj_10tinycadlib_VPoint *, struct __pyx_obj_10tinycadlib_VPoint *, int __pyx_skip_dispatch))__pyx_f_10tinycadlib_6VPoint_distance;
   __pyx_vtable_10tinycadlib_VPoint.slopeAngle = (double (*)(struct __pyx_obj_10tinycadlib_VPoint *, struct __pyx_obj_10tinycadlib_VPoint *, int __pyx_skip_dispatch, struct __pyx_opt_args_10tinycadlib_6VPoint_slopeAngle *__pyx_optional_args))__pyx_f_10tinycadlib_6VPoint_slopeAngle;
   __pyx_vtable_10tinycadlib_VPoint.grounded = (PyBoolObject *(*)(struct __pyx_obj_10tinycadlib_VPoint *, int __pyx_skip_dispatch))__pyx_f_10tinycadlib_6VPoint_grounded;
-  if (PyType_Ready(&__pyx_type_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __pyx_type_10tinycadlib_VPoint.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10tinycadlib_VPoint.tp_dictoffset && __pyx_type_10tinycadlib_VPoint.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10tinycadlib_VPoint.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VPoint, "__getitem__"); if (unlikely(!wrapper)) __PYX_ERR(0, 29, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VPoint, "__getitem__"); if (unlikely(!wrapper)) __PYX_ERR(0, 28, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_10tinycadlib_6VPoint_12__getitem__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_10tinycadlib_6VPoint_12__getitem__.doc = __pyx_doc_10tinycadlib_6VPoint_12__getitem__;
@@ -15785,7 +15755,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VPoint, "__repr__"); if (unlikely(!wrapper)) __PYX_ERR(0, 29, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VPoint, "__repr__"); if (unlikely(!wrapper)) __PYX_ERR(0, 28, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_10tinycadlib_6VPoint_14__repr__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_10tinycadlib_6VPoint_14__repr__.doc = __pyx_doc_10tinycadlib_6VPoint_14__repr__;
@@ -15793,18 +15763,18 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_10tinycadlib_VPoint.tp_dict, __pyx_vtabptr_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "VPoint", (PyObject *)&__pyx_type_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_10tinycadlib_VPoint.tp_dict, __pyx_vtabptr_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "VPoint", (PyObject *)&__pyx_type_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10tinycadlib_VPoint) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
   __pyx_ptype_10tinycadlib_VPoint = &__pyx_type_10tinycadlib_VPoint;
-  if (PyType_Ready(&__pyx_type_10tinycadlib_VLink) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10tinycadlib_VLink) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   __pyx_type_10tinycadlib_VLink.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10tinycadlib_VLink.tp_dictoffset && __pyx_type_10tinycadlib_VLink.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10tinycadlib_VLink.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VLink, "__contains__"); if (unlikely(!wrapper)) __PYX_ERR(0, 166, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VLink, "__contains__"); if (unlikely(!wrapper)) __PYX_ERR(0, 158, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_10tinycadlib_5VLink_2__contains__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_10tinycadlib_5VLink_2__contains__.doc = __pyx_doc_10tinycadlib_5VLink_2__contains__;
@@ -15814,7 +15784,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VLink, "__repr__"); if (unlikely(!wrapper)) __PYX_ERR(0, 166, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_VLink, "__repr__"); if (unlikely(!wrapper)) __PYX_ERR(0, 158, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_10tinycadlib_5VLink_4__repr__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_10tinycadlib_5VLink_4__repr__.doc = __pyx_doc_10tinycadlib_5VLink_4__repr__;
@@ -15822,20 +15792,19 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (PyObject_SetAttrString(__pyx_m, "VLink", (PyObject *)&__pyx_type_10tinycadlib_VLink) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10tinycadlib_VLink) < 0) __PYX_ERR(0, 166, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "VLink", (PyObject *)&__pyx_type_10tinycadlib_VLink) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10tinycadlib_VLink) < 0) __PYX_ERR(0, 158, __pyx_L1_error)
   __pyx_ptype_10tinycadlib_VLink = &__pyx_type_10tinycadlib_VLink;
   __pyx_vtabptr_10tinycadlib_Coordinate = &__pyx_vtable_10tinycadlib_Coordinate;
   __pyx_vtable_10tinycadlib_Coordinate.distance = (double (*)(struct __pyx_obj_10tinycadlib_Coordinate *, struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch))__pyx_f_10tinycadlib_10Coordinate_distance;
-  __pyx_vtable_10tinycadlib_Coordinate.isnan = (PyBoolObject *(*)(struct __pyx_obj_10tinycadlib_Coordinate *, int __pyx_skip_dispatch))__pyx_f_10tinycadlib_10Coordinate_isnan;
-  if (PyType_Ready(&__pyx_type_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 195, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
   __pyx_type_10tinycadlib_Coordinate.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10tinycadlib_Coordinate.tp_dictoffset && __pyx_type_10tinycadlib_Coordinate.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10tinycadlib_Coordinate.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_Coordinate, "__repr__"); if (unlikely(!wrapper)) __PYX_ERR(0, 195, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_10tinycadlib_Coordinate, "__repr__"); if (unlikely(!wrapper)) __PYX_ERR(0, 183, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_10tinycadlib_10Coordinate_6__repr__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_10tinycadlib_10Coordinate_6__repr__.doc = __pyx_doc_10tinycadlib_10Coordinate_6__repr__;
@@ -15843,17 +15812,17 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_10tinycadlib_Coordinate.tp_dict, __pyx_vtabptr_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 195, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "Coordinate", (PyObject *)&__pyx_type_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 195, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 195, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_10tinycadlib_Coordinate.tp_dict, __pyx_vtabptr_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "Coordinate", (PyObject *)&__pyx_type_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_10tinycadlib_Coordinate) < 0) __PYX_ERR(0, 183, __pyx_L1_error)
   __pyx_ptype_10tinycadlib_Coordinate = &__pyx_type_10tinycadlib_Coordinate;
-  if (PyType_Ready(&__pyx_type_10tinycadlib___pyx_scope_struct____get__) < 0) __PYX_ERR(0, 124, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10tinycadlib___pyx_scope_struct____get__) < 0) __PYX_ERR(0, 116, __pyx_L1_error)
   __pyx_type_10tinycadlib___pyx_scope_struct____get__.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10tinycadlib___pyx_scope_struct____get__.tp_dictoffset && __pyx_type_10tinycadlib___pyx_scope_struct____get__.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10tinycadlib___pyx_scope_struct____get__.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_10tinycadlib___pyx_scope_struct____get__ = &__pyx_type_10tinycadlib___pyx_scope_struct____get__;
-  if (PyType_Ready(&__pyx_type_10tinycadlib___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 131, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_10tinycadlib___pyx_scope_struct_1_genexpr) < 0) __PYX_ERR(0, 123, __pyx_L1_error)
   __pyx_type_10tinycadlib___pyx_scope_struct_1_genexpr.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_10tinycadlib___pyx_scope_struct_1_genexpr.tp_dictoffset && __pyx_type_10tinycadlib___pyx_scope_struct_1_genexpr.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_10tinycadlib___pyx_scope_struct_1_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
@@ -15876,14 +15845,14 @@ static int __Pyx_modinit_type_import_code(void) {
   #else
   sizeof(PyHeapTypeObject),
   #endif
-  0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(3, 9, __pyx_L1_error)
-  __pyx_ptype_7cpython_4bool_bool = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "bool", sizeof(PyBoolObject), 0); if (unlikely(!__pyx_ptype_7cpython_4bool_bool)) __PYX_ERR(4, 8, __pyx_L1_error)
-  __pyx_ptype_7cpython_7complex_complex = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "complex", sizeof(PyComplexObject), 0); if (unlikely(!__pyx_ptype_7cpython_7complex_complex)) __PYX_ERR(5, 15, __pyx_L1_error)
-  __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(2, 164, __pyx_L1_error)
-  __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(2, 186, __pyx_L1_error)
-  __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(2, 190, __pyx_L1_error)
-  __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(2, 199, __pyx_L1_error)
-  __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(2, 872, __pyx_L1_error)
+  0); if (unlikely(!__pyx_ptype_7cpython_4type_type)) __PYX_ERR(4, 9, __pyx_L1_error)
+  __pyx_ptype_7cpython_4bool_bool = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "bool", sizeof(PyBoolObject), 0); if (unlikely(!__pyx_ptype_7cpython_4bool_bool)) __PYX_ERR(5, 8, __pyx_L1_error)
+  __pyx_ptype_7cpython_7complex_complex = __Pyx_ImportType(__Pyx_BUILTIN_MODULE_NAME, "complex", sizeof(PyComplexObject), 0); if (unlikely(!__pyx_ptype_7cpython_7complex_complex)) __PYX_ERR(6, 15, __pyx_L1_error)
+  __pyx_ptype_5numpy_dtype = __Pyx_ImportType("numpy", "dtype", sizeof(PyArray_Descr), 0); if (unlikely(!__pyx_ptype_5numpy_dtype)) __PYX_ERR(3, 164, __pyx_L1_error)
+  __pyx_ptype_5numpy_flatiter = __Pyx_ImportType("numpy", "flatiter", sizeof(PyArrayIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_flatiter)) __PYX_ERR(3, 186, __pyx_L1_error)
+  __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(3, 190, __pyx_L1_error)
+  __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(3, 199, __pyx_L1_error)
+  __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(3, 872, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -16071,7 +16040,7 @@ if (!__Pyx_RefNanny) {
   /*--- Global type/function init code ---*/
   (void)__Pyx_modinit_global_init_code();
   (void)__Pyx_modinit_variable_export_code();
-  (void)__Pyx_modinit_function_export_code();
+  if (unlikely(__Pyx_modinit_function_export_code() != 0)) goto __pyx_L1_error;
   if (unlikely(__Pyx_modinit_type_init_code() != 0)) goto __pyx_L1_error;
   if (unlikely(__Pyx_modinit_type_import_code() != 0)) goto __pyx_L1_error;
   (void)__Pyx_modinit_variable_import_code();
@@ -16086,21 +16055,21 @@ if (!__Pyx_RefNanny) {
  * )
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * from cpython cimport bool
+ * 
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "tinycadlib.pyx":21
+  /* "tinycadlib.pyx":20
  * 
  * 
  * cdef double nan = float('nan')             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_AsDouble(__pyx_n_s_nan); if (unlikely(__pyx_t_2 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsDouble(__pyx_n_s_nan); if (unlikely(__pyx_t_2 == ((double)((double)-1)) && PyErr_Occurred())) __PYX_ERR(0, 20, __pyx_L1_error)
   __pyx_v_10tinycadlib_nan = __pyx_t_2;
 
   /* "tinycadlib.pyx":1
@@ -20300,6 +20269,43 @@ static int __pyx_Generator_init(void) {
         return PyErr_WarnEx(NULL, message, 1);
     }
     return 0;
+}
+
+/* FunctionExport */
+              static int __Pyx_ExportFunction(const char *name, void (*f)(void), const char *sig) {
+    PyObject *d = 0;
+    PyObject *cobj = 0;
+    union {
+        void (*fp)(void);
+        void *p;
+    } tmp;
+    d = PyObject_GetAttrString(__pyx_m, (char *)"__pyx_capi__");
+    if (!d) {
+        PyErr_Clear();
+        d = PyDict_New();
+        if (!d)
+            goto bad;
+        Py_INCREF(d);
+        if (PyModule_AddObject(__pyx_m, (char *)"__pyx_capi__", d) < 0)
+            goto bad;
+    }
+    tmp.fp = f;
+#if PY_VERSION_HEX >= 0x02070000
+    cobj = PyCapsule_New(tmp.p, sig, 0);
+#else
+    cobj = PyCObject_FromVoidPtrAndDesc(tmp.p, (void *)sig, 0);
+#endif
+    if (!cobj)
+        goto bad;
+    if (PyDict_SetItemString(d, name, cobj) < 0)
+        goto bad;
+    Py_DECREF(cobj);
+    Py_DECREF(d);
+    return 0;
+bad:
+    Py_XDECREF(cobj);
+    Py_XDECREF(d);
+    return -1;
 }
 
 /* ModuleImport */

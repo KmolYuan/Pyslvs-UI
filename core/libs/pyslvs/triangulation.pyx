@@ -11,6 +11,7 @@ from typing import Sequence
 from libc.math cimport sin, cos
 import numpy as np
 cimport numpy as np
+from tinycadlib cimport VPoint
 from cpython cimport bool
 
 
@@ -37,7 +38,7 @@ ctypedef fused sequence:
 
 def _get_reliable_friend(
     node: int,
-    vpoints: Sequence[object],
+    vpoints: Sequence[VPoint],
     vlinks: dict,
     status: dict
 ) -> int:
@@ -56,7 +57,7 @@ def _get_reliable_friend(
 
 def _get_notbase_friend(
     node: int,
-    vpoints: Sequence[object],
+    vpoints: Sequence[VPoint],
     vlinks: dict,
     status: dict
 ) -> int:
@@ -70,7 +71,7 @@ def _get_notbase_friend(
 
 def _get_base_friend(
     node: int,
-    vpoints: Sequence[object],
+    vpoints: Sequence[VPoint],
     vlinks: dict,
     status: dict
 ) -> int:
@@ -101,7 +102,7 @@ cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status={}):
     Data:
     status: Dict[int, bool]
     """
-    cdef object vpoint
+    cdef VPoint vpoint
     cdef list pos = []
     for vpoint in vpoints:
         pos.append(vpoint.c[0] if (vpoint.type == 0) else vpoint.c[1])

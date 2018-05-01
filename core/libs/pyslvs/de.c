@@ -1066,7 +1066,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "de.pyx":26
+/* "de.pyx":29
  * 
  * 
  * cdef enum limit:             # <<<<<<<<<<<<<<
@@ -1079,7 +1079,7 @@ enum __pyx_t_2de_limit {
   __pyx_e_2de_maxTime
 };
 
-/* "de.pyx":32
+/* "de.pyx":35
  * 
  * 
  * cdef class Chromosome:             # <<<<<<<<<<<<<<
@@ -1095,7 +1095,7 @@ struct __pyx_obj_2de_Chromosome {
 };
 
 
-/* "de.pyx":52
+/* "de.pyx":55
  * 
  * 
  * cdef class DiffertialEvolution:             # <<<<<<<<<<<<<<
@@ -1136,7 +1136,7 @@ struct __pyx_obj_2de_DiffertialEvolution {
 
 
 
-/* "de.pyx":32
+/* "de.pyx":35
  * 
  * 
  * cdef class Chromosome:             # <<<<<<<<<<<<<<
@@ -1150,7 +1150,7 @@ struct __pyx_vtabstruct_2de_Chromosome {
 static struct __pyx_vtabstruct_2de_Chromosome *__pyx_vtabptr_2de_Chromosome;
 
 
-/* "de.pyx":52
+/* "de.pyx":55
  * 
  * 
  * cdef class DiffertialEvolution:             # <<<<<<<<<<<<<<
@@ -1986,7 +1986,7 @@ static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__20;
 /* Late includes */
 
-/* "de.pyx":22
+/* "de.pyx":25
  * 
  * 
  * cdef double randV():             # <<<<<<<<<<<<<<
@@ -2001,7 +2001,7 @@ static double __pyx_f_2de_randV(void) {
   double __pyx_t_2;
   __Pyx_RefNannySetupContext("randV", 0);
 
-  /* "de.pyx":23
+  /* "de.pyx":26
  * 
  * cdef double randV():
  *     return rand()/(RAND_MAX*1.01)             # <<<<<<<<<<<<<<
@@ -2012,12 +2012,12 @@ static double __pyx_f_2de_randV(void) {
   __pyx_t_2 = (RAND_MAX * 1.01);
   if (unlikely(__pyx_t_2 == 0)) {
     PyErr_SetString(PyExc_ZeroDivisionError, "float division");
-    __PYX_ERR(1, 23, __pyx_L1_error)
+    __PYX_ERR(1, 26, __pyx_L1_error)
   }
   __pyx_r = (__pyx_t_1 / __pyx_t_2);
   goto __pyx_L0;
 
-  /* "de.pyx":22
+  /* "de.pyx":25
  * 
  * 
  * cdef double randV():             # <<<<<<<<<<<<<<
@@ -2034,7 +2034,7 @@ static double __pyx_f_2de_randV(void) {
   return __pyx_r;
 }
 
-/* "de.pyx":38
+/* "de.pyx":41
  *     cdef public np.ndarray v
  * 
  *     def __cinit__(self, n: int):             # <<<<<<<<<<<<<<
@@ -2068,7 +2068,7 @@ static int __pyx_pw_2de_10Chromosome_1__cinit__(PyObject *__pyx_v_self, PyObject
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(1, 38, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(1, 41, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -2079,7 +2079,7 @@ static int __pyx_pw_2de_10Chromosome_1__cinit__(PyObject *__pyx_v_self, PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 38, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 41, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("de.Chromosome.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2102,26 +2102,26 @@ static int __pyx_pf_2de_10Chromosome___cinit__(struct __pyx_obj_2de_Chromosome *
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "de.pyx":40
+  /* "de.pyx":43
  *     def __cinit__(self, n: int):
  *         # dimension
  *         self.n = n             # <<<<<<<<<<<<<<
  *         # the gene
  *         self.v = np.zeros(n)
  */
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_n); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_n); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 43, __pyx_L1_error)
   __pyx_v_self->n = __pyx_t_1;
 
-  /* "de.pyx":42
+  /* "de.pyx":45
  *         self.n = n
  *         # the gene
  *         self.v = np.zeros(n)             # <<<<<<<<<<<<<<
  *         # the fitness value
  *         self.f = 0
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 42, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 42, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -2135,13 +2135,13 @@ static int __pyx_pf_2de_10Chromosome___cinit__(struct __pyx_obj_2de_Chromosome *
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 42, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_n); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 45, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_n};
-      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 42, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 45, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
@@ -2149,32 +2149,32 @@ static int __pyx_pf_2de_10Chromosome___cinit__(struct __pyx_obj_2de_Chromosome *
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_n};
-      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 42, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 45, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_2);
     } else
     #endif
     {
-      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 42, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 45, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_n);
       __Pyx_GIVEREF(__pyx_v_n);
       PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_n);
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 42, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 45, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 42, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 45, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->v);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->v));
   __pyx_v_self->v = ((PyArrayObject *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "de.pyx":44
+  /* "de.pyx":47
  *         self.v = np.zeros(n)
  *         # the fitness value
  *         self.f = 0             # <<<<<<<<<<<<<<
@@ -2183,7 +2183,7 @@ static int __pyx_pf_2de_10Chromosome___cinit__(struct __pyx_obj_2de_Chromosome *
  */
   __pyx_v_self->f = 0.0;
 
-  /* "de.pyx":38
+  /* "de.pyx":41
  *     cdef public np.ndarray v
  * 
  *     def __cinit__(self, n: int):             # <<<<<<<<<<<<<<
@@ -2206,7 +2206,7 @@ static int __pyx_pf_2de_10Chromosome___cinit__(struct __pyx_obj_2de_Chromosome *
   return __pyx_r;
 }
 
-/* "de.pyx":46
+/* "de.pyx":49
  *         self.f = 0
  * 
  *     cpdef void assign(self, Chromosome obj):             # <<<<<<<<<<<<<<
@@ -2229,7 +2229,7 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_assign); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 46, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_assign); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 49, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2de_10Chromosome_3assign)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -2244,13 +2244,13 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_obj)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 46, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_obj)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 49, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_obj)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 46, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 49, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -2258,19 +2258,19 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_obj)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 46, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 49, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 46, __pyx_L1_error)
+          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 49, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
           __Pyx_INCREF(((PyObject *)__pyx_v_obj));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_obj));
           PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_obj));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 46, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 49, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         }
@@ -2283,7 +2283,7 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "de.pyx":47
+  /* "de.pyx":50
  * 
  *     cpdef void assign(self, Chromosome obj):
  *         self.n = obj.n             # <<<<<<<<<<<<<<
@@ -2293,7 +2293,7 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
   __pyx_t_6 = __pyx_v_obj->n;
   __pyx_v_self->n = __pyx_t_6;
 
-  /* "de.pyx":48
+  /* "de.pyx":51
  *     cpdef void assign(self, Chromosome obj):
  *         self.n = obj.n
  *         self.v[:] = obj.v             # <<<<<<<<<<<<<<
@@ -2302,10 +2302,10 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_obj->v);
   __Pyx_INCREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetSlice(((PyObject *)__pyx_v_self->v), __pyx_t_1, 0, 0, NULL, NULL, &__pyx_slice_, 0, 0, 1) < 0) __PYX_ERR(1, 48, __pyx_L1_error)
+  if (__Pyx_PyObject_SetSlice(((PyObject *)__pyx_v_self->v), __pyx_t_1, 0, 0, NULL, NULL, &__pyx_slice_, 0, 0, 1) < 0) __PYX_ERR(1, 51, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "de.pyx":49
+  /* "de.pyx":52
  *         self.n = obj.n
  *         self.v[:] = obj.v
  *         self.f = obj.f             # <<<<<<<<<<<<<<
@@ -2315,7 +2315,7 @@ static void __pyx_f_2de_10Chromosome_assign(struct __pyx_obj_2de_Chromosome *__p
   __pyx_t_7 = __pyx_v_obj->f;
   __pyx_v_self->f = __pyx_t_7;
 
-  /* "de.pyx":46
+  /* "de.pyx":49
  *         self.f = 0
  * 
  *     cpdef void assign(self, Chromosome obj):             # <<<<<<<<<<<<<<
@@ -2342,7 +2342,7 @@ static PyObject *__pyx_pw_2de_10Chromosome_3assign(PyObject *__pyx_v_self, PyObj
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("assign (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_obj), __pyx_ptype_2de_Chromosome, 1, "obj", 0))) __PYX_ERR(1, 46, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_obj), __pyx_ptype_2de_Chromosome, 1, "obj", 0))) __PYX_ERR(1, 49, __pyx_L1_error)
   __pyx_r = __pyx_pf_2de_10Chromosome_2assign(((struct __pyx_obj_2de_Chromosome *)__pyx_v_self), ((struct __pyx_obj_2de_Chromosome *)__pyx_v_obj));
 
   /* function exit code */
@@ -2360,7 +2360,7 @@ static PyObject *__pyx_pf_2de_10Chromosome_2assign(struct __pyx_obj_2de_Chromoso
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("assign", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_2de_10Chromosome_assign(__pyx_v_self, __pyx_v_obj, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 46, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_2de_10Chromosome_assign(__pyx_v_self, __pyx_v_obj, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2377,7 +2377,7 @@ static PyObject *__pyx_pf_2de_10Chromosome_2assign(struct __pyx_obj_2de_Chromoso
   return __pyx_r;
 }
 
-/* "de.pyx":34
+/* "de.pyx":37
  * cdef class Chromosome:
  * 
  *     cdef public int n             # <<<<<<<<<<<<<<
@@ -2404,7 +2404,7 @@ static PyObject *__pyx_pf_2de_10Chromosome_1n___get__(struct __pyx_obj_2de_Chrom
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 34, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->n); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2439,7 +2439,7 @@ static int __pyx_pf_2de_10Chromosome_1n_2__set__(struct __pyx_obj_2de_Chromosome
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 34, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_As_int(__pyx_v_value); if (unlikely((__pyx_t_1 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 37, __pyx_L1_error)
   __pyx_v_self->n = __pyx_t_1;
 
   /* function exit code */
@@ -2453,7 +2453,7 @@ static int __pyx_pf_2de_10Chromosome_1n_2__set__(struct __pyx_obj_2de_Chromosome
   return __pyx_r;
 }
 
-/* "de.pyx":35
+/* "de.pyx":38
  * 
  *     cdef public int n
  *     cdef public double f             # <<<<<<<<<<<<<<
@@ -2480,7 +2480,7 @@ static PyObject *__pyx_pf_2de_10Chromosome_1f___get__(struct __pyx_obj_2de_Chrom
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->f); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 35, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->f); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 38, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2515,7 +2515,7 @@ static int __pyx_pf_2de_10Chromosome_1f_2__set__(struct __pyx_obj_2de_Chromosome
   __Pyx_RefNannyDeclarations
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 35, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 38, __pyx_L1_error)
   __pyx_v_self->f = __pyx_t_1;
 
   /* function exit code */
@@ -2529,7 +2529,7 @@ static int __pyx_pf_2de_10Chromosome_1f_2__set__(struct __pyx_obj_2de_Chromosome
   return __pyx_r;
 }
 
-/* "de.pyx":36
+/* "de.pyx":39
  *     cdef public int n
  *     cdef public double f
  *     cdef public np.ndarray v             # <<<<<<<<<<<<<<
@@ -2584,7 +2584,7 @@ static int __pyx_pf_2de_10Chromosome_1v_2__set__(struct __pyx_obj_2de_Chromosome
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__set__", 0);
-  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 36, __pyx_L1_error)
+  if (!(likely(((__pyx_v_value) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_value, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 39, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_value;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -2741,7 +2741,7 @@ static PyObject *__pyx_pf_2de_10Chromosome_6__setstate_cython__(CYTHON_UNUSED st
   return __pyx_r;
 }
 
-/* "de.pyx":62
+/* "de.pyx":65
  *     cdef list fitnessTime
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
@@ -2763,7 +2763,7 @@ static int __pyx_pw_2de_19DiffertialEvolution_1__cinit__(PyObject *__pyx_v_self,
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_func,&__pyx_n_s_settings,&__pyx_n_s_progress_fun,&__pyx_n_s_interrupt_fun,0};
     PyObject* values[4] = {0,0,0,0};
 
-    /* "de.pyx":65
+    /* "de.pyx":68
  *         func: object,
  *         settings: dict,
  *         progress_fun: object = None,             # <<<<<<<<<<<<<<
@@ -2772,7 +2772,7 @@ static int __pyx_pw_2de_19DiffertialEvolution_1__cinit__(PyObject *__pyx_v_self,
  */
     values[2] = ((PyObject *)Py_None);
 
-    /* "de.pyx":66
+    /* "de.pyx":69
  *         settings: dict,
  *         progress_fun: object = None,
  *         interrupt_fun: object = None             # <<<<<<<<<<<<<<
@@ -2804,7 +2804,7 @@ static int __pyx_pw_2de_19DiffertialEvolution_1__cinit__(PyObject *__pyx_v_self,
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_settings)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 2, 4, 1); __PYX_ERR(1, 62, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 2, 4, 1); __PYX_ERR(1, 65, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -2820,7 +2820,7 @@ static int __pyx_pw_2de_19DiffertialEvolution_1__cinit__(PyObject *__pyx_v_self,
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(1, 62, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(1, 65, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -2841,16 +2841,16 @@ static int __pyx_pw_2de_19DiffertialEvolution_1__cinit__(PyObject *__pyx_v_self,
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 62, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 65, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("de.DiffertialEvolution.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_settings), (&PyDict_Type), 1, "settings", 1))) __PYX_ERR(1, 64, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_settings), (&PyDict_Type), 1, "settings", 1))) __PYX_ERR(1, 67, __pyx_L1_error)
   __pyx_r = __pyx_pf_2de_19DiffertialEvolution___cinit__(((struct __pyx_obj_2de_DiffertialEvolution *)__pyx_v_self), __pyx_v_func, __pyx_v_settings, __pyx_v_progress_fun, __pyx_v_interrupt_fun);
 
-  /* "de.pyx":62
+  /* "de.pyx":65
  *     cdef list fitnessTime
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
@@ -2884,7 +2884,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "de.pyx":79
+  /* "de.pyx":82
  *         """
  *         # object function, or enviorment
  *         self.func = func             # <<<<<<<<<<<<<<
@@ -2897,14 +2897,14 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __Pyx_DECREF(__pyx_v_self->func);
   __pyx_v_self->func = __pyx_v_func;
 
-  /* "de.pyx":81
+  /* "de.pyx":84
  *         self.func = func
  *         # dimesion of quesiton
  *         self.D = self.func.get_nParm()             # <<<<<<<<<<<<<<
  *         # strategy 1~10, choice what strategy to generate new member in temporary
  *         self.strategy = settings['strategy']
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_nParm); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 81, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_nParm); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -2917,18 +2917,18 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 81, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 84, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 81, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 84, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 81, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 84, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->D = __pyx_t_4;
 
-  /* "de.pyx":83
+  /* "de.pyx":86
  *         self.D = self.func.get_nParm()
  *         # strategy 1~10, choice what strategy to generate new member in temporary
  *         self.strategy = settings['strategy']             # <<<<<<<<<<<<<<
@@ -2937,15 +2937,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 83, __pyx_L1_error)
+    __PYX_ERR(1, 86, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_strategy); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_strategy); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 83, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 86, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->strategy = __pyx_t_4;
 
-  /* "de.pyx":86
+  /* "de.pyx":89
  *         # population size
  *         # To start off NP = 10*D is a reasonable choice. Increase NP if misconvergence
  *         self.NP = settings['NP']             # <<<<<<<<<<<<<<
@@ -2954,15 +2954,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 86, __pyx_L1_error)
+    __PYX_ERR(1, 89, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_NP); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 86, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_NP); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 86, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->NP = __pyx_t_4;
 
-  /* "de.pyx":89
+  /* "de.pyx":92
  *         # weight factor
  *         # F is usually between 0.5 and 1 (in rare cases > 1)
  *         self.F = settings['F']             # <<<<<<<<<<<<<<
@@ -2971,15 +2971,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 89, __pyx_L1_error)
+    __PYX_ERR(1, 92, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 89, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 89, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 92, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->F = __pyx_t_5;
 
-  /* "de.pyx":92
+  /* "de.pyx":95
  *         # crossover possible
  *         # CR in [0,1]
  *         self.CR = settings['CR']             # <<<<<<<<<<<<<<
@@ -2988,27 +2988,27 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 92, __pyx_L1_error)
+    __PYX_ERR(1, 95, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_CR); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 92, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_CR); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 95, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 92, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 95, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->CR = __pyx_t_5;
 
-  /* "de.pyx":94
+  /* "de.pyx":97
  *         self.CR = settings['CR']
  *         # low bound
  *         self.lb = np.array(self.func.get_lower())             # <<<<<<<<<<<<<<
  *         # up bound
  *         self.ub = np.array(self.func.get_upper())
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_lower); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 94, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_lower); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 97, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -3021,10 +3021,10 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     }
   }
   if (__pyx_t_7) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 97, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 97, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3039,14 +3039,14 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     }
   }
   if (!__pyx_t_6) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 97, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 97, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3055,45 +3055,45 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 97, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 94, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 97, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_2);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_2);
       __pyx_t_2 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 94, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 97, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 94, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 97, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->lb);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->lb));
   __pyx_v_self->lb = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "de.pyx":96
+  /* "de.pyx":99
  *         self.lb = np.array(self.func.get_lower())
  *         # up bound
  *         self.ub = np.array(self.func.get_upper())             # <<<<<<<<<<<<<<
  *         #Algorithm will stop when the limitation has happend.
  *         self.maxGen = 0
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 96, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 96, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 96, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_upper); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -3106,10 +3106,10 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     }
   }
   if (__pyx_t_6) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 96, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 99, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 96, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 99, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3124,14 +3124,14 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 99, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 99, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3140,33 +3140,33 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 99, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 96, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 99, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 96, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 99, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 96, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(1, 99, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->ub);
   __Pyx_DECREF(((PyObject *)__pyx_v_self->ub));
   __pyx_v_self->ub = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "de.pyx":98
+  /* "de.pyx":101
  *         self.ub = np.array(self.func.get_upper())
  *         #Algorithm will stop when the limitation has happend.
  *         self.maxGen = 0             # <<<<<<<<<<<<<<
@@ -3175,7 +3175,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->maxGen = 0;
 
-  /* "de.pyx":99
+  /* "de.pyx":102
  *         #Algorithm will stop when the limitation has happend.
  *         self.maxGen = 0
  *         self.minFit = 0             # <<<<<<<<<<<<<<
@@ -3184,7 +3184,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->minFit = 0.0;
 
-  /* "de.pyx":100
+  /* "de.pyx":103
  *         self.maxGen = 0
  *         self.minFit = 0
  *         self.maxTime = 0             # <<<<<<<<<<<<<<
@@ -3193,7 +3193,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->maxTime = 0;
 
-  /* "de.pyx":101
+  /* "de.pyx":104
  *         self.minFit = 0
  *         self.maxTime = 0
  *         if 'maxGen' in settings:             # <<<<<<<<<<<<<<
@@ -3202,13 +3202,13 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 101, __pyx_L1_error)
+    __PYX_ERR(1, 104, __pyx_L1_error)
   }
-  __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxGen, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 101, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxGen, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 104, __pyx_L1_error)
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (__pyx_t_9) {
 
-    /* "de.pyx":102
+    /* "de.pyx":105
  *         self.maxTime = 0
  *         if 'maxGen' in settings:
  *             self.option = maxGen             # <<<<<<<<<<<<<<
@@ -3217,7 +3217,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
     __pyx_v_self->option = __pyx_e_2de_maxGen;
 
-    /* "de.pyx":103
+    /* "de.pyx":106
  *         if 'maxGen' in settings:
  *             self.option = maxGen
  *             self.maxGen = settings['maxGen']             # <<<<<<<<<<<<<<
@@ -3226,15 +3226,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
     if (unlikely(__pyx_v_settings == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 103, __pyx_L1_error)
+      __PYX_ERR(1, 106, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxGen); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 103, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxGen); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 103, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 106, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_self->maxGen = __pyx_t_4;
 
-    /* "de.pyx":101
+    /* "de.pyx":104
  *         self.minFit = 0
  *         self.maxTime = 0
  *         if 'maxGen' in settings:             # <<<<<<<<<<<<<<
@@ -3244,7 +3244,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     goto __pyx_L3;
   }
 
-  /* "de.pyx":104
+  /* "de.pyx":107
  *             self.option = maxGen
  *             self.maxGen = settings['maxGen']
  *         elif 'minFit' in settings:             # <<<<<<<<<<<<<<
@@ -3253,13 +3253,13 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 104, __pyx_L1_error)
+    __PYX_ERR(1, 107, __pyx_L1_error)
   }
-  __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_minFit, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 104, __pyx_L1_error)
+  __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_minFit, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 107, __pyx_L1_error)
   __pyx_t_8 = (__pyx_t_9 != 0);
   if (__pyx_t_8) {
 
-    /* "de.pyx":105
+    /* "de.pyx":108
  *             self.maxGen = settings['maxGen']
  *         elif 'minFit' in settings:
  *             self.option = minFit             # <<<<<<<<<<<<<<
@@ -3268,7 +3268,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
     __pyx_v_self->option = __pyx_e_2de_minFit;
 
-    /* "de.pyx":106
+    /* "de.pyx":109
  *         elif 'minFit' in settings:
  *             self.option = minFit
  *             self.minFit = settings['minFit']             # <<<<<<<<<<<<<<
@@ -3277,15 +3277,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
     if (unlikely(__pyx_v_settings == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 106, __pyx_L1_error)
+      __PYX_ERR(1, 109, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_minFit); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 106, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_minFit); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 106, __pyx_L1_error)
+    __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 109, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_self->minFit = __pyx_t_5;
 
-    /* "de.pyx":104
+    /* "de.pyx":107
  *             self.option = maxGen
  *             self.maxGen = settings['maxGen']
  *         elif 'minFit' in settings:             # <<<<<<<<<<<<<<
@@ -3295,7 +3295,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     goto __pyx_L3;
   }
 
-  /* "de.pyx":107
+  /* "de.pyx":110
  *             self.option = minFit
  *             self.minFit = settings['minFit']
  *         elif 'maxTime' in settings:             # <<<<<<<<<<<<<<
@@ -3304,13 +3304,13 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 107, __pyx_L1_error)
+    __PYX_ERR(1, 110, __pyx_L1_error)
   }
-  __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxTime, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 107, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_n_s_maxTime, __pyx_v_settings, Py_EQ)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 110, __pyx_L1_error)
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (likely(__pyx_t_9)) {
 
-    /* "de.pyx":108
+    /* "de.pyx":111
  *             self.minFit = settings['minFit']
  *         elif 'maxTime' in settings:
  *             self.option = maxTime             # <<<<<<<<<<<<<<
@@ -3319,7 +3319,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
     __pyx_v_self->option = __pyx_e_2de_maxTime;
 
-    /* "de.pyx":109
+    /* "de.pyx":112
  *         elif 'maxTime' in settings:
  *             self.option = maxTime
  *             self.maxTime = settings['maxTime']             # <<<<<<<<<<<<<<
@@ -3328,15 +3328,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
     if (unlikely(__pyx_v_settings == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 109, __pyx_L1_error)
+      __PYX_ERR(1, 112, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 109, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_maxTime); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 109, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 112, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_self->maxTime = __pyx_t_4;
 
-    /* "de.pyx":107
+    /* "de.pyx":110
  *             self.option = minFit
  *             self.minFit = settings['minFit']
  *         elif 'maxTime' in settings:             # <<<<<<<<<<<<<<
@@ -3346,7 +3346,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     goto __pyx_L3;
   }
 
-  /* "de.pyx":111
+  /* "de.pyx":114
  *             self.maxTime = settings['maxTime']
  *         else:
  *             raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")             # <<<<<<<<<<<<<<
@@ -3354,15 +3354,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  *         self.rpt = settings['report']
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 111, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(1, 111, __pyx_L1_error)
+    __PYX_ERR(1, 114, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "de.pyx":113
+  /* "de.pyx":116
  *             raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")
  *         #Report function
  *         self.rpt = settings['report']             # <<<<<<<<<<<<<<
@@ -3371,15 +3371,15 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   if (unlikely(__pyx_v_settings == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 113, __pyx_L1_error)
+    __PYX_ERR(1, 116, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_report); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 113, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_settings, __pyx_n_s_report); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 113, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(1, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->rpt = __pyx_t_4;
 
-  /* "de.pyx":114
+  /* "de.pyx":117
  *         #Report function
  *         self.rpt = settings['report']
  *         self.progress_fun = progress_fun             # <<<<<<<<<<<<<<
@@ -3392,7 +3392,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __Pyx_DECREF(__pyx_v_self->progress_fun);
   __pyx_v_self->progress_fun = __pyx_v_progress_fun;
 
-  /* "de.pyx":115
+  /* "de.pyx":118
  *         self.rpt = settings['report']
  *         self.progress_fun = progress_fun
  *         self.interrupt_fun = interrupt_fun             # <<<<<<<<<<<<<<
@@ -3405,7 +3405,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __Pyx_DECREF(__pyx_v_self->interrupt_fun);
   __pyx_v_self->interrupt_fun = __pyx_v_interrupt_fun;
 
-  /* "de.pyx":117
+  /* "de.pyx":120
  *         self.interrupt_fun = interrupt_fun
  *         # check parameter is set properly
  *         self.checkParameter()             # <<<<<<<<<<<<<<
@@ -3414,35 +3414,35 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_f_2de_19DiffertialEvolution_checkParameter(__pyx_v_self);
 
-  /* "de.pyx":119
+  /* "de.pyx":122
  *         self.checkParameter()
  *         # generation pool, depend on population size
  *         self.pop = np.ndarray((self.NP,), dtype=np.object)             # <<<<<<<<<<<<<<
  *         for i in range(self.NP):
  *             self.pop[i] = Chromosome(self.D)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->NP); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->NP); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_7);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_7);
   __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_object); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_object); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(1, 119, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_t_3) < 0) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 119, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5numpy_ndarray), __pyx_t_1, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -3452,7 +3452,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __pyx_v_self->pop = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "de.pyx":120
+  /* "de.pyx":123
  *         # generation pool, depend on population size
  *         self.pop = np.ndarray((self.NP,), dtype=np.object)
  *         for i in range(self.NP):             # <<<<<<<<<<<<<<
@@ -3464,32 +3464,32 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
     __pyx_v_i = __pyx_t_11;
 
-    /* "de.pyx":121
+    /* "de.pyx":124
  *         self.pop = np.ndarray((self.NP,), dtype=np.object)
  *         for i in range(self.NP):
  *             self.pop[i] = Chromosome(self.D)             # <<<<<<<<<<<<<<
  *         # last generation best member
  *         self.lastgenbest = Chromosome(self.D)
  */
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 121, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 121, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 121, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, __pyx_t_7, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 124, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
 
-  /* "de.pyx":123
+  /* "de.pyx":126
  *             self.pop[i] = Chromosome(self.D)
  *         # last generation best member
  *         self.lastgenbest = Chromosome(self.D)             # <<<<<<<<<<<<<<
  *         # current best member
  *         self.currentbest = Chromosome(self.D)
  */
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_GIVEREF(__pyx_t_3);
@@ -3498,16 +3498,16 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __pyx_v_self->lastgenbest = ((struct __pyx_obj_2de_Chromosome *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "de.pyx":125
+  /* "de.pyx":128
  *         self.lastgenbest = Chromosome(self.D)
  *         # current best member
  *         self.currentbest = Chromosome(self.D)             # <<<<<<<<<<<<<<
  *         # the generation count
  *         self.gen = 0
  */
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 125, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 125, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 128, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_7);
@@ -3516,7 +3516,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __pyx_v_self->currentbest = ((struct __pyx_obj_2de_Chromosome *)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "de.pyx":127
+  /* "de.pyx":130
  *         self.currentbest = Chromosome(self.D)
  *         # the generation count
  *         self.gen = 0             # <<<<<<<<<<<<<<
@@ -3525,7 +3525,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->gen = 0;
 
-  /* "de.pyx":129
+  /* "de.pyx":132
  *         self.gen = 0
  *         # the vector
  *         self.r1 = 0             # <<<<<<<<<<<<<<
@@ -3534,7 +3534,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->r1 = 0;
 
-  /* "de.pyx":130
+  /* "de.pyx":133
  *         # the vector
  *         self.r1 = 0
  *         self.r2 = 0             # <<<<<<<<<<<<<<
@@ -3543,7 +3543,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->r2 = 0;
 
-  /* "de.pyx":131
+  /* "de.pyx":134
  *         self.r1 = 0
  *         self.r2 = 0
  *         self.r3 = 0             # <<<<<<<<<<<<<<
@@ -3552,7 +3552,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->r3 = 0;
 
-  /* "de.pyx":132
+  /* "de.pyx":135
  *         self.r2 = 0
  *         self.r3 = 0
  *         self.r4 = 0             # <<<<<<<<<<<<<<
@@ -3561,7 +3561,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->r4 = 0;
 
-  /* "de.pyx":133
+  /* "de.pyx":136
  *         self.r3 = 0
  *         self.r4 = 0
  *         self.r5 = 0             # <<<<<<<<<<<<<<
@@ -3570,14 +3570,14 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->r5 = 0;
 
-  /* "de.pyx":136
+  /* "de.pyx":139
  * 
  *         # setup benchmark
  *         self.timeS = time()             # <<<<<<<<<<<<<<
  *         self.timeE = 0
  *         self.fitnessTime = []
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 136, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
@@ -3590,18 +3590,18 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
     }
   }
   if (__pyx_t_1) {
-    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 136, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 139, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 136, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 139, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 136, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_7); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 139, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_v_self->timeS = __pyx_t_5;
 
-  /* "de.pyx":137
+  /* "de.pyx":140
  *         # setup benchmark
  *         self.timeS = time()
  *         self.timeE = 0             # <<<<<<<<<<<<<<
@@ -3610,14 +3610,14 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
  */
   __pyx_v_self->timeE = 0.0;
 
-  /* "de.pyx":138
+  /* "de.pyx":141
  *         self.timeS = time()
  *         self.timeE = 0
  *         self.fitnessTime = []             # <<<<<<<<<<<<<<
  * 
  *     cdef inline void checkParameter(self):
  */
-  __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 138, __pyx_L1_error)
+  __pyx_t_7 = PyList_New(0); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 141, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_7);
   __Pyx_GOTREF(__pyx_v_self->fitnessTime);
@@ -3625,7 +3625,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   __pyx_v_self->fitnessTime = ((PyObject*)__pyx_t_7);
   __pyx_t_7 = 0;
 
-  /* "de.pyx":62
+  /* "de.pyx":65
  *     cdef list fitnessTime
  * 
  *     def __cinit__(self,             # <<<<<<<<<<<<<<
@@ -3649,7 +3649,7 @@ static int __pyx_pf_2de_19DiffertialEvolution___cinit__(struct __pyx_obj_2de_Dif
   return __pyx_r;
 }
 
-/* "de.pyx":140
+/* "de.pyx":143
  *         self.fitnessTime = []
  * 
  *     cdef inline void checkParameter(self):             # <<<<<<<<<<<<<<
@@ -3674,14 +3674,14 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   PyObject *(*__pyx_t_11)(PyObject *);
   __Pyx_RefNannySetupContext("checkParameter", 0);
 
-  /* "de.pyx":144
+  /* "de.pyx":147
  *         check parameter is set properly
  *         """
  *         if (type(self.D) is not int) and self.D <= 0:             # <<<<<<<<<<<<<<
  *             raise Exception('D shoud be integer and larger than 0')
  *         if (type(self.NP) is not int) and self.NP <= 0:
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 144, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = (((PyObject *)Py_TYPE(__pyx_t_2)) != ((PyObject *)(&PyInt_Type)));
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3696,20 +3696,20 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "de.pyx":145
+    /* "de.pyx":148
  *         """
  *         if (type(self.D) is not int) and self.D <= 0:
  *             raise Exception('D shoud be integer and larger than 0')             # <<<<<<<<<<<<<<
  *         if (type(self.NP) is not int) and self.NP <= 0:
  *             raise Exception('NP shoud be integer and larger than 0')
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 145, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 148, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 145, __pyx_L1_error)
+    __PYX_ERR(1, 148, __pyx_L1_error)
 
-    /* "de.pyx":144
+    /* "de.pyx":147
  *         check parameter is set properly
  *         """
  *         if (type(self.D) is not int) and self.D <= 0:             # <<<<<<<<<<<<<<
@@ -3718,14 +3718,14 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
  */
   }
 
-  /* "de.pyx":146
+  /* "de.pyx":149
  *         if (type(self.D) is not int) and self.D <= 0:
  *             raise Exception('D shoud be integer and larger than 0')
  *         if (type(self.NP) is not int) and self.NP <= 0:             # <<<<<<<<<<<<<<
  *             raise Exception('NP shoud be integer and larger than 0')
  *         if self.CR < 0 or self.CR > 1:
  */
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->NP); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 146, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->NP); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = (((PyObject *)Py_TYPE(__pyx_t_2)) != ((PyObject *)(&PyInt_Type)));
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3740,20 +3740,20 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   __pyx_L7_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "de.pyx":147
+    /* "de.pyx":150
  *             raise Exception('D shoud be integer and larger than 0')
  *         if (type(self.NP) is not int) and self.NP <= 0:
  *             raise Exception('NP shoud be integer and larger than 0')             # <<<<<<<<<<<<<<
  *         if self.CR < 0 or self.CR > 1:
  *             raise Exception('CR should be [0,1]')
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 147, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 147, __pyx_L1_error)
+    __PYX_ERR(1, 150, __pyx_L1_error)
 
-    /* "de.pyx":146
+    /* "de.pyx":149
  *         if (type(self.D) is not int) and self.D <= 0:
  *             raise Exception('D shoud be integer and larger than 0')
  *         if (type(self.NP) is not int) and self.NP <= 0:             # <<<<<<<<<<<<<<
@@ -3762,7 +3762,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
  */
   }
 
-  /* "de.pyx":148
+  /* "de.pyx":151
  *         if (type(self.NP) is not int) and self.NP <= 0:
  *             raise Exception('NP shoud be integer and larger than 0')
  *         if self.CR < 0 or self.CR > 1:             # <<<<<<<<<<<<<<
@@ -3780,20 +3780,20 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   __pyx_L10_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "de.pyx":149
+    /* "de.pyx":152
  *             raise Exception('NP shoud be integer and larger than 0')
  *         if self.CR < 0 or self.CR > 1:
  *             raise Exception('CR should be [0,1]')             # <<<<<<<<<<<<<<
  *         if self.strategy < 1 or self.strategy > 10:
  *             raise Exception('strategy should be [1,10]')
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 149, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 152, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 149, __pyx_L1_error)
+    __PYX_ERR(1, 152, __pyx_L1_error)
 
-    /* "de.pyx":148
+    /* "de.pyx":151
  *         if (type(self.NP) is not int) and self.NP <= 0:
  *             raise Exception('NP shoud be integer and larger than 0')
  *         if self.CR < 0 or self.CR > 1:             # <<<<<<<<<<<<<<
@@ -3802,7 +3802,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
  */
   }
 
-  /* "de.pyx":150
+  /* "de.pyx":153
  *         if self.CR < 0 or self.CR > 1:
  *             raise Exception('CR should be [0,1]')
  *         if self.strategy < 1 or self.strategy > 10:             # <<<<<<<<<<<<<<
@@ -3820,20 +3820,20 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   __pyx_L13_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "de.pyx":151
+    /* "de.pyx":154
  *             raise Exception('CR should be [0,1]')
  *         if self.strategy < 1 or self.strategy > 10:
  *             raise Exception('strategy should be [1,10]')             # <<<<<<<<<<<<<<
  *         for lower, upper in zip(self.lb, self.ub):
  *             if lower > upper:
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 151, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 154, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 151, __pyx_L1_error)
+    __PYX_ERR(1, 154, __pyx_L1_error)
 
-    /* "de.pyx":150
+    /* "de.pyx":153
  *         if self.CR < 0 or self.CR > 1:
  *             raise Exception('CR should be [0,1]')
  *         if self.strategy < 1 or self.strategy > 10:             # <<<<<<<<<<<<<<
@@ -3842,14 +3842,14 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
  */
   }
 
-  /* "de.pyx":152
+  /* "de.pyx":155
  *         if self.strategy < 1 or self.strategy > 10:
  *             raise Exception('strategy should be [1,10]')
  *         for lower, upper in zip(self.lb, self.ub):             # <<<<<<<<<<<<<<
  *             if lower > upper:
  *                 raise Exception('upper bound should be larger than lower bound')
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 152, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_v_self->lb));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->lb));
@@ -3857,16 +3857,16 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   __Pyx_INCREF(((PyObject *)__pyx_v_self->ub));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self->ub));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self->ub));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 152, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_zip, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 155, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_5)) || PyTuple_CheckExact(__pyx_t_5)) {
     __pyx_t_2 = __pyx_t_5; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 155, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 152, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 155, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   for (;;) {
@@ -3874,17 +3874,17 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(1, 152, __pyx_L1_error)
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(1, 155, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 152, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(1, 152, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_5); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(1, 155, __pyx_L1_error)
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 152, __pyx_L1_error)
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 155, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -3894,7 +3894,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 152, __pyx_L1_error)
+          else __PYX_ERR(1, 155, __pyx_L1_error)
         }
         break;
       }
@@ -3906,7 +3906,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(1, 152, __pyx_L1_error)
+        __PYX_ERR(1, 155, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -3919,15 +3919,15 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_9);
       #else
-      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 152, __pyx_L1_error)
+      __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 155, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 152, __pyx_L1_error)
+      __pyx_t_9 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 155, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       #endif
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_10 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 152, __pyx_L1_error)
+      __pyx_t_10 = PyObject_GetIter(__pyx_t_5); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 155, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_t_11 = Py_TYPE(__pyx_t_10)->tp_iternext;
@@ -3935,7 +3935,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
       __Pyx_GOTREF(__pyx_t_8);
       index = 1; __pyx_t_9 = __pyx_t_11(__pyx_t_10); if (unlikely(!__pyx_t_9)) goto __pyx_L17_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_9);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(1, 152, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_11(__pyx_t_10), 2) < 0) __PYX_ERR(1, 155, __pyx_L1_error)
       __pyx_t_11 = NULL;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       goto __pyx_L18_unpacking_done;
@@ -3943,7 +3943,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_11 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(1, 152, __pyx_L1_error)
+      __PYX_ERR(1, 155, __pyx_L1_error)
       __pyx_L18_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_lower, __pyx_t_8);
@@ -3951,32 +3951,32 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
     __Pyx_XDECREF_SET(__pyx_v_upper, __pyx_t_9);
     __pyx_t_9 = 0;
 
-    /* "de.pyx":153
+    /* "de.pyx":156
  *             raise Exception('strategy should be [1,10]')
  *         for lower, upper in zip(self.lb, self.ub):
  *             if lower > upper:             # <<<<<<<<<<<<<<
  *                 raise Exception('upper bound should be larger than lower bound')
  * 
  */
-    __pyx_t_5 = PyObject_RichCompare(__pyx_v_lower, __pyx_v_upper, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 153, __pyx_L1_error)
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 153, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_v_lower, __pyx_v_upper, Py_GT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 156, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 156, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(__pyx_t_1)) {
 
-      /* "de.pyx":154
+      /* "de.pyx":157
  *         for lower, upper in zip(self.lb, self.ub):
  *             if lower > upper:
  *                 raise Exception('upper bound should be larger than lower bound')             # <<<<<<<<<<<<<<
  * 
  *     cdef inline void init(self):
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 154, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 157, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __PYX_ERR(1, 154, __pyx_L1_error)
+      __PYX_ERR(1, 157, __pyx_L1_error)
 
-      /* "de.pyx":153
+      /* "de.pyx":156
  *             raise Exception('strategy should be [1,10]')
  *         for lower, upper in zip(self.lb, self.ub):
  *             if lower > upper:             # <<<<<<<<<<<<<<
@@ -3985,7 +3985,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
  */
     }
 
-    /* "de.pyx":152
+    /* "de.pyx":155
  *         if self.strategy < 1 or self.strategy > 10:
  *             raise Exception('strategy should be [1,10]')
  *         for lower, upper in zip(self.lb, self.ub):             # <<<<<<<<<<<<<<
@@ -3995,7 +3995,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "de.pyx":140
+  /* "de.pyx":143
  *         self.fitnessTime = []
  * 
  *     cdef inline void checkParameter(self):             # <<<<<<<<<<<<<<
@@ -4018,7 +4018,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_checkParameter(struc
   __Pyx_RefNannyFinishContext();
 }
 
-/* "de.pyx":156
+/* "de.pyx":159
  *                 raise Exception('upper bound should be larger than lower bound')
  * 
  *     cdef inline void init(self):             # <<<<<<<<<<<<<<
@@ -4043,7 +4043,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_init(struct __pyx_ob
   PyObject *__pyx_t_11 = NULL;
   __Pyx_RefNannySetupContext("init", 0);
 
-  /* "de.pyx":161
+  /* "de.pyx":164
  *         """
  *         cdef int i, j
  *         for i in range(self.NP):             # <<<<<<<<<<<<<<
@@ -4055,7 +4055,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_init(struct __pyx_ob
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "de.pyx":162
+    /* "de.pyx":165
  *         cdef int i, j
  *         for i in range(self.NP):
  *             for j in range(self.D):             # <<<<<<<<<<<<<<
@@ -4067,64 +4067,64 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_init(struct __pyx_ob
     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
       __pyx_v_j = __pyx_t_6;
 
-      /* "de.pyx":163
+      /* "de.pyx":166
  *         for i in range(self.NP):
  *             for j in range(self.D):
  *                 self.pop[i].v[j] = self.lb[j] + randV()*(self.ub[j] - self.lb[j])             # <<<<<<<<<<<<<<
  *             self.pop[i].f = self.evalute(self.pop[i])
  * 
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = PyFloat_FromDouble(__pyx_f_2de_randV()); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_8 = PyFloat_FromDouble(__pyx_f_2de_randV()); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_11 = PyNumber_Subtract(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_11 = PyNumber_Subtract(__pyx_t_9, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = PyNumber_Multiply(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_10 = PyNumber_Multiply(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_11 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_11 = PyNumber_Add(__pyx_t_7, __pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_v); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 163, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_v); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      if (unlikely(__Pyx_SetItemInt(__pyx_t_7, __pyx_v_j, __pyx_t_11, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 163, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_7, __pyx_v_j, __pyx_t_11, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 166, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
 
-    /* "de.pyx":164
+    /* "de.pyx":167
  *             for j in range(self.D):
  *                 self.pop[i].v[j] = self.lb[j] + randV()*(self.ub[j] - self.lb[j])
  *             self.pop[i].f = self.evalute(self.pop[i])             # <<<<<<<<<<<<<<
  * 
  *     cdef inline double evalute(self, Chromosome member):
  */
-    __pyx_t_11 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 164, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 167, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    if (!(likely(((__pyx_t_11) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_11, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 164, __pyx_L1_error)
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_f_2de_19DiffertialEvolution_evalute(__pyx_v_self, ((struct __pyx_obj_2de_Chromosome *)__pyx_t_11))); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 164, __pyx_L1_error)
+    if (!(likely(((__pyx_t_11) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_11, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 167, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_f_2de_19DiffertialEvolution_evalute(__pyx_v_self, ((struct __pyx_obj_2de_Chromosome *)__pyx_t_11))); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 167, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __pyx_t_11 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 164, __pyx_L1_error)
+    __pyx_t_11 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 167, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
-    if (__Pyx_PyObject_SetAttrStr(__pyx_t_11, __pyx_n_s_f, __pyx_t_7) < 0) __PYX_ERR(1, 164, __pyx_L1_error)
+    if (__Pyx_PyObject_SetAttrStr(__pyx_t_11, __pyx_n_s_f, __pyx_t_7) < 0) __PYX_ERR(1, 167, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
 
-  /* "de.pyx":156
+  /* "de.pyx":159
  *                 raise Exception('upper bound should be larger than lower bound')
  * 
  *     cdef inline void init(self):             # <<<<<<<<<<<<<<
@@ -4145,7 +4145,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_init(struct __pyx_ob
   __Pyx_RefNannyFinishContext();
 }
 
-/* "de.pyx":166
+/* "de.pyx":169
  *             self.pop[i].f = self.evalute(self.pop[i])
  * 
  *     cdef inline double evalute(self, Chromosome member):             # <<<<<<<<<<<<<<
@@ -4163,7 +4163,7 @@ static CYTHON_INLINE double __pyx_f_2de_19DiffertialEvolution_evalute(struct __p
   double __pyx_t_5;
   __Pyx_RefNannySetupContext("evalute", 0);
 
-  /* "de.pyx":170
+  /* "de.pyx":173
  *         evalute the member in enviorment
  *         """
  *         return self.func(member.v)             # <<<<<<<<<<<<<<
@@ -4182,13 +4182,13 @@ static CYTHON_INLINE double __pyx_f_2de_19DiffertialEvolution_evalute(struct __p
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)__pyx_v_member->v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 170, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)__pyx_v_member->v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, ((PyObject *)__pyx_v_member->v)};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 170, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -4196,30 +4196,30 @@ static CYTHON_INLINE double __pyx_f_2de_19DiffertialEvolution_evalute(struct __p
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, ((PyObject *)__pyx_v_member->v)};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 170, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 170, __pyx_L1_error)
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(((PyObject *)__pyx_v_member->v));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_member->v));
       PyTuple_SET_ITEM(__pyx_t_4, 0+1, ((PyObject *)__pyx_v_member->v));
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 170, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 173, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 170, __pyx_L1_error)
+  __pyx_t_5 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_5 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 173, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_5;
   goto __pyx_L0;
 
-  /* "de.pyx":166
+  /* "de.pyx":169
  *             self.pop[i].f = self.evalute(self.pop[i])
  * 
  *     cdef inline double evalute(self, Chromosome member):             # <<<<<<<<<<<<<<
@@ -4240,7 +4240,7 @@ static CYTHON_INLINE double __pyx_f_2de_19DiffertialEvolution_evalute(struct __p
   return __pyx_r;
 }
 
-/* "de.pyx":172
+/* "de.pyx":175
  *         return self.func(member.v)
  * 
  *     cdef inline Chromosome findBest(self):             # <<<<<<<<<<<<<<
@@ -4264,7 +4264,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
   int __pyx_t_7;
   __Pyx_RefNannySetupContext("findBest", 0);
 
-  /* "de.pyx":177
+  /* "de.pyx":180
  *         """
  *         cdef int i
  *         cdef int index = 0             # <<<<<<<<<<<<<<
@@ -4273,23 +4273,23 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
   __pyx_v_index = 0;
 
-  /* "de.pyx":179
+  /* "de.pyx":182
  *         cdef int index = 0
  *         cdef Chromosome chrom
  *         cdef double f = self.pop[0].f             # <<<<<<<<<<<<<<
  *         for i in range(len(self.pop)):
  *             chrom = self.pop[i]
  */
-  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 179, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_f); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 179, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_f); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 179, __pyx_L1_error)
+  __pyx_t_3 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_3 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 182, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_f = __pyx_t_3;
 
-  /* "de.pyx":180
+  /* "de.pyx":183
  *         cdef Chromosome chrom
  *         cdef double f = self.pop[0].f
  *         for i in range(len(self.pop)):             # <<<<<<<<<<<<<<
@@ -4298,26 +4298,26 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->pop);
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_4 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 180, __pyx_L1_error)
+  __pyx_t_4 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 183, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = __pyx_t_4;
   for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_5; __pyx_t_6+=1) {
     __pyx_v_i = __pyx_t_6;
 
-    /* "de.pyx":181
+    /* "de.pyx":184
  *         cdef double f = self.pop[0].f
  *         for i in range(len(self.pop)):
  *             chrom = self.pop[i]             # <<<<<<<<<<<<<<
  *             if chrom.f < f:
  *                 index = i
  */
-    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 181, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 181, __pyx_L1_error)
+    if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 184, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_chrom, ((struct __pyx_obj_2de_Chromosome *)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "de.pyx":182
+    /* "de.pyx":185
  *         for i in range(len(self.pop)):
  *             chrom = self.pop[i]
  *             if chrom.f < f:             # <<<<<<<<<<<<<<
@@ -4327,7 +4327,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     __pyx_t_7 = ((__pyx_v_chrom->f < __pyx_v_f) != 0);
     if (__pyx_t_7) {
 
-      /* "de.pyx":183
+      /* "de.pyx":186
  *             chrom = self.pop[i]
  *             if chrom.f < f:
  *                 index = i             # <<<<<<<<<<<<<<
@@ -4336,7 +4336,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       __pyx_v_index = __pyx_v_i;
 
-      /* "de.pyx":184
+      /* "de.pyx":187
  *             if chrom.f < f:
  *                 index = i
  *                 f = chrom.f             # <<<<<<<<<<<<<<
@@ -4346,7 +4346,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_3 = __pyx_v_chrom->f;
       __pyx_v_f = __pyx_t_3;
 
-      /* "de.pyx":182
+      /* "de.pyx":185
  *         for i in range(len(self.pop)):
  *             chrom = self.pop[i]
  *             if chrom.f < f:             # <<<<<<<<<<<<<<
@@ -4356,7 +4356,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     }
   }
 
-  /* "de.pyx":185
+  /* "de.pyx":188
  *                 index = i
  *                 f = chrom.f
  *         return self.pop[index]             # <<<<<<<<<<<<<<
@@ -4364,14 +4364,14 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  *     cdef inline void generateRandomVector(self, int i):
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 185, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 185, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 188, __pyx_L1_error)
   __pyx_r = ((struct __pyx_obj_2de_Chromosome *)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "de.pyx":172
+  /* "de.pyx":175
  *         return self.func(member.v)
  * 
  *     cdef inline Chromosome findBest(self):             # <<<<<<<<<<<<<<
@@ -4392,7 +4392,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
   return __pyx_r;
 }
 
-/* "de.pyx":187
+/* "de.pyx":190
  *         return self.pop[index]
  * 
  *     cdef inline void generateRandomVector(self, int i):             # <<<<<<<<<<<<<<
@@ -4406,7 +4406,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   int __pyx_t_2;
   __Pyx_RefNannySetupContext("generateRandomVector", 0);
 
-  /* "de.pyx":191
+  /* "de.pyx":194
  *         generate new vector
  *         """
  *         while True:             # <<<<<<<<<<<<<<
@@ -4415,7 +4415,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
   while (1) {
 
-    /* "de.pyx":192
+    /* "de.pyx":195
  *         """
  *         while True:
  *             self.r1 = int(randV() * self.NP)             # <<<<<<<<<<<<<<
@@ -4424,7 +4424,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
     __pyx_v_self->r1 = ((int)(__pyx_f_2de_randV() * __pyx_v_self->NP));
 
-    /* "de.pyx":193
+    /* "de.pyx":196
  *         while True:
  *             self.r1 = int(randV() * self.NP)
  *             if self.r1 != i:             # <<<<<<<<<<<<<<
@@ -4434,7 +4434,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
     __pyx_t_1 = ((__pyx_v_self->r1 != __pyx_v_i) != 0);
     if (__pyx_t_1) {
 
-      /* "de.pyx":194
+      /* "de.pyx":197
  *             self.r1 = int(randV() * self.NP)
  *             if self.r1 != i:
  *                 break             # <<<<<<<<<<<<<<
@@ -4443,7 +4443,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
       goto __pyx_L4_break;
 
-      /* "de.pyx":193
+      /* "de.pyx":196
  *         while True:
  *             self.r1 = int(randV() * self.NP)
  *             if self.r1 != i:             # <<<<<<<<<<<<<<
@@ -4454,7 +4454,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   }
   __pyx_L4_break:;
 
-  /* "de.pyx":195
+  /* "de.pyx":198
  *             if self.r1 != i:
  *                 break
  *         while True:             # <<<<<<<<<<<<<<
@@ -4463,7 +4463,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
   while (1) {
 
-    /* "de.pyx":196
+    /* "de.pyx":199
  *                 break
  *         while True:
  *             self.r2 = int(randV() * self.NP)             # <<<<<<<<<<<<<<
@@ -4472,7 +4472,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
     __pyx_v_self->r2 = ((int)(__pyx_f_2de_randV() * __pyx_v_self->NP));
 
-    /* "de.pyx":197
+    /* "de.pyx":200
  *         while True:
  *             self.r2 = int(randV() * self.NP)
  *             if (self.r2 != i) and (self.r2 != self.r1):             # <<<<<<<<<<<<<<
@@ -4490,7 +4490,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
     __pyx_L9_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "de.pyx":198
+      /* "de.pyx":201
  *             self.r2 = int(randV() * self.NP)
  *             if (self.r2 != i) and (self.r2 != self.r1):
  *                 break             # <<<<<<<<<<<<<<
@@ -4499,7 +4499,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
       goto __pyx_L7_break;
 
-      /* "de.pyx":197
+      /* "de.pyx":200
  *         while True:
  *             self.r2 = int(randV() * self.NP)
  *             if (self.r2 != i) and (self.r2 != self.r1):             # <<<<<<<<<<<<<<
@@ -4510,7 +4510,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   }
   __pyx_L7_break:;
 
-  /* "de.pyx":199
+  /* "de.pyx":202
  *             if (self.r2 != i) and (self.r2 != self.r1):
  *                 break
  *         while True:             # <<<<<<<<<<<<<<
@@ -4519,7 +4519,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
   while (1) {
 
-    /* "de.pyx":200
+    /* "de.pyx":203
  *                 break
  *         while True:
  *             self.r3 = int(randV() * self.NP)             # <<<<<<<<<<<<<<
@@ -4528,7 +4528,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
     __pyx_v_self->r3 = ((int)(__pyx_f_2de_randV() * __pyx_v_self->NP));
 
-    /* "de.pyx":201
+    /* "de.pyx":204
  *         while True:
  *             self.r3 = int(randV() * self.NP)
  *             if (self.r3 != i) and (self.r3 != self.r1) and (self.r3 != self.r2):             # <<<<<<<<<<<<<<
@@ -4552,7 +4552,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
     __pyx_L14_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "de.pyx":202
+      /* "de.pyx":205
  *             self.r3 = int(randV() * self.NP)
  *             if (self.r3 != i) and (self.r3 != self.r1) and (self.r3 != self.r2):
  *                 break             # <<<<<<<<<<<<<<
@@ -4561,7 +4561,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
       goto __pyx_L12_break;
 
-      /* "de.pyx":201
+      /* "de.pyx":204
  *         while True:
  *             self.r3 = int(randV() * self.NP)
  *             if (self.r3 != i) and (self.r3 != self.r1) and (self.r3 != self.r2):             # <<<<<<<<<<<<<<
@@ -4572,7 +4572,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   }
   __pyx_L12_break:;
 
-  /* "de.pyx":203
+  /* "de.pyx":206
  *             if (self.r3 != i) and (self.r3 != self.r1) and (self.r3 != self.r2):
  *                 break
  *         while True:             # <<<<<<<<<<<<<<
@@ -4581,7 +4581,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
   while (1) {
 
-    /* "de.pyx":204
+    /* "de.pyx":207
  *                 break
  *         while True:
  *             self.r4 = int(randV() * self.NP)             # <<<<<<<<<<<<<<
@@ -4590,7 +4590,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
     __pyx_v_self->r4 = ((int)(__pyx_f_2de_randV() * __pyx_v_self->NP));
 
-    /* "de.pyx":205
+    /* "de.pyx":208
  *         while True:
  *             self.r4 = int(randV() * self.NP)
  *             if (self.r4 != i) and (self.r4 != self.r1) and (self.r4 != self.r2) and (self.r4 != self.r3):             # <<<<<<<<<<<<<<
@@ -4620,7 +4620,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
     __pyx_L20_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "de.pyx":206
+      /* "de.pyx":209
  *             self.r4 = int(randV() * self.NP)
  *             if (self.r4 != i) and (self.r4 != self.r1) and (self.r4 != self.r2) and (self.r4 != self.r3):
  *                 break             # <<<<<<<<<<<<<<
@@ -4629,7 +4629,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
       goto __pyx_L18_break;
 
-      /* "de.pyx":205
+      /* "de.pyx":208
  *         while True:
  *             self.r4 = int(randV() * self.NP)
  *             if (self.r4 != i) and (self.r4 != self.r1) and (self.r4 != self.r2) and (self.r4 != self.r3):             # <<<<<<<<<<<<<<
@@ -4640,7 +4640,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   }
   __pyx_L18_break:;
 
-  /* "de.pyx":207
+  /* "de.pyx":210
  *             if (self.r4 != i) and (self.r4 != self.r1) and (self.r4 != self.r2) and (self.r4 != self.r3):
  *                 break
  *         while True:             # <<<<<<<<<<<<<<
@@ -4649,7 +4649,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
   while (1) {
 
-    /* "de.pyx":208
+    /* "de.pyx":211
  *                 break
  *         while True:
  *             self.r5 = int(randV() * self.NP)             # <<<<<<<<<<<<<<
@@ -4658,7 +4658,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
     __pyx_v_self->r5 = ((int)(__pyx_f_2de_randV() * __pyx_v_self->NP));
 
-    /* "de.pyx":209
+    /* "de.pyx":212
  *         while True:
  *             self.r5 = int(randV() * self.NP)
  *             if (self.r5 != i) and (self.r5 != self.r1) and (self.r5 != self.r2) and (self.r5 != self.r3) and (self.r5 != self.r4):             # <<<<<<<<<<<<<<
@@ -4694,7 +4694,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
     __pyx_L27_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "de.pyx":210
+      /* "de.pyx":213
  *             self.r5 = int(randV() * self.NP)
  *             if (self.r5 != i) and (self.r5 != self.r1) and (self.r5 != self.r2) and (self.r5 != self.r3) and (self.r5 != self.r4):
  *                 break             # <<<<<<<<<<<<<<
@@ -4703,7 +4703,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
  */
       goto __pyx_L25_break;
 
-      /* "de.pyx":209
+      /* "de.pyx":212
  *         while True:
  *             self.r5 = int(randV() * self.NP)
  *             if (self.r5 != i) and (self.r5 != self.r1) and (self.r5 != self.r2) and (self.r5 != self.r3) and (self.r5 != self.r4):             # <<<<<<<<<<<<<<
@@ -4714,7 +4714,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   }
   __pyx_L25_break:;
 
-  /* "de.pyx":187
+  /* "de.pyx":190
  *         return self.pop[index]
  * 
  *     cdef inline void generateRandomVector(self, int i):             # <<<<<<<<<<<<<<
@@ -4726,7 +4726,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generateRandomVector
   __Pyx_RefNannyFinishContext();
 }
 
-/* "de.pyx":212
+/* "de.pyx":215
  *                 break
  * 
  *     cdef inline Chromosome recombination(self, int i):             # <<<<<<<<<<<<<<
@@ -4753,35 +4753,35 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
   int __pyx_t_11;
   __Pyx_RefNannySetupContext("recombination", 0);
 
-  /* "de.pyx":216
+  /* "de.pyx":219
  *         use new vector, recombination the new one member to tmp
  *         """
  *         cdef Chromosome tmp = Chromosome(self.D)             # <<<<<<<<<<<<<<
  *         tmp.assign(self.pop[i])
  *         cdef int n = int(randV() * self.D)
  */
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 216, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->D); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 216, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_2de_Chromosome), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_tmp = ((struct __pyx_obj_2de_Chromosome *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "de.pyx":217
+  /* "de.pyx":220
  *         """
  *         cdef Chromosome tmp = Chromosome(self.D)
  *         tmp.assign(self.pop[i])             # <<<<<<<<<<<<<<
  *         cdef int n = int(randV() * self.D)
  *         cdef int L = 0
  */
-  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 217, __pyx_L1_error)
+  if (!(likely(((__pyx_t_2) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_2, __pyx_ptype_2de_Chromosome))))) __PYX_ERR(1, 220, __pyx_L1_error)
   ((struct __pyx_vtabstruct_2de_Chromosome *)__pyx_v_tmp->__pyx_vtab)->assign(__pyx_v_tmp, ((struct __pyx_obj_2de_Chromosome *)__pyx_t_2), 0);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "de.pyx":218
+  /* "de.pyx":221
  *         cdef Chromosome tmp = Chromosome(self.D)
  *         tmp.assign(self.pop[i])
  *         cdef int n = int(randV() * self.D)             # <<<<<<<<<<<<<<
@@ -4790,7 +4790,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
   __pyx_v_n = ((int)(__pyx_f_2de_randV() * __pyx_v_self->D));
 
-  /* "de.pyx":219
+  /* "de.pyx":222
  *         tmp.assign(self.pop[i])
  *         cdef int n = int(randV() * self.D)
  *         cdef int L = 0             # <<<<<<<<<<<<<<
@@ -4799,7 +4799,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
   __pyx_v_L = 0;
 
-  /* "de.pyx":220
+  /* "de.pyx":223
  *         cdef int n = int(randV() * self.D)
  *         cdef int L = 0
  *         if self.strategy==1:             # <<<<<<<<<<<<<<
@@ -4809,7 +4809,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
   switch (__pyx_v_self->strategy) {
     case 1:
 
-    /* "de.pyx":221
+    /* "de.pyx":224
  *         cdef int L = 0
  *         if self.strategy==1:
  *             while True:             # <<<<<<<<<<<<<<
@@ -4818,49 +4818,49 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     while (1) {
 
-      /* "de.pyx":222
+      /* "de.pyx":225
  *         if self.strategy==1:
  *             while True:
  *                 tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *                 L += 1
  */
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 222, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 222, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 225, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "de.pyx":223
+      /* "de.pyx":226
  *             while True:
  *                 tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -4870,11 +4870,11 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 223, __pyx_L1_error)
+        __PYX_ERR(1, 226, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
 
-      /* "de.pyx":224
+      /* "de.pyx":227
  *                 tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D
  *                 L += 1             # <<<<<<<<<<<<<<
@@ -4883,7 +4883,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       __pyx_v_L = (__pyx_v_L + 1);
 
-      /* "de.pyx":225
+      /* "de.pyx":228
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -4902,7 +4902,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_8 = ((!__pyx_t_7) != 0);
       if (__pyx_t_8) {
 
-        /* "de.pyx":226
+        /* "de.pyx":229
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):
  *                     break             # <<<<<<<<<<<<<<
@@ -4911,7 +4911,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
         goto __pyx_L4_break;
 
-        /* "de.pyx":225
+        /* "de.pyx":228
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -4922,7 +4922,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     }
     __pyx_L4_break:;
 
-    /* "de.pyx":220
+    /* "de.pyx":223
  *         cdef int n = int(randV() * self.D)
  *         cdef int L = 0
  *         if self.strategy==1:             # <<<<<<<<<<<<<<
@@ -4931,7 +4931,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":227
+    /* "de.pyx":230
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==2:             # <<<<<<<<<<<<<<
@@ -4940,7 +4940,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 2:
 
-    /* "de.pyx":228
+    /* "de.pyx":231
  *                     break
  *         elif self.strategy==2:
  *             while True:             # <<<<<<<<<<<<<<
@@ -4949,55 +4949,55 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     while (1) {
 
-      /* "de.pyx":229
+      /* "de.pyx":232
  *         elif self.strategy==2:
  *             while True:
  *                 tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *                 L += 1
  */
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 229, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 229, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 232, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-      /* "de.pyx":230
+      /* "de.pyx":233
  *             while True:
  *                 tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5007,11 +5007,11 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 230, __pyx_L1_error)
+        __PYX_ERR(1, 233, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
 
-      /* "de.pyx":231
+      /* "de.pyx":234
  *                 tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D
  *                 L += 1             # <<<<<<<<<<<<<<
@@ -5020,7 +5020,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       __pyx_v_L = (__pyx_v_L + 1);
 
-      /* "de.pyx":232
+      /* "de.pyx":235
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5039,7 +5039,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_7 = ((!__pyx_t_8) != 0);
       if (__pyx_t_7) {
 
-        /* "de.pyx":233
+        /* "de.pyx":236
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):
  *                     break             # <<<<<<<<<<<<<<
@@ -5048,7 +5048,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
         goto __pyx_L9_break;
 
-        /* "de.pyx":232
+        /* "de.pyx":235
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5059,7 +5059,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     }
     __pyx_L9_break:;
 
-    /* "de.pyx":227
+    /* "de.pyx":230
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==2:             # <<<<<<<<<<<<<<
@@ -5068,7 +5068,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":234
+    /* "de.pyx":237
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==3:             # <<<<<<<<<<<<<<
@@ -5077,7 +5077,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 3:
 
-    /* "de.pyx":235
+    /* "de.pyx":238
  *                     break
  *         elif self.strategy==3:
  *             while True:             # <<<<<<<<<<<<<<
@@ -5086,67 +5086,67 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     while (1) {
 
-      /* "de.pyx":236
+      /* "de.pyx":239
  *         elif self.strategy==3:
  *             while True:
  *                 tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *                 L += 1
  */
-      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_2 = PyNumber_Subtract(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Subtract(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 236, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 236, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 239, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "de.pyx":237
+      /* "de.pyx":240
  *             while True:
  *                 tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5156,11 +5156,11 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 237, __pyx_L1_error)
+        __PYX_ERR(1, 240, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
 
-      /* "de.pyx":238
+      /* "de.pyx":241
  *                 tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
  *                 n = (n + 1) % self.D
  *                 L += 1             # <<<<<<<<<<<<<<
@@ -5169,7 +5169,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       __pyx_v_L = (__pyx_v_L + 1);
 
-      /* "de.pyx":239
+      /* "de.pyx":242
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5188,7 +5188,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_8 = ((!__pyx_t_7) != 0);
       if (__pyx_t_8) {
 
-        /* "de.pyx":240
+        /* "de.pyx":243
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):
  *                     break             # <<<<<<<<<<<<<<
@@ -5197,7 +5197,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
         goto __pyx_L14_break;
 
-        /* "de.pyx":239
+        /* "de.pyx":242
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5208,7 +5208,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     }
     __pyx_L14_break:;
 
-    /* "de.pyx":234
+    /* "de.pyx":237
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==3:             # <<<<<<<<<<<<<<
@@ -5217,7 +5217,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":241
+    /* "de.pyx":244
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==4:             # <<<<<<<<<<<<<<
@@ -5226,7 +5226,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 4:
 
-    /* "de.pyx":242
+    /* "de.pyx":245
  *                     break
  *         elif self.strategy==4:
  *             while True:             # <<<<<<<<<<<<<<
@@ -5235,73 +5235,73 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     while (1) {
 
-      /* "de.pyx":243
+      /* "de.pyx":246
  *         elif self.strategy==4:
  *             while True:
  *                 tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *                 L += 1
  */
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 243, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 246, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_2 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 243, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 246, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "de.pyx":244
+      /* "de.pyx":247
  *             while True:
  *                 tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5311,11 +5311,11 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 244, __pyx_L1_error)
+        __PYX_ERR(1, 247, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
 
-      /* "de.pyx":245
+      /* "de.pyx":248
  *                 tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D
  *                 L += 1             # <<<<<<<<<<<<<<
@@ -5324,7 +5324,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       __pyx_v_L = (__pyx_v_L + 1);
 
-      /* "de.pyx":246
+      /* "de.pyx":249
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5343,7 +5343,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_7 = ((!__pyx_t_8) != 0);
       if (__pyx_t_7) {
 
-        /* "de.pyx":247
+        /* "de.pyx":250
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):
  *                     break             # <<<<<<<<<<<<<<
@@ -5352,7 +5352,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
         goto __pyx_L19_break;
 
-        /* "de.pyx":246
+        /* "de.pyx":249
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5363,7 +5363,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     }
     __pyx_L19_break:;
 
-    /* "de.pyx":241
+    /* "de.pyx":244
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==4:             # <<<<<<<<<<<<<<
@@ -5372,7 +5372,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":248
+    /* "de.pyx":251
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==5:             # <<<<<<<<<<<<<<
@@ -5381,7 +5381,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 5:
 
-    /* "de.pyx":249
+    /* "de.pyx":252
  *                     break
  *         elif self.strategy==5:
  *             while True:             # <<<<<<<<<<<<<<
@@ -5390,79 +5390,79 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     while (1) {
 
-      /* "de.pyx":250
+      /* "de.pyx":253
  *         elif self.strategy==5:
  *             while True:
  *                 tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *                 L += 1
  */
-      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_1);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 250, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 253, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 250, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 253, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "de.pyx":251
+      /* "de.pyx":254
  *             while True:
  *                 tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5472,11 +5472,11 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 251, __pyx_L1_error)
+        __PYX_ERR(1, 254, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
 
-      /* "de.pyx":252
+      /* "de.pyx":255
  *                 tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D
  *                 L += 1             # <<<<<<<<<<<<<<
@@ -5485,7 +5485,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       __pyx_v_L = (__pyx_v_L + 1);
 
-      /* "de.pyx":253
+      /* "de.pyx":256
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5504,7 +5504,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_8 = ((!__pyx_t_7) != 0);
       if (__pyx_t_8) {
 
-        /* "de.pyx":254
+        /* "de.pyx":257
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):
  *                     break             # <<<<<<<<<<<<<<
@@ -5513,7 +5513,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
         goto __pyx_L24_break;
 
-        /* "de.pyx":253
+        /* "de.pyx":256
  *                 n = (n + 1) % self.D
  *                 L += 1
  *                 if not (randV() < self.CR and L < self.D):             # <<<<<<<<<<<<<<
@@ -5524,7 +5524,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     }
     __pyx_L24_break:;
 
-    /* "de.pyx":248
+    /* "de.pyx":251
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==5:             # <<<<<<<<<<<<<<
@@ -5533,7 +5533,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":255
+    /* "de.pyx":258
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==6:             # <<<<<<<<<<<<<<
@@ -5542,7 +5542,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 6:
 
-    /* "de.pyx":256
+    /* "de.pyx":259
  *                     break
  *         elif self.strategy==6:
  *             for L in range(self.D):             # <<<<<<<<<<<<<<
@@ -5554,7 +5554,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_L = __pyx_t_11;
 
-      /* "de.pyx":257
+      /* "de.pyx":260
  *         elif self.strategy==6:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5572,49 +5572,49 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_L31_bool_binop_done:;
       if (__pyx_t_8) {
 
-        /* "de.pyx":258
+        /* "de.pyx":261
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *         elif self.strategy==7:
  */
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Subtract(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Subtract(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 258, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 258, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 261, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "de.pyx":257
+        /* "de.pyx":260
  *         elif self.strategy==6:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5623,7 +5623,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       }
 
-      /* "de.pyx":259
+      /* "de.pyx":262
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5633,12 +5633,12 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 259, __pyx_L1_error)
+        __PYX_ERR(1, 262, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
     }
 
-    /* "de.pyx":255
+    /* "de.pyx":258
  *                 if not (randV() < self.CR and L < self.D):
  *                     break
  *         elif self.strategy==6:             # <<<<<<<<<<<<<<
@@ -5647,7 +5647,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":260
+    /* "de.pyx":263
  *                     tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D
  *         elif self.strategy==7:             # <<<<<<<<<<<<<<
@@ -5656,7 +5656,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 7:
 
-    /* "de.pyx":261
+    /* "de.pyx":264
  *                 n = (n + 1) % self.D
  *         elif self.strategy==7:
  *             for L in range(self.D):             # <<<<<<<<<<<<<<
@@ -5668,7 +5668,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_L = __pyx_t_11;
 
-      /* "de.pyx":262
+      /* "de.pyx":265
  *         elif self.strategy==7:
  *             for L in range(self.D):
  *                 if ((randV() < self.CR) or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5686,55 +5686,55 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_L36_bool_binop_done:;
       if (__pyx_t_8) {
 
-        /* "de.pyx":263
+        /* "de.pyx":266
  *             for L in range(self.D):
  *                 if ((randV() < self.CR) or L == self.D-1):
  *                     tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *         elif self.strategy==8:
  */
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_2, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_Subtract(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_2 = PyNumber_Subtract(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 263, __pyx_L1_error)
+        __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 263, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 266, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-        /* "de.pyx":262
+        /* "de.pyx":265
  *         elif self.strategy==7:
  *             for L in range(self.D):
  *                 if ((randV() < self.CR) or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5743,7 +5743,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       }
 
-      /* "de.pyx":264
+      /* "de.pyx":267
  *                 if ((randV() < self.CR) or L == self.D-1):
  *                     tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5753,12 +5753,12 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 264, __pyx_L1_error)
+        __PYX_ERR(1, 267, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
     }
 
-    /* "de.pyx":260
+    /* "de.pyx":263
  *                     tmp.v[n] = self.lastgenbest.v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D
  *         elif self.strategy==7:             # <<<<<<<<<<<<<<
@@ -5767,7 +5767,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":265
+    /* "de.pyx":268
  *                     tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D
  *         elif self.strategy==8:             # <<<<<<<<<<<<<<
@@ -5776,7 +5776,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 8:
 
-    /* "de.pyx":266
+    /* "de.pyx":269
  *                 n = (n + 1) % self.D
  *         elif self.strategy==8:
  *             for L in range(self.D):             # <<<<<<<<<<<<<<
@@ -5788,7 +5788,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_L = __pyx_t_11;
 
-      /* "de.pyx":267
+      /* "de.pyx":270
  *         elif self.strategy==8:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5806,67 +5806,67 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_L41_bool_binop_done:;
       if (__pyx_t_8) {
 
-        /* "de.pyx":268
+        /* "de.pyx":271
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *         elif self.strategy==9:
  */
-        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_GetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_5 = PyNumber_Subtract(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Multiply(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_5 = PyNumber_Add(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Subtract(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 268, __pyx_L1_error)
+        __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 268, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 271, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "de.pyx":267
+        /* "de.pyx":270
  *         elif self.strategy==8:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5875,7 +5875,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       }
 
-      /* "de.pyx":269
+      /* "de.pyx":272
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -5885,12 +5885,12 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 269, __pyx_L1_error)
+        __PYX_ERR(1, 272, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
     }
 
-    /* "de.pyx":265
+    /* "de.pyx":268
  *                     tmp.v[n] = self.pop[self.r1].v[n] + self.F*(self.pop[self.r2].v[n] - self.pop[self.r3].v[n])
  *                 n = (n + 1) % self.D
  *         elif self.strategy==8:             # <<<<<<<<<<<<<<
@@ -5899,7 +5899,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     break;
 
-    /* "de.pyx":270
+    /* "de.pyx":273
  *                     tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
  *                 n = (n + 1) % self.D
  *         elif self.strategy==9:             # <<<<<<<<<<<<<<
@@ -5908,7 +5908,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
     case 9:
 
-    /* "de.pyx":271
+    /* "de.pyx":274
  *                 n = (n + 1) % self.D
  *         elif self.strategy==9:
  *             for L in range(self.D):             # <<<<<<<<<<<<<<
@@ -5920,7 +5920,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_L = __pyx_t_11;
 
-      /* "de.pyx":272
+      /* "de.pyx":275
  *         elif self.strategy==9:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -5938,73 +5938,73 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_L46_bool_binop_done:;
       if (__pyx_t_8) {
 
-        /* "de.pyx":273
+        /* "de.pyx":276
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *         else:
  */
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lastgenbest->v), __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 273, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_5); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 276, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __pyx_t_5 = PyNumber_Add(__pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 273, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 276, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "de.pyx":272
+        /* "de.pyx":275
  *         elif self.strategy==9:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -6013,7 +6013,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       }
 
-      /* "de.pyx":274
+      /* "de.pyx":277
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = self.lastgenbest.v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -6023,12 +6023,12 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 274, __pyx_L1_error)
+        __PYX_ERR(1, 277, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
     }
 
-    /* "de.pyx":270
+    /* "de.pyx":273
  *                     tmp.v[n] = tmp.v[n] + self.F*(self.lastgenbest.v[n] - tmp.v[n]) + self.F*(self.pop[self.r1].v[n] - self.pop[self.r2].v[n])
  *                 n = (n + 1) % self.D
  *         elif self.strategy==9:             # <<<<<<<<<<<<<<
@@ -6038,7 +6038,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     break;
     default:
 
-    /* "de.pyx":276
+    /* "de.pyx":279
  *                 n = (n + 1) % self.D
  *         else:
  *             for L in range(self.D):             # <<<<<<<<<<<<<<
@@ -6050,7 +6050,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
     for (__pyx_t_11 = 0; __pyx_t_11 < __pyx_t_10; __pyx_t_11+=1) {
       __pyx_v_L = __pyx_t_11;
 
-      /* "de.pyx":277
+      /* "de.pyx":280
  *         else:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -6068,79 +6068,79 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_L51_bool_binop_done:;
       if (__pyx_t_8) {
 
-        /* "de.pyx":278
+        /* "de.pyx":281
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F             # <<<<<<<<<<<<<<
  *                 n = (n + 1) % self.D
  *         return tmp
  */
-        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r5, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r1, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_v); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_t_3, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r2, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_1);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_4 = PyNumber_Add(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
-        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_1, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_t_1 = PyNumber_Subtract(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 278, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_self->r4, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_v); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = __Pyx_GetItemInt(__pyx_t_4, __pyx_v_n, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = PyNumber_Subtract(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->F); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_1 = PyNumber_Multiply(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 281, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_3 = PyNumber_Add(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 278, __pyx_L1_error)
+        if (unlikely(__Pyx_SetItemInt(((PyObject *)__pyx_v_tmp->v), __pyx_v_n, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(1, 281, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-        /* "de.pyx":277
+        /* "de.pyx":280
  *         else:
  *             for L in range(self.D):
  *                 if (randV() < self.CR or L == self.D-1):             # <<<<<<<<<<<<<<
@@ -6149,7 +6149,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
  */
       }
 
-      /* "de.pyx":279
+      /* "de.pyx":282
  *                 if (randV() < self.CR or L == self.D-1):
  *                     tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D             # <<<<<<<<<<<<<<
@@ -6159,14 +6159,14 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
       __pyx_t_6 = (__pyx_v_n + 1);
       if (unlikely(__pyx_v_self->D == 0)) {
         PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-        __PYX_ERR(1, 279, __pyx_L1_error)
+        __PYX_ERR(1, 282, __pyx_L1_error)
       }
       __pyx_v_n = __Pyx_mod_long(__pyx_t_6, __pyx_v_self->D);
     }
     break;
   }
 
-  /* "de.pyx":280
+  /* "de.pyx":283
  *                     tmp.v[n] = self.pop[self.r5].v[n] + (self.pop[self.r1].v[n] + self.pop[self.r2].v[n] - self.pop[self.r3].v[n] - self.pop[self.r4].v[n]) * self.F
  *                 n = (n + 1) % self.D
  *         return tmp             # <<<<<<<<<<<<<<
@@ -6178,7 +6178,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
   __pyx_r = __pyx_v_tmp;
   goto __pyx_L0;
 
-  /* "de.pyx":212
+  /* "de.pyx":215
  *                 break
  * 
  *     cdef inline Chromosome recombination(self, int i):             # <<<<<<<<<<<<<<
@@ -6202,7 +6202,7 @@ static CYTHON_INLINE struct __pyx_obj_2de_Chromosome *__pyx_f_2de_19DiffertialEv
   return __pyx_r;
 }
 
-/* "de.pyx":282
+/* "de.pyx":285
  *         return tmp
  * 
  *     cdef inline void report(self):             # <<<<<<<<<<<<<<
@@ -6220,14 +6220,14 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_report(struct __pyx_
   int __pyx_t_6;
   __Pyx_RefNannySetupContext("report", 0);
 
-  /* "de.pyx":286
+  /* "de.pyx":289
  *         report current generation status
  *         """
  *         self.timeE = time()             # <<<<<<<<<<<<<<
  *         self.fitnessTime.append((self.gen, self.lastgenbest.f, self.timeE - self.timeS))
  * 
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -6240,18 +6240,18 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_report(struct __pyx_
     }
   }
   if (__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 289, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else {
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 286, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 289, __pyx_L1_error)
   }
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_4 = __pyx_PyFloat_AsDouble(__pyx_t_1); if (unlikely((__pyx_t_4 == (double)-1) && PyErr_Occurred())) __PYX_ERR(1, 289, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->timeE = __pyx_t_4;
 
-  /* "de.pyx":287
+  /* "de.pyx":290
  *         """
  *         self.timeE = time()
  *         self.fitnessTime.append((self.gen, self.lastgenbest.f, self.timeE - self.timeS))             # <<<<<<<<<<<<<<
@@ -6260,15 +6260,15 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_report(struct __pyx_
  */
   if (unlikely(__pyx_v_self->fitnessTime == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "append");
-    __PYX_ERR(1, 287, __pyx_L1_error)
+    __PYX_ERR(1, 290, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->lastgenbest->f); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->lastgenbest->f); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->timeE - __pyx_v_self->timeS)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble((__pyx_v_self->timeE - __pyx_v_self->timeS)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
@@ -6279,10 +6279,10 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_report(struct __pyx_
   __pyx_t_1 = 0;
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_self->fitnessTime, __pyx_t_5); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 287, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_self->fitnessTime, __pyx_t_5); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 290, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "de.pyx":282
+  /* "de.pyx":285
  *         return tmp
  * 
  *     cdef inline void report(self):             # <<<<<<<<<<<<<<
@@ -6302,7 +6302,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_report(struct __pyx_
   __Pyx_RefNannyFinishContext();
 }
 
-/* "de.pyx":289
+/* "de.pyx":292
  *         self.fitnessTime.append((self.gen, self.lastgenbest.f, self.timeE - self.timeS))
  * 
  *     cdef inline bool overbound(self, Chromosome member):             # <<<<<<<<<<<<<<
@@ -6324,7 +6324,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_2de_19DiffertialEvolution_overbound(s
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("overbound", 0);
 
-  /* "de.pyx":294
+  /* "de.pyx":297
  *         """
  *         cdef int i
  *         for i in range(self.D):             # <<<<<<<<<<<<<<
@@ -6336,41 +6336,41 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_2de_19DiffertialEvolution_overbound(s
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "de.pyx":295
+    /* "de.pyx":298
  *         cdef int i
  *         for i in range(self.D):
  *             if member.v[i] > self.ub[i] or member.v[i] < self.lb[i]:             # <<<<<<<<<<<<<<
  *                 return True
  *         return False
  */
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_member->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_member->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->ub), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_6, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_6, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (!__pyx_t_8) {
     } else {
       __pyx_t_4 = __pyx_t_8;
       goto __pyx_L6_bool_binop_done;
     }
-    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_member->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_member->v), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->lb), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 295, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 298, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_4 = __pyx_t_8;
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_4) {
 
-      /* "de.pyx":296
+      /* "de.pyx":299
  *         for i in range(self.D):
  *             if member.v[i] > self.ub[i] or member.v[i] < self.lb[i]:
  *                 return True             # <<<<<<<<<<<<<<
@@ -6382,7 +6382,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_2de_19DiffertialEvolution_overbound(s
       __pyx_r = ((PyBoolObject *)Py_True);
       goto __pyx_L0;
 
-      /* "de.pyx":295
+      /* "de.pyx":298
  *         cdef int i
  *         for i in range(self.D):
  *             if member.v[i] > self.ub[i] or member.v[i] < self.lb[i]:             # <<<<<<<<<<<<<<
@@ -6392,7 +6392,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_2de_19DiffertialEvolution_overbound(s
     }
   }
 
-  /* "de.pyx":297
+  /* "de.pyx":300
  *             if member.v[i] > self.ub[i] or member.v[i] < self.lb[i]:
  *                 return True
  *         return False             # <<<<<<<<<<<<<<
@@ -6404,7 +6404,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_2de_19DiffertialEvolution_overbound(s
   __pyx_r = ((PyBoolObject *)Py_False);
   goto __pyx_L0;
 
-  /* "de.pyx":289
+  /* "de.pyx":292
  *         self.fitnessTime.append((self.gen, self.lastgenbest.f, self.timeE - self.timeS))
  * 
  *     cdef inline bool overbound(self, Chromosome member):             # <<<<<<<<<<<<<<
@@ -6425,7 +6425,7 @@ static CYTHON_INLINE PyBoolObject *__pyx_f_2de_19DiffertialEvolution_overbound(s
   return __pyx_r;
 }
 
-/* "de.pyx":299
+/* "de.pyx":302
  *         return False
  * 
  *     cdef inline void generation_process(self):             # <<<<<<<<<<<<<<
@@ -6447,7 +6447,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
   PyObject *__pyx_t_8 = NULL;
   __Pyx_RefNannySetupContext("generation_process", 0);
 
-  /* "de.pyx":302
+  /* "de.pyx":305
  *         cdef int i
  *         cdef Chromosome tmp
  *         for i in range(self.NP):             # <<<<<<<<<<<<<<
@@ -6459,7 +6459,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "de.pyx":304
+    /* "de.pyx":307
  *         for i in range(self.NP):
  *             # generate new vector
  *             self.generateRandomVector(i)             # <<<<<<<<<<<<<<
@@ -6468,32 +6468,32 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
     __pyx_f_2de_19DiffertialEvolution_generateRandomVector(__pyx_v_self, __pyx_v_i);
 
-    /* "de.pyx":306
+    /* "de.pyx":309
  *             self.generateRandomVector(i)
  *             # use the vector recombine the member to temporary
  *             tmp = self.recombination(i)             # <<<<<<<<<<<<<<
  *             # check the one is out of bound?
  *             if self.overbound(tmp):
  */
-    __pyx_t_4 = ((PyObject *)__pyx_f_2de_19DiffertialEvolution_recombination(__pyx_v_self, __pyx_v_i)); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 306, __pyx_L1_error)
+    __pyx_t_4 = ((PyObject *)__pyx_f_2de_19DiffertialEvolution_recombination(__pyx_v_self, __pyx_v_i)); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 309, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_XDECREF_SET(__pyx_v_tmp, ((struct __pyx_obj_2de_Chromosome *)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "de.pyx":308
+    /* "de.pyx":311
  *             tmp = self.recombination(i)
  *             # check the one is out of bound?
  *             if self.overbound(tmp):             # <<<<<<<<<<<<<<
  *                 # if it is, then abandon it
  *                 continue
  */
-    __pyx_t_4 = ((PyObject *)__pyx_f_2de_19DiffertialEvolution_overbound(__pyx_v_self, __pyx_v_tmp)); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 308, __pyx_L1_error)
+    __pyx_t_4 = ((PyObject *)__pyx_f_2de_19DiffertialEvolution_overbound(__pyx_v_self, __pyx_v_tmp)); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 308, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 311, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     if (__pyx_t_5) {
 
-      /* "de.pyx":310
+      /* "de.pyx":313
  *             if self.overbound(tmp):
  *                 # if it is, then abandon it
  *                 continue             # <<<<<<<<<<<<<<
@@ -6502,7 +6502,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
       goto __pyx_L3_continue;
 
-      /* "de.pyx":308
+      /* "de.pyx":311
  *             tmp = self.recombination(i)
  *             # check the one is out of bound?
  *             if self.overbound(tmp):             # <<<<<<<<<<<<<<
@@ -6511,7 +6511,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
     }
 
-    /* "de.pyx":313
+    /* "de.pyx":316
  *             # is not out of bound, that mean it's quilify of enviorment
  *             # then evalute the one
  *             tmp.f = self.evalute(tmp)             # <<<<<<<<<<<<<<
@@ -6520,37 +6520,37 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
     __pyx_v_tmp->f = __pyx_f_2de_19DiffertialEvolution_evalute(__pyx_v_self, __pyx_v_tmp);
 
-    /* "de.pyx":315
+    /* "de.pyx":318
  *             tmp.f = self.evalute(tmp)
  *             # if temporary one is better than origin(fitness value is smaller)
  *             if tmp.f <= self.pop[i].f:             # <<<<<<<<<<<<<<
  *                 # copy the temporary one to origin member
  *                 self.pop[i].assign(tmp)
  */
-    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_tmp->f); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 315, __pyx_L1_error)
+    __pyx_t_4 = PyFloat_FromDouble(__pyx_v_tmp->f); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 318, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 315, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 318, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_f); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 315, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_f); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 318, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 315, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_4, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 318, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 315, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 318, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_5) {
 
-      /* "de.pyx":317
+      /* "de.pyx":320
  *             if tmp.f <= self.pop[i].f:
  *                 # copy the temporary one to origin member
  *                 self.pop[i].assign(tmp)             # <<<<<<<<<<<<<<
  *                 # check the temporary one is better than the currentbest
  *                 if tmp.f < self.currentbest.f:
  */
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 317, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_self->pop), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 320, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_assign); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 317, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_assign); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 320, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_7 = NULL;
@@ -6564,13 +6564,13 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
         }
       }
       if (!__pyx_t_7) {
-        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_tmp)); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 317, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_tmp)); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 320, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, ((PyObject *)__pyx_v_tmp)};
-          __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 317, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 320, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_6);
         } else
@@ -6578,19 +6578,19 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_7, ((PyObject *)__pyx_v_tmp)};
-          __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 317, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 320, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_6);
         } else
         #endif
         {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 317, __pyx_L1_error)
+          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 320, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_8);
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
           __Pyx_INCREF(((PyObject *)__pyx_v_tmp));
           __Pyx_GIVEREF(((PyObject *)__pyx_v_tmp));
           PyTuple_SET_ITEM(__pyx_t_8, 0+1, ((PyObject *)__pyx_v_tmp));
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 317, __pyx_L1_error)
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 320, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         }
@@ -6598,7 +6598,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "de.pyx":319
+      /* "de.pyx":322
  *                 self.pop[i].assign(tmp)
  *                 # check the temporary one is better than the currentbest
  *                 if tmp.f < self.currentbest.f:             # <<<<<<<<<<<<<<
@@ -6608,7 +6608,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
       __pyx_t_5 = ((__pyx_v_tmp->f < __pyx_v_self->currentbest->f) != 0);
       if (__pyx_t_5) {
 
-        /* "de.pyx":321
+        /* "de.pyx":324
  *                 if tmp.f < self.currentbest.f:
  *                     # copy the temporary one to currentbest
  *                     self.currentbest.assign(tmp)             # <<<<<<<<<<<<<<
@@ -6617,7 +6617,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
         ((struct __pyx_vtabstruct_2de_Chromosome *)__pyx_v_self->currentbest->__pyx_vtab)->assign(__pyx_v_self->currentbest, __pyx_v_tmp, 0);
 
-        /* "de.pyx":319
+        /* "de.pyx":322
  *                 self.pop[i].assign(tmp)
  *                 # check the temporary one is better than the currentbest
  *                 if tmp.f < self.currentbest.f:             # <<<<<<<<<<<<<<
@@ -6626,7 +6626,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
       }
 
-      /* "de.pyx":315
+      /* "de.pyx":318
  *             tmp.f = self.evalute(tmp)
  *             # if temporary one is better than origin(fitness value is smaller)
  *             if tmp.f <= self.pop[i].f:             # <<<<<<<<<<<<<<
@@ -6637,7 +6637,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
     __pyx_L3_continue:;
   }
 
-  /* "de.pyx":323
+  /* "de.pyx":326
  *                     self.currentbest.assign(tmp)
  *         # copy the currentbest to lastgenbest
  *         self.lastgenbest.assign(self.currentbest)             # <<<<<<<<<<<<<<
@@ -6649,7 +6649,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
   ((struct __pyx_vtabstruct_2de_Chromosome *)__pyx_v_self->lastgenbest->__pyx_vtab)->assign(__pyx_v_self->lastgenbest, ((struct __pyx_obj_2de_Chromosome *)__pyx_t_6), 0);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "de.pyx":325
+  /* "de.pyx":328
  *         self.lastgenbest.assign(self.currentbest)
  *         # if report generation is set, report
  *         if self.rpt != 0:             # <<<<<<<<<<<<<<
@@ -6659,7 +6659,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
   __pyx_t_5 = ((__pyx_v_self->rpt != 0) != 0);
   if (__pyx_t_5) {
 
-    /* "de.pyx":326
+    /* "de.pyx":329
  *         # if report generation is set, report
  *         if self.rpt != 0:
  *             if self.gen % self.rpt == 0:             # <<<<<<<<<<<<<<
@@ -6668,12 +6668,12 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
     if (unlikely(__pyx_v_self->rpt == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-      __PYX_ERR(1, 326, __pyx_L1_error)
+      __PYX_ERR(1, 329, __pyx_L1_error)
     }
     __pyx_t_5 = ((__Pyx_mod_int(__pyx_v_self->gen, __pyx_v_self->rpt) == 0) != 0);
     if (__pyx_t_5) {
 
-      /* "de.pyx":327
+      /* "de.pyx":330
  *         if self.rpt != 0:
  *             if self.gen % self.rpt == 0:
  *                 self.report()             # <<<<<<<<<<<<<<
@@ -6682,7 +6682,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
       __pyx_f_2de_19DiffertialEvolution_report(__pyx_v_self);
 
-      /* "de.pyx":326
+      /* "de.pyx":329
  *         # if report generation is set, report
  *         if self.rpt != 0:
  *             if self.gen % self.rpt == 0:             # <<<<<<<<<<<<<<
@@ -6691,7 +6691,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
     }
 
-    /* "de.pyx":325
+    /* "de.pyx":328
  *         self.lastgenbest.assign(self.currentbest)
  *         # if report generation is set, report
  *         if self.rpt != 0:             # <<<<<<<<<<<<<<
@@ -6701,7 +6701,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
     goto __pyx_L8;
   }
 
-  /* "de.pyx":329
+  /* "de.pyx":332
  *                 self.report()
  *         else:
  *             if self.gen % 10 == 0:             # <<<<<<<<<<<<<<
@@ -6712,7 +6712,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
     __pyx_t_5 = ((__Pyx_mod_long(__pyx_v_self->gen, 10) == 0) != 0);
     if (__pyx_t_5) {
 
-      /* "de.pyx":330
+      /* "de.pyx":333
  *         else:
  *             if self.gen % 10 == 0:
  *                 self.report()             # <<<<<<<<<<<<<<
@@ -6721,7 +6721,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
  */
       __pyx_f_2de_19DiffertialEvolution_report(__pyx_v_self);
 
-      /* "de.pyx":329
+      /* "de.pyx":332
  *                 self.report()
  *         else:
  *             if self.gen % 10 == 0:             # <<<<<<<<<<<<<<
@@ -6732,7 +6732,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
   }
   __pyx_L8:;
 
-  /* "de.pyx":299
+  /* "de.pyx":302
  *         return False
  * 
  *     cdef inline void generation_process(self):             # <<<<<<<<<<<<<<
@@ -6753,7 +6753,7 @@ static CYTHON_INLINE void __pyx_f_2de_19DiffertialEvolution_generation_process(s
   __Pyx_RefNannyFinishContext();
 }
 
-/* "de.pyx":332
+/* "de.pyx":335
  *                 self.report()
  * 
  *     cpdef tuple run(self):             # <<<<<<<<<<<<<<
@@ -6781,7 +6781,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 332, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_run); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 335, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_2de_19DiffertialEvolution_3run)) {
       __Pyx_XDECREF(__pyx_r);
@@ -6797,14 +6797,14 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 332, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 335, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 332, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 335, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 332, __pyx_L1_error)
+      if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 335, __pyx_L1_error)
       __pyx_r = ((PyObject*)__pyx_t_2);
       __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -6813,7 +6813,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "de.pyx":339
+  /* "de.pyx":342
  *         cdef int i
  *         # init the member's chromsome
  *         self.init()             # <<<<<<<<<<<<<<
@@ -6822,19 +6822,19 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
   __pyx_f_2de_19DiffertialEvolution_init(__pyx_v_self);
 
-  /* "de.pyx":341
+  /* "de.pyx":344
  *         self.init()
  *         # find the best one(smallest fitness value)
  *         tmp = self.findBest()             # <<<<<<<<<<<<<<
  *         # copy to lastgenbest
  *         self.lastgenbest.assign(tmp)
  */
-  __pyx_t_1 = ((PyObject *)__pyx_f_2de_19DiffertialEvolution_findBest(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 341, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_2de_19DiffertialEvolution_findBest(__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 344, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_tmp = ((struct __pyx_obj_2de_Chromosome *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "de.pyx":343
+  /* "de.pyx":346
  *         tmp = self.findBest()
  *         # copy to lastgenbest
  *         self.lastgenbest.assign(tmp)             # <<<<<<<<<<<<<<
@@ -6843,7 +6843,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
   ((struct __pyx_vtabstruct_2de_Chromosome *)__pyx_v_self->lastgenbest->__pyx_vtab)->assign(__pyx_v_self->lastgenbest, __pyx_v_tmp, 0);
 
-  /* "de.pyx":345
+  /* "de.pyx":348
  *         self.lastgenbest.assign(tmp)
  *         # copy to currentbest
  *         self.currentbest.assign(tmp)             # <<<<<<<<<<<<<<
@@ -6852,7 +6852,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
   ((struct __pyx_vtabstruct_2de_Chromosome *)__pyx_v_self->currentbest->__pyx_vtab)->assign(__pyx_v_self->currentbest, __pyx_v_tmp, 0);
 
-  /* "de.pyx":347
+  /* "de.pyx":350
  *         self.currentbest.assign(tmp)
  *         # report status
  *         self.report()             # <<<<<<<<<<<<<<
@@ -6861,7 +6861,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
   __pyx_f_2de_19DiffertialEvolution_report(__pyx_v_self);
 
-  /* "de.pyx":350
+  /* "de.pyx":353
  *         # end initial step
  *         # the evolution journey is beggin...
  *         while True:             # <<<<<<<<<<<<<<
@@ -6870,7 +6870,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
   while (1) {
 
-    /* "de.pyx":351
+    /* "de.pyx":354
  *         # the evolution journey is beggin...
  *         while True:
  *             self.gen += 1             # <<<<<<<<<<<<<<
@@ -6879,7 +6879,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
     __pyx_v_self->gen = (__pyx_v_self->gen + 1);
 
-    /* "de.pyx":352
+    /* "de.pyx":355
  *         while True:
  *             self.gen += 1
  *             if self.option == maxGen:             # <<<<<<<<<<<<<<
@@ -6889,7 +6889,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
     switch (__pyx_v_self->option) {
       case __pyx_e_2de_maxGen:
 
-      /* "de.pyx":353
+      /* "de.pyx":356
  *             self.gen += 1
  *             if self.option == maxGen:
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):             # <<<<<<<<<<<<<<
@@ -6907,7 +6907,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
       __pyx_L6_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "de.pyx":354
+        /* "de.pyx":357
  *             if self.option == maxGen:
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):
  *                     break             # <<<<<<<<<<<<<<
@@ -6916,7 +6916,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
         goto __pyx_L4_break;
 
-        /* "de.pyx":353
+        /* "de.pyx":356
  *             self.gen += 1
  *             if self.option == maxGen:
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):             # <<<<<<<<<<<<<<
@@ -6925,7 +6925,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       }
 
-      /* "de.pyx":352
+      /* "de.pyx":355
  *         while True:
  *             self.gen += 1
  *             if self.option == maxGen:             # <<<<<<<<<<<<<<
@@ -6934,7 +6934,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       break;
 
-      /* "de.pyx":355
+      /* "de.pyx":358
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):
  *                     break
  *             elif self.option == minFit:             # <<<<<<<<<<<<<<
@@ -6943,7 +6943,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       case __pyx_e_2de_minFit:
 
-      /* "de.pyx":356
+      /* "de.pyx":359
  *                     break
  *             elif self.option == minFit:
  *                 if self.lastgenbest.f <= self.minFit:             # <<<<<<<<<<<<<<
@@ -6953,7 +6953,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
       __pyx_t_5 = ((__pyx_v_self->lastgenbest->f <= __pyx_v_self->minFit) != 0);
       if (__pyx_t_5) {
 
-        /* "de.pyx":357
+        /* "de.pyx":360
  *             elif self.option == minFit:
  *                 if self.lastgenbest.f <= self.minFit:
  *                     break             # <<<<<<<<<<<<<<
@@ -6962,7 +6962,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
         goto __pyx_L4_break;
 
-        /* "de.pyx":356
+        /* "de.pyx":359
  *                     break
  *             elif self.option == minFit:
  *                 if self.lastgenbest.f <= self.minFit:             # <<<<<<<<<<<<<<
@@ -6971,7 +6971,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       }
 
-      /* "de.pyx":355
+      /* "de.pyx":358
  *                 if (self.maxGen > 0) and (self.gen > self.maxGen):
  *                     break
  *             elif self.option == minFit:             # <<<<<<<<<<<<<<
@@ -6980,7 +6980,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       break;
 
-      /* "de.pyx":358
+      /* "de.pyx":361
  *                 if self.lastgenbest.f <= self.minFit:
  *                     break
  *             elif self.option == maxTime:             # <<<<<<<<<<<<<<
@@ -6989,7 +6989,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       case __pyx_e_2de_maxTime:
 
-      /* "de.pyx":359
+      /* "de.pyx":362
  *                     break
  *             elif self.option == maxTime:
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):             # <<<<<<<<<<<<<<
@@ -7002,7 +7002,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         __pyx_t_5 = __pyx_t_6;
         goto __pyx_L10_bool_binop_done;
       }
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 359, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 362, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __pyx_t_3 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -7015,31 +7015,31 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         }
       }
       if (__pyx_t_3) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 359, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 362, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 359, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 362, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->timeS); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 359, __pyx_L1_error)
+      __pyx_t_2 = PyFloat_FromDouble(__pyx_v_self->timeS); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 362, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 359, __pyx_L1_error)
+      __pyx_t_3 = PyNumber_Subtract(__pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 362, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->maxTime); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 359, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->maxTime); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 362, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 359, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 362, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 359, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_6 < 0)) __PYX_ERR(1, 362, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_5 = __pyx_t_6;
       __pyx_L10_bool_binop_done:;
       if (__pyx_t_5) {
 
-        /* "de.pyx":360
+        /* "de.pyx":363
  *             elif self.option == maxTime:
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):
  *                     break             # <<<<<<<<<<<<<<
@@ -7048,7 +7048,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
         goto __pyx_L4_break;
 
-        /* "de.pyx":359
+        /* "de.pyx":362
  *                     break
  *             elif self.option == maxTime:
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):             # <<<<<<<<<<<<<<
@@ -7057,7 +7057,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       }
 
-      /* "de.pyx":358
+      /* "de.pyx":361
  *                 if self.lastgenbest.f <= self.minFit:
  *                     break
  *             elif self.option == maxTime:             # <<<<<<<<<<<<<<
@@ -7068,7 +7068,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
       default: break;
     }
 
-    /* "de.pyx":361
+    /* "de.pyx":364
  *                 if (self.maxTime > 0) and (time() - self.timeS >= self.maxTime):
  *                     break
  *             self.generation_process()             # <<<<<<<<<<<<<<
@@ -7077,7 +7077,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
     __pyx_f_2de_19DiffertialEvolution_generation_process(__pyx_v_self);
 
-    /* "de.pyx":363
+    /* "de.pyx":366
  *             self.generation_process()
  *             #progress
  *             if self.progress_fun is not None:             # <<<<<<<<<<<<<<
@@ -7088,18 +7088,18 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
 
-      /* "de.pyx":364
+      /* "de.pyx":367
  *             #progress
  *             if self.progress_fun is not None:
  *                 self.progress_fun(self.gen, "{:.04f}".format(self.lastgenbest.f))             # <<<<<<<<<<<<<<
  *             #interrupt
  *             if self.interrupt_fun is not None:
  */
-      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 364, __pyx_L1_error)
+      __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->gen); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 367, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_04f, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 364, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_04f, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 367, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->lastgenbest->f); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 364, __pyx_L1_error)
+      __pyx_t_7 = PyFloat_FromDouble(__pyx_v_self->lastgenbest->f); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 367, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __pyx_t_8 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -7112,14 +7112,14 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         }
       }
       if (!__pyx_t_8) {
-        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 364, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 367, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 364, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 367, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -7128,20 +7128,20 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
           PyObject *__pyx_temp[2] = {__pyx_t_8, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 364, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 367, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         } else
         #endif
         {
-          __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 364, __pyx_L1_error)
+          __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 367, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_8); __pyx_t_8 = NULL;
           __Pyx_GIVEREF(__pyx_t_7);
           PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_7);
           __pyx_t_7 = 0;
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 364, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 367, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         }
@@ -7163,7 +7163,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_2, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 364, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 367, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7173,7 +7173,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_2, __pyx_t_3};
-        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 364, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 367, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -7181,7 +7181,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
       } else
       #endif
       {
-        __pyx_t_7 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 364, __pyx_L1_error)
+        __pyx_t_7 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 367, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         if (__pyx_t_9) {
           __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -7192,14 +7192,14 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_10, __pyx_t_3);
         __pyx_t_2 = 0;
         __pyx_t_3 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 364, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 367, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       }
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "de.pyx":363
+      /* "de.pyx":366
  *             self.generation_process()
  *             #progress
  *             if self.progress_fun is not None:             # <<<<<<<<<<<<<<
@@ -7208,7 +7208,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
     }
 
-    /* "de.pyx":366
+    /* "de.pyx":369
  *                 self.progress_fun(self.gen, "{:.04f}".format(self.lastgenbest.f))
  *             #interrupt
  *             if self.interrupt_fun is not None:             # <<<<<<<<<<<<<<
@@ -7219,7 +7219,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
     __pyx_t_5 = (__pyx_t_6 != 0);
     if (__pyx_t_5) {
 
-      /* "de.pyx":367
+      /* "de.pyx":370
  *             #interrupt
  *             if self.interrupt_fun is not None:
  *                 if self.interrupt_fun():             # <<<<<<<<<<<<<<
@@ -7238,18 +7238,18 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
         }
       }
       if (__pyx_t_7) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 367, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 370, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       } else {
-        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 367, __pyx_L1_error)
+        __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 370, __pyx_L1_error)
       }
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 367, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 370, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_5) {
 
-        /* "de.pyx":368
+        /* "de.pyx":371
  *             if self.interrupt_fun is not None:
  *                 if self.interrupt_fun():
  *                     break             # <<<<<<<<<<<<<<
@@ -7258,7 +7258,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
         goto __pyx_L4_break;
 
-        /* "de.pyx":367
+        /* "de.pyx":370
  *             #interrupt
  *             if self.interrupt_fun is not None:
  *                 if self.interrupt_fun():             # <<<<<<<<<<<<<<
@@ -7267,7 +7267,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
       }
 
-      /* "de.pyx":366
+      /* "de.pyx":369
  *                 self.progress_fun(self.gen, "{:.04f}".format(self.lastgenbest.f))
  *             #interrupt
  *             if self.interrupt_fun is not None:             # <<<<<<<<<<<<<<
@@ -7278,7 +7278,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
   }
   __pyx_L4_break:;
 
-  /* "de.pyx":370
+  /* "de.pyx":373
  *                     break
  *         # the evolution journey is done, report the final status
  *         self.report()             # <<<<<<<<<<<<<<
@@ -7286,13 +7286,13 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
  */
   __pyx_f_2de_19DiffertialEvolution_report(__pyx_v_self);
 
-  /* "de.pyx":371
+  /* "de.pyx":374
  *         # the evolution journey is done, report the final status
  *         self.report()
  *         return self.func.get_coordinates(self.lastgenbest.v), self.fitnessTime             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_coordinates); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 371, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->func, __pyx_n_s_get_coordinates); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -7305,13 +7305,13 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
     }
   }
   if (!__pyx_t_7) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_self->lastgenbest->v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 371, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_self->lastgenbest->v)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 374, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, ((PyObject *)__pyx_v_self->lastgenbest->v)};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 371, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 374, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -7319,25 +7319,25 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
       PyObject *__pyx_temp[2] = {__pyx_t_7, ((PyObject *)__pyx_v_self->lastgenbest->v)};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 371, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 374, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 371, __pyx_L1_error)
+      __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 374, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_7); __pyx_t_7 = NULL;
       __Pyx_INCREF(((PyObject *)__pyx_v_self->lastgenbest->v));
       __Pyx_GIVEREF(((PyObject *)__pyx_v_self->lastgenbest->v));
       PyTuple_SET_ITEM(__pyx_t_3, 0+1, ((PyObject *)__pyx_v_self->lastgenbest->v));
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 371, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 374, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 371, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
@@ -7349,7 +7349,7 @@ static PyObject *__pyx_f_2de_19DiffertialEvolution_run(struct __pyx_obj_2de_Diff
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "de.pyx":332
+  /* "de.pyx":335
  *                 self.report()
  * 
  *     cpdef tuple run(self):             # <<<<<<<<<<<<<<
@@ -7395,7 +7395,7 @@ static PyObject *__pyx_pf_2de_19DiffertialEvolution_2run(struct __pyx_obj_2de_Di
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("run", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_2de_19DiffertialEvolution_run(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 332, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_2de_19DiffertialEvolution_run(__pyx_v_self, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 335, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -10427,8 +10427,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 };
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 2, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 120, __pyx_L1_error)
-  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(1, 152, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(1, 123, __pyx_L1_error)
+  __pyx_builtin_zip = __Pyx_GetBuiltinName(__pyx_n_s_zip); if (!__pyx_builtin_zip) __PYX_ERR(1, 155, __pyx_L1_error)
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 229, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 810, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 1000, __pyx_L1_error)
@@ -10441,14 +10441,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "de.pyx":48
+  /* "de.pyx":51
  *     cpdef void assign(self, Chromosome obj):
  *         self.n = obj.n
  *         self.v[:] = obj.v             # <<<<<<<<<<<<<<
  *         self.f = obj.f
  * 
  */
-  __pyx_slice_ = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice_)) __PYX_ERR(1, 48, __pyx_L1_error)
+  __pyx_slice_ = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice_)) __PYX_ERR(1, 51, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice_);
   __Pyx_GIVEREF(__pyx_slice_);
 
@@ -10471,69 +10471,69 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "de.pyx":111
+  /* "de.pyx":114
  *             self.maxTime = settings['maxTime']
  *         else:
  *             raise Exception("Please give 'maxGen', 'minFit' or 'maxTime' limit.")             # <<<<<<<<<<<<<<
  *         #Report function
  *         self.rpt = settings['report']
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_Please_give_maxGen_minFit_or_max); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 111, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_Please_give_maxGen_minFit_or_max); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "de.pyx":145
+  /* "de.pyx":148
  *         """
  *         if (type(self.D) is not int) and self.D <= 0:
  *             raise Exception('D shoud be integer and larger than 0')             # <<<<<<<<<<<<<<
  *         if (type(self.NP) is not int) and self.NP <= 0:
  *             raise Exception('NP shoud be integer and larger than 0')
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_D_shoud_be_integer_and_larger_th); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 145, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_s_D_shoud_be_integer_and_larger_th); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "de.pyx":147
+  /* "de.pyx":150
  *             raise Exception('D shoud be integer and larger than 0')
  *         if (type(self.NP) is not int) and self.NP <= 0:
  *             raise Exception('NP shoud be integer and larger than 0')             # <<<<<<<<<<<<<<
  *         if self.CR < 0 or self.CR > 1:
  *             raise Exception('CR should be [0,1]')
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_NP_shoud_be_integer_and_larger_t); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 147, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_NP_shoud_be_integer_and_larger_t); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 150, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "de.pyx":149
+  /* "de.pyx":152
  *             raise Exception('NP shoud be integer and larger than 0')
  *         if self.CR < 0 or self.CR > 1:
  *             raise Exception('CR should be [0,1]')             # <<<<<<<<<<<<<<
  *         if self.strategy < 1 or self.strategy > 10:
  *             raise Exception('strategy should be [1,10]')
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_CR_should_be_0_1); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 149, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_CR_should_be_0_1); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 152, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "de.pyx":151
+  /* "de.pyx":154
  *             raise Exception('CR should be [0,1]')
  *         if self.strategy < 1 or self.strategy > 10:
  *             raise Exception('strategy should be [1,10]')             # <<<<<<<<<<<<<<
  *         for lower, upper in zip(self.lb, self.ub):
  *             if lower > upper:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_strategy_should_be_1_10); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 151, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_strategy_should_be_1_10); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 154, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "de.pyx":154
+  /* "de.pyx":157
  *         for lower, upper in zip(self.lb, self.ub):
  *             if lower > upper:
  *                 raise Exception('upper bound should be larger than lower bound')             # <<<<<<<<<<<<<<
  * 
  *     cdef inline void init(self):
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_upper_bound_should_be_larger_tha); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 154, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_upper_bound_should_be_larger_tha); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -10704,14 +10704,14 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_2de_Chromosome = &__pyx_vtable_2de_Chromosome;
   __pyx_vtable_2de_Chromosome.assign = (void (*)(struct __pyx_obj_2de_Chromosome *, struct __pyx_obj_2de_Chromosome *, int __pyx_skip_dispatch))__pyx_f_2de_10Chromosome_assign;
-  if (PyType_Ready(&__pyx_type_2de_Chromosome) < 0) __PYX_ERR(1, 32, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2de_Chromosome) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
   __pyx_type_2de_Chromosome.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_2de_Chromosome.tp_dictoffset && __pyx_type_2de_Chromosome.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_2de_Chromosome.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_2de_Chromosome.tp_dict, __pyx_vtabptr_2de_Chromosome) < 0) __PYX_ERR(1, 32, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "Chromosome", (PyObject *)&__pyx_type_2de_Chromosome) < 0) __PYX_ERR(1, 32, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_2de_Chromosome) < 0) __PYX_ERR(1, 32, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2de_Chromosome.tp_dict, __pyx_vtabptr_2de_Chromosome) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "Chromosome", (PyObject *)&__pyx_type_2de_Chromosome) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_2de_Chromosome) < 0) __PYX_ERR(1, 35, __pyx_L1_error)
   __pyx_ptype_2de_Chromosome = &__pyx_type_2de_Chromosome;
   __pyx_vtabptr_2de_DiffertialEvolution = &__pyx_vtable_2de_DiffertialEvolution;
   __pyx_vtable_2de_DiffertialEvolution.checkParameter = (void (*)(struct __pyx_obj_2de_DiffertialEvolution *))__pyx_f_2de_19DiffertialEvolution_checkParameter;
@@ -10724,14 +10724,14 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_2de_DiffertialEvolution.overbound = (PyBoolObject *(*)(struct __pyx_obj_2de_DiffertialEvolution *, struct __pyx_obj_2de_Chromosome *))__pyx_f_2de_19DiffertialEvolution_overbound;
   __pyx_vtable_2de_DiffertialEvolution.generation_process = (void (*)(struct __pyx_obj_2de_DiffertialEvolution *))__pyx_f_2de_19DiffertialEvolution_generation_process;
   __pyx_vtable_2de_DiffertialEvolution.run = (PyObject *(*)(struct __pyx_obj_2de_DiffertialEvolution *, int __pyx_skip_dispatch))__pyx_f_2de_19DiffertialEvolution_run;
-  if (PyType_Ready(&__pyx_type_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 55, __pyx_L1_error)
   __pyx_type_2de_DiffertialEvolution.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_2de_DiffertialEvolution.tp_dictoffset && __pyx_type_2de_DiffertialEvolution.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_2de_DiffertialEvolution.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_2de_DiffertialEvolution.tp_dict, __pyx_vtabptr_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "DiffertialEvolution", (PyObject *)&__pyx_type_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 52, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_2de_DiffertialEvolution.tp_dict, __pyx_vtabptr_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 55, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "DiffertialEvolution", (PyObject *)&__pyx_type_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 55, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_2de_DiffertialEvolution) < 0) __PYX_ERR(1, 55, __pyx_L1_error)
   __pyx_ptype_2de_DiffertialEvolution = &__pyx_type_2de_DiffertialEvolution;
   __Pyx_RefNannyFinishContext();
   return 0;
@@ -10961,50 +10961,50 @@ if (!__Pyx_RefNanny) {
  * from cpython cimport bool
  * import numpy as np             # <<<<<<<<<<<<<<
  * cimport numpy as np
- * from libc.stdlib cimport rand, RAND_MAX, srand
+ * from libc.stdlib cimport (
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 11, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(1, 11, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "de.pyx":15
- * from libc.stdlib cimport rand, RAND_MAX, srand
- * #from libc.time cimport time
+  /* "de.pyx":18
+ *     srand,
+ * )
  * from time import time             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_time);
   __Pyx_GIVEREF(__pyx_n_s_time);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_time);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 15, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_time, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 15, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_time); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(1, 15, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_time, __pyx_t_1) < 0) __PYX_ERR(1, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "de.pyx":19
+  /* "de.pyx":22
  * 
  * #Make sure it is 'random'.
  * srand(int(time()))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_time); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 19, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 19, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyNumber_Int(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyInt_As_unsigned_int(__pyx_t_2); if (unlikely((__pyx_t_3 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(1, 19, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_As_unsigned_int(__pyx_t_2); if (unlikely((__pyx_t_3 == (unsigned int)-1) && PyErr_Occurred())) __PYX_ERR(1, 22, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   srand(__pyx_t_3);
 

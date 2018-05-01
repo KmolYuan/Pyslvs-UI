@@ -10,8 +10,11 @@
 from cpython cimport bool
 import numpy as np
 cimport numpy as np
-from libc.stdlib cimport rand, RAND_MAX, srand
-#from libc.time cimport time
+from libc.stdlib cimport (
+    rand,
+    RAND_MAX,
+    srand,
+)
 from time import time
 
 

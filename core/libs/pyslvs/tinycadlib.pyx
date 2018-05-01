@@ -5,9 +5,9 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
+from cpython cimport bool
 from libc.math cimport (
     sqrt,
-    isnan,
     sin,
     cos,
     atan2,
@@ -15,7 +15,6 @@ from libc.math cimport (
 )
 import numpy as np
 cimport numpy as np
-from cpython cimport bool
 
 
 cdef double nan = float('nan')
@@ -29,13 +28,6 @@ cdef inline double distance(double x1, double y1, double x2, double y2):
 cdef class VPoint:
     
     """Symbol of joints."""
-    
-    cdef readonly tuple links
-    cdef readonly np.ndarray c
-    cdef readonly int type
-    cdef readonly object color
-    cdef readonly str colorSTR, typeSTR
-    cdef readonly double x, y, angle
     
     def __cinit__(self,
         links: str,
@@ -93,7 +85,7 @@ cdef class VPoint:
         """Distance."""
         return distance(self.x, self.y, p.x, p.y)
     
-    cpdef double slopeAngle(self, VPoint p, int num1=-1, int num2=-1):
+    cpdef double slopeAngle(self, VPoint p, int num1 = -1, int num2 = -1):
         """Angle between horizontal line and two point.
         
         num1: me.
@@ -167,10 +159,6 @@ cdef class VLink:
     
     """Symbol of linkages."""
     
-    cdef readonly str name, colorSTR
-    cdef readonly object color
-    cdef readonly tuple points
-    
     def __cinit__(self,
         str name,
         str color_str,
@@ -196,8 +184,6 @@ cdef class Coordinate:
     
     """A class to store the coordinate."""
     
-    cdef readonly double x, y
-    
     def __cinit__(self, double x, double y):
         self.x = x
         self.y = y
@@ -206,9 +192,9 @@ cdef class Coordinate:
         """Distance."""
         return distance(self.x, self.y, p.x, p.y)
     
-    cpdef bool isnan(self):
+    def isnan(self):
         """Test this coordinate is a error-occured answer."""
-        return isnan(self.x)
+        return np.isnan(self.x)
     
     def __repr__(self):
         """Debug printing."""

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project Pyslvs-PyQt5 -->
-<!-- Saved: 2018-05-01, 16:43:42 -->
+<!-- Saved: 2018-05-01, 17:27:13 -->
 <!-- Copyright (C) 2018 KmolYuan, pyslvs@gmail.com -->
 <Project version="5.1">
   <Language></Language>
@@ -54,6 +54,7 @@
     <Source>core/libs/pyslvs/planarlinkage.pyx</Source>
     <Source>core/libs/pyslvs/rga.pyx</Source>
     <Source>core/libs/pyslvs/setup.py</Source>
+    <Source>core/libs/pyslvs/tinycadlib.pxd</Source>
     <Source>core/libs/pyslvs/tinycadlib.pyx</Source>
     <Source>core/libs/pyslvs/topologic.pyx</Source>
     <Source>core/libs/pyslvs/triangulation.pyx</Source>

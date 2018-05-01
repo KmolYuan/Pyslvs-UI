@@ -12,7 +12,11 @@ from cpython cimport bool
 from array import array
 import numpy as np
 cimport numpy as np
-from libc.stdlib cimport rand, RAND_MAX, srand
+from libc.stdlib cimport (
+    rand,
+    RAND_MAX,
+    srand,
+)
 #from libc.time cimport time
 from time import time
 
