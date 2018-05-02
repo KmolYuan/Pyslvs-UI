@@ -37,8 +37,7 @@ cpdef tuple PLAP(Coordinate, double, double, Coordinate B = *, bool inverse = *)
 cpdef tuple PLLP(Coordinate, double, double, Coordinate, bool inverse = *)
 cpdef tuple PLPP(Coordinate, double, Coordinate, Coordinate, bool inverse = *)
 
-cpdef bool legal_triangle(Coordinate, Coordinate, Coordinate)
-cpdef bool legal_crank(Coordinate, Coordinate, Coordinate, Coordinate)
+cdef bool legal_crank(Coordinate, Coordinate, Coordinate, Coordinate)
 
 cdef str strbetween(str, str, str)
 cdef str strbefore(str, str)

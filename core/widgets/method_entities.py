@@ -13,7 +13,7 @@ from typing import (
     Tuple,
     List,
     Dict,
-    Option,
+    Optional,
 )
 from core.QtModules import (
     pyqtSlot,
@@ -415,7 +415,7 @@ def releaseGround(self):
     self.CommandStack.endMacro()
 
 
-def constrainLink(self, row: Option[int] = None):
+def constrainLink(self, row: Optional[int] = None):
     """Turn a link to ground, then delete this link."""
     if row is None:
         row = self.EntitiesLink.currentRow()

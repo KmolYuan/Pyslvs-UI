@@ -15,6 +15,7 @@ from libc.math cimport (
 )
 import numpy as np
 cimport numpy as np
+cimport cython
 
 
 cdef double nan = float('nan')
@@ -25,6 +26,7 @@ cdef inline double distance(double x1, double y1, double x2, double y2):
     return hypot(x2 - x1, y2 - y1)
 
 
+@cython.freelist(100)
 cdef class VPoint:
     
     """Symbol of joints."""
@@ -183,7 +185,7 @@ cdef class VLink:
         """Use to generate script."""
         return "VLink('{l.name}', {l.points}, colorQt)".format(l=self)
 
-
+@cython.freelist(100)
 cdef class Coordinate:
     
     """A class to store the coordinate."""
@@ -285,14 +287,7 @@ cpdef tuple PLPP(
         return (I.x + dx*d, I.y + dy*d)
 
 
-cpdef inline bool legal_triangle(Coordinate A, Coordinate B, Coordinate C):
-    #L0, L1, L2 is triangle
-    cdef double L0 = A.distance(B)
-    cdef double L1 = B.distance(C)
-    cdef double L2 = A.distance(C)
-    return (L1+L2 > L0) and (L0+L2 > L1) and (L0+L1 > L2)
-
-cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
+cdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
     '''
     verify the fourbar is satisfied the Gruebler's Equation, s + g <= p + q
         C - D
@@ -312,7 +307,6 @@ cpdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordina
 cdef inline str strbetween(str s, str front, str back):
     """Get the string that is inside of parenthesis."""
     return s[s.find(front)+1:s.find(back)]
-
 
 cdef inline str strbefore(str s, str front):
     """Get the string that is front of parenthesis."""

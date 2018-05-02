@@ -12,7 +12,6 @@ from tinycadlib cimport (
     PLAP,
     PLLP,
     legal_crank,
-    legal_triangle,
     strbetween,
     strbefore,
 )
@@ -238,7 +237,12 @@ cdef class build_planar:
                 path[i].append(test_dict[name])
         #constraint
         for constraint in self.constraint:
-            if not legal_crank(*[test_dict[name] for name in constraint]):
+            if not legal_crank(
+                test_dict[constraint[0]],
+                test_dict[constraint[1]],
+                test_dict[constraint[2]],
+                test_dict[constraint[3]]
+            ):
                 return FAILURE
         #swap
         cdef list errors
