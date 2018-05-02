@@ -8,19 +8,18 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import List
+from pygments import highlight
+from pygments.lexers import PythonLexer
+from pygments.formatters import HtmlFormatter
+from pygments.styles import (
+    get_style_by_name,
+    get_all_styles,
+)
 from core.QtModules import (
-    QSyntaxHighlighter,
-    QTextCharFormat,
-    QBrush,
     Qt,
-    QFont,
-    QColor,
-    QRegExp,
-    QTextOption,
-    QDialog,
-    QTextEdit,
     pyqtSlot,
     QApplication,
+    QDialog,
 )
 from core.info import VERSION
 from core.libs import VPoint, VLink
@@ -291,109 +290,40 @@ def slvsProcessScript(
     )
 
 
-class HighlightRule:
-    
-    """Highlight rule of QTextEdit."""
-    
-    __slots__ = ('pattern', 'format')
-    
-    def __init__(self,
-        pattern: QRegExp,
-        format: QTextCharFormat
-    ):
-        self.pattern = pattern
-        self.format = format
-
-
-class KeywordSyntax(QSyntaxHighlighter):
-    
-    """Syntax highlighter."""
-    
-    def __init__(self, parent):
-        super(KeywordSyntax, self).__init__(parent)
-        keyword = QTextCharFormat()
-        keyword.setForeground(QBrush(Qt.darkBlue, Qt.SolidPattern))
-        keyword.setFontWeight(QFont.Bold)
-        number = QTextCharFormat()
-        number.setForeground(QBrush(QColor(0, 127, 127), Qt.SolidPattern))
-        annotation = QTextCharFormat()
-        annotation.setForeground(QBrush(QColor(61, 158, 77), Qt.SolidPattern))
-        decorator = QTextCharFormat()
-        decorator.setForeground(QBrush(QColor(158, 140, 61), Qt.SolidPattern))
-        function = QTextCharFormat()
-        function.setFontWeight(QFont.Bold)
-        function.setForeground(QBrush(QColor(10, 147, 111), Qt.SolidPattern))
-        string = QTextCharFormat()
-        string.setForeground(QBrush(QColor(127, 0, 127), Qt.SolidPattern))
-        boolean = QTextCharFormat()
-        boolean.setForeground(QBrush(QColor(64, 112, 144), Qt.SolidPattern))
-        self.highlightingRules = [
-            HighlightRule(QRegExp(r'\b[+-]?[0-9]+[lL]?\b'), number),
-            HighlightRule(QRegExp(r'\b[+-]?0[xX][0-9A-Fa-f]+[lL]?\b'), number),
-            HighlightRule(QRegExp(
-                r'\b[+-]?[0-9]+(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\b'
-            ), number),
-            HighlightRule(QRegExp(r'\bdef\b\s*(\w+)'), function),
-            HighlightRule(QRegExp(r'\bclass\b\s*(\w+)'), function)
-        ]
-        self.highlightingRules += [
-            HighlightRule(QRegExp("\\b"+key+"\\b"), keyword) for key in [
-                'print', 'pass', 'def', 'class', 'from', 'is', 'as',
-                'import', 'for', 'in', 'if', 'else', 'elif', 'raise'
-            ]
-        ]
-        self.highlightingRules += [
-            HighlightRule(QRegExp("\\b"+key+"\\b"), boolean)
-            for key in ['self', 'True', 'False']
-        ]
-        self.highlightingRules += [
-            HighlightRule(QRegExp("'''"), string),
-            HighlightRule(QRegExp('"""'), string),
-            HighlightRule(QRegExp(r'"[^"\\]*(\\.[^"\\]*)*"'), string),
-            HighlightRule(QRegExp(r"'[^'\\]*(\\.[^'\\]*)*'"), string),
-            HighlightRule(QRegExp(r'@[^(\n|\()]*'), decorator),
-            HighlightRule(QRegExp(r'#[^\n]*'), annotation)
-        ]
-    
-    def highlightBlock(self, text: str):
-        """Input text to hightlight."""
-        for rule in self.highlightingRules:
-            expression = QRegExp(rule.pattern)
-            index = expression.indexIn(text)
-            while index >= 0:
-                length = expression.matchedLength()
-                self.setFormat(index, length, rule.format)
-                index = text.find(expression.pattern(), index + length)
-        self.setCurrentBlockState(0)
-
-
-class HighlightTextEdit(QTextEdit):
-    
-    """Script preview widget."""
-    
-    def __init__(self, parent):
-        super(HighlightTextEdit, self).__init__(parent)
-        self.setWordWrapMode(QTextOption.NoWrap)
-        self.setStyleSheet("font: 10pt \"Bitstream Vera Sans Mono\";")
-        KeywordSyntax(self)
-
-
-class Script_Dialog(QDialog, Ui_Info_Dialog):
+class ScriptDialog(QDialog, Ui_Info_Dialog):
     
     """Dialog of script preview."""
     
     def __init__(self,
-        VPoints: List[VPoint],
-        VLinks: List[VLink],
+        vpoints: List[VPoint],
+        vlinks: List[VLink],
         parent
     ):
-        super(Script_Dialog, self).__init__(parent)
+        super(ScriptDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowFlags(
+            self.windowFlags() &
+            ~Qt.WindowContextHelpButtonHint |
+            Qt.WindowMaximizeButtonHint
+        )
+        self.script_view.zoomIn(5)
+        self.code = highlight(
+            slvsProcessScript(vpoints, vlinks),
+            PythonLexer(),
+            HtmlFormatter()
+        )
         self.outputTo = parent.outputTo
         self.saveReplyBox = parent.saveReplyBox
-        self.script = HighlightTextEdit(self)
-        self.verticalLayout.insertWidget(1, self.script)
-        self.script.setPlainText(slvsProcessScript(VPoints, VLinks))
+        self.style_option.addItems(list(get_all_styles()))
+        self.style_option.setCurrentIndex(0)
+    
+    @pyqtSlot(str)
+    def on_style_option_currentIndexChanged(self, style_name: str):
+        """Redefind the CSS script of the html."""
+        self.script_view.setHtml("<style>{}</style>".format(
+            HtmlFormatter(style = get_style_by_name(style_name))
+            .get_style_defs()
+        ) + self.code)
     
     @pyqtSlot()
     def on_copy_clicked(self):

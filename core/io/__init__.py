@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .scriptIO import Script_Dialog
+from .scriptIO import ScriptDialog
 from .undoRedo import (
     AddTable, DeleteTable, FixSequenceNumber,
     EditPointTable, EditLinkTable,
@@ -27,7 +27,7 @@ from .larkParser import (
 from .peeweeIO import FileWidget
 
 __all__ = [
-    'Script_Dialog',
+    'ScriptDialog',
     'AddTable',
     'DeleteTable',
     'FixSequenceNumber',

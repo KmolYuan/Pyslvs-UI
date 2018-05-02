@@ -31,7 +31,7 @@ from core.QtModules import (
 )
 from core.info import PyslvsAbout, check_update
 from core.io import (
-    Script_Dialog,
+    ScriptDialog,
     PMKSArgsTransformer,
     PMKS_parser,
     AddTable,
@@ -474,7 +474,7 @@ def on_action_Output_to_Expression_triggered(self):
 
 def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
-    dlg = Script_Dialog(
+    dlg = ScriptDialog(
         self.EntitiesPoint.dataTuple(),
         self.EntitiesLink.dataTuple(),
         self

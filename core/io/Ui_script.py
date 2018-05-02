@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\script.ui'
+# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\io\script.ui'
 #
 # Created by: PyQt5 UI code generator 5.9
 #
@@ -12,15 +12,16 @@ class Ui_Info_Dialog(object):
     def setupUi(self, Info_Dialog):
         Info_Dialog.setObjectName("Info_Dialog")
         Info_Dialog.setEnabled(True)
-        Info_Dialog.resize(479, 503)
+        Info_Dialog.resize(520, 564)
+        Info_Dialog.setMinimumSize(QtCore.QSize(520, 564))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Info_Dialog.setWindowIcon(icon)
         Info_Dialog.setAutoFillBackground(True)
         Info_Dialog.setSizeGripEnabled(True)
         Info_Dialog.setModal(True)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Info_Dialog)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.main_layout = QtWidgets.QVBoxLayout(Info_Dialog)
+        self.main_layout.setObjectName("main_layout")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.label = QtWidgets.QLabel(Info_Dialog)
@@ -35,6 +36,12 @@ class Ui_Info_Dialog(object):
         self.horizontalLayout_2.addWidget(self.label)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
+        self.label_2 = QtWidgets.QLabel(Info_Dialog)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout_2.addWidget(self.label_2)
+        self.style_option = QtWidgets.QComboBox(Info_Dialog)
+        self.style_option.setObjectName("style_option")
+        self.horizontalLayout_2.addWidget(self.style_option)
         self.copy = QtWidgets.QPushButton(Info_Dialog)
         self.copy.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.copy.setAutoDefault(False)
@@ -44,9 +51,15 @@ class Ui_Info_Dialog(object):
         self.save.setAutoDefault(False)
         self.save.setObjectName("save")
         self.horizontalLayout_2.addWidget(self.save)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
+        self.main_layout.addLayout(self.horizontalLayout_2)
+        self.script_view = QtWidgets.QTextEdit(Info_Dialog)
+        self.script_view.setObjectName("script_view")
+        self.main_layout.addWidget(self.script_view)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label_3 = QtWidgets.QLabel(Info_Dialog)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout.addWidget(self.label_3)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
         self.buttonBox = QtWidgets.QDialogButtonBox(Info_Dialog)
@@ -59,7 +72,7 @@ class Ui_Info_Dialog(object):
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Close)
         self.buttonBox.setObjectName("buttonBox")
         self.horizontalLayout.addWidget(self.buttonBox)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.main_layout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Info_Dialog)
         self.buttonBox.rejected.connect(Info_Dialog.reject)
@@ -69,8 +82,10 @@ class Ui_Info_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Info_Dialog.setWindowTitle(_translate("Info_Dialog", "Python Script"))
         self.label.setWhatsThis(_translate("Info_Dialog", "Pyslvs Icon!"))
+        self.label_2.setText(_translate("Info_Dialog", "Style:"))
         self.copy.setText(_translate("Info_Dialog", "Copy"))
         self.save.setText(_translate("Info_Dialog", "Save as..."))
+        self.label_3.setText(_translate("Info_Dialog", "Syntax highlighting power by Pygments."))
         self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))
 
 import icons_rc

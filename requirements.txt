@@ -10,3 +10,4 @@ peewee
 lark-parser
 networkx
 pydot
+pygments

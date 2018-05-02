@@ -9,9 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>479</width>
-    <height>503</height>
+    <width>520</width>
+    <height>564</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>520</width>
+    <height>564</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Python Script</string>
@@ -29,7 +35,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="main_layout">
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -65,6 +71,16 @@
       </spacer>
      </item>
      <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Style:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="style_option"/>
+     </item>
+     <item>
       <widget class="QPushButton" name="copy">
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
@@ -90,7 +106,17 @@
     </layout>
    </item>
    <item>
+    <widget class="QTextEdit" name="script_view"/>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Syntax highlighting power by Pygments.</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
