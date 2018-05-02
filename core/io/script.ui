@@ -39,23 +39,14 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="whatsThis">
-        <string>Pyslvs Icon!</string>
-       </property>
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../icons.qrc">:/icons/main.png</pixmap>
+        <string>Style:</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="style_option"/>
      </item>
      <item>
       <spacer name="horizontalSpacer">
@@ -69,16 +60,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Style:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="style_option"/>
      </item>
      <item>
       <widget class="QPushButton" name="copy">
