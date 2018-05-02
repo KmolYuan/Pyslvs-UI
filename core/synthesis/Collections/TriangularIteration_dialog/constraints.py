@@ -8,19 +8,23 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from networkx import Graph
-from typing import Tuple, List
+from typing import (
+    Tuple,
+    Iterator,
+    Optional,
+)
 from core.QtModules import (
+    Qt,
     QDialog,
     QListWidget,
     QListWidgetItem,
-    Qt,
     pyqtSlot,
 )
 from core.graphics import edges_view
 from .Ui_constraints import Ui_Dialog
 
 
-def get_list(item: QListWidget) -> List[str]:
+def get_list(item: QListWidget) -> Iterator[str]:
     """A generator to get symbols from list widget."""
     if not item:
         return []
@@ -31,7 +35,7 @@ def get_list(item: QListWidget) -> List[str]:
 def list_items(
     widget: QListWidget,
     returnRow: bool =False
-) -> Tuple[int, QListWidgetItem]:
+) -> Iterator[Tuple[Optional[int], QListWidgetItem]]:
     """A generator to get items from list widget."""
     for row in range(widget.count()):
         if returnRow:
@@ -40,7 +44,7 @@ def list_items(
             yield widget.item(row)
 
 
-def four_bar_loops(G: Graph) -> Tuple[int, int, int, int]:
+def four_bar_loops(G: Graph) -> Iterator[Tuple[int, int, int, int]]:
     """A generator to find out the four bar loops."""
     result = set([])
     vertexes = {v: k for k, v in edges_view(G)}

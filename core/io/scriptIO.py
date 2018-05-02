@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List
+from typing import Iterator
 from pygments import highlight
 from pygments.lexers import PythonLexer
 from pygments.formatters import HtmlFormatter
@@ -23,7 +23,7 @@ from core.QtModules import (
 )
 from core.info import VERSION
 from core.libs import VPoint, VLink
-from .Ui_script import Ui_Info_Dialog
+from .Ui_script import Ui_Dialog
 
 
 _script_title = '''\
@@ -280,23 +280,23 @@ if __name__=="__main__":
 
 
 def slvsProcessScript(
-    VPointList: List[VPoint],
-    VLinkList: List[VLink]
+    vpoints: Iterator[VPoint],
+    vlinks: Iterator[VLink]
 ):
     return _script_title.format(
         "v{}.{}.{} ({})".format(*VERSION),
-        [vpoint for vpoint in VPointList],
-        [vlink for vlink in VLinkList]
+        [vpoint for vpoint in vpoints],
+        [vlink for vlink in vlinks]
     )
 
 
-class ScriptDialog(QDialog, Ui_Info_Dialog):
+class ScriptDialog(QDialog, Ui_Dialog):
     
     """Dialog of script preview."""
     
     def __init__(self,
-        vpoints: List[VPoint],
-        vlinks: List[VLink],
+        vpoints: Iterator[VPoint],
+        vlinks: Iterator[VLink],
         parent
     ):
         super(ScriptDialog, self).__init__(parent)

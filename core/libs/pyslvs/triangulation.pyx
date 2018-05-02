@@ -7,7 +7,7 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence
+from typing import Sequence, Iterator
 from libc.math cimport sin, cos
 import numpy as np
 cimport numpy as np
@@ -41,7 +41,7 @@ def _get_reliable_friend(
     vpoints: Sequence[VPoint],
     vlinks: dict,
     status: dict
-) -> int:
+) -> Iterator[int]:
     """Return a generator yield the nodes
         that has solution on the same link.
     """
@@ -60,7 +60,7 @@ def _get_notbase_friend(
     vpoints: Sequence[VPoint],
     vlinks: dict,
     status: dict
-) -> int:
+) -> Iterator[int]:
     """Get a friend from constrained nodes."""
     if len(vpoints[node].links) < 2:
         raise StopIteration
@@ -74,7 +74,7 @@ def _get_base_friend(
     vpoints: Sequence[VPoint],
     vlinks: dict,
     status: dict
-) -> int:
+) -> Iterator[int]:
     """Get the constrained node of same linkage."""
     if len(vpoints[node].links) < 1:
         raise StopIteration
@@ -92,7 +92,7 @@ cdef inline int get_input_base(int node, sequence inputs):
     return -1
 
 
-cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status={}):
+cpdef list vpoints_configure(sequence vpoints, sequence inputs, dict status = {}):
     """Auto configuration algorithm.
     
     For VPoint list.

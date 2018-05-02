@@ -3,7 +3,7 @@
 """The widget of 'Inputs' tab."""
 
 import csv
-from typing import Tuple
+from typing import Tuple, Iterator
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
@@ -242,7 +242,7 @@ class InputsWidget(QWidget, Ui_Form):
         drive = points[relate[relate.index(row)-1]]
         return base.slopeAngle(drive)
     
-    def getInputsVariables(self) -> Tuple[int, str, str, float]:
+    def getInputsVariables(self) -> Iterator[Tuple[int, str, str, float]]:
         """A generator use to get variables.
         
         [0]: point num
@@ -260,7 +260,7 @@ class InputsWidget(QWidget, Ui_Form):
         """Use to show input variable count."""
         return self.variable_list.count()
     
-    def inputPair(self) -> Tuple[int, int]:
+    def inputPair(self) -> Iterator[Tuple[int, int]]:
         """Back as point number code."""
         vlinks = {
             vlink.name: set(vlink.points)

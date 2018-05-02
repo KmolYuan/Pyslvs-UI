@@ -10,9 +10,10 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from typing import (
-    TypeVar,
     Tuple,
     List,
+    Iterator,
+    Union,
 )
 from core.QtModules import (
     QTableWidget,
@@ -70,7 +71,7 @@ class BaseTableWidget(QTableWidget):
                 texts.append(item.text())
         return texts
     
-    def dataTuple(self) -> Tuple[TypeVar("Element", VPoint, VLink)]:
+    def dataTuple(self) -> Tuple[Union[VPoint, VLink]]:
         """Return data set as a container."""
         return tuple(self.data())
     
@@ -119,7 +120,7 @@ class PointTableWidget(BaseTableWidget):
         self.setColumnWidth(6, 130)
         self.itemSelectionChanged.connect(self.__emitSelectionChanged)
     
-    def data(self) -> VPoint:
+    def data(self) -> Iterator[VPoint]:
         """Yield the digitization of all table data."""
         for row in range(self.rowCount()):
             Links = self.item(row, 1).text()
@@ -279,7 +280,7 @@ class LinkTableWidget(BaseTableWidget):
         self.setColumnWidth(1, 90)
         self.setColumnWidth(2, 130)
     
-    def data(self) -> VLink:
+    def data(self) -> Iterator[VLink]:
         """Yield the digitization of all table data."""
         for row in range(self.rowCount()):
             name = self.item(row, 0).text()

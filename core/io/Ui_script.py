@@ -1,58 +1,57 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Y:\tmp\github\Pyslvs-PyQt5\core\io\script.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\io\script.ui'
 #
-# Created by: PyQt5 UI code generator 5.9
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Info_Dialog(object):
-    def setupUi(self, Info_Dialog):
-        Info_Dialog.setObjectName("Info_Dialog")
-        Info_Dialog.setEnabled(True)
-        Info_Dialog.resize(520, 564)
-        Info_Dialog.setMinimumSize(QtCore.QSize(520, 564))
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.setEnabled(True)
+        Dialog.resize(520, 564)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/script.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        Info_Dialog.setWindowIcon(icon)
-        Info_Dialog.setAutoFillBackground(True)
-        Info_Dialog.setSizeGripEnabled(True)
-        Info_Dialog.setModal(True)
-        self.main_layout = QtWidgets.QVBoxLayout(Info_Dialog)
+        Dialog.setWindowIcon(icon)
+        Dialog.setAutoFillBackground(True)
+        Dialog.setSizeGripEnabled(True)
+        Dialog.setModal(True)
+        self.main_layout = QtWidgets.QVBoxLayout(Dialog)
         self.main_layout.setObjectName("main_layout")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.label_2 = QtWidgets.QLabel(Info_Dialog)
+        self.label_2 = QtWidgets.QLabel(Dialog)
         self.label_2.setObjectName("label_2")
         self.horizontalLayout_2.addWidget(self.label_2)
-        self.style_option = QtWidgets.QComboBox(Info_Dialog)
+        self.style_option = QtWidgets.QComboBox(Dialog)
         self.style_option.setObjectName("style_option")
         self.horizontalLayout_2.addWidget(self.style_option)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
-        self.copy = QtWidgets.QPushButton(Info_Dialog)
+        self.copy = QtWidgets.QPushButton(Dialog)
         self.copy.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
         self.copy.setAutoDefault(False)
         self.copy.setObjectName("copy")
         self.horizontalLayout_2.addWidget(self.copy)
-        self.save = QtWidgets.QPushButton(Info_Dialog)
+        self.save = QtWidgets.QPushButton(Dialog)
         self.save.setAutoDefault(False)
         self.save.setObjectName("save")
         self.horizontalLayout_2.addWidget(self.save)
         self.main_layout.addLayout(self.horizontalLayout_2)
-        self.script_view = QtWidgets.QTextEdit(Info_Dialog)
+        self.script_view = QtWidgets.QTextEdit(Dialog)
         self.script_view.setObjectName("script_view")
         self.main_layout.addWidget(self.script_view)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.label_3 = QtWidgets.QLabel(Info_Dialog)
+        self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setObjectName("label_3")
         self.horizontalLayout.addWidget(self.label_3)
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Info_Dialog)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -64,27 +63,27 @@ class Ui_Info_Dialog(object):
         self.horizontalLayout.addWidget(self.buttonBox)
         self.main_layout.addLayout(self.horizontalLayout)
 
-        self.retranslateUi(Info_Dialog)
-        self.buttonBox.rejected.connect(Info_Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(Info_Dialog)
+        self.retranslateUi(Dialog)
+        self.buttonBox.rejected.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, Info_Dialog):
+    def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        Info_Dialog.setWindowTitle(_translate("Info_Dialog", "Python Script"))
-        self.label_2.setText(_translate("Info_Dialog", "Style:"))
-        self.copy.setText(_translate("Info_Dialog", "Copy"))
-        self.save.setText(_translate("Info_Dialog", "Save as..."))
-        self.label_3.setText(_translate("Info_Dialog", "Syntax highlighting power by Pygments."))
-        self.buttonBox.setWhatsThis(_translate("Info_Dialog", "Click to exit"))
+        Dialog.setWindowTitle(_translate("Dialog", "Python Script"))
+        self.label_2.setText(_translate("Dialog", "Style:"))
+        self.copy.setText(_translate("Dialog", "Copy"))
+        self.save.setText(_translate("Dialog", "Save as..."))
+        self.label_3.setText(_translate("Dialog", "Syntax highlighting power by Pygments."))
+        self.buttonBox.setWhatsThis(_translate("Dialog", "Click to exit"))
 
 import icons_rc
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Info_Dialog = QtWidgets.QDialog()
-    ui = Ui_Info_Dialog()
-    ui.setupUi(Info_Dialog)
-    Info_Dialog.show()
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
     sys.exit(app.exec_())
 

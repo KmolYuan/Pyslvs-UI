@@ -12,7 +12,8 @@ from typing import (
     List,
     Dict,
     Callable,
-    TypeVar,
+    Iterator,
+    Union,
 )
 from core.QtModules import (
     Qt,
@@ -51,7 +52,7 @@ def _openURL(url: str):
 def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
     """Solvespace edges."""
     
-    def v_to_slvs() -> Tuple[Tuple[int, int]]:
+    def v_to_slvs() -> Iterator[Tuple[int, int]]:
         for vlink in self.EntitiesLink.data():
             if vlink.name == 'ground':
                 continue
@@ -65,7 +66,7 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
     return v_to_slvs
 
 
-def _settings(self) -> Tuple[Tuple[QWidget, TypeVar('limit', int, bool)]]:
+def _settings(self) -> Tuple[Tuple[QWidget, Union[int, bool]]]:
     """Give the settings of all option widgets."""
     return (
         (self.linewidth_option, 3),
@@ -475,8 +476,8 @@ def on_action_Output_to_Expression_triggered(self):
 def on_action_See_Python_Scripts_triggered(self):
     """Output to Python script for Jupyter notebook."""
     dlg = ScriptDialog(
-        self.EntitiesPoint.dataTuple(),
-        self.EntitiesLink.dataTuple(),
+        self.EntitiesPoint.data(),
+        self.EntitiesLink.data(),
         self
     )
     dlg.show()

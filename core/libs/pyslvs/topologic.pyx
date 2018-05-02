@@ -7,7 +7,12 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
-from typing import Sequence, Tuple
+from typing import (
+    Sequence,
+    Tuple,
+    Dict,
+    Iterator,
+)
 from itertools import combinations, product
 import sys
 import numpy as np
@@ -155,7 +160,7 @@ cdef class GraphMatcher:
         self.mapping = self.core_1.copy()
     
     #Generator candidate_pairs_iter()
-    def candidate_pairs_iter(self):
+    def candidate_pairs_iter(self) -> Iterator[Tuple[int, int]]:
         """Iterator over candidate pairs of nodes in G1 and G2."""
         cdef int node
         # First we compute the inout-terminal sets.
@@ -201,7 +206,7 @@ cdef class GraphMatcher:
     
     #Generator isomorphisms_iter()
     #Generator over isomorphisms between G1 and G2.
-    def isomorphisms_iter(self) -> dict:
+    def isomorphisms_iter(self) -> Iterator[Dict[int, Tuple[int]]]:
         # Declare that we are looking for a graph-graph isomorphism.
         self.initialize()
         cdef dict mapping
@@ -210,7 +215,7 @@ cdef class GraphMatcher:
     
     #Generator match()
     #Extends the isomorphism mapping.
-    def match(self) -> dict:
+    def match(self) -> Iterator[Dict[int, Tuple[int]]]:
         cdef int G1_node, G2_node
         cdef GMState newstate
         cdef dict mapping

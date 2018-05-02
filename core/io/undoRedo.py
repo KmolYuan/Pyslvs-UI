@@ -24,7 +24,8 @@ from typing import (
     List,
     Dict,
     Tuple,
-    TypeVar,
+    Iterator,
+    Union,
 )
 from core.QtModules import (
     Qt,
@@ -39,9 +40,11 @@ from core.QtModules import (
 )
 
 
-TableData = TypeVar("TableData", str, int, float)
-
-noNoneString = lambda l: [e for e in l if e]
+def noNoneString(str_list: Union[List[str], Iterator[str]]) -> Iterator[str]:
+    """Filter to exclude empty string."""
+    for s in str_list:
+        if s:
+            yield s
 
 
 class AddTable(QUndoCommand):
@@ -139,7 +142,7 @@ class EditPointTable(QUndoCommand):
         row: int,
         PointTable: QTableWidgetItem,
         LinkTable: QTableWidgetItem,
-        args: Sequence[TableData]
+        args: Sequence[Union[str, int, float]]
     ):
         QUndoCommand.__init__(self)
         self.PointTable = PointTable
@@ -196,7 +199,7 @@ class EditPointTable(QUndoCommand):
             newPoints.remove(point_name)
             self.setCell(row, newPoints)
     
-    def setCell(self, row: int, points: List):
+    def setCell(self, row: int, points: List[str]):
         item = QTableWidgetItem(','.join(noNoneString(points)))
         item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
         self.LinkTable.setItem(row, 2, item)
@@ -213,7 +216,7 @@ class EditLinkTable(QUndoCommand):
         row: int,
         LinkTable: QTableWidgetItem,
         PointTable: QTableWidgetItem,
-        args: Sequence[TableData]
+        args: Sequence[Union[str, int, float]]
     ):
         QUndoCommand.__init__(self)
         self.LinkTable = LinkTable
@@ -261,10 +264,10 @@ class EditLinkTable(QUndoCommand):
         for index in noNoneString(Args2[2].split(',')):
             row = int(index.replace('Point', ''))
             newLinks = self.PointTable.item(row, 1).text().split(',')
-            item = QTableWidgetItem(','.join(noNoneString([
+            item = QTableWidgetItem(','.join(noNoneString(
                 w.replace(Args2[0], Args1[0])
                 for w in newLinks
-            ])))
+            )))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             self.PointTable.setItem(row, 1, item)
     
