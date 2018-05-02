@@ -18,6 +18,7 @@ from typing import (
     Dict,
     Tuple,
     Any,
+    Optional,
 )
 from core.QtModules import (
     QWidget,
@@ -164,7 +165,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             return []
     
     @pyqtSlot(str)
-    def on_target_points_currentTextChanged(self, text=None):
+    def on_target_points_currentTextChanged(self, text: Optional[str] = None):
         """Switch to the current target path."""
         self.path_list.clear()
         for x, y in self.currentPath():
@@ -172,7 +173,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__currentPathChanged()
     
     @pyqtSlot()
-    def __clearPath(self, ask: bool =True):
+    def __clearPath(self, ask: bool = True):
         """Clear the current target path."""
         if ask:
             reply = QMessageBox.question(self,
@@ -755,7 +756,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
             }
     
     @pyqtSlot(float)
-    def updateRange(self, p0=None):
+    def updateRange(self, p0: Optional[float] = None):
         """Update range values to main canvas."""
         
         def t(x, y):

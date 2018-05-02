@@ -7,11 +7,12 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from networkx import (
-    Graph,
-    is_isomorphic
+from networkx import Graph, is_isomorphic
+from typing import (
+    List,
+    Tuple,
+    Optional,
 )
-from typing import List, Tuple
 from core.QtModules import (
     QWidget,
     pyqtSignal,
@@ -108,7 +109,7 @@ class CollectionsStructure(QWidget, Ui_Form):
     
     @pyqtSlot()
     @pyqtSlot(str)
-    def on_reload_atlas_clicked(self, p0=None):
+    def on_reload_atlas_clicked(self, p0: Optional[str] = None):
         """Reload atlas with the engine."""
         if not self.collections:
             return

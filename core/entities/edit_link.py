@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from typing import List
+from typing import List, Optional
 from core.QtModules import (
     QDialog,
     Qt,
@@ -60,9 +60,8 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         self.__isOk()
     
     @pyqtSlot(str)
-    def __isOk(self, p0=None):
+    def __isOk(self, p0: Optional[str] = None):
         """Set button box enable if options are ok."""
-        del p0
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(
             self.__legalName(self.name_edit.text())
         )

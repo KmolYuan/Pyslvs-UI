@@ -3,7 +3,11 @@
 """The widget of 'Inputs' tab."""
 
 import csv
-from typing import Tuple, Iterator
+from typing import (
+    Tuple,
+    Iterator,
+    Optional,
+)
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
@@ -180,7 +184,7 @@ class InputsWidget(QWidget, Ui_Form):
             self.__addInputsVariable(*variable)
     
     @pyqtSlot(int)
-    def __dialOk(self, p0=None):
+    def __dialOk(self, p0: Optional[int] = None):
         """Set the angle of base link and drive link."""
         row = self.variable_list.currentRow()
         enabled = row > -1

@@ -12,7 +12,8 @@ from typing import (
     List,
     Tuple,
     Dict,
-    Any
+    Any,
+    Union,
 )
 from core.QtModules import (
     QDialog,
@@ -248,7 +249,7 @@ class Options_show(QDialog, Ui_Dialog):
     
     @pyqtSlot(int)
     @pyqtSlot(float)
-    def __isOk(self, r=None):
+    def __isOk(self, r: Union[int, float, None] = None):
         """Set buttons enable if values ok."""
         n = True
         pre = 0

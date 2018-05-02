@@ -415,9 +415,9 @@ cdef inline list connection_get(int i, tuple connection):
 #Linkage Topological Component
 cpdef topo(
     object link_num,
-    bool degenerate=True,
-    object setjobFunc=None,
-    object stopFunc=None
+    bool degenerate = True,
+    object setjobFunc = None,
+    object stopFunc = None
 ):
     """
     link_num = [L2, L3, L4, ...]

@@ -16,6 +16,7 @@ from typing import (
     Tuple,
     Set,
     Any,
+    Optional,
 )
 from core.QtModules import (
     Qt,
@@ -294,7 +295,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.follower_list.addItem(name)
     
     @pyqtSlot(int)
-    def __hasSolution(self, index=None):
+    def __hasSolution(self, index: Optional[int] = None):
         """Set buttons enable if there has solution."""
         if index is None:
             index = self.joint_name.currentIndex()
@@ -502,7 +503,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         )
     
     @pyqtSlot(QListWidgetItem)
-    def __setParmBind(self, item=None):
+    def __setParmBind(self, item: Optional[QListWidgetItem] = None):
         """Set parameters binding."""
         self.expr_show.setText(';'.join(list_texts(self.expression_list)))
         link_expr_list = []

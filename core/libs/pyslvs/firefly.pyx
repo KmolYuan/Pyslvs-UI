@@ -73,7 +73,7 @@ cdef class Firefly:
     cdef Chromosome genbest, bestFirefly
     cdef list fitnessTime
     
-    def __init__(self,
+    def __cinit__(self,
         func: object,
         settings: dict,
         progress_fun: object = None,

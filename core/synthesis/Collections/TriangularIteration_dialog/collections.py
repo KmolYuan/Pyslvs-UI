@@ -13,6 +13,8 @@ from typing import (
     Dict,
     Callable,
     Any,
+    Union,
+    Optional,
 )
 from core.QtModules import (
     QDialog,
@@ -272,7 +274,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
-    def __chooseCommon(self, p0=None):
+    def __chooseCommon(self, p0: Union[str, QListWidgetItem, None] = None):
         """Update preview canvas for common data."""
         text = self.common_list.currentItem().text()
         if not text:
@@ -288,7 +290,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot(str)
     @pyqtSlot(QListWidgetItem)
-    def __chooseCollections(self, p0=None):
+    def __chooseCollections(self, p0: Union[str, QListWidgetItem, None] = None):
         """Update preview canvas for a workbook data."""
         text = self.collections_list.currentItem().text()
         if not text:
@@ -299,14 +301,14 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
-    def __loadCommon(self, p0=None):
+    def __loadCommon(self, p0: Optional[QListWidgetItem] = None):
         """Load a common data and close."""
         self.__chooseCommon(self.common_list.currentItem().text())
         self.accept()
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)
-    def __loadCollections(self, p0=None):
+    def __loadCollections(self, p0: Optional[QListWidgetItem] = None):
         """Load a workbook data and close."""
         self.__chooseCollections(self.collections_list.currentItem().text())
         self.accept()

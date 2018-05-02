@@ -8,7 +8,7 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from networkx import Graph
-from typing import List
+from typing import List, Optional
 from core.QtModules import (
     QWidget,
     QMenu,
@@ -290,7 +290,7 @@ class NumberAndTypeSynthesis(QWidget, Ui_Form):
     
     @pyqtSlot()
     @pyqtSlot(str)
-    def on_reload_atlas_clicked(self, p0=None):
+    def on_reload_atlas_clicked(self, p0: Optional[str] = None):
         """Reload the atlas. Regardless there has any old data."""
         self.engine = self.graph_engine.currentText().split(" - ")[1]
         self.Topologic_result.clear()

@@ -76,7 +76,7 @@ cdef class VPoint:
         """Y value of frist current coordinate."""
         return self.c[0][1]
     
-    cpdef void move(self, tuple c1, tuple c2=None):
+    cpdef void move(self, tuple c1, tuple c2 = None):
         """Change coordinates of this point."""
         self.c[0] = c1
         self.c[1] = c2
@@ -167,7 +167,7 @@ cdef class VLink:
         str name,
         str color_str,
         tuple points,
-        object color_func=None
+        object color_func = None
     ):
         self.name = name
         self.colorSTR = color_str
@@ -209,8 +209,8 @@ cpdef tuple PLAP(
     Coordinate A,
     double L0,
     double a0,
-    Coordinate B=None,
-    bool inverse=False
+    Coordinate B = None,
+    bool inverse = False
 ):
     """Point on circle by angle."""
     cdef double a1 = atan2(B.y - A.y, B.x - A.x) if B else 0

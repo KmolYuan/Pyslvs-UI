@@ -204,28 +204,29 @@ class PointTableWidget(BaseTableWidget):
         keyboardModifiers = QApplication.keyboardModifiers()
         if keyDetect:
             if keyboardModifiers == Qt.ShiftModifier:
-                self.__setSelectedRanges(selections, continueSelect=True, UnSelect=False)
+                self.__setSelectedRanges(selections, continueSelect=True, unSelect=False)
             elif keyboardModifiers == Qt.ControlModifier:
-                self.__setSelectedRanges(selections, continueSelect=True, UnSelect=True)
+                self.__setSelectedRanges(selections, continueSelect=True, unSelect=True)
             else:
-                self.__setSelectedRanges(selections, continueSelect=False, UnSelect=False)
+                self.__setSelectedRanges(selections, continueSelect=False, unSelect=False)
         else:
             continueSelect = (keyboardModifiers == Qt.ShiftModifier)
-            self.__setSelectedRanges(selections, continueSelect=continueSelect, UnSelect=False)
+            self.__setSelectedRanges(selections, continueSelect=continueSelect, unSelect=False)
         distance = []
         selectedRows = self.selectedRows()
         if len(selectedRows) > 1:
             data = self.dataTuple()
             for i, row in enumerate(selectedRows):
-                if i==len(selectedRows)-1:
+                if i == len(selectedRows)-1:
                     break
                 distance.append(round(data[row].distance(data[selectedRows[i+1]]), 4))
         self.selectionLabelUpdate.emit(selectedRows, distance)
     
     def __setSelectedRanges(self,
         selections: Tuple[int],
+        *,
         continueSelect: bool,
-        UnSelect: bool
+        unSelect: bool
     ):
         """Different mode of select function."""
         selectedRows = self.selectedRows()
@@ -236,7 +237,7 @@ class PointTableWidget(BaseTableWidget):
             isSelected = not row in selectedRows
             self.setRangeSelected(
                 QTableWidgetSelectionRange(row, 0, row, self.columnCount()-1),
-                isSelected if UnSelect else True)
+                isSelected if unSelect else True)
             self.scrollToItem(self.item(row, 0))
     
     def getLinks(self, row: int) -> List[str]:
