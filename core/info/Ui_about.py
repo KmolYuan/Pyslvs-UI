@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/info/about.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\info\about.ui'
 #
-# Created by: PyQt5 UI code generator 5.10
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_About_Dialog(object):
-    def setupUi(self, About_Dialog):
-        About_Dialog.setObjectName("About_Dialog")
-        About_Dialog.setEnabled(True)
-        About_Dialog.resize(586, 494)
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
+        Dialog.setObjectName("Dialog")
+        Dialog.setEnabled(True)
+        Dialog.resize(586, 494)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/icons/main.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        About_Dialog.setWindowIcon(icon)
-        About_Dialog.setSizeGripEnabled(False)
-        About_Dialog.setModal(True)
-        self.verticalLayout_7 = QtWidgets.QVBoxLayout(About_Dialog)
+        Dialog.setWindowIcon(icon)
+        Dialog.setSizeGripEnabled(False)
+        Dialog.setModal(True)
+        self.verticalLayout_7 = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout_7.setContentsMargins(-1, 6, 6, 6)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.iconLabel = QtWidgets.QLabel(About_Dialog)
+        self.iconLabel = QtWidgets.QLabel(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -39,11 +39,11 @@ class Ui_About_Dialog(object):
         self.horizontalLayout.addLayout(self.verticalLayout_2)
         self.verticalLayout_3 = QtWidgets.QVBoxLayout()
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.Title = QtWidgets.QLabel(About_Dialog)
+        self.Title = QtWidgets.QLabel(Dialog)
         self.Title.setText("")
         self.Title.setObjectName("Title")
         self.verticalLayout_3.addWidget(self.Title)
-        self.tabWidget = QtWidgets.QTabWidget(About_Dialog)
+        self.tabWidget = QtWidgets.QTabWidget(Dialog)
         self.tabWidget.setObjectName("tabWidget")
         self.AboutTab = QtWidgets.QWidget()
         self.AboutTab.setObjectName("AboutTab")
@@ -95,7 +95,7 @@ class Ui_About_Dialog(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem1)
-        self.buttonBox = QtWidgets.QDialogButtonBox(About_Dialog)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -107,20 +107,20 @@ class Ui_About_Dialog(object):
         self.horizontalLayout_2.addWidget(self.buttonBox)
         self.verticalLayout_7.addLayout(self.horizontalLayout_2)
 
-        self.retranslateUi(About_Dialog)
+        self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
-        self.buttonBox.accepted.connect(About_Dialog.accept)
-        self.buttonBox.rejected.connect(About_Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(About_Dialog)
+        self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(Dialog)
 
-    def retranslateUi(self, About_Dialog):
+    def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
-        About_Dialog.setWindowTitle(_translate("About_Dialog", "About Pyslvs"))
-        self.iconLabel.setWhatsThis(_translate("About_Dialog", "Pyslvs Icon!"))
-        self.iconLabel.setText(_translate("About_Dialog", "<html><head/><body><p><img width=\"80\" src=\":/icons/main_big.png\"/></p></body></html>"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.AboutTab), _translate("About_Dialog", "About"))
-        self.label.setText(_translate("About_Dialog", "<html><head/><body><p>This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p></body></html>"))
-        self.License.setHtml(_translate("About_Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+        Dialog.setWindowTitle(_translate("Dialog", "About Pyslvs"))
+        self.iconLabel.setWhatsThis(_translate("Dialog", "Pyslvs Icon!"))
+        self.iconLabel.setText(_translate("Dialog", "<html><head/><body><p><img width=\"80\" src=\":/icons/main_big.png\"/></p></body></html>"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.AboutTab), _translate("Dialog", "About"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p>This program is free software; you can redistribute it and/or modify it under the terms of the Affero General Public License (AGPL) as published by Affero, Inc. version 3. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</p></body></html>"))
+        self.License.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
@@ -786,19 +786,19 @@ class Ui_About_Dialog(object):
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">For more information on this, and how to apply and follow the GNU AGPL, see</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">&lt;http://www.gnu.org/licenses/&gt;.</p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.LicenseTab), _translate("About_Dialog", "LICENSE"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.VersionsTab), _translate("About_Dialog", "Versions"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.ArgumentsTab), _translate("About_Dialog", "Arguments"))
-        self.buttonBox.setWhatsThis(_translate("About_Dialog", "Click to exit"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.LicenseTab), _translate("Dialog", "LICENSE"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.VersionsTab), _translate("Dialog", "Versions"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.ArgumentsTab), _translate("Dialog", "Arguments"))
+        self.buttonBox.setWhatsThis(_translate("Dialog", "Click to exit"))
 
 import icons_rc
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    About_Dialog = QtWidgets.QDialog()
-    ui = Ui_About_Dialog()
-    ui.setupUi(About_Dialog)
-    About_Dialog.show()
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
     sys.exit(app.exec_())
 

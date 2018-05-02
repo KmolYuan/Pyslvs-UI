@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>About_Dialog</class>
- <widget class="QDialog" name="About_Dialog">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
   <property name="enabled">
    <bool>true</bool>
   </property>
@@ -917,7 +917,7 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>About_Dialog</receiver>
+   <receiver>Dialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -933,7 +933,7 @@ p, li { white-space: pre-wrap; }
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>About_Dialog</receiver>
+   <receiver>Dialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

@@ -83,7 +83,7 @@
  <resources>
   <include location="../../../../preview.qrc"/>
   <include location="../../../../icons.qrc"/>
-  <include location="../../../../../../桌面/Pyslvs-PyQt5/preview.qrc"/>
+  <include location="../../../../preview.qrc"/>
  </resources>
  <connections>
   <connection>
