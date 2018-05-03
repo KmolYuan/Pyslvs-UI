@@ -77,6 +77,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, bool]]]:
         (self.linktrans_option, 0),
         (self.marginfactor_option, 5),
         (self.jointsize_option, 5),
+        (self.snap_option, 1),
         (self.undolimit_option, 32),
         (self.planarsolver_option, 0),
         (self.titlefullpath_option, False),

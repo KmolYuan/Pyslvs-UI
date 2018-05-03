@@ -28,7 +28,7 @@ from core.io import FileWidget
 from core.synthesis import (
     NumberAndTypeSynthesis,
     Collections,
-    DimensionalSynthesis
+    DimensionalSynthesis,
 )
 from .main_canvas import DynamicCanvas
 from .tables import (
@@ -315,6 +315,9 @@ def _options(self):
     )
     self.jointsize_option.valueChanged.connect(
         self.MainCanvas.setJointSize
+    )
+    self.snap_option.valueChanged.connect(
+        self.MainCanvas.setSnap
     )
     self.settings_reset.clicked.connect(self.resetOptions)
 

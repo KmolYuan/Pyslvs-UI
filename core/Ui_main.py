@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '/home/ahshoe/桌面/Pyslvs-PyQt5/core/main.ui'
+# Form implementation generated from reading ui file 'C:\Users\ahshoe\Desktop\Pyslvs-PyQt5\core\main.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
@@ -233,7 +233,7 @@ class Ui_MainWindow(object):
         self.settings_scrollarea.setWidgetResizable(True)
         self.settings_scrollarea.setObjectName("settings_scrollarea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 439, 744))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 389, 591))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
@@ -308,6 +308,13 @@ class Ui_MainWindow(object):
         self.jointsize_option.setMaximum(100)
         self.jointsize_option.setObjectName("jointsize_option")
         self.formLayout.setWidget(8, QtWidgets.QFormLayout.FieldRole, self.jointsize_option)
+        self.snap_option = QtWidgets.QSpinBox(self.settings_ui_groupbox)
+        self.snap_option.setMaximum(100)
+        self.snap_option.setObjectName("snap_option")
+        self.formLayout.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.snap_option)
+        self.snap_label = QtWidgets.QLabel(self.settings_ui_groupbox)
+        self.snap_label.setObjectName("snap_label")
+        self.formLayout.setWidget(9, QtWidgets.QFormLayout.LabelRole, self.snap_label)
         self.verticalLayout_3.addWidget(self.settings_ui_groupbox)
         self.settings_history_groupbox = QtWidgets.QGroupBox(self.scrollAreaWidgetContents)
         self.settings_history_groupbox.setObjectName("settings_history_groupbox")
@@ -515,7 +522,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.MainSplitter)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 30))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 989, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setStatusTip("")
@@ -786,6 +793,7 @@ class Ui_MainWindow(object):
         self.marginfactor_label.setText(_translate("MainWindow", "Margin of \"zoom to fit\""))
         self.marginfactor_option.setSuffix(_translate("MainWindow", "%"))
         self.jointsize_label.setText(_translate("MainWindow", "Joint annotation size (diameter)"))
+        self.snap_label.setText(_translate("MainWindow", "Snap the mouse when dragging (zero to disable)"))
         self.settings_history_groupbox.setTitle(_translate("MainWindow", "History"))
         self.UndoLimit_label.setText(_translate("MainWindow", "Undo limit"))
         self.undolimit_option.setSuffix(_translate("MainWindow", " times"))
@@ -831,7 +839,6 @@ class Ui_MainWindow(object):
         self.action_New_Link.setShortcut(_translate("MainWindow", "L"))
         self.action_Exit.setText(_translate("MainWindow", "&Quit"))
         self.action_Exit.setStatusTip(_translate("MainWindow", "Exit Pyslvs."))
-        self.action_Exit.setShortcut(_translate("MainWindow", "Ctrl+Q"))
         self.action_Get_Help.setText(_translate("MainWindow", "&MDE.tw"))
         self.action_Get_Help.setStatusTip(_translate("MainWindow", "Goto Kmolab learn about more."))
         self.action_github_repository.setText(_translate("MainWindow", "Git&hub repository"))

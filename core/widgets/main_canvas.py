@@ -143,6 +143,8 @@ class DynamicCanvas(BaseCanvas):
         self.autoPathShow = True
         #Show solution.
         self.solutionShow = False
+        #Mouse snapping value.
+        self.snap = 5
         #Dependent functions to set zoom bar.
         self.__setZoom = parent.ZoomBar.setValue
         self.__zoom = parent.ZoomBar.value
@@ -242,6 +244,11 @@ class DynamicCanvas(BaseCanvas):
         self.jointsize = jointsize
         self.update()
     
+    @pyqtSlot(int)
+    def setSnap(self, snap: int):
+        """Update mouse capture value."""
+        self.snap = snap * self.zoom
+    
     @pyqtSlot(list)
     def changePointsSelection(self,
         pointsSelection: List[int]
@@ -273,6 +280,7 @@ class DynamicCanvas(BaseCanvas):
         self.update()
     
     def setSolutionShow(self, solutionShow: bool):
+        """Update solution preview mode."""
         self.solutionShow = solutionShow
         self.update()
     
@@ -299,18 +307,6 @@ class DynamicCanvas(BaseCanvas):
             self.oy += (height - self.height_old) / 2
         super(DynamicCanvas, self).paintEvent(event)
         self.painter.setFont(QFont('Arial', self.fontSize))
-        if self.freemove != FreeMode.NoFreeMove:
-            #Draw a colored frame for free move mode.
-            pen = QPen()
-            if self.freemove == FreeMode.Translate:
-                pen.setColor(QColor(161, 105, 229))
-            elif self.freemove == FreeMode.Rotate:
-                pen.setColor(QColor(219, 162, 6))
-            elif self.freemove == FreeMode.Reflect:
-                pen.setColor(QColor(79, 249, 193))
-            pen.setWidth(8)
-            self.painter.setPen(pen)
-            self.__drawFrame()
         #Draw links except ground.
         for vlink in self.Links[1:]:
             self.__drawLink(vlink)
@@ -324,6 +320,18 @@ class DynamicCanvas(BaseCanvas):
         #Draw points.
         for i, vpoint in enumerate(self.Points):
             self.__drawPoint(i, vpoint)
+        #Draw a colored frame for free move mode.
+        if self.freemove != FreeMode.NoFreeMove:
+            pen = QPen()
+            if self.freemove == FreeMode.Translate:
+                pen.setColor(QColor(161, 105, 229))
+            elif self.freemove == FreeMode.Rotate:
+                pen.setColor(QColor(219, 162, 6))
+            elif self.freemove == FreeMode.Reflect:
+                pen.setColor(QColor(79, 249, 193))
+            pen.setWidth(8)
+            self.painter.setPen(pen)
+            self.__drawFrame()
         #Rectangular selection
         if self.Selector.RectangularSelection:
             pen = QPen(Qt.gray)
@@ -573,8 +581,8 @@ class DynamicCanvas(BaseCanvas):
         Middle button: Move canvas of view.
         Left button: Select the point(s).
         """
-        self.Selector.x = event.x() - self.ox
-        self.Selector.y = event.y() - self.oy
+        self.Selector.x = self.__snap(event.x() - self.ox)
+        self.Selector.y = self.__snap(event.y() - self.oy)
         if event.buttons() == Qt.MiddleButton:
             self.Selector.MiddleButtonDrag = True
             x = self.Selector.x / self.zoom
@@ -595,9 +603,9 @@ class DynamicCanvas(BaseCanvas):
         button = event.button()
         if button == Qt.MidButton:
             self.zoomToFit()
-        if (button == Qt.LeftButton) and (self.freemove != FreeMode.NoFreeMove):
-            self.Selector.x = event.x() - self.ox
-            self.Selector.y = event.y() - self.oy
+        if button == Qt.LeftButton:
+            self.Selector.x = self.__snap(event.x() - self.ox)
+            self.Selector.y = self.__snap(event.y() - self.oy)
             self.__mouseSelectedPoint()
             if self.Selector.selection:
                 self.mouse_getSelection.emit((self.Selector.selection[0],), True)
@@ -627,6 +635,17 @@ class DynamicCanvas(BaseCanvas):
             if inSelection(vpoint.cx * self.zoom, vpoint.cy * -self.zoom):
                 if i not in selection:
                     selection.append(i)
+    
+    def __snap(self, num: float) -> float:
+        """Close to a multiple of coefficient."""
+        if not self.snap:
+            return num
+        times = num // self.snap
+        remainder = num % self.snap
+        if remainder < (self.snap / 2):
+            return self.snap * times
+        else:
+            return self.snap * (times + 1)
     
     def mouseReleaseEvent(self, event):
         """Release mouse button.
@@ -681,8 +700,8 @@ class DynamicCanvas(BaseCanvas):
                 if self.pointsSelection:
                     if self.freemove == FreeMode.Translate:
                         #Free move translate function.
-                        mouse_x = x - self.Selector.x/self.zoom
-                        mouse_y = y - self.Selector.y/-self.zoom
+                        mouse_x = self.__snap(x - (self.Selector.x / self.zoom))
+                        mouse_y = self.__snap(y - (self.Selector.y / -self.zoom))
                         for row in self.pointsSelection:
                             vpoint = self.Points[row]
                             vpoint.move((
@@ -717,10 +736,10 @@ class DynamicCanvas(BaseCanvas):
                                     (vpoint.x * fx, vpoint.y * fy)
                                 )
             else:
-                #Rectangular selection
+                #Rectangular selection.
                 self.Selector.RectangularSelection = True
-                self.Selector.sx = event.x() - self.ox
-                self.Selector.sy = event.y() - self.oy
+                self.Selector.sx = self.__snap(event.x() - self.ox)
+                self.Selector.sy = self.__snap(event.y() - self.oy)
                 self.__rectangularSelectedPoint()
                 km = QApplication.keyboardModifiers()
                 if self.Selector.selection_rect:
@@ -738,6 +757,7 @@ class DynamicCanvas(BaseCanvas):
                     self.mouse_noSelection.emit()
             self.update()
         self.mouse_track.emit(x, y)
+        event.accept()
     
     def __zoomToFitLimit(self):
         """Limitations of four side."""

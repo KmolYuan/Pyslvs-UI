@@ -497,8 +497,8 @@
                  <rect>
                   <x>0</x>
                   <y>0</y>
-                  <width>439</width>
-                  <height>744</height>
+                  <width>389</width>
+                  <height>591</height>
                  </rect>
                 </property>
                 <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -656,6 +656,20 @@
                       </property>
                       <property name="maximum">
                        <number>100</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="9" column="1">
+                     <widget class="QSpinBox" name="snap_option">
+                      <property name="maximum">
+                       <number>100</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="9" column="0">
+                     <widget class="QLabel" name="snap_label">
+                      <property name="text">
+                       <string>Snap the mouse when dragging (zero to disable)</string>
                       </property>
                      </widget>
                     </item>
@@ -1149,7 +1163,7 @@
      <x>0</x>
      <y>0</y>
      <width>989</width>
-     <height>30</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1312,9 +1326,6 @@
    </property>
    <property name="statusTip">
     <string>Exit Pyslvs.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
    </property>
   </action>
   <action name="action_Get_Help">
