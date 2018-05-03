@@ -247,7 +247,7 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(int)
     def setSnap(self, snap: int):
         """Update mouse capture value."""
-        self.snap = snap * self.zoom
+        self.snap = snap
     
     @pyqtSlot(list)
     def changePointsSelection(self,
@@ -636,16 +636,17 @@ class DynamicCanvas(BaseCanvas):
                 if i not in selection:
                     selection.append(i)
     
-    def __snap(self, num: float) -> float:
+    def __snap(self, num: float, isZoom: bool = True) -> float:
         """Close to a multiple of coefficient."""
-        if not self.snap:
+        snap_val = self.snap * self.zoom if isZoom else self.snap
+        if not snap_val:
             return num
-        times = num // self.snap
-        remainder = num % self.snap
-        if remainder < (self.snap / 2):
-            return self.snap * times
+        times = num // snap_val
+        remainder = num % snap_val
+        if remainder < (snap_val / 2):
+            return snap_val * times
         else:
-            return self.snap * (times + 1)
+            return snap_val * (times + 1)
     
     def mouseReleaseEvent(self, event):
         """Release mouse button.
@@ -700,8 +701,8 @@ class DynamicCanvas(BaseCanvas):
                 if self.pointsSelection:
                     if self.freemove == FreeMode.Translate:
                         #Free move translate function.
-                        mouse_x = self.__snap(x - (self.Selector.x / self.zoom))
-                        mouse_y = self.__snap(y - (self.Selector.y / -self.zoom))
+                        mouse_x = self.__snap(x - (self.Selector.x / self.zoom), False)
+                        mouse_y = self.__snap(y - (self.Selector.y / -self.zoom), False)
                         for row in self.pointsSelection:
                             vpoint = self.Points[row]
                             vpoint.move((
