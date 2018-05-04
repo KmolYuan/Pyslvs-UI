@@ -139,6 +139,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.workbookNoSave()
         else:
             self.workbookSaved()
+        self.EntitiesPoint.clearSelection()
         self.InputsWidget.variableReload()
         self.resolve()
     

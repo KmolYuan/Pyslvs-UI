@@ -56,9 +56,9 @@ class Selector:
         'selection',
         'selection_rect',
         'selection_old',
-        'MiddleButtonDrag',
-        'LeftButtonDrag',
-        'RectangularSelection',
+        'middleDragged',
+        'leftDragged',
+        'hasSelection',
     )
     
     def __init__(self):
@@ -67,15 +67,15 @@ class Selector:
         self.selection = []
         self.selection_rect = []
         self.selection_old = []
-        self.MiddleButtonDrag = False
-        self.LeftButtonDrag = False
-        self.RectangularSelection = False
+        self.middleDragged = False
+        self.leftDragged = False
+        self.hasSelection = False
         self.sx = 0.
         self.sy = 0.
     
-    def distance(self, x: float, y: float):
+    def distanceLimit(self, x: float, y: float, limit: float) -> bool:
         """Return the distance of selector."""
-        return hypot(x - self.x, y - self.y)
+        return hypot(x - self.x, y - self.y) <= limit
     
     def inRect(self, x: float, y: float) -> bool:
         """Return if input coordinate is in the rectangle."""
@@ -106,14 +106,14 @@ class DynamicCanvas(BaseCanvas):
     + Zoom to fit function.
     """
     
-    mouse_track = pyqtSignal(float, float)
-    mouse_browse_track = pyqtSignal(float, float)
-    mouse_getSelection = pyqtSignal(tuple, bool)
-    mouse_freemoveSelection = pyqtSignal(tuple)
-    mouse_noSelection = pyqtSignal()
-    mouse_getAltAdd = pyqtSignal()
-    mouse_getDoubleClickEdit = pyqtSignal(int)
-    zoom_change = pyqtSignal(int)
+    tracking = pyqtSignal(float, float)
+    browse_tracking = pyqtSignal(float, float)
+    selected = pyqtSignal(tuple, bool)
+    freemoved = pyqtSignal(tuple)
+    noselected = pyqtSignal()
+    alt_add = pyqtSignal()
+    doubleclick_edit = pyqtSignal(int)
+    zoom_changed = pyqtSignal(int)
     
     def __init__(self, parent):
         super(DynamicCanvas, self).__init__(parent)
@@ -124,7 +124,7 @@ class DynamicCanvas(BaseCanvas):
         self.rightInput = parent.rightInput
         self.pathInterval = parent.pathInterval
         #The current mouse coordinates.
-        self.Selector = Selector()
+        self.selector = Selector()
         #Entities.
         self.Points = tuple()
         self.Links = tuple()
@@ -333,13 +333,13 @@ class DynamicCanvas(BaseCanvas):
             self.painter.setPen(pen)
             self.__drawFrame()
         #Rectangular selection
-        if self.Selector.RectangularSelection:
+        if self.selector.hasSelection:
             pen = QPen(Qt.gray)
             pen.setWidth(1)
             self.painter.setPen(pen)
             self.painter.drawRect(QRectF(
-                QPointF(self.Selector.x, self.Selector.y),
-                QPointF(self.Selector.sx, self.Selector.sy)
+                QPointF(self.selector.x, self.selector.y),
+                QPointF(self.selector.sx, self.selector.sy)
             ))
         self.painter.end()
         #Record the widget size.
@@ -581,18 +581,18 @@ class DynamicCanvas(BaseCanvas):
         Middle button: Move canvas of view.
         Left button: Select the point(s).
         """
-        self.Selector.x = self.__snap(event.x() - self.ox)
-        self.Selector.y = self.__snap(event.y() - self.oy)
+        self.selector.x = self.__snap(event.x() - self.ox)
+        self.selector.y = self.__snap(event.y() - self.oy)
         if event.buttons() == Qt.MiddleButton:
-            self.Selector.MiddleButtonDrag = True
-            x = self.Selector.x / self.zoom
-            y = self.Selector.y / -self.zoom
-            self.mouse_browse_track.emit(x, y)
+            self.selector.middleDragged = True
+            x = self.selector.x / self.zoom
+            y = self.selector.y / -self.zoom
+            self.browse_tracking.emit(x, y)
         if event.buttons() == Qt.LeftButton:
-            self.Selector.LeftButtonDrag = True
+            self.selector.leftDragged = True
             self.__mouseSelectedPoint()
-            if self.Selector.selection:
-                self.mouse_getSelection.emit(tuple(self.Selector.selection), True)
+            if self.selector.selection:
+                self.selected.emit(tuple(self.selector.selection), True)
     
     def mouseDoubleClickEvent(self, event):
         """Mouse double click.
@@ -604,25 +604,25 @@ class DynamicCanvas(BaseCanvas):
         if button == Qt.MidButton:
             self.zoomToFit()
         if button == Qt.LeftButton:
-            self.Selector.x = self.__snap(event.x() - self.ox)
-            self.Selector.y = self.__snap(event.y() - self.oy)
+            self.selector.x = self.__snap(event.x() - self.ox)
+            self.selector.y = self.__snap(event.y() - self.oy)
             self.__mouseSelectedPoint()
-            if self.Selector.selection:
-                self.mouse_getSelection.emit((self.Selector.selection[0],), True)
-                self.mouse_getDoubleClickEdit.emit(self.Selector.selection[0])
+            if self.selector.selection:
+                self.selected.emit((self.selector.selection[0],), True)
+                self.doubleclick_edit.emit(self.selector.selection[0])
     
     def __mouseSelectedPoint(self):
         """Select one point."""
         self.__selectedPointFunc(
-            self.Selector.selection,
-            lambda x, y: self.Selector.distance(x, y) < self.selectionRadius
+            self.selector.selection,
+            lambda x, y: self.selector.distanceLimit(x, y, self.selectionRadius)
         )
     
     def __rectangularSelectedPoint(self):
         """Select points by rectangle."""
         self.__selectedPointFunc(
-            self.Selector.selection_rect,
-            self.Selector.inRect
+            self.selector.selection_rect,
+            self.selector.inRect
         )
     
     def __selectedPointFunc(self,
@@ -655,33 +655,33 @@ class DynamicCanvas(BaseCanvas):
         + Left button: Select a point.
         + Free move mode: Edit the point(s) coordinate.
         """
-        if self.Selector.LeftButtonDrag:
-            self.Selector.selection_old = list(self.pointsSelection)
+        if self.selector.leftDragged:
+            self.selector.selection_old = list(self.pointsSelection)
             km = QApplication.keyboardModifiers()
             #Add Point
             if km == Qt.AltModifier:
-                self.mouse_getAltAdd.emit()
+                self.alt_add.emit()
             #Only one clicked.
             elif (
-                (abs(event.x() - self.ox - self.Selector.x) < self.selectionRadius/2) and
-                (abs(event.y() - self.oy - self.Selector.y) < self.selectionRadius/2)
+                (abs(event.x() - self.ox - self.selector.x) < self.selectionRadius/2) and
+                (abs(event.y() - self.oy - self.selector.y) < self.selectionRadius/2)
             ):
                 if (
-                    (not self.Selector.selection) and
+                    (not self.selector.selection) and
                     km != Qt.ControlModifier and
                     km != Qt.ShiftModifier
                 ):
-                    self.mouse_noSelection.emit()
+                    self.noselected.emit()
             #Edit point coordinates.
             elif (self.freemove != FreeMode.NoFreeMove):
-                self.mouse_freemoveSelection.emit(tuple(
+                self.freemoved.emit(tuple(
                     (row, (self.Points[row].cx, self.Points[row].cy))
                     for row in self.pointsSelection
                 ))
-        self.Selector.selection_rect.clear()
-        self.Selector.MiddleButtonDrag = False
-        self.Selector.LeftButtonDrag = False
-        self.Selector.RectangularSelection = False
+        self.selector.selection_rect.clear()
+        self.selector.middleDragged = False
+        self.selector.leftDragged = False
+        self.selector.hasSelection = False
         self.update()
     
     def mouseMoveEvent(self, event):
@@ -692,81 +692,90 @@ class DynamicCanvas(BaseCanvas):
         """
         x = (event.x() - self.ox) / self.zoom
         y = (event.y() - self.oy) / -self.zoom
-        if self.Selector.MiddleButtonDrag:
-            self.ox = event.x() - self.Selector.x
-            self.oy = event.y() - self.Selector.y
+        if self.selector.middleDragged:
+            self.ox = event.x() - self.selector.x
+            self.oy = event.y() - self.selector.y
             self.update()
-        elif self.Selector.LeftButtonDrag:
+        elif self.selector.leftDragged:
             if self.freemove != FreeMode.NoFreeMove:
-                mouse_x = self.__snap(x - (self.Selector.x / self.zoom), False)
-                mouse_y = self.__snap(y - (self.Selector.y / -self.zoom), False)
-                QToolTip.showText(
-                    event.globalPos(),
-                    "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
-                    self
-                )
-                if self.pointsSelection:
-                    if self.freemove == FreeMode.Translate:
-                        #Free move translate function.
-                        for row in self.pointsSelection:
-                            vpoint = self.Points[row]
-                            vpoint.move((
-                                mouse_x + vpoint.x,
-                                mouse_y + vpoint.y
-                            ))
-                    elif self.freemove == FreeMode.Rotate:
-                        #Free move rotate function.
-                        alpha = atan2(y, x) - atan2(
-                            self.Selector.y / -self.zoom,
-                            self.Selector.x / self.zoom
-                        )
-                        for row in self.pointsSelection:
-                            vpoint = self.Points[row]
-                            r = hypot(vpoint.x, vpoint.y)
-                            beta = atan2(vpoint.y, vpoint.x)
-                            vpoint.move((
-                                r*cos(alpha + beta),
-                                r*sin(alpha + beta)
-                            ))
-                    elif self.freemove == FreeMode.Reflect:
-                        #Free move reflect function.
-                        fx = 1 if (x > 0) else -1
-                        fy = 1 if (y > 0) else -1
-                        for row in self.pointsSelection:
-                            vpoint = self.Points[row]
-                            if vpoint.type == 0:
-                                vpoint.move((vpoint.x * fx, vpoint.y * fy))
-                            else:
-                                vpoint.move(
-                                    (vpoint.x * fx, vpoint.y * fy),
-                                    (vpoint.x * fx, vpoint.y * fy)
-                                )
+                if self.freemove == FreeMode.Translate:
+                    #Free move translate function.
+                    mouse_x = self.__snap(x - self.selector.x/self.zoom, False)
+                    mouse_y = self.__snap(y - self.selector.y/-self.zoom, False)
+                    QToolTip.showText(
+                        event.globalPos(),
+                        "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
+                        self
+                    )
+                    for row in self.pointsSelection:
+                        vpoint = self.Points[row]
+                        vpoint.move((
+                            mouse_x + vpoint.x,
+                            mouse_y + vpoint.y
+                        ))
+                elif self.freemove == FreeMode.Rotate:
+                    #Free move rotate function.
+                    alpha = atan2(y, x) - atan2(
+                        self.selector.y / -self.zoom,
+                        self.selector.x / self.zoom
+                    )
+                    QToolTip.showText(
+                        event.globalPos(),
+                        "{:+.02f}°".format(alpha),
+                        self
+                    )
+                    for row in self.pointsSelection:
+                        vpoint = self.Points[row]
+                        r = hypot(vpoint.x, vpoint.y)
+                        beta = atan2(vpoint.y, vpoint.x)
+                        vpoint.move((
+                            r*cos(alpha + beta),
+                            r*sin(alpha + beta)
+                        ))
+                elif self.freemove == FreeMode.Reflect:
+                    #Free move reflect function.
+                    fx = 1 if (x > 0) else -1
+                    fy = 1 if (y > 0) else -1
+                    QToolTip.showText(
+                        event.globalPos(),
+                        "{:+d}, {:+d}".format(fx, fy),
+                        self
+                    )
+                    for row in self.pointsSelection:
+                        vpoint = self.Points[row]
+                        if vpoint.type == 0:
+                            vpoint.move((vpoint.x * fx, vpoint.y * fy))
+                        else:
+                            vpoint.move(
+                                (vpoint.x * fx, vpoint.y * fy),
+                                (vpoint.x * fx, vpoint.y * fy)
+                            )
             else:
                 #Rectangular selection.
-                self.Selector.RectangularSelection = True
-                self.Selector.sx = self.__snap(event.x() - self.ox)
-                self.Selector.sy = self.__snap(event.y() - self.oy)
+                self.selector.hasSelection = True
+                self.selector.sx = self.__snap(event.x() - self.ox)
+                self.selector.sy = self.__snap(event.y() - self.oy)
                 QToolTip.showText(event.globalPos(), "{:.02f}, {:.02f}".format(
-                    self.Selector.sx / self.zoom,
-                    self.Selector.sy / self.zoom
+                    self.selector.sx / self.zoom,
+                    self.selector.sy / -self.zoom
                 ), self)
                 self.__rectangularSelectedPoint()
                 km = QApplication.keyboardModifiers()
-                if self.Selector.selection_rect:
-                    if km == Qt.ControlModifier or km == Qt.ShiftModifier:
-                        self.mouse_getSelection.emit(tuple(set(
-                            self.Selector.selection_old +
-                            self.Selector.selection_rect
+                if self.selector.selection_rect:
+                    if km in (Qt.ControlModifier, Qt.ShiftModifier):
+                        self.selected.emit(tuple(set(
+                            self.selector.selection_old +
+                            self.selector.selection_rect
                         )), False)
                     else:
-                        self.mouse_getSelection.emit(
-                            tuple(self.Selector.selection_rect),
+                        self.selected.emit(
+                            tuple(self.selector.selection_rect),
                             False
                         )
                 else:
-                    self.mouse_noSelection.emit()
+                    self.noselected.emit()
             self.update()
-        self.mouse_track.emit(x, y)
+        self.tracking.emit(x, y)
     
     def __zoomToFitLimit(self):
         """Limitations of four side."""
@@ -839,7 +848,7 @@ class DynamicCanvas(BaseCanvas):
         x_right, x_left, y_top, y_bottom = self.__zoomToFitLimit()
         inf = float('inf')
         if (inf in (x_right, y_bottom)) or (-inf in (x_left, y_top)):
-            self.zoom_change.emit(200)
+            self.zoom_changed.emit(200)
             self.ox = width/2
             self.oy = height/2
             self.update()
@@ -852,7 +861,7 @@ class DynamicCanvas(BaseCanvas):
             factor = width / x_diff
         else:
             factor = height / y_diff
-        self.zoom_change.emit(int(factor * self.marginFactor * 50))
+        self.zoom_changed.emit(int(factor * self.marginFactor * 50))
         self.ox = width / 2 - (x_left + x_right) / 2 *self.zoom
         self.oy = height / 2 + (y_top + y_bottom) / 2 *self.zoom
         self.update()

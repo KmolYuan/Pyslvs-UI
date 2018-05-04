@@ -112,13 +112,13 @@ def _appearance(self):
     
     #QPainter canvas window
     self.MainCanvas = DynamicCanvas(self)
-    self.MainCanvas.mouse_getSelection.connect(
+    self.MainCanvas.selected.connect(
         self.EntitiesPoint.setSelections
     )
-    self.MainCanvas.mouse_freemoveSelection.connect(
+    self.MainCanvas.freemoved.connect(
         self.setFreemoved
     )
-    self.MainCanvas.mouse_noSelection.connect(
+    self.MainCanvas.noselected.connect(
         self.EntitiesPoint.clearSelection
     )
     CleanSelectionAction = QAction("Clean selection", self)
@@ -126,13 +126,13 @@ def _appearance(self):
     CleanSelectionAction.setShortcut("Esc")
     CleanSelectionAction.setShortcutContext(Qt.WindowShortcut)
     self.addAction(CleanSelectionAction)
-    self.MainCanvas.mouse_getAltAdd.connect(self.qAddNormalPoint)
-    self.MainCanvas.mouse_getDoubleClickEdit.connect(
+    self.MainCanvas.alt_add.connect(self.qAddNormalPoint)
+    self.MainCanvas.doubleclick_edit.connect(
         self.on_action_Edit_Point_triggered
     )
-    self.MainCanvas.zoom_change.connect(self.ZoomBar.setValue)
-    self.MainCanvas.mouse_track.connect(self.setMousePos)
-    self.MainCanvas.mouse_browse_track.connect(
+    self.MainCanvas.zoom_changed.connect(self.ZoomBar.setValue)
+    self.MainCanvas.tracking.connect(self.setMousePos)
+    self.MainCanvas.browse_tracking.connect(
         selectionLabel.updateMousePosition
     )
     self.canvasSplitter.insertWidget(0, self.MainCanvas)
@@ -152,10 +152,10 @@ def _appearance(self):
     self.inputs_tab_layout.addWidget(self.InputsWidget)
     self.freemode_button.toggled.connect(self.InputsWidget.variableValueReset)
     self.InputsWidget.aboutToResolve.connect(self.resolve)
-    self.MainCanvas.mouse_getSelection.connect(
+    self.MainCanvas.selected.connect(
         self.InputsWidget.setSelection
     )
-    self.MainCanvas.mouse_noSelection.connect(
+    self.MainCanvas.noselected.connect(
         self.InputsWidget.clearSelection
     )
     
