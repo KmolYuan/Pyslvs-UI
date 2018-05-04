@@ -27,6 +27,7 @@ from core.QtModules import (
     QFileDialog,
     QProgressDialog,
     QSpinBox,
+    QDoubleSpinBox,
     QComboBox,
     QCheckBox,
 )
@@ -66,7 +67,7 @@ def _v_to_slvs(self) -> Callable[[], Tuple[Tuple[int, int]]]:
     return v_to_slvs
 
 
-def _settings(self) -> Tuple[Tuple[QWidget, Union[int, bool]]]:
+def _settings(self) -> Tuple[Tuple[QWidget, Union[int, float, bool]]]:
     """Give the settings of all option widgets."""
     return (
         (self.linewidth_option, 3),
@@ -77,7 +78,7 @@ def _settings(self) -> Tuple[Tuple[QWidget, Union[int, bool]]]:
         (self.linktrans_option, 0),
         (self.marginfactor_option, 5),
         (self.jointsize_option, 5),
-        (self.snap_option, 1),
+        (self.snap_option, 1.),
         (self.undolimit_option, 32),
         (self.planarsolver_option, 0),
         (self.titlefullpath_option, False),
@@ -537,9 +538,9 @@ def restoreSettings(self):
     for option in _settings(self):
         widget = option[0]
         name = widget.objectName()
-        if type(widget) == QSpinBox:
+        if type(widget) in (QSpinBox, QDoubleSpinBox):
             widget.setValue(
-                self.settings.value(name, option[-1], type=int)
+                self.settings.value(name, option[-1], type=type(option[-1]))
             )
         elif type(widget) == QComboBox:
             widget.setCurrentIndex(
@@ -559,7 +560,7 @@ def saveSettings(self):
     for option in _settings(self):
         widget = option[0]
         name = widget.objectName()
-        if type(widget) == QSpinBox:
+        if type(widget) in (QSpinBox, QDoubleSpinBox):
             self.settings.setValue(name, widget.value())
         elif type(widget) == QComboBox:
             self.settings.setValue(name, widget.currentIndex())
@@ -571,7 +572,7 @@ def resetOptions(self):
     """Reset options with default value."""
     for option in _settings(self):
         widget = option[0]
-        if type(widget) == QSpinBox:
+        if type(widget) in (QSpinBox, QDoubleSpinBox):
             widget.setValue(option[-1])
         elif type(widget) == QComboBox:
             widget.setCurrentIndex(option[-1])

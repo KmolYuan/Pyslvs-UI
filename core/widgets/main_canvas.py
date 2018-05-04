@@ -244,8 +244,8 @@ class DynamicCanvas(BaseCanvas):
         self.jointsize = jointsize
         self.update()
     
-    @pyqtSlot(int)
-    def setSnap(self, snap: int):
+    @pyqtSlot(float)
+    def setSnap(self, snap: float):
         """Update mouse capture value."""
         self.snap = snap
     
