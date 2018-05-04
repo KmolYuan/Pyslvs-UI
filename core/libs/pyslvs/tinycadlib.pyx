@@ -227,7 +227,7 @@ cpdef tuple PLLP(
     double L0,
     double L1,
     Coordinate B,
-    bool inverse=False
+    bool inverse = False
 ):
     """Two intersection points of two circles."""
     cdef double dx = B.x - A.x
@@ -261,7 +261,7 @@ cpdef tuple PLPP(
     double L0,
     Coordinate B,
     Coordinate C,
-    bool inverse=False
+    bool inverse = False
 ):
     """Two intersection points of a line and a circle."""
     cdef double line_mag = B.distance(C)

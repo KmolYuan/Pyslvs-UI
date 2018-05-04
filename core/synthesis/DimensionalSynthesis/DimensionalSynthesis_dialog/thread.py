@@ -14,6 +14,7 @@ import numpy.distutils.cpuinfo
 from psutil import virtual_memory
 from typing import (
     Tuple,
+    List,
     Dict,
     Any,
 )
@@ -27,8 +28,8 @@ from core.libs import (
     Genetic,
     Firefly,
     DiffertialEvolution,
+    Planar,
 )
-from core.libs import Planar
 from .options import AlgorithmType
 
 
@@ -63,8 +64,7 @@ class WorkerThread(QThread):
             self.stoped = False
         for name, path in self.mech_params['Target'].items():
             print("- [{}]: {}".format(name, tuple(
-                (round(x, 2), round(y, 2))
-                for x, y in path
+                (round(x, 2), round(y, 2)) for x, y in path
             )))
         mechanismObj = Planar(self.mech_params)
         if self.type_num == AlgorithmType.RGA:
@@ -76,8 +76,8 @@ class WorkerThread(QThread):
         self.fun = foo(
             mechanismObj,
             self.settings,
-            progress_fun=self.progress_update.emit,
-            interrupt_fun=self.__isStoped,
+            progress_fun = self.progress_update.emit,
+            interrupt_fun = self.__isStoped,
         )
         T0 = timeit.default_timer()
         self.currentLoop = 0
@@ -100,11 +100,11 @@ class WorkerThread(QThread):
     def __algorithm(self) -> Tuple[Dict[str, Any], float]:
         """Get the algorithm result."""
         t0 = timeit.default_timer()
-        fitnessParameter, time_and_fitness = self.__generateProcess()
+        params, tf = self.__generateProcess()
         t1 = timeit.default_timer()
         time_spand = round(t1 - t0, 2)
         cpu = numpy.distutils.cpuinfo.cpu.info[0]
-        lastGen = time_and_fitness[-1][0]
+        lastGen = tf[-1][0]
         mechanism = {
             'time': time_spand,
             'lastGen': lastGen,
@@ -121,18 +121,21 @@ class WorkerThread(QThread):
                 ),
                 'cpu': cpu.get("model name", cpu.get('ProcessorNameString', ''))
             },
-            'TimeAndFitness': time_and_fitness
+            'TimeAndFitness': tf
         }
         mechanism['Algorithm'] = self.type_num.value
         mechanism.update(self.mech_params)
-        mechanism.update(fitnessParameter)
+        mechanism.update(params)
         print("cost time: {} [s]".format(time_spand))
         return mechanism, time_spand
     
-    def __generateProcess(self):
+    def __generateProcess(self) -> Tuple[
+        Dict[str, Any],
+        List[Tuple[int, float, float]]
+    ]:
         """Execute algorithm and sort out the result."""
-        fitnessParameter, time_and_fitness = self.fun.run()
-        return(fitnessParameter, time_and_fitness)
+        params, tf = self.fun.run()
+        return params, tf
     
     def __isStoped(self) -> bool:
         """Return stop status for Cython function."""
