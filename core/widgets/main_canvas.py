@@ -24,14 +24,15 @@ from enum import Enum
 from core.QtModules import (
     pyqtSignal,
     pyqtSlot,
+    Qt,
+    QApplication,
     QRectF,
     QPointF,
     QSizeF,
     QFont,
     QPen,
     QColor,
-    Qt,
-    QApplication,
+    QToolTip,
 )
 from core.graphics import (
     BaseCanvas,
@@ -51,14 +52,13 @@ class Selector:
     """Use to record mouse clicked point."""
     
     __slots__ = (
-        'x', 'y',
+        'x', 'y', 'sx', 'sy',
         'selection',
         'selection_rect',
         'selection_old',
         'MiddleButtonDrag',
         'LeftButtonDrag',
-        'sx', 'sy',
-        'RectangularSelection'
+        'RectangularSelection',
     )
     
     def __init__(self):
@@ -698,11 +698,16 @@ class DynamicCanvas(BaseCanvas):
             self.update()
         elif self.Selector.LeftButtonDrag:
             if self.freemove != FreeMode.NoFreeMove:
+                mouse_x = self.__snap(x - (self.Selector.x / self.zoom), False)
+                mouse_y = self.__snap(y - (self.Selector.y / -self.zoom), False)
+                QToolTip.showText(
+                    event.globalPos(),
+                    "{:+.02f}, {:+.02f}".format(mouse_x, mouse_y),
+                    self
+                )
                 if self.pointsSelection:
                     if self.freemove == FreeMode.Translate:
                         #Free move translate function.
-                        mouse_x = self.__snap(x - (self.Selector.x / self.zoom), False)
-                        mouse_y = self.__snap(y - (self.Selector.y / -self.zoom), False)
                         for row in self.pointsSelection:
                             vpoint = self.Points[row]
                             vpoint.move((
@@ -741,6 +746,10 @@ class DynamicCanvas(BaseCanvas):
                 self.Selector.RectangularSelection = True
                 self.Selector.sx = self.__snap(event.x() - self.ox)
                 self.Selector.sy = self.__snap(event.y() - self.oy)
+                QToolTip.showText(event.globalPos(), "{:.02f}, {:.02f}".format(
+                    self.Selector.sx / self.zoom,
+                    self.Selector.sy / self.zoom
+                ), self)
                 self.__rectangularSelectedPoint()
                 km = QApplication.keyboardModifiers()
                 if self.Selector.selection_rect:
@@ -758,7 +767,6 @@ class DynamicCanvas(BaseCanvas):
                     self.mouse_noSelection.emit()
             self.update()
         self.mouse_track.emit(x, y)
-        event.accept()
     
     def __zoomToFitLimit(self):
         """Limitations of four side."""
