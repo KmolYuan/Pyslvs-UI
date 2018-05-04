@@ -25,7 +25,7 @@ from .tinycadlib import (
     VPoint,
     VLink,
 )
-from .planarlinkage import build_planar
+from .planarlinkage import Planar
 from .number import NumberSynthesis
 from .topologic import topo, Graph
 from .triangulation import vpoints_configure
@@ -43,7 +43,7 @@ __all__ = [
     'expr_path',
     'VPoint',
     'VLink',
-    'build_planar',
+    'Planar',
     'NumberSynthesis',
     'topo',
     'Graph',

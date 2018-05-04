@@ -28,7 +28,7 @@ from core.libs import (
     Firefly,
     DiffertialEvolution,
 )
-from core.libs import build_planar
+from core.libs import Planar
 from .options import AlgorithmType
 
 
@@ -66,7 +66,7 @@ class WorkerThread(QThread):
                 (round(x, 2), round(y, 2))
                 for x, y in path
             )))
-        mechanismObj = build_planar(self.mech_params)
+        mechanismObj = Planar(self.mech_params)
         if self.type_num == AlgorithmType.RGA:
             foo = Genetic
         elif self.type_num == AlgorithmType.Firefly:

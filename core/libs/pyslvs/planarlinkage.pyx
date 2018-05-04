@@ -9,11 +9,14 @@
 
 from tinycadlib cimport (
     Coordinate,
-    PLAP,
-    PLLP,
     legal_crank,
     strbetween,
     strbefore,
+)
+from tinycadlib import (
+    PLAP,
+    PLLP,
+    PLPP,
 )
 import numpy as np
 cimport numpy as np
@@ -32,7 +35,7 @@ cdef list path_error(list path, tuple target):
     return tmp_list
 
 
-cdef class build_planar:
+cdef class Planar:
     
     """This class used to verified kinematics of the linkage mechanism."""
     
@@ -43,7 +46,7 @@ cdef class build_planar:
     cdef np.ndarray exprs, target, upper, lower
     
     def __cinit__(self, mech_params: dict):
-        '''
+        """
         mech_params = {
             'Target',
             'Driver',
@@ -54,7 +57,7 @@ cdef class build_planar:
             'IMax', 'LMax', 'FMax', 'AMax',
             'IMin', 'LMin', 'FMin', 'AMin'
         }
-        '''
+        """
         cdef dict value
         cdef int l
         cdef tuple check_tuple = tuple(len(value) for value in mech_params['Target'].values())
@@ -72,8 +75,9 @@ cdef class build_planar:
         self.targetPoint = tuple(mech_params['Target'])
         self.target = np.ndarray((len(mech_params['Target']),), dtype=np.object)
         cdef int i
-        for i, value in enumerate(mech_params['Target'].values()):
-            self.target[i] = tuple(Coordinate(x, y) for x, y in value)
+        cdef object target
+        for i, target in enumerate(mech_params['Target'].values()):
+            self.target[i] = tuple(Coordinate(x, y) for x, y in target)
         
         #constraint
         self.constraint = mech_params['constraint']
@@ -85,7 +89,7 @@ cdef class build_planar:
         """
         cdef list ExpressionL = mech_params['Expression'].split(';')
         
-        '''
+        """
         Link: L0, L1, L2, L3, ...
         driver_list: The name of the point in "self.Driver" (Sorted).
         follower_list: The name of the point in "self.Follower" (Sorted).
@@ -93,7 +97,7 @@ cdef class build_planar:
             {'relate': 'PLAP', 'target': 'B', 'params': ['A', 'L0', 'a0', 'D']},
             {'relate': 'PLLP', 'target': 'C', 'params': ['B', 'L1', 'L2', 'D']}, ...
         Expression: PLAP[A,L0,a0,D](B);PLLP[B,L1,L2,D](C);PLLP[B,L3,L4,C](E)
-        '''
+        """
         cdef str expr, params
         self.Link = []
         self.driver_list = []
@@ -197,10 +201,12 @@ cdef class build_planar:
         cdef tuple params = tuple(data_dict[p] for p in expr[2])
         if fun == 'PLAP':
             return Coordinate(*PLAP(*params))
-        if fun == 'PLLP':
+        elif fun == 'PLLP':
             return Coordinate(*PLLP(*params))
+        elif fun == 'PLPP':
+            return Coordinate(*PLPP(*params))
     
-    cdef double run(self, np.ndarray v):
+    cdef double run(self, np.ndarray v) except *:
         """
         v:
         [Ax, Ay, Dx, Dy, ..., L0, L1, ..., A00, A01, ..., A10, A11, ...]
@@ -246,9 +252,10 @@ cdef class build_planar:
                 return FAILURE
         #swap
         cdef list errors
+        cdef Coordinate c
         for k in range(len(self.targetPoint)):
             errors = path_error(path[k], self.target[k])
-            path[k] = [e for _, e in sorted(zip(errors, path[k]))]
+            path[k] = [c for _, c in sorted(zip(errors, path[k]))]
             fitness += sum(path_error(path[k], self.target[k]))
         return fitness
     
