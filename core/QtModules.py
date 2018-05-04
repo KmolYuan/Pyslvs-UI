@@ -68,6 +68,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import (
     QBrush,
     QColor,
+    QCursor,
     QDesktopServices,
     QFont,
     QIcon,
@@ -99,6 +100,7 @@ __all__ = [
     'QChart',
     'QChartView',
     'QColor',
+    'QCursor',
     'QCheckBox',
     'QComboBox',
     'QCoreApplication',

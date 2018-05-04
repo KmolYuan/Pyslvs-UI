@@ -32,6 +32,7 @@ from core.QtModules import (
     QFont,
     QPen,
     QColor,
+    QCursor,
     QToolTip,
 )
 from core.graphics import (
@@ -143,6 +144,12 @@ class DynamicCanvas(BaseCanvas):
         self.autoPathShow = True
         #Show solution.
         self.solutionShow = False
+        #Zooming center.
+        """
+        0: By cursor.
+        1: By canvas center.
+        """
+        self.zoomby = 0
         #Mouse snapping value.
         self.snap = 5
         #Dependent functions to set zoom bar.
@@ -205,7 +212,15 @@ class DynamicCanvas(BaseCanvas):
     @pyqtSlot(int)
     def setZoom(self, zoom: int):
         """Update zoom factor."""
+        zoom_old = self.zoom
         self.zoom = zoom / 100 * self.rate
+        dz = zoom_old - self.zoom
+        if self.zoomby == 0:
+            pos = self.mapFromGlobal(QCursor.pos())
+        elif self.zoomby == 1:
+            pos = QPointF(self.width() / 2, self.height() / 2)
+        self.ox += (pos.x() - self.ox) / self.zoom * dz
+        self.oy += (pos.y() - self.oy) / self.zoom * dz
         self.update()
     
     def setShowTargetPath(self, showTargetPath: bool):
@@ -243,6 +258,11 @@ class DynamicCanvas(BaseCanvas):
         """Update size for each joint."""
         self.jointsize = jointsize
         self.update()
+    
+    @pyqtSlot(int)
+    def setZoomBy(self, zoomby: int):
+        """Update zooming center option."""
+        self.zoomby = zoomby
     
     @pyqtSlot(float)
     def setSnap(self, snap: float):
@@ -353,20 +373,16 @@ class DynamicCanvas(BaseCanvas):
         negative_x = -self.ox
         negative_y = self.height() - self.oy
         self.painter.drawLine(
-            QPointF(negative_x, positive_y),
-            QPointF(positive_x, positive_y)
+            QPointF(negative_x, positive_y), QPointF(positive_x, positive_y)
         )
         self.painter.drawLine(
-            QPointF(negative_x, negative_y),
-            QPointF(positive_x, negative_y)
+            QPointF(negative_x, negative_y), QPointF(positive_x, negative_y)
         )
         self.painter.drawLine(
-            QPointF(negative_x, positive_y),
-            QPointF(negative_x, negative_y)
+            QPointF(negative_x, positive_y), QPointF(negative_x, negative_y)
         )
         self.painter.drawLine(
-            QPointF(positive_x, positive_y),
-            QPointF(positive_x, negative_y)
+            QPointF(positive_x, positive_y), QPointF(positive_x, negative_y)
         )
     
     def __drawPoint(self, i: int, vpoint: VPoint):
@@ -375,8 +391,8 @@ class DynamicCanvas(BaseCanvas):
             #Draw slider
             silder_points = vpoint.c
             for j, (cx, cy) in enumerate(silder_points):
-                if vpoint.type==1:
-                    if j==0:
+                if vpoint.type == 1:
+                    if j == 0:
                         self._BaseCanvas__drawPoint(
                             i, cx, cy,
                             vpoint.links[j] == 'ground',
@@ -391,8 +407,8 @@ class DynamicCanvas(BaseCanvas):
                             QPointF(cx*self.zoom + r, cy*-self.zoom + r),
                             QPointF(cx*self.zoom - r, cy*-self.zoom - r)
                         ))
-                elif vpoint.type==2:
-                    if j==0:
+                elif vpoint.type == 2:
+                    if j == 0:
                         self._BaseCanvas__drawPoint(
                             i, cx, cy,
                             vpoint.links[j] == 'ground',
@@ -415,7 +431,7 @@ class DynamicCanvas(BaseCanvas):
             if x_all:
                 p_left = silder_points[x_all.index(min(x_all))]
                 p_right = silder_points[x_all.index(max(x_all))]
-                if p_left==p_right:
+                if p_left == p_right:
                     y_all = tuple(cy for cx, cy in silder_points)
                     p_left = silder_points[y_all.index(min(y_all))]
                     p_right = silder_points[y_all.index(max(y_all))]
@@ -445,7 +461,7 @@ class DynamicCanvas(BaseCanvas):
         points = []
         for i in vlink.points:
             vpoint = self.Points[i]
-            if vpoint.type==1 or vpoint.type==2:
+            if vpoint.type in (1, 2):
                 coordinate = vpoint.c[
                     0 if (vlink.name == vpoint.links[0]) else 1
                 ]

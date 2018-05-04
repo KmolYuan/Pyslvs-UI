@@ -313,12 +313,9 @@ def _options(self):
     self.marginfactor_option.valueChanged.connect(
         self.MainCanvas.setMarginFactor
     )
-    self.jointsize_option.valueChanged.connect(
-        self.MainCanvas.setJointSize
-    )
-    self.snap_option.valueChanged.connect(
-        self.MainCanvas.setSnap
-    )
+    self.jointsize_option.valueChanged.connect(self.MainCanvas.setJointSize)
+    self.zoomby_option.currentIndexChanged.connect(self.MainCanvas.setZoomBy)
+    self.snap_option.valueChanged.connect(self.MainCanvas.setSnap)
     self.settings_reset.clicked.connect(self.resetOptions)
 
 
