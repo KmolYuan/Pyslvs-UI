@@ -7,18 +7,23 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
-from cpython cimport bool
 import numpy as np
 cimport numpy as np
+from planarlinkage cimport (
+    limit,
+    maxGen,
+    minFit,
+    maxTime,
+    Chromosome,
+    Planar,
+)
+from cpython cimport bool
 from libc.stdlib cimport (
     rand,
     RAND_MAX,
     srand,
 )
 from time import time
-
-
-#Make sure it is 'random'.
 srand(int(time()))
 
 
@@ -26,44 +31,21 @@ cdef double randV():
     return rand()/(RAND_MAX*1.01)
 
 
-cdef enum limit:
-    maxGen,
-    minFit,
-    maxTime
-
-
-cdef class Chromosome:
-    
-    cdef public int n
-    cdef public double f
-    cdef public np.ndarray v
-    
-    def __cinit__(self, n: int):
-        # dimension
-        self.n = n
-        # the gene
-        self.v = np.zeros(n)
-        # the fitness value
-        self.f = 0
-    
-    cpdef void assign(self, Chromosome obj):
-        self.n = obj.n
-        self.v[:] = obj.v
-        self.f = obj.f
-
-
 cdef class DiffertialEvolution:
+    
+    """Algorithm class."""
     
     cdef limit option
     cdef int strategy, D, NP, maxGen, maxTime, rpt, gen, r1, r2, r3, r4, r5
     cdef double F, CR, timeS, timeE, minFit
     cdef np.ndarray lb, ub, pop
-    cdef object func, progress_fun, interrupt_fun
+    cdef Planar func
+    cdef object progress_fun, interrupt_fun
     cdef Chromosome lastgenbest, currentbest
     cdef list fitnessTime
     
     def __cinit__(self,
-        func: object,
+        func: Planar,
         settings: dict,
         progress_fun: object = None,
         interrupt_fun: object = None

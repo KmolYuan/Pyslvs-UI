@@ -7,21 +7,24 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
-from libc.math cimport sqrt, exp, log10
-from cpython cimport bool
-from array import array
+from libc.math cimport exp, log10
 import numpy as np
 cimport numpy as np
+from planarlinkage cimport (
+    limit,
+    maxGen,
+    minFit,
+    maxTime,
+    Chromosome,
+    Planar,
+)
+from cpython cimport bool
 from libc.stdlib cimport (
     rand,
     RAND_MAX,
     srand,
 )
-#from libc.time cimport time
 from time import time
-
-
-#Make sure it is 'random'.
 srand(int(time()))
 
 
@@ -29,52 +32,22 @@ cdef double randV():
     return rand()/(RAND_MAX*1.01)
 
 
-cdef enum limit:
-    maxGen,
-    minFit,
-    maxTime
-
-
-cdef class Chromosome:
-    
-    cdef public int n
-    cdef public double f
-    cdef public np.ndarray v
-    
-    def __cinit__(self, n: int):
-        self.n = n
-        #self.v = <double *>malloc(n*cython.sizeof(double))
-        self.v = np.zeros(n)
-        # the light intensity
-        self.f = 0
-    
-    cdef double distance(self, Chromosome obj):
-        cdef double dist = 0
-        cdef double diff
-        for i in range(self.n):
-            diff = self.v[i] - obj.v[i]
-            dist += diff * diff
-        return sqrt(dist)
-    
-    cpdef void assign(self, Chromosome obj):
-        self.n = obj.n
-        self.v[:] = obj.v
-        self.f = obj.f
-
-
 cdef class Firefly:
+    
+    """Algorithm class."""
     
     cdef limit option
     cdef int D, n, maxGen, maxTime, rpt, gen
     cdef double alpha, alpha0, betaMin, beta0, gamma, timeS, timeE, minFit
-    cdef object func, progress_fun, interrupt_fun
+    cdef Planar func
+    cdef object progress_fun, interrupt_fun
     cdef np.ndarray lb, ub
     cdef np.ndarray fireflys
     cdef Chromosome genbest, bestFirefly
     cdef list fitnessTime
     
     def __cinit__(self,
-        func: object,
+        func: Planar,
         settings: dict,
         progress_fun: object = None,
         interrupt_fun: object = None

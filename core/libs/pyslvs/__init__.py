@@ -11,9 +11,6 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from .rga import Genetic
-from .firefly import Firefly
-from .de import DiffertialEvolution
 from .tinycadlib import (
     Coordinate,
     PLAP,
@@ -26,6 +23,9 @@ from .tinycadlib import (
     VLink,
 )
 from .planarlinkage import Planar
+from .rga import Genetic
+from .firefly import Firefly
+from .de import DiffertialEvolution
 from .number import NumberSynthesis
 from .topologic import topo, Graph
 from .triangulation import vpoints_configure

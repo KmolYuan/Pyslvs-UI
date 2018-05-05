@@ -7,19 +7,24 @@
 # __license__ = "AGPL"
 # __email__ = "pyslvs@gmail.com"
 
-from libc.math cimport fmod, pow
+from libc.math cimport pow
 import numpy as np
 cimport numpy as np
-#from libc.time cimport time
-from time import time
+from planarlinkage cimport (
+    limit,
+    maxGen,
+    minFit,
+    maxTime,
+    Chromosome,
+    Planar,
+)
 from cpython cimport bool
-
-#https://stackoverflow.com/questions/25974975/cython-c-array-initialization
 from libc.stdlib cimport (
     rand,
     RAND_MAX,
     srand,
 )
+from time import time
 srand(int(time()))
 
 
@@ -27,49 +32,22 @@ cdef double randV():
     return rand()/(RAND_MAX*1.01)
 
 
-cdef enum limit:
-    maxGen,
-    minFit,
-    maxTime
-
-
-cdef class Chromosome:
-    
-    cdef public int n
-    cdef public double f
-    cdef public np.ndarray v
-    
-    def __cinit__(self, n: int):
-        self.n = n if n > 0 else 2
-        self.f = 0.0
-        self.v = np.zeros(n)
-    
-    cdef void cp(self, Chromosome obj):
-        self.n = obj.n
-        self.v[:] = obj.v
-        self.f = obj.f
-    
-    cdef inline bool is_not_self(self, Chromosome obj):
-        return obj is not self
-    
-    cpdef void assign(self, Chromosome obj):
-        if self.is_not_self(obj):
-            self.cp(obj)
-
-
 cdef class Genetic:
+    
+    """Algorithm class."""
     
     cdef limit option
     cdef int nParm, nPop, maxGen, maxTime, gen, rpt
     cdef double pCross, pMute, pWin, bDelta, iseed, mask, seed, timeS, timeE, minFit
-    cdef object func, progress_fun, interrupt_fun
+    cdef Planar func
+    cdef object progress_fun, interrupt_fun
     cdef np.ndarray chrom, newChrom, babyChrom
     cdef Chromosome chromElite, chromBest
     cdef np.ndarray maxLimit, minLimit
     cdef list fitnessTime
     
     def __cinit__(self,
-        func: object,
+        func: Planar,
         settings: dict,
         progress_fun: object = None,
         interrupt_fun: object = None
