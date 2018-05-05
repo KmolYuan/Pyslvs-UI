@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#cython: language_level=3
 
 # __author__ = "Yuan Chang"
 # __copyright__ = "Copyright (C) 2016-2018"
@@ -184,6 +185,7 @@ cdef class VLink:
     def __repr__(self):
         """Use to generate script."""
         return "VLink('{l.name}', {l.points}, colorQt)".format(l=self)
+
 
 @cython.freelist(100)
 cdef class Coordinate:

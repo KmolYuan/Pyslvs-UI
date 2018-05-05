@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+#cython: language_level=3
 
-"""Chromosome defination."""
+"""Algorithm type defination."""
 
 # __author__ = "Yuan Chang"
 # __copyright__ = "Copyright (C) 2016-2018"

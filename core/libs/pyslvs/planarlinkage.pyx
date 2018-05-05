@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+#cython: language_level=3
 
 """The callable classes of the validation in algorithm."""
 
@@ -20,8 +21,10 @@ from tinycadlib import (
 )
 import numpy as np
 cimport numpy as np
+cimport cython
 
 
+@cython.freelist(100)
 cdef class Chromosome:
     
     """Data structure class."""
