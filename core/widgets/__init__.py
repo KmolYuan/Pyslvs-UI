@@ -10,11 +10,11 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from .custom import initCustomWidgets
-from . import method_solver as _solver
-from . import method_actions as _actions
-from . import method_io as _io
-from . import method_entities as _entities
-from . import method_storage as _storage
+from . import solver_method as _solver
+from . import actions_method as _actions
+from . import io_method as _io
+from . import entities_method as _entities
+from . import storage_method as _storage
 
 __all__ = [
     'initCustomWidgets',
