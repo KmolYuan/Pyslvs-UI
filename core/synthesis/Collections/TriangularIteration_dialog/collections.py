@@ -26,7 +26,6 @@ from core.QtModules import (
     QListWidgetItem,
 )
 from core.graphics import PreviewCanvas
-from core.libs import VPoint
 from .Ui_collections import Ui_Dialog
 
 
@@ -143,7 +142,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     Load the settings after closed.
     """
     
-    def __init__(self, vpoints: Callable[[], Tuple[VPoint]], parent):
+    def __init__(self, getCollection: Callable[[], Dict[str, Any]], parent):
         super(CollectionsDialog, self).__init__(parent)
         self.setupUi(self)
         self.setWindowFlags(
@@ -152,7 +151,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             Qt.WindowMaximizeButtonHint
         )
         self.collections = parent.collections
-        self.vpoints = vpoints
+        self.getCollection = getCollection
         self.__name_loaded = ""
         
         def get_solutions_func() -> Tuple[str]:
@@ -215,7 +214,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def on_rename_button_clicked(self):
         """Show up a string input to change the data name."""
         row = self.collections_list.currentRow()
-        if not row>-1:
+        if not row > -1:
             return
         name, ok = QInputDialog.getText(self,
             "Profile name",
@@ -237,7 +236,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
     def on_copy_button_clicked(self):
         """Ask a name to copy a data."""
         row = self.collections_list.currentRow()
-        if not row>-1:
+        if not row > -1:
             return
         name, ok = QInputDialog.getText(self,
             "Profile name",

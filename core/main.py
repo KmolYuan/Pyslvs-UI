@@ -22,6 +22,8 @@ from typing import (
     Tuple,
     List,
     Dict,
+    Union,
+    Optional,
 )
 from argparse import Namespace
 from core.QtModules import (
@@ -150,7 +152,22 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def getGraph(self) -> List[Tuple[int, int]]:
         return _solver.getGraph(self)
     
-    def getTriangle(self, vpoints: Tuple[VPoint]) -> List[Tuple[str]]:
+    def getCollection(self) -> Dict[str, Union[
+        Dict[str, None], #Driver
+        Dict[str, None], #Follower
+        Dict[str, List[Tuple[float, float]]], #Target
+        str, #Link_Expression
+        str, #Expression
+        Tuple[Tuple[int, int]], #Graph
+        Dict[int, Tuple[float, float]], #pos
+        Dict[str, int], #cus
+        Dict[int, int] #same
+    ]]:
+        return _solver.getCollection(self)
+    
+    def getTriangle(self,
+        vpoints: Optional[Tuple[VPoint]] = None
+    ) -> List[Tuple[str]]:
         return _solver.getTriangle(self, vpoints)
     
     def rightInput(self) -> bool:

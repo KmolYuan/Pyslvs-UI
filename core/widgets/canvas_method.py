@@ -408,6 +408,7 @@ def paintEvent(self, event):
     )):
         self.ox += (width - self.width_old) / 2
         self.oy += (height - self.height_old) / 2
+    #It only can be called when 'self' is the instance of 'DynamicCanvas'.
     super(self.__class__, self).paintEvent(event)
     self.painter.setFont(QFont('Arial', self.fontSize))
     #Draw links except ground.

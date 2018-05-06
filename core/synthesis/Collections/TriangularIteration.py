@@ -103,7 +103,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         super(CollectionsTriangularIteration, self).__init__(parent)
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
-        self.vpointdata = parent.EntitiesPoint.data
+        self.getCollection = parent.getCollection
         '''
         self.addToCollection = CollectionsStructure.addCollection
         '''
@@ -364,7 +364,7 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
     @pyqtSlot()
     def on_load_button_clicked(self):
         """Show up the dialog to load structure data."""
-        dlg = CollectionsDialog(self.vpointdata, self)
+        dlg = CollectionsDialog(self.getCollection, self)
         dlg.show()
         if not dlg.exec_():
             return

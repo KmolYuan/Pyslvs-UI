@@ -9,8 +9,11 @@ __email__ = "pyslvs@gmail.com"
 
 
 from typing import (
-    List,
     Tuple,
+    List,
+    Dict,
+    Union,
+    Optional,
 )
 from networkx import Graph
 from core.graphics import edges_view
@@ -52,20 +55,21 @@ def getGraph(self) -> List[Tuple[int, int]]:
 
     + VLinks will become graph nodes.
     """
-    joint_data = self.EntitiesPoint.dataTuple()
-    link_data = self.EntitiesLink.dataTuple()
+    vpoints = self.EntitiesPoint.dataTuple()
+    vlinks = self.EntitiesLink.dataTuple()
     G = Graph()
     # links name for RP joint.
-    k = len(link_data)
+    k = len(vlinks)
     used_point = set()
-    for i, vlink in enumerate(link_data):
+    #Link names will change to index number.
+    for i, vlink in enumerate(vlinks):
         for p in vlink.points:
             if p in used_point:
                 continue
-            for m, vlink_ in enumerate(link_data):
+            for m, vlink_ in enumerate(vlinks):
                 if not ((i != m) and (p in vlink_.points)):
                     continue
-                if joint_data[p].type != 2:
+                if vpoints[p].type != 2:
                     G.add_edge(i, m)
                     continue
                 G.add_edge(i, k)
@@ -75,11 +79,112 @@ def getGraph(self) -> List[Tuple[int, int]]:
     return [edge for n, edge in edges_view(G)]
 
 
-def getTriangle(self, vpoints: Tuple[VPoint]) -> List[Tuple[str]]:
+def getCollection(self) -> Dict[str, Union[
+    Dict[str, None], #Driver
+    Dict[str, None], #Follower
+    Dict[str, List[Tuple[float, float]]], #Target
+    str, #Link_Expression
+    str, #Expression
+    Tuple[Tuple[int, int]], #Graph
+    Dict[int, Tuple[float, float]], #pos
+    Dict[str, int], #cus
+    Dict[int, int] #same
+]]:
+    """TODO: Return collection data.
+    
+    + Driver
+    + Follower
+    + Target
+    + Link_Expression
+    + Expression
+    x constraint
+    
+    + Graph
+    + pos
+    + cus
+    + same
+    """
+    vlinks = self.EntitiesLink.dataTuple()
+    link_names = [vlink.name for vlink in vlinks]
+    vpoints = self.EntitiesPoint.dataTuple()
+    point_links = [
+        {link_names.index(link) for link in vpoint.links}
+        for vpoint in vpoints
+    ]
+    
+    def find(joint: Tuple[int, int]) -> int:
+        """Find the vpoint that is match from joint.
+        Even that is a multi joint.
+        """
+        for i, links in enumerate(point_links):
+            if set(joint) <= links:
+                return i
+    
+    pos = {}
+    same = {}
+    mapping = {}
+    not_cus = set()
+    graph = tuple(getGraph(self))
+    for i, joint in enumerate(graph):
+        j = find(joint)
+        #Set position.
+        pos[i] = vpoints[j].c[0]
+        mapping[j] = i
+        not_cus.add(j)
+    
+    count = len(graph)
+    cus = {}
+    for i, vpoint in vpoints:
+        if (i in not_cus) or (not vpoint.links):
+            continue
+        mapping[i] = count
+        cus['P{}'.format(count)] = link_names.index(vpoint.links[0])
+        count += 1
+    
+    drivers = {mapping[base] for base, drive in self.InputsWidget.inputPair()}
+    followers = {
+        mapping[i] for i, vpoint in enumerate(vpoints)
+        if ('ground' in vpoint.links) and (i not in drivers)
+    }
+    
+    def mapstr(s: str) -> str:
+        """Replace as mapped index."""
+        if not s.replace('P', '').isdigit():
+            return s
+        return 'P{}'.format(mapping[int(s.replace('P', ''))])
+    
+    expression = ';'.join('{}[{}]({})'.format(
+        exprs[0],
+        ','.join(mapstr(i) for i in exprs[1:-1]),
+        mapstr(exprs[-1])
+    ) for exprs in self.getTriangle())
+    link_expression = ';'.join('[{}]'.format(','.join(
+        'P{}'.format(mapping[p]) for p in vlink.points
+    )) for vlink in vlinks)
+    
+    return {
+        'Driver': {'P{}'.format(p): None for p in drivers},
+        'Follower': {'P{}'.format(p): None for p in followers},
+        'Target': {p: None for p in cus},
+        'Link_Expression': link_expression,
+        'Expression': expression,
+        'Graph': graph,
+        'constraint': [],
+        'pos': pos,
+        'cus': cus,
+        'same': same,
+    }
+
+
+def getTriangle(self,
+    vpoints: Optional[Tuple[VPoint]] = None
+) -> List[Tuple[str]]:
     """Update triangle expression here.
 
     Special function for VPoints.
     """
+    if vpoints is None:
+        vpoints = self.EntitiesPoint.dataTuple()
     exprs = vpoints_configure(
         vpoints,
         tuple(self.InputsWidget.inputPair())
