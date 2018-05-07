@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
-    <height>468</height>
+    <width>651</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,12 +26,6 @@
   <layout class="QVBoxLayout" name="verticalLayout_4">
    <item>
     <widget class="QSplitter" name="main_splitter">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -52,127 +46,150 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="layoutWidget">
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="common_label">
+     <widget class="QSplitter" name="sub_splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="common_label">
+          <property name="text">
+           <string>Common:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="common_list">
+          <item>
            <property name="text">
-            <string>Common:</string>
+            <string>Four bar linkage mechanism</string>
            </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QListWidget" name="common_list">
-           <item>
-            <property name="text">
-             <string>Four bar linkage mechanism</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Eight bar linkage mechanism</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Ball lifter linkage mechanism</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="common_load">
+          </item>
+          <item>
            <property name="text">
-            <string>Load common structure</string>
+            <string>Eight bar linkage mechanism</string>
            </property>
-           <property name="icon">
-            <iconset resource="../../../../icons.qrc">
-             <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
+          </item>
+          <item>
+           <property name="text">
+            <string>Ball lifter linkage mechanism</string>
            </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="Collections_label">
-         <property name="text">
-          <string>Workbook Collections:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QListWidget" name="collections_list"/>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout">
-           <item>
-            <widget class="QPushButton" name="rename_button">
-             <property name="text">
-              <string>Rename</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../../../icons.qrc">
-               <normaloff>:/icons/rename.png</normaloff>:/icons/rename.png</iconset>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="copy_button">
-             <property name="text">
-              <string>Copy</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../../../icons.qrc">
-               <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="delete_button">
-             <property name="text">
-              <string>Delete</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../../../icons.qrc">
-               <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
-             </property>
-             <property name="autoDefault">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="common_load">
+          <property name="text">
+           <string>Load common structure</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../../icons.qrc">
+            <normaloff>:/icons/data.png</normaloff>:/icons/data.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="verticalLayoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="Collections_label">
+          <property name="text">
+           <string>Workbook Collections:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QListWidget" name="collections_list"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+             <widget class="QPushButton" name="workbook_button">
+              <property name="text">
+               <string>Mechanism</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../../icons.qrc">
+                <normaloff>:/icons/mechanism.png</normaloff>:/icons/mechanism.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="Line" name="line_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rename_button">
+              <property name="text">
+               <string>Rename</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../../icons.qrc">
+                <normaloff>:/icons/rename.png</normaloff>:/icons/rename.png</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="copy_button">
+              <property name="text">
+               <string>Copy</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../../icons.qrc">
+                <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="delete_button">
+              <property name="text">
+               <string>Delete</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../../../icons.qrc">
+                <normaloff>:/icons/delete.png</normaloff>:/icons/delete.png</iconset>
+              </property>
+              <property name="autoDefault">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
      </widget>
     </widget>
    </item>

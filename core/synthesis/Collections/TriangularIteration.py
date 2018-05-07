@@ -402,14 +402,15 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
             ", ".join(c) for c in params['constraint']
         ])
         #Expression
-        for expr in params['Expression'].split(';'):
-            func = strbefore(expr, '[')
-            target = strbetween(expr, '(', ')')
-            params = strbetween(expr, '[', ']').split(',')
-            params.insert(0, func)
-            params.append(target)
-            self.__addSolution(*params)
-            self.PreviewWindow.setStatus(target, True)
+        if params['Expression']:
+            for expr in params['Expression'].split(';'):
+                func = strbefore(expr, '[')
+                target = strbetween(expr, '(', ')')
+                params = strbetween(expr, '[', ']').split(',')
+                params.insert(0, func)
+                params.append(target)
+                self.__addSolution(*params)
+                self.PreviewWindow.setStatus(target, True)
         self.__setWarning(
             self.expression_list_label,
             not self.PreviewWindow.isAllLock()

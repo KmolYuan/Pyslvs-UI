@@ -175,6 +175,7 @@ class CollectionsDialog(QDialog, Ui_Dialog):
             self.collections_list.addItem(name)
         #Splitter
         self.main_splitter.setSizes([200, 200])
+        self.sub_splitter.setSizes([100, 200])
         #Signals
         self.common_list.currentTextChanged.connect(self.__chooseCommon)
         self.common_list.itemClicked.connect(self.__chooseCommon)
@@ -297,6 +298,21 @@ class CollectionsDialog(QDialog, Ui_Dialog):
         self.__name_loaded = text
         self.__mech_params = self.collections[self.__name_loaded]
         self.PreviewCanvas.from_profile(self.__mech_params)
+    
+    @pyqtSlot()
+    def on_workbook_button_clicked(self):
+        """Get a collection data from current mechanism."""
+        try:
+            collection = self.getCollection()
+        except ValueError as e:
+            QMessageBox.warning(self, "Mechanism not support.", str(e))
+        else:
+            num = 0
+            while "mechanism{}".format(num) in self.collections:
+                num += 1
+            name = "mechanism{}".format(num)
+            self.collections[name] = collection
+            self.collections_list.addItem(name)
     
     @pyqtSlot()
     @pyqtSlot(QListWidgetItem)

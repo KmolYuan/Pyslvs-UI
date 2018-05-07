@@ -573,8 +573,9 @@ class PreviewCanvas(BaseCanvas):
                 self.setGrounded(row)
                 break
         #Expression
-        for expr in params['Expression'].split(';'):
-            self.setStatus(io.strbetween(expr, '(', ')'), True)
+        if params['Expression']:
+            for expr in params['Expression'].split(';'):
+                self.setStatus(io.strbetween(expr, '(', ')'), True)
         self.update()
     
     def isAllLock(self) -> bool:

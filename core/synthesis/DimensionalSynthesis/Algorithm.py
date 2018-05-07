@@ -340,11 +340,14 @@ class DimensionalSynthesis(QWidget, Ui_Form):
     def __ableToGenerate(self):
         """Set button enable if all the data are already."""
         self.pointNum.setText(
-            "<html><head/><body><p><span style=\"font-size:12pt; color:#00aa00;\">" +
-            str(self.path_list.count()) +
-            "</span></p></body></html>"
+            "<p><span style=\"font-size:12pt; color:#00aa00;\">{}</span></p>"
+            .format(self.path_list.count())
         )
-        n = bool(self.mech_params) and (self.path_list.count() > 1)
+        n = (
+            bool(self.mech_params) and
+            (self.path_list.count() > 1) and
+            bool(self.Expression.text())
+        )
         self.pathAdjust.setEnabled(n)
         self.generate_button.setEnabled(n)
     

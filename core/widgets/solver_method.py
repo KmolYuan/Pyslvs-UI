@@ -11,6 +11,7 @@ __email__ = "pyslvs@gmail.com"
 from typing import (
     Tuple,
     List,
+    Set,
     Dict,
     Union,
     Optional,
@@ -90,7 +91,7 @@ def getCollection(self) -> Dict[str, Union[
     Dict[str, int], #cus
     Dict[int, int] #same
 ]]:
-    """TODO: Return collection data.
+    """Return collection data.
     
     + Driver
     + Follower
@@ -104,42 +105,56 @@ def getCollection(self) -> Dict[str, Union[
     + cus
     + same
     """
+    vpoints = self.EntitiesPoint.dataTuple()
+    for vpoint in vpoints:
+        if vpoint.type != 0:
+            raise ValueError("Not support for prismatic joint yet.")
     vlinks = self.EntitiesLink.dataTuple()
     link_names = [vlink.name for vlink in vlinks]
-    vpoints = self.EntitiesPoint.dataTuple()
-    point_links = [
-        {link_names.index(link) for link in vpoint.links}
-        for vpoint in vpoints
-    ]
+    graph = tuple(getGraph(self))
     
-    def find(joint: Tuple[int, int]) -> int:
+    def find(joint: Set[int]) -> int:
         """Find the vpoint that is match from joint.
         Even that is a multi joint.
         """
-        for i, links in enumerate(point_links):
-            if set(joint) <= links:
+        for i, links in enumerate(graph):
+            if joint <= set(links):
                 return i
     
     pos = {}
     same = {}
     mapping = {}
     not_cus = set()
-    graph = tuple(getGraph(self))
-    for i, joint in enumerate(graph):
-        j = find(joint)
+    
+    def haslink(index: int) -> Tuple[bool, Optional[int]]:
+        for key, value in mapping.items():
+            if index == value:
+                return True, key
+        return False, None
+    
+    for i, vpoint in enumerate(vpoints):
+        if len(vpoint.links) < 2:
+            continue
+        j = find({link_names.index(link) for link in vpoint.links})
         #Set position.
-        pos[i] = vpoints[j].c[0]
-        mapping[j] = i
-        not_cus.add(j)
+        pos[j] = vpoint.c[0]
+        ok, index = haslink(j)
+        if ok:
+            same[i] = index
+        else:
+            mapping[i] = j
+        not_cus.add(i)
     
     count = len(graph)
     cus = {}
-    for i, vpoint in vpoints:
+    for i, vpoint in enumerate(vpoints):
         if (i in not_cus) or (not vpoint.links):
             continue
         mapping[i] = count
+        pos[count] = vpoint.c[0]
         cus['P{}'.format(count)] = link_names.index(vpoint.links[0])
         count += 1
+    del count, not_cus
     
     drivers = {mapping[base] for base, drive in self.InputsWidget.inputPair()}
     followers = {
