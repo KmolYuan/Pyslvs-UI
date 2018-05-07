@@ -200,7 +200,7 @@ class InputsWidget(QWidget, Ui_Form):
         self.variable_speed.setEnabled(rotatable)
         self.dial.setValue(float(
             self.variable_list.currentItem().text().split('->')[-1]
-        )*100 if enabled else 0)
+        ) * 100 if enabled else 0)
     
     def variableExcluding(self, row: int =None):
         """Remove variable if the point was been deleted.
@@ -236,14 +236,19 @@ class InputsWidget(QWidget, Ui_Form):
         self.EntitiesPoint.getBackPosition()
         self.resolve()
     
-    def __getLinkAngle(self, row: int, link: str) -> float:
+    def __getLinkAngle(self, row: int, linkname: str) -> float:
         """Get the angle of base link and drive link."""
-        points = self.EntitiesPoint.dataTuple()
-        links = self.EntitiesLink.dataTuple()
-        link_names = [vlink.name for vlink in links]
-        relate = links[link_names.index(link)].points
-        base = points[row]
-        drive = points[relate[relate.index(row)-1]]
+        vpoints = self.EntitiesPoint.dataTuple()
+        vlinks = self.EntitiesLink.dataTuple()
+        
+        def findpoints(name: str) -> Tuple[int]:
+            for vlink in vlinks:
+                if name == vlink.name:
+                    return vlink.points
+        
+        relate = findpoints(linkname)
+        base = vpoints[row]
+        drive = vpoints[relate[relate.index(row)-1]]
         return base.slopeAngle(drive)
     
     def getInputsVariables(self) -> Iterator[Tuple[int, str, str, float]]:

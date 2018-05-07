@@ -79,6 +79,7 @@ class CommitModel(Model):
     + Path data.
     + Collection data.
     + Triangle collection data.
+    + Input variables data.
     + Algorithm data.
     """
     
@@ -525,7 +526,7 @@ class FileWidget(QWidget, Ui_Form):
         """Reload the least commit ID."""
         self.__loadCommitID(self.commit_current_id.value())
     
-    def loadExample(self, isImport=False) -> bool:
+    def loadExample(self, isImport: bool = False) -> bool:
         """Load example to new workbook."""
         if not self.__checkSaved():
             return False
@@ -542,7 +543,9 @@ class FileWidget(QWidget, Ui_Form):
         if not isImport:
             self.reset()
             self.clearFunc()
-        self.parseFunc(example_list[example_name])
+        expr, inputs = example_list[example_name]
+        self.parseFunc(expr)
+        self.loadInputsFunc(inputs)
         self.file_name = QFileInfo(example_name)
         self.isSavedFunc()
         print("Example \"{}\" has been loaded.".format(example_name))
