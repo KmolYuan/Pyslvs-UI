@@ -424,6 +424,7 @@ Including Python modules:
 * [Lark-parser] (MIT)
 * [NetworkX] (BSD 3-Clause)
 * [Pydot] (MIT)
+* [Pygments] (BSD)
 
 Pyslvs is under [GNU Affero General Public License v3](https://github.com/KmolYuan/Pyslvs-PyQt5/blob/master/LICENSE).
 
@@ -454,6 +455,7 @@ Here is the **origin kernel** repository:
 [Lark-parser]: https://github.com/erezsh/lark
 [NetworkX]: https://networkx.github.io/
 [Pydot]: https://github.com/erocarrera/pydot
+[Pygments]: http://pygments.org/
 
 [Python-solvespace]: https://github.com/KmolYuan/python-solvespace
 [Dimensional Synthesis of Planar Four-bar Linkages]: https://github.com/kmollee/algorithm
