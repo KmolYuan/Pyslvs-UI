@@ -386,7 +386,7 @@ class PreviewCanvas(BaseCanvas):
     
     """A preview canvas use to show structure diagram."""
     
-    def __init__(self, get_solutions: Callable[[], str], parent):
+    def __init__(self, get_solutions: Callable[[], Tuple[str]], parent):
         super(PreviewCanvas, self).__init__(parent)
         self.showSolutions = True
         #A function should return a tuple of function expression.
@@ -427,15 +427,15 @@ class PreviewCanvas(BaseCanvas):
         """Draw the structure."""
         width = self.width()
         height = self.height()
-        self.ox = width/2
-        self.oy = height/2
+        self.ox = width / 2
+        self.oy = height / 2
         sq_w = 240
         if width <= height:
             self.zoom = width / sq_w
         else:
             self.zoom = height / sq_w
         super(PreviewCanvas, self).paintEvent(event)
-        self.__drawLimit(sq_w)
+        #self.__drawLimit(sq_w)
         pen = QPen()
         pen.setWidth(RADIUS)
         self.painter.setPen(pen)

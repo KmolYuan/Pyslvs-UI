@@ -173,7 +173,7 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.__currentPathChanged()
     
     @pyqtSlot()
-    def __clearPath(self, ask: bool = True):
+    def __clearPath(self, *, ask: bool = True):
         """Clear the current target path."""
         if ask:
             reply = QMessageBox.question(self,
@@ -633,6 +633,12 @@ class DimensionalSynthesis(QWidget, Ui_Form):
         self.mech_params = params
         self.updateRange()
         self.__ableToGenerate()
+        if not self.Expression.text():
+            QMessageBox.warning(self,
+                "Profile cannot use",
+                "This profile has no any solutions, " +
+                "you can set it in the \"Triangular iteration\" page."
+            )
     
     @pyqtSlot()
     def on_Result_load_settings_clicked(self):

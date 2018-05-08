@@ -15,6 +15,7 @@ from typing import (
     List,
     Tuple,
     Set,
+    Callable,
     Any,
     Optional,
 )
@@ -54,8 +55,8 @@ class PreviewWindow(PreviewCanvas):
     
     set_joint_number = pyqtSignal(int)
     
-    def __init__(self, get_solutions_func, parent):
-        super(PreviewWindow, self).__init__(get_solutions_func, parent)
+    def __init__(self, get_solutions: Callable[[], Tuple[str]], parent):
+        super(PreviewWindow, self).__init__(get_solutions, parent)
         self.pressed = False
         self.get_joint_number = parent.joint_name.currentIndex
     
