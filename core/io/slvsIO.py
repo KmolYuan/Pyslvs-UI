@@ -11,7 +11,7 @@ from typing import Tuple, Sequence, Callable
 from core.libs import VPoint
 
 
-_script_group = ['''\
+_script_group = ["""\
 ±²³SolveSpaceREVa
 
 
@@ -54,7 +54,7 @@ Group.allDimsReference=0
 Group.scale=1.00000000000000000000
 Group.remap={
 }
-AddGroup''']
+AddGroup"""]
 
 
 entity_plane = lambda n, p, v, : '\n'.join([

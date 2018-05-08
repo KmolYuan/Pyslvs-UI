@@ -148,12 +148,6 @@ class EditPointTable(QUndoCommand):
         self.PointTable = PointTable
         self.row = row
         self.LinkTable = LinkTable
-        '''
-        Links: str,
-        Type: int,
-        Color: str,
-        X, Y
-        '''
         self.args = tuple(args)
         self.OldArgs = self.PointTable.rowTexts(row)
         #Tuple[str] -> Set[str]
@@ -216,17 +210,12 @@ class EditLinkTable(QUndoCommand):
         row: int,
         LinkTable: QTableWidgetItem,
         PointTable: QTableWidgetItem,
-        args: Sequence[Union[str, int, float]]
+        args: Sequence[str]
     ):
         QUndoCommand.__init__(self)
         self.LinkTable = LinkTable
         self.row = row
         self.PointTable = PointTable
-        '''
-        name: str,
-        color: str,
-        points: str
-        '''
         self.args = tuple(args)
         self.OldArgs = self.LinkTable.rowTexts(row, hasName=True)
         #Points: Tuple[int]

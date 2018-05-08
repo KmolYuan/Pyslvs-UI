@@ -20,7 +20,7 @@ _COLOR_LIST = " | ".join('"{}"'.format(color) for color in reversed(colorName))
 #Usage: tree = parser.parse(expr)
 PMKS_parser = Lark(
     #Number
-    '''
+    """
     DIGIT: "0".."9"
     INT: DIGIT+
     SIGNED_INT: ["+"|"-"] INT
@@ -28,20 +28,20 @@ PMKS_parser = Lark(
     _EXP: ("e"|"E") SIGNED_INT
     FLOAT: INT _EXP | DECIMAL _EXP?
     NUMBER: FLOAT | INT
-    '''
+    """
     #Letters
-    '''
+    """
     LCASE_LETTER: "a".."z"
     UCASE_LETTER: "A".."Z"
     LETTER: UCASE_LETTER | LCASE_LETTER
     CNAME: ("_"|LETTER) ("_"|LETTER|DIGIT)*
-    '''
+    """
     #White space
-    '''
+    """
     WS: /[ \\t\\f\\r\\n]/+
-    '''
+    """
     
-    '''
+    """
     type: JOINTTYPE+
     name: CNAME
     num : NUMBER  -> number
@@ -55,10 +55,10 @@ PMKS_parser = Lark(
     mechanism: "M[" [joint ("," joint)*] "]"
     
     JOINTTYPE: "RP" | "R" | "P"
-    COLOR    : ''' + _COLOR_LIST + '''
+    COLOR    : """ + _COLOR_LIST + """
     
     %ignore WS
-    ''', start='mechanism'
+    """, start='mechanism'
 )
 
 

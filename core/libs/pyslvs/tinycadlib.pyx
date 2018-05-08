@@ -290,12 +290,12 @@ cpdef tuple PLPP(
 
 
 cdef inline bool legal_crank(Coordinate A, Coordinate B, Coordinate C, Coordinate D):
-    '''
+    """
     verify the fourbar is satisfied the Gruebler's Equation, s + g <= p + q
         C - D
         |   |
         A   B
-    '''
+    """
     cdef double driver = A.distance(C)
     cdef double follower = B.distance(D)
     cdef double ground = A.distance(B)
@@ -316,11 +316,11 @@ cdef inline str strbefore(str s, str front):
 
 
 cpdef void expr_parser(str exprs, dict data_dict):
-    '''Use to generate path data.
+    """Use to generate path data.
     
     exprs: "PLAP[P0,L0,a0,P1](P2);PLLP[P2,L1,L2,P1](P3);..."
     data_dict: {'a0':0., 'L1':10., 'A':(30., 40.), ...}
-    '''
+    """
     #Remove all the spaces in the expression.
     exprs = exprs.replace(" ", '')
     cdef str expr, f, name

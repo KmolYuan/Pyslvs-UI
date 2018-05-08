@@ -105,9 +105,9 @@ class CollectionsTriangularIteration(QWidget, Ui_Form):
         self.setupUi(self)
         self.unsaveFunc = parent.workbookNoSave
         self.getCollection = parent.getCollection
-        '''
+        """
         self.addToCollection = CollectionsStructure.addCollection
-        '''
+        """
         self.collections = {}
         #Canvas
         self.PreviewWindow = PreviewWindow(

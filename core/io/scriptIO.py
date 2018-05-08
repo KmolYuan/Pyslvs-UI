@@ -26,7 +26,7 @@ from core.libs import VPoint, VLink
 from .Ui_script import Ui_Dialog
 
 
-_script_title = '''\
+_script_title = """\
 #This script is generate by Pyslvs {}.
 
 from math import (
@@ -264,19 +264,9 @@ def slvsProcess(Point, Link, constraints):
 if __name__=="__main__":
     Point = {}
     Link = {}
-    """
-    constraints = (
-        (
-            "Point number": int,
-            "Base link name": str,
-            "Drive link name": str,
-            "Angle (degrees)": float
-        ),
-    )
-    """
     constraints = ()
     print("Coordinates: {{}}\\nDOF: {{}}".format(*slvsProcess(Point, Link, constraints)))
-'''
+"""
 
 
 def slvsProcessScript(

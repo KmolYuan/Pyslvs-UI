@@ -127,14 +127,14 @@ class PointTableWidget(BaseTableWidget):
             color = self.item(row, 3).text()
             x = float(self.item(row, 4).text())
             y = float(self.item(row, 5).text())
-            '''
+            """
             Type = (type:str, angle:float)
-            '''
+            """
             Type = self.item(row, 2).text().split(':')
-            if Type[0]=='R':
+            if Type[0] == 'R':
                 Type = 0
                 angle = 0.
-            elif Type[0]=='P' or Type[0]=='RP':
+            elif (Type[0] == 'P') or (Type[0] == 'RP'):
                 angle = float(Type[1])
                 Type = {'P':1, 'RP':2}[Type[0]]
             vpoint = VPoint(Links, Type, angle, color, x, y, colorQt)

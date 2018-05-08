@@ -200,12 +200,12 @@ class BaseCanvas(QWidget):
         for x in range(Indexing(x_l), Indexing(x_r)+1, 5):
             self.painter.drawLine(
                 QPointF(x*self.zoom, 0),
-                QPointF(x*self.zoom, -10 if x%10==0 else -5)
+                QPointF(x*self.zoom, -10 if (x%10 == 0) else -5)
             )
         for y in range(Indexing(y_b), Indexing(y_t)+1, 5):
             self.painter.drawLine(
                 QPointF(0, y*self.zoom),
-                QPointF(10 if y%10==0 else 5, y*self.zoom)
+                QPointF(10 if (y%10 == 0) else 5, y*self.zoom)
             )
         """Please to call the "end" method when ending paint event.
         
@@ -276,7 +276,7 @@ class BaseCanvas(QWidget):
                     pen.setColor(Dot)
                     self.painter.setPen(pen)
                     self.painter.drawEllipse(
-                        QPointF(x*self.zoom, y*-self.zoom), RADIUS, RADIUS
+                        QPointF(x, -y)*self.zoom, RADIUS, RADIUS
                     )
             elif len(path) == 1:
                 x = path[0][0] * self.zoom
@@ -329,7 +329,7 @@ class BaseCanvas(QWidget):
         for x, y in path:
             if isnan(x):
                 continue
-            self.painter.drawPoint(QPointF(x * self.zoom, y * -self.zoom))
+            self.painter.drawPoint(QPointF(x, -y) * self.zoom)
     
     def __drawSolution(self,
         func: str,
@@ -378,7 +378,7 @@ class BaseCanvas(QWidget):
         qpoints = []
         for name in params:
             x, y = pos[int(name.replace('P', ''))]
-            qpoints.append(QPointF(x*self.zoom, y*-self.zoom))
+            qpoints.append(QPointF(x, -y) * self.zoom)
         self.painter.drawPolygon(*qpoints)
         self.painter.setBrush(Qt.NoBrush)
 
@@ -442,7 +442,7 @@ class PreviewCanvas(BaseCanvas):
         self.painter.setBrush(QBrush(QColor(226, 219, 190, 150)))
         #Links
         for link in self.G.nodes:
-            if link==self.grounded:
+            if link == self.grounded:
                 continue
             points = []
             #Points that is belong with the link.
