@@ -34,8 +34,7 @@ from core.QtModules import (
 from core.info import PyslvsAbout, check_update
 from core.io import (
     ScriptDialog,
-    PMKSArgsTransformer,
-    PMKS_parser,
+    parse,
     AddTable,
     EditPointTable,
     slvs2D,
@@ -226,7 +225,7 @@ def on_action_Import_PMKS_server_triggered(self):
 def parseExpression(self, expr: str):
     """Parse expression."""
     try:
-        args_list = PMKSArgsTransformer().transform(PMKS_parser.parse(expr))
+        args_list = parse(expr)
     except Exception as e:
         print(e)
         QMessageBox.warning(self,

@@ -16,7 +16,7 @@ from core.QtModules import (
     QListWidgetItem,
     pyqtSlot,
 )
-from core.graphics import colorName, colorIcons
+from core.graphics import colorNames, colorIcons
 from core.libs import VPoint, VLink
 from .Ui_edit_point import Ui_Dialog
 
@@ -41,7 +41,7 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.LinkIcon = QIcon(QPixmap(":/icons/link.png"))
         self.points = points
         self.links = links
-        for i, e in enumerate(colorName):
+        for i, e in enumerate(colorNames):
             self.Color.insertItem(i, colorIcons(e), e)
         for vlink in links:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))

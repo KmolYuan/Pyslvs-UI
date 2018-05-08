@@ -9,7 +9,8 @@ __email__ = "pyslvs@gmail.com"
 
 from .scriptIO import ScriptDialog
 from .undoRedo import (
-    AddTable, DeleteTable, FixSequenceNumber,
+    AddTable, DeleteTable,
+    FixSequenceNumber,
     EditPointTable, EditLinkTable,
     AddPath, DeletePath,
     AddStorage, DeleteStorage,
@@ -20,10 +21,7 @@ from .images import QTIMAGES
 from .slvsIO import slvs2D
 from .dxfIO import dxfSketch
 from .loggingHandler import XStream
-from .larkParser import (
-    PMKS_parser,
-    PMKSArgsTransformer,
-)
+from .larkParser import parse
 from .peeweeIO import FileWidget
 
 __all__ = [
@@ -45,11 +43,10 @@ __all__ = [
     'slvs2D',
     'dxfSketch',
     'XStream',
-    'PMKS_parser',
-    'PMKSArgsTransformer',
+    'parse',
+    'FileWidget',
     'strbetween',
     'strbefore',
-    'FileWidget'
 ]
 
 

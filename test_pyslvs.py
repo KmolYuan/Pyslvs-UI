@@ -12,6 +12,7 @@ from unittest import TestCase
 
 #For necessary modules.
 from math import sqrt, radians, isclose
+from core.io import parse
 from core.libs import (
     VPoint,
     Coordinate,
@@ -31,6 +32,16 @@ from core.libs import (
 class LibsTest(TestCase):
     
     """Testing Cython libs."""
+    
+    def test_parser(self):
+        """Test for PMKS parser."""
+        parse("M[" +
+            "J[R, color[Blue], P[0.0, 0.0], L[ground, link_1]], " +
+            "J[R, color[Green], P[12.92, 32.53], L[link_1, link_2]], " +
+            "J[R, color[Green], P[73.28, 67.97], L[link_2, link_3]], " +
+            "J[R, color[(255, 255, 255)], P[33.3, 66.95], L[link_2]], " +
+            "J[R, color[Blue], P[90.0, 0.0], L[ground, link_3]]" +
+            "]")
     
     def test_plap(self):
         """Test for PLAP function."""

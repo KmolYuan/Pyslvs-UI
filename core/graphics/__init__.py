@@ -9,7 +9,7 @@ __email__ = "pyslvs@gmail.com"
 
 from .color import (
     colorNum,
-    colorName,
+    colorNames,
     colorIcons,
     colorQt,
     colorPath
@@ -31,7 +31,7 @@ from .nx_pydot import (
 
 __all__ = [
     'colorNum',
-    'colorName',
+    'colorNames',
     'colorIcons',
     'colorQt',
     'colorPath',

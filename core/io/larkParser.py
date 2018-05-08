@@ -12,13 +12,13 @@ __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
 from lark import Lark, Transformer
-from core.graphics import colorName
+from typing import Dict, Union
+from core.graphics import colorNames
 
 
-_COLOR_LIST = " | ".join('"{}"'.format(color) for color in reversed(colorName))
+_COLOR_LIST = " | ".join('"{}"'.format(color) for color in reversed(colorNames))
 
-#Usage: tree = parser.parse(expr)
-PMKS_parser = Lark(
+_pmks_parser = Lark(
     #Number
     """
     DIGIT: "0".."9"
@@ -40,39 +40,49 @@ PMKS_parser = Lark(
     """
     WS: /[ \\t\\f\\r\\n]/+
     """
-    
+    #Main document.
     """
     type: JOINTTYPE+
     name: CNAME
     num : NUMBER  -> number
         | "-" num -> neg
     
-    joint    : "J[" [type ("," angle)? ("," color)? "," point "," link] "]"
-    link     : "L[" [name ("," name)*] "]"
-    point    : "P[" [num  "," num] "]"
+    joint    : "J[" type ("," angle)? ("," color)? "," point "," link "]"
+    link     : "L[" name ("," name)* "]"
+    point    : "P[" num  "," num "]"
     angle    : "A[" num "]"
-    color    : "color[" COLOR+ "]"
+    colorv   : INT
+    color    : "color[" (("(" colorv "," colorv "," colorv ")") | COLOR+) "]"
     mechanism: "M[" [joint ("," joint)*] "]"
     
     JOINTTYPE: "RP" | "R" | "P"
     COLOR    : """ + _COLOR_LIST + """
     
     %ignore WS
-    """, start='mechanism'
+    """, start = 'mechanism'
 )
 
 
-class PMKSArgsTransformer(Transformer):
+class PMKSTransformer(Transformer):
     
     """Usage: tree = parser.parse(expr)
     
-    pointsArgs = ArgsTransformer().transform(tree)
-    pointsArgs: Dict[str: value]
+    args = transformer().transform(tree)
+    args: Dict[str, value]
     """
     
     type = lambda self, n: str(n[0])
     name = type
-    color = type
+    
+    def color(self, n):
+        if len(n) == 1:
+            return str(n[0])
+        else:
+            return str(tuple(n))
+    
+    def colorv(self, n):
+        return int(n[0])
+    
     neg = lambda self, n: -n[0]
     number = lambda self, n: float(n[0])
     point = lambda self, c: tuple(c)
@@ -89,10 +99,6 @@ class PMKSArgsTransformer(Transformer):
         """
         hasAngle = args[0]!='R'
         color = args[2] if hasAngle else args[1]
-        if color not in colorName:
-            color = 'Blue'
-        elif 'ground' in args[-1]:
-            color = 'Green'
         x, y = args[-2]
         pointArgs = [
             ','.join(args[-1]),
@@ -105,3 +111,8 @@ class PMKSArgsTransformer(Transformer):
     
     link = lambda self, a: tuple(a)
     mechanism = lambda self, j: j
+
+
+def parse(expr: str) -> Dict[str, Union[int, float, str]]:
+    """Using to parse the expression and return arguments."""
+    return PMKSTransformer().transform(_pmks_parser.parse(expr))

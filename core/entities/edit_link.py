@@ -17,7 +17,7 @@ from core.QtModules import (
     pyqtSlot,
     QDialogButtonBox,
 )
-from core.graphics import colorName, colorIcons
+from core.graphics import colorNames, colorIcons
 from core.libs import VPoint, VLink
 from .Ui_edit_link import Ui_Dialog
 
@@ -42,7 +42,7 @@ class EditLinkDialog(QDialog, Ui_Dialog):
         self.links = links
         icon = self.windowIcon()
         self.PointIcon = QIcon(QPixmap(":/icons/bearing.png"))
-        for i, e in enumerate(colorName):
+        for i, e in enumerate(colorNames):
             self.Color.insertItem(i, colorIcons(e), e)
         for i in range(len(self.points)):
             self.noSelected.addItem(

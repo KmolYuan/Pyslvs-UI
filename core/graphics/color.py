@@ -16,7 +16,7 @@ from core.QtModules import (
 )
 
 
-"""Color dictionary."""
+#Color dictionary.
 _color_list = {
     'Red': QColor(172, 68, 68),
     'Green': QColor(110, 190, 30),
@@ -41,18 +41,27 @@ _color_list = {
     'Dark-Pink': QColor(225, 20, 147),
 }
 
-
-colorName = tuple(sorted(_color_list.keys()))
+colorNames = tuple(sorted(_color_list.keys()))
 
 
 def colorQt(name: str) -> QColor:
     """Get color by name."""
-    return _color_list.get(name, _color_list['Blue'])
+    if name in _color_list:
+        return _color_list[name]
+    else:
+        #Input RGB as "(255, 255, 255)"
+        r, g, b = tuple(int(i) for i in (
+            name.replace('(', '')
+            .replace(')', '')
+            .replace(" ", '')
+            .split(',')
+        ))
+        return QColor(r, g, b)
 
 
 def colorNum(colorIndex: int) -> QColor:
     """Get color by index."""
-    return _color_list[colorName[colorIndex % len(_color_list)]]
+    return _color_list[colorNames[colorIndex % len(_color_list)]]
 
 
 def colorIcons(name: str, size: int =20) -> QIcon:
@@ -62,10 +71,7 @@ def colorIcons(name: str, size: int =20) -> QIcon:
     return QIcon(colorBlock)
 
 
-"""Target path color.
-
-(Pen, Dot, Brush)
-"""
+#Target path color: (Pen, Dot, Brush)
 _path_color = (
     #Blue - Green
     (QColor(69, 247, 232), QColor(3, 163, 120), QColor(74, 178, 176, 30)),
