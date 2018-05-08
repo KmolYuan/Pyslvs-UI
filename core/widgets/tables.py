@@ -27,7 +27,7 @@ from core.QtModules import (
     QTableWidgetSelectionRange,
     QLabel,
 )
-from core.graphics import colorIcons, colorQt
+from core.graphics import colorIcon, colorQt
 from core.libs import VPoint, VLink
 
 
@@ -162,7 +162,7 @@ class PointTableWidget(BaseTableWidget):
             item = QTableWidgetItem(str(e))
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i == 3:
-                item.setIcon(colorIcons(e))
+                item.setIcon(colorIcon(e))
             self.setItem(row, i, item)
     
     def rename(self, row: int):
@@ -304,7 +304,7 @@ class LinkTableWidget(BaseTableWidget):
             item = QTableWidgetItem(e)
             item.setFlags(Qt.ItemIsSelectable | Qt.ItemIsEnabled)
             if i==1:
-                item.setIcon(colorIcons(e))
+                item.setIcon(colorIcon(e))
             self.setItem(row, i, item)
     
     def findName(self, name: str) -> int:

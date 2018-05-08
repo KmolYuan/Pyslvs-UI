@@ -49,7 +49,7 @@ def colorQt(name: str) -> QColor:
     if name in _color_list:
         return _color_list[name]
     else:
-        #Input RGB as "(255, 255, 255)"
+        #Input RGB as a "(255, 255, 255)" string.
         r, g, b = tuple(int(i) for i in (
             name.replace('(', '')
             .replace(')', '')
@@ -64,7 +64,7 @@ def colorNum(colorIndex: int) -> QColor:
     return _color_list[colorNames[colorIndex % len(_color_list)]]
 
 
-def colorIcons(name: str, size: int =20) -> QIcon:
+def colorIcon(name: str, size: int =20) -> QIcon:
     """Get color block as QIcon by name."""
     colorBlock = QPixmap(QSize(size, size))
     colorBlock.fill(colorQt(name))

@@ -9,14 +9,19 @@ __email__ = "pyslvs@gmail.com"
 
 from typing import List
 from core.QtModules import (
-    QDialog,
+    pyqtSlot,
     Qt,
+    QDialog,
     QIcon,
     QPixmap,
     QListWidgetItem,
-    pyqtSlot,
+    QColorDialog,
 )
-from core.graphics import colorNames, colorIcons
+from core.graphics import (
+    colorNames,
+    colorQt,
+    colorIcon,
+)
 from core.libs import VPoint, VLink
 from .Ui_edit_point import Ui_Dialog
 
@@ -42,29 +47,35 @@ class EditPointDialog(QDialog, Ui_Dialog):
         self.points = points
         self.links = links
         for i, e in enumerate(colorNames):
-            self.Color.insertItem(i, colorIcons(e), e)
+            self.color_box.insertItem(i, colorIcon(e), e)
         for vlink in links:
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
         if pos is False:
-            self.Point.addItem(icon, 'Point{}'.format(len(points)))
-            self.Point.setEnabled(False)
-            self.Color.setCurrentIndex(self.Color.findText('Green'))
+            self.name_box.addItem(icon, 'Point{}'.format(len(points)))
+            self.name_box.setEnabled(False)
+            self.color_box.setCurrentIndex(self.color_box.findText('Green'))
         else:
             for i in range(len(points)):
-                self.Point.insertItem(i, icon, 'Point{}'.format(i))
-            self.Point.setCurrentIndex(pos)
+                self.name_box.insertItem(i, icon, 'Point{}'.format(i))
+            self.name_box.setCurrentIndex(pos)
     
     @pyqtSlot(int)
-    def on_Point_currentIndexChanged(self, index):
+    def on_name_box_currentIndexChanged(self, index):
         """Load the parameters of the point."""
         if not len(self.points) > index:
             return
         vpoint = self.points[index]
-        self.X_coordinate.setValue(vpoint.x)
-        self.Y_coordinate.setValue(vpoint.y)
-        self.Color.setCurrentIndex(self.Color.findText(vpoint.colorSTR))
-        self.Type.setCurrentIndex(vpoint.type)
-        self.Angle.setValue(vpoint.angle)
+        self.x_box.setValue(vpoint.x)
+        self.y_box.setValue(vpoint.y)
+        colorText = vpoint.colorSTR
+        colorIndex = self.color_box.findText(colorText)
+        if colorIndex > -1:
+            self.color_box.setCurrentIndex(colorIndex)
+        else:
+            self.color_box.addItem(colorIcon(colorText), colorText)
+            self.color_box.setCurrentIndex(self.color_box.count() - 1)
+        self.type_box.setCurrentIndex(vpoint.type)
+        self.angle_box.setValue(vpoint.angle)
         self.noSelected.clear()
         self.selected.clear()
         for linkName in vpoint.links:
@@ -75,9 +86,29 @@ class EditPointDialog(QDialog, Ui_Dialog):
             self.noSelected.addItem(QListWidgetItem(self.LinkIcon, vlink.name))
     
     @pyqtSlot(int)
-    def on_Type_currentIndexChanged(self, index):
+    def on_color_box_currentIndexChanged(self, index):
+        """Change the color icon of pick button."""
+        self.colorpick_button.setIcon(self.color_box.itemIcon(
+            self.color_box.currentIndex()
+        ))
+    
+    @pyqtSlot()
+    def on_colorpick_button_clicked(self):
+        """Add a custom color from current color."""
+        color = QColorDialog.getColor(
+            colorQt(self.color_box.currentText()),
+            self
+        )
+        if not color.isValid():
+            return
+        rgb_str = str((color.red(), color.green(), color.blue()))
+        self.color_box.addItem(colorIcon(rgb_str), rgb_str)
+        self.color_box.setCurrentIndex(self.color_box.count() - 1)
+    
+    @pyqtSlot(int)
+    def on_type_box_currentIndexChanged(self, index):
         """Toggle the slider angle option."""
-        self.Angle.setEnabled(index!=0)
+        self.angle_box.setEnabled(index != 0)
     
     @pyqtSlot(QListWidgetItem)
     def on_noSelected_itemDoubleClicked(self, item):

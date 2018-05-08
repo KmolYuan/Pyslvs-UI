@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
-    <height>392</height>
+    <width>333</width>
+    <height>467</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,19 +23,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_3">
-   <property name="leftMargin">
-    <number>6</number>
-   </property>
-   <property name="topMargin">
-    <number>6</number>
-   </property>
-   <property name="rightMargin">
-    <number>6</number>
-   </property>
-   <property name="bottomMargin">
-    <number>6</number>
-   </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_4">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -46,14 +34,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="Link"/>
+      <widget class="QComboBox" name="name_box"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLineEdit" name="name_edit"/>
-       </item>
-      </layout>
+      <widget class="QLineEdit" name="name_edit"/>
      </item>
      <item>
       <widget class="QLabel" name="color_label">
@@ -66,10 +50,24 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="Color"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QComboBox" name="color_box"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="colorpick_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
-      <widget class="QLabel" name="point_label">
+      <widget class="QLabel" name="points_label">
        <property name="text">
         <string>Points:</string>
        </property>

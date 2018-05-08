@@ -44,26 +44,26 @@ def _editPoint(self, row: int = False):
     if not dlg.exec_():
         return
     rowCount = self.EntitiesPoint.rowCount()
-    Type = dlg.Type.currentText().split()[0]
-    if Type != 'R':
-        Type += ":{}".format(dlg.Angle.value()%360)
+    type_str = dlg.type_box.currentText().split()[0]
+    if type_str != 'R':
+        type_str += ":{}".format(dlg.angle_box.value()%360)
     args = [
         ','.join(
             dlg.selected.item(link).text()
             for link in range(dlg.selected.count())
         ),
-        Type,
-        dlg.Color.currentText(),
-        dlg.X_coordinate.value(),
-        dlg.Y_coordinate.value()
+        type_str,
+        dlg.color_box.currentText(),
+        dlg.x_box.value(),
+        dlg.y_box.value()
     ]
     if row is False:
         self.CommandStack.beginMacro("Add {{Point{}}}".format(rowCount))
         self.CommandStack.push(AddTable(self.EntitiesPoint))
         row = rowCount
     else:
-        row = dlg.Point.currentIndex()
-        self.CommandStack.beginMacro("Edit {{Point{}}}".format(rowCount))
+        row = dlg.name_box.currentIndex()
+        self.CommandStack.beginMacro("Edit {{Point{}}}".format(row))
     self.CommandStack.push(EditPointTable(
         row,
         self.EntitiesPoint,
@@ -87,7 +87,7 @@ def _editLink(self, row=False):
     name = dlg.name_edit.text()
     args = [
         name,
-        dlg.Color.currentText(),
+        dlg.color_box.currentText(),
         ','.join(
             dlg.selected.item(point).text()
             for point in range(dlg.selected.count())
@@ -98,7 +98,7 @@ def _editLink(self, row=False):
         self.CommandStack.push(AddTable(self.EntitiesLink))
         row = self.EntitiesLink.rowCount()-1
     else:
-        row = dlg.Link.currentIndex()
+        row = dlg.name_box.currentIndex()
         self.CommandStack.beginMacro("Edit {{Link: {}}}".format(name))
     self.CommandStack.push(EditLinkTable(
         row,

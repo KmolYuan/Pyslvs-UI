@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
-    <height>474</height>
+    <width>354</width>
+    <height>528</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,19 +23,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2">
-   <property name="leftMargin">
-    <number>6</number>
-   </property>
-   <property name="topMargin">
-    <number>6</number>
-   </property>
-   <property name="rightMargin">
-    <number>6</number>
-   </property>
-   <property name="bottomMargin">
-    <number>6</number>
-   </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
@@ -49,7 +37,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="Point"/>
+      <widget class="QComboBox" name="name_box"/>
      </item>
      <item>
       <widget class="QLabel" name="color_label">
@@ -62,7 +50,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="Color"/>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QComboBox" name="color_box"/>
+       </item>
+       <item>
+        <widget class="QPushButton" name="colorpick_button">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout">
@@ -81,7 +83,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QDoubleSpinBox" name="X_coordinate">
+        <widget class="QDoubleSpinBox" name="x_box">
          <property name="minimum">
           <double>-999999.000000000000000</double>
          </property>
@@ -91,7 +93,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDoubleSpinBox" name="Y_coordinate">
+        <widget class="QDoubleSpinBox" name="y_box">
          <property name="minimum">
           <double>-999999.000000000000000</double>
          </property>
@@ -110,7 +112,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QComboBox" name="Type">
+      <widget class="QComboBox" name="type_box">
        <item>
         <property name="text">
          <string>R (pin)</string>
@@ -129,14 +131,14 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="angle_box_2">
        <property name="text">
         <string>Angle (Slider):</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QDoubleSpinBox" name="Angle">
+      <widget class="QDoubleSpinBox" name="angle_box">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -146,7 +148,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="links_label">
        <property name="text">
         <string>Links:</string>
        </property>
