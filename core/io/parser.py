@@ -13,7 +13,12 @@ __email__ = "pyslvs@gmail.com"
 
 from lark import Lark, Transformer
 from pygments.lexer import RegexLexer
-from pygments.token import Token
+from pygments.token import (
+    Comment,
+    Keyword,
+    Name,
+    Number,
+)
 from typing import Dict, Union
 from core.graphics import colorNames
 
@@ -133,9 +138,9 @@ class PMKSLexer(RegexLexer):
     name = 'PMKS'
     
     tokens = {'root': [
-        (r'#.*$', Token.Comment.Single),
-        ('(M)|(J)|(L)|(P)|(A)|(color)', Token.Name.Function),
-        ('|'.join("({})".format(color) for color in colorNames), Token.Name.Variable),
-        ('(R)|(P)|(RP)', Token.Keyword.Constant),
-        (r'(\d+\.\d*|\d*\.\d+)([eE][+-]?[0-9]+)?j?', Token.Number.Float),
+        ('#.*$', Comment.Single),
+        ('(M)|(J)|(L)|(P)|(A)|(color)', Name.Function),
+        ('|'.join("({})".format(color) for color in colorNames), Name.Variable),
+        ('(R)|(P)|(RP)', Keyword.Constant),
+        (r'(\d+\.\d*|\d*\.\d+)([eE][+-]?[0-9]+)?j?', Number.Float),
     ]}

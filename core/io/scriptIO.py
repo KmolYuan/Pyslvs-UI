@@ -316,7 +316,7 @@ class ScriptDialog(QDialog, Ui_Dialog):
     @pyqtSlot()
     def on_copy_clicked(self):
         """Copy to clipboard."""
-        QApplication.clipboard().setText(self.script.toPlainText())
+        QApplication.clipboard().setText(self.script_view.toPlainText())
     
     @pyqtSlot()
     def on_save_clicked(self):
@@ -325,5 +325,5 @@ class ScriptDialog(QDialog, Ui_Dialog):
         if not file_name:
             return
         with open(file_name, 'w', newline="") as f:
-            f.write(self.script.toPlainText())
-        self.saveReplyBox("Python script", file_name)
+            f.write(self.script_view.toPlainText())
+        self.saveReplyBox(self.filename, file_name)

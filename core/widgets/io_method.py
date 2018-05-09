@@ -7,7 +7,7 @@ __copyright__ = "Copyright (C) 2016-2018"
 __license__ = "AGPL"
 __email__ = "pyslvs@gmail.com"
 
-from pygments.lexers import PythonLexer
+from pygments.lexers import Python3Lexer
 from typing import (
     Tuple,
     List,
@@ -480,7 +480,7 @@ def on_action_See_Python_Scripts_triggered(self):
     dlg = ScriptDialog(
         "#Generate by Pyslvs v{}.{}.{} ({})\n".format(*VERSION) +
         slvsProcessScript(self.EntitiesPoint.data(), self.EntitiesLink.data()),
-        PythonLexer(),
+        Python3Lexer(),
         "Python script",
         ["Python3 Script(*.py)"],
         self
